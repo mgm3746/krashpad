@@ -12,45 +12,25 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
-package org.github.errcat.domain.jdk;
+package org.github.errcat.domain;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.Constants.OsType;
+import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * OS
+ * BLANK_LINE
  * </p>
- * 
- * <p>
- * OS information.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * OS:                            Oracle Solaris 11.4 SPARC
- * </pre>
- * 
- * <pre>
- * OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
- * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class OsEvent implements LogEvent {
+public class BlankLineEvent implements ThrowAwayEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^OS:[ ]{0,}(.+)$";
-
-    private static Pattern pattern = Pattern.compile(REGEX);
+    private static final String REGEX = JdkRegEx.BLANK_LINE;
 
     /**
      * The log entry for the event. Can be used for debugging purposes.
@@ -63,7 +43,7 @@ public class OsEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public OsEvent(String logEntry) {
+    public BlankLineEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -72,7 +52,7 @@ public class OsEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.OS.toString();
+        return JdkUtil.LogEventType.BLANK_LINE.toString();
     }
 
     /**
@@ -83,31 +63,6 @@ public class OsEvent implements LogEvent {
      * @return true if the log line matches the event pattern, false otherwise.
      */
     public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
-    }
-
-    /**
-     * @return The OS.
-     */
-    public OsType getOs() {
-        OsType osType = OsType.UNKNOWN;
-        if (getOsString().matches(".+Linux.+")) {
-            osType = OsType.Linux;
-        } else if (getOsString().matches(".+Solaris.+")) {
-            osType = OsType.Solaris;
-        }
-        return osType;
-    }
-
-    /**
-     * @return The OS string.
-     */
-    public String getOsString() {
-        String os = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            os = matcher.group(1);
-        }
-        return os;
+        return logLine.matches(REGEX) || logLine.length() == 0;
     }
 }
