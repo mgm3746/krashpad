@@ -128,7 +128,7 @@ public class Constants {
      */
     public enum OsType {
         //
-        LINUX, SOLARIS, UNKNOWN, WINDOWS
+        Linux, Solaris, UNKNOWN, Windows
     ***REMOVED***;
 
     /**

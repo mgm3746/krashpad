@@ -19,6 +19,8 @@ import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.Arch;
+import org.github.errcat.util.jdk.JdkUtil.JdkVersion;
 
 /**
  * <p>
@@ -51,7 +53,8 @@ public class JvmInfoEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^vm_info: .+\\((((1|11)\\.(0|6|7|8))\\.\\d.+)\\).+$";
+    private static final String REGEX = "^vm_info: .+ for linux-(amd64|ppc64le) JRE (\\(Zulu.+\\) )?"
+            + "\\((((1|11)\\.(0|6|7|8))\\.\\d.+)\\).+$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -92,18 +95,19 @@ public class JvmInfoEvent implements LogEvent {
     /**
      * @return The JDK version.
      */
-    public String getJdkVersion() {
-        String version = null;
+    public JdkVersion getJdkVersion() {
+        JdkVersion version = JdkVersion.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(2).equals("11.0")) {
-                version = "11";
-            ***REMOVED*** else if (matcher.group(2).equals("1.8")) {
-                version = "8";
-            ***REMOVED*** else if (matcher.group(2).equals("1.7")) {
-                version = "7";
-            ***REMOVED*** else if (matcher.group(2).equals("1.6")) {
-                version = "6";
+            int indexJdkVersion = 4;
+            if (matcher.group(indexJdkVersion).equals("11.0")) {
+                version = JdkVersion.JDK11;
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.8")) {
+                version = JdkVersion.JDK8;
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.7")) {
+                version = JdkVersion.JDK7;
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.6")) {
+                version = JdkVersion.JDK6;
             ***REMOVED***
         ***REMOVED***
         return version;
@@ -112,12 +116,29 @@ public class JvmInfoEvent implements LogEvent {
     /**
      * @return The JDK release string.
      */
-    public String getJdkRelease() {
+    public String getJdkReleaseString() {
         String release = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            release = matcher.group(1);
+            release = matcher.group(3);
         ***REMOVED***
         return release;
+    ***REMOVED***
+
+    /**
+     * @return The chip architecture.
+     */
+    public Arch getArch() {
+        Arch arch = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            int indexArch = 1;
+            if (matcher.group(indexArch).equals("amd64") || matcher.group(indexArch).equals("linux64")) {
+                arch = Arch.X86_64;
+            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64le")) {
+                arch = Arch.PPC64LE;
+            ***REMOVED***
+        ***REMOVED***
+        return arch;
     ***REMOVED***
 ***REMOVED***

@@ -12,42 +12,57 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
-package org.github.errcat.domain.jdk;
+package org.github.errcat.domain;
 
-import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.Constants;
+import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
-import org.junit.Assert;
-
-import junit.framework.TestCase;
 
 /**
+ * <p>
+ * BLANK_LINE
+ * </p>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestOsEvent extends TestCase {
+public class BlankLineEvent implements ThrowAwayEvent {
 
-    public void testIdentity() {
-        String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not parsed.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = JdkRegEx.BLANK_LINE;
+
+    /**
+     * The log entry for the event. Can be used for debugging purposes.
+     */
+    private String logEntry;
+
+    /**
+     * Create event from log entry.
+     * 
+     * @param logEntry
+     *            The log entry for the event.
+     */
+    public BlankLineEvent(String logEntry) {
+        this.logEntry = logEntry;
     ***REMOVED***
 
-    public void testParseLogLine() {
-        String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof OsEvent);
+    public String getLogEntry() {
+        return logEntry;
     ***REMOVED***
 
-    public void testLinux() {
-        String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Version not correct.", Constants.OsType.Linux, ((OsEvent) event).getOs());
+    public String getName() {
+        return JdkUtil.LogEventType.BLANK_LINE.toString();
     ***REMOVED***
 
-    public void testSolaris() {
-        String logLine = "OS:                            Oracle Solaris 11.4 SPARC";
-        LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Version not correct.", Constants.OsType.Solaris, ((OsEvent) event).getOs());
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX) || logLine.length() == 0;
     ***REMOVED***
 ***REMOVED***

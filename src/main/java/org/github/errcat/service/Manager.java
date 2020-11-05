@@ -54,7 +54,7 @@ public class Manager {
      * Parse the fatal error log.
      * 
      * @param logFile
-     *            The fatal error log file.
+     * @return The fatal error log object.
      */
     public FatalErrorLog parse(File logFile) {
         if (logFile != null) {
@@ -66,6 +66,7 @@ public class Manager {
                 String logLine = bufferedReader.readLine();
                 while (logLine != null) {
                     LogEvent event = JdkUtil.parseLogLine(logLine);
+                    // ThrowAwayEvents are ignored
                     if (event instanceof JvmInfoEvent) {
                         fatalErrorLog.setJvminfo((JvmInfoEvent) event);
                     ***REMOVED*** else if (event instanceof OsEvent) {

@@ -14,8 +14,7 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.Constants;
+import org.github.errcat.domain.BlankLineEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.junit.Assert;
 
@@ -25,29 +24,17 @@ import junit.framework.TestCase;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestOsEvent extends TestCase {
+public class TestBlankLineEvent extends TestCase {
 
     public void testIdentity() {
-        String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not parsed.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+        String logLine = "";
+        Assert.assertTrue(JdkUtil.LogEventType.BLANK_LINE.toString() + " not parsed.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.BLANK_LINE);
     ***REMOVED***
 
     public void testParseLogLine() {
-        String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof OsEvent);
-    ***REMOVED***
-
-    public void testLinux() {
-        String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Version not correct.", Constants.OsType.Linux, ((OsEvent) event).getOs());
-    ***REMOVED***
-
-    public void testSolaris() {
-        String logLine = "OS:                            Oracle Solaris 11.4 SPARC";
-        LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Version not correct.", Constants.OsType.Solaris, ((OsEvent) event).getOs());
+        String logLine = "";
+        Assert.assertTrue(JdkUtil.LogEventType.BLANK_LINE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof BlankLineEvent);
     ***REMOVED***
 ***REMOVED***

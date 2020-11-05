@@ -20,7 +20,10 @@ import java.util.List;
 
 import org.github.errcat.domain.jdk.JvmInfoEvent;
 import org.github.errcat.domain.jdk.OsEvent;
+import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.jdk.Analysis;
+import org.github.errcat.util.jdk.JdkUtil.Arch;
+import org.github.errcat.util.jdk.JdkUtil.JdkVersion;
 
 /**
  * Fatal error log data.
@@ -33,7 +36,7 @@ public class FatalErrorLog {
     /**
      * JVM environment information.
      */
-    private JvmInfoEvent jvminfo;
+    private JvmInfoEvent jvmInfo;
 
     /**
      * OS information.
@@ -54,21 +57,13 @@ public class FatalErrorLog {
      * Default constructor.
      */
     public FatalErrorLog() {
-        
+
         analysis = new ArrayList<Analysis>();
         unidentifiedLogLines = new ArrayList<String>();
     ***REMOVED***
 
-    public JvmInfoEvent getJvminfo() {
-        return jvminfo;
-    ***REMOVED***
-
-    public void setJvminfo(JvmInfoEvent jvminfo) {
-        this.jvminfo = jvminfo;
-    ***REMOVED***
-
-    public OsEvent getOs() {
-        return os;
+    public void setJvminfo(JvmInfoEvent jvmInfo) {
+        this.jvmInfo = jvmInfo;
     ***REMOVED***
 
     public void setOs(OsEvent os) {
@@ -89,6 +84,30 @@ public class FatalErrorLog {
 
     public void setAnalysis(List<Analysis> analysis) {
         this.analysis = analysis;
+    ***REMOVED***
+
+    public JdkVersion getJdkVersion() {
+        JdkVersion version = JdkVersion.UNKNOWN;
+        if (jvmInfo != null) {
+            version = jvmInfo.getJdkVersion();
+        ***REMOVED***
+        return version;
+    ***REMOVED***
+
+    public OsType getOsType() {
+        OsType osType = OsType.UNKNOWN;
+        if (os != null) {
+            osType = os.getOs();
+        ***REMOVED***
+        return osType;
+    ***REMOVED***
+
+    public Arch getArch() {
+        Arch arch = Arch.UNKNOWN;
+        if (jvmInfo != null) {
+            arch = jvmInfo.getArch();
+        ***REMOVED***
+        return arch;
     ***REMOVED***
 
     /**

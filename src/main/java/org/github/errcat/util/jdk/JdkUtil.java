@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.errcat.util.jdk;
 
+import org.github.errcat.domain.BlankLineEvent;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
 import org.github.errcat.domain.jdk.JvmInfoEvent;
@@ -34,7 +35,23 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        JVM_INFO, OS, UNKNOWN
+        BLANK_LINE, JVM_INFO, OS, UNKNOWN
+    ***REMOVED***;
+
+    /**
+     * Defined JDK versions.
+     */
+    public enum JdkVersion {
+        //
+        JDK6, JDK7, JDK8, JDK11, UNKNOWN
+    ***REMOVED***;
+
+    /**
+     * Defined architectures.
+     */
+    public enum Arch {
+        //
+        X86_64, PPC64LE, UNKNOWN
     ***REMOVED***;
 
     /**
@@ -49,6 +66,9 @@ public class JdkUtil {
         LogEvent event = null;
         switch (eventType) {
 
+        case BLANK_LINE:
+            event = new BlankLineEvent(logLine);
+            break;
         case JVM_INFO:
             event = new JvmInfoEvent(logLine);
             break;
@@ -74,7 +94,9 @@ public class JdkUtil {
      */
     public static final LogEventType identifyEventType(String logLine) {
         LogEventType logEventType = LogEventType.UNKNOWN;
-        if (JvmInfoEvent.match(logLine)) {
+        if (BlankLineEvent.match(logLine)) {
+            logEventType = LogEventType.BLANK_LINE;
+        ***REMOVED*** else if (JvmInfoEvent.match(logLine)) {
             logEventType = LogEventType.JVM_INFO;
         ***REMOVED*** else if (OsEvent.match(logLine)) {
             logEventType = LogEventType.OS;

@@ -18,7 +18,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.jdk.JdkUtil;
 
@@ -91,11 +90,11 @@ public class OsEvent implements LogEvent {
      * @return The OS.
      */
     public OsType getOs() {
-        OsType osType = Constants.OsType.UNKNOWN;
+        OsType osType = OsType.UNKNOWN;
         if (getOsString().matches(".+Linux.+")) {
-            osType = Constants.OsType.LINUX;
+            osType = OsType.Linux;
         ***REMOVED*** else if (getOsString().matches(".+Solaris.+")) {
-            osType = Constants.OsType.SOLARIS;
+            osType = OsType.Solaris;
         ***REMOVED***
         return osType;
     ***REMOVED***

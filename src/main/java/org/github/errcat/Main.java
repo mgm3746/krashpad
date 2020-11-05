@@ -272,12 +272,9 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Environment:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            if (fatalErrorLog.getJvminfo() != null) {
-                printWriter.write("JDK: " + fatalErrorLog.getJvminfo().getJdkRelease() + Constants.LINE_SEPARATOR);
-            ***REMOVED***
-            if (fatalErrorLog.getOs() != null) {
-                printWriter.write("OS: " + fatalErrorLog.getOs().getOsString() + Constants.LINE_SEPARATOR);
-            ***REMOVED***
+            printWriter.write("JDK: " + fatalErrorLog.getJdkVersion() + Constants.LINE_SEPARATOR);
+            printWriter.write("OS: " + fatalErrorLog.getOsType() + Constants.LINE_SEPARATOR);
+            printWriter.write("ARCH: " + fatalErrorLog.getArch() + Constants.LINE_SEPARATOR);
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
 
