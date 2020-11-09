@@ -19,36 +19,38 @@ import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.Constants.OsType;
+import org.github.errcat.util.Constants.OsVendor;
+import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * OS
+ * UNAME
  * </p>
  * 
  * <p>
- * OS information.
+ * uname information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * OS:                            Oracle Solaris 11.4 SPARC
+ * uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64
  * </pre>
  * 
  * <pre>
- * OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
+ * uname:SunOS 5.11 11.4.23.69.3 sun4v
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class OsEvent implements LogEvent {
+public class UnameEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^OS:[ ]{0,***REMOVED***(.+)$";
+    private static final String REGEX = "^uname:(.+)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -63,7 +65,7 @@ public class OsEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public OsEvent(String logEntry) {
+    public UnameEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -72,7 +74,7 @@ public class OsEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.OS.toString();
+        return JdkUtil.LogEventType.UNAME.toString();
     ***REMOVED***
 
     /**
@@ -91,18 +93,40 @@ public class OsEvent implements LogEvent {
      */
     public OsType getOsType() {
         OsType osType = OsType.UNKNOWN;
-        if (getOsString().matches(".+Linux.+")) {
+        if (getUnameString().matches("Linux.+")) {
             osType = OsType.Linux;
-        ***REMOVED*** else if (getOsString().matches(".+Solaris.+")) {
+        ***REMOVED*** else if (getUnameString().matches("SunOS.+")) {
             osType = OsType.Solaris;
         ***REMOVED***
         return osType;
     ***REMOVED***
 
     /**
+     * @return The OS vendor.
+     */
+    public OsVendor getOsVendor() {
+        OsVendor osVendor = OsVendor.UNKNOWN;
+        if (getUnameString().matches("Linux.+\\.el7\\..+")) {
+            osVendor = OsVendor.RedHat;
+        ***REMOVED***
+        return osVendor;
+    ***REMOVED***
+
+    /**
+     * @return The OS version.
+     */
+    public OsVersion getOsVersion() {
+        OsVersion osVersion = OsVersion.UNKNOWN;
+        if (getUnameString().matches("Linux.+\\.el7\\..+")) {
+            osVersion = OsVersion.RHEL7;
+        ***REMOVED***
+        return osVersion;
+    ***REMOVED***
+
+    /**
      * @return The OS string.
      */
-    public String getOsString() {
+    public String getUnameString() {
         String os = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {

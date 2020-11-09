@@ -17,8 +17,10 @@ package org.github.errcat.util.jdk;
 import org.github.errcat.domain.BlankLineEvent;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
-import org.github.errcat.domain.jdk.JvmInfoEvent;
+import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
+import org.github.errcat.domain.jdk.UnameEvent;
+import org.github.errcat.domain.jdk.VmInfoEvent;
 
 /**
  * <p>
@@ -35,13 +37,21 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BLANK_LINE, JVM_INFO, OS, UNKNOWN
+        BLANK_LINE, HEADER, JVM_INFO, OS, UNAME, UNKNOWN
     ***REMOVED***;
 
     /**
-     * Defined JDK versions.
+     * Defined JDK vendors.
      */
-    public enum JdkVersion {
+    public enum JdkVendor {
+        //
+        OpenJDK, Oracle, UNKNOWN
+    ***REMOVED***;
+
+    /**
+     * Defined JDK major versions.
+     */
+    public enum JdkVersionMajor {
         //
         JDK6, JDK7, JDK8, JDK11, UNKNOWN
     ***REMOVED***;
@@ -69,11 +79,17 @@ public class JdkUtil {
         case BLANK_LINE:
             event = new BlankLineEvent(logLine);
             break;
+        case HEADER:
+            event = new HeaderEvent(logLine);
+            break;
         case JVM_INFO:
-            event = new JvmInfoEvent(logLine);
+            event = new VmInfoEvent(logLine);
             break;
         case OS:
             event = new OsEvent(logLine);
+            break;
+        case UNAME:
+            event = new UnameEvent(logLine);
             break;
         case UNKNOWN:
             event = new UnknownEvent(logLine);
@@ -96,10 +112,14 @@ public class JdkUtil {
         LogEventType logEventType = LogEventType.UNKNOWN;
         if (BlankLineEvent.match(logLine)) {
             logEventType = LogEventType.BLANK_LINE;
-        ***REMOVED*** else if (JvmInfoEvent.match(logLine)) {
+        ***REMOVED*** else if (HeaderEvent.match(logLine)) {
+            logEventType = LogEventType.HEADER;
+        ***REMOVED*** else if (VmInfoEvent.match(logLine)) {
             logEventType = LogEventType.JVM_INFO;
         ***REMOVED*** else if (OsEvent.match(logLine)) {
             logEventType = LogEventType.OS;
+        ***REMOVED*** else if (UnameEvent.match(logLine)) {
+            logEventType = LogEventType.UNAME;
         ***REMOVED***
         return logEventType;
     ***REMOVED***

@@ -20,7 +20,8 @@ import java.util.regex.Pattern;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
-import org.github.errcat.util.jdk.JdkUtil.JdkVersion;
+import org.github.errcat.util.jdk.JdkUtil.JdkVendor;
+import org.github.errcat.util.jdk.JdkUtil.JdkVersionMajor;
 
 /**
  * <p>
@@ -38,7 +39,7 @@ import org.github.errcat.util.jdk.JdkUtil.JdkVersion;
  * </pre>
  * 
  * <pre>
- * vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE (Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by "zulu_re" with gcc 4.4.7 20120313 (Red Hat 4.4.7-3
+ * vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE (Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by "zulu_re" with gcc 4.4.7 20120313 (Red Hat 4.4.7-3)
  * </pre>
  * 
  * <pre>
@@ -48,18 +49,18 @@ import org.github.errcat.util.jdk.JdkUtil.JdkVersion;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class JvmInfoEvent implements LogEvent {
+public class VmInfoEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^vm_info: .+ for linux-(amd64|ppc64le) JRE (\\(Zulu.+\\) )?"
-            + "\\((((1|11)\\.(0|6|7|8))\\.\\d.+)\\).+$";
+    private static final String REGEX = "^vm_info: (Java HotSpot\\(TM\\)|OpenJDK) 64-Bit Server VM \\(.+\\) for "
+            + "linux-(amd64|ppc64le) JRE (\\(Zulu.+\\) )?\\((((1|11)\\.(0|6|7|8))\\.\\d.+)\\).+$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
     /**
-     * The log entry for the event. Can be used for debugging purposes.
+     * The log entry for the event.
      */
     private String logEntry;
 
@@ -69,7 +70,7 @@ public class JvmInfoEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public JvmInfoEvent(String logEntry) {
+    public VmInfoEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -93,21 +94,36 @@ public class JvmInfoEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return The JDK version.
+     * @return The JDK vendor.
      */
-    public JdkVersion getJdkVersion() {
-        JdkVersion version = JdkVersion.UNKNOWN;
+    public JdkVendor getJdkVendor() {
+        JdkVendor vendor = JdkVendor.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int indexJdkVersion = 4;
+            int indexVendor = 1;
+            if (matcher.group(indexVendor).equals("OpenJDK")) {
+                vendor = JdkVendor.OpenJDK;
+            ***REMOVED***
+        ***REMOVED***
+        return vendor;
+    ***REMOVED***
+
+    /**
+     * @return The JDK version.
+     */
+    public JdkVersionMajor getJdkVersionMajor() {
+        JdkVersionMajor version = JdkVersionMajor.UNKNOWN;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            int indexJdkVersion = 5;
             if (matcher.group(indexJdkVersion).equals("11.0")) {
-                version = JdkVersion.JDK11;
+                version = JdkVersionMajor.JDK11;
             ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.8")) {
-                version = JdkVersion.JDK8;
+                version = JdkVersionMajor.JDK8;
             ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.7")) {
-                version = JdkVersion.JDK7;
+                version = JdkVersionMajor.JDK7;
             ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.6")) {
-                version = JdkVersion.JDK6;
+                version = JdkVersionMajor.JDK6;
             ***REMOVED***
         ***REMOVED***
         return version;
@@ -120,7 +136,7 @@ public class JvmInfoEvent implements LogEvent {
         String release = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            release = matcher.group(3);
+            release = matcher.group(4);
         ***REMOVED***
         return release;
     ***REMOVED***
@@ -132,7 +148,7 @@ public class JvmInfoEvent implements LogEvent {
         Arch arch = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int indexArch = 1;
+            int indexArch = 2;
             if (matcher.group(indexArch).equals("amd64") || matcher.group(indexArch).equals("linux64")) {
                 arch = Arch.X86_64;
             ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64le")) {

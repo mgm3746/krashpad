@@ -24,8 +24,10 @@ import org.github.errcat.Main;
 import org.github.errcat.domain.FatalErrorLog;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
-import org.github.errcat.domain.jdk.JvmInfoEvent;
+import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
+import org.github.errcat.domain.jdk.UnameEvent;
+import org.github.errcat.domain.jdk.VmInfoEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
@@ -67,10 +69,14 @@ public class Manager {
                 while (logLine != null) {
                     LogEvent event = JdkUtil.parseLogLine(logLine);
                     // ThrowAwayEvents are ignored
-                    if (event instanceof JvmInfoEvent) {
-                        fatalErrorLog.setJvminfo((JvmInfoEvent) event);
+                    if (event instanceof VmInfoEvent) {
+                        fatalErrorLog.setVminfo((VmInfoEvent) event);
+                    ***REMOVED*** else if (event instanceof HeaderEvent) {
+                        fatalErrorLog.getHeader().add((HeaderEvent) event);
                     ***REMOVED*** else if (event instanceof OsEvent) {
                         fatalErrorLog.setOs((OsEvent) event);
+                    ***REMOVED*** else if (event instanceof UnameEvent) {
+                        fatalErrorLog.setUname((UnameEvent) event);
                     ***REMOVED*** else if (event instanceof UnknownEvent) {
                         if (fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
                             fatalErrorLog.getUnidentifiedLogLines().add(logLine);

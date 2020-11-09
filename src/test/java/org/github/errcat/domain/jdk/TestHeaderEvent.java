@@ -14,8 +14,6 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.junit.Assert;
 
@@ -25,29 +23,17 @@ import junit.framework.TestCase;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestOsEvent extends TestCase {
+public class TestHeaderEvent extends TestCase {
 
     public void testIdentity() {
-        String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not parsed.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+        String logLine = "***REMOVED***";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADER);
     ***REMOVED***
 
     public void testParseLogLine() {
-        String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof OsEvent);
-    ***REMOVED***
-
-    public void testLinux() {
-        String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("OS type not correct.", OsType.Linux, ((OsEvent) event).getOsType());
-    ***REMOVED***
-
-    public void testSolaris() {
-        String logLine = "OS:                            Oracle Solaris 11.4 SPARC";
-        LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("OS type not correct.", OsType.Solaris, ((OsEvent) event).getOsType());
+        String logLine = "***REMOVED***";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
     ***REMOVED***
 ***REMOVED***
