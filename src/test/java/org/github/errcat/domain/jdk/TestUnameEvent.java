@@ -14,100 +14,47 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.Constants.OsType;
+import org.github.errcat.util.Constants.OsVendor;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * OS
- * </p>
- * 
- * <p>
- * OS information.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * OS:                            Oracle Solaris 11.4 SPARC
- * </pre>
- * 
- * <pre>
- * OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class OsEvent implements LogEvent {
+public class TestUnameEvent extends TestCase {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^OS:[ ]{0,}(.+)$";
-
-    private static Pattern pattern = Pattern.compile(REGEX);
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public OsEvent(String logEntry) {
-        this.logEntry = logEntry;
+    public void testIdentity() {
+        String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 #1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
+        Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not parsed.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.UNAME);
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    public void testParseLogLine() {
+        String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 #1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
+        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof UnameEvent);
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.OS.toString();
+    public void testLinux() {
+        String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 #1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Version not correct.", OsType.Linux, ((UnameEvent) event).getOsType());
     }
 
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public void testSolaris() {
+        String logLine = "uname:SunOS 5.11 11.4.23.69.3 sun4v";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("OS type not correct.", OsType.Solaris, ((UnameEvent) event).getOsType());
     }
 
-    /**
-     * @return The OS type.
-     */
-    public OsType getOsType() {
-        OsType osType = OsType.UNKNOWN;
-        if (getOsString().matches(".+Linux.+")) {
-            osType = OsType.Linux;
-        } else if (getOsString().matches(".+Solaris.+")) {
-            osType = OsType.Solaris;
-        }
-        return osType;
-    }
-
-    /**
-     * @return The OS string.
-     */
-    public String getOsString() {
-        String os = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            os = matcher.group(1);
-        }
-        return os;
+    public void testRedHat() {
+        String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 #1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Vendor not correct.", OsVendor.RedHat, ((UnameEvent) event).getOsVendor());
     }
 }

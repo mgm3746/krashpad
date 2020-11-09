@@ -23,32 +23,67 @@ import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * OS
+ * HEADER
  * </p>
  * 
  * <p>
- * OS information.
+ * Header.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * OS:                            Oracle Solaris 11.4 SPARC
+ * #
+ * # A fatal error has been detected by the Java Runtime Environment:
+ * #
+ * #  SIGSEGV (0xb) at pc=0x00007fcbd05a3b71, pid=52385, tid=0x00007fcbcc677700
+ * #
+ * # JRE version: Java(TM) SE Runtime Environment (8.0_192-b12) (build 1.8.0_192-b12)
+ * # Java VM: Java HotSpot(TM) 64-Bit Server VM (25.192-b12 mixed mode linux-amd64 )
+ * # Problematic frame:
+ * # V  [libjvm.so+0x645b71]  oopDesc::size_given_klass(Klass*)+0x1
+ * #
+ * # Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+ * #
+ * # If you would like to submit a bug report, please visit:
+ * #   http://bugreport.java.com/bugreport/crash.jsp
+ * #
  * </pre>
  * 
  * <pre>
- * OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
+ * #
+ * # There is insufficient memory for the Java Runtime Environment to continue.
+ * # Native memory allocation (malloc) failed to allocate 32744 bytes for ChunkPool::allocate
+ * # Possible reasons:
+ * #   The system is out of physical RAM or swap space
+ * #   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+ * # Possible solutions:
+ * #   Reduce memory load on the system
+ * #   Increase physical memory or swap space
+ * #   Check if swap backing store is full
+ * #   Decrease Java heap size (-Xmx/-Xms)
+ * #   Decrease number of Java threads
+ * #   Decrease Java thread stack sizes (-Xss)
+ * #   Set larger code cache with -XX:ReservedCodeCacheSize=
+ * # This output file may be truncated or incomplete.
+ * #
+ * #  Out of Memory Error (allocation.cpp:272), pid=273, tid=0x00000000000017c2
+ * #
+ * # JRE version: Java(TM) SE Runtime Environment (8.0_251-b08) (build 1.8.0_251-b08)
+ * # Java VM: Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode solaris-sparc compressed oops)
+ * # Core dump written. Default location: /apps/opt/jboss-eap/v7.3-ejb3/bin/core or core.273
+ * #
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class OsEvent implements LogEvent {
+public class HeaderEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^OS:[ ]{0,}(.+)$";
+    private static final String REGEX = "^#(.*)?$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -63,7 +98,7 @@ public class OsEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public OsEvent(String logEntry) {
+    public HeaderEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -87,9 +122,9 @@ public class OsEvent implements LogEvent {
     }
 
     /**
-     * @return The OS type.
+     * @return The OS.
      */
-    public OsType getOsType() {
+    public OsType getOs() {
         OsType osType = OsType.UNKNOWN;
         if (getOsString().matches(".+Linux.+")) {
             osType = OsType.Linux;

@@ -132,6 +132,22 @@ public class Constants {
     };
 
     /**
+     * Defined OS types.
+     */
+    public enum OsVendor {
+        //
+        IBM, Microsoft, RedHat, UNKNOWN
+    };
+
+    /**
+     * Defined OS versions.
+     */
+    public enum OsVersion {
+        //
+        RHEL6, RHEL7, RHEL8, UNKNOWN
+    };
+
+    /**
      * Make default constructor private so the class cannot be instantiated.
      */
     private Constants() {
