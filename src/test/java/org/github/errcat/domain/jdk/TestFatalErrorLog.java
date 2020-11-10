@@ -14,7 +14,10 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import org.github.errcat.domain.FatalErrorLog;
+import java.io.File;
+
+import org.github.errcat.service.Manager;
+import org.github.errcat.util.Constants;
 import org.github.errcat.util.jdk.JdkUtil.JdkVendor;
 import org.junit.Assert;
 
@@ -41,5 +44,14 @@ public class TestFatalErrorLog extends TestCase {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVminfo(vmInfoEvent);
         Assert.assertEquals("JDK vendor not correct.", JdkVendor.OpenJDK, fel.getJdkVendor());
+    ***REMOVED***
+
+    public void testSigSegv() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset1.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        String causedBy = "***REMOVED***  SIGSEGV (0xb) at pc=0x00007fcd2af94e64, pid=23171, tid=23172" + Constants.LINE_SEPARATOR
+                + "***REMOVED*** C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4";
+        Assert.assertEquals("Caused by incorrect.", causedBy, fel.CausedBy());
     ***REMOVED***
 ***REMOVED***

@@ -1,0 +1,17 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00007fcd2af94e64, pid=23171, tid=23172
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment 18.9 (11.0.9+11) (build 11.0.9+11-LTS)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM 18.9 (11.0.9+11-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+***REMOVED*** Problematic frame:
+***REMOVED*** C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4
+***REMOVED***
+***REMOVED*** Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /home/mmillson/codereadystudio/studio/core.23171)
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-11-openjdk
+***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
+***REMOVED*** See problematic frame for where to report the bug.
+***REMOVED***

@@ -13,18 +13,17 @@
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
 
-package org.github.errcat.domain;
+package org.github.errcat.domain.jdk;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import org.github.errcat.domain.jdk.HeaderEvent;
-import org.github.errcat.domain.jdk.OsEvent;
-import org.github.errcat.domain.jdk.UnameEvent;
-import org.github.errcat.domain.jdk.VmInfoEvent;
+import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
+import org.github.errcat.util.jdk.JdkUtil.CrashCause;
 import org.github.errcat.util.jdk.JdkUtil.JdkVendor;
 import org.github.errcat.util.jdk.JdkUtil.JdkVersionMajor;
 
@@ -35,6 +34,11 @@ import org.github.errcat.util.jdk.JdkUtil.JdkVersionMajor;
  * 
  */
 public class FatalErrorLog {
+
+    /**
+     * The reason for the crash.
+     */
+    private CrashCause crashCause;
 
     /**
      * JVM environment information.
@@ -54,7 +58,12 @@ public class FatalErrorLog {
     /**
      * Header.
      */
-    private List<HeaderEvent> headerEvent;
+    private List<HeaderEvent> header;
+
+    /**
+     * Stack.
+     */
+    private List<StackEvent> stack;
 
     /**
      * Log lines that do not match any existing logging patterns.
@@ -70,7 +79,9 @@ public class FatalErrorLog {
      * Default constructor.
      */
     public FatalErrorLog() {
-        headerEvent = new ArrayList<HeaderEvent>();
+        crashCause = CrashCause.UNKNOWN;
+        header = new ArrayList<HeaderEvent>();
+        stack = new ArrayList<StackEvent>();
         analysis = new ArrayList<Analysis>();
         unidentifiedLogLines = new ArrayList<String>();
     ***REMOVED***
@@ -88,11 +99,11 @@ public class FatalErrorLog {
     ***REMOVED***
 
     public List<HeaderEvent> getHeader() {
-        return headerEvent;
+        return header;
     ***REMOVED***
 
-    public void setHeader(List<HeaderEvent> header) {
-        this.headerEvent = header;
+    public List<StackEvent> getStack() {
+        return stack;
     ***REMOVED***
 
     public void setUname(UnameEvent uname) {
@@ -109,6 +120,10 @@ public class FatalErrorLog {
 
     public void setAnalysis(List<Analysis> analysis) {
         this.analysis = analysis;
+    ***REMOVED***
+
+    public CrashCause getCrashCause() {
+        return crashCause;
     ***REMOVED***
 
     public JdkVendor getJdkVendor() {
@@ -141,6 +156,23 @@ public class FatalErrorLog {
             arch = vmInfoEvent.getArch();
         ***REMOVED***
         return arch;
+    ***REMOVED***
+
+    public String CausedBy() {
+        StringBuilder causedBy = new StringBuilder();
+        if (header != null) {
+            Iterator<HeaderEvent> iterator = header.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent he = iterator.next();
+                if (he.isSigSegv() || he.isProblematicFrame()) {
+                    if (causedBy.length() > 0) {
+                        causedBy.append(Constants.LINE_SEPARATOR);
+                    ***REMOVED***
+                    causedBy.append(he.getLogEntry());
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return causedBy.toString();
     ***REMOVED***
 
     /**

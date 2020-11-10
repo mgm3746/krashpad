@@ -21,11 +21,12 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.github.errcat.Main;
-import org.github.errcat.domain.FatalErrorLog;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
+import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
+import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
 import org.github.errcat.domain.jdk.VmInfoEvent;
 import org.github.errcat.util.jdk.JdkUtil;
@@ -73,6 +74,8 @@ public class Manager {
                         fatalErrorLog.setVminfo((VmInfoEvent) event);
                     ***REMOVED*** else if (event instanceof HeaderEvent) {
                         fatalErrorLog.getHeader().add((HeaderEvent) event);
+                    ***REMOVED*** else if (event instanceof StackEvent) {
+                        fatalErrorLog.getStack().add((StackEvent) event);
                     ***REMOVED*** else if (event instanceof OsEvent) {
                         fatalErrorLog.setOs((OsEvent) event);
                     ***REMOVED*** else if (event instanceof UnameEvent) {

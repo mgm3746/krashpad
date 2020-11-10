@@ -19,6 +19,7 @@ import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
+import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
 import org.github.errcat.domain.jdk.VmInfoEvent;
 
@@ -37,7 +38,7 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BLANK_LINE, HEADER, JVM_INFO, OS, UNAME, UNKNOWN
+        BLANK_LINE, HEADER, JVM_INFO, OS, STACK, UNAME, UNKNOWN
     ***REMOVED***;
 
     /**
@@ -65,6 +66,14 @@ public class JdkUtil {
     ***REMOVED***;
 
     /**
+     * Defined crash reasons.
+     */
+    public enum CrashCause {
+        //
+        SIGSEGV, UNKNOWN
+    ***REMOVED***;
+
+    /**
      * Create <code>LogEvent</code> from VM log line.
      * 
      * @param logLine
@@ -87,6 +96,9 @@ public class JdkUtil {
             break;
         case OS:
             event = new OsEvent(logLine);
+            break;
+        case STACK:
+            event = new StackEvent(logLine);
             break;
         case UNAME:
             event = new UnameEvent(logLine);
@@ -114,6 +126,8 @@ public class JdkUtil {
             logEventType = LogEventType.BLANK_LINE;
         ***REMOVED*** else if (HeaderEvent.match(logLine)) {
             logEventType = LogEventType.HEADER;
+        ***REMOVED*** else if (StackEvent.match(logLine)) {
+            logEventType = LogEventType.STACK;
         ***REMOVED*** else if (VmInfoEvent.match(logLine)) {
             logEventType = LogEventType.JVM_INFO;
         ***REMOVED*** else if (OsEvent.match(logLine)) {

@@ -41,7 +41,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.github.errcat.domain.FatalErrorLog;
+import org.github.errcat.domain.jdk.FatalErrorLog;
+import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.jdk.Analysis;
@@ -278,6 +279,19 @@ public class Main {
             printWriter.write("ARCH: " + fatalErrorLog.getArch() + Constants.LINE_SEPARATOR);
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+            printWriter.write("Caused By:" + Constants.LINE_SEPARATOR);
+            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+            printWriter.write(fatalErrorLog.CausedBy() + Constants.LINE_SEPARATOR);
+            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+            printWriter.write("Stack:" + Constants.LINE_SEPARATOR);
+            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+            List<StackEvent> stack = fatalErrorLog.getStack();
+            Iterator<StackEvent> iterator1 = stack.iterator();
+            while (iterator1.hasNext()) {
+                StackEvent se = iterator1.next();
+                printWriter.write(se.getLogEntry() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
 
             // Analysis
             List<Analysis> analysis = fatalErrorLog.getAnalysis();
@@ -288,9 +302,9 @@ public class Main {
                 List<Analysis> warn = new ArrayList<Analysis>();
                 List<Analysis> info = new ArrayList<Analysis>();
 
-                Iterator<Analysis> iterator = analysis.iterator();
-                while (iterator.hasNext()) {
-                    Analysis a = iterator.next();
+                Iterator<Analysis> iterator2 = analysis.iterator();
+                while (iterator2.hasNext()) {
+                    Analysis a = iterator2.next();
                     String level = a.getKey().split("\\.")[0];
                     if (level.equals("error")) {
                         error.add(a);
@@ -303,47 +317,47 @@ public class Main {
 
                 printWriter.write("ANALYSIS:" + Constants.LINE_SEPARATOR);
 
-                iterator = error.iterator();
+                iterator2 = error.iterator();
                 boolean printHeader = true;
                 // ERROR
-                while (iterator.hasNext()) {
+                while (iterator2.hasNext()) {
                     if (printHeader) {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                         printWriter.write("error" + Constants.LINE_SEPARATOR);
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     printHeader = false;
-                    Analysis a = iterator.next();
+                    Analysis a = iterator2.next();
                     printWriter.write("*");
                     printWriter.write(a.getValue());
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 // WARN
-                iterator = warn.iterator();
+                iterator2 = warn.iterator();
                 printHeader = true;
-                while (iterator.hasNext()) {
+                while (iterator2.hasNext()) {
                     if (printHeader) {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                         printWriter.write("warn" + Constants.LINE_SEPARATOR);
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     printHeader = false;
-                    Analysis a = iterator.next();
+                    Analysis a = iterator2.next();
                     printWriter.write("*");
                     printWriter.write(a.getValue());
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 // INFO
-                iterator = info.iterator();
+                iterator2 = info.iterator();
                 printHeader = true;
-                while (iterator.hasNext()) {
+                while (iterator2.hasNext()) {
                     if (printHeader) {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                         printWriter.write("info" + Constants.LINE_SEPARATOR);
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     printHeader = false;
-                    Analysis a = iterator.next();
+                    Analysis a = iterator2.next();
                     printWriter.write("*");
                     printWriter.write(a.getValue());
                     printWriter.write(Constants.LINE_SEPARATOR);
