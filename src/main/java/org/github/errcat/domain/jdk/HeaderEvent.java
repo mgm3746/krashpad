@@ -145,4 +145,12 @@ public class HeaderEvent implements LogEvent {
         }
         return os;
     }
+
+    public boolean isSigSegv() {
+        return logEntry.matches("^#  SIGSEGV.+$");
+    }
+
+    public boolean isProblematicFrame() {
+        return logEntry.matches("^# (C|V)  \\[.+$");
+    }
 }
