@@ -175,6 +175,20 @@ public class FatalErrorLog {
         return causedBy.toString();
     ***REMOVED***
 
+    public boolean haveDebuggingSymbols() {
+        boolean haveDebuggingSymbols = false;
+        if (header != null) {
+            Iterator<HeaderEvent> iterator = header.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent he = iterator.next();
+                if (he.isProblematicFrame()) {
+                    haveDebuggingSymbols = he.getLogEntry().matches("^***REMOVED*** (V)  \\[.+\\].+$");
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return haveDebuggingSymbols;
+    ***REMOVED***
+
     /**
      * Do analysis.
      */
@@ -187,6 +201,9 @@ public class FatalErrorLog {
 
         if (haveData()) {
             doDataAnalysis();
+            if (!haveDebuggingSymbols()) {
+                analysis.add(Analysis.ERROR_DEBUGGING_SYMBOLS);
+            ***REMOVED***
         ***REMOVED***
 
         doJvmOptionsAnalysis();

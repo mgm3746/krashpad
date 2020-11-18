@@ -102,6 +102,7 @@ public class Manager {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        fatalErrorLog.doAnalysis();
         return fatalErrorLog;
     ***REMOVED***
 ***REMOVED***

@@ -26,9 +26,9 @@ import org.github.errcat.util.ErrUtil;
 public enum Analysis {
 
     /**
-     * Property key for TBD.
+     * Property key for JDK debugging symbols not installed.
      */
-    ERROR_TBD("error.tbd"),
+    ERROR_DEBUGGING_SYMBOLS("error.debugging.symbols"),
 
     /**
      * Property key for partial log file.

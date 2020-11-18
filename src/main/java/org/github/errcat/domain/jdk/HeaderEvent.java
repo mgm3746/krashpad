@@ -151,6 +151,6 @@ public class HeaderEvent implements LogEvent {
     ***REMOVED***
 
     public boolean isProblematicFrame() {
-        return logEntry.matches("^***REMOVED*** (C|V)  \\[.+$");
+        return logEntry.matches("^***REMOVED*** (C|V)  (\\[.+\\]|0x\\d{16***REMOVED***)(.+)?$");
     ***REMOVED***
 ***REMOVED***
