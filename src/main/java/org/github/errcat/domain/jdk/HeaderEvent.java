@@ -151,6 +151,6 @@ public class HeaderEvent implements LogEvent {
     }
 
     public boolean isProblematicFrame() {
-        return logEntry.matches("^# (C|V)  \\[.+$");
+        return logEntry.matches("^# (C|V)  (\\[.+\\]|0x\\d{16})(.+)?$");
     }
 }

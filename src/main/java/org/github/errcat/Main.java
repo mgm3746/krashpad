@@ -274,9 +274,9 @@ public class Main {
             printWriter.write("Environment:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             printWriter.write("OS: " + fatalErrorLog.getOs() + Constants.LINE_SEPARATOR);
+            printWriter.write("ARCH: " + fatalErrorLog.getArch() + Constants.LINE_SEPARATOR);
             printWriter.write("JDK Vendor: " + fatalErrorLog.getJdkVendor() + Constants.LINE_SEPARATOR);
             printWriter.write("JDK Version Major: " + fatalErrorLog.getJdkVersionMajor() + Constants.LINE_SEPARATOR);
-            printWriter.write("ARCH: " + fatalErrorLog.getArch() + Constants.LINE_SEPARATOR);
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Caused By:" + Constants.LINE_SEPARATOR);

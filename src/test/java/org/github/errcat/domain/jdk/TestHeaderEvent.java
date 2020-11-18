@@ -36,4 +36,20 @@ public class TestHeaderEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
     }
+
+    public void testProblematicFrameNativeCode() {
+        String logLine = "# C  0x0000000000000000";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("Problematic frame not identified.", headerEvent.isProblematicFrame());
+    }
+
+    public void testProblematicFrameVmCode() {
+        String logLine = "# V  [libjvm.so+0xa41a10]";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("Problematic frame not identified.", headerEvent.isProblematicFrame());
+    }
 }

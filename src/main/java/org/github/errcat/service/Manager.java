@@ -102,6 +102,7 @@ public class Manager {
                 }
             }
         }
+        fatalErrorLog.doAnalysis();
         return fatalErrorLog;
     }
 }
