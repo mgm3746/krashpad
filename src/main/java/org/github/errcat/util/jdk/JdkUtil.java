@@ -14,11 +14,16 @@
  *********************************************************************************************************************/
 package org.github.errcat.util.jdk;
 
+import java.util.Date;
+import java.util.HashMap;
+
 import org.github.errcat.domain.BlankLineEvent;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
+import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
+import org.github.errcat.domain.jdk.Release;
 import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
 import org.github.errcat.domain.jdk.VmInfoEvent;
@@ -34,6 +39,11 @@ import org.github.errcat.domain.jdk.VmInfoEvent;
 public class JdkUtil {
 
     /**
+     * OpenJDK8 release information.
+     */
+    private static HashMap<String, Release> openJdk8Releases;
+
+    /**
      * Defined logging events.
      */
     public enum LogEventType {
@@ -42,17 +52,17 @@ public class JdkUtil {
     ***REMOVED***;
 
     /**
-     * Defined JDK vendors.
+     * Defined Java vendors.
      */
-    public enum JdkVendor {
+    public enum JavaVendor {
         //
-        OpenJDK, Oracle, UNKNOWN
+        Azul, OpenJDK, Oracle, UNKNOWN
     ***REMOVED***;
 
     /**
-     * Defined JDK major versions.
+     * Defined Java specifications.
      */
-    public enum JdkVersionMajor {
+    public enum JavaSpecification {
         //
         JDK6, JDK7, JDK8, JDK11, UNKNOWN
     ***REMOVED***;
@@ -72,6 +82,14 @@ public class JdkUtil {
         //
         SIGSEGV, UNKNOWN
     ***REMOVED***;
+
+    static {
+        openJdk8Releases = new HashMap<String, Release>();
+        openJdk8Releases.put("LATEST", new Release("11/05/2020", 4, "1.8.0_275-b01"));
+        openJdk8Releases.put("1.8.0_272-b10", new Release("10/20/2020", 3, "1.8.0_272-b10"));
+        openJdk8Releases.put("1.8.0_265-b01", new Release("07/14/2020", 2, "1.8.0_265-b01"));
+        openJdk8Releases.put("1.8.0_262-b10", new Release("07/14/2020", 1, "1.8.0_262-b10"));
+    ***REMOVED***
 
     /**
      * Create <code>LogEvent</code> from VM log line.
@@ -137,4 +155,107 @@ public class JdkUtil {
         ***REMOVED***
         return logEventType;
     ***REMOVED***
+
+    /**
+     * @param fatalErrorLog
+     *            The fatal error log.
+     * @return The JDK releases for the JDK that produced the fatal error log.
+     */
+    public static final HashMap<String, Release> getJdkReleases(FatalErrorLog fatalErrorLog) {
+        HashMap<String, Release> releases = null;
+        if (fatalErrorLog.getJavaVendor().equals(JavaVendor.OpenJDK)
+                && fatalErrorLog.getJavaSpecification().equals(JavaSpecification.JDK8)) {
+            releases = openJdk8Releases;
+        ***REMOVED***
+        return releases;
+    ***REMOVED***
+
+    /**
+     * @param fatalErrorLog
+     *            The fatal error log.
+     * @return Latest JDK release date for the JDK that produced the fatal error log.
+     */
+    public static final Date getLatestJdkReleaseDate(FatalErrorLog fatalErrorLog) {
+        Date date = null;
+        HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
+        if (releases != null && releases.size() > 0) {
+            date = releases.get("LATEST").getDate();
+        ***REMOVED***
+        return date;
+    ***REMOVED***
+
+    /**
+     * @param fatalErrorLog
+     *            The fatal error log.
+     * @return Latest JDK release string for the JDK that produced the fatal error log.
+     */
+    public static final String getLatestJdkReleaseString(FatalErrorLog fatalErrorLog) {
+        String release = null;
+        HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
+        if (releases != null && releases.size() > 0) {
+            release = releases.get("LATEST").getVersion();
+        ***REMOVED***
+        return release;
+    ***REMOVED***
+
+    /**
+     * @param fatalErrorLog
+     *            The fatal error log.
+     * @return Latest JDK release number for the JDK that produced the fatal error log.
+     */
+    public static final int getLatestJdkReleaseNumber(FatalErrorLog fatalErrorLog) {
+        int number = 0;
+        HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
+        if (releases != null && releases.size() > 0) {
+            Release latest = releases.get("LATEST");
+            number = latest.getNumber();
+        ***REMOVED***
+        return number;
+    ***REMOVED***
+
+    /**
+     * @param fatalErrorLog
+     *            The fatal error log.
+     * @return true if the JDK that produced the fatal error log is the latest release, false otherwise.
+     */
+    public static final boolean isLatestJdkRelease(FatalErrorLog fatalErrorLog) {
+        boolean isLatestRelease = true;
+        HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
+        if (releases != null && releases.size() > 0) {
+            Release latest = releases.get("LATEST");
+            if (!latest.getVersion().equals(fatalErrorLog.getJdkReleaseString())) {
+                isLatestRelease = false;
+            ***REMOVED***
+        ***REMOVED***
+        return isLatestRelease;
+    ***REMOVED***
+
+    /**
+     * @param fatalErrorLog
+     *            The fatal error log.
+     * @return The release date for the JDK that produced the fatal error log.
+     */
+    public static final Date getJdkReleaseDate(FatalErrorLog fatalErrorLog) {
+        Date date = null;
+        HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
+        if (releases != null && releases.size() > 0) {
+            date = releases.get(fatalErrorLog.getJdkReleaseString()).getDate();
+        ***REMOVED***
+        return date;
+    ***REMOVED***
+
+    /**
+     * @param fatalErrorLog
+     *            The fatal error log.
+     * @return The release number for the JDK that produced the fatal error log.
+     */
+    public static final int getJdkReleaseNumber(FatalErrorLog fatalErrorLog) {
+        int number = 0;
+        HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
+        if (releases.size() > 0) {
+            number = releases.get(fatalErrorLog.getJdkReleaseString()).getNumber();
+        ***REMOVED***
+        return number;
+    ***REMOVED***
+
 ***REMOVED***

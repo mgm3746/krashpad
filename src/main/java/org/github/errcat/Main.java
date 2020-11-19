@@ -45,7 +45,9 @@ import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
+import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.Analysis;
+import org.github.errcat.util.jdk.JdkUtil;
 import org.json.JSONObject;
 
 /**
@@ -275,8 +277,8 @@ public class Main {
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             printWriter.write("OS: " + fatalErrorLog.getOs() + Constants.LINE_SEPARATOR);
             printWriter.write("ARCH: " + fatalErrorLog.getArch() + Constants.LINE_SEPARATOR);
-            printWriter.write("JDK Vendor: " + fatalErrorLog.getJdkVendor() + Constants.LINE_SEPARATOR);
-            printWriter.write("JDK Version Major: " + fatalErrorLog.getJdkVersionMajor() + Constants.LINE_SEPARATOR);
+            printWriter.write("Java Vendor: " + fatalErrorLog.getJavaVendor() + Constants.LINE_SEPARATOR);
+            printWriter.write("Java Release: " + fatalErrorLog.getJdkReleaseString() + Constants.LINE_SEPARATOR);
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Caused By:" + Constants.LINE_SEPARATOR);
@@ -345,6 +347,29 @@ public class Main {
                     Analysis a = iterator2.next();
                     printWriter.write("*");
                     printWriter.write(a.getValue());
+                    if (a.equals(Analysis.WARN_JDK_NOT_LATEST)) {
+                        // Add latest release info
+                        int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fatalErrorLog),
+                                JdkUtil.getLatestJdkReleaseDate(fatalErrorLog));
+                        int releaseNumberDiff = JdkUtil.getLatestJdkReleaseNumber(fatalErrorLog)
+                                - JdkUtil.getJdkReleaseNumber(fatalErrorLog);
+                        printWriter.write(fatalErrorLog.getJavaVendor().toString());
+                        printWriter.write(" ");
+                        printWriter.write(JdkUtil.getLatestJdkReleaseString(fatalErrorLog));
+                        printWriter.write(" (newer by ");
+                        printWriter.write("" + releaseNumberDiff);
+                        printWriter.write(" version");
+                        if (releaseNumberDiff > 1) {
+                            printWriter.write("s");
+                        ***REMOVED***
+                        printWriter.write(" and ");
+                        printWriter.write("" + releaseDayDiff);
+                        printWriter.write(" day");
+                        if (releaseDayDiff > 1) {
+                            printWriter.write("s");
+                        ***REMOVED***
+                        printWriter.write(").");
+                    ***REMOVED***
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 // INFO

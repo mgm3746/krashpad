@@ -12,61 +12,58 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
-package org.github.errcat.util.jdk;
+package org.github.errcat.domain.jdk;
 
-import org.github.errcat.util.Constants;
-import org.github.errcat.util.ErrUtil;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
- * Analysis constants.
+ * <p>
+ * JDK release information.
+ * </p>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public enum Analysis {
+public class Release {
 
     /**
-     * Property key for JDK debugging symbols not installed.
+     * Release date.
      */
-    ERROR_DEBUGGING_SYMBOLS("error.debugging.symbols"),
+    private Date date;
 
     /**
-     * Property key for TBD.
+     * Release number (1..x).
      */
-    INFO_TBD("info.tbd"),
+    private int number;
 
     /**
-     * Property key for not using the latest JDK release.
+     * The release version string.
      */
-    WARN_JDK_NOT_LATEST("warn.jdk.not.latest"),
+    private String version;
 
-    /**
-     * Property key for unidentified line(s) needing reporting.
-     */
-    WARN_UNIDENTIFIED_LOG_LINE_REPORT("warn.unidentified.log.line.report");
-
-    private String key;
-
-    private Analysis(final String key) {
-        this.key = key;
+    public Release(String releaseDate, int number, String version) {
+        super();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        try {
+            this.date = formatter.parse(releaseDate);
+        ***REMOVED*** catch (ParseException e) {
+            throw new RuntimeException("Bad release date: " + releaseDate);
+        ***REMOVED***
+        this.number = number;
+        this.version = version;
     ***REMOVED***
 
-    /**
-     * @return Analysis property file key.
-     */
-    public String getKey() {
-        return key;
+    public Date getDate() {
+        return date;
     ***REMOVED***
 
-    /**
-     * @return Analysis property file value.
-     */
-    public String getValue() {
-        return ErrUtil.getPropertyValue(Constants.ANALYSIS_PROPERTY_FILE, key);
+    public int getNumber() {
+        return number;
     ***REMOVED***
 
-    @Override
-    public String toString() {
-        return this.getKey();
+    public String getVersion() {
+        return version;
     ***REMOVED***
 ***REMOVED***

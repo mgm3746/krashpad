@@ -20,8 +20,8 @@ import java.util.regex.Pattern;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
-import org.github.errcat.util.jdk.JdkUtil.JdkVendor;
-import org.github.errcat.util.jdk.JdkUtil.JdkVersionMajor;
+import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
+import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 
 /**
  * <p>
@@ -94,15 +94,20 @@ public class VmInfoEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return The JDK vendor.
+     * @return The Java vendor.
      */
-    public JdkVendor getJdkVendor() {
-        JdkVendor vendor = JdkVendor.UNKNOWN;
+    public JavaVendor getJavaVendor() {
+        JavaVendor vendor = JavaVendor.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             int indexVendor = 1;
+            int indexAzul = 3;
             if (matcher.group(indexVendor).equals("OpenJDK")) {
-                vendor = JdkVendor.OpenJDK;
+                if (matcher.group(indexAzul) != null) {
+                    vendor = JavaVendor.Azul;
+                ***REMOVED*** else {
+                    vendor = JavaVendor.OpenJDK;
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         return vendor;
@@ -111,26 +116,26 @@ public class VmInfoEvent implements LogEvent {
     /**
      * @return The JDK version.
      */
-    public JdkVersionMajor getJdkVersionMajor() {
-        JdkVersionMajor version = JdkVersionMajor.UNKNOWN;
+    public JavaSpecification getJavaSpecification() {
+        JavaSpecification version = JavaSpecification.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             int indexJdkVersion = 5;
             if (matcher.group(indexJdkVersion).equals("11.0")) {
-                version = JdkVersionMajor.JDK11;
+                version = JavaSpecification.JDK11;
             ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.8")) {
-                version = JdkVersionMajor.JDK8;
+                version = JavaSpecification.JDK8;
             ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.7")) {
-                version = JdkVersionMajor.JDK7;
+                version = JavaSpecification.JDK7;
             ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.6")) {
-                version = JdkVersionMajor.JDK6;
+                version = JavaSpecification.JDK6;
             ***REMOVED***
         ***REMOVED***
         return version;
     ***REMOVED***
 
     /**
-     * @return The JDK release string.
+     * @return The Java release string.
      */
     public String getJdkReleaseString() {
         String release = null;

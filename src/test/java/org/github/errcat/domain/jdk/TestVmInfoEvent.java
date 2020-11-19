@@ -17,8 +17,8 @@ package org.github.errcat.domain.jdk;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
-import org.github.errcat.util.jdk.JdkUtil.JdkVendor;
-import org.github.errcat.util.jdk.JdkUtil.JdkVersionMajor;
+import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
+import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 import org.junit.Assert;
 
 import junit.framework.TestCase;
@@ -51,18 +51,20 @@ public class TestVmInfoEvent extends TestCase {
                 JdkUtil.parseLogLine(logLine) instanceof VmInfoEvent);
     ***REMOVED***
 
-    public void testJdkVersionMajor8() {
+    public void testJavaSpecification8() {
         String logLine = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.192-b12) for linux-amd64 JRE (1.8.0_192-b12), "
                 + "built on Oct  6 2018 06:46:09 by \"java_re\" with gcc 7.3.0";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Version not correct.", JdkVersionMajor.JDK8, ((VmInfoEvent) event).getJdkVersionMajor());
+        Assert.assertEquals("Version not correct.", JavaSpecification.JDK8,
+                ((VmInfoEvent) event).getJavaSpecification());
     ***REMOVED***
 
-    public void testJdkVersionMajor11() {
+    public void testJavaSpecification11() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (11.0.5+10-LTS) for linux-amd64 JRE (11.0.5+10-LTS), "
                 + "built on Oct  9 2019 18:41:22 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Version not correct.", JdkVersionMajor.JDK11, ((VmInfoEvent) event).getJdkVersionMajor());
+        Assert.assertEquals("Version not correct.", JavaSpecification.JDK11,
+                ((VmInfoEvent) event).getJavaSpecification());
     ***REMOVED***
 
     public void testJdkReleaseString() {
@@ -98,6 +100,14 @@ public class TestVmInfoEvent extends TestCase {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), "
                 + "built on Jul 12 2020 18:55:08 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Arch not correct.", JdkVendor.OpenJDK, ((VmInfoEvent) event).getJdkVendor());
+        Assert.assertEquals("Arch not correct.", JavaVendor.OpenJDK, ((VmInfoEvent) event).getJavaVendor());
+    ***REMOVED***
+
+    public void testVendorAzul() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE "
+                + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
+                + "4.4.7 20120313";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Arch not correct.", JavaVendor.Azul, ((VmInfoEvent) event).getJavaVendor());
     ***REMOVED***
 ***REMOVED***

@@ -18,7 +18,9 @@ import java.io.File;
 
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
-import org.github.errcat.util.jdk.JdkUtil.JdkVendor;
+import org.github.errcat.util.ErrUtil;
+import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 import org.junit.Assert;
 
 import junit.framework.TestCase;
@@ -43,7 +45,17 @@ public class TestFatalErrorLog extends TestCase {
                 + "Jan 17 2020 09:36:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVminfo(vmInfoEvent);
-        Assert.assertEquals("JDK vendor not correct.", JdkVendor.OpenJDK, fel.getJdkVendor());
+        Assert.assertEquals("JDK vendor not correct.", JavaVendor.OpenJDK, fel.getJavaVendor());
+    ***REMOVED***
+
+    public void testVendorAzul() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE "
+                + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
+                + "4.4.7 20120313";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVminfo(vmInfoEvent);
+        Assert.assertEquals("JDK vendor not correct.", JavaVendor.Azul, fel.getJavaVendor());
     ***REMOVED***
 
     public void testSigSegvCompiledJavaCode() {
@@ -78,5 +90,18 @@ public class TestFatalErrorLog extends TestCase {
         HeaderEvent he = new HeaderEvent(headerLine);
         fel.getHeader().add(he);
         Assert.assertFalse("Debugging symbols incorrectly identified.", fel.haveDebuggingSymbols());
+    ***REMOVED***
+
+    public void testReleaseDiff() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), built on "
+                + "Jul 12 2020 19:35:32 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVminfo(vmInfoEvent);
+        Assert.assertFalse("JDK incorrectly identified as latest release.", JdkUtil.isLatestJdkRelease(fel));
+        Assert.assertEquals("Release day diff not correct.", 114,
+                ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)));
+        Assert.assertEquals("Release number diff not correct.", 3,
+                JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel));
     ***REMOVED***
 ***REMOVED***

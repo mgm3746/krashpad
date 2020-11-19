@@ -16,16 +16,18 @@
 package org.github.errcat.domain.jdk;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.jdk.Analysis;
+import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
 import org.github.errcat.util.jdk.JdkUtil.CrashCause;
-import org.github.errcat.util.jdk.JdkUtil.JdkVendor;
-import org.github.errcat.util.jdk.JdkUtil.JdkVersionMajor;
+import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
+import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 
 /**
  * Fatal error log data.
@@ -64,6 +66,11 @@ public class FatalErrorLog {
      * Stack.
      */
     private List<StackEvent> stack;
+
+    /**
+     * JDK releases.
+     */
+    HashMap<String, Release> releases;
 
     /**
      * Log lines that do not match any existing logging patterns.
@@ -126,20 +133,28 @@ public class FatalErrorLog {
         return crashCause;
     ***REMOVED***
 
-    public JdkVendor getJdkVendor() {
-        JdkVendor version = JdkVendor.UNKNOWN;
+    public JavaVendor getJavaVendor() {
+        JavaVendor version = JavaVendor.UNKNOWN;
         if (vmInfoEvent != null) {
-            version = vmInfoEvent.getJdkVendor();
+            version = vmInfoEvent.getJavaVendor();
         ***REMOVED***
         return version;
     ***REMOVED***
 
-    public JdkVersionMajor getJdkVersionMajor() {
-        JdkVersionMajor version = JdkVersionMajor.UNKNOWN;
+    public JavaSpecification getJavaSpecification() {
+        JavaSpecification version = JavaSpecification.UNKNOWN;
         if (vmInfoEvent != null) {
-            version = vmInfoEvent.getJdkVersionMajor();
+            version = vmInfoEvent.getJavaSpecification();
         ***REMOVED***
         return version;
+    ***REMOVED***
+
+    public String getJdkReleaseString() {
+        String release = "UNKNOWN";
+        if (vmInfoEvent != null) {
+            release = vmInfoEvent.getJdkReleaseString();
+        ***REMOVED***
+        return release;
     ***REMOVED***
 
     public String getOs() {
@@ -199,13 +214,7 @@ public class FatalErrorLog {
             analysis.add(0, Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT);
         ***REMOVED***
 
-        if (haveData()) {
-            doDataAnalysis();
-            if (!haveDebuggingSymbols()) {
-                analysis.add(Analysis.ERROR_DEBUGGING_SYMBOLS);
-            ***REMOVED***
-        ***REMOVED***
-
+        doDataAnalysis();
         doJvmOptionsAnalysis();
     ***REMOVED***
 
@@ -213,23 +222,19 @@ public class FatalErrorLog {
      * Do data analysis.
      */
     private void doDataAnalysis() {
-        // TODO:
-    ***REMOVED***
-
-    /**
-     * @return true if there is data, false otherwise (e.g. no fatal error log lines recognized).
-     */
-    public boolean haveData() {
-        boolean haveData = true;
-        // TODO:
-        return haveData;
+        // Check if debugging symbols are installed
+        if (!haveDebuggingSymbols()) {
+            analysis.add(Analysis.ERROR_DEBUGGING_SYMBOLS);
+        ***REMOVED***
+        if (!JdkUtil.isLatestJdkRelease(this)) {
+            analysis.add(0, Analysis.WARN_JDK_NOT_LATEST);
+        ***REMOVED***
     ***REMOVED***
 
     /**
      * Do JVM options analysis.
      */
     private void doJvmOptionsAnalysis() {
-
         // TODO:
     ***REMOVED***
 ***REMOVED***

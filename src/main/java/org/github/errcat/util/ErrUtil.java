@@ -165,7 +165,7 @@ public class ErrUtil {
      *            End <code>Date</code>.
      * @return The interval between two dates in milliseconds.
      */
-    public static final long dateDiff(Date start, Date end) {
+    public static final long millisDiff(Date start, Date end) {
         return end.getTime() - start.getTime();
     ***REMOVED***
 
@@ -208,5 +208,17 @@ public class ErrUtil {
     public static final int daysInMilliSeconds(long timestamp) {
         BigDecimal days = new BigDecimal(timestamp);
         return days.divideToIntegralValue(new BigDecimal(1000 * 60 * 60 * 24)).intValue();
+    ***REMOVED***
+
+    /**
+     * Calculate the number of whole days (24 hour periods) for a given number of milliseconds
+     * 
+     * @param timestamp
+     *            Time in milliseconds.
+     * @return the number of whole days.
+     */
+    public static final int dayDiff(Date start, Date end) {
+        long millisDiff = millisDiff(start, end);
+        return daysInMilliSeconds(millisDiff);
     ***REMOVED***
 ***REMOVED***
