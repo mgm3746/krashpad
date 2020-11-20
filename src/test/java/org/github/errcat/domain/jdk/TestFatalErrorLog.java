@@ -104,4 +104,14 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Release number diff not correct.", 3,
                 JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel));
     ***REMOVED***
+
+    public void testInternalError() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset3.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        String causedBy = "***REMOVED***  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700"
+                + Constants.LINE_SEPARATOR + "***REMOVED***  Error: ShouldNotReachHere()";
+        Assert.assertEquals("Caused by incorrect.", causedBy, fel.CausedBy());
+        Assert.assertTrue("Debugging symbols incorrectly identified.", fel.haveDebuggingSymbols());
+    ***REMOVED***
 ***REMOVED***

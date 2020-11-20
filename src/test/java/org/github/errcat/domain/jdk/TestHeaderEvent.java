@@ -52,4 +52,20 @@ public class TestHeaderEvent extends TestCase {
         HeaderEvent headerEvent = new HeaderEvent(logLine);
         Assert.assertTrue("Problematic frame not identified.", headerEvent.isProblematicFrame());
     ***REMOVED***
+
+    public void testInternalError() {
+        String logLine = "***REMOVED***  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("Internal Errror not identified.", headerEvent.isInternalError());
+    ***REMOVED***
+
+    public void testError() {
+        String logLine = "***REMOVED***  Error: ShouldNotReachHere()";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("Error not identified.", headerEvent.isError());
+    ***REMOVED***
 ***REMOVED***

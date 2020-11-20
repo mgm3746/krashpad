@@ -179,7 +179,7 @@ public class FatalErrorLog {
             Iterator<HeaderEvent> iterator = header.iterator();
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
-                if (he.isSigSegv() || he.isProblematicFrame()) {
+                if (he.isSigSegv() || he.isProblematicFrame() || he.isInternalError() || he.isError()) {
                     if (causedBy.length() > 0) {
                         causedBy.append(Constants.LINE_SEPARATOR);
                     ***REMOVED***
@@ -193,11 +193,23 @@ public class FatalErrorLog {
     public boolean haveDebuggingSymbols() {
         boolean haveDebuggingSymbols = false;
         if (header != null) {
-            Iterator<HeaderEvent> iterator = header.iterator();
-            while (iterator.hasNext()) {
-                HeaderEvent he = iterator.next();
+            Iterator<HeaderEvent> iterator1 = header.iterator();
+            while (iterator1.hasNext()) {
+                HeaderEvent he = iterator1.next();
                 if (he.isProblematicFrame()) {
                     haveDebuggingSymbols = he.getLogEntry().matches("^***REMOVED*** (V)  \\[.+\\].+$");
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        if (!haveDebuggingSymbols) {
+            if (stack != null) {
+                Iterator<StackEvent> iterator2 = stack.iterator();
+                while (iterator2.hasNext() && !haveDebuggingSymbols) {
+                    StackEvent se = iterator2.next();
+                    if (se.isVmCode()) {
+                        haveDebuggingSymbols = se.getLogEntry().matches("^V  \\[.+\\].+$");
+                    ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***

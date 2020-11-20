@@ -78,5 +78,16 @@ public class TestStackEvent extends TestCase {
         String logLine = "V  [libjvm.so+0x93a382]  java_start(Thread*)+0xf2";
         Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        StackEvent stackEvent = new StackEvent(logLine);
+        Assert.assertTrue("VM code not identified.", stackEvent.isVmCode());
     ***REMOVED***
+
+    public void testIsVmCodeNoStack() {
+        String logLine = "V  [libjvm.so+0xa553c8]";
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        StackEvent stackEvent = new StackEvent(logLine);
+        Assert.assertTrue("VM code not identified.", stackEvent.isVmCode());
+    ***REMOVED***
+
 ***REMOVED***

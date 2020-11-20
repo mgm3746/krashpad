@@ -119,4 +119,8 @@ public class StackEvent implements LogEvent {
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
     ***REMOVED***
+
+    public boolean isVmCode() {
+        return logEntry.matches("^V  \\[.+\\](  .+)?$");
+    ***REMOVED***
 ***REMOVED***
