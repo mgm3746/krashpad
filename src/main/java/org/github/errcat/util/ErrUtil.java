@@ -15,13 +15,8 @@
 package org.github.errcat.util;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.github.errcat.util.jdk.JdkRegEx;
 
 /**
  * Common vm collection utility methods and constants.
@@ -105,58 +100,6 @@ public class ErrUtil {
     ***REMOVED***
 
     /**
-     * Convert startdatetime <code>String</code> to a <code>Date</code>.
-     * 
-     * @param startDateTime
-     *            The startdatetime <code>String</code> in <code>START_DATE_TIME_REGEX</code> format.
-     * @return the startdatetime <code>Date</code>.
-     */
-    public static final Date parseStartDateTime(String startDateTime) {
-        Date date = null;
-        Pattern pattern = Pattern.compile(START_DATE_TIME_REGEX);
-        Matcher matcher = pattern.matcher(startDateTime);
-        if (matcher.find()) {
-            date = getDate(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4), matcher.group(5),
-                    matcher.group(6), matcher.group(7));
-        ***REMOVED***
-        return date;
-    ***REMOVED***
-
-    /**
-     * Convert date parts to a <code>Date</code>.
-     * 
-     * @param yyyy
-     *            The year.
-     * @param MM
-     *            The month.
-     * @param dd
-     *            The day.
-     * @param HH
-     *            The hour.
-     * @param mm
-     *            The minute.
-     * @param ss
-     *            The seconds.
-     * @param SSS
-     *            The milliseconds.
-     * @return The date part strings converted to a <code>Date</code>
-     */
-    private static final Date getDate(String yyyy, String MM, String dd, String HH, String mm, String ss, String SSS) {
-        Calendar calendar = Calendar.getInstance();
-        if (yyyy == null || MM == null || dd == null || HH == null || mm == null || ss == null || SSS == null) {
-            throw new IllegalArgumentException("One or more date parts are missing.");
-        ***REMOVED***
-        calendar.set(Calendar.YEAR, new Integer(yyyy));
-        calendar.set(Calendar.MONTH, new Integer(MM).intValue() - 1);
-        calendar.set(Calendar.DAY_OF_MONTH, new Integer(dd).intValue());
-        calendar.set(Calendar.HOUR_OF_DAY, new Integer(HH).intValue());
-        calendar.set(Calendar.MINUTE, new Integer(mm).intValue());
-        calendar.set(Calendar.SECOND, new Integer(ss).intValue());
-        calendar.set(Calendar.MILLISECOND, new Integer(SSS).intValue());
-        return calendar.getTime();
-    ***REMOVED***
-
-    /**
      * Calculate the number of milliseconds between two dates.
      * 
      * @param start
@@ -167,24 +110,6 @@ public class ErrUtil {
      */
     public static final long millisDiff(Date start, Date end) {
         return end.getTime() - start.getTime();
-    ***REMOVED***
-
-    /**
-     * Convert datestamp <code>String</code> to a <code>Date</code>.
-     * 
-     * @param datestamp
-     *            The datestamp <code>String</code> in <code>JdkRegEx.DATESTAMP</code> format.
-     * @return the datestamp in <code>Date</code> format.
-     */
-    public static final Date parseDateStamp(String datestamp) {
-        Date date = null;
-        Pattern pattern = Pattern.compile(JdkRegEx.DATESTAMP);
-        Matcher matcher = pattern.matcher(datestamp);
-        if (matcher.find()) {
-            date = getDate(matcher.group(2), matcher.group(3), matcher.group(4), matcher.group(5), matcher.group(6),
-                    matcher.group(7), matcher.group(8));
-        ***REMOVED***
-        return date;
     ***REMOVED***
 
     /**

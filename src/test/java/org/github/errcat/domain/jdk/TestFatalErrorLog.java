@@ -19,6 +19,7 @@ import java.io.File;
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.ErrUtil;
+import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 import org.junit.Assert;
@@ -103,6 +104,19 @@ public class TestFatalErrorLog extends TestCase {
                 ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)));
         Assert.assertEquals("Release number diff not correct.", 3,
                 JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel));
+    ***REMOVED***
+
+    public void testRedHatRpmInstall() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "7f908ba68000-7f908c80e000 r-xp 00000000 fd:0a 140891                     "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        fel.getDynamicLibrary().add(event);
+        Assert.assertTrue("Red Hat rpm install not identified.", JdkUtil.isRedHatRpmInstall(fel));
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_RH_RPM_INSTALL + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_RPM_INSTALL));
+
     ***REMOVED***
 
     public void testInternalError() {

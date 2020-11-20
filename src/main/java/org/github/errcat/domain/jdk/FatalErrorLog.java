@@ -16,7 +16,6 @@
 package org.github.errcat.domain.jdk;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -63,14 +62,14 @@ public class FatalErrorLog {
     private List<HeaderEvent> header;
 
     /**
-     * Stack.
+     * Stack information.
      */
     private List<StackEvent> stack;
 
     /**
-     * JDK releases.
+     * Dynamic library information..
      */
-    HashMap<String, Release> releases;
+    private List<DynamicLibraryEvent> dynamicLibrary;
 
     /**
      * Log lines that do not match any existing logging patterns.
@@ -89,6 +88,7 @@ public class FatalErrorLog {
         crashCause = CrashCause.UNKNOWN;
         header = new ArrayList<HeaderEvent>();
         stack = new ArrayList<StackEvent>();
+        dynamicLibrary = new ArrayList<DynamicLibraryEvent>();
         analysis = new ArrayList<Analysis>();
         unidentifiedLogLines = new ArrayList<String>();
     ***REMOVED***
@@ -111,6 +111,10 @@ public class FatalErrorLog {
 
     public List<StackEvent> getStack() {
         return stack;
+    ***REMOVED***
+
+    public List<DynamicLibraryEvent> getDynamicLibrary() {
+        return dynamicLibrary;
     ***REMOVED***
 
     public void setUname(UnameEvent uname) {
@@ -240,6 +244,9 @@ public class FatalErrorLog {
         ***REMOVED***
         if (!JdkUtil.isLatestJdkRelease(this)) {
             analysis.add(0, Analysis.WARN_JDK_NOT_LATEST);
+        ***REMOVED***
+        if (JdkUtil.isRedHatRpmInstall(this)) {
+            analysis.add(0, Analysis.INFO_RH_RPM_INSTALL);
         ***REMOVED***
     ***REMOVED***
 

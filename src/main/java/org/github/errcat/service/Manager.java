@@ -23,6 +23,7 @@ import java.io.IOException;
 import org.github.errcat.Main;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
+import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
@@ -76,6 +77,8 @@ public class Manager {
                         fatalErrorLog.getHeader().add((HeaderEvent) event);
                     ***REMOVED*** else if (event instanceof StackEvent) {
                         fatalErrorLog.getStack().add((StackEvent) event);
+                    ***REMOVED*** else if (event instanceof DynamicLibraryEvent) {
+                        fatalErrorLog.getDynamicLibrary().add((DynamicLibraryEvent) event);
                     ***REMOVED*** else if (event instanceof OsEvent) {
                         fatalErrorLog.setOs((OsEvent) event);
                     ***REMOVED*** else if (event instanceof UnameEvent) {

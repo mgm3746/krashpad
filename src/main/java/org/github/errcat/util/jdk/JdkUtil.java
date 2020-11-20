@@ -16,10 +16,12 @@ package org.github.errcat.util.jdk;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.github.errcat.domain.BlankLineEvent;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
+import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
@@ -44,11 +46,16 @@ public class JdkUtil {
     private static HashMap<String, Release> openJdk8Releases;
 
     /**
+     * Red Hat OpenJDK8 RHEL zip release information.
+     */
+    private static HashMap<String, Release> rhOpenJdk8ZipRhelReleases;
+
+    /**
      * Defined logging events.
      */
     public enum LogEventType {
         //
-        BLANK_LINE, HEADER, JVM_INFO, OS, STACK, UNAME, UNKNOWN
+        BLANK_LINE, DYNAMIC_LIBRARY, HEADER, JVM_INFO, OS, STACK, UNAME, UNKNOWN
     ***REMOVED***;
 
     /**
@@ -89,6 +96,16 @@ public class JdkUtil {
         openJdk8Releases.put("1.8.0_272-b10", new Release("10/20/2020", 3, "1.8.0_272-b10"));
         openJdk8Releases.put("1.8.0_265-b01", new Release("07/14/2020", 2, "1.8.0_265-b01"));
         openJdk8Releases.put("1.8.0_262-b10", new Release("07/14/2020", 1, "1.8.0_262-b10"));
+
+        rhOpenJdk8ZipRhelReleases = new HashMap<String, Release>();
+        rhOpenJdk8ZipRhelReleases.put("LATEST", new Release("11/05/2020", 4, "1.8.0_275-b01"));
+        rhOpenJdk8ZipRhelReleases.put("1.8.0_272-b10", new Release("10/26/2020", 8, "1.8.0_272-b10"));
+        rhOpenJdk8ZipRhelReleases.put("1.8.0_265-b01", new Release("08/05/2020", 6, "1.8.0_265-b01"));
+        rhOpenJdk8ZipRhelReleases.put("1.8.0_262-b10", new Release("07/16/2020", 5, "1.8.0_262-b10"));
+        rhOpenJdk8ZipRhelReleases.put("1.8.0_252-b09", new Release("04/15/2020", 4, "1.8.0_252-b09"));
+        rhOpenJdk8ZipRhelReleases.put("1.8.0_242-b08", new Release("01/22/2020", 3, "1.8.0_242-b08"));
+        rhOpenJdk8ZipRhelReleases.put("1.8.0_232-b09", new Release("10/21/2019", 2, "1.8.0_232-b09"));
+        rhOpenJdk8ZipRhelReleases.put("1.8.0_222-b10", new Release("08/08/2019", 1, "1.8.0_222-b10"));
     ***REMOVED***
 
     /**
@@ -105,6 +122,9 @@ public class JdkUtil {
 
         case BLANK_LINE:
             event = new BlankLineEvent(logLine);
+            break;
+        case DYNAMIC_LIBRARY:
+            event = new DynamicLibraryEvent(logLine);
             break;
         case HEADER:
             event = new HeaderEvent(logLine);
@@ -142,6 +162,8 @@ public class JdkUtil {
         LogEventType logEventType = LogEventType.UNKNOWN;
         if (BlankLineEvent.match(logLine)) {
             logEventType = LogEventType.BLANK_LINE;
+        ***REMOVED*** else if (DynamicLibraryEvent.match(logLine)) {
+            logEventType = LogEventType.DYNAMIC_LIBRARY;
         ***REMOVED*** else if (HeaderEvent.match(logLine)) {
             logEventType = LogEventType.HEADER;
         ***REMOVED*** else if (StackEvent.match(logLine)) {
@@ -256,6 +278,25 @@ public class JdkUtil {
             number = releases.get(fatalErrorLog.getJdkReleaseString()).getNumber();
         ***REMOVED***
         return number;
+    ***REMOVED***
+
+    /**
+     * @param jvmLibraryPath
+     *            The JVM library path. For example:
+     *            /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so
+     * @return True if the path matches a Red Hat rpm install, false otherwise.
+     */
+    public static final boolean isRedHatRpmInstall(FatalErrorLog fatalErrorLog) {
+        boolean isRedHatRpmInstall = false;
+        Iterator<DynamicLibraryEvent> iterator = fatalErrorLog.getDynamicLibrary().iterator();
+        while (iterator.hasNext()) {
+            DynamicLibraryEvent event = iterator.next();
+            if (event.isVmLibrary() && event.getFilePath().matches(JdkRegEx.RH_RPM_JDK8_FILE_PATH)) {
+                isRedHatRpmInstall = true;
+                break;
+            ***REMOVED***
+        ***REMOVED***
+        return isRedHatRpmInstall;
     ***REMOVED***
 
 ***REMOVED***

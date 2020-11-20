@@ -27,7 +27,7 @@ import org.github.errcat.util.jdk.JdkUtil;
  * </p>
  * 
  * <p>
- * Header.
+ * Header information.
  * </p>
  * 
  * <h3>Example Logging</h3>
