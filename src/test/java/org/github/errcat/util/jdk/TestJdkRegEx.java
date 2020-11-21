@@ -63,7 +63,7 @@ public class TestJdkRegEx extends TestCase {
         String s = "libjvm.so";
         Assert.assertTrue("JVM library not identified.", s.matches(JdkRegEx.JVM_LIBRARY));
     }
-    
+
     public void testJvmLibraryJava() {
         String s = "java";
         Assert.assertTrue("JVM library not identified.", s.matches(JdkRegEx.JVM_LIBRARY));

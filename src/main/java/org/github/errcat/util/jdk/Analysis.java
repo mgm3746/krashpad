@@ -26,14 +26,34 @@ import org.github.errcat.util.ErrUtil;
 public enum Analysis {
 
     /**
-     * Property key for JDK debugging symbols not installed.
+     * Property key for JDK debug symbols not installed.
      */
-    ERROR_DEBUGGING_SYMBOLS("error.debugging.symbols"),
+    ERROR_DEBUGGING_SYMBOLS("error.jdk.debug.symbols"),
 
     /**
-     * Property key for Red Hat rpm install.
+     * Property key for a JDK that is not a RH build.
      */
-    INFO_RH_RPM_INSTALL("info.rh.rpm.install"),
+    INFO_JDK_NOT_RH_BUILD("info.jdk.not.rh.build"),
+
+    /**
+     * Property key for Red Hat build of OpenJDK rpm install.
+     */
+    INFO_RH_INSTALL_RPM("info.rh.install.rpm"),
+
+    /**
+     * Property key for Red Hat build of OpenJDK zip install.
+     */
+    INFO_RH_INSTALL_ZIP("info.rh.install.zip"),
+
+    /**
+     * Property key for Red Hat build of OpenJDK unsupported OS.
+     */
+    INFO_RH_UNSUPPORTED_OS("info.rh.unsupported.os"),
+
+    /**
+     * Property key for the stack not containing any VM code.
+     */
+    INFO_STACK_NO_VM_CODE("info.stack.no.vm.code"),
 
     /**
      * Property key for not using the latest JDK release.
