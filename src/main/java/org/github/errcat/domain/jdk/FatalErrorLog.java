@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsType;
+import org.github.errcat.util.Constants.OsVendor;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
@@ -194,30 +195,53 @@ public class FatalErrorLog {
         return causedBy.toString();
     ***REMOVED***
 
-    public boolean haveDebuggingSymbols() {
-        boolean haveDebuggingSymbols = false;
+    public boolean haveJdkDebugSymbols() {
+        boolean haveJdkDebugSymbols = false;
         if (header != null) {
             Iterator<HeaderEvent> iterator1 = header.iterator();
             while (iterator1.hasNext()) {
                 HeaderEvent he = iterator1.next();
                 if (he.isProblematicFrame()) {
-                    haveDebuggingSymbols = he.getLogEntry().matches("^***REMOVED*** (V)  \\[.+\\].+$");
+                    haveJdkDebugSymbols = he.getLogEntry().matches("^***REMOVED*** V  \\[.+\\].+$");
                     break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        if (!haveDebuggingSymbols) {
+        if (!haveJdkDebugSymbols) {
             if (stack != null) {
                 Iterator<StackEvent> iterator2 = stack.iterator();
-                while (iterator2.hasNext() && !haveDebuggingSymbols) {
+                while (iterator2.hasNext() && !haveJdkDebugSymbols) {
                     StackEvent se = iterator2.next();
                     if (se.isVmCode()) {
-                        haveDebuggingSymbols = se.getLogEntry().matches("^V  \\[.+\\].+$");
+                        haveJdkDebugSymbols = se.getLogEntry().matches("^V  \\[.+\\].+$");
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        return haveDebuggingSymbols;
+        return haveJdkDebugSymbols;
+    ***REMOVED***
+
+    public boolean haveVmCodeInStack() {
+        boolean haveVmCodeInStack = false;
+        if (stack != null) {
+            Iterator<StackEvent> iterator = stack.iterator();
+            while (iterator.hasNext()) {
+                StackEvent event = iterator.next();
+                if (event.isVmCode()) {
+                    haveVmCodeInStack = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return haveVmCodeInStack;
+    ***REMOVED***
+
+    public boolean isRhel() {
+        boolean isRhel = false;
+        if (osEvent != null) {
+            isRhel = osEvent.isRhel();
+        ***REMOVED***
+        return isRhel;
     ***REMOVED***
 
     /**
@@ -239,14 +263,27 @@ public class FatalErrorLog {
      */
     private void doDataAnalysis() {
         // Check if debugging symbols are installed
-        if (!haveDebuggingSymbols()) {
+        if (haveVmCodeInStack() && !haveJdkDebugSymbols()) {
             analysis.add(Analysis.ERROR_DEBUGGING_SYMBOLS);
         ***REMOVED***
         if (!JdkUtil.isLatestJdkRelease(this)) {
             analysis.add(0, Analysis.WARN_JDK_NOT_LATEST);
         ***REMOVED***
-        if (JdkUtil.isRedHatRpmInstall(this)) {
-            analysis.add(0, Analysis.INFO_RH_RPM_INSTALL);
+        if (osEvent != null) {
+            if (osEvent.isRhel()) {
+                if (JdkUtil.isRhelRpmInstall(this)) {
+                    analysis.add(0, Analysis.INFO_RH_INSTALL_RPM);
+                ***REMOVED*** else if (JdkUtil.isRhelZipInstall(this)) {
+                    analysis.add(0, Analysis.INFO_RH_INSTALL_ZIP);
+                ***REMOVED*** else {
+                    analysis.add(0, Analysis.INFO_JDK_NOT_RH_BUILD);
+                ***REMOVED***
+            ***REMOVED*** else if (osEvent.getOsType() == OsType.Linux && osEvent.getOsVendor() != OsVendor.RedHat) {
+                analysis.add(0, Analysis.INFO_RH_UNSUPPORTED_OS);
+            ***REMOVED***
+        ***REMOVED***
+        if (!haveVmCodeInStack()) {
+            analysis.add(Analysis.INFO_STACK_NO_VM_CODE);
         ***REMOVED***
     ***REMOVED***
 

@@ -289,9 +289,15 @@ public class Main {
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             List<StackEvent> stack = fatalErrorLog.getStack();
             Iterator<StackEvent> iterator1 = stack.iterator();
-            while (iterator1.hasNext()) {
+            // Limit stack output for report readability
+            int stackDepth = 0;
+            while (iterator1.hasNext() && stackDepth < 10) {
                 StackEvent se = iterator1.next();
                 printWriter.write(se.getLogEntry() + Constants.LINE_SEPARATOR);
+                stackDepth++;
+            ***REMOVED***
+            if (stack.size() > 10) {
+                printWriter.write("..." + Constants.LINE_SEPARATOR);
             ***REMOVED***
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
 
@@ -348,27 +354,30 @@ public class Main {
                     printWriter.write("*");
                     printWriter.write(a.getValue());
                     if (a.equals(Analysis.WARN_JDK_NOT_LATEST)) {
+                        printWriter.write(fatalErrorLog.getJavaVendor().toString());
+                        printWriter.write(" ");
+                        printWriter.write(JdkUtil.getLatestJdkReleaseString(fatalErrorLog));
                         // Add latest release info
                         int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fatalErrorLog),
                                 JdkUtil.getLatestJdkReleaseDate(fatalErrorLog));
                         int releaseNumberDiff = JdkUtil.getLatestJdkReleaseNumber(fatalErrorLog)
                                 - JdkUtil.getJdkReleaseNumber(fatalErrorLog);
-                        printWriter.write(fatalErrorLog.getJavaVendor().toString());
-                        printWriter.write(" ");
-                        printWriter.write(JdkUtil.getLatestJdkReleaseString(fatalErrorLog));
-                        printWriter.write(" (newer by ");
-                        printWriter.write("" + releaseNumberDiff);
-                        printWriter.write(" version");
-                        if (releaseNumberDiff > 1) {
-                            printWriter.write("s");
+                        if (releaseDayDiff > 0 && releaseNumberDiff > 0) {
+                            printWriter.write(" (newer by ");
+                            printWriter.write("" + releaseNumberDiff);
+                            printWriter.write(" version");
+                            if (releaseNumberDiff > 1) {
+                                printWriter.write("s");
+                            ***REMOVED***
+                            printWriter.write(" and ");
+                            printWriter.write("" + releaseDayDiff);
+                            printWriter.write(" day");
+                            if (releaseDayDiff > 1) {
+                                printWriter.write("s");
+                            ***REMOVED***
+                            printWriter.write(")");
                         ***REMOVED***
-                        printWriter.write(" and ");
-                        printWriter.write("" + releaseDayDiff);
-                        printWriter.write(" day");
-                        if (releaseDayDiff > 1) {
-                            printWriter.write("s");
-                        ***REMOVED***
-                        printWriter.write(").");
+                        printWriter.write(".");
                     ***REMOVED***
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***

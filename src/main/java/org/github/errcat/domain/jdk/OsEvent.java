@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.Constants.OsType;
+import org.github.errcat.util.Constants.OsVendor;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
@@ -109,5 +110,26 @@ public class OsEvent implements LogEvent {
             os = matcher.group(1);
         ***REMOVED***
         return os;
+    ***REMOVED***
+
+    /**
+     * @return The OS vendor.
+     */
+    public OsVendor getOsVendor() {
+        OsVendor osVendor = OsVendor.UNKNOWN;
+        if (logEntry.matches("^OS:Red Hat.+$")) {
+            osVendor = OsVendor.RedHat;
+        ***REMOVED*** else if (logEntry.matches("^OS:Windows.+$")) {
+            osVendor = OsVendor.Microsoft;
+        ***REMOVED***
+        return osVendor;
+    ***REMOVED***
+
+    public boolean isRhel() {
+        return logEntry.matches("^OS:Red Hat Enterprise Linux Server.+$");
+    ***REMOVED***
+
+    public boolean isWindows() {
+        return logEntry.matches("^OS:Windows.+$");
     ***REMOVED***
 ***REMOVED***

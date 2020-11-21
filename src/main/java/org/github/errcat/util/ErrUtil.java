@@ -109,7 +109,11 @@ public class ErrUtil {
      * @return The interval between two dates in milliseconds.
      */
     public static final long millisDiff(Date start, Date end) {
-        return end.getTime() - start.getTime();
+        long millisDiff = 0;
+        if (start != null && end != null) {
+            millisDiff = end.getTime() - start.getTime();
+        ***REMOVED***
+        return millisDiff;
     ***REMOVED***
 
     /**

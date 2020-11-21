@@ -21,6 +21,7 @@ import org.github.errcat.util.Constants;
 import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
 import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 import org.junit.Assert;
 
@@ -82,7 +83,7 @@ public class TestFatalErrorLog extends TestCase {
         String headerLine = "***REMOVED*** V  [libjvm.so+0xa333a6]  ShenandoahUpdateRefsClosure::do_oop(oopDesc**)+0x26";
         HeaderEvent he = new HeaderEvent(headerLine);
         fel.getHeader().add(he);
-        Assert.assertTrue("Debugging symbols not identified.", fel.haveDebuggingSymbols());
+        Assert.assertTrue("Debugging symbols not identified.", fel.haveJdkDebugSymbols());
     ***REMOVED***
 
     public void testNoDebuggingSymbols() {
@@ -90,7 +91,7 @@ public class TestFatalErrorLog extends TestCase {
         String headerLine = "***REMOVED*** V  [libjvm.so+0xa41ea4]";
         HeaderEvent he = new HeaderEvent(headerLine);
         fel.getHeader().add(he);
-        Assert.assertFalse("Debugging symbols incorrectly identified.", fel.haveDebuggingSymbols());
+        Assert.assertFalse("Debugging symbols incorrectly identified.", fel.haveJdkDebugSymbols());
     ***REMOVED***
 
     public void testReleaseDiff() {
@@ -99,6 +100,9 @@ public class TestFatalErrorLog extends TestCase {
                 + "Jul 12 2020 19:35:32 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVminfo(vmInfoEvent);
+        Assert.assertEquals("JDK vendor not correct.", JavaVendor.OpenJDK, fel.getJavaVendor());
+        Assert.assertEquals("Java specification not correct.", JavaSpecification.JDK8, fel.getJavaSpecification());
+        Assert.assertEquals("Java specification not correct.", "1.8.0_262-b10", fel.getJdkReleaseString());
         Assert.assertFalse("JDK incorrectly identified as latest release.", JdkUtil.isLatestJdkRelease(fel));
         Assert.assertEquals("Release day diff not correct.", 114,
                 ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)));
@@ -108,14 +112,20 @@ public class TestFatalErrorLog extends TestCase {
 
     public void testRedHatRpmInstall() {
         FatalErrorLog fel = new FatalErrorLog();
-        String logLine = "7f908ba68000-7f908c80e000 r-xp 00000000 fd:0a 140891                     "
+        String logLineDynamicLibrary = "7f908ba68000-7f908c80e000 r-xp 00000000 fd:0a 140891                     "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so";
-        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLineDynamicLibrary);
         fel.getDynamicLibrary().add(event);
-        Assert.assertTrue("Red Hat rpm install not identified.", JdkUtil.isRedHatRpmInstall(fel));
+        // CentosOS appears to use same/similar rpms, so cannot just go by filePath
+        Assert.assertFalse("Red Hat rpm install identified.", JdkUtil.isRhelRpmInstall(fel));
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_RH_RPM_INSTALL + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_RPM_INSTALL));
+        String logLineOs = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
+        OsEvent osEvent = new OsEvent(logLineOs);
+        fel.setOs(osEvent);
+        fel.doAnalysis();
+        Assert.assertTrue("Red Hat rpm install not identified.", JdkUtil.isRhelRpmInstall(fel));
+        Assert.assertTrue(Analysis.INFO_RH_INSTALL_RPM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_INSTALL_RPM));
 
     ***REMOVED***
 
@@ -126,6 +136,29 @@ public class TestFatalErrorLog extends TestCase {
         String causedBy = "***REMOVED***  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700"
                 + Constants.LINE_SEPARATOR + "***REMOVED***  Error: ShouldNotReachHere()";
         Assert.assertEquals("Caused by incorrect.", causedBy, fel.CausedBy());
-        Assert.assertTrue("Debugging symbols incorrectly identified.", fel.haveDebuggingSymbols());
+        Assert.assertTrue("Debugging symbols incorrectly identified.", fel.haveJdkDebugSymbols());
+    ***REMOVED***
+
+    public void testRhelJdkNotRedHatBuild() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset4.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.INFO_JDK_NOT_RH_BUILD + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_JDK_NOT_RH_BUILD));
+    ***REMOVED***
+
+    public void testDebugSymbolsNoVmCodeInStack() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset5.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse("OS incorrectly identified as RHEL.", fel.isRhel());
+        Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertFalse(Analysis.INFO_RH_INSTALL_RPM + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_INSTALL_RPM));
+        Assert.assertTrue(Analysis.INFO_RH_UNSUPPORTED_OS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_UNSUPPORTED_OS));
+        Assert.assertTrue(Analysis.INFO_STACK_NO_VM_CODE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_STACK_NO_VM_CODE));
     ***REMOVED***
 ***REMOVED***

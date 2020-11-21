@@ -50,4 +50,10 @@ public class TestOsEvent extends TestCase {
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("OS type not correct.", OsType.Solaris, ((OsEvent) event).getOsType());
     ***REMOVED***
+
+    public void testIsRhel() {
+        String logLine = "OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertTrue("RHEL not identified.", ((OsEvent) event).isRhel());
+    ***REMOVED***
 ***REMOVED***
