@@ -36,6 +36,11 @@ public enum Analysis {
     INFO_JDK_NOT_RH_BUILD("info.jdk.not.rh.build"),
 
     /**
+     * Property key for unrecognized Red Hat build.
+     */
+    INFO_RH_BUILD_UNKNOWN("info.rh.build.unknown"),
+
+    /**
      * Property key for Red Hat build of OpenJDK rpm install.
      */
     INFO_RH_INSTALL_RPM("info.rh.install.rpm"),

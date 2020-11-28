@@ -16,6 +16,7 @@
 package org.github.errcat.domain.jdk;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -162,10 +163,23 @@ public class FatalErrorLog {
         return release;
     }
 
+    /**
+     * @return The JDK build date/time.
+     */
+    public Date getJdkBuildDate() {
+        Date date = null;
+        if (vmInfoEvent != null) {
+            date = vmInfoEvent.getBuildDate();
+        }
+        return date;
+    }
+
     public String getOs() {
         String os = OsType.UNKNOWN.toString();
         if (osEvent != null) {
             os = osEvent.getOsString();
+        } else if (unameEvent != null) {
+            os = unameEvent.getOsString();
         }
         return os;
     }
@@ -178,7 +192,7 @@ public class FatalErrorLog {
         return arch;
     }
 
-    public String CausedBy() {
+    public String getCausedBy() {
         StringBuilder causedBy = new StringBuilder();
         if (header != null) {
             Iterator<HeaderEvent> iterator = header.iterator();
@@ -244,6 +258,14 @@ public class FatalErrorLog {
         return isRhel;
     }
 
+    public boolean isJdkRhBuild() {
+        boolean isJdkRhBuild = false;
+        if (JdkUtil.isRhelRpmInstall(this) || JdkUtil.isRhelZipInstall(this)) {
+            isJdkRhBuild = true;
+        }
+        return isJdkRhBuild;
+    }
+
     /**
      * Do analysis.
      */
@@ -284,6 +306,11 @@ public class FatalErrorLog {
         }
         if (!haveVmCodeInStack()) {
             analysis.add(Analysis.INFO_STACK_NO_VM_CODE);
+        }
+        if (isJdkRhBuild() && getJdkBuildDate() != null) {
+            if (getJdkBuildDate().compareTo(JdkUtil.getJdkReleaseDate(this)) != 0) {
+                analysis.add(Analysis.INFO_RH_BUILD_UNKNOWN);
+            }
         }
     }
 

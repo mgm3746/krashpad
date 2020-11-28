@@ -283,7 +283,7 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Caused By:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            printWriter.write(fatalErrorLog.CausedBy() + Constants.LINE_SEPARATOR);
+            printWriter.write(fatalErrorLog.getCausedBy() + Constants.LINE_SEPARATOR);
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Stack:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
