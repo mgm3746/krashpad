@@ -41,33 +41,19 @@ import org.github.errcat.domain.jdk.VmInfoEvent;
 public class JdkUtil {
 
     /**
-     * OpenJDK8 GA release information. Starting with u201, upstream releases are tagged "GA".
-     * 
-     * <p>
-     * Reference: https://hg.openjdk.java.net/jdk8u/jdk8u/tags
-     * </p>
-     */
-    private static HashMap<String, Release> openJdk8GaReleases;
-
-    /**
-     * First OpenJDK GA release number for which a RHEL zip release exists.
-     */
-    private static final int OPENJDK_GA_FIRST_RHEL_ZIP_RELEASE = 4;
-
-    /**
      * OpenJDK8 RHEL rpm release information.
      */
-    private static HashMap<String, Release> openJdk8RhelRpmReleases;
+    private static HashMap<String, Release> redHatJdk8RhelRpmReleases;
 
     /**
      * OpenJDK8 RHEL zip release information.
      */
-    private static HashMap<String, Release> openJdk8RhelZipReleases;
+    private static HashMap<String, Release> redHatJdk8RhelZipReleases;
 
     /**
      * OpenJDK8 Windows release information.
      */
-    private static HashMap<String, Release> openJdk8WindowsReleases;
+    private static HashMap<String, Release> redHatJdk8WindowsReleases;
 
     /**
      * Defined logging events.
@@ -82,7 +68,7 @@ public class JdkUtil {
      */
     public enum JavaVendor {
         //
-        Azul, OpenJDK, Oracle, UNKNOWN
+        AZUL, RED_HAT, ORACLE, UNKNOWN
     ***REMOVED***;
 
     /**
@@ -110,56 +96,46 @@ public class JdkUtil {
     ***REMOVED***;
 
     static {
-        // Release dates are upstream OpenJDK release dates, not vendor build dates.
-        openJdk8GaReleases = new HashMap<String, Release>();
-        openJdk8GaReleases.put("LATEST", new Release("11/05/2020", 11, "1.8.0_275-b01"));
-        openJdk8GaReleases.put("1.8.0_272-b10", new Release("10/20/2020", 10, "1.8.0_272-b10"));
-        openJdk8GaReleases.put("1.8.0_265-b01", new Release("07/27/2020", 9, "1.8.0_265-b01"));
-        openJdk8GaReleases.put("1.8.0_262-b10", new Release("07/14/2020", 8, "1.8.0_262-b10"));
-        openJdk8GaReleases.put("1.8.0_252-b09", new Release("04/14/2020", 7, "1.8.0_252-b09"));
-        openJdk8GaReleases.put("1.8.0_242-b08", new Release("01/19/2020", 6, "1.8.0_242-b08"));
-        openJdk8GaReleases.put("1.8.0_232-b09", new Release("10/15/2019", 5, "1.8.0_232-b09"));
-        openJdk8GaReleases.put("1.8.0_222-b10", new Release("07/16/2019", 4, "1.8.0_222-b10"));
-        openJdk8GaReleases.put("1.8.0_212-b04", new Release("04/16/2019", 3, "1.8.0_212-b04"));
-        openJdk8GaReleases.put("1.8.0_202-b09", new Release("01/15/2019", 2, "1.8.0_202-b08"));
-        openJdk8GaReleases.put("1.8.0_201-b09", new Release("01/15/2019", 1, "1.8.0_201-b09"));
+        /*
+         * Note: Build date/time guesses have 00:00:00 time
+         */
 
-        openJdk8RhelRpmReleases = new HashMap<String, Release>();
-        openJdk8RhelRpmReleases.put("LATEST", new Release("11/05/2020", 11, "1.8.0_275-b01"));
-        openJdk8RhelRpmReleases.put("1.8.0_272-b10", new Release("10/20/2020", 10, "1.8.0_272-b10"));
-        openJdk8RhelRpmReleases.put("1.8.0_265-b01", new Release("07/27/2020", 9, "1.8.0_265-b01"));
-        openJdk8RhelRpmReleases.put("1.8.0_262-b10", new Release("07/14/2020", 8, "1.8.0_262-b10"));
-        openJdk8RhelRpmReleases.put("1.8.0_252-b09", new Release("04/14/2020", 7, "1.8.0_252-b09"));
-        openJdk8RhelRpmReleases.put("1.8.0_242-b08", new Release("01/19/2020", 6, "1.8.0_242-b08"));
-        openJdk8RhelRpmReleases.put("1.8.0_232-b09", new Release("10/15/2019", 5, "1.8.0_232-b09"));
-        openJdk8RhelRpmReleases.put("1.8.0_222-b10", new Release("07/16/2019", 4, "1.8.0_222-b10"));
-        openJdk8RhelRpmReleases.put("1.8.0_212-b04", new Release("04/16/2019", 3, "1.8.0_212-b04"));
-        openJdk8RhelRpmReleases.put("1.8.0_202-b09", new Release("01/15/2019", 2, "1.8.0_202-b08"));
-        openJdk8RhelRpmReleases.put("1.8.0_201-b09", new Release("01/15/2019", 1, "1.8.0_201-b09"));
+        redHatJdk8RhelRpmReleases = new HashMap<String, Release>();
+        redHatJdk8RhelRpmReleases.put("LATEST", new Release("Nov 5 2020 00:00:01", 11, "1.8.0_275-b01"));
+        redHatJdk8RhelRpmReleases.put("1.8.0_272-b10", new Release("Oct 20 2020 23:38:03", 10, "1.8.0_272-b10"));
+        redHatJdk8RhelRpmReleases.put("1.8.0_265-b01", new Release("Jul 27 2020 00:00:00", 9, "1.8.0_265-b01"));
+        redHatJdk8RhelRpmReleases.put("1.8.0_262-b10", new Release("Jul 12 2020 19:35:32", 8, "1.8.0_262-b10"));
+        redHatJdk8RhelRpmReleases.put("1.8.0_252-b09", new Release("Apr 14 2020 00:00:00", 7, "1.8.0_252-b09"));
+        redHatJdk8RhelRpmReleases.put("1.8.0_242-b08", new Release("Jan 19 2020 00:00:00", 6, "1.8.0_242-b08"));
+        redHatJdk8RhelRpmReleases.put("1.8.0_232-b09", new Release("Oct 15 2019 00:00:00", 5, "1.8.0_232-b09"));
+        redHatJdk8RhelRpmReleases.put("1.8.0_222-b10", new Release("Jul 17 2019 00:00:00", 4, "1.8.0_222-b10"));
+        redHatJdk8RhelRpmReleases.put("1.8.0_212-b04", new Release("Apr 16 2019 00:00:00", 3, "1.8.0_212-b04"));
+        redHatJdk8RhelRpmReleases.put("1.8.0_202-b09", new Release("Jan 15 2019 00:00:00", 2, "1.8.0_202-b08"));
+        redHatJdk8RhelRpmReleases.put("1.8.0_201-b09", new Release("Jan 15 2019 00:00:00", 1, "1.8.0_201-b09"));
 
-        openJdk8RhelZipReleases = new HashMap<String, Release>();
+        redHatJdk8RhelZipReleases = new HashMap<String, Release>();
         // First RHEL zip was 1.8.0_222
-        openJdk8RhelZipReleases.put("LATEST", new Release("11/05/2020", 8, "1.8.0_275-b01"));
-        openJdk8RhelZipReleases.put("1.8.0_272-b10", new Release("10/20/2020", 7, "1.8.0_272-b10"));
-        openJdk8RhelZipReleases.put("1.8.0_265-b01", new Release("07/27/2020", 6, "1.8.0_265-b01"));
-        openJdk8RhelZipReleases.put("1.8.0_262-b10", new Release("07/14/2020", 5, "1.8.0_262-b10"));
-        openJdk8RhelZipReleases.put("1.8.0_252-b09", new Release("04/14/2020", 4, "1.8.0_252-b09"));
-        openJdk8RhelZipReleases.put("1.8.0_242-b08", new Release("01/19/2020", 3, "1.8.0_242-b08"));
-        openJdk8RhelZipReleases.put("1.8.0_232-b09", new Release("10/15/2019", 2, "1.8.0_232-b09"));
-        openJdk8RhelZipReleases.put("1.8.0_222-b10", new Release("07/16/2019", 1, "1.8.0_222-b10"));
+        redHatJdk8RhelZipReleases.put("LATEST", new Release("Nov 11 2020 12:18:48", 8, "1.8.0_275-b01"));
+        redHatJdk8RhelZipReleases.put("1.8.0_272-b10", new Release("Oct 20 2020 12:17:01", 7, "1.8.0_272-b10"));
+        redHatJdk8RhelZipReleases.put("1.8.0_265-b01", new Release("Jul 28 2020 13:27:15", 6, "1.8.0_265-b01"));
+        redHatJdk8RhelZipReleases.put("1.8.0_262-b10", new Release("Jul 14 2020 11:46:22", 5, "1.8.0_262-b10"));
+        redHatJdk8RhelZipReleases.put("1.8.0_252-b09", new Release("Apr 13 2020 13:01:26", 4, "1.8.0_252-b09"));
+        redHatJdk8RhelZipReleases.put("1.8.0_242-b08", new Release("Jan 17 2020 09:36:23", 3, "1.8.0_242-b08"));
+        redHatJdk8RhelZipReleases.put("1.8.0_232-b09", new Release("Oct 15 2019 05:49:57", 2, "1.8.0_232-b09"));
+        redHatJdk8RhelZipReleases.put("1.8.0_222-b10", new Release("Aug 2 2019 08:16:48", 1, "1.8.0_222-b10"));
 
-        openJdk8WindowsReleases = new HashMap<String, Release>();
+        redHatJdk8WindowsReleases = new HashMap<String, Release>();
         // There was no RH Windows release for u202
-        openJdk8WindowsReleases.put("LATEST", new Release("11/05/2020", 11, "1.8.0_275-b01"));
-        openJdk8WindowsReleases.put("1.8.0_272-b10", new Release("10/20/2020", 10, "1.8.0_272-b10"));
-        openJdk8WindowsReleases.put("1.8.0_265-b01", new Release("07/27/2020", 9, "1.8.0_265-b01"));
-        openJdk8WindowsReleases.put("1.8.0_262-b10", new Release("07/14/2020", 8, "1.8.0_262-b10"));
-        openJdk8WindowsReleases.put("1.8.0_252-b09", new Release("04/14/2020", 7, "1.8.0_252-b09"));
-        openJdk8WindowsReleases.put("1.8.0_242-b08", new Release("01/19/2020", 6, "1.8.0_242-b08"));
-        openJdk8WindowsReleases.put("1.8.0_232-b09", new Release("10/15/2019", 5, "1.8.0_232-b09"));
-        openJdk8WindowsReleases.put("1.8.0_222-b10", new Release("07/16/2019", 4, "1.8.0_222-b10"));
-        openJdk8WindowsReleases.put("1.8.0_212-b04", new Release("04/16/2019", 3, "1.8.0_212-b04"));
-        openJdk8WindowsReleases.put("1.8.0_201-b09", new Release("01/15/2019", 1, "1.8.0_201-b09"));
+        redHatJdk8WindowsReleases.put("LATEST", new Release("Nov 5 2020 00:00:00", 11, "1.8.0_275-b01"));
+        redHatJdk8WindowsReleases.put("1.8.0_272-b10", new Release("Oct 20 2020 00:00:00", 10, "1.8.0_272-b10"));
+        redHatJdk8WindowsReleases.put("1.8.0_265-b01", new Release("Jul 27 2020 00:00:00", 9, "1.8.0_265-b01"));
+        redHatJdk8WindowsReleases.put("1.8.0_262-b10", new Release("Jul 14 2020 00:00:00", 8, "1.8.0_262-b10"));
+        redHatJdk8WindowsReleases.put("1.8.0_252-b09", new Release("Apr 14 2020 00:00:00", 7, "1.8.0_252-b09"));
+        redHatJdk8WindowsReleases.put("1.8.0_242-b08", new Release("Jan 19 2020 00:00:00", 6, "1.8.0_242-b08"));
+        redHatJdk8WindowsReleases.put("1.8.0_232-b09", new Release("Oct 15 2019 00:00:00", 5, "1.8.0_232-b09"));
+        redHatJdk8WindowsReleases.put("1.8.0_222-b10", new Release("Jul 16 2019 00:00:00", 4, "1.8.0_222-b10"));
+        redHatJdk8WindowsReleases.put("1.8.0_212-b04", new Release("Apr 16 2019 00:00:00", 3, "1.8.0_212-b04"));
+        redHatJdk8WindowsReleases.put("1.8.0_201-b09", new Release("Jan 15 2019 00:00:00", 1, "1.8.0_201-b09"));
     ***REMOVED***
 
     /**
@@ -239,17 +215,14 @@ public class JdkUtil {
      */
     public static final HashMap<String, Release> getJdkReleases(FatalErrorLog fatalErrorLog) {
         HashMap<String, Release> releases = null;
-        if (fatalErrorLog.getJavaVendor().equals(JavaVendor.OpenJDK)) {
+        if (fatalErrorLog.getJavaVendor().equals(JavaVendor.RED_HAT)) {
             if (fatalErrorLog.getJavaSpecification().equals(JavaSpecification.JDK8)) {
                 if (fatalErrorLog.isRhel()) {
                     if (isRhelRpmInstall(fatalErrorLog)) {
-                        releases = openJdk8RhelRpmReleases;
+                        releases = redHatJdk8RhelRpmReleases;
+                    ***REMOVED*** else if (isRhelZipInstall(fatalErrorLog)) {
+                        releases = redHatJdk8RhelZipReleases;
                     ***REMOVED***
-                    if (isRhelZipInstall(fatalErrorLog)) {
-                        releases = openJdk8RhelZipReleases;
-                    ***REMOVED***
-                ***REMOVED*** else {
-                    releases = openJdk8GaReleases;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -265,7 +238,7 @@ public class JdkUtil {
         Date date = null;
         HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
         if (releases != null && releases.size() > 0) {
-            date = releases.get("LATEST").getDate();
+            date = releases.get("LATEST").getBuildDate();
         ***REMOVED***
         return date;
     ***REMOVED***
@@ -319,7 +292,7 @@ public class JdkUtil {
     /**
      * @param fatalErrorLog
      *            The fatal error log.
-     * @return The release date for the JDK that produced the fatal error log.
+     * @return The known release date for the JDK build that produced the fatal error log.
      */
     public static final Date getJdkReleaseDate(FatalErrorLog fatalErrorLog) {
         Date date = null;
@@ -330,7 +303,7 @@ public class JdkUtil {
                 if (jdkRelease != null) {
                     Release release = releases.get(jdkRelease);
                     if (release != null) {
-                        date = release.getDate();
+                        date = release.getBuildDate();
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -383,13 +356,13 @@ public class JdkUtil {
     /**
      * @param fatalErrorLog
      *            The fatal error log.
-     * @return True if the JDK that produced the fatal error log is a Red Hat zip install, false otherwise.
+     * @return True if the JDK that produced the fatal error log is a Red Hat build of OpenJDK zip install on RHEL,
+     *         false otherwise.
      */
     public static final boolean isRhelZipInstall(FatalErrorLog fatalErrorLog) {
         boolean isRedHatZipInstall = false;
         if (fatalErrorLog.isRhel() && !isRhelRpmInstall(fatalErrorLog) && fatalErrorLog.getArch() == Arch.X86_64
-                && openJdk8GaReleases.containsKey(fatalErrorLog.getJdkReleaseString()) && openJdk8GaReleases
-                        .get(fatalErrorLog.getJdkReleaseString()).getNumber() >= OPENJDK_GA_FIRST_RHEL_ZIP_RELEASE) {
+                && redHatJdk8RhelZipReleases.containsKey(fatalErrorLog.getJdkReleaseString())) {
             isRedHatZipInstall = true;
         ***REMOVED***
         return isRedHatZipInstall;

@@ -93,9 +93,9 @@ public class UnameEvent implements LogEvent {
      */
     public OsType getOsType() {
         OsType osType = OsType.UNKNOWN;
-        if (getUnameString().matches("Linux.+")) {
+        if (getOsString().matches("Linux.+")) {
             osType = OsType.Linux;
-        ***REMOVED*** else if (getUnameString().matches("SunOS.+")) {
+        ***REMOVED*** else if (getOsString().matches("SunOS.+")) {
             osType = OsType.Solaris;
         ***REMOVED***
         return osType;
@@ -106,7 +106,7 @@ public class UnameEvent implements LogEvent {
      */
     public OsVendor getOsVendor() {
         OsVendor osVendor = OsVendor.UNKNOWN;
-        if (getUnameString().matches("Linux.+\\.el7\\..+")) {
+        if (getOsString().matches("Linux.+\\.el7\\..+")) {
             osVendor = OsVendor.RedHat;
         ***REMOVED***
         return osVendor;
@@ -117,7 +117,7 @@ public class UnameEvent implements LogEvent {
      */
     public OsVersion getOsVersion() {
         OsVersion osVersion = OsVersion.UNKNOWN;
-        if (getUnameString().matches("Linux.+\\.el7\\..+")) {
+        if (getOsString().matches("Linux.+\\.el7\\..+")) {
             osVersion = OsVersion.RHEL7;
         ***REMOVED***
         return osVersion;
@@ -126,7 +126,7 @@ public class UnameEvent implements LogEvent {
     /**
      * @return The OS string.
      */
-    public String getUnameString() {
+    public String getOsString() {
         String os = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {

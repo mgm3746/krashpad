@@ -14,6 +14,9 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
@@ -100,7 +103,7 @@ public class TestVmInfoEvent extends TestCase {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), "
                 + "built on Jul 12 2020 18:55:08 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Arch not correct.", JavaVendor.OpenJDK, ((VmInfoEvent) event).getJavaVendor());
+        Assert.assertEquals("Arch not correct.", JavaVendor.RED_HAT, ((VmInfoEvent) event).getJavaVendor());
     ***REMOVED***
 
     public void testVendorAzul() {
@@ -108,6 +111,22 @@ public class TestVmInfoEvent extends TestCase {
                 + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
                 + "4.4.7 20120313";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Arch not correct.", JavaVendor.Azul, ((VmInfoEvent) event).getJavaVendor());
+        Assert.assertEquals("Arch not correct.", JavaVendor.AZUL, ((VmInfoEvent) event).getJavaVendor());
+    ***REMOVED***
+
+    public void testBuildDate() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), "
+                + "built on Jul 12 2020 18:55:08 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Date buildDate = ((VmInfoEvent) event).getBuildDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(buildDate);
+        // Java Calendar month is 0 based
+        Assert.assertEquals("Start month not parsed correctly.", 6, calendar.get(Calendar.MONTH));
+        Assert.assertEquals("Start day not parsed correctly.", 12, calendar.get(Calendar.DAY_OF_MONTH));
+        Assert.assertEquals("Start year not parsed correctly.", 2020, calendar.get(Calendar.YEAR));
+        Assert.assertEquals("Start hour not parsed correctly.", 18, calendar.get(Calendar.HOUR_OF_DAY));
+        Assert.assertEquals("Start minute not parsed correctly.", 55, calendar.get(Calendar.MINUTE));
+        Assert.assertEquals("Start second not parsed correctly.", 8, calendar.get(Calendar.SECOND));
     ***REMOVED***
 ***REMOVED***

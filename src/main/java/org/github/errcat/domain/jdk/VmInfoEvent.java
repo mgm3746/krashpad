@@ -14,10 +14,13 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.util.ErrUtil;
+import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
 import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
@@ -29,7 +32,7 @@ import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
  * </p>
  * 
  * <p>
- * JVM environment information.
+ * JVM environment information unique to the JDK build. A version string embedded in libjvm.so/jvm.dll.
  * </p>
  * 
  * <h3>Example Logging</h3>
@@ -55,7 +58,8 @@ public class VmInfoEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^vm_info: (Java HotSpot\\(TM\\)|OpenJDK) 64-Bit Server VM \\(.+\\) for "
-            + "linux-(amd64|ppc64le) JRE (\\(Zulu.+\\) )?\\((((1|11)\\.(0|6|7|8))\\.\\d.+)\\).+$";
+            + "linux-(amd64|ppc64le) JRE (\\(Zulu.+\\) )?\\((((1|11)\\.(0|6|7|8))\\.\\d.+)\\).+ built on "
+            + JdkRegEx.BUILD_DATE_TIME + ".+$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -104,9 +108,9 @@ public class VmInfoEvent implements LogEvent {
             int indexAzul = 3;
             if (matcher.group(indexVendor).equals("OpenJDK")) {
                 if (matcher.group(indexAzul) != null) {
-                    vendor = JavaVendor.Azul;
+                    vendor = JavaVendor.AZUL;
                 ***REMOVED*** else {
-                    vendor = JavaVendor.OpenJDK;
+                    vendor = JavaVendor.RED_HAT;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -161,5 +165,18 @@ public class VmInfoEvent implements LogEvent {
             ***REMOVED***
         ***REMOVED***
         return arch;
+    ***REMOVED***
+
+    /**
+     * @return The JDK build date/time.
+     */
+    public Date getBuildDate() {
+        Date date = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            date = ErrUtil.getDate(matcher.group(8), matcher.group(9), matcher.group(10), matcher.group(11),
+                    matcher.group(12), matcher.group(13));
+        ***REMOVED***
+        return date;
     ***REMOVED***
 ***REMOVED***

@@ -16,6 +16,7 @@
 package org.github.errcat.domain.jdk;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -162,10 +163,23 @@ public class FatalErrorLog {
         return release;
     ***REMOVED***
 
+    /**
+     * @return The JDK build date/time.
+     */
+    public Date getJdkBuildDate() {
+        Date date = null;
+        if (vmInfoEvent != null) {
+            date = vmInfoEvent.getBuildDate();
+        ***REMOVED***
+        return date;
+    ***REMOVED***
+
     public String getOs() {
         String os = OsType.UNKNOWN.toString();
         if (osEvent != null) {
             os = osEvent.getOsString();
+        ***REMOVED*** else if (unameEvent != null) {
+            os = unameEvent.getOsString();
         ***REMOVED***
         return os;
     ***REMOVED***
@@ -178,7 +192,7 @@ public class FatalErrorLog {
         return arch;
     ***REMOVED***
 
-    public String CausedBy() {
+    public String getCausedBy() {
         StringBuilder causedBy = new StringBuilder();
         if (header != null) {
             Iterator<HeaderEvent> iterator = header.iterator();
@@ -244,6 +258,14 @@ public class FatalErrorLog {
         return isRhel;
     ***REMOVED***
 
+    public boolean isJdkRhBuild() {
+        boolean isJdkRhBuild = false;
+        if (JdkUtil.isRhelRpmInstall(this) || JdkUtil.isRhelZipInstall(this)) {
+            isJdkRhBuild = true;
+        ***REMOVED***
+        return isJdkRhBuild;
+    ***REMOVED***
+
     /**
      * Do analysis.
      */
@@ -284,6 +306,11 @@ public class FatalErrorLog {
         ***REMOVED***
         if (!haveVmCodeInStack()) {
             analysis.add(Analysis.INFO_STACK_NO_VM_CODE);
+        ***REMOVED***
+        if (isJdkRhBuild() && getJdkBuildDate() != null) {
+            if (getJdkBuildDate().compareTo(JdkUtil.getJdkReleaseDate(this)) != 0) {
+                analysis.add(Analysis.INFO_RH_BUILD_UNKNOWN);
+            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
 

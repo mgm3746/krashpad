@@ -15,8 +15,13 @@
 package org.github.errcat.util;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.github.errcat.util.jdk.JdkRegEx;
 
 /**
  * Common vm collection utility methods and constants.
@@ -25,21 +30,6 @@ import java.util.ResourceBundle;
  * 
  */
 public class ErrUtil {
-
-    /**
-     * <p>
-     * Regular expression for valid JVM start date/time in yyyy-MM-dd HH:mm:ss,SSS format (see
-     * <code>SimpleDateFormat</code> for date and time pattern definitions).
-     * </p>
-     * 
-     * For example:
-     * 
-     * <pre>
-     * 2009-09-18 00:00:08,172
-     * </pre>
-     */
-    public static final String START_DATE_TIME_REGEX = "^(\\d{4***REMOVED***)-(\\d{2***REMOVED***)-(\\d{2***REMOVED***) (\\d{2***REMOVED***):(\\d{2***REMOVED***):(\\d{2***REMOVED***),"
-            + "(\\d{3***REMOVED***)$";
 
     /**
      * Make default constructor private so the class cannot be instantiated.
@@ -60,18 +50,6 @@ public class ErrUtil {
     ***REMOVED***
 
     /**
-     * Determine whether the first JVM event timestamp indicates a partial log file or events that were not in a
-     * recognizable format.
-     * 
-     * @param firstTimestamp
-     *            The first JVM event timestamp (milliseconds).
-     * @return True if the first timestamp is within the first timestamp threshold, false otherwise.
-     */
-    public static final boolean isPartialLog(long firstTimestamp) {
-        return (firstTimestamp > Constants.FIRST_TIMESTAMP_THRESHOLD * 1000);
-    ***REMOVED***
-
-    /**
      * Retrieve the value for a given property file and key.
      * 
      * @param propertyFile
@@ -83,20 +61,6 @@ public class ErrUtil {
     public static final String getPropertyValue(String propertyFile, String key) {
         ResourceBundle rb = ResourceBundle.getBundle("META-INF" + System.getProperty("file.separator") + propertyFile);
         return rb.getString(key);
-    ***REMOVED***
-
-    /**
-     * Add milliseconds to a given <code>Date</code>.
-     * 
-     * @param start
-     *            Start <code>Date</code>.
-     * @param timestamp
-     *            Time interval in milliseconds.
-     * @return start <code>Date</code> + timestamp.
-     */
-    public static final Date getDatePlusTimestamp(Date start, long timestamp) {
-        long millis = start.getTime() + timestamp;
-        return new Date(millis);
     ***REMOVED***
 
     /**
@@ -114,17 +78,6 @@ public class ErrUtil {
             millisDiff = end.getTime() - start.getTime();
         ***REMOVED***
         return millisDiff;
-    ***REMOVED***
-
-    /**
-     * Check to see if the entered startdatetime is a valid format.
-     * 
-     * @param startDateTime
-     *            The startdatetime <code>String</code>.
-     * @return true if a valid format, false otherwise.
-     */
-    public static final boolean isValidStartDateTime(String startDateTime) {
-        return startDateTime.matches(START_DATE_TIME_REGEX);
     ***REMOVED***
 
     /**
@@ -149,5 +102,98 @@ public class ErrUtil {
     public static final int dayDiff(Date start, Date end) {
         long millisDiff = millisDiff(start, end);
         return daysInMilliSeconds(millisDiff);
+    ***REMOVED***
+
+    /**
+     * Convert date parts to a <code>Date</code>.
+     * 
+     * @param MMM
+     *            The month.
+     * @param d
+     *            The day.
+     * @param yyyy
+     *            The year.
+     * @param HH
+     *            The hour.
+     * @param mm
+     *            The minute.
+     * @param ss
+     *            The seconds.
+     * @return The date part strings converted to a <code>Date</code>
+     */
+    public static final Date getDate(String MMM, String d, String yyyy, String HH, String mm, String ss) {
+        if (MMM == null || d == null || yyyy == null || HH == null || mm == null || ss == null) {
+            throw new IllegalArgumentException("One or more date parts are missing.");
+        ***REMOVED***
+
+        Calendar calendar = Calendar.getInstance();
+        // Java Calendar month is 0 based
+        switch (MMM) {
+        case "Jan":
+            calendar.set(Calendar.MONTH, 0);
+            break;
+        case "Feb":
+            calendar.set(Calendar.MONTH, 1);
+            break;
+        case "Mar":
+            calendar.set(Calendar.MONTH, 2);
+            break;
+        case "Apr":
+            calendar.set(Calendar.MONTH, 3);
+            break;
+        case "May":
+            calendar.set(Calendar.MONTH, 4);
+            break;
+        case "Jun":
+            calendar.set(Calendar.MONTH, 5);
+            break;
+        case "Jul":
+            calendar.set(Calendar.MONTH, 6);
+            break;
+        case "Aug":
+            calendar.set(Calendar.MONTH, 7);
+            break;
+        case "Sep":
+            calendar.set(Calendar.MONTH, 8);
+            break;
+        case "Oct":
+            calendar.set(Calendar.MONTH, 9);
+            break;
+        case "Nov":
+            calendar.set(Calendar.MONTH, 10);
+            break;
+        case "Dec":
+            calendar.set(Calendar.MONTH, 11);
+            break;
+        default:
+            throw new IllegalArgumentException("Unexpected month: " + MMM);
+        ***REMOVED***
+        calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(d).intValue());
+        calendar.set(Calendar.YEAR, Integer.valueOf(yyyy));
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(HH).intValue());
+        calendar.set(Calendar.MINUTE, Integer.valueOf(mm).intValue());
+        calendar.set(Calendar.SECOND, Integer.valueOf(ss).intValue());
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    ***REMOVED***
+
+    public static final Date getDate(String buildDate) {
+        String MMM = null;
+        String d = null;
+        String yyyy = null;
+        String HH = null;
+        String mm = null;
+        String ss = null;
+        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATE_TIME);
+        Matcher matcher = pattern.matcher(buildDate);
+        if (matcher.find()) {
+            MMM = matcher.group(1);
+            d = matcher.group(2);
+            yyyy = matcher.group(3);
+            HH = matcher.group(4);
+            mm = matcher.group(5);
+            ss = matcher.group(6);
+        ***REMOVED***
+        return getDate(MMM, d, yyyy, HH, mm, ss);
     ***REMOVED***
 ***REMOVED***

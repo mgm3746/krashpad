@@ -47,7 +47,7 @@ public class TestFatalErrorLog extends TestCase {
                 + "Jan 17 2020 09:36:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVminfo(vmInfoEvent);
-        Assert.assertEquals("JDK vendor not correct.", JavaVendor.OpenJDK, fel.getJavaVendor());
+        Assert.assertEquals("JDK vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
     ***REMOVED***
 
     public void testVendorAzul() {
@@ -57,7 +57,7 @@ public class TestFatalErrorLog extends TestCase {
                 + "4.4.7 20120313";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVminfo(vmInfoEvent);
-        Assert.assertEquals("JDK vendor not correct.", JavaVendor.Azul, fel.getJavaVendor());
+        Assert.assertEquals("JDK vendor not correct.", JavaVendor.AZUL, fel.getJavaVendor());
     ***REMOVED***
 
     public void testSigSegvCompiledJavaCode() {
@@ -66,7 +66,7 @@ public class TestFatalErrorLog extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         String causedBy = "***REMOVED***  SIGSEGV (0xb) at pc=0x00007fcd2af94e64, pid=23171, tid=23172" + Constants.LINE_SEPARATOR
                 + "***REMOVED*** C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4";
-        Assert.assertEquals("Caused by incorrect.", causedBy, fel.CausedBy());
+        Assert.assertEquals("Caused by incorrect.", causedBy, fel.getCausedBy());
     ***REMOVED***
 
     public void testSigSegvNativeCode() {
@@ -75,7 +75,7 @@ public class TestFatalErrorLog extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         String causedBy = "***REMOVED***  SIGSEGV (0xb) at pc=0x0000000000000000, pid=44768, tid=0x00007f368f18d700"
                 + Constants.LINE_SEPARATOR + "***REMOVED*** C  0x0000000000000000";
-        Assert.assertEquals("Caused by incorrect.", causedBy, fel.CausedBy());
+        Assert.assertEquals("Caused by incorrect.", causedBy, fel.getCausedBy());
     ***REMOVED***
 
     public void testHaveDebuggingSymbols() {
@@ -100,11 +100,14 @@ public class TestFatalErrorLog extends TestCase {
                 + "Jul 12 2020 19:35:32 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVminfo(vmInfoEvent);
-        Assert.assertEquals("JDK vendor not correct.", JavaVendor.OpenJDK, fel.getJavaVendor());
+        String os = "OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.setOs(osEvent);
+        Assert.assertEquals("JDK vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
         Assert.assertEquals("Java specification not correct.", JavaSpecification.JDK8, fel.getJavaSpecification());
         Assert.assertEquals("Java specification not correct.", "1.8.0_262-b10", fel.getJdkReleaseString());
         Assert.assertFalse("JDK incorrectly identified as latest release.", JdkUtil.isLatestJdkRelease(fel));
-        Assert.assertEquals("Release day diff not correct.", 114,
+        Assert.assertEquals("Release day diff not correct.", 120,
                 ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)));
         Assert.assertEquals("Release number diff not correct.", 3,
                 JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel));
@@ -135,7 +138,7 @@ public class TestFatalErrorLog extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         String causedBy = "***REMOVED***  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700"
                 + Constants.LINE_SEPARATOR + "***REMOVED***  Error: ShouldNotReachHere()";
-        Assert.assertEquals("Caused by incorrect.", causedBy, fel.CausedBy());
+        Assert.assertEquals("Caused by incorrect.", causedBy, fel.getCausedBy());
         Assert.assertTrue("Debugging symbols incorrectly identified.", fel.haveJdkDebugSymbols());
     ***REMOVED***
 
@@ -160,5 +163,15 @@ public class TestFatalErrorLog extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_RH_UNSUPPORTED_OS));
         Assert.assertTrue(Analysis.INFO_STACK_NO_VM_CODE + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_STACK_NO_VM_CODE));
+    ***REMOVED***
+
+    public void testJdkRedHatBuildUnknown() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset6.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
+        Assert.assertTrue("Red Hat rpm not identified.", JdkUtil.isRhelRpmInstall(fel));
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_UNKNOWN + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_UNKNOWN));
     ***REMOVED***
 ***REMOVED***
