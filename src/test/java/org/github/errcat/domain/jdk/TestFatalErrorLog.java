@@ -21,6 +21,7 @@ import org.github.errcat.util.Constants;
 import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.Arch;
 import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
 import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 import org.junit.Assert;
@@ -171,6 +172,60 @@ public class TestFatalErrorLog extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
         Assert.assertTrue("Red Hat rpm not identified.", JdkUtil.isRhelRpmInstall(fel));
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_UNKNOWN + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_UNKNOWN));
+    ***REMOVED***
+
+    public void testSolaris() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset7.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Arch not correct.", Arch.SPARC, fel.getArch());
+        Assert.assertEquals("Jdk release not correct.", "1.8.0_251-b08", fel.getJdkReleaseString());
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.ORACLE, fel.getJavaVendor());
+    ***REMOVED***
+
+    public void testRhel7Jdk11() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset8.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
+        Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertTrue(Analysis.INFO_RH_INSTALL_RPM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_INSTALL_RPM));
+        Assert.assertEquals("Jdk release not correct.", "11.0.7+10-LTS", fel.getJdkReleaseString());
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_UNKNOWN + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_UNKNOWN));
+    ***REMOVED***
+
+    public void testRhel8Jdk11() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset9.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
+        Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertTrue(Analysis.INFO_RH_INSTALL_RPM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_INSTALL_RPM));
+        Assert.assertEquals("Jdk release not correct.", "11.0.8+10-LTS", fel.getJdkReleaseString());
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_UNKNOWN + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_UNKNOWN));
+    ***REMOVED***
+
+    public void testRhel7Jdk8() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset10.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
+        Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertTrue(Analysis.INFO_RH_INSTALL_RPM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_INSTALL_RPM));
+        Assert.assertEquals("Jdk release not correct.", "1.8.0_131-b12", fel.getJdkReleaseString());
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
         Assert.assertFalse(Analysis.INFO_RH_BUILD_UNKNOWN + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_UNKNOWN));
     ***REMOVED***

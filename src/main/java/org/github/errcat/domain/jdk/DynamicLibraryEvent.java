@@ -89,18 +89,9 @@ public class DynamicLibraryEvent implements LogEvent {
         return logLine.matches(REGEX);
     ***REMOVED***
 
-    public boolean isVmLibrary() {
-        boolean isVmLibrary = false;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            int fileNameIndex = 10;
-            if (matcher.group(fileNameIndex) != null && matcher.group(fileNameIndex).matches(JdkRegEx.JVM_LIBRARY)) {
-                isVmLibrary = true;
-            ***REMOVED***
-        ***REMOVED***
-        return isVmLibrary;
-    ***REMOVED***
-
+    /**
+     * @return Dynamic librarty path.
+     */
     public String getFilePath() {
         String filePath = null;
         Matcher matcher = pattern.matcher(logEntry);

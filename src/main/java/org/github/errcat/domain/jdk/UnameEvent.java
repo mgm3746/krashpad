@@ -106,7 +106,7 @@ public class UnameEvent implements LogEvent {
      */
     public OsVendor getOsVendor() {
         OsVendor osVendor = OsVendor.UNKNOWN;
-        if (getOsString().matches("Linux.+\\.el7\\..+")) {
+        if (getOsString().matches("Linux.+\\.el(6|7|8_\\d)\\..+")) {
             osVendor = OsVendor.RedHat;
         ***REMOVED***
         return osVendor;
@@ -117,8 +117,12 @@ public class UnameEvent implements LogEvent {
      */
     public OsVersion getOsVersion() {
         OsVersion osVersion = OsVersion.UNKNOWN;
-        if (getOsString().matches("Linux.+\\.el7\\..+")) {
+        if (getOsString().matches("Linux.+\\.el6\\..+")) {
+            osVersion = OsVersion.RHEL6;
+        ***REMOVED*** else if (getOsString().matches("Linux.+\\.el7\\..+")) {
             osVersion = OsVersion.RHEL7;
+        ***REMOVED*** else if (getOsString().matches("Linux.+\\.el8_\\d\\..+")) {
+            osVersion = OsVersion.RHEL8;
         ***REMOVED***
         return osVersion;
     ***REMOVED***

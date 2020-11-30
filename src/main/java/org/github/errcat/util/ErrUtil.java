@@ -93,11 +93,11 @@ public class ErrUtil {
     ***REMOVED***
 
     /**
-     * Calculate the number of whole days (24 hour periods) for a given number of milliseconds
-     * 
-     * @param timestamp
-     *            Time in milliseconds.
-     * @return the number of whole days.
+     * @param start
+     *            Start date.
+     * @param end
+     *            End date.
+     * @return The number of days between 2 dates.
      */
     public static final int dayDiff(Date start, Date end) {
         long millisDiff = millisDiff(start, end);

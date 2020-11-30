@@ -103,7 +103,7 @@ public class TestVmInfoEvent extends TestCase {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), "
                 + "built on Jul 12 2020 18:55:08 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Arch not correct.", JavaVendor.RED_HAT, ((VmInfoEvent) event).getJavaVendor());
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, ((VmInfoEvent) event).getJavaVendor());
     ***REMOVED***
 
     public void testVendorAzul() {
@@ -111,7 +111,7 @@ public class TestVmInfoEvent extends TestCase {
                 + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
                 + "4.4.7 20120313";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Arch not correct.", JavaVendor.AZUL, ((VmInfoEvent) event).getJavaVendor());
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.AZUL, ((VmInfoEvent) event).getJavaVendor());
     ***REMOVED***
 
     public void testBuildDate() {

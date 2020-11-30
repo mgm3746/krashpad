@@ -68,4 +68,21 @@ public class TestHeaderEvent extends TestCase {
         HeaderEvent headerEvent = new HeaderEvent(logLine);
         Assert.assertTrue("Error not identified.", headerEvent.isError());
     ***REMOVED***
+
+    public void testJavaVm() {
+        String logLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode solaris-sparc compressed "
+                + "oops)";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("Java VM not identified.", headerEvent.isJavaVm());
+    ***REMOVED***
+
+    public void testJreVersion() {
+        String logLine = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_251-b08) (build 1.8.0_251-b08)";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("JRE version not identified.", headerEvent.isJreVersion());
+    ***REMOVED***
 ***REMOVED***

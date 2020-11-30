@@ -161,4 +161,12 @@ public class HeaderEvent implements LogEvent {
     public boolean isError() {
         return logEntry.matches("^***REMOVED***  Error:.+$");
     ***REMOVED***
+
+    public boolean isJavaVm() {
+        return logEntry.matches("^***REMOVED*** Java VM:.+$");
+    ***REMOVED***
+
+    public boolean isJreVersion() {
+        return logEntry.matches("^***REMOVED*** JRE version:.+$");
+    ***REMOVED***
 ***REMOVED***

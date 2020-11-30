@@ -47,9 +47,7 @@ V  [libjvm.so+0xb93fd7]
 V  [libjvm.so+0x967dd2]
 
 ***REMOVED***
-55805070c000-55805070d000 r-xp 00000000 fd:0a 140821                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/bin/java
-55805090c000-55805090d000 r--p 00000000 fd:0a 140821                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/bin/java
-55805090d000-55805090e000 rw-p 00001000 fd:0a 140821                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/bin/java
+7f908ba68000-7f908c80e000 r-xp 00000000 fd:0a 140891                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so
 
 ***REMOVED***
 

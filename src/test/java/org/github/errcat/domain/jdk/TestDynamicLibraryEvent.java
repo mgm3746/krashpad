@@ -63,13 +63,6 @@ public class TestDynamicLibraryEvent extends TestCase {
                 JdkUtil.parseLogLine(logLine) instanceof DynamicLibraryEvent);
     ***REMOVED***
 
-    public void testLogLineIsVmLibrary() {
-        String logLine = "7f908ba68000-7f908c80e000 r-xp 00000000 fd:0a 140891                     "
-                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so";
-        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
-        Assert.assertTrue("Vm Library not identified.", event.isVmLibrary());
-    ***REMOVED***
-
     public void testFilePath() {
         String logLine = "7f908ba68000-7f908c80e000 r-xp 00000000 fd:0a 140891                     "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so";
@@ -77,5 +70,15 @@ public class TestDynamicLibraryEvent extends TestCase {
         Assert.assertEquals("File path not correct.",
                 "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so",
                 event.getFilePath());
+    ***REMOVED***
+
+    public void testJdk11() {
+        String logLine = "7fd072161000-7fd0733ae000 r-xp 00000000 fd:00 10120317                   "
+                + "/usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so";
+        Assert.assertTrue(JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof DynamicLibraryEvent);
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        Assert.assertEquals("File path not correct.",
+                "/usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so", event.getFilePath());
     ***REMOVED***
 ***REMOVED***

@@ -1,0 +1,60 @@
+***REMOVED***
+***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
+***REMOVED*** Native memory allocation (mmap) failed to map 34359738368 bytes for committing reserved memory.
+***REMOVED*** Possible reasons:
+***REMOVED***   The system is out of physical RAM or swap space
+***REMOVED*** Possible solutions:
+***REMOVED***   Reduce memory load on the system
+***REMOVED***   Increase physical memory or swap space
+***REMOVED***   Check if swap backing store is full
+***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
+***REMOVED***   Decrease number of Java threads
+***REMOVED***   Decrease Java thread stack sizes (-Xss)
+***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
+***REMOVED*** This output file may be truncated or incomplete.
+***REMOVED***
+***REMOVED***  Out of Memory Error (os_linux.cpp:2879), pid=720881, tid=720883
+***REMOVED***
+***REMOVED*** JRE version:  (11.0.8+10) (build )
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (11.0.8+10-LTS, mixed mode, tiered, g1 gc, linux-amd64)
+***REMOVED*** Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /path/to/core.720881)
+***REMOVED***
+
+Stack: [0x00007fc88c4f2000,0x00007fc88c5f3000],  sp=0x00007fc88c5f11f0,  free space=1020k
+Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0xe951f7]  VMError::report_and_die(int, char const*, char const*, __va_list_tag*, Thread*, unsigned char*, void*, void*, char const*, int, unsigned long)+0x387
+V  [libjvm.so+0xe95f1f]  VMError::report_and_die(Thread*, char const*, int, unsigned long, VMErrorType, char const*, __va_list_tag*)+0x2f
+V  [libjvm.so+0x6950bd]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*, ...)+0xdd
+V  [libjvm.so+0xbe4d20]  os::pd_commit_memory_or_exit(char*, unsigned long, unsigned long, bool, char const*)+0xe0
+V  [libjvm.so+0xbdb7d0]  os::commit_memory_or_exit(char*, unsigned long, unsigned long, bool, char const*)+0x30
+V  [libjvm.so+0x7b3150]  G1PageBasedVirtualSpace::commit_preferred_pages(unsigned long, unsigned long)+0x70
+V  [libjvm.so+0x7b354e]  G1PageBasedVirtualSpace::commit(unsigned long, unsigned long)+0x19e
+V  [libjvm.so+0x7bccda]  G1RegionsLargerThanCommitSizeMapper::commit_regions(unsigned int, unsigned long, WorkGang*)+0x4a
+V  [libjvm.so+0x8393a8]  HeapRegionManager::commit_regions(unsigned int, unsigned long, WorkGang*)+0x58
+V  [libjvm.so+0x839fd4]  HeapRegionManager::make_regions_available(unsigned int, unsigned int, WorkGang*)+0x34
+V  [libjvm.so+0x83a3e7]  HeapRegionManager::expand_at(unsigned int, unsigned int, WorkGang*) [clone .part.25]+0xf7
+V  [libjvm.so+0x770008]  G1Collected***REMOVED***:expand(unsigned long, WorkGang*, double*)+0xe8
+V  [libjvm.so+0x770721]  G1Collected***REMOVED***:initialize()+0x6a1
+V  [libjvm.so+0xe57115]  Universe::initialize_heap()+0x45
+V  [libjvm.so+0xe573e7]  universe_init()+0x57
+V  [libjvm.so+0x859cba]  init_globals()+0x6a
+V  [libjvm.so+0xe2fddb]  Threads::create_vm(JavaVMInitArgs*, bool*)+0x30b
+V  [libjvm.so+0x907855]  JNI_CreateJavaVM+0x65
+C  [libjli.so+0x431b]  JavaMain+0x9b
+
+***REMOVED***
+
+7fc88a31f000-7fc88b482000 r-xp 00000000 fd:01 67566282                   /usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64/lib/server/libjvm.so
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux release 8.2 (Ootpa)
+uname:Linux 4.18.0-193.14.3.el8_2.x86_64 ***REMOVED***1 SMP Mon Jul 20 15:02:29 UTC 2020 x86_64
+OS uptime: 3 days 8:33 hours
+libc:glibc 2.28 NPTL 2.28
+rlimit (soft/hard): STACK 8192k/infinity , CORE infinity/infinity , NPROC 62502/62502 , NOFILE 262144/262144 , AS infinity/infinity , CPU infinity/infinity , DATA infinity/infinity , FSIZE infinity/infinity , MEMLOCK 64k/64k
+load average:0.39 0.37 0.36
+
+Memory: 4k page, physical 16058700k(2757504k free), swap 8097788k(8097788k free)
+
+vm_info: OpenJDK 64-Bit Server VM (11.0.8+10-LTS) for linux-amd64 JRE (11.0.8+10-LTS), built on Jul 11 2020 02:33:15 by "mockbuild" with gcc 8.3.1 20191121 (Red Hat 8.3.1-5)

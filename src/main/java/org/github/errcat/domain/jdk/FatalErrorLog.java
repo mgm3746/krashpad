@@ -19,10 +19,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.Constants.OsVendor;
+import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
@@ -140,11 +143,15 @@ public class FatalErrorLog {
     ***REMOVED***
 
     public JavaVendor getJavaVendor() {
-        JavaVendor version = JavaVendor.UNKNOWN;
+        JavaVendor vendor = JavaVendor.UNKNOWN;
         if (vmInfoEvent != null) {
-            version = vmInfoEvent.getJavaVendor();
+            vendor = vmInfoEvent.getJavaVendor();
+        ***REMOVED*** else {
+            if (getArch() == Arch.SPARC) {
+                vendor = JavaVendor.ORACLE;
+            ***REMOVED***
         ***REMOVED***
-        return version;
+        return vendor;
     ***REMOVED***
 
     public JavaSpecification getJavaSpecification() {
@@ -159,6 +166,20 @@ public class FatalErrorLog {
         String release = "UNKNOWN";
         if (vmInfoEvent != null) {
             release = vmInfoEvent.getJdkReleaseString();
+        ***REMOVED*** else {
+            // Check header
+            Iterator<HeaderEvent> iterator = header.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent he = iterator.next();
+                if (he.isJreVersion()) {
+                    String regEx = "^.+\\(build (1.8.0_251-b08)\\)$";
+                    Pattern pattern = Pattern.compile(regEx);
+                    Matcher matcher = pattern.matcher(he.getLogEntry());
+                    if (matcher.find()) {
+                        release = matcher.group(1);
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         return release;
     ***REMOVED***
@@ -184,10 +205,27 @@ public class FatalErrorLog {
         return os;
     ***REMOVED***
 
+    public OsVersion getOsVersion() {
+        OsVersion osVersion = OsVersion.UNKNOWN;
+        if (unameEvent != null) {
+            osVersion = unameEvent.getOsVersion();
+        ***REMOVED***
+        return osVersion;
+    ***REMOVED***
+
     public Arch getArch() {
         Arch arch = Arch.UNKNOWN;
         if (vmInfoEvent != null) {
             arch = vmInfoEvent.getArch();
+        ***REMOVED*** else {
+            // Check header
+            Iterator<HeaderEvent> iterator = header.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent he = iterator.next();
+                if (he.isJavaVm() && he.getLogEntry().matches("^.+solaris-sparc.+$")) {
+                    arch = Arch.SPARC;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         return arch;
     ***REMOVED***
@@ -307,8 +345,10 @@ public class FatalErrorLog {
         if (!haveVmCodeInStack()) {
             analysis.add(Analysis.INFO_STACK_NO_VM_CODE);
         ***REMOVED***
-        if (isJdkRhBuild() && getJdkBuildDate() != null) {
-            if (getJdkBuildDate().compareTo(JdkUtil.getJdkReleaseDate(this)) != 0) {
+        if (isJdkRhBuild()) {
+            // Check for missing or non-matching build data
+            if (JdkUtil.getJdkReleaseDate(this) == null || (getJdkBuildDate() != null
+                    && getJdkBuildDate().compareTo(JdkUtil.getJdkReleaseDate(this)) != 0)) {
                 analysis.add(Analysis.INFO_RH_BUILD_UNKNOWN);
             ***REMOVED***
         ***REMOVED***
