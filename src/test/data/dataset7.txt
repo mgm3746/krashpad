@@ -1,0 +1,37 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 32744 bytes for ChunkPool::allocate
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (allocation.cpp:272), pid=273, tid=0x00000000000017c2
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_251-b08) (build 1.8.0_251-b08)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode solaris-sparc compressed oops)
+# Core dump written. Default location: /path/to/jboss/v7.3-ejb3/bin/core or core.273
+#
+
+---------------  S Y S T E M  ---------------
+
+OS:                            Oracle Solaris 11.4 SPARC
+             Copyright (c) 1983, 2020, Oracle and/or its affiliates.
+                             Assembled 23 June 2020
+
+uname:SunOS 5.11 11.4.23.69.3 sun4v
+  (T2 libthread)
+rlimit: STACK 8192k, CORE infinity, NOFILE 65536, AS infinity
+load average:2.09 2.89 4.25
+
+CPU:total 256 (initial active 256) v9, popc, vis1, vis2, vis3, blk_init, cbcond, aes, sha1, sha256, sha512, sun4v, niagara_plus
+
+Memory: 8k page, physical 267386880k(88275744k free)

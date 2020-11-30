@@ -126,7 +126,7 @@ public class OsEvent implements LogEvent {
     }
 
     public boolean isRhel() {
-        return logEntry.matches("^OS:Red Hat Enterprise Linux Server.+$");
+        return logEntry.matches("^OS:Red Hat Enterprise Linux (Server|release).+$");
     }
 
     public boolean isWindows() {

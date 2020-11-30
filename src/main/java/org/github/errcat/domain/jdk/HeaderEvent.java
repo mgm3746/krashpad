@@ -161,4 +161,12 @@ public class HeaderEvent implements LogEvent {
     public boolean isError() {
         return logEntry.matches("^#  Error:.+$");
     }
+
+    public boolean isJavaVm() {
+        return logEntry.matches("^# Java VM:.+$");
+    }
+
+    public boolean isJreVersion() {
+        return logEntry.matches("^# JRE version:.+$");
+    }
 }
