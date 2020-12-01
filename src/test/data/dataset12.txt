@@ -1,0 +1,44 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  Internal Error (sharedRuntime.cpp:833), pid=8768, tid=6780
+***REMOVED***  fatal error: exception happened outside interpreter, nmethods and vtable stubs at pc 0x0000000001fd4750
+***REMOVED***
+***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_25-b18) (build 1.8.0_25-b18)
+***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.25-b02 mixed mode windows-amd64 compressed oops)
+***REMOVED*** Core dump written. Default location: E:\YPF\jboss\bin\hs_err_pid8768.mdmp
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   http://bugreport.sun.com/bugreport/crash.jsp
+***REMOVED***
+
+Stack: [0x000000005a740000,0x000000005a840000]
+***REMOVED***
+V  [jvm.dll+0x31667a]
+V  [jvm.dll+0x267073]
+V  [jvm.dll+0x267cb3]
+V  [jvm.dll+0x25f536]
+V  [jvm.dll+0x21379e]
+V  [jvm.dll+0x284410]
+V  [jvm.dll+0x316508]
+C  [ntdll.dll+0xaa49d]
+C  [ntdll.dll+0x3fd43]
+C  [ntdll.dll+0xa960a]
+C  0x0000000001fd4750
+
+***REMOVED***
+
+0x0000000052380000 - 0x0000000052bda000         E:\YPF\java\bin\server\jvm.dll
+
+***REMOVED***
+
+OS: Windows Server 2012 R2 , 64 bit Build 9600
+
+CPU:total 12 (6 cores per cpu, 1 threads per core) family 6 model 62 stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, erms, tsc, tscinvbit
+
+Memory: 4k page, physical 16776624k(8423796k free), swap 19266992k(12962404k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.25-b02) for windows-amd64 JRE (1.8.0_25-b18), built on Oct  7 2014 14:25:37 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Mon Oct 05 08:00:27 2020
+elapsed time: 2266403 seconds (26d 5h 33m 23s)

@@ -146,6 +146,6 @@ public class OsEvent implements LogEvent {
     ***REMOVED***
 
     public boolean isWindows() {
-        return logEntry.matches("^OS:Windows.+$");
+        return logEntry.matches("^OS: Windows.+$");
     ***REMOVED***
 ***REMOVED***

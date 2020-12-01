@@ -43,13 +43,13 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("OS not correct.", "Red Hat Enterprise Linux Server release 7.8 (Maipo)", fel.getOs());
     ***REMOVED***
 
-    public void testVendorOpenJdk() {
+    public void testVendorUnknownOpenJdk() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.242-b08) for linux-amd64 JRE (1.8.0_242-b08), built on "
                 + "Jan 17 2020 09:36:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVminfo(vmInfoEvent);
-        Assert.assertEquals("JDK vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
+        Assert.assertEquals("JDK vendor not correct.", JavaVendor.UNKNOWN, fel.getJavaVendor());
     ***REMOVED***
 
     public void testVendorAzul() {
@@ -233,6 +233,36 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertTrue(Analysis.INFO_RH_BUILD_RHEL_RPM + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RHEL_RPM));
         Assert.assertEquals("Jdk release not correct.", "1.8.0_131-b12", fel.getJdkReleaseString());
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_DATE_MISMATCH + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_DATE_MISMATCH));
+    ***REMOVED***
+
+    public void testWindowsOracleJdk8() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset12.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue("OS not identified as Windows.", fel.isWindows());
+        Assert.assertTrue(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_WINDOWS_ZIP));
+        Assert.assertEquals("Arch not correct.", Arch.X86_64, fel.getArch());
+        Assert.assertEquals("Jdk release not correct.", "1.8.0_25-b18", fel.getJdkReleaseString());
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.ORACLE, fel.getJavaVendor());
+    ***REMOVED***
+
+    public void testWindowsRedHatJdk11() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset13.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue("OS not identified as Windows.", fel.isWindows());
+        Assert.assertTrue(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_WINDOWS_ZIP));
+        Assert.assertEquals("Arch not correct.", Arch.X86_64, fel.getArch());
+        Assert.assertEquals("Jdk release not correct.", "11.0.7+10-LTS", fel.getJdkReleaseString());
         Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
         Assert.assertFalse(Analysis.INFO_RH_BUILD_DATE_MISMATCH + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_DATE_MISMATCH));

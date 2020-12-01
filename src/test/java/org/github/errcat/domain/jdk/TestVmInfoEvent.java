@@ -99,11 +99,11 @@ public class TestVmInfoEvent extends TestCase {
         Assert.assertEquals("Arch not correct.", Arch.PPC64LE, ((VmInfoEvent) event).getArch());
     ***REMOVED***
 
-    public void testVendorOpenJdk() {
+    public void testVendorUnknownOpenJdk() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), "
                 + "built on Jul 12 2020 18:55:08 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, ((VmInfoEvent) event).getJavaVendor());
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.UNKNOWN, ((VmInfoEvent) event).getJavaVendor());
     ***REMOVED***
 
     public void testVendorAzul() {
@@ -135,5 +135,17 @@ public class TestVmInfoEvent extends TestCase {
         Assert.assertEquals("Start hour not parsed correctly.", 18, calendar.get(Calendar.HOUR_OF_DAY));
         Assert.assertEquals("Start minute not parsed correctly.", 55, calendar.get(Calendar.MINUTE));
         Assert.assertEquals("Start second not parsed correctly.", 8, calendar.get(Calendar.SECOND));
+    ***REMOVED***
+
+    public void testWindowsOracleJdk8() {
+        String logLine = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.25-b02) for windows-amd64 JRE (1.8.0_25-b18), "
+                + "built on Oct  7 2014 14:25:37 by \"java_re\" with MS VC++ 10.0 (VS2010)";
+        Assert.assertTrue(JdkUtil.LogEventType.JVM_INFO.toString() + " not parsed.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.JVM_INFO);
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.ORACLE, ((VmInfoEvent) event).getJavaVendor());
+        Assert.assertEquals("Arch not correct.", Arch.X86_64, ((VmInfoEvent) event).getArch());
+        Assert.assertEquals("Version not correct.", JavaSpecification.JDK8,
+                ((VmInfoEvent) event).getJavaSpecification());
     ***REMOVED***
 ***REMOVED***
