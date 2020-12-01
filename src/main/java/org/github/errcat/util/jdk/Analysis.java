@@ -46,6 +46,11 @@ public enum Analysis {
     INFO_RH_BUILD_RHEL_ZIP("info.rh.build.rhel.zip"),
 
     /**
+     * Property key for Red Hat build of OpenJDK Windows zip install.
+     */
+    INFO_RH_BUILD_WINDOWS_ZIP("info.rh.build.windows.zip"),
+
+    /**
      * Property key for Red Hat build of OpenJDK RHEL rpm install.
      */
     INFO_RH_BUILD_RHEL_RPM("info.rh.build.rhel.rpm"),

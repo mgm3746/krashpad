@@ -148,12 +148,12 @@ public class FatalErrorLog {
      */
     public JavaVendor getJavaVendor() {
         JavaVendor vendor = JavaVendor.UNKNOWN;
-        if (vmInfoEvent != null) {
+        if (isRhBuildOpenJdk()) {
+            vendor = JavaVendor.RED_HAT;
+        } else if (vmInfoEvent != null) {
             vendor = vmInfoEvent.getJavaVendor();
-        } else {
-            if (getArch() == Arch.SPARC) {
-                vendor = JavaVendor.ORACLE;
-            }
+        } else if (getArch() == Arch.SPARC) {
+            vendor = JavaVendor.ORACLE;
         }
         return vendor;
     }
@@ -339,7 +339,9 @@ public class FatalErrorLog {
      */
     public boolean isWindows() {
         boolean isWindows = false;
-        // TODO
+        if (osEvent != null) {
+            isWindows = osEvent.isWindows();
+        }
         return isWindows;
     }
 
@@ -409,10 +411,34 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return true if the JDK that produced the fatal error log is a Red Hat build of OpenJDK Windows zip install,
+     *         false otherwise.
+     */
+    public boolean isWindowsZipInstall() {
+        boolean isWindowsZipInstall = false;
+        if (isWindows() && getArch() == Arch.X86_64) {
+            switch (getJavaSpecification()) {
+            case JDK8:
+                isWindowsZipInstall = JdkUtil.windowsJdk8Releases.containsKey(getJdkReleaseString());
+                break;
+            case JDK11:
+                isWindowsZipInstall = JdkUtil.windowsJdk11Releases.containsKey(getJdkReleaseString());
+                break;
+            case JDK6:
+            case JDK7:
+            case UNKNOWN:
+            default:
+                break;
+            }
+        }
+        return isWindowsZipInstall;
+    }
+
+    /**
      * @return true if the fatal error log was created by a RH build of OpenJDK, false otherwise.
      */
     public boolean isRhBuildOpenJdk() {
-        return isRhelRpmInstall() || isRhelZipInstall();
+        return isRhelRpmInstall() || isRhelZipInstall() || isWindowsZipInstall();
     }
 
     /**
@@ -491,6 +517,10 @@ public class FatalErrorLog {
                     }
                 } else {
                     analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
+                }
+            } else if (osEvent.isWindows()) {
+                if (isRhBuildOpenJdk()) {
+                    analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
                 }
             } else if (osEvent.getOsType() == OsType.Linux && osEvent.getOsVendor() != OsVendor.RedHat) {
                 analysis.add(0, Analysis.INFO_RH_UNSUPPORTED_OS);
