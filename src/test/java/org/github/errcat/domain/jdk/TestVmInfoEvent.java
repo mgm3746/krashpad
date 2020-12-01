@@ -114,6 +114,13 @@ public class TestVmInfoEvent extends TestCase {
         Assert.assertEquals("Java vendor not correct.", JavaVendor.AZUL, ((VmInfoEvent) event).getJavaVendor());
     ***REMOVED***
 
+    public void testVendorOracle() {
+        String logLine = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.181-b13) for linux-amd64 JRE (1.8.0_181-b13), "
+                + "built on Jul  7 2018 00:56:38 by \"java_re\" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.ORACLE, ((VmInfoEvent) event).getJavaVendor());
+    ***REMOVED***
+
     public void testBuildDate() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), "
                 + "built on Jul 12 2020 18:55:08 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";

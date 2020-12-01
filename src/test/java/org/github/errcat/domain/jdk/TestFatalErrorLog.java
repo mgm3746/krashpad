@@ -18,6 +18,7 @@ import java.io.File;
 
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
+import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkUtil;
@@ -121,15 +122,22 @@ public class TestFatalErrorLog extends TestCase {
         DynamicLibraryEvent event = new DynamicLibraryEvent(logLineDynamicLibrary);
         fel.getDynamicLibrary().add(event);
         // CentosOS appears to use same/similar rpms, so cannot just go by filePath
-        Assert.assertFalse("Red Hat rpm install identified.", JdkUtil.isRhelRpmInstall(fel));
+        Assert.assertFalse("Red Hat rpm install identified.", fel.isRhelRpmInstall());
         fel.doAnalysis();
-        String logLineOs = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
+        String logLineOs = "OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)";
         OsEvent osEvent = new OsEvent(logLineOs);
         fel.setOs(osEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.131-b12) for linux-amd64 JRE (1.8.0_131-b12), "
+                + "built on Jun 13 2017 11:27:53 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-16)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVminfo(vmInfoEvent);
         fel.doAnalysis();
-        Assert.assertTrue("Red Hat rpm install not identified.", JdkUtil.isRhelRpmInstall(fel));
-        Assert.assertTrue(Analysis.INFO_RH_INSTALL_RPM + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_INSTALL_RPM));
+        Assert.assertEquals("OS not correct.", OsVersion.RHEL6, fel.getOsVersion());
+        Assert.assertEquals("Rpm directory not correct.", "java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64",
+                fel.getRpmDirectory());
+        Assert.assertTrue("Red Hat rpm install not identified.", fel.isRhelRpmInstall());
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_RHEL_RPM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RHEL_RPM));
 
     ***REMOVED***
 
@@ -147,8 +155,8 @@ public class TestFatalErrorLog extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset4.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertTrue(Analysis.INFO_JDK_NOT_RH_BUILD + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_JDK_NOT_RH_BUILD));
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_NOT + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT));
     ***REMOVED***
 
     public void testDebugSymbolsNoVmCodeInStack() {
@@ -158,8 +166,8 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertFalse("OS incorrectly identified as RHEL.", fel.isRhel());
         Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
-        Assert.assertFalse(Analysis.INFO_RH_INSTALL_RPM + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_INSTALL_RPM));
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_RHEL_RPM + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RHEL_RPM));
         Assert.assertTrue(Analysis.INFO_RH_UNSUPPORTED_OS + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_UNSUPPORTED_OS));
         Assert.assertTrue(Analysis.INFO_STACK_NO_VM_CODE + " analysis not identified.",
@@ -171,9 +179,9 @@ public class TestFatalErrorLog extends TestCase {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
-        Assert.assertTrue("Red Hat rpm not identified.", JdkUtil.isRhelRpmInstall(fel));
-        Assert.assertFalse(Analysis.INFO_RH_BUILD_UNKNOWN + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_UNKNOWN));
+        Assert.assertTrue("Red Hat rpm not identified.", fel.isRhelRpmInstall());
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_DATE_MISMATCH + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_DATE_MISMATCH));
     ***REMOVED***
 
     public void testSolaris() {
@@ -192,12 +200,12 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
         Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
-        Assert.assertTrue(Analysis.INFO_RH_INSTALL_RPM + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_INSTALL_RPM));
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_RHEL_RPM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RHEL_RPM));
         Assert.assertEquals("Jdk release not correct.", "11.0.7+10-LTS", fel.getJdkReleaseString());
         Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
-        Assert.assertFalse(Analysis.INFO_RH_BUILD_UNKNOWN + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_UNKNOWN));
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_DATE_MISMATCH + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_DATE_MISMATCH));
     ***REMOVED***
 
     public void testRhel8Jdk11() {
@@ -207,12 +215,12 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
         Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
-        Assert.assertTrue(Analysis.INFO_RH_INSTALL_RPM + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_INSTALL_RPM));
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_RHEL_RPM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RHEL_RPM));
         Assert.assertEquals("Jdk release not correct.", "11.0.8+10-LTS", fel.getJdkReleaseString());
         Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
-        Assert.assertFalse(Analysis.INFO_RH_BUILD_UNKNOWN + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_UNKNOWN));
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_DATE_MISMATCH + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_DATE_MISMATCH));
     ***REMOVED***
 
     public void testRhel7Jdk8() {
@@ -222,11 +230,11 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
         Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
-        Assert.assertTrue(Analysis.INFO_RH_INSTALL_RPM + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_INSTALL_RPM));
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_RHEL_RPM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RHEL_RPM));
         Assert.assertEquals("Jdk release not correct.", "1.8.0_131-b12", fel.getJdkReleaseString());
         Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
-        Assert.assertFalse(Analysis.INFO_RH_BUILD_UNKNOWN + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_UNKNOWN));
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_DATE_MISMATCH + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_DATE_MISMATCH));
     ***REMOVED***
 ***REMOVED***

@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.Constants.OsVendor;
+import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
@@ -125,8 +126,23 @@ public class OsEvent implements LogEvent {
         return osVendor;
     ***REMOVED***
 
+    /**
+     * @return The OS version.
+     */
+    public OsVersion getOsVersion() {
+        OsVersion osVersion = OsVersion.UNKNOWN;
+        if (logEntry.matches("^OS:Red Hat Enterprise Linux Server release 6.+$")) {
+            osVersion = OsVersion.RHEL6;
+        ***REMOVED*** else if (logEntry.matches("^OS:Red Hat Enterprise Linux Server release 7.+$")) {
+            osVersion = OsVersion.RHEL7;
+        ***REMOVED*** else if (logEntry.matches("^OS:Red Hat Enterprise Linux Server release 8.+$")) {
+            osVersion = OsVersion.RHEL8;
+        ***REMOVED***
+        return osVersion;
+    ***REMOVED***
+
     public boolean isRhel() {
-        return logEntry.matches("^OS:Red Hat Enterprise Linux (Server|release).+$");
+        return logEntry.matches("^OS:Red Hat Enterprise Linux.+$");
     ***REMOVED***
 
     public boolean isWindows() {

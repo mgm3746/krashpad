@@ -33,22 +33,22 @@ public enum Analysis {
     /**
      * Property key for a JDK that is not a RH build.
      */
-    INFO_JDK_NOT_RH_BUILD("info.jdk.not.rh.build"),
+    INFO_RH_BUILD_NOT("info.rh.build.not"),
 
     /**
-     * Property key for unrecognized Red Hat build.
+     * Property key for the JDK build date not matching Red Hat build of OpenJDK.
      */
-    INFO_RH_BUILD_UNKNOWN("info.rh.build.unknown"),
+    INFO_RH_BUILD_DATE_MISMATCH("info.rh.build.date.mismatch"),
 
     /**
-     * Property key for Red Hat build of OpenJDK rpm install.
+     * Property key for Red Hat build of OpenJDK RHEL zip install.
      */
-    INFO_RH_INSTALL_RPM("info.rh.install.rpm"),
+    INFO_RH_BUILD_RHEL_ZIP("info.rh.build.rhel.zip"),
 
     /**
-     * Property key for Red Hat build of OpenJDK zip install.
+     * Property key for Red Hat build of OpenJDK RHEL rpm install.
      */
-    INFO_RH_INSTALL_ZIP("info.rh.install.zip"),
+    INFO_RH_BUILD_RHEL_RPM("info.rh.build.rhel.rpm"),
 
     /**
      * Property key for Red Hat build of OpenJDK unsupported OS.
