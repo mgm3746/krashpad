@@ -44,36 +44,54 @@ public class TestOsEvent extends TestCase {
     public void testLinux() {
         String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("OS type not correct.", OsType.Linux, ((OsEvent) event).getOsType());
-        Assert.assertEquals("OS vendor not correct.", OsVendor.RedHat, ((OsEvent) event).getOsVendor());
+        Assert.assertEquals("OS type not correct.", OsType.LINUX, ((OsEvent) event).getOsType());
+        Assert.assertEquals("OS vendor not correct.", OsVendor.REDHAT, ((OsEvent) event).getOsVendor());
     ***REMOVED***
 
     public void testOracle() {
         String logLine = "OS:                            Oracle Solaris 11.4 SPARC";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("OS type not correct.", OsType.Solaris, ((OsEvent) event).getOsType());
-        Assert.assertEquals("OS vendor not correct.", OsVendor.Oracle, ((OsEvent) event).getOsVendor());
+        Assert.assertEquals("OS type not correct.", OsType.SOLARIS, ((OsEvent) event).getOsType());
+        Assert.assertEquals("OS vendor not correct.", OsVendor.ORACLE, ((OsEvent) event).getOsVendor());
     ***REMOVED***
 
-    public void testIsRhel() {
-        String logLine = "OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)";
+    public void testRhel6() {
+        String logLine = "OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertTrue("RHEL not identified.", ((OsEvent) event).isRhel());
+        Assert.assertEquals("OS type not correct.", OsType.LINUX, ((OsEvent) event).getOsType());
+        Assert.assertEquals("OS vendor not correct.", OsVendor.REDHAT, ((OsEvent) event).getOsVendor());
+        Assert.assertEquals("OS version not correct.", OsVersion.RHEL6, ((OsEvent) event).getOsVersion());
+    ***REMOVED***
+
+    public void testRhel7() {
+        String logLine = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("OS type not correct.", OsType.LINUX, ((OsEvent) event).getOsType());
+        Assert.assertEquals("OS vendor not correct.", OsVendor.REDHAT, ((OsEvent) event).getOsVendor());
+        Assert.assertEquals("OS version not correct.", OsVersion.RHEL7, ((OsEvent) event).getOsVersion());
+    ***REMOVED***
+
+    public void testRhel8() {
+        String logLine = "OS:Red Hat Enterprise Linux release 8.2 (Ootpa)";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("OS type not correct.", OsType.LINUX, ((OsEvent) event).getOsType());
+        Assert.assertEquals("OS vendor not correct.", OsVendor.REDHAT, ((OsEvent) event).getOsVendor());
+        Assert.assertEquals("OS version not correct.", OsVersion.RHEL8, ((OsEvent) event).getOsVersion());
     ***REMOVED***
 
     public void testWindows() {
         String logLine = "OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("OS type not correct.", OsType.Windows, ((OsEvent) event).getOsType());
-        Assert.assertEquals("OS vendor not correct.", OsVendor.Microsoft, ((OsEvent) event).getOsVendor());
+        Assert.assertEquals("OS type not correct.", OsType.WINDOWS, ((OsEvent) event).getOsType());
+        Assert.assertEquals("OS vendor not correct.", OsVendor.MICROSOFT, ((OsEvent) event).getOsVendor());
         Assert.assertTrue("Windows not identified.", ((OsEvent) event).isWindows());
     ***REMOVED***
 
     public void testCentOs() {
         String logLine = "OS:CentOS Linux release 7.7.1908 (Core)";
         LogEvent event = JdkUtil.parseLogLine(logLine);
-        Assert.assertEquals("OS type not correct.", OsType.Linux, ((OsEvent) event).getOsType());
-        Assert.assertEquals("OS vendor not correct.", OsVendor.CentOS, ((OsEvent) event).getOsVendor());
+        Assert.assertEquals("OS type not correct.", OsType.LINUX, ((OsEvent) event).getOsType());
+        Assert.assertEquals("OS vendor not correct.", OsVendor.CENTOS, ((OsEvent) event).getOsVendor());
         Assert.assertEquals("OS version not correct.", OsVersion.CENTOS7, ((OsEvent) event).getOsVersion());
     ***REMOVED***
 ***REMOVED***

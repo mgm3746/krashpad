@@ -70,6 +70,14 @@ public class TestVmInfoEvent extends TestCase {
                 ((VmInfoEvent) event).getJavaSpecification());
     ***REMOVED***
 
+    public void testJavaSpecification12() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (12.0.1+12) for linux-amd64 JRE (12.0.1+12), "
+                + "built on Apr  1 2019 23:46:56 by \"mach5one\" with gcc 7.3.0";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Version not correct.", JavaSpecification.JDK12,
+                ((VmInfoEvent) event).getJavaSpecification());
+    ***REMOVED***
+
     public void testJdkReleaseString() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (11.0.5+10-LTS) for linux-amd64 JRE (11.0.5+10-LTS), "
                 + "built on Oct  9 2019 18:41:22 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";

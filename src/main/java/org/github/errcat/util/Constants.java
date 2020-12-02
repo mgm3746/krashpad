@@ -128,7 +128,7 @@ public class Constants {
      */
     public enum OsType {
         //
-        Linux, Solaris, UNKNOWN, Windows
+        LINUX, SOLARIS, UNKNOWN, WINDOWS
     ***REMOVED***;
 
     /**
@@ -136,7 +136,7 @@ public class Constants {
      */
     public enum OsVendor {
         //
-        CentOS, IBM, Microsoft, Oracle, RedHat, UNKNOWN
+        CENTOS, IBM, MICROSOFT, ORACLE, REDHAT, UNKNOWN
     ***REMOVED***;
 
     /**

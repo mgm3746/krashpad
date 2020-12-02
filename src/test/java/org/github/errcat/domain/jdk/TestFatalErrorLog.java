@@ -19,7 +19,6 @@ import java.io.File;
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsType;
-import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
@@ -40,7 +39,7 @@ public class TestFatalErrorLog extends TestCase {
         String os = "OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)";
         OsEvent osEvent = new OsEvent(os);
         fel.setOs(osEvent);
-        Assert.assertEquals("OS not correct.", OsType.Linux, fel.getOsType());
+        Assert.assertEquals("OS not correct.", OsType.LINUX, fel.getOsType());
     ***REMOVED***
 
     public void testVendorAdoptOpenJdk() {
@@ -84,18 +83,16 @@ public class TestFatalErrorLog extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset1.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        String causedBy = "***REMOVED***  SIGSEGV (0xb) at pc=0x00007fcd2af94e64, pid=23171, tid=23172" + Constants.LINE_SEPARATOR
-                + "***REMOVED*** C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4";
-        Assert.assertEquals("Caused by incorrect.", causedBy, fel.getCausedBy());
+        String causedBy = "***REMOVED***  SIGSEGV (0xb) at pc=0x00007fcd2af94e64, pid=23171, tid=23172";
+        Assert.assertEquals("Caused by incorrect.", causedBy, fel.getError());
     ***REMOVED***
 
     public void testSigSegvNativeCode() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset2.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        String causedBy = "***REMOVED***  SIGSEGV (0xb) at pc=0x0000000000000000, pid=44768, tid=0x00007f368f18d700"
-                + Constants.LINE_SEPARATOR + "***REMOVED*** C  0x0000000000000000";
-        Assert.assertEquals("Caused by incorrect.", causedBy, fel.getCausedBy());
+        String causedBy = "***REMOVED***  SIGSEGV (0xb) at pc=0x0000000000000000, pid=44768, tid=0x00007f368f18d700";
+        Assert.assertEquals("Caused by incorrect.", causedBy, fel.getError());
     ***REMOVED***
 
     public void testHaveDebuggingSymbols() {
@@ -114,32 +111,13 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertFalse("Debugging symbols incorrectly identified.", fel.haveJdkDebugSymbols());
     ***REMOVED***
 
-    public void testReleaseDiff() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), built on "
-                + "Jul 12 2020 19:35:32 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVminfo(vmInfoEvent);
-        String os = "OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)";
-        OsEvent osEvent = new OsEvent(os);
-        fel.setOs(osEvent);
-        Assert.assertEquals("JDK vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
-        Assert.assertEquals("Java specification not correct.", JavaSpecification.JDK8, fel.getJavaSpecification());
-        Assert.assertEquals("Java specification not correct.", "1.8.0_262-b10", fel.getJdkReleaseString());
-        Assert.assertFalse("JDK incorrectly identified as latest release.", JdkUtil.isLatestJdkRelease(fel));
-        Assert.assertEquals("Release day diff not correct.", 120,
-                ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)));
-        Assert.assertEquals("Release number diff not correct.", 3,
-                JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel));
-    ***REMOVED***
-
     public void testInternalError() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset3.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         String causedBy = "***REMOVED***  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700"
                 + Constants.LINE_SEPARATOR + "***REMOVED***  Error: ShouldNotReachHere()";
-        Assert.assertEquals("Caused by incorrect.", causedBy, fel.getCausedBy());
+        Assert.assertEquals("Caused by incorrect.", causedBy, fel.getError());
         Assert.assertTrue("Debugging symbols incorrectly identified.", fel.haveJdkDebugSymbols());
     ***REMOVED***
 

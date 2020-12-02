@@ -127,9 +127,9 @@ public class HeaderEvent implements LogEvent {
     public OsType getOs() {
         OsType osType = OsType.UNKNOWN;
         if (getOsString().matches(".+Linux.+")) {
-            osType = OsType.Linux;
+            osType = OsType.LINUX;
         ***REMOVED*** else if (getOsString().matches(".+Solaris.+")) {
-            osType = OsType.Solaris;
+            osType = OsType.SOLARIS;
         ***REMOVED***
         return osType;
     ***REMOVED***
@@ -146,12 +146,20 @@ public class HeaderEvent implements LogEvent {
         return os;
     ***REMOVED***
 
+    public boolean isSigBus() {
+        return logEntry.matches("^***REMOVED***  SIGBUS.+$");
+    ***REMOVED***
+
+    public boolean isSigIll() {
+        return logEntry.matches("^***REMOVED***  SIGILL.+$");
+    ***REMOVED***
+
     public boolean isSigSegv() {
         return logEntry.matches("^***REMOVED***  SIGSEGV.+$");
     ***REMOVED***
 
     public boolean isProblematicFrame() {
-        return logEntry.matches("^***REMOVED*** (C|V)  (\\[.+\\]|0x\\d{16***REMOVED***)(.+)?$");
+        return logEntry.matches("^***REMOVED*** (C  |J |v  |V  ).+$");
     ***REMOVED***
 
     public boolean isInternalError() {

@@ -113,4 +113,9 @@ public class TestJdkRegEx extends TestCase {
         String path = "/usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64/lib/server/libjvm.so";
         Assert.assertTrue("Red Hat RPM file path not identified.", path.matches(JdkRegEx.RH_RPM_OPENJDK11_LIBJVM_PATH));
     ***REMOVED***
+
+    public void testJdk12ReleaseString() {
+        String release = "12.0.1+12";
+        Assert.assertTrue("Release not identified.", release.matches(JdkRegEx.RELEASE_STRING));
+    ***REMOVED***
 ***REMOVED***

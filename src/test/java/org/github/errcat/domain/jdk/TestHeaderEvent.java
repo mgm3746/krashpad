@@ -45,12 +45,53 @@ public class TestHeaderEvent extends TestCase {
         Assert.assertTrue("Problematic frame not identified.", headerEvent.isProblematicFrame());
     ***REMOVED***
 
-    public void testProblematicFrameVmCode() {
+    public void testProblematicFrameVmCodeCapitalV() {
         String logLine = "***REMOVED*** V  [libjvm.so+0xa41a10]";
         Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
         HeaderEvent headerEvent = new HeaderEvent(logLine);
         Assert.assertTrue("Problematic frame not identified.", headerEvent.isProblematicFrame());
+    ***REMOVED***
+
+    public void testProblematicFrameVmCodeSmallV() {
+        String logLine = "***REMOVED*** v  ~StubRoutines::jbyte_disjoint_arraycopy";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("Problematic frame not identified.", headerEvent.isProblematicFrame());
+    ***REMOVED***
+
+    public void testProblematicFrameJavaCompiledCode() {
+        String logLine = "***REMOVED*** J 3285 c2 java.util.AbstractList.subListRangeCheck(III)V java.base@12.0.1 (110 bytes) "
+                + "@ 0x00007f682098912c [0x00007f68209891a0+0xffffffffffffff8c]";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("Problematic frame not identified.", headerEvent.isProblematicFrame());
+    ***REMOVED***
+
+    public void testSigSegv() {
+        String logLine = "***REMOVED***  SIGSEGV (0xb) at pc=0x00007f11cbec3480, pid=101755, tid=139714768807680";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("SIGSEGV not identified.", headerEvent.isSigSegv());
+    ***REMOVED***
+
+    public void testSigBus() {
+        String logLine = "***REMOVED***  SIGBUS (0x7) at pc=0x00007f824afe3410, pid=14689, tid=0x00007f81a3452700";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("SIGBUS not identified.", headerEvent.isSigBus());
+    ***REMOVED***
+
+    public void testSigIll() {
+        String logLine = "***REMOVED***  SIGILL (0x4) at pc=0x00007f682098912c, pid=12005, tid=44979";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("SIGILL not identified.", headerEvent.isSigIll());
     ***REMOVED***
 
     public void testInternalError() {

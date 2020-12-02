@@ -20,6 +20,7 @@ import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.ErrUtil;
+import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
 import org.junit.Assert;
 
 import junit.framework.TestCase;
@@ -50,5 +51,24 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
         Assert.assertTrue(Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST));
+    ***REMOVED***
+
+    public void testNotLts() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset16.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Release ***REMOVED*** diff not correct.", JavaSpecification.JDK12, fel.getJavaSpecification());
+        Assert.assertTrue(Analysis.WARN_JDK_NOT_LTS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LTS));
+    ***REMOVED***
+
+    public void testAdoptOpenJdk() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset17.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_LINUX_ZIP + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_LINUX_ZIP));
+        Assert.assertTrue(Analysis.INFO_ADOPTOPENJDK_POSSIBLE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_ADOPTOPENJDK_POSSIBLE));
     ***REMOVED***
 ***REMOVED***

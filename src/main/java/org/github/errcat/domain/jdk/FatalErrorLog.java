@@ -289,13 +289,13 @@ public class FatalErrorLog {
     /**
      * @return A <code>String</code> describing the cause of the crash.
      */
-    public String getCausedBy() {
+    public String getError() {
         StringBuilder causedBy = new StringBuilder();
         if (header != null) {
             Iterator<HeaderEvent> iterator = header.iterator();
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
-                if (he.isSigSegv() || he.isProblematicFrame() || he.isInternalError() || he.isError()) {
+                if (he.isSigBus() || he.isSigIll() || he.isSigSegv() || he.isInternalError() || he.isError()) {
                     if (causedBy.length() > 0) {
                         causedBy.append(Constants.LINE_SEPARATOR);
                     ***REMOVED***
@@ -440,13 +440,17 @@ public class FatalErrorLog {
      */
     public boolean isRhLinuxZipInstall() {
         boolean isRhLinuxZipInstall = false;
-        if (getOsType() == OsType.Linux && getArch() == Arch.X86_64) {
+        if (getOsType() == OsType.LINUX && getArch() == Arch.X86_64) {
             switch (getJavaSpecification()) {
             case JDK8:
-                isRhLinuxZipInstall = JdkUtil.rhelJdk8ZipReleases.containsKey(getJdkReleaseString());
+                isRhLinuxZipInstall = JdkUtil.rhelJdk8ZipReleases.containsKey(getJdkReleaseString())
+                        && getJdkBuildDate()
+                                .compareTo(JdkUtil.rhelJdk8ZipReleases.get(getJdkReleaseString()).getBuildDate()) == 0;
                 break;
             case JDK11:
-                isRhLinuxZipInstall = JdkUtil.rhelJdk11ZipReleases.containsKey(getJdkReleaseString());
+                isRhLinuxZipInstall = JdkUtil.rhelJdk11ZipReleases.containsKey(getJdkReleaseString())
+                        && getJdkBuildDate()
+                                .compareTo(JdkUtil.rhelJdk11ZipReleases.get(getJdkReleaseString()).getBuildDate()) == 0;
                 break;
             case JDK6:
             case JDK7:
@@ -490,10 +494,47 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return true if the fatal error log was created by AdoptOpenJDK, false otherwise.
+     * @return true if the fatal error log was created by a JDK build string used by Red Hat, false otherwise.
      */
-    public boolean isAdoptOpenJdk() {
-        return isRhRpmInstall() || isRhLinuxZipInstall() || isRhWindowsZipInstall();
+    public boolean isRedHatBuildString() {
+        return vmInfoEvent != null && (vmInfoEvent.getBuiltBy() == BuiltBy.BUILD
+                || vmInfoEvent.getBuiltBy() == BuiltBy.EMPTY || vmInfoEvent.getBuiltBy() == BuiltBy.MOCKBUILD);
+    ***REMOVED***
+
+    /**
+     * AdoptOpenJDK has the same release versions as the RH build of OpenJDK but have a different build date/time and
+     * builder string ("jenkins").
+     * 
+     * @return true if the fatal error log was created by a JDK build string used by AdoptOpenJDK, false otherwise.
+     */
+    public boolean isAdoptOpenJdkBuildString() {
+        return vmInfoEvent != null && (vmInfoEvent.getBuiltBy() == BuiltBy.JENKINS);
+    ***REMOVED***
+
+    /**
+     * @return true if the fatal error log was created by a JDK that is a Long Term Support (LTS) version, false
+     *         otherwise.
+     */
+    public boolean isJdkLts() {
+        boolean isJdkLts = false;
+        switch (getJavaSpecification()) {
+        case JDK6:
+        case JDK7:
+        case JDK8:
+        case JDK11:
+            isJdkLts = true;
+            break;
+        case JDK9:
+        case JDK10:
+        case JDK12:
+        case JDK13:
+        case JDK14:
+        case JDK15:
+        case UNKNOWN:
+        default:
+            break;
+        ***REMOVED***
+        return isJdkLts;
     ***REMOVED***
 
     /**
@@ -507,7 +548,7 @@ public class FatalErrorLog {
      */
     public String getRpmDirectory() {
         String rpmDirectory = null;
-        if (getOsType() == OsType.Linux) {
+        if (getOsType() == OsType.LINUX) {
             if (dynamicLibrary != null) {
                 Iterator<DynamicLibraryEvent> iterator = dynamicLibrary.iterator();
                 while (iterator.hasNext()) {
@@ -561,8 +602,8 @@ public class FatalErrorLog {
             analysis.add(0, Analysis.WARN_JDK_NOT_LATEST);
         ***REMOVED***
         if (isRhBuildOpenJdk()) {
-            if (getOsType() == OsType.Linux) {
-                if (getOsVendor() == OsVendor.CentOS) {
+            if (getOsType() == OsType.LINUX) {
+                if (getOsVendor() == OsVendor.CENTOS) {
                     // CentOs redistributes RH build of OpenJDK
                     analysis.add(0, Analysis.INFO_RH_BUILD_CENTOS);
                 ***REMOVED*** else if (getRpmDirectory() != null) {
@@ -574,15 +615,19 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             ***REMOVED***
         ***REMOVED*** else {
-            if (vmInfoEvent != null && (vmInfoEvent.getBuiltBy() == BuiltBy.BUILD
-                    || vmInfoEvent.getBuiltBy() == BuiltBy.EMPTY || vmInfoEvent.getBuiltBy() == BuiltBy.MOCKBUILD)) {
+            if (isRedHatBuildString()) {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
+            ***REMOVED*** else if (isAdoptOpenJdkBuildString()) {
+                analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
             ***REMOVED*** else {
                 analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
             ***REMOVED***
         ***REMOVED***
         if (!haveVmCodeInStack()) {
             analysis.add(Analysis.INFO_STACK_NO_VM_CODE);
+        ***REMOVED***
+        if (!isJdkLts()) {
+            analysis.add(Analysis.WARN_JDK_NOT_LTS);
         ***REMOVED***
     ***REMOVED***
 

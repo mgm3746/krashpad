@@ -110,7 +110,7 @@ public class JdkUtil {
      */
     public enum JavaSpecification {
         //
-        JDK6, JDK7, JDK8, JDK11, UNKNOWN
+        JDK6, JDK7, JDK8, JDK9, JDK10, JDK11, JDK12, JDK13, JDK14, JDK15, UNKNOWN
     ***REMOVED***;
 
     /**
@@ -126,7 +126,7 @@ public class JdkUtil {
      */
     public enum CrashCause {
         //
-        SIGSEGV, UNKNOWN
+        SIGBUS, SIGSEGV, UNKNOWN
     ***REMOVED***;
 
     /**
