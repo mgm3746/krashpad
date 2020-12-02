@@ -42,6 +42,10 @@ import org.github.errcat.util.jdk.JdkUtil;
  * OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
  * </pre>
  * 
+ * <pre>
+ * OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -95,6 +99,8 @@ public class OsEvent implements LogEvent {
         OsType osType = OsType.UNKNOWN;
         if (getOsString().matches(".+Linux.+")) {
             osType = OsType.Linux;
+        } else if (logEntry.matches("^OS: Windows.+$")) {
+            osType = OsType.Windows;
         } else if (getOsString().matches(".+Solaris.+")) {
             osType = OsType.Solaris;
         }
@@ -120,8 +126,12 @@ public class OsEvent implements LogEvent {
         OsVendor osVendor = OsVendor.UNKNOWN;
         if (logEntry.matches("^OS:Red Hat.+$")) {
             osVendor = OsVendor.RedHat;
-        } else if (logEntry.matches("^OS:Windows.+$")) {
+        } else if (logEntry.matches("^OS: Windows.+$")) {
             osVendor = OsVendor.Microsoft;
+        } else if (logEntry.matches("^.+Oracle.+$")) {
+            osVendor = OsVendor.Oracle;
+        } else if (logEntry.matches("^OS:CentOS.+$")) {
+            osVendor = OsVendor.CentOS;
         }
         return osVendor;
     }
@@ -137,6 +147,12 @@ public class OsEvent implements LogEvent {
             osVersion = OsVersion.RHEL7;
         } else if (logEntry.matches("^OS:Red Hat Enterprise Linux Server release 8.+$")) {
             osVersion = OsVersion.RHEL8;
+        } else if (logEntry.matches("^OS:CentOS Linux release 6.+$")) {
+            osVersion = OsVersion.CENTOS6;
+        } else if (logEntry.matches("^OS:CentOS Linux release 7.+$")) {
+            osVersion = OsVersion.CENTOS7;
+        } else if (logEntry.matches("^OS:CentOS Linux release 8.+$")) {
+            osVersion = OsVersion.CENTOS8;
         }
         return osVersion;
     }
