@@ -98,11 +98,11 @@ public class OsEvent implements LogEvent {
     public OsType getOsType() {
         OsType osType = OsType.UNKNOWN;
         if (getOsString().matches(".+Linux.+")) {
-            osType = OsType.Linux;
+            osType = OsType.LINUX;
         } else if (logEntry.matches("^OS: Windows.+$")) {
-            osType = OsType.Windows;
+            osType = OsType.WINDOWS;
         } else if (getOsString().matches(".+Solaris.+")) {
-            osType = OsType.Solaris;
+            osType = OsType.SOLARIS;
         }
         return osType;
     }
@@ -125,13 +125,13 @@ public class OsEvent implements LogEvent {
     public OsVendor getOsVendor() {
         OsVendor osVendor = OsVendor.UNKNOWN;
         if (logEntry.matches("^OS:Red Hat.+$")) {
-            osVendor = OsVendor.RedHat;
+            osVendor = OsVendor.REDHAT;
         } else if (logEntry.matches("^OS: Windows.+$")) {
-            osVendor = OsVendor.Microsoft;
+            osVendor = OsVendor.MICROSOFT;
         } else if (logEntry.matches("^.+Oracle.+$")) {
-            osVendor = OsVendor.Oracle;
+            osVendor = OsVendor.ORACLE;
         } else if (logEntry.matches("^OS:CentOS.+$")) {
-            osVendor = OsVendor.CentOS;
+            osVendor = OsVendor.CENTOS;
         }
         return osVendor;
     }
@@ -145,7 +145,7 @@ public class OsEvent implements LogEvent {
             osVersion = OsVersion.RHEL6;
         } else if (logEntry.matches("^OS:Red Hat Enterprise Linux Server release 7.+$")) {
             osVersion = OsVersion.RHEL7;
-        } else if (logEntry.matches("^OS:Red Hat Enterprise Linux Server release 8.+$")) {
+        } else if (logEntry.matches("^OS:Red Hat Enterprise Linux release 8.+$")) {
             osVersion = OsVersion.RHEL8;
         } else if (logEntry.matches("^OS:CentOS Linux release 6.+$")) {
             osVersion = OsVersion.CENTOS6;

@@ -94,9 +94,9 @@ public class UnameEvent implements LogEvent {
     public OsType getOsType() {
         OsType osType = OsType.UNKNOWN;
         if (getOsString().matches("Linux.+")) {
-            osType = OsType.Linux;
+            osType = OsType.LINUX;
         } else if (getOsString().matches("SunOS.+")) {
-            osType = OsType.Solaris;
+            osType = OsType.SOLARIS;
         }
         return osType;
     }
@@ -107,7 +107,7 @@ public class UnameEvent implements LogEvent {
     public OsVendor getOsVendor() {
         OsVendor osVendor = OsVendor.UNKNOWN;
         if (getOsString().matches("Linux.+\\.el(6|7|8_\\d)\\..+")) {
-            osVendor = OsVendor.RedHat;
+            osVendor = OsVendor.REDHAT;
         }
         return osVendor;
     }

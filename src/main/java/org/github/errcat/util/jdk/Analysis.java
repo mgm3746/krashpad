@@ -31,6 +31,11 @@ public enum Analysis {
     ERROR_DEBUGGING_SYMBOLS("error.jdk.debug.symbols"),
 
     /**
+     * Property key for AdoptOpenJDK build of OpenJDK.
+     */
+    INFO_ADOPTOPENJDK_POSSIBLE("info.adoptopenjdk.possible"),
+
+    /**
      * Property key for Red Hat build of OpenJDK on CentOS.
      */
     INFO_RH_BUILD_CENTOS("info.rh.build.centos"),
@@ -66,9 +71,14 @@ public enum Analysis {
     INFO_STACK_NO_VM_CODE("info.stack.no.vm.code"),
 
     /**
-     * Property key for not using the latest JDK release.
+     * Property key for a JDK that is not the latest JDK release.
      */
     WARN_JDK_NOT_LATEST("warn.jdk.not.latest"),
+
+    /**
+     * Property key for a JDK that is not a Long Term Support (LTS) version.
+     */
+    WARN_JDK_NOT_LTS("warn.jdk.not.lts"),
 
     /**
      * Property key for unidentified line(s) needing reporting.
