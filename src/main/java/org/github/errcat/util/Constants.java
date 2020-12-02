@@ -136,7 +136,7 @@ public class Constants {
      */
     public enum OsVendor {
         //
-        IBM, Microsoft, RedHat, UNKNOWN
+        CentOS, IBM, Microsoft, Oracle, RedHat, UNKNOWN
     ***REMOVED***;
 
     /**
@@ -144,7 +144,7 @@ public class Constants {
      */
     public enum OsVersion {
         //
-        RHEL6, RHEL7, RHEL8, UNKNOWN
+        CENTOS6, CENTOS7, CENTOS8, RHEL6, RHEL7, RHEL8, UNKNOWN
     ***REMOVED***;
 
     /**

@@ -41,19 +41,19 @@ import org.github.errcat.util.Constants.OsVersion;
 public class JdkUtil {
 
     /**
-     * OpenJDK8 RHEL6 rpm release information.
+     * OpenJDK8 RHEL6 amd64 rpm release information.
      */
-    public static final HashMap<String, Release> rhel6Jdk8RpmReleases;
+    public static final HashMap<String, Release> rhel6Amd64Jdk8RpmReleases;
 
     /**
-     * OpenJDK8 RHEL7 rpm release information.
+     * OpenJDK8 RHEL7 rpm amd64 release information.
      */
-    public static final HashMap<String, Release> rhel7Jdk8RpmReleases;
+    public static final HashMap<String, Release> rhel7Amd64Jdk8RpmReleases;
 
     /**
-     * OpenJDK8 RHEL8 rpm release information.
+     * OpenJDK8 RHEL8 amd64 rpm release information.
      */
-    public static final HashMap<String, Release> rhel8Jdk8RpmReleases;
+    public static final HashMap<String, Release> rhel8Amd64Jdk8RpmReleases;
 
     /**
      * OpenJDK8 RHEL zip release information.
@@ -66,14 +66,14 @@ public class JdkUtil {
     public static final HashMap<String, Release> windowsJdk8Releases;
 
     /**
-     * OpenJDK11 RHEL7 rpm release information.
+     * OpenJDK11 RHEL7 amd64 rpm release information.
      */
-    public static final HashMap<String, Release> rhel7Jdk11RpmReleases;
+    public static final HashMap<String, Release> rhel7Amd64Jdk11RpmReleases;
 
     /**
      * OpenJDK11 RHEL8 rpm release information.
      */
-    public static final HashMap<String, Release> rhel8Jdk11RpmReleases;
+    public static final HashMap<String, Release> rhel8Amd64Jdk11RpmReleases;
 
     /**
      * OpenJDK11 RHEL zip release information.
@@ -84,6 +84,11 @@ public class JdkUtil {
      * OpenJDK11 Windows release information.
      */
     public static final HashMap<String, Release> windowsJdk11Releases;
+
+    /**
+     * OpenJDK8 RHEL7 rpm ppc64le release information.
+     */
+    public static final HashMap<String, Release> rhel7Ppc64leJdk8RpmReleases;
 
     /**
      * Defined logging events.
@@ -97,8 +102,7 @@ public class JdkUtil {
      * Defined Java vendors.
      */
     public enum JavaVendor {
-        //
-        AZUL, RED_HAT, ORACLE, UNKNOWN
+        ADOPTOPENJDK, AZUL, ORACLE, RED_HAT, UNKNOWN
     ***REMOVED***;
 
     /**
@@ -125,6 +129,14 @@ public class JdkUtil {
         SIGSEGV, UNKNOWN
     ***REMOVED***;
 
+    /**
+     * Defined JDK builders
+     */
+    public enum BuiltBy {
+        //
+        BUILD, EMPTY, JAVA_RE, JENKINS, MOCKBUILD, UNKNOWN, ZULU_RE
+    ***REMOVED***;
+
     static {
         /*
          * Notes:
@@ -138,255 +150,255 @@ public class JdkUtil {
          * 4) Time 00:00:00 means build date/time is estimate.
          */
 
-        // RHEL6 OpenJDK8 rpm
-        rhel6Jdk8RpmReleases = new HashMap<String, Release>();
-        rhel6Jdk8RpmReleases.put("LATEST", new Release("Nov 5 2020 00:00:00", 30, "1.8.0_275-b01"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.275.b01-0.el6_10.x86_64",
+        // RHEL6 amd64 OpenJDK8 rpm
+        rhel6Amd64Jdk8RpmReleases = new HashMap<String, Release>();
+        rhel6Amd64Jdk8RpmReleases.put("LATEST", new Release("Nov 5 2020 00:00:00", 30, "1.8.0_275-b01"));
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.275.b01-0.el6_10.x86_64",
                 new Release("Nov 5 2020 00:00:00", 30, "1.8.0_275-b01"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-0.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-0.el6_10.x86_64",
                 new Release("Oct 20 2020 23:38:03", 29, "1.8.0_272-b10"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-0.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-0.el6_10.x86_64",
                 new Release("Jul 29 2020 00:00:00", 28, "1.8.0_265-b01"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64",
                 new Release("Jul 12 2020 19:35:32", 27, "1.8.0_262-b10"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.252.b09-2.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.252.b09-2.el6_10.x86_64",
                 new Release("Apr 14 2020 14:55:11", 26, "1.8.0_252-b09"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b07-1.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b07-1.el6_10.x86_64",
                 new Release("Jan 15 2020 00:00:00", 25, "1.8.0_242-b08"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.232.b09-1.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.232.b09-1.el6_10.x86_64",
                 new Release("Oct 15 2019 00:00:00", 24, "1.8.0_232-b09"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-0.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-0.el6_10.x86_64",
                 new Release("Jul 11 2019 00:00:00", 23, "1.8.0_222-b10"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.212.b04-0.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.212.b04-0.el6_10.x86_64",
                 new Release("Apr 11 2019 00:00:00", 22, "1.8.0_212-b04"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-2.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-2.el6_10.x86_64",
                 new Release("Mar 5 2019 00:00:00", 21, "1.8.0_201-b09"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-1.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-1.el6_10.x86_64",
                 new Release("Jan 17 2019 00:00:00", 21, "1.8.0_201-b09"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.191.b12-0.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.191.b12-0.el6_10.x86_64",
                 new Release("Oct 9 2018 00:00:00", 20, "1.8.0_191-b12"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-3.b13.el6_10.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-3.b13.el6_10.x86_64",
                 new Release("Jul 16 2018 00:00:00", 19, "1.8.0_181-b13"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.171-8.b10.el6_9.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.171-8.b10.el6_9.x86_64",
                 new Release("May 16 2018 00:00:00", 18, "1.8.0_171-b10"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.171-3.b10.el6_9.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.171-3.b10.el6_9.x86_64",
                 new Release("Apr 2 2018 00:00:00", 18, "1.8.0_171-b10"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.161-3.b14.el6_9.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.161-3.b14.el6_9.x86_64",
                 new Release("Jan 10 2018 00:00:00", 17, "1.8.0_161-b14"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.151-1.b12.el6_9.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.151-1.b12.el6_9.x86_64",
                 new Release("Oct 18 2017 00:00:00", 16, "1.8.0_151-b12"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.144-0.b01.el6_9.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.144-0.b01.el6_9.x86_64",
                 new Release("Aug 21 2017 00:00:00", 15, "1.8.0_144-b01"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.141-3.b16.el6_9.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.141-3.b16.el6_9.x86_64",
                 new Release("Jul 14 2017 00:00:00", 14, "1.8.0_141-b16"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.141-2.b16.el6_9.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.141-2.b16.el6_9.x86_64",
                 new Release("Jul 14 2017 00:00:00", 14, "1.8.0_141-b16"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.131-0.b11.el6_9.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.131-0.b11.el6_9.x86_64",
                 new Release("Apr 13 2017 00:00:00", 13, "1.8.0_131-b11"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.121-1.b13.el6.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.121-1.b13.el6.x86_64",
                 new Release("Jan 17 2017 00:00:00", 12, "1.8.0_121-b13"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.121-0.b13.el6_8.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.121-0.b13.el6_8.x86_64",
                 new Release("Jan 17 2017 00:00:00", 12, "1.8.0_121-b13"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.111-1.b15.el6_8.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.111-1.b15.el6_8.x86_64",
                 new Release("Nov 8 2016 00:00:00", 11, "1.8.0_111-b15"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.111-0.b15.el6_8.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.111-0.b15.el6_8.x86_64",
                 new Release("Nov 8 2016 00:00:00", 11, "1.8.0_111-b15"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.101-3.b13.el6_8.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.101-3.b13.el6_8.x86_64",
                 new Release("Jul 11 2016 00:00:00", 10, "1.8.0_101-b13"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.91-3.b14.el6_8.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.91-3.b14.el6_8.x86_64",
                 new Release("Jun 21 2016 00:00:00", 9, "1.8.0_91-b14"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.91-1.b14.el6.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.91-1.b14.el6.x86_64",
                 new Release("Jun 21 2016 00:00:00", 9, "1.8.0_91-b14"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.91-0.b14.el6_7.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.91-0.b14.el6_7.x86_64",
                 new Release("Jun 21 2016 00:00:00", 9, "1.8.0_91-b14"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.77-0.b03.el6_7.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.77-0.b03.el6_7.x86_64",
                 new Release("Mar 23 2016 00:00:00", 8, "1.8.0_77-b03"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.71-5.b15.el6.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.71-5.b15.el6.x86_64",
                 new Release("Feb 4 2016 00:00:00", 7, "1.8.0_71-b15"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.71-1.b15.el6_7.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.71-1.b15.el6_7.x86_64",
                 new Release("Feb 4 2016 00:00:00", 7, "1.8.0_71-b15"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.65-0.b17.el6_7.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.65-0.b17.el6_7.x86_64",
                 new Release("Oct 15 2015 00:00:00", 6, "1.8.0_65-b17"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.51-3.b16.el6_7.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.51-3.b16.el6_7.x86_64",
                 new Release("Sep 4 2015 00:00:00", 5, "1.8.0_51-b16"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.51-1.b16.el6_7.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.51-1.b16.el6_7.x86_64",
                 new Release("Sep 4 2015 00:00:00", 5, "1.8.0_51-b16"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.51-0.b16.el6_6.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.51-0.b16.el6_6.x86_64",
                 new Release("Sep 4 2015 00:00:00", 5, "1.8.0_51-b16"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.45-35.b13.el6.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.45-35.b13.el6.x86_64",
                 new Release("Apr 29 2015 00:00:00", 4, "1.8.0_45-b13"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.45-30.b13.el6.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.45-30.b13.el6.x86_64",
                 new Release("Apr 29 2015 00:00:00", 4, "1.8.0_45-b13"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.45-28.b13.el6_6.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.45-28.b13.el6_6.x86_64",
                 new Release("Apr 29 2015 00:00:00", 4, "1.8.0_45-b13"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.31-1.b13.el6_6.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.31-1.b13.el6_6.x86_64",
                 new Release("Apr 10 2015 00:00:00", 3, "1.8.0_31-b13"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.25-3.b17.el6_6.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.25-3.b17.el6_6.x86_64",
                 new Release("Oct 24 2014 00:00:00", 2, "1.8.0_25-b17"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.25-1.b17.el6.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.25-1.b17.el6.x86_64",
                 new Release("Oct 24 2014 00:00:00", 2, "1.8.0_25-b17"));
-        rhel6Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.20-3.b26.el6.x86_64",
+        rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.20-3.b26.el6.x86_64",
                 new Release("Sep 12 2014 00:00:00", 1, "1.8.0_20-b26"));
 
-        // RHEL7 OpenJDK8 rpm
-        rhel7Jdk8RpmReleases = new HashMap<String, Release>();
-        rhel7Jdk8RpmReleases.put("LATEST", new Release("Oct 20 2020 23:38:03", 26, "1.8.0_272-b10"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64",
+        // RHEL7 amd64 OpenJDK8 rpm
+        rhel7Amd64Jdk8RpmReleases = new HashMap<String, Release>();
+        rhel7Amd64Jdk8RpmReleases.put("LATEST", new Release("Oct 20 2020 23:38:03", 26, "1.8.0_272-b10"));
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64",
                 new Release("Oct 20 2020 23:38:03", 26, "1.8.0_272-b10"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.x86_64",
                 new Release("Jul 28 2020 11:07:07", 25, "1.8.0_265-b01"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-1.el7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-1.el7.x86_64",
                 new Release("Jul 12 2020 00:00:00", 25, "1.8.0_262-b10"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64",
                 new Release("Jul 12 2020 18:55:08", 25, "1.8.0_262-b10"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.252.b09-2.el7_8.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.252.b09-2.el7_8.x86_64",
                 new Release("Apr 14 2020 14:55:11", 24, "1.8.0_252-b09"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b08-1.el7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b08-1.el7.x86_64",
                 new Release("Jan 19 2020 00:00:00", 23, "1.8.0_242-b08"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b08-0.el7_7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b08-0.el7_7.x86_64",
                 new Release("Jan 19 2020 00:00:00", 23, "1.8.0_242-b08"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.232.b09-0.el7_7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.232.b09-0.el7_7.x86_64",
                 new Release("Oct 15 2019 00:00:00", 22, "1.8.0_232-b09"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-1.el7_7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-1.el7_7.x86_64",
                 new Release("Jul 17 2019 00:00:00", 21, "1.8.0_222-b10"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-0.el7_6.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-0.el7_6.x86_64",
                 new Release("Jul 17 2019 00:00:00", 21, "1.8.0_222-b10"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b03-1.el7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b03-1.el7.x86_64",
                 new Release("Jul 17 2019 00:00:00", 21, "1.8.0_222-b10"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.212.b04-0.el7_6.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.212.b04-0.el7_6.x86_64",
                 new Release("Apr 16 2019 00:00:00", 21, "1.8.0_212-b04"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-2.el7_6.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-2.el7_6.x86_64",
                 new Release("Mar 1 2019 00:00:00", 20, "1.8.0_201-b09"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-0.el7_6.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-0.el7_6.x86_64",
                 new Release("Mar 1 2019 00:00:00", 20, "1.8.0_201-b09"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64",
+                new Release("Nov 19 2018 16:07:16", 19, "1.8.0_191-b12"));
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.191.b12-0.el7_5.x86_64",
                 new Release("Oct 9 2018 00:00:00", 19, "1.8.0_191-b12"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.191.b12-0.el7_5.x86_64",
-                new Release("Oct 9 2018 00:00:00", 19, "1.8.0_191-b12"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-7.b13.el7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-7.b13.el7.x86_64",
                 new Release("Jul 16 2018 00:00:00", 18, "1.8.0_181-b13"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-3.b13.el7_5.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-3.b13.el7_5.x86_64",
                 new Release("Jul 16 2018 00:00:00", 18, "1.8.0_181-b13"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.171-8.b10.el7_5.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.171-8.b10.el7_5.x86_64",
                 new Release("May 16 2018 00:00:00", 17, "1.8.0_171-b10"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.171-7.b10.el7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.171-7.b10.el7.x86_64",
                 new Release("Apr 2 2018 00:00:00", 17, "1.8.0_171-b10"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.161-2.b14.el7_4.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.161-2.b14.el7_4.x86_64",
                 new Release("Jan 10 2018 00:00:00", 16, "1.8.0_161-b14"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.161-2.b14.el7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.161-2.b14.el7.x86_64",
                 new Release("Jan 10 2018 00:00:00", 16, "1.8.0_161-b14"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64",
                 new Release("Jan 10 2018 00:00:00", 16, "1.8.0_161-b14"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.151-5.b12.el7_4.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.151-5.b12.el7_4.x86_64",
                 new Release("Oct 18 2017 00:00:00", 15, "1.8.0_151-b12"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64",
                 new Release("Oct 18 2017 00:00:00", 15, "1.8.0_151-b12"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64",
                 new Release("Oct 18 2017 00:00:00", 15, "1.8.0_151-b12"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.144-0.b01.el7_4.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.144-0.b01.el7_4.x86_64",
                 new Release("Aug 21 2017 00:00:00", 14, "1.8.0_144-b01"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.141-2.b16.el7_4.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.141-2.b16.el7_4.x86_64",
                 new Release("Jul 14 2017 00:00:00", 13, "1.8.0_141-b16"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.141-1.b16.el7_3.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.141-1.b16.el7_3.x86_64",
                 new Release("Jul 14 2017 00:00:00", 13, "1.8.0_141-b16"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64",
                 new Release("Jun 13 2017 11:27:53", 12, "1.8.0_131-b11"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64",
                 new Release("May 9 2017 21:36:32", 12, "1.8.0_131-b11"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.131-2.b11.el7_3.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.131-2.b11.el7_3.x86_64",
                 new Release("Apr 13 2017 00:00:00", 12, "1.8.0_131-b11"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.121-0.b13.el7_3.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.121-0.b13.el7_3.x86_64",
                 new Release("Jan 17 2017 00:00:00", 11, "1.8.0_121-b13"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.111-2.b15.el7_3.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.111-2.b15.el7_3.x86_64",
                 new Release("Nov 8 2016 00:00:00", 10, "1.8.0_111-b15"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.111-1.b15.el7_2.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.111-1.b15.el7_2.x86_64",
                 new Release("Nov 8 2016 00:00:00", 10, "1.8.0_111-b15"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64",
                 new Release("Sep 14 2016 00:00:00", 9, "1.8.0_102-b14"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.102-1.b14.el7_2.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.102-1.b14.el7_2.x86_64",
                 new Release("Sep 14 2016 00:00:00", 9, "1.8.0_102-b14"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64",
                 new Release("Jul 11 2016 00:00:00", 8, "1.8.0_101-b13"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.91-1.b14.el7_2.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.91-1.b14.el7_2.x86_64",
                 new Release("Jun 21 2016 00:00:00", 7, "1.8.0_91-b14"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.91-0.b14.el7_2.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.91-0.b14.el7_2.x86_64",
                 new Release("Jun 21 2016 00:00:00", 7, "1.8.0_91-b14"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.77-0.b03.el7_2.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.77-0.b03.el7_2.x86_64",
                 new Release("Mar 23 2016 00:00:00", 6, "1.8.0_77-b03"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.71-2.b15.el7_2.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.71-2.b15.el7_2.x86_64",
                 new Release("Feb 4 2016 00:00:00", 5, "1.8.0_71-b15"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.65-3.b17.el7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.65-3.b17.el7.x86_64",
+                new Release("Oct 19 2015 06:27:55", 4, "1.8.0_65-b17"));
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.65-2.b17.el7_1.x86_64",
                 new Release("Oct 15 2015 00:00:00", 4, "1.8.0_65-b17"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.65-2.b17.el7_1.x86_64",
-                new Release("Oct 15 2015 00:00:00", 4, "1.8.0_65-b17"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.60-2.b27.el7_1.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.60-2.b27.el7_1.x86_64",
                 new Release("Sep 8 2015 00:00:00", 3, "1.8.0_60-b27"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.51-2.b16.el7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.51-2.b16.el7.x86_64",
                 new Release("Sep 4 2015 00:00:00", 2, "1.8.0_51-b16"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.51-1.b16.el7_1.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.51-1.b16.el7_1.x86_64",
                 new Release("Sep 4 2015 00:00:00", 2, "1.8.0_51-b16"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.45-30.b13.el7_1.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.45-30.b13.el7_1.x86_64",
                 new Release("Apr 29 2015 00:00:00", 1, "1.8.0_45-b13"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.31-7.b13.el7_1.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.31-7.b13.el7_1.x86_64",
                 new Release("Apr 10 2015 00:00:00", 1, "1.8.0_31-b13"));
-        rhel7Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.31-2.b13.el7.x86_64",
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.31-2.b13.el7.x86_64",
                 new Release("Apr 10 2015 00:00:00", 1, "1.8.0_31-b13"));
 
-        // RHEL8 OpenJDK8 rpm
-        rhel8Jdk8RpmReleases = new HashMap<String, Release>();
-        rhel8Jdk8RpmReleases.put("LATEST", new Release("Nov 6 2020 00:00:00", 10, "1.8.0_275-b01"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.275.b01-0.el8_0.x86_64",
+        // RHEL8 amd64 OpenJDK8 rpm
+        rhel8Amd64Jdk8RpmReleases = new HashMap<String, Release>();
+        rhel8Amd64Jdk8RpmReleases.put("LATEST", new Release("Nov 6 2020 00:00:00", 10, "1.8.0_275-b01"));
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.275.b01-0.el8_0.x86_64",
                 new Release("Nov 6 2020 00:00:00", 10, "1.8.0_275-b01"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-3.el8_3.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-3.el8_3.x86_64",
                 new Release("Oct 20 2020 23:38:03", 9, "1.8.0_272-b10"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-1.el8_2.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-1.el8_2.x86_64",
                 new Release("Oct 20 2020 00:00:00", 9, "1.8.0_272-b10"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-1.el8_2.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-1.el8_2.x86_64",
                 new Release("Oct 20 2020 00:00:00", 9, "1.8.0_272-b10"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-0.el8_1.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-0.el8_1.x86_64",
                 new Release("Oct 20 2020 00:00:00", 9, "1.8.0_272-b10"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-0.el8_0.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-0.el8_0.x86_64",
                 new Release("Oct 20 2020 00:00:00", 9, "1.8.0_272-b10"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-4.el8.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-4.el8.x86_64",
                 new Release("Sep 21 2020 00:00:00", 8, "1.8.0_265-b01"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-0.el8_2.x86_64",
                 new Release("Sep 21 2020 00:00:00", 8, "1.8.0_265-b01"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-0.el8_1.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-0.el8_1.x86_64",
                 new Release("Sep 21 2020 00:00:00", 8, "1.8.0_265-b01"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-0.el8_0.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-0.el8_0.x86_64",
                 new Release("Sep 21 2020 00:00:00", 8, "1.8.0_265-b01"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64",
                 new Release("Jul 12 2020 00:00:00", 7, "1.8.0_262-b10"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el8_1.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el8_1.x86_64",
                 new Release("Jul 12 2020 00:00:00", 7, "1.8.0_262-b10"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el8_0.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el8_0.x86_64",
                 new Release("Jul 12 2020 00:00:00", 7, "1.8.0_262-b10"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.252.b09-3.el8_2.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.252.b09-3.el8_2.x86_64",
                 new Release("Apr 19 2020 00:00:00", 6, "1.8.0_252-b09"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.252.b09-2.el8_1.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.252.b09-2.el8_1.x86_64",
                 new Release("Apr 19 2020 00:00:00", 6, "1.8.0_252-b09"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.252.b09-2.el8_0.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.252.b09-2.el8_0.x86_64",
                 new Release("Apr 19 2020 00:00:00", 6, "1.8.0_252-b09"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b08-4.el8.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b08-4.el8.x86_64",
                 new Release("Mar 27 2020 00:00:00", 5, "1.8.0_242-b08"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b08-0.el8_1.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b08-0.el8_1.x86_64",
                 new Release("Mar 27 2020 00:00:00", 5, "1.8.0_242-b08"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b08-0.el8_0.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.242.b08-0.el8_0.x86_64",
                 new Release("Mar 27 2020 00:00:00", 5, "1.8.0_242-b08"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.232.b09-2.el8_1.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.232.b09-2.el8_1.x86_64",
                 new Release("Oct 25 2019 00:00:00", 4, "1.8.0_232-b09"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.232.b09-0.el8_0.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.232.b09-0.el8_0.x86_64",
                 new Release("Oct 25 2019 00:00:00", 4, "1.8.0_232-b09"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-1.el8.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-1.el8.x86_64",
                 new Release("Jul 11 2019 00:00:00", 3, "1.8.0_222-b10"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-0.el8_0.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-0.el8_0.x86_64",
                 new Release("Jul 11 2019 00:00:00", 3, "1.8.0_222-b10"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.212.b04-1.el8_0.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.212.b04-1.el8_0.x86_64",
                 new Release("May 2 2019 00:00:00", 2, "1.8.0_212-b04"));
-        rhel8Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-2.el8.x86_64",
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-2.el8.x86_64",
                 new Release("Feb 7 2019 00:00:00", 1, "1.8.0_201-b09"));
 
-        // RHEL OpenJDK8 zip
+        // RHEL amd64 OpenJDK8 zip
         rhelJdk8ZipReleases = new HashMap<String, Release>();
         // First RHEL zip was 1.8.0_222.
         rhelJdk8ZipReleases.put("LATEST", new Release("Nov 11 2020 12:18:48", 8, "1.8.0_275-b01"));
@@ -398,7 +410,7 @@ public class JdkUtil {
         rhelJdk8ZipReleases.put("1.8.0_232-b09", new Release("Oct 15 2019 05:49:57", 2, "1.8.0_232-b09"));
         rhelJdk8ZipReleases.put("1.8.0_222-b10", new Release("Aug 2 2019 08:16:48", 1, "1.8.0_222-b10"));
 
-        // Windows OpenJDK8 zip
+        // Windows amd64 OpenJDK8 zip
         windowsJdk8Releases = new HashMap<String, Release>();
         // First RH Windows release was 1.8.0_201. There was no RH Windows release for u202.
         windowsJdk8Releases.put("LATEST", new Release("Jan 1 2000 00:00:00", 10, "1.8.0_275-b01"));
@@ -412,45 +424,45 @@ public class JdkUtil {
         windowsJdk8Releases.put("1.8.0_212-b04", new Release("Jan 1 2000 00:00:00", 2, "1.8.0_212-b04"));
         windowsJdk8Releases.put("1.8.0_201-b09", new Release("Jan 1 2000 00:00:00", 1, "1.8.0_2 J01-b09"));
 
-        // RHEL7 OpenJDK11 rpm
-        rhel7Jdk11RpmReleases = new HashMap<String, Release>();
-        rhel7Jdk11RpmReleases.put("LATEST", new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
-        rhel7Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el7_9.x86_64",
+        // RHEL7 amd64 OpenJDK11 rpm
+        rhel7Amd64Jdk11RpmReleases = new HashMap<String, Release>();
+        rhel7Amd64Jdk11RpmReleases.put("LATEST", new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
+        rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el7_9.x86_64",
                 new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
-        rhel7Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-1.el7.x86_64",
+        rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-1.el7.x86_64",
                 new Release("Jul 11 2020 00:00:00", 2, "11.0.8+10-LTS"));
-        rhel7Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el7_8.x86_64",
+        rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el7_8.x86_64",
                 new Release("Jul 11 2020 00:00:00", 2, "11.0.8+10-LTS"));
-        rhel7Jdk11RpmReleases.put("java-11-openjdk-11.0.7.10-4.el7_8.x86_64",
+        rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.7.10-4.el7_8.x86_64",
                 new Release("Apr 14 2020 21:38:20", 1, "11.0.7+10-LTS"));
 
-        // RHEL8 OpenJDK11 rpm
-        rhel8Jdk11RpmReleases = new HashMap<String, Release>();
-        rhel8Jdk11RpmReleases.put("LATEST", new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
-        rhel8Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-2.el8_3.x86_64",
+        // RHEL8 amd64 OpenJDK11 rpm
+        rhel8Amd64Jdk11RpmReleases = new HashMap<String, Release>();
+        rhel8Amd64Jdk11RpmReleases.put("LATEST", new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-2.el8_3.x86_64",
                 new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
-        rhel8Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-1.el8_0.x86_64",
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-1.el8_0.x86_64",
                 new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
-        rhel8Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el8_2.x86_64",
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el8_2.x86_64",
                 new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
-        rhel8Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el8_1.x86_64",
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el8_1.x86_64",
                 new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
-        rhel8Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el8_0.x86_64",
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el8_0.x86_64",
                 new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
-        rhel8Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-6.el8.x86_64",
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-6.el8.x86_64",
                 new Release("Jul 11 2020 00:00:00", 2, "11.0.8+10-LTS"));
-        rhel8Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el8_2.x86_64",
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el8_2.x86_64",
                 new Release("Jul 11 2020 02:33:15", 2, "11.0.8+10-LTS"));
-        rhel8Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el8_1.x86_64",
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el8_1.x86_64",
                 new Release("Jul 11 2020 00:00:00", 2, "11.0.8+10-LTS"));
-        rhel8Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el8_0.x86_64",
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el8_0.x86_64",
                 new Release("Jul 11 2020 00:00:00", 2, "11.0.8+10-LTS"));
-        rhel8Jdk11RpmReleases.put("java-11-openjdk-11.0.7.10-1.el8_1.x86_64",
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.7.10-1.el8_1.x86_64",
                 new Release("Apr 14 2020 00:00:00", 1, "11.0.7+10-LTS"));
-        rhel8Jdk11RpmReleases.put("java-11-openjdk-11.0.7.10-1.el8_0.x86_64",
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.7.10-1.el8_0.x86_64",
                 new Release("Apr 14 2020 00:00:00", 1, "11.0.7+10-LTS"));
 
-        // RHEL OpenJDK11 zip
+        // RHEL amd64 OpenJDK11 zip
         rhelJdk11ZipReleases = new HashMap<String, Release>();
         // First RHEL zip was 11.0.4.11.
         rhelJdk11ZipReleases.put("LATEST", new Release("Nov 11 2020 12:19:11", 7, "11.0.9.1+1-LTS"));
@@ -461,7 +473,7 @@ public class JdkUtil {
         rhelJdk11ZipReleases.put("11.0.5+10-LTS", new Release("Oct 15 2019 09:18:41", 2, "11.0.5+10-LTS"));
         rhelJdk11ZipReleases.put("11.0.4+11-LTS", new Release("Aug 2 2019 08:21:47", 1, "11.0.4+11-LTS"));
 
-        // Windows OpenJDK11 zip
+        // Windows amd64 OpenJDK11 zip
         windowsJdk11Releases = new HashMap<String, Release>();
         // First Windows zip was 11.0.1.13.
         windowsJdk11Releases.put("LATEST", new Release("Nov 11 2020 00:00:00", 13, "11.0.9.1+1-LTS"));
@@ -477,6 +489,12 @@ public class JdkUtil {
         windowsJdk11Releases.put("11.0.2TBD2", new Release("Mar 13 2019 00:00:00", 3, "11.0.2TBD2"));
         windowsJdk11Releases.put("11.0.2TBD1", new Release("Jan 22 2019 00:00:00", 2, "11.0.2TBD1"));
         windowsJdk11Releases.put("11.0.1TBD", new Release("Dec 17 2018 00:00:00", 1, "11.0.1TBD"));
+
+        // RHEL7 ppc64le OpenJDK8 rpm
+        rhel7Ppc64leJdk8RpmReleases = new HashMap<String, Release>();
+        rhel7Ppc64leJdk8RpmReleases.put("LATEST", new Release("Oct 20 2020 00:00:00", 26, "1.8.0_272-b10"));
+        rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le",
+                new Release("Jul 28 2020 11:16:00", 25, "1.8.0_265-b01"));
     ***REMOVED***
 
     /**
@@ -558,24 +576,28 @@ public class JdkUtil {
         HashMap<String, Release> releases = null;
         if (fatalErrorLog.getJavaVendor().equals(JavaVendor.RED_HAT)) {
             if (fatalErrorLog.isRhel()) {
-                if (fatalErrorLog.isRhelRpmInstall()) {
+                if (fatalErrorLog.isRhRpmInstall()) {
                     if (fatalErrorLog.getOsVersion() == OsVersion.RHEL6
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
-                        releases = rhel6Jdk8RpmReleases;
-                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7
+                        releases = rhel6Amd64Jdk8RpmReleases;
+                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7 && fatalErrorLog.getArch() == Arch.X86_64
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
-                        releases = rhel7Jdk8RpmReleases;
+                        releases = rhel7Amd64Jdk8RpmReleases;
+                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7
+                            && fatalErrorLog.getArch() == Arch.PPC64LE
+                            && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
+                        releases = rhel7Ppc64leJdk8RpmReleases;
                     ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK11) {
-                        releases = rhel7Jdk11RpmReleases;
+                        releases = rhel7Amd64Jdk11RpmReleases;
                     ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL8
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
-                        releases = rhel8Jdk8RpmReleases;
+                        releases = rhel8Amd64Jdk8RpmReleases;
                     ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL8
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK11) {
-                        releases = rhel8Jdk11RpmReleases;
+                        releases = rhel8Amd64Jdk11RpmReleases;
                     ***REMOVED***
-                ***REMOVED*** else if (fatalErrorLog.isRhelZipInstall()) {
+                ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall()) {
                     switch (fatalErrorLog.getJavaSpecification()) {
                     case JDK8:
                         releases = rhelJdk8ZipReleases;
@@ -587,7 +609,7 @@ public class JdkUtil {
                     default:
                     ***REMOVED***
                 ***REMOVED***
-            ***REMOVED*** else if (fatalErrorLog.isWindowsZipInstall()) {
+            ***REMOVED*** else if (fatalErrorLog.isRhWindowsZipInstall()) {
                 switch (fatalErrorLog.getJavaSpecification()) {
                 case JDK8:
                     releases = windowsJdk8Releases;
@@ -675,9 +697,9 @@ public class JdkUtil {
             HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
             if (releases != null && releases.size() > 0) {
                 Release release = null;
-                if (fatalErrorLog.isRhelRpmInstall()) {
+                if (fatalErrorLog.isRhRpmInstall()) {
                     release = releases.get(fatalErrorLog.getRpmDirectory());
-                ***REMOVED*** else if (fatalErrorLog.isRhelZipInstall() || fatalErrorLog.isWindowsZipInstall()) {
+                ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
                     release = releases.get(fatalErrorLog.getJdkReleaseString());
                 ***REMOVED***
                 if (release != null) {
@@ -698,12 +720,14 @@ public class JdkUtil {
         if (fatalErrorLog != null) {
             HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
             if (releases != null && releases.size() > 0) {
-                String jdkRelease = fatalErrorLog.getJdkReleaseString();
-                if (jdkRelease != null) {
-                    Release release = releases.get(jdkRelease);
-                    if (release != null) {
-                        number = release.getNumber();
-                    ***REMOVED***
+                Release release = null;
+                if (fatalErrorLog.isRhRpmInstall()) {
+                    release = releases.get(fatalErrorLog.getRpmDirectory());
+                ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
+                    release = releases.get(fatalErrorLog.getJdkReleaseString());
+                ***REMOVED***
+                if (release != null) {
+                    number = release.getNumber();
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***

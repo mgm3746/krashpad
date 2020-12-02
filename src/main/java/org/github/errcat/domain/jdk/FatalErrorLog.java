@@ -30,6 +30,7 @@ import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
+import org.github.errcat.util.jdk.JdkUtil.BuiltBy;
 import org.github.errcat.util.jdk.JdkUtil.CrashCause;
 import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
 import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
@@ -150,10 +151,26 @@ public class FatalErrorLog {
         JavaVendor vendor = JavaVendor.UNKNOWN;
         if (isRhBuildOpenJdk()) {
             vendor = JavaVendor.RED_HAT;
-        ***REMOVED*** else if (vmInfoEvent != null) {
-            vendor = vmInfoEvent.getJavaVendor();
-        ***REMOVED*** else if (getArch() == Arch.SPARC) {
-            vendor = JavaVendor.ORACLE;
+        ***REMOVED*** else {
+            if (vmInfoEvent != null) {
+                switch (vmInfoEvent.getBuiltBy()) {
+                case JAVA_RE:
+                    vendor = JavaVendor.ORACLE;
+                    break;
+                case JENKINS:
+                    vendor = JavaVendor.ADOPTOPENJDK;
+                    break;
+                case ZULU_RE:
+                    vendor = JavaVendor.AZUL;
+                    break;
+                case BUILD:
+                case MOCKBUILD:
+                case EMPTY:
+                case UNKNOWN:
+                default:
+                    break;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         return vendor;
     ***REMOVED***
@@ -213,14 +230,27 @@ public class FatalErrorLog {
     /**
      * @return <code>OsType</code>
      */
-    public String getOs() {
-        String os = OsType.UNKNOWN.toString();
+    public OsType getOsType() {
+        OsType osType = OsType.UNKNOWN;
         if (osEvent != null) {
-            os = osEvent.getOsString();
+            osType = osEvent.getOsType();
         ***REMOVED*** else if (unameEvent != null) {
-            os = unameEvent.getOsString();
+            osType = unameEvent.getOsType();
         ***REMOVED***
-        return os;
+        return osType;
+    ***REMOVED***
+
+    /**
+     * @return <code>OsVendor</code>
+     */
+    public OsVendor getOsVendor() {
+        OsVendor osVendor = OsVendor.UNKNOWN;
+        if (osEvent != null) {
+            osVendor = osEvent.getOsVendor();
+        ***REMOVED*** else if (unameEvent != null) {
+            osVendor = unameEvent.getOsVendor();
+        ***REMOVED***
+        return osVendor;
     ***REMOVED***
 
     /**
@@ -228,10 +258,10 @@ public class FatalErrorLog {
      */
     public OsVersion getOsVersion() {
         OsVersion osVersion = OsVersion.UNKNOWN;
-        if (unameEvent != null) {
-            osVersion = unameEvent.getOsVersion();
-        ***REMOVED*** else if (osEvent != null) {
+        if (osEvent != null) {
             osVersion = osEvent.getOsVersion();
+        ***REMOVED*** else if (unameEvent != null) {
+            osVersion = unameEvent.getOsVersion();
         ***REMOVED***
         return osVersion;
     ***REMOVED***
@@ -346,36 +376,54 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return true if the JDK that produced the fatal error log is a Red Hat build of OpenJDK RHEL rpm install, false
+     * @return true if the JDK that produced the fatal error log is a Red Hat build of OpenJDK rpm install, false
      *         otherwise.
      */
-    public boolean isRhelRpmInstall() {
+    public boolean isRhRpmInstall() {
         boolean isRhelRpmInstall = false;
-        if (getRpmDirectory() != null) {
+        String rpmDirectory = getRpmDirectory();
+        if (rpmDirectory != null) {
             if (getJavaSpecification() == JavaSpecification.JDK8) {
                 switch (getOsVersion()) {
+                case CENTOS6:
                 case RHEL6:
-                    isRhelRpmInstall = JdkUtil.rhel6Jdk8RpmReleases.containsKey(getRpmDirectory());
+                    isRhelRpmInstall = JdkUtil.rhel6Amd64Jdk8RpmReleases.containsKey(rpmDirectory) && getJdkBuildDate()
+                            .compareTo(JdkUtil.rhel6Amd64Jdk8RpmReleases.get(rpmDirectory).getBuildDate()) == 0;
                     break;
+                case CENTOS7:
                 case RHEL7:
-                    isRhelRpmInstall = JdkUtil.rhel7Jdk8RpmReleases.containsKey(getRpmDirectory());
+                    if (getArch() == Arch.X86_64) {
+                        isRhelRpmInstall = JdkUtil.rhel7Amd64Jdk8RpmReleases.containsKey(rpmDirectory)
+                                && getJdkBuildDate().compareTo(
+                                        JdkUtil.rhel7Amd64Jdk8RpmReleases.get(rpmDirectory).getBuildDate()) == 0;
+                    ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
+                        isRhelRpmInstall = JdkUtil.rhel7Ppc64leJdk8RpmReleases.containsKey(rpmDirectory)
+                                && getJdkBuildDate().compareTo(
+                                        JdkUtil.rhel7Ppc64leJdk8RpmReleases.get(rpmDirectory).getBuildDate()) == 0;
+                    ***REMOVED***
                     break;
+                case CENTOS8:
                 case RHEL8:
-                    isRhelRpmInstall = JdkUtil.rhel8Jdk8RpmReleases.containsKey(getRpmDirectory());
+                    isRhelRpmInstall = JdkUtil.rhel8Amd64Jdk8RpmReleases.containsKey(rpmDirectory) && getJdkBuildDate()
+                            .compareTo(JdkUtil.rhel8Amd64Jdk8RpmReleases.get(rpmDirectory).getBuildDate()) == 0;
                     break;
                 case UNKNOWN:
                 default:
                     break;
-
                 ***REMOVED***
             ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK11) {
                 switch (getOsVersion()) {
+                case CENTOS7:
                 case RHEL7:
-                    isRhelRpmInstall = JdkUtil.rhel7Jdk11RpmReleases.containsKey(getRpmDirectory());
+                    isRhelRpmInstall = JdkUtil.rhel7Amd64Jdk11RpmReleases.containsKey(rpmDirectory) && getJdkBuildDate()
+                            .compareTo(JdkUtil.rhel7Amd64Jdk11RpmReleases.get(rpmDirectory).getBuildDate()) == 0;
                     break;
+                case CENTOS8:
                 case RHEL8:
-                    isRhelRpmInstall = JdkUtil.rhel8Jdk11RpmReleases.containsKey(getRpmDirectory());
+                    isRhelRpmInstall = JdkUtil.rhel8Amd64Jdk11RpmReleases.containsKey(rpmDirectory) && getJdkBuildDate()
+                            .compareTo(JdkUtil.rhel8Amd64Jdk11RpmReleases.get(rpmDirectory).getBuildDate()) == 0;
                     break;
+                case CENTOS6:
                 case RHEL6:
                 case UNKNOWN:
                 default:
@@ -390,15 +438,15 @@ public class FatalErrorLog {
      * @return true if the JDK that produced the fatal error log is a Red Hat build of OpenJDK RHEL zip install, false
      *         otherwise.
      */
-    public boolean isRhelZipInstall() {
-        boolean isRhelZipInstall = false;
-        if (isRhel() && getArch() == Arch.X86_64) {
+    public boolean isRhLinuxZipInstall() {
+        boolean isRhLinuxZipInstall = false;
+        if (getOsType() == OsType.Linux && getArch() == Arch.X86_64) {
             switch (getJavaSpecification()) {
             case JDK8:
-                isRhelZipInstall = JdkUtil.rhelJdk8ZipReleases.containsKey(getJdkReleaseString());
+                isRhLinuxZipInstall = JdkUtil.rhelJdk8ZipReleases.containsKey(getJdkReleaseString());
                 break;
             case JDK11:
-                isRhelZipInstall = JdkUtil.rhelJdk11ZipReleases.containsKey(getJdkReleaseString());
+                isRhLinuxZipInstall = JdkUtil.rhelJdk11ZipReleases.containsKey(getJdkReleaseString());
                 break;
             case JDK6:
             case JDK7:
@@ -407,22 +455,22 @@ public class FatalErrorLog {
                 break;
             ***REMOVED***
         ***REMOVED***
-        return isRhelZipInstall;
+        return isRhLinuxZipInstall;
     ***REMOVED***
 
     /**
      * @return true if the JDK that produced the fatal error log is a Red Hat build of OpenJDK Windows zip install,
      *         false otherwise.
      */
-    public boolean isWindowsZipInstall() {
-        boolean isWindowsZipInstall = false;
+    public boolean isRhWindowsZipInstall() {
+        boolean isRhWindowsZipInstall = false;
         if (isWindows() && getArch() == Arch.X86_64) {
             switch (getJavaSpecification()) {
             case JDK8:
-                isWindowsZipInstall = JdkUtil.windowsJdk8Releases.containsKey(getJdkReleaseString());
+                isRhWindowsZipInstall = JdkUtil.windowsJdk8Releases.containsKey(getJdkReleaseString());
                 break;
             case JDK11:
-                isWindowsZipInstall = JdkUtil.windowsJdk11Releases.containsKey(getJdkReleaseString());
+                isRhWindowsZipInstall = JdkUtil.windowsJdk11Releases.containsKey(getJdkReleaseString());
                 break;
             case JDK6:
             case JDK7:
@@ -431,14 +479,21 @@ public class FatalErrorLog {
                 break;
             ***REMOVED***
         ***REMOVED***
-        return isWindowsZipInstall;
+        return isRhWindowsZipInstall;
     ***REMOVED***
 
     /**
      * @return true if the fatal error log was created by a RH build of OpenJDK, false otherwise.
      */
     public boolean isRhBuildOpenJdk() {
-        return isRhelRpmInstall() || isRhelZipInstall() || isWindowsZipInstall();
+        return isRhRpmInstall() || isRhLinuxZipInstall() || isRhWindowsZipInstall();
+    ***REMOVED***
+
+    /**
+     * @return true if the fatal error log was created by AdoptOpenJDK, false otherwise.
+     */
+    public boolean isAdoptOpenJdk() {
+        return isRhRpmInstall() || isRhLinuxZipInstall() || isRhWindowsZipInstall();
     ***REMOVED***
 
     /**
@@ -452,7 +507,7 @@ public class FatalErrorLog {
      */
     public String getRpmDirectory() {
         String rpmDirectory = null;
-        if (isRhel()) {
+        if (getOsType() == OsType.Linux) {
             if (dynamicLibrary != null) {
                 Iterator<DynamicLibraryEvent> iterator = dynamicLibrary.iterator();
                 while (iterator.hasNext()) {
@@ -486,12 +541,10 @@ public class FatalErrorLog {
      * Do analysis.
      */
     public void doAnalysis() {
-
         // Unidentified logging lines
         if (getUnidentifiedLogLines().size() > 0) {
             analysis.add(0, Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT);
         ***REMOVED***
-
         doDataAnalysis();
         doJvmOptionsAnalysis();
     ***REMOVED***
@@ -507,34 +560,29 @@ public class FatalErrorLog {
         if (!JdkUtil.isLatestJdkRelease(this)) {
             analysis.add(0, Analysis.WARN_JDK_NOT_LATEST);
         ***REMOVED***
-        if (osEvent != null) {
-            if (osEvent.isRhel()) {
-                if (isRhBuildOpenJdk()) {
-                    if (getRpmDirectory() != null) {
-                        analysis.add(0, Analysis.INFO_RH_BUILD_RHEL_RPM);
-                    ***REMOVED*** else {
-                        analysis.add(0, Analysis.INFO_RH_BUILD_RHEL_ZIP);
-                    ***REMOVED***
+        if (isRhBuildOpenJdk()) {
+            if (getOsType() == OsType.Linux) {
+                if (getOsVendor() == OsVendor.CentOS) {
+                    // CentOs redistributes RH build of OpenJDK
+                    analysis.add(0, Analysis.INFO_RH_BUILD_CENTOS);
+                ***REMOVED*** else if (getRpmDirectory() != null) {
+                    analysis.add(0, Analysis.INFO_RH_BUILD_RPM);
                 ***REMOVED*** else {
-                    analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
+                    analysis.add(0, Analysis.INFO_RH_BUILD_LINUX_ZIP);
                 ***REMOVED***
-            ***REMOVED*** else if (osEvent.isWindows()) {
-                if (isRhBuildOpenJdk()) {
-                    analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
-                ***REMOVED***
-            ***REMOVED*** else if (osEvent.getOsType() == OsType.Linux && osEvent.getOsVendor() != OsVendor.RedHat) {
-                analysis.add(0, Analysis.INFO_RH_UNSUPPORTED_OS);
+            ***REMOVED*** else if (isWindows()) {
+                analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
+            ***REMOVED***
+        ***REMOVED*** else {
+            if (vmInfoEvent != null && (vmInfoEvent.getBuiltBy() == BuiltBy.BUILD
+                    || vmInfoEvent.getBuiltBy() == BuiltBy.EMPTY || vmInfoEvent.getBuiltBy() == BuiltBy.MOCKBUILD)) {
+                analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
+            ***REMOVED*** else {
+                analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
             ***REMOVED***
         ***REMOVED***
         if (!haveVmCodeInStack()) {
             analysis.add(Analysis.INFO_STACK_NO_VM_CODE);
-        ***REMOVED***
-        if (isRhBuildOpenJdk()) {
-            // Check for missing or non-matching build date
-            if (JdkUtil.getJdkReleaseDate(this) == null || (getJdkBuildDate() != null
-                    && getJdkBuildDate().compareTo(JdkUtil.getJdkReleaseDate(this)) != 0)) {
-                analysis.add(Analysis.INFO_RH_BUILD_DATE_MISMATCH);
-            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
 

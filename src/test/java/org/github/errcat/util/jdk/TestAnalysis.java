@@ -14,89 +14,41 @@
  *********************************************************************************************************************/
 package org.github.errcat.util.jdk;
 
+import java.io.File;
+
+import org.github.errcat.domain.jdk.FatalErrorLog;
+import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.ErrUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * Analysis constants.
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public enum Analysis {
+public class TestAnalysis extends TestCase {
 
-    /**
-     * Property key for JDK debug symbols not installed.
-     */
-    ERROR_DEBUGGING_SYMBOLS("error.jdk.debug.symbols"),
-
-    /**
-     * Property key for Red Hat build of OpenJDK on CentOS.
-     */
-    INFO_RH_BUILD_CENTOS("info.rh.build.centos"),
-
-    /**
-     * Property key for Red Hat build of OpenJDK Linux zip install.
-     */
-    INFO_RH_BUILD_LINUX_ZIP("info.rh.build.linux.zip"),
-
-    /**
-     * Property key for a JDK that is possibly a RH build.
-     */
-    INFO_RH_BUILD_POSSIBLE("info.rh.build.possible"),
-
-    /**
-     * Property key for a JDK that is not a RH build.
-     */
-    INFO_RH_BUILD_NOT("info.rh.build.not"),
-
-    /**
-     * Property key for Red Hat build of OpenJDK rpm install.
-     */
-    INFO_RH_BUILD_RPM("info.rh.build.rpm"),
-
-    /**
-     * Property key for Red Hat build of OpenJDK Windows zip install.
-     */
-    INFO_RH_BUILD_WINDOWS_ZIP("info.rh.build.windows.zip"),
-
-    /**
-     * Property key for the stack not containing any VM code.
-     */
-    INFO_STACK_NO_VM_CODE("info.stack.no.vm.code"),
-
-    /**
-     * Property key for not using the latest JDK release.
-     */
-    WARN_JDK_NOT_LATEST("warn.jdk.not.latest"),
-
-    /**
-     * Property key for unidentified line(s) needing reporting.
-     */
-    WARN_UNIDENTIFIED_LOG_LINE_REPORT("warn.unidentified.log.line.report");
-
-    private String key;
-
-    private Analysis(final String key) {
-        this.key = key;
+    public void testLatestRelease() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset14.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST));
+        Assert.assertEquals("Release days diff not correct.", 100,
+                ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)));
+        Assert.assertEquals("Release ***REMOVED*** diff not correct.", 1,
+                JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel));
     ***REMOVED***
 
-    /**
-     * @return Analysis property file key.
-     */
-    public String getKey() {
-        return key;
-    ***REMOVED***
-
-    /**
-     * @return Analysis property file value.
-     */
-    public String getValue() {
-        return ErrUtil.getPropertyValue(Constants.ANALYSIS_PROPERTY_FILE, key);
-    ***REMOVED***
-
-    @Override
-    public String toString() {
-        return this.getKey();
+    public void testRpmPpc64le() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset15.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_RPM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
+        Assert.assertTrue(Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST));
     ***REMOVED***
 ***REMOVED***

@@ -23,8 +23,8 @@ import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
+import org.github.errcat.util.jdk.JdkUtil.BuiltBy;
 import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
-import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 
 /**
  * <p>
@@ -98,26 +98,6 @@ public class VmInfoEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return The Java vendor.
-     */
-    public JavaVendor getJavaVendor() {
-        JavaVendor vendor = JavaVendor.UNKNOWN;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            int indexVendor = 1;
-            int indexAzul = 4;
-            if (matcher.group(indexVendor).equals("OpenJDK")) {
-                if (matcher.group(indexAzul) != null) {
-                    vendor = JavaVendor.AZUL;
-                ***REMOVED***
-            ***REMOVED*** else if (matcher.group(indexVendor).equals("Java HotSpot(TM)")) {
-                vendor = JavaVendor.ORACLE;
-            ***REMOVED***
-        ***REMOVED***
-        return vendor;
-    ***REMOVED***
-
-    /**
      * @return The JDK version.
      */
     public JavaSpecification getJavaSpecification() {
@@ -178,5 +158,29 @@ public class VmInfoEvent implements LogEvent {
                     matcher.group(13), matcher.group(14));
         ***REMOVED***
         return date;
+    ***REMOVED***
+
+    /**
+     * @return JDK builder.
+     */
+    public BuiltBy getBuiltBy() {
+        BuiltBy builtBy = BuiltBy.UNKNOWN;
+        if (logEntry.matches(".+\"build\".+")) {
+            builtBy = BuiltBy.BUILD;
+        ***REMOVED*** else if (logEntry.matches(".+\"\".+")) {
+            builtBy = BuiltBy.EMPTY;
+        ***REMOVED*** else if (logEntry.matches(".+\"jenkins\".+")) {
+            // Used by AdoptOpenJDK
+            builtBy = BuiltBy.JENKINS;
+        ***REMOVED*** else if (logEntry.matches(".+\"java_re\".+")) {
+            // Used by Oracle
+            builtBy = BuiltBy.JAVA_RE;
+        ***REMOVED*** else if (logEntry.matches(".+\"mockbuild\".+")) {
+            // Used by Red Hat, CentOS
+            builtBy = BuiltBy.MOCKBUILD;
+        ***REMOVED*** else if (logEntry.matches(".+\"zulu_re\".+")) {
+            builtBy = BuiltBy.ZULU_RE;
+        ***REMOVED***
+        return builtBy;
     ***REMOVED***
 ***REMOVED***

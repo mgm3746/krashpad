@@ -213,6 +213,11 @@ J 109636 C2 org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run()V (504 bytes
 J 61514 C2 java.lang.Thread.run()V (17 bytes) @ 0x00007fddee8fa22c [0x00007fddee8fa1e0+0x4c]
 v  ~StubRoutines::call_stub
 
+
+***REMOVED***
+7fde045e9000-7fde052dd000 r-xp 00000000 fd:00 17610                      /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre/lib/amd64/server/libjvm.so
+
+
 ***REMOVED***
 
 OS:CentOS Linux release 7.7.1908 (Core)

@@ -275,7 +275,7 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Environment:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            printWriter.write("OS: " + fatalErrorLog.getOs() + Constants.LINE_SEPARATOR);
+            printWriter.write("OS: " + fatalErrorLog.getOsType() + Constants.LINE_SEPARATOR);
             printWriter.write("ARCH: " + fatalErrorLog.getArch() + Constants.LINE_SEPARATOR);
             printWriter.write("Java Vendor: " + fatalErrorLog.getJavaVendor() + Constants.LINE_SEPARATOR);
             printWriter.write("Java Release: " + fatalErrorLog.getJdkReleaseString() + Constants.LINE_SEPARATOR);
@@ -354,8 +354,6 @@ public class Main {
                     printWriter.write("*");
                     printWriter.write(a.getValue());
                     if (a.equals(Analysis.WARN_JDK_NOT_LATEST)) {
-                        printWriter.write(fatalErrorLog.getJavaVendor().toString());
-                        printWriter.write(" ");
                         printWriter.write(JdkUtil.getLatestJdkReleaseString(fatalErrorLog));
                         // Add latest release info
                         int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fatalErrorLog),

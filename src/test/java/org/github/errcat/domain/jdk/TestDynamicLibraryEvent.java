@@ -63,12 +63,21 @@ public class TestDynamicLibraryEvent extends TestCase {
                 JdkUtil.parseLogLine(logLine) instanceof DynamicLibraryEvent);
     ***REMOVED***
 
-    public void testFilePath() {
+    public void testFilePathAmd64() {
         String logLine = "7f908ba68000-7f908c80e000 r-xp 00000000 fd:0a 140891                     "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so";
         DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
         Assert.assertEquals("File path not correct.",
                 "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so",
+                event.getFilePath());
+    ***REMOVED***
+
+    public void testFilePathPpc64le() {
+        String logLine = "7fff99cf0000-7fff9a950000 r-xp 00000000 fd:00 1275071932                 "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        Assert.assertEquals("File path not correct.",
+                "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so",
                 event.getFilePath());
     ***REMOVED***
 
@@ -81,4 +90,5 @@ public class TestDynamicLibraryEvent extends TestCase {
         Assert.assertEquals("File path not correct.",
                 "/usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so", event.getFilePath());
     ***REMOVED***
+
 ***REMOVED***

@@ -1,0 +1,50 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00007fff9a6d62f8, pid=142562, tid=0x00007fff0399f1b0
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_265-b01) (build 1.8.0_265-b01)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.265-b01 mixed mode linux-ppc64le compressed oops)
+***REMOVED*** Problematic frame:
+***REMOVED*** V  [libjvm.so+0x9e62f8]  PhaseChaitin::Split(unsigned int, ResourceArea*)+0x1138
+***REMOVED***
+***REMOVED*** Core dump written. Default location: /etc/sv/tomcat_j/core or core.142562
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
+***REMOVED***
+
+
+Stack: [0x00007fff035a0000,0x00007fff039a0000],  sp=0x00007fff0399b560,  free space=4077k
+***REMOVED***
+V  [libjvm.so+0x9e62f8]  PhaseChaitin::Split(unsigned int, ResourceArea*)+0x1138
+V  [libjvm.so+0x2bbc8c]  PhaseChaitin::Register_Allocate()+0x48c
+V  [libjvm.so+0x381144]  Compile::Code_Gen()+0x224
+V  [libjvm.so+0x383c90]  Compile::Compile(ciEnv*, C2Compiler*, ciMethod*, int, bool, bool, bool)+0xfa0
+V  [libjvm.so+0x295054]  C2Compiler::compile_method(ciEnv*, ciMethod*, int)+0x1f4
+V  [libjvm.so+0x38d814]  CompileBroker::invoke_compiler_on_method(CompileTask*)+0x8e4
+V  [libjvm.so+0x38e7f8]  CompileBroker::compiler_thread_loop()+0x5d8
+V  [libjvm.so+0xb3fb20]  compiler_thread_entry(JavaThread*, Thread*)+0x20
+V  [libjvm.so+0xb4aeb8]  JavaThread::thread_main_inner()+0x288
+V  [libjvm.so+0x933950]  java_start(Thread*)+0x160
+C  [libpthread.so.0+0x8cd4]  start_thread+0x104
+C  [libc.so.6+0x127f14]  clone+0xe4
+
+
+***REMOVED***
+
+7fff99cf0000-7fff9a950000 r-xp 00000000 fd:00 1275071932                 /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)
+
+uname:Linux 4.14.0-115.29.1.el7a.ppc64le ***REMOVED***1 SMP Tue Jul 28 22:41:18 UTC 2020 ppc64le
+libc:glibc 2.17 NPTL 2.17
+rlimit: STACK 8192k, CORE infinity, NPROC 992951, NOFILE 20480, AS infinity
+load average:4.09 1.41 0.71
+
+
+Memory: 64k page, physical 254200832k(97586688k free), swap 4194240k(4186048k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-ppc64le JRE (1.8.0_265-b01), built on Jul 28 2020 11:16:00 by "mockbuild" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)
