@@ -107,6 +107,13 @@ public class TestVmInfoEvent extends TestCase {
         Assert.assertEquals("Arch not correct.", Arch.PPC64LE, ((VmInfoEvent) event).getArch());
     ***REMOVED***
 
+    public void testArchPpc64() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.181-b13) for linux-ppc64 JRE (1.8.0_181-b13), "
+                + "built on Jul 16 2018 11:33:43 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-28)";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Arch not correct.", Arch.PPC64, ((VmInfoEvent) event).getArch());
+    ***REMOVED***
+
     public void testBuildDate() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), "
                 + "built on Jul 12 2020 18:55:08 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";

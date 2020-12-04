@@ -68,26 +68,27 @@ public class TestStackEvent extends TestCase {
                 JdkUtil.parseLogLine(logLine) instanceof StackEvent);
     ***REMOVED***
 
-    public void testVmCodeSmallV() {
+    public void testVmFrameSmallV() {
         String logLine = "v  ~StubRoutines::call_stub";
         Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        StackEvent stackEvent = new StackEvent(logLine);
+        Assert.assertFalse("VM frame incorrectly identified.", stackEvent.isVmFrame());
     ***REMOVED***
 
-    public void testVmCodeLargeV() {
+    public void testVmGeneratedCodeFrameSmallV() {
+        String logLine = "v  ~StubRoutines::call_stub";
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        StackEvent stackEvent = new StackEvent(logLine);
+        Assert.assertTrue("VM generated code frame not identified.", stackEvent.isVmGeneratedCodeFrame());
+    ***REMOVED***
+
+    public void testVmFrameLargeV() {
         String logLine = "V  [libjvm.so+0x93a382]  java_start(Thread*)+0xf2";
         Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof StackEvent);
         StackEvent stackEvent = new StackEvent(logLine);
-        Assert.assertTrue("VM code not identified.", stackEvent.isVmCode());
+        Assert.assertTrue("VM code not identified.", stackEvent.isVmFrame());
     ***REMOVED***
-
-    public void testIsVmCodeNoStack() {
-        String logLine = "V  [libjvm.so+0xa553c8]";
-        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
-        StackEvent stackEvent = new StackEvent(logLine);
-        Assert.assertTrue("VM code not identified.", stackEvent.isVmCode());
-    ***REMOVED***
-
 ***REMOVED***

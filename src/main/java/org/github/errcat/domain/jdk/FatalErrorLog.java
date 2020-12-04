@@ -26,6 +26,7 @@ import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.Constants.OsVendor;
 import org.github.errcat.util.Constants.OsVersion;
+import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
@@ -267,11 +268,24 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return OS string.
+     */
+    public String getOsString() {
+        String osString = "UNKNOWN";
+        if (osEvent != null) {
+            osString = osEvent.getOsString();
+        ***REMOVED***
+        return osString;
+    ***REMOVED***
+
+    /**
      * @return <code>Arch</code>
      */
     public Arch getArch() {
         Arch arch = Arch.UNKNOWN;
-        if (vmInfoEvent != null) {
+        if (unameEvent != null) {
+            arch = unameEvent.getArch();
+        ***REMOVED*** else if (vmInfoEvent != null) {
             arch = vmInfoEvent.getArch();
         ***REMOVED*** else {
             // Check header
@@ -326,8 +340,9 @@ public class FatalErrorLog {
                 Iterator<StackEvent> iterator2 = stack.iterator();
                 while (iterator2.hasNext() && !haveJdkDebugSymbols) {
                     StackEvent se = iterator2.next();
-                    if (se.isVmCode()) {
-                        haveJdkDebugSymbols = se.getLogEntry().matches("^V  \\[.+\\].+$");
+                    if (se.isVmFrame()) {
+                        haveJdkDebugSymbols = se.getLogEntry().matches("^V  \\[.+\\].+$")
+                                && !se.getLogEntry().matches("^V  \\[.+\\]  JVM_DoPrivileged.+$");
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -336,7 +351,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return true if the stack contains JDK VM code, false otherwise.
+     * @return true if the stack contains JDK VM frame code, false otherwise.
      */
     public boolean haveVmCodeInStack() {
         boolean haveVmCodeInStack = false;
@@ -344,13 +359,67 @@ public class FatalErrorLog {
             Iterator<StackEvent> iterator = stack.iterator();
             while (iterator.hasNext()) {
                 StackEvent event = iterator.next();
-                if (event.isVmCode()) {
+                if (event.isVmFrame() || event.isVmGeneratedCodeFrame()) {
                     haveVmCodeInStack = true;
                     break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         return haveVmCodeInStack;
+    ***REMOVED***
+
+    /**
+     * @return true if the stack contains JDK VM generated code frame, false otherwise.
+     */
+    public boolean haveVmGeneratedCodeFrameInStack() {
+        boolean haveVmGeneratedCodeFrameInStack = false;
+        if (stack != null) {
+            Iterator<StackEvent> iterator = stack.iterator();
+            while (iterator.hasNext()) {
+                StackEvent event = iterator.next();
+                if (event.isVmGeneratedCodeFrame()) {
+                    haveVmGeneratedCodeFrameInStack = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return haveVmGeneratedCodeFrameInStack;
+    ***REMOVED***
+
+    /**
+     * @return true if the stack contains JDK VM frame, false otherwise.
+     */
+    public boolean haveVmFrameInStack() {
+        boolean haveVmFrameInStack = false;
+        if (stack != null) {
+            Iterator<StackEvent> iterator = stack.iterator();
+            while (iterator.hasNext()) {
+                StackEvent event = iterator.next();
+                if (event.isVmFrame()) {
+                    haveVmFrameInStack = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return haveVmFrameInStack;
+    ***REMOVED***
+
+    /**
+     * @return true if the header contains JDK VM frame code, false otherwise.
+     */
+    public boolean haveVmFrameInHeader() {
+        boolean haveVmFrameInHeader = false;
+        if (header != null) {
+            Iterator<HeaderEvent> iterator = header.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent event = iterator.next();
+                if (event.isVmFrame()) {
+                    haveVmFrameInHeader = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return haveVmFrameInHeader;
     ***REMOVED***
 
     /**
@@ -594,13 +663,15 @@ public class FatalErrorLog {
      * Do data analysis.
      */
     private void doDataAnalysis() {
-        // Check if debugging symbols are installed
-        if (haveVmCodeInStack() && !haveJdkDebugSymbols()) {
+        // Check if JDK debugging symbols are installed
+        if ((haveVmFrameInStack() || haveVmFrameInHeader()) && !haveJdkDebugSymbols()) {
             analysis.add(Analysis.ERROR_DEBUGGING_SYMBOLS);
         ***REMOVED***
+        // Check if latest JDK release
         if (!JdkUtil.isLatestJdkRelease(this)) {
             analysis.add(0, Analysis.WARN_JDK_NOT_LATEST);
         ***REMOVED***
+        // Identify vendor/build
         if (isRhBuildOpenJdk()) {
             if (getOsType() == OsType.LINUX) {
                 if (getOsVendor() == OsVendor.CENTOS) {
@@ -623,12 +694,19 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
             ***REMOVED***
         ***REMOVED***
+        // Check if there is vm code in the stack
         if (!haveVmCodeInStack()) {
             analysis.add(Analysis.INFO_STACK_NO_VM_CODE);
         ***REMOVED***
+        // Check if LTS release
         if (!isJdkLts()) {
             analysis.add(Analysis.WARN_JDK_NOT_LTS);
         ***REMOVED***
+        // Check for ancient JDK
+        if (ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this), JdkUtil.getLatestJdkReleaseDate(this)) > 365) {
+            analysis.add(Analysis.INFO_JDK_ANCIENT);
+        ***REMOVED***
+
     ***REMOVED***
 
     /**

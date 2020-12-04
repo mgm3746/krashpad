@@ -36,6 +36,11 @@ public enum Analysis {
     INFO_ADOPTOPENJDK_POSSIBLE("info.adoptopenjdk.possible"),
 
     /**
+     * Property key for a JDK that is more than 1 year older than the latest release.
+     */
+    INFO_JDK_ANCIENT("info.jdk.ancient"),
+
+    /**
      * Property key for Red Hat build of OpenJDK on CentOS.
      */
     INFO_RH_BUILD_CENTOS("info.rh.build.centos"),

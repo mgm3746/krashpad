@@ -276,7 +276,7 @@ public class Main {
             printWriter.write("Environment:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             printWriter.write("OS Vendor: " + fatalErrorLog.getOsVendor() + Constants.LINE_SEPARATOR);
-            printWriter.write("OS Version: " + fatalErrorLog.getOsVersion() + Constants.LINE_SEPARATOR);
+            printWriter.write("OS: " + fatalErrorLog.getOsString() + Constants.LINE_SEPARATOR);
             printWriter.write("ARCH: " + fatalErrorLog.getArch() + Constants.LINE_SEPARATOR);
             printWriter.write("Java Vendor: " + fatalErrorLog.getJavaVendor() + Constants.LINE_SEPARATOR);
             printWriter.write("Java Release: " + fatalErrorLog.getJdkReleaseString() + Constants.LINE_SEPARATOR);
@@ -291,11 +291,11 @@ public class Main {
             List<StackEvent> stack = fatalErrorLog.getStack();
             Iterator<StackEvent> iterator1 = stack.iterator();
             // Limit stack output for report readability
-            int stackDepth = 0;
-            while (iterator1.hasNext() && stackDepth < 10) {
+            int stackLength = 0;
+            while (iterator1.hasNext() && stackLength < 10) {
                 StackEvent se = iterator1.next();
                 printWriter.write(se.getLogEntry() + Constants.LINE_SEPARATOR);
-                stackDepth++;
+                stackLength++;
             ***REMOVED***
             if (stack.size() > 10) {
                 printWriter.write("..." + Constants.LINE_SEPARATOR);

@@ -14,6 +14,9 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 
@@ -84,7 +87,10 @@ public class StackEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Stack:|(Java|Native) frames:|(A|C|j|J|v|V)[ ]{1,2***REMOVED***).+$";
+    private static final String REGEX = "^((Stack:|(Java|Native) frames:).+|((A|C|j|J|v)[ ]{1,2***REMOVED***.+|"
+            + "(V  \\[.+\\](  .+)?)))$";
+
+    private static Pattern pattern = Pattern.compile(REGEX);
 
     /**
      * The log entry for the event.
@@ -120,7 +126,41 @@ public class StackEvent implements LogEvent {
         return logLine.matches(REGEX);
     ***REMOVED***
 
-    public boolean isVmCode() {
-        return logEntry.matches("^V  \\[.+\\](  .+)?$");
+    /**
+     * @return true if the stack frame is vm code, false otherwise.
+     * 
+     *         For example:
+     * 
+     *         V [libjvm.so+0x93a382] java_start(Thread*)+0xf2
+     */
+    public boolean isVmFrame() {
+        boolean isVmCode = false;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            int indexVmCode = 6;
+            if (matcher.group(indexVmCode) != null) {
+                isVmCode = true;
+            ***REMOVED***
+        ***REMOVED***
+        return isVmCode;
+    ***REMOVED***
+
+    /**
+     * @return true if the stack frame is vm code, false otherwise.
+     * 
+     *         For example:
+     * 
+     *         v ~StubRoutines::call_stub
+     */
+    public boolean isVmGeneratedCodeFrame() {
+        boolean isVmGeneratedCodeFrame = false;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            int indexVmGeneratedCode = 5;
+            if (matcher.group(indexVmGeneratedCode) != null) {
+                isVmGeneratedCodeFrame = true;
+            ***REMOVED***
+        ***REMOVED***
+        return isVmGeneratedCodeFrame;
     ***REMOVED***
 ***REMOVED***

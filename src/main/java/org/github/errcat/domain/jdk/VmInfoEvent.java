@@ -58,8 +58,8 @@ public class VmInfoEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^vm_info: (Java HotSpot\\(TM\\)|OpenJDK) 64-Bit Server VM \\(.+\\) for "
-            + "(linux|windows)-(amd64|ppc64le) JRE (\\(Zulu.+\\) )?\\(" + JdkRegEx.RELEASE_STRING + "\\).+ built on "
-            + JdkRegEx.BUILD_DATE_TIME + ".+$";
+            + "(linux|windows)-(amd64|ppc64|ppc64le) JRE (\\(Zulu.+\\) )?\\(" + JdkRegEx.RELEASE_STRING
+            + "\\).+ built on " + JdkRegEx.BUILD_DATE_TIME + ".+$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -136,7 +136,7 @@ public class VmInfoEvent implements LogEvent {
      * @return The chip architecture.
      */
     public Arch getArch() {
-        Arch arch = null;
+        Arch arch = Arch.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             int indexArch = 3;
@@ -144,6 +144,8 @@ public class VmInfoEvent implements LogEvent {
                 arch = Arch.X86_64;
             ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64le")) {
                 arch = Arch.PPC64LE;
+            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64")) {
+                arch = Arch.PPC64;
             ***REMOVED***
         ***REMOVED***
         return arch;

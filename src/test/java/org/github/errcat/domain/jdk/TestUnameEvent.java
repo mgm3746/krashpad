@@ -19,6 +19,7 @@ import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.Constants.OsVendor;
 import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.Arch;
 import org.junit.Assert;
 
 import junit.framework.TestCase;
@@ -44,12 +45,23 @@ public class TestUnameEvent extends TestCase {
     public void testSolaris() {
         String logLine = "uname:SunOS 5.11 11.4.23.69.3 sun4v";
         LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Arch not correct.", Arch.SPARC, ((UnameEvent) event).getArch());
         Assert.assertEquals("OS type not correct.", OsType.SOLARIS, ((UnameEvent) event).getOsType());
     ***REMOVED***
 
     public void testRhel7() {
         String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
         LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Arch not correct.", Arch.X86_64, ((UnameEvent) event).getArch());
+        Assert.assertEquals("Version not correct.", OsType.LINUX, ((UnameEvent) event).getOsType());
+        Assert.assertEquals("Vendor not correct.", OsVendor.REDHAT, ((UnameEvent) event).getOsVendor());
+        Assert.assertEquals("Version not correct.", OsVersion.RHEL7, ((UnameEvent) event).getOsVersion());
+    ***REMOVED***
+
+    public void testRhel7Ppc64le() {
+        String logLine = "uname:Linux 3.10.0-862.9.1.el7.ppc64le ***REMOVED***1 SMP Wed Jun 27 08:33:42 UTC 2018 ppc64le";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Arch not correct.", Arch.PPC64LE, ((UnameEvent) event).getArch());
         Assert.assertEquals("Version not correct.", OsType.LINUX, ((UnameEvent) event).getOsType());
         Assert.assertEquals("Vendor not correct.", OsVendor.REDHAT, ((UnameEvent) event).getOsVendor());
         Assert.assertEquals("Version not correct.", OsVersion.RHEL7, ((UnameEvent) event).getOsVersion());
@@ -58,6 +70,7 @@ public class TestUnameEvent extends TestCase {
     public void testRhel8() {
         String logLine = "uname:Linux 4.18.0-193.14.3.el8_2.x86_64 ***REMOVED***1 SMP Mon Jul 20 15:02:29 UTC 2020 x86_64";
         LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Arch not correct.", Arch.X86_64, ((UnameEvent) event).getArch());
         Assert.assertEquals("Version not correct.", OsType.LINUX, ((UnameEvent) event).getOsType());
         Assert.assertEquals("Vendor not correct.", OsVendor.REDHAT, ((UnameEvent) event).getOsVendor());
         Assert.assertEquals("Version not correct.", OsVersion.RHEL8, ((UnameEvent) event).getOsVersion());

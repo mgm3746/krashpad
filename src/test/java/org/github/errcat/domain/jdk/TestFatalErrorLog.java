@@ -20,9 +20,7 @@ import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.jdk.Analysis;
-import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
-import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
 import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 import org.junit.Assert;
 
@@ -133,6 +131,8 @@ public class TestFatalErrorLog extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset5.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT));
         Assert.assertFalse("OS incorrectly identified as RHEL.", fel.isRhel());
         Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
@@ -140,7 +140,7 @@ public class TestFatalErrorLog extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
         Assert.assertTrue(Analysis.INFO_RH_BUILD_CENTOS + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_CENTOS));
-        Assert.assertTrue(Analysis.INFO_STACK_NO_VM_CODE + " analysis not identified.",
+        Assert.assertFalse(Analysis.INFO_STACK_NO_VM_CODE + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.INFO_STACK_NO_VM_CODE));
     ***REMOVED***
 
@@ -227,5 +227,14 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Arch not correct.", Arch.X86_64, fel.getArch());
         Assert.assertEquals("Jdk release not correct.", "11.0.7+10-LTS", fel.getJdkReleaseString());
         Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
+    ***REMOVED***
+
+    public void testRhBuildStringMockbuild() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.181-b13) for linux-ppc64 JRE (1.8.0_181-b13), "
+                + "built on Jul 16 2018 11:33:43 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-28";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVminfo(vmInfoEvent);
+        Assert.assertTrue("RH build string identified.", fel.isRedHatBuildString());
     ***REMOVED***
 ***REMOVED***

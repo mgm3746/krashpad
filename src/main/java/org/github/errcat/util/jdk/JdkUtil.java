@@ -118,7 +118,7 @@ public class JdkUtil {
      */
     public enum Arch {
         //
-        X86_64, PPC64LE, SPARC, UNKNOWN
+        X86_64, PPC64, PPC64LE, SPARC, UNKNOWN
     ***REMOVED***;
 
     /**
@@ -495,6 +495,10 @@ public class JdkUtil {
         rhel7Ppc64leJdk8RpmReleases.put("LATEST", new Release("Oct 20 2020 00:00:00", 26, "1.8.0_272-b10"));
         rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le",
                 new Release("Jul 28 2020 11:16:00", 25, "1.8.0_265-b01"));
+        rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-7.b13.el7.ppc64le",
+                new Release("Jul 16 2018 15:46:59 ", 18, "1.8.0_181-b13"));
+        rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-3.b13.el7_5.ppc64le",
+                new Release("Jul 16 2018 11:33:43", 18, "1.8.0_181-b13"));
     ***REMOVED***
 
     /**

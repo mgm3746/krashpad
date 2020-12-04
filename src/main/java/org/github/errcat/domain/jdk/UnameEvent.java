@@ -22,6 +22,7 @@ import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.Constants.OsVendor;
 import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.Arch;
 
 /**
  * <p>
@@ -50,7 +51,7 @@ public class UnameEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^uname:(.+)$";
+    private static final String REGEX = "^uname:((Linux|SunOS) .+(sun4v|ppc64le|x86_64).*)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -93,9 +94,9 @@ public class UnameEvent implements LogEvent {
      */
     public OsType getOsType() {
         OsType osType = OsType.UNKNOWN;
-        if (getOsString().matches("Linux.+")) {
+        if (getUname().matches("Linux.+")) {
             osType = OsType.LINUX;
-        ***REMOVED*** else if (getOsString().matches("SunOS.+")) {
+        ***REMOVED*** else if (getUname().matches("SunOS.+")) {
             osType = OsType.SOLARIS;
         ***REMOVED***
         return osType;
@@ -106,7 +107,7 @@ public class UnameEvent implements LogEvent {
      */
     public OsVendor getOsVendor() {
         OsVendor osVendor = OsVendor.UNKNOWN;
-        if (getOsString().matches("Linux.+\\.el(6|7|8_\\d)\\..+")) {
+        if (getUname().matches("Linux.+\\.el(6|7|8_\\d)\\..+")) {
             osVendor = OsVendor.REDHAT;
         ***REMOVED***
         return osVendor;
@@ -117,25 +118,44 @@ public class UnameEvent implements LogEvent {
      */
     public OsVersion getOsVersion() {
         OsVersion osVersion = OsVersion.UNKNOWN;
-        if (getOsString().matches("Linux.+\\.el6\\..+")) {
+        if (getUname().matches("Linux.+\\.el6\\..+")) {
             osVersion = OsVersion.RHEL6;
-        ***REMOVED*** else if (getOsString().matches("Linux.+\\.el7\\..+")) {
+        ***REMOVED*** else if (getUname().matches("Linux.+\\.el7\\..+")) {
             osVersion = OsVersion.RHEL7;
-        ***REMOVED*** else if (getOsString().matches("Linux.+\\.el8_\\d\\..+")) {
+        ***REMOVED*** else if (getUname().matches("Linux.+\\.el8_\\d\\..+")) {
             osVersion = OsVersion.RHEL8;
         ***REMOVED***
         return osVersion;
     ***REMOVED***
 
     /**
-     * @return The OS string.
+     * @return The uname string.
      */
-    public String getOsString() {
+    public String getUname() {
         String os = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             os = matcher.group(1);
         ***REMOVED***
         return os;
+    ***REMOVED***
+
+    /**
+     * @return The chip architecture.
+     */
+    public Arch getArch() {
+        Arch arch = Arch.UNKNOWN;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            int indexArch = 3;
+            if (matcher.group(indexArch).equals("x86_64")) {
+                arch = Arch.X86_64;
+            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64le")) {
+                arch = Arch.PPC64LE;
+            ***REMOVED*** else if (matcher.group(indexArch).equals("sun4v")) {
+                arch = Arch.SPARC;
+            ***REMOVED***
+        ***REMOVED***
+        return arch;
     ***REMOVED***
 ***REMOVED***

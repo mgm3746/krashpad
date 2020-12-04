@@ -71,4 +71,16 @@ public class TestAnalysis extends TestCase {
         Assert.assertTrue(Analysis.INFO_ADOPTOPENJDK_POSSIBLE + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_ADOPTOPENJDK_POSSIBLE));
     ***REMOVED***
+
+    public void testJdkDebugSymbolsMissing() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset18.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_LINUX_ZIP + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_LINUX_ZIP));
+        Assert.assertTrue(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertTrue(Analysis.INFO_JDK_ANCIENT + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_JDK_ANCIENT));
+    ***REMOVED***
 ***REMOVED***
