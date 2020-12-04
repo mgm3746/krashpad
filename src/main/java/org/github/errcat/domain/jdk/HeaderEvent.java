@@ -162,6 +162,10 @@ public class HeaderEvent implements LogEvent {
         return logEntry.matches("^# (C  |J |v  |V  ).+$");
     }
 
+    public boolean isVmFrame() {
+        return logEntry.matches("^# (V  ).+$");
+    }
+
     public boolean isInternalError() {
         return logEntry.matches("^#  Internal Error.+$");
     }
