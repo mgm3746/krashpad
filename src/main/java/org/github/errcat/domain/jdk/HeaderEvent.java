@@ -174,6 +174,10 @@ public class HeaderEvent implements LogEvent {
         return logEntry.matches("^#  Error:.+$");
     }
 
+    public boolean isOutOfMemoryError() {
+        return logEntry.matches("^#  Out of Memory Error .+$");
+    }
+
     public boolean isJavaVm() {
         return logEntry.matches("^# Java VM:.+$");
     }

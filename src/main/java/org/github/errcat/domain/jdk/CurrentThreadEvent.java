@@ -18,43 +18,33 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.Constants.OsType;
-import org.github.errcat.util.Constants.OsVendor;
-import org.github.errcat.util.Constants.OsVersion;
+import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * OS
+ * CURRENT_THREAD
  * </p>
  * 
  * <p>
- * OS information.
+ * The thread that was running when the JVM crashed.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * OS:                            Oracle Solaris 11.4 SPARC
- * </pre>
- * 
- * <pre>
- * OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
- * </pre>
- * 
- * <pre>
- * OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)
+ * Current thread (0x00007f127434f800):  JavaThread "ajp-/hostname:8109-16" daemon [_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class OsEvent implements LogEvent {
+public class CurrentThreadEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^OS:[ ]{0,}(.+)$";
+    private static final String REGEX = "^Current thread \\(" + JdkRegEx.ADDRESS + "\\):  (.+)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -69,7 +59,7 @@ public class OsEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public OsEvent(String logEntry) {
+    public CurrentThreadEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -78,7 +68,7 @@ public class OsEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.OS.toString();
+        return JdkUtil.LogEventType.CURRENT_THREAD.toString();
     }
 
     /**
@@ -93,75 +83,14 @@ public class OsEvent implements LogEvent {
     }
 
     /**
-     * @return The OS type.
+     * @return The thread running when the JVM crashed.
      */
-    public OsType getOsType() {
-        OsType osType = OsType.UNKNOWN;
-        if (getOsString().matches(".+Linux.+")) {
-            osType = OsType.LINUX;
-        } else if (logEntry.matches("^OS: Windows.+$")) {
-            osType = OsType.WINDOWS;
-        } else if (getOsString().matches(".+Solaris.+")) {
-            osType = OsType.SOLARIS;
-        }
-        return osType;
-    }
-
-    /**
-     * @return The OS string.
-     */
-    public String getOsString() {
-        String os = null;
+    public String getCurrentThread() {
+        String currentThread = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            os = matcher.group(1);
+            currentThread = matcher.group(2);
         }
-        return os;
-    }
-
-    /**
-     * @return The OS vendor.
-     */
-    public OsVendor getOsVendor() {
-        OsVendor osVendor = OsVendor.UNKNOWN;
-        if (logEntry.matches("^OS:Red Hat.+$")) {
-            osVendor = OsVendor.REDHAT;
-        } else if (logEntry.matches("^OS: Windows.+$")) {
-            osVendor = OsVendor.MICROSOFT;
-        } else if (logEntry.matches("^.+Oracle.+$")) {
-            osVendor = OsVendor.ORACLE;
-        } else if (logEntry.matches("^OS:CentOS.+$")) {
-            osVendor = OsVendor.CENTOS;
-        }
-        return osVendor;
-    }
-
-    /**
-     * @return The OS version.
-     */
-    public OsVersion getOsVersion() {
-        OsVersion osVersion = OsVersion.UNKNOWN;
-        if (logEntry.matches("^OS:Red Hat Enterprise Linux (Server|Workstation) release 6.+$")) {
-            osVersion = OsVersion.RHEL6;
-        } else if (logEntry.matches("^OS:Red Hat Enterprise Linux (Server|Workstation) release 7.+$")) {
-            osVersion = OsVersion.RHEL7;
-        } else if (logEntry.matches("^OS:Red Hat Enterprise Linux release 8.+$")) {
-            osVersion = OsVersion.RHEL8;
-        } else if (logEntry.matches("^OS:CentOS Linux release 6.+$")) {
-            osVersion = OsVersion.CENTOS6;
-        } else if (logEntry.matches("^OS:CentOS Linux release 7.+$")) {
-            osVersion = OsVersion.CENTOS7;
-        } else if (logEntry.matches("^OS:CentOS Linux release 8.+$")) {
-            osVersion = OsVersion.CENTOS8;
-        }
-        return osVersion;
-    }
-
-    public boolean isRhel() {
-        return logEntry.matches("^OS:Red Hat Enterprise Linux.+$");
-    }
-
-    public boolean isWindows() {
-        return logEntry.matches("^OS: Windows.+$");
+        return currentThread;
     }
 }

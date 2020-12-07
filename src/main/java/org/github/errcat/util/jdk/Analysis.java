@@ -31,6 +31,16 @@ public enum Analysis {
     ERROR_DEBUGGING_SYMBOLS("error.jdk.debug.symbols"),
 
     /**
+     * Property key for a crash in JNA code.
+     */
+    ERROR_JNA("error.jna"),
+
+    /**
+     * Property key for a crash in JNA code on a Red Hat JDK.
+     */
+    ERROR_JNA_RH("error.jna.rh"),
+
+    /**
      * Property key for AdoptOpenJDK build of OpenJDK.
      */
     INFO_ADOPTOPENJDK_POSSIBLE("info.adoptopenjdk.possible"),
@@ -39,6 +49,11 @@ public enum Analysis {
      * Property key for a JDK that is more than 1 year older than the latest release.
      */
     INFO_JDK_ANCIENT("info.jdk.ancient"),
+
+    /**
+     * Property key for testing on the latest JDK.
+     */
+    INFO_JDK_TEST_LATEST("info.jdk.test.latest"),
 
     /**
      * Property key for Red Hat build of OpenJDK on CentOS.
