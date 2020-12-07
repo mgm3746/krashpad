@@ -27,7 +27,7 @@ public class TestStackEvent extends TestCase {
 
     public void testIdentity() {
         String logLine = "Stack: [0x00007fe1bc2b9000,0x00007fe1bc3b9000],  sp=0x00007fe1bc3b7bd0,  free space=1018k";
-        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
     ***REMOVED***
 

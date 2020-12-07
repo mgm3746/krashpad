@@ -20,6 +20,7 @@ import java.util.HashMap;
 import org.github.errcat.domain.BlankLineEvent;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
+import org.github.errcat.domain.jdk.CurrentThreadEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
@@ -95,7 +96,7 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BLANK_LINE, DYNAMIC_LIBRARY, HEADER, JVM_INFO, OS, STACK, UNAME, UNKNOWN
+        BLANK_LINE, CURRENT_THREAD, DYNAMIC_LIBRARY, HEADER, JVM_INFO, OS, STACK, UNAME, UNKNOWN
     ***REMOVED***;
 
     /**
@@ -426,15 +427,17 @@ public class JdkUtil {
 
         // RHEL7 amd64 OpenJDK11 rpm
         rhel7Amd64Jdk11RpmReleases = new HashMap<String, Release>();
-        rhel7Amd64Jdk11RpmReleases.put("LATEST", new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
+        rhel7Amd64Jdk11RpmReleases.put("LATEST", new Release("Oct 20 2020 00:00:00", 5, "11.0.9+11-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el7_9.x86_64",
-                new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
+                new Release("Oct 20 2020 00:00:00", 5, "11.0.9+11-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-1.el7.x86_64",
-                new Release("Jul 11 2020 00:00:00", 2, "11.0.8+10-LTS"));
+                new Release("Jul 11 2020 00:00:00", 4, "11.0.8+10-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el7_8.x86_64",
-                new Release("Jul 11 2020 00:00:00", 2, "11.0.8+10-LTS"));
+                new Release("Jul 11 2020 00:00:00", 4, "11.0.8+10-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.7.10-4.el7_8.x86_64",
-                new Release("Apr 14 2020 21:38:20", 1, "11.0.7+10-LTS"));
+                new Release("Apr 14 2020 21:38:20", 3, "11.0.7+10-LTS"));
+        rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.5.10-0.el7_7.x86_64",
+                new Release("Oct 9 2019 18:41:22", 1, "11.0.5+10-LTS"));
 
         // RHEL8 amd64 OpenJDK11 rpm
         rhel8Amd64Jdk11RpmReleases = new HashMap<String, Release>();
@@ -516,6 +519,9 @@ public class JdkUtil {
         case BLANK_LINE:
             event = new BlankLineEvent(logLine);
             break;
+        case CURRENT_THREAD:
+            event = new CurrentThreadEvent(logLine);
+            break;
         case DYNAMIC_LIBRARY:
             event = new DynamicLibraryEvent(logLine);
             break;
@@ -555,6 +561,8 @@ public class JdkUtil {
         LogEventType logEventType = LogEventType.UNKNOWN;
         if (BlankLineEvent.match(logLine)) {
             logEventType = LogEventType.BLANK_LINE;
+        ***REMOVED*** else if (CurrentThreadEvent.match(logLine)) {
+            logEventType = LogEventType.CURRENT_THREAD;
         ***REMOVED*** else if (DynamicLibraryEvent.match(logLine)) {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
         ***REMOVED*** else if (HeaderEvent.match(logLine)) {

@@ -141,9 +141,9 @@ public class OsEvent implements LogEvent {
      */
     public OsVersion getOsVersion() {
         OsVersion osVersion = OsVersion.UNKNOWN;
-        if (logEntry.matches("^OS:Red Hat Enterprise Linux Server release 6.+$")) {
+        if (logEntry.matches("^OS:Red Hat Enterprise Linux (Server|Workstation) release 6.+$")) {
             osVersion = OsVersion.RHEL6;
-        ***REMOVED*** else if (logEntry.matches("^OS:Red Hat Enterprise Linux Server release 7.+$")) {
+        ***REMOVED*** else if (logEntry.matches("^OS:Red Hat Enterprise Linux (Server|Workstation) release 7.+$")) {
             osVersion = OsVersion.RHEL7;
         ***REMOVED*** else if (logEntry.matches("^OS:Red Hat Enterprise Linux release 8.+$")) {
             osVersion = OsVersion.RHEL8;

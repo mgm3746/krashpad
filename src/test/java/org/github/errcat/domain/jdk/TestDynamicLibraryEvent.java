@@ -27,7 +27,7 @@ public class TestDynamicLibraryEvent extends TestCase {
 
     public void testIdentity() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not parsed.",
+        Assert.assertTrue(JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.DYNAMIC_LIBRARY);
     ***REMOVED***
 

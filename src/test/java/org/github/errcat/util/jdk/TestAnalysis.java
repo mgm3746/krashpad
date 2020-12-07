@@ -51,6 +51,8 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
         Assert.assertTrue(Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST));
+        Assert.assertTrue(Analysis.INFO_JDK_TEST_LATEST + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_JDK_TEST_LATEST));
     ***REMOVED***
 
     public void testNotLts() {
@@ -82,5 +84,25 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
         Assert.assertTrue(Analysis.INFO_JDK_ANCIENT + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_JDK_ANCIENT));
+    ***REMOVED***
+
+    public void testRhel7WorkstationrRpm() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset19.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_RPM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
+    ***REMOVED***
+
+    public void testJnaRedHatJdk() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset22.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        String stackFrame1 = "C  [jna8588255081773605818.tmp+0x13c480]  CkMultiByteBase::nextIdx()+0x10";
+        String stackFrame2 = "j  com.sun.jna.Native.invokePointer(Lcom/sun/jna/Function;JI[Ljava/lang/Object;)J+0";
+        Assert.assertEquals("Stack frame 1 not correct.", stackFrame1, fel.getStackFrame(1));
+        Assert.assertEquals("Stack frame 2 not correct.", stackFrame2, fel.getStackFrame(2));
+        Assert.assertTrue(Analysis.ERROR_JNA_RH + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_JNA_RH));
     ***REMOVED***
 ***REMOVED***

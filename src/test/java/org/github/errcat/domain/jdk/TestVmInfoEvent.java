@@ -35,7 +35,7 @@ public class TestVmInfoEvent extends TestCase {
     public void testIdentity() {
         String logLine = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.192-b12) for linux-amd64 JRE (1.8.0_192-b12), "
                 + "built on Oct  6 2018 06:46:09 by \"java_re\" with gcc 7.3.0";
-        Assert.assertTrue(JdkUtil.LogEventType.JVM_INFO.toString() + " not parsed.",
+        Assert.assertTrue(JdkUtil.LogEventType.JVM_INFO.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.JVM_INFO);
     ***REMOVED***
 

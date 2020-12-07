@@ -23,6 +23,7 @@ import java.io.IOException;
 import org.github.errcat.Main;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
+import org.github.errcat.domain.jdk.CurrentThreadEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
@@ -83,6 +84,8 @@ public class Manager {
                         fatalErrorLog.setOs((OsEvent) event);
                     ***REMOVED*** else if (event instanceof UnameEvent) {
                         fatalErrorLog.setUname((UnameEvent) event);
+                    ***REMOVED*** else if (event instanceof CurrentThreadEvent) {
+                        fatalErrorLog.setCurrentThreadEvent((CurrentThreadEvent) event);
                     ***REMOVED*** else if (event instanceof UnknownEvent) {
                         if (fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
                             fatalErrorLog.getUnidentifiedLogLines().add(logLine);

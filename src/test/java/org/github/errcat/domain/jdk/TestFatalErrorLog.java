@@ -237,4 +237,22 @@ public class TestFatalErrorLog extends TestCase {
         fel.setVminfo(vmInfoEvent);
         Assert.assertTrue("RH build string identified.", fel.isRedHatBuildString());
     ***REMOVED***
+
+    public void testCurrentThread() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset20.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Current thread not correct.",
+                "JavaThread \"ajp-/hostname:8109-16\" daemon [_thread_in_native, id=112672, "
+                        + "stack(0x00007f11e11a2000,0x00007f11e12a3000)]",
+                fel.getCurrentThread());
+    ***REMOVED***
+
+    public void testOutOfMemoryError() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset21.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("***REMOVED***  Out of Memory Error (os_linux.cpp:2749), pid=25305, tid=0x00007f5ab28b7700",
+                fel.getError());
+    ***REMOVED***
 ***REMOVED***

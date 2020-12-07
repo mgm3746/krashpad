@@ -32,7 +32,7 @@ public class TestUnameEvent extends TestCase {
 
     public void testIdentity() {
         String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
-        Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not parsed.",
+        Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.UNAME);
     ***REMOVED***
 

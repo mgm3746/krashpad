@@ -27,7 +27,7 @@ public class TestHeaderEvent extends TestCase {
 
     public void testIdentity() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADER);
     ***REMOVED***
 

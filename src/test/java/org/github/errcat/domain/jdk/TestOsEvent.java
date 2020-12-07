@@ -31,7 +31,7 @@ public class TestOsEvent extends TestCase {
 
     public void testIdentity() {
         String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not parsed.",
+        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
     ***REMOVED***
 
@@ -65,6 +65,14 @@ public class TestOsEvent extends TestCase {
 
     public void testRhel7() {
         String logLine = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("OS type not correct.", OsType.LINUX, ((OsEvent) event).getOsType());
+        Assert.assertEquals("OS vendor not correct.", OsVendor.REDHAT, ((OsEvent) event).getOsVendor());
+        Assert.assertEquals("OS version not correct.", OsVersion.RHEL7, ((OsEvent) event).getOsVersion());
+    ***REMOVED***
+
+    public void testRhel7Workstation() {
+        String logLine = "OS:Red Hat Enterprise Linux Workstation release 7.4 (Maipo)";
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("OS type not correct.", OsType.LINUX, ((OsEvent) event).getOsType());
         Assert.assertEquals("OS vendor not correct.", OsVendor.REDHAT, ((OsEvent) event).getOsVendor());

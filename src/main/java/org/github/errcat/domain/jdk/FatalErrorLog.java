@@ -75,9 +75,14 @@ public class FatalErrorLog {
     private List<StackEvent> stack;
 
     /**
-     * Dynamic library information..
+     * Dynamic library information.
      */
     private List<DynamicLibraryEvent> dynamicLibrary;
+
+    /**
+     * Current thread information.
+     */
+    private CurrentThreadEvent currentThreadEvent;
 
     /**
      * Log lines that do not match any existing logging patterns.
@@ -143,6 +148,10 @@ public class FatalErrorLog {
 
     public CrashCause getCrashCause() {
         return crashCause;
+    ***REMOVED***
+
+    public void setCurrentThreadEvent(CurrentThreadEvent currentThreadEvent) {
+        this.currentThreadEvent = currentThreadEvent;
     ***REMOVED***
 
     /**
@@ -309,7 +318,8 @@ public class FatalErrorLog {
             Iterator<HeaderEvent> iterator = header.iterator();
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
-                if (he.isSigBus() || he.isSigIll() || he.isSigSegv() || he.isInternalError() || he.isError()) {
+                if (he.isSigBus() || he.isSigIll() || he.isSigSegv() || he.isInternalError() || he.isError()
+                        || he.isOutOfMemoryError()) {
                     if (causedBy.length() > 0) {
                         causedBy.append(Constants.LINE_SEPARATOR);
                     ***REMOVED***
@@ -647,6 +657,46 @@ public class FatalErrorLog {
         return rpmDirectory;
     ***REMOVED***
 
+    public String getCurrentThread() {
+        return currentThreadEvent.getCurrentThread();
+    ***REMOVED***
+
+    /**
+     * @return true if the crash happens in JNA code, false otherwise.
+     */
+    public boolean isJnaCrash() {
+        boolean isJnaCrash = false;
+        if (getStack() != null && getStack().size() >= 2) {
+            if (getStackFrame(1).matches("^C[ ]{1,2***REMOVED***\\[jna.+$")
+                    && getStackFrame(2).matches("^j[ ]{1,2***REMOVED***com\\.sun\\.jna\\..+$")) {
+                isJnaCrash = true;
+            ***REMOVED***
+        ***REMOVED***
+        return isJnaCrash;
+    ***REMOVED***
+
+    /**
+     * @param i
+     *            The stack frame index (1 = top).
+     * @return The stack frame at the specified position.
+     */
+    public String getStackFrame(int i) {
+        String stackFrame = null;
+        int stackIndex = 1;
+        Iterator<StackEvent> iterator = stack.iterator();
+        while (iterator.hasNext()) {
+            StackEvent event = iterator.next();
+            if (!event.getLogEntry().matches("^(Stack|(Java|Native) frames):.+$")) {
+                if (stackIndex == i) {
+                    stackFrame = event.getLogEntry();
+                    break;
+                ***REMOVED***
+                stackIndex++;
+            ***REMOVED***
+        ***REMOVED***
+        return stackFrame;
+    ***REMOVED***
+
     /**
      * Do analysis.
      */
@@ -670,6 +720,7 @@ public class FatalErrorLog {
         // Check if latest JDK release
         if (!JdkUtil.isLatestJdkRelease(this)) {
             analysis.add(0, Analysis.WARN_JDK_NOT_LATEST);
+            analysis.add(0, Analysis.INFO_JDK_TEST_LATEST);
         ***REMOVED***
         // Identify vendor/build
         if (isRhBuildOpenJdk()) {
@@ -706,7 +757,14 @@ public class FatalErrorLog {
         if (ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this), JdkUtil.getLatestJdkReleaseDate(this)) > 365) {
             analysis.add(Analysis.INFO_JDK_ANCIENT);
         ***REMOVED***
-
+        // Check for crash in JNA
+        if (isJnaCrash()) {
+            if (getJavaVendor() == JavaVendor.RED_HAT) {
+                analysis.add(Analysis.ERROR_JNA_RH);
+            ***REMOVED*** else {
+                analysis.add(Analysis.ERROR_JNA);
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     /**

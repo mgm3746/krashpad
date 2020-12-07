@@ -118,4 +118,9 @@ public class TestJdkRegEx extends TestCase {
         String release = "12.0.1+12";
         Assert.assertTrue("Release not identified.", release.matches(JdkRegEx.RELEASE_STRING));
     ***REMOVED***
+
+    public void testAddress() {
+        String release = "0x000000000232c800";
+        Assert.assertTrue("Address not identified.", release.matches(JdkRegEx.ADDRESS));
+    ***REMOVED***
 ***REMOVED***

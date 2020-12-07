@@ -275,16 +275,21 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Environment:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            printWriter.write("OS Vendor: " + fatalErrorLog.getOsVendor() + Constants.LINE_SEPARATOR);
             printWriter.write("OS: " + fatalErrorLog.getOsString() + Constants.LINE_SEPARATOR);
             printWriter.write("ARCH: " + fatalErrorLog.getArch() + Constants.LINE_SEPARATOR);
-            printWriter.write("Java Vendor: " + fatalErrorLog.getJavaVendor() + Constants.LINE_SEPARATOR);
-            printWriter.write("Java Release: " + fatalErrorLog.getJdkReleaseString() + Constants.LINE_SEPARATOR);
+            printWriter.write("Java release: " + fatalErrorLog.getJdkReleaseString() + Constants.LINE_SEPARATOR);
+            printWriter.write("Java vendor: " + fatalErrorLog.getJavaVendor() + Constants.LINE_SEPARATOR);
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Error:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             printWriter.write(fatalErrorLog.getError() + Constants.LINE_SEPARATOR);
+            if (fatalErrorLog.getCurrentThread() != null) {
+                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+                printWriter.write("Current thread:" + Constants.LINE_SEPARATOR);
+                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                printWriter.write(fatalErrorLog.getCurrentThread() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Stack:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);

@@ -1,0 +1,21 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00007f11cbec3480, pid=101755, tid=139714768807680
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_65-b17) (build 1.8.0_65-b17)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.65-b01 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Problematic frame:
+***REMOVED*** C  [jna8588255081773605818.tmp+0x13c480]  CkMultiByteBase::nextIdx()+0x10
+***REMOVED***
+***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
+***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
+***REMOVED*** See problematic frame for where to report the bug.
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x00007f127434f800):  JavaThread "ajp-/hostname:8109-16" daemon [_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]
