@@ -1,0 +1,117 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00007fa2a4353667, pid=25779, tid=0x00007fa1bf13b700
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_222-b03) (build 1.8.0_222-ea-b03)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.222-b03 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Problematic frame:
+***REMOVED*** C  [libc.so.6+0x14d667]  __memcpy_ssse3+0xb57
+***REMOVED***
+***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
+***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
+***REMOVED*** See problematic frame for where to report the bug.
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x00007fa29d232800):  JavaThread "domain-10" daemon [_thread_in_native, id=25945, stack(0x00007fa1bf03b000,0x00007fa1bf13c000)]
+
+Stack: [0x00007fa1bf03b000,0x00007fa1bf13c000],  sp=0x00007fa1bf138608,  free space=1013k
+***REMOVED***
+C  [libc.so.6+0x14d667]  __memcpy_ssse3+0xb57
+C  [libzip.so+0x6034]  ZIP_GetEntry2+0xf4
+C  [libzip.so+0x3c1d]  Java_java_util_zip_ZipFile_getEntry+0xfd
+J 302  java.util.zip.ZipFile.getEntry(J[BZ)J (0 bytes) @ 0x00007fa287303dce [0x00007fa287303d00+0xce]
+J 473 C2 java.util.jar.JarFile.getEntry(Ljava/lang/String;)Ljava/util/zip/ZipEntry; (22 bytes) @ 0x00007fa2873a5e94 [0x00007fa2873a5b40+0x354]
+J 4848 C1 jeus.deploy.archivist.InputJarArchive.getEntry(Ljava/lang/String;)Ljava/io/InputStream; (104 bytes) @ 0x00007fa28763726c [0x00007fa2876371c0+0xac]
+J 14034 C1 jeus.service.archive.ArchiveClassLoader.findClass0(Ljava/lang/String;Ljeus/deploy/archivist/AbstractArchive;)Ljava/lang/Class; (206 bytes) @ 0x00007fa28963fbfc [0x00007fa28963f5e0+0x61c]
+j  jeus.servlet.loader.ContextLoader.findClass0(Ljava/lang/String;Ljeus/deploy/archivist/AbstractArchive;)Ljava/lang/Class;+3
+J 12087 C1 jeus.service.archive.ArchiveClassLoader.loadClassWithoutDelegation(Ljava/lang/String;)Ljava/lang/Class; (201 bytes) @ 0x00007fa2892bcef4 [0x00007fa2892bbf40+0xfb4]
+J 5369 C1 jeus.service.archive.ArchiveArrayClassLoader.loadClass(Ljava/lang/String;Z)Ljava/lang/Class; (137 bytes) @ 0x00007fa28839a34c [0x00007fa28839a160+0x1ec]
+J 7730 C2 java.lang.ClassLoader.loadClass(Ljava/lang/String;Z)Ljava/lang/Class; (122 bytes) @ 0x00007fa28868a380 [0x00007fa28868a040+0x340]
+j  jeus.servlet.loader.JspClassLoader.loadClass(Ljava/lang/String;Z)Ljava/lang/Class;+3
+J 9166 C2 java.lang.ClassLoader.loadClass(Ljava/lang/String;)Ljava/lang/Class; (7 bytes) @ 0x00007fa288614ce0 [0x00007fa288614ca0+0x40]
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x6804ce]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0xf5e
+V  [libjvm.so+0x67d894]  JavaCalls::call_virtual(JavaValue*, KlassHandle, Symbol*, Symbol*, JavaCallArguments*, Thread*)+0x2c4
+V  [libjvm.so+0x67df35]  JavaCalls::call_virtual(JavaValue*, Handle, KlassHandle, Symbol*, Symbol*, Handle, Thread*)+0x65
+V  [libjvm.so+0xa427d8]  SystemDictionary::load_instance_class(Symbol*, Handle, Thread*)+0x3c8
+V  [libjvm.so+0xa430e6]  SystemDictionary::resolve_instance_class_or_null(Symbol*, Handle, Handle, Thread*)+0x8f6
+V  [libjvm.so+0xa4383f]  SystemDictionary::resolve_super_or_fail(Symbol*, Symbol*, Handle, Handle, bool, Thread*)+0x1ff
+V  [libjvm.so+0x45f193]  ClassFileParser::parseClassFile(Symbol*, ClassLoaderData*, Handle, KlassHandle, GrowableArray<Handle>*, TempNewSymbol&, bool, Thread*)+0x1313
+V  [libjvm.so+0xa44846]  SystemDictionary::resolve_from_stream(Symbol*, Handle, Handle, ClassFileStream*, bool, Thread*)+0x126
+V  [libjvm.so+0x6c3e88]  jvm_define_class_common(JNIEnv_*, char const*, _jobject*, signed char const*, int, _jobject*, char const*, unsigned char, Thread*)+0x2a8
+V  [libjvm.so+0x6c5bab]  JVM_DefineClassWithSource+0x9b
+C  [libjava.so+0xe026]  Java_java_lang_ClassLoader_defineClass1+0x1f6
+J 1023  java.lang.ClassLoader.defineClass1(Ljava/lang/String;[BIILjava/security/ProtectionDomain;Ljava/lang/String;)Ljava/lang/Class; (0 bytes) @ 0x00007fa2875c488b [0x00007fa2875c4780+0x10b]
+J 11696 C2 java.lang.ClassLoader.defineClass(Ljava/lang/String;[BIILjava/security/ProtectionDomain;)Ljava/lang/Class; (43 bytes) @ 0x00007fa28919b8a0 [0x00007fa28919b380+0x520]
+j  java.lang.ClassLoader.defineClass(Ljava/lang/String;[BII)Ljava/lang/Class;+7
+j  org.apache.jasper.JspClassLoader.findClass(Ljava/lang/String;)Ljava/lang/Class;+150
+J 7730 C2 java.lang.ClassLoader.loadClass(Ljava/lang/String;Z)Ljava/lang/Class; (122 bytes) @ 0x00007fa28868a424 [0x00007fa28868a040+0x3e4]
+j  jeus.servlet.loader.JspClassLoader.loadClass(Ljava/lang/String;Z)Ljava/lang/Class;+3
+J 9166 C2 java.lang.ClassLoader.loadClass(Ljava/lang/String;)Ljava/lang/Class; (7 bytes) @ 0x00007fa288614ce0 [0x00007fa288614ca0+0x40]
+j  jeus.servlet.loader.JspReloader.getInstance()Ljava/lang/Object;+692
+j  jeus.servlet.loader.ServletReloader.getServlet()Ljavax/servlet/Servlet;+35
+j  jeus.servlet.jsp.JspServletWrapper.executeServlet(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;)V+14
+j  jeus.servlet.servlets.JspServlet.executeServlet(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;)V+336
+j  jeus.servlet.servlets.JspServlet.execute(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;)V+25
+j  jeus.servlet.engine.RequestProcessor.run()V+1119
+j  jeus.util.pool.ThreadPoolExecutor$Worker.runTask(Ljava/lang/Runnable;)V+66
+j  jeus.util.pool.ThreadPoolExecutor$Worker.run()V+76
+j  jeus.servlet.engine.WebThreadPoolExecutor$WebRequestWorker.run()V+1
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x6804ce]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0xf5e
+V  [libjvm.so+0x67d894]  JavaCalls::call_virtual(JavaValue*, KlassHandle, Symbol*, Symbol*, JavaCallArguments*, Thread*)+0x2c4
+V  [libjvm.so+0x67dea9]  JavaCalls::call_virtual(JavaValue*, Handle, KlassHandle, Symbol*, Symbol*, Thread*)+0x59
+V  [libjvm.so+0x6c3581]  thread_entry(JavaThread*, Thread*)+0xa1
+V  [libjvm.so+0xa77fb2]  JavaThread::thread_main_inner()+0x212
+V  [libjvm.so+0x8c3352]  java_start(Thread*)+0xf2
+C  [libpthread.so.0+0x7ea5]  start_thread+0xc5
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+J 302  java.util.zip.ZipFile.getEntry(J[BZ)J (0 bytes) @ 0x00007fa287303d58 [0x00007fa287303d00+0x58]
+J 473 C2 java.util.jar.JarFile.getEntry(Ljava/lang/String;)Ljava/util/zip/ZipEntry; (22 bytes) @ 0x00007fa2873a5e94 [0x00007fa2873a5b40+0x354]
+J 4848 C1 jeus.deploy.archivist.InputJarArchive.getEntry(Ljava/lang/String;)Ljava/io/InputStream; (104 bytes) @ 0x00007fa28763726c [0x00007fa2876371c0+0xac]
+J 14034 C1 jeus.service.archive.ArchiveClassLoader.findClass0(Ljava/lang/String;Ljeus/deploy/archivist/AbstractArchive;)Ljava/lang/Class; (206 bytes) @ 0x00007fa28963fbfc [0x00007fa28963f5e0+0x61c]
+j  jeus.servlet.loader.ContextLoader.findClass0(Ljava/lang/String;Ljeus/deploy/archivist/AbstractArchive;)Ljava/lang/Class;+3
+J 12087 C1 jeus.service.archive.ArchiveClassLoader.loadClassWithoutDelegation(Ljava/lang/String;)Ljava/lang/Class; (201 bytes) @ 0x00007fa2892bcef4 [0x00007fa2892bbf40+0xfb4]
+J 5369 C1 jeus.service.archive.ArchiveArrayClassLoader.loadClass(Ljava/lang/String;Z)Ljava/lang/Class; (137 bytes) @ 0x00007fa28839a34c [0x00007fa28839a160+0x1ec]
+J 7730 C2 java.lang.ClassLoader.loadClass(Ljava/lang/String;Z)Ljava/lang/Class; (122 bytes) @ 0x00007fa28868a380 [0x00007fa28868a040+0x340]
+j  jeus.servlet.loader.JspClassLoader.loadClass(Ljava/lang/String;Z)Ljava/lang/Class;+3
+J 9166 C2 java.lang.ClassLoader.loadClass(Ljava/lang/String;)Ljava/lang/Class; (7 bytes) @ 0x00007fa288614ce0 [0x00007fa288614ca0+0x40]
+v  ~StubRoutines::call_stub
+J 1023  java.lang.ClassLoader.defineClass1(Ljava/lang/String;[BIILjava/security/ProtectionDomain;Ljava/lang/String;)Ljava/lang/Class; (0 bytes) @ 0x00007fa2875c4811 [0x00007fa2875c4780+0x91]
+J 11696 C2 java.lang.ClassLoader.defineClass(Ljava/lang/String;[BIILjava/security/ProtectionDomain;)Ljava/lang/Class; (43 bytes) @ 0x00007fa28919b8a0 [0x00007fa28919b380+0x520]
+j  java.lang.ClassLoader.defineClass(Ljava/lang/String;[BII)Ljava/lang/Class;+7
+j  org.apache.jasper.JspClassLoader.findClass(Ljava/lang/String;)Ljava/lang/Class;+150
+J 7730 C2 java.lang.ClassLoader.loadClass(Ljava/lang/String;Z)Ljava/lang/Class; (122 bytes) @ 0x00007fa28868a424 [0x00007fa28868a040+0x3e4]
+j  jeus.servlet.loader.JspClassLoader.loadClass(Ljava/lang/String;Z)Ljava/lang/Class;+3
+J 9166 C2 java.lang.ClassLoader.loadClass(Ljava/lang/String;)Ljava/lang/Class; (7 bytes) @ 0x00007fa288614ce0 [0x00007fa288614ca0+0x40]
+j  jeus.servlet.loader.JspReloader.getInstance()Ljava/lang/Object;+692
+j  jeus.servlet.loader.ServletReloader.getServlet()Ljavax/servlet/Servlet;+35
+j  jeus.servlet.jsp.JspServletWrapper.executeServlet(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;)V+14
+j  jeus.servlet.servlets.JspServlet.executeServlet(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;)V+336
+j  jeus.servlet.servlets.JspServlet.execute(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;)V+25
+j  jeus.servlet.engine.RequestProcessor.run()V+1119
+j  jeus.util.pool.ThreadPoolExecutor$Worker.runTask(Ljava/lang/Runnable;)V+66
+j  jeus.util.pool.ThreadPoolExecutor$Worker.run()V+76
+j  jeus.servlet.engine.WebThreadPoolExecutor$WebRequestWorker.run()V+1
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+
+***REMOVED***
+
+7fa2a3215000-7fa2a3efd000 r-xp 00000000 fd:00 67733944                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b03-1.el7.x86_64/jre/lib/amd64/server/libjvm.so
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
+
+uname:Linux 3.10.0-1062.el7.x86_64 ***REMOVED***1 SMP Thu Jul 18 20:25:13 UTC 2019 x86_64
+
+vm_info: OpenJDK 64-Bit Server VM (25.222-b03) for linux-amd64 JRE (1.8.0_222-ea-b03), built on May 22 2019 13:05:27 by "mockbuild" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)

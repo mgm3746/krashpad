@@ -51,8 +51,7 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
         Assert.assertTrue(Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST));
-        Assert.assertTrue(Analysis.INFO_JDK_TEST_LATEST + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_JDK_TEST_LATEST));
+        ;
     ***REMOVED***
 
     public void testNotLts() {
@@ -104,5 +103,18 @@ public class TestAnalysis extends TestCase {
         Assert.assertEquals("Stack frame 2 not correct.", stackFrame2, fel.getStackFrame(2));
         Assert.assertTrue(Analysis.ERROR_JNA_RH + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_JNA_RH));
+    ***REMOVED***
+
+    public void testJdk8ZipFileContention() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset23.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Release ***REMOVED*** diff not correct.", JavaSpecification.JDK8, fel.getJavaSpecification());
+        String stackFrameTopCompiledJavaCode = "J 302  java.util.zip.ZipFile.getEntry(J[BZ)J (0 bytes) @ "
+                + "0x00007fa287303dce [0x00007fa287303d00+0xce]";
+        Assert.assertEquals("Top compiled Java code (J) stack frame not correct.", stackFrameTopCompiledJavaCode,
+                fel.getStackFrameTopCompiledJavaCode());
+        Assert.assertTrue(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION));
     ***REMOVED***
 ***REMOVED***
