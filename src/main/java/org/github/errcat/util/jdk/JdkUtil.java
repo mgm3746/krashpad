@@ -124,6 +124,15 @@ public class JdkUtil {
 
     /**
      * Defined crash reasons.
+     * 
+     * SIGBUS: Invalid memory address. Accessing a memory address that has an invalid address alignment for the CPU
+     * (BUS_ADRALN). does not exist (BUS_ADRERR). or has a hardware issue (BUS_OBJERR). BUS_ADRERR is rare on Linux but
+     * can happen when an mmap'ed file is truncated (e.g. a threading issue where 2 threads access a file at the same
+     * time).
+     * 
+     * SIGSEGV: Segmentation fault. Accessing valid memory in an invalid way. For example: (1) Attempting to write to
+     * read-only memory. (2) Attempting to write to protected (e.g. OS) memory. (3) Attempting to access an array at an
+     * index greater than the array size (out of bounds).
      */
     public enum CrashCause {
         //
@@ -265,7 +274,7 @@ public class JdkUtil {
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-0.el7_6.x86_64",
                 new Release("Jul 17 2019 00:00:00", 21, "1.8.0_222-b10"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b03-1.el7.x86_64",
-                new Release("Jul 17 2019 00:00:00", 21, "1.8.0_222-b10"));
+                new Release("May 22 2019 13:05:27", 21, "1.8.0_222-ea-b03"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.212.b04-0.el7_6.x86_64",
                 new Release("Apr 16 2019 00:00:00", 21, "1.8.0_212-b04"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-2.el7_6.x86_64",

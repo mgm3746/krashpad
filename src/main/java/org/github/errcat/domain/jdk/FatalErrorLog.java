@@ -698,6 +698,22 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return The top Compile Java Code (J) stack frame, nor null if none exists.
+     */
+    public String getStackFrameTopCompiledJavaCode() {
+        String stackFrameTopCompiledJavaCode = null;
+        Iterator<StackEvent> iterator = stack.iterator();
+        while (iterator.hasNext()) {
+            StackEvent event = iterator.next();
+            if (event.getLogEntry().matches("^J[ ]{1,2}.+$")) {
+                stackFrameTopCompiledJavaCode = event.getLogEntry();
+                break;
+            }
+        }
+        return stackFrameTopCompiledJavaCode;
+    }
+
+    /**
      * Do analysis.
      */
     public void doAnalysis() {
@@ -720,7 +736,6 @@ public class FatalErrorLog {
         // Check if latest JDK release
         if (!JdkUtil.isLatestJdkRelease(this)) {
             analysis.add(0, Analysis.WARN_JDK_NOT_LATEST);
-            analysis.add(0, Analysis.INFO_JDK_TEST_LATEST);
         }
         // Identify vendor/build
         if (isRhBuildOpenJdk()) {
@@ -764,6 +779,11 @@ public class FatalErrorLog {
             } else {
                 analysis.add(Analysis.ERROR_JNA);
             }
+        }
+        // Check for JDK8 ZipFile contention
+        if (getJavaSpecification() == JavaSpecification.JDK8 && getStackFrameTopCompiledJavaCode() != null
+                && getStackFrameTopCompiledJavaCode().matches("^.+java\\.util\\.zip\\.ZipFile\\.getEntry.+$")) {
+            analysis.add(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION);
         }
     }
 

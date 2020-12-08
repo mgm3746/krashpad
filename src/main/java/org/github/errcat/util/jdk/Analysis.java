@@ -31,6 +31,11 @@ public enum Analysis {
     ERROR_DEBUGGING_SYMBOLS("error.jdk.debug.symbols"),
 
     /**
+     * Property key for a crash in JDK8 when a file is attempting to be modified while Java has it open.
+     */
+    ERROR_JDK8_ZIPFILE_CONTENTION("error.jdk8.zipfile.contention"),
+
+    /**
      * Property key for a crash in JNA code.
      */
     ERROR_JNA("error.jna"),
@@ -49,11 +54,6 @@ public enum Analysis {
      * Property key for a JDK that is more than 1 year older than the latest release.
      */
     INFO_JDK_ANCIENT("info.jdk.ancient"),
-
-    /**
-     * Property key for testing on the latest JDK.
-     */
-    INFO_JDK_TEST_LATEST("info.jdk.test.latest"),
 
     /**
      * Property key for Red Hat build of OpenJDK on CentOS.
