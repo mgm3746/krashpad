@@ -714,6 +714,27 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @param stackFrame
+     *            A stack frame in the stack.
+     * @return The next stack frame, or null if the stack frame passed in does not exist or is at the bottom of the
+     *         stack.
+     */
+    public String getNextStackFrame(String stackFrame) {
+        String nextStackFrame = null;
+        int stackIndex = 0;
+        Iterator<StackEvent> iterator = stackEvents.iterator();
+        while (iterator.hasNext()) {
+            StackEvent event = iterator.next();
+            if (event.getLogEntry().matches("^" + stackFrame + "$") && stackIndex < stackEvents.size()) {
+                nextStackFrame = stackEvents.get(stackIndex + 1).getLogEntry();
+                break;
+            ***REMOVED***
+            stackIndex++;
+        ***REMOVED***
+        return nextStackFrame;
+    ***REMOVED***
+
+    /**
      * @return The top Compile Java Code (J) stack frame, or null if none exists.
      */
     public String getStackFrameTopCompiledJavaCode() {
@@ -775,10 +796,32 @@ public class FatalErrorLog {
                 if (event.getLogEntry().matches(JdkRegEx.JBOSS_JAR)) {
                     application = Application.JBOSS;
                     break;
+                ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_JAR)) {
+                    application = Application.TOMCAT;
+                    break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         return application;
+    ***REMOVED***
+
+    /**
+     * @param classRegEx
+     *            A class name as a regular expression.
+     * @return true if the class is in the stack, false otherwise.
+     */
+    public boolean isInStack(String classRegEx) {
+        boolean isInStack = false;
+        if (getStackEvents() != null) {
+            Iterator<StackEvent> iterator = stackEvents.iterator();
+            while (iterator.hasNext()) {
+                StackEvent event = iterator.next();
+                if (event.getLogEntry().matches("^.+" + classRegEx + ".+$")) {
+                    isInStack = true;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return isInStack;
     ***REMOVED***
 
     /**
@@ -858,10 +901,11 @@ public class FatalErrorLog {
                 && getStackFrameTopCompiledJavaCode().matches("^.+java\\.util\\.zip\\.ZipFile\\.getEntry.+$")) {
             analysis.add(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION);
         ***REMOVED***
-        // Check for EAP7 bug: undertow SSLConduit write is not synchronized.
-        if (getApplication() == Application.JBOSS
-                && getStackFrameTop().matches("v  ~StubRoutines::jbyte_disjoint_arraycopy")) {
-            analysis.add(Analysis.ERROR_RH_EAP7_UNDERTOW_SSL_CONDUIT);
+        // Check for unsychronized access to DirectByteBuffer
+        String stackFrameTop = "^v  ~StubRoutines::jbyte_disjoint_arraycopy$";
+        if (getStackFrameTop() != null && getStackFrameTop().matches(stackFrameTop)
+                && isInStack(JdkRegEx.JAVA_NIO_BYTEBUFFER)) {
+            analysis.add(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION);
         ***REMOVED***
     ***REMOVED***
 

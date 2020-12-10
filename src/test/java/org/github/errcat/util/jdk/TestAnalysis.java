@@ -120,14 +120,16 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION));
     ***REMOVED***
 
-    public void testUndertowSslConduitNotSynchronized() {
+    public void testDirectByteBufferUnsynchronizedAccess() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset24.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertEquals("Application not correct.", Application.JBOSS, fel.getApplication());
         Assert.assertEquals("To stack frame not correct.", "v  ~StubRoutines::jbyte_disjoint_arraycopy",
                 fel.getStackFrameTop());
-        Assert.assertTrue(Analysis.ERROR_RH_EAP7_UNDERTOW_SSL_CONDUIT + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_RH_EAP7_UNDERTOW_SSL_CONDUIT));
+        Assert.assertTrue("DirectByteBuffer class not identified in stack.",
+                fel.isInStack(JdkRegEx.JAVA_NIO_BYTEBUFFER));
+        Assert.assertTrue(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION));
     ***REMOVED***
 ***REMOVED***

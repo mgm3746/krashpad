@@ -153,7 +153,7 @@ public class JdkUtil {
      */
     public enum Application {
         //
-        JBOSS, UNKNOWN
+        JBOSS, TOMCAT, UNKNOWN
     ***REMOVED***;
 
     static {

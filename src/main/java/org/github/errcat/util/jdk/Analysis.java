@@ -26,6 +26,11 @@ import org.github.errcat.util.ErrUtil;
 public enum Analysis {
 
     /**
+     * Property key for a crash due to multiple threads access DirectByteBuffer at the same time.
+     */
+    ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),
+
+    /**
      * Property key for a crash in JDK8 when a file is attempting to be modified while Java has it open.
      */
     ERROR_JDK8_ZIPFILE_CONTENTION("error.jdk8.zipfile.contention"),
@@ -46,11 +51,6 @@ public enum Analysis {
      * Property key for a crash in JNA code on a Red Hat JDK.
      */
     ERROR_JNA_RH("error.jna.rh"),
-
-    /**
-     * Property key for a crash due to undertow SSLConduit write not synchronized on EAP7.
-     */
-    ERROR_RH_EAP7_UNDERTOW_SSL_CONDUIT("error.rh.eap7.undertow.ssl.conduit"),
 
     /**
      * Property key for AdoptOpenJDK build of OpenJDK.
