@@ -119,8 +119,13 @@ public class TestJdkRegEx extends TestCase {
         Assert.assertTrue("Release not identified.", release.matches(JdkRegEx.RELEASE_STRING));
     ***REMOVED***
 
-    public void testAddress() {
+    public void testAddress64Bit() {
         String release = "0x000000000232c800";
-        Assert.assertTrue("Address not identified.", release.matches(JdkRegEx.ADDRESS));
+        Assert.assertTrue("Address not identified.", release.matches(JdkRegEx.ADDRESS64));
+    ***REMOVED***
+
+    public void testAddress32Bit() {
+        String release = "0x08ec6400";
+        Assert.assertTrue("Address not identified.", release.matches(JdkRegEx.ADDRESS32));
     ***REMOVED***
 ***REMOVED***

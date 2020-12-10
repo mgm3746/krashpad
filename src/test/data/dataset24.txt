@@ -1,0 +1,59 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00007fb9c30680c2, pid=22663, tid=0x00007fb871ac0700
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment (Zulu 8.46.0.1006-SA-linux64) (8.0_252-b14) (build 1.8.0_252-b14)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.252-b14 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Problematic frame:
+***REMOVED*** v  ~StubRoutines::jbyte_disjoint_arraycopy
+***REMOVED***
+***REMOVED*** Core dump written. Default location: /opt/avaya/SAL/ccs/jboss-eap-7.2/core or core.22663
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   http://www.azulsystems.com/support/
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x000000f0e133a800):  JavaThread "Server-Worker-2-44" [_thread_in_Java, id=23413, stack(0x00007fb8719c0000,0x00007fb871ac1000)]
+
+Stack: [0x00007fb8719c0000,0x00007fb871ac1000],  sp=0x00007fb871abee10,  free space=1019k
+***REMOVED***
+v  ~StubRoutines::jbyte_disjoint_arraycopy
+J 28904 C2 sun.security.ssl.EngineWriter.writeRecord(Lsun/security/ssl/EngineOutputRecord;Lsun/security/ssl/EngineArgs;Lsun/security/ssl/Authenticator;Lsun/security/ssl/CipherBox;)Ljavax/net/ssl/SSLEngineResult$HandshakeStatus; (87 bytes) @ 0x00007fb9c6a55b2b [0x00007fb9c6a55600+0x52b]
+J 33545 C2 io.undertow.protocols.ssl.SslConduit.wrapAndFlip([Ljava/nio/ByteBuffer;II)Ljavax/net/ssl/SSLEngineResult; (98 bytes) @ 0x00007fb9c6ebb064 [0x00007fb9c6eb9bc0+0x14a4]
+J 33557 C2 io.undertow.protocols.ssl.SslConduit.doWrap([Ljava/nio/ByteBuffer;II)J (654 bytes) @ 0x00007fb9c7144510 [0x00007fb9c71443a0+0x170]
+J 33433 C2 io.undertow.conduits.ChunkedStreamSinkConduit.doWrite(Ljava/nio/ByteBuffer;)I (514 bytes) @ 0x00007fb9c6e86edc [0x00007fb9c6e86880+0x65c]
+J 32082 C2 io.undertow.servlet.spec.ServletOutputStreamImpl.writeBufferBlocking(Z)V (110 bytes) @ 0x00007fb9c58dda5c [0x00007fb9c58dd960+0xfc]
+J 34722 C1 io.undertow.servlet.spec.ServletOutputStreamImpl.flushInternal()V (189 bytes) @ 0x00007fb9c5f5872c [0x00007fb9c5f58660+0xcc]
+J 33415 C2 io.netty.channel.socket.http.HttpTunnelingServlet$OutboundConnectionHandler.channelRead(Lio/netty/channel/ChannelHandlerContext;Ljava/lang/Object;)V (104 bytes) @ 0x00007fb9c5b9917c [0x00007fb9c5b98da0+0x3dc]
+J 30792 C2 io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(Lio/netty/channel/ChannelHandlerContext;Ljava/lang/Object;)V (9 bytes) @ 0x00007fb9c6177b70 [0x00007fb9c61779a0+0x1d0]
+J 32518 C2 io.netty.channel.local.LocalChannel.finishPeerRead0(Lio/netty/channel/local/LocalChannel;)V (90 bytes) @ 0x00007fb9c5ea7974 [0x00007fb9c5ea7040+0x934]
+J 31269 C2 io.netty.channel.local.LocalChannel$5.run()V (12 bytes) @ 0x00007fb9c566beac [0x00007fb9c566be60+0x4c]
+j  io.netty.channel.DefaultEventLoop.run()V+10
+j  io.netty.util.concurrent.SingleThreadEventExecutor$5.run()V+44
+J 15762 C1 java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V (225 bytes) @ 0x00007fb9c5329cdc [0x00007fb9c5328ce0+0xffc]
+j  java.util.concurrent.ThreadPoolExecutor$Worker.run()V+5
+j  io.netty.util.concurrent.DefaultThreadFactory$DefaultRunnableDecorator.run()V+4
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x681324]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0x1034
+V  [libjvm.so+0x682867]  JavaCalls::call_virtual(JavaValue*, KlassHandle, Symbol*, Symbol*, JavaCallArguments*, Thread*)+0x2f7
+V  [libjvm.so+0x682da0]  JavaCalls::call_virtual(JavaValue*, Handle, KlassHandle, Symbol*, Symbol*, Thread*)+0x60
+V  [libjvm.so+0x71dc31]  thread_entry(JavaThread*, Thread*)+0x91
+V  [libjvm.so+0xa8d645]  JavaThread::thread_main_inner()+0x205
+V  [libjvm.so+0x936322]  java_start(Thread*)+0x132
+C  [libpthread.so.0+0x7aa1]
+
+***REMOVED***
+
+7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511                     /opt/avaya/SAL/ccs/jboss-eap-7.2/jboss-modules.jar
+
+***REMOVED***
+
+OS:Oracle Linux Server release 6.10
+
+uname:Linux 4.1.12-124.42.3.el6uek.x86_64 ***REMOVED***2 SMP Thu Aug 20 11:49:26 PDT 2020 x86_64
+
+vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE (Zulu 8.46.0.1006-SA-linux64) (1.8.0_252-b14), built on Nov  9 2020 15:07:35 by "zulu_re" with gcc 4.4.7 20120313 (Red Hat 4.4.7-3)

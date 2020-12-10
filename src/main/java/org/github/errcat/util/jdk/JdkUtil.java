@@ -20,6 +20,7 @@ import java.util.HashMap;
 import org.github.errcat.domain.BlankLineEvent;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
+import org.github.errcat.domain.jdk.CpuEvent;
 import org.github.errcat.domain.jdk.CurrentThreadEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
@@ -96,7 +97,7 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BLANK_LINE, CURRENT_THREAD, DYNAMIC_LIBRARY, HEADER, JVM_INFO, OS, STACK, UNAME, UNKNOWN
+        BLANK_LINE, CPU, CURRENT_THREAD, DYNAMIC_LIBRARY, HEADER, JVM_INFO, OS, STACK, UNAME, UNKNOWN
     ***REMOVED***;
 
     /**
@@ -115,7 +116,7 @@ public class JdkUtil {
     ***REMOVED***;
 
     /**
-     * Defined architectures.
+     * Defined JDK architectures.
      */
     public enum Arch {
         //
@@ -145,6 +146,14 @@ public class JdkUtil {
     public enum BuiltBy {
         //
         BUILD, EMPTY, JAVA_RE, JENKINS, MOCKBUILD, UNKNOWN, ZULU_RE
+    ***REMOVED***;
+
+    /**
+     * Defined Java applications.
+     */
+    public enum Application {
+        //
+        JBOSS, UNKNOWN
     ***REMOVED***;
 
     static {
@@ -504,7 +513,9 @@ public class JdkUtil {
 
         // RHEL7 ppc64le OpenJDK8 rpm
         rhel7Ppc64leJdk8RpmReleases = new HashMap<String, Release>();
-        rhel7Ppc64leJdk8RpmReleases.put("LATEST", new Release("Oct 20 2020 00:00:00", 26, "1.8.0_272-b10"));
+        rhel7Ppc64leJdk8RpmReleases.put("LATEST", new Release("Oct 20 2020 01:33:13", 26, "1.8.0_272-b10"));
+        rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.ppc64le",
+                new Release("Oct 20 2020 01:33:13", 26, "1.8.0_272-b10"));
         rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le",
                 new Release("Jul 28 2020 11:16:00", 25, "1.8.0_265-b01"));
         rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-7.b13.el7.ppc64le",
@@ -527,6 +538,9 @@ public class JdkUtil {
 
         case BLANK_LINE:
             event = new BlankLineEvent(logLine);
+            break;
+        case CPU:
+            event = new CpuEvent(logLine);
             break;
         case CURRENT_THREAD:
             event = new CurrentThreadEvent(logLine);
@@ -570,6 +584,8 @@ public class JdkUtil {
         LogEventType logEventType = LogEventType.UNKNOWN;
         if (BlankLineEvent.match(logLine)) {
             logEventType = LogEventType.BLANK_LINE;
+        ***REMOVED*** else if (CpuEvent.match(logLine)) {
+            logEventType = LogEventType.CPU;
         ***REMOVED*** else if (CurrentThreadEvent.match(logLine)) {
             logEventType = LogEventType.CURRENT_THREAD;
         ***REMOVED*** else if (DynamicLibraryEvent.match(logLine)) {

@@ -279,6 +279,7 @@ public class Main {
             printWriter.write("ARCH: " + fatalErrorLog.getArch() + Constants.LINE_SEPARATOR);
             printWriter.write("Java release: " + fatalErrorLog.getJdkReleaseString() + Constants.LINE_SEPARATOR);
             printWriter.write("Java vendor: " + fatalErrorLog.getJavaVendor() + Constants.LINE_SEPARATOR);
+            printWriter.write("Application: " + fatalErrorLog.getApplication() + Constants.LINE_SEPARATOR);
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Error:" + Constants.LINE_SEPARATOR);
@@ -293,7 +294,7 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Stack:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            List<StackEvent> stack = fatalErrorLog.getStack();
+            List<StackEvent> stack = fatalErrorLog.getStackEvents();
             Iterator<StackEvent> iterator1 = stack.iterator();
             // Limit stack output for report readability
             int stackLength = 0;

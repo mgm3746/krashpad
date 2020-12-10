@@ -97,7 +97,7 @@ public class TestFatalErrorLog extends TestCase {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine = "***REMOVED*** V  [libjvm.so+0xa333a6]  ShenandoahUpdateRefsClosure::do_oop(oopDesc**)+0x26";
         HeaderEvent he = new HeaderEvent(headerLine);
-        fel.getHeader().add(he);
+        fel.getHeaderEvents().add(he);
         Assert.assertTrue("Debugging symbols not identified.", fel.haveJdkDebugSymbols());
     ***REMOVED***
 
@@ -105,7 +105,7 @@ public class TestFatalErrorLog extends TestCase {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine = "***REMOVED*** V  [libjvm.so+0xa41ea4]";
         HeaderEvent he = new HeaderEvent(headerLine);
-        fel.getHeader().add(he);
+        fel.getHeaderEvents().add(he);
         Assert.assertFalse("Debugging symbols incorrectly identified.", fel.haveJdkDebugSymbols());
     ***REMOVED***
 
@@ -134,8 +134,8 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertFalse(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT));
         Assert.assertFalse("OS incorrectly identified as RHEL.", fel.isRhel());
-        Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertFalse(Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS));
         Assert.assertFalse(Analysis.INFO_RH_BUILD_RPM + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
         Assert.assertTrue(Analysis.INFO_RH_BUILD_CENTOS + " analysis not identified.",
@@ -167,8 +167,8 @@ public class TestFatalErrorLog extends TestCase {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
-        Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertFalse(Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS));
         Assert.assertTrue(Analysis.INFO_RH_BUILD_RPM + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
         Assert.assertEquals("Jdk release not correct.", "11.0.7+10-LTS", fel.getJdkReleaseString());
@@ -180,8 +180,8 @@ public class TestFatalErrorLog extends TestCase {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
-        Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertFalse(Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS));
         Assert.assertTrue(Analysis.INFO_RH_BUILD_RPM + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
         Assert.assertEquals("Jdk release not correct.", "11.0.8+10-LTS", fel.getJdkReleaseString());
@@ -193,8 +193,8 @@ public class TestFatalErrorLog extends TestCase {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
-        Assert.assertFalse(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertFalse(Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS));
         Assert.assertTrue(Analysis.INFO_RH_BUILD_RPM + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
         Assert.assertEquals("Jdk release not correct.", "1.8.0_131-b12", fel.getJdkReleaseString());
@@ -206,8 +206,8 @@ public class TestFatalErrorLog extends TestCase {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue("OS not identified as Windows.", fel.isWindows());
-        Assert.assertTrue(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertTrue(Analysis.WARN_DEBUG_SYMBOLS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS));
         Assert.assertFalse(Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_WINDOWS_ZIP));
         Assert.assertEquals("Arch not correct.", Arch.X86_64, fel.getArch());
@@ -220,8 +220,8 @@ public class TestFatalErrorLog extends TestCase {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue("OS not identified as Windows.", fel.isWindows());
-        Assert.assertTrue(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertTrue(Analysis.WARN_DEBUG_SYMBOLS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS));
         Assert.assertTrue(Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_WINDOWS_ZIP));
         Assert.assertEquals("Arch not correct.", Arch.X86_64, fel.getArch());

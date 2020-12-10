@@ -44,7 +44,8 @@ public class CurrentThreadEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^Current thread \\(" + JdkRegEx.ADDRESS + "\\):  (.+)$";
+    private static final String REGEX = "^Current thread \\((" + JdkRegEx.ADDRESS32 + "|" + JdkRegEx.ADDRESS64
+            + ")\\):  (.+)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -89,7 +90,7 @@ public class CurrentThreadEvent implements LogEvent {
         String currentThread = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            currentThread = matcher.group(2);
+            currentThread = matcher.group(4);
         ***REMOVED***
         return currentThread;
     ***REMOVED***

@@ -23,6 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.errcat.util.Constants;
+import org.github.errcat.util.Constants.CpuArch;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.Constants.OsVendor;
 import org.github.errcat.util.Constants.OsVersion;
@@ -30,6 +31,7 @@ import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.Application;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
 import org.github.errcat.util.jdk.JdkUtil.BuiltBy;
 import org.github.errcat.util.jdk.JdkUtil.CrashCause;
@@ -67,22 +69,27 @@ public class FatalErrorLog {
     /**
      * Header.
      */
-    private List<HeaderEvent> header;
+    private List<HeaderEvent> headerEvents;
 
     /**
      * Stack information.
      */
-    private List<StackEvent> stack;
+    private List<StackEvent> stackEvents;
 
     /**
      * Dynamic library information.
      */
-    private List<DynamicLibraryEvent> dynamicLibrary;
+    private List<DynamicLibraryEvent> dynamicLibraryEvents;
 
     /**
      * Current thread information.
      */
     private CurrentThreadEvent currentThreadEvent;
+
+    /**
+     * CPU information.
+     */
+    private List<CpuEvent> cpuEvents;
 
     /**
      * Log lines that do not match any existing logging patterns.
@@ -99,11 +106,12 @@ public class FatalErrorLog {
      */
     public FatalErrorLog() {
         crashCause = CrashCause.UNKNOWN;
-        header = new ArrayList<HeaderEvent>();
-        stack = new ArrayList<StackEvent>();
-        dynamicLibrary = new ArrayList<DynamicLibraryEvent>();
+        headerEvents = new ArrayList<HeaderEvent>();
+        stackEvents = new ArrayList<StackEvent>();
+        dynamicLibraryEvents = new ArrayList<DynamicLibraryEvent>();
         analysis = new ArrayList<Analysis>();
         unidentifiedLogLines = new ArrayList<String>();
+        cpuEvents = new ArrayList<CpuEvent>();
     ***REMOVED***
 
     public void setVminfo(VmInfoEvent vmInfoEvent) {
@@ -118,16 +126,16 @@ public class FatalErrorLog {
         return unidentifiedLogLines;
     ***REMOVED***
 
-    public List<HeaderEvent> getHeader() {
-        return header;
+    public List<HeaderEvent> getHeaderEvents() {
+        return headerEvents;
     ***REMOVED***
 
-    public List<StackEvent> getStack() {
-        return stack;
+    public List<StackEvent> getStackEvents() {
+        return stackEvents;
     ***REMOVED***
 
-    public List<DynamicLibraryEvent> getDynamicLibrary() {
-        return dynamicLibrary;
+    public List<DynamicLibraryEvent> getDynamicLibraryEvents() {
+        return dynamicLibraryEvents;
     ***REMOVED***
 
     public void setUname(UnameEvent uname) {
@@ -152,6 +160,10 @@ public class FatalErrorLog {
 
     public void setCurrentThreadEvent(CurrentThreadEvent currentThreadEvent) {
         this.currentThreadEvent = currentThreadEvent;
+    ***REMOVED***
+
+    public List<CpuEvent> getCpuEvents() {
+        return cpuEvents;
     ***REMOVED***
 
     /**
@@ -207,7 +219,7 @@ public class FatalErrorLog {
             release = vmInfoEvent.getJdkReleaseString();
         ***REMOVED*** else {
             // Check header
-            Iterator<HeaderEvent> iterator = header.iterator();
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
                 if (he.isJreVersion()) {
@@ -298,7 +310,7 @@ public class FatalErrorLog {
             arch = vmInfoEvent.getArch();
         ***REMOVED*** else {
             // Check header
-            Iterator<HeaderEvent> iterator = header.iterator();
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
                 if (he.isJavaVm() && he.getLogEntry().matches("^.+solaris-sparc.+$")) {
@@ -314,8 +326,8 @@ public class FatalErrorLog {
      */
     public String getError() {
         StringBuilder causedBy = new StringBuilder();
-        if (header != null) {
-            Iterator<HeaderEvent> iterator = header.iterator();
+        if (headerEvents != null) {
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
                 if (he.isSigBus() || he.isSigIll() || he.isSigSegv() || he.isInternalError() || he.isError()
@@ -335,8 +347,8 @@ public class FatalErrorLog {
      */
     public boolean haveJdkDebugSymbols() {
         boolean haveJdkDebugSymbols = false;
-        if (header != null) {
-            Iterator<HeaderEvent> iterator1 = header.iterator();
+        if (headerEvents != null) {
+            Iterator<HeaderEvent> iterator1 = headerEvents.iterator();
             while (iterator1.hasNext()) {
                 HeaderEvent he = iterator1.next();
                 if (he.isProblematicFrame()) {
@@ -346,8 +358,8 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         if (!haveJdkDebugSymbols) {
-            if (stack != null) {
-                Iterator<StackEvent> iterator2 = stack.iterator();
+            if (stackEvents != null) {
+                Iterator<StackEvent> iterator2 = stackEvents.iterator();
                 while (iterator2.hasNext() && !haveJdkDebugSymbols) {
                     StackEvent se = iterator2.next();
                     if (se.isVmFrame()) {
@@ -365,8 +377,8 @@ public class FatalErrorLog {
      */
     public boolean haveVmCodeInStack() {
         boolean haveVmCodeInStack = false;
-        if (stack != null) {
-            Iterator<StackEvent> iterator = stack.iterator();
+        if (stackEvents != null) {
+            Iterator<StackEvent> iterator = stackEvents.iterator();
             while (iterator.hasNext()) {
                 StackEvent event = iterator.next();
                 if (event.isVmFrame() || event.isVmGeneratedCodeFrame()) {
@@ -383,8 +395,8 @@ public class FatalErrorLog {
      */
     public boolean haveVmGeneratedCodeFrameInStack() {
         boolean haveVmGeneratedCodeFrameInStack = false;
-        if (stack != null) {
-            Iterator<StackEvent> iterator = stack.iterator();
+        if (stackEvents != null) {
+            Iterator<StackEvent> iterator = stackEvents.iterator();
             while (iterator.hasNext()) {
                 StackEvent event = iterator.next();
                 if (event.isVmGeneratedCodeFrame()) {
@@ -401,8 +413,8 @@ public class FatalErrorLog {
      */
     public boolean haveVmFrameInStack() {
         boolean haveVmFrameInStack = false;
-        if (stack != null) {
-            Iterator<StackEvent> iterator = stack.iterator();
+        if (stackEvents != null) {
+            Iterator<StackEvent> iterator = stackEvents.iterator();
             while (iterator.hasNext()) {
                 StackEvent event = iterator.next();
                 if (event.isVmFrame()) {
@@ -419,8 +431,8 @@ public class FatalErrorLog {
      */
     public boolean haveVmFrameInHeader() {
         boolean haveVmFrameInHeader = false;
-        if (header != null) {
-            Iterator<HeaderEvent> iterator = header.iterator();
+        if (headerEvents != null) {
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
             while (iterator.hasNext()) {
                 HeaderEvent event = iterator.next();
                 if (event.isVmFrame()) {
@@ -628,8 +640,8 @@ public class FatalErrorLog {
     public String getRpmDirectory() {
         String rpmDirectory = null;
         if (getOsType() == OsType.LINUX) {
-            if (dynamicLibrary != null) {
-                Iterator<DynamicLibraryEvent> iterator = dynamicLibrary.iterator();
+            if (dynamicLibraryEvents != null) {
+                Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
                 while (iterator.hasNext()) {
                     DynamicLibraryEvent event = iterator.next();
                     if (event.getFilePath() != null) {
@@ -658,7 +670,11 @@ public class FatalErrorLog {
     ***REMOVED***
 
     public String getCurrentThread() {
-        return currentThreadEvent.getCurrentThread();
+        String currentThread = null;
+        if (currentThreadEvent != null) {
+            currentThread = currentThreadEvent.getCurrentThread();
+        ***REMOVED***
+        return currentThread;
     ***REMOVED***
 
     /**
@@ -666,7 +682,7 @@ public class FatalErrorLog {
      */
     public boolean isJnaCrash() {
         boolean isJnaCrash = false;
-        if (getStack() != null && getStack().size() >= 2) {
+        if (getStackEvents() != null && getStackEvents().size() >= 2) {
             if (getStackFrame(1).matches("^C[ ]{1,2***REMOVED***\\[jna.+$")
                     && getStackFrame(2).matches("^j[ ]{1,2***REMOVED***com\\.sun\\.jna\\..+$")) {
                 isJnaCrash = true;
@@ -683,7 +699,7 @@ public class FatalErrorLog {
     public String getStackFrame(int i) {
         String stackFrame = null;
         int stackIndex = 1;
-        Iterator<StackEvent> iterator = stack.iterator();
+        Iterator<StackEvent> iterator = stackEvents.iterator();
         while (iterator.hasNext()) {
             StackEvent event = iterator.next();
             if (!event.getLogEntry().matches("^(Stack|(Java|Native) frames):.+$")) {
@@ -698,11 +714,11 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The top Compile Java Code (J) stack frame, nor null if none exists.
+     * @return The top Compile Java Code (J) stack frame, or null if none exists.
      */
     public String getStackFrameTopCompiledJavaCode() {
         String stackFrameTopCompiledJavaCode = null;
-        Iterator<StackEvent> iterator = stack.iterator();
+        Iterator<StackEvent> iterator = stackEvents.iterator();
         while (iterator.hasNext()) {
             StackEvent event = iterator.next();
             if (event.getLogEntry().matches("^J[ ]{1,2***REMOVED***.+$")) {
@@ -711,6 +727,58 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return stackFrameTopCompiledJavaCode;
+    ***REMOVED***
+
+    /**
+     * @return The top stack frame, or null if none exists.
+     */
+    public String getStackFrameTop() {
+        String stackFrameTop = null;
+        Iterator<StackEvent> iterator = stackEvents.iterator();
+        while (iterator.hasNext()) {
+            StackEvent event = iterator.next();
+            if (event.getLogEntry().matches("^(A|C|j|J|v|V)[ ]{1,2***REMOVED***.+$")) {
+                stackFrameTop = event.getLogEntry();
+                break;
+            ***REMOVED***
+        ***REMOVED***
+        return stackFrameTop;
+    ***REMOVED***
+
+    /**
+     * @return The CPU architecture.
+     */
+    public CpuArch getCpuArch() {
+        CpuArch cpuArch = CpuArch.UNKNOWN;
+        if (cpuEvents != null) {
+            Iterator<CpuEvent> iterator = cpuEvents.iterator();
+            while (iterator.hasNext()) {
+                CpuEvent event = iterator.next();
+                if (event.getLogEntry().matches("^.+POWER9.+$")) {
+                    cpuArch = CpuArch.POWER9;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return cpuArch;
+    ***REMOVED***
+
+    /**
+     * @return The application running on the JDK
+     */
+    public Application getApplication() {
+        Application application = Application.UNKNOWN;
+        if (cpuEvents != null) {
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getLogEntry().matches(JdkRegEx.JBOSS_JAR)) {
+                    application = Application.JBOSS;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return application;
     ***REMOVED***
 
     /**
@@ -731,7 +799,7 @@ public class FatalErrorLog {
     private void doDataAnalysis() {
         // Check if JDK debugging symbols are installed
         if ((haveVmFrameInStack() || haveVmFrameInHeader()) && !haveJdkDebugSymbols()) {
-            analysis.add(Analysis.ERROR_DEBUGGING_SYMBOLS);
+            analysis.add(Analysis.WARN_DEBUG_SYMBOLS);
         ***REMOVED***
         // Check if latest JDK release
         if (!JdkUtil.isLatestJdkRelease(this)) {
@@ -745,6 +813,11 @@ public class FatalErrorLog {
                     analysis.add(0, Analysis.INFO_RH_BUILD_CENTOS);
                 ***REMOVED*** else if (getRpmDirectory() != null) {
                     analysis.add(0, Analysis.INFO_RH_BUILD_RPM);
+                    if (getCpuArch() == CpuArch.POWER9 && getJavaSpecification() == JavaSpecification.JDK8
+                            && getOsString().matches(".+7\\.(7|8|9).+")) {
+                        // power8 JDK8 deployed on power9 on RHEL 7
+                        analysis.add(Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9);
+                    ***REMOVED***
                 ***REMOVED*** else {
                     analysis.add(0, Analysis.INFO_RH_BUILD_LINUX_ZIP);
                 ***REMOVED***
@@ -784,6 +857,11 @@ public class FatalErrorLog {
         if (getJavaSpecification() == JavaSpecification.JDK8 && getStackFrameTopCompiledJavaCode() != null
                 && getStackFrameTopCompiledJavaCode().matches("^.+java\\.util\\.zip\\.ZipFile\\.getEntry.+$")) {
             analysis.add(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION);
+        ***REMOVED***
+        // Check for EAP7 bug: undertow SSLConduit write is not synchronized.
+        if (getApplication() == Application.JBOSS
+                && getStackFrameTop().matches("v  ~StubRoutines::jbyte_disjoint_arraycopy")) {
+            analysis.add(Analysis.ERROR_RH_EAP7_UNDERTOW_SSL_CONDUIT);
         ***REMOVED***
     ***REMOVED***
 

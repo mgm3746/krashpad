@@ -48,10 +48,17 @@ public class TestOsEvent extends TestCase {
         Assert.assertEquals("OS vendor not correct.", OsVendor.REDHAT, ((OsEvent) event).getOsVendor());
     ***REMOVED***
 
-    public void testOracle() {
+    public void testOracleSolaris() {
         String logLine = "OS:                            Oracle Solaris 11.4 SPARC";
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("OS type not correct.", OsType.SOLARIS, ((OsEvent) event).getOsType());
+        Assert.assertEquals("OS vendor not correct.", OsVendor.ORACLE, ((OsEvent) event).getOsVendor());
+    ***REMOVED***
+
+    public void testOracleLinux() {
+        String logLine = "OS:Oracle Linux Server release 6.10";
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("OS type not correct.", OsType.LINUX, ((OsEvent) event).getOsType());
         Assert.assertEquals("OS vendor not correct.", OsVendor.ORACLE, ((OsEvent) event).getOsVendor());
     ***REMOVED***
 

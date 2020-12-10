@@ -20,6 +20,7 @@ import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.ErrUtil;
+import org.github.errcat.util.jdk.JdkUtil.Application;
 import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
 import org.junit.Assert;
 
@@ -51,7 +52,8 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
         Assert.assertTrue(Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST));
-        ;
+        Assert.assertTrue(Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9 + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9));
     ***REMOVED***
 
     public void testNotLts() {
@@ -79,8 +81,8 @@ public class TestAnalysis extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertFalse(Analysis.INFO_RH_BUILD_LINUX_ZIP + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_LINUX_ZIP));
-        Assert.assertTrue(Analysis.ERROR_DEBUGGING_SYMBOLS + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_DEBUGGING_SYMBOLS));
+        Assert.assertTrue(Analysis.WARN_DEBUG_SYMBOLS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS));
         Assert.assertTrue(Analysis.INFO_JDK_ANCIENT + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_JDK_ANCIENT));
     ***REMOVED***
@@ -116,5 +118,16 @@ public class TestAnalysis extends TestCase {
                 fel.getStackFrameTopCompiledJavaCode());
         Assert.assertTrue(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION));
+    ***REMOVED***
+
+    public void testUndertowSslConduitNotSynchronized() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset24.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Application not correct.", Application.JBOSS, fel.getApplication());
+        Assert.assertEquals("To stack frame not correct.", "v  ~StubRoutines::jbyte_disjoint_arraycopy",
+                fel.getStackFrameTop());
+        Assert.assertTrue(Analysis.ERROR_RH_EAP7_UNDERTOW_SSL_CONDUIT + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_RH_EAP7_UNDERTOW_SSL_CONDUIT));
     ***REMOVED***
 ***REMOVED***
