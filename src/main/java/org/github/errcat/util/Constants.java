@@ -148,6 +148,14 @@ public class Constants {
     };
 
     /**
+     * Defined CPU architectures.
+     */
+    public enum CpuArch {
+        //
+        X86_64, POWER8, POWER9, UNKNOWN
+    };
+
+    /**
      * Make default constructor private so the class cannot be instantiated.
      */
     private Constants() {
