@@ -255,4 +255,14 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("***REMOVED***  Out of Memory Error (os_linux.cpp:2749), pid=25305, tid=0x00007f5ab28b7700",
                 fel.getError());
     ***REMOVED***
+
+    public void testRhWindowsReleaseWith2BuildDateTimes() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset25.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue("OS not identified as Windows.", fel.isWindows());
+        Assert.assertEquals("Arch not correct.", Arch.X86_64, fel.getArch());
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_WINDOWS_ZIP));
+    ***REMOVED***
 ***REMOVED***
