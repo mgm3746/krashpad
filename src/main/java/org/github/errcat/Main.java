@@ -271,7 +271,18 @@ public class Main {
                 ***REMOVED***
             ***REMOVED***
 
-            // JVM information
+            if (!fatalErrorLog.getCrashTime().equals("") || fatalErrorLog.getElapsedTime() != null) {
+                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+                printWriter.write("Timing:" + Constants.LINE_SEPARATOR);
+                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                // JVM information
+                if (!fatalErrorLog.getCrashTime().equals("")) {
+                    printWriter.write("Crashed on " + fatalErrorLog.getCrashTime() + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+                if (fatalErrorLog.getElapsedTime() != null) {
+                    printWriter.write("After running for " + fatalErrorLog.getElapsedTime() + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+            ***REMOVED***
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Environment:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
@@ -280,11 +291,12 @@ public class Main {
             printWriter.write("Java release: " + fatalErrorLog.getJdkReleaseString() + Constants.LINE_SEPARATOR);
             printWriter.write("Java vendor: " + fatalErrorLog.getJavaVendor() + Constants.LINE_SEPARATOR);
             printWriter.write("Application: " + fatalErrorLog.getApplication() + Constants.LINE_SEPARATOR);
-
-            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-            printWriter.write("Error:" + Constants.LINE_SEPARATOR);
-            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            printWriter.write(fatalErrorLog.getError() + Constants.LINE_SEPARATOR);
+            if (!fatalErrorLog.getError().equals("")) {
+                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+                printWriter.write("Error:" + Constants.LINE_SEPARATOR);
+                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                printWriter.write(fatalErrorLog.getError() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
             if (fatalErrorLog.getCurrentThread() != null) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 printWriter.write("Current thread:" + Constants.LINE_SEPARATOR);

@@ -92,6 +92,21 @@ public class FatalErrorLog {
     private List<CpuEvent> cpuEvents;
 
     /**
+     * JVM crash time information.
+     */
+    private TimeEvent timeEvent;
+
+    /**
+     * JVM crash time timezone information.
+     */
+    private TimezoneEvent timezoneEvent;
+
+    /**
+     * JVM run duration information.
+     */
+    private ElapsedTimeEvent elapsedTimeEvent;
+
+    /**
      * Log lines that do not match any existing logging patterns.
      */
     private List<String> unidentifiedLogLines;
@@ -114,11 +129,11 @@ public class FatalErrorLog {
         cpuEvents = new ArrayList<CpuEvent>();
     ***REMOVED***
 
-    public void setVminfo(VmInfoEvent vmInfoEvent) {
+    public void setVmInfoEvent(VmInfoEvent vmInfoEvent) {
         this.vmInfoEvent = vmInfoEvent;
     ***REMOVED***
 
-    public void setOs(OsEvent os) {
+    public void setOsEvent(OsEvent os) {
         this.osEvent = os;
     ***REMOVED***
 
@@ -138,8 +153,8 @@ public class FatalErrorLog {
         return dynamicLibraryEvents;
     ***REMOVED***
 
-    public void setUname(UnameEvent uname) {
-        this.unameEvent = uname;
+    public void setUnameEvent(UnameEvent unameEvent) {
+        this.unameEvent = unameEvent;
     ***REMOVED***
 
     public void setUnidentifiedLogLines(List<String> unidentifiedLogLines) {
@@ -164,6 +179,18 @@ public class FatalErrorLog {
 
     public List<CpuEvent> getCpuEvents() {
         return cpuEvents;
+    ***REMOVED***
+
+    public void setTimeEvent(TimeEvent timeEvent) {
+        this.timeEvent = timeEvent;
+    ***REMOVED***
+
+    public void setTimezoneEvent(TimezoneEvent timezoneEvent) {
+        this.timezoneEvent = timezoneEvent;
+    ***REMOVED***
+
+    public void setElapsedTimeEvent(ElapsedTimeEvent elapsedTimeEvent) {
+        this.elapsedTimeEvent = elapsedTimeEvent;
     ***REMOVED***
 
     /**
@@ -822,6 +849,33 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return isInStack;
+    ***REMOVED***
+
+    /**
+     * @return The duration of the JVM run.
+     */
+    public String getElapsedTime() {
+        String elapsedTime = null;
+        if (elapsedTimeEvent != null) {
+            elapsedTime = elapsedTimeEvent.getElapsedTime();
+        ***REMOVED***
+        return elapsedTime;
+    ***REMOVED***
+
+    /**
+     * @return The time of the crash.
+     */
+    public String getCrashTime() {
+        StringBuilder crashTime = new StringBuilder();
+        if (timeEvent != null) {
+            crashTime.append(timeEvent.getTime());
+        ***REMOVED***
+        if (timeEvent != null) {
+            crashTime.append(" (");
+            crashTime.append(timezoneEvent.getTimezone());
+            crashTime.append(")");
+        ***REMOVED***
+        return crashTime.toString();
     ***REMOVED***
 
     /**

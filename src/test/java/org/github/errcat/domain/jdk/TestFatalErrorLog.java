@@ -37,7 +37,7 @@ public class TestFatalErrorLog extends TestCase {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)";
         OsEvent osEvent = new OsEvent(os);
-        fel.setOs(osEvent);
+        fel.setOsEvent(osEvent);
         Assert.assertEquals("OS not correct.", OsType.LINUX, fel.getOsType());
     ***REMOVED***
 
@@ -46,7 +46,7 @@ public class TestFatalErrorLog extends TestCase {
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
                 + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVminfo(vmInfoEvent);
+        fel.setVmInfoEvent(vmInfoEvent);
         Assert.assertEquals("JDK vendor not correct.", JavaVendor.ADOPTOPENJDK, fel.getJavaVendor());
     ***REMOVED***
 
@@ -56,7 +56,7 @@ public class TestFatalErrorLog extends TestCase {
                 + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
                 + "4.4.7 20120313";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVminfo(vmInfoEvent);
+        fel.setVmInfoEvent(vmInfoEvent);
         Assert.assertEquals("JDK vendor not correct.", JavaVendor.AZUL, fel.getJavaVendor());
     ***REMOVED***
 
@@ -65,7 +65,7 @@ public class TestFatalErrorLog extends TestCase {
         String vmInfo = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.25-b02) for windows-amd64 JRE (1.8.0_25-b18), "
                 + "built on Oct  7 2014 14:25:37 by \"java_re\" with MS VC++ 10.0 (VS2010)";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVminfo(vmInfoEvent);
+        fel.setVmInfoEvent(vmInfoEvent);
         Assert.assertEquals("JDK vendor not correct.", JavaVendor.ORACLE, fel.getJavaVendor());
     ***REMOVED***
 
@@ -74,7 +74,7 @@ public class TestFatalErrorLog extends TestCase {
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.242-b08) for linux-amd64 JRE (1.8.0_242-b08), built on "
                 + "Jan 17 2020 09:36:23 by \"bob\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVminfo(vmInfoEvent);
+        fel.setVmInfoEvent(vmInfoEvent);
         Assert.assertEquals("JDK vendor not correct.", JavaVendor.UNKNOWN, fel.getJavaVendor());
     ***REMOVED***
 
@@ -126,6 +126,8 @@ public class TestFatalErrorLog extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue(Analysis.INFO_RH_BUILD_NOT + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT));
+        Assert.assertEquals("Time of crash not correct.", "Thu May  7 17:24:12 2020 (UTC)", fel.getCrashTime());
+        Assert.assertEquals("JVM run time not correct.", "1d 7h 30m 19s", fel.getElapsedTime());
     ***REMOVED***
 
     public void testDebugSymbolsNoVmCodeInStack() {
@@ -238,7 +240,7 @@ public class TestFatalErrorLog extends TestCase {
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.181-b13) for linux-ppc64 JRE (1.8.0_181-b13), "
                 + "built on Jul 16 2018 11:33:43 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-28";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVminfo(vmInfoEvent);
+        fel.setVmInfoEvent(vmInfoEvent);
         Assert.assertTrue("RH build string identified.", fel.isRedHatBuildString());
     ***REMOVED***
 
