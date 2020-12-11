@@ -23,11 +23,14 @@ import org.github.errcat.domain.UnknownEvent;
 import org.github.errcat.domain.jdk.CpuEvent;
 import org.github.errcat.domain.jdk.CurrentThreadEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
+import org.github.errcat.domain.jdk.ElapsedTimeEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
 import org.github.errcat.domain.jdk.Release;
 import org.github.errcat.domain.jdk.StackEvent;
+import org.github.errcat.domain.jdk.TimeEvent;
+import org.github.errcat.domain.jdk.TimezoneEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
 import org.github.errcat.domain.jdk.VmInfoEvent;
 import org.github.errcat.util.Constants.OsVersion;
@@ -97,7 +100,9 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BLANK_LINE, CPU, CURRENT_THREAD, DYNAMIC_LIBRARY, HEADER, JVM_INFO, OS, STACK, UNAME, UNKNOWN
+        BLANK_LINE, CPU, CURRENT_THREAD, DYNAMIC_LIBRARY, ELAPSED_TIME, HEADER, JVM_INFO, OS, STACK, TIME, TIMEZONE,
+        //
+        UNAME, UNKNOWN
     };
 
     /**
@@ -562,6 +567,9 @@ public class JdkUtil {
         case DYNAMIC_LIBRARY:
             event = new DynamicLibraryEvent(logLine);
             break;
+        case ELAPSED_TIME:
+            event = new ElapsedTimeEvent(logLine);
+            break;
         case HEADER:
             event = new HeaderEvent(logLine);
             break;
@@ -573,6 +581,12 @@ public class JdkUtil {
             break;
         case STACK:
             event = new StackEvent(logLine);
+            break;
+        case TIME:
+            event = new TimeEvent(logLine);
+            break;
+        case TIMEZONE:
+            event = new TimezoneEvent(logLine);
             break;
         case UNAME:
             event = new UnameEvent(logLine);
@@ -604,6 +618,8 @@ public class JdkUtil {
             logEventType = LogEventType.CURRENT_THREAD;
         } else if (DynamicLibraryEvent.match(logLine)) {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
+        } else if (ElapsedTimeEvent.match(logLine)) {
+            logEventType = LogEventType.ELAPSED_TIME;
         } else if (HeaderEvent.match(logLine)) {
             logEventType = LogEventType.HEADER;
         } else if (StackEvent.match(logLine)) {
@@ -612,6 +628,10 @@ public class JdkUtil {
             logEventType = LogEventType.JVM_INFO;
         } else if (OsEvent.match(logLine)) {
             logEventType = LogEventType.OS;
+        } else if (TimeEvent.match(logLine)) {
+            logEventType = LogEventType.TIME;
+        } else if (TimezoneEvent.match(logLine)) {
+            logEventType = LogEventType.TIMEZONE;
         } else if (UnameEvent.match(logLine)) {
             logEventType = LogEventType.UNAME;
         }

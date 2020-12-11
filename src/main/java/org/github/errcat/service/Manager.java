@@ -26,10 +26,13 @@ import org.github.errcat.domain.UnknownEvent;
 import org.github.errcat.domain.jdk.CpuEvent;
 import org.github.errcat.domain.jdk.CurrentThreadEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
+import org.github.errcat.domain.jdk.ElapsedTimeEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
 import org.github.errcat.domain.jdk.StackEvent;
+import org.github.errcat.domain.jdk.TimeEvent;
+import org.github.errcat.domain.jdk.TimezoneEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
 import org.github.errcat.domain.jdk.VmInfoEvent;
 import org.github.errcat.util.jdk.JdkUtil;
@@ -79,20 +82,26 @@ public class Manager {
                         fatalErrorLog.setCurrentThreadEvent((CurrentThreadEvent) event);
                     } else if (event instanceof DynamicLibraryEvent) {
                         fatalErrorLog.getDynamicLibraryEvents().add((DynamicLibraryEvent) event);
+                    } else if (event instanceof ElapsedTimeEvent) {
+                        fatalErrorLog.setElapsedTimeEvent((ElapsedTimeEvent) event);
                     } else if (event instanceof HeaderEvent) {
                         fatalErrorLog.getHeaderEvents().add((HeaderEvent) event);
                     } else if (event instanceof OsEvent) {
-                        fatalErrorLog.setOs((OsEvent) event);
+                        fatalErrorLog.setOsEvent((OsEvent) event);
                     } else if (event instanceof StackEvent) {
                         fatalErrorLog.getStackEvents().add((StackEvent) event);
+                    } else if (event instanceof TimeEvent) {
+                        fatalErrorLog.setTimeEvent((TimeEvent) event);
+                    } else if (event instanceof TimezoneEvent) {
+                        fatalErrorLog.setTimezoneEvent((TimezoneEvent) event);
                     } else if (event instanceof UnameEvent) {
-                        fatalErrorLog.setUname((UnameEvent) event);
+                        fatalErrorLog.setUnameEvent((UnameEvent) event);
                     } else if (event instanceof UnknownEvent) {
                         if (fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
                             fatalErrorLog.getUnidentifiedLogLines().add(logLine);
                         }
                     } else if (event instanceof VmInfoEvent) {
-                        fatalErrorLog.setVminfo((VmInfoEvent) event);
+                        fatalErrorLog.setVmInfoEvent((VmInfoEvent) event);
                     }
                     logLine = bufferedReader.readLine();
                 }
