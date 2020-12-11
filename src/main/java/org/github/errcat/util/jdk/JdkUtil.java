@@ -421,6 +421,7 @@ public class JdkUtil {
         rhelJdk8ZipReleases = new HashMap<String, Release>();
         // First RHEL zip was 1.8.0_222.
         rhelJdk8ZipReleases.put("LATEST", new Release("Nov 11 2020 12:18:48", 8, "1.8.0_275-b01"));
+        rhelJdk8ZipReleases.put("1.8.0_275-b01", new Release("Nov 11 2020 12:18:48", 8, "1.8.0_275-b01"));
         rhelJdk8ZipReleases.put("1.8.0_272-b10", new Release("Oct 20 2020 12:17:01", 7, "1.8.0_272-b10"));
         rhelJdk8ZipReleases.put("1.8.0_265-b01", new Release("Jul 28 2020 13:27:15", 6, "1.8.0_265-b01"));
         rhelJdk8ZipReleases.put("1.8.0_262-b10", new Release("Jul 14 2020 11:46:22", 5, "1.8.0_262-b10"));
@@ -431,17 +432,24 @@ public class JdkUtil {
 
         // Windows amd64 OpenJDK8 zip
         windowsJdk8Releases = new HashMap<String, Release>();
-        // First RH Windows release was 1.8.0_201. There was no RH Windows release for u202.
-        windowsJdk8Releases.put("LATEST", new Release("Jan 1 2000 00:00:00", 10, "1.8.0_275-b01"));
-        windowsJdk8Releases.put("1.8.0_272-b10", new Release("Jan 1 2000 00:00:00", 9, "1.8.0_272-b10"));
-        windowsJdk8Releases.put("1.8.0_265-b01", new Release("Jan 1 2000 00:00:00", 8, "1.8.0_265-b01"));
-        windowsJdk8Releases.put("1.8.0_262-b10", new Release("Jan 1 2000 00:00:00", 7, "1.8.0_262-b10"));
-        windowsJdk8Releases.put("1.8.0_252-b09", new Release("Jan 1 2000 00:00:00", 6, "1.8.0_252-b09"));
-        windowsJdk8Releases.put("1.8.0_242-b08", new Release("Jan 1 2000 00:00:00", 5, "1.8.0_242-b08"));
-        windowsJdk8Releases.put("1.8.0_232-b09", new Release("Jan 1 2000 00:00:00", 4, "1.8.0_232-b09"));
-        windowsJdk8Releases.put("1.8.0_222-b10", new Release("Jan 1 2000 00:00:00", 3, "1.8.0_222-b10"));
-        windowsJdk8Releases.put("1.8.0_212-b04", new Release("Jan 1 2000 00:00:00", 2, "1.8.0_212-b04"));
-        windowsJdk8Releases.put("1.8.0_201-b09", new Release("Jan 1 2000 00:00:00", 1, "1.8.0_2 J01-b09"));
+        // First RH Windows release was 1.8.0_191-1-redhat-b12. There was no RH Windows release for u202.
+        windowsJdk8Releases.put("LATEST", new Release("Nov 6 2020 21:03:52", 12, "1.8.0_275-b01"));
+        windowsJdk8Releases.put("1.8.0_275-b01", new Release("Nov 6 2020 21:03:52", 12, "1.8.0_275-b01"));
+        windowsJdk8Releases.put("1.8.0_272-b10", new Release("Oct 17 2020 18:45:37", 11, "1.8.0_272-b10"));
+        windowsJdk8Releases.put("1.8.0_265-b01", new Release("Jul 31 2020 12:33:19", 10, "1.8.0_265-b01"));
+        windowsJdk8Releases.put("1.8.0_262-b10", new Release("Jul 14 2020 12:47:22", 9, "1.8.0_262-b10"));
+        windowsJdk8Releases.put("1.8.0_252-b09", new Release("Apr 9 2020 22:56:04", 8, "1.8.0_252-b09"));
+        windowsJdk8Releases.put("1.8.0_242-b08", new Release("Jan 18 2020 12:08:54", 7, "1.8.0_242-b08"));
+        windowsJdk8Releases.put("1.8.0_242-b07", new Release("Jan 13 2020 12:14:39", 6, "1.8.0_242-b07"));
+        windowsJdk8Releases.put("1.8.0_232-b09", new Release("Oct 12 2019 23:47:20", 5, "1.8.0_232-b09"));
+        windowsJdk8Releases.put("1.8.0_222-1-redhat-b10",
+                new Release("Jul 12 2019 11:59:03", 4, "1.8.0_222-1-redhat-b10"));
+        windowsJdk8Releases.put("1.8.0_212-2-redhat-b04",
+                new Release("Apr 15 2019 20:39:59", 3, "1.8.0_212-2-redhat-b04"));
+        windowsJdk8Releases.put("1.8.0_201-1-redhat-b09",
+                new Release("Jan 18 2019 11:40:39", 2, "1.8.0_201-1-redhat-b09"));
+        windowsJdk8Releases.put("1.8.0_191-1-redhat-b12",
+                new Release("Oct 22 2018 23:16:39", 1, "1.8.0_191-1-redhat-b12"));
 
         // RHEL7 amd64 OpenJDK11 rpm
         rhel7Amd64Jdk11RpmReleases = new HashMap<String, Release>();
@@ -497,19 +505,25 @@ public class JdkUtil {
         // Windows amd64 OpenJDK11 zip
         windowsJdk11Releases = new HashMap<String, Release>();
         // First Windows zip was 11.0.1.13.
-        windowsJdk11Releases.put("LATEST", new Release("Nov 11 2020 00:00:00", 13, "11.0.9.1+1-LTS"));
-        windowsJdk11Releases.put("11.0.9+11-LTS", new Release("Oct 20 2020 00:00:00", 12, "11.0.9+11-LTS"));
-        windowsJdk11Releases.put("11.0.8+10-LTS", new Release("Jul 14 2020 00:00:00", 11, "11.0.8+10-LTS"));
+        windowsJdk11Releases.put("LATEST", new Release("Nov 10 2020 12:16:00", 13, "11.0.9.1+1-LTS"));
+        windowsJdk11Releases.put("11.0.9.1+1-LTS", new Release("Nov 10 2020 12:16:00", 13, "11.0.9.1+1-LTS"));
+        windowsJdk11Releases.put("11.0.9+11-LTS", new Release("Oct 17 2020 16:53:23", 12, "11.0.9+11-LTS"));
+        windowsJdk11Releases.put("11.0.8+10-LTS", new Release("Jul 12 2020 15:20:55", 11, "11.0.8+10-LTS"));
         windowsJdk11Releases.put("11.0.7+10-LTS", new Release("Apr 9 2020 00:20:14", 10, "11.0.7+10-LTS"));
-        windowsJdk11Releases.put("11.0.6+10-LTS", new Release("Jan 12 2020 00:00:00", 9, "11.0.6+10-LTS"));
-        windowsJdk11Releases.put("11.0.5+10TBD", new Release("Oct 15 2019 00:00:00", 8, "11.0.5TBD"));
-        windowsJdk11Releases.put("11.0.5+10-LTS", new Release("Oct 15 2019 00:00:00", 7, "11.0.5+10-LTS"));
-        windowsJdk11Releases.put("11.0.4+11-LTS", new Release("Aug 2 2019 00:00:00", 6, "11.0.4+11-LTS"));
-        windowsJdk11Releases.put("11.0.4+11-LTS", new Release("Aug 2 2019 00:00:00", 5, "11.0.4+11-LTS"));
-        windowsJdk11Releases.put("11.0.3+11-TBD", new Release("Apr 16 2019 00:00:00", 4, "11.0.3TBD"));
-        windowsJdk11Releases.put("11.0.2TBD2", new Release("Mar 13 2019 00:00:00", 3, "11.0.2TBD2"));
-        windowsJdk11Releases.put("11.0.2TBD1", new Release("Jan 22 2019 00:00:00", 2, "11.0.2TBD1"));
-        windowsJdk11Releases.put("11.0.1TBD", new Release("Dec 17 2018 00:00:00", 1, "11.0.1TBD"));
+        // Release 11.0.6.10 and 11.0.6.10-2 have the same version, just different build date/time
+        windowsJdk11Releases.put("11.0.6+10-LTS", new Release("Jan 18 2020 11:49:14", 9, "11.0.6+0-LTS"));
+        windowsJdk11Releases.put("11.0.6+0-LTS", new Release("Jan 10 2020 09:52:45", 8, "11.0.6+0-LTS"));
+        // Release 11.0.5.10 and 11.0.5.10-2 have the same version, just different build date/time
+        windowsJdk11Releases.put("11.0.5+10-LTS", new Release("Nov 8 2019 01:41:57", 7, "11.0.5+10-LTS"));
+        windowsJdk11Releases.put("11.0.5+10-LTS", new Release("Oct 12 2019 18:25:22", 6, "11.0.5+10-LTS"));
+        windowsJdk11Releases.put("11.0.4-redhat+11-LTS",
+                new Release("Jul 11 2019 23:20:34", 5, "11.0.4-redhat+11-LTS"));
+        windowsJdk11Releases.put("11.0.3-redhat+7-LTS", new Release("Apr 10 2019 15:05:25", 4, "11.0.3-redhat+7-LTS"));
+        // Release 11.0.2.7-1 and 11.0.2.7-5 have the same version, just different build date/time
+        windowsJdk11Releases.put("11.0.2-redhat+7-LTS", new Release("Feb 27 2019 17:48:49", 3, "11.0.2-redhat+7-LTS"));
+        windowsJdk11Releases.put("11.0.2-redhat+7-LTS", new Release("Jan 16 2019 17:49:21", 2, "11.0.2-redhat+7-LTS"));
+        windowsJdk11Releases.put("11.0.1-redhat+13-LTS",
+                new Release("Oct 25 2018 09:40:01", 1, "11.0.1-redhat+13-LTS"));
 
         // RHEL7 ppc64le OpenJDK8 rpm
         rhel7Ppc64leJdk8RpmReleases = new HashMap<String, Release>();

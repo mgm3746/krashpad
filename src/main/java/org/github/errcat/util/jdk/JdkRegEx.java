@@ -138,7 +138,7 @@ public class JdkRegEx {
     public static final String JBOSS_JAR = "^.+jboss-modules\\.jar$";
 
     /**
-     * JBoss jar used for <code>Application</code> identification.
+     * Tomcat jar used for <code>Application</code> identification.
      * 
      * For example:
      * 
