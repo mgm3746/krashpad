@@ -864,6 +864,10 @@ public class FatalErrorLog {
                 } else {
                     analysis.add(0, Analysis.INFO_RH_BUILD_LINUX_ZIP);
                 }
+                // Check for RHEL6
+                if (getOsVersion() == OsVersion.RHEL6) {
+                    analysis.add(Analysis.WARN_RHEL6);
+                }
             } else if (isWindows()) {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             }
