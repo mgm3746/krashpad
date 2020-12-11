@@ -19,6 +19,7 @@ import java.io.File;
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsType;
+import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
 import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
@@ -150,6 +151,9 @@ public class TestFatalErrorLog extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue("OS not identified as RHEL.", fel.isRhel());
         Assert.assertTrue("Red Hat rpm not identified.", fel.isRhRpmInstall());
+        Assert.assertEquals("OS version not correct.", OsVersion.RHEL6, fel.getOsVersion());
+        Assert.assertTrue(Analysis.WARN_RHEL6 + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_RHEL6));
     ***REMOVED***
 
     public void testSolaris() {

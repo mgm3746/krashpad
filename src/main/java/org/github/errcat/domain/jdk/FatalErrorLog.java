@@ -864,6 +864,10 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     analysis.add(0, Analysis.INFO_RH_BUILD_LINUX_ZIP);
                 ***REMOVED***
+                // Check for RHEL6
+                if (getOsVersion() == OsVersion.RHEL6) {
+                    analysis.add(Analysis.WARN_RHEL6);
+                ***REMOVED***
             ***REMOVED*** else if (isWindows()) {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             ***REMOVED***

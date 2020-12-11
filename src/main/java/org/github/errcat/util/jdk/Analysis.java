@@ -113,6 +113,11 @@ public enum Analysis {
     WARN_JDK_NOT_LTS("warn.jdk.not.lts"),
 
     /**
+     * Property key for a JDK that is deployed on RHEL6.
+     */
+    WARN_RHEL6("warn.rhel6"),
+
+    /**
      * Property key for unidentified line(s) needing reporting.
      */
     WARN_UNIDENTIFIED_LOG_LINE_REPORT("warn.unidentified.log.line.report");
