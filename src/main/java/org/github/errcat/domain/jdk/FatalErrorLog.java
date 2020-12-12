@@ -107,6 +107,11 @@ public class FatalErrorLog {
     private ElapsedTimeEvent elapsedTimeEvent;
 
     /**
+     * Thread information.
+     */
+    private List<ThreadEvent> threadEvents;
+
+    /**
      * Log lines that do not match any existing logging patterns.
      */
     private List<String> unidentifiedLogLines;
@@ -127,6 +132,7 @@ public class FatalErrorLog {
         analysis = new ArrayList<Analysis>();
         unidentifiedLogLines = new ArrayList<String>();
         cpuEvents = new ArrayList<CpuEvent>();
+        threadEvents = new ArrayList<ThreadEvent>();
     ***REMOVED***
 
     public void setVmInfoEvent(VmInfoEvent vmInfoEvent) {
@@ -191,6 +197,10 @@ public class FatalErrorLog {
 
     public void setElapsedTimeEvent(ElapsedTimeEvent elapsedTimeEvent) {
         this.elapsedTimeEvent = elapsedTimeEvent;
+    ***REMOVED***
+
+    public List<ThreadEvent> getThreadEvents() {
+        return threadEvents;
     ***REMOVED***
 
     /**
@@ -876,6 +886,25 @@ public class FatalErrorLog {
             crashTime.append(")");
         ***REMOVED***
         return crashTime.toString();
+    ***REMOVED***
+
+    /**
+     * @return The number of Java threads running when the JVM crashed.
+     */
+    public int getJavaThreadCount() {
+        int javaThreadCount = 0;
+        if (threadEvents != null) {
+            Iterator<ThreadEvent> iterator = threadEvents.iterator();
+            while (iterator.hasNext()) {
+                ThreadEvent event = iterator.next();
+                if (event.getLogEntry().matches("^***REMOVED***$")) {
+                    break;
+                ***REMOVED*** else if (!event.getLogEntry().matches("^Java Threads: \\( => current thread \\)$")) {
+                    javaThreadCount++;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return javaThreadCount;
     ***REMOVED***
 
     /**

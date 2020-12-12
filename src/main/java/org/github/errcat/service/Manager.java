@@ -31,6 +31,7 @@ import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
 import org.github.errcat.domain.jdk.StackEvent;
+import org.github.errcat.domain.jdk.ThreadEvent;
 import org.github.errcat.domain.jdk.TimeEvent;
 import org.github.errcat.domain.jdk.TimezoneEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
@@ -90,6 +91,8 @@ public class Manager {
                         fatalErrorLog.setOsEvent((OsEvent) event);
                     ***REMOVED*** else if (event instanceof StackEvent) {
                         fatalErrorLog.getStackEvents().add((StackEvent) event);
+                    ***REMOVED*** else if (event instanceof ThreadEvent) {
+                        fatalErrorLog.getThreadEvents().add((ThreadEvent) event);
                     ***REMOVED*** else if (event instanceof TimeEvent) {
                         fatalErrorLog.setTimeEvent((TimeEvent) event);
                     ***REMOVED*** else if (event instanceof TimezoneEvent) {

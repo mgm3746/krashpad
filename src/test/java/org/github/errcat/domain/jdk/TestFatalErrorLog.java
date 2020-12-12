@@ -271,4 +271,11 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertTrue(Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_WINDOWS_ZIP));
     ***REMOVED***
+
+    public void testJavaThreadCount() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Java thread count not correct.", 37, fel.getJavaThreadCount());
+    ***REMOVED***
 ***REMOVED***

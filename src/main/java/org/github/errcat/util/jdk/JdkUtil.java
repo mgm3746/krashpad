@@ -29,6 +29,7 @@ import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
 import org.github.errcat.domain.jdk.Release;
 import org.github.errcat.domain.jdk.StackEvent;
+import org.github.errcat.domain.jdk.ThreadEvent;
 import org.github.errcat.domain.jdk.TimeEvent;
 import org.github.errcat.domain.jdk.TimezoneEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
@@ -100,9 +101,9 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BLANK_LINE, CPU, CURRENT_THREAD, DYNAMIC_LIBRARY, ELAPSED_TIME, HEADER, JVM_INFO, OS, STACK, TIME, TIMEZONE,
+        BLANK_LINE, CPU, CURRENT_THREAD, DYNAMIC_LIBRARY, ELAPSED_TIME, HEADER, JVM_INFO, OS, STACK, TIME, THREAD,
         //
-        UNAME, UNKNOWN
+        TIMEZONE, UNAME, UNKNOWN
     ***REMOVED***;
 
     /**
@@ -392,7 +393,7 @@ public class JdkUtil {
         rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-0.el8_0.x86_64",
                 new Release("Sep 21 2020 00:00:00", 8, "1.8.0_265-b01"));
         rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64",
-                new Release("Jul 12 2020 00:00:00", 7, "1.8.0_262-b10"));
+                new Release("Jul 12 2020 21:30:56", 7, "1.8.0_262-b10"));
         rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el8_1.x86_64",
                 new Release("Jul 12 2020 00:00:00", 7, "1.8.0_262-b10"));
         rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el8_0.x86_64",
@@ -582,6 +583,9 @@ public class JdkUtil {
         case STACK:
             event = new StackEvent(logLine);
             break;
+        case THREAD:
+            event = new ThreadEvent(logLine);
+            break;
         case TIME:
             event = new TimeEvent(logLine);
             break;
@@ -622,12 +626,14 @@ public class JdkUtil {
             logEventType = LogEventType.ELAPSED_TIME;
         ***REMOVED*** else if (HeaderEvent.match(logLine)) {
             logEventType = LogEventType.HEADER;
-        ***REMOVED*** else if (StackEvent.match(logLine)) {
-            logEventType = LogEventType.STACK;
         ***REMOVED*** else if (VmInfoEvent.match(logLine)) {
             logEventType = LogEventType.JVM_INFO;
         ***REMOVED*** else if (OsEvent.match(logLine)) {
             logEventType = LogEventType.OS;
+        ***REMOVED*** else if (StackEvent.match(logLine)) {
+            logEventType = LogEventType.STACK;
+        ***REMOVED*** else if (ThreadEvent.match(logLine)) {
+            logEventType = LogEventType.THREAD;
         ***REMOVED*** else if (TimeEvent.match(logLine)) {
             logEventType = LogEventType.TIME;
         ***REMOVED*** else if (TimezoneEvent.match(logLine)) {

@@ -277,10 +277,10 @@ public class Main {
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                 // JVM information
                 if (!fatalErrorLog.getCrashTime().equals("")) {
-                    printWriter.write("Crashed on " + fatalErrorLog.getCrashTime() + Constants.LINE_SEPARATOR);
+                    printWriter.write("Crash date: " + fatalErrorLog.getCrashTime() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fatalErrorLog.getElapsedTime() != null) {
-                    printWriter.write("After running for " + fatalErrorLog.getElapsedTime() + Constants.LINE_SEPARATOR);
+                    printWriter.write("JVM time running: " + fatalErrorLog.getElapsedTime() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
@@ -297,12 +297,6 @@ public class Main {
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                 printWriter.write(fatalErrorLog.getError() + Constants.LINE_SEPARATOR);
             ***REMOVED***
-            if (fatalErrorLog.getCurrentThread() != null) {
-                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                printWriter.write("Current thread:" + Constants.LINE_SEPARATOR);
-                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                printWriter.write(fatalErrorLog.getCurrentThread() + Constants.LINE_SEPARATOR);
-            ***REMOVED***
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Stack:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
@@ -318,6 +312,12 @@ public class Main {
             if (stack.size() > 10) {
                 printWriter.write("..." + Constants.LINE_SEPARATOR);
             ***REMOVED***
+
+            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+            printWriter.write("Threads:" + Constants.LINE_SEPARATOR);
+            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+            printWriter.write("Current thread: " + fatalErrorLog.getCurrentThread() + Constants.LINE_SEPARATOR);
+            printWriter.write("***REMOVED*** Java threads: " + fatalErrorLog.getJavaThreadCount() + Constants.LINE_SEPARATOR);
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
 
             // Analysis

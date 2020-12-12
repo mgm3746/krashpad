@@ -1,0 +1,67 @@
+/**********************************************************************************************************************
+ * errcat                                                                                                             *
+ *                                                                                                                    *
+ * Copyright (c) 2020 Mike Millson                                                                                    *
+ *                                                                                                                    * 
+ * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
+ * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
+ * available at https://www.apache.org/licenses/LICENSE-2.0.                                                          *
+ *                                                                                                                    *
+ * SPDX-License-Identifier: EPL-2.0 OR Apache-2.0                                                                     *
+ *                                                                                                                    *
+ * Contributors:                                                                                                      *
+ *    Mike Millson - initial API and implementation                                                                   *
+ *********************************************************************************************************************/
+package org.github.errcat.domain.jdk;
+
+import org.github.errcat.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestThreadEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "  0x00007f19aa5128e0 JavaThread \"Thread-8\" daemon [_thread_blocked, id=18881, "
+                + "stack(0x00007f199cf04000,0x00007f199d005000)]";
+        Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREAD);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "  0x00007f19aa5128e0 JavaThread \"Thread-8\" daemon [_thread_blocked, id=18881, "
+                + "stack(0x00007f199cf04000,0x00007f199d005000)]";
+        Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof ThreadEvent);
+    ***REMOVED***
+
+    public void testJavaThreadHeader() {
+        String logLine = "***REMOVED***";
+        Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof ThreadEvent);
+    ***REMOVED***
+
+    public void testOtherThreadHeader() {
+        String logLine = "***REMOVED***";
+        Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof ThreadEvent);
+    ***REMOVED***
+
+    public void test32Bit() {
+        String logLine = "  0x08f59000 JavaThread \"Service Thread\" daemon [_thread_blocked, id=29308, "
+                + "stack(0xd6b0d000,0xd6b5e000)]";
+        Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof ThreadEvent);
+    ***REMOVED***
+
+    public void testCurrentThread() {
+        String logLine = "=>0x00007ff0ec053800 JavaThread \"main\" [_thread_in_native, id=92334, "
+                + "stack(0x00007ff0f60c5000,0x00007ff0f61c5000)]";
+        Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof ThreadEvent);
+    ***REMOVED***
+***REMOVED***
