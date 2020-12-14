@@ -15,49 +15,37 @@
 package org.github.errcat.domain.jdk;
 
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * CPU
+ * DEOPTIMIZATION_EVENT
  * </p>
  * 
  * <p>
- * CPU information
+ * Deoptimization information when the compiler has to recompile previously compiled code due to the compiled code no
+ * longer being valid (e.g. a dynamic object has changed) or with tiered compilation when client compiled code is
+ * replaced with server compiled code.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * CPU:total 160 (initial active 160) ppc64 fsqrt isel lxarxeh cmpb popcntb popcntw fcfids vand aes vpmsumb mfdscr vsx sha
- * </pre>
- * 
- * <pre>
- * ***REMOVED***
- * processor       : 0
- * cpu             : POWER9 (architected), altivec supported
- * clock           : 2500.000000MHz
- * revision        : 2.2 (pvr 004e 0202)
- * </pre>
- * 
- * <pre>
- * timebase : 512000000
- * platform    : pSeries
- * model       : IBM,9008-22L
- * machine     : CHRP IBM,9008-22L
- * MMU     : Hash
+ * Deoptimization events (250 events):
+ * Event: 5688.682 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff0dd93860c method=org.eclipse.swt.custom.StyledTextRenderer.disposeTextLayout(Lorg/eclipse/swt/graphics/TextLayout;)V @ 39
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class CpuEvent implements LogEvent {
+public class DeoptimizationEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(clock|cpu|CPU|\\/proc\\/cpuinfo|machine|model|MMU|platform|processor|"
-            + "revision|timebase).+$";
+    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread ("
+            + JdkRegEx.ADDRESS64 + "|" + JdkRegEx.ADDRESS32 + ") Uncommon trap).+$";
 
     /**
      * The log entry for the event.
@@ -70,7 +58,7 @@ public class CpuEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public CpuEvent(String logEntry) {
+    public DeoptimizationEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -79,7 +67,7 @@ public class CpuEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.CPU.toString();
+        return JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString();
     ***REMOVED***
 
     /**

@@ -89,7 +89,7 @@ public class FatalErrorLog {
     /**
      * CPU information.
      */
-    private List<CpuEvent> cpuEvents;
+    private List<CpuInfoEvent> cpuInfoEvents;
 
     /**
      * JVM crash time information.
@@ -112,6 +112,26 @@ public class FatalErrorLog {
     private List<ThreadEvent> threadEvents;
 
     /**
+     * Compilation event information.
+     */
+    private List<CompilationEvent> compilationEvents;
+
+    /**
+     * Deoptimization event information.
+     */
+    private List<DeoptimizationEvent> deoptimizationEvents;
+
+    /**
+     * Vm event information.
+     */
+    private List<VmEvent> vmEvents;
+
+    /**
+     * GC heap history information.
+     */
+    private List<GcHeapHistoryEvent> gcHeapHistoryEvents;
+
+    /**
      * Log lines that do not match any existing logging patterns.
      */
     private List<String> unidentifiedLogLines;
@@ -131,8 +151,12 @@ public class FatalErrorLog {
         dynamicLibraryEvents = new ArrayList<DynamicLibraryEvent>();
         analysis = new ArrayList<Analysis>();
         unidentifiedLogLines = new ArrayList<String>();
-        cpuEvents = new ArrayList<CpuEvent>();
+        cpuInfoEvents = new ArrayList<CpuInfoEvent>();
         threadEvents = new ArrayList<ThreadEvent>();
+        compilationEvents = new ArrayList<CompilationEvent>();
+        deoptimizationEvents = new ArrayList<DeoptimizationEvent>();
+        vmEvents = new ArrayList<VmEvent>();
+        gcHeapHistoryEvents = new ArrayList<GcHeapHistoryEvent>();
     ***REMOVED***
 
     public void setVmInfoEvent(VmInfoEvent vmInfoEvent) {
@@ -183,8 +207,8 @@ public class FatalErrorLog {
         this.currentThreadEvent = currentThreadEvent;
     ***REMOVED***
 
-    public List<CpuEvent> getCpuEvents() {
-        return cpuEvents;
+    public List<CpuInfoEvent> getCpuInfoEvents() {
+        return cpuInfoEvents;
     ***REMOVED***
 
     public void setTimeEvent(TimeEvent timeEvent) {
@@ -201,6 +225,22 @@ public class FatalErrorLog {
 
     public List<ThreadEvent> getThreadEvents() {
         return threadEvents;
+    ***REMOVED***
+
+    public List<CompilationEvent> getCompilationEvents() {
+        return compilationEvents;
+    ***REMOVED***
+
+    public List<DeoptimizationEvent> getDeoptimizationEvents() {
+        return deoptimizationEvents;
+    ***REMOVED***
+
+    public List<VmEvent> getVmEvents() {
+        return vmEvents;
+    ***REMOVED***
+
+    public List<GcHeapHistoryEvent> getGcHeapHistoryEvents() {
+        return gcHeapHistoryEvents;
     ***REMOVED***
 
     /**
@@ -808,10 +848,10 @@ public class FatalErrorLog {
      */
     public CpuArch getCpuArch() {
         CpuArch cpuArch = CpuArch.UNKNOWN;
-        if (cpuEvents != null) {
-            Iterator<CpuEvent> iterator = cpuEvents.iterator();
+        if (cpuInfoEvents != null) {
+            Iterator<CpuInfoEvent> iterator = cpuInfoEvents.iterator();
             while (iterator.hasNext()) {
-                CpuEvent event = iterator.next();
+                CpuInfoEvent event = iterator.next();
                 if (event.getLogEntry().matches("^.+POWER9.+$")) {
                     cpuArch = CpuArch.POWER9;
                     break;
@@ -826,7 +866,7 @@ public class FatalErrorLog {
      */
     public Application getApplication() {
         Application application = Application.UNKNOWN;
-        if (cpuEvents != null) {
+        if (cpuInfoEvents != null) {
             Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
             while (iterator.hasNext()) {
                 DynamicLibraryEvent event = iterator.next();

@@ -23,9 +23,82 @@ package org.github.errcat.util.jdk;
 public class JdkRegEx {
 
     /**
+     * A 32-bit memory address.
+     */
+    public static final String ADDRESS32 = "(0x[0-9a-f]{8***REMOVED***)";
+
+    /**
+     * A 64-bit memory address.
+     */
+    public static final String ADDRESS64 = "(0x[0-9a-f]{16***REMOVED***)";
+
+    /**
+     * Memory map area.
+     * 
+     * For example: [vsyscall]
+     */
+    public static final String AREA = "(\\[(stack|vdso|vsyscall)\\])";
+
+    /**
      * Blank line.
      */
     public static final String BLANK_LINE = "^\\s+$";
+
+    /**
+     * <p>
+     * Regular expression for valid JDK build date/time in MMM d yyyy HH:mm:ss format (see <code>SimpleDateFormat</code>
+     * for date and time pattern definitions).
+     * </p>
+     * 
+     * For example:
+     * 
+     * <pre>
+     * Oct  6 2018 06:46:09
+     * </pre>
+     */
+    public static final String BUILD_DATE_TIME = "([a-zA-Z]{3***REMOVED***)[ ]{1,2***REMOVED***(\\d{1,2***REMOVED***) (\\d{4***REMOVED***) (\\d{2***REMOVED***):(\\d{2***REMOVED***):(\\d{2***REMOVED***)";
+
+    /**
+     * Major ID and minor ID of the device where the file is located.
+     * 
+     * For example: fd:0d
+     */
+    public static final String DEVICE_IDS = "([0-9a-f]{2***REMOVED***:[0-9a-f]{2***REMOVED***)";
+
+    /**
+     * Memory map file path.
+     * 
+     * For example: /usr/lib64/libaio.so.1.0.1
+     */
+    public static final String FILE = "(.*/)*(.+)";
+
+    /**
+     * File offset
+     * 
+     * For example: 00016000
+     */
+    public static final String FILE_OFFSET = "([0-9a-f]{8***REMOVED***)";
+
+    /**
+     * File inode number
+     * 
+     * For example: 134326056
+     */
+    public static final String INODE = "([0-9]{1,10***REMOVED***)";
+
+    /**
+     * Regular expression for java.nio.ByteBuffer class.
+     */
+    public static final String JAVA_NIO_BYTEBUFFER = "java[\\.\\/]nio[\\.\\/]ByteBuffer";
+
+    /**
+     * JBoss jar used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jboss-eap-7.2/jboss-modules.jar
+     */
+    public static final String JBOSS_JAR = "^.+jboss-modules\\.jar$";
 
     /**
      * Memory region
@@ -42,39 +115,41 @@ public class JdkRegEx {
     public static final String PERMISION = "([rwxps\\-]{4***REMOVED***)";
 
     /**
-     * File offset
+     * <p>
+     * Regular expression for a JDK release string.
+     * </p>
      * 
-     * For example: 00016000
+     * For example:
+     * 
+     * <pre>
+     * 1.8.0_131-b11
+     * 11.0.9+11-LTS
+     * 12.0.1+12
+     * </pre>
      */
-    public static final String FILE_OFFSET = "([0-9a-f]{8***REMOVED***)";
+    public static final String RELEASE_STRING = "(((1|9|10|11|12|13|14|15)\\.(0|6|7|8))\\.\\d.+)";
 
     /**
-     * Major ID and minor ID of the device where the file is located.
+     * Red Hat OpenJDK 11 rpm version directory.
      * 
-     * For example: fd:0d
+     * For example:
+     * 
+     * java-11-openjdk-11.0.7.10-4.el7_8.x86_64
+     * 
+     * java-11-openjdk-11.0.9.11-2.el8_3.x86_64
      */
-    public static final String DEVICE_IDS = "([0-9a-f]{2***REMOVED***:[0-9a-f]{2***REMOVED***)";
+    public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d\\.\\d{1,2***REMOVED***-\\d\\.el[78]"
+            + "_\\d\\.x86_64)";
 
     /**
-     * File inode number
+     * Red Hat OpenJDK 11 rpm libjvm.so file path.
      * 
-     * For example: 134326056
-     */
-    public static final String INODE = "([0-9]{1,10***REMOVED***)";
-
-    /**
-     * Memory map file path.
+     * For example:
      * 
-     * For example: /usr/lib64/libaio.so.1.0.1
+     * /usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so
      */
-    public static final String FILE = "(.*/)*(.+)";
-
-    /**
-     * Memory map area.
-     * 
-     * For example: [vsyscall]
-     */
-    public static final String AREA = "(\\[(stack|vdso|vsyscall)\\])";
+    public static final String RH_RPM_OPENJDK11_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK11_DIR
+            + "\\/lib\\/server\\/libjvm\\.so$";
 
     /**
      * Red Hat OpenJDK 8 rpm version directory.
@@ -107,35 +182,11 @@ public class JdkRegEx {
             + "\\/jre\\/lib\\/(amd64|ppc64le)\\/server\\/libjvm\\.so";
 
     /**
-     * Red Hat OpenJDK 11 rpm version directory.
+     * Timestamp. Milliseconds since JVM started.
      * 
-     * For example:
-     * 
-     * java-11-openjdk-11.0.7.10-4.el7_8.x86_64
-     * 
-     * java-11-openjdk-11.0.9.11-2.el8_3.x86_64
+     * For example: 487.020
      */
-    public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d\\.\\d{1,2***REMOVED***-\\d\\.el[78]"
-            + "_\\d\\.x86_64)";
-
-    /**
-     * Red Hat OpenJDK 11 rpm libjvm.so file path.
-     * 
-     * For example:
-     * 
-     * /usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so
-     */
-    public static final String RH_RPM_OPENJDK11_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK11_DIR
-            + "\\/lib\\/server\\/libjvm\\.so$";
-
-    /**
-     * JBoss jar used for <code>Application</code> identification.
-     * 
-     * For example:
-     * 
-     * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jboss-eap-7.2/jboss-modules.jar
-     */
-    public static final String JBOSS_JAR = "^.+jboss-modules\\.jar$";
+    public static final String TIMESTAMP = "(\\d{0,12***REMOVED***[\\.\\,]\\d{3***REMOVED***)";
 
     /**
      * Tomcat jar used for <code>Application</code> identification.
@@ -145,48 +196,4 @@ public class JdkRegEx {
      * 7f0c4b92c000-7f0c4b93e000 r--s 00183000 fd:04 51406344 /path/to/WEB-INF/lib/catalina.jar
      */
     public static final String TOMCAT_JAR = "^.+catalina\\.jar$";
-
-    /**
-     * Regular expression for java.nio.ByteBuffer class.
-     */
-    public static final String JAVA_NIO_BYTEBUFFER = "java[\\.\\/]nio[\\.\\/]ByteBuffer";
-
-    /**
-     * <p>
-     * Regular expression for valid JDK build date/time in MMM d yyyy HH:mm:ss format (see <code>SimpleDateFormat</code>
-     * for date and time pattern definitions).
-     * </p>
-     * 
-     * For example:
-     * 
-     * <pre>
-     * Oct  6 2018 06:46:09
-     * </pre>
-     */
-    public static final String BUILD_DATE_TIME = "([a-zA-Z]{3***REMOVED***)[ ]{1,2***REMOVED***(\\d{1,2***REMOVED***) (\\d{4***REMOVED***) (\\d{2***REMOVED***):(\\d{2***REMOVED***):(\\d{2***REMOVED***)";
-
-    /**
-     * <p>
-     * Regular expression for a JDK release string.
-     * </p>
-     * 
-     * For example:
-     * 
-     * <pre>
-     * 1.8.0_131-b11
-     * 11.0.9+11-LTS
-     * 12.0.1+12
-     * </pre>
-     */
-    public static final String RELEASE_STRING = "(((1|9|10|11|12|13|14|15)\\.(0|6|7|8))\\.\\d.+)";
-
-    /**
-     * A 64-bit memory address.
-     */
-    public static final String ADDRESS64 = "(0x[0-9a-f]{16***REMOVED***)";
-
-    /**
-     * A 32-bit memory address.
-     */
-    public static final String ADDRESS32 = "(0x[0-9a-f]{8***REMOVED***)";
 ***REMOVED***

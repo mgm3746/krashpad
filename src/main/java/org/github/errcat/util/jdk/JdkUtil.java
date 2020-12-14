@@ -14,17 +14,23 @@
  *********************************************************************************************************************/
 package org.github.errcat.util.jdk;
 
+import static org.github.errcat.util.jdk.JdkUtil.LogEventType.COMPILATION_EVENT;
+
 import java.util.Date;
 import java.util.HashMap;
 
 import org.github.errcat.domain.BlankLineEvent;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
-import org.github.errcat.domain.jdk.CpuEvent;
+import org.github.errcat.domain.jdk.CompilationEvent;
+import org.github.errcat.domain.jdk.CpuInfoEvent;
 import org.github.errcat.domain.jdk.CurrentThreadEvent;
+import org.github.errcat.domain.jdk.DeoptimizationEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.ElapsedTimeEvent;
+import org.github.errcat.domain.jdk.ExceptionEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
+import org.github.errcat.domain.jdk.GcHeapHistoryEvent;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
 import org.github.errcat.domain.jdk.Release;
@@ -33,6 +39,7 @@ import org.github.errcat.domain.jdk.ThreadEvent;
 import org.github.errcat.domain.jdk.TimeEvent;
 import org.github.errcat.domain.jdk.TimezoneEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
+import org.github.errcat.domain.jdk.VmEvent;
 import org.github.errcat.domain.jdk.VmInfoEvent;
 import org.github.errcat.util.Constants.OsVersion;
 
@@ -101,9 +108,9 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BLANK_LINE, CPU, CURRENT_THREAD, DYNAMIC_LIBRARY, ELAPSED_TIME, HEADER, JVM_INFO, OS, STACK, TIME, THREAD,
+        BLANK_LINE, COMPILATION_EVENT, CPU_INFO, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME,
         //
-        TIMEZONE, UNAME, UNKNOWN
+        EXCEPTION_EVENT, GC_HEAP_HISTORY, HEADER, JVM_INFO, OS, STACK, TIME, THREAD, TIMEZONE, UNAME, UNKNOWN, VM_EVENT
     ***REMOVED***;
 
     /**
@@ -559,17 +566,29 @@ public class JdkUtil {
         case BLANK_LINE:
             event = new BlankLineEvent(logLine);
             break;
-        case CPU:
-            event = new CpuEvent(logLine);
+        case COMPILATION_EVENT:
+            event = new CompilationEvent(logLine);
+            break;
+        case CPU_INFO:
+            event = new CpuInfoEvent(logLine);
             break;
         case CURRENT_THREAD:
             event = new CurrentThreadEvent(logLine);
+            break;
+        case DEOPTIMIZATION_EVENT:
+            event = new DeoptimizationEvent(logLine);
             break;
         case DYNAMIC_LIBRARY:
             event = new DynamicLibraryEvent(logLine);
             break;
         case ELAPSED_TIME:
             event = new ElapsedTimeEvent(logLine);
+            break;
+        case EXCEPTION_EVENT:
+            event = new ExceptionEvent(logLine);
+            break;
+        case GC_HEAP_HISTORY:
+            event = new GcHeapHistoryEvent(logLine);
             break;
         case HEADER:
             event = new HeaderEvent(logLine);
@@ -598,7 +617,9 @@ public class JdkUtil {
         case UNKNOWN:
             event = new UnknownEvent(logLine);
             break;
-
+        case VM_EVENT:
+            event = new VmEvent(logLine);
+            break;
         default:
             throw new AssertionError("Unexpected event type value: " + eventType);
         ***REMOVED***
@@ -616,14 +637,22 @@ public class JdkUtil {
         LogEventType logEventType = LogEventType.UNKNOWN;
         if (BlankLineEvent.match(logLine)) {
             logEventType = LogEventType.BLANK_LINE;
-        ***REMOVED*** else if (CpuEvent.match(logLine)) {
-            logEventType = LogEventType.CPU;
+        ***REMOVED*** else if (CompilationEvent.match(logLine)) {
+            logEventType = COMPILATION_EVENT;
+        ***REMOVED*** else if (CpuInfoEvent.match(logLine)) {
+            logEventType = LogEventType.CPU_INFO;
         ***REMOVED*** else if (CurrentThreadEvent.match(logLine)) {
             logEventType = LogEventType.CURRENT_THREAD;
+        ***REMOVED*** else if (DeoptimizationEvent.match(logLine)) {
+            logEventType = LogEventType.DEOPTIMIZATION_EVENT;
         ***REMOVED*** else if (DynamicLibraryEvent.match(logLine)) {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
         ***REMOVED*** else if (ElapsedTimeEvent.match(logLine)) {
             logEventType = LogEventType.ELAPSED_TIME;
+        ***REMOVED*** else if (ExceptionEvent.match(logLine)) {
+            logEventType = LogEventType.EXCEPTION_EVENT;
+        ***REMOVED*** else if (GcHeapHistoryEvent.match(logLine)) {
+            logEventType = LogEventType.GC_HEAP_HISTORY;
         ***REMOVED*** else if (HeaderEvent.match(logLine)) {
             logEventType = LogEventType.HEADER;
         ***REMOVED*** else if (VmInfoEvent.match(logLine)) {
@@ -640,6 +669,8 @@ public class JdkUtil {
             logEventType = LogEventType.TIMEZONE;
         ***REMOVED*** else if (UnameEvent.match(logLine)) {
             logEventType = LogEventType.UNAME;
+        ***REMOVED*** else if (VmEvent.match(logLine)) {
+            logEventType = LogEventType.VM_EVENT;
         ***REMOVED***
         return logEventType;
     ***REMOVED***

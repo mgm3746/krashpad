@@ -23,11 +23,14 @@ import java.io.IOException;
 import org.github.errcat.Main;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
-import org.github.errcat.domain.jdk.CpuEvent;
+import org.github.errcat.domain.jdk.CompilationEvent;
+import org.github.errcat.domain.jdk.CpuInfoEvent;
 import org.github.errcat.domain.jdk.CurrentThreadEvent;
+import org.github.errcat.domain.jdk.DeoptimizationEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.ElapsedTimeEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
+import org.github.errcat.domain.jdk.GcHeapHistoryEvent;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.OsEvent;
 import org.github.errcat.domain.jdk.StackEvent;
@@ -35,6 +38,7 @@ import org.github.errcat.domain.jdk.ThreadEvent;
 import org.github.errcat.domain.jdk.TimeEvent;
 import org.github.errcat.domain.jdk.TimezoneEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
+import org.github.errcat.domain.jdk.VmEvent;
 import org.github.errcat.domain.jdk.VmInfoEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 
@@ -77,14 +81,20 @@ public class Manager {
                 while (logLine != null) {
                     LogEvent event = JdkUtil.parseLogLine(logLine);
                     // ThrowAwayEvents are ignored
-                    if (event instanceof CpuEvent) {
-                        fatalErrorLog.getCpuEvents().add((CpuEvent) event);
+                    if (event instanceof CompilationEvent) {
+                        fatalErrorLog.getCompilationEvents().add((CompilationEvent) event);
+                    ***REMOVED*** else if (event instanceof CpuInfoEvent) {
+                        fatalErrorLog.getCpuInfoEvents().add((CpuInfoEvent) event);
                     ***REMOVED*** else if (event instanceof CurrentThreadEvent) {
                         fatalErrorLog.setCurrentThreadEvent((CurrentThreadEvent) event);
+                    ***REMOVED*** else if (event instanceof DeoptimizationEvent) {
+                        fatalErrorLog.getDeoptimizationEvents().add((DeoptimizationEvent) event);
                     ***REMOVED*** else if (event instanceof DynamicLibraryEvent) {
                         fatalErrorLog.getDynamicLibraryEvents().add((DynamicLibraryEvent) event);
                     ***REMOVED*** else if (event instanceof ElapsedTimeEvent) {
                         fatalErrorLog.setElapsedTimeEvent((ElapsedTimeEvent) event);
+                    ***REMOVED*** else if (event instanceof GcHeapHistoryEvent) {
+                        fatalErrorLog.getGcHeapHistoryEvents().add((GcHeapHistoryEvent) event);
                     ***REMOVED*** else if (event instanceof HeaderEvent) {
                         fatalErrorLog.getHeaderEvents().add((HeaderEvent) event);
                     ***REMOVED*** else if (event instanceof OsEvent) {
@@ -103,6 +113,8 @@ public class Manager {
                         if (fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
                             fatalErrorLog.getUnidentifiedLogLines().add(logLine);
                         ***REMOVED***
+                    ***REMOVED*** else if (event instanceof VmEvent) {
+                        fatalErrorLog.getVmEvents().add((VmEvent) event);
                     ***REMOVED*** else if (event instanceof VmInfoEvent) {
                         fatalErrorLog.setVmInfoEvent((VmInfoEvent) event);
                     ***REMOVED***
