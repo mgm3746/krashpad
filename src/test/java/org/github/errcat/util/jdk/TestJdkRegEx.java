@@ -128,4 +128,40 @@ public class TestJdkRegEx extends TestCase {
         String release = "0x08ec6400";
         Assert.assertTrue("Address not identified.", release.matches(JdkRegEx.ADDRESS32));
     }
+
+    public void testTimestampWithCharacter() {
+        String timestamp = "A.123";
+        Assert.assertFalse("Timestamps are decimal numbers.", timestamp.matches(JdkRegEx.TIMESTAMP));
+    }
+
+    public void testTimestampWithFewerDecimalPlaces() {
+        String timestamp = "1.12";
+        Assert.assertFalse("Timestamps have 3 decimal places.", timestamp.matches(JdkRegEx.TIMESTAMP));
+    }
+
+    public void testTimestampWithMoreDecimalPlaces() {
+        String timestamp = "1.1234";
+        Assert.assertFalse("Timestamps have 3 decimal places.", timestamp.matches(JdkRegEx.TIMESTAMP));
+    }
+
+    public void testTimestampWithNoDecimal() {
+        String timestamp = "11234";
+        Assert.assertFalse("Timestamps have 3 decimal places.", timestamp.matches(JdkRegEx.TIMESTAMP));
+    }
+
+    public void testTimestampLessThanOne() {
+        String timestamp = ".123";
+        Assert.assertTrue("Timestamps less than one do not have a leading zero.",
+                timestamp.matches(JdkRegEx.TIMESTAMP));
+    }
+
+    public void testTimestampValid() {
+        String timestamp = "1.123";
+        Assert.assertTrue("'" + timestamp + "' is a valid timestamp.", timestamp.matches(JdkRegEx.TIMESTAMP));
+    }
+
+    public void testTimestampDecimalComma() {
+        String timestamp = "1,123";
+        Assert.assertTrue("'" + timestamp + "' is a valid timestamp.", timestamp.matches(JdkRegEx.TIMESTAMP));
+    }
 }

@@ -51,13 +51,14 @@ import org.github.errcat.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class CpuEvent implements LogEvent {
+public class CpuInfoEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(clock|cpu|CPU|\\/proc\\/cpuinfo|machine|model|MMU|platform|processor|"
-            + "revision|timebase).+$";
+    private static final String REGEX = "^(address sizes|apicid|bogomips|bugs|cache_alignment|cache size|clflush size|"
+            + "clock|core id|cpu|CPU|\\/proc\\/cpuinfo|flags|fpu|initial apicid|machine|microcode|model|MMU|"
+            + "physical id|platform|power management|processor|revision|siblings|stepping|timebase|vendor_id|wp).+$";
 
     /**
      * The log entry for the event.
@@ -70,7 +71,7 @@ public class CpuEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public CpuEvent(String logEntry) {
+    public CpuInfoEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -79,7 +80,7 @@ public class CpuEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.CPU.toString();
+        return JdkUtil.LogEventType.CPU_INFO.toString();
     }
 
     /**
