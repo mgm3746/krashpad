@@ -14,39 +14,53 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.util.jdk.JdkMath;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * COMPILATION_EVENT
+ * MEMORY
  * </p>
  * 
  * <p>
- * Compilation information when methods are compiled from Java byte code to native code.
+ * Memory information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
+ * <p>
+ * 1) Linux:
+ * </p>
+ * 
  * <pre>
- * Compilation events (250 events):
- * Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code [0x00007ff0e04fd360, 0x00007ff0e04fe1d0]
- * Event: 6606.129 Thread 0x00007ff0ec201800 20997   !   4       org.eclipse.emf.ecore.xmi.impl.StringSegment::add (297 bytes)
+ * Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)
+ * </pre>
+ * 
+ * <p>
+ * 2) Windows:
+ * </p>
+ * 
+ * <pre>
+ * Memory: 4k page, system-wide physical 16383M (5994M free)
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class GcHeapHistoryEvent implements LogEvent {
+public class MemoryEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(  class| concurrent mark-sweep|  eden|  from|GC Heap History|Event: "
-            + JdkRegEx.TIMESTAMP
-            + " GC heap (after|before)|\\{Heap before GC|Heap after GC| Metaspace|  object| par new | ParOldGen|"
-            + " PSYoungGen|  to|})(.+)?$";
+    private static final String REGEX = "^Memory: (4|8)k page,( system-wide)? physical " + JdkRegEx.SIZE + "[ ]{0,1}\\("
+            + JdkRegEx.SIZE + " free\\)(, swap " + JdkRegEx.SIZE + "\\(" + JdkRegEx.SIZE + " free\\))?$";
+
+    private static Pattern pattern = Pattern.compile(REGEX);
 
     /**
      * The log entry for the event.
@@ -59,7 +73,7 @@ public class GcHeapHistoryEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public GcHeapHistoryEvent(String logEntry) {
+    public MemoryEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -68,7 +82,7 @@ public class GcHeapHistoryEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.COMPILATION_EVENT.toString();
+        return JdkUtil.LogEventType.MEMORY.toString();
     }
 
     /**
@@ -80,5 +94,61 @@ public class GcHeapHistoryEvent implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
+    }
+
+    /**
+     * @return The total available physical memory (kilobytes).
+     */
+    public long getPhysicalMemory() {
+        long physicalMemory = 0;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            physicalMemory = JdkUtil.convertOptionSizeToBytes(matcher.group(3) + matcher.group(5));
+            physicalMemory = JdkMath.convertBytesToKilobytes(physicalMemory);
+        }
+        return physicalMemory;
+    }
+
+    /**
+     * @return The total free physical memory (kilobytes).
+     */
+    public long getPhysicalMemoryFree() {
+        long physicalMemoryFree = 0;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            physicalMemoryFree = JdkUtil.convertOptionSizeToBytes(matcher.group(6) + matcher.group(8));
+            physicalMemoryFree = JdkMath.convertBytesToKilobytes(physicalMemoryFree);
+        }
+        return physicalMemoryFree;
+    }
+
+    /**
+     * @return The total available swap (kilobytes).
+     */
+    public long getSwap() {
+        long swap = 0;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(9) != null) {
+                swap = JdkUtil.convertOptionSizeToBytes(matcher.group(10) + matcher.group(12));
+                swap = JdkMath.convertBytesToKilobytes(swap);
+            }
+        }
+        return swap;
+    }
+
+    /**
+     * @return The total free swap (kilobytes).
+     */
+    public long getSwapFree() {
+        long swapFree = 0;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(9) != null) {
+                swapFree = JdkUtil.convertOptionSizeToBytes(matcher.group(13) + matcher.group(15));
+                swapFree = JdkMath.convertBytesToKilobytes(swapFree);
+            }
+        }
+        return swapFree;
     }
 }

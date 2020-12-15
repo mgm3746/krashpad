@@ -30,8 +30,10 @@ import org.github.errcat.domain.jdk.DeoptimizationEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.ElapsedTimeEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
-import org.github.errcat.domain.jdk.GcHeapHistoryEvent;
 import org.github.errcat.domain.jdk.HeaderEvent;
+import org.github.errcat.domain.jdk.HeapEvent;
+import org.github.errcat.domain.jdk.JvmArgsEvent;
+import org.github.errcat.domain.jdk.MemoryEvent;
 import org.github.errcat.domain.jdk.OsEvent;
 import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.domain.jdk.ThreadEvent;
@@ -68,6 +70,7 @@ public class Manager {
      * Parse the fatal error log.
      * 
      * @param logFile
+     *            The fatal error log to parse.
      * @return The fatal error log object.
      */
     public FatalErrorLog parse(File logFile) {
@@ -93,10 +96,14 @@ public class Manager {
                         fatalErrorLog.getDynamicLibraryEvents().add((DynamicLibraryEvent) event);
                     } else if (event instanceof ElapsedTimeEvent) {
                         fatalErrorLog.setElapsedTimeEvent((ElapsedTimeEvent) event);
-                    } else if (event instanceof GcHeapHistoryEvent) {
-                        fatalErrorLog.getGcHeapHistoryEvents().add((GcHeapHistoryEvent) event);
                     } else if (event instanceof HeaderEvent) {
                         fatalErrorLog.getHeaderEvents().add((HeaderEvent) event);
+                    } else if (event instanceof HeapEvent) {
+                        fatalErrorLog.getHeapEvents().add((HeapEvent) event);
+                    } else if (event instanceof JvmArgsEvent) {
+                        fatalErrorLog.setJvmArgsEvent((JvmArgsEvent) event);
+                    } else if (event instanceof MemoryEvent) {
+                        fatalErrorLog.setMemoryEvent((MemoryEvent) event);
                     } else if (event instanceof OsEvent) {
                         fatalErrorLog.setOsEvent((OsEvent) event);
                     } else if (event instanceof StackEvent) {

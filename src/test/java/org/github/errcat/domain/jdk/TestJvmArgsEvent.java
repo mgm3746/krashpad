@@ -14,68 +14,39 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * EXCEPTION_EVENT
- * </p>
- * 
- * <p>
- * Compilation information when methods are compiled from Java byte code to native code.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * Internal exceptions (250 events):
- * Event: 101.811 Thread 0x00007ff0ec698000 Exception &lt;a 'java/lang/ArrayIndexOutOfBoundsException'&gt; (0x00000000ef71e968) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 609]
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class ExceptionEvent implements LogEvent {
+public class TestJvmArgsEvent extends TestCase {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(Internal exceptions|Event: " + JdkRegEx.TIMESTAMP + " Thread ("
-            + JdkRegEx.ADDRESS64 + "|" + JdkRegEx.ADDRESS32 + ") Exception).+$";
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public ExceptionEvent(String logEntry) {
-        this.logEntry = logEntry;
+    public void testIdentity() {
+        String logLine = "jvm_args: -Xloggc:gc.log -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Xms512m "
+                + "-Xmx1024m -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=detail -XX:+PrintNMTStatistics "
+                + "-Dosgi.instance.area.default=@user.home/workspace";
+        Assert.assertTrue(JdkUtil.LogEventType.JVM_ARGS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.JVM_ARGS);
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    public void testParseLogLine() {
+        String logLine = "jvm_args: -Xloggc:gc.log -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Xms512m "
+                + "-Xmx1024m -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=detail -XX:+PrintNMTStatistics "
+                + "-Dosgi.instance.area.default=@user.home/workspace";
+        Assert.assertTrue(JdkUtil.LogEventType.JVM_ARGS.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof JvmArgsEvent);
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.EXCEPTION_EVENT.toString();
-    }
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public void testMaxValues() {
+        String logLine = "jvm_args: -Xloggc:gc.log -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Xms512m "
+                + "-Xmx1024m -XX:MaxMetaspaceSize=2M -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=detail "
+                + "-XX:+PrintNMTStatistics -Dosgi.instance.area.default=@user.home/workspace";
+        JvmArgsEvent event = new JvmArgsEvent(logLine);
+        Assert.assertEquals("Heap max not correct.", "1024m", event.getMaxHeapValue());
+        Assert.assertEquals("Metaspace max not correct.", "2M", event.getMaxMetaspaceValue());
     }
 }

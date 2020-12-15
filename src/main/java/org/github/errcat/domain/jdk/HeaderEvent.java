@@ -170,6 +170,10 @@ public class HeaderEvent implements LogEvent {
         return logEntry.matches("^#  Internal Error.+$");
     }
 
+    public boolean isFailed() {
+        return logEntry.matches("^#.+failed.+$");
+    }
+
     public boolean isError() {
         return logEntry.matches("^#  Error:.+$");
     }
