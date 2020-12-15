@@ -31,9 +31,9 @@ public enum Analysis {
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),
 
     /**
-     * Property key for a crash in JDK8 when a file is attempting to be modified while Java has it open.
+     * Property key for heap + metaspace &gt; physical memory.
      */
-    ERROR_JDK8_ZIPFILE_CONTENTION("error.jdk8.zipfile.contention"),
+    ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY("error.heap.plus.metaspace.gt.physical.memory"),
 
     /**
      * Property key for a crash on RHEL7 where a power8 rpm is deployed on power9. Power8 support is through the
@@ -43,9 +43,24 @@ public enum Analysis {
     ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9("error.jdk8.rhel7.power8.rpm.on.power9"),
 
     /**
+     * Property key for a crash in JDK8 when a file is attempting to be modified while Java has it open.
+     */
+    ERROR_JDK8_ZIPFILE_CONTENTION("error.jdk8.zipfile.contention"),
+
+    /**
      * Property key for a crash in JNA code.
      */
     ERROR_JNA("error.jna"),
+
+    /**
+     * Property key for crash trying to allocate memory when heap + metaspace much less than physical memory.
+     */
+    ERROR_OOME_JVM_LT_PHYSICAL_MEMORY("error.oome.jvm.lt.physical.memory"),
+
+    /**
+     * Property key for not enough physical memory for the JVM to start.
+     */
+    ERROR_OOME_STARTUP("error.oome.startup"),
 
     /**
      * Property key for a crash in JNA code on a Red Hat JDK.
@@ -73,14 +88,14 @@ public enum Analysis {
     INFO_RH_BUILD_LINUX_ZIP("info.rh.build.linux.zip"),
 
     /**
-     * Property key for a JDK that is possibly a RH build.
-     */
-    INFO_RH_BUILD_POSSIBLE("info.rh.build.possible"),
-
-    /**
      * Property key for a JDK that is not a RH build.
      */
     INFO_RH_BUILD_NOT("info.rh.build.not"),
+
+    /**
+     * Property key for a JDK that is possibly a RH build.
+     */
+    INFO_RH_BUILD_POSSIBLE("info.rh.build.possible"),
 
     /**
      * Property key for Red Hat build of OpenJDK rpm install.
@@ -96,6 +111,16 @@ public enum Analysis {
      * Property key for the stack not containing any VM code.
      */
     INFO_STACK_NO_VM_CODE("info.stack.no.vm.code"),
+
+    /**
+     * Property key for swapping disabled.
+     */
+    INFO_SWAP_DISABLED("info.swap.disabled"),
+
+    /**
+     * Property key for swapping.
+     */
+    INFO_SWAPPING("info.swapping"),
 
     /**
      * Property key for no evidence the JDK debug symbols are installed.

@@ -1,0 +1,600 @@
+***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
+***REMOVED*** Native memory allocation (mmap) failed to map 754974720 bytes for committing reserved memory.
+***REMOVED*** Possible reasons:
+***REMOVED***   The system is out of physical RAM or swap space
+***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+***REMOVED*** Possible solutions:
+***REMOVED***   Reduce memory load on the system
+***REMOVED***   Increase physical memory or swap space
+***REMOVED***   Check if swap backing store is full
+***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
+***REMOVED***   Decrease number of Java threads
+***REMOVED***   Decrease Java thread stack sizes (-Xss)
+***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
+***REMOVED***   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+***REMOVED***     placed in the first 32GB address space. The Java Heap base address is the
+***REMOVED***     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+***REMOVED***     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+***REMOVED*** This output file may be truncated or incomplete.
+***REMOVED***
+***REMOVED***  Out of Memory Error (os_linux.cpp:2749), pid=25305, tid=0x00007f5ab28b7700
+***REMOVED***
+***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_211-b12) (build 1.8.0_211-b12)
+***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.211-b12 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x000000000232c800):  VMThread [stack: 0x00007f5ab27b8000,0x00007f5ab28b8000] [id=25319]
+
+Stack: [0x00007f5ab27b8000,0x00007f5ab28b8000],  sp=0x00007f5ab28b63f0,  free space=1016k
+***REMOVED***
+V  [libjvm.so+0xad3455]  VMError::report_and_die()+0x2e5
+V  [libjvm.so+0x4e0537]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0x67
+V  [libjvm.so+0x910320]  os::pd_commit_memory(char*, unsigned long, unsigned long, bool)+0x100
+V  [libjvm.so+0x90794f]  os::commit_memory(char*, unsigned long, unsigned long, bool)+0x1f
+V  [libjvm.so+0x98c736]  PSVirtualSpace::expand_by(unsigned long)+0x56
+V  [libjvm.so+0x97ba0b]  PSOldGen::expand_by(unsigned long) [clone .part.28]+0x1b
+V  [libjvm.so+0x97bbc8]  PSOldGen::expand(unsigned long) [clone .part.29]+0xa8
+V  [libjvm.so+0x97c771]  PSOldGen::resize(unsigned long)+0xe1
+V  [libjvm.so+0x9828ac]  PSParallelCompact::invoke_no_policy(bool) [clone .part.118]+0xa2c
+V  [libjvm.so+0x98a6c5]  PSScavenge::invoke()+0x215
+V  [libjvm.so+0x93a248]  ParallelScavenge***REMOVED***:failed_mem_allocate(unsigned long)+0x68
+V  [libjvm.so+0xad4fa3]  VM_ParallelGCFailedAllocation::doit()+0x93
+V  [libjvm.so+0xada1c6]  VM_Operation::evaluate()+0x46
+V  [libjvm.so+0xad84fd]  VMThread::evaluate_operation(VM_Operation*) [clone .constprop.44]+0xcd
+V  [libjvm.so+0xad8ae3]  VMThread::loop()+0x3a3
+V  [libjvm.so+0xad8eb8]  VMThread::run()+0x78
+V  [libjvm.so+0x90d952]  java_start(Thread*)+0x102
+
+VM_Operation (0x00007f5a849bd790): ParallelGCFailedAllocation, mode: safepoint, requested by thread 0x000000000cfec800
+
+
+***REMOVED***
+
+***REMOVED***
+  0x000000001aa0a000 JavaThread "Log4j2-TF-470-54eb95e2-494" [_thread_blocked, id=21770, stack(0x00007f5a9dbb3000,0x00007f5a9dcb4000)]
+  0x00000000180d2000 JavaThread "default task-2815" [_thread_in_native, id=21769, stack(0x00007f5aa0fa7000,0x00007f5aa10a8000)]
+  0x0000000018072000 JavaThread "default task-2814" [_thread_in_native, id=21768, stack(0x00007f5a8dbfb000,0x00007f5a8dcfc000)]
+  0x000000001197d800 JavaThread "thread-155,ejb,master:Banking" [_thread_blocked, id=21288, stack(0x00007f5a895b5000,0x00007f5a896b6000)]
+  0x000000001aa2a000 JavaThread "default task-2813" [_thread_blocked, id=21117, stack(0x00007f5a851c8000,0x00007f5a852c9000)]
+  0x000000001706e800 JavaThread "default task-2812" [_thread_blocked, id=21115, stack(0x00007f5a846bd000,0x00007f5a847be000)]
+  0x00000000108bc000 JavaThread "default task-2811" [_thread_blocked, id=21114, stack(0x00007f5aa2bc1000,0x00007f5aa2cc2000)]
+  0x0000000017efb800 JavaThread "default task-2810" [_thread_blocked, id=21113, stack(0x00007f5aa7485000,0x00007f5aa7586000)]
+  0x0000000012921000 JavaThread "default task-2809" [_thread_blocked, id=21112, stack(0x00007f5aa5ae5000,0x00007f5aa5be6000)]
+  0x00000000172a4800 JavaThread "default task-2808" [_thread_blocked, id=21111, stack(0x00007f5aa22b8000,0x00007f5aa23b9000)]
+  0x000000001722c800 JavaThread "default task-2807" [_thread_blocked, id=21042, stack(0x00007f5a885a5000,0x00007f5a886a6000)]
+  0x00000000170ba000 JavaThread "default task-2806" [_thread_blocked, id=21041, stack(0x00007f5a88aaa000,0x00007f5a88bab000)]
+  0x000000000ee48800 JavaThread "default task-2805" [_thread_in_native, id=21039, stack(0x00007f5a89ebe000,0x00007f5a89fbf000)]
+  0x0000000017ad0800 JavaThread "default task-2804" [_thread_blocked, id=21028, stack(0x00007f5a897bb000,0x00007f5a898bc000)]
+  0x0000000016edb800 JavaThread "default task-2803" [_thread_in_native, id=21027, stack(0x00007f5a8d8f8000,0x00007f5a8d9f9000)]
+  0x0000000015831800 JavaThread "default task-2802" [_thread_blocked, id=20649, stack(0x00007f5a8a4c8000,0x00007f5a8a5c9000)]
+  0x00000000114c8000 JavaThread "default task-2801" [_thread_in_native, id=20648, stack(0x00007f5a9af58000,0x00007f5a9b059000)]
+  0x00000000114c7800 JavaThread "default task-2800" [_thread_blocked, id=19552, stack(0x00007f5a9bb5e000,0x00007f5a9bc5f000)]
+  0x0000000018016800 JavaThread "default task-2799" [_thread_blocked, id=19551, stack(0x00007f5a8cbeb000,0x00007f5a8ccec000)]
+  0x00000000175be800 JavaThread "default task-2798" [_thread_in_native, id=19550, stack(0x00007f5a8f110000,0x00007f5a8f211000)]
+  0x000000000e272000 JavaThread "default task-2797" [_thread_in_native, id=19549, stack(0x00007f5aa4916000,0x00007f5aa4a17000)]
+  0x00000000114c9000 JavaThread "default task-2796" [_thread_blocked, id=19548, stack(0x00007f5aa14ac000,0x00007f5aa15ad000)]
+  0x000000000cfec800 JavaThread "default task-2794" [_thread_blocked, id=19546, stack(0x00007f5a848bf000,0x00007f5a849c0000)]
+  0x00000000160a2800 JavaThread "default task-2793" [_thread_blocked, id=19545, stack(0x00007f5a9352a000,0x00007f5a9362b000)]
+  0x0000000017aa8000 JavaThread "default task-2792" [_thread_blocked, id=19544, stack(0x00007f5a894b4000,0x00007f5a895b5000)]
+  0x0000000016e18800 JavaThread "default task-2791" [_thread_blocked, id=19543, stack(0x00007f5aa0ea6000,0x00007f5aa0fa7000)]
+  0x00000000086e5800 JavaThread "default task-2790" [_thread_blocked, id=18593, stack(0x00007f5a862a0000,0x00007f5a863a1000)]
+  0x0000000016f95000 JavaThread "default task-2787" [_thread_blocked, id=18590, stack(0x00007f5aa12aa000,0x00007f5aa13ab000)]
+  0x000000000bcf4000 JavaThread "default task-2786" [_thread_blocked, id=18589, stack(0x00007f5a92e23000,0x00007f5a92f24000)]
+  0x00000000145e7000 JavaThread "default task-2779" [_thread_blocked, id=17676, stack(0x00007f5a9a049000,0x00007f5a9a14a000)]
+  0x0000000003559800 JavaThread "default task-2775" [_thread_blocked, id=17672, stack(0x00007f5aa1fb5000,0x00007f5aa20b6000)]
+  0x0000000015989000 JavaThread "default task-2774" [_thread_blocked, id=17671, stack(0x00007f5a8c8ea000,0x00007f5a8c9eb000)]
+  0x0000000017ea3800 JavaThread "default task-2773" [_thread_blocked, id=17670, stack(0x00007f5a8aad0000,0x00007f5a8abd1000)]
+  0x000000000cf9e800 JavaThread "default task-2772" [_thread_blocked, id=17669, stack(0x00007f5a93227000,0x00007f5a93328000)]
+  0x0000000018f1b000 JavaThread "default task-2770" [_thread_in_native, id=17488, stack(0x00007f5a98b3c000,0x00007f5a98c3d000)]
+  0x0000000017acf800 JavaThread "default task-2769" [_thread_blocked, id=17485, stack(0x00007f5aa11a9000,0x00007f5aa12aa000)]
+  0x0000000010ccb000 JavaThread "default task-2767" [_thread_blocked, id=17483, stack(0x00007f5a84bc2000,0x00007f5a84cc3000)]
+  0x0000000017e6a800 JavaThread "thread-152,ejb,master:Banking" [_thread_blocked, id=17194, stack(0x00007f5a8bada000,0x00007f5a8bbdb000)]
+  0x0000000017092000 JavaThread "default task-2760" [_thread_blocked, id=16082, stack(0x00007f5a96c39000,0x00007f5a96d3a000)]
+  0x00000000108ca800 JavaThread "default task-2751" [_thread_blocked, id=15943, stack(0x00007f5a8e708000,0x00007f5a8e809000)]
+  0x000000001613c800 JavaThread "default task-2746" [_thread_blocked, id=14624, stack(0x00007f5a8e201000,0x00007f5a8e302000)]
+  0x0000000016eda800 JavaThread "default task-2743" [_thread_blocked, id=13768, stack(0x00007f5a888a8000,0x00007f5a889a9000)]
+  0x0000000016179800 JavaThread "default task-2736" [_thread_blocked, id=12849, stack(0x00007f5a8c4e6000,0x00007f5a8c5e7000)]
+  0x000000000e0ef800 JavaThread "default task-2706" [_thread_blocked, id=7732, stack(0x00007f5aa4a21000,0x00007f5aa4b22000)]
+  0x00000000128d5000 JavaThread "Log4j2-TF-3-AsyncLoggerConfig-468" daemon [_thread_blocked, id=60175, stack(0x00007f5a831a8000,0x00007f5a832a9000)]
+  0x000000000a757000 JavaThread "hystrix-notification-1" daemon [_thread_blocked, id=64953, stack(0x00007f5a84ec5000,0x00007f5a84fc6000)]
+  0x0000000013ff9800 JavaThread "HystrixTimer-1" daemon [_thread_blocked, id=64952, stack(0x00007f5a847be000,0x00007f5a848bf000)]
+  0x000000000bddb000 JavaThread "Keep-Alive-Timer" daemon [_thread_blocked, id=64274, stack(0x00007f5aa64dd000,0x00007f5aa65de000)]
+  0x0000000006e88000 JavaThread "default task-418" [_thread_in_native, id=19670, stack(0x00007f5a92d22000,0x00007f5a92e23000)]
+  0x0000000011893000 JavaThread "transport-thread--p13-t6" daemon [_thread_blocked, id=5150, stack(0x00007f5a93429000,0x00007f5a9352a000)]
+  0x0000000012263800 JavaThread "transport-thread--p16-t6" daemon [_thread_blocked, id=5149, stack(0x00007f5aa18b0000,0x00007f5aa19b1000)]
+  0x00000000071af800 JavaThread "Connection.Receiver [172.31.27.177:7600 - 172.31.27.178:38839]-31,ejb,master:Banking" [_thread_blocked, id=5147, stack(0x00007f5aa17af000,0x00007f5aa18b0000)]
+  0x000000000fb8a000 JavaThread "transport-thread--p13-t5" daemon [_thread_blocked, id=46486, stack(0x00007f5a9c463000,0x00007f5a9c564000)]
+  0x000000000f399000 JavaThread "transport-thread--p16-t5" daemon [_thread_blocked, id=46485, stack(0x00007f5a8f00f000,0x00007f5a8f110000)]
+  0x000000000bf04000 JavaThread "transport-thread--p13-t4" daemon [_thread_blocked, id=38466, stack(0x00007f5a9ac55000,0x00007f5a9ad56000)]
+  0x000000000bf03800 JavaThread "remote-thread--p5-t3" daemon [_thread_blocked, id=38465, stack(0x00007f5aa1eb4000,0x00007f5aa1fb5000)]
+  0x00000000101f1000 JavaThread "transport-thread--p16-t4" daemon [_thread_blocked, id=38464, stack(0x00007f5aa13ab000,0x00007f5aa14ac000)]
+  0x0000000009dcb800 JavaThread "transport-thread--p13-t3" daemon [_thread_blocked, id=36183, stack(0x00007f5a88faf000,0x00007f5a890b0000)]
+  0x000000001240e800 JavaThread "transport-thread--p15-t25" daemon [_thread_blocked, id=36182, stack(0x00007f5a8e605000,0x00007f5a8e706000)]
+  0x0000000009dcb000 JavaThread "transport-thread--p16-t3" daemon [_thread_blocked, id=36181, stack(0x00007f5a91d16000,0x00007f5a91e17000)]
+  0x0000000012b40800 JavaThread "transport-thread--p15-t24" daemon [_thread_blocked, id=36180, stack(0x00007f5aa4f55000,0x00007f5aa5056000)]
+  0x000000000c82e000 JavaThread "transport-thread--p15-t23" daemon [_thread_blocked, id=36179, stack(0x00007f5a92f24000,0x00007f5a93025000)]
+  0x000000000d710800 JavaThread "transport-thread--p15-t22" daemon [_thread_blocked, id=36178, stack(0x00007f5a8f211000,0x00007f5a8f312000)]
+  0x000000000c340000 JavaThread "transport-thread--p15-t21" daemon [_thread_blocked, id=36177, stack(0x00007f5a9a14a000,0x00007f5a9a24b000)]
+  0x000000000a5f9000 JavaThread "remote-thread--p7-t3" daemon [_thread_blocked, id=36164, stack(0x00007f5aa15ad000,0x00007f5aa16ae000)]
+  0x000000000500f000 JavaThread "management task-2" [_thread_blocked, id=31947, stack(0x00007f5a92c21000,0x00007f5a92d22000)]
+  0x00000000125fd800 JavaThread "transport-thread--p15-t20" daemon [_thread_blocked, id=31354, stack(0x00007f5aa25bb000,0x00007f5aa26bc000)]
+  0x000000000e8d4800 JavaThread "transport-thread--p14-t25" daemon [_thread_blocked, id=30743, stack(0x00007f5a8cded000,0x00007f5a8ceee000)]
+  0x000000000e8d2000 JavaThread "transport-thread--p14-t24" daemon [_thread_blocked, id=30742, stack(0x00007f5a8ceee000,0x00007f5a8cfef000)]
+  0x000000000fff1000 JavaThread "InfinispanSessionManager - 1" [_thread_blocked, id=30741, stack(0x00007f5a8cfef000,0x00007f5a8d0f0000)]
+  0x000000000ffee800 JavaThread "transport-thread--p14-t23" daemon [_thread_blocked, id=30740, stack(0x00007f5a8d1f1000,0x00007f5a8d2f2000)]
+  0x000000000ffee000 JavaThread "transport-thread--p14-t22" daemon [_thread_blocked, id=30739, stack(0x00007f5a8d2f2000,0x00007f5a8d3f3000)]
+  0x000000001025e800 JavaThread "transport-thread--p14-t21" daemon [_thread_blocked, id=30738, stack(0x00007f5a8d3f3000,0x00007f5a8d4f4000)]
+  0x000000001025e000 JavaThread "transport-thread--p14-t20" daemon [_thread_blocked, id=30737, stack(0x00007f5a8d5f5000,0x00007f5a8d6f6000)]
+  0x0000000012c0b000 JavaThread "transport-thread--p14-t19" daemon [_thread_blocked, id=30736, stack(0x00007f5a8d6f6000,0x00007f5a8d7f7000)]
+  0x0000000012c0a000 JavaThread "transport-thread--p14-t18" daemon [_thread_blocked, id=30735, stack(0x00007f5a8d7f7000,0x00007f5a8d8f8000)]
+  0x0000000012c08800 JavaThread "transport-thread--p14-t17" daemon [_thread_blocked, id=30734, stack(0x00007f5a8d9f9000,0x00007f5a8dafa000)]
+  0x000000001145e800 JavaThread "transport-thread--p14-t16" daemon [_thread_blocked, id=30733, stack(0x00007f5a8dafa000,0x00007f5a8dbfb000)]
+  0x000000001145d800 JavaThread "transport-thread--p14-t15" daemon [_thread_blocked, id=30732, stack(0x00007f5a8defe000,0x00007f5a8dfff000)]
+  0x000000001145d000 JavaThread "transport-thread--p14-t14" daemon [_thread_blocked, id=30731, stack(0x00007f5a8dfff000,0x00007f5a8e100000)]
+  0x000000001145c000 JavaThread "transport-thread--p14-t13" daemon [_thread_blocked, id=30730, stack(0x00007f5a8e302000,0x00007f5a8e403000)]
+  0x000000000d739800 JavaThread "transport-thread--p14-t12" daemon [_thread_blocked, id=30727, stack(0x00007f5a8e809000,0x00007f5a8e90a000)]
+  0x000000000b9fd000 JavaThread "CacheRegistry - 1" [_thread_blocked, id=30726, stack(0x00007f5a8e90a000,0x00007f5a8ea0b000)]
+  0x000000001186b800 JavaThread "transport-thread--p14-t11" daemon [_thread_blocked, id=30725, stack(0x00007f5a8ec0b000,0x00007f5a8ed0c000)]
+  0x000000001023c800 JavaThread "transport-thread--p14-t10" daemon [_thread_blocked, id=30722, stack(0x00007f5a8ed0c000,0x00007f5a8ee0d000)]
+  0x000000001186e800 JavaThread "transport-thread--p14-t9" daemon [_thread_blocked, id=30721, stack(0x00007f5a8ee0d000,0x00007f5a8ef0e000)]
+  0x000000000959d800 JavaThread "ClusterTopologyRegistrar - 1" [_thread_blocked, id=29850, stack(0x00007f5a8e100000,0x00007f5a8e201000)]
+  0x000000000f782000 JavaThread "transport-thread--p15-t19" daemon [_thread_blocked, id=29848, stack(0x00007f5a8d4f4000,0x00007f5a8d5f5000)]
+  0x00000000124da800 JavaThread "transport-thread--p15-t18" daemon [_thread_blocked, id=29847, stack(0x00007f5a8e403000,0x00007f5a8e504000)]
+  0x0000000006cad000 JavaThread "transport-thread--p15-t17" daemon [_thread_blocked, id=29846, stack(0x00007f5a890b0000,0x00007f5a891b1000)]
+  0x000000000e30d000 JavaThread "transport-thread--p15-t16" daemon [_thread_blocked, id=29845, stack(0x00007f5a8c3e3000,0x00007f5a8c4e4000)]
+  0x000000000e30a800 JavaThread "transport-thread--p15-t15" daemon [_thread_blocked, id=29844, stack(0x00007f5aa1bb1000,0x00007f5aa1cb2000)]
+  0x000000000e309800 JavaThread "transport-thread--p15-t14" daemon [_thread_blocked, id=29843, stack(0x00007f5a89cbc000,0x00007f5a89dbd000)]
+  0x000000000a273800 JavaThread "transport-thread--p15-t13" daemon [_thread_blocked, id=29842, stack(0x00007f5a88dad000,0x00007f5a88eae000)]
+  0x000000000a271800 JavaThread "transport-thread--p15-t12" daemon [_thread_blocked, id=29841, stack(0x00007f5a8c0e0000,0x00007f5a8c1e1000)]
+  0x00000000094df800 JavaThread "transport-thread--p15-t11" daemon [_thread_blocked, id=29840, stack(0x00007f5a8b2d2000,0x00007f5a8b3d3000)]
+  0x00000000124e1000 JavaThread "transport-thread--p15-t10" daemon [_thread_blocked, id=29839, stack(0x00007f5a93025000,0x00007f5a93126000)]
+  0x0000000002508000 JavaThread "transport-thread--p15-t9" daemon [_thread_blocked, id=29837, stack(0x00007f5a8a9c9000,0x00007f5a8aaca000)]
+  0x00000000124df800 JavaThread "CacheRegistry - 1" [_thread_blocked, id=29836, stack(0x00007f5a98f3e000,0x00007f5a9903f000)]
+  0x000000000c008000 JavaThread "transport-thread--p15-t8" daemon [_thread_blocked, id=29835, stack(0x00007f5a89fbf000,0x00007f5a8a0c0000)]
+  0x00000000097a7800 JavaThread "transport-thread--p15-t7" daemon [_thread_blocked, id=29834, stack(0x00007f5a8d0f0000,0x00007f5a8d1f1000)]
+  0x00000000097a7000 JavaThread "transport-thread--p15-t6" daemon [_thread_blocked, id=29833, stack(0x00007f5a88bab000,0x00007f5a88cac000)]
+  0x000000001292f800 JavaThread "timeout-thread--p9-t1" daemon [_thread_blocked, id=29749, stack(0x00007f5a8ccec000,0x00007f5a8cded000)]
+  0x000000000e6ba000 JavaThread "timeout-thread--p10-t1" daemon [_thread_blocked, id=29748, stack(0x00007f5a9a952000,0x00007f5a9aa53000)]
+  0x000000000f2bf800 JavaThread "transport-thread--p13-t2" daemon [_thread_blocked, id=29746, stack(0x00007f5a8c7e7000,0x00007f5a8c8e8000)]
+  0x000000000c1ca800 JavaThread "transport-thread--p15-t5" daemon [_thread_blocked, id=29745, stack(0x00007f5a8b1d1000,0x00007f5a8b2d2000)]
+  0x000000000ef11800 JavaThread "transport-thread--p14-t8" daemon [_thread_blocked, id=29743, stack(0x00007f5a8a3c3000,0x00007f5a8a4c4000)]
+  0x0000000011979000 JavaThread "transport-thread--p16-t2" daemon [_thread_blocked, id=29742, stack(0x00007f5a8dcfc000,0x00007f5a8ddfd000)]
+  0x0000000008e79000 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=26721, stack(0x00007f5aa4c34000,0x00007f5aa4d35000)]
+  0x000000000f6e3000 JavaThread "SessionExpirationScheduler - 1" [_thread_blocked, id=26170, stack(0x00007f5a87ba3000,0x00007f5a87ca4000)]
+  0x000000000d335800 JavaThread "MultiThreadedHttpConnectionManager cleanup" daemon [_thread_blocked, id=26145, stack(0x00007f5a87aa2000,0x00007f5a87ba3000)]
+  0x000000000e77f000 JavaThread "OracleTimeoutPollingThread" daemon [_thread_blocked, id=26136, stack(0x00007f5a9a34c000,0x00007f5a9a44d000)]
+  0x000000000871d800 JavaThread "KeyAffinityService Thread Pool -- 1" [_thread_blocked, id=25951, stack(0x00007f5a93328000,0x00007f5a93429000)]
+  0x00000000092b5800 JavaThread "persistence-thread--p26-t4" daemon [_thread_blocked, id=25738, stack(0x00007f5a91514000,0x00007f5a91615000)]
+  0x000000000eab9000 JavaThread "persistence-thread--p26-t3" daemon [_thread_blocked, id=25735, stack(0x00007f5a91615000,0x00007f5a91716000)]
+  0x0000000006234000 JavaThread "persistence-thread--p26-t2" daemon [_thread_blocked, id=25733, stack(0x00007f5a91e17000,0x00007f5a91f18000)]
+  0x000000000b6d2800 JavaThread "transport-thread--p14-t7" daemon [_thread_blocked, id=25728, stack(0x00007f5a92318000,0x00007f5a92419000)]
+  0x00000000087f1000 JavaThread "transport-thread--p14-t6" daemon [_thread_blocked, id=25727, stack(0x00007f5a92419000,0x00007f5a9251a000)]
+  0x000000000c87e000 JavaThread "transport-thread--p14-t5" daemon [_thread_blocked, id=25726, stack(0x00007f5a9251a000,0x00007f5a9261b000)]
+  0x000000000a63a800 JavaThread "persistence-thread--p26-t1" daemon [_thread_blocked, id=25725, stack(0x00007f5a9261b000,0x00007f5a9271c000)]
+  0x000000000deb7000 JavaThread "transport-thread--p14-t4" daemon [_thread_blocked, id=25724, stack(0x00007f5a9271c000,0x00007f5a9281d000)]
+  0x00000000078f4800 JavaThread "transport-thread--p14-t3" daemon [_thread_blocked, id=25723, stack(0x00007f5a9281d000,0x00007f5a9291e000)]
+  0x0000000006de9000 JavaThread "transport-thread--p14-t2" daemon [_thread_blocked, id=25722, stack(0x00007f5a9291e000,0x00007f5a92a1f000)]
+  0x000000000c9fd000 JavaThread "expiration-thread--p25-t1" daemon [_thread_blocked, id=25721, stack(0x00007f5a92a1f000,0x00007f5a92b20000)]
+  0x000000000321a000 JavaThread "timeout-thread--p12-t1" daemon [_thread_blocked, id=25719, stack(0x00007f5a92b20000,0x00007f5a92c21000)]
+  0x000000000dce7800 JavaThread "Timer-2" daemon [_thread_blocked, id=25707, stack(0x00007f5a9372c000,0x00007f5a9382d000)]
+  0x0000000002d4e000 JavaThread "derby.antiGC" daemon [_thread_blocked, id=25705, stack(0x00007f5a93c2d000,0x00007f5a93d2e000)]
+  0x000000000dba4800 JavaThread "QuartzScheduler_quartzScheduler-NON_CLUSTERED_MisfireHandler" [_thread_blocked, id=25679, stack(0x00007f5a93d2e000,0x00007f5a93e2f000)]
+  0x000000000c83a800 JavaThread "spring.cloud.inetutils" daemon [_thread_blocked, id=25674, stack(0x00007f5a9422f000,0x00007f5a94330000)]
+  0x00000000086c1000 JavaThread "quartzScheduler_QuartzSchedulerThread" [_thread_blocked, id=25669, stack(0x00007f5a94330000,0x00007f5a94431000)]
+  0x000000000b209000 JavaThread "quartzScheduler_Worker-5" [_thread_blocked, id=25668, stack(0x00007f5a94431000,0x00007f5a94532000)]
+  0x00000000026d8800 JavaThread "quartzScheduler_Worker-4" [_thread_blocked, id=25667, stack(0x00007f5a94532000,0x00007f5a94633000)]
+  0x000000000d808000 JavaThread "quartzScheduler_Worker-3" [_thread_blocked, id=25666, stack(0x00007f5a94633000,0x00007f5a94734000)]
+  0x000000000c576800 JavaThread "quartzScheduler_Worker-2" [_thread_blocked, id=25665, stack(0x00007f5a94734000,0x00007f5a94835000)]
+  0x000000000b37e800 JavaThread "quartzScheduler_Worker-1" [_thread_blocked, id=25664, stack(0x00007f5a94835000,0x00007f5a94936000)]
+  0x00000000026e9000 JavaThread "RxComputationScheduler-8" daemon [_thread_blocked, id=25659, stack(0x00007f5a94b36000,0x00007f5a94c37000)]
+  0x00000000059ce000 JavaThread "RxComputationScheduler-7" daemon [_thread_blocked, id=25658, stack(0x00007f5a95e37000,0x00007f5a95f38000)]
+  0x000000000cbcf000 JavaThread "RxComputationScheduler-6" daemon [_thread_blocked, id=25657, stack(0x00007f5a99542000,0x00007f5a99643000)]
+  0x0000000006d9c000 JavaThread "RxComputationScheduler-5" daemon [_thread_blocked, id=25656, stack(0x00007f5a99140000,0x00007f5a99241000)]
+  0x000000000b988800 JavaThread "RxComputationScheduler-4" daemon [_thread_blocked, id=25655, stack(0x00007f5a9903f000,0x00007f5a99140000)]
+  0x0000000006f95000 JavaThread "RxComputationScheduler-3" daemon [_thread_blocked, id=25654, stack(0x00007f5a99441000,0x00007f5a99542000)]
+  0x000000000bfd1000 JavaThread "RxComputationScheduler-2" daemon [_thread_blocked, id=25653, stack(0x00007f5a9f791000,0x00007f5a9f892000)]
+  0x000000000b662800 JavaThread "RxComputationScheduler-1" daemon [_thread_blocked, id=25650, stack(0x00007f5a9a24b000,0x00007f5a9a34c000)]
+  0x000000000c141800 JavaThread "RxIoScheduler-1 (Evictor)" daemon [_thread_blocked, id=25649, stack(0x00007f5a9a44d000,0x00007f5a9a54e000)]
+  0x000000000c1a5000 JavaThread "HikariPool-1 housekeeper" daemon [_thread_blocked, id=25617, stack(0x00007f5a96f3a000,0x00007f5a9703b000)]
+  0x00000000088ff000 JavaThread "oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser" daemon [_thread_blocked, id=25613, stack(0x00007f5a97e3b000,0x00007f5a97f3c000)]
+  0x00000000097cf000 JavaThread "ServerService Thread Pool -- 79" [_thread_blocked, id=25588, stack(0x00007f5a98e3d000,0x00007f5a98f3e000)]
+  0x0000000002a4e800 JavaThread "mysql-cj-abandoned-connection-cleanup" daemon [_thread_blocked, id=25560, stack(0x00007f5a99f48000,0x00007f5a9a049000)]
+  0x0000000004192800 JavaThread "transport-thread--p15-t4" daemon [_thread_blocked, id=25547, stack(0x00007f5a99843000,0x00007f5a99944000)]
+  0x000000000354c000 JavaThread "transport-thread--p15-t3" daemon [_thread_blocked, id=25546, stack(0x00007f5a99944000,0x00007f5a99a45000)]
+  0x00000000034f3800 JavaThread "transport-thread--p15-t2" daemon [_thread_blocked, id=25545, stack(0x00007f5a99a45000,0x00007f5a99b46000)]
+  0x0000000006ed2800 JavaThread "expiration-thread--p22-t1" daemon [_thread_blocked, id=25544, stack(0x00007f5a99b46000,0x00007f5a99c47000)]
+  0x0000000007ca4800 JavaThread "timeout-thread--p11-t1" daemon [_thread_blocked, id=25543, stack(0x00007f5a99c47000,0x00007f5a99d48000)]
+  0x0000000005d35800 JavaThread "transport-thread--p14-t1" daemon [_thread_blocked, id=25536, stack(0x00007f5a9a54e000,0x00007f5a9a64f000)]
+  0x0000000005d33800 JavaThread "transport-thread--p15-t1" daemon [_thread_blocked, id=25535, stack(0x00007f5a9a64f000,0x00007f5a9a750000)]
+  0x0000000005d31800 JavaThread "transport-thread--p16-t1" daemon [_thread_blocked, id=25534, stack(0x00007f5a9a750000,0x00007f5a9a851000)]
+  0x0000000002e25800 JavaThread "transport-thread--p13-t1" daemon [_thread_blocked, id=25533, stack(0x00007f5a9a851000,0x00007f5a9a952000)]
+  0x0000000004fe0000 JavaThread "remote-thread--p8-t1" daemon [_thread_blocked, id=25527, stack(0x00007f5a9ae57000,0x00007f5a9af58000)]
+  0x0000000006da5000 JavaThread "remote-thread--p6-t1" daemon [_thread_blocked, id=25525, stack(0x00007f5a9b059000,0x00007f5a9b15a000)]
+  0x0000000006da3000 JavaThread "Controller-remote-thread-null" [_thread_blocked, id=25524, stack(0x00007f5a9b15a000,0x00007f5a9b25b000)]
+  0x000000000a679800 JavaThread "Controller-remote-thread-null" [_thread_blocked, id=25523, stack(0x00007f5a9b25b000,0x00007f5a9b35c000)]
+  0x0000000009625000 JavaThread "Controller-remote-thread-null" [_thread_blocked, id=25522, stack(0x00007f5a9b35c000,0x00007f5a9b45d000)]
+  0x0000000009623800 JavaThread "Controller-remote-thread-null" [_thread_blocked, id=25521, stack(0x00007f5a9b45d000,0x00007f5a9b55e000)]
+  0x000000000787d800 JavaThread "ServerService Thread Pool -- 73" [_thread_blocked, id=25516, stack(0x00007f5a9be5f000,0x00007f5a9bf60000)]
+  0x000000000933d800 JavaThread "FD_SOCK acceptor-7,ejb,master:Banking" daemon [_thread_in_native, id=25514, stack(0x00007f5a9c160000,0x00007f5a9c261000)]
+  0x000000000a8f4800 JavaThread "TcpServer.Acceptor[7600]-4,null,null" [_thread_in_native, id=25512, stack(0x00007f5a9c261000,0x00007f5a9c362000)]
+  0x000000000a3a7000 JavaThread "TQ-Bundler-6,ejb,master:Banking" [_thread_blocked, id=25511, stack(0x00007f5a9c362000,0x00007f5a9c463000)]
+  0x00000000082e9000 JavaThread "Timer runner-1,null,null" [_thread_blocked, id=25508, stack(0x00007f5a9c564000,0x00007f5a9c665000)]
+  0x0000000006583000 JavaThread "oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser" daemon [_thread_blocked, id=25500, stack(0x00007f5a9dd2b000,0x00007f5a9de2c000)]
+  0x000000000775f000 JavaThread "JCA PoolFiller" daemon [_thread_blocked, id=25499, stack(0x00007f5a9e22c000,0x00007f5a9e32d000)]
+  0x0000000007962000 JavaThread "Transaction Reaper Worker 0" daemon [_thread_blocked, id=25498, stack(0x00007f5a9e53c000,0x00007f5a9e63d000)]
+  0x00000000077be000 JavaThread "Transaction Reaper" daemon [_thread_blocked, id=25497, stack(0x00007f5a9e63d000,0x00007f5a9e73e000)]
+  0x000000000770c800 JavaThread "Periodic Recovery" [_thread_blocked, id=25496, stack(0x00007f5a9e754000,0x00007f5a9e855000)]
+  0x00000000064ea800 JavaThread "Transaction Expired Entry Monitor" daemon [_thread_blocked, id=25495, stack(0x00007f5a9e855000,0x00007f5a9e956000)]
+  0x0000000006564000 JavaThread "UndertowEventHandlerAdapterService - 1" [_thread_blocked, id=25494, stack(0x00007f5a9e956000,0x00007f5a9ea57000)]
+  0x00000000077ee000 JavaThread "pool-4-thread-1" [_thread_in_native, id=25492, stack(0x00007f5a9ea57000,0x00007f5a9eb58000)]
+  0x0000000006a38000 JavaThread "Timer-1" [_thread_blocked, id=25491, stack(0x00007f5a9f027000,0x00007f5a9f128000)]
+  0x00000000074e7000 JavaThread "IdleRemover" daemon [_thread_blocked, id=25490, stack(0x00007f5a9f58f000,0x00007f5a9f690000)]
+  0x00000000074ea800 JavaThread "ConnectionValidator" daemon [_thread_blocked, id=25489, stack(0x00007f5a9f690000,0x00007f5a9f791000)]
+  0x00000000061c7800 JavaThread "default Accept" [_thread_blocked, id=25486, stack(0x00007f5a9fa92000,0x00007f5a9fb93000)]
+  0x00000000061c5800 JavaThread "default I/O-16" [_thread_blocked, id=25485, stack(0x00007f5a9fb93000,0x00007f5a9fc94000)]
+  0x0000000005404000 JavaThread "default I/O-15" [_thread_blocked, id=25484, stack(0x00007f5a9fc94000,0x00007f5a9fd95000)]
+  0x0000000005402000 JavaThread "default I/O-14" [_thread_blocked, id=25483, stack(0x00007f5a9fd95000,0x00007f5a9fe96000)]
+  0x0000000005400800 JavaThread "default I/O-13" [_thread_blocked, id=25482, stack(0x00007f5a9fe96000,0x00007f5a9ff97000)]
+  0x00000000053fe800 JavaThread "default I/O-12" [_thread_blocked, id=25481, stack(0x00007f5a9ff97000,0x00007f5aa0098000)]
+  0x0000000006d43000 JavaThread "default I/O-11" [_thread_blocked, id=25480, stack(0x00007f5aa0098000,0x00007f5aa0199000)]
+  0x0000000006d41000 JavaThread "default I/O-10" [_thread_blocked, id=25479, stack(0x00007f5aa0199000,0x00007f5aa029a000)]
+  0x0000000006d3f800 JavaThread "default I/O-9" [_thread_blocked, id=25478, stack(0x00007f5aa029a000,0x00007f5aa039b000)]
+  0x0000000005331800 JavaThread "default I/O-8" [_thread_blocked, id=25477, stack(0x00007f5aa039b000,0x00007f5aa049c000)]
+  0x0000000005408800 JavaThread "default I/O-7" [_thread_blocked, id=25476, stack(0x00007f5aa049c000,0x00007f5aa059d000)]
+  0x000000000534a000 JavaThread "default I/O-6" [_thread_blocked, id=25475, stack(0x00007f5aa059d000,0x00007f5aa069e000)]
+  0x0000000005347000 JavaThread "default I/O-5" [_thread_blocked, id=25474, stack(0x00007f5aa069e000,0x00007f5aa079f000)]
+  0x0000000006023000 JavaThread "default I/O-4" [_thread_blocked, id=25473, stack(0x00007f5aa079f000,0x00007f5aa08a0000)]
+  0x0000000006021000 JavaThread "default I/O-3" [_thread_blocked, id=25472, stack(0x00007f5aa08a0000,0x00007f5aa09a1000)]
+  0x0000000006714800 JavaThread "default I/O-2" [_thread_blocked, id=25471, stack(0x00007f5aa09a1000,0x00007f5aa0aa2000)]
+  0x0000000006717000 JavaThread "default I/O-1" [_thread_blocked, id=25470, stack(0x00007f5aa0aa2000,0x00007f5aa0ba3000)]
+  0x000000000677d800 JavaThread "Timer-0" [_thread_blocked, id=25469, stack(0x00007f5aa0ba3000,0x00007f5aa0ca4000)]
+  0x0000000002f56000 JavaThread "ServerService Thread Pool -- 32" [_thread_blocked, id=25421, stack(0x00007f5aa5056000,0x00007f5aa5157000)]
+  0x0000000002f53800 JavaThread "ServerService Thread Pool -- 31" [_thread_blocked, id=25420, stack(0x00007f5aa5157000,0x00007f5aa5258000)]
+  0x0000000002585000 JavaThread "ServerService Thread Pool -- 23" [_thread_blocked, id=25412, stack(0x00007f5aa5983000,0x00007f5aa5a84000)]
+  0x00000000039ab000 JavaThread "management task-1" [_thread_blocked, id=25390, stack(0x00007f5aa6fde000,0x00007f5aa70df000)]
+  0x000000000303e000 JavaThread "ServerService Thread Pool -- 3" [_thread_blocked, id=25389, stack(0x00007f5aa7383000,0x00007f5aa7484000)]
+  0x00000000035a2000 JavaThread "ServerService Thread Pool -- 1" [_thread_blocked, id=25384, stack(0x00007f5aa7b86000,0x00007f5aa7c87000)]
+  0x0000000003424800 JavaThread "management Accept" [_thread_in_native, id=25383, stack(0x00007f5aa7e87000,0x00007f5aa7f88000)]
+  0x0000000003422800 JavaThread "management I/O-2" [_thread_in_native, id=25382, stack(0x00007f5aa7f88000,0x00007f5aa8089000)]
+  0x0000000003436000 JavaThread "management I/O-1" [_thread_in_native, id=25381, stack(0x00007f5aa8089000,0x00007f5aa818a000)]
+  0x0000000003980800 JavaThread "ServerDeploymentRepository-temp-threads - 1" daemon [_thread_blocked, id=25380, stack(0x00007f5aa818f000,0x00007f5aa8290000)]
+  0x00000000038de000 JavaThread "MSC service thread 1-8" [_thread_blocked, id=25379, stack(0x00007f5aa8290000,0x00007f5aa8391000)]
+  0x00000000038dc000 JavaThread "MSC service thread 1-7" [_thread_blocked, id=25378, stack(0x00007f5aa8391000,0x00007f5aa8492000)]
+  0x00000000038db000 JavaThread "MSC service thread 1-6" [_thread_blocked, id=25377, stack(0x00007f5aa8492000,0x00007f5aa8593000)]
+  0x0000000002fcb800 JavaThread "MSC service thread 1-5" [_thread_blocked, id=25376, stack(0x00007f5aa859e000,0x00007f5aa869f000)]
+  0x0000000002fc7000 JavaThread "MSC service thread 1-4" [_thread_blocked, id=25375, stack(0x00007f5aa869f000,0x00007f5aa87a0000)]
+  0x0000000002f9e800 JavaThread "MSC service thread 1-3" [_thread_blocked, id=25374, stack(0x00007f5aa87a3000,0x00007f5aa88a4000)]
+  0x0000000003303800 JavaThread "MSC service thread 1-2" [_thread_blocked, id=25373, stack(0x00007f5aa8aa4000,0x00007f5aa8ba5000)]
+  0x00000000035a7000 JavaThread "MSC service thread 1-1" [_thread_blocked, id=25372, stack(0x00007f5aa8ba5000,0x00007f5aa8ca6000)]
+  0x00000000025ce000 JavaThread "Reference Reaper" daemon [_thread_blocked, id=25360, stack(0x00007f5aab884000,0x00007f5aab985000)]
+  0x00000000023f7800 JavaThread "Service Thread" daemon [_thread_blocked, id=25357, stack(0x00007f5aaba86000,0x00007f5aabb87000)]
+  0x0000000002394800 JavaThread "C1 CompilerThread3" daemon [_thread_blocked, id=25356, stack(0x00007f5aabb88000,0x00007f5aabc88000)]
+  0x0000000002379000 JavaThread "C2 CompilerThread2" daemon [_thread_blocked, id=25355, stack(0x00007f5aabc89000,0x00007f5aabd89000)]
+  0x0000000002376800 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=25354, stack(0x00007f5aabd8a000,0x00007f5aabe8a000)]
+  0x0000000002373800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=25353, stack(0x00007f5aabe8b000,0x00007f5aabf8b000)]
+  0x0000000002371800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=25352, stack(0x00007f5aabf8b000,0x00007f5aac08c000)]
+  0x000000000233e800 JavaThread "Finalizer" daemon [_thread_blocked, id=25327, stack(0x00007f5ab25b5000,0x00007f5ab26b6000)]
+  0x0000000002336800 JavaThread "Reference Handler" daemon [_thread_blocked, id=25326, stack(0x00007f5ab26b6000,0x00007f5ab27b7000)]
+  0x000000000216f000 JavaThread "main" [_thread_in_native, id=25306, stack(0x00007f5ad9dbd000,0x00007f5ad9ebd000)]
+
+***REMOVED***
+=>0x000000000232c800 VMThread [stack: 0x00007f5ab27b8000,0x00007f5ab28b8000] [id=25319]
+  0x00000000023fa800 WatcherThread [stack: 0x00007f5aab986000,0x00007f5aaba86000] [id=25358]
+  
+  ***REMOVED***
+  
+  7f5ad82b8000-7f5ad8fa0000 r-xp 00000000 fd:00 630566                     /usr/java/jdk1.8.0_211/jre/lib/amd64/server/libjvm.so
+  
+  7f5ad9d0c000-7f5ad9d14000 r--s 0006e000 08:20 27263022                   /app/EAP-7.2.0/jboss-modules.jar
+  
+  
+***REMOVED***
+ PSYoungGen      total 2761728K, used 0K [0x0000000715580000, 0x00000007c0000000, 0x00000007c0000000)
+  eden space 2727424K, 0% used [0x0000000715580000,0x0000000715580000,0x00000007bbd00000)
+  from space 34304K, 0% used [0x00000007bbd00000,0x00000007bbd00000,0x00000007bde80000)
+  to   space 33792K, 0% used [0x00000007bdf00000,0x00000007bdf00000,0x00000007c0000000)
+ ParOldGen       total 4838912K, used 2671671K [0x00000005c0000000, 0x00000006e7580000, 0x0000000715580000)
+  object space 4838912K, 55% used [0x00000005c0000000,0x000000066310dde8,0x00000006e7580000)
+ Metaspace       used 347525K, capacity 385674K, committed 471808K, reserved 1447936K
+  class space    used 41145K, capacity 53309K, committed 74240K, reserved 1048576K
+  
+  ***REMOVED***
+jvm_args: -Xms2048m -Xmx8192m -XX:MetaspaceSize=8192m -XX:MaxMetaspaceSize=8192m 
+ 
+    
+  ***REMOVED***
+
+OS:Red Hat Enterprise Linux Server release 7.5 (Maipo)
+
+uname:Linux 3.10.0-862.el7.x86_64 ***REMOVED***1 SMP Wed Mar 21 18:14:51 EDT 2018 x86_64
+libc:glibc 2.17 NPTL 2.17 
+rlimit: STACK 8192k, CORE 0k, NPROC 127926, NOFILE 65535, AS infinity
+load average:2.88 2.61 2.49
+
+***REMOVED***
+MemTotal:       32773012 kB
+MemFree:          241892 kB
+MemAvailable:     166460 kB
+Buffers:            2300 kB
+Cached:           496116 kB
+SwapCached:       232808 kB
+Active:         29545280 kB
+Inactive:        2321480 kB
+Active(anon):   29475976 kB
+Inactive(anon):  2248220 kB
+Active(file):      69304 kB
+Inactive(file):    73260 kB
+***REMOVED***
+***REMOVED***
+SwapTotal:      10592252 kB
+SwapFree:              4 kB
+Dirty:               596 kB
+***REMOVED***
+AnonPages:      31135840 kB
+Mapped:           145072 kB
+Shmem:            355900 kB
+Slab:             260776 kB
+SReclaimable:     167124 kB
+SUnreclaim:        93652 kB
+KernelStack:       21040 kB
+PageTables:       112816 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+CommitLimit:    26978756 kB
+Committed_AS:   51419196 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      143352 kB
+VmallocChunk:   34359588316 kB
+***REMOVED***
+AnonHugePages:    995328 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+Hugepagesize:       2048 kB
+DirectMap4k:      210880 kB
+DirectMap2M:    20760576 kB
+DirectMap1G:    12582912 kB
+
+***REMOVED***
+***REMOVED***
+cpu_cpuset_cpus: 0-7
+cpu_memory_nodes: 0
+active_processor_count: 8
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+memory_usage_in_bytes: 32391016448
+memory_max_usage_in_bytes: 0
+
+
+CPU:total 8 (initial active 8) (8 cores per cpu, 1 threads per core) family 6 model 79 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx
+
+***REMOVED***
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-4627 v4 @ 2.60GHz
+stepping	: 1
+microcode	: 0xffffffff
+cpu MHz		: 2596.991
+cache size	: 25600 KB
+physical id	: 0
+siblings	: 8
+core id		: 0
+cpu cores	: 8
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology eagerfpu pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
+bogomips	: 5193.98
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-4627 v4 @ 2.60GHz
+stepping	: 1
+microcode	: 0xffffffff
+cpu MHz		: 2596.991
+cache size	: 25600 KB
+physical id	: 0
+siblings	: 8
+core id		: 1
+cpu cores	: 8
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology eagerfpu pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
+bogomips	: 5193.98
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-4627 v4 @ 2.60GHz
+stepping	: 1
+microcode	: 0xffffffff
+cpu MHz		: 2596.991
+cache size	: 25600 KB
+physical id	: 0
+siblings	: 8
+core id		: 2
+cpu cores	: 8
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology eagerfpu pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
+bogomips	: 5193.98
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-4627 v4 @ 2.60GHz
+stepping	: 1
+microcode	: 0xffffffff
+cpu MHz		: 2596.991
+cache size	: 25600 KB
+physical id	: 0
+siblings	: 8
+core id		: 3
+cpu cores	: 8
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology eagerfpu pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
+bogomips	: 5193.98
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-4627 v4 @ 2.60GHz
+stepping	: 1
+microcode	: 0xffffffff
+cpu MHz		: 2596.991
+cache size	: 25600 KB
+physical id	: 0
+siblings	: 8
+core id		: 4
+cpu cores	: 8
+apicid		: 4
+initial apicid	: 4
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology eagerfpu pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
+bogomips	: 5193.98
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-4627 v4 @ 2.60GHz
+stepping	: 1
+microcode	: 0xffffffff
+cpu MHz		: 2596.991
+cache size	: 25600 KB
+physical id	: 0
+siblings	: 8
+core id		: 5
+cpu cores	: 8
+apicid		: 5
+initial apicid	: 5
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology eagerfpu pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
+bogomips	: 5193.98
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-4627 v4 @ 2.60GHz
+stepping	: 1
+microcode	: 0xffffffff
+cpu MHz		: 2596.991
+cache size	: 25600 KB
+physical id	: 0
+siblings	: 8
+core id		: 6
+cpu cores	: 8
+apicid		: 6
+initial apicid	: 6
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology eagerfpu pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
+bogomips	: 5193.98
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-4627 v4 @ 2.60GHz
+stepping	: 1
+microcode	: 0xffffffff
+cpu MHz		: 2596.991
+cache size	: 25600 KB
+physical id	: 0
+siblings	: 8
+core id		: 7
+cpu cores	: 8
+apicid		: 7
+initial apicid	: 7
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology eagerfpu pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
+bogomips	: 5193.98
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+
+Memory: 4k page, physical 15995796k(241892k free), swap 10592252k(4k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.211-b12) for linux-amd64 JRE (1.8.0_211-b12), built on Apr  1 2019 20:39:34 by "java_re" with gcc 7.3.0
+
+time: Tue Nov 10 10:20:10 2020
+timezone: +08
+elapsed time: 42016 seconds (0d 11h 40m 16s)
+  
+  

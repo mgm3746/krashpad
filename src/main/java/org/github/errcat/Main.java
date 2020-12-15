@@ -47,6 +47,7 @@ import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.Analysis;
+import org.github.errcat.util.jdk.JdkMath;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.json.JSONObject;
 
@@ -103,7 +104,7 @@ public class Main {
                 String logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
                 File logFile = new File(logFileName);
                 Manager manager = new Manager();
-                FatalErrorLog fatalErrorLog = manager.parse(logFile);
+                FatalErrorLog fel = manager.parse(logFile);
 
                 String outputFileName;
                 if (cmd.hasOption(Constants.OPTION_OUTPUT_LONG)) {
@@ -114,7 +115,7 @@ public class Main {
                 boolean version = cmd.hasOption(Constants.OPTION_VERSION_LONG);
                 boolean latestVersion = cmd.hasOption(Constants.OPTION_LATEST_VERSION_LONG);
 
-                createReport(fatalErrorLog, outputFileName, version, latestVersion);
+                createReport(fel, outputFileName, version, latestVersion);
             ***REMOVED***
         ***REMOVED***
     ***REMOVED***
@@ -241,7 +242,7 @@ public class Main {
     /**
      * Create VM Log Analysis report.
      * 
-     * @param fatalErrorLog
+     * @param fel
      *            Fatal error log object.
      * @param reportFileName
      *            Report file name.
@@ -251,8 +252,7 @@ public class Main {
      *            Whether or not to report latest errcat version.
      * 
      */
-    private static void createReport(FatalErrorLog fatalErrorLog, String reportFileName, boolean version,
-            boolean latestVersion) {
+    private static void createReport(FatalErrorLog fel, String reportFileName, boolean version, boolean latestVersion) {
         File reportFile = new File(reportFileName);
         FileWriter fileWriter = null;
         PrintWriter printWriter = null;
@@ -271,36 +271,84 @@ public class Main {
                 ***REMOVED***
             ***REMOVED***
 
-            if (!fatalErrorLog.getCrashTime().equals("") || fatalErrorLog.getElapsedTime() != null) {
-                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                printWriter.write("Timing:" + Constants.LINE_SEPARATOR);
-                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                // JVM information
-                if (!fatalErrorLog.getCrashTime().equals("")) {
-                    printWriter.write("Crash date: " + fatalErrorLog.getCrashTime() + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fatalErrorLog.getElapsedTime() != null) {
-                    printWriter.write("JVM time running: " + fatalErrorLog.getElapsedTime() + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-            ***REMOVED***
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-            printWriter.write("Environment:" + Constants.LINE_SEPARATOR);
+            printWriter.write("OS:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            printWriter.write("OS: " + fatalErrorLog.getOsString() + Constants.LINE_SEPARATOR);
-            printWriter.write("ARCH: " + fatalErrorLog.getArch() + Constants.LINE_SEPARATOR);
-            printWriter.write("Java release: " + fatalErrorLog.getJdkReleaseString() + Constants.LINE_SEPARATOR);
-            printWriter.write("Java vendor: " + fatalErrorLog.getJavaVendor() + Constants.LINE_SEPARATOR);
-            printWriter.write("Application: " + fatalErrorLog.getApplication() + Constants.LINE_SEPARATOR);
-            if (!fatalErrorLog.getError().equals("")) {
+            printWriter.write("Version: " + fel.getOsString() + Constants.LINE_SEPARATOR);
+            printWriter.write("ARCH: " + fel.getArch() + Constants.LINE_SEPARATOR);
+            if (fel.getPhysicalMemory() > 0) {
+                printWriter.write("Memory: " + fel.getPhysicalMemory() + "K" + Constants.LINE_SEPARATOR);
+                printWriter.write("Memory Free: " + fel.getPhysicalMemoryFree() + "K" + " ("
+                        + JdkMath.calcPercent(fel.getPhysicalMemoryFree(), fel.getPhysicalMemory()) + "%)"
+                        + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getSwap() > 0) {
+                printWriter.write("Swap: " + fel.getSwap() + "K" + Constants.LINE_SEPARATOR);
+                printWriter.write("Swap Free: " + fel.getSwapFree() + "K" + " ("
+                        + JdkMath.calcPercent(fel.getSwapFree(), fel.getSwap()) + "%)" + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+
+            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+            printWriter.write("JVM:" + Constants.LINE_SEPARATOR);
+            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+            printWriter.write("Version: " + fel.getJdkReleaseString() + Constants.LINE_SEPARATOR);
+            printWriter.write("Vendor: " + fel.getJavaVendor() + Constants.LINE_SEPARATOR);
+            printWriter.write("Application: " + fel.getApplication() + Constants.LINE_SEPARATOR);
+            if (!fel.getCrashTime().equals("")) {
+                printWriter.write("Crash date: " + fel.getCrashTime() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getElapsedTime() != null) {
+                printWriter.write("JVM time running: " + fel.getElapsedTime() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getHeapMaxSize() > 0) {
+                printWriter.write("Heap Max: " + fel.getHeapMaxSize() + "K" + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getHeapAllocation() > 0) {
+                printWriter.write("Heap Allocation: " + fel.getHeapAllocation() + "K" + " ("
+                        + JdkMath.calcPercent(fel.getHeapAllocation(), fel.getHeapMaxSize()) + "% Heap Max)"
+                        + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getHeapUsed() > 0) {
+                printWriter.write("Heap Used: " + fel.getHeapUsed() + "K" + " ("
+                        + JdkMath.calcPercent(fel.getHeapUsed(), fel.getHeapAllocation()) + "% Heap Allocation)"
+                        + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getMetaspaceMaxSize() > 0) {
+                printWriter.write("Metaspace Max: " + fel.getMetaspaceMaxSize() + "K" + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getMetaspaceAllocation() > 0) {
+                printWriter.write("Metaspace Allocation: " + fel.getMetaspaceAllocation() + "K" + " ("
+                        + JdkMath.calcPercent(fel.getMetaspaceAllocation(), fel.getMetaspaceMaxSize())
+                        + "% Metaspace Max)" + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getMetaspaceUsed() > 0) {
+                printWriter.write("Metaspace Used: " + fel.getMetaspaceUsed() + "K" + " ("
+                        + JdkMath.calcPercent(fel.getMetaspaceUsed(), fel.getMetaspaceAllocation())
+                        + "% Metaspace Allocation)" + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getJvmMemory() > 0) {
+                printWriter.write("JVM Memory: ~" + fel.getJvmMemory() + "K" + " ("
+                        + JdkMath.calcPercent(fel.getJvmMemory(), fel.getPhysicalMemory()) + "% Physical Memory)"
+                        + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+
+            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+            printWriter.write("Threads:" + Constants.LINE_SEPARATOR);
+            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+            printWriter.write("Current thread: " + fel.getCurrentThread() + Constants.LINE_SEPARATOR);
+            printWriter.write("***REMOVED*** Java threads: " + fel.getJavaThreadCount() + Constants.LINE_SEPARATOR);
+
+            if (!fel.getError().equals("")) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 printWriter.write("Error:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                printWriter.write(fatalErrorLog.getError() + Constants.LINE_SEPARATOR);
+                printWriter.write(fel.getError() + Constants.LINE_SEPARATOR);
             ***REMOVED***
+
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Stack:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            List<StackEvent> stack = fatalErrorLog.getStackEvents();
+            List<StackEvent> stack = fel.getStackEvents();
             Iterator<StackEvent> iterator1 = stack.iterator();
             // Limit stack output for report readability
             int stackLength = 0;
@@ -312,16 +360,10 @@ public class Main {
             if (stack.size() > 10) {
                 printWriter.write("..." + Constants.LINE_SEPARATOR);
             ***REMOVED***
-
-            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-            printWriter.write("Threads:" + Constants.LINE_SEPARATOR);
-            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            printWriter.write("Current thread: " + fatalErrorLog.getCurrentThread() + Constants.LINE_SEPARATOR);
-            printWriter.write("***REMOVED*** Java threads: " + fatalErrorLog.getJavaThreadCount() + Constants.LINE_SEPARATOR);
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
 
             // Analysis
-            List<Analysis> analysis = fatalErrorLog.getAnalysis();
+            List<Analysis> analysis = fel.getAnalysis();
             if (!analysis.isEmpty()) {
 
                 // Determine analysis levels
@@ -373,12 +415,12 @@ public class Main {
                     printWriter.write("*");
                     printWriter.write(a.getValue());
                     if (a.equals(Analysis.WARN_JDK_NOT_LATEST)) {
-                        printWriter.write(JdkUtil.getLatestJdkReleaseString(fatalErrorLog));
+                        printWriter.write(JdkUtil.getLatestJdkReleaseString(fel));
                         // Add latest release info
-                        int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fatalErrorLog),
-                                JdkUtil.getLatestJdkReleaseDate(fatalErrorLog));
-                        int releaseNumberDiff = JdkUtil.getLatestJdkReleaseNumber(fatalErrorLog)
-                                - JdkUtil.getJdkReleaseNumber(fatalErrorLog);
+                        int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel),
+                                JdkUtil.getLatestJdkReleaseDate(fel));
+                        int releaseNumberDiff = JdkUtil.getLatestJdkReleaseNumber(fel)
+                                - JdkUtil.getJdkReleaseNumber(fel);
                         if (releaseDayDiff > 0 && releaseNumberDiff > 0) {
                             printWriter.write(" (newer by ");
                             printWriter.write("" + releaseNumberDiff);
@@ -417,7 +459,7 @@ public class Main {
             ***REMOVED***
 
             // Unidentified log lines
-            List<String> unidentifiedLogLines = fatalErrorLog.getUnidentifiedLogLines();
+            List<String> unidentifiedLogLines = fel.getUnidentifiedLogLines();
             if (!unidentifiedLogLines.isEmpty()) {
                 printWriter
                         .write(unidentifiedLogLines.size() + " UNIDENTIFIED LOG LINE(S):" + Constants.LINE_SEPARATOR);

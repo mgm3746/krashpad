@@ -258,8 +258,11 @@ public class TestFatalErrorLog extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset21.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertEquals("***REMOVED***  Out of Memory Error (os_linux.cpp:2749), pid=25305, tid=0x00007f5ab28b7700",
-                fel.getError());
+        StringBuilder error = new StringBuilder();
+        error.append("***REMOVED*** Native memory allocation (mmap) failed to map 754974720 bytes for committing reserved memory.");
+        error.append(Constants.LINE_SEPARATOR);
+        error.append("***REMOVED***  Out of Memory Error (os_linux.cpp:2749), pid=25305, tid=0x00007f5ab28b7700");
+        Assert.assertEquals(error.toString(), fel.getError());
     ***REMOVED***
 
     public void testRhWindowsReleaseWith2BuildDateTimes() {
@@ -277,5 +280,21 @@ public class TestFatalErrorLog extends TestCase {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertEquals("Java thread count not correct.", 37, fel.getJavaThreadCount());
+    ***REMOVED***
+
+    public void testMemory() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Physical memory not correct.", 16058700, fel.getPhysicalMemory());
+        Assert.assertEquals("Physical memory free not correct.", 1456096, fel.getPhysicalMemoryFree());
+        Assert.assertEquals("Swap not correct.", 8097788, fel.getSwap());
+        Assert.assertEquals("Swap free not correct.", 7612768, fel.getSwapFree());
+        Assert.assertEquals("Heap max size not correct.", 1024 * 1024, fel.getHeapMaxSize());
+        Assert.assertEquals("Heap allocation not correct.", 244736 + 699392, fel.getHeapAllocation());
+        Assert.assertEquals("Heap used not correct.", 103751 + 91187, fel.getHeapUsed());
+        Assert.assertEquals("Metaspace max size not correct.", 1183744, fel.getMetaspaceMaxSize());
+        Assert.assertEquals("Metaspace allocation not correct.", 155992, fel.getMetaspaceAllocation());
+        Assert.assertEquals("Metaspace used not correct.", 139716, fel.getMetaspaceUsed());
     ***REMOVED***
 ***REMOVED***

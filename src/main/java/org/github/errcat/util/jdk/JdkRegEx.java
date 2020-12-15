@@ -59,6 +59,11 @@ public class JdkRegEx {
     public static final String BUILD_DATE_TIME = "([a-zA-Z]{3***REMOVED***)[ ]{1,2***REMOVED***(\\d{1,2***REMOVED***) (\\d{4***REMOVED***) (\\d{2***REMOVED***):(\\d{2***REMOVED***):(\\d{2***REMOVED***)";
 
     /**
+     * Byte units identifier.
+     */
+    public static final String BYTES = "bB";
+
+    /**
      * Major ID and minor ID of the device where the file is located.
      * 
      * For example: fd:0d
@@ -78,6 +83,11 @@ public class JdkRegEx {
      * For example: 00016000
      */
     public static final String FILE_OFFSET = "([0-9a-f]{8***REMOVED***)";
+
+    /**
+     * Gigabyte units identifier.
+     */
+    public static final String GIGABYTES = "gG";
 
     /**
      * File inode number
@@ -101,11 +111,28 @@ public class JdkRegEx {
     public static final String JBOSS_JAR = "^.+jboss-modules\\.jar$";
 
     /**
+     * Kilobyte units identifier.
+     */
+    public static final String KILOBYTES = "kK";
+
+    /**
+     * Megabyte units identifier.
+     */
+    public static final String MEGABYTES = "mM";
+
+    /**
      * Memory region
      * 
      * For example: 7f95caa94000-7f95caaa3000
      */
     public static final String MEMORY_REGION = "([0-9a-f]{8,16***REMOVED***-[0-9a-f]{8,16***REMOVED***)";
+
+    /**
+     * Units for JVM options that take a byte number.
+     * 
+     * For example: -Xss128k -Xmx2048m -Xms2G
+     */
+    public static final String OPTION_SIZE = "(b|B|k|K|m|M|g|G)";
 
     /**
      * Permission
@@ -180,6 +207,21 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK8_LIBJVM_PATH = "\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK8_DIR
             + "\\/jre\\/lib\\/(amd64|ppc64le)\\/server\\/libjvm\\.so";
+    /**
+     * The size of memory in bytes (B), kilobytes (K), megabytes (M), or gigabytes (G) to a whole number or to one
+     * decimal place.
+     * 
+     * See with G1 collector <code>-XX:+PrintGCDetails</code>.
+     * 
+     * With the G1 collector units are not consistent line to line or even within a single logging line.
+     * 
+     * Whole number examples: 2128K, 30M, 30G
+     * 
+     * Decimal examples: 0.0B, 8192.0K, 28.0M, 30.0G
+     * 
+     * With comma: 306,0M
+     */
+    public static final String SIZE = "(\\d{1,9***REMOVED***([\\.,]\\d)?)([" + BYTES + KILOBYTES + MEGABYTES + GIGABYTES + "])";
 
     /**
      * Timestamp. Milliseconds since JVM started.

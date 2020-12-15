@@ -29,6 +29,7 @@ import org.github.errcat.util.Constants.OsVendor;
 import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.Analysis;
+import org.github.errcat.util.jdk.JdkMath;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Application;
@@ -127,9 +128,19 @@ public class FatalErrorLog {
     private List<VmEvent> vmEvents;
 
     /**
-     * GC heap history information.
+     * Heap information.
      */
-    private List<GcHeapHistoryEvent> gcHeapHistoryEvents;
+    private List<HeapEvent> heapEvents;
+
+    /**
+     * Memory information.
+     */
+    private MemoryEvent memoryEvent;
+
+    /**
+     * JVM options information.
+     */
+    private JvmArgsEvent jvmArgsEvent;
 
     /**
      * Log lines that do not match any existing logging patterns.
@@ -156,7 +167,7 @@ public class FatalErrorLog {
         compilationEvents = new ArrayList<CompilationEvent>();
         deoptimizationEvents = new ArrayList<DeoptimizationEvent>();
         vmEvents = new ArrayList<VmEvent>();
-        gcHeapHistoryEvents = new ArrayList<GcHeapHistoryEvent>();
+        heapEvents = new ArrayList<HeapEvent>();
     ***REMOVED***
 
     public void setVmInfoEvent(VmInfoEvent vmInfoEvent) {
@@ -239,8 +250,24 @@ public class FatalErrorLog {
         return vmEvents;
     ***REMOVED***
 
-    public List<GcHeapHistoryEvent> getGcHeapHistoryEvents() {
-        return gcHeapHistoryEvents;
+    public List<HeapEvent> getHeapEvents() {
+        return heapEvents;
+    ***REMOVED***
+
+    public MemoryEvent getMemoryEvent() {
+        return memoryEvent;
+    ***REMOVED***
+
+    public void setMemoryEvent(MemoryEvent memoryEvent) {
+        this.memoryEvent = memoryEvent;
+    ***REMOVED***
+
+    public JvmArgsEvent getJvmArgsEvent() {
+        return jvmArgsEvent;
+    ***REMOVED***
+
+    public void setJvmArgsEvent(JvmArgsEvent jvmArgsEvent) {
+        this.jvmArgsEvent = jvmArgsEvent;
     ***REMOVED***
 
     /**
@@ -314,9 +341,6 @@ public class FatalErrorLog {
 
     /**
      * @return The JDK build date/time.
-     */
-    /**
-     * @return
      */
     public Date getJdkBuildDate() {
         Date date = null;
@@ -408,7 +432,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
                 if (he.isSigBus() || he.isSigIll() || he.isSigSegv() || he.isInternalError() || he.isError()
-                        || he.isOutOfMemoryError()) {
+                        || he.isOutOfMemoryError() || he.isFailed()) {
                     if (causedBy.length() > 0) {
                         causedBy.append(Constants.LINE_SEPARATOR);
                     ***REMOVED***
@@ -769,6 +793,20 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return true if the crash happens due to Out Of Memory Error, false otherwise.
+     */
+    public boolean isOomeCrash() {
+        boolean isOomeCrash = false;
+        String regExOome = "Out of Memory Error";
+        Pattern pattern = Pattern.compile(regExOome);
+        Matcher matcher = pattern.matcher(getError());
+        if (matcher.find()) {
+            isOomeCrash = true;
+        ***REMOVED***
+        return isOomeCrash;
+    ***REMOVED***
+
+    /**
      * @param i
      *            The stack frame index (1 = top).
      * @return The stack frame at the specified position.
@@ -920,7 +958,7 @@ public class FatalErrorLog {
         if (timeEvent != null) {
             crashTime.append(timeEvent.getTime());
         ***REMOVED***
-        if (timeEvent != null) {
+        if (timezoneEvent != null) {
             crashTime.append(" (");
             crashTime.append(timezoneEvent.getTimezone());
             crashTime.append(")");
@@ -945,6 +983,263 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return javaThreadCount;
+    ***REMOVED***
+
+    /**
+     * @return The total available physical memory (kilobytes).
+     */
+    public long getPhysicalMemory() {
+        long physicalMemory = Long.MIN_VALUE;
+        if (memoryEvent != null) {
+            physicalMemory = memoryEvent.getPhysicalMemory();
+        ***REMOVED***
+        return physicalMemory;
+    ***REMOVED***
+
+    /**
+     * @return The total free physical memory (kilobytes).
+     */
+    public long getPhysicalMemoryFree() {
+        long physicalMemoryFree = Long.MIN_VALUE;
+        if (memoryEvent != null) {
+            physicalMemoryFree = memoryEvent.getPhysicalMemoryFree();
+        ***REMOVED***
+        return physicalMemoryFree;
+    ***REMOVED***
+
+    /**
+     * @return The total available swap (kilobytes).
+     */
+    public long getSwap() {
+        long swap = Long.MIN_VALUE;
+        if (memoryEvent != null) {
+            swap = memoryEvent.getSwap();
+        ***REMOVED***
+        return swap;
+    ***REMOVED***
+
+    /**
+     * @return The total free swap (kilobytes).
+     */
+    public long getSwapFree() {
+        long swapFree = Long.MIN_VALUE;
+        if (memoryEvent != null) {
+            swapFree = memoryEvent.getSwapFree();
+        ***REMOVED***
+        return swapFree;
+    ***REMOVED***
+
+    /**
+     * @return The heap max size reserved (kilobytes).
+     */
+    public long getHeapMaxSize() {
+        long heapMaxSize = Long.MIN_VALUE;
+        if (jvmArgsEvent != null && jvmArgsEvent.getMaxHeapOption() != null) {
+            long bytes = JdkUtil.convertOptionSizeToBytes(jvmArgsEvent.getMaxHeapValue());
+            heapMaxSize = JdkUtil.convertBytesToKilobytes(bytes);
+        ***REMOVED***
+        // Max heap size not set (e.g. container), use allocation
+        if (heapMaxSize == Long.MIN_VALUE) {
+            heapMaxSize = getHeapAllocation();
+        ***REMOVED***
+        return heapMaxSize;
+    ***REMOVED***
+
+    /**
+     * @return The total heap allocation (kilobytes).
+     */
+    public long getHeapAllocation() {
+        long heapAllocation = Long.MIN_VALUE;
+        if (heapEvents != null) {
+            heapAllocation = 0;
+            Iterator<HeapEvent> iterator = heapEvents.iterator();
+            boolean heapAtCrash = false;
+            Pattern pattern = null;
+            Matcher matcher = null;
+            while (iterator.hasNext()) {
+                HeapEvent event = iterator.next();
+                if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_AT_CRASH_HEADER)) {
+                    heapAtCrash = true;
+                ***REMOVED*** else if (heapAtCrash && event.isYoungGen()) {
+                    pattern = Pattern.compile(HeapEvent.REGEX_YOUNG_GEN);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        heapAllocation += +JdkUtil.convertOptionSizeToBytes(matcher.group(2) + matcher.group(4));
+                    ***REMOVED***
+                ***REMOVED*** else if (heapAtCrash && event.isOldGen()) {
+                    pattern = Pattern.compile(HeapEvent.REGEX_OLD_GEN);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        heapAllocation += +JdkUtil.convertOptionSizeToBytes(matcher.group(2) + matcher.group(4));
+                    ***REMOVED***
+                ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
+                    heapAtCrash = false;
+                ***REMOVED***
+            ***REMOVED***
+            heapAllocation = JdkMath.convertBytesToKilobytes(heapAllocation);
+        ***REMOVED***
+        return heapAllocation;
+    ***REMOVED***
+
+    /**
+     * @return The total heap used (kilobytes).
+     */
+    public long getHeapUsed() {
+        long heapUsed = Long.MIN_VALUE;
+        if (heapEvents != null) {
+            heapUsed = 0;
+            Iterator<HeapEvent> iterator = heapEvents.iterator();
+            boolean heapAtCrash = false;
+            Pattern pattern = null;
+            Matcher matcher = null;
+            while (iterator.hasNext()) {
+                HeapEvent event = iterator.next();
+                if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_AT_CRASH_HEADER)) {
+                    heapAtCrash = true;
+                ***REMOVED*** else if (heapAtCrash && event.isYoungGen()) {
+                    pattern = Pattern.compile(HeapEvent.REGEX_YOUNG_GEN);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        heapUsed = heapUsed + JdkUtil.convertOptionSizeToBytes(matcher.group(5) + matcher.group(7));
+                    ***REMOVED***
+                ***REMOVED*** else if (heapAtCrash && event.isOldGen()) {
+                    pattern = Pattern.compile(HeapEvent.REGEX_OLD_GEN);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        heapUsed = heapUsed + JdkUtil.convertOptionSizeToBytes(matcher.group(5) + matcher.group(7));
+                    ***REMOVED***
+                ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
+                    heapAtCrash = false;
+                ***REMOVED***
+            ***REMOVED***
+            heapUsed = JdkMath.convertBytesToKilobytes(heapUsed);
+        ***REMOVED***
+        return heapUsed;
+    ***REMOVED***
+
+    /**
+     * @return The metaspace max size reserved (kilobytes).
+     */
+    public long getMetaspaceMaxSize() {
+        long metaspaceMaxSize = Long.MIN_VALUE;
+        if (jvmArgsEvent != null && jvmArgsEvent.getMaxMetaspaceOption() != null) {
+            long bytes = JdkUtil.convertOptionSizeToBytes(jvmArgsEvent.getMaxMetaspaceValue());
+            metaspaceMaxSize = JdkMath.convertBytesToKilobytes(bytes);
+        ***REMOVED***
+        // If max metaspace size not set (recommended), get from <code>HeapEvent</code>
+        if (metaspaceMaxSize == Long.MIN_VALUE) {
+            if (heapEvents != null) {
+                Iterator<HeapEvent> iterator = heapEvents.iterator();
+                boolean heapAtCrash = false;
+                Pattern pattern = null;
+                Matcher matcher = null;
+                while (iterator.hasNext()) {
+                    HeapEvent event = iterator.next();
+                    if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_AT_CRASH_HEADER)) {
+                        heapAtCrash = true;
+                    ***REMOVED*** else if (heapAtCrash && event.isMetaspace()) {
+                        pattern = Pattern.compile(HeapEvent.REGEX_METASPACE);
+                        matcher = pattern.matcher(event.getLogEntry());
+                        if (matcher.find()) {
+                            metaspaceMaxSize = JdkUtil.convertOptionSizeToBytes(matcher.group(10) + matcher.group(12));
+                        ***REMOVED***
+                    ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
+                        heapAtCrash = false;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+            metaspaceMaxSize = JdkMath.convertBytesToKilobytes(metaspaceMaxSize);
+        ***REMOVED***
+        return metaspaceMaxSize;
+    ***REMOVED***
+
+    /**
+     * @return The total metaspace allocation (kilobytes).
+     */
+    public long getMetaspaceAllocation() {
+        long metaspaceAllocation = Long.MIN_VALUE;
+        ;
+        if (heapEvents != null) {
+            Iterator<HeapEvent> iterator = heapEvents.iterator();
+            boolean heapAtCrash = false;
+            Pattern pattern = null;
+            Matcher matcher = null;
+            while (iterator.hasNext()) {
+                HeapEvent event = iterator.next();
+                if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_AT_CRASH_HEADER)) {
+                    heapAtCrash = true;
+                ***REMOVED*** else if (heapAtCrash && event.isMetaspace()) {
+                    pattern = Pattern.compile(HeapEvent.REGEX_METASPACE);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        metaspaceAllocation = JdkUtil.convertOptionSizeToBytes(matcher.group(7) + matcher.group(9));
+                    ***REMOVED***
+                ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
+                    heapAtCrash = false;
+                ***REMOVED***
+            ***REMOVED***
+            metaspaceAllocation = JdkMath.convertBytesToKilobytes(metaspaceAllocation);
+        ***REMOVED***
+        return metaspaceAllocation;
+    ***REMOVED***
+
+    /**
+     * @return The total metaspace used (kilobytes).
+     */
+    public long getMetaspaceUsed() {
+        long metaspaceUsed = Long.MIN_VALUE;
+        ;
+        if (heapEvents != null) {
+            Iterator<HeapEvent> iterator = heapEvents.iterator();
+            boolean heapAtCrash = false;
+            Pattern pattern = null;
+            Matcher matcher = null;
+            while (iterator.hasNext()) {
+                HeapEvent event = iterator.next();
+                if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_AT_CRASH_HEADER)) {
+                    heapAtCrash = true;
+                ***REMOVED*** else if (heapAtCrash && event.isMetaspace()) {
+                    pattern = Pattern.compile(HeapEvent.REGEX_METASPACE);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        metaspaceUsed = JdkUtil.convertOptionSizeToBytes(matcher.group(1) + matcher.group(3));
+                    ***REMOVED***
+                ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
+                    heapAtCrash = false;
+                ***REMOVED***
+            ***REMOVED***
+            metaspaceUsed = JdkMath.convertBytesToKilobytes(metaspaceUsed);
+        ***REMOVED***
+        return metaspaceUsed;
+    ***REMOVED***
+
+    /**
+     * @return The max compressed class size reserved (kilobytes).
+     */
+    public long getCompressedClassSpaceSize() {
+        // Default is 1g
+        long compressedClassSpaceSize = Constants.GIGABYTE.divide(Constants.KILOBYTE).longValue();
+        if (jvmArgsEvent != null && jvmArgsEvent.getCompressedClassSpaceSizeOption() != null) {
+            long bytes = JdkUtil.convertOptionSizeToBytes(jvmArgsEvent.getCompressedClassSpaceSizeValue());
+            compressedClassSpaceSize = JdkMath.convertBytesToKilobytes(bytes);
+        ***REMOVED***
+        return compressedClassSpaceSize;
+    ***REMOVED***
+
+    /**
+     * @return The JVM memory (kilobytes).
+     */
+    public long getJvmMemory() {
+        long jvmMemory = Long.MIN_VALUE;
+        if (jvmArgsEvent != null && jvmArgsEvent.getUseCompressedOopsDisabled() == null
+                && jvmArgsEvent.getUseCompressedClassPointersDisabled() == null) {
+            // Using compressed class pointers space
+            jvmMemory = getHeapMaxSize() + getMetaspaceMaxSize() + getCompressedClassSpaceSize();
+        ***REMOVED*** else {
+            // Not using compressed class pointers space
+            jvmMemory = getHeapMaxSize() + getMetaspaceMaxSize();
+        ***REMOVED***
+        return jvmMemory;
     ***REMOVED***
 
     /**
@@ -1034,12 +1329,35 @@ public class FatalErrorLog {
                 && isInStack(JdkRegEx.JAVA_NIO_BYTEBUFFER)) {
             analysis.add(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION);
         ***REMOVED***
+        // Check for insufficient physical memory
+        if (getPhysicalMemory() > 0 && jvmArgsEvent != null) {
+            if (getJvmMemory() > getPhysicalMemory()) {
+                analysis.add(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY);
+            ***REMOVED***
+        ***REMOVED***
+        // OOME, swap
+        if (isOomeCrash()) {
+            if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
+                analysis.add(Analysis.ERROR_OOME_STARTUP);
+            ***REMOVED*** else if (getJvmMemory() > 0 && JdkMath.calcPercent(getJvmMemory(), getPhysicalMemory()) < 95) {
+                analysis.add(Analysis.ERROR_OOME_JVM_LT_PHYSICAL_MEMORY);
+            ***REMOVED***
+        ***REMOVED*** else {
+            // Check for excessive swap usage
+            if (getSwap() > 0 && JdkMath.calcPercent(getSwapFree(), getSwap()) < 95) {
+                analysis.add(Analysis.INFO_SWAPPING);
+            ***REMOVED***
+        ***REMOVED***
+        // Check for swap disabled
+        if (getSwap() == 0) {
+            analysis.add(Analysis.INFO_SWAP_DISABLED);
+        ***REMOVED***
     ***REMOVED***
 
     /**
      * Do JVM options analysis.
      */
     private void doJvmOptionsAnalysis() {
-        // TODO:
+        // TODO
     ***REMOVED***
 ***REMOVED***

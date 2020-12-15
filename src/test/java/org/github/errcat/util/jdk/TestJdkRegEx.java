@@ -164,4 +164,9 @@ public class TestJdkRegEx extends TestCase {
         String timestamp = "1,123";
         Assert.assertTrue("'" + timestamp + "' is a valid timestamp.", timestamp.matches(JdkRegEx.TIMESTAMP));
     ***REMOVED***
+
+    public void testSizeK() {
+        String size = "1234k";
+        Assert.assertTrue("Size not recognized.", size.matches(JdkRegEx.SIZE));
+    ***REMOVED***
 ***REMOVED***

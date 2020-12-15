@@ -16,8 +16,12 @@ package org.github.errcat.util.jdk;
 
 import static org.github.errcat.util.jdk.JdkUtil.LogEventType.COMPILATION_EVENT;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.github.errcat.domain.BlankLineEvent;
 import org.github.errcat.domain.LogEvent;
@@ -30,8 +34,10 @@ import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.ElapsedTimeEvent;
 import org.github.errcat.domain.jdk.ExceptionEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
-import org.github.errcat.domain.jdk.GcHeapHistoryEvent;
 import org.github.errcat.domain.jdk.HeaderEvent;
+import org.github.errcat.domain.jdk.HeapEvent;
+import org.github.errcat.domain.jdk.JvmArgsEvent;
+import org.github.errcat.domain.jdk.MemoryEvent;
 import org.github.errcat.domain.jdk.OsEvent;
 import org.github.errcat.domain.jdk.Release;
 import org.github.errcat.domain.jdk.StackEvent;
@@ -41,6 +47,7 @@ import org.github.errcat.domain.jdk.TimezoneEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
 import org.github.errcat.domain.jdk.VmEvent;
 import org.github.errcat.domain.jdk.VmInfoEvent;
+import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsVersion;
 
 /**
@@ -54,87 +61,27 @@ import org.github.errcat.util.Constants.OsVersion;
 public class JdkUtil {
 
     /**
-     * OpenJDK8 RHEL6 amd64 rpm release information.
+     * Defined Java applications.
      */
-    public static final HashMap<String, Release> rhel6Amd64Jdk8RpmReleases;
-
-    /**
-     * OpenJDK8 RHEL7 rpm amd64 release information.
-     */
-    public static final HashMap<String, Release> rhel7Amd64Jdk8RpmReleases;
-
-    /**
-     * OpenJDK8 RHEL8 amd64 rpm release information.
-     */
-    public static final HashMap<String, Release> rhel8Amd64Jdk8RpmReleases;
-
-    /**
-     * OpenJDK8 RHEL zip release information.
-     */
-    public static final HashMap<String, Release> rhelJdk8ZipReleases;
-
-    /**
-     * OpenJDK8 Windows release information.
-     */
-    public static final HashMap<String, Release> windowsJdk8Releases;
-
-    /**
-     * OpenJDK11 RHEL7 amd64 rpm release information.
-     */
-    public static final HashMap<String, Release> rhel7Amd64Jdk11RpmReleases;
-
-    /**
-     * OpenJDK11 RHEL8 rpm release information.
-     */
-    public static final HashMap<String, Release> rhel8Amd64Jdk11RpmReleases;
-
-    /**
-     * OpenJDK11 RHEL zip release information.
-     */
-    public static final HashMap<String, Release> rhelJdk11ZipReleases;
-
-    /**
-     * OpenJDK11 Windows release information.
-     */
-    public static final HashMap<String, Release> windowsJdk11Releases;
-
-    /**
-     * OpenJDK8 RHEL7 rpm ppc64le release information.
-     */
-    public static final HashMap<String, Release> rhel7Ppc64leJdk8RpmReleases;
-
-    /**
-     * Defined logging events.
-     */
-    public enum LogEventType {
+    public enum Application {
         //
-        BLANK_LINE, COMPILATION_EVENT, CPU_INFO, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME,
-        //
-        EXCEPTION_EVENT, GC_HEAP_HISTORY, HEADER, JVM_INFO, OS, STACK, TIME, THREAD, TIMEZONE, UNAME, UNKNOWN, VM_EVENT
-    ***REMOVED***;
-
-    /**
-     * Defined Java vendors.
-     */
-    public enum JavaVendor {
-        ADOPTOPENJDK, AZUL, ORACLE, RED_HAT, UNKNOWN
-    ***REMOVED***;
-
-    /**
-     * Defined Java specifications.
-     */
-    public enum JavaSpecification {
-        //
-        JDK6, JDK7, JDK8, JDK9, JDK10, JDK11, JDK12, JDK13, JDK14, JDK15, UNKNOWN
-    ***REMOVED***;
+        JBOSS, TOMCAT, UNKNOWN
+    ***REMOVED***
 
     /**
      * Defined JDK architectures.
      */
     public enum Arch {
+        PPC64, PPC64LE, SPARC, UNKNOWN, X86_64
+    ***REMOVED***
+
+    /**
+     * Defined JDK builders
+     */
+    public enum BuiltBy {
         //
-        X86_64, PPC64, PPC64LE, SPARC, UNKNOWN
-    ***REMOVED***;
+        BUILD, EMPTY, JAVA_RE, JENKINS, MOCKBUILD, UNKNOWN, ZULU_RE
+    ***REMOVED***
 
     /**
      * Defined crash reasons.
@@ -151,23 +98,84 @@ public class JdkUtil {
     public enum CrashCause {
         //
         SIGBUS, SIGSEGV, UNKNOWN
-    ***REMOVED***;
+    ***REMOVED***
 
     /**
-     * Defined JDK builders
+     * Defined Java specifications.
      */
-    public enum BuiltBy {
-        //
-        BUILD, EMPTY, JAVA_RE, JENKINS, MOCKBUILD, UNKNOWN, ZULU_RE
-    ***REMOVED***;
+    public enum JavaSpecification {
+        JDK10, JDK11, JDK12, JDK13, JDK14, JDK15, //
+        JDK6, JDK7, JDK8, JDK9, UNKNOWN
+    ***REMOVED***
 
     /**
-     * Defined Java applications.
+     * Defined Java vendors.
      */
-    public enum Application {
+    public enum JavaVendor {
+        ADOPTOPENJDK, AZUL, ORACLE, RED_HAT, UNKNOWN
+    ***REMOVED***
+
+    /**
+     * Defined logging events.
+     */
+    public enum LogEventType {
         //
-        JBOSS, TOMCAT, UNKNOWN
-    ***REMOVED***;
+        BLANK_LINE, COMPILATION_EVENT, CPU_INFO, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME,
+        //
+        EXCEPTION_EVENT, HEADER, HEAP, JVM_ARGS, MEMORY, OS, STACK, THREAD, TIME, TIMEZONE, UNAME, UNKNOWN, VM_EVENT,
+        //
+        VM_INFO,
+    ***REMOVED***
+
+    /**
+     * OpenJDK8 RHEL6 amd64 rpm release information.
+     */
+    public static final HashMap<String, Release> rhel6Amd64Jdk8RpmReleases;
+
+    /**
+     * OpenJDK11 RHEL7 amd64 rpm release information.
+     */
+    public static final HashMap<String, Release> rhel7Amd64Jdk11RpmReleases;
+
+    /**
+     * OpenJDK8 RHEL7 rpm amd64 release information.
+     */
+    public static final HashMap<String, Release> rhel7Amd64Jdk8RpmReleases;
+
+    /**
+     * OpenJDK8 RHEL7 rpm ppc64le release information.
+     */
+    public static final HashMap<String, Release> rhel7Ppc64leJdk8RpmReleases;;
+
+    /**
+     * OpenJDK11 RHEL8 rpm release information.
+     */
+    public static final HashMap<String, Release> rhel8Amd64Jdk11RpmReleases;;
+
+    /**
+     * OpenJDK8 RHEL8 amd64 rpm release information.
+     */
+    public static final HashMap<String, Release> rhel8Amd64Jdk8RpmReleases;;
+
+    /**
+     * OpenJDK11 RHEL zip release information.
+     */
+    public static final HashMap<String, Release> rhelJdk11ZipReleases;;
+
+    /**
+     * OpenJDK8 RHEL zip release information.
+     */
+    public static final HashMap<String, Release> rhelJdk8ZipReleases;;
+
+    /**
+     * OpenJDK11 Windows release information.
+     */
+    public static final HashMap<String, Release> windowsJdk11Releases;;
+
+    /**
+     * OpenJDK8 Windows release information.
+     */
+    public static final HashMap<String, Release> windowsJdk8Releases;;
 
     static {
         /*
@@ -552,127 +560,51 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
-     * Create <code>LogEvent</code> from VM log line.
-     * 
-     * @param logLine
-     *            The log line as it appears in the VM log.
-     * @return The <code>LogEvent</code> corresponding to the log line.
+     * @param fatalErrorLog
+     *            The fatal error log.
+     * @return The known release date for the JDK build that produced the fatal error log.
      */
-    public static final LogEvent parseLogLine(String logLine) {
-        LogEventType eventType = identifyEventType(logLine);
-        LogEvent event = null;
-        switch (eventType) {
-
-        case BLANK_LINE:
-            event = new BlankLineEvent(logLine);
-            break;
-        case COMPILATION_EVENT:
-            event = new CompilationEvent(logLine);
-            break;
-        case CPU_INFO:
-            event = new CpuInfoEvent(logLine);
-            break;
-        case CURRENT_THREAD:
-            event = new CurrentThreadEvent(logLine);
-            break;
-        case DEOPTIMIZATION_EVENT:
-            event = new DeoptimizationEvent(logLine);
-            break;
-        case DYNAMIC_LIBRARY:
-            event = new DynamicLibraryEvent(logLine);
-            break;
-        case ELAPSED_TIME:
-            event = new ElapsedTimeEvent(logLine);
-            break;
-        case EXCEPTION_EVENT:
-            event = new ExceptionEvent(logLine);
-            break;
-        case GC_HEAP_HISTORY:
-            event = new GcHeapHistoryEvent(logLine);
-            break;
-        case HEADER:
-            event = new HeaderEvent(logLine);
-            break;
-        case JVM_INFO:
-            event = new VmInfoEvent(logLine);
-            break;
-        case OS:
-            event = new OsEvent(logLine);
-            break;
-        case STACK:
-            event = new StackEvent(logLine);
-            break;
-        case THREAD:
-            event = new ThreadEvent(logLine);
-            break;
-        case TIME:
-            event = new TimeEvent(logLine);
-            break;
-        case TIMEZONE:
-            event = new TimezoneEvent(logLine);
-            break;
-        case UNAME:
-            event = new UnameEvent(logLine);
-            break;
-        case UNKNOWN:
-            event = new UnknownEvent(logLine);
-            break;
-        case VM_EVENT:
-            event = new VmEvent(logLine);
-            break;
-        default:
-            throw new AssertionError("Unexpected event type value: " + eventType);
+    public static final Date getJdkReleaseDate(FatalErrorLog fatalErrorLog) {
+        Date date = null;
+        if (fatalErrorLog != null) {
+            HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
+            if (releases != null && releases.size() > 0) {
+                Release release = null;
+                if (fatalErrorLog.isRhRpmInstall()) {
+                    release = releases.get(fatalErrorLog.getRpmDirectory());
+                ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
+                    release = releases.get(fatalErrorLog.getJdkReleaseString());
+                ***REMOVED***
+                if (release != null) {
+                    date = release.getBuildDate();
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
-        return event;
+        return date;
     ***REMOVED***
 
     /**
-     * Identify the log line fatal error log event.
-     * 
-     * @param logLine
-     *            The log entry.
-     * @return The <code>LogEventType</code> of the log entry.
+     * @param fatalErrorLog
+     *            The fatal error log.
+     * @return The release number for the JDK that produced the fatal error log.
      */
-    public static final LogEventType identifyEventType(String logLine) {
-        LogEventType logEventType = LogEventType.UNKNOWN;
-        if (BlankLineEvent.match(logLine)) {
-            logEventType = LogEventType.BLANK_LINE;
-        ***REMOVED*** else if (CompilationEvent.match(logLine)) {
-            logEventType = COMPILATION_EVENT;
-        ***REMOVED*** else if (CpuInfoEvent.match(logLine)) {
-            logEventType = LogEventType.CPU_INFO;
-        ***REMOVED*** else if (CurrentThreadEvent.match(logLine)) {
-            logEventType = LogEventType.CURRENT_THREAD;
-        ***REMOVED*** else if (DeoptimizationEvent.match(logLine)) {
-            logEventType = LogEventType.DEOPTIMIZATION_EVENT;
-        ***REMOVED*** else if (DynamicLibraryEvent.match(logLine)) {
-            logEventType = LogEventType.DYNAMIC_LIBRARY;
-        ***REMOVED*** else if (ElapsedTimeEvent.match(logLine)) {
-            logEventType = LogEventType.ELAPSED_TIME;
-        ***REMOVED*** else if (ExceptionEvent.match(logLine)) {
-            logEventType = LogEventType.EXCEPTION_EVENT;
-        ***REMOVED*** else if (GcHeapHistoryEvent.match(logLine)) {
-            logEventType = LogEventType.GC_HEAP_HISTORY;
-        ***REMOVED*** else if (HeaderEvent.match(logLine)) {
-            logEventType = LogEventType.HEADER;
-        ***REMOVED*** else if (VmInfoEvent.match(logLine)) {
-            logEventType = LogEventType.JVM_INFO;
-        ***REMOVED*** else if (OsEvent.match(logLine)) {
-            logEventType = LogEventType.OS;
-        ***REMOVED*** else if (StackEvent.match(logLine)) {
-            logEventType = LogEventType.STACK;
-        ***REMOVED*** else if (ThreadEvent.match(logLine)) {
-            logEventType = LogEventType.THREAD;
-        ***REMOVED*** else if (TimeEvent.match(logLine)) {
-            logEventType = LogEventType.TIME;
-        ***REMOVED*** else if (TimezoneEvent.match(logLine)) {
-            logEventType = LogEventType.TIMEZONE;
-        ***REMOVED*** else if (UnameEvent.match(logLine)) {
-            logEventType = LogEventType.UNAME;
-        ***REMOVED*** else if (VmEvent.match(logLine)) {
-            logEventType = LogEventType.VM_EVENT;
+    public static final int getJdkReleaseNumber(FatalErrorLog fatalErrorLog) {
+        int number = 0;
+        if (fatalErrorLog != null) {
+            HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
+            if (releases != null && releases.size() > 0) {
+                Release release = null;
+                if (fatalErrorLog.isRhRpmInstall()) {
+                    release = releases.get(fatalErrorLog.getRpmDirectory());
+                ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
+                    release = releases.get(fatalErrorLog.getJdkReleaseString());
+                ***REMOVED***
+                if (release != null) {
+                    number = release.getNumber();
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
-        return logEventType;
+        return number;
     ***REMOVED***
 
     /**
@@ -751,6 +683,21 @@ public class JdkUtil {
     /**
      * @param fatalErrorLog
      *            The fatal error log.
+     * @return Latest JDK release number for the JDK that produced the fatal error log.
+     */
+    public static final int getLatestJdkReleaseNumber(FatalErrorLog fatalErrorLog) {
+        int number = 0;
+        HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
+        if (releases != null && releases.size() > 0) {
+            Release latest = releases.get("LATEST");
+            number = latest.getNumber();
+        ***REMOVED***
+        return number;
+    ***REMOVED***
+
+    /**
+     * @param fatalErrorLog
+     *            The fatal error log.
      * @return Latest JDK release string for the JDK that produced the fatal error log.
      */
     public static final String getLatestJdkReleaseString(FatalErrorLog fatalErrorLog) {
@@ -763,18 +710,77 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
-     * @param fatalErrorLog
-     *            The fatal error log.
-     * @return Latest JDK release number for the JDK that produced the fatal error log.
+     * Parse out the JVM option scalar value. For example, the value for <code>-Xss128k</code> is 128k. The value for
+     * <code>-XX:PermSize=128M</code> is 128M.
+     * 
+     * @param option
+     *            The JVM option.
+     * @return The JVM option value.
      */
-    public static final int getLatestJdkReleaseNumber(FatalErrorLog fatalErrorLog) {
-        int number = 0;
-        HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-        if (releases != null && releases.size() > 0) {
-            Release latest = releases.get("LATEST");
-            number = latest.getNumber();
+    public static final String getOptionValue(String option) {
+        String value = null;
+        if (option != null) {
+            String regex = "^-[a-zA-Z:.]+(=)?(\\d{1,12***REMOVED***(" + JdkRegEx.OPTION_SIZE + ")?)$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(option);
+            if (matcher.find()) {
+                value = matcher.group(2);
+            ***REMOVED***
         ***REMOVED***
-        return number;
+        return value;
+    ***REMOVED***
+
+    /**
+     * Identify the log line fatal error log event.
+     * 
+     * @param logLine
+     *            The log entry.
+     * @return The <code>LogEventType</code> of the log entry.
+     */
+    public static final LogEventType identifyEventType(String logLine) {
+        LogEventType logEventType = LogEventType.UNKNOWN;
+        if (BlankLineEvent.match(logLine)) {
+            logEventType = LogEventType.BLANK_LINE;
+        ***REMOVED*** else if (CompilationEvent.match(logLine)) {
+            logEventType = COMPILATION_EVENT;
+        ***REMOVED*** else if (CpuInfoEvent.match(logLine)) {
+            logEventType = LogEventType.CPU_INFO;
+        ***REMOVED*** else if (CurrentThreadEvent.match(logLine)) {
+            logEventType = LogEventType.CURRENT_THREAD;
+        ***REMOVED*** else if (DeoptimizationEvent.match(logLine)) {
+            logEventType = LogEventType.DEOPTIMIZATION_EVENT;
+        ***REMOVED*** else if (DynamicLibraryEvent.match(logLine)) {
+            logEventType = LogEventType.DYNAMIC_LIBRARY;
+        ***REMOVED*** else if (ElapsedTimeEvent.match(logLine)) {
+            logEventType = LogEventType.ELAPSED_TIME;
+        ***REMOVED*** else if (ExceptionEvent.match(logLine)) {
+            logEventType = LogEventType.EXCEPTION_EVENT;
+        ***REMOVED*** else if (HeaderEvent.match(logLine)) {
+            logEventType = LogEventType.HEADER;
+        ***REMOVED*** else if (HeapEvent.match(logLine)) {
+            logEventType = LogEventType.HEAP;
+        ***REMOVED*** else if (JvmArgsEvent.match(logLine)) {
+            logEventType = LogEventType.JVM_ARGS;
+        ***REMOVED*** else if (MemoryEvent.match(logLine)) {
+            logEventType = LogEventType.MEMORY;
+        ***REMOVED*** else if (OsEvent.match(logLine)) {
+            logEventType = LogEventType.OS;
+        ***REMOVED*** else if (StackEvent.match(logLine)) {
+            logEventType = LogEventType.STACK;
+        ***REMOVED*** else if (ThreadEvent.match(logLine)) {
+            logEventType = LogEventType.THREAD;
+        ***REMOVED*** else if (TimeEvent.match(logLine)) {
+            logEventType = LogEventType.TIME;
+        ***REMOVED*** else if (TimezoneEvent.match(logLine)) {
+            logEventType = LogEventType.TIMEZONE;
+        ***REMOVED*** else if (UnameEvent.match(logLine)) {
+            logEventType = LogEventType.UNAME;
+        ***REMOVED*** else if (VmEvent.match(logLine)) {
+            logEventType = LogEventType.VM_EVENT;
+        ***REMOVED*** else if (VmInfoEvent.match(logLine)) {
+            logEventType = LogEventType.VM_INFO;
+        ***REMOVED***
+        return logEventType;
     ***REMOVED***
 
     /**
@@ -795,50 +801,147 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
-     * @param fatalErrorLog
-     *            The fatal error log.
-     * @return The known release date for the JDK build that produced the fatal error log.
+     * Create <code>LogEvent</code> from VM log line.
+     * 
+     * @param logLine
+     *            The log line as it appears in the VM log.
+     * @return The <code>LogEvent</code> corresponding to the log line.
      */
-    public static final Date getJdkReleaseDate(FatalErrorLog fatalErrorLog) {
-        Date date = null;
-        if (fatalErrorLog != null) {
-            HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-            if (releases != null && releases.size() > 0) {
-                Release release = null;
-                if (fatalErrorLog.isRhRpmInstall()) {
-                    release = releases.get(fatalErrorLog.getRpmDirectory());
-                ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
-                    release = releases.get(fatalErrorLog.getJdkReleaseString());
-                ***REMOVED***
-                if (release != null) {
-                    date = release.getBuildDate();
-                ***REMOVED***
-            ***REMOVED***
+    public static final LogEvent parseLogLine(String logLine) {
+        LogEventType eventType = identifyEventType(logLine);
+        LogEvent event = null;
+        switch (eventType) {
+
+        case BLANK_LINE:
+            event = new BlankLineEvent(logLine);
+            break;
+        case COMPILATION_EVENT:
+            event = new CompilationEvent(logLine);
+            break;
+        case CPU_INFO:
+            event = new CpuInfoEvent(logLine);
+            break;
+        case CURRENT_THREAD:
+            event = new CurrentThreadEvent(logLine);
+            break;
+        case DEOPTIMIZATION_EVENT:
+            event = new DeoptimizationEvent(logLine);
+            break;
+        case DYNAMIC_LIBRARY:
+            event = new DynamicLibraryEvent(logLine);
+            break;
+        case ELAPSED_TIME:
+            event = new ElapsedTimeEvent(logLine);
+            break;
+        case EXCEPTION_EVENT:
+            event = new ExceptionEvent(logLine);
+            break;
+        case HEADER:
+            event = new HeaderEvent(logLine);
+            break;
+        case HEAP:
+            event = new HeapEvent(logLine);
+            break;
+        case JVM_ARGS:
+            event = new JvmArgsEvent(logLine);
+            break;
+        case MEMORY:
+            event = new MemoryEvent(logLine);
+            break;
+        case OS:
+            event = new OsEvent(logLine);
+            break;
+        case STACK:
+            event = new StackEvent(logLine);
+            break;
+        case THREAD:
+            event = new ThreadEvent(logLine);
+            break;
+        case TIME:
+            event = new TimeEvent(logLine);
+            break;
+        case TIMEZONE:
+            event = new TimezoneEvent(logLine);
+            break;
+        case UNAME:
+            event = new UnameEvent(logLine);
+            break;
+        case UNKNOWN:
+            event = new UnknownEvent(logLine);
+            break;
+        case VM_EVENT:
+            event = new VmEvent(logLine);
+            break;
+        case VM_INFO:
+            event = new VmInfoEvent(logLine);
+            break;
+        default:
+            throw new AssertionError("Unexpected event type value: " + eventType);
         ***REMOVED***
-        return date;
+        return event;
     ***REMOVED***
 
     /**
-     * @param fatalErrorLog
-     *            The fatal error log.
-     * @return The release number for the JDK that produced the fatal error log.
+     * Convert JVM size option to kilobytes.
+     * 
+     * @param size
+     *            The size in various units (e.g. 'K').
+     * @return The size in bytes.
      */
-    public static final int getJdkReleaseNumber(FatalErrorLog fatalErrorLog) {
-        int number = 0;
-        if (fatalErrorLog != null) {
-            HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-            if (releases != null && releases.size() > 0) {
-                Release release = null;
-                if (fatalErrorLog.isRhRpmInstall()) {
-                    release = releases.get(fatalErrorLog.getRpmDirectory());
-                ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
-                    release = releases.get(fatalErrorLog.getJdkReleaseString());
-                ***REMOVED***
-                if (release != null) {
-                    number = release.getNumber();
-                ***REMOVED***
+    public static long convertOptionSizeToBytes(final String size) {
+
+        String regex = "(\\d{1,12***REMOVED***)" + JdkRegEx.OPTION_SIZE + "?";
+
+        String value = null;
+        char units = 'b';
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(size);
+        if (matcher.find()) {
+            value = matcher.group(1);
+            if (matcher.group(2) != null) {
+                units = matcher.group(2).charAt(0);
             ***REMOVED***
         ***REMOVED***
-        return number;
+
+        BigDecimal bytes = new BigDecimal(value);
+
+        switch (units) {
+
+        case 'b':
+        case 'B':
+            // do nothing
+            break;
+        case 'k':
+        case 'K':
+            bytes = bytes.multiply(Constants.KILOBYTE);
+            break;
+        case 'm':
+        case 'M':
+            bytes = bytes.multiply(Constants.MEGABYTE);
+            break;
+        case 'g':
+        case 'G':
+            bytes = bytes.multiply(Constants.GIGABYTE);
+            break;
+        default:
+            throw new AssertionError("Unexpected units value: " + units);
+
+        ***REMOVED***
+        return bytes.longValue();
+    ***REMOVED***
+
+    /**
+     * Convert from bytes to kilobytes.
+     * 
+     * @param bytes
+     *            The number of bytes.
+     * @return The number of kilobytes.
+     */
+    public static long convertBytesToKilobytes(final long bytes) {
+        BigDecimal kilobytes = new BigDecimal(bytes);
+        kilobytes = kilobytes.divide(new BigDecimal("1024"));
+        kilobytes = kilobytes.setScale(0, RoundingMode.HALF_EVEN);
+        return kilobytes.longValue();
     ***REMOVED***
 ***REMOVED***

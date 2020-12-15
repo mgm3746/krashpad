@@ -35,22 +35,22 @@ public class TestVmInfoEvent extends TestCase {
     public void testIdentity() {
         String logLine = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.192-b12) for linux-amd64 JRE (1.8.0_192-b12), "
                 + "built on Oct  6 2018 06:46:09 by \"java_re\" with gcc 7.3.0";
-        Assert.assertTrue(JdkUtil.LogEventType.JVM_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.JVM_INFO);
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
     ***REMOVED***
 
     public void testIdentifyZulu() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE "
                 + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
                 + "4.4.7 20120313";
-        Assert.assertTrue(JdkUtil.LogEventType.JVM_INFO.toString() + " not parsed.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.JVM_INFO);
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not parsed.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.192-b12) for linux-amd64 JRE (1.8.0_192-b12), "
                 + "built on Oct  6 2018 06:46:09 by \"java_re\" with gcc 7.3.0";
-        Assert.assertTrue(JdkUtil.LogEventType.JVM_INFO.toString() + " not parsed.",
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof VmInfoEvent);
     ***REMOVED***
 
@@ -133,8 +133,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testWindowsOracleJdk8() {
         String logLine = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.25-b02) for windows-amd64 JRE (1.8.0_25-b18), "
                 + "built on Oct  7 2014 14:25:37 by \"java_re\" with MS VC++ 10.0 (VS2010)";
-        Assert.assertTrue(JdkUtil.LogEventType.JVM_INFO.toString() + " not parsed.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.JVM_INFO);
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not parsed.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("Arch not correct.", Arch.X86_64, ((VmInfoEvent) event).getArch());
         Assert.assertEquals("Version not correct.", JavaSpecification.JDK8,

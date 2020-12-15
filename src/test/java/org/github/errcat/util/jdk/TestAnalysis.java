@@ -132,4 +132,60 @@ public class TestAnalysis extends TestCase {
         Assert.assertTrue(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION));
     ***REMOVED***
+
+    public void testInsufficientMemory() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset27.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Physical memory not correct.", 15995796, fel.getPhysicalMemory());
+        Assert.assertEquals("Physical memory free not correct.", 241892, fel.getPhysicalMemoryFree());
+        Assert.assertEquals("Swap not correct.", 10592252, fel.getSwap());
+        Assert.assertEquals("Swap free not correct.", 4, fel.getSwapFree());
+        Assert.assertEquals("Heap max size not correct.", 8192 * 1024, fel.getHeapMaxSize());
+        Assert.assertEquals("Heap allocation not correct.", 2761728 + 4838912, fel.getHeapAllocation());
+        Assert.assertEquals("Heap used not correct.", 0 + 2671671, fel.getHeapUsed());
+        Assert.assertEquals("Metaspace max size not correct.", 8192 * 1024, fel.getMetaspaceMaxSize());
+        Assert.assertEquals("Metaspace allocation not correct.", 471808, fel.getMetaspaceAllocation());
+        Assert.assertEquals("Metaspace used not correct.", 347525, fel.getMetaspaceUsed());
+        Assert.assertEquals("JVM memory not correct.", 17825792, fel.getJvmMemory());
+        Assert.assertEquals("Java thread count not correct.", 225, fel.getJavaThreadCount());
+        Assert.assertTrue(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY));
+    ***REMOVED***
+
+    public void testSwapDisabled() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset28.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.INFO_SWAP_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
+    ***REMOVED***
+
+    public void testJvmLtPhysicalMemory() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset29.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue("Out Of Memory Error not identified.", fel.isOomeCrash());
+        Assert.assertEquals("Physical memory not correct.", 24609684, fel.getPhysicalMemory());
+        Assert.assertEquals("JVM memory not correct.", 18581504, fel.getJvmMemory());
+        Assert.assertTrue(Analysis.ERROR_OOME_JVM_LT_PHYSICAL_MEMORY + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM_LT_PHYSICAL_MEMORY));
+    ***REMOVED***
+
+    public void testPhysicalMemoryInsufficientJvmStartup() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset30.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue("Out Of Memory Error not identified.", fel.isOomeCrash());
+        Assert.assertTrue(Analysis.ERROR_OOME_STARTUP + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP));
+    ***REMOVED***
+
+    public void testNoMemoryEvent() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset1.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse(Analysis.INFO_SWAP_DISABLED + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
+    ***REMOVED***
 ***REMOVED***

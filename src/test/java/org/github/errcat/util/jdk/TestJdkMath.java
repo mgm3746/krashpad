@@ -14,63 +14,19 @@
  *********************************************************************************************************************/
 package org.github.errcat.util.jdk;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * Math utility methods and constants for OpenJDK and Oracle JDK.
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class JdkMath {
+public class TestJdkMath extends TestCase {
 
-    /**
-     * Make default constructor private so the class cannot be instantiated.
-     */
-    private JdkMath() {
-
-    ***REMOVED***
-
-    /**
-     * Convert bytes to kilobytes.
-     * 
-     * @param bytes
-     *            The size in bytes.
-     * @return The size in Kilobytes.
-     */
-    public static long convertBytesToKilobytes(final long bytes) {
-        BigDecimal kilobytes = new BigDecimal(bytes);
-        kilobytes = kilobytes.divide(new BigDecimal("1024"));
-        kilobytes = kilobytes.setScale(0, RoundingMode.HALF_EVEN);
-        return kilobytes.longValue();
-    ***REMOVED***
-
-    /**
-     * Calculate percent.
-     * 
-     * @param part
-     *            The numerator.
-     * @param whole
-     *            The denominator.
-     * 
-     * @return Percent part:whole rounded to the nearest whole number.
-     */
-    public static int calcPercent(final long part, final long whole) {
-        int percent;
-        if (whole == 0) {
-            if (part == 0 && whole == 0) {
-                percent = 100;
-            ***REMOVED*** else {
-                percent = Integer.MAX_VALUE;
-            ***REMOVED***
-        ***REMOVED*** else {
-            BigDecimal calc = new BigDecimal(part);
-            BigDecimal hundred = new BigDecimal("100");
-            calc = calc.multiply(hundred);
-            calc = calc.divide(new BigDecimal(whole), 0, RoundingMode.HALF_EVEN);
-            percent = calc.intValue();
-        ***REMOVED***
-        return percent;
+    public void testCalcPercent() {
+        long part = 44;
+        long whole = 100;
+        Assert.assertEquals("Percent not correctly.", 44, JdkMath.calcPercent(part, whole));
     ***REMOVED***
 ***REMOVED***

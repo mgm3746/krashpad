@@ -83,7 +83,7 @@ public class VmInfoEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.JVM_INFO.toString();
+        return JdkUtil.LogEventType.VM_INFO.toString();
     ***REMOVED***
 
     /**
