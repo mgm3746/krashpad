@@ -69,4 +69,15 @@ public class TestMemoryEvent extends TestCase {
         Assert.assertEquals("Swap not correct.", 2097148, event.getSwap());
         Assert.assertEquals("Swap free not correct.", 36, event.getSwapFree());
     ***REMOVED***
+
+    public void testMemory64kPage() {
+        String logLine = "Memory: 64k page, physical 254200832k(247780928k free), swap 4194240k(4069376k free)";
+        Assert.assertTrue(JdkUtil.LogEventType.MEMORY.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof MemoryEvent);
+        MemoryEvent event = new MemoryEvent(logLine);
+        Assert.assertEquals("Physical memory not correct.", 254200832, event.getPhysicalMemory());
+        Assert.assertEquals("Physical memory free not correct.", 247780928, event.getPhysicalMemoryFree());
+        Assert.assertEquals("Swap not correct.", 4194240, event.getSwap());
+        Assert.assertEquals("Swap free not correct.", 4069376, event.getSwapFree());
+    ***REMOVED***
 ***REMOVED***

@@ -20,7 +20,7 @@ import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * COMPILATION_EVENT
+ * COMPILATION
  * </p>
  * 
  * <p>
@@ -66,7 +66,7 @@ public class CompilationEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.COMPILATION_EVENT.toString();
+        return JdkUtil.LogEventType.COMPILATION.toString();
     ***REMOVED***
 
     /**

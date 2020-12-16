@@ -28,20 +28,20 @@ public class TestCompilationEvent extends TestCase {
     public void testIdentity() {
         String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
                 + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
-        Assert.assertTrue(JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.COMPILATION_EVENT);
+        Assert.assertTrue(JdkUtil.LogEventType.COMPILATION.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.COMPILATION);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
                 + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
-        Assert.assertTrue(JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.",
+        Assert.assertTrue(JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof CompilationEvent);
     ***REMOVED***
 
     public void testHeader() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.",
+        Assert.assertTrue(JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof CompilationEvent);
     ***REMOVED***
 
@@ -49,7 +49,7 @@ public class TestCompilationEvent extends TestCase {
         String logLine = "Event: 5689.207 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if "
                 + "action=reinterpret pc=0x00007ff0df4a0408 "
                 + "method=org.eclipse.jface.text.ListLineTracker.getLineLength(I)I @ 28";
-        Assert.assertFalse(JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " incorrectly parsed.",
+        Assert.assertFalse(JdkUtil.LogEventType.COMPILATION.toString() + " incorrectly parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof CompilationEvent);
     ***REMOVED***
 
@@ -58,13 +58,13 @@ public class TestCompilationEvent extends TestCase {
                 + "<a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ef71fd30) thrown at "
                 + "[/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/"
                 + "vm/runtime/sharedRuntime.cpp, line 609]";
-        Assert.assertFalse(JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " incorrectly parsed.",
+        Assert.assertFalse(JdkUtil.LogEventType.COMPILATION.toString() + " incorrectly parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof CompilationEvent);
     ***REMOVED***
 
     public void testVmEvent() {
         String logLine = "Event: 6665.311 Executing VM operation: RevokeBias done";
-        Assert.assertFalse(JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " incorrectly parsed.",
+        Assert.assertFalse(JdkUtil.LogEventType.COMPILATION.toString() + " incorrectly parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof CompilationEvent);
     ***REMOVED***
 ***REMOVED***

@@ -146,4 +146,66 @@ public class TestHeapEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof HeapEvent);
     ***REMOVED***
+
+    public void testShenandoahHeader() {
+        String logLine = "Shenandoah Heap";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeapEvent);
+    ***REMOVED***
+
+    public void testShenandoah() {
+        String logLine = " 5734M total, 5734M committed, 3795M used";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeapEvent);
+        Assert.assertTrue("Shenandoah heap event not recognized.", logLine.matches(HeapEvent.REGEX_SHENANDOAH));
+    ***REMOVED***
+
+    public void testShenandoahRegions() {
+        String logLine = " 2867 x 2048K regions";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeapEvent);
+    ***REMOVED***
+
+    public void testShenandoahStatus() {
+        String logLine = "Status: has forwarded objects, updating refs, degenerated gc, not cancelled";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeapEvent);
+    ***REMOVED***
+
+    public void testShenandoahReservedRegionHeader() {
+        String logLine = "Reserved region:";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeapEvent);
+    ***REMOVED***
+
+    public void testShenandoahReservedRegion() {
+        String logLine = " - [0x000000067a200000, 0x00000007e0800000)";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeapEvent);
+    ***REMOVED***
+
+    public void testShenandoahCollectionSetHeader() {
+        String logLine = "Collection set:";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeapEvent);
+    ***REMOVED***
+
+    public void testShenandoahCollectionSet() {
+        String logLine = " - map (vanilla): 0x00007ffb91f5e3d1";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeapEvent);
+    ***REMOVED***
+
+    public void testG1() {
+        String logLine = " garbage-first heap   total 1933312K, used 1030565K [0x0000000500000000, 0x0000000800000000)";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeapEvent);
+        Assert.assertTrue("G1 heap event not recognized.", logLine.matches(HeapEvent.REGEX_G1));
+    ***REMOVED***
+
+    public void testG1Region() {
+        String logLine = "  region size 2048K, 417 young (854016K), 55 survivors (112640K)";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HeapEvent);
+    ***REMOVED***
 ***REMOVED***

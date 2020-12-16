@@ -14,92 +14,44 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * ELAPSED_TIME
- * </p>
- * 
- * <p>
- * How long the JVM was running before it crashed.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <p>
- * 1) Whole number of seconds:
- * </p>
- * 
- * <pre>
- * elapsed time: 855185 seconds (9d 21h 33m 4s)
- * </pre>
- * 
- * <p>
- * 2) Fractional seconds:
- * </p>
- * 
- * <pre>
- * elapsed time: 0.606413 seconds (0d 0h 0m 0s)
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class ElapsedTimeEvent implements LogEvent {
+public class TestCodeCacheEvent extends TestCase {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^elapsed time: \\d{1,10***REMOVED***(\\.\\d{6***REMOVED***)? seconds \\((\\d{1,4***REMOVED***d \\d{1,2***REMOVED***h \\d{1,2***REMOVED***m"
-            + " \\d{1,2***REMOVED***s)\\)$";
-
-    private static Pattern pattern = Pattern.compile(REGEX);
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public ElapsedTimeEvent(String logEntry) {
-        this.logEntry = logEntry;
+    public void testIdentity() {
+        String logLine = "CodeCache: size=245760Kb used=145576Kb max_used=178661Kb free=100183Kb";
+        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CODE_CACHE);
     ***REMOVED***
 
-    public String getLogEntry() {
-        return logEntry;
+    public void testParseLogLine() {
+        String logLine = "CodeCache: size=245760Kb used=145576Kb max_used=178661Kb free=100183Kb";
+        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CodeCacheEvent);
     ***REMOVED***
 
-    public String getName() {
-        return JdkUtil.LogEventType.ELAPSED_TIME.toString();
+    public void testBounds() {
+        String logLine = " bounds [0x00007ffb8051b000, 0x00007ffb8b60b000, 0x00007ffb8f51b000]";
+        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CodeCacheEvent);
     ***REMOVED***
 
-    public String getElapsedTime() {
-        String timezone = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            timezone = matcher.group(2);
-        ***REMOVED***
-        return timezone;
+    public void testTotalBlobs() {
+        String logLine = " total_blobs=24995 nmethods=23856 adapters=1049";
+        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CodeCacheEvent);
     ***REMOVED***
 
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public void testCompilation() {
+        String logLine = "***REMOVED***";
+        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CodeCacheEvent);
     ***REMOVED***
 ***REMOVED***

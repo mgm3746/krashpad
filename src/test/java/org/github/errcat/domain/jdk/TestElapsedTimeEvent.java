@@ -39,7 +39,17 @@ public class TestElapsedTimeEvent extends TestCase {
 
     public void testTimezone() {
         String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
+        Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ELAPSED_TIME);
         ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
         Assert.assertEquals("Elapsed time not correct.", "9d 21h 33m 5s", event.getElapsedTime());
+    ***REMOVED***
+
+    public void testZero() {
+        String logLine = "elapsed time: 0.606413 seconds (0d 0h 0m 0s)";
+        Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ELAPSED_TIME);
+        ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
+        Assert.assertEquals("Elapsed time not correct.", "0d 0h 0m 0s", event.getElapsedTime());
     ***REMOVED***
 ***REMOVED***

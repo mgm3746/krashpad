@@ -21,6 +21,7 @@ import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.jdk.Analysis;
+import org.github.errcat.util.jdk.JdkUtil.Application;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
 import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 import org.junit.Assert;
@@ -296,5 +297,42 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Metaspace max size not correct.", 1183744, fel.getMetaspaceMaxSize());
         Assert.assertEquals("Metaspace allocation not correct.", 155992, fel.getMetaspaceAllocation());
         Assert.assertEquals("Metaspace used not correct.", 139716, fel.getMetaspaceUsed());
+    ***REMOVED***
+
+    public void testShenandoah() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset31.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Physical memory not correct.", 8388608, fel.getPhysicalMemory());
+        Assert.assertEquals("Physical memory free not correct.", 1334692, fel.getPhysicalMemoryFree());
+        Assert.assertEquals("Swap not correct.", 0, fel.getSwap());
+        Assert.assertEquals("Swap free not correct.", 0, fel.getSwapFree());
+        Assert.assertEquals("Heap max size not correct.", 5734 * 1024, fel.getHeapMaxSize());
+        Assert.assertEquals("Heap allocation not correct.", 5734 * 1024, fel.getHeapAllocation());
+        Assert.assertEquals("Heap used not correct.", 3795 * 1024, fel.getHeapUsed());
+        Assert.assertEquals("Metaspace max size not correct.", 512 * 1024, fel.getMetaspaceMaxSize());
+        Assert.assertEquals("Metaspace allocation not correct.", 277632, fel.getMetaspaceAllocation());
+        Assert.assertEquals("Metaspace used not correct.", 257753, fel.getMetaspaceUsed());
+        Assert.assertEquals("Application not correct.", Application.JBOSS, fel.getApplication());
+        Assert.assertTrue(Analysis.INFO_SWAP_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
+        Assert.assertTrue(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER));
+    ***REMOVED***
+
+    public void testG1() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset32.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Physical memory not correct.", 32780544, fel.getPhysicalMemory());
+        Assert.assertEquals("Physical memory free not correct.", 2698868, fel.getPhysicalMemoryFree());
+        Assert.assertEquals("Swap not correct.", 8191996, fel.getSwap());
+        Assert.assertEquals("Swap free not correct.", 8190972, fel.getSwapFree());
+        Assert.assertEquals("Heap max size not correct.", 2048 * 1024, fel.getHeapMaxSize());
+        Assert.assertEquals("Heap allocation not correct.", 1933312, fel.getHeapAllocation());
+        Assert.assertEquals("Heap used not correct.", 1030565, fel.getHeapUsed());
+        Assert.assertEquals("Metaspace max size not correct.", 1189888, fel.getMetaspaceMaxSize());
+        Assert.assertEquals("Metaspace allocation not correct.", 159168, fel.getMetaspaceAllocation());
+        Assert.assertEquals("Metaspace used not correct.", 147896, fel.getMetaspaceUsed());
     ***REMOVED***
 ***REMOVED***

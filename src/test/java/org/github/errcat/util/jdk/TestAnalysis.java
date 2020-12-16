@@ -188,4 +188,12 @@ public class TestAnalysis extends TestCase {
         Assert.assertFalse(Analysis.INFO_SWAP_DISABLED + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
     ***REMOVED***
+
+    public void testCrashStartup() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset33.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.INFO_JVM_STARTUP_FAILS + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_JVM_STARTUP_FAILS));
+    ***REMOVED***
 ***REMOVED***

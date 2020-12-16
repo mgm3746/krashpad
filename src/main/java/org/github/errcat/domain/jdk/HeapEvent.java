@@ -82,10 +82,11 @@ public class HeapEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(  class| concurrent mark-sweep|  eden|  from|GC Heap History|Event: "
-            + JdkRegEx.TIMESTAMP
+    private static final String REGEX = "^(  class|Collection set:| concurrent mark-sweep|  eden|  from|"
+            + " garbage-first heap|GC Heap History|Event: " + JdkRegEx.TIMESTAMP
             + " GC heap (after|before)|\\{Heap before GC|***REMOVED***|Heap after GC| Metaspace|  object| par new | ParOldGen|"
-            + " PSYoungGen|  to|***REMOVED***)(.*)$";
+            + " PSYoungGen|  region size| \\d{1,5***REMOVED*** x " + JdkRegEx.SIZE
+            + " regions|Reserved region:|Shenandoah Heap|Status:|  to| " + JdkRegEx.SIZE + " total|***REMOVED***| - )(.*)$";
 
     /**
      * Regular expression for the heap at crash header.
@@ -108,6 +109,18 @@ public class HeapEvent implements LogEvent {
      */
     public static final String REGEX_OLD_GEN = "^ (concurrent mark-sweep generation|PSOldGen|ParOldGen)[ ]{1,7***REMOVED***total "
             + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE + ".+$";
+
+    /**
+     * Regular expression for Shenandoah combined event.
+     */
+    public static final String REGEX_SHENANDOAH = "^ " + JdkRegEx.SIZE + " total, " + JdkRegEx.SIZE + " committed, "
+            + JdkRegEx.SIZE + " used$";
+
+    /**
+     * Regular expression for G1 combined event.
+     */
+    public static final String REGEX_G1 = "^ garbage-first heap   total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE
+            + ".+$";
 
     /**
      * Regular expression for a metaspace event.
@@ -161,6 +174,20 @@ public class HeapEvent implements LogEvent {
      */
     public boolean isOldGen() {
         return logEntry.matches(REGEX_OLD_GEN);
+    ***REMOVED***
+
+    /**
+     * @return true if the log line contains Shenandoah heap information, false otherwise.
+     */
+    public boolean isShenandoah() {
+        return logEntry.matches(REGEX_SHENANDOAH);
+    ***REMOVED***
+
+    /**
+     * @return true if the log line contains G1 heap information, false otherwise.
+     */
+    public boolean isG1() {
+        return logEntry.matches(REGEX_G1);
     ***REMOVED***
 
     /**

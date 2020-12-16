@@ -14,7 +14,7 @@
  *********************************************************************************************************************/
 package org.github.errcat.util.jdk;
 
-import static org.github.errcat.util.jdk.JdkUtil.LogEventType.COMPILATION_EVENT;
+import static org.github.errcat.util.jdk.JdkUtil.LogEventType.COMPILATION;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import org.github.errcat.domain.BlankLineEvent;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
+import org.github.errcat.domain.jdk.CodeCacheEvent;
 import org.github.errcat.domain.jdk.CompilationEvent;
 import org.github.errcat.domain.jdk.CpuInfoEvent;
 import org.github.errcat.domain.jdk.CurrentThreadEvent;
@@ -36,6 +37,7 @@ import org.github.errcat.domain.jdk.ExceptionEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.HeapEvent;
+import org.github.errcat.domain.jdk.HeapRegionsEvent;
 import org.github.errcat.domain.jdk.JvmArgsEvent;
 import org.github.errcat.domain.jdk.MemoryEvent;
 import org.github.errcat.domain.jdk.OsEvent;
@@ -120,11 +122,11 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BLANK_LINE, COMPILATION_EVENT, CPU_INFO, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME,
+        BLANK_LINE, CODE_CACHE, COMPILATION, CPU_INFO, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY,
         //
-        EXCEPTION_EVENT, HEADER, HEAP, JVM_ARGS, MEMORY, OS, STACK, THREAD, TIME, TIMEZONE, UNAME, UNKNOWN, VM_EVENT,
+        ELAPSED_TIME, EXCEPTION_EVENT, HEADER, HEAP, HEAP_REGIONS, JVM_ARGS, MEMORY, OS, STACK, THREAD, TIME,
         //
-        VM_INFO,
+        TIMEZONE, UNAME, UNKNOWN, VM_EVENT, VM_INFO,
     ***REMOVED***
 
     /**
@@ -741,8 +743,10 @@ public class JdkUtil {
         LogEventType logEventType = LogEventType.UNKNOWN;
         if (BlankLineEvent.match(logLine)) {
             logEventType = LogEventType.BLANK_LINE;
+        ***REMOVED*** else if (CodeCacheEvent.match(logLine)) {
+            logEventType = LogEventType.CODE_CACHE;
         ***REMOVED*** else if (CompilationEvent.match(logLine)) {
-            logEventType = COMPILATION_EVENT;
+            logEventType = COMPILATION;
         ***REMOVED*** else if (CpuInfoEvent.match(logLine)) {
             logEventType = LogEventType.CPU_INFO;
         ***REMOVED*** else if (CurrentThreadEvent.match(logLine)) {
@@ -759,6 +763,8 @@ public class JdkUtil {
             logEventType = LogEventType.HEADER;
         ***REMOVED*** else if (HeapEvent.match(logLine)) {
             logEventType = LogEventType.HEAP;
+        ***REMOVED*** else if (HeapRegionsEvent.match(logLine)) {
+            logEventType = LogEventType.HEAP_REGIONS;
         ***REMOVED*** else if (JvmArgsEvent.match(logLine)) {
             logEventType = LogEventType.JVM_ARGS;
         ***REMOVED*** else if (MemoryEvent.match(logLine)) {
@@ -811,11 +817,13 @@ public class JdkUtil {
         LogEventType eventType = identifyEventType(logLine);
         LogEvent event = null;
         switch (eventType) {
-
         case BLANK_LINE:
             event = new BlankLineEvent(logLine);
             break;
-        case COMPILATION_EVENT:
+        case CODE_CACHE:
+            event = new CodeCacheEvent(logLine);
+            break;
+        case COMPILATION:
             event = new CompilationEvent(logLine);
             break;
         case CPU_INFO:
@@ -841,6 +849,9 @@ public class JdkUtil {
             break;
         case HEAP:
             event = new HeapEvent(logLine);
+            break;
+        case HEAP_REGIONS:
+            event = new HeapRegionsEvent(logLine);
             break;
         case JVM_ARGS:
             event = new JvmArgsEvent(logLine);

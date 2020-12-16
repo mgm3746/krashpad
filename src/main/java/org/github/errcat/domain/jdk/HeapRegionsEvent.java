@@ -14,51 +14,39 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * ELAPSED_TIME
+ * HEAP_REGIONS
  * </p>
  * 
  * <p>
- * How long the JVM was running before it crashed.
+ * Heap information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
- * <p>
- * 1) Whole number of seconds:
- * </p>
- * 
  * <pre>
- * elapsed time: 855185 seconds (9d 21h 33m 4s)
- * </pre>
- * 
- * <p>
- * 2) Fractional seconds:
- * </p>
- * 
- * <pre>
- * elapsed time: 0.606413 seconds (0d 0h 0m 0s)
+ * Heap Regions:
+ * EU=empty-uncommitted, EC=empty-committed, R=regular, H=humongous start, HC=humongous continuation, CS=collection set, T=trash, P=pinned
+ * BTE=bottom/top/end, U=used, T=TLAB allocs, G=GCLAB allocs, S=shared allocs, L=live data
+ * R=root, CP=critical pins, TAMS=top-at-mark-start, UWM=update watermark
+ * SN=alloc sequence number
+ * |    0|CS |BTE    67a200000,    67a400000,    67a400000|TAMS    67a400000|UWM    67a400000|U  2048K|T  2047K|G     0B|S    56B|L 31152B|CP   0
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class ElapsedTimeEvent implements LogEvent {
+public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^elapsed time: \\d{1,10***REMOVED***(\\.\\d{6***REMOVED***)? seconds \\((\\d{1,4***REMOVED***d \\d{1,2***REMOVED***h \\d{1,2***REMOVED***m"
-            + " \\d{1,2***REMOVED***s)\\)$";
-
-    private static Pattern pattern = Pattern.compile(REGEX);
+    private static final String REGEX = "^(BTE=|Heap Regions:|Polling page:|R=|ShenandoahBarrierSet|SN=|EU=|\\|)(.*)$";
 
     /**
      * The log entry for the event.
@@ -71,7 +59,7 @@ public class ElapsedTimeEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public ElapsedTimeEvent(String logEntry) {
+    public HeapRegionsEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -80,16 +68,7 @@ public class ElapsedTimeEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.ELAPSED_TIME.toString();
-    ***REMOVED***
-
-    public String getElapsedTime() {
-        String timezone = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            timezone = matcher.group(2);
-        ***REMOVED***
-        return timezone;
+        return JdkUtil.LogEventType.HEAP_REGIONS.toString();
     ***REMOVED***
 
     /**

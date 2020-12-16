@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import org.github.errcat.Main;
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.domain.UnknownEvent;
 import org.github.errcat.domain.jdk.CompilationEvent;
 import org.github.errcat.domain.jdk.CpuInfoEvent;
@@ -83,7 +84,6 @@ public class Manager {
                 String logLine = bufferedReader.readLine();
                 while (logLine != null) {
                     LogEvent event = JdkUtil.parseLogLine(logLine);
-                    // ThrowAwayEvents are ignored
                     if (event instanceof CompilationEvent) {
                         fatalErrorLog.getCompilationEvents().add((CompilationEvent) event);
                     ***REMOVED*** else if (event instanceof CpuInfoEvent) {
@@ -110,6 +110,8 @@ public class Manager {
                         fatalErrorLog.getStackEvents().add((StackEvent) event);
                     ***REMOVED*** else if (event instanceof ThreadEvent) {
                         fatalErrorLog.getThreadEvents().add((ThreadEvent) event);
+                    ***REMOVED*** else if (event instanceof ThrowAwayEvent) {
+                        // ThrowAwayEvents are ignored
                     ***REMOVED*** else if (event instanceof TimeEvent) {
                         fatalErrorLog.setTimeEvent((TimeEvent) event);
                     ***REMOVED*** else if (event instanceof TimezoneEvent) {

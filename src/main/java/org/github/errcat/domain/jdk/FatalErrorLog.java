@@ -1072,6 +1072,18 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         heapAllocation += +JdkUtil.convertOptionSizeToBytes(matcher.group(2) + matcher.group(4));
                     ***REMOVED***
+                ***REMOVED*** else if (heapAtCrash && event.isShenandoah()) {
+                    pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        heapAllocation += +JdkUtil.convertOptionSizeToBytes(matcher.group(4) + matcher.group(6));
+                    ***REMOVED***
+                ***REMOVED*** else if (heapAtCrash && event.isG1()) {
+                    pattern = Pattern.compile(HeapEvent.REGEX_G1);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        heapAllocation += +JdkUtil.convertOptionSizeToBytes(matcher.group(1) + matcher.group(3));
+                    ***REMOVED***
                 ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
                     heapAtCrash = false;
                 ***REMOVED***
@@ -1107,6 +1119,18 @@ public class FatalErrorLog {
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         heapUsed = heapUsed + JdkUtil.convertOptionSizeToBytes(matcher.group(5) + matcher.group(7));
+                    ***REMOVED***
+                ***REMOVED*** else if (heapAtCrash && event.isShenandoah()) {
+                    pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        heapUsed = heapUsed + JdkUtil.convertOptionSizeToBytes(matcher.group(7) + matcher.group(9));
+                    ***REMOVED***
+                ***REMOVED*** else if (heapAtCrash && event.isG1()) {
+                    pattern = Pattern.compile(HeapEvent.REGEX_G1);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        heapUsed = heapUsed + JdkUtil.convertOptionSizeToBytes(matcher.group(4) + matcher.group(6));
                     ***REMOVED***
                 ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
                     heapAtCrash = false;
@@ -1258,6 +1282,10 @@ public class FatalErrorLog {
      * Do data analysis.
      */
     private void doDataAnalysis() {
+        // Check for JVM failing to start
+        if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
+            analysis.add(Analysis.INFO_JVM_STARTUP_FAILS);
+        ***REMOVED***
         // Check if JDK debugging symbols are installed
         if ((haveVmFrameInStack() || haveVmFrameInHeader()) && !haveJdkDebugSymbols()) {
             analysis.add(Analysis.WARN_DEBUG_SYMBOLS);
@@ -1339,6 +1367,8 @@ public class FatalErrorLog {
         if (isOomeCrash()) {
             if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
                 analysis.add(Analysis.ERROR_OOME_STARTUP);
+                // Don't double report the JVM failing to start
+                analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
             ***REMOVED*** else if (getJvmMemory() > 0 && JdkMath.calcPercent(getJvmMemory(), getPhysicalMemory()) < 95) {
                 analysis.add(Analysis.ERROR_OOME_JVM_LT_PHYSICAL_MEMORY);
             ***REMOVED***
@@ -1351,6 +1381,12 @@ public class FatalErrorLog {
         // Check for swap disabled
         if (getSwap() == 0) {
             analysis.add(Analysis.INFO_SWAP_DISABLED);
+        ***REMOVED***
+        // Check for ShenadoahRootUpdater bug fixed in OpenJDK8 u282.
+        if (getJavaSpecification() == JavaSpecification.JDK8 && getStackFrameTop() != null && getStackFrameTop()
+                .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ShenandoahUpdateRefsClosure::do_oop.+$")) {
+            // TODO: Verify current JDK version < u282
+            analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER);
         ***REMOVED***
     ***REMOVED***
 
