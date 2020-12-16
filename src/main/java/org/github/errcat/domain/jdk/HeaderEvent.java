@@ -146,46 +146,79 @@ public class HeaderEvent implements LogEvent {
         return os;
     }
 
+    /**
+     * @return True if the event is SIGBUS, false otherwise.
+     */
     public boolean isSigBus() {
         return logEntry.matches("^#  SIGBUS.+$");
     }
 
+    /**
+     * @return True if the event is SIGIL, false otherwise.
+     */
     public boolean isSigIll() {
         return logEntry.matches("^#  SIGILL.+$");
     }
 
+    /**
+     * @return True if the event is SIGSEGV, false otherwise.
+     */
     public boolean isSigSegv() {
         return logEntry.matches("^#  SIGSEGV.+$");
     }
 
+    /**
+     * @return True if the event is a problematic frame, false otherwise.
+     */
     public boolean isProblematicFrame() {
         return logEntry.matches("^# (C  |J |v  |V  ).+$");
     }
 
+    /**
+     * @return True if the event is a VM frame, false otherwise.
+     */
     public boolean isVmFrame() {
         return logEntry.matches("^# (V  ).+$");
     }
 
+    /**
+     * @return True if the event is an itnernal error, false otherwise.
+     */
     public boolean isInternalError() {
         return logEntry.matches("^#  Internal Error.+$");
     }
 
+    /**
+     * @return True if the event involves a failure, false otherwise.
+     */
     public boolean isFailed() {
         return logEntry.matches("^#.+failed.+$");
     }
 
+    /**
+     * @return True if the event is an error, false otherwise.
+     */
     public boolean isError() {
         return logEntry.matches("^#  Error:.+$");
     }
 
+    /**
+     * @return True if the event is Out Of Memory Error, false otherwise.
+     */
     public boolean isOutOfMemoryError() {
         return logEntry.matches("^#  Out of Memory Error .+$");
     }
 
+    /**
+     * @return True if the event is Java VM event, false otherwise.
+     */
     public boolean isJavaVm() {
         return logEntry.matches("^# Java VM:.+$");
     }
 
+    /**
+     * @return True if the event is a JRE version event, false otherwise.
+     */
     public boolean isJreVersion() {
         return logEntry.matches("^# JRE version:.+$");
     }
