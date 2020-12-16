@@ -146,46 +146,79 @@ public class HeaderEvent implements LogEvent {
         return os;
     ***REMOVED***
 
+    /**
+     * @return True if the event is SIGBUS, false otherwise.
+     */
     public boolean isSigBus() {
         return logEntry.matches("^***REMOVED***  SIGBUS.+$");
     ***REMOVED***
 
+    /**
+     * @return True if the event is SIGIL, false otherwise.
+     */
     public boolean isSigIll() {
         return logEntry.matches("^***REMOVED***  SIGILL.+$");
     ***REMOVED***
 
+    /**
+     * @return True if the event is SIGSEGV, false otherwise.
+     */
     public boolean isSigSegv() {
         return logEntry.matches("^***REMOVED***  SIGSEGV.+$");
     ***REMOVED***
 
+    /**
+     * @return True if the event is a problematic frame, false otherwise.
+     */
     public boolean isProblematicFrame() {
         return logEntry.matches("^***REMOVED*** (C  |J |v  |V  ).+$");
     ***REMOVED***
 
+    /**
+     * @return True if the event is a VM frame, false otherwise.
+     */
     public boolean isVmFrame() {
         return logEntry.matches("^***REMOVED*** (V  ).+$");
     ***REMOVED***
 
+    /**
+     * @return True if the event is an itnernal error, false otherwise.
+     */
     public boolean isInternalError() {
         return logEntry.matches("^***REMOVED***  Internal Error.+$");
     ***REMOVED***
 
+    /**
+     * @return True if the event involves a failure, false otherwise.
+     */
     public boolean isFailed() {
         return logEntry.matches("^***REMOVED***.+failed.+$");
     ***REMOVED***
 
+    /**
+     * @return True if the event is an error, false otherwise.
+     */
     public boolean isError() {
         return logEntry.matches("^***REMOVED***  Error:.+$");
     ***REMOVED***
 
+    /**
+     * @return True if the event is Out Of Memory Error, false otherwise.
+     */
     public boolean isOutOfMemoryError() {
         return logEntry.matches("^***REMOVED***  Out of Memory Error .+$");
     ***REMOVED***
 
+    /**
+     * @return True if the event is Java VM event, false otherwise.
+     */
     public boolean isJavaVm() {
         return logEntry.matches("^***REMOVED*** Java VM:.+$");
     ***REMOVED***
 
+    /**
+     * @return True if the event is a JRE version event, false otherwise.
+     */
     public boolean isJreVersion() {
         return logEntry.matches("^***REMOVED*** JRE version:.+$");
     ***REMOVED***

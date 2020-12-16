@@ -48,11 +48,6 @@ import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 public class FatalErrorLog {
 
     /**
-     * The reason for the crash.
-     */
-    private CrashCause crashCause;
-
-    /**
      * JVM environment information.
      */
     private VmInfoEvent vmInfoEvent;
@@ -156,7 +151,6 @@ public class FatalErrorLog {
      * Default constructor.
      */
     public FatalErrorLog() {
-        crashCause = CrashCause.UNKNOWN;
         headerEvents = new ArrayList<HeaderEvent>();
         stackEvents = new ArrayList<StackEvent>();
         dynamicLibraryEvents = new ArrayList<DynamicLibraryEvent>();
@@ -208,10 +202,6 @@ public class FatalErrorLog {
 
     public void setAnalysis(List<Analysis> analysis) {
         this.analysis = analysis;
-    ***REMOVED***
-
-    public CrashCause getCrashCause() {
-        return crashCause;
     ***REMOVED***
 
     public void setCurrentThreadEvent(CurrentThreadEvent currentThreadEvent) {
@@ -321,7 +311,7 @@ public class FatalErrorLog {
         String release = "UNKNOWN";
         if (vmInfoEvent != null) {
             release = vmInfoEvent.getJdkReleaseString();
-        ***REMOVED*** else {
+        ***REMOVED*** else if (headerEvents != null) {
             // Check header
             Iterator<HeaderEvent> iterator = headerEvents.iterator();
             while (iterator.hasNext()) {
@@ -1251,6 +1241,31 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return The <code>CrashCause</code>.
+     */
+    public CrashCause getCrashCause() {
+        CrashCause crashCause = CrashCause.UNKNOWN;
+        if (headerEvents != null) {
+            // Check header
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent he = iterator.next();
+                if (he.isSigBus()) {
+                    crashCause = CrashCause.SIGBUS;
+                    break;
+                ***REMOVED*** else if (he.isSigSegv()) {
+                    crashCause = CrashCause.SIGSEGV;
+                    break;
+                ***REMOVED*** else if (he.isSigIll()) {
+                    crashCause = CrashCause.SIGILL;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return crashCause;
+    ***REMOVED***
+
+    /**
      * @return The JVM memory (kilobytes).
      */
     public long getJvmMemory() {
@@ -1264,6 +1279,32 @@ public class FatalErrorLog {
             jvmMemory = getHeapMaxSize() + getMetaspaceMaxSize();
         ***REMOVED***
         return jvmMemory;
+    ***REMOVED***
+
+    /**
+     * @return The number of cpu cores.
+     */
+    public int getCpuCores() {
+        int cpuCores = Integer.MIN_VALUE;
+        if (cpuInfoEvents != null) {
+            Iterator<CpuInfoEvent> iterator = cpuInfoEvents.iterator();
+            while (iterator.hasNext()) {
+                CpuInfoEvent event = iterator.next();
+                if (event.isCpuHeader()) {
+                    Pattern pattern = Pattern.compile(CpuInfoEvent.REGEX_CPU_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        int cpus = Integer.parseInt(matcher.group(1));
+                        int cores = 1;
+                        if (matcher.group(3) != null) {
+                            cores = Integer.parseInt(matcher.group(4));
+                        ***REMOVED***
+                        cpuCores = cpus * cores;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return cpuCores;
     ***REMOVED***
 
     /**
@@ -1387,6 +1428,23 @@ public class FatalErrorLog {
                 .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ShenandoahUpdateRefsClosure::do_oop.+$")) {
             // TODO: Verify current JDK version < u282
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER);
+        ***REMOVED***
+        // Check for SIGBUS
+        if (getCrashCause() == CrashCause.SIGBUS) {
+            if (getOsType() == OsType.LINUX) {
+                analysis.add(Analysis.INFO_SIGBUS_LINUX);
+            ***REMOVED*** else {
+                analysis.add(Analysis.INFO_SIGBUS);
+            ***REMOVED***
+        ***REMOVED***
+        // Check for SIGSEGV
+        if (getCrashCause() == CrashCause.SIGSEGV) {
+            analysis.add(Analysis.INFO_SIGSEGV);
+        ***REMOVED***
+        // pthread_getcpuclockid
+        if (getStackFrameTop() != null
+                && getStackFrameTop().matches("^C  \\[libpthread\\.so.+\\]  pthread_getcpuclockid.+$")) {
+            analysis.add(Analysis.ERROR_PTHREAD_GETCPUCLOCKID);
         ***REMOVED***
     ***REMOVED***
 

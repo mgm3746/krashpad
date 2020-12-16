@@ -58,6 +58,11 @@ public enum Analysis {
     ERROR_JNA("error.jna"),
 
     /**
+     * Property key for a crash in JNA code on a Red Hat JDK.
+     */
+    ERROR_JNA_RH("error.jna.rh"),
+
+    /**
      * Property key for crash trying to allocate memory when heap + metaspace much less than physical memory.
      */
     ERROR_OOME_JVM_LT_PHYSICAL_MEMORY("error.oome.jvm.lt.physical.memory"),
@@ -68,9 +73,9 @@ public enum Analysis {
     ERROR_OOME_STARTUP("error.oome.startup"),
 
     /**
-     * Property key for a crash in JNA code on a Red Hat JDK.
+     * Property key for error calling pthread_getcpuclockid
      */
-    ERROR_JNA_RH("error.jna.rh"),
+    ERROR_PTHREAD_GETCPUCLOCKID("error.pthread.getcpuclockid"),
 
     /**
      * Property key for AdoptOpenJDK build of OpenJDK.
@@ -116,6 +121,21 @@ public enum Analysis {
      * Property key for Red Hat build of OpenJDK Windows zip install.
      */
     INFO_RH_BUILD_WINDOWS_ZIP("info.rh.build.windows.zip"),
+
+    /**
+     * Property key for SIGBUS crash.
+     */
+    INFO_SIGBUS("info.sigbus"),
+
+    /**
+     * Property key for SIGBUS crash on linux.
+     */
+    INFO_SIGBUS_LINUX("info.sigbus.linux"),
+
+    /**
+     * Property key for SIGSEGV crash.
+     */
+    INFO_SIGSEGV("info.sigsegv"),
 
     /**
      * Property key for the stack not containing any VM code.

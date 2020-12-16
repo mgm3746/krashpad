@@ -89,7 +89,7 @@ public class JdkUtil {
      * Defined crash reasons.
      * 
      * SIGBUS: Invalid memory address. Accessing a memory address that has an invalid address alignment for the CPU
-     * (BUS_ADRALN). does not exist (BUS_ADRERR). or has a hardware issue (BUS_OBJERR). BUS_ADRERR is rare on Linux but
+     * (BUS_ADRALN), does not exist (BUS_ADRERR), or has a hardware issue (BUS_OBJERR). BUS_ADRERR is rare on Linux but
      * can happen when an mmap'ed file is truncated (e.g. a threading issue where 2 threads access a file at the same
      * time).
      * 
@@ -99,7 +99,7 @@ public class JdkUtil {
      */
     public enum CrashCause {
         //
-        SIGBUS, SIGSEGV, UNKNOWN
+        SIGBUS, SIGILL, SIGSEGV, UNKNOWN
     ***REMOVED***
 
     /**
@@ -122,7 +122,7 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BLANK_LINE, CODE_CACHE, COMPILATION, CPU_INFO, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY,
+        BLANK_LINE, CODE_CACHE, COMPILATION, CPU, CPU_INFO, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY,
         //
         ELAPSED_TIME, EXCEPTION_EVENT, HEADER, HEAP, HEAP_REGIONS, JVM_ARGS, MEMORY, OS, STACK, THREAD, TIME,
         //

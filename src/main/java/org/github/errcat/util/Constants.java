@@ -28,8 +28,7 @@ public class Constants {
      * Defined CPU architectures.
      */
     public enum CpuArch {
-        POWER8, POWER9, UNKNOWN, //
-        X86_64
+        POWER8, POWER9, UNKNOWN, X86_64
     ***REMOVED***
 
     /**

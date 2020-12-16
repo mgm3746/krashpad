@@ -276,6 +276,9 @@ public class Main {
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             printWriter.write("Version: " + fel.getOsString() + Constants.LINE_SEPARATOR);
             printWriter.write("ARCH: " + fel.getArch() + Constants.LINE_SEPARATOR);
+            if (fel.getCpuCores() > Integer.MIN_VALUE) {
+                printWriter.write("CPU Cores: " + fel.getCpuCores() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
             if (fel.getPhysicalMemory() > 0) {
                 printWriter.write("Memory: " + fel.getPhysicalMemory() + "K" + Constants.LINE_SEPARATOR);
                 printWriter.write("Memory Free: " + fel.getPhysicalMemoryFree() + "K" + " ("

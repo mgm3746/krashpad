@@ -39,6 +39,25 @@ public class TestCpuInfoEvent extends TestCase {
                 JdkUtil.parseLogLine(logLine) instanceof CpuInfoEvent);
     ***REMOVED***
 
+    public void testCpuHeaderWithoutCoresWithoutThreads() {
+        String logLine = "CPU:total 160 (initial active 160) ppc64 fsqrt isel lxarxeh cmpb popcntb popcntw fcfids vand "
+                + "aes vpmsumb mfdscr vsx sha";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CpuInfoEvent);
+        CpuInfoEvent event = new CpuInfoEvent(logLine);
+        Assert.assertTrue("CPU header not identified.", event.isCpuHeader());
+    ***REMOVED***
+
+    public void testCpuHeaderWithCoresWithThreads() {
+        String logLine = "CPU:total 8 (initial active 8) (1 cores per cpu, 1 threads per core) family 6 model 94 "
+                + "stepping 3, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, "
+                + "clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx, fma";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CpuInfoEvent);
+        CpuInfoEvent event = new CpuInfoEvent(logLine);
+        Assert.assertTrue("CPU header not identified.", event.isCpuHeader());
+    ***REMOVED***
+
     public void testCpuInfo() {
         String logLine = "***REMOVED***";
         Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not parsed.",
@@ -117,7 +136,7 @@ public class TestCpuInfoEvent extends TestCase {
                 JdkUtil.parseLogLine(logLine) instanceof CpuInfoEvent);
     ***REMOVED***
 
-    public void testCpuModelFamily() {
+    public void testCpuModelName() {
         String logLine = "model name      : Intel(R) Core(TM) i7-7600U CPU @ 2.80GHz";
         Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof CpuInfoEvent);

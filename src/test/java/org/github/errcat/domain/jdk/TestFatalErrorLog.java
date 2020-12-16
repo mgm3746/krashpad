@@ -297,6 +297,7 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Metaspace max size not correct.", 1183744, fel.getMetaspaceMaxSize());
         Assert.assertEquals("Metaspace allocation not correct.", 155992, fel.getMetaspaceAllocation());
         Assert.assertEquals("Metaspace used not correct.", 139716, fel.getMetaspaceUsed());
+        Assert.assertEquals("CPU cores not correct.", 8, fel.getCpuCores());
     ***REMOVED***
 
     public void testShenandoah() {
@@ -314,6 +315,7 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Metaspace allocation not correct.", 277632, fel.getMetaspaceAllocation());
         Assert.assertEquals("Metaspace used not correct.", 257753, fel.getMetaspaceUsed());
         Assert.assertEquals("Application not correct.", Application.JBOSS, fel.getApplication());
+        Assert.assertEquals("CPU cores not correct.", 16, fel.getCpuCores());
         Assert.assertTrue(Analysis.INFO_SWAP_DISABLED + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
         Assert.assertTrue(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER + " analysis not identified.",
@@ -334,5 +336,6 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Metaspace max size not correct.", 1189888, fel.getMetaspaceMaxSize());
         Assert.assertEquals("Metaspace allocation not correct.", 159168, fel.getMetaspaceAllocation());
         Assert.assertEquals("Metaspace used not correct.", 147896, fel.getMetaspaceUsed());
+        Assert.assertEquals("CPU cores not correct.", 8, fel.getCpuCores());
     ***REMOVED***
 ***REMOVED***
