@@ -43,6 +43,11 @@ public enum Analysis {
     ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9("error.jdk8.rhel7.power8.rpm.on.power9"),
 
     /**
+     * Property key for ShenadoahRootUpdater bug fixed in OpenJDK8 u282.
+     */
+    ERROR_JDK8_SHENANDOAH_ROOT_UPDATER("error.jdk8.shenandoah.root.updater"),
+
+    /**
      * Property key for a crash in JDK8 when a file is attempting to be modified while Java has it open.
      */
     ERROR_JDK8_ZIPFILE_CONTENTION("error.jdk8.zipfile.contention"),
@@ -76,6 +81,11 @@ public enum Analysis {
      * Property key for a JDK that is more than 1 year older than the latest release.
      */
     INFO_JDK_ANCIENT("info.jdk.ancient"),
+
+    /**
+     * Property key for crash on JVM startup.
+     */
+    INFO_JVM_STARTUP_FAILS("info.jvm.startup.fails"),
 
     /**
      * Property key for Red Hat build of OpenJDK on CentOS.

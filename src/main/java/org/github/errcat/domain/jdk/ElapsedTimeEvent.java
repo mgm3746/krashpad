@@ -31,8 +31,20 @@ import org.github.errcat.util.jdk.JdkUtil;
  * 
  * <h3>Example Logging</h3>
  * 
+ * <p>
+ * 1) Whole number of seconds:
+ * </p>
+ * 
  * <pre>
  * elapsed time: 855185 seconds (9d 21h 33m 4s)
+ * </pre>
+ * 
+ * <p>
+ * 2) Fractional seconds:
+ * </p>
+ * 
+ * <pre>
+ * elapsed time: 0.606413 seconds (0d 0h 0m 0s)
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -43,7 +55,7 @@ public class ElapsedTimeEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^elapsed time: \\d{1,10} seconds \\((\\d{1,4}d \\d{1,2}h \\d{1,2}m"
+    private static final String REGEX = "^elapsed time: \\d{1,10}(\\.\\d{6})? seconds \\((\\d{1,4}d \\d{1,2}h \\d{1,2}m"
             + " \\d{1,2}s)\\)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
@@ -75,7 +87,7 @@ public class ElapsedTimeEvent implements LogEvent {
         String timezone = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            timezone = matcher.group(1);
+            timezone = matcher.group(2);
         }
         return timezone;
     }

@@ -23,33 +23,35 @@ import junit.framework.TestCase;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestElapsedTimeEvent extends TestCase {
+public class TestCodeCacheEvent extends TestCase {
 
     public void testIdentity() {
-        String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
-        Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ELAPSED_TIME);
+        String logLine = "CodeCache: size=245760Kb used=145576Kb max_used=178661Kb free=100183Kb";
+        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CODE_CACHE);
     }
 
     public void testParseLogLine() {
-        String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
-        Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof ElapsedTimeEvent);
+        String logLine = "CodeCache: size=245760Kb used=145576Kb max_used=178661Kb free=100183Kb";
+        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CodeCacheEvent);
     }
 
-    public void testTimezone() {
-        String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
-        Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ELAPSED_TIME);
-        ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
-        Assert.assertEquals("Elapsed time not correct.", "9d 21h 33m 5s", event.getElapsedTime());
+    public void testBounds() {
+        String logLine = " bounds [0x00007ffb8051b000, 0x00007ffb8b60b000, 0x00007ffb8f51b000]";
+        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CodeCacheEvent);
     }
 
-    public void testZero() {
-        String logLine = "elapsed time: 0.606413 seconds (0d 0h 0m 0s)";
-        Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ELAPSED_TIME);
-        ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
-        Assert.assertEquals("Elapsed time not correct.", "0d 0h 0m 0s", event.getElapsedTime());
+    public void testTotalBlobs() {
+        String logLine = " total_blobs=24995 nmethods=23856 adapters=1049";
+        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CodeCacheEvent);
+    }
+
+    public void testCompilation() {
+        String logLine = " compilation: enabled";
+        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CodeCacheEvent);
     }
 }
