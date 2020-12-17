@@ -26,6 +26,11 @@ import org.github.errcat.util.ErrUtil;
 public enum Analysis {
 
     /**
+     * Property key for a crash in BufferBlob::flush_icache_stub.
+     */
+    ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB("error.bufferblob.flush_icache_stub"),
+
+    /**
      * Property key for a crash due to multiple threads access DirectByteBuffer at the same time.
      */
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),

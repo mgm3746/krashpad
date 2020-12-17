@@ -66,9 +66,27 @@ public class JdkRegEx {
     /**
      * Major ID and minor ID of the device where the file is located.
      * 
-     * For example: fd:0d
+     * Reference: https://www.kernel.org/doc/Documentation/admin-guide/devices.txt
+     * 
+     * For example:
+     * 
+     * <p>
+     * 1) Fixed disk:
+     * </p>
+     * 
+     * <pre>
+     * fd:0d
+     * </pre>
+     * 
+     * <p>
+     * 2) AWS block storage:
+     * </p>
+     * 
+     * <pre>
+     * 103:03
+     * </pre>
      */
-    public static final String DEVICE_IDS = "([0-9a-f]{2***REMOVED***:[0-9a-f]{2***REMOVED***)";
+    public static final String DEVICE_IDS = "([0-9a-f]{2,3***REMOVED***:[0-9a-f]{2***REMOVED***)";
 
     /**
      * Memory map file path.

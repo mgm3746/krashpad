@@ -23,6 +23,7 @@ import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkUtil.Application;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
+import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
 import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
 import org.junit.Assert;
 
@@ -337,5 +338,19 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Metaspace allocation not correct.", 159168, fel.getMetaspaceAllocation());
         Assert.assertEquals("Metaspace used not correct.", 147896, fel.getMetaspaceUsed());
         Assert.assertEquals("CPU cores not correct.", 8, fel.getCpuCores());
+    ***REMOVED***
+
+    public void testAws() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset34.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Java specification not correct.", JavaSpecification.JDK8, fel.getJavaSpecification());
+        Assert.assertEquals("Rpm directory not correct.", "java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64",
+                fel.getRpmDirectory());
+        Assert.assertTrue("RH rpm install not identified.", fel.isRhRpmInstall());
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_RPM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
+        Assert.assertTrue(Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB));
     ***REMOVED***
 ***REMOVED***

@@ -1446,6 +1446,10 @@ public class FatalErrorLog {
                 && getStackFrameTop().matches("^C  \\[libpthread\\.so.+\\]  pthread_getcpuclockid.+$")) {
             analysis.add(Analysis.ERROR_PTHREAD_GETCPUCLOCKID);
         ***REMOVED***
+        // BufferBlob::flush_icache_stub
+        if (getStackFrameTop() != null && getStackFrameTop().matches("^v  ~BufferBlob::flush_icache_stub+$")) {
+            analysis.add(Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB);
+        ***REMOVED***
     ***REMOVED***
 
     /**

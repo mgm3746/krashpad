@@ -91,4 +91,15 @@ public class TestDynamicLibraryEvent extends TestCase {
                 "/usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so", event.getFilePath());
     ***REMOVED***
 
+    public void testAws() {
+        String logLine = "7ffafebb0000-7ffafedb0000 ---p 00d91000 103:03 51649                     "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
+        Assert.assertTrue(JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof DynamicLibraryEvent);
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        Assert.assertEquals("File path not correct.",
+                "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so",
+                event.getFilePath());
+    ***REMOVED***
+
 ***REMOVED***
