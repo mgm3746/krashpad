@@ -33,6 +33,7 @@ import org.github.errcat.domain.jdk.CurrentThreadEvent;
 import org.github.errcat.domain.jdk.DeoptimizationEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.ElapsedTimeEvent;
+import org.github.errcat.domain.jdk.ExceptionCountsEvent;
 import org.github.errcat.domain.jdk.ExceptionEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
@@ -124,9 +125,9 @@ public class JdkUtil {
         //
         BLANK_LINE, CODE_CACHE, COMPILATION, CPU, CPU_INFO, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY,
         //
-        ELAPSED_TIME, EXCEPTION_EVENT, HEADER, HEAP, HEAP_REGIONS, JVM_ARGS, MEMORY, OS, STACK, THREAD, TIME,
+        ELAPSED_TIME, EXCEPTION_COUNTS, EXCEPTION_EVENT, HEADER, HEAP, HEAP_REGIONS, JVM_ARGS, MEMORY, OS,
         //
-        TIMEZONE, UNAME, UNKNOWN, VM_EVENT, VM_INFO,
+        STACK, THREAD, TIME, TIMEZONE, UNAME, UNKNOWN, VM_EVENT, VM_INFO,
     ***REMOVED***
 
     /**
@@ -200,7 +201,7 @@ public class JdkUtil {
         rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-0.el6_10.x86_64",
                 new Release("Oct 20 2020 23:38:03", 29, "1.8.0_272-b10"));
         rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-0.el6_10.x86_64",
-                new Release("Jul 29 2020 00:00:00", 28, "1.8.0_265-b01"));
+                new Release("Jul 29 2020 03:46:33", 28, "1.8.0_265-b01"));
         rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64",
                 new Release("Jul 12 2020 19:35:32", 27, "1.8.0_262-b10"));
         rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.252.b09-2.el6_10.x86_64",
@@ -768,6 +769,8 @@ public class JdkUtil {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
         ***REMOVED*** else if (ElapsedTimeEvent.match(logLine)) {
             logEventType = LogEventType.ELAPSED_TIME;
+        ***REMOVED*** else if (ExceptionCountsEvent.match(logLine)) {
+            logEventType = LogEventType.EXCEPTION_COUNTS;
         ***REMOVED*** else if (ExceptionEvent.match(logLine)) {
             logEventType = LogEventType.EXCEPTION_EVENT;
         ***REMOVED*** else if (HeaderEvent.match(logLine)) {
@@ -851,6 +854,9 @@ public class JdkUtil {
             break;
         case ELAPSED_TIME:
             event = new ElapsedTimeEvent(logLine);
+            break;
+        case EXCEPTION_COUNTS:
+            event = new ExceptionCountsEvent(logLine);
             break;
         case EXCEPTION_EVENT:
             event = new ExceptionEvent(logLine);

@@ -30,6 +30,7 @@ import org.github.errcat.domain.jdk.CurrentThreadEvent;
 import org.github.errcat.domain.jdk.DeoptimizationEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.ElapsedTimeEvent;
+import org.github.errcat.domain.jdk.ExceptionCountsEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.HeapEvent;
@@ -96,6 +97,8 @@ public class Manager {
                         fatalErrorLog.getDynamicLibraryEvents().add((DynamicLibraryEvent) event);
                     ***REMOVED*** else if (event instanceof ElapsedTimeEvent) {
                         fatalErrorLog.setElapsedTimeEvent((ElapsedTimeEvent) event);
+                    ***REMOVED*** else if (event instanceof ExceptionCountsEvent) {
+                        fatalErrorLog.getExceptionCountsEvents().add((ExceptionCountsEvent) event);
                     ***REMOVED*** else if (event instanceof HeaderEvent) {
                         fatalErrorLog.getHeaderEvents().add((HeaderEvent) event);
                     ***REMOVED*** else if (event instanceof HeapEvent) {

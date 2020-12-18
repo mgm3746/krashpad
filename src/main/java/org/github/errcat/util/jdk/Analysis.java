@@ -68,6 +68,11 @@ public enum Analysis {
     ERROR_JNA_RH("error.jna.rh"),
 
     /**
+     * Property key for OutOfMemoryError Java heap space.
+     */
+    ERROR_OOME_JAVA_HEAP("error.oome.java.heap"),
+
+    /**
      * Property key for crash trying to allocate memory when heap + metaspace much less than physical memory.
      */
     ERROR_OOME_JVM_LT_PHYSICAL_MEMORY("error.oome.jvm.lt.physical.memory"),
@@ -81,6 +86,11 @@ public enum Analysis {
      * Property key for error calling pthread_getcpuclockid
      */
     ERROR_PTHREAD_GETCPUCLOCKID("error.pthread.getcpuclockid"),
+
+    /**
+     * Property key for StackOverflowError.
+     */
+    ERROR_STACKOVERFLOW("error.stackoverflow"),
 
     /**
      * Property key for AdoptOpenJDK build of OpenJDK.

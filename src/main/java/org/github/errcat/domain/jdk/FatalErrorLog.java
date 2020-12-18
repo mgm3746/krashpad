@@ -138,6 +138,11 @@ public class FatalErrorLog {
     private JvmArgsEvent jvmArgsEvent;
 
     /**
+     * Exception counts information.
+     */
+    private List<ExceptionCountsEvent> exceptionCountsEvents;
+
+    /**
      * Log lines that do not match any existing logging patterns.
      */
     private List<String> unidentifiedLogLines;
@@ -162,6 +167,7 @@ public class FatalErrorLog {
         deoptimizationEvents = new ArrayList<DeoptimizationEvent>();
         vmEvents = new ArrayList<VmEvent>();
         heapEvents = new ArrayList<HeapEvent>();
+        exceptionCountsEvents = new ArrayList<ExceptionCountsEvent>();
     ***REMOVED***
 
     public void setVmInfoEvent(VmInfoEvent vmInfoEvent) {
@@ -258,6 +264,10 @@ public class FatalErrorLog {
 
     public void setJvmArgsEvent(JvmArgsEvent jvmArgsEvent) {
         this.jvmArgsEvent = jvmArgsEvent;
+    ***REMOVED***
+
+    public List<ExceptionCountsEvent> getExceptionCountsEvents() {
+        return exceptionCountsEvents;
     ***REMOVED***
 
     /**
@@ -1308,6 +1318,44 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return true if there were StackOverflowErrors before the crash, false otherwise.
+     */
+    public boolean haveStackOverFlowError() {
+        boolean haveStackOverFlowError = false;
+        if (exceptionCountsEvents.size() > 0) {
+            Iterator<ExceptionCountsEvent> iteratorExceptionCounts = exceptionCountsEvents.iterator();
+            while (iteratorExceptionCounts.hasNext()) {
+                ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
+                if (!exceptionCountsEvent.isHeader()
+                        && exceptionCountsEvent.getLogEntry().matches("^StackOverflowErrors=\\d{1,***REMOVED***$")) {
+                    haveStackOverFlowError = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return haveStackOverFlowError;
+    ***REMOVED***
+
+    /**
+     * @return true if there were OutOfMemoryError: Java heap space before the crash, false otherwise.
+     */
+    public boolean haveOomeJavaHeap() {
+        boolean haveStackOverFlowError = false;
+        if (exceptionCountsEvents.size() > 0) {
+            Iterator<ExceptionCountsEvent> iteratorExceptionCounts = exceptionCountsEvents.iterator();
+            while (iteratorExceptionCounts.hasNext()) {
+                ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
+                if (!exceptionCountsEvent.isHeader()
+                        && exceptionCountsEvent.getLogEntry().matches("^OutOfMemoryError java_heap_errors=\\d{1,***REMOVED***$")) {
+                    haveStackOverFlowError = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return haveStackOverFlowError;
+    ***REMOVED***
+
+    /**
      * Do analysis.
      */
     public void doAnalysis() {
@@ -1449,6 +1497,14 @@ public class FatalErrorLog {
         // BufferBlob::flush_icache_stub
         if (getStackFrameTop() != null && getStackFrameTop().matches("^v  ~BufferBlob::flush_icache_stub+$")) {
             analysis.add(Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB);
+        ***REMOVED***
+        // StackOverflowError
+        if (haveStackOverFlowError()) {
+            analysis.add(Analysis.ERROR_STACKOVERFLOW);
+        ***REMOVED***
+        // OutOfMemoryError: Java heap space
+        if (haveOomeJavaHeap()) {
+            analysis.add(Analysis.ERROR_OOME_JAVA_HEAP);
         ***REMOVED***
     ***REMOVED***
 

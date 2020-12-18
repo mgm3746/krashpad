@@ -41,6 +41,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.github.errcat.domain.jdk.ExceptionCountsEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.service.Manager;
@@ -343,8 +344,17 @@ public class Main {
 
             if (!fel.getError().equals("")) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                printWriter.write("Error:" + Constants.LINE_SEPARATOR);
+                printWriter.write("Error(s):" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                if (fel.getExceptionCountsEvents().size() > 0) {
+                    Iterator<ExceptionCountsEvent> iteratorExceptionCounts = fel.getExceptionCountsEvents().iterator();
+                    while (iteratorExceptionCounts.hasNext()) {
+                        ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
+                        if (!exceptionCountsEvent.isHeader()) {
+                            printWriter.write(exceptionCountsEvent.getLogEntry() + Constants.LINE_SEPARATOR);
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
                 printWriter.write(fel.getError() + Constants.LINE_SEPARATOR);
             ***REMOVED***
 
@@ -352,11 +362,11 @@ public class Main {
             printWriter.write("Stack:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             List<StackEvent> stack = fel.getStackEvents();
-            Iterator<StackEvent> iterator1 = stack.iterator();
+            Iterator<StackEvent> iteratorStackEvents = stack.iterator();
             // Limit stack output for report readability
             int stackLength = 0;
-            while (iterator1.hasNext() && stackLength < 10) {
-                StackEvent se = iterator1.next();
+            while (iteratorStackEvents.hasNext() && stackLength < 10) {
+                StackEvent se = iteratorStackEvents.next();
                 printWriter.write(se.getLogEntry() + Constants.LINE_SEPARATOR);
                 stackLength++;
             ***REMOVED***
@@ -374,9 +384,9 @@ public class Main {
                 List<Analysis> warn = new ArrayList<Analysis>();
                 List<Analysis> info = new ArrayList<Analysis>();
 
-                Iterator<Analysis> iterator2 = analysis.iterator();
-                while (iterator2.hasNext()) {
-                    Analysis a = iterator2.next();
+                Iterator<Analysis> iteratorAnalysis = analysis.iterator();
+                while (iteratorAnalysis.hasNext()) {
+                    Analysis a = iteratorAnalysis.next();
                     String level = a.getKey().split("\\.")[0];
                     if (level.equals("error")) {
                         error.add(a);
@@ -389,32 +399,32 @@ public class Main {
 
                 printWriter.write("ANALYSIS:" + Constants.LINE_SEPARATOR);
 
-                iterator2 = error.iterator();
+                iteratorAnalysis = error.iterator();
                 boolean printHeader = true;
                 // ERROR
-                while (iterator2.hasNext()) {
+                while (iteratorAnalysis.hasNext()) {
                     if (printHeader) {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                         printWriter.write("error" + Constants.LINE_SEPARATOR);
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     printHeader = false;
-                    Analysis a = iterator2.next();
+                    Analysis a = iteratorAnalysis.next();
                     printWriter.write("*");
                     printWriter.write(a.getValue());
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 // WARN
-                iterator2 = warn.iterator();
+                iteratorAnalysis = warn.iterator();
                 printHeader = true;
-                while (iterator2.hasNext()) {
+                while (iteratorAnalysis.hasNext()) {
                     if (printHeader) {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                         printWriter.write("warn" + Constants.LINE_SEPARATOR);
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     printHeader = false;
-                    Analysis a = iterator2.next();
+                    Analysis a = iteratorAnalysis.next();
                     printWriter.write("*");
                     printWriter.write(a.getValue());
                     if (a.equals(Analysis.WARN_JDK_NOT_LATEST)) {
@@ -444,16 +454,16 @@ public class Main {
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 // INFO
-                iterator2 = info.iterator();
+                iteratorAnalysis = info.iterator();
                 printHeader = true;
-                while (iterator2.hasNext()) {
+                while (iteratorAnalysis.hasNext()) {
                     if (printHeader) {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                         printWriter.write("info" + Constants.LINE_SEPARATOR);
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     printHeader = false;
-                    Analysis a = iterator2.next();
+                    Analysis a = iteratorAnalysis.next();
                     printWriter.write("*");
                     printWriter.write(a.getValue());
                     printWriter.write(Constants.LINE_SEPARATOR);

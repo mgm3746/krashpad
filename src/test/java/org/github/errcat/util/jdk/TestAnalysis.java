@@ -208,4 +208,20 @@ public class TestAnalysis extends TestCase {
         Assert.assertTrue(Analysis.INFO_SIGSEGV + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_SIGSEGV));
     ***REMOVED***
+
+    public void testStackOverflowError() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset35.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_STACKOVERFLOW + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_STACKOVERFLOW));
+    ***REMOVED***
+
+    public void testOomeJavaHeap() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset36.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_OOME_JAVA_HEAP + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_OOME_JAVA_HEAP));
+    ***REMOVED***
 ***REMOVED***
