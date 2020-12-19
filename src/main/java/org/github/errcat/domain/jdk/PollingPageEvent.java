@@ -15,37 +15,34 @@
 package org.github.errcat.domain.jdk;
 
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * DEOPTIMIZATION_EVENT
+ * POLLING_PAGE
  * </p>
  * 
  * <p>
- * Deoptimization information when the compiler has to recompile previously compiled code due to the compiled code no
- * longer being valid (e.g. a dynamic object has changed) or with tiered compilation when client compiled code is
- * replaced with server compiled code.
+ * Polling page information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * Deoptimization events (250 events):
- * Event: 5688.682 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff0dd93860c method=org.eclipse.swt.custom.StyledTextRenderer.disposeTextLayout(Lorg/eclipse/swt/graphics/TextLayout;)V @ 39
+ * Polling page: 0x00007fcbd1b68000
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class DeoptimizationEvent implements LogEvent {
+public class PollingPageEvent implements LogEvent, ThrowAwayEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " Uncommon trap).+$";
+    private static final String REGEX = "^Polling page: " + JdkRegEx.ADDRESS + "$";
 
     /**
      * The log entry for the event.
@@ -58,7 +55,7 @@ public class DeoptimizationEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public DeoptimizationEvent(String logEntry) {
+    public PollingPageEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -67,7 +64,7 @@ public class DeoptimizationEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString();
+        return JdkUtil.LogEventType.POLLING_PAGE.toString();
     }
 
     /**

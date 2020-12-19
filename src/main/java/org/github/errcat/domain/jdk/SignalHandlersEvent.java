@@ -15,37 +15,51 @@
 package org.github.errcat.domain.jdk;
 
 import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.jdk.JdkRegEx;
+import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * DEOPTIMIZATION_EVENT
+ * SIGNAL_HANDLERS
  * </p>
  * 
  * <p>
- * Deoptimization information when the compiler has to recompile previously compiled code due to the compiled code no
- * longer being valid (e.g. a dynamic object has changed) or with tiered compilation when client compiled code is
- * replaced with server compiled code.
+ * Signal handlers information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * Deoptimization events (250 events):
- * Event: 5688.682 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff0dd93860c method=org.eclipse.swt.custom.StyledTextRenderer.disposeTextLayout(Lorg/eclipse/swt/graphics/TextLayout;)V @ 39
+ * Signal Handlers:
+ * SIGSEGV: [libjvm.so+0xb73090], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGBUS: [libjvm.so+0xb73090], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGFPE: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGPIPE: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+ * SIGXFSZ: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGILL: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+ * SIGUSR2: [libjvm.so+0x9628d0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+ * SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+ * SIGTERM: [libjvm.so+0x964430], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGQUIT: [libjvm.so+0x964430], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGIN
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class DeoptimizationEvent implements LogEvent {
+public class SignalHandlersEvent implements LogEvent, ThrowAwayEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "Signal Handlers:";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " Uncommon trap).+$";
+    private static final String REGEX = "^(" + REGEX_HEADER
+            + "|SIGSEGV|SIGBUS|SIGFPE|SIGPIPE|SIGXFSZ|SIGILL|SIGUSR1|SIGUSR2|SIGHUP|SIGINT|SIGTERM|SIGQUIT).*$";
 
     /**
      * The log entry for the event.
@@ -58,7 +72,7 @@ public class DeoptimizationEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public DeoptimizationEvent(String logEntry) {
+    public SignalHandlersEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -67,7 +81,7 @@ public class DeoptimizationEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString();
+        return JdkUtil.LogEventType.SIGNAL_HANDLERS.toString();
     }
 
     /**

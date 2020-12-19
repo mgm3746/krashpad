@@ -15,6 +15,8 @@
 package org.github.errcat.domain.jdk;
 
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.SignalCode;
+import org.github.errcat.util.jdk.JdkUtil.SignalNumber;
 import org.junit.Assert;
 
 import junit.framework.TestCase;
@@ -23,30 +25,24 @@ import junit.framework.TestCase;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestJvmArgsEvent extends TestCase {
+public class TestSigInfoEvent extends TestCase {
 
     public void testIdentity() {
-        String logLine = "jvm_args: -Xloggc:gc.log -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Xms512m "
-                + "-Xmx1024m -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=detail -XX:+PrintNMTStatistics "
-                + "-Dosgi.instance.area.default=@user.home/workspace";
-        Assert.assertTrue(JdkUtil.LogEventType.JVM_ARGS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.JVM_ARGS);
+        String logLine = "siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000008";
+        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.SIGINFO);
     }
 
     public void testParseLogLine() {
-        String logLine = "jvm_args: -Xloggc:gc.log -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Xms512m "
-                + "-Xmx1024m -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=detail -XX:+PrintNMTStatistics "
-                + "-Dosgi.instance.area.default=@user.home/workspace";
-        Assert.assertTrue(JdkUtil.LogEventType.JVM_ARGS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof JvmArgsEvent);
+        String logLine = "siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000008";
+        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof SigInfoEvent);
     }
 
-    public void testMaxValues() {
-        String logLine = "jvm_args: -Xloggc:gc.log -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Xms512m "
-                + "-Xmx1024m -XX:MaxMetaspaceSize=2M -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=detail "
-                + "-XX:+PrintNMTStatistics -Dosgi.instance.area.default=@user.home/workspace";
-        JvmArgsEvent event = new JvmArgsEvent(logLine);
-        Assert.assertEquals("Heap max not correct.", "1024m", event.getMaxHeapValue());
-        Assert.assertEquals("Metaspace max not correct.", "2M", event.getMaxMetaspaceValue());
+    public void testSigsegvSegvMaperr() {
+        String logLine = "siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000008";
+        SigInfoEvent event = new SigInfoEvent(logLine);
+        Assert.assertEquals("Signal number not correct.", SignalNumber.SIGSEGV, event.getSignalNumber());
+        Assert.assertEquals("Signal code not correct.", SignalCode.SEGV_MAPERR, event.getSignalCode());
     }
 }

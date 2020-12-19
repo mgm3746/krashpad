@@ -86,7 +86,8 @@ public class HeapEvent implements LogEvent {
             + " garbage-first heap|GC Heap History|Event: " + JdkRegEx.TIMESTAMP
             + " GC heap (after|before)|\\{Heap before GC|Heap:|Heap after GC| Metaspace|  object| par new | ParOldGen|"
             + " PSYoungGen|  region size| \\d{1,5} x " + JdkRegEx.SIZE
-            + " regions|Reserved region:|Shenandoah Heap|Status:|  to| " + JdkRegEx.SIZE + " total|}| - )(.*)$";
+            + " regions|Reserved region:|Shenandoah Heap|Status:|  to| " + JdkRegEx.SIZE
+            + " total|}| - (\\[|map))(.*)$";
 
     /**
      * Regular expression for the heap at crash header.

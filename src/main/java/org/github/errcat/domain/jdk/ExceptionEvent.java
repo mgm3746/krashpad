@@ -42,8 +42,8 @@ public class ExceptionEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Internal exceptions|Event: " + JdkRegEx.TIMESTAMP + " Thread ("
-            + JdkRegEx.ADDRESS64 + "|" + JdkRegEx.ADDRESS32 + ") Exception).+$";
+    private static final String REGEX = "^(Internal exceptions|Event: " + JdkRegEx.TIMESTAMP + " Thread "
+            + JdkRegEx.ADDRESS + " Exception).+$";
 
     /**
      * The log entry for the event.

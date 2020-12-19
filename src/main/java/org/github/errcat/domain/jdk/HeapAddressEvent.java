@@ -15,37 +15,39 @@
 package org.github.errcat.domain.jdk;
 
 import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * DEOPTIMIZATION_EVENT
+ * HEAP_ADDRESS
  * </p>
  * 
  * <p>
- * Deoptimization information when the compiler has to recompile previously compiled code due to the compiled code no
- * longer being valid (e.g. a dynamic object has changed) or with tiered compilation when client compiled code is
- * replaced with server compiled code.
+ * VM mutex/monitor information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * Deoptimization events (250 events):
- * Event: 5688.682 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff0dd93860c method=org.eclipse.swt.custom.StyledTextRenderer.disposeTextLayout(Lorg/eclipse/swt/graphics/TextLayout;)V @ 39
+ * heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+ * Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
+ * Compressed class space size: 1073741824 Address: 0x00000007c0000000
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class DeoptimizationEvent implements LogEvent {
+public class HeapAddressEvent implements LogEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "heap address:";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " Uncommon trap).+$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|Narrow klass base:|Compressed class space size:).*$";
 
     /**
      * The log entry for the event.
@@ -58,7 +60,7 @@ public class DeoptimizationEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public DeoptimizationEvent(String logEntry) {
+    public HeapAddressEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -67,7 +69,7 @@ public class DeoptimizationEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString();
+        return JdkUtil.LogEventType.HEAP_ADDRESS.toString();
     }
 
     /**

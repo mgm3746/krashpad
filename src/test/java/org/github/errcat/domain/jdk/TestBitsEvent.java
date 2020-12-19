@@ -14,70 +14,38 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * DEOPTIMIZATION_EVENT
- * </p>
- * 
- * <p>
- * Deoptimization information when the compiler has to recompile previously compiled code due to the compiled code no
- * longer being valid (e.g. a dynamic object has changed) or with tiered compilation when client compiled code is
- * replaced with server compiled code.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * Deoptimization events (250 events):
- * Event: 5688.682 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff0dd93860c method=org.eclipse.swt.custom.StyledTextRenderer.disposeTextLayout(Lorg/eclipse/swt/graphics/TextLayout;)V @ 39
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class DeoptimizationEvent implements LogEvent {
+public class TestBitsEvent extends TestCase {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " Uncommon trap).+$";
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public DeoptimizationEvent(String logEntry) {
-        this.logEntry = logEntry;
+    public void testIdentity() {
+        String logLine = " Bits: [0x00007f677d83f000, 0x00007f6900a58c00)";
+        Assert.assertTrue(JdkUtil.LogEventType.BITS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.BITS);
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    public void testParseLogLine() {
+        String logLine = " Bits: [0x00007f677d83f000, 0x00007f6900a58c00)";
+        Assert.assertTrue(JdkUtil.LogEventType.BITS.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof BitsEvent);
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString();
+    public void testHeaderMarkingBits() {
+        String logLine = "Marking Bits: (CMSBitMap*) 0x00007fcbc8249ce8";
+        Assert.assertTrue(JdkUtil.LogEventType.BITS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.BITS);
     }
 
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public void testHeaderModUnionTable() {
+        String logLine = "Mod Union Table: (CMSBitMap*) 0x00007fcbc8249da8";
+        Assert.assertTrue(JdkUtil.LogEventType.BITS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.BITS);
     }
 }

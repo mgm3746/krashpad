@@ -15,37 +15,46 @@
 package org.github.errcat.domain.jdk;
 
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * DEOPTIMIZATION_EVENT
+ * INSTRUCTIONS
  * </p>
  * 
  * <p>
- * Deoptimization information when the compiler has to recompile previously compiled code due to the compiled code no
- * longer being valid (e.g. a dynamic object has changed) or with tiered compilation when client compiled code is
- * replaced with server compiled code.
+ * Instructions information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * Deoptimization events (250 events):
- * Event: 5688.682 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff0dd93860c method=org.eclipse.swt.custom.StyledTextRenderer.disposeTextLayout(Lorg/eclipse/swt/graphics/TextLayout;)V @ 39
+ * Instructions: (pc=0x00007fcbd05a3b71)
+ * 0x00007fcbd05a3b51:   5d c3 0f 1f 44 00 00 48 8d 35 01 db 4c 00 bf 03
+ * 0x00007fcbd05a3b61:   00 00 00 e8 47 b3 12 00 eb 9d 0f 1f 44 00 00 55
+ * 0x00007fcbd05a3b71:   8b 46 08 48 89 f2 48 89 e5 83 f8 00 7e 11 a8 01
+ * 0x00007fcbd05a3b81:   75 0f c1 f8 03 5d c3 0f 1f 84 00 00 00 00 00 75
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class DeoptimizationEvent implements LogEvent {
+public class InstructionsEvent implements LogEvent, ThrowAwayEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "Instructions: \\(pc=" + JdkRegEx.ADDRESS + "\\)";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " Uncommon trap).+$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|" + JdkRegEx.ADDRESS
+            + ":   [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2}"
+            + " [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2}"
+            + "[ ]{0,1})$";
 
     /**
      * The log entry for the event.
@@ -58,7 +67,7 @@ public class DeoptimizationEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public DeoptimizationEvent(String logEntry) {
+    public InstructionsEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -67,7 +76,7 @@ public class DeoptimizationEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString();
+        return JdkUtil.LogEventType.INSTRUCTIONS.toString();
     }
 
     /**

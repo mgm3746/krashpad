@@ -14,70 +14,44 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * DEOPTIMIZATION_EVENT
- * </p>
- * 
- * <p>
- * Deoptimization information when the compiler has to recompile previously compiled code due to the compiled code no
- * longer being valid (e.g. a dynamic object has changed) or with tiered compilation when client compiled code is
- * replaced with server compiled code.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * Deoptimization events (250 events):
- * Event: 5688.682 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff0dd93860c method=org.eclipse.swt.custom.StyledTextRenderer.disposeTextLayout(Lorg/eclipse/swt/graphics/TextLayout;)V @ 39
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class DeoptimizationEvent implements LogEvent {
+public class TestInstructionsEvent extends TestCase {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " Uncommon trap).+$";
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public DeoptimizationEvent(String logEntry) {
-        this.logEntry = logEntry;
+    public void testIdentity() {
+        String logLine = "0x00007fcbd05a3b51:   5d c3 0f 1f 44 00 00 48 8d 35 01 db 4c 00 bf 03";
+        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.INSTRUCTIONS);
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    public void testParseLogLine() {
+        String logLine = "0x00007fcbd05a3b51:   5d c3 0f 1f 44 00 00 48 8d 35 01 db 4c 00 bf 03";
+        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof InstructionsEvent);
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString();
+    public void testHeader() {
+        String logLine = "Instructions: (pc=0x00007fcbd05a3b71)";
+        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.INSTRUCTIONS);
     }
 
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public void testNotTopOfStack() {
+        String logLine = "0x00007fcbcc676d10:   00007fcbcc676d90 00007fcbd088f2ca";
+        Assert.assertFalse(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " incorrectly identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.INSTRUCTIONS);
+    }
+
+    public void testSpaceAtEnd() {
+        String logLine = "0x00007fcbd05a3b81:   75 0f c1 f8 03 5d c3 0f 1f 84 00 00 00 00 00 75 ";
+        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.INSTRUCTIONS);
     }
 }

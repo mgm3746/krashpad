@@ -25,12 +25,17 @@ public class JdkRegEx {
     /**
      * A 32-bit memory address.
      */
-    public static final String ADDRESS32 = "(0x[0-9a-f]{8})";
+    public static final String ADDRESS32 = "((0x)?[0-9a-f]{8})";
 
     /**
      * A 64-bit memory address.
      */
-    public static final String ADDRESS64 = "(0x[0-9a-f]{16})";
+    public static final String ADDRESS64 = "((0x)?[0-9a-f]{16})";
+
+    /**
+     * A 32-bit or 64-bit memory address.
+     */
+    public static final String ADDRESS = "(" + ADDRESS32 + "|" + ADDRESS64 + ")";
 
     /**
      * Memory map area.
@@ -158,6 +163,12 @@ public class JdkRegEx {
      * For example: r--s
      */
     public static final String PERMISION = "([rwxps\\-]{4})";
+
+    /**
+     * A 32-bit or 64-bit register.
+     */
+    public static final String REGISTER = "(CSGSFS|EFLAGS|ERR|RAX|RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|R\\d{1,2}[ ]{0,1})=("
+            + ADDRESS32 + "|" + ADDRESS64 + ")";
 
     /**
      * <p>

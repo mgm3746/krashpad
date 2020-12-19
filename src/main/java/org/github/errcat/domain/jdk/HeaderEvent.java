@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.SignalNumber;
 
 /**
  * <p>
@@ -147,24 +148,11 @@ public class HeaderEvent implements LogEvent {
     }
 
     /**
-     * @return True if the event is SIGBUS, false otherwise.
-     */
-    public boolean isSigBus() {
-        return logEntry.matches("^#  SIGBUS.+$");
-    }
-
-    /**
-     * @return True if the event is SIGIL, false otherwise.
-     */
-    public boolean isSigIll() {
-        return logEntry.matches("^#  SIGILL.+$");
-    }
-
-    /**
      * @return True if the event is SIGSEGV, false otherwise.
      */
-    public boolean isSigSegv() {
-        return logEntry.matches("^#  SIGSEGV.+$");
+    public boolean isSignalNumber() {
+        return logEntry.matches(
+                "^#  (" + SignalNumber.SIGBUS + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ").+$");
     }
 
     /**

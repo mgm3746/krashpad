@@ -15,37 +15,46 @@
 package org.github.errcat.domain.jdk;
 
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * DEOPTIMIZATION_EVENT
+ * REGISTER
  * </p>
  * 
  * <p>
- * Deoptimization information when the compiler has to recompile previously compiled code due to the compiled code no
- * longer being valid (e.g. a dynamic object has changed) or with tiered compilation when client compiled code is
- * replaced with server compiled code.
+ * Register information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * Deoptimization events (250 events):
- * Event: 5688.682 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff0dd93860c method=org.eclipse.swt.custom.StyledTextRenderer.disposeTextLayout(Lorg/eclipse/swt/graphics/TextLayout;)V @ 39
+ * Registers:
+ * RAX=0x0000000000000001, RBX=0x00007f67383dc748, RCX=0x0000000000000004, RDX=0x00007f69b031f898
+ * RSP=0x00007fcbcc676c50, RBP=0x00007fcbcc676cb0, RSI=0x0000000000000000, RDI=0x00007f69b031f898
+ * R8 =0x0000000000000005, R9 =0x0000000000000010, R10=0x0000000000000000, R11=0x0000000000000000
+ * R12=0x00007f673d50bfe0, R13=0x00007f6a3a004628, R14=0x00007f6a3a004620, R15=0x00007f673d50bdf0
+ * RIP=0x00007fcbd05a3b71, EFLAGS=0x0000000000010293, CSGSFS=0x0000000000000033, ERR=0x0000000000000004
+ *   TRAPNO=0x000000000000000e
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class DeoptimizationEvent implements LogEvent {
+public class RegisterEvent implements LogEvent, ThrowAwayEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "Registers:";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " Uncommon trap).+$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|" + JdkRegEx.REGISTER + ", " + JdkRegEx.REGISTER + ", "
+            + JdkRegEx.REGISTER + ", " + JdkRegEx.REGISTER + "|  TRAPNO=" + JdkRegEx.ADDRESS + ")$";
 
     /**
      * The log entry for the event.
@@ -58,7 +67,7 @@ public class DeoptimizationEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public DeoptimizationEvent(String logEntry) {
+    public RegisterEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -67,7 +76,7 @@ public class DeoptimizationEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString();
+        return JdkUtil.LogEventType.REGISTER.toString();
     }
 
     /**

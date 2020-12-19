@@ -14,38 +14,44 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.SignalCode;
+import org.github.errcat.util.jdk.JdkUtil.SignalNumber;
 
 /**
  * <p>
- * DEOPTIMIZATION_EVENT
+ * SIGINFO
  * </p>
  * 
  * <p>
- * Deoptimization information when the compiler has to recompile previously compiled code due to the compiled code no
- * longer being valid (e.g. a dynamic object has changed) or with tiered compilation when client compiled code is
- * replaced with server compiled code.
+ * Signal information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * Deoptimization events (250 events):
- * Event: 5688.682 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff0dd93860c method=org.eclipse.swt.custom.StyledTextRenderer.disposeTextLayout(Lorg/eclipse/swt/graphics/TextLayout;)V @ 39
+ * siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000008
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class DeoptimizationEvent implements LogEvent {
+public class SigInfoEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " Uncommon trap).+$";
+    private static final String REGEX = "^siginfo: si_signo: \\d{1,2} \\((" + SignalNumber.SIGBUS + "|"
+            + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ")\\), si_code: \\d{1,2} \\((" + SignalCode.BUS_ADRALN
+            + "|" + SignalCode.BUS_ADRERR + "|" + SignalCode.BUS_OBJERR + "|" + SignalCode.SEGV_ACCERR + "|"
+            + SignalCode.SEGV_MAPERR + ")\\), si_addr: " + JdkRegEx.ADDRESS + "$";
+
+    private static Pattern pattern = Pattern.compile(REGEX);
 
     /**
      * The log entry for the event.
@@ -58,7 +64,7 @@ public class DeoptimizationEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public DeoptimizationEvent(String logEntry) {
+    public SigInfoEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -67,7 +73,7 @@ public class DeoptimizationEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString();
+        return JdkUtil.LogEventType.SIGINFO.toString();
     }
 
     /**
@@ -79,5 +85,45 @@ public class DeoptimizationEvent implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
+    }
+
+    /**
+     * @return Signal number.
+     */
+    public SignalNumber getSignalNumber() {
+        SignalNumber number = SignalNumber.UNKNOWN;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(1).matches(SignalNumber.SIGBUS.toString())) {
+                number = SignalNumber.SIGBUS;
+            } else if (matcher.group(1).matches(SignalNumber.SIGILL.toString())) {
+                number = SignalNumber.SIGILL;
+            } else if (matcher.group(1).matches(SignalNumber.SIGSEGV.toString())) {
+                number = SignalNumber.SIGSEGV;
+            }
+        }
+        return number;
+    }
+
+    /**
+     * @return Signal code.
+     */
+    public SignalCode getSignalCode() {
+        SignalCode code = SignalCode.UNKNOWN;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(2).matches(SignalCode.BUS_ADRALN.toString())) {
+                code = SignalCode.BUS_ADRALN;
+            } else if (matcher.group(2).matches(SignalCode.BUS_ADRERR.toString())) {
+                code = SignalCode.BUS_ADRERR;
+            } else if (matcher.group(2).matches(SignalCode.BUS_OBJERR.toString())) {
+                code = SignalCode.BUS_OBJERR;
+            } else if (matcher.group(2).matches(SignalCode.SEGV_ACCERR.toString())) {
+                code = SignalCode.SEGV_ACCERR;
+            } else if (matcher.group(2).matches(SignalCode.SEGV_MAPERR.toString())) {
+                code = SignalCode.SEGV_MAPERR;
+            }
+        }
+        return code;
     }
 }
