@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
@@ -85,10 +86,15 @@ import org.github.errcat.util.jdk.JdkUtil;
 public class StackEvent implements LogEvent {
 
     /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "Stack: \\[" + JdkRegEx.ADDRESS + "," + JdkRegEx.ADDRESS + "\\],  sp="
+            + JdkRegEx.ADDRESS + ",  free space=(\\d{1,***REMOVED***)k";
+
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^((Stack:|(Java|Native) frames:).+|((A|C|j|J|v)[ ]{1,2***REMOVED***.+|"
-            + "(V  \\[.+\\](  .+)?)))$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|([CjJvV]) |(Java|Native) frames:).*$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -127,6 +133,13 @@ public class StackEvent implements LogEvent {
     ***REMOVED***
 
     /**
+     * @return true if the log line is the header false otherwise.
+     */
+    public boolean isHeader() {
+        return logEntry.matches(REGEX_HEADER);
+    ***REMOVED***
+
+    /**
      * @return true if the stack frame is vm code, false otherwise.
      * 
      *         For example:
@@ -137,8 +150,7 @@ public class StackEvent implements LogEvent {
         boolean isVmCode = false;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int indexVmCode = 6;
-            if (matcher.group(indexVmCode) != null) {
+            if (matcher.group(18) != null && matcher.group(18).equals("V")) {
                 isVmCode = true;
             ***REMOVED***
         ***REMOVED***
@@ -156,11 +168,26 @@ public class StackEvent implements LogEvent {
         boolean isVmGeneratedCodeFrame = false;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int indexVmGeneratedCode = 5;
-            if (matcher.group(indexVmGeneratedCode) != null) {
+            if (matcher.group(18) != null && matcher.group(18).equals("v")) {
                 isVmGeneratedCodeFrame = true;
             ***REMOVED***
         ***REMOVED***
         return isVmGeneratedCodeFrame;
+    ***REMOVED***
+
+    /**
+     * @return The stack free space (kilobytes).
+     */
+    public long getStackFreeSpace() {
+        long stackFreeSpace = Long.MIN_VALUE;
+        if (isHeader()) {
+            Matcher matcher = pattern.matcher(logEntry);
+            if (matcher.find()) {
+                if (matcher.group(17) != null) {
+                    stackFreeSpace = Long.parseLong(matcher.group(17));
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return stackFreeSpace;
     ***REMOVED***
 ***REMOVED***

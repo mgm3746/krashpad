@@ -43,8 +43,8 @@ public class CompilationEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Compilation events|Event: " + JdkRegEx.TIMESTAMP + " Thread ("
-            + JdkRegEx.ADDRESS64 + "|" + JdkRegEx.ADDRESS32 + ") (nmethod|\\d{1,8***REMOVED***)).+$";
+    private static final String REGEX = "^(Compilation events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
+            + JdkRegEx.ADDRESS + " (nmethod|\\d{1,8***REMOVED***)).+$";
 
     /**
      * The log entry for the event.

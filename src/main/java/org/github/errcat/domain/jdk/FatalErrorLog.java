@@ -35,9 +35,10 @@ import org.github.errcat.util.jdk.JdkUtil;
 import org.github.errcat.util.jdk.JdkUtil.Application;
 import org.github.errcat.util.jdk.JdkUtil.Arch;
 import org.github.errcat.util.jdk.JdkUtil.BuiltBy;
-import org.github.errcat.util.jdk.JdkUtil.CrashCause;
 import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
 import org.github.errcat.util.jdk.JdkUtil.JavaVendor;
+import org.github.errcat.util.jdk.JdkUtil.SignalCode;
+import org.github.errcat.util.jdk.JdkUtil.SignalNumber;
 
 /**
  * Fatal error log data.
@@ -133,14 +134,34 @@ public class FatalErrorLog {
     private MemoryEvent memoryEvent;
 
     /**
-     * JVM options information.
-     */
-    private JvmArgsEvent jvmArgsEvent;
-
-    /**
      * Exception counts information.
      */
     private List<ExceptionCountsEvent> exceptionCountsEvents;
+
+    /**
+     * Signal information.
+     */
+    private SigInfoEvent sigInfoEvent;
+
+    /**
+     * VM state information.
+     */
+    private VmStateEvent vmStateEvent;
+
+    /**
+     * VM arguments information.
+     */
+    private List<VmArgumentsEvent> vmArgumentsEvents;
+
+    /**
+     * Heap address information.
+     */
+    private List<HeapAddressEvent> heapAddressEvents;
+
+    /**
+     * Memory information.
+     */
+    private List<MeminfoEvent> meminfoEvents;
 
     /**
      * Log lines that do not match any existing logging patterns.
@@ -168,6 +189,9 @@ public class FatalErrorLog {
         vmEvents = new ArrayList<VmEvent>();
         heapEvents = new ArrayList<HeapEvent>();
         exceptionCountsEvents = new ArrayList<ExceptionCountsEvent>();
+        vmArgumentsEvents = new ArrayList<VmArgumentsEvent>();
+        heapAddressEvents = new ArrayList<HeapAddressEvent>();
+        meminfoEvents = new ArrayList<MeminfoEvent>();
     ***REMOVED***
 
     public void setVmInfoEvent(VmInfoEvent vmInfoEvent) {
@@ -258,16 +282,36 @@ public class FatalErrorLog {
         this.memoryEvent = memoryEvent;
     ***REMOVED***
 
-    public JvmArgsEvent getJvmArgsEvent() {
-        return jvmArgsEvent;
-    ***REMOVED***
-
-    public void setJvmArgsEvent(JvmArgsEvent jvmArgsEvent) {
-        this.jvmArgsEvent = jvmArgsEvent;
-    ***REMOVED***
-
     public List<ExceptionCountsEvent> getExceptionCountsEvents() {
         return exceptionCountsEvents;
+    ***REMOVED***
+
+    public SigInfoEvent getSigInfoEvent() {
+        return sigInfoEvent;
+    ***REMOVED***
+
+    public void setSigInfoEvent(SigInfoEvent sigInfoEvent) {
+        this.sigInfoEvent = sigInfoEvent;
+    ***REMOVED***
+
+    public VmStateEvent getVmStateEvent() {
+        return vmStateEvent;
+    ***REMOVED***
+
+    public void setVmStateEvent(VmStateEvent vmStateEvent) {
+        this.vmStateEvent = vmStateEvent;
+    ***REMOVED***
+
+    public List<VmArgumentsEvent> getVmArgumentsEvents() {
+        return vmArgumentsEvents;
+    ***REMOVED***
+
+    public List<HeapAddressEvent> getHeapAddressEvents() {
+        return heapAddressEvents;
+    ***REMOVED***
+
+    public List<MeminfoEvent> getMeminfoEvents() {
+        return meminfoEvents;
     ***REMOVED***
 
     /**
@@ -431,8 +475,8 @@ public class FatalErrorLog {
             Iterator<HeaderEvent> iterator = headerEvents.iterator();
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
-                if (he.isSigBus() || he.isSigIll() || he.isSigSegv() || he.isInternalError() || he.isError()
-                        || he.isOutOfMemoryError() || he.isFailed()) {
+                if (he.isSignalNumber() || he.isInternalError() || he.isError() || he.isOutOfMemoryError()
+                        || he.isFailed()) {
                     if (causedBy.length() > 0) {
                         causedBy.append(Constants.LINE_SEPARATOR);
                     ***REMOVED***
@@ -1034,8 +1078,8 @@ public class FatalErrorLog {
      */
     public long getHeapMaxSize() {
         long heapMaxSize = Long.MIN_VALUE;
-        if (jvmArgsEvent != null && jvmArgsEvent.getMaxHeapOption() != null) {
-            long bytes = JdkUtil.convertOptionSizeToBytes(jvmArgsEvent.getMaxHeapValue());
+        if (getMaxHeapOption() != null) {
+            long bytes = JdkUtil.convertOptionSizeToBytes(getMaxHeapValue());
             heapMaxSize = JdkUtil.convertBytesToKilobytes(bytes);
         ***REMOVED***
         // Max heap size not set (e.g. container), use allocation
@@ -1146,8 +1190,8 @@ public class FatalErrorLog {
      */
     public long getMetaspaceMaxSize() {
         long metaspaceMaxSize = Long.MIN_VALUE;
-        if (jvmArgsEvent != null && jvmArgsEvent.getMaxMetaspaceOption() != null) {
-            long bytes = JdkUtil.convertOptionSizeToBytes(jvmArgsEvent.getMaxMetaspaceValue());
+        if (getMaxMetaspaceOption() != null) {
+            long bytes = JdkUtil.convertOptionSizeToBytes(getMaxMetaspaceValue());
             metaspaceMaxSize = JdkMath.convertBytesToKilobytes(bytes);
         ***REMOVED***
         // If max metaspace size not set (recommended), get from <code>HeapEvent</code>
@@ -1238,41 +1282,44 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * The option for setting CompressedClassSpaceSize.
+     * 
+     * <pre>
+     * -XX:CompressedClassSpaceSize=768m
+     * </pre>
+     * 
+     * @return the option if it exists, null otherwise.
+     */
+    public String getCompressedClassSpaceSizeOption() {
+        String regex = "(-XX:CompressedClassSpaceSize=((\\d{1,10***REMOVED***)(" + JdkRegEx.OPTION_SIZE + ")?))";
+        return getJvmOption(regex);
+    ***REMOVED***
+
+    /**
+     * The compressed class space size value. For example:
+     * 
+     * <pre>
+     * 768m
+     * </pre>
+     * 
+     * @return The compressed class space size value, or null if not set. For example:
+     * 
+     */
+    public String getCompressedClassSpaceSizeValue() {
+        return JdkUtil.getOptionValue(getCompressedClassSpaceSizeOption());
+    ***REMOVED***
+
+    /**
      * @return The max compressed class size reserved (kilobytes).
      */
     public long getCompressedClassSpaceSize() {
         // Default is 1g
         long compressedClassSpaceSize = Constants.GIGABYTE.divide(Constants.KILOBYTE).longValue();
-        if (jvmArgsEvent != null && jvmArgsEvent.getCompressedClassSpaceSizeOption() != null) {
-            long bytes = JdkUtil.convertOptionSizeToBytes(jvmArgsEvent.getCompressedClassSpaceSizeValue());
+        if (getCompressedClassSpaceSizeOption() != null) {
+            long bytes = JdkUtil.convertOptionSizeToBytes(getCompressedClassSpaceSizeValue());
             compressedClassSpaceSize = JdkMath.convertBytesToKilobytes(bytes);
         ***REMOVED***
         return compressedClassSpaceSize;
-    ***REMOVED***
-
-    /**
-     * @return The <code>CrashCause</code>.
-     */
-    public CrashCause getCrashCause() {
-        CrashCause crashCause = CrashCause.UNKNOWN;
-        if (headerEvents != null) {
-            // Check header
-            Iterator<HeaderEvent> iterator = headerEvents.iterator();
-            while (iterator.hasNext()) {
-                HeaderEvent he = iterator.next();
-                if (he.isSigBus()) {
-                    crashCause = CrashCause.SIGBUS;
-                    break;
-                ***REMOVED*** else if (he.isSigSegv()) {
-                    crashCause = CrashCause.SIGSEGV;
-                    break;
-                ***REMOVED*** else if (he.isSigIll()) {
-                    crashCause = CrashCause.SIGILL;
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return crashCause;
     ***REMOVED***
 
     /**
@@ -1280,8 +1327,7 @@ public class FatalErrorLog {
      */
     public long getJvmMemory() {
         long jvmMemory = Long.MIN_VALUE;
-        if (jvmArgsEvent != null && jvmArgsEvent.getUseCompressedOopsDisabled() == null
-                && jvmArgsEvent.getUseCompressedClassPointersDisabled() == null) {
+        if (getUseCompressedOopsDisabled() == null && getUseCompressedClassPointersDisabled() == null) {
             // Using compressed class pointers space
             jvmMemory = getHeapMaxSize() + getMetaspaceMaxSize() + getCompressedClassSpaceSize();
         ***REMOVED*** else {
@@ -1356,6 +1402,193 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return Signal number.
+     */
+    public SignalNumber getSignalNumber() {
+        SignalNumber signalNumber = SignalNumber.UNKNOWN;
+        if (sigInfoEvent != null) {
+            signalNumber = sigInfoEvent.getSignalNumber();
+        ***REMOVED***
+        return signalNumber;
+    ***REMOVED***
+
+    /**
+     * @return Signal code.
+     */
+    public SignalCode getSignalCode() {
+        SignalCode signalCode = SignalCode.UNKNOWN;
+        if (sigInfoEvent != null) {
+            signalCode = sigInfoEvent.getSignalCode();
+        ***REMOVED***
+        return signalCode;
+    ***REMOVED***
+
+    /**
+     * @param regex
+     *            The option regular expression.
+     * @return The JVM option, or null if not explicitly set.
+     */
+    public String getJvmOption(final String regex) {
+        String option = null;
+        if (vmArgumentsEvents != null) {
+            Iterator<VmArgumentsEvent> iterator = vmArgumentsEvents.iterator();
+            while (iterator.hasNext()) {
+                VmArgumentsEvent event = iterator.next();
+                if (event.isJvmArgs()) {
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        option = matcher.group(1);
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return option;
+    ***REMOVED***
+
+    /**
+     * Maximum heap space. Specified with the <code>-Xmx</code> or <code>-XX:MaxHeapSize</code> option. For example:
+     * 
+     * <pre>
+     * -Xmx1024m
+     * -XX:MaxHeapSize=1234567890
+     * </pre>
+     * 
+     * @return The maximum heap space, or null if not explicitly set.
+     */
+    public String getMaxHeapOption() {
+        String regex = "(-X(mx|X:MaxHeapSize=)(\\d{1,12***REMOVED***)(" + JdkRegEx.OPTION_SIZE + ")?)";
+        return getJvmOption(regex);
+    ***REMOVED***
+
+    /**
+     * For example:
+     * 
+     * <pre>
+     * 2048M
+     * </pre>
+     * 
+     * @return The maximum heap space value, or null if not set. For example:
+     */
+    public String getMaxHeapValue() {
+        return JdkUtil.getOptionValue(getMaxHeapOption());
+    ***REMOVED***
+
+    /**
+     * Maximum Metaspace (<code>-XX:MaxMetaspaceSize</code>). For example:
+     * 
+     * <pre>
+     * -XX:MaxMetaspaceSize=1M
+     * </pre>
+     * 
+     * @return The maximum Metaspace, or null if not explicitly set.
+     */
+    public String getMaxMetaspaceOption() {
+        String regex = "(-XX:MaxMetaspaceSize=(\\d{1,10***REMOVED***)(" + JdkRegEx.OPTION_SIZE + ")?)";
+        return getJvmOption(regex);
+    ***REMOVED***
+
+    /**
+     * <pre>
+     * 128M
+     * </pre>
+     * 
+     * @return The maximum Metaspace value, or null if not set. For example:
+     */
+    public String getMaxMetaspaceValue() {
+        return JdkUtil.getOptionValue(getMaxMetaspaceOption());
+    ***REMOVED***
+
+    /**
+     * The option for compressed class pointers disabled.
+     * 
+     * <pre>
+     * -XX:-UseCompressedClassPointers
+     * </pre>
+     * 
+     * @return the option if it exists, null otherwise.
+     */
+    public String getUseCompressedClassPointersDisabled() {
+        String regex = "(-XX:\\-UseCompressedClassPointers)";
+        return getJvmOption(regex);
+    ***REMOVED***
+
+    /**
+     * The option for disabling compressed object references.
+     * 
+     * <pre>
+     * -XX:-UseCompressedOops
+     * </pre>
+     * 
+     * @return the option if it exists, null otherwise.
+     */
+    public String getUseCompressedOopsDisabled() {
+        String regex = "(-XX:\\-UseCompressedOops)";
+        return getJvmOption(regex);
+    ***REMOVED***
+
+    /**
+     * Thread stack size. Specified with either the <code>-Xss</code>, <code>-ss</code>, or
+     * <code>-XX:ThreadStackSize</code> options. For example:
+     * 
+     * <pre>
+     * -Xss128k
+     * </pre>
+     * 
+     * <pre>
+     * -XX:ThreadStackSize=128
+     * </pre>
+     * 
+     * The <code>-Xss</code> options does not work on Solaris, only the <code>-XX:ThreadStackSize</code> option.
+     * 
+     * @return The JVM thread stack size setting, or null if not explicitly set.
+     */
+    public String getThreadStackSizeOption() {
+        String regex = "(-(X)?(ss|X:ThreadStackSize=)(\\d{1,12***REMOVED***)(" + JdkRegEx.OPTION_SIZE + ")?)";
+        return getJvmOption(regex);
+    ***REMOVED***
+
+    /**
+     * <pre>
+     * 256K
+     * </pre>
+     * 
+     * @return The thread stack size value, or null if not set. For example:
+     */
+    public String getThreadStackSizeValue() {
+        return JdkUtil.getOptionValue(getThreadStackSizeOption());
+    ***REMOVED***
+
+    /**
+     * @return The stack max size reserved (kilobytes).
+     */
+    public long getThreadStackMaxSize() {
+        long stackMaxSize = 1024;
+        if (getThreadStackSizeValue() != null) {
+            long bytes = JdkUtil.convertOptionSizeToBytes(getThreadStackSizeValue());
+            stackMaxSize = JdkUtil.convertBytesToKilobytes(bytes);
+        ***REMOVED***
+        return stackMaxSize;
+    ***REMOVED***
+
+    /**
+     * @return The stack free space (kilobytes).
+     */
+    public long getStackFreeSpace() {
+        long stackFreeSpace = Long.MIN_VALUE;
+        if (stackEvents != null) {
+            Iterator<StackEvent> iterator = stackEvents.iterator();
+            while (iterator.hasNext()) {
+                StackEvent event = iterator.next();
+                if (event.isHeader()) {
+                    stackFreeSpace = event.getStackFreeSpace();
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return stackFreeSpace;
+    ***REMOVED***
+
+    /**
      * Do analysis.
      */
     public void doAnalysis() {
@@ -1365,6 +1598,17 @@ public class FatalErrorLog {
         ***REMOVED***
         doDataAnalysis();
         doJvmOptionsAnalysis();
+    ***REMOVED***
+
+    /**
+     * @return The VM state.
+     */
+    public String getVmState() {
+        String vmState = null;
+        if (vmStateEvent != null) {
+            vmState = vmStateEvent.getState();
+        ***REMOVED***
+        return vmState;
     ***REMOVED***
 
     /**
@@ -1447,7 +1691,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION);
         ***REMOVED***
         // Check for insufficient physical memory
-        if (getPhysicalMemory() > 0 && jvmArgsEvent != null) {
+        if (getPhysicalMemory() > 0 && getJvmMemory() > Long.MIN_VALUE) {
             if (getJvmMemory() > getPhysicalMemory()) {
                 analysis.add(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY);
             ***REMOVED***
@@ -1477,17 +1721,45 @@ public class FatalErrorLog {
             // TODO: Verify current JDK version < u282
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER);
         ***REMOVED***
-        // Check for SIGBUS
-        if (getCrashCause() == CrashCause.SIGBUS) {
-            if (getOsType() == OsType.LINUX) {
-                analysis.add(Analysis.INFO_SIGBUS_LINUX);
-            ***REMOVED*** else {
-                analysis.add(Analysis.INFO_SIGBUS);
-            ***REMOVED***
+        // Signal numbers
+        switch (getSignalNumber()) {
+        case SIGBUS:
+            analysis.add(Analysis.INFO_SIGNO_SIGBUS);
+            break;
+        case SIGILL:
+            analysis.add(Analysis.INFO_SIGNO_SIGILL);
+            break;
+        case SIGSEGV:
+            analysis.add(Analysis.INFO_SIGNO_SIGSEGV);
+            break;
+        case UNKNOWN:
+        default:
+            break;
         ***REMOVED***
-        // Check for SIGSEGV
-        if (getCrashCause() == CrashCause.SIGSEGV) {
-            analysis.add(Analysis.INFO_SIGSEGV);
+        // Signal codes
+        switch (getSignalCode()) {
+        case BUS_ADRALN:
+            analysis.add(Analysis.INFO_SIGCODE_BUS_ADRALN);
+            break;
+        case BUS_ADRERR:
+            if (getOsType() == OsType.LINUX) {
+                analysis.add(Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX);
+            ***REMOVED*** else {
+                analysis.add(Analysis.INFO_SIGCODE_BUS_ADDERR);
+            ***REMOVED***
+            break;
+        case BUS_OBJERR:
+            analysis.add(Analysis.INFO_SIGCODE_BUS_OBJERR);
+            break;
+        case SEGV_ACCERR:
+            analysis.add(Analysis.INFO_SIGCODE_SEGV_ACCERR);
+            break;
+        case SEGV_MAPERR:
+            analysis.add(Analysis.INFO_SIGCODE_SEGV_MAPERR);
+            break;
+        case UNKNOWN:
+        default:
+            break;
         ***REMOVED***
         // pthread_getcpuclockid
         if (getStackFrameTop() != null
@@ -1501,6 +1773,10 @@ public class FatalErrorLog {
         // StackOverflowError
         if (haveStackOverFlowError()) {
             analysis.add(Analysis.ERROR_STACKOVERFLOW);
+        ***REMOVED*** else {
+            if (getStackFreeSpace() > getThreadStackMaxSize()) {
+                analysis.add(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE);
+            ***REMOVED***
         ***REMOVED***
         // OutOfMemoryError: Java heap space
         if (haveOomeJavaHeap()) {

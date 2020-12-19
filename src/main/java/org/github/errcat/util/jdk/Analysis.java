@@ -88,6 +88,11 @@ public enum Analysis {
     ERROR_PTHREAD_GETCPUCLOCKID("error.pthread.getcpuclockid"),
 
     /**
+     * Property key for stack free space greater than stack size.
+     */
+    ERROR_STACK_FREESPACE_GT_STACK_SIZE("error.stack.freespace.gt.stack.size"),
+
+    /**
      * Property key for StackOverflowError.
      */
     ERROR_STACKOVERFLOW("error.stackoverflow"),
@@ -138,19 +143,49 @@ public enum Analysis {
     INFO_RH_BUILD_WINDOWS_ZIP("info.rh.build.windows.zip"),
 
     /**
-     * Property key for SIGBUS crash.
+     * Property key for BUS_ADRALN.
      */
-    INFO_SIGBUS("info.sigbus"),
+    INFO_SIGCODE_BUS_ADRALN("info.sigcode.bus.adraln"),
 
     /**
-     * Property key for SIGBUS crash on linux.
+     * Property key for BUS_ADDRERR.
      */
-    INFO_SIGBUS_LINUX("info.sigbus.linux"),
+    INFO_SIGCODE_BUS_ADDERR("info.sigcode.bus.adrerr"),
+
+    /**
+     * Property key for BUS_ADDR crash on linux.
+     */
+    INFO_SIGCODE_BUS_ADDERR_LINUX("info.sigcode.bus.adrerr.linux"),
+
+    /**
+     * Property key for BUS_OBJERR.
+     */
+    INFO_SIGCODE_BUS_OBJERR("info.sigcode.bus.objerr"),
+
+    /**
+     * Property key for SEGV_ACCERR.
+     */
+    INFO_SIGCODE_SEGV_ACCERR("info.sigcode.segv.accerr"),
+
+    /**
+     * Property key for SEGV_MAPERR.
+     */
+    INFO_SIGCODE_SEGV_MAPERR("info.sigcode.segv.maperr"),
+
+    /**
+     * Property key for SIGBUS crash.
+     */
+    INFO_SIGNO_SIGBUS("info.signo.sigbus"),
+
+    /**
+     * Property key for SIGILL crash.
+     */
+    INFO_SIGNO_SIGILL("info.signo.sigill"),
 
     /**
      * Property key for SIGSEGV crash.
      */
-    INFO_SIGSEGV("info.sigsegv"),
+    INFO_SIGNO_SIGSEGV("info.signo.sigsegv"),
 
     /**
      * Property key for the stack not containing any VM code.

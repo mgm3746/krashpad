@@ -73,8 +73,8 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_LINUX_ZIP));
         Assert.assertTrue(Analysis.INFO_ADOPTOPENJDK_POSSIBLE + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_ADOPTOPENJDK_POSSIBLE));
-        Assert.assertTrue(Analysis.INFO_SIGBUS_LINUX + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_SIGBUS_LINUX));
+        Assert.assertTrue(Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX));
     ***REMOVED***
 
     public void testJdkDebugSymbolsMissing() {
@@ -205,8 +205,8 @@ public class TestAnalysis extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue(Analysis.INFO_JVM_STARTUP_FAILS + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_JVM_STARTUP_FAILS));
-        Assert.assertTrue(Analysis.INFO_SIGSEGV + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_SIGSEGV));
+        Assert.assertTrue(Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_SIGNO_SIGSEGV));
     ***REMOVED***
 
     public void testStackOverflowError() {
@@ -223,5 +223,17 @@ public class TestAnalysis extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue(Analysis.ERROR_OOME_JAVA_HEAP + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_OOME_JAVA_HEAP));
+        Assert.assertTrue(Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_SIGNO_SIGSEGV));
+        Assert.assertTrue(Analysis.INFO_SIGCODE_SEGV_MAPERR + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_SIGCODE_SEGV_MAPERR));
+    ***REMOVED***
+
+    public void testStackFreeSpaceGtStackSize() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset37.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE));
     ***REMOVED***
 ***REMOVED***

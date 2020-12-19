@@ -26,6 +26,9 @@ import java.util.regex.Pattern;
 import org.github.errcat.domain.BlankLineEvent;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.UnknownEvent;
+import org.github.errcat.domain.jdk.BitsEvent;
+import org.github.errcat.domain.jdk.CardTableEvent;
+import org.github.errcat.domain.jdk.ClassesRedefinedEvent;
 import org.github.errcat.domain.jdk.CodeCacheEvent;
 import org.github.errcat.domain.jdk.CompilationEvent;
 import org.github.errcat.domain.jdk.CpuInfoEvent;
@@ -33,23 +36,39 @@ import org.github.errcat.domain.jdk.CurrentThreadEvent;
 import org.github.errcat.domain.jdk.DeoptimizationEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.ElapsedTimeEvent;
+import org.github.errcat.domain.jdk.EnvironmentVariablesEvent;
 import org.github.errcat.domain.jdk.ExceptionCountsEvent;
 import org.github.errcat.domain.jdk.ExceptionEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
+import org.github.errcat.domain.jdk.HeadingEvent;
+import org.github.errcat.domain.jdk.HeapAddressEvent;
 import org.github.errcat.domain.jdk.HeapEvent;
 import org.github.errcat.domain.jdk.HeapRegionsEvent;
-import org.github.errcat.domain.jdk.JvmArgsEvent;
+import org.github.errcat.domain.jdk.InstructionsEvent;
+import org.github.errcat.domain.jdk.LibcEvent;
+import org.github.errcat.domain.jdk.LoadAverageEvent;
+import org.github.errcat.domain.jdk.MeminfoEvent;
 import org.github.errcat.domain.jdk.MemoryEvent;
 import org.github.errcat.domain.jdk.OsEvent;
+import org.github.errcat.domain.jdk.PollingPageEvent;
+import org.github.errcat.domain.jdk.RegisterEvent;
+import org.github.errcat.domain.jdk.RegisterToMemoryMappingEvent;
 import org.github.errcat.domain.jdk.Release;
+import org.github.errcat.domain.jdk.RlimitEvent;
+import org.github.errcat.domain.jdk.SigInfoEvent;
+import org.github.errcat.domain.jdk.SignalHandlersEvent;
 import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.domain.jdk.ThreadEvent;
 import org.github.errcat.domain.jdk.TimeEvent;
 import org.github.errcat.domain.jdk.TimezoneEvent;
+import org.github.errcat.domain.jdk.TopOfStackEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
+import org.github.errcat.domain.jdk.VmArgumentsEvent;
 import org.github.errcat.domain.jdk.VmEvent;
 import org.github.errcat.domain.jdk.VmInfoEvent;
+import org.github.errcat.domain.jdk.VmMutexEvent;
+import org.github.errcat.domain.jdk.VmStateEvent;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsVersion;
 
@@ -87,20 +106,40 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
-     * Defined crash reasons.
+     * Signal numbers.
      * 
-     * SIGBUS: Invalid memory address. Accessing a memory address that has an invalid address alignment for the CPU
-     * (BUS_ADRALN), does not exist (BUS_ADRERR), or has a hardware issue (BUS_OBJERR). BUS_ADRERR is rare on Linux but
-     * can happen when an mmap'ed file is truncated (e.g. a threading issue where 2 threads access a file at the same
-     * time).
+     * SIGBUS: Invalid memory address.
+     * 
+     * SIGILL: Illegal instruction at the processor.
      * 
      * SIGSEGV: Segmentation fault. Accessing valid memory in an invalid way. For example: (1) Attempting to write to
      * read-only memory. (2) Attempting to write to protected (e.g. OS) memory. (3) Attempting to access an array at an
      * index greater than the array size (out of bounds).
      */
-    public enum CrashCause {
+    public enum SignalNumber {
         //
         SIGBUS, SIGILL, SIGSEGV, UNKNOWN
+    ***REMOVED***
+
+    /**
+     * Signal codes.
+     * 
+     * BUS_ADRALN: The memory address that has an invalid address alignment for the CPU.
+     * 
+     * BUS_ADRERR: The memory address does not exist. Rare on Linux but can happen when an mmap'ed file is truncated
+     * (e.g. a threading issue where 2 threads access a file at the same time).
+     * 
+     * BUS_OBJERR: Hardware issue.
+     * 
+     * SEGV_ACCERR: The access is not allowed. For example: (1) Attempting to write to read-only memory. (2) Attempting
+     * to write to protected (OS) memory. (3) Attempting to access an array at an index greater than the array size (out
+     * of bounds).
+     * 
+     * SEGV_MAPERR: The memory address is not mapped to an object.
+     */
+    public enum SignalCode {
+        //
+        BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, SEGV_MAPERR, SEGV_ACCERR, UNKNOWN
     ***REMOVED***
 
     /**
@@ -123,11 +162,15 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BLANK_LINE, CODE_CACHE, COMPILATION, CPU, CPU_INFO, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY,
+        BITS, BLANK_LINE, CARD_TABLE, CLASSES_REDEFINED, CODE_CACHE, COMPILATION, CPU, CPU_INFO, CURRENT_THREAD,
         //
-        ELAPSED_TIME, EXCEPTION_COUNTS, EXCEPTION_EVENT, HEADER, HEAP, HEAP_REGIONS, JVM_ARGS, MEMORY, OS,
+        DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, ENVIRONMENT_VARIABLES, EXCEPTION_COUNTS, EXCEPTION_EVENT,
         //
-        STACK, THREAD, TIME, TIMEZONE, UNAME, UNKNOWN, VM_EVENT, VM_INFO,
+        HEADER, HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, INSTRUCTIONS, LIBC, LOAD_AVERAGE, MEMINFO, MEMORY, OS,
+        //
+        POLLING_PAGE, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, THREAD, TIME,
+        //
+        TIMEZONE, TOP_OF_STACK, UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX, VM_STATE
     ***REMOVED***
 
     /**
@@ -753,8 +796,14 @@ public class JdkUtil {
      */
     public static final LogEventType identifyEventType(String logLine) {
         LogEventType logEventType = LogEventType.UNKNOWN;
-        if (BlankLineEvent.match(logLine)) {
+        if (BitsEvent.match(logLine)) {
+            logEventType = LogEventType.BITS;
+        ***REMOVED*** else if (BlankLineEvent.match(logLine)) {
             logEventType = LogEventType.BLANK_LINE;
+        ***REMOVED*** else if (CardTableEvent.match(logLine)) {
+            logEventType = LogEventType.CARD_TABLE;
+        ***REMOVED*** else if (ClassesRedefinedEvent.match(logLine)) {
+            logEventType = LogEventType.CLASSES_REDEFINED;
         ***REMOVED*** else if (CodeCacheEvent.match(logLine)) {
             logEventType = LogEventType.CODE_CACHE;
         ***REMOVED*** else if (CompilationEvent.match(logLine)) {
@@ -769,22 +818,46 @@ public class JdkUtil {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
         ***REMOVED*** else if (ElapsedTimeEvent.match(logLine)) {
             logEventType = LogEventType.ELAPSED_TIME;
+        ***REMOVED*** else if (EnvironmentVariablesEvent.match(logLine)) {
+            logEventType = LogEventType.ENVIRONMENT_VARIABLES;
         ***REMOVED*** else if (ExceptionCountsEvent.match(logLine)) {
             logEventType = LogEventType.EXCEPTION_COUNTS;
         ***REMOVED*** else if (ExceptionEvent.match(logLine)) {
             logEventType = LogEventType.EXCEPTION_EVENT;
         ***REMOVED*** else if (HeaderEvent.match(logLine)) {
             logEventType = LogEventType.HEADER;
+        ***REMOVED*** else if (HeadingEvent.match(logLine)) {
+            logEventType = LogEventType.HEADING;
         ***REMOVED*** else if (HeapEvent.match(logLine)) {
             logEventType = LogEventType.HEAP;
+        ***REMOVED*** else if (HeapAddressEvent.match(logLine)) {
+            logEventType = LogEventType.HEAP_ADDRESS;
         ***REMOVED*** else if (HeapRegionsEvent.match(logLine)) {
             logEventType = LogEventType.HEAP_REGIONS;
-        ***REMOVED*** else if (JvmArgsEvent.match(logLine)) {
-            logEventType = LogEventType.JVM_ARGS;
+        ***REMOVED*** else if (InstructionsEvent.match(logLine)) {
+            logEventType = LogEventType.INSTRUCTIONS;
+        ***REMOVED*** else if (LibcEvent.match(logLine)) {
+            logEventType = LogEventType.LIBC;
+        ***REMOVED*** else if (LoadAverageEvent.match(logLine)) {
+            logEventType = LogEventType.LOAD_AVERAGE;
+        ***REMOVED*** else if (MeminfoEvent.match(logLine)) {
+            logEventType = LogEventType.MEMINFO;
         ***REMOVED*** else if (MemoryEvent.match(logLine)) {
             logEventType = LogEventType.MEMORY;
         ***REMOVED*** else if (OsEvent.match(logLine)) {
             logEventType = LogEventType.OS;
+        ***REMOVED*** else if (PollingPageEvent.match(logLine)) {
+            logEventType = LogEventType.POLLING_PAGE;
+        ***REMOVED*** else if (RegisterEvent.match(logLine)) {
+            logEventType = LogEventType.REGISTER;
+        ***REMOVED*** else if (RegisterToMemoryMappingEvent.match(logLine)) {
+            logEventType = LogEventType.REGISTER_TO_MEMORY_MAPPING;
+        ***REMOVED*** else if (RlimitEvent.match(logLine)) {
+            logEventType = LogEventType.RLIMIT;
+        ***REMOVED*** else if (SigInfoEvent.match(logLine)) {
+            logEventType = LogEventType.SIGINFO;
+        ***REMOVED*** else if (SignalHandlersEvent.match(logLine)) {
+            logEventType = LogEventType.SIGNAL_HANDLERS;
         ***REMOVED*** else if (StackEvent.match(logLine)) {
             logEventType = LogEventType.STACK;
         ***REMOVED*** else if (ThreadEvent.match(logLine)) {
@@ -793,12 +866,20 @@ public class JdkUtil {
             logEventType = LogEventType.TIME;
         ***REMOVED*** else if (TimezoneEvent.match(logLine)) {
             logEventType = LogEventType.TIMEZONE;
+        ***REMOVED*** else if (TopOfStackEvent.match(logLine)) {
+            logEventType = LogEventType.TOP_OF_STACK;
         ***REMOVED*** else if (UnameEvent.match(logLine)) {
             logEventType = LogEventType.UNAME;
+        ***REMOVED*** else if (VmArgumentsEvent.match(logLine)) {
+            logEventType = LogEventType.VM_ARGUMENTS;
         ***REMOVED*** else if (VmEvent.match(logLine)) {
             logEventType = LogEventType.VM_EVENT;
         ***REMOVED*** else if (VmInfoEvent.match(logLine)) {
             logEventType = LogEventType.VM_INFO;
+        ***REMOVED*** else if (VmMutexEvent.match(logLine)) {
+            logEventType = LogEventType.VM_MUTEX;
+        ***REMOVED*** else if (VmStateEvent.match(logLine)) {
+            logEventType = LogEventType.VM_STATE;
         ***REMOVED***
         return logEventType;
     ***REMOVED***
@@ -831,8 +912,17 @@ public class JdkUtil {
         LogEventType eventType = identifyEventType(logLine);
         LogEvent event = null;
         switch (eventType) {
+        case BITS:
+            event = new BitsEvent(logLine);
+            break;
         case BLANK_LINE:
             event = new BlankLineEvent(logLine);
+            break;
+        case CARD_TABLE:
+            event = new CardTableEvent(logLine);
+            break;
+        case CLASSES_REDEFINED:
+            event = new ClassesRedefinedEvent(logLine);
             break;
         case CODE_CACHE:
             event = new CodeCacheEvent(logLine);
@@ -855,6 +945,9 @@ public class JdkUtil {
         case ELAPSED_TIME:
             event = new ElapsedTimeEvent(logLine);
             break;
+        case ENVIRONMENT_VARIABLES:
+            event = new EnvironmentVariablesEvent(logLine);
+            break;
         case EXCEPTION_COUNTS:
             event = new ExceptionCountsEvent(logLine);
             break;
@@ -864,20 +957,53 @@ public class JdkUtil {
         case HEADER:
             event = new HeaderEvent(logLine);
             break;
+        case HEADING:
+            event = new HeadingEvent(logLine);
+            break;
         case HEAP:
             event = new HeapEvent(logLine);
+            break;
+        case HEAP_ADDRESS:
+            event = new HeapAddressEvent(logLine);
             break;
         case HEAP_REGIONS:
             event = new HeapRegionsEvent(logLine);
             break;
-        case JVM_ARGS:
-            event = new JvmArgsEvent(logLine);
+        case INSTRUCTIONS:
+            event = new InstructionsEvent(logLine);
+            break;
+        case LIBC:
+            event = new LibcEvent(logLine);
+            break;
+        case LOAD_AVERAGE:
+            event = new LoadAverageEvent(logLine);
+            break;
+        case MEMINFO:
+            event = new MeminfoEvent(logLine);
             break;
         case MEMORY:
             event = new MemoryEvent(logLine);
             break;
         case OS:
             event = new OsEvent(logLine);
+            break;
+        case POLLING_PAGE:
+            event = new PollingPageEvent(logLine);
+            break;
+        case REGISTER:
+            event = new RegisterEvent(logLine);
+            break;
+        case REGISTER_TO_MEMORY_MAPPING:
+            event = new RegisterToMemoryMappingEvent(logLine);
+            break;
+        case RLIMIT:
+            event = new RlimitEvent(logLine);
+            break;
+        case SIGINFO:
+            event = new SigInfoEvent(logLine);
+            break;
+        case SIGNAL_HANDLERS:
+            event = new SignalHandlersEvent(logLine);
             break;
         case STACK:
             event = new StackEvent(logLine);
@@ -891,17 +1017,29 @@ public class JdkUtil {
         case TIMEZONE:
             event = new TimezoneEvent(logLine);
             break;
+        case TOP_OF_STACK:
+            event = new TopOfStackEvent(logLine);
+            break;
         case UNAME:
             event = new UnameEvent(logLine);
             break;
         case UNKNOWN:
             event = new UnknownEvent(logLine);
             break;
+        case VM_ARGUMENTS:
+            event = new VmArgumentsEvent(logLine);
+            break;
         case VM_EVENT:
             event = new VmEvent(logLine);
             break;
         case VM_INFO:
             event = new VmInfoEvent(logLine);
+            break;
+        case VM_MUTEX:
+            event = new VmMutexEvent(logLine);
+            break;
+        case VM_STATE:
+            event = new VmStateEvent(logLine);
             break;
         default:
             throw new AssertionError("Unexpected event type value: " + eventType);

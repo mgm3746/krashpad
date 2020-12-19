@@ -16,37 +16,45 @@ package org.github.errcat.domain.jdk;
 
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.ThrowAwayEvent;
+import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * HEAP_REGIONS
+ * REGISTER
  * </p>
  * 
  * <p>
- * Heap information.
+ * Register information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * Heap Regions:
- * EU=empty-uncommitted, EC=empty-committed, R=regular, H=humongous start, HC=humongous continuation, CS=collection set, T=trash, P=pinned
- * BTE=bottom/top/end, U=used, T=TLAB allocs, G=GCLAB allocs, S=shared allocs, L=live data
- * R=root, CP=critical pins, TAMS=top-at-mark-start, UWM=update watermark
- * SN=alloc sequence number
- * |    0|CS |BTE    67a200000,    67a400000,    67a400000|TAMS    67a400000|UWM    67a400000|U  2048K|T  2047K|G     0B|S    56B|L 31152B|CP   0
+ * ***REMOVED***
+ * RAX=0x0000000000000001, RBX=0x00007f67383dc748, RCX=0x0000000000000004, RDX=0x00007f69b031f898
+ * RSP=0x00007fcbcc676c50, RBP=0x00007fcbcc676cb0, RSI=0x0000000000000000, RDI=0x00007f69b031f898
+ * R8 =0x0000000000000005, R9 =0x0000000000000010, R10=0x0000000000000000, R11=0x0000000000000000
+ * R12=0x00007f673d50bfe0, R13=0x00007f6a3a004628, R14=0x00007f6a3a004620, R15=0x00007f673d50bdf0
+ * RIP=0x00007fcbd05a3b71, EFLAGS=0x0000000000010293, CSGSFS=0x0000000000000033, ERR=0x0000000000000004
+ *   TRAPNO=0x000000000000000e
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
+public class RegisterEvent implements LogEvent, ThrowAwayEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "***REMOVED***";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(BTE=|Heap Regions:|R=|ShenandoahBarrierSet|SN=|EU=|\\|)(.*)$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|" + JdkRegEx.REGISTER + ", " + JdkRegEx.REGISTER + ", "
+            + JdkRegEx.REGISTER + ", " + JdkRegEx.REGISTER + "|  TRAPNO=" + JdkRegEx.ADDRESS + ")$";
 
     /**
      * The log entry for the event.
@@ -59,7 +67,7 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public HeapRegionsEvent(String logEntry) {
+    public RegisterEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -68,7 +76,7 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.HEAP_REGIONS.toString();
+        return JdkUtil.LogEventType.REGISTER.toString();
     ***REMOVED***
 
     /**

@@ -64,4 +64,11 @@ public class TestThreadEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof ThreadEvent);
     ***REMOVED***
+
+    public void testGcTaskThread() {
+        String logLine = "=>0x00007fcbc8056000 (exited) GCTaskThread [stack: 0x00007fcbcc578000,0x00007fcbcc678000] "
+                + "[id=52418]";
+        Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof ThreadEvent);
+    ***REMOVED***
 ***REMOVED***

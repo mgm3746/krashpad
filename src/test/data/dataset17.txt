@@ -14,6 +14,11 @@
 ***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
 ***REMOVED***
 
+***REMOVED***
+
+Current thread (0x0000564db6334800):  JavaThread "default task-1105" [_thread_in_Java, id=30520, stack(0x00007f81a3352000,0x00007f81a3453000)]
+
+siginfo: si_signo: 7 (SIGBUS), si_code: 2 (BUS_ADRERR), si_addr: 0x00007f81e90a3000
 
 Stack: [0x00007f81a3352000,0x00007f81a3453000],  sp=0x00007f81a344fc50,  free space=1015k
 ***REMOVED***

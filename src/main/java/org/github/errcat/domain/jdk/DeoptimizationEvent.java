@@ -44,8 +44,8 @@ public class DeoptimizationEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread ("
-            + JdkRegEx.ADDRESS64 + "|" + JdkRegEx.ADDRESS32 + ") Uncommon trap).+$";
+    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
+            + JdkRegEx.ADDRESS + " Uncommon trap).+$";
 
     /**
      * The log entry for the event.

@@ -301,7 +301,7 @@ VM_Operation (0x00007f5a849bd790): ParallelGCFailedAllocation, mode: safepoint, 
  Metaspace       used 347525K, capacity 385674K, committed 471808K, reserved 1447936K
   class space    used 41145K, capacity 53309K, committed 74240K, reserved 1048576K
   
-  ***REMOVED***
+***REMOVED***
 jvm_args: -Xms2048m -Xmx8192m -XX:MetaspaceSize=8192m -XX:MaxMetaspaceSize=8192m 
  
     

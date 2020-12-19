@@ -20,33 +20,28 @@ import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * HEAP_REGIONS
+ * CARD_TABLE
  * </p>
  * 
  * <p>
- * Heap information.
+ * Card table information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * Heap Regions:
- * EU=empty-uncommitted, EC=empty-committed, R=regular, H=humongous start, HC=humongous continuation, CS=collection set, T=trash, P=pinned
- * BTE=bottom/top/end, U=used, T=TLAB allocs, G=GCLAB allocs, S=shared allocs, L=live data
- * R=root, CP=critical pins, TAMS=top-at-mark-start, UWM=update watermark
- * SN=alloc sequence number
- * |    0|CS |BTE    67a200000,    67a400000,    67a400000|TAMS    67a400000|UWM    67a400000|U  2048K|T  2047K|G     0B|S    56B|L 31152B|CP   0
+ * Card table byte_map: [0x00007f69332bf000,0x00007f6964000000] byte_map_base: 0x00007f297e79f000
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
+public class CardTableEvent implements LogEvent, ThrowAwayEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(BTE=|Heap Regions:|R=|ShenandoahBarrierSet|SN=|EU=|\\|)(.*)$";
+    private static final String REGEX = "^Card table byte_map:.+$";
 
     /**
      * The log entry for the event.
@@ -59,7 +54,7 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public HeapRegionsEvent(String logEntry) {
+    public CardTableEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -68,7 +63,7 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.HEAP_REGIONS.toString();
+        return JdkUtil.LogEventType.CARD_TABLE.toString();
     ***REMOVED***
 
     /**

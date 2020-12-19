@@ -15,38 +15,82 @@
 package org.github.errcat.domain.jdk;
 
 import org.github.errcat.domain.LogEvent;
-import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * HEAP_REGIONS
+ * MEMINFO
  * </p>
  * 
  * <p>
- * Heap information.
+ * Memory information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * Heap Regions:
- * EU=empty-uncommitted, EC=empty-committed, R=regular, H=humongous start, HC=humongous continuation, CS=collection set, T=trash, P=pinned
- * BTE=bottom/top/end, U=used, T=TLAB allocs, G=GCLAB allocs, S=shared allocs, L=live data
- * R=root, CP=critical pins, TAMS=top-at-mark-start, UWM=update watermark
- * SN=alloc sequence number
- * |    0|CS |BTE    67a200000,    67a400000,    67a400000|TAMS    67a400000|UWM    67a400000|U  2048K|T  2047K|G     0B|S    56B|L 31152B|CP   0
+ * ***REMOVED***
+ * MemTotal:       65305448 kB
+ * MemFree:        30813412 kB
+ * Buffers:          817980 kB
+ * Cached:          4248912 kB
+ * SwapCached:            0 kB
+ * Active:         27699800 kB
+ * Inactive:        1601588 kB
+ * Active(anon):   24235196 kB
+ * Inactive(anon):    47860 kB
+ * Active(file):    3464604 kB
+ * Inactive(file):  1553728 kB
+ * ***REMOVED***
+ * ***REMOVED***
+ * SwapTotal:       4194300 kB
+ * SwapFree:        4194300 kB
+ * Dirty:              1732 kB
+ * ***REMOVED***
+ * AnonPages:      24234268 kB
+ * Mapped:           378036 kB
+ * Shmem:             48464 kB
+ * Slab:            4564604 kB
+ * SReclaimable:    4475112 kB
+ * SUnreclaim:        89492 kB
+ * KernelStack:       67264 kB
+ * PageTables:        72112 kB
+ * ***REMOVED***
+ * ***REMOVED***
+ * ***REMOVED***
+ * CommitLimit:    36847024 kB
+ * Committed_AS:   32863880 kB
+ * VmallocTotal:   34359738367 kB
+ * VmallocUsed:      293044 kB
+ * VmallocChunk:   34359435764 kB
+ * ***REMOVED***
+ * AnonHugePages:  20576256 kB
+ * ***REMOVED***
+ * ***REMOVED***
+ * ***REMOVED***
+ * ***REMOVED***
+ * Hugepagesize:       2048 kB
+ * DirectMap4k:        8192 kB
+ * DirectMap2M:     2088960 kB
+ * DirectMap1G:    65011712 kB
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
+public class MeminfoEvent implements LogEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "***REMOVED***";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(BTE=|Heap Regions:|R=|ShenandoahBarrierSet|SN=|EU=|\\|)(.*)$";
+    private static final String REGEX = "^(" + REGEX_HEADER
+            + "|Active|Anon|Bounce|Buffers|Cached|Commit|Direct|Dirty|Hardware|Huge|Inactive|Kernel|Mapped|MemFree|"
+            + "MemTotal|Mlocked|NFS|Page|SReclaimable|Shmem|Slab|SUnreclaim|Swap|Unevictable|Vmalloc|Write).*$";
 
     /**
      * The log entry for the event.
@@ -59,7 +103,7 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public HeapRegionsEvent(String logEntry) {
+    public MeminfoEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -68,7 +112,7 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.HEAP_REGIONS.toString();
+        return JdkUtil.LogEventType.MEMINFO.toString();
     ***REMOVED***
 
     /**

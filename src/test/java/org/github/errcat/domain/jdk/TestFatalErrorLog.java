@@ -317,6 +317,7 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Metaspace used not correct.", 257753, fel.getMetaspaceUsed());
         Assert.assertEquals("Application not correct.", Application.JBOSS, fel.getApplication());
         Assert.assertEquals("CPU cores not correct.", 16, fel.getCpuCores());
+        Assert.assertEquals("State not correct.", "at safepoint (normal execution)", fel.getVmState());
         Assert.assertTrue(Analysis.INFO_SWAP_DISABLED + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
         Assert.assertTrue(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER + " analysis not identified.",
@@ -338,6 +339,7 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Metaspace allocation not correct.", 159168, fel.getMetaspaceAllocation());
         Assert.assertEquals("Metaspace used not correct.", 147896, fel.getMetaspaceUsed());
         Assert.assertEquals("CPU cores not correct.", 8, fel.getCpuCores());
+        Assert.assertEquals("Thread stack size not correct.", 5 * 1024, fel.getThreadStackMaxSize());
     ***REMOVED***
 
     public void testAws() {

@@ -75,7 +75,7 @@ public class TestHeaderEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("SIGSEGV not identified.", headerEvent.isSigSegv());
+        Assert.assertTrue("SIGSEGV not identified.", headerEvent.isSignalNumber());
     ***REMOVED***
 
     public void testSigBus() {
@@ -83,7 +83,7 @@ public class TestHeaderEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("SIGBUS not identified.", headerEvent.isSigBus());
+        Assert.assertTrue("SIGBUS not identified.", headerEvent.isSignalNumber());
     ***REMOVED***
 
     public void testSigIll() {
@@ -91,7 +91,7 @@ public class TestHeaderEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof HeaderEvent);
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("SIGILL not identified.", headerEvent.isSigIll());
+        Assert.assertTrue("SIGILL not identified.", headerEvent.isSignalNumber());
     ***REMOVED***
 
     public void testInternalError() {

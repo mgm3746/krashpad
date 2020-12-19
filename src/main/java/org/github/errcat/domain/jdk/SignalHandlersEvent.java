@@ -20,33 +20,46 @@ import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * HEAP_REGIONS
+ * SIGNAL_HANDLERS
  * </p>
  * 
  * <p>
- * Heap information.
+ * Signal handlers information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * Heap Regions:
- * EU=empty-uncommitted, EC=empty-committed, R=regular, H=humongous start, HC=humongous continuation, CS=collection set, T=trash, P=pinned
- * BTE=bottom/top/end, U=used, T=TLAB allocs, G=GCLAB allocs, S=shared allocs, L=live data
- * R=root, CP=critical pins, TAMS=top-at-mark-start, UWM=update watermark
- * SN=alloc sequence number
- * |    0|CS |BTE    67a200000,    67a400000,    67a400000|TAMS    67a400000|UWM    67a400000|U  2048K|T  2047K|G     0B|S    56B|L 31152B|CP   0
+ * ***REMOVED***
+ * SIGSEGV: [libjvm.so+0xb73090], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGBUS: [libjvm.so+0xb73090], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGFPE: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGPIPE: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+ * SIGXFSZ: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGILL: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * ***REMOVED***
+ * SIGUSR2: [libjvm.so+0x9628d0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+ * SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+ * SIGTERM: [libjvm.so+0x964430], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+ * SIGQUIT: [libjvm.so+0x964430], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGIN
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
+public class SignalHandlersEvent implements LogEvent, ThrowAwayEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "***REMOVED***";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(BTE=|Heap Regions:|R=|ShenandoahBarrierSet|SN=|EU=|\\|)(.*)$";
+    private static final String REGEX = "^(" + REGEX_HEADER
+            + "|SIGSEGV|SIGBUS|SIGFPE|SIGPIPE|SIGXFSZ|SIGILL|SIGUSR1|SIGUSR2|SIGHUP|SIGINT|SIGTERM|SIGQUIT).*$";
 
     /**
      * The log entry for the event.
@@ -59,7 +72,7 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public HeapRegionsEvent(String logEntry) {
+    public SignalHandlersEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -68,7 +81,7 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.HEAP_REGIONS.toString();
+        return JdkUtil.LogEventType.SIGNAL_HANDLERS.toString();
     ***REMOVED***
 
     /**

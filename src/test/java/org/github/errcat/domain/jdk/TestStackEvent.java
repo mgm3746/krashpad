@@ -91,4 +91,13 @@ public class TestStackEvent extends TestCase {
         StackEvent stackEvent = new StackEvent(logLine);
         Assert.assertTrue("VM code not identified.", stackEvent.isVmFrame());
     ***REMOVED***
+
+    public void testHeader() {
+        String logLine = "Stack: [0x00007fe1bc2b9000,0x00007fe1bc3b9000],  sp=0x00007fe1bc3b7bd0,  free space=1018k";
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
+        StackEvent event = new StackEvent(logLine);
+        Assert.assertTrue("Header not identified.", event.isHeader());
+        Assert.assertEquals("Stack free space not correct.", 1018, event.getStackFreeSpace());
+    ***REMOVED***
 ***REMOVED***

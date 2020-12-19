@@ -14,39 +14,44 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.errcat.domain.LogEvent;
-import org.github.errcat.domain.ThrowAwayEvent;
+import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.SignalCode;
+import org.github.errcat.util.jdk.JdkUtil.SignalNumber;
 
 /**
  * <p>
- * HEAP_REGIONS
+ * SIGINFO
  * </p>
  * 
  * <p>
- * Heap information.
+ * Signal information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * Heap Regions:
- * EU=empty-uncommitted, EC=empty-committed, R=regular, H=humongous start, HC=humongous continuation, CS=collection set, T=trash, P=pinned
- * BTE=bottom/top/end, U=used, T=TLAB allocs, G=GCLAB allocs, S=shared allocs, L=live data
- * R=root, CP=critical pins, TAMS=top-at-mark-start, UWM=update watermark
- * SN=alloc sequence number
- * |    0|CS |BTE    67a200000,    67a400000,    67a400000|TAMS    67a400000|UWM    67a400000|U  2048K|T  2047K|G     0B|S    56B|L 31152B|CP   0
+ * ***REMOVED***
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
+public class SigInfoEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(BTE=|Heap Regions:|R=|ShenandoahBarrierSet|SN=|EU=|\\|)(.*)$";
+    private static final String REGEX = "^siginfo: si_signo: \\d{1,2***REMOVED*** \\((" + SignalNumber.SIGBUS + "|"
+            + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ")\\), si_code: \\d{1,2***REMOVED*** \\((" + SignalCode.BUS_ADRALN
+            + "|" + SignalCode.BUS_ADRERR + "|" + SignalCode.BUS_OBJERR + "|" + SignalCode.SEGV_ACCERR + "|"
+            + SignalCode.SEGV_MAPERR + ")\\), si_addr: " + JdkRegEx.ADDRESS + "$";
+
+    private static Pattern pattern = Pattern.compile(REGEX);
 
     /**
      * The log entry for the event.
@@ -59,7 +64,7 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public HeapRegionsEvent(String logEntry) {
+    public SigInfoEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -68,7 +73,7 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.HEAP_REGIONS.toString();
+        return JdkUtil.LogEventType.SIGINFO.toString();
     ***REMOVED***
 
     /**
@@ -80,5 +85,45 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
+    ***REMOVED***
+
+    /**
+     * @return Signal number.
+     */
+    public SignalNumber getSignalNumber() {
+        SignalNumber number = SignalNumber.UNKNOWN;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(1).matches(SignalNumber.SIGBUS.toString())) {
+                number = SignalNumber.SIGBUS;
+            ***REMOVED*** else if (matcher.group(1).matches(SignalNumber.SIGILL.toString())) {
+                number = SignalNumber.SIGILL;
+            ***REMOVED*** else if (matcher.group(1).matches(SignalNumber.SIGSEGV.toString())) {
+                number = SignalNumber.SIGSEGV;
+            ***REMOVED***
+        ***REMOVED***
+        return number;
+    ***REMOVED***
+
+    /**
+     * @return Signal code.
+     */
+    public SignalCode getSignalCode() {
+        SignalCode code = SignalCode.UNKNOWN;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(2).matches(SignalCode.BUS_ADRALN.toString())) {
+                code = SignalCode.BUS_ADRALN;
+            ***REMOVED*** else if (matcher.group(2).matches(SignalCode.BUS_ADRERR.toString())) {
+                code = SignalCode.BUS_ADRERR;
+            ***REMOVED*** else if (matcher.group(2).matches(SignalCode.BUS_OBJERR.toString())) {
+                code = SignalCode.BUS_OBJERR;
+            ***REMOVED*** else if (matcher.group(2).matches(SignalCode.SEGV_ACCERR.toString())) {
+                code = SignalCode.SEGV_ACCERR;
+            ***REMOVED*** else if (matcher.group(2).matches(SignalCode.SEGV_MAPERR.toString())) {
+                code = SignalCode.SEGV_MAPERR;
+            ***REMOVED***
+        ***REMOVED***
+        return code;
     ***REMOVED***
 ***REMOVED***

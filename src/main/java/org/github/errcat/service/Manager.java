@@ -33,17 +33,21 @@ import org.github.errcat.domain.jdk.ElapsedTimeEvent;
 import org.github.errcat.domain.jdk.ExceptionCountsEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeaderEvent;
+import org.github.errcat.domain.jdk.HeapAddressEvent;
 import org.github.errcat.domain.jdk.HeapEvent;
-import org.github.errcat.domain.jdk.JvmArgsEvent;
+import org.github.errcat.domain.jdk.MeminfoEvent;
 import org.github.errcat.domain.jdk.MemoryEvent;
 import org.github.errcat.domain.jdk.OsEvent;
+import org.github.errcat.domain.jdk.SigInfoEvent;
 import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.domain.jdk.ThreadEvent;
 import org.github.errcat.domain.jdk.TimeEvent;
 import org.github.errcat.domain.jdk.TimezoneEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
+import org.github.errcat.domain.jdk.VmArgumentsEvent;
 import org.github.errcat.domain.jdk.VmEvent;
 import org.github.errcat.domain.jdk.VmInfoEvent;
+import org.github.errcat.domain.jdk.VmStateEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
@@ -101,14 +105,18 @@ public class Manager {
                         fatalErrorLog.getExceptionCountsEvents().add((ExceptionCountsEvent) event);
                     ***REMOVED*** else if (event instanceof HeaderEvent) {
                         fatalErrorLog.getHeaderEvents().add((HeaderEvent) event);
+                    ***REMOVED*** else if (event instanceof HeapAddressEvent) {
+                        fatalErrorLog.getHeapAddressEvents().add((HeapAddressEvent) event);
                     ***REMOVED*** else if (event instanceof HeapEvent) {
                         fatalErrorLog.getHeapEvents().add((HeapEvent) event);
-                    ***REMOVED*** else if (event instanceof JvmArgsEvent) {
-                        fatalErrorLog.setJvmArgsEvent((JvmArgsEvent) event);
+                    ***REMOVED*** else if (event instanceof MeminfoEvent) {
+                        fatalErrorLog.getMeminfoEvents().add((MeminfoEvent) event);
                     ***REMOVED*** else if (event instanceof MemoryEvent) {
                         fatalErrorLog.setMemoryEvent((MemoryEvent) event);
                     ***REMOVED*** else if (event instanceof OsEvent) {
                         fatalErrorLog.setOsEvent((OsEvent) event);
+                    ***REMOVED*** else if (event instanceof SigInfoEvent) {
+                        fatalErrorLog.setSigInfoEvent((SigInfoEvent) event);
                     ***REMOVED*** else if (event instanceof StackEvent) {
                         fatalErrorLog.getStackEvents().add((StackEvent) event);
                     ***REMOVED*** else if (event instanceof ThreadEvent) {
@@ -125,10 +133,14 @@ public class Manager {
                         if (fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
                             fatalErrorLog.getUnidentifiedLogLines().add(logLine);
                         ***REMOVED***
+                    ***REMOVED*** else if (event instanceof VmArgumentsEvent) {
+                        fatalErrorLog.getVmArgumentsEvents().add((VmArgumentsEvent) event);
                     ***REMOVED*** else if (event instanceof VmEvent) {
                         fatalErrorLog.getVmEvents().add((VmEvent) event);
                     ***REMOVED*** else if (event instanceof VmInfoEvent) {
                         fatalErrorLog.setVmInfoEvent((VmInfoEvent) event);
+                    ***REMOVED*** else if (event instanceof VmStateEvent) {
+                        fatalErrorLog.setVmStateEvent((VmStateEvent) event);
                     ***REMOVED***
                     logLine = bufferedReader.readLine();
                 ***REMOVED***

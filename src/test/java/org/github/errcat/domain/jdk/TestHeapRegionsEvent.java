@@ -75,10 +75,4 @@ public class TestHeapRegionsEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof HeapRegionsEvent);
     ***REMOVED***
-
-    public void testPollingPage() {
-        String logLine = "Polling page: 0x00007ffb9210b000";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof HeapRegionsEvent);
-    ***REMOVED***
 ***REMOVED***

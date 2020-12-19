@@ -298,8 +298,11 @@ public class Main {
             printWriter.write("Version: " + fel.getJdkReleaseString() + Constants.LINE_SEPARATOR);
             printWriter.write("Vendor: " + fel.getJavaVendor() + Constants.LINE_SEPARATOR);
             printWriter.write("Application: " + fel.getApplication() + Constants.LINE_SEPARATOR);
+            if (fel.getVmStateEvent() != null) {
+                printWriter.write("VM State: " + fel.getVmState() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
             if (!fel.getCrashTime().equals("")) {
-                printWriter.write("Crash date: " + fel.getCrashTime() + Constants.LINE_SEPARATOR);
+                printWriter.write("Crash Date: " + fel.getCrashTime() + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getElapsedTime() != null) {
                 printWriter.write("JVM time running: " + fel.getElapsedTime() + Constants.LINE_SEPARATOR);
