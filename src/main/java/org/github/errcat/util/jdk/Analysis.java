@@ -173,6 +173,16 @@ public enum Analysis {
     INFO_SIGCODE_SEGV_MAPERR("info.sigcode.segv.maperr"),
 
     /**
+     * Property key for SI_KERNEL crash.
+     */
+    INFO_SIGCODE_SI_KERNEL("info.sigcode.si.kernel"),
+
+    /**
+     * Property key for ACCESS_VIOLATION crash.
+     */
+    INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION("info.signo.exception.access.violation"),
+
+    /**
      * Property key for SIGBUS crash.
      */
     INFO_SIGNO_SIGBUS("info.signo.sigbus"),
@@ -191,6 +201,11 @@ public enum Analysis {
      * Property key for the stack not containing any VM code.
      */
     INFO_STACK_NO_VM_CODE("info.stack.no.vm.code"),
+
+    /**
+     * Property key for a small thread stack size (&lt; 128k).
+     */
+    INFO_THREAD_STACK_SIZE_SMALL("warn.thread.stack.size.small"),
 
     /**
      * Property key for swapping disabled.
@@ -221,6 +236,11 @@ public enum Analysis {
      * Property key for a JDK that is deployed on RHEL6.
      */
     WARN_RHEL6("warn.rhel6"),
+
+    /**
+     * Property key for a tiny thread stack size (&lt; 1k).
+     */
+    WARN_THREAD_STACK_SIZE_TINY("warn.thread.stack.size.tiny"),
 
     /**
      * Property key for unidentified line(s) needing reporting.

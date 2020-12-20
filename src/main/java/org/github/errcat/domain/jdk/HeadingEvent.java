@@ -49,7 +49,8 @@ public class HeadingEvent implements LogEvent, ThrowAwayEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^[-]{15***REMOVED***  (T H R E A D|P R O C E S S|S Y S T E M)  [-]{15***REMOVED***$";
+    private static final String REGEX = "^[-]{15***REMOVED***  (T H R E A D|P R O C E S S|S U M M A R Y|S Y S T E M)"
+            + "[ ]{1,2***REMOVED***[-]{12,15***REMOVED***$";
 
     /**
      * The log entry for the event.

@@ -32,6 +32,11 @@ import junit.framework.TestCase;
  */
 public class TestAnalysis extends TestCase {
 
+    public void testWarnNotLatestJdkValue() {
+        Assert.assertEquals(Analysis.WARN_JDK_NOT_LATEST + "value not correct.",
+                "JDK is not the latest version. Latest version is ", Analysis.WARN_JDK_NOT_LATEST.getValue());
+    ***REMOVED***
+
     public void testLatestRelease() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset14.txt");
         Manager manager = new Manager();
@@ -235,5 +240,21 @@ public class TestAnalysis extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE));
+    ***REMOVED***
+
+    public void testThreadStackSizeTiny() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset38.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.WARN_THREAD_STACK_SIZE_TINY + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_THREAD_STACK_SIZE_TINY));
+    ***REMOVED***
+
+    public void testSiKernel() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset39.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.INFO_SIGCODE_SI_KERNEL + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_SIGCODE_SI_KERNEL));
     ***REMOVED***
 ***REMOVED***

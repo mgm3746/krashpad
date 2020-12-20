@@ -117,4 +117,25 @@ public class TestSignalHandlersEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.SIGNAL_HANDLERS);
     ***REMOVED***
+
+    public void testSigtrap() {
+        String logLine = "SIGTRAP: [libjvm.so+0x840670], sa_mask[0]=11111111011111111101111111111110, "
+                + "sa_flags=SA_RESTART|SA_SIGINFO";
+        Assert.assertTrue(JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.SIGNAL_HANDLERS);
+    ***REMOVED***
+
+    public void testSig39() {
+        String logLine = "SIG39: [libjvm.so+0xa9e080], sa_mask[0]=00000000000000000000000000000000, "
+                + "sa_flags=SA_SIGINFO";
+        Assert.assertTrue(JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.SIGNAL_HANDLERS);
+    ***REMOVED***
+
+    public void testSig40() {
+        String logLine = "SIG40: [libjvm.so+0xa9e030], sa_mask[0]=11111111011111111111110111111111, "
+                + "sa_flags=SA_RESTART|SA_SIGINFO";
+        Assert.assertTrue(JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.SIGNAL_HANDLERS);
+    ***REMOVED***
 ***REMOVED***

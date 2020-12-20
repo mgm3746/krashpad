@@ -41,13 +41,14 @@ public class ThreadEvent implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "(Java Threads: \\( => current thread \\)|***REMOVED***)";
+    private static final String REGEX_HEADER = "(Java Threads: \\( => current thread \\)|***REMOVED***|"
+            + "Threads with active compile tasks:)";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER + "|(  |=>)" + JdkRegEx.ADDRESS
-            + "( \\(exited\\))? (GCTaskThread|JavaThread|VMThread|WatcherThread)).*$";
+            + "( \\(exited\\))? (ConcurrentGCThread|GCTaskThread|JavaThread|VMThread|WatcherThread)).*$";
 
     /**
      * The log entry for the event.

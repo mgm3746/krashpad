@@ -34,8 +34,20 @@ import org.github.errcat.util.jdk.JdkUtil.SignalNumber;
  * 
  * <h3>Example Logging</h3>
  * 
+ * <p>
+ * 1) Linux:
+ * </p>
+ * 
  * <pre>
  * ***REMOVED***
+ * </pre>
+ * 
+ * <p>
+ * 2) Windows:
+ * </p>
+ * 
+ * </pre>
+ * siginfo: ExceptionCode=0xc0000005, reading address 0x0000000000000048
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -46,10 +58,11 @@ public class SigInfoEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^siginfo: si_signo: \\d{1,2***REMOVED*** \\((" + SignalNumber.SIGBUS + "|"
-            + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ")\\), si_code: \\d{1,2***REMOVED*** \\((" + SignalCode.BUS_ADRALN
+    private static final String REGEX = "^siginfo: ((si_signo: \\d{1,2***REMOVED*** \\((" + SignalNumber.SIGBUS + "|"
+            + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ")\\), si_code: \\d{1,3***REMOVED*** \\((" + SignalCode.BUS_ADRALN
             + "|" + SignalCode.BUS_ADRERR + "|" + SignalCode.BUS_OBJERR + "|" + SignalCode.SEGV_ACCERR + "|"
-            + SignalCode.SEGV_MAPERR + ")\\), si_addr: " + JdkRegEx.ADDRESS + "$";
+            + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + ")\\), si_addr: " + JdkRegEx.ADDRESS
+            + ")|(ExceptionCode=" + JdkRegEx.ADDRESS + ", reading address " + JdkRegEx.ADDRESS + "))$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -94,12 +107,20 @@ public class SigInfoEvent implements LogEvent {
         SignalNumber number = SignalNumber.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(1).matches(SignalNumber.SIGBUS.toString())) {
-                number = SignalNumber.SIGBUS;
-            ***REMOVED*** else if (matcher.group(1).matches(SignalNumber.SIGILL.toString())) {
-                number = SignalNumber.SIGILL;
-            ***REMOVED*** else if (matcher.group(1).matches(SignalNumber.SIGSEGV.toString())) {
-                number = SignalNumber.SIGSEGV;
+            // Linux
+            if (matcher.group(2) != null && matcher.group(3) != null) {
+                if (matcher.group(3).matches(SignalNumber.SIGBUS.toString())) {
+                    number = SignalNumber.SIGBUS;
+                ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGILL.toString())) {
+                    number = SignalNumber.SIGILL;
+                ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {
+                    number = SignalNumber.SIGSEGV;
+                ***REMOVED***
+            ***REMOVED*** else if (matcher.group(10) != null && matcher.group(11) != null) {
+                // Windows
+                if (matcher.group(11).matches("0xc0000005")) {
+                    number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         return number;
@@ -112,16 +133,21 @@ public class SigInfoEvent implements LogEvent {
         SignalCode code = SignalCode.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(2).matches(SignalCode.BUS_ADRALN.toString())) {
-                code = SignalCode.BUS_ADRALN;
-            ***REMOVED*** else if (matcher.group(2).matches(SignalCode.BUS_ADRERR.toString())) {
-                code = SignalCode.BUS_ADRERR;
-            ***REMOVED*** else if (matcher.group(2).matches(SignalCode.BUS_OBJERR.toString())) {
-                code = SignalCode.BUS_OBJERR;
-            ***REMOVED*** else if (matcher.group(2).matches(SignalCode.SEGV_ACCERR.toString())) {
-                code = SignalCode.SEGV_ACCERR;
-            ***REMOVED*** else if (matcher.group(2).matches(SignalCode.SEGV_MAPERR.toString())) {
-                code = SignalCode.SEGV_MAPERR;
+            // Linux
+            if (matcher.group(2) != null && matcher.group(4) != null) {
+                if (matcher.group(4).matches(SignalCode.BUS_ADRALN.toString())) {
+                    code = SignalCode.BUS_ADRALN;
+                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.BUS_ADRERR.toString())) {
+                    code = SignalCode.BUS_ADRERR;
+                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.BUS_OBJERR.toString())) {
+                    code = SignalCode.BUS_OBJERR;
+                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SEGV_ACCERR.toString())) {
+                    code = SignalCode.SEGV_ACCERR;
+                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SEGV_MAPERR.toString())) {
+                    code = SignalCode.SEGV_MAPERR;
+                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SI_KERNEL.toString())) {
+                    code = SignalCode.SI_KERNEL;
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         return code;

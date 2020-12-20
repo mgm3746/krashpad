@@ -44,9 +44,15 @@ import org.github.errcat.util.jdk.JdkUtil;
 public class CodeCacheEvent implements LogEvent, ThrowAwayEvent {
 
     /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "(CodeCache:)";
+
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^( bounds|CodeCache:| compilation:| total_blobs)(.*)$";
+    private static final String REGEX = "^(" + REGEX_HEADER
+            + "| bounds| compilation:|CodeHeap| full_count=|              stopped_count=| total_blobs)(.*)$";
 
     /**
      * The log entry for the event.

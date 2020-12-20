@@ -41,38 +41,45 @@ public class TestHeapRegionsEvent extends TestCase {
 
     public void testHeader() {
         String logLine = "Heap Regions:";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof HeapRegionsEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEAP_REGIONS);
     ***REMOVED***
 
-    public void testHeaderEu() {
+    public void testEu() {
         String logLine = "EU=empty-uncommitted, EC=empty-committed, R=regular, H=humongous start, HC=humongous "
                 + "continuation, CS=collection set, T=trash, P=pinned";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof HeapRegionsEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEAP_REGIONS);
     ***REMOVED***
 
-    public void testHeaderBte() {
+    public void testBte() {
         String logLine = "BTE=bottom/top/end, U=used, T=TLAB allocs, G=GCLAB allocs, S=shared allocs, L=live data";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof HeapRegionsEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEAP_REGIONS);
     ***REMOVED***
 
-    public void testHeaderR() {
+    public void testR() {
         String logLine = "R=root, CP=critical pins, TAMS=top-at-mark-start, UWM=update watermark";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof HeapRegionsEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEAP_REGIONS);
     ***REMOVED***
 
-    public void testHeaderSn() {
+    public void testSn() {
         String logLine = "SN=alloc sequence number";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof HeapRegionsEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEAP_REGIONS);
     ***REMOVED***
 
     public void testBarrierSet() {
         String logLine = "ShenandoahBarrierSet";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof HeapRegionsEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEAP_REGIONS);
+    ***REMOVED***
+
+    public void testAc() {
+        String logLine = "AC   0  O    TS     0 PTAMS 0x00000005d0400000 NTAMS 0x00000005d0400000 space 4096K, 100% "
+                + "used [0x00000005d0000000, 0x00000005d0400000)";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEAP_REGIONS);
     ***REMOVED***
 ***REMOVED***

@@ -39,6 +39,8 @@ public class TestTimeEvent extends TestCase {
 
     public void testTime() {
         String logLine = "time: Tue Aug 18 14:10:59 2020";
+        Assert.assertTrue(JdkUtil.LogEventType.TIME.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.TIME);
         TimeEvent event = new TimeEvent(logLine);
         Assert.assertEquals("Time not correct.", "Tue Aug 18 14:10:59 2020", event.getTime());
     ***REMOVED***

@@ -39,49 +39,50 @@ public class TestVmEvent extends TestCase {
 
     public void testHeader() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof VmEvent);
-    ***REMOVED***
-
-    public void testCompilationEvent() {
-        String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
-                + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
-        Assert.assertFalse(JdkUtil.LogEventType.VM_EVENT.toString() + " incorrectly parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof VmEvent);
-    ***REMOVED***
-
-    public void testDeoptimizationEvent() {
-        String logLine = "Event: 5689.207 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if "
-                + "action=reinterpret pc=0x00007ff0df4a0408 "
-                + "method=org.eclipse.jface.text.ListLineTracker.getLineLength(I)I @ 28";
-        Assert.assertFalse(JdkUtil.LogEventType.VM_EVENT.toString() + " incorrectly parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof VmEvent);
-    ***REMOVED***
-
-    public void testExceptionEvent() {
-        String logLine = "Event: 101.811 Thread 0x00007ff0ec698000 Exception "
-                + "<a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ef71fd30) thrown at "
-                + "[/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/"
-                + "vm/runtime/sharedRuntime.cpp, line 609]";
-        Assert.assertFalse(JdkUtil.LogEventType.VM_EVENT.toString() + " incorrectly parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof VmEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_EVENT);
     ***REMOVED***
 
     public void testThreadExited() {
         String logLine = "Event: 6665.311 Thread 0x00007fefe944f000 Thread exited: 0x00007fefe944f00";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof VmEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_EVENT);
     ***REMOVED***
 
     public void testThreadAdded() {
         String logLine = "Event: 6668.297 Thread 0x00007fefe944f000 Thread added: 0x00007fefe944f000";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof VmEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_EVENT);
     ***REMOVED***
 
     public void testLoadingClass() {
         String logLine = "Event: 6669.549 loading class projectNature";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof VmEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_EVENT);
+    ***REMOVED***
+
+    public void testConcurrent() {
+        String logLine = "Event: 1683619.717 Concurrent reset";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_EVENT);
+    ***REMOVED***
+
+    public void testPause() {
+        String logLine = "Event: 1683619.731 Pause Init Mark (unload classes)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_EVENT);
+    ***REMOVED***
+
+    public void testCoalescedSafepoint() {
+        String logLine = "Event: 38778.824 Executing coalesced safepoint VM operation: RevokeBias";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_EVENT);
+    ***REMOVED***
+
+    public void testProtectingMemory() {
+        String logLine = "Event: 949.037 Protecting memory [0x00007fffaa12b000,0x00007fffaa12f000] with protection "
+                + "modes 0";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_EVENT);
     ***REMOVED***
 ***REMOVED***

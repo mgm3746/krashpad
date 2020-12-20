@@ -14,8 +14,6 @@
  *********************************************************************************************************************/
 package org.github.errcat.util.jdk;
 
-import static org.github.errcat.util.jdk.JdkUtil.LogEventType.COMPILATION;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -30,12 +28,17 @@ import org.github.errcat.domain.jdk.BitsEvent;
 import org.github.errcat.domain.jdk.CardTableEvent;
 import org.github.errcat.domain.jdk.ClassesRedefinedEvent;
 import org.github.errcat.domain.jdk.CodeCacheEvent;
+import org.github.errcat.domain.jdk.CommandLineEvent;
 import org.github.errcat.domain.jdk.CompilationEvent;
+import org.github.errcat.domain.jdk.ContainerInfoEvent;
 import org.github.errcat.domain.jdk.CpuInfoEvent;
+import org.github.errcat.domain.jdk.CurrentCompileTaskEvent;
 import org.github.errcat.domain.jdk.CurrentThreadEvent;
 import org.github.errcat.domain.jdk.DeoptimizationEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.ElapsedTimeEvent;
+import org.github.errcat.domain.jdk.EndBraceEvent;
+import org.github.errcat.domain.jdk.EndEvent;
 import org.github.errcat.domain.jdk.EnvironmentVariablesEvent;
 import org.github.errcat.domain.jdk.ExceptionCountsEvent;
 import org.github.errcat.domain.jdk.ExceptionEvent;
@@ -45,12 +48,18 @@ import org.github.errcat.domain.jdk.HeadingEvent;
 import org.github.errcat.domain.jdk.HeapAddressEvent;
 import org.github.errcat.domain.jdk.HeapEvent;
 import org.github.errcat.domain.jdk.HeapRegionsEvent;
+import org.github.errcat.domain.jdk.HostEvent;
 import org.github.errcat.domain.jdk.InstructionsEvent;
 import org.github.errcat.domain.jdk.LibcEvent;
 import org.github.errcat.domain.jdk.LoadAverageEvent;
+import org.github.errcat.domain.jdk.LoggingEvent;
+import org.github.errcat.domain.jdk.MaxMapCountEvent;
 import org.github.errcat.domain.jdk.MeminfoEvent;
 import org.github.errcat.domain.jdk.MemoryEvent;
+import org.github.errcat.domain.jdk.MetaspaceEvent;
+import org.github.errcat.domain.jdk.NumberEvent;
 import org.github.errcat.domain.jdk.OsEvent;
+import org.github.errcat.domain.jdk.PidMaxEvent;
 import org.github.errcat.domain.jdk.PollingPageEvent;
 import org.github.errcat.domain.jdk.RegisterEvent;
 import org.github.errcat.domain.jdk.RegisterToMemoryMappingEvent;
@@ -59,7 +68,11 @@ import org.github.errcat.domain.jdk.RlimitEvent;
 import org.github.errcat.domain.jdk.SigInfoEvent;
 import org.github.errcat.domain.jdk.SignalHandlersEvent;
 import org.github.errcat.domain.jdk.StackEvent;
+import org.github.errcat.domain.jdk.StackSlotToMemoryMappingEvent;
 import org.github.errcat.domain.jdk.ThreadEvent;
+import org.github.errcat.domain.jdk.ThreadsClassSmrInfoEvent;
+import org.github.errcat.domain.jdk.ThreadsMaxEvent;
+import org.github.errcat.domain.jdk.TimeElapsedTimeEvent;
 import org.github.errcat.domain.jdk.TimeEvent;
 import org.github.errcat.domain.jdk.TimezoneEvent;
 import org.github.errcat.domain.jdk.TopOfStackEvent;
@@ -68,6 +81,7 @@ import org.github.errcat.domain.jdk.VmArgumentsEvent;
 import org.github.errcat.domain.jdk.VmEvent;
 import org.github.errcat.domain.jdk.VmInfoEvent;
 import org.github.errcat.domain.jdk.VmMutexEvent;
+import org.github.errcat.domain.jdk.VmOperationEvent;
 import org.github.errcat.domain.jdk.VmStateEvent;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.OsVersion;
@@ -112,13 +126,11 @@ public class JdkUtil {
      * 
      * SIGILL: Illegal instruction at the processor.
      * 
-     * SIGSEGV: Segmentation fault. Accessing valid memory in an invalid way. For example: (1) Attempting to write to
-     * read-only memory. (2) Attempting to write to protected (e.g. OS) memory. (3) Attempting to access an array at an
-     * index greater than the array size (out of bounds).
+     * SIGSEGV, EXCEPTION_ACCESS_VIOLATION: Segmentation fault. Accessing valid memory in an invalid way.
      */
     public enum SignalNumber {
         //
-        SIGBUS, SIGILL, SIGSEGV, UNKNOWN
+        EXCEPTION_ACCESS_VIOLATION, SIGBUS, SIGILL, SIGSEGV, UNKNOWN
     ***REMOVED***
 
     /**
@@ -136,10 +148,12 @@ public class JdkUtil {
      * of bounds).
      * 
      * SEGV_MAPERR: The memory address is not mapped to an object.
+     * 
+     * SI_KERNEL: Sent by the kernel.
      */
     public enum SignalCode {
         //
-        BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, SEGV_MAPERR, SEGV_ACCERR, UNKNOWN
+        BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, SEGV_MAPERR, SEGV_ACCERR, SI_KERNEL, UNKNOWN
     ***REMOVED***
 
     /**
@@ -162,15 +176,19 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BITS, BLANK_LINE, CARD_TABLE, CLASSES_REDEFINED, CODE_CACHE, COMPILATION, CPU, CPU_INFO, CURRENT_THREAD,
+        BITS, BLANK_LINE, CARD_TABLE, CLASSES_REDEFINED, CODE_CACHE, COMMAND_LINE, COMPILATION, CONTAINER_INFO, CPU,
         //
-        DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, ENVIRONMENT_VARIABLES, EXCEPTION_COUNTS, EXCEPTION_EVENT,
+        CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END,
         //
-        HEADER, HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, INSTRUCTIONS, LIBC, LOAD_AVERAGE, MEMINFO, MEMORY, OS,
+        END_BRACE, ENVIRONMENT_VARIABLES, EXCEPTION_COUNTS, EXCEPTION_EVENT, HEADER, HEADING, HEAP, HEAP_ADDRESS,
         //
-        POLLING_PAGE, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, THREAD, TIME,
+        HEAP_REGIONS, HOST, INSTRUCTIONS, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE,
         //
-        TIMEZONE, TOP_OF_STACK, UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX, VM_STATE
+        NUMBER, OS, PID_MAX, POLLING_PAGE, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS,
+        //
+        STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME,
+        //
+        TIMEZONE, TOP_OF_STACK, UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
     ***REMOVED***
 
     /**
@@ -378,7 +396,7 @@ public class JdkUtil {
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64",
                 new Release("Jan 10 2018 00:00:00", 16, "1.8.0_161-b14"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.151-5.b12.el7_4.x86_64",
-                new Release("Oct 18 2017 00:00:00", 15, "1.8.0_151-b12"));
+                new Release("Nov 20 2017 11:29:18", 15, "1.8.0_151-b12"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64",
                 new Release("Oct 18 2017 00:00:00", 15, "1.8.0_151-b12"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64",
@@ -777,7 +795,7 @@ public class JdkUtil {
     public static final String getOptionValue(String option) {
         String value = null;
         if (option != null) {
-            String regex = "^-[a-zA-Z:.]+(=)?(\\d{1,12***REMOVED***(" + JdkRegEx.OPTION_SIZE + ")?)$";
+            String regex = "^-[a-zA-Z:.]+(=)?(\\d{1,12***REMOVED***(" + JdkRegEx.OPTION_SIZE_BYTES + ")?)$";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(option);
             if (matcher.find()) {
@@ -806,10 +824,16 @@ public class JdkUtil {
             logEventType = LogEventType.CLASSES_REDEFINED;
         ***REMOVED*** else if (CodeCacheEvent.match(logLine)) {
             logEventType = LogEventType.CODE_CACHE;
+        ***REMOVED*** else if (CommandLineEvent.match(logLine)) {
+            logEventType = LogEventType.COMMAND_LINE;
         ***REMOVED*** else if (CompilationEvent.match(logLine)) {
-            logEventType = COMPILATION;
+            logEventType = LogEventType.COMPILATION;
+        ***REMOVED*** else if (ContainerInfoEvent.match(logLine)) {
+            logEventType = LogEventType.CONTAINER_INFO;
         ***REMOVED*** else if (CpuInfoEvent.match(logLine)) {
             logEventType = LogEventType.CPU_INFO;
+        ***REMOVED*** else if (CurrentCompileTaskEvent.match(logLine)) {
+            logEventType = LogEventType.CURRENT_COMPILE_TASK;
         ***REMOVED*** else if (CurrentThreadEvent.match(logLine)) {
             logEventType = LogEventType.CURRENT_THREAD;
         ***REMOVED*** else if (DeoptimizationEvent.match(logLine)) {
@@ -818,6 +842,10 @@ public class JdkUtil {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
         ***REMOVED*** else if (ElapsedTimeEvent.match(logLine)) {
             logEventType = LogEventType.ELAPSED_TIME;
+        ***REMOVED*** else if (EndEvent.match(logLine)) {
+            logEventType = LogEventType.END;
+        ***REMOVED*** else if (EndBraceEvent.match(logLine)) {
+            logEventType = LogEventType.END_BRACE;
         ***REMOVED*** else if (EnvironmentVariablesEvent.match(logLine)) {
             logEventType = LogEventType.ENVIRONMENT_VARIABLES;
         ***REMOVED*** else if (ExceptionCountsEvent.match(logLine)) {
@@ -834,18 +862,30 @@ public class JdkUtil {
             logEventType = LogEventType.HEAP_ADDRESS;
         ***REMOVED*** else if (HeapRegionsEvent.match(logLine)) {
             logEventType = LogEventType.HEAP_REGIONS;
+        ***REMOVED*** else if (HostEvent.match(logLine)) {
+            logEventType = LogEventType.HOST;
         ***REMOVED*** else if (InstructionsEvent.match(logLine)) {
             logEventType = LogEventType.INSTRUCTIONS;
         ***REMOVED*** else if (LibcEvent.match(logLine)) {
             logEventType = LogEventType.LIBC;
         ***REMOVED*** else if (LoadAverageEvent.match(logLine)) {
             logEventType = LogEventType.LOAD_AVERAGE;
+        ***REMOVED*** else if (LoggingEvent.match(logLine)) {
+            logEventType = LogEventType.LOGGING;
+        ***REMOVED*** else if (MaxMapCountEvent.match(logLine)) {
+            logEventType = LogEventType.MAX_MAP_COUNT;
         ***REMOVED*** else if (MeminfoEvent.match(logLine)) {
             logEventType = LogEventType.MEMINFO;
         ***REMOVED*** else if (MemoryEvent.match(logLine)) {
             logEventType = LogEventType.MEMORY;
+        ***REMOVED*** else if (MetaspaceEvent.match(logLine)) {
+            logEventType = LogEventType.METASPACE;
+        ***REMOVED*** else if (NumberEvent.match(logLine)) {
+            logEventType = LogEventType.NUMBER;
         ***REMOVED*** else if (OsEvent.match(logLine)) {
             logEventType = LogEventType.OS;
+        ***REMOVED*** else if (PidMaxEvent.match(logLine)) {
+            logEventType = LogEventType.PID_MAX;
         ***REMOVED*** else if (PollingPageEvent.match(logLine)) {
             logEventType = LogEventType.POLLING_PAGE;
         ***REMOVED*** else if (RegisterEvent.match(logLine)) {
@@ -860,10 +900,18 @@ public class JdkUtil {
             logEventType = LogEventType.SIGNAL_HANDLERS;
         ***REMOVED*** else if (StackEvent.match(logLine)) {
             logEventType = LogEventType.STACK;
+        ***REMOVED*** else if (StackSlotToMemoryMappingEvent.match(logLine)) {
+            logEventType = LogEventType.STACK_SLOT_TO_MEMORY_MAPPING;
         ***REMOVED*** else if (ThreadEvent.match(logLine)) {
             logEventType = LogEventType.THREAD;
+        ***REMOVED*** else if (ThreadsClassSmrInfoEvent.match(logLine)) {
+            logEventType = LogEventType.THREADS_CLASS_SMR_INFO;
+        ***REMOVED*** else if (ThreadsMaxEvent.match(logLine)) {
+            logEventType = LogEventType.THREADS_MAX;
         ***REMOVED*** else if (TimeEvent.match(logLine)) {
             logEventType = LogEventType.TIME;
+        ***REMOVED*** else if (TimeElapsedTimeEvent.match(logLine)) {
+            logEventType = LogEventType.TIME_ELAPSED_TIME;
         ***REMOVED*** else if (TimezoneEvent.match(logLine)) {
             logEventType = LogEventType.TIMEZONE;
         ***REMOVED*** else if (TopOfStackEvent.match(logLine)) {
@@ -878,6 +926,8 @@ public class JdkUtil {
             logEventType = LogEventType.VM_INFO;
         ***REMOVED*** else if (VmMutexEvent.match(logLine)) {
             logEventType = LogEventType.VM_MUTEX;
+        ***REMOVED*** else if (VmOperationEvent.match(logLine)) {
+            logEventType = LogEventType.VM_OPERATION;
         ***REMOVED*** else if (VmStateEvent.match(logLine)) {
             logEventType = LogEventType.VM_STATE;
         ***REMOVED***
@@ -927,11 +977,20 @@ public class JdkUtil {
         case CODE_CACHE:
             event = new CodeCacheEvent(logLine);
             break;
+        case COMMAND_LINE:
+            event = new CommandLineEvent(logLine);
+            break;
         case COMPILATION:
             event = new CompilationEvent(logLine);
             break;
+        case CONTAINER_INFO:
+            event = new ContainerInfoEvent(logLine);
+            break;
         case CPU_INFO:
             event = new CpuInfoEvent(logLine);
+            break;
+        case CURRENT_COMPILE_TASK:
+            event = new CurrentCompileTaskEvent(logLine);
             break;
         case CURRENT_THREAD:
             event = new CurrentThreadEvent(logLine);
@@ -944,6 +1003,12 @@ public class JdkUtil {
             break;
         case ELAPSED_TIME:
             event = new ElapsedTimeEvent(logLine);
+            break;
+        case END:
+            event = new EndEvent(logLine);
+            break;
+        case END_BRACE:
+            event = new EndBraceEvent(logLine);
             break;
         case ENVIRONMENT_VARIABLES:
             event = new EnvironmentVariablesEvent(logLine);
@@ -969,6 +1034,9 @@ public class JdkUtil {
         case HEAP_REGIONS:
             event = new HeapRegionsEvent(logLine);
             break;
+        case HOST:
+            event = new HostEvent(logLine);
+            break;
         case INSTRUCTIONS:
             event = new InstructionsEvent(logLine);
             break;
@@ -978,14 +1046,29 @@ public class JdkUtil {
         case LOAD_AVERAGE:
             event = new LoadAverageEvent(logLine);
             break;
+        case LOGGING:
+            event = new LoggingEvent(logLine);
+            break;
+        case MAX_MAP_COUNT:
+            event = new MaxMapCountEvent(logLine);
+            break;
         case MEMINFO:
             event = new MeminfoEvent(logLine);
             break;
         case MEMORY:
             event = new MemoryEvent(logLine);
             break;
+        case METASPACE:
+            event = new MetaspaceEvent(logLine);
+            break;
+        case NUMBER:
+            event = new NumberEvent(logLine);
+            break;
         case OS:
             event = new OsEvent(logLine);
+            break;
+        case PID_MAX:
+            event = new PidMaxEvent(logLine);
             break;
         case POLLING_PAGE:
             event = new PollingPageEvent(logLine);
@@ -1008,11 +1091,23 @@ public class JdkUtil {
         case STACK:
             event = new StackEvent(logLine);
             break;
+        case STACK_SLOT_TO_MEMORY_MAPPING:
+            event = new StackSlotToMemoryMappingEvent(logLine);
+            break;
         case THREAD:
             event = new ThreadEvent(logLine);
             break;
+        case THREADS_CLASS_SMR_INFO:
+            event = new ThreadsClassSmrInfoEvent(logLine);
+            break;
+        case THREADS_MAX:
+            event = new ThreadsMaxEvent(logLine);
+            break;
         case TIME:
             event = new TimeEvent(logLine);
+            break;
+        case TIME_ELAPSED_TIME:
+            event = new TimeElapsedTimeEvent(logLine);
             break;
         case TIMEZONE:
             event = new TimezoneEvent(logLine);
@@ -1038,6 +1133,9 @@ public class JdkUtil {
         case VM_MUTEX:
             event = new VmMutexEvent(logLine);
             break;
+        case VM_OPERATION:
+            event = new VmOperationEvent(logLine);
+            break;
         case VM_STATE:
             event = new VmStateEvent(logLine);
             break;
@@ -1048,66 +1146,68 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
-     * Convert JVM size option to kilobytes.
-     * 
      * @param size
-     *            The size in various units (e.g. 'K').
-     * @return The size in bytes.
+     *            The size in fromUnits.
+     * @param fromUnits
+     *            Current units.
+     * @param toUnits
+     *            Conversion units.
+     * @return The size in toUnits.
      */
-    public static long convertOptionSizeToBytes(final String size) {
-
-        String regex = "(\\d{1,12***REMOVED***)" + JdkRegEx.OPTION_SIZE + "?";
-
-        String value = null;
-        char units = 'b';
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(size);
-        if (matcher.find()) {
-            value = matcher.group(1);
-            if (matcher.group(2) != null) {
-                units = matcher.group(2).charAt(0);
+    public static long convertSize(final long size, char fromUnits, char toUnits) {
+        if (fromUnits == toUnits) {
+            return size;
+        ***REMOVED*** else {
+            if (!"bBkKmMgG".matches("^.*" + Character.toString(toUnits) + ".*$")) {
+                throw new AssertionError("Unexpected toUnits value: " + toUnits);
             ***REMOVED***
+            BigDecimal newSize = new BigDecimal(size);
+            switch (fromUnits) {
+            case 'b':
+            case 'B':
+                if (toUnits == 'k' || toUnits == 'K') {
+                    newSize = newSize.divide(Constants.KILOBYTE);
+                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
+                    newSize = newSize.divide(Constants.MEGABYTE);
+                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
+                    newSize = newSize.divide(Constants.GIGABYTE);
+                ***REMOVED***
+                break;
+            case 'k':
+            case 'K':
+                if (toUnits == 'b' || toUnits == 'B') {
+                    newSize = newSize.multiply(Constants.KILOBYTE);
+                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
+                    newSize = newSize.divide(Constants.KILOBYTE);
+                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
+                    newSize = newSize.divide(Constants.MEGABYTE);
+                ***REMOVED***
+                break;
+            case 'm':
+            case 'M':
+                if (toUnits == 'b' || toUnits == 'B') {
+                    newSize = newSize.multiply(Constants.MEGABYTE);
+                ***REMOVED*** else if (toUnits == 'k' || toUnits == 'K') {
+                    newSize = newSize.multiply(Constants.KILOBYTE);
+                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
+                    newSize = newSize.divide(Constants.MEGABYTE);
+                ***REMOVED***
+                break;
+            case 'g':
+            case 'G':
+                if (toUnits == 'b' || toUnits == 'B') {
+                    newSize = newSize.multiply(Constants.GIGABYTE);
+                ***REMOVED*** else if (toUnits == 'k' || toUnits == 'K') {
+                    newSize = newSize.multiply(Constants.MEGABYTE);
+                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
+                    newSize = newSize.multiply(Constants.KILOBYTE);
+                ***REMOVED***
+                break;
+            default:
+                throw new AssertionError("Unexpected fromUnits value: " + fromUnits);
+            ***REMOVED***
+            newSize = newSize.setScale(0, RoundingMode.HALF_EVEN);
+            return newSize.longValue();
         ***REMOVED***
-
-        BigDecimal bytes = new BigDecimal(value);
-
-        switch (units) {
-
-        case 'b':
-        case 'B':
-            // do nothing
-            break;
-        case 'k':
-        case 'K':
-            bytes = bytes.multiply(Constants.KILOBYTE);
-            break;
-        case 'm':
-        case 'M':
-            bytes = bytes.multiply(Constants.MEGABYTE);
-            break;
-        case 'g':
-        case 'G':
-            bytes = bytes.multiply(Constants.GIGABYTE);
-            break;
-        default:
-            throw new AssertionError("Unexpected units value: " + units);
-
-        ***REMOVED***
-        return bytes.longValue();
-    ***REMOVED***
-
-    /**
-     * Convert from bytes to kilobytes.
-     * 
-     * @param bytes
-     *            The number of bytes.
-     * @return The number of kilobytes.
-     */
-    public static long convertBytesToKilobytes(final long bytes) {
-        BigDecimal kilobytes = new BigDecimal(bytes);
-        kilobytes = kilobytes.divide(new BigDecimal("1024"));
-        kilobytes = kilobytes.setScale(0, RoundingMode.HALF_EVEN);
-        return kilobytes.longValue();
     ***REMOVED***
 ***REMOVED***

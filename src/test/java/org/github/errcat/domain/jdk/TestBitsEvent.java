@@ -48,4 +48,35 @@ public class TestBitsEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.BITS.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.BITS);
     ***REMOVED***
+
+    public void testHeaderPrevNext() {
+        String logLine = "Marking Bits (Prev, Next): (CMBitMap*) 0x00003fff74037098, (CMBitMap*) 0x00003fff740370f0";
+        Assert.assertTrue(JdkUtil.LogEventType.BITS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.BITS);
+    ***REMOVED***
+
+    public void testPrevBits() {
+        String logLine = " Prev Bits: [0x00003fff44000000, 0x00003fff4c000000)";
+        Assert.assertTrue(JdkUtil.LogEventType.BITS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.BITS);
+    ***REMOVED***
+
+    public void testNextBits() {
+        String logLine = " Next Bits: [0x00003fff3c000000, 0x00003fff44000000)";
+        Assert.assertTrue(JdkUtil.LogEventType.BITS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.BITS);
+    ***REMOVED***
+
+    public void testBeginBits() {
+        String logLine = " Begin Bits: [0x00007f45d8c22000, 0x00007f45d9422000)";
+        Assert.assertTrue(JdkUtil.LogEventType.BITS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.BITS);
+    ***REMOVED***
+
+    public void testEndBits() {
+        String logLine = " End Bits:   [0x00007f45d9422000, 0x00007f45d9c22000)";
+        Assert.assertTrue(JdkUtil.LogEventType.BITS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.BITS);
+    ***REMOVED***
+
 ***REMOVED***

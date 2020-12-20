@@ -54,4 +54,26 @@ public class TestInstructionsEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.INSTRUCTIONS);
     ***REMOVED***
+
+    public void testBlocksOf8() {
+        String logLine = "0x00003fff7a9ddb60:   2fa40000 7d491b96 79470020 409e0044";
+        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.INSTRUCTIONS);
+    ***REMOVED***
+
+    public void testSingleAddress() {
+        String logLine = "0x000000002fffffe0:   ";
+        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.INSTRUCTIONS);
+    ***REMOVED***
+
+    /**
+     * TODO: Does this error apply to multiple events and should be moved to a dedicated ErrorEvent?
+     */
+    public void testError() {
+        String logLine = "[error occurred during error reporting (printing registers, top of stack, "
+                + "instructions near pc), id 0xb]";
+        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.INSTRUCTIONS);
+    ***REMOVED***
 ***REMOVED***

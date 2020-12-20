@@ -24,8 +24,10 @@ import org.github.errcat.Main;
 import org.github.errcat.domain.LogEvent;
 import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.domain.UnknownEvent;
+import org.github.errcat.domain.jdk.CommandLineEvent;
 import org.github.errcat.domain.jdk.CompilationEvent;
 import org.github.errcat.domain.jdk.CpuInfoEvent;
+import org.github.errcat.domain.jdk.CurrentCompileTaskEvent;
 import org.github.errcat.domain.jdk.CurrentThreadEvent;
 import org.github.errcat.domain.jdk.DeoptimizationEvent;
 import org.github.errcat.domain.jdk.DynamicLibraryEvent;
@@ -41,6 +43,7 @@ import org.github.errcat.domain.jdk.OsEvent;
 import org.github.errcat.domain.jdk.SigInfoEvent;
 import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.domain.jdk.ThreadEvent;
+import org.github.errcat.domain.jdk.TimeElapsedTimeEvent;
 import org.github.errcat.domain.jdk.TimeEvent;
 import org.github.errcat.domain.jdk.TimezoneEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
@@ -89,10 +92,15 @@ public class Manager {
                 String logLine = bufferedReader.readLine();
                 while (logLine != null) {
                     LogEvent event = JdkUtil.parseLogLine(logLine);
-                    if (event instanceof CompilationEvent) {
+                    if (event instanceof CommandLineEvent) {
+                        fatalErrorLog.setCommandLineEvent((CommandLineEvent) event);
+                        ;
+                    ***REMOVED*** else if (event instanceof CompilationEvent) {
                         fatalErrorLog.getCompilationEvents().add((CompilationEvent) event);
                     ***REMOVED*** else if (event instanceof CpuInfoEvent) {
                         fatalErrorLog.getCpuInfoEvents().add((CpuInfoEvent) event);
+                    ***REMOVED*** else if (event instanceof CurrentCompileTaskEvent) {
+                        fatalErrorLog.getCurrentCompileTasks().add((CurrentCompileTaskEvent) event);
                     ***REMOVED*** else if (event instanceof CurrentThreadEvent) {
                         fatalErrorLog.setCurrentThreadEvent((CurrentThreadEvent) event);
                     ***REMOVED*** else if (event instanceof DeoptimizationEvent) {
@@ -114,7 +122,7 @@ public class Manager {
                     ***REMOVED*** else if (event instanceof MemoryEvent) {
                         fatalErrorLog.setMemoryEvent((MemoryEvent) event);
                     ***REMOVED*** else if (event instanceof OsEvent) {
-                        fatalErrorLog.setOsEvent((OsEvent) event);
+                        fatalErrorLog.getOsEvents().add((OsEvent) event);
                     ***REMOVED*** else if (event instanceof SigInfoEvent) {
                         fatalErrorLog.setSigInfoEvent((SigInfoEvent) event);
                     ***REMOVED*** else if (event instanceof StackEvent) {
@@ -125,6 +133,8 @@ public class Manager {
                         // ThrowAwayEvents are ignored
                     ***REMOVED*** else if (event instanceof TimeEvent) {
                         fatalErrorLog.setTimeEvent((TimeEvent) event);
+                    ***REMOVED*** else if (event instanceof TimeElapsedTimeEvent) {
+                        fatalErrorLog.setTimeElapsedTimeEvent((TimeElapsedTimeEvent) event);
                     ***REMOVED*** else if (event instanceof TimezoneEvent) {
                         fatalErrorLog.setTimezoneEvent((TimezoneEvent) event);
                     ***REMOVED*** else if (event instanceof UnameEvent) {

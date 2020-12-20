@@ -18,7 +18,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.jdk.JdkMath;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
@@ -104,8 +103,7 @@ public class MemoryEvent implements LogEvent {
         long physicalMemory = 0;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            physicalMemory = JdkUtil.convertOptionSizeToBytes(matcher.group(3) + matcher.group(5));
-            physicalMemory = JdkMath.convertBytesToKilobytes(physicalMemory);
+            physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0), 'K');
         ***REMOVED***
         return physicalMemory;
     ***REMOVED***
@@ -117,8 +115,7 @@ public class MemoryEvent implements LogEvent {
         long physicalMemoryFree = 0;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            physicalMemoryFree = JdkUtil.convertOptionSizeToBytes(matcher.group(6) + matcher.group(8));
-            physicalMemoryFree = JdkMath.convertBytesToKilobytes(physicalMemoryFree);
+            physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0), 'K');
         ***REMOVED***
         return physicalMemoryFree;
     ***REMOVED***
@@ -127,12 +124,11 @@ public class MemoryEvent implements LogEvent {
      * @return The total available swap (kilobytes).
      */
     public long getSwap() {
-        long swap = 0;
+        long swap = Long.MIN_VALUE;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             if (matcher.group(9) != null) {
-                swap = JdkUtil.convertOptionSizeToBytes(matcher.group(10) + matcher.group(12));
-                swap = JdkMath.convertBytesToKilobytes(swap);
+                swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0), 'K');
             ***REMOVED***
         ***REMOVED***
         return swap;
@@ -142,12 +138,11 @@ public class MemoryEvent implements LogEvent {
      * @return The total free swap (kilobytes).
      */
     public long getSwapFree() {
-        long swapFree = 0;
+        long swapFree = Long.MIN_VALUE;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             if (matcher.group(9) != null) {
-                swapFree = JdkUtil.convertOptionSizeToBytes(matcher.group(13) + matcher.group(15));
-                swapFree = JdkMath.convertBytesToKilobytes(swapFree);
+                swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0), 'K');
             ***REMOVED***
         ***REMOVED***
         return swapFree;

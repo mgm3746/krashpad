@@ -29,21 +29,6 @@ public class JdkMath {
      * Make default constructor private so the class cannot be instantiated.
      */
     private JdkMath() {
-
-    ***REMOVED***
-
-    /**
-     * Convert bytes to kilobytes.
-     * 
-     * @param bytes
-     *            The size in bytes.
-     * @return The size in Kilobytes.
-     */
-    public static long convertBytesToKilobytes(final long bytes) {
-        BigDecimal kilobytes = new BigDecimal(bytes);
-        kilobytes = kilobytes.divide(new BigDecimal("1024"));
-        kilobytes = kilobytes.setScale(0, RoundingMode.HALF_EVEN);
-        return kilobytes.longValue();
     ***REMOVED***
 
     /**

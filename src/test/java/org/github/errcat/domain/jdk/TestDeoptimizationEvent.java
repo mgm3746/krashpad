@@ -43,29 +43,16 @@ public class TestDeoptimizationEvent extends TestCase {
 
     public void testHeader() {
         String logLine = "Deoptimization events (250 events):";
-        Assert.assertTrue(JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof DeoptimizationEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT);
     ***REMOVED***
 
-    public void testCompilationEvent() {
-        String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
-                + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
-        Assert.assertFalse(JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " incorrectly parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof DeoptimizationEvent);
-    ***REMOVED***
-
-    public void testExceptionEvent() {
-        String logLine = "Event: 101.811 Thread 0x00007ff0ec698000 Exception "
-                + "<a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ef71fd30) thrown at "
-                + "[/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/"
-                + "vm/runtime/sharedRuntime.cpp, line 609]";
-        Assert.assertFalse(JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " incorrectly parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof DeoptimizationEvent);
-    ***REMOVED***
-
-    public void testVmEvent() {
-        String logLine = "Event: 6665.311 Executing VM operation: RevokeBias done";
-        Assert.assertFalse(JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " incorrectly parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof DeoptimizationEvent);
+    /**
+     * TODO: Does this error apply to multiple events and should be moved to a dedicated ErrorEvent?
+     */
+    public void testError() {
+        String logLine = "[error occurred during error reporting (printing ring buffers), id 0xb]";
+        Assert.assertTrue(JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT);
     ***REMOVED***
 ***REMOVED***

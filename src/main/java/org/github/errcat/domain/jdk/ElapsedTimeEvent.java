@@ -47,6 +47,14 @@ import org.github.errcat.util.jdk.JdkUtil;
  * elapsed time: 0.606413 seconds (0d 0h 0m 0s)
  * </pre>
  * 
+ * <p>
+ * 3) Seconds only.
+ * </p>
+ * 
+ * <pre>
+ * elapsed time: 228058 seconds
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -55,8 +63,8 @@ public class ElapsedTimeEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^elapsed time: \\d{1,10***REMOVED***(\\.\\d{6***REMOVED***)? seconds \\((\\d{1,4***REMOVED***d \\d{1,2***REMOVED***h \\d{1,2***REMOVED***m"
-            + " \\d{1,2***REMOVED***s)\\)$";
+    private static final String REGEX = "^elapsed time: (\\d{1,10***REMOVED***(\\.\\d{6***REMOVED***)? seconds)( \\((\\d{1,4***REMOVED***d \\d{1,2***REMOVED***h "
+            + "\\d{1,2***REMOVED***m \\d{1,2***REMOVED***s)\\))?$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -84,12 +92,16 @@ public class ElapsedTimeEvent implements LogEvent {
     ***REMOVED***
 
     public String getElapsedTime() {
-        String timezone = null;
+        String time = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            timezone = matcher.group(2);
+            if (matcher.group(4) != null) {
+                time = matcher.group(4);
+            ***REMOVED*** else {
+                time = matcher.group(1);
+            ***REMOVED***
         ***REMOVED***
-        return timezone;
+        return time;
     ***REMOVED***
 
     /**

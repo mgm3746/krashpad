@@ -80,54 +80,81 @@ import org.github.errcat.util.jdk.JdkUtil;
 public class HeapEvent implements LogEvent {
 
     /**
-     * Regular expression defining the logging.
+     * Regular expression for the header.
      */
-    private static final String REGEX = "^(  class|Collection set:| concurrent mark-sweep|  eden|  from|"
-            + " garbage-first heap|GC Heap History|Event: " + JdkRegEx.TIMESTAMP
-            + " GC heap (after|before)|\\{Heap before GC|***REMOVED***|Heap after GC| Metaspace|  object| par new | ParOldGen|"
-            + " PSYoungGen|  region size| \\d{1,5***REMOVED*** x " + JdkRegEx.SIZE
-            + " regions|Reserved region:|Shenandoah Heap|Status:|  to| " + JdkRegEx.SIZE
-            + " total|***REMOVED***| - (\\[|map))(.*)$";
+    private static final String REGEX_HEADER = "GC Heap History \\(\\d{1,***REMOVED*** events\\):";
 
     /**
      * Regular expression for the heap at crash header.
      */
-    public static final String REGEX_HEAP_AT_CRASH_HEADER = "^***REMOVED***$";
+    public static final String REGEX_HEAP_AT_CRASH_HEADER = "***REMOVED***";
 
     /**
      * Regular expression for a heap history header.
      */
-    public static final String REGEX_HEAP_HISTORY_HEADER = "^(GC Heap History|Event:).+$";
+    public static final String REGEX_HEAP_HISTORY_HEADER = "GC Heap History \\(\\d{1,***REMOVED*** events\\):";
+
+    /**
+     * Regular expression for a shenandoah header.
+     */
+    public static final String REGEX_SHENANDOAH_HEADER = "(Collection set:|Reserved region:|Shenandoah Heap)";
 
     /**
      * Regular expression for a young generation event.
+     * 
+     * par new generation total 766784K, used 37193K [0x0000000261000000, 0x0000000295000000, 0x0000000295000000)
+     * 
+     * PSYoungGen total 153088K, used 116252K [0x00000000eab00000, 0x00000000f5580000, 0x0000000100000000)
      */
-    public static final String REGEX_YOUNG_GEN = "^ (par new generation|PSYoungGen)[ ]{1,6***REMOVED***total " + JdkRegEx.SIZE
-            + ", used " + JdkRegEx.SIZE + ".+$";
+    public static final String REGEX_YOUNG_GEN = " (par new generation|PSYoungGen)[ ]{1,6***REMOVED***total " + JdkRegEx.SIZE
+            + ", used " + JdkRegEx.SIZE + ".+";
 
     /**
      * Regular expression for a old generation event.
+     * 
+     * concurrent mark-sweep generation total 21676032K, used 6923299K [0x0000000295000000, 0x00000007c0000000,
+     * 0x00000007c0000000)
+     * 
+     * ParOldGen total 699392K, used 91187K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+     * 
+     * tenured generation total 2165440K, used 937560K [0x000000073bd50000, 0x00000007c0000000, 0x00000007c0000000)
      */
-    public static final String REGEX_OLD_GEN = "^ (concurrent mark-sweep generation|PSOldGen|ParOldGen)[ ]{1,7***REMOVED***total "
-            + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE + ".+$";
+    public static final String REGEX_OLD_GEN = " (concurrent mark-sweep generation|PSOldGen|ParOldGen|"
+            + "tenured generation)[ ]{1,7***REMOVED***total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE + ".+";
 
     /**
      * Regular expression for Shenandoah combined event.
+     * 
+     * 5734M total, 5734M committed, 3795M used
      */
-    public static final String REGEX_SHENANDOAH = "^ " + JdkRegEx.SIZE + " total, " + JdkRegEx.SIZE + " committed, "
-            + JdkRegEx.SIZE + " used$";
+    public static final String REGEX_SHENANDOAH = " " + JdkRegEx.SIZE + " total, " + JdkRegEx.SIZE + " committed, "
+            + JdkRegEx.SIZE + " used";
 
     /**
      * Regular expression for G1 combined event.
+     * 
+     * garbage-first heap total 1933312K, used 1030565K [0x0000000500000000, 0x0000000800000000)
      */
-    public static final String REGEX_G1 = "^ garbage-first heap   total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE
-            + ".+$";
+    public static final String REGEX_G1 = " garbage-first heap   total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE
+            + ".+";
 
     /**
      * Regular expression for a metaspace event.
+     * 
+     * Metaspace used 19510K, capacity 21116K, committed 21248K, reserved 1069056K
      */
-    public static final String REGEX_METASPACE = "^ Metaspace[ ]{1,7***REMOVED***used " + JdkRegEx.SIZE + ", capacity "
-            + JdkRegEx.SIZE + ", committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE + "$";
+    public static final String REGEX_METASPACE = " Metaspace[ ]{1,7***REMOVED***used " + JdkRegEx.SIZE + ", capacity "
+            + JdkRegEx.SIZE + ", committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE;
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + REGEX_HEADER + "|" + REGEX_HEAP_AT_CRASH_HEADER + "|"
+            + REGEX_HEAP_HISTORY_HEADER + "|" + REGEX_SHENANDOAH_HEADER + "|" + REGEX_YOUNG_GEN + "|" + REGEX_OLD_GEN
+            + "|" + REGEX_SHENANDOAH + "|" + REGEX_SHENANDOAH + "|" + REGEX_G1 + "|" + REGEX_G1 + "|" + REGEX_METASPACE
+            + "|[ ]{2,3***REMOVED***(class space|eden|from|object space|region size|the|to)| \\d{1,5***REMOVED*** x " + JdkRegEx.SIZE
+            + " regions| - (\\[|map)|[\\{]{0,1***REMOVED***Heap (after|before) GC|Status:|Event: " + JdkRegEx.TIMESTAMP
+            + " GC heap (after|before)).*$";
 
     /**
      * The log entry for the event.

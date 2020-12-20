@@ -153,9 +153,9 @@ public class JdkRegEx {
     /**
      * Units for JVM options that take a byte number.
      * 
-     * For example: -Xss128k -Xmx2048m -Xms2G
+     * For example: -Xss128k -Xmx2048m -Xms2G -XX:ThreadStackSize=256
      */
-    public static final String OPTION_SIZE = "(b|B|k|K|m|M|g|G)";
+    public static final String OPTION_SIZE_BYTES = "((\\d{1,***REMOVED***)(b|B|k|K|m|M|g|G)?)";
 
     /**
      * Permission
@@ -167,8 +167,8 @@ public class JdkRegEx {
     /**
      * A 32-bit or 64-bit register.
      */
-    public static final String REGISTER = "(CSGSFS|EFLAGS|ERR|RAX|RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|R\\d{1,2***REMOVED***[ ]{0,1***REMOVED***)=("
-            + ADDRESS32 + "|" + ADDRESS64 + ")";
+    public static final String REGISTER = "(CSGSFS|ctr|EFLAGS|ERR|lr |pc |RAX|RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|[Rr]"
+            + "\\d{1,2***REMOVED***[ ]{0,1***REMOVED***)=(" + ADDRESS32 + "|" + ADDRESS64 + ")";
 
     /**
      * <p>

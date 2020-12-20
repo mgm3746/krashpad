@@ -39,6 +39,30 @@ import org.github.errcat.util.jdk.JdkUtil;
  * ***REMOVED***
  * </pre>
  * 
+ * <pre>
+ * [Global flags]
+ *      intx CICompilerCount                          = 4                                         {product***REMOVED*** {ergonomic***REMOVED***
+ *      uint ConcGCThreads                            = 2                                         {product***REMOVED*** {ergonomic***REMOVED***
+ *     ccstr ErrorFile                                = /tmp/path/to/eclipse_vm_crash_%p.log            {product***REMOVED*** {command line***REMOVED***
+ *      uint G1ConcRefinementThreads                  = 8                                         {product***REMOVED*** {ergonomic***REMOVED***
+ *    size_t G1HeapRegionSize                         = 2097152                                   {product***REMOVED*** {ergonomic***REMOVED***
+ *     uintx GCDrainStackTargetSize                   = 64                                        {product***REMOVED*** {ergonomic***REMOVED***
+ *    size_t InitialHeapSize                          = 1073741824                                {product***REMOVED*** {command line***REMOVED***
+ *    size_t MarkStackSize                            = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
+ *    size_t MaxHeapSize                              = 12884901888                               {product***REMOVED*** {command line***REMOVED***
+ *    size_t MaxNewSize                               = 7730102272                                {product***REMOVED*** {ergonomic***REMOVED***
+ *    size_t MinHeapDeltaBytes                        = 2097152                                   {product***REMOVED*** {ergonomic***REMOVED***
+ *     uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product***REMOVED*** {ergonomic***REMOVED***
+ *     uintx NonProfiledCodeHeapSize                  = 131299578                              {pd product***REMOVED*** {ergonomic***REMOVED***
+ *     uintx ProfiledCodeHeapSize                     = 131299578                              {pd product***REMOVED*** {ergonomic***REMOVED***
+ *     uintx ReservedCodeCacheSize                    = 268435456                              {pd product***REMOVED*** {command line***REMOVED***
+ *      bool SegmentedCodeCache                       = true                                      {product***REMOVED*** {ergonomic***REMOVED***
+ *      intx ThreadStackSize                          = 5120                                   {pd product***REMOVED*** {command line***REMOVED***
+ *      bool UseCompressedClassPointers               = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
+ *      bool UseCompressedOops                        = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
+ *      bool UseG1GC                                  = true                                      {product***REMOVED*** {ergonomic***REMOVED***
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -53,7 +77,8 @@ public class VmArgumentsEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER
-            + "|jvm_args: |java_command: |java_class_path \\(initial\\): |Launcher Type: )(.*)$";
+            + "|\\[Global flags\\]|jvm_args: |java_command: |java_class_path \\(initial\\): |Launcher Type: |"
+            + "[ ]{1,***REMOVED***(bool|ccstr|intx|size_t|uint|uintx))(.*)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -98,7 +123,7 @@ public class VmArgumentsEvent implements LogEvent {
         String value = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            value = matcher.group(2);
+            value = matcher.group(3);
         ***REMOVED***
         return value;
     ***REMOVED***

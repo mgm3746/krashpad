@@ -44,6 +44,13 @@ public class TestHeapAddressEvent extends TestCase {
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEAP_ADDRESS);
     ***REMOVED***
 
+    public void testHeaderCapitalH() {
+        String logLine = "Heap address: 0x0000000500000000, size: 12288 MB, Compressed Oops mode: Zero based, Oop "
+                + "shift amount: 3";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEAP_ADDRESS);
+    ***REMOVED***
+
     public void testCompressClassSpaceSize() {
         String logLine = "Compressed class space size: 1073741824 Address: 0x00000007c0000000";
         Assert.assertTrue(JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.",

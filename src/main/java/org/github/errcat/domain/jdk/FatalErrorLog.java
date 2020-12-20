@@ -56,7 +56,7 @@ public class FatalErrorLog {
     /**
      * OS information.
      */
-    private OsEvent osEvent;
+    private List<OsEvent> osEvents;
 
     /**
      * uname information.
@@ -164,6 +164,21 @@ public class FatalErrorLog {
     private List<MeminfoEvent> meminfoEvents;
 
     /**
+     * Current compile task information.
+     */
+    private List<CurrentCompileTaskEvent> currentCompileTasks;
+
+    /**
+     * Command line information.
+     */
+    private CommandLineEvent commandLineEvent;
+
+    /**
+     * Combined time + elapsed time information.
+     */
+    private TimeElapsedTimeEvent timeElapsedTimeEvent;
+
+    /**
      * Log lines that do not match any existing logging patterns.
      */
     private List<String> unidentifiedLogLines;
@@ -177,6 +192,7 @@ public class FatalErrorLog {
      * Default constructor.
      */
     public FatalErrorLog() {
+        osEvents = new ArrayList<OsEvent>();
         headerEvents = new ArrayList<HeaderEvent>();
         stackEvents = new ArrayList<StackEvent>();
         dynamicLibraryEvents = new ArrayList<DynamicLibraryEvent>();
@@ -192,14 +208,15 @@ public class FatalErrorLog {
         vmArgumentsEvents = new ArrayList<VmArgumentsEvent>();
         heapAddressEvents = new ArrayList<HeapAddressEvent>();
         meminfoEvents = new ArrayList<MeminfoEvent>();
+        currentCompileTasks = new ArrayList<CurrentCompileTaskEvent>();
     ***REMOVED***
 
     public void setVmInfoEvent(VmInfoEvent vmInfoEvent) {
         this.vmInfoEvent = vmInfoEvent;
     ***REMOVED***
 
-    public void setOsEvent(OsEvent os) {
-        this.osEvent = os;
+    public List<OsEvent> getOsEvents() {
+        return osEvents;
     ***REMOVED***
 
     public List<String> getUnidentifiedLogLines() {
@@ -314,6 +331,26 @@ public class FatalErrorLog {
         return meminfoEvents;
     ***REMOVED***
 
+    public List<CurrentCompileTaskEvent> getCurrentCompileTasks() {
+        return currentCompileTasks;
+    ***REMOVED***
+
+    public CommandLineEvent getCommandLineEvent() {
+        return commandLineEvent;
+    ***REMOVED***
+
+    public void setCommandLineEvent(CommandLineEvent commandLineEvent) {
+        this.commandLineEvent = commandLineEvent;
+    ***REMOVED***
+
+    public TimeElapsedTimeEvent getTimeElapsedTimeEvent() {
+        return timeElapsedTimeEvent;
+    ***REMOVED***
+
+    public void setTimeElapsedTimeEvent(TimeElapsedTimeEvent timeElapsedTimeEvent) {
+        this.timeElapsedTimeEvent = timeElapsedTimeEvent;
+    ***REMOVED***
+
     /**
      * @return <code>JavaVendor</code>
      */
@@ -399,10 +436,15 @@ public class FatalErrorLog {
      */
     public OsType getOsType() {
         OsType osType = OsType.UNKNOWN;
-        if (osEvent != null) {
-            osType = osEvent.getOsType();
-        ***REMOVED*** else if (unameEvent != null) {
-            osType = unameEvent.getOsType();
+        String osString = getOsString();
+        if (osString != null) {
+            if (osString.matches(".+Linux.+")) {
+                osType = OsType.LINUX;
+            ***REMOVED*** else if (osString.matches("^OS: Windows.+$")) {
+                osType = OsType.WINDOWS;
+            ***REMOVED*** else if (osString.matches(".+Solaris.+")) {
+                osType = OsType.SOLARIS;
+            ***REMOVED***
         ***REMOVED***
         return osType;
     ***REMOVED***
@@ -412,11 +454,25 @@ public class FatalErrorLog {
      */
     public OsVendor getOsVendor() {
         OsVendor osVendor = OsVendor.UNKNOWN;
-        if (osEvent != null) {
-            osVendor = osEvent.getOsVendor();
-        ***REMOVED*** else if (unameEvent != null) {
-            osVendor = unameEvent.getOsVendor();
+        if (osEvents != null) {
+            Iterator<OsEvent> iterator = osEvents.iterator();
+            while (iterator.hasNext()) {
+                OsEvent event = iterator.next();
+                if (event.isHeader()) {
+                    if (event.getLogEntry().matches("^OS:Red Hat.+$")) {
+                        osVendor = OsVendor.REDHAT;
+                    ***REMOVED*** else if (event.getLogEntry().matches("^OS: Windows.+$")) {
+                        osVendor = OsVendor.MICROSOFT;
+                    ***REMOVED*** else if (event.getLogEntry().matches("^.+Oracle.+$")) {
+                        osVendor = OsVendor.ORACLE;
+                    ***REMOVED*** else if (event.getLogEntry().matches("^OS:CentOS.+$")) {
+                        osVendor = OsVendor.CENTOS;
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
+
         return osVendor;
     ***REMOVED***
 
@@ -425,8 +481,28 @@ public class FatalErrorLog {
      */
     public OsVersion getOsVersion() {
         OsVersion osVersion = OsVersion.UNKNOWN;
-        if (osEvent != null) {
-            osVersion = osEvent.getOsVersion();
+        if (osEvents != null) {
+            Iterator<OsEvent> iterator = osEvents.iterator();
+            while (iterator.hasNext()) {
+                OsEvent event = iterator.next();
+                if (event.isHeader()) {
+                    if (event.getLogEntry().matches("^OS:Red Hat Enterprise Linux (Server|Workstation) release 6.+$")) {
+                        osVersion = OsVersion.RHEL6;
+                    ***REMOVED*** else if (event.getLogEntry()
+                            .matches("^OS:Red Hat Enterprise Linux (Server|Workstation) release 7.+$")) {
+                        osVersion = OsVersion.RHEL7;
+                    ***REMOVED*** else if (event.getLogEntry().matches("^OS:Red Hat Enterprise Linux release 8.+$")) {
+                        osVersion = OsVersion.RHEL8;
+                    ***REMOVED*** else if (event.getLogEntry().matches("^OS:CentOS Linux release 6.+$")) {
+                        osVersion = OsVersion.CENTOS6;
+                    ***REMOVED*** else if (event.getLogEntry().matches("^OS:CentOS Linux release 7.+$")) {
+                        osVersion = OsVersion.CENTOS7;
+                    ***REMOVED*** else if (event.getLogEntry().matches("^OS:CentOS Linux release 8.+$")) {
+                        osVersion = OsVersion.CENTOS8;
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED*** else if (unameEvent != null) {
             osVersion = unameEvent.getOsVersion();
         ***REMOVED***
@@ -438,8 +514,18 @@ public class FatalErrorLog {
      */
     public String getOsString() {
         String osString = "UNKNOWN";
-        if (osEvent != null) {
-            osString = osEvent.getOsString();
+        if (osEvents != null) {
+            Iterator<OsEvent> iterator = osEvents.iterator();
+            while (iterator.hasNext()) {
+                OsEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Matcher matcher = OsEvent.PATTERN.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        osString = matcher.group(1);
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         return osString;
     ***REMOVED***
@@ -594,8 +680,15 @@ public class FatalErrorLog {
      */
     public boolean isRhel() {
         boolean isRhel = false;
-        if (osEvent != null) {
-            isRhel = osEvent.isRhel();
+        if (osEvents != null) {
+            Iterator<OsEvent> iterator = osEvents.iterator();
+            while (iterator.hasNext()) {
+                OsEvent event = iterator.next();
+                if (event.isHeader()) {
+                    isRhel = event.getLogEntry().matches("^OS:Red Hat Enterprise Linux.+$");
+                    break;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         return isRhel;
     ***REMOVED***
@@ -605,8 +698,15 @@ public class FatalErrorLog {
      */
     public boolean isWindows() {
         boolean isWindows = false;
-        if (osEvent != null) {
-            isWindows = osEvent.isWindows();
+        if (osEvents != null) {
+            Iterator<OsEvent> iterator = osEvents.iterator();
+            while (iterator.hasNext()) {
+                OsEvent event = iterator.next();
+                if (event.isHeader()) {
+                    isWindows = event.getLogEntry().matches("^OS: Windows.+$");
+                    break;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         return isWindows;
     ***REMOVED***
@@ -948,7 +1048,7 @@ public class FatalErrorLog {
      */
     public Application getApplication() {
         Application application = Application.UNKNOWN;
-        if (cpuInfoEvents != null) {
+        if (dynamicLibraryEvents != null) {
             Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
             while (iterator.hasNext()) {
                 DynamicLibraryEvent event = iterator.next();
@@ -958,6 +1058,22 @@ public class FatalErrorLog {
                 ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_JAR)) {
                     application = Application.TOMCAT;
                     break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        // Check jvm_args
+        if (application == Application.UNKNOWN && vmArgumentsEvents != null) {
+            Iterator<VmArgumentsEvent> iterator = vmArgumentsEvents.iterator();
+            while (iterator.hasNext()) {
+                VmArgumentsEvent event = iterator.next();
+                if (event.isJavaCommand()) {
+                    if (event.getLogEntry().matches(JdkRegEx.JBOSS_JAR)) {
+                        application = Application.JBOSS;
+                        break;
+                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_JAR)) {
+                        application = Application.TOMCAT;
+                        break;
+                    ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -990,6 +1106,8 @@ public class FatalErrorLog {
         String elapsedTime = null;
         if (elapsedTimeEvent != null) {
             elapsedTime = elapsedTimeEvent.getElapsedTime();
+        ***REMOVED*** else if (timeElapsedTimeEvent != null) {
+            elapsedTime = timeElapsedTimeEvent.getElapsedTime();
         ***REMOVED***
         return elapsedTime;
     ***REMOVED***
@@ -1001,11 +1119,13 @@ public class FatalErrorLog {
         StringBuilder crashTime = new StringBuilder();
         if (timeEvent != null) {
             crashTime.append(timeEvent.getTime());
-        ***REMOVED***
-        if (timezoneEvent != null) {
-            crashTime.append(" (");
-            crashTime.append(timezoneEvent.getTimezone());
-            crashTime.append(")");
+            if (timezoneEvent != null) {
+                crashTime.append(" (");
+                crashTime.append(timezoneEvent.getTimezone());
+                crashTime.append(")");
+            ***REMOVED***
+        ***REMOVED*** else if (timeElapsedTimeEvent != null) {
+            crashTime.append(timeElapsedTimeEvent.getTime());
         ***REMOVED***
         return crashTime.toString();
     ***REMOVED***
@@ -1036,6 +1156,17 @@ public class FatalErrorLog {
         long physicalMemory = Long.MIN_VALUE;
         if (memoryEvent != null) {
             physicalMemory = memoryEvent.getPhysicalMemory();
+        ***REMOVED*** else if (meminfoEvents != null) {
+            String regexMemTotal = "MemTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    physicalMemory = Long.parseLong(matcher.group(1));
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         return physicalMemory;
     ***REMOVED***
@@ -1047,6 +1178,17 @@ public class FatalErrorLog {
         long physicalMemoryFree = Long.MIN_VALUE;
         if (memoryEvent != null) {
             physicalMemoryFree = memoryEvent.getPhysicalMemoryFree();
+        ***REMOVED*** else if (meminfoEvents != null) {
+            String regexMemTotal = "MemFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    physicalMemoryFree = Long.parseLong(matcher.group(1));
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         return physicalMemoryFree;
     ***REMOVED***
@@ -1058,6 +1200,17 @@ public class FatalErrorLog {
         long swap = Long.MIN_VALUE;
         if (memoryEvent != null) {
             swap = memoryEvent.getSwap();
+        ***REMOVED*** else if (meminfoEvents != null) {
+            String regexMemTotal = "SwapTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    swap = Long.parseLong(matcher.group(1));
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         return swap;
     ***REMOVED***
@@ -1069,6 +1222,17 @@ public class FatalErrorLog {
         long swapFree = Long.MIN_VALUE;
         if (memoryEvent != null) {
             swapFree = memoryEvent.getSwapFree();
+        ***REMOVED*** else if (meminfoEvents != null) {
+            String regexMemTotal = "SwapFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    swapFree = Long.parseLong(matcher.group(1));
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         return swapFree;
     ***REMOVED***
@@ -1079,8 +1243,19 @@ public class FatalErrorLog {
     public long getHeapMaxSize() {
         long heapMaxSize = Long.MIN_VALUE;
         if (getMaxHeapOption() != null) {
-            long bytes = JdkUtil.convertOptionSizeToBytes(getMaxHeapValue());
-            heapMaxSize = JdkUtil.convertBytesToKilobytes(bytes);
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher = pattern.matcher(getMaxHeapOption());
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                ***REMOVED*** else {
+                    fromUnits = 'B';
+                ***REMOVED***
+                heapMaxSize = JdkUtil.convertSize(value, fromUnits, 'K');
+            ***REMOVED***
         ***REMOVED***
         // Max heap size not set (e.g. container), use allocation
         if (heapMaxSize == Long.MIN_VALUE) {
@@ -1098,6 +1273,8 @@ public class FatalErrorLog {
             heapAllocation = 0;
             Iterator<HeapEvent> iterator = heapEvents.iterator();
             boolean heapAtCrash = false;
+            char fromUnits;
+            long value;
             Pattern pattern = null;
             Matcher matcher = null;
             while (iterator.hasNext()) {
@@ -1108,31 +1285,55 @@ public class FatalErrorLog {
                     pattern = Pattern.compile(HeapEvent.REGEX_YOUNG_GEN);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        heapAllocation += +JdkUtil.convertOptionSizeToBytes(matcher.group(2) + matcher.group(4));
+                        value = Long.parseLong(matcher.group(2));
+                        if (matcher.group(4) != null) {
+                            fromUnits = matcher.group(4).charAt(0);
+                        ***REMOVED*** else {
+                            fromUnits = 'B';
+                        ***REMOVED***
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'K');
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isOldGen()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_OLD_GEN);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        heapAllocation += +JdkUtil.convertOptionSizeToBytes(matcher.group(2) + matcher.group(4));
+                        value = Long.parseLong(matcher.group(2));
+                        if (matcher.group(4) != null) {
+                            fromUnits = matcher.group(4).charAt(0);
+                        ***REMOVED*** else {
+                            fromUnits = 'B';
+                        ***REMOVED***
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'K');
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isShenandoah()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        heapAllocation += +JdkUtil.convertOptionSizeToBytes(matcher.group(4) + matcher.group(6));
+                        value = Long.parseLong(matcher.group(4));
+                        if (matcher.group(6) != null) {
+                            fromUnits = matcher.group(6).charAt(0);
+                        ***REMOVED*** else {
+                            fromUnits = 'B';
+                        ***REMOVED***
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'K');
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isG1()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_G1);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        heapAllocation += +JdkUtil.convertOptionSizeToBytes(matcher.group(1) + matcher.group(3));
+                        value = Long.parseLong(matcher.group(1));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
+                        ***REMOVED*** else {
+                            fromUnits = 'B';
+                        ***REMOVED***
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'K');
                     ***REMOVED***
                 ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
                     heapAtCrash = false;
                 ***REMOVED***
             ***REMOVED***
-            heapAllocation = JdkMath.convertBytesToKilobytes(heapAllocation);
+
         ***REMOVED***
         return heapAllocation;
     ***REMOVED***
@@ -1146,6 +1347,8 @@ public class FatalErrorLog {
             heapUsed = 0;
             Iterator<HeapEvent> iterator = heapEvents.iterator();
             boolean heapAtCrash = false;
+            char fromUnits;
+            long value;
             Pattern pattern = null;
             Matcher matcher = null;
             while (iterator.hasNext()) {
@@ -1156,31 +1359,55 @@ public class FatalErrorLog {
                     pattern = Pattern.compile(HeapEvent.REGEX_YOUNG_GEN);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        heapUsed = heapUsed + JdkUtil.convertOptionSizeToBytes(matcher.group(5) + matcher.group(7));
+                        value = Long.parseLong(matcher.group(5));
+                        if (matcher.group(7) != null) {
+                            fromUnits = matcher.group(7).charAt(0);
+                        ***REMOVED*** else {
+                            fromUnits = 'B';
+                        ***REMOVED***
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, 'K');
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isOldGen()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_OLD_GEN);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        heapUsed = heapUsed + JdkUtil.convertOptionSizeToBytes(matcher.group(5) + matcher.group(7));
+                        value = Long.parseLong(matcher.group(5));
+                        if (matcher.group(7) != null) {
+                            fromUnits = matcher.group(7).charAt(0);
+                        ***REMOVED*** else {
+                            fromUnits = 'B';
+                        ***REMOVED***
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, 'K');
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isShenandoah()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        heapUsed = heapUsed + JdkUtil.convertOptionSizeToBytes(matcher.group(7) + matcher.group(9));
+                        value = Long.parseLong(matcher.group(7));
+                        if (matcher.group(9) != null) {
+                            fromUnits = matcher.group(9).charAt(0);
+                        ***REMOVED*** else {
+                            fromUnits = 'B';
+                        ***REMOVED***
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, 'K');
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isG1()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_G1);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        heapUsed = heapUsed + JdkUtil.convertOptionSizeToBytes(matcher.group(4) + matcher.group(6));
+                        value = Long.parseLong(matcher.group(4));
+                        if (matcher.group(6) != null) {
+                            fromUnits = matcher.group(6).charAt(0);
+                        ***REMOVED*** else {
+                            fromUnits = 'B';
+                        ***REMOVED***
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, 'K');
                     ***REMOVED***
                 ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
                     heapAtCrash = false;
                 ***REMOVED***
             ***REMOVED***
-            heapUsed = JdkMath.convertBytesToKilobytes(heapUsed);
+            // heapUsed = JdkMath.convertBytesToKilobytes(heapUsed);
         ***REMOVED***
         return heapUsed;
     ***REMOVED***
@@ -1191,14 +1418,27 @@ public class FatalErrorLog {
     public long getMetaspaceMaxSize() {
         long metaspaceMaxSize = Long.MIN_VALUE;
         if (getMaxMetaspaceOption() != null) {
-            long bytes = JdkUtil.convertOptionSizeToBytes(getMaxMetaspaceValue());
-            metaspaceMaxSize = JdkMath.convertBytesToKilobytes(bytes);
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher = pattern.matcher(getMaxMetaspaceOption());
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                ***REMOVED*** else {
+                    fromUnits = 'B';
+                ***REMOVED***
+                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, 'K');
+            ***REMOVED***
         ***REMOVED***
         // If max metaspace size not set (recommended), get from <code>HeapEvent</code>
         if (metaspaceMaxSize == Long.MIN_VALUE) {
             if (heapEvents != null) {
                 Iterator<HeapEvent> iterator = heapEvents.iterator();
                 boolean heapAtCrash = false;
+                char fromUnits;
+                long value;
                 Pattern pattern = null;
                 Matcher matcher = null;
                 while (iterator.hasNext()) {
@@ -1209,14 +1449,20 @@ public class FatalErrorLog {
                         pattern = Pattern.compile(HeapEvent.REGEX_METASPACE);
                         matcher = pattern.matcher(event.getLogEntry());
                         if (matcher.find()) {
-                            metaspaceMaxSize = JdkUtil.convertOptionSizeToBytes(matcher.group(10) + matcher.group(12));
+                            value = Long.parseLong(matcher.group(10));
+                            if (matcher.group(12) != null) {
+                                fromUnits = matcher.group(12).charAt(0);
+                            ***REMOVED*** else {
+                                fromUnits = 'B';
+                            ***REMOVED***
+                            metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, 'K');
+                            break;
                         ***REMOVED***
                     ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
                         heapAtCrash = false;
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
-            metaspaceMaxSize = JdkMath.convertBytesToKilobytes(metaspaceMaxSize);
         ***REMOVED***
         return metaspaceMaxSize;
     ***REMOVED***
@@ -1226,10 +1472,11 @@ public class FatalErrorLog {
      */
     public long getMetaspaceAllocation() {
         long metaspaceAllocation = Long.MIN_VALUE;
-        ;
         if (heapEvents != null) {
             Iterator<HeapEvent> iterator = heapEvents.iterator();
             boolean heapAtCrash = false;
+            char fromUnits;
+            long value;
             Pattern pattern = null;
             Matcher matcher = null;
             while (iterator.hasNext()) {
@@ -1240,13 +1487,19 @@ public class FatalErrorLog {
                     pattern = Pattern.compile(HeapEvent.REGEX_METASPACE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        metaspaceAllocation = JdkUtil.convertOptionSizeToBytes(matcher.group(7) + matcher.group(9));
+                        value = Long.parseLong(matcher.group(7));
+                        if (matcher.group(9) != null) {
+                            fromUnits = matcher.group(9).charAt(0);
+                        ***REMOVED*** else {
+                            fromUnits = 'B';
+                        ***REMOVED***
+                        metaspaceAllocation = JdkUtil.convertSize(value, fromUnits, 'K');
+                        break;
                     ***REMOVED***
                 ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
                     heapAtCrash = false;
                 ***REMOVED***
             ***REMOVED***
-            metaspaceAllocation = JdkMath.convertBytesToKilobytes(metaspaceAllocation);
         ***REMOVED***
         return metaspaceAllocation;
     ***REMOVED***
@@ -1256,10 +1509,11 @@ public class FatalErrorLog {
      */
     public long getMetaspaceUsed() {
         long metaspaceUsed = Long.MIN_VALUE;
-        ;
         if (heapEvents != null) {
             Iterator<HeapEvent> iterator = heapEvents.iterator();
             boolean heapAtCrash = false;
+            char fromUnits;
+            long value;
             Pattern pattern = null;
             Matcher matcher = null;
             while (iterator.hasNext()) {
@@ -1270,13 +1524,19 @@ public class FatalErrorLog {
                     pattern = Pattern.compile(HeapEvent.REGEX_METASPACE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        metaspaceUsed = JdkUtil.convertOptionSizeToBytes(matcher.group(1) + matcher.group(3));
+                        value = Long.parseLong(matcher.group(1));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
+                        ***REMOVED*** else {
+                            fromUnits = 'B';
+                        ***REMOVED***
+                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits, 'K');
+                        break;
                     ***REMOVED***
                 ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
                     heapAtCrash = false;
                 ***REMOVED***
             ***REMOVED***
-            metaspaceUsed = JdkMath.convertBytesToKilobytes(metaspaceUsed);
         ***REMOVED***
         return metaspaceUsed;
     ***REMOVED***
@@ -1291,7 +1551,7 @@ public class FatalErrorLog {
      * @return the option if it exists, null otherwise.
      */
     public String getCompressedClassSpaceSizeOption() {
-        String regex = "(-XX:CompressedClassSpaceSize=((\\d{1,10***REMOVED***)(" + JdkRegEx.OPTION_SIZE + ")?))";
+        String regex = "(-XX:CompressedClassSpaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + ")";
         return getJvmOption(regex);
     ***REMOVED***
 
@@ -1316,8 +1576,8 @@ public class FatalErrorLog {
         // Default is 1g
         long compressedClassSpaceSize = Constants.GIGABYTE.divide(Constants.KILOBYTE).longValue();
         if (getCompressedClassSpaceSizeOption() != null) {
-            long bytes = JdkUtil.convertOptionSizeToBytes(getCompressedClassSpaceSizeValue());
-            compressedClassSpaceSize = JdkMath.convertBytesToKilobytes(bytes);
+            // long bytes = JdkUtil.convertOptionSizeToBytes(getCompressedClassSpaceSizeValue());
+            // compressedClassSpaceSize = JdkMath.convertBytesToKilobytes(bytes);
         ***REMOVED***
         return compressedClassSpaceSize;
     ***REMOVED***
@@ -1347,18 +1607,20 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 CpuInfoEvent event = iterator.next();
                 if (event.isCpuHeader()) {
-                    Pattern pattern = Pattern.compile(CpuInfoEvent.REGEX_CPU_HEADER);
+                    Pattern pattern = Pattern.compile(CpuInfoEvent.REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         int cpus = Integer.parseInt(matcher.group(1));
                         int cores = 1;
-                        if (matcher.group(3) != null) {
-                            cores = Integer.parseInt(matcher.group(4));
+                        if (matcher.group(4) != null) {
+                            cores = Integer.parseInt(matcher.group(5));
                         ***REMOVED***
                         cpuCores = cpus * cores;
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
+        ***REMOVED*** else if (cpuInfoEvents != null) {
+
         ***REMOVED***
         return cpuCores;
     ***REMOVED***
@@ -1430,20 +1692,32 @@ public class FatalErrorLog {
      */
     public String getJvmOption(final String regex) {
         String option = null;
+        if (getJvmOptions() != null) {
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(getJvmOptions());
+            if (matcher.find()) {
+                option = matcher.group(1);
+            ***REMOVED***
+        ***REMOVED***
+        return option;
+    ***REMOVED***
+
+    /**
+     * @return The JVM options, or null if none exist.
+     */
+    public String getJvmOptions() {
+        String jvmOptions = null;
         if (vmArgumentsEvents != null) {
             Iterator<VmArgumentsEvent> iterator = vmArgumentsEvents.iterator();
             while (iterator.hasNext()) {
                 VmArgumentsEvent event = iterator.next();
                 if (event.isJvmArgs()) {
-                    Pattern pattern = Pattern.compile(regex);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        option = matcher.group(1);
-                    ***REMOVED***
+                    jvmOptions = event.getValue();
+                    break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        return option;
+        return jvmOptions;
     ***REMOVED***
 
     /**
@@ -1457,7 +1731,7 @@ public class FatalErrorLog {
      * @return The maximum heap space, or null if not explicitly set.
      */
     public String getMaxHeapOption() {
-        String regex = "(-X(mx|X:MaxHeapSize=)(\\d{1,12***REMOVED***)(" + JdkRegEx.OPTION_SIZE + ")?)";
+        String regex = "(-X(mx|X:MaxHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + ")";
         return getJvmOption(regex);
     ***REMOVED***
 
@@ -1484,7 +1758,7 @@ public class FatalErrorLog {
      * @return The maximum Metaspace, or null if not explicitly set.
      */
     public String getMaxMetaspaceOption() {
-        String regex = "(-XX:MaxMetaspaceSize=(\\d{1,10***REMOVED***)(" + JdkRegEx.OPTION_SIZE + ")?)";
+        String regex = "(-XX:MaxMetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + ")";
         return getJvmOption(regex);
     ***REMOVED***
 
@@ -1539,24 +1813,13 @@ public class FatalErrorLog {
      * -XX:ThreadStackSize=128
      * </pre>
      * 
-     * The <code>-Xss</code> options does not work on Solaris, only the <code>-XX:ThreadStackSize</code> option.
+     * The <code>-Xss</code> option does not work on Solaris, only the <code>-XX:ThreadStackSize</code> option.
      * 
      * @return The JVM thread stack size setting, or null if not explicitly set.
      */
     public String getThreadStackSizeOption() {
-        String regex = "(-(X)?(ss|X:ThreadStackSize=)(\\d{1,12***REMOVED***)(" + JdkRegEx.OPTION_SIZE + ")?)";
+        String regex = "(-(X)?(ss|X:ThreadStackSize=)" + JdkRegEx.OPTION_SIZE_BYTES + ")";
         return getJvmOption(regex);
-    ***REMOVED***
-
-    /**
-     * <pre>
-     * 256K
-     * </pre>
-     * 
-     * @return The thread stack size value, or null if not set. For example:
-     */
-    public String getThreadStackSizeValue() {
-        return JdkUtil.getOptionValue(getThreadStackSizeOption());
     ***REMOVED***
 
     /**
@@ -1564,9 +1827,20 @@ public class FatalErrorLog {
      */
     public long getThreadStackMaxSize() {
         long stackMaxSize = 1024;
-        if (getThreadStackSizeValue() != null) {
-            long bytes = JdkUtil.convertOptionSizeToBytes(getThreadStackSizeValue());
-            stackMaxSize = JdkUtil.convertBytesToKilobytes(bytes);
+        if (getThreadStackSizeOption() != null) {
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher = pattern.matcher(getThreadStackSizeOption());
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                ***REMOVED*** else {
+                    fromUnits = 'B';
+                ***REMOVED***
+                stackMaxSize = JdkUtil.convertSize(value, fromUnits, 'K');
+            ***REMOVED***
         ***REMOVED***
         return stackMaxSize;
     ***REMOVED***
@@ -1582,6 +1856,7 @@ public class FatalErrorLog {
                 StackEvent event = iterator.next();
                 if (event.isHeader()) {
                     stackFreeSpace = event.getStackFreeSpace();
+                    break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -1664,7 +1939,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_STACK_NO_VM_CODE);
         ***REMOVED***
         // Check if LTS release
-        if (!isJdkLts()) {
+        if (getJavaSpecification() != JavaSpecification.UNKNOWN && !isJdkLts()) {
             analysis.add(Analysis.WARN_JDK_NOT_LTS);
         ***REMOVED***
         // Check for ancient JDK
@@ -1723,6 +1998,9 @@ public class FatalErrorLog {
         ***REMOVED***
         // Signal numbers
         switch (getSignalNumber()) {
+        case EXCEPTION_ACCESS_VIOLATION:
+            analysis.add(Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION);
+            break;
         case SIGBUS:
             analysis.add(Analysis.INFO_SIGNO_SIGBUS);
             break;
@@ -1757,6 +2035,9 @@ public class FatalErrorLog {
         case SEGV_MAPERR:
             analysis.add(Analysis.INFO_SIGCODE_SEGV_MAPERR);
             break;
+        case SI_KERNEL:
+            analysis.add(Analysis.INFO_SIGCODE_SI_KERNEL);
+            break;
         case UNKNOWN:
         default:
             break;
@@ -1788,6 +2069,12 @@ public class FatalErrorLog {
      * Do JVM options analysis.
      */
     private void doJvmOptionsAnalysis() {
-        // TODO
+        if (getJvmOptions() != null) {
+            if (getThreadStackMaxSize() < 1) {
+                analysis.add(Analysis.WARN_THREAD_STACK_SIZE_TINY);
+            ***REMOVED*** else if (getThreadStackMaxSize() < 128) {
+                analysis.add(Analysis.INFO_THREAD_STACK_SIZE_SMALL);
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 ***REMOVED***

@@ -14,13 +14,9 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.Constants.OsType;
-import org.github.errcat.util.Constants.OsVendor;
-import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
@@ -52,11 +48,16 @@ import org.github.errcat.util.jdk.JdkUtil;
 public class OsEvent implements LogEvent {
 
     /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "OS:.+";
+
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^OS:[ ]{0,***REMOVED***(.+)$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|[ ]{0,***REMOVED***(Assembled|Copyright))(.+)$";
 
-    private static Pattern pattern = Pattern.compile(REGEX);
+    public static final Pattern PATTERN = Pattern.compile(REGEX);
 
     /**
      * The log entry for the event.
@@ -93,75 +94,9 @@ public class OsEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return The OS type.
+     * @return true if the log line is the header false otherwise.
      */
-    public OsType getOsType() {
-        OsType osType = OsType.UNKNOWN;
-        if (getOsString().matches(".+Linux.+")) {
-            osType = OsType.LINUX;
-        ***REMOVED*** else if (logEntry.matches("^OS: Windows.+$")) {
-            osType = OsType.WINDOWS;
-        ***REMOVED*** else if (getOsString().matches(".+Solaris.+")) {
-            osType = OsType.SOLARIS;
-        ***REMOVED***
-        return osType;
-    ***REMOVED***
-
-    /**
-     * @return The OS string.
-     */
-    public String getOsString() {
-        String os = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            os = matcher.group(1);
-        ***REMOVED***
-        return os;
-    ***REMOVED***
-
-    /**
-     * @return The OS vendor.
-     */
-    public OsVendor getOsVendor() {
-        OsVendor osVendor = OsVendor.UNKNOWN;
-        if (logEntry.matches("^OS:Red Hat.+$")) {
-            osVendor = OsVendor.REDHAT;
-        ***REMOVED*** else if (logEntry.matches("^OS: Windows.+$")) {
-            osVendor = OsVendor.MICROSOFT;
-        ***REMOVED*** else if (logEntry.matches("^.+Oracle.+$")) {
-            osVendor = OsVendor.ORACLE;
-        ***REMOVED*** else if (logEntry.matches("^OS:CentOS.+$")) {
-            osVendor = OsVendor.CENTOS;
-        ***REMOVED***
-        return osVendor;
-    ***REMOVED***
-
-    /**
-     * @return The OS version.
-     */
-    public OsVersion getOsVersion() {
-        OsVersion osVersion = OsVersion.UNKNOWN;
-        if (logEntry.matches("^OS:Red Hat Enterprise Linux (Server|Workstation) release 6.+$")) {
-            osVersion = OsVersion.RHEL6;
-        ***REMOVED*** else if (logEntry.matches("^OS:Red Hat Enterprise Linux (Server|Workstation) release 7.+$")) {
-            osVersion = OsVersion.RHEL7;
-        ***REMOVED*** else if (logEntry.matches("^OS:Red Hat Enterprise Linux release 8.+$")) {
-            osVersion = OsVersion.RHEL8;
-        ***REMOVED*** else if (logEntry.matches("^OS:CentOS Linux release 6.+$")) {
-            osVersion = OsVersion.CENTOS6;
-        ***REMOVED*** else if (logEntry.matches("^OS:CentOS Linux release 7.+$")) {
-            osVersion = OsVersion.CENTOS7;
-        ***REMOVED*** else if (logEntry.matches("^OS:CentOS Linux release 8.+$")) {
-            osVersion = OsVersion.CENTOS8;
-        ***REMOVED***
-        return osVersion;
-    ***REMOVED***
-
-    public boolean isRhel() {
-        return logEntry.matches("^OS:Red Hat Enterprise Linux.+$");
-    ***REMOVED***
-
-    public boolean isWindows() {
-        return logEntry.matches("^OS: Windows.+$");
+    public boolean isHeader() {
+        return logEntry.matches(REGEX_HEADER);
     ***REMOVED***
 ***REMOVED***

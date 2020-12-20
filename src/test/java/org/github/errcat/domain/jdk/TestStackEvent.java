@@ -39,55 +39,55 @@ public class TestStackEvent extends TestCase {
 
     public void testNativeFrames() {
         String logLine = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code";
-        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
     ***REMOVED***
 
     public void testJavaFrames() {
         String logLine = "Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)";
-        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
     ***REMOVED***
 
     public void testNativeCode() {
         String logLine = "C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4";
-        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
     ***REMOVED***
 
     public void testJavaCompiledCode() {
         String logLine = "J 7595  org.eclipse.swt.internal.gtk.GTK.gtk_main_do_event(J)V (0 bytes) @ "
                 + "0x00007fcd7c4b2f91 [0x00007fcd7c4b2f40+0x0000000000000051]";
-        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
     ***REMOVED***
 
     public void testInterpretedCode() {
         String logLine = "j  org.eclipse.ui.internal.Workbench$$Lambda$166.run()V+12";
-        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
     ***REMOVED***
 
     public void testVmFrameSmallV() {
         String logLine = "v  ~StubRoutines::call_stub";
-        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
         StackEvent stackEvent = new StackEvent(logLine);
         Assert.assertFalse("VM frame incorrectly identified.", stackEvent.isVmFrame());
     ***REMOVED***
 
     public void testVmGeneratedCodeFrameSmallV() {
         String logLine = "v  ~StubRoutines::call_stub";
-        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
         StackEvent stackEvent = new StackEvent(logLine);
         Assert.assertTrue("VM generated code frame not identified.", stackEvent.isVmGeneratedCodeFrame());
     ***REMOVED***
 
     public void testVmFrameLargeV() {
         String logLine = "V  [libjvm.so+0x93a382]  java_start(Thread*)+0xf2";
-        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
         StackEvent stackEvent = new StackEvent(logLine);
         Assert.assertTrue("VM code not identified.", stackEvent.isVmFrame());
     ***REMOVED***
@@ -99,5 +99,20 @@ public class TestStackEvent extends TestCase {
         StackEvent event = new StackEvent(logLine);
         Assert.assertTrue("Header not identified.", event.isHeader());
         Assert.assertEquals("Stack free space not correct.", 1018, event.getStackFreeSpace());
+    ***REMOVED***
+
+    public void testJavaThreadBeingProcessed() {
+        String logLine = "JavaThread 0x000055ae261db800 (nid = 76044) was being processed";
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
+    ***REMOVED***
+
+    /**
+     * TODO: Does this error apply to multiple events and should be moved to a dedicated ErrorEvent?
+     */
+    public void testError() {
+        String logLine = "[error occurred during error reporting (printing native stack), id 0xb]";
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
     ***REMOVED***
 ***REMOVED***

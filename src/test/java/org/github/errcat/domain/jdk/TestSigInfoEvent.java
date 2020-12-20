@@ -41,8 +41,28 @@ public class TestSigInfoEvent extends TestCase {
 
     public void testSigsegvSegvMaperr() {
         String logLine = "***REMOVED***";
+        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.SIGINFO);
         SigInfoEvent event = new SigInfoEvent(logLine);
         Assert.assertEquals("Signal number not correct.", SignalNumber.SIGSEGV, event.getSignalNumber());
         Assert.assertEquals("Signal code not correct.", SignalCode.SEGV_MAPERR, event.getSignalCode());
+    ***REMOVED***
+
+    public void testExceptionAccessViolation() {
+        String logLine = "siginfo: ExceptionCode=0xc0000005, reading address 0x0000000000000048";
+        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.SIGINFO);
+        SigInfoEvent event = new SigInfoEvent(logLine);
+        Assert.assertEquals("Signal number not correct.", SignalNumber.EXCEPTION_ACCESS_VIOLATION,
+                event.getSignalNumber());
+    ***REMOVED***
+
+    public void testSignalCodeSiKernel() {
+        String logLine = "siginfo: si_signo: 11 (SIGSEGV), si_code: 128 (SI_KERNEL), si_addr: 0x0000000000000000";
+        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.SIGINFO);
+        SigInfoEvent event = new SigInfoEvent(logLine);
+        Assert.assertEquals("Signal number not correct.", SignalNumber.SIGSEGV, event.getSignalNumber());
+        Assert.assertEquals("Signal code not correct.", SignalCode.SI_KERNEL, event.getSignalCode());
     ***REMOVED***
 ***REMOVED***

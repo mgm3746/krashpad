@@ -48,4 +48,10 @@ public class TestHeadingEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADING);
     ***REMOVED***
+
+    public void testSummary() {
+        String logLine = "---------------  S U M M A R Y ------------";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADING);
+    ***REMOVED***
 ***REMOVED***

@@ -77,4 +77,16 @@ public class TestRegisterEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.REGISTER.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER);
     ***REMOVED***
+
+    public void testPcSmallLetters() {
+        String logLine = "pc =0x00003fff7a9ddba0  lr =0x00003fff7a9ddb54  ctr=0x000000000000000f";
+        Assert.assertTrue(JdkUtil.LogEventType.REGISTER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER);
+    ***REMOVED***
+
+    public void testRegisterSmallLetter() {
+        String logLine = "r0 =0x00003fff7aa0c5d8  r1 =0x00003fff79b2ddb0  r2 =0x00003fff7b0b7e00";
+        Assert.assertTrue(JdkUtil.LogEventType.REGISTER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER);
+    ***REMOVED***
 ***REMOVED***

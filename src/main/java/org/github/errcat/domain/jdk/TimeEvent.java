@@ -71,12 +71,12 @@ public class TimeEvent implements LogEvent {
     ***REMOVED***
 
     public String getTime() {
-        String timezone = null;
+        String time = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            timezone = matcher.group(1);
+            time = matcher.group(1);
         ***REMOVED***
-        return timezone;
+        return time;
     ***REMOVED***
 
     /**

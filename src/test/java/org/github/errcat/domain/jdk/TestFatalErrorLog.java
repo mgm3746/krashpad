@@ -39,7 +39,7 @@ public class TestFatalErrorLog extends TestCase {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)";
         OsEvent osEvent = new OsEvent(os);
-        fel.setOsEvent(osEvent);
+        fel.getOsEvents().add(osEvent);
         Assert.assertEquals("OS not correct.", OsType.LINUX, fel.getOsType());
     ***REMOVED***
 
@@ -328,6 +328,8 @@ public class TestFatalErrorLog extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset32.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Crash time not correct.", "Tue May  5 18:32:04 2020 CEST", fel.getCrashTime());
+        Assert.assertEquals("Elapsed time not correct.", "0d 0h 15m 56s", fel.getElapsedTime());
         Assert.assertEquals("Physical memory not correct.", 32780544, fel.getPhysicalMemory());
         Assert.assertEquals("Physical memory free not correct.", 2698868, fel.getPhysicalMemoryFree());
         Assert.assertEquals("Swap not correct.", 8191996, fel.getSwap());
@@ -354,5 +356,35 @@ public class TestFatalErrorLog extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
         Assert.assertTrue(Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB));
+    ***REMOVED***
+
+    public void testMeminfo() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset38.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Physical memory not correct.", 1584737884, fel.getPhysicalMemory());
+        Assert.assertEquals("Physical memory free not correct.", 136528040, fel.getPhysicalMemoryFree());
+        Assert.assertEquals("Swap not correct.", 33554428, fel.getSwap());
+        Assert.assertEquals("Swap free not correct.", 33554428, fel.getSwapFree());
+        Assert.assertEquals("Heap max size not correct.", 220000 * 1024, fel.getHeapMaxSize());
+        Assert.assertEquals("Heap allocation not correct.", 225041472, fel.getHeapAllocation());
+        Assert.assertEquals("Heap used not correct.", 1908416, fel.getHeapUsed());
+        Assert.assertEquals("Metaspace max size not correct.", 43008, fel.getMetaspaceMaxSize());
+        Assert.assertEquals("Metaspace allocation not correct.", 41268, fel.getMetaspaceAllocation());
+        Assert.assertEquals("Metaspace used not correct.", 40246, fel.getMetaspaceUsed());
+        Assert.assertEquals("Thread stack size not correct.", 0, fel.getThreadStackMaxSize());
+    ***REMOVED***
+
+    public void testTenuredGeneration() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset40.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Heap max size not correct.", 3172 * 1024, fel.getHeapMaxSize());
+        Assert.assertEquals("Heap allocation not correct.", 947392 + 2165440, fel.getHeapAllocation());
+        Assert.assertEquals("Heap used not correct.", 396580 + 937560, fel.getHeapUsed());
+        Assert.assertEquals("Metaspace max size not correct.", 1275904, fel.getMetaspaceMaxSize());
+        Assert.assertEquals("Metaspace allocation not correct.", 262244, fel.getMetaspaceAllocation());
+        Assert.assertEquals("Metaspace used not correct.", 243180, fel.getMetaspaceUsed());
+        Assert.assertEquals("Thread stack size not correct.", 512, fel.getThreadStackMaxSize());
     ***REMOVED***
 ***REMOVED***

@@ -57,6 +57,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testJavaSpecification8() {
         String logLine = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.192-b12) for linux-amd64 JRE (1.8.0_192-b12), "
                 + "built on Oct  6 2018 06:46:09 by \"java_re\" with gcc 7.3.0";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("Version not correct.", JavaSpecification.JDK8,
                 ((VmInfoEvent) event).getJavaSpecification());
@@ -65,6 +67,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testJavaSpecification11() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (11.0.5+10-LTS) for linux-amd64 JRE (11.0.5+10-LTS), "
                 + "built on Oct  9 2019 18:41:22 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("Version not correct.", JavaSpecification.JDK11,
                 ((VmInfoEvent) event).getJavaSpecification());
@@ -73,6 +77,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testJavaSpecification12() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (12.0.1+12) for linux-amd64 JRE (12.0.1+12), "
                 + "built on Apr  1 2019 23:46:56 by \"mach5one\" with gcc 7.3.0";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("Version not correct.", JavaSpecification.JDK12,
                 ((VmInfoEvent) event).getJavaSpecification());
@@ -81,6 +87,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testJdkReleaseString() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (11.0.5+10-LTS) for linux-amd64 JRE (11.0.5+10-LTS), "
                 + "built on Oct  9 2019 18:41:22 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("Version not correct.", "11.0.5+10-LTS", ((VmInfoEvent) event).getJdkReleaseString());
     ***REMOVED***
@@ -88,6 +96,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testArchX86_64() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (11.0.5+10-LTS) for linux-amd64 JRE (11.0.5+10-LTS), "
                 + "built on Oct  9 2019 18:41:22 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("Arch not correct.", Arch.X86_64, ((VmInfoEvent) event).getArch());
     ***REMOVED***
@@ -96,6 +106,8 @@ public class TestVmInfoEvent extends TestCase {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE "
                 + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
                 + "4.4.7 20120313";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("Arch not correct.", Arch.X86_64, ((VmInfoEvent) event).getArch());
     ***REMOVED***
@@ -103,6 +115,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testArchPpc64Le() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-ppc64le JRE (1.8.0_265-b01), "
                 + "built on Jul 28 2020 11:16:00 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("Arch not correct.", Arch.PPC64LE, ((VmInfoEvent) event).getArch());
     ***REMOVED***
@@ -110,6 +124,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testArchPpc64() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.181-b13) for linux-ppc64 JRE (1.8.0_181-b13), "
                 + "built on Jul 16 2018 11:33:43 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-28)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("Arch not correct.", Arch.PPC64, ((VmInfoEvent) event).getArch());
     ***REMOVED***
@@ -117,6 +133,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testBuildDate() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), "
                 + "built on Jul 12 2020 18:55:08 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Date buildDate = ((VmInfoEvent) event).getBuildDate();
         Calendar calendar = Calendar.getInstance();
@@ -144,6 +162,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testBuiltByJenkins() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
                 + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("JDK builder not correct.", BuiltBy.JENKINS, ((VmInfoEvent) event).getBuiltBy());
     ***REMOVED***
@@ -152,6 +172,8 @@ public class TestVmInfoEvent extends TestCase {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE "
                 + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
                 + "4.4.7 20120313";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("JDK builder not correct.", BuiltBy.ZULU_RE, ((VmInfoEvent) event).getBuiltBy());
     ***REMOVED***
@@ -159,6 +181,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testBuiltByJavaRe() {
         String logLine = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.25-b02) for windows-amd64 JRE (1.8.0_25-b18), "
                 + "built on Oct  7 2014 14:25:37 by \"java_re\" with MS VC++ 10.0 (VS2010)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("JDK builder not correct.", BuiltBy.JAVA_RE, ((VmInfoEvent) event).getBuiltBy());
     ***REMOVED***
@@ -166,6 +190,8 @@ public class TestVmInfoEvent extends TestCase {
     public void testBuiltByMockbuild() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-ppc64le JRE (1.8.0_265-b01), "
                 + "built on Jul 28 2020 11:16:00 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("JDK builder not correct.", BuiltBy.MOCKBUILD, ((VmInfoEvent) event).getBuiltBy());
     ***REMOVED***

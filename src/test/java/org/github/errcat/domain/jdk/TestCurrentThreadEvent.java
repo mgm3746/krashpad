@@ -43,8 +43,8 @@ public class TestCurrentThreadEvent extends TestCase {
     public void test32BitAddress() {
         String logLine = "Current thread (0x08ec6400):  JavaThread \"main\" [_thread_blocked, id=29301, "
                 + "stack(0xffc15000,0xffc65000)]";
-        Assert.assertTrue(JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof CurrentThreadEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CURRENT_THREAD);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("Current thread not correct.",
                 "JavaThread \"main\" [_thread_blocked, id=29301, stack(0xffc15000,0xffc65000)]",

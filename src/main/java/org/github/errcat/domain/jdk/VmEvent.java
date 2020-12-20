@@ -44,7 +44,8 @@ public class VmEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(Events|Event: " + JdkRegEx.TIMESTAMP
-            + " (Executing VM operation|loading class|Thread)).+$";
+            + " (Concurrent|Executing( coalesced safepoint)? VM operation|loading class|Pause|Protecting memory|"
+            + "Thread)).+$";
 
     /**
      * The log entry for the event.

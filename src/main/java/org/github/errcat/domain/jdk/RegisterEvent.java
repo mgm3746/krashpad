@@ -30,6 +30,10 @@ import org.github.errcat.util.jdk.JdkUtil;
  * 
  * <h3>Example Logging</h3>
  * 
+ * <p>
+ * 1) Capital letters, 4 columns:
+ * </p>
+ * 
  * <pre>
  * ***REMOVED***
  * RAX=0x0000000000000001, RBX=0x00007f67383dc748, RCX=0x0000000000000004, RDX=0x00007f69b031f898
@@ -38,6 +42,16 @@ import org.github.errcat.util.jdk.JdkUtil;
  * R12=0x00007f673d50bfe0, R13=0x00007f6a3a004628, R14=0x00007f6a3a004620, R15=0x00007f673d50bdf0
  * RIP=0x00007fcbd05a3b71, EFLAGS=0x0000000000010293, CSGSFS=0x0000000000000033, ERR=0x0000000000000004
  *   TRAPNO=0x000000000000000e
+ * </pre>
+ * 
+ * <p>
+ * 2) Small letters, 3 columns, extra space instead of comma:
+ * </p>
+ * 
+ * <pre>
+ * ***REMOVED***
+ * pc =0x00003fff7a9ddba0  lr =0x00003fff7a9ddb54  ctr=0x000000000000000f
+ * r0 =0x00003fff7aa0c5d8  r1 =0x00003fff79b2ddb0  r2 =0x00003fff7b0b7e00
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -53,8 +67,8 @@ public class RegisterEvent implements LogEvent, ThrowAwayEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|" + JdkRegEx.REGISTER + ", " + JdkRegEx.REGISTER + ", "
-            + JdkRegEx.REGISTER + ", " + JdkRegEx.REGISTER + "|  TRAPNO=" + JdkRegEx.ADDRESS + ")$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|" + JdkRegEx.REGISTER + "[, ] " + JdkRegEx.REGISTER
+            + "[, ] " + JdkRegEx.REGISTER + "(, " + JdkRegEx.REGISTER + ")?|  TRAPNO=" + JdkRegEx.ADDRESS + ")$";
 
     /**
      * The log entry for the event.

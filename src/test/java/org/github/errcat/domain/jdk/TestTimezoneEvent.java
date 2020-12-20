@@ -39,6 +39,8 @@ public class TestTimezoneEvent extends TestCase {
 
     public void testTimezone() {
         String logLine = "timezone: UTC";
+        Assert.assertTrue(JdkUtil.LogEventType.TIMEZONE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.TIMEZONE);
         TimezoneEvent event = new TimezoneEvent(logLine);
         Assert.assertEquals("Timezone not correct.", "UTC", event.getTimezone());
     ***REMOVED***

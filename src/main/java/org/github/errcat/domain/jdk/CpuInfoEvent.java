@@ -54,15 +54,7 @@ import org.github.errcat.util.jdk.JdkUtil;
 public class CpuInfoEvent implements LogEvent {
 
     /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(address sizes|apicid|bogomips|bugs|cache_alignment|cache size|clflush size|"
-            + "clock|core id|cpu|cpu cores|cpu family|cpuid level|cpu MHz|CPU|flags|fpu|fpu_exception|initial apicid|"
-            + "machine|microcode|model|model name|MMU|physical id|platform|power management|\\/proc\\/cpuinfo|"
-            + "processor|revision|siblings|stepping|timebase|vendor_id|wp)[\\s]{0,***REMOVED***:[ ]{0,1***REMOVED***(.+)?$";
-
-    /**
-     * Regular expression for the CPU header with summary information.
+     * * Regular expression for the CPU header with summary information.
      * 
      * For example:
      * 
@@ -70,9 +62,28 @@ public class CpuInfoEvent implements LogEvent {
      * CPU:total 160 (initial active 160) ppc64 fsqrt isel lxarxeh cmpb popcntb popcntw fcfids vand aes vpmsumb mfdscr 
      * vsx sha
      * </pre>
+     * 
+     * <pre>
+     * CPU:total 160 (initial active 160)
+     * </pre>
+     * 
+     * <pre>
+     * CPU:total 8 (2 cores per cpu, 1 threads per core) family 6 model 63 stepping 0, cmov, cx8, fxsr, mmx, sse, 
+     * sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, erms, tsc, tscinvbit
+     * </pre>
      */
-    public static final String REGEX_CPU_HEADER = "^CPU:total (\\d{1,3***REMOVED***) \\(initial active (\\d{1,3***REMOVED***)\\)( "
-            + "\\((\\d{1,2***REMOVED***) cores per cpu, (\\d) threads per core\\))?.+$";
+    public static final String REGEX_HEADER = "CPU:total (\\d{1,3***REMOVED***)( \\(initial active (\\d{1,3***REMOVED***)\\))?( \\((\\d{1,2***REMOVED***) "
+            + "cores per cpu, (\\d) threads per core\\))?.*";
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + REGEX_HEADER
+            + "|(address sizes|apicid|bogomips|bugs|cache_alignment|cache size|clflush size|clock|core id|cpu|"
+            + "cpu cores|cpu family|CPU Model and flags from \\/proc\\/cpuinfo|cpuid level|cpu MHz|flags|fpu|"
+            + "fpu_exception|initial apicid|machine|microcode|model|model name|MMU|physical id|platform|"
+            + "power management|\\/proc\\/cpuinfo|processor|revision|siblings|stepping|timebase|vendor_id|wp)"
+            + "[\\s]{0,***REMOVED***:[ ]{0,1***REMOVED***)(.*)$";
 
     /**
      * The log entry for the event.
@@ -112,6 +123,6 @@ public class CpuInfoEvent implements LogEvent {
      * @return True if the event is the CPU header with summary information, false otherwise.
      */
     public boolean isCpuHeader() {
-        return logEntry.matches(REGEX_CPU_HEADER);
+        return logEntry.matches(REGEX_HEADER);
     ***REMOVED***
 ***REMOVED***

@@ -42,10 +42,16 @@ import org.github.errcat.util.jdk.JdkUtil;
 public class DeoptimizationEvent implements LogEvent {
 
     /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "Deoptimization events \\(\\d{1,***REMOVED*** events\\):";
+
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Deoptimization events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " Uncommon trap).+$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
+            + JdkRegEx.ADDRESS
+            + " Uncommon trap|\\[error occurred during error reporting \\(printing ring buffers\\), id 0xb\\]).*$";
 
     /**
      * The log entry for the event.

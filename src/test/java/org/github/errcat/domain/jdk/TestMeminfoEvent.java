@@ -168,4 +168,16 @@ public class TestMeminfoEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.MEMINFO.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMINFO);
     ***REMOVED***
+
+    public void testMemAvailable() {
+        String logLine = "MemAvailable:    9627712 kB";
+        Assert.assertTrue(JdkUtil.LogEventType.MEMINFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMINFO);
+    ***REMOVED***
+
+    public void testPerCpu() {
+        String logLine = "Percpu:             3584 kB";
+        Assert.assertTrue(JdkUtil.LogEventType.MEMINFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMINFO);
+    ***REMOVED***
 ***REMOVED***

@@ -32,13 +32,21 @@ import org.github.errcat.util.jdk.JdkUtil;
  * 
  * <h3>Example Logging</h3>
  * 
- * <pre>
- * OS:                            Oracle Solaris 11.4 SPARC
+ * <p>
+ * 1) Solaris:
  * </pre>
  * 
  * <pre>
  * ***REMOVED***
  * 00400000-00401000 r-xp 00000000 fd:0d 201327127                          /path/to/jdk/bin/java
+ * </pre>
+ * 
+ * <p>
+ * 2) Solaris alternate format:
+ * </p>
+ * 
+ * <pre>
+ * 0xffffffff49400000      /apps/java/jdk1.8.0_251_no_compiler/jre/lib/sparcv9/server/libjvm.so
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -47,11 +55,16 @@ import org.github.errcat.util.jdk.JdkUtil;
 public class DynamicLibraryEvent implements LogEvent {
 
     /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "***REMOVED***";
+
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(***REMOVED***|" + JdkRegEx.MEMORY_REGION + " " + JdkRegEx.PERMISION
-            + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE + "[ ]{1,***REMOVED***(("
-            + JdkRegEx.FILE + "|" + JdkRegEx.AREA + "))?)$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS
+            + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE
+            + ")?[ ]{1,***REMOVED***((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA + "))?)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -90,13 +103,13 @@ public class DynamicLibraryEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return Dynamic librarty path.
+     * @return Dynamic library file path.
      */
     public String getFilePath() {
         String filePath = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int filePathIndex = 7;
+            int filePathIndex = 14;
             filePath = matcher.group(filePathIndex);
         ***REMOVED***
         return filePath;

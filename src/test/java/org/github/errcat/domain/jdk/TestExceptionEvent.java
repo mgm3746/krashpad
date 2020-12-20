@@ -45,28 +45,7 @@ public class TestExceptionEvent extends TestCase {
 
     public void testHeader() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof ExceptionEvent);
-    ***REMOVED***
-
-    public void testCompilationEvent() {
-        String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
-                + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
-        Assert.assertFalse(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " incorrectly parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof ExceptionEvent);
-    ***REMOVED***
-
-    public void testDeoptimizationEvent() {
-        String logLine = "Event: 5689.207 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if "
-                + "action=reinterpret pc=0x00007ff0df4a0408 "
-                + "method=org.eclipse.jface.text.ListLineTracker.getLineLength(I)I @ 28";
-        Assert.assertFalse(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " incorrectly parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof ExceptionEvent);
-    ***REMOVED***
-
-    public void testVmEvent() {
-        String logLine = "Event: 6665.311 Executing VM operation: RevokeBias done";
-        Assert.assertFalse(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " incorrectly parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof ExceptionEvent);
+        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.EXCEPTION_EVENT);
     ***REMOVED***
 ***REMOVED***
