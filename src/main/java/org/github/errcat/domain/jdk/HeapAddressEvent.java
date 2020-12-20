@@ -42,7 +42,7 @@ public class HeapAddressEvent implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "heap address:";
+    private static final String REGEX_HEADER = "[h|H]eap address:";
 
     /**
      * Regular expression defining the logging.

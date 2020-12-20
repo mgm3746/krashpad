@@ -94,7 +94,9 @@ public class StackEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|([CjJvV]) |(Java|Native) frames:).*$";
+    private static final String REGEX = "^(" + REGEX_HEADER
+            + "|([CjJvV]) |(Java|Native) frames:|JavaThread|\\[error occurred during error reporting \\(printing "
+            + "native stack\\), id 0xb\\]).*$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 

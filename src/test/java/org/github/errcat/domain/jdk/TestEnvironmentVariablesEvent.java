@@ -54,4 +54,40 @@ public class TestEnvironmentVariablesEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
     }
+
+    public void testJavaHome() {
+        String logLine = "JAVA_HOME=/etc/alternatives/jre_1.8.0";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    }
+
+    public void testJreHome() {
+        String logLine = "JRE_HOME=/usr/java/jdk1.8.0_241-amd64/jre";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    }
+
+    public void testClasspath() {
+        String logLine = "CLASSPATH=/usr/java/jdk1.8.0_241-amd64/lib/tools.jar";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    }
+
+    public void testUsername() {
+        String logLine = "USERNAME=bob";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    }
+
+    public void testCommandLine() {
+        String logLine = "USERNAME=bob";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    }
+
+    public void testDisplay() {
+        String logLine = "DISPLAY=:1";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    }
 }

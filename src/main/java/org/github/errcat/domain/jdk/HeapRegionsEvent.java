@@ -46,7 +46,7 @@ public class HeapRegionsEvent implements LogEvent, ThrowAwayEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(BTE=|Heap Regions:|R=|ShenandoahBarrierSet|SN=|EU=|\\|)(.*)$";
+    private static final String REGEX = "^(AC   |BTE=|Heap Regions:|R=|ShenandoahBarrierSet|SN=|EU=|\\|)(.*)$";
 
     /**
      * The log entry for the event.

@@ -60,4 +60,52 @@ public class TestVmArgumentsEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
     }
+
+    public void testGlobalFlags() {
+        String logLine = "[Global flags]";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+    }
+
+    public void testGlobalFlagIntx() {
+        String logLine = "     intx CICompilerCount                          = 4"
+                + "                                         {product} {ergonomic}";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+    }
+
+    public void testGlobalFlagUint() {
+        String logLine = "     uint ConcGCThreads                            = 2"
+                + "                                         {product} {ergonomic}";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+    }
+
+    public void testGlobalFlagCcstr() {
+        String logLine = "    ccstr ErrorFile                                = /path/to/vm_crash_%p.log            "
+                + "{product} {command line}";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+    }
+
+    public void testGlobalFlagSizeT() {
+        String logLine = "   size_t G1HeapRegionSize                         = 2097152"
+                + "                                   {product} {ergonomic}";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+    }
+
+    public void testGlobalFlagUintx() {
+        String logLine = "    uintx GCDrainStackTargetSize                   = 64"
+                + "                                        {product} {ergonomic}";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+    }
+
+    public void testGlobalFlagBool() {
+        String logLine = "     bool SegmentedCodeCache                       = true"
+                + "                                      {product} {ergonomic}";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+    }
 }

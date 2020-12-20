@@ -35,6 +35,10 @@ import org.github.errcat.util.jdk.JdkUtil;
  * </pre>
  * 
  * <pre>
+ * Marking Bits (Prev, Next): (CMBitMap*) 0x00003fff74037098, (CMBitMap*) 0x00003fff740370f0
+ * </pre>
+ * 
+ * <pre>
  *  Mod Union Table: (CMSBitMap*) 0x00007fcbc8249da8
  *  Bits: [0x00007f6777776000, 0x00007f677d83e670)
  * </pre>
@@ -47,12 +51,12 @@ public class BitsEvent implements LogEvent, ThrowAwayEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "(Marking Bits|Mod Union Table):";
+    private static final String REGEX_HEADER = "(Marking Bits( \\(Prev, Next\\))?|Mod Union Table):";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "| Bits:).*$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|( (Begin|End|Next|Prev))? Bits:).*$";
 
     /**
      * The log entry for the event.
