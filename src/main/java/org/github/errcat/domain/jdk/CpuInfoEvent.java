@@ -82,7 +82,7 @@ public class CpuInfoEvent implements LogEvent {
             + "|(address sizes|apicid|bogomips|bugs|cache_alignment|cache size|clflush size|clock|core id|cpu|"
             + "cpu cores|cpu family|CPU Model and flags from \\/proc\\/cpuinfo|cpuid level|cpu MHz|flags|fpu|"
             + "fpu_exception|initial apicid|machine|microcode|model|model name|MMU|physical id|platform|"
-            + "power management|\\/proc\\/cpuinfo|processor|revision|siblings|stepping|timebase|vendor_id|wp)"
+            + "power management|\\/proc\\/cpuinfo|processor|revision|siblings|stepping|TLB size|timebase|vendor_id|wp)"
             + "[\\s]{0,***REMOVED***:[ ]{0,1***REMOVED***)(.*)$";
 
     /**

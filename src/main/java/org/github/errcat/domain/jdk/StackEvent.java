@@ -88,15 +88,15 @@ public class StackEvent implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "Stack: \\[" + JdkRegEx.ADDRESS + "," + JdkRegEx.ADDRESS + "\\],  sp="
-            + JdkRegEx.ADDRESS + ",  free space=(\\d{1,***REMOVED***)k";
+    private static final String REGEX_HEADER = "Stack: \\[" + JdkRegEx.ADDRESS + "," + JdkRegEx.ADDRESS + "\\](,  sp="
+            + JdkRegEx.ADDRESS + ",  free space=(\\d{1,***REMOVED***)k)?";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER
             + "|([CjJvV]) |(Java|Native) frames:|JavaThread|\\[error occurred during error reporting \\(printing "
-            + "native stack\\), id 0xb\\]).*$";
+            + "native stack\\)|...<more frames>...).*$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -152,7 +152,7 @@ public class StackEvent implements LogEvent {
         boolean isVmCode = false;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(18) != null && matcher.group(18).equals("V")) {
+            if (matcher.group(19) != null && matcher.group(19).equals("V")) {
                 isVmCode = true;
             ***REMOVED***
         ***REMOVED***
@@ -170,7 +170,7 @@ public class StackEvent implements LogEvent {
         boolean isVmGeneratedCodeFrame = false;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(18) != null && matcher.group(18).equals("v")) {
+            if (matcher.group(19) != null && matcher.group(19).equals("v")) {
                 isVmGeneratedCodeFrame = true;
             ***REMOVED***
         ***REMOVED***
@@ -185,8 +185,8 @@ public class StackEvent implements LogEvent {
         if (isHeader()) {
             Matcher matcher = pattern.matcher(logEntry);
             if (matcher.find()) {
-                if (matcher.group(17) != null) {
-                    stackFreeSpace = Long.parseLong(matcher.group(17));
+                if (matcher.group(18) != null) {
+                    stackFreeSpace = Long.parseLong(matcher.group(18));
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***

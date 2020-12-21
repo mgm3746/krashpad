@@ -83,4 +83,14 @@ public class TestUnameEvent extends TestCase {
         Assert.assertEquals("Vendor not correct.", OsVendor.REDHAT, ((UnameEvent) event).getOsVendor());
         Assert.assertEquals("Version not correct.", OsVersion.RHEL8, ((UnameEvent) event).getOsVersion());
     ***REMOVED***
+
+    public void testI686Pc() {
+        String logLine = "uname:SunOS 5.11 11.3 i86pc  (T2 libthread)";
+        Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.UNAME);
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Arch not correct.", Arch.I86PC, ((UnameEvent) event).getArch());
+        Assert.assertEquals("Version not correct.", OsType.SOLARIS, ((UnameEvent) event).getOsType());
+        Assert.assertEquals("Vendor not correct.", OsVendor.ORACLE, ((UnameEvent) event).getOsVendor());
+    ***REMOVED***
 ***REMOVED***

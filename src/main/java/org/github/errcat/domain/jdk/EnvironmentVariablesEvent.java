@@ -50,7 +50,8 @@ public class EnvironmentVariablesEvent implements LogEvent, ThrowAwayEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER
-            + "|CLASSPATH|DISPLAY|(JAVA|JRE)_HOME|LD_LIBRARY_PATH|PATH|SHELL|USERNAME).*$";
+            + "|CLASSPATH|DISPLAY|DYLD_LIBRARY_PATH|(JAVA|JRE)_HOME|LANG|LD_LIBRARY_PATH|LD_PRELOAD|OS=|PATH|"
+            + "PROCESSOR_IDENTIFIER|SHELL|USERNAME).*$";
 
     /**
      * The log entry for the event.

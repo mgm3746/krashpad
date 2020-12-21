@@ -51,12 +51,6 @@ public class TestThreadEvent extends TestCase {
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREAD);
     ***REMOVED***
 
-    public void testThreadsWithActiveCompileTasksHeader() {
-        String logLine = "Threads with active compile tasks:";
-        Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREAD);
-    ***REMOVED***
-
     public void test32Bit() {
         String logLine = "  0x08f59000 JavaThread \"Service Thread\" daemon [_thread_blocked, id=29308, "
                 + "stack(0xd6b0d000,0xd6b5e000)]";
@@ -81,6 +75,13 @@ public class TestThreadEvent extends TestCase {
     public void testConcurrentGcThread() {
         String logLine = "  0x00007ffff0087000 ConcurrentGCThread \"G1 Main Marker\" [stack: 0x00007fffba4b0000,"
                 + "0x00007fffba5b0000] [id=24734]";
+        Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREAD);
+    ***REMOVED***
+
+    public void testError() {
+        String logLine = "[error occurred during error reporting (printing all threads), id 0xb, SIGSEGV (0xb) at "
+                + "pc=0x00007fc88aaa9a74]";
         Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREAD);
     ***REMOVED***

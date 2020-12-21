@@ -14,50 +14,40 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import java.util.regex.Pattern;
-
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * OS
+ * THREADS_ACTIVE_COMPILE
  * </p>
  * 
  * <p>
- * OS information.
+ * Threads with active compile tasks information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * OS:                            Oracle Solaris 11.4 SPARC
- * </pre>
- * 
- * <pre>
- * OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
- * </pre>
- * 
- * <pre>
- * OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)
+ * Threads with active compile tasks:
+ * C2 CompilerThread0606385663 219105 %     4       com.insight.common.elasticsearch.field.FieldService::toFieldDomainNamePart @ 56 (111 bytes)
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class OsEvent implements LogEvent {
+public class ThreadsActiveCompileEvent implements LogEvent, ThrowAwayEvent {
 
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "OS:(.+)";
+    private static final String REGEX_HEADER = "Threads with active compile tasks:";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|[ ]{0,***REMOVED***(Assembled|Copyright))(.+)$";
-
-    public static final Pattern PATTERN = Pattern.compile(REGEX);
+    private static final String REGEX = "^(" + REGEX_HEADER + "|C2 CompilerThread).*$";
 
     /**
      * The log entry for the event.
@@ -70,7 +60,7 @@ public class OsEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public OsEvent(String logEntry) {
+    public ThreadsActiveCompileEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -79,7 +69,7 @@ public class OsEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.OS.toString();
+        return JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString();
     ***REMOVED***
 
     /**

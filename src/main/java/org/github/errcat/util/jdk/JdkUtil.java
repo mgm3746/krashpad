@@ -57,8 +57,10 @@ import org.github.errcat.domain.jdk.MaxMapCountEvent;
 import org.github.errcat.domain.jdk.MeminfoEvent;
 import org.github.errcat.domain.jdk.MemoryEvent;
 import org.github.errcat.domain.jdk.MetaspaceEvent;
+import org.github.errcat.domain.jdk.NativeMemoryTrackingEvent;
 import org.github.errcat.domain.jdk.NumberEvent;
 import org.github.errcat.domain.jdk.OsEvent;
+import org.github.errcat.domain.jdk.OsUptimeEvent;
 import org.github.errcat.domain.jdk.PidMaxEvent;
 import org.github.errcat.domain.jdk.PollingPageEvent;
 import org.github.errcat.domain.jdk.RegisterEvent;
@@ -70,12 +72,14 @@ import org.github.errcat.domain.jdk.SignalHandlersEvent;
 import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.domain.jdk.StackSlotToMemoryMappingEvent;
 import org.github.errcat.domain.jdk.ThreadEvent;
+import org.github.errcat.domain.jdk.ThreadsActiveCompileEvent;
 import org.github.errcat.domain.jdk.ThreadsClassSmrInfoEvent;
 import org.github.errcat.domain.jdk.ThreadsMaxEvent;
 import org.github.errcat.domain.jdk.TimeElapsedTimeEvent;
 import org.github.errcat.domain.jdk.TimeEvent;
 import org.github.errcat.domain.jdk.TimezoneEvent;
 import org.github.errcat.domain.jdk.TopOfStackEvent;
+import org.github.errcat.domain.jdk.TransparentHugepageEvent;
 import org.github.errcat.domain.jdk.UnameEvent;
 import org.github.errcat.domain.jdk.VmArgumentsEvent;
 import org.github.errcat.domain.jdk.VmEvent;
@@ -108,7 +112,7 @@ public class JdkUtil {
      * Defined JDK architectures.
      */
     public enum Arch {
-        PPC64, PPC64LE, SPARC, UNKNOWN, X86_64
+        I86PC, PPC64, PPC64LE, SPARC, UNKNOWN, X86, X86_64
     ***REMOVED***
 
     /**
@@ -150,10 +154,12 @@ public class JdkUtil {
      * SEGV_MAPERR: The memory address is not mapped to an object.
      * 
      * SI_KERNEL: Sent by the kernel.
+     * 
+     * SI_USER: Sent by kill.
      */
     public enum SignalCode {
         //
-        BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, SEGV_MAPERR, SEGV_ACCERR, SI_KERNEL, UNKNOWN
+        BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, ILL_ILLOPN, SEGV_MAPERR, SEGV_ACCERR, SI_KERNEL, SI_USER, UNKNOWN
     ***REMOVED***
 
     /**
@@ -184,11 +190,13 @@ public class JdkUtil {
         //
         HEAP_REGIONS, HOST, INSTRUCTIONS, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE,
         //
-        NUMBER, OS, PID_MAX, POLLING_PAGE, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS,
+        NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME, PID_MAX, POLLING_PAGE, REGISTER, REGISTER_TO_MEMORY_MAPPING,
         //
-        STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME,
+        RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_CLASS_SMR_INFO,
         //
-        TIMEZONE, TOP_OF_STACK, UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
+        THREADS_MAX, THREADS_ACTIVE_COMPILE, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE,
+        //
+        UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
     ***REMOVED***
 
     /**
@@ -880,10 +888,14 @@ public class JdkUtil {
             logEventType = LogEventType.MEMORY;
         ***REMOVED*** else if (MetaspaceEvent.match(logLine)) {
             logEventType = LogEventType.METASPACE;
+        ***REMOVED*** else if (NativeMemoryTrackingEvent.match(logLine)) {
+            logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
         ***REMOVED*** else if (NumberEvent.match(logLine)) {
             logEventType = LogEventType.NUMBER;
         ***REMOVED*** else if (OsEvent.match(logLine)) {
             logEventType = LogEventType.OS;
+        ***REMOVED*** else if (OsUptimeEvent.match(logLine)) {
+            logEventType = LogEventType.OS_UPTIME;
         ***REMOVED*** else if (PidMaxEvent.match(logLine)) {
             logEventType = LogEventType.PID_MAX;
         ***REMOVED*** else if (PollingPageEvent.match(logLine)) {
@@ -904,6 +916,8 @@ public class JdkUtil {
             logEventType = LogEventType.STACK_SLOT_TO_MEMORY_MAPPING;
         ***REMOVED*** else if (ThreadEvent.match(logLine)) {
             logEventType = LogEventType.THREAD;
+        ***REMOVED*** else if (ThreadsActiveCompileEvent.match(logLine)) {
+            logEventType = LogEventType.THREADS_ACTIVE_COMPILE;
         ***REMOVED*** else if (ThreadsClassSmrInfoEvent.match(logLine)) {
             logEventType = LogEventType.THREADS_CLASS_SMR_INFO;
         ***REMOVED*** else if (ThreadsMaxEvent.match(logLine)) {
@@ -916,6 +930,8 @@ public class JdkUtil {
             logEventType = LogEventType.TIMEZONE;
         ***REMOVED*** else if (TopOfStackEvent.match(logLine)) {
             logEventType = LogEventType.TOP_OF_STACK;
+        ***REMOVED*** else if (TransparentHugepageEvent.match(logLine)) {
+            logEventType = LogEventType.TRANSPARENT_HUGEPAGE;
         ***REMOVED*** else if (UnameEvent.match(logLine)) {
             logEventType = LogEventType.UNAME;
         ***REMOVED*** else if (VmArgumentsEvent.match(logLine)) {
@@ -1061,11 +1077,17 @@ public class JdkUtil {
         case METASPACE:
             event = new MetaspaceEvent(logLine);
             break;
+        case NATIVE_MEMORY_TRACKING:
+            event = new NativeMemoryTrackingEvent(logLine);
+            break;
         case NUMBER:
             event = new NumberEvent(logLine);
             break;
         case OS:
             event = new OsEvent(logLine);
+            break;
+        case OS_UPTIME:
+            event = new OsUptimeEvent(logLine);
             break;
         case PID_MAX:
             event = new PidMaxEvent(logLine);
@@ -1097,6 +1119,9 @@ public class JdkUtil {
         case THREAD:
             event = new ThreadEvent(logLine);
             break;
+        case THREADS_ACTIVE_COMPILE:
+            event = new ThreadsActiveCompileEvent(logLine);
+            break;
         case THREADS_CLASS_SMR_INFO:
             event = new ThreadsClassSmrInfoEvent(logLine);
             break;
@@ -1114,6 +1139,9 @@ public class JdkUtil {
             break;
         case TOP_OF_STACK:
             event = new TopOfStackEvent(logLine);
+            break;
+        case TRANSPARENT_HUGEPAGE:
+            event = new TransparentHugepageEvent(logLine);
             break;
         case UNAME:
             event = new UnameEvent(logLine);

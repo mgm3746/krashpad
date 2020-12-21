@@ -50,4 +50,12 @@ public class TestCurrentThreadEvent extends TestCase {
                 "JavaThread \"main\" [_thread_blocked, id=29301, stack(0xffc15000,0xffc65000)]",
                 ((CurrentThreadEvent) event).getCurrentThread());
     ***REMOVED***
+
+    public void testCurrentThreadIsNativeThread() {
+        String logLine = "Current thread is native thread";
+        Assert.assertTrue(JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CURRENT_THREAD);
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("is native thread", ((CurrentThreadEvent) event).getCurrentThread());
+    ***REMOVED***
 ***REMOVED***

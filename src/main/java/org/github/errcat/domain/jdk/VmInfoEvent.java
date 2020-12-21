@@ -49,6 +49,10 @@ import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
  * vm_info: OpenJDK 64-Bit Server VM (11.0.5+10-LTS) for linux-amd64 JRE (11.0.5+10-LTS), built on Oct  9 2019 18:41:22 by "mockbuild" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)
  * </pre>
  * 
+ * <pre>
+ * vm_info: Java HotSpot(TM) 64-Bit Server VM (25.231-b11) for solaris-sparc JRE (1.8.0_231-b11), built on Oct  5 2019 10:35:34 by "java_re" with Sun Studio 12u1
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -57,9 +61,9 @@ public class VmInfoEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^vm_info: (Java HotSpot\\(TM\\)|OpenJDK) 64-Bit Server VM \\(.+\\) for "
-            + "(linux|windows)-(amd64|ppc64|ppc64le) JRE (\\(Zulu.+\\) )?\\(" + JdkRegEx.RELEASE_STRING
-            + "\\).+ built on " + JdkRegEx.BUILD_DATE_TIME + ".+$";
+    private static final String REGEX = "^vm_info: (Java HotSpot\\(TM\\)|OpenJDK)( 64-Bit)? Server VM \\(.+\\) for "
+            + "(linux|windows|solaris)-(amd64|ppc64|ppc64le|sparc|x86) JRE (\\(Zulu.+\\) )?\\("
+            + JdkRegEx.RELEASE_STRING + "\\).+ built on " + JdkRegEx.BUILD_DATE_TIME + ".+$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -104,7 +108,7 @@ public class VmInfoEvent implements LogEvent {
         JavaSpecification version = JavaSpecification.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int indexJdkVersion = 6;
+            int indexJdkVersion = 7;
             if (matcher.group(indexJdkVersion).equals("12.0")) {
                 version = JavaSpecification.JDK12;
             ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("11.0")) {
@@ -127,7 +131,7 @@ public class VmInfoEvent implements LogEvent {
         String release = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            release = matcher.group(5);
+            release = matcher.group(6);
         ***REMOVED***
         return release;
     ***REMOVED***
@@ -139,13 +143,15 @@ public class VmInfoEvent implements LogEvent {
         Arch arch = Arch.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int indexArch = 3;
+            int indexArch = 4;
             if (matcher.group(indexArch).equals("amd64") || matcher.group(indexArch).equals("linux64")) {
                 arch = Arch.X86_64;
             ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64le")) {
                 arch = Arch.PPC64LE;
             ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64")) {
                 arch = Arch.PPC64;
+            ***REMOVED*** else if (matcher.group(indexArch).equals("x86")) {
+                arch = Arch.X86;
             ***REMOVED***
         ***REMOVED***
         return arch;
@@ -158,8 +164,8 @@ public class VmInfoEvent implements LogEvent {
         Date date = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            date = ErrUtil.getDate(matcher.group(9), matcher.group(10), matcher.group(11), matcher.group(12),
-                    matcher.group(13), matcher.group(14));
+            date = ErrUtil.getDate(matcher.group(10), matcher.group(11), matcher.group(12), matcher.group(13),
+                    matcher.group(14), matcher.group(15));
         ***REMOVED***
         return date;
     ***REMOVED***

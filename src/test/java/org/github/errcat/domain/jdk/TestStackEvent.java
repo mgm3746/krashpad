@@ -101,6 +101,15 @@ public class TestStackEvent extends TestCase {
         Assert.assertEquals("Stack free space not correct.", 1018, event.getStackFreeSpace());
     ***REMOVED***
 
+    public void testHeaderNoFreeSpace() {
+        String logLine = "Stack: [0x000000005a740000,0x000000005a840000]";
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof StackEvent);
+        StackEvent event = new StackEvent(logLine);
+        Assert.assertTrue("Header not identified.", event.isHeader());
+        Assert.assertEquals("Stack free space not correct.", Long.MIN_VALUE, event.getStackFreeSpace());
+    ***REMOVED***
+
     public void testJavaThreadBeingProcessed() {
         String logLine = "JavaThread 0x000055ae261db800 (nid = 76044) was being processed";
         Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
@@ -112,6 +121,19 @@ public class TestStackEvent extends TestCase {
      */
     public void testError() {
         String logLine = "[error occurred during error reporting (printing native stack), id 0xb]";
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
+    ***REMOVED***
+
+    public void testErrorLong() {
+        String logLine = "[error occurred during error reporting (printing native stack), id 0xb, "
+                + "SIGSEGV (0xb) at pc=0x00007f68370d8504]";
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
+    ***REMOVED***
+
+    public void testMoreFrames() {
+        String logLine = "...<more frames>...";
         Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
     ***REMOVED***

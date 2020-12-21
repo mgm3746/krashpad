@@ -78,7 +78,7 @@ public class VmArgumentsEvent implements LogEvent {
      */
     private static final String REGEX = "^(" + REGEX_HEADER
             + "|\\[Global flags\\]|jvm_args: |java_command: |java_class_path \\(initial\\): |Launcher Type: |"
-            + "[ ]{1,***REMOVED***(bool|ccstr|intx|size_t|uint|uintx))(.*)$";
+            + "[ ]{0,***REMOVED***(bool|ccstr|ccstrlist|intx|size_t|uint|uintx))(.*)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 

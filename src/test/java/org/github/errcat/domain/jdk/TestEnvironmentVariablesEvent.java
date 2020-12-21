@@ -90,4 +90,34 @@ public class TestEnvironmentVariablesEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
     ***REMOVED***
+
+    public void testLang() {
+        String logLine = "LANG=en_US.UTF-8";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    ***REMOVED***
+
+    public void testOs() {
+        String logLine = "OS=Windows_NT";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    ***REMOVED***
+
+    public void testProcessorIdentifier() {
+        String logLine = "PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 62 Stepping 4, GenuineIntel";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    ***REMOVED***
+
+    public void testDyldLibraryPath() {
+        String logLine = "DYLD_LIBRARY_PATH=/opt/tibco/ftl5.4.2-x86_64/lib";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    ***REMOVED***
+
+    public void testLdPreload() {
+        String logLine = "LD_PRELOAD=/home/jboss/libc_hooks3.so";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    ***REMOVED***
 ***REMOVED***

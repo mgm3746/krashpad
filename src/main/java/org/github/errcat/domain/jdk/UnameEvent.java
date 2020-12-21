@@ -43,6 +43,10 @@ import org.github.errcat.util.jdk.JdkUtil.Arch;
  * uname:SunOS 5.11 11.4.23.69.3 sun4v
  * </pre>
  * 
+ * <pre>
+ * uname:SunOS 5.11 11.3 i86pc  (T2 libthread)
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -51,7 +55,7 @@ public class UnameEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^uname:((Linux|SunOS) .+(sun4v|ppc64le|x86_64).*)$";
+    private static final String REGEX = "^uname:((Linux|SunOS) .+(i86pc|sun4v|ppc64le|x86_64).*)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -109,6 +113,8 @@ public class UnameEvent implements LogEvent {
         OsVendor osVendor = OsVendor.UNKNOWN;
         if (getUname().matches("Linux.+\\.el(6|7|8_\\d)\\..+")) {
             osVendor = OsVendor.REDHAT;
+        ***REMOVED*** else if (getUname().matches("SunOS.+")) {
+            osVendor = OsVendor.ORACLE;
         ***REMOVED***
         return osVendor;
     ***REMOVED***
@@ -154,6 +160,8 @@ public class UnameEvent implements LogEvent {
                 arch = Arch.PPC64LE;
             ***REMOVED*** else if (matcher.group(indexArch).equals("sun4v")) {
                 arch = Arch.SPARC;
+            ***REMOVED*** else if (matcher.group(indexArch).equals("i86pc")) {
+                arch = Arch.I86PC;
             ***REMOVED***
         ***REMOVED***
         return arch;

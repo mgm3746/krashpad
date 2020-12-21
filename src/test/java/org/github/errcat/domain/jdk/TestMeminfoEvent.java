@@ -180,4 +180,10 @@ public class TestMeminfoEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.MEMINFO.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMINFO);
     ***REMOVED***
+
+    public void testKReclaimable() {
+        String logLine = "KReclaimable:     241604 kB";
+        Assert.assertTrue(JdkUtil.LogEventType.MEMINFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMINFO);
+    ***REMOVED***
 ***REMOVED***

@@ -224,4 +224,13 @@ public class TestHeapEvent extends TestCase {
         HeapEvent event = new HeapEvent(logLine);
         Assert.assertTrue("Old gen not identified.", event.isOldGen());
     ***REMOVED***
+
+    public void testDefNewGeneration() {
+        String logLine = " def new generation   total 629440K, used 511995K [0x00000006c0000000, 0x00000006eaaf0000, "
+                + "0x0000000715550000)";
+        Assert.assertTrue(JdkUtil.LogEventType.HEAP.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEAP);
+        HeapEvent event = new HeapEvent(logLine);
+        Assert.assertTrue("New gen not identified.", event.isYoungGen());
+    ***REMOVED***
 ***REMOVED***

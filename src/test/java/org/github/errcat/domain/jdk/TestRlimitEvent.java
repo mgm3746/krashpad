@@ -36,4 +36,12 @@ public class TestRlimitEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof RlimitEvent);
     ***REMOVED***
+
+    public void testSoftHard() {
+        String logLine = "rlimit (soft/hard): STACK 8192k/infinity , CORE infinity/infinity , NPROC 62502/62502 , "
+                + "NOFILE 262144/262144 , AS infinity/infinity , CPU infinity/infinity , DATA infinity/infinity , "
+                + "FSIZE infinity/infinity , MEMLOCK 64k/64k";
+        Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof RlimitEvent);
+    ***REMOVED***
 ***REMOVED***

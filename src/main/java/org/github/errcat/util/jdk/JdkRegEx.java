@@ -167,8 +167,8 @@ public class JdkRegEx {
     /**
      * A 32-bit or 64-bit register.
      */
-    public static final String REGISTER = "(CSGSFS|ctr|EFLAGS|ERR|lr |pc |RAX|RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|[Rr]"
-            + "\\d{1,2***REMOVED***[ ]{0,1***REMOVED***)=(" + ADDRESS32 + "|" + ADDRESS64 + ")";
+    public static final String REGISTER = "(CR2|CSGSFS|ctr|EFLAGS|EAX|EBP|EBX|ECX|EDI|EDX|EIP|ERR|ESI|ESP|lr |pc |RAX|"
+            + "RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|[Rr]" + "\\d{1,2***REMOVED***[ ]{0,1***REMOVED***)=(" + ADDRESS32 + "|" + ADDRESS64 + ")";
 
     /**
      * <p>
@@ -250,7 +250,7 @@ public class JdkRegEx {
      * 
      * With comma: 306,0M
      */
-    public static final String SIZE = "(\\d{1,9***REMOVED***([\\.,]\\d)?)([" + BYTES + KILOBYTES + MEGABYTES + GIGABYTES + "])";
+    public static final String SIZE = "(\\d{1,10***REMOVED***([\\.,]\\d)?)([" + BYTES + KILOBYTES + MEGABYTES + GIGABYTES + "])";
 
     /**
      * Timestamp. Milliseconds since JVM started.

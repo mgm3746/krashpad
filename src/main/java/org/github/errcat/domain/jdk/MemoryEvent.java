@@ -14,7 +14,6 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
@@ -54,13 +53,19 @@ import org.github.errcat.util.jdk.JdkUtil;
 public class MemoryEvent implements LogEvent {
 
     /**
-     * Regular expression defining the logging.
+     * Regular expression for the header.
      */
-    private static final String REGEX = "^Memory: (4|8|64)k page,( system-wide)? physical " + JdkRegEx.SIZE
+    private static final String REGEX_HEADER = "^Memory: (4|8|64)k page,( system-wide)? physical " + JdkRegEx.SIZE
             + "[ ]{0,1***REMOVED***\\(" + JdkRegEx.SIZE + " free\\)(, swap " + JdkRegEx.SIZE + "\\(" + JdkRegEx.SIZE
             + " free\\))?$";
 
-    private static Pattern pattern = Pattern.compile(REGEX);
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + REGEX_HEADER
+            + "|current process (commit charge|WorkingSet)|TotalPageFile).*$";
+
+    public static final Pattern PATTERN = Pattern.compile(REGEX);
 
     /**
      * The log entry for the event.
@@ -97,54 +102,10 @@ public class MemoryEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return The total available physical memory (kilobytes).
+     * @return true if the log line is the header false otherwise.
      */
-    public long getPhysicalMemory() {
-        long physicalMemory = 0;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0), 'K');
-        ***REMOVED***
-        return physicalMemory;
+    public boolean isHeader() {
+        return logEntry.matches(REGEX_HEADER);
     ***REMOVED***
 
-    /**
-     * @return The total free physical memory (kilobytes).
-     */
-    public long getPhysicalMemoryFree() {
-        long physicalMemoryFree = 0;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0), 'K');
-        ***REMOVED***
-        return physicalMemoryFree;
-    ***REMOVED***
-
-    /**
-     * @return The total available swap (kilobytes).
-     */
-    public long getSwap() {
-        long swap = Long.MIN_VALUE;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            if (matcher.group(9) != null) {
-                swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0), 'K');
-            ***REMOVED***
-        ***REMOVED***
-        return swap;
-    ***REMOVED***
-
-    /**
-     * @return The total free swap (kilobytes).
-     */
-    public long getSwapFree() {
-        long swapFree = Long.MIN_VALUE;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            if (matcher.group(9) != null) {
-                swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0), 'K');
-            ***REMOVED***
-        ***REMOVED***
-        return swapFree;
-    ***REMOVED***
 ***REMOVED***

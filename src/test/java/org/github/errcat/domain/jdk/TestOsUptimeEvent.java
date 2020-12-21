@@ -14,89 +14,26 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import java.util.regex.Pattern;
-
-import org.github.errcat.domain.LogEvent;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * OS
- * </p>
- * 
- * <p>
- * OS information.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * OS:                            Oracle Solaris 11.4 SPARC
- * </pre>
- * 
- * <pre>
- * OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
- * </pre>
- * 
- * <pre>
- * OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class OsEvent implements LogEvent {
+public class TestOsUptimeEvent extends TestCase {
 
-    /**
-     * Regular expression for the header.
-     */
-    private static final String REGEX_HEADER = "OS:(.+)";
-
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|[ ]{0,***REMOVED***(Assembled|Copyright))(.+)$";
-
-    public static final Pattern PATTERN = Pattern.compile(REGEX);
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public OsEvent(String logEntry) {
-        this.logEntry = logEntry;
+    public void testIdentity() {
+        String logLine = "OS uptime: 3 days 8:33 hours";
+        Assert.assertTrue(JdkUtil.LogEventType.OS_UPTIME.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS_UPTIME);
     ***REMOVED***
 
-    public String getLogEntry() {
-        return logEntry;
-    ***REMOVED***
-
-    public String getName() {
-        return JdkUtil.LogEventType.OS.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
-    ***REMOVED***
-
-    /**
-     * @return true if the log line is the header false otherwise.
-     */
-    public boolean isHeader() {
-        return logEntry.matches(REGEX_HEADER);
+    public void testParseLogLine() {
+        String logLine = "OS uptime: 3 days 8:33 hours";
+        Assert.assertTrue(JdkUtil.LogEventType.OS_UPTIME.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof OsUptimeEvent);
     ***REMOVED***
 ***REMOVED***

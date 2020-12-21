@@ -106,7 +106,7 @@ public class HeapEvent implements LogEvent {
      * 
      * PSYoungGen total 153088K, used 116252K [0x00000000eab00000, 0x00000000f5580000, 0x0000000100000000)
      */
-    public static final String REGEX_YOUNG_GEN = " (par new generation|PSYoungGen)[ ]{1,6***REMOVED***total " + JdkRegEx.SIZE
+    public static final String REGEX_YOUNG_GEN = " ((def|par) new generation|PSYoungGen)[ ]{1,6***REMOVED***total " + JdkRegEx.SIZE
             + ", used " + JdkRegEx.SIZE + ".+";
 
     /**

@@ -116,4 +116,19 @@ public class TestDynamicLibraryEvent extends TestCase {
                 "/apps/java/jdk1.8.0_251_no_compiler/jre/lib/sparcv9/server/libjvm.so", event.getFilePath());
     ***REMOVED***
 
+    public void testDbghelp() {
+        String logLine = "dbghelp: loaded successfully - version: 4.0.5 - missing functions: none";
+        Assert.assertTrue(JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.DYNAMIC_LIBRARY);
+    ***REMOVED***
+
+    public void testSymbolEngine() {
+        String logLine = "symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;"
+                + "C:\\Program Files\\Java\\java-11-openjdk-11.0.7-1\\bin;C:\\windows\\SYSTEM32;"
+                + "C:\\windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_"
+                + "6.0.14393.3053_none_7de042968342015d;C:\\Program Files\\McAfee\\Endpoint Security\\Threat "
+                + "Prevention\\Ips;C:\\Program Files\\Java\\java-11-openjdk-11.0.7-1\\bin\\serve";
+        Assert.assertTrue(JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.DYNAMIC_LIBRARY);
+    ***REMOVED***
 ***REMOVED***

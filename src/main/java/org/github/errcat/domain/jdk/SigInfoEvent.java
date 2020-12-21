@@ -46,8 +46,16 @@ import org.github.errcat.util.jdk.JdkUtil.SignalNumber;
  * 2) Windows:
  * </p>
  * 
- * </pre>
+ * <pre>
  * siginfo: ExceptionCode=0xc0000005, reading address 0x0000000000000048
+ * </pre>
+ * 
+ * <p>
+ * 3) SI_USER
+ * </p>
+ * 
+ * <pre>
+ * siginfo: si_signo: 11 (SIGSEGV), si_code: 0 (SI_USER), sent from pid: 107614 (uid: 1000)
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -60,9 +68,11 @@ public class SigInfoEvent implements LogEvent {
      */
     private static final String REGEX = "^siginfo: ((si_signo: \\d{1,2***REMOVED*** \\((" + SignalNumber.SIGBUS + "|"
             + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ")\\), si_code: \\d{1,3***REMOVED*** \\((" + SignalCode.BUS_ADRALN
-            + "|" + SignalCode.BUS_ADRERR + "|" + SignalCode.BUS_OBJERR + "|" + SignalCode.SEGV_ACCERR + "|"
-            + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + ")\\), si_addr: " + JdkRegEx.ADDRESS
-            + ")|(ExceptionCode=" + JdkRegEx.ADDRESS + ", reading address " + JdkRegEx.ADDRESS + "))$";
+            + "|" + SignalCode.BUS_ADRERR + "|" + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|"
+            + SignalCode.SEGV_ACCERR + "|" + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|"
+            + SignalCode.SI_USER + ")\\), (si_addr: " + JdkRegEx.ADDRESS
+            + "|sent from pid: \\d{1,***REMOVED*** \\(uid: \\d{1,***REMOVED***\\)))|ExceptionCode=" + JdkRegEx.ADDRESS + ", reading address "
+            + JdkRegEx.ADDRESS + ")$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -108,7 +118,7 @@ public class SigInfoEvent implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             // Linux
-            if (matcher.group(2) != null && matcher.group(3) != null) {
+            if (matcher.group(3) != null) {
                 if (matcher.group(3).matches(SignalNumber.SIGBUS.toString())) {
                     number = SignalNumber.SIGBUS;
                 ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGILL.toString())) {
@@ -116,9 +126,9 @@ public class SigInfoEvent implements LogEvent {
                 ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {
                     number = SignalNumber.SIGSEGV;
                 ***REMOVED***
-            ***REMOVED*** else if (matcher.group(10) != null && matcher.group(11) != null) {
+            ***REMOVED*** else if (matcher.group(12) != null) {
                 // Windows
-                if (matcher.group(11).matches("0xc0000005")) {
+                if (matcher.group(12).matches("0xc0000005")) {
                     number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
                 ***REMOVED***
             ***REMOVED***
@@ -134,19 +144,23 @@ public class SigInfoEvent implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             // Linux
-            if (matcher.group(2) != null && matcher.group(4) != null) {
+            if (matcher.group(4) != null) {
                 if (matcher.group(4).matches(SignalCode.BUS_ADRALN.toString())) {
                     code = SignalCode.BUS_ADRALN;
                 ***REMOVED*** else if (matcher.group(4).matches(SignalCode.BUS_ADRERR.toString())) {
                     code = SignalCode.BUS_ADRERR;
                 ***REMOVED*** else if (matcher.group(4).matches(SignalCode.BUS_OBJERR.toString())) {
                     code = SignalCode.BUS_OBJERR;
+                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.ILL_ILLOPN.toString())) {
+                    code = SignalCode.ILL_ILLOPN;
                 ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SEGV_ACCERR.toString())) {
                     code = SignalCode.SEGV_ACCERR;
                 ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SEGV_MAPERR.toString())) {
                     code = SignalCode.SEGV_MAPERR;
                 ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SI_KERNEL.toString())) {
                     code = SignalCode.SI_KERNEL;
+                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SI_USER.toString())) {
+                    code = SignalCode.SI_USER;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***

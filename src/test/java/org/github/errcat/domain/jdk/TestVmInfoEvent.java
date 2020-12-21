@@ -195,4 +195,22 @@ public class TestVmInfoEvent extends TestCase {
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("JDK builder not correct.", BuiltBy.MOCKBUILD, ((VmInfoEvent) event).getBuiltBy());
     ***REMOVED***
+
+    public void testX86() {
+        String logLine = "vm_info: OpenJDK Server VM (25.252-b09) for linux-x86 JRE (1.8.0_252-b09), built on "
+                + "Apr 14 2020 14:55:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("JDK builder not correct.", BuiltBy.MOCKBUILD, ((VmInfoEvent) event).getBuiltBy());
+    ***REMOVED***
+
+    public void testSparc() {
+        String logLine = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.231-b11) for solaris-sparc JRE "
+                + "(1.8.0_231-b11), built on Oct  5 2019 10:35:34 by \"java_re\" with Sun Studio 12u1";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("JDK builder not correct.", BuiltBy.JAVA_RE, ((VmInfoEvent) event).getBuiltBy());
+    ***REMOVED***
 ***REMOVED***

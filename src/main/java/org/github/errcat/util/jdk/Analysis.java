@@ -163,6 +163,11 @@ public enum Analysis {
     INFO_SIGCODE_BUS_OBJERR("info.sigcode.bus.objerr"),
 
     /**
+     * Property key for ILL_ILLOPN
+     */
+    INFO_SIGCODE_ILL_ILLOPN("info.sigcode.ill.illopn"),
+
+    /**
      * Property key for SEGV_ACCERR.
      */
     INFO_SIGCODE_SEGV_ACCERR("info.sigcode.segv.accerr"),
@@ -176,6 +181,11 @@ public enum Analysis {
      * Property key for SI_KERNEL crash.
      */
     INFO_SIGCODE_SI_KERNEL("info.sigcode.si.kernel"),
+
+    /**
+     * Property key for SI_USER crash.
+     */
+    INFO_SIGCODE_SI_USER("info.sigcode.si.user"),
 
     /**
      * Property key for ACCESS_VIOLATION crash.

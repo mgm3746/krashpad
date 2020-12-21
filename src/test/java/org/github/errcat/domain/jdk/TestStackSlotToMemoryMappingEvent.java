@@ -42,4 +42,11 @@ public class TestStackSlotToMemoryMappingEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING);
     ***REMOVED***
+
+    public void testError() {
+        String logLine = "[error occurred during error reporting (inspecting top of stack), id 0xb, SIGSEGV (0xb) at "
+                + "pc=0x00007f68376aea9e]";
+        Assert.assertTrue(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING);
+    ***REMOVED***
 ***REMOVED***

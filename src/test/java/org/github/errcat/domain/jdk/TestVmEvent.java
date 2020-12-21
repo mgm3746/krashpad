@@ -85,4 +85,11 @@ public class TestVmEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_EVENT);
     ***REMOVED***
+
+    public void testLoadedSharedLibrary() {
+        String logLine = "Event: 0.001 Loaded shared library "
+                + "/usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64/lib/libzip.so";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_EVENT);
+    ***REMOVED***
 ***REMOVED***

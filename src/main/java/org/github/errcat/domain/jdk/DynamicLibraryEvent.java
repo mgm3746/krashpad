@@ -34,7 +34,7 @@ import org.github.errcat.util.jdk.JdkUtil;
  * 
  * <p>
  * 1) Solaris:
- * </pre>
+ * </p>
  * 
  * <pre>
  * ***REMOVED***
@@ -64,7 +64,7 @@ public class DynamicLibraryEvent implements LogEvent {
      */
     private static final String REGEX = "^(" + REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS
             + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE
-            + ")?[ ]{1,***REMOVED***((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA + "))?)$";
+            + ")?[ ]{1,***REMOVED***((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA + "))?|(dbghelp|symbol engine):.+|)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 

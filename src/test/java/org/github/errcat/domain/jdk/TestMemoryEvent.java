@@ -41,54 +41,53 @@ public class TestMemoryEvent extends TestCase {
         String logLine = "Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)";
         Assert.assertTrue(JdkUtil.LogEventType.MEMORY.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMORY);
-        MemoryEvent event = new MemoryEvent(logLine);
-        Assert.assertEquals("Physical memory not correct.", 16058700, event.getPhysicalMemory());
-        Assert.assertEquals("Physical memory free not correct.", 1456096, event.getPhysicalMemoryFree());
-        Assert.assertEquals("Swap not correct.", 8097788, event.getSwap());
-        Assert.assertEquals("Swap free not correct.", 7612768, event.getSwapFree());
     ***REMOVED***
 
     public void testMemoryWindows() {
         String logLine = "Memory: 4k page, system-wide physical 16383M (5994M free)";
         Assert.assertTrue(JdkUtil.LogEventType.MEMORY.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMORY);
-        MemoryEvent event = new MemoryEvent(logLine);
-        Assert.assertEquals("Physical memory not correct.", 16383L * 1024, event.getPhysicalMemory());
-        Assert.assertEquals("Physical memory free not correct.", 5994 * 1024, event.getPhysicalMemoryFree());
-        Assert.assertEquals("Swap not correct.", Long.MIN_VALUE, event.getSwap());
-        Assert.assertEquals("Swap free not correct.", Long.MIN_VALUE, event.getSwapFree());
     ***REMOVED***
 
     public void testMemory9Digits() {
         String logLine = "Memory: 4k page, physical 263868708k(8753840k free), swap 2097148k(36k free)";
         Assert.assertTrue(JdkUtil.LogEventType.MEMORY.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMORY);
-        MemoryEvent event = new MemoryEvent(logLine);
-        Assert.assertEquals("Physical memory not correct.", 263868708, event.getPhysicalMemory());
-        Assert.assertEquals("Physical memory free not correct.", 8753840, event.getPhysicalMemoryFree());
-        Assert.assertEquals("Swap not correct.", 2097148, event.getSwap());
-        Assert.assertEquals("Swap free not correct.", 36, event.getSwapFree());
     ***REMOVED***
 
     public void testMemory64kPage() {
         String logLine = "Memory: 64k page, physical 254200832k(247780928k free), swap 4194240k(4069376k free)";
         Assert.assertTrue(JdkUtil.LogEventType.MEMORY.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMORY);
-        MemoryEvent event = new MemoryEvent(logLine);
-        Assert.assertEquals("Physical memory not correct.", 254200832, event.getPhysicalMemory());
-        Assert.assertEquals("Physical memory free not correct.", 247780928, event.getPhysicalMemoryFree());
-        Assert.assertEquals("Swap not correct.", 4194240, event.getSwap());
-        Assert.assertEquals("Swap free not correct.", 4069376, event.getSwapFree());
     ***REMOVED***
 
     public void testNoSwapInfo() {
         String logLine = "Memory: 8k page, physical 267386880k(88275744k free)";
         Assert.assertTrue(JdkUtil.LogEventType.MEMORY.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMORY);
-        MemoryEvent event = new MemoryEvent(logLine);
-        Assert.assertEquals("Physical memory not correct.", 267386880, event.getPhysicalMemory());
-        Assert.assertEquals("Physical memory free not correct.", 88275744, event.getPhysicalMemoryFree());
-        Assert.assertEquals("Swap not correct.", Long.MIN_VALUE, event.getSwap());
-        Assert.assertEquals("Swap free not correct.", Long.MIN_VALUE, event.getSwapFree());
+    ***REMOVED***
+
+    public void testTotalPageFile() {
+        String logLine = "TotalPageFile size 20479M (AvailPageFile size 7532M)";
+        Assert.assertTrue(JdkUtil.LogEventType.MEMORY.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMORY);
+    ***REMOVED***
+
+    public void testCurrentProcessWorkingSet() {
+        String logLine = "current process WorkingSet (physical memory assigned to process): 11M, peak: 11M";
+        Assert.assertTrue(JdkUtil.LogEventType.MEMORY.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMORY);
+    ***REMOVED***
+
+    public void testCurrentProcessCommitCharge() {
+        String logLine = "current process commit charge (\"private bytes\"): 61M, peak: 8253M";
+        Assert.assertTrue(JdkUtil.LogEventType.MEMORY.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMORY);
+    ***REMOVED***
+
+    public void test10Digits() {
+        String logLine = "Memory: 4k page, physical 1584737836k(118786168k free), swap 33554428k(33554428k free)";
+        Assert.assertTrue(JdkUtil.LogEventType.MEMORY.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MEMORY);
     ***REMOVED***
 ***REMOVED***

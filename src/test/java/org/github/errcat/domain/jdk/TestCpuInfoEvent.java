@@ -282,4 +282,10 @@ public class TestCpuInfoEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
     ***REMOVED***
+
+    public void testTlbSize() {
+        String logLine = "TLB size        : 2560 4K pages";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
+    ***REMOVED***
 ***REMOVED***

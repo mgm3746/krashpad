@@ -387,4 +387,13 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Metaspace used not correct.", 243180, fel.getMetaspaceUsed());
         Assert.assertEquals("Thread stack size not correct.", 512, fel.getThreadStackMaxSize());
     ***REMOVED***
+
+    public void testHeapMaxGlobalFlag() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset41.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Heap max size not correct.", 33554432, fel.getHeapMaxSize());
+        Assert.assertEquals("Jvm memory not correct.", 33554432 + 1048576, fel.getJvmMemory());
+    ***REMOVED***
+
 ***REMOVED***

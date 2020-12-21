@@ -65,4 +65,22 @@ public class TestSigInfoEvent extends TestCase {
         Assert.assertEquals("Signal number not correct.", SignalNumber.SIGSEGV, event.getSignalNumber());
         Assert.assertEquals("Signal code not correct.", SignalCode.SI_KERNEL, event.getSignalCode());
     ***REMOVED***
+
+    public void testSignalCodeSiUser() {
+        String logLine = "siginfo: si_signo: 11 (SIGSEGV), si_code: 0 (SI_USER), sent from pid: 107614 (uid: 1000)";
+        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.SIGINFO);
+        SigInfoEvent event = new SigInfoEvent(logLine);
+        Assert.assertEquals("Signal number not correct.", SignalNumber.SIGSEGV, event.getSignalNumber());
+        Assert.assertEquals("Signal code not correct.", SignalCode.SI_USER, event.getSignalCode());
+    ***REMOVED***
+
+    public void testSignalCodeIllIllOpn() {
+        String logLine = "siginfo: si_signo: 4 (SIGILL), si_code: 2 (ILL_ILLOPN), si_addr: 0x00007f682098912c";
+        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.SIGINFO);
+        SigInfoEvent event = new SigInfoEvent(logLine);
+        Assert.assertEquals("Signal number not correct.", SignalNumber.SIGILL, event.getSignalNumber());
+        Assert.assertEquals("Signal code not correct.", SignalCode.ILL_ILLOPN, event.getSignalCode());
+    ***REMOVED***
 ***REMOVED***

@@ -24,7 +24,7 @@ import org.github.errcat.util.jdk.JdkUtil;
  * </p>
  * 
  * <p>
- * Prlimit information.
+ * rlimit information.
  * </p>
  * 
  * <h3>Example Logging</h3>
@@ -41,7 +41,7 @@ public class RlimitEvent implements LogEvent, ThrowAwayEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^rlimit:.+$";
+    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+$";
 
     /**
      * The log entry for the event.

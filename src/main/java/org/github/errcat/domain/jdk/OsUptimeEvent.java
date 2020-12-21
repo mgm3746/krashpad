@@ -14,50 +14,34 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import java.util.regex.Pattern;
-
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * OS
+ * OS_UPTIME
  * </p>
  * 
  * <p>
- * OS information.
+ * OS uptime information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * OS:                            Oracle Solaris 11.4 SPARC
+ * OS uptime: 3 days 8:33 hours
  * </pre>
- * 
- * <pre>
- * OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
- * </pre>
- * 
- * <pre>
- * OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)
- * </pre>
- * 
+ *
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class OsEvent implements LogEvent {
-
-    /**
-     * Regular expression for the header.
-     */
-    private static final String REGEX_HEADER = "OS:(.+)";
+public class OsUptimeEvent implements LogEvent, ThrowAwayEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|[ ]{0,***REMOVED***(Assembled|Copyright))(.+)$";
-
-    public static final Pattern PATTERN = Pattern.compile(REGEX);
+    private static final String REGEX = "^OS uptime:.+$";
 
     /**
      * The log entry for the event.
@@ -70,7 +54,7 @@ public class OsEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public OsEvent(String logEntry) {
+    public OsUptimeEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -79,7 +63,7 @@ public class OsEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.OS.toString();
+        return JdkUtil.LogEventType.OS_UPTIME.toString();
     ***REMOVED***
 
     /**
@@ -91,12 +75,5 @@ public class OsEvent implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
-
-    /**
-     * @return true if the log line is the header false otherwise.
-     */
-    public boolean isHeader() {
-        return logEntry.matches(REGEX_HEADER);
     ***REMOVED***
 ***REMOVED***

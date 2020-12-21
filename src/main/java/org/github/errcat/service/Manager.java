@@ -39,6 +39,7 @@ import org.github.errcat.domain.jdk.HeapAddressEvent;
 import org.github.errcat.domain.jdk.HeapEvent;
 import org.github.errcat.domain.jdk.MeminfoEvent;
 import org.github.errcat.domain.jdk.MemoryEvent;
+import org.github.errcat.domain.jdk.NativeMemoryTrackingEvent;
 import org.github.errcat.domain.jdk.OsEvent;
 import org.github.errcat.domain.jdk.SigInfoEvent;
 import org.github.errcat.domain.jdk.StackEvent;
@@ -100,7 +101,7 @@ public class Manager {
                     ***REMOVED*** else if (event instanceof CpuInfoEvent) {
                         fatalErrorLog.getCpuInfoEvents().add((CpuInfoEvent) event);
                     ***REMOVED*** else if (event instanceof CurrentCompileTaskEvent) {
-                        fatalErrorLog.getCurrentCompileTasks().add((CurrentCompileTaskEvent) event);
+                        fatalErrorLog.getCurrentCompileTaskEvents().add((CurrentCompileTaskEvent) event);
                     ***REMOVED*** else if (event instanceof CurrentThreadEvent) {
                         fatalErrorLog.setCurrentThreadEvent((CurrentThreadEvent) event);
                     ***REMOVED*** else if (event instanceof DeoptimizationEvent) {
@@ -120,7 +121,9 @@ public class Manager {
                     ***REMOVED*** else if (event instanceof MeminfoEvent) {
                         fatalErrorLog.getMeminfoEvents().add((MeminfoEvent) event);
                     ***REMOVED*** else if (event instanceof MemoryEvent) {
-                        fatalErrorLog.setMemoryEvent((MemoryEvent) event);
+                        fatalErrorLog.getMemoryEvents().add((MemoryEvent) event);
+                    ***REMOVED*** else if (event instanceof NativeMemoryTrackingEvent) {
+                        fatalErrorLog.getNativeMemoryTrackingEvents().add((NativeMemoryTrackingEvent) event);
                     ***REMOVED*** else if (event instanceof OsEvent) {
                         fatalErrorLog.getOsEvents().add((OsEvent) event);
                     ***REMOVED*** else if (event instanceof SigInfoEvent) {

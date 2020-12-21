@@ -89,4 +89,22 @@ public class TestRegisterEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.REGISTER.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER);
     ***REMOVED***
+
+    public void testRegisterEax() {
+        String logLine = "EAX=0xfffffffc, EBX=0x086c8d44, ECX=0x00000080, EDX=0x00000001";
+        Assert.assertTrue(JdkUtil.LogEventType.REGISTER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER);
+    ***REMOVED***
+
+    public void testRegisterEsp() {
+        String logLine = "ESP=0xffc2c69c, EBP=0xffc2c720, ESI=0xffc2c6b0, EDI=0x086c8d28";
+        Assert.assertTrue(JdkUtil.LogEventType.REGISTER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER);
+    ***REMOVED***
+
+    public void testRegisterEip() {
+        String logLine = "EIP=0xf7752430, EFLAGS=0x00000246, CR2=0x00000000";
+        Assert.assertTrue(JdkUtil.LogEventType.REGISTER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER);
+    ***REMOVED***
 ***REMOVED***
