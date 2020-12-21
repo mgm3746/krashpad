@@ -20,28 +20,32 @@ import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * RLIMIT
+ * TRANSPARENT_HUGEPAGE
  * </p>
  * 
  * <p>
- * rlimit information.
+ * Transparent hugepage information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity
+ * /sys/kernel/mm/transparent_hugepage/enabled:
+ * [always] madvise never
+ * 
+ * /sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter):
+ * always defer defer+madvise [madvise] never
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class RlimitEvent implements LogEvent, ThrowAwayEvent {
+public class TransparentHugepageEvent implements LogEvent, ThrowAwayEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+$";
+    private static final String REGEX = "^(/sys/kernel/mm/transparent_hugepage/|[\\[]{0,1}always\\]{0,1} ).+$";
 
     /**
      * The log entry for the event.
@@ -54,7 +58,7 @@ public class RlimitEvent implements LogEvent, ThrowAwayEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public RlimitEvent(String logEntry) {
+    public TransparentHugepageEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -63,7 +67,7 @@ public class RlimitEvent implements LogEvent, ThrowAwayEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.RLIMIT.toString();
+        return JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString();
     }
 
     /**

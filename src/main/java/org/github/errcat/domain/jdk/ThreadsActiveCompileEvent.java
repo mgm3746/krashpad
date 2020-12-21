@@ -20,28 +20,34 @@ import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * RLIMIT
+ * THREADS_ACTIVE_COMPILE
  * </p>
  * 
  * <p>
- * rlimit information.
+ * Threads with active compile tasks information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity
+ * Threads with active compile tasks:
+ * C2 CompilerThread0606385663 219105 %     4       com.insight.common.elasticsearch.field.FieldService::toFieldDomainNamePart @ 56 (111 bytes)
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class RlimitEvent implements LogEvent, ThrowAwayEvent {
+public class ThreadsActiveCompileEvent implements LogEvent, ThrowAwayEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "Threads with active compile tasks:";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|C2 CompilerThread).*$";
 
     /**
      * The log entry for the event.
@@ -54,7 +60,7 @@ public class RlimitEvent implements LogEvent, ThrowAwayEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public RlimitEvent(String logEntry) {
+    public ThreadsActiveCompileEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -63,7 +69,7 @@ public class RlimitEvent implements LogEvent, ThrowAwayEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.RLIMIT.toString();
+        return JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString();
     }
 
     /**
@@ -75,5 +81,12 @@ public class RlimitEvent implements LogEvent, ThrowAwayEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
+    }
+
+    /**
+     * @return true if the log line is the header false otherwise.
+     */
+    public boolean isHeader() {
+        return logEntry.matches(REGEX_HEADER);
     }
 }

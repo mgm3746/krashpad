@@ -14,66 +14,26 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import org.github.errcat.domain.LogEvent;
-import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * RLIMIT
- * </p>
- * 
- * <p>
- * rlimit information.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class RlimitEvent implements LogEvent, ThrowAwayEvent {
+public class TestOsUptimeEvent extends TestCase {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+$";
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public RlimitEvent(String logEntry) {
-        this.logEntry = logEntry;
+    public void testIdentity() {
+        String logLine = "OS uptime: 3 days 8:33 hours";
+        Assert.assertTrue(JdkUtil.LogEventType.OS_UPTIME.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS_UPTIME);
     }
 
-    public String getLogEntry() {
-        return logEntry;
-    }
-
-    public String getName() {
-        return JdkUtil.LogEventType.RLIMIT.toString();
-    }
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public void testParseLogLine() {
+        String logLine = "OS uptime: 3 days 8:33 hours";
+        Assert.assertTrue(JdkUtil.LogEventType.OS_UPTIME.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof OsUptimeEvent);
     }
 }

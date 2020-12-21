@@ -79,13 +79,13 @@ public class TestOsEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
     }
-    
+
     public void testCopyright() {
         String logLine = "             Copyright (c) 1983, 2020, Oracle and/or its affiliates.";
         Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
     }
-    
+
     public void testSAssembled() {
         String logLine = "                             Assembled 23 June 2020";
         Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",

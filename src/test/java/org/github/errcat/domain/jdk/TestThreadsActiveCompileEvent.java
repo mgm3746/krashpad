@@ -14,66 +14,34 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import org.github.errcat.domain.LogEvent;
-import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * RLIMIT
- * </p>
- * 
- * <p>
- * rlimit information.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class RlimitEvent implements LogEvent, ThrowAwayEvent {
+public class TestThreadsActiveCompileEvent extends TestCase {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+$";
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public RlimitEvent(String logEntry) {
-        this.logEntry = logEntry;
+    public void testIdentity() {
+        String logLine = "C2 CompilerThread0606385663 219105 %     4       com.example.SomeClass::toMethod @ 56 "
+                + "(111 bytes)";
+        Assert.assertTrue(JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE);
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    public void testParseLogLine() {
+        String logLine = "C2 CompilerThread0606385663 219105 %     4       com.example.SomeClass::toMethod @ 56 "
+                + "(111 bytes)";
+        Assert.assertTrue(JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof ThreadsActiveCompileEvent);
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.RLIMIT.toString();
-    }
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public void testHeader() {
+        String logLine = "Threads with active compile tasks:";
+        Assert.assertTrue(JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE);
     }
 }

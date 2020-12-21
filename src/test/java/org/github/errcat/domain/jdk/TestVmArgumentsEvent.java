@@ -108,4 +108,11 @@ public class TestVmArgumentsEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
     }
+
+    public void testCcstrlist() {
+        String logLine = "ccstrlist OnOutOfMemoryError                       = /u/search/bin/on-oom.sh"
+                + "                   {product} {command line}";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+    }
 }

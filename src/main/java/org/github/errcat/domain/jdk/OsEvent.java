@@ -50,7 +50,7 @@ public class OsEvent implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "OS:.+";
+    private static final String REGEX_HEADER = "OS:(.+)";
 
     /**
      * Regular expression defining the logging.

@@ -20,28 +20,28 @@ import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * RLIMIT
+ * OS_UPTIME
  * </p>
  * 
  * <p>
- * rlimit information.
+ * OS uptime information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity
+ * OS uptime: 3 days 8:33 hours
  * </pre>
- * 
+ *
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class RlimitEvent implements LogEvent, ThrowAwayEvent {
+public class OsUptimeEvent implements LogEvent, ThrowAwayEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+$";
+    private static final String REGEX = "^OS uptime:.+$";
 
     /**
      * The log entry for the event.
@@ -54,7 +54,7 @@ public class RlimitEvent implements LogEvent, ThrowAwayEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public RlimitEvent(String logEntry) {
+    public OsUptimeEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -63,7 +63,7 @@ public class RlimitEvent implements LogEvent, ThrowAwayEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.RLIMIT.toString();
+        return JdkUtil.LogEventType.OS_UPTIME.toString();
     }
 
     /**

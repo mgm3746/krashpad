@@ -31,7 +31,7 @@ import org.github.errcat.util.jdk.JdkUtil;
  * 
  * <pre>
  * Stack slot to memory mapping:
- * stack at sp + 0 slots: 0x00007ffff684e68d: &lt;offset 0x0000000000c1968d> in /usr/lib/jvm/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/lib/server/libjvm.so at 0x00007ffff5c35000
+ * stack at sp + 0 slots: 0x00007ffff684e68d: &lt;offset 0x0000000000c1968d&gt; in /usr/lib/jvm/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/lib/server/libjvm.so at 0x00007ffff5c35000
  * stack at sp + 1 slots: 0x000000000000000a is an unknown value
  * stack at sp + 2 slots: 0x00007fffb71a2950 points into unknown readable memory: 20 ac 62 aa ff 7f 00 00
  * stack at sp + 3 slots: 0x00007ffff0ca3800 is a thread
@@ -54,7 +54,8 @@ public class StackSlotToMemoryMappingEvent implements LogEvent, ThrowAwayEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|stack at sp).*$";
+    private static final String REGEX = "^(" + REGEX_HEADER
+            + "|stack at sp|\\[error occurred during error reporting \\(inspecting top of stack\\)).*$";
 
     /**
      * The log entry for the event.

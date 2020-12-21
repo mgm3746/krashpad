@@ -17,53 +17,85 @@ package org.github.errcat.domain.jdk;
 import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
-import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * MEMORY
+ * NATIVE_MEMORY_TRACKING
  * </p>
  * 
  * <p>
- * Memory information.
+ * Native memory tracking information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
- * <p>
- * 1) Linux:
- * </p>
- * 
  * <pre>
- * Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)
- * </pre>
+ * Native Memory Tracking:
  * 
- * <p>
- * 2) Windows:
- * </p>
+ * Total: reserved=18369225KB, committed=17150661KB
+ * -                 Java Heap (reserved=8388608KB, committed=8388608KB)
+ *                             (mmap: reserved=8388608KB, committed=8388608KB)
  * 
- * <pre>
- * Memory: 4k page, system-wide physical 16383M (5994M free)
+ * -                     Class (reserved=1236886KB, committed=214626KB)
+ *                             (classes #32343)
+ *                             (malloc=6038KB #64830) 
+ *                             (mmap: reserved=1230848KB, committed=208588KB)
+ * 
+ * -                    Thread (reserved=6278193KB, committed=6278193KB)
+ *                             (thread #6079)
+ *                             (stack: reserved=6250236KB, committed=6250236KB)
+ *                             (malloc=20833KB #36474) 
+ *                             (arena=7124KB #12155)
+ * 
+ * -                      Code (reserved=264372KB, committed=84452KB)
+ *                             (malloc=14772KB #22729) 
+ *                             (mmap: reserved=249600KB, committed=69680KB)
+ * 
+ * -                        GC (reserved=417612KB, committed=417612KB)
+ *                             (malloc=73548KB #84041) 
+ *                             (mmap: reserved=344064KB, committed=344064KB)
+ * 
+ * -                  Compiler (reserved=26862KB, committed=26862KB)
+ *                             (malloc=13065KB #14908) 
+ *                             (arena=13797KB #17)
+ * 
+ * -                  Internal (reserved=1385758KB, committed=1385758KB)
+ *                             (malloc=1385726KB #173671) 
+ *                             (mmap: reserved=32KB, committed=32KB)
+ * 
+ * -                    Symbol (reserved=36100KB, committed=36100KB)
+ *                             (malloc=33694KB #379033) 
+ *                             (arena=2406KB #1)
+ * 
+ * -    Native Memory Tracking (reserved=13441KB, committed=13441KB)
+ *                             (malloc=823KB #9720) 
+ *                             (tracking overhead=12618KB)
+ * 
+ * -               Arena Chunk (reserved=305008KB, committed=305008KB)
+ *                             (malloc=305008KB)
+ * 
+ * -                   Unknown (reserved=16384KB, committed=0KB)
+ *                             (mmap: reserved=16384KB, committed=0KB)
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class MemoryEvent implements LogEvent {
+public class NativeMemoryTrackingEvent implements LogEvent {
 
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "^Memory: (4|8|64)k page,( system-wide)? physical " + JdkRegEx.SIZE
-            + "[ ]{0,1}\\(" + JdkRegEx.SIZE + " free\\)(, swap " + JdkRegEx.SIZE + "\\(" + JdkRegEx.SIZE
-            + " free\\))?$";
+    private static final String REGEX_HEADER = "Native Memory Tracking:";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER
-            + "|current process (commit charge|WorkingSet)|TotalPageFile).*$";
+            + "|[-]{0,1}[ ]{0,}(\\(arena=|Arena Chunk|\\(classes|Class|Code|Compiler|GC|Internal|Java Heap|"
+            + "Native Memory Tracking|\\(malloc|\\(mmap:|\\(stack|Symbol|\\(thread|Thread \\(|Total: reserved|"
+            + "\\(tracking|Unknown)).*$";
 
     public static final Pattern PATTERN = Pattern.compile(REGEX);
 
@@ -78,7 +110,7 @@ public class MemoryEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public MemoryEvent(String logEntry) {
+    public NativeMemoryTrackingEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -87,7 +119,7 @@ public class MemoryEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.MEMORY.toString();
+        return JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString();
     }
 
     /**
@@ -107,5 +139,4 @@ public class MemoryEvent implements LogEvent {
     public boolean isHeader() {
         return logEntry.matches(REGEX_HEADER);
     }
-
 }

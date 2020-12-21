@@ -32,12 +32,12 @@ import org.github.errcat.util.jdk.JdkUtil;
  * Metaspace:
  * 
  * Usage:
- *   Non-class:    136.84 MB capacity,   129.90 MB ( 95%) used,     6.64 MB (  5%) free+waste,   305.00 KB ( <1%) overhead.
- *       Class:     17.93 MB capacity,    14.53 MB ( 81%) used,     3.26 MB ( 18%) free+waste,   143.81 KB ( <1%) overhead.
- *        Both:    154.76 MB capacity,   144.43 MB ( 93%) used,     9.90 MB (  6%) free+waste,   448.81 KB ( <1%) overhead.
+ *   Non-class:    136.84 MB capacity,   129.90 MB ( 95%) used,     6.64 MB (  5%) free+waste,   305.00 KB ( &lt;1%) overhead.
+ *       Class:     17.93 MB capacity,    14.53 MB ( 81%) used,     3.26 MB ( 18%) free+waste,   143.81 KB ( &lt;1%) overhead.
+ *        Both:    154.76 MB capacity,   144.43 MB ( 93%) used,     9.90 MB (  6%) free+waste,   448.81 KB ( &lt;1%) overhead.
  * 
  * Virtual space:
- *   Non-class space:      138.00 MB reserved,     137.49 MB (>99%) committed
+ *   Non-class space:      138.00 MB reserved,     137.49 MB (&gt;99%) committed
  *       Class space:        1.00 GB reserved,      17.95 MB (  2%) committed
  *              Both:        1.13 GB reserved,     155.44 MB ( 13%) committed
  * 

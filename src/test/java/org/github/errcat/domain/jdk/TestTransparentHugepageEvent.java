@@ -14,66 +14,44 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
-import org.github.errcat.domain.LogEvent;
-import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * RLIMIT
- * </p>
- * 
- * <p>
- * rlimit information.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class RlimitEvent implements LogEvent, ThrowAwayEvent {
+public class TestTransparentHugepageEvent extends TestCase {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+$";
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public RlimitEvent(String logEntry) {
-        this.logEntry = logEntry;
+    public void testIdentity() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/enabled:";
+        Assert.assertTrue(JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE);
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    public void testParseLogLine() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/enabled:";
+        Assert.assertTrue(JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof TransparentHugepageEvent);
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.RLIMIT.toString();
+    public void testAlwaysBrackets() {
+        String logLine = "[always] madvise never";
+        Assert.assertTrue(JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE);
     }
 
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public void testDefrag() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter):";
+        Assert.assertTrue(JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE);
+    }
+
+    public void testAlwaysNoBrackets() {
+        String logLine = "always defer defer+madvise [madvise] never";
+        Assert.assertTrue(JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE);
     }
 }
