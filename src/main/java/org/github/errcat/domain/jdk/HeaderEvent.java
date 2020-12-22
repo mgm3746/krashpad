@@ -72,7 +72,7 @@ import org.github.errcat.util.jdk.JdkUtil.SignalNumber;
  * #
  * # JRE version: Java(TM) SE Runtime Environment (8.0_251-b08) (build 1.8.0_251-b08)
  * # Java VM: Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode solaris-sparc compressed oops)
- * # Core dump written. Default location: /apps/opt/jboss-eap/v7.3-ejb3/bin/core or core.273
+ * # Core dump written. Default location: /path/to/core or core.273
  * #
  * </pre>
  * 
@@ -184,17 +184,24 @@ public class HeaderEvent implements LogEvent {
     }
 
     /**
+     * @return True if the event involves something insufficient, false otherwise.
+     */
+    public boolean isInsufficient() {
+        return logEntry.matches("^#.+insufficient.+$");
+    }
+
+    /**
+     * @return True if the event involves something out of, false otherwise.
+     */
+    public boolean isOutOf() {
+        return logEntry.matches("^#.+Out of.+$");
+    }
+
+    /**
      * @return True if the event is an error, false otherwise.
      */
     public boolean isError() {
         return logEntry.matches("^#  Error:.+$");
-    }
-
-    /**
-     * @return True if the event is Out Of Memory Error, false otherwise.
-     */
-    public boolean isOutOfMemoryError() {
-        return logEntry.matches("^#  Out of Memory Error .+$");
     }
 
     /**

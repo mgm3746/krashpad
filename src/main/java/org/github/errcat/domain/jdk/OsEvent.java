@@ -50,12 +50,13 @@ public class OsEvent implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "OS:(.+)";
+    private static final String REGEX_HEADER = "OS:(PRETTY_NAME=\")?(.+)[\"]{0,1}";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|[ ]{0,}(Assembled|Copyright))(.+)$";
+    private static final String REGEX = "^(" + REGEX_HEADER
+            + "|[ ]{0,}(Assembled|Copyright|ID|NAME|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?))(.+)$";
 
     public static final Pattern PATTERN = Pattern.compile(REGEX);
 

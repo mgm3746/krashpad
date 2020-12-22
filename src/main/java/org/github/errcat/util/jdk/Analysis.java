@@ -48,6 +48,11 @@ public enum Analysis {
     ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9("error.jdk8.rhel7.power8.rpm.on.power9"),
 
     /**
+     * Property key for ShenandoahConcurrentMark::mark_loop_work.
+     */
+    ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK("error.jdk8.shenandoah.mark.loop.work"),
+
+    /**
      * Property key for ShenadoahRootUpdater bug fixed in OpenJDK8 u282.
      */
     ERROR_JDK8_SHENANDOAH_ROOT_UPDATER("error.jdk8.shenandoah.root.updater"),
@@ -68,14 +73,24 @@ public enum Analysis {
     ERROR_JNA_RH("error.jna.rh"),
 
     /**
+     * Property key for Out of Memory Error due to CompressedOops blocking the growth of the native heap.
+     */
+    ERROR_OOME_COMPRESSED_OOPS("error.oome.compressed.oops"),
+
+    /**
+     * Property key for insufficient physical memory due to an external process.
+     */
+    ERROR_OOME_EXTERNAL("error.oome.external"),
+
+    /**
      * Property key for OutOfMemoryError Java heap space.
      */
     ERROR_OOME_JAVA_HEAP("error.oome.java.heap"),
 
     /**
-     * Property key for crash trying to allocate memory when heap + metaspace much less than physical memory.
+     * Property key for insufficient physical memory due to the JVM process.
      */
-    ERROR_OOME_JVM_LT_PHYSICAL_MEMORY("error.oome.jvm.lt.physical.memory"),
+    ERROR_OOME_JVM("error.oome.jvm"),
 
     /**
      * Property key for not enough physical memory for the JVM to start.
@@ -88,6 +103,11 @@ public enum Analysis {
     ERROR_PTHREAD_GETCPUCLOCKID("error.pthread.getcpuclockid"),
 
     /**
+     * Property key for error for remote debugging enabled.
+     */
+    ERROR_REMOTE_DEBUGGING_ENABLED("error.remote.debugging.enabled"),
+
+    /**
      * Property key for stack free space greater than stack size.
      */
     ERROR_STACK_FREESPACE_GT_STACK_SIZE("error.stack.freespace.gt.stack.size"),
@@ -96,6 +116,11 @@ public enum Analysis {
      * Property key for StackOverflowError.
      */
     ERROR_STACKOVERFLOW("error.stackoverflow"),
+
+    /**
+     * Property key for crash in ~BufferBlob::StubRoutines.
+     */
+    ERROR_STUBROUTINES("error.stubroutines"),
 
     /**
      * Property key for AdoptOpenJDK build of OpenJDK.
@@ -143,11 +168,6 @@ public enum Analysis {
     INFO_RH_BUILD_WINDOWS_ZIP("info.rh.build.windows.zip"),
 
     /**
-     * Property key for BUS_ADRALN.
-     */
-    INFO_SIGCODE_BUS_ADRALN("info.sigcode.bus.adraln"),
-
-    /**
      * Property key for BUS_ADDRERR.
      */
     INFO_SIGCODE_BUS_ADDERR("info.sigcode.bus.adrerr"),
@@ -156,6 +176,11 @@ public enum Analysis {
      * Property key for BUS_ADDR crash on linux.
      */
     INFO_SIGCODE_BUS_ADDERR_LINUX("info.sigcode.bus.adrerr.linux"),
+
+    /**
+     * Property key for BUS_ADRALN.
+     */
+    INFO_SIGCODE_BUS_ADRALN("info.sigcode.bus.adraln"),
 
     /**
      * Property key for BUS_OBJERR.
@@ -213,11 +238,6 @@ public enum Analysis {
     INFO_STACK_NO_VM_CODE("info.stack.no.vm.code"),
 
     /**
-     * Property key for a small thread stack size (&lt; 128k).
-     */
-    INFO_THREAD_STACK_SIZE_SMALL("warn.thread.stack.size.small"),
-
-    /**
      * Property key for swapping disabled.
      */
     INFO_SWAP_DISABLED("info.swap.disabled"),
@@ -226,6 +246,11 @@ public enum Analysis {
      * Property key for swapping.
      */
     INFO_SWAPPING("info.swapping"),
+
+    /**
+     * Property key for a small thread stack size (&lt; 128k).
+     */
+    INFO_THREAD_STACK_SIZE_SMALL("warn.thread.stack.size.small"),
 
     /**
      * Property key for no evidence the JDK debug symbols are installed.

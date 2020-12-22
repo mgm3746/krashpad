@@ -8,7 +8,7 @@
 # Problematic frame:
 # V  [libjvm.so+0xa333a6]  ShenandoahUpdateRefsClosure::do_oop(oopDesc**)+0x26
 #
-# Core dump written. Default location: /home/jboss/core or core.4687
+# Core dump written. Default location: /path/to/core or core.4687
 #
 # If you would like to submit a bug report, please visit:
 #   http://bugreport.java.com/bugreport/crash.jsp

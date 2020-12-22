@@ -8,7 +8,7 @@
 # Problematic frame:
 # v  ~StubRoutines::jbyte_disjoint_arraycopy
 #
-# Core dump written. Default location: /opt/avaya/SAL/ccs/jboss-eap-7.2/core or core.22663
+# Core dump written. Default location: /path/to/core or core.22663
 #
 # If you would like to submit a bug report, please visit:
 #   http://www.azulsystems.com/support/
