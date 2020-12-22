@@ -8,7 +8,7 @@
 ***REMOVED*** Problematic frame:
 ***REMOVED*** C  [libc.so.6+0x1572f0]  __memcpy_ssse3_back+0x2900
 ***REMOVED***
-***REMOVED*** Core dump written. Default location: /opt/eap7/core or core.22448
+***REMOVED*** Core dump written. Default location: /path/to/core or core.22448
 ***REMOVED***
 ***REMOVED*** If you would like to submit a bug report, please visit:
 ***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp

@@ -566,31 +566,35 @@ public class JdkUtil {
 
         // RHEL8 amd64 OpenJDK11 rpm
         rhel8Amd64Jdk11RpmReleases = new HashMap<String, Release>();
-        rhel8Amd64Jdk11RpmReleases.put("LATEST", new Release("Nov 10 2020 00:00:00", 4, "11.0.9.1+1-LTS"));
+        rhel8Amd64Jdk11RpmReleases.put("LATEST", new Release("Nov 10 2020 00:00:00", 5, "11.0.9.1+1-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-3.el8_3.x86_64",
-                new Release("Nov 10 2020 21:42:14", 4, "11.0.9.1+1-LTS"));
+                new Release("Nov 10 2020 21:42:14", 5, "11.0.9.1+1-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-2.el8_3.x86_64",
-                new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
+                new Release("Oct 20 2020 00:00:00", 4, "11.0.9+11-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-1.el8_0.x86_64",
-                new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
+                new Release("Oct 20 2020 00:00:00", 4, "11.0.9+11-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el8_2.x86_64",
-                new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
+                new Release("Oct 20 2020 00:00:00", 4, "11.0.9+11-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el8_1.x86_64",
-                new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
+                new Release("Oct 20 2020 00:00:00", 4, "11.0.9+11-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el8_0.x86_64",
-                new Release("Oct 20 2020 00:00:00", 3, "11.0.9+11-LTS"));
+                new Release("Oct 20 2020 00:00:00", 4, "11.0.9+11-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-6.el8.x86_64",
-                new Release("Jul 11 2020 00:00:00", 2, "11.0.8+10-LTS"));
+                new Release("Jul 11 2020 00:00:00", 3, "11.0.8+10-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el8_2.x86_64",
-                new Release("Jul 11 2020 02:33:15", 2, "11.0.8+10-LTS"));
+                new Release("Jul 11 2020 02:33:15", 3, "11.0.8+10-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el8_1.x86_64",
-                new Release("Jul 11 2020 00:00:00", 2, "11.0.8+10-LTS"));
+                new Release("Jul 11 2020 00:00:00", 3, "11.0.8+10-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-0.el8_0.x86_64",
-                new Release("Jul 11 2020 00:00:00", 2, "11.0.8+10-LTS"));
+                new Release("Jul 11 2020 00:00:00", 3, "11.0.8+10-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.7.10-1.el8_1.x86_64",
-                new Release("Apr 14 2020 00:00:00", 1, "11.0.7+10-LTS"));
+                new Release("Apr 14 2020 00:00:00", 2, "11.0.7+10-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.7.10-1.el8_0.x86_64",
-                new Release("Apr 14 2020 00:00:00", 1, "11.0.7+10-LTS"));
+                new Release("Apr 14 2020 00:00:00", 2, "11.0.7+10-LTS"));
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.6.10-0.el8_1.x86_64",
+                new Release("Jan 11 2020 04:53:43", 1, "11.0.6+10-LTS"));
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.6.10-0.el8_0.x86_64",
+                new Release("Jan 11 2020 00:00:00", 1, "11.0.6+10-LTS"));
 
         // RHEL amd64 OpenJDK11 zip
         rhelJdk11ZipReleases = new HashMap<String, Release>();

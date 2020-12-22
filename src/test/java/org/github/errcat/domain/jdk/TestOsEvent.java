@@ -86,8 +86,62 @@ public class TestOsEvent extends TestCase {
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
     ***REMOVED***
 
-    public void testSAssembled() {
+    public void testAssembled() {
         String logLine = "                             Assembled 23 June 2020";
+        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+    ***REMOVED***
+
+    public void testOsPrettyName() {
+        String logLine = "OS:PRETTY_NAME=\"Debian GNU/Linux 10 (buster)\"";
+        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+    ***REMOVED***
+
+    public void testName() {
+        String logLine = "NAME=\"Debian GNU/Linux\"";
+        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+    ***REMOVED***
+
+    public void testVersionId() {
+        String logLine = "VERSION_ID=\"10\"";
+        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+    ***REMOVED***
+
+    public void testVersion() {
+        String logLine = "VERSION=\"10 (buster)\"";
+        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+    ***REMOVED***
+
+    public void testVersionCodeName() {
+        String logLine = "VERSION_CODENAME=buster";
+        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+    ***REMOVED***
+
+    public void testId() {
+        String logLine = "ID=debian";
+        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+    ***REMOVED***
+
+    public void testHomeUrl() {
+        String logLine = "HOME_URL=\"https://www.debian.org/\"";
+        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+    ***REMOVED***
+
+    public void testSupportUrl() {
+        String logLine = "SUPPORT_URL=\"https://www.debian.org/support\"";
+        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
+    ***REMOVED***
+
+    public void testBugReportUrl() {
+        String logLine = "BUG_REPORT_URL=\"https://bugs.debian.org/\"";
         Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.OS);
     ***REMOVED***

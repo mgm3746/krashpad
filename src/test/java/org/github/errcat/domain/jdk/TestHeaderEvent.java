@@ -126,4 +126,37 @@ public class TestHeaderEvent extends TestCase {
         HeaderEvent headerEvent = new HeaderEvent(logLine);
         Assert.assertTrue("JRE version not identified.", headerEvent.isJreVersion());
     ***REMOVED***
+
+    public void testInsufficientMemoroy() {
+        String logLine = "***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADER);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("Insufficient not identified.", headerEvent.isInsufficient());
+    ***REMOVED***
+
+    public void testOutOfSwapSpace() {
+        String logLine = "***REMOVED*** Out of swap space to map in thread stack.";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADER);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("Out of not identified.", headerEvent.isOutOf());
+    ***REMOVED***
+
+    public void testOutOfMemoryError() {
+        String logLine = "***REMOVED***  Out of Memory Error (os_solaris_sparc.cpp:570), pid=1129, tid=0x0000000000008488";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADER);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("Out of not identified.", headerEvent.isOutOf());
+    ***REMOVED***
+
+    public void testNativeMemoryAllocationFailed() {
+        String logLine = "***REMOVED*** Native memory allocation (mmap) failed to map 754974720 bytes for committing reserved "
+                + "memory.";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADER);
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        Assert.assertTrue("Failed not identified.", headerEvent.isFailed());
+    ***REMOVED***
 ***REMOVED***

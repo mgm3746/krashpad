@@ -1,0 +1,300 @@
+***REMOVED***
+***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
+***REMOVED*** Out of swap space to map in thread stack.
+***REMOVED*** Possible reasons:
+***REMOVED***   The system is out of physical RAM or swap space
+***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+***REMOVED*** Possible solutions:
+***REMOVED***   Reduce memory load on the system
+***REMOVED***   Increase physical memory or swap space
+***REMOVED***   Check if swap backing store is full
+***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
+***REMOVED***   Decrease number of Java threads
+***REMOVED***   Decrease Java thread stack sizes (-Xss)
+***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
+***REMOVED***   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+***REMOVED***     placed in the first 32GB address space. The Java Heap base address is the
+***REMOVED***     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+***REMOVED***     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+***REMOVED*** This output file may be truncated or incomplete.
+***REMOVED***
+***REMOVED***  Out of Memory Error (os_solaris_sparc.cpp:570), pid=1129, tid=0x0000000000008488
+***REMOVED***
+***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_231-b11) (build 1.8.0_231-b11)
+***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.231-b11 mixed mode solaris-sparc compressed oops)
+***REMOVED*** Core dump written. Default location: /path/to/core or core.1129
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x00000001201fc800):  JavaThread "Thread-389" [_thread_in_Java, id=33928, stack(0xfffffffed4600000,0xfffffffed4700000)]
+
+Stack: [0xfffffffed4600000,0xfffffffed4700000],  sp=0xfffffffed46fe600,  free space=1017k
+***REMOVED***
+V  [libjvm.so+0xdfe038]  void VMError::report_and_die()+0x6e0
+V  [libjvm.so+0x54165c]  void report_vm_out_of_memory(const char*,int,unsigned long,VMErrorType,const char*)+0x64
+V  [libjvm.so+0xb98314]  JVM_handle_solaris_signal+0xbe4
+V  [libjvm.so+0xb8ff5c]  signalHandler+0x24
+C  [libc.so.1+0x1499d8]  __sighndlr+0x14
+C  [libc.so.1+0x13c400]  call_user_handler+0x36c
+C  [libc.so.1+0x13c758]  sigacthandler+0x64
+V  [libjvm.so+0x843918]  JNIHandleBlock*JNIHandleBlock::allocate_block(Thread*)+0xf0
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x7486dc]  void JavaCalls::call_helper(JavaValue*,methodHandle*,JavaCallArguments*,Thread*)+0x744
+V  [libjvm.so+0x746e8c]  void JavaCalls::call_virtual(JavaValue*,KlassHandle,Symbol*,Symbol*,JavaCallArguments*,Thread*)+0x334
+V  [libjvm.so+0x747150]  void JavaCalls::call_virtual(JavaValue*,Handle,KlassHandle,Symbol*,Symbol*,Thread*)+0x50
+V  [libjvm.so+0x877454]  void thread_entry(JavaThread*,Thread*)+0xdc
+V  [libjvm.so+0xd47dcc]  void JavaThread::thread_main_inner()+0xf4
+V  [libjvm.so+0xd47cb8]  void JavaThread::run()+0x320
+V  [libjvm.so+0xb856a8]  java_start+0x390
+C  [libc.so.1+0x149884]  _lwp_start+0x8
+
+
+***REMOVED***
+
+***REMOVED***
+=>0x00000001201fc800 JavaThread "Thread-389" [_thread_in_Java, id=33928, stack(0xfffffffed4600000,0xfffffffed4700000)]
+  0x000000012153f000 JavaThread "Thread-388" [_thread_blocked, id=33913, stack(0xfffffffedf900000,0xfffffffedfa00000)]
+  0x000000010ed60800 JavaThread "Keep-Alive-Timer" daemon [_thread_blocked, id=33909, stack(0xfffffffe15400000,0xfffffffe15500000)]
+  0x00000001237ae000 JavaThread "Thread-387" [_thread_blocked, id=33908, stack(0xfffffffe0ec00000,0xfffffffe0ed00000)]
+  0x000000010ed5e800 JavaThread "default task-2437" [_thread_blocked, id=33827, stack(0xfffffffee3d00000,0xfffffffee3e00000)]
+  0x000000010253d000 JavaThread "default task-2423" [_thread_blocked, id=33794, stack(0xfffffffee8700000,0xfffffffee8800000)]
+  0x000000010eaf3000 JavaThread "default task-2418" [_thread_blocked, id=33789, stack(0xfffffffef2f00000,0xfffffffef3000000)]
+  0x000000010ed61000 JavaThread "default task-2409" [_thread_blocked, id=33772, stack(0xfffffffe0ea00000,0xfffffffe0eb00000)]
+  0x00000001224bc800 JavaThread "default task-2400" [_thread_in_vm, id=33712, stack(0xfffffffe44000000,0xfffffffe44100000)]
+  0x00000001224bc000 JavaThread "default task-2390" [_thread_blocked, id=33686, stack(0xfffffffe1ae00000,0xfffffffe1af00000)]
+  0x00000001230d9000 JavaThread "default task-2388" [_thread_blocked, id=33665, stack(0xfffffffe15800000,0xfffffffe15900000)]
+  0x000000010fe11800 JavaThread "default task-2370" [_thread_blocked, id=33577, stack(0xfffffffe3ce00000,0xfffffffe3cf00000)]
+  0x0000000122eff000 JavaThread "default task-2369" [_thread_blocked, id=33576, stack(0xfffffffe0f300000,0xfffffffe0f400000)]
+  0x000000012137d800 JavaThread "default task-2361" [_thread_blocked, id=33529, stack(0xfffffffe0ee00000,0xfffffffe0ef00000)]
+  0x0000000122658800 JavaThread "default task-2352" [_thread_blocked, id=33464, stack(0xfffffffe2df00000,0xfffffffe2e000000)]
+  0x0000000105e1a000 JavaThread "default task-2345" [_thread_blocked, id=33408, stack(0xfffffffe0ff00000,0xfffffffe10000000)]
+  0x000000010f9f8000 JavaThread "default task-2329" [_thread_blocked, id=33318, stack(0xfffffffe10100000,0xfffffffe10200000)]
+  0x000000010fdbe000 JavaThread "default task-2324" [_thread_blocked, id=33270, stack(0xfffffffe11600000,0xfffffffe11700000)]
+  0x0000000121549800 JavaThread "default task-2322" [_thread_blocked, id=33267, stack(0xfffffffe11400000,0xfffffffe11500000)]
+  0x0000000122ddd800 JavaThread "default task-2309" [_thread_blocked, id=33174, stack(0xfffffffe0fb00000,0xfffffffe0fc00000)]
+  0x000000011f7fa000 JavaThread "default task-2308" [_thread_blocked, id=33161, stack(0xfffffffe0f700000,0xfffffffe0f800000)]
+  0x00000001217b4000 JavaThread "default task-2302" [_thread_blocked, id=33133, stack(0xfffffffe18500000,0xfffffffe18600000)]
+  0x0000000123055000 JavaThread "default task-2298" [_thread_blocked, id=33059, stack(0xfffffffe15600000,0xfffffffe15700000)]
+  0x000000012040b000 JavaThread "default task-2282" [_thread_blocked, id=33017, stack(0xfffffffe3d400000,0xfffffffe3d500000)]
+  0x000000012292b000 JavaThread "default task-2270" [_thread_blocked, id=32857, stack(0xfffffffe3f000000,0xfffffffe3f100000)]
+  0x000000010fe95800 JavaThread "default task-2261" [_thread_blocked, id=32759, stack(0xfffffffe1a600000,0xfffffffe1a700000)]
+  0x0000000121374000 JavaThread "default task-2258" [_thread_blocked, id=32731, stack(0xfffffffe1aa00000,0xfffffffe1ab00000)]
+  0x0000000120eb4800 JavaThread "default task-2251" [_thread_blocked, id=32612, stack(0xfffffffe15a00000,0xfffffffe15b00000)]
+  0x0000000120405000 JavaThread "default task-2245" [_thread_blocked, id=32548, stack(0xfffffffe25500000,0xfffffffe25600000)]
+  0x0000000122e95000 JavaThread "default task-2235" [_thread_blocked, id=32409, stack(0xfffffffe3b100000,0xfffffffe3b200000)]
+  0x000000012058d000 JavaThread "ServerService Thread Pool -- 137" [_thread_blocked, id=26438, stack(0xfffffffee7900000,0xfffffffee7a00000)]
+  0x000000010962b000 JavaThread "External Management Request Threads -- 1" [_thread_blocked, id=1076, stack(0xffffffff13f00000,0xffffffff14000000)]
+  0x0000000106ea9000 JavaThread "pool-14-thread-1" [_thread_blocked, id=1075, stack(0xfffffffee4100000,0xfffffffee4200000)]
+  0x000000010bfa0800 JavaThread "management task-4" [_thread_blocked, id=1073, stack(0xffffffff13400000,0xffffffff13500000)]
+  0x0000000104e3e800 JavaThread "management task-3" [_thread_blocked, id=1072, stack(0xfffffffee3f00000,0xfffffffee4000000)]
+  0x00000001049ba800 JavaThread "management task-2" [_thread_blocked, id=1068, stack(0xfffffffee3b00000,0xfffffffee3c00000)]
+  0x0000000104adb800 JavaThread "management task-1" [_thread_blocked, id=1067, stack(0xfffffffef3800000,0xfffffffef3900000)]
+  0x000000010726e000 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=339, stack(0xfffffffed9e00000,0xfffffffed9f00000)]
+  0x0000000109b1a000 JavaThread "ServerService Thread Pool -- 94" [_thread_blocked, id=312, stack(0xfffffffee2300000,0xfffffffee2400000)]
+  0x00000001094e2800 JavaThread "GC Daemon" daemon [_thread_blocked, id=299, stack(0xfffffffee6200000,0xfffffffee6300000)]
+  0x00000001060ed800 JavaThread "ServerService Thread Pool -- 81" [_thread_blocked, id=298, stack(0xfffffffee6d00000,0xfffffffee6e00000)]
+  0x000000010adff000 JavaThread "expiration-thread--p4-t1" daemon [_thread_blocked, id=289, stack(0xfffffffef3d00000,0xfffffffef3e00000)]
+  0x0000000108e7d000 JavaThread "JCA PoolFiller" daemon [_thread_blocked, id=284, stack(0xfffffffeffb00000,0xfffffffeffc00000)]
+  0x00000001076e7800 JavaThread "Transaction Reaper Worker 0" daemon [_thread_blocked, id=283, stack(0xffffffff00200000,0xffffffff00300000)]
+  0x0000000107778800 JavaThread "Transaction Reaper" daemon [_thread_blocked, id=282, stack(0xffffffff00400000,0xffffffff00500000)]
+  0x0000000106e94000 JavaThread "Periodic Recovery" [_thread_blocked, id=281, stack(0xffffffff00600000,0xffffffff00700000)]
+  0x00000001080fb800 JavaThread "Transaction Expired Entry Monitor" daemon [_thread_blocked, id=280, stack(0xffffffff00800000,0xffffffff00900000)]
+  0x0000000107b46000 JavaThread "XNIO-1 Accept" daemon [_thread_in_native, id=279, stack(0xffffffff01300000,0xffffffff01400000)]
+  0x000000010787e000 JavaThread "XNIO-1 I/O-1" daemon [_thread_in_native, id=278, stack(0xffffffff01500000,0xffffffff01600000)]
+  0x00000001076ad000 JavaThread "Timer-1" [_thread_blocked, id=277, stack(0xffffffff01f00000,0xffffffff02000000)]
+  0x0000000105de2000 JavaThread "default Accept" [_thread_blocked, id=276, stack(0xffffffff04100000,0xffffffff04200000)]
+  0x00000001063b1800 JavaThread "default I/O-100" [_thread_in_native, id=275, stack(0xffffffff04300000,0xffffffff04400000)]
+  0x0000000105187000 JavaThread "default I/O-99" [_thread_in_native, id=274, stack(0xffffffff04500000,0xffffffff04600000)]
+  0x00000001063ae800 JavaThread "default I/O-98" [_thread_in_native, id=273, stack(0xffffffff04700000,0xffffffff04800000)]
+  0x000000010518c800 JavaThread "default I/O-97" [_thread_in_native, id=272, stack(0xffffffff04900000,0xffffffff04a00000)]
+  0x0000000105188000 JavaThread "default I/O-96" [_thread_in_native, id=271, stack(0xffffffff04b00000,0xffffffff04c00000)]
+  0x0000000105290800 JavaThread "default I/O-95" [_thread_in_native, id=270, stack(0xffffffff04d00000,0xffffffff04e00000)]
+  0x0000000105185000 JavaThread "default I/O-94" [_thread_in_native, id=269, stack(0xffffffff04f00000,0xffffffff05000000)]
+  0x0000000105183000 JavaThread "default I/O-93" [_thread_in_native, id=268, stack(0xffffffff05100000,0xffffffff05200000)]
+  0x0000000105291800 JavaThread "default I/O-92" [_thread_in_native, id=267, stack(0xffffffff05300000,0xffffffff05400000)]
+  0x0000000102728800 JavaThread "default I/O-91" [_thread_in_native, id=266, stack(0xffffffff05500000,0xffffffff05600000)]
+  0x000000010528d000 JavaThread "default I/O-90" [_thread_in_native, id=265, stack(0xffffffff05700000,0xffffffff05800000)]
+  0x0000000105288800 JavaThread "default I/O-89" [_thread_in_native, id=264, stack(0xffffffff05900000,0xffffffff05a00000)]
+  0x0000000105286800 JavaThread "default I/O-88" [_thread_in_native, id=263, stack(0xffffffff05b00000,0xffffffff05c00000)]
+  0x000000010272b800 JavaThread "default I/O-87" [_thread_in_native, id=262, stack(0xffffffff05d00000,0xffffffff05e00000)]
+  0x0000000102729000 JavaThread "default I/O-86" [_thread_in_native, id=261, stack(0xffffffff05f00000,0xffffffff06000000)]
+  0x0000000102726800 JavaThread "default I/O-85" [_thread_in_native, id=260, stack(0xffffffff06100000,0xffffffff06200000)]
+  0x0000000102725800 JavaThread "default I/O-84" [_thread_in_native, id=259, stack(0xffffffff06300000,0xffffffff06400000)]
+  0x0000000104f46800 JavaThread "default I/O-83" [_thread_in_native, id=258, stack(0xffffffff06500000,0xffffffff06600000)]
+  0x0000000102722000 JavaThread "default I/O-82" [_thread_in_native, id=257, stack(0xffffffff06700000,0xffffffff06800000)]
+
+***REMOVED***
+  0x0000000101d57000 VMThread [stack: 0xffffffff2cc00000,0xffffffff2cd00000] [id=61]
+  0x0000000101eb4800 WatcherThread [stack: 0xffffffff29200000,0xffffffff29300000] [id=85]
+
+VM state:synchronizing (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00000001001380a0] Safepoint_lock - owner thread: 0x0000000101d57000
+[0x0000000100138130] Threads_lock - owner thread: 0x0000000101d57000
+
+heap address: 0x0000000300000000, size: 15360 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
+Compressed class space size: 2147483648 Address: 0x00000006c0000000
+
+***REMOVED***
+ garbage-first heap   total 15728640K, used 3221714K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
+  region size 4096K, 476 young (1949696K), 29 survivors (118784K)
+ Metaspace       used 3572734K, capacity 3601675K, committed 3637248K, reserved 4464640K
+  class space    used 1259959K, capacity 1267249K, committed 1271296K, reserved 2097152K
+
+Heap Regions: (Y=young(eden), SU=young(survivor), HS=humongous(starts), HC=humongous(continues), CS=collection set, F=free, TS=gc time stamp, PTAMS=previous top-at-mark-start, NTAMS=next top-at-mark-start)
+AC   0  O    TS     0 PTAMS 0x0000000300400000 NTAMS 0x0000000300400000 space 4096K, 100% used [0x0000000300000000, 0x0000000300400000)
+
+
+Card table byte_map: [0xffffffff5a800000,0xffffffff5c600000] byte_map_base: 0xffffffff59000000
+
+Marking Bits (Prev, Next): (CMBitMap*) 0x00000001001b7a08, (CMBitMap*) 0x00000001001b7a60
+ Prev Bits: [0xffffffff49000000, 0xffffffff58000000)
+ Next Bits: [0xffffffff39c00000, 0xffffffff48c00000)
+
+Polling page: 0xffffffff7a400000
+
+CodeCache: size=245760Kb used=194825Kb max_used=197637Kb free=50934Kb
+ bounds [0xffffffff6ac00000, 0xffffffff77030000, 0xffffffff79c00000]
+ total_blobs=43310 nmethods=42116 adapters=965
+***REMOVED***
+
+Compilation events (10 events):
+Event: 119764.082 Thread 0x0000000101e64000 66226       3       org.apache.xerces.impl.XMLDTDScannerImpl::scanMixed (315 bytes)
+Event: 119764.084 Thread 0x0000000101e66000 66227       3       org.apache.xerces.impl.dtd.models.DFAContentModel::<init> (96 bytes)
+Event: 119764.086 Thread 0x0000000101e66000 nmethod 66227 0xffffffff6b1edcd0 code [0xffffffff6b1edec0, 0xffffffff6b1ee670]
+Event: 119764.087 Thread 0x0000000101e64000 nmethod 66226 0xffffffff730dd450 code [0xffffffff730ddac0, 0xffffffff730e08e0]
+Event: 119764.315 Thread 0x0000000101e79000 66228       3       org.apache.xerces.parsers.AbstractXMLDocumentParser::pcdata (1 bytes)
+Event: 119764.317 Thread 0x0000000101e79000 nmethod 66228 0xffffffff6b36b2d0 code [0xffffffff6b36b420, 0xffffffff6b36b588]
+Event: 119775.938 Thread 0x0000000101e31000 66229       4       java.util.ArrayList::grow (45 bytes)
+Event: 119775.946 Thread 0x0000000101e31000 nmethod 66229 0xffffffff6b095d90 code [0xffffffff6b095ee0, 0xffffffff6b096270]
+Event: 119788.643 Thread 0x0000000101e31000 66230   !   4       sun.reflect.GeneratedConstructorAccessor1029::newInstance (53 bytes)
+Event: 119788.660 Thread 0x0000000101e31000 nmethod 66230 0xffffffff6b1a2b50 code [0xffffffff6b1a2d00, 0xffffffff6b1a2f98]
+
+GC Heap History (10 events):
+Event: 112587.023 GC heap before
+{Heap before GC invocations=208 (full 0):
+ garbage-first heap   total 15728640K, used 2720924K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
+  region size 4096K, 310 young (1269760K), 22 survivors (90112K)
+ Metaspace       used 3536565K, capacity 3564495K, committed 3608448K, reserved 4446208K
+  class space    used 1248877K, capacity 1255708K, committed 1260672K, reserved 2097152K
+Event: 112587.565 GC heap after
+Heap after GC invocations=209 (full 0):
+ garbage-first heap   total 15728640K, used 1361655K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
+  region size 4096K, 25 young (102400K), 25 survivors (102400K)
+ Metaspace       used 3536565K, capacity 3564495K, committed 3608448K, reserved 4446208K
+  class space    used 1248877K, capacity 1255708K, committed 1260672K, reserved 2097152K
+***REMOVED***
+Event: 113499.849 GC heap before
+{Heap before GC invocations=209 (full 0):
+ garbage-first heap   total 15728640K, used 4028151K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
+  region size 4096K, 676 young (2768896K), 25 survivors (102400K)
+ Metaspace       used 3558708K, capacity 3587017K, committed 3628544K, reserved 4458496K
+  class space    used 1256524K, capacity 1263494K, committed 1268224K, reserved 2097152K
+Event: 113500.632 GC heap after
+Heap after GC invocations=210 (full 0):
+ garbage-first heap   total 15728640K, used 1412855K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
+  region size 4096K, 38 young (155648K), 38 survivors (155648K)
+ Metaspace       used 3558708K, capacity 3587017K, committed 3628544K, reserved 4458496K
+  class space    used 1256524K, capacity 1263494K, committed 1268224K, reserved 2097152K
+***REMOVED***
+Event: 114932.604 GC heap before
+{Heap before GC invocations=210 (full 0):
+ garbage-first heap   total 15728640K, used 4970234K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
+  region size 4096K, 884 young (3620864K), 38 survivors (155648K)
+ Metaspace       used 3565749K, capacity 3594187K, committed 3632896K, reserved 4460544K
+  class space    used 1258310K, capacity 1265424K, committed 1269760K, reserved 2097152K
+Event: 114933.460 GC heap after
+Heap after GC invocations=211 (full 0):
+ garbage-first heap   total 15728640K, used 1404412K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
+  region size 4096K, 35 young (143360K), 35 survivors (143360K)
+ Metaspace       used 3565749K, capacity 3594187K, committed 3632896K, reserved 4460544K
+  class space    used 1258310K, capacity 1265424K, committed 1269760K, reserved 2097152K
+***REMOVED***
+Event: 116634.044 GC heap before
+{Heap before GC invocations=211 (full 0):
+ garbage-first heap   total 15728640K, used 5335612K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
+  region size 4096K, 971 young (3977216K), 35 survivors (143360K)
+ Metaspace       used 3571890K, capacity 3600617K, committed 3636992K, reserved 4464640K
+  class space    used 1259912K, capacity 1267159K, committed 1271296K, reserved 2097152K
+Event: 116634.850 GC heap after
+Heap after GC invocations=212 (full 0):
+ garbage-first heap   total 15728640K, used 1412787K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
+  region size 4096K, 34 young (139264K), 34 survivors (139264K)
+ Metaspace       used 3571890K, capacity 3600617K, committed 3636992K, reserved 4464640K
+  class space    used 1259912K, capacity 1267159K, committed 1271296K, reserved 2097152K
+***REMOVED***
+Event: 118842.965 GC heap before
+{Heap before GC invocations=212 (full 0):
+ garbage-first heap   total 15728640K, used 6999731K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
+  region size 4096K, 1398 young (5726208K), 34 survivors (139264K)
+ Metaspace       used 3572594K, capacity 3601485K, committed 3637248K, reserved 4464640K
+  class space    used 1259952K, capacity 1267235K, committed 1271296K, reserved 2097152K
+Event: 118843.650 GC heap after
+Heap after GC invocations=213 (full 0):
+ garbage-first heap   total 15728640K, used 1394898K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
+  region size 4096K, 29 young (118784K), 29 survivors (118784K)
+ Metaspace       used 3572594K, capacity 3601485K, committed 3637248K, reserved 4464640K
+  class space    used 1259952K, capacity 1267235K, committed 1271296K, reserved 2097152K
+***REMOVED***
+
+Deoptimization events (10 events):
+Event: 112230.640 Thread 0x0000000102729000 Uncommon trap: reason=unstable_if action=reinterpret pc=0xffffffff730dfc70 method=io.undertow.server.handlers.NameVirtualHostHandler.handleRequest(Lio/undertow/server/HttpServerExchange;)V @ 21
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (10 events):
+Event: 119789.695 Thread 0x0000000122eff000 Exception <a 'sun/nio/fs/UnixException'> (0x000000065223cd10) thrown at [/HUDSON/workspace/8-2-build-solaris-sparcv9/jdk8u231/13620/hotspot/src/share/vm/prims/jni.cpp, line 710]
+
+Events (10 events):
+Event: 119789.514 Thread 0x00000001201fc800 Thread added: 0x00000001201fc800
+
+
+***REMOVED***
+
+0xffffffff7d400000 	/path/to/jdk1.8.0_231/jre/lib/sparcv9/server/libjvm.so
+
+***REMOVED***
+jvm_args: -D[Standalone] -verbose:gc -Xloggc:/path/to/gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -XX:+DoEscapeAnalysis -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:MaxGCPauseMillis=1000 -Xms15g -Xmx15g -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+UseCompressedOops -XX:+UseCompressedClassPointers -XX:CompressedClassSpaceSize=2048M -XX:HeapBaseMinAddress=12g -XX:MetaspaceSize=15g -XX:MaxMetaspaceSize=15g  
+java_command: /path/to/jboss-modules.jar
+java_class_path (initial): /path/to/jboss-modules.jar
+***REMOVED***
+
+***REMOVED***
+JAVA_HOME=/path/to/jdk1.8.0_231
+CLASSPATH=
+SHELL=/usr/bin/bash
+
+***REMOVED***
+SIGSEGV: [libjvm.so+0xdffe80], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xdffe80], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
+***REMOVED***
+SIGUSR2: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGQUIT: [libjvm.so+0xb89ba0], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART
+SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGTERM: [libjvm.so+0xb89ba0], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART
+SIG39: [libjvm.so+0xb8ff88], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_SIGINFO
+SIG40: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+***REMOVED***
+
+OS:                            Oracle Solaris 11.3 SPARC
+  Copyright (c) 1983, 2018, Oracle and/or its affiliates.  All rights reserved.
+                              Assembled 09 May 2018
+
+uname:SunOS 5.11 11.3 sun4v  (T2 libthread)
+rlimit: STACK 8192k, CORE infinity, NOFILE 65536, AS infinity
+load average:0.21 0.30 0.37
+
+CPU:total 64 (initial active 64) v9, popc, vis1, vis2, vis3, blk_init, cbcond, aes, sha1, sha256, sha512, sun4v, niagara_plus
+
+Memory: 8k page, physical 66584576k(31830072k free)

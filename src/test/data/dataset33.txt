@@ -8,7 +8,7 @@
 ***REMOVED*** Problematic frame:
 ***REMOVED*** V  [libjvm.so+0x9a8d54]  PhaseIterGVN::remove_speculative_types()+0x84
 ***REMOVED***
-***REMOVED*** Core dump written. Default location: /etc/sv/tomcat_a/core or core.78583
+***REMOVED*** Core dump written. Default location: /path/to/core or core.78583
 ***REMOVED***
 ***REMOVED*** If you would like to submit a bug report, please visit:
 ***REMOVED***   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%207&component=java-1.8.0-openjdk

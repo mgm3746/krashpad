@@ -6,7 +6,7 @@
 ***REMOVED***
 ***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_25-b18) (build 1.8.0_25-b18)
 ***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.25-b02 mixed mode windows-amd64 compressed oops)
-***REMOVED*** Core dump written. Default location: E:\YPF\jboss\bin\hs_err_pid8768.mdmp
+***REMOVED*** Core dump written. Default location: E:\path\to\hs_err_pid1234.mdmp
 ***REMOVED***
 ***REMOVED*** If you would like to submit a bug report, please visit:
 ***REMOVED***   http://bugreport.sun.com/bugreport/crash.jsp
@@ -28,7 +28,7 @@ C  0x0000000001fd4750
 
 ***REMOVED***
 
-0x0000000052380000 - 0x0000000052bda000         E:\YPF\java\bin\server\jvm.dll
+0x0000000052380000 - 0x0000000052bda000         E:\path\java\bin\server\jvm.dll
 
 ***REMOVED***
 

@@ -53,6 +53,8 @@ public class TestVmArgumentsEvent extends TestCase {
         String logLine = "java_command: /path/to/jboss-modules.jar -Djboss.home.dir=/path/to/standalone";
         Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+        VmArgumentsEvent event = new VmArgumentsEvent(logLine);
+        Assert.assertTrue("Java command not identified.", event.isJavaCommand());
     ***REMOVED***
 
     public void testJavaClassPath() {

@@ -8,7 +8,7 @@
 ***REMOVED*** Problematic frame:
 ***REMOVED*** C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4
 ***REMOVED***
-***REMOVED*** Core dump written. Default location: /home/mmillson/codereadystudio/studio/core or core.92333
+***REMOVED*** Core dump written. Default location: /path/to/core or core.92333
 ***REMOVED***
 ***REMOVED*** If you would like to submit a bug report, please visit:
 ***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp

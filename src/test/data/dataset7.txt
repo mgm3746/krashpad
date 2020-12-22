@@ -18,7 +18,7 @@
 ***REMOVED***
 ***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_251-b08) (build 1.8.0_251-b08)
 ***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode solaris-sparc compressed oops)
-***REMOVED*** Core dump written. Default location: /path/to/jboss/v7.3-ejb3/bin/core or core.273
+***REMOVED*** Core dump written. Default location: /path/to/core or core.273
 ***REMOVED***
 
 ***REMOVED***

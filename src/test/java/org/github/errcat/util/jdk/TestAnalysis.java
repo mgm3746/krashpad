@@ -144,17 +144,30 @@ public class TestAnalysis extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset27.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertEquals("Physical memory not correct.", 15995796, fel.getPhysicalMemory());
-        Assert.assertEquals("Physical memory free not correct.", 241892, fel.getPhysicalMemoryFree());
-        Assert.assertEquals("Swap not correct.", 10592252, fel.getSwap());
-        Assert.assertEquals("Swap free not correct.", 4, fel.getSwapFree());
-        Assert.assertEquals("Heap max size not correct.", 8192 * 1024, fel.getHeapMaxSize());
-        Assert.assertEquals("Heap allocation not correct.", 2761728 + 4838912, fel.getHeapAllocation());
-        Assert.assertEquals("Heap used not correct.", 0 + 2671671, fel.getHeapUsed());
-        Assert.assertEquals("Metaspace max size not correct.", 8192 * 1024, fel.getMetaspaceMaxSize());
-        Assert.assertEquals("Metaspace allocation not correct.", 471808, fel.getMetaspaceAllocation());
-        Assert.assertEquals("Metaspace used not correct.", 347525, fel.getMetaspaceUsed());
-        Assert.assertEquals("JVM memory not correct.", 17825792, fel.getJvmMemory());
+        long physicalMemory = JdkUtil.convertSize(15995796, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Physical memory not correct.", physicalMemory, fel.getPhysicalMemory());
+        long physicalMemoryFree = JdkUtil.convertSize(241892, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Physical memory free not correct.", physicalMemoryFree, fel.getPhysicalMemoryFree());
+        long swap = JdkUtil.convertSize(10592252, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Swap not correct.", swap, fel.getSwap());
+        long swapFree = JdkUtil.convertSize(4, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Swap free not correct.", swapFree, fel.getSwapFree());
+        long heapMax = JdkUtil.convertSize(8192, 'M', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Heap max size not correct.", heapMax, fel.getHeapMaxSize());
+        long heapAllocationYoung = JdkUtil.convertSize(2761728, 'K', Constants.BYTE_PRECISION);
+        long heapAllocationOld = JdkUtil.convertSize(4838912, 'K', Constants.BYTE_PRECISION);
+        long heapAllocation = heapAllocationYoung + heapAllocationOld;
+        Assert.assertEquals("Heap allocation not correct.", heapAllocation, fel.getHeapAllocation());
+        long heapUsed = JdkUtil.convertSize(0 + 2671671, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Heap used not correct.", heapUsed, fel.getHeapUsed());
+        long metaspaceMax = JdkUtil.convertSize(8192, 'M', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Metaspace max size not correct.", metaspaceMax, fel.getMetaspaceMaxSize());
+        long metaspaceAllocation = JdkUtil.convertSize(471808, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Metaspace allocation not correct.", metaspaceAllocation, fel.getMetaspaceAllocation());
+        long metaspaceUsed = JdkUtil.convertSize(347525, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Metaspace used not correct.", metaspaceUsed, fel.getMetaspaceUsed());
+        long jvmMemory = JdkUtil.convertSize(17825792, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Jvm memory not correct.", jvmMemory, fel.getJvmMemory());
         Assert.assertEquals("Java thread count not correct.", 225, fel.getJavaThreadCount());
         Assert.assertTrue(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY));
@@ -168,22 +181,24 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
     ***REMOVED***
 
-    public void testJvmLtPhysicalMemory() {
+    public void testOomePhysicalMemory() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset29.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertTrue("Out Of Memory Error not identified.", fel.isOomeCrash());
-        Assert.assertEquals("Physical memory not correct.", 24609684, fel.getPhysicalMemory());
-        Assert.assertEquals("JVM memory not correct.", 18581504, fel.getJvmMemory());
-        Assert.assertTrue(Analysis.ERROR_OOME_JVM_LT_PHYSICAL_MEMORY + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM_LT_PHYSICAL_MEMORY));
+        Assert.assertTrue("Out Of Memory Error not identified.", fel.isError("Out of Memory Error"));
+        long physicalMemory = JdkUtil.convertSize(24609684, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Physical memory not correct.", physicalMemory, fel.getPhysicalMemory());
+        long jvmMemory = JdkUtil.convertSize(18581504, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("Jvm memory not correct.", jvmMemory, fel.getJvmMemory());
+        Assert.assertTrue(Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL));
     ***REMOVED***
 
     public void testPhysicalMemoryInsufficientJvmStartup() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset30.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertTrue("Out Of Memory Error not identified.", fel.isOomeCrash());
+        Assert.assertTrue("Out Of Memory Error not identified.", fel.isError("Out of Memory Error"));
         Assert.assertTrue(Analysis.ERROR_OOME_STARTUP + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP));
     ***REMOVED***
@@ -256,5 +271,42 @@ public class TestAnalysis extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue(Analysis.INFO_SIGCODE_SI_KERNEL + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_SIGCODE_SI_KERNEL));
+    ***REMOVED***
+
+    public void testOomeCompressedOops() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset42.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_OOME_COMPRESSED_OOPS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_OOME_COMPRESSED_OOPS));
+    ***REMOVED***
+
+    public void testStubroutines() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset17.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_STUBROUTINES + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_STUBROUTINES));
+        testFile = new File(Constants.TEST_DATA_DIR + "dataset43.txt");
+        fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_STUBROUTINES + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_STUBROUTINES));
+
+    ***REMOVED***
+
+    public void testShenandoahMarkLoopWork() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset44.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK));
+    ***REMOVED***
+
+    public void testRemoteDebuggingEnabled() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset45.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_REMOTE_DEBUGGING_ENABLED));
     ***REMOVED***
 ***REMOVED***

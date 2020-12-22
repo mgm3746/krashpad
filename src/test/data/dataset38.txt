@@ -8,7 +8,7 @@
 ***REMOVED*** Problematic frame:
 ***REMOVED*** C  0x0000000030000000
 ***REMOVED***
-***REMOVED*** Core dump written. Default location: /sbcimp/dyn/rel/merival/bin/core or core.589642
+***REMOVED*** Core dump written. Default location: /path/to/core or core.589642
 ***REMOVED***
 ***REMOVED*** If you would like to submit a bug report, please visit:
 ***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp

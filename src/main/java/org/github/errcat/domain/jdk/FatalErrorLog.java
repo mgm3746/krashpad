@@ -528,7 +528,7 @@ public class FatalErrorLog {
                 if (event.isHeader()) {
                     Matcher matcher = OsEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        osString = matcher.group(2).trim();
+                        osString = matcher.group(3).trim();
                     ***REMOVED***
                     break;
                 ***REMOVED***
@@ -568,8 +568,8 @@ public class FatalErrorLog {
             Iterator<HeaderEvent> iterator = headerEvents.iterator();
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
-                if (he.isSignalNumber() || he.isInternalError() || he.isError() || he.isOutOfMemoryError()
-                        || he.isFailed()) {
+                if (he.isSignalNumber() || he.isInternalError() || he.isError() || he.isFailed() || he.isInsufficient()
+                        || he.isOutOf() || he.isProblematicFrame()) {
                     if (causedBy.length() > 0) {
                         causedBy.append(Constants.LINE_SEPARATOR);
                     ***REMOVED***
@@ -944,17 +944,18 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return true if the crash happens due to Out Of Memory Error, false otherwise.
+     * @param error
+     *            The string to search for.
+     * @return True if the crash error contains the string, false otherwise
      */
-    public boolean isOomeCrash() {
-        boolean isOomeCrash = false;
-        String regExOome = "Out of Memory Error";
-        Pattern pattern = Pattern.compile(regExOome);
+    public boolean isError(String error) {
+        boolean isError = false;
+        Pattern pattern = Pattern.compile(error);
         Matcher matcher = pattern.matcher(getError());
         if (matcher.find()) {
-            isOomeCrash = true;
+            isError = true;
         ***REMOVED***
-        return isOomeCrash;
+        return isError;
     ***REMOVED***
 
     /**
@@ -1169,7 +1170,7 @@ public class FatalErrorLog {
                     Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(4)),
-                                matcher.group(6).charAt(0), 'K');
+                                matcher.group(6).charAt(0), Constants.BYTE_PRECISION);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -1181,7 +1182,8 @@ public class FatalErrorLog {
                 MeminfoEvent event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    physicalMemory = Long.parseLong(matcher.group(1));
+                    physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.BYTE_PRECISION);
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -1201,7 +1203,7 @@ public class FatalErrorLog {
                     Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)),
-                                matcher.group(9).charAt(0), 'K');
+                                matcher.group(9).charAt(0), Constants.BYTE_PRECISION);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -1213,7 +1215,8 @@ public class FatalErrorLog {
                 MeminfoEvent event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    physicalMemoryFree = Long.parseLong(matcher.group(1));
+                    physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.BYTE_PRECISION);
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -1234,7 +1237,7 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         if (matcher.group(11) != null && matcher.group(13) != null) {
                             swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
-                                    'K');
+                                    Constants.BYTE_PRECISION);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
@@ -1247,7 +1250,7 @@ public class FatalErrorLog {
                 MeminfoEvent event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    swap = Long.parseLong(matcher.group(1));
+                    swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.BYTE_PRECISION);
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -1267,7 +1270,7 @@ public class FatalErrorLog {
                     Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)), matcher.group(16).charAt(0),
-                                'K');
+                                Constants.BYTE_PRECISION);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -1279,7 +1282,7 @@ public class FatalErrorLog {
                 MeminfoEvent event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    swapFree = Long.parseLong(matcher.group(1));
+                    swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.BYTE_PRECISION);
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -1303,7 +1306,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                heapMaxSize = JdkUtil.convertSize(value, fromUnits, 'K');
+                heapMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
             ***REMOVED***
         ***REMOVED*** else if (vmArgumentsEvents.size() > 0) {
             Iterator<VmArgumentsEvent> iterator = vmArgumentsEvents.iterator();
@@ -1313,7 +1316,7 @@ public class FatalErrorLog {
                 Pattern pattern = Pattern.compile(regExMaxHeap);
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    heapMaxSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B', 'K');
+                    heapMaxSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B', Constants.BYTE_PRECISION);
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -1351,7 +1354,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'K');
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isOldGen()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_OLD_GEN);
@@ -1363,7 +1366,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'K');
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isShenandoah()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
@@ -1375,7 +1378,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'K');
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isG1()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_G1);
@@ -1387,7 +1390,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'K');
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
                     ***REMOVED***
                 ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
                     heapAtCrash = false;
@@ -1425,7 +1428,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, 'K');
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isOldGen()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_OLD_GEN);
@@ -1437,7 +1440,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, 'K');
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isShenandoah()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
@@ -1449,7 +1452,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, 'K');
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
                     ***REMOVED***
                 ***REMOVED*** else if (heapAtCrash && event.isG1()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_G1);
@@ -1461,7 +1464,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, 'K');
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
                     ***REMOVED***
                 ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
                     heapAtCrash = false;
@@ -1489,7 +1492,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, 'K');
+                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
             ***REMOVED***
         ***REMOVED***
         // If max metaspace size not set (recommended), get from <code>HeapEvent</code>
@@ -1515,7 +1518,7 @@ public class FatalErrorLog {
                             ***REMOVED*** else {
                                 fromUnits = 'B';
                             ***REMOVED***
-                            metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, 'K');
+                            metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
                             break;
                         ***REMOVED***
                     ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
@@ -1553,7 +1556,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        metaspaceAllocation = JdkUtil.convertSize(value, fromUnits, 'K');
+                        metaspaceAllocation = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
                         break;
                     ***REMOVED***
                 ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
@@ -1590,7 +1593,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits, 'K');
+                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
                         break;
                     ***REMOVED***
                 ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
@@ -1634,7 +1637,7 @@ public class FatalErrorLog {
      */
     public long getCompressedClassSpaceSize() {
         // Default is 1g
-        long compressedClassSpaceSize = Constants.GIGABYTE.divide(Constants.KILOBYTE).longValue();
+        long compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.BYTE_PRECISION);
         if (getCompressedClassSpaceSizeOption() != null) {
             // long bytes = JdkUtil.convertOptionSizeToBytes(getCompressedClassSpaceSizeValue());
             // compressedClassSpaceSize = JdkMath.convertBytesToKilobytes(bytes);
@@ -2033,9 +2036,12 @@ public class FatalErrorLog {
         ***REMOVED***
         // Check for unsychronized access to DirectByteBuffer
         String stackFrameTop = "^v  ~StubRoutines::jbyte_disjoint_arraycopy$";
-        if (getStackFrameTop() != null && getStackFrameTop().matches(stackFrameTop)
-                && isInStack(JdkRegEx.JAVA_NIO_BYTEBUFFER)) {
-            analysis.add(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION);
+        if (getStackFrameTop() != null && getStackFrameTop().matches(stackFrameTop)) {
+            if (isInStack(JdkRegEx.JAVA_NIO_BYTEBUFFER)) {
+                analysis.add(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION);
+            ***REMOVED*** else {
+                analysis.add(Analysis.ERROR_STUBROUTINES);
+            ***REMOVED***
         ***REMOVED***
         // Check for insufficient physical memory
         if (getPhysicalMemory() > 0 && getJvmMemory() > Long.MIN_VALUE) {
@@ -2044,13 +2050,25 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // OOME, swap
-        if (isOomeCrash()) {
+        if (isError("Out of Memory Error")) {
             if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
                 analysis.add(Analysis.ERROR_OOME_STARTUP);
                 // Don't double report the JVM failing to start
                 analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
-            ***REMOVED*** else if (getJvmMemory() > 0 && JdkMath.calcPercent(getJvmMemory(), getPhysicalMemory()) < 95) {
-                analysis.add(Analysis.ERROR_OOME_JVM_LT_PHYSICAL_MEMORY);
+            ***REMOVED*** else if (getPhysicalMemoryFree() > 0
+                    && JdkMath.calcPercent(getPhysicalMemoryFree(), getPhysicalMemory()) >= 5) {
+                // Plenty of physical memory, check for other limits/causes
+                if (isError("Native memory allocation \\(mmap\\) failed to map")
+                        || isError("Out of swap space to map in thread stack")) {
+                    analysis.add(Analysis.ERROR_OOME_COMPRESSED_OOPS);
+                ***REMOVED***
+            ***REMOVED*** else {
+                // Low physical memory
+                if (getJvmMemory() > 0 && JdkMath.calcPercent(getJvmMemory(), getPhysicalMemory()) >= 95) {
+                    analysis.add(Analysis.ERROR_OOME_JVM);
+                ***REMOVED*** else {
+                    analysis.add(Analysis.ERROR_OOME_EXTERNAL);
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED*** else {
             // Check for excessive swap usage
@@ -2141,18 +2159,33 @@ public class FatalErrorLog {
         if (haveOomeJavaHeap()) {
             analysis.add(Analysis.ERROR_OOME_JAVA_HEAP);
         ***REMOVED***
+        // Stubroutines
+        if ((getStackFrameTop() != null && getStackFrameTop().matches("^v  ~BufferBlob::StubRoutines.*"))
+                || isError("v  ~BufferBlob::StubRoutines")) {
+            analysis.add(Analysis.ERROR_STUBROUTINES);
+        ***REMOVED***
+        // ShenandoahConcurrentMark::mark_loop_work
+        if ((getStackFrameTop() != null
+                && getStackFrameTop().matches("^.+ShenandoahConcurrentMark::mark_loop_work.+"))) {
+            analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK);
+        ***REMOVED***
     ***REMOVED***
 
     /**
      * Do JVM options analysis.
      */
     private void doJvmOptionsAnalysis() {
-        if (getJvmOptions() != null) {
+        String jvmOptions = getJvmOptions();
+        if (jvmOptions != null) {
             if (getThreadStackMaxSize() < 1) {
                 analysis.add(Analysis.WARN_THREAD_STACK_SIZE_TINY);
             ***REMOVED*** else if (getThreadStackMaxSize() < 128) {
                 analysis.add(Analysis.INFO_THREAD_STACK_SIZE_SMALL);
             ***REMOVED***
+            if (jvmOptions.matches("^.+-agentlib:jdwp=transport=dt_socket.+$")) {
+                analysis.add(Analysis.ERROR_REMOTE_DEBUGGING_ENABLED);
+            ***REMOVED***
         ***REMOVED***
+
     ***REMOVED***
 ***REMOVED***
