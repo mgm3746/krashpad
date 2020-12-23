@@ -2169,6 +2169,11 @@ public class FatalErrorLog {
                 && getStackFrameTop().matches("^.+ShenandoahConcurrentMark::mark_loop_work.+"))) {
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK);
         ***REMOVED***
+        // org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done()
+        if ((getStackFrameTop() != null && getStackFrameTop()
+                .matches("^.+ org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done().+"))) {
+            analysis.add(Analysis.ERROR_LIBAIO_CONTEXT_DONE);
+        ***REMOVED***
     ***REMOVED***
 
     /**

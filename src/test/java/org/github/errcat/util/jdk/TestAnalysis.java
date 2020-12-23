@@ -309,4 +309,12 @@ public class TestAnalysis extends TestCase {
         Assert.assertTrue(Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_REMOTE_DEBUGGING_ENABLED));
     ***REMOVED***
+
+    public void testLibaioContextDone() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset46.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_LIBAIO_CONTEXT_DONE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_LIBAIO_CONTEXT_DONE));
+    ***REMOVED***
 ***REMOVED***

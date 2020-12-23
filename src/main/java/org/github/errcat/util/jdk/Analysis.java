@@ -73,6 +73,11 @@ public enum Analysis {
     ERROR_JNA_RH("error.jna.rh"),
 
     /**
+     * Property key for a crash in org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done() method.
+     */
+    ERROR_LIBAIO_CONTEXT_DONE("error.libaio.context.done"),
+
+    /**
      * Property key for Out of Memory Error due to CompressedOops blocking the growth of the native heap.
      */
     ERROR_OOME_COMPRESSED_OOPS("error.oome.compressed.oops"),
