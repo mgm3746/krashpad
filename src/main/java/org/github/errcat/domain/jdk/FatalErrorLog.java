@@ -2034,7 +2034,7 @@ public class FatalErrorLog {
                 && getStackFrameTopCompiledJavaCode().matches("^.+java\\.util\\.zip\\.ZipFile\\.getEntry.+$")) {
             analysis.add(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION);
         ***REMOVED***
-        // Check for unsychronized access to DirectByteBuffer
+        // Check for unsynchronized access to DirectByteBuffer
         String stackFrameTop = "^v  ~StubRoutines::jbyte_disjoint_arraycopy$";
         if (getStackFrameTop() != null && getStackFrameTop().matches(stackFrameTop)) {
             if (isInStack(JdkRegEx.JAVA_NIO_BYTEBUFFER)) {
@@ -2070,10 +2070,13 @@ public class FatalErrorLog {
                     analysis.add(Analysis.ERROR_OOME_EXTERNAL);
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else {
+        ***REMOVED*** else if (getSwap() > 0) {
             // Check for excessive swap usage
-            if (getSwap() > 0 && JdkMath.calcPercent(getSwapFree(), getSwap()) < 95) {
+            int swapUsedPercent = 100 - JdkMath.calcPercent(getSwapFree(), getSwap());
+            if (swapUsedPercent > 5 && swapUsedPercent < 20) {
                 analysis.add(Analysis.INFO_SWAPPING);
+            ***REMOVED*** else if (swapUsedPercent >= 20) {
+                analysis.add(Analysis.WARN_SWAPPING);
             ***REMOVED***
         ***REMOVED***
         // Check for swap disabled

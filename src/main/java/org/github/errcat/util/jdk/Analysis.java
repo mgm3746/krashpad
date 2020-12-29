@@ -248,7 +248,7 @@ public enum Analysis {
     INFO_SWAP_DISABLED("info.swap.disabled"),
 
     /**
-     * Property key for swapping.
+     * Property key for 5% &lt; swapping &lt; 20%.
      */
     INFO_SWAPPING("info.swapping"),
 
@@ -276,6 +276,11 @@ public enum Analysis {
      * Property key for a JDK that is deployed on RHEL6.
      */
     WARN_RHEL6("warn.rhel6"),
+
+    /**
+     * Property key for swapping &gt;= 20%.
+     */
+    WARN_SWAPPING("warn.swapping"),
 
     /**
      * Property key for a tiny thread stack size (&lt; 1k).

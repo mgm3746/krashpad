@@ -37,6 +37,22 @@ public class TestAnalysis extends TestCase {
                 "JDK is not the latest version. Latest version is ", Analysis.WARN_JDK_NOT_LATEST.getValue());
     ***REMOVED***
 
+    public void testSwappingInfo() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset11.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.INFO_SWAPPING + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_SWAPPING));
+    ***REMOVED***
+
+    public void testSwappingWarn() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset12.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.WARN_SWAPPING + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_SWAPPING));
+    ***REMOVED***
+
     public void testLatestRelease() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset14.txt");
         Manager manager = new Manager();
