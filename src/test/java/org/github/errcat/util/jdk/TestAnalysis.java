@@ -21,6 +21,7 @@ import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.JdkUtil.Application;
+import org.github.errcat.util.jdk.JdkUtil.GarbageCollector;
 import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
 import org.junit.Assert;
 
@@ -35,6 +36,14 @@ public class TestAnalysis extends TestCase {
     public void testWarnNotLatestJdkValue() {
         Assert.assertEquals(Analysis.WARN_JDK_NOT_LATEST + "value not correct.",
                 "JDK is not the latest version. Latest version is ", Analysis.WARN_JDK_NOT_LATEST.getValue());
+    ***REMOVED***
+
+    public void testNoMemoryEvent() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset1.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse(Analysis.INFO_SWAP_DISABLED + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
     ***REMOVED***
 
     public void testSwappingInfo() {
@@ -156,6 +165,18 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION));
     ***REMOVED***
 
+    public void testParallelCollector() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse(GarbageCollector.UNKNOWN + " incorrectly identified.",
+                fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN));
+        Assert.assertTrue(GarbageCollector.PARALLEL_SCAVENGE + " collector not identified.",
+                fel.getGarbageCollectors().contains(GarbageCollector.PARALLEL_SCAVENGE));
+        Assert.assertTrue(GarbageCollector.PARALLEL_OLD + " collector not identified.",
+                fel.getGarbageCollectors().contains(GarbageCollector.PARALLEL_OLD));
+    ***REMOVED***
+
     public void testInsufficientMemory() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset27.txt");
         Manager manager = new Manager();
@@ -219,12 +240,14 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP));
     ***REMOVED***
 
-    public void testNoMemoryEvent() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset1.txt");
+    public void testShenandoahCollector() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset31.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertFalse(Analysis.INFO_SWAP_DISABLED + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
+        Assert.assertFalse(GarbageCollector.UNKNOWN + " incorrectly identified.",
+                fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN));
+        Assert.assertTrue(GarbageCollector.SHENANDOAH + " collector not identified.",
+                fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH));
     ***REMOVED***
 
     public void testPthreadGetcpuclockid() {
@@ -251,6 +274,18 @@ public class TestAnalysis extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue(Analysis.ERROR_STACKOVERFLOW + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_STACKOVERFLOW));
+    ***REMOVED***
+
+    public void testCmsCollector() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset35.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse(GarbageCollector.UNKNOWN + " incorrectly identified.",
+                fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN));
+        Assert.assertTrue(GarbageCollector.PAR_NEW + " collector not identified.",
+                fel.getGarbageCollectors().contains(GarbageCollector.PAR_NEW));
+        Assert.assertTrue(GarbageCollector.CMS + " collector not identified.",
+                fel.getGarbageCollectors().contains(GarbageCollector.CMS));
     ***REMOVED***
 
     public void testOomeJavaHeap() {

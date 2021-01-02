@@ -102,9 +102,17 @@ public class HeapEvent implements LogEvent {
     /**
      * Regular expression for a young generation event.
      * 
-     * par new generation total 766784K, used 37193K [0x0000000261000000, 0x0000000295000000, 0x0000000295000000)
+     * 1) <code>GarbageCollection.PARALLEL_SCAVENGE</code>:
      * 
      * PSYoungGen total 153088K, used 116252K [0x00000000eab00000, 0x00000000f5580000, 0x0000000100000000)
+     * 
+     * 2) <code>GarbageCollection.SERIAL</code>:
+     * 
+     * def new generation total 629440K, used 511995K [0x00000006c0000000, 0x00000006eaaf0000, 0x0000000715550000)
+     * 
+     * 3) <code>GarbageCollection.PAR_NEW</code>:
+     * 
+     * par new generation total 766784K, used 37193K [0x0000000261000000, 0x0000000295000000, 0x0000000295000000)
      */
     public static final String REGEX_YOUNG_GEN = " ((def|par) new generation|PSYoungGen)[ ]{1,6***REMOVED***total " + JdkRegEx.SIZE
             + ", used " + JdkRegEx.SIZE + ".+";
@@ -112,12 +120,23 @@ public class HeapEvent implements LogEvent {
     /**
      * Regular expression for a old generation event.
      * 
-     * concurrent mark-sweep generation total 21676032K, used 6923299K [0x0000000295000000, 0x00000007c0000000,
-     * 0x00000007c0000000)
+     * 1) <code>GarbageCollection.PARALLEL_OLD</code>:
      * 
      * ParOldGen total 699392K, used 91187K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
      * 
+     * 2) <code>GarbageCollection.SERIAL_OLD</code> when in combination with
+     * <code>GarbageCollection.PARALLEL_SCAVENGE</code>:
+     * 
+     * ParOldGen total 699392K, used 91187K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+     * 
+     * 3) <code>GarbageCollection.SERIAL_OLD</code> when in combination with <code>GarbageCollection.SERIAL</code>:
+     * 
      * tenured generation total 2165440K, used 937560K [0x000000073bd50000, 0x00000007c0000000, 0x00000007c0000000)
+     * 
+     * 4) <code>GarbageCollection.CMS</code>:
+     * 
+     * concurrent mark-sweep generation total 21676032K, used 6923299K [0x0000000295000000, 0x00000007c0000000,
+     * 0x00000007c0000000)
      */
     public static final String REGEX_OLD_GEN = " (concurrent mark-sweep generation|PSOldGen|ParOldGen|"
             + "tenured generation)[ ]{1,7***REMOVED***total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE + ".+";

@@ -50,6 +50,7 @@ import org.github.errcat.util.ErrUtil;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkMath;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.GarbageCollector;
 import org.github.errcat.util.jdk.JdkUtil.JavaSpecification;
 import org.json.JSONObject;
 
@@ -324,6 +325,21 @@ public class Main {
                 ***REMOVED***
                 if (fel.getElapsedTime() != null) {
                     printWriter.write("Run Time: " + fel.getElapsedTime() + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+                List<GarbageCollector> garbageCollectors = fel.getGarbageCollectors();
+                if (garbageCollectors.size() > 0) {
+                    printWriter.write("Garbage Collectors: ");
+                    Iterator<GarbageCollector> iteratorGarbageCollectors = garbageCollectors.iterator();
+                    boolean punctuate = false;
+                    while (iteratorGarbageCollectors.hasNext()) {
+                        GarbageCollector garbageCollector = iteratorGarbageCollectors.next();
+                        if (punctuate) {
+                            printWriter.write(", ");
+                        ***REMOVED***
+                        printWriter.write(garbageCollector.toString());
+                        punctuate = true;
+                    ***REMOVED***
+                    printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getHeapMaxSize() > 0) {
                     printWriter.write("Heap Max: " + fel.getHeapMaxSize() + Character.toString(Constants.BYTE_PRECISION)

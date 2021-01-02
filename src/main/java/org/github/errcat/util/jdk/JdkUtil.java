@@ -124,42 +124,11 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
-     * Signal numbers.
-     * 
-     * SIGBUS: Invalid memory address.
-     * 
-     * SIGILL: Illegal instruction at the processor.
-     * 
-     * SIGSEGV, EXCEPTION_ACCESS_VIOLATION: Segmentation fault. Accessing valid memory in an invalid way.
+     * Defined garbage collectors
      */
-    public enum SignalNumber {
+    public enum GarbageCollector {
         //
-        EXCEPTION_ACCESS_VIOLATION, SIGBUS, SIGILL, SIGSEGV, UNKNOWN
-    ***REMOVED***
-
-    /**
-     * Signal codes.
-     * 
-     * BUS_ADRALN: The memory address that has an invalid address alignment for the CPU.
-     * 
-     * BUS_ADRERR: The memory address does not exist. Rare on Linux but can happen when an mmap'ed file is truncated
-     * (e.g. a threading issue where 2 threads access a file at the same time).
-     * 
-     * BUS_OBJERR: Hardware issue.
-     * 
-     * SEGV_ACCERR: The access is not allowed. For example: (1) Attempting to write to read-only memory. (2) Attempting
-     * to write to protected (OS) memory. (3) Attempting to access an array at an index greater than the array size (out
-     * of bounds).
-     * 
-     * SEGV_MAPERR: The memory address is not mapped to an object.
-     * 
-     * SI_KERNEL: Sent by the kernel.
-     * 
-     * SI_USER: Sent by kill.
-     */
-    public enum SignalCode {
-        //
-        BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, ILL_ILLOPN, SEGV_MAPERR, SEGV_ACCERR, SI_KERNEL, SI_USER, UNKNOWN
+        CMS, G1, PAR_NEW, PARALLEL_OLD, PARALLEL_SCAVENGE, SERIAL, SERIAL_OLD, SHENANDOAH, UNKNOWN
     ***REMOVED***
 
     /**
@@ -192,11 +161,50 @@ public class JdkUtil {
         //
         NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME, PID_MAX, POLLING_PAGE, REGISTER, REGISTER_TO_MEMORY_MAPPING,
         //
-        RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_CLASS_SMR_INFO,
+        RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE,
         //
-        THREADS_MAX, THREADS_ACTIVE_COMPILE, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE,
+        THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE,
         //
         UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
+    ***REMOVED***
+
+    /**
+     * Signal codes.
+     * 
+     * BUS_ADRALN: The memory address that has an invalid address alignment for the CPU.
+     * 
+     * BUS_ADRERR: The memory address does not exist. Rare on Linux but can happen when an mmap'ed file is truncated
+     * (e.g. a threading issue where 2 threads access a file at the same time).
+     * 
+     * BUS_OBJERR: Hardware issue.
+     * 
+     * SEGV_ACCERR: The access is not allowed. For example: (1) Attempting to write to read-only memory. (2) Attempting
+     * to write to protected (OS) memory. (3) Attempting to access an array at an index greater than the array size (out
+     * of bounds).
+     * 
+     * SEGV_MAPERR: The memory address is not mapped to an object.
+     * 
+     * SI_KERNEL: Sent by the kernel.
+     * 
+     * SI_USER: Sent by kill.
+     */
+    public enum SignalCode {
+        //
+        BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, ILL_ILLOPN, SEGV_ACCERR, SEGV_MAPERR, SI_KERNEL, SI_USER, UNKNOWN
+    ***REMOVED***
+
+    /**
+     * Signal numbers.
+     * 
+     * SIGBUS: Invalid memory address.
+     * 
+     * SIGILL: Illegal instruction at the processor.
+     * 
+     * SIGSEGV, EXCEPTION_ACCESS_VIOLATION: Segmentation fault. Accessing valid memory in an invalid way.
+     */
+    public enum SignalNumber {
+        //
+        EXCEPTION_ACCESS_VIOLATION, SIGBUS, SIGILL, SIGSEGV, UNKNOWN
     ***REMOVED***
 
     /**
@@ -456,7 +464,7 @@ public class JdkUtil {
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.31-7.b13.el7_1.x86_64",
                 new Release("Apr 10 2015 00:00:00", 1, "1.8.0_31-b13"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.31-2.b13.el7.x86_64",
-                new Release("Apr 10 2015 00:00:00", 1, "1.8.0_31-b13"));
+                new Release("Jan 16 2015 10:50:03", 1, "1.8.0_31-b13"));
 
         // RHEL8 amd64 OpenJDK8 rpm
         rhel8Amd64Jdk8RpmReleases = new HashMap<String, Release>();
@@ -510,7 +518,7 @@ public class JdkUtil {
         rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-1.el8.x86_64",
                 new Release("Jul 11 2019 00:00:00", 3, "1.8.0_222-b10"));
         rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.222.b10-0.el8_0.x86_64",
-                new Release("Jul 11 2019 00:00:00", 3, "1.8.0_222-b10"));
+                new Release("Jul 11 2019 03:36:28", 3, "1.8.0_222-b10"));
         rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.212.b04-1.el8_0.x86_64",
                 new Release("May 2 2019 00:00:00", 2, "1.8.0_212-b04"));
         rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.201.b09-2.el8.x86_64",
@@ -644,6 +652,72 @@ public class JdkUtil {
                 new Release("Jul 16 2018 15:46:59 ", 18, "1.8.0_181-b13"));
         rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-3.b13.el7_5.ppc64le",
                 new Release("Jul 16 2018 11:33:43", 18, "1.8.0_181-b13"));
+    ***REMOVED***
+
+    /**
+     * @param size
+     *            The size in fromUnits.
+     * @param fromUnits
+     *            Current units.
+     * @param toUnits
+     *            Conversion units.
+     * @return The size in toUnits.
+     */
+    public static long convertSize(final long size, char fromUnits, char toUnits) {
+        if (fromUnits == toUnits) {
+            return size;
+        ***REMOVED*** else {
+            if (!"bBkKmMgG".matches("^.*" + Character.toString(toUnits) + ".*$")) {
+                throw new AssertionError("Unexpected toUnits value: " + toUnits);
+            ***REMOVED***
+            BigDecimal newSize = new BigDecimal(size);
+            switch (fromUnits) {
+            case 'b':
+            case 'B':
+                if (toUnits == 'k' || toUnits == 'K') {
+                    newSize = newSize.divide(Constants.KILOBYTE);
+                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
+                    newSize = newSize.divide(Constants.MEGABYTE);
+                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
+                    newSize = newSize.divide(Constants.GIGABYTE);
+                ***REMOVED***
+                break;
+            case 'k':
+            case 'K':
+                if (toUnits == 'b' || toUnits == 'B') {
+                    newSize = newSize.multiply(Constants.KILOBYTE);
+                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
+                    newSize = newSize.divide(Constants.KILOBYTE);
+                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
+                    newSize = newSize.divide(Constants.MEGABYTE);
+                ***REMOVED***
+                break;
+            case 'm':
+            case 'M':
+                if (toUnits == 'b' || toUnits == 'B') {
+                    newSize = newSize.multiply(Constants.MEGABYTE);
+                ***REMOVED*** else if (toUnits == 'k' || toUnits == 'K') {
+                    newSize = newSize.multiply(Constants.KILOBYTE);
+                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
+                    newSize = newSize.divide(Constants.MEGABYTE);
+                ***REMOVED***
+                break;
+            case 'g':
+            case 'G':
+                if (toUnits == 'b' || toUnits == 'B') {
+                    newSize = newSize.multiply(Constants.GIGABYTE);
+                ***REMOVED*** else if (toUnits == 'k' || toUnits == 'K') {
+                    newSize = newSize.multiply(Constants.MEGABYTE);
+                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
+                    newSize = newSize.multiply(Constants.KILOBYTE);
+                ***REMOVED***
+                break;
+            default:
+                throw new AssertionError("Unexpected fromUnits value: " + fromUnits);
+            ***REMOVED***
+            newSize = newSize.setScale(0, RoundingMode.HALF_EVEN);
+            return newSize.longValue();
+        ***REMOVED***
     ***REMOVED***
 
     /**
@@ -1175,71 +1249,5 @@ public class JdkUtil {
             throw new AssertionError("Unexpected event type value: " + eventType);
         ***REMOVED***
         return event;
-    ***REMOVED***
-
-    /**
-     * @param size
-     *            The size in fromUnits.
-     * @param fromUnits
-     *            Current units.
-     * @param toUnits
-     *            Conversion units.
-     * @return The size in toUnits.
-     */
-    public static long convertSize(final long size, char fromUnits, char toUnits) {
-        if (fromUnits == toUnits) {
-            return size;
-        ***REMOVED*** else {
-            if (!"bBkKmMgG".matches("^.*" + Character.toString(toUnits) + ".*$")) {
-                throw new AssertionError("Unexpected toUnits value: " + toUnits);
-            ***REMOVED***
-            BigDecimal newSize = new BigDecimal(size);
-            switch (fromUnits) {
-            case 'b':
-            case 'B':
-                if (toUnits == 'k' || toUnits == 'K') {
-                    newSize = newSize.divide(Constants.KILOBYTE);
-                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
-                    newSize = newSize.divide(Constants.MEGABYTE);
-                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
-                    newSize = newSize.divide(Constants.GIGABYTE);
-                ***REMOVED***
-                break;
-            case 'k':
-            case 'K':
-                if (toUnits == 'b' || toUnits == 'B') {
-                    newSize = newSize.multiply(Constants.KILOBYTE);
-                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
-                    newSize = newSize.divide(Constants.KILOBYTE);
-                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
-                    newSize = newSize.divide(Constants.MEGABYTE);
-                ***REMOVED***
-                break;
-            case 'm':
-            case 'M':
-                if (toUnits == 'b' || toUnits == 'B') {
-                    newSize = newSize.multiply(Constants.MEGABYTE);
-                ***REMOVED*** else if (toUnits == 'k' || toUnits == 'K') {
-                    newSize = newSize.multiply(Constants.KILOBYTE);
-                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
-                    newSize = newSize.divide(Constants.MEGABYTE);
-                ***REMOVED***
-                break;
-            case 'g':
-            case 'G':
-                if (toUnits == 'b' || toUnits == 'B') {
-                    newSize = newSize.multiply(Constants.GIGABYTE);
-                ***REMOVED*** else if (toUnits == 'k' || toUnits == 'K') {
-                    newSize = newSize.multiply(Constants.MEGABYTE);
-                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
-                    newSize = newSize.multiply(Constants.KILOBYTE);
-                ***REMOVED***
-                break;
-            default:
-                throw new AssertionError("Unexpected fromUnits value: " + fromUnits);
-            ***REMOVED***
-            newSize = newSize.setScale(0, RoundingMode.HALF_EVEN);
-            return newSize.longValue();
-        ***REMOVED***
     ***REMOVED***
 ***REMOVED***
