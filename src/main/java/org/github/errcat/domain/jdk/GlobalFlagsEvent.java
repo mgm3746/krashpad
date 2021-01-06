@@ -22,38 +22,54 @@ import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
- * VM_ARGUMENTS
+ * GLOBAL_FLAGS
  * </p>
  * 
  * <p>
- * VM arguments information.
+ * Global flags information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * VM Arguments:
- * jvm_args: -D[Standalone] -verbose:gc -Xloggc:/path/to/gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -Xms4014m -Xmx5734m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+PerfDisableSharedMem -XX:+AlwaysPreTouch -XX:+ClassUnloadingWithConcurrentMark -XX:ShenandoahUnloadClassesFrequency=100 -XX:+MonitorInUseLists -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:ParallelGCThreads=6 -Djava.util.concurrent.ForkJoinPool.common.parallelism=6 -XX:CICompilerCount=2 -XX:+ExitOnOutOfMemoryError -javaagent:/path/to/jolokia.jar=config=/path/to/jolokia.properties -javaagent:/path/to/appdynamics/javaagent.jar 
- * java_command: /path/to/jboss-modules.jar -Djboss.home.dir=/path/to/standalone -Djboss.node.name=-nodename
- * java_class_path (initial): /path/to/jboss-modules.jar:/path/to/jolokia.jar:/path/to/appdynamics/javaagent.jar
- * Launcher Type: SUN_STANDARD
+ * [Global flags]
+ *      intx CICompilerCount                          = 4                                         {product} {ergonomic}
+ *      uint ConcGCThreads                            = 2                                         {product} {ergonomic}
+ *     ccstr ErrorFile                                = /tmp/path/to/eclipse_vm_crash_%p.log            {product} {command line}
+ *      uint G1ConcRefinementThreads                  = 8                                         {product} {ergonomic}
+ *    size_t G1HeapRegionSize                         = 2097152                                   {product} {ergonomic}
+ *     uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+ *    size_t InitialHeapSize                          = 1073741824                                {product} {command line}
+ *    size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+ *    size_t MaxHeapSize                              = 12884901888                               {product} {command line}
+ *    size_t MaxNewSize                               = 7730102272                                {product} {ergonomic}
+ *    size_t MinHeapDeltaBytes                        = 2097152                                   {product} {ergonomic}
+ *     uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product} {ergonomic}
+ *     uintx NonProfiledCodeHeapSize                  = 131299578                              {pd product} {ergonomic}
+ *     uintx ProfiledCodeHeapSize                     = 131299578                              {pd product} {ergonomic}
+ *     uintx ReservedCodeCacheSize                    = 268435456                              {pd product} {command line}
+ *      bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+ *      intx ThreadStackSize                          = 5120                                   {pd product} {command line}
+ *      bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+ *      bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+ *      bool UseG1GC                                  = true                                      {product} {ergonomic}
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class VmArgumentsEvent implements LogEvent {
+public class GlobalFlagsEvent implements LogEvent {
 
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "VM Arguments:";
+    private static final String REGEX_HEADER = "\\[Global flags\\]";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER
-            + "|jvm_args: |java_command: |java_class_path \\(initial\\): |Launcher Type: )(.*)$";
+            + "|[ ]{0,}(bool|ccstr|ccstrlist|intx|size_t|uint|uintx))(.*)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -68,7 +84,7 @@ public class VmArgumentsEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public VmArgumentsEvent(String logEntry) {
+    public GlobalFlagsEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -77,7 +93,7 @@ public class VmArgumentsEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.VM_ARGUMENTS.toString();
+        return JdkUtil.LogEventType.GLOBAL_FLAGS.toString();
     }
 
     /**
@@ -98,7 +114,7 @@ public class VmArgumentsEvent implements LogEvent {
         String value = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            value = matcher.group(2);
+            value = matcher.group(3);
         }
         return value;
     }
@@ -108,19 +124,5 @@ public class VmArgumentsEvent implements LogEvent {
      */
     public boolean isHeader() {
         return logEntry.matches(REGEX_HEADER);
-    }
-
-    /**
-     * @return True if the event is jvm_args, false otherwise.
-     */
-    public boolean isJvmArgs() {
-        return logEntry.matches("^jvm_args: .+$");
-    }
-
-    /**
-     * @return True if the event is java_command, false otherwise.
-     */
-    public boolean isJavaCommand() {
-        return logEntry.matches("^java_command: .+$");
     }
 }

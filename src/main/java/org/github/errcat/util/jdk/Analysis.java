@@ -133,6 +133,16 @@ public enum Analysis {
     INFO_ADOPTOPENJDK_POSSIBLE("info.adoptopenjdk.possible"),
 
     /**
+     * Property key for cgroup environment.
+     */
+    INFO_CGROUP("info.cgroup"),
+
+    /**
+     * Property key for cgroup memory limit.
+     */
+    INFO_CGROUP_MEMORY_LIMIT("info.cgroup.memory.limit"),
+
+    /**
      * Property key for a JDK that is more than 1 year older than the latest release.
      */
     INFO_JDK_ANCIENT("info.jdk.ancient"),
@@ -141,6 +151,13 @@ public enum Analysis {
      * Property key for crash on JVM startup.
      */
     INFO_JVM_STARTUP_FAILS("info.jvm.startup.fails"),
+
+    /**
+     * Property key for JVM memory not equal to system memory.
+     * 
+     * TODO: Remove this? It's basically a duplicate of INFO_CGROUP_MEMORY_LIMIT?
+     */
+    INFO_MEMORY_JVM_NE_SYSTEM("info.memory.jvm.ne.system"),
 
     /**
      * Property key for Red Hat build of OpenJDK on CentOS.
