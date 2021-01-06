@@ -26,6 +26,7 @@ import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.domain.UnknownEvent;
 import org.github.errcat.domain.jdk.CommandLineEvent;
 import org.github.errcat.domain.jdk.CompilationEvent;
+import org.github.errcat.domain.jdk.ContainerInfoEvent;
 import org.github.errcat.domain.jdk.CpuInfoEvent;
 import org.github.errcat.domain.jdk.CurrentCompileTaskEvent;
 import org.github.errcat.domain.jdk.CurrentThreadEvent;
@@ -34,6 +35,7 @@ import org.github.errcat.domain.jdk.DynamicLibraryEvent;
 import org.github.errcat.domain.jdk.ElapsedTimeEvent;
 import org.github.errcat.domain.jdk.ExceptionCountsEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
+import org.github.errcat.domain.jdk.GlobalFlagsEvent;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.HeapAddressEvent;
 import org.github.errcat.domain.jdk.HeapEvent;
@@ -98,6 +100,8 @@ public class Manager {
                         ;
                     ***REMOVED*** else if (event instanceof CompilationEvent) {
                         fatalErrorLog.getCompilationEvents().add((CompilationEvent) event);
+                    ***REMOVED*** else if (event instanceof ContainerInfoEvent) {
+                        fatalErrorLog.getContainerInfoEvents().add((ContainerInfoEvent) event);
                     ***REMOVED*** else if (event instanceof CpuInfoEvent) {
                         fatalErrorLog.getCpuInfoEvents().add((CpuInfoEvent) event);
                     ***REMOVED*** else if (event instanceof CurrentCompileTaskEvent) {
@@ -112,6 +116,8 @@ public class Manager {
                         fatalErrorLog.setElapsedTimeEvent((ElapsedTimeEvent) event);
                     ***REMOVED*** else if (event instanceof ExceptionCountsEvent) {
                         fatalErrorLog.getExceptionCountsEvents().add((ExceptionCountsEvent) event);
+                    ***REMOVED*** else if (event instanceof GlobalFlagsEvent) {
+                        fatalErrorLog.getGlobalFlagsEvents().add((GlobalFlagsEvent) event);
                     ***REMOVED*** else if (event instanceof HeaderEvent) {
                         fatalErrorLog.getHeaderEvents().add((HeaderEvent) event);
                     ***REMOVED*** else if (event instanceof HeapAddressEvent) {

@@ -295,20 +295,47 @@ public class Main {
                 if (fel.getCpuCores() > Integer.MIN_VALUE) {
                     printWriter.write("CPU Cores: " + fel.getCpuCores() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getPhysicalMemory() > 0) {
-                    printWriter.write("Memory: " + fel.getPhysicalMemory()
+                if (fel.getSystemPhysicalMemory() > 0) {
+                    printWriter.write("Memory: " + fel.getSystemPhysicalMemory()
                             + Character.toString(Constants.BYTE_PRECISION) + Constants.LINE_SEPARATOR);
-                    printWriter.write(
-                            "Memory Free: " + fel.getPhysicalMemoryFree() + Character.toString(Constants.BYTE_PRECISION)
-                                    + " (" + JdkMath.calcPercent(fel.getPhysicalMemoryFree(), fel.getPhysicalMemory())
-                                    + "%)" + Constants.LINE_SEPARATOR);
+                    printWriter.write("Memory Free: " + fel.getSystemPhysicalMemoryFree()
+                            + Character.toString(Constants.BYTE_PRECISION) + " ("
+                            + JdkMath.calcPercent(fel.getSystemPhysicalMemoryFree(), fel.getSystemPhysicalMemory())
+                            + "%)" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getSwap() > 0) {
-                    printWriter.write("Swap: " + fel.getSwap() + Character.toString(Constants.BYTE_PRECISION)
+                if (fel.getSystemSwap() > 0) {
+                    printWriter.write("Swap: " + fel.getSystemSwap() + Character.toString(Constants.BYTE_PRECISION)
                             + Constants.LINE_SEPARATOR);
-                    printWriter.write("Swap Free: " + fel.getSwapFree() + Character.toString(Constants.BYTE_PRECISION)
-                            + " (" + JdkMath.calcPercent(fel.getSwapFree(), fel.getSwap()) + "%)"
-                            + Constants.LINE_SEPARATOR);
+                    printWriter.write(
+                            "Swap Free: " + fel.getSystemSwapFree() + Character.toString(Constants.BYTE_PRECISION)
+                                    + " (" + JdkMath.calcPercent(fel.getSystemSwapFree(), fel.getSystemSwap()) + "%)"
+                                    + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+
+                if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                    printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+                    printWriter.write("Container:" + Constants.LINE_SEPARATOR);
+                    printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                    if (fel.getJvmMemory() > 0) {
+                        printWriter.write("Memory: " + fel.getJvmPhysicalMemory()
+                                + Character.toString(Constants.BYTE_PRECISION) + " ("
+                                + JdkMath.calcPercent(fel.getJvmPhysicalMemory(), fel.getSystemPhysicalMemory()) + "%)"
+                                + Constants.LINE_SEPARATOR);
+                        printWriter
+                                .write("Memory Free: " + fel.getJvmPhysicalMemoryFree()
+                                        + Character.toString(Constants.BYTE_PRECISION) + " (" + JdkMath
+                                                .calcPercent(fel.getJvmPhysicalMemoryFree(), fel.getJvmPhysicalMemory())
+                                        + "%)" + Constants.LINE_SEPARATOR);
+                    ***REMOVED***
+                    if (fel.getSystemSwap() > 0) {
+                        printWriter.write("Swap: " + fel.getJvmSwap() + Character.toString(Constants.BYTE_PRECISION)
+                                + " (" + JdkMath.calcPercent(fel.getJvmSwap(), fel.getSystemSwap()) + "%)"
+                                + Constants.LINE_SEPARATOR);
+                        printWriter.write(
+                                "Swap Free: " + fel.getSystemSwapFree() + Character.toString(Constants.BYTE_PRECISION)
+                                        + " (" + JdkMath.calcPercent(fel.getSystemSwapFree(), fel.getSystemSwap())
+                                        + "%)" + Constants.LINE_SEPARATOR);
+                    ***REMOVED***
                 ***REMOVED***
 
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
@@ -375,8 +402,8 @@ public class Main {
                 if (fel.getJvmMemory() > 0) {
                     printWriter
                             .write("JVM Memory: ~" + fel.getJvmMemory() + Character.toString(Constants.BYTE_PRECISION)
-                                    + " (" + JdkMath.calcPercent(fel.getJvmMemory(), fel.getPhysicalMemory())
-                                    + "% Physical Memory)" + Constants.LINE_SEPARATOR);
+                                    + " (" + JdkMath.calcPercent(fel.getJvmMemory(), fel.getJvmPhysicalMemory())
+                                    + "% Available Memory)" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
 
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);

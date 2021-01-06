@@ -43,6 +43,7 @@ import org.github.errcat.domain.jdk.EnvironmentVariablesEvent;
 import org.github.errcat.domain.jdk.ExceptionCountsEvent;
 import org.github.errcat.domain.jdk.ExceptionEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
+import org.github.errcat.domain.jdk.GlobalFlagsEvent;
 import org.github.errcat.domain.jdk.HeaderEvent;
 import org.github.errcat.domain.jdk.HeadingEvent;
 import org.github.errcat.domain.jdk.HeapAddressEvent;
@@ -155,17 +156,17 @@ public class JdkUtil {
         //
         CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END,
         //
-        END_BRACE, ENVIRONMENT_VARIABLES, EXCEPTION_COUNTS, EXCEPTION_EVENT, HEADER, HEADING, HEAP, HEAP_ADDRESS,
+        END_BRACE, ENVIRONMENT_VARIABLES, EXCEPTION_COUNTS, EXCEPTION_EVENT, GLOBAL_FLAGS, HEADER, HEADING, HEAP,
         //
-        HEAP_REGIONS, HOST, INSTRUCTIONS, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE,
+        HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO, MEMORY,
         //
-        NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME, PID_MAX, POLLING_PAGE, REGISTER, REGISTER_TO_MEMORY_MAPPING,
+        METASPACE, NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME, PID_MAX, POLLING_PAGE, REGISTER,
         //
-        RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE,
+        REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD,
         //
-        THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE,
+        THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK,
         //
-        UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
+        TRANSPARENT_HUGEPAGE, UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
     ***REMOVED***
 
     /**
@@ -265,7 +266,7 @@ public class JdkUtil {
          * 
          * 2) Zip key is build version.
          * 
-         * 3) Jan 1 2000 00:00:00 means build date/time unknonw/TBD.
+         * 3) Jan 1 2000 00:00:00 means build date/time unknown/TBD.
          * 
          * 4) Time 00:00:00 means build date/time is estimate.
          */
@@ -938,6 +939,8 @@ public class JdkUtil {
             logEventType = LogEventType.EXCEPTION_COUNTS;
         ***REMOVED*** else if (ExceptionEvent.match(logLine)) {
             logEventType = LogEventType.EXCEPTION_EVENT;
+        ***REMOVED*** else if (GlobalFlagsEvent.match(logLine)) {
+            logEventType = LogEventType.GLOBAL_FLAGS;
         ***REMOVED*** else if (HeaderEvent.match(logLine)) {
             logEventType = LogEventType.HEADER;
         ***REMOVED*** else if (HeadingEvent.match(logLine)) {
@@ -1113,6 +1116,9 @@ public class JdkUtil {
         case EXCEPTION_EVENT:
             event = new ExceptionEvent(logLine);
             break;
+        case GLOBAL_FLAGS:
+            event = new GlobalFlagsEvent(logLine);
+            break;
         case HEADER:
             event = new HeaderEvent(logLine);
             break;
@@ -1249,5 +1255,21 @@ public class JdkUtil {
             throw new AssertionError("Unexpected event type value: " + eventType);
         ***REMOVED***
         return event;
+    ***REMOVED***
+
+    /**
+     * @param jdk8ReleaseString
+     *            The JDK8 release string (e.g. 1.8.0_222-b10).
+     * @return The JDK update number (e.g. 222).
+     */
+    public static final int getJdk8UpdateNumber(String jdk8ReleaseString) {
+        int jdk8UpdateNumber = Integer.MIN_VALUE;
+        String regEx = "1.8.0_(\\d{1,***REMOVED***).+";
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(jdk8ReleaseString);
+        if (matcher.find()) {
+            jdk8UpdateNumber = Integer.parseInt(matcher.group(1));
+        ***REMOVED***
+        return jdk8UpdateNumber;
     ***REMOVED***
 ***REMOVED***

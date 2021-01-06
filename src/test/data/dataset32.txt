@@ -1468,7 +1468,7 @@ _
 
 
 ***REMOVED***
-jvm_args: -Xmx2048m -Xmx12G -Xms1G -Xss5m -XX:ReservedCodeCacheSize=256m -javaagent:/path/to/jacocoagent.jar=destfile=/path/to/jacoco.exec 
+jvm_args: -Xmx12G -Xms1G -Xss5m -XX:ReservedCodeCacheSize=256m -javaagent:/path/to/jacocoagent.jar=destfile=/path/to/jacoco.exec 
 
 [Global flags]
      intx CICompilerCount                          = 4                                         {product***REMOVED*** {ergonomic***REMOVED***

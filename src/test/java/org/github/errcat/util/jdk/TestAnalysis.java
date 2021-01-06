@@ -182,13 +182,13 @@ public class TestAnalysis extends TestCase {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         long physicalMemory = JdkUtil.convertSize(15995796, 'K', Constants.BYTE_PRECISION);
-        Assert.assertEquals("Physical memory not correct.", physicalMemory, fel.getPhysicalMemory());
+        Assert.assertEquals("Physical memory not correct.", physicalMemory, fel.getJvmPhysicalMemory());
         long physicalMemoryFree = JdkUtil.convertSize(241892, 'K', Constants.BYTE_PRECISION);
-        Assert.assertEquals("Physical memory free not correct.", physicalMemoryFree, fel.getPhysicalMemoryFree());
+        Assert.assertEquals("Physical memory free not correct.", physicalMemoryFree, fel.getJvmPhysicalMemoryFree());
         long swap = JdkUtil.convertSize(10592252, 'K', Constants.BYTE_PRECISION);
-        Assert.assertEquals("Swap not correct.", swap, fel.getSwap());
+        Assert.assertEquals("Swap not correct.", swap, fel.getJvmSwap());
         long swapFree = JdkUtil.convertSize(4, 'K', Constants.BYTE_PRECISION);
-        Assert.assertEquals("Swap free not correct.", swapFree, fel.getSwapFree());
+        Assert.assertEquals("Swap free not correct.", swapFree, fel.getJvmSwapFree());
         long heapMax = JdkUtil.convertSize(8192, 'M', Constants.BYTE_PRECISION);
         Assert.assertEquals("Heap max size not correct.", heapMax, fel.getHeapMaxSize());
         long heapAllocationYoung = JdkUtil.convertSize(2761728, 'K', Constants.BYTE_PRECISION);
@@ -224,7 +224,7 @@ public class TestAnalysis extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue("Out Of Memory Error not identified.", fel.isError("Out of Memory Error"));
         long physicalMemory = JdkUtil.convertSize(24609684, 'K', Constants.BYTE_PRECISION);
-        Assert.assertEquals("Physical memory not correct.", physicalMemory, fel.getPhysicalMemory());
+        Assert.assertEquals("Physical memory not correct.", physicalMemory, fel.getJvmPhysicalMemory());
         long jvmMemory = JdkUtil.convertSize(18581504, 'K', Constants.BYTE_PRECISION);
         Assert.assertEquals("Jvm memory not correct.", jvmMemory, fel.getJvmMemory());
         Assert.assertTrue(Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.",
@@ -367,5 +367,17 @@ public class TestAnalysis extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue(Analysis.ERROR_LIBAIO_CONTEXT_DONE + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_LIBAIO_CONTEXT_DONE));
+    ***REMOVED***
+
+    public void testContainer() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset47.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.INFO_CGROUP + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_CGROUP));
+        Assert.assertTrue(Analysis.INFO_MEMORY_JVM_NE_SYSTEM + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_MEMORY_JVM_NE_SYSTEM));
+        Assert.assertTrue(Analysis.INFO_CGROUP_MEMORY_LIMIT + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_CGROUP_MEMORY_LIMIT));
     ***REMOVED***
 ***REMOVED***

@@ -65,6 +65,11 @@ public class FatalErrorLog {
     private List<CompilationEvent> compilationEvents;
 
     /**
+     * Container information.
+     */
+    private List<ContainerInfoEvent> containerInfoEvents;
+
+    /**
      * CPU information.
      */
     private List<CpuInfoEvent> cpuInfoEvents;
@@ -100,6 +105,11 @@ public class FatalErrorLog {
     private List<ExceptionCountsEvent> exceptionCountsEvents;
 
     /**
+     * Global flag information.
+     */
+    private List<GlobalFlagsEvent> globalFlagsEvents;
+
+    /**
      * Header.
      */
     private List<HeaderEvent> headerEvents;
@@ -113,6 +123,11 @@ public class FatalErrorLog {
      * Heap information.
      */
     private List<HeapEvent> heapEvents;
+
+    /**
+     * JVM options convenience field
+     */
+    private JvmOptions jvmOptions;
 
     /**
      * Memory information.
@@ -198,25 +213,27 @@ public class FatalErrorLog {
      * Default constructor.
      */
     public FatalErrorLog() {
-        osEvents = new ArrayList<OsEvent>();
-        headerEvents = new ArrayList<HeaderEvent>();
-        stackEvents = new ArrayList<StackEvent>();
-        dynamicLibraryEvents = new ArrayList<DynamicLibraryEvent>();
         analysis = new ArrayList<Analysis>();
-        unidentifiedLogLines = new ArrayList<String>();
-        cpuInfoEvents = new ArrayList<CpuInfoEvent>();
-        threadEvents = new ArrayList<ThreadEvent>();
         compilationEvents = new ArrayList<CompilationEvent>();
-        deoptimizationEvents = new ArrayList<DeoptimizationEvent>();
-        vmEvents = new ArrayList<VmEvent>();
-        heapEvents = new ArrayList<HeapEvent>();
-        memoryEvents = new ArrayList<MemoryEvent>();
-        exceptionCountsEvents = new ArrayList<ExceptionCountsEvent>();
-        vmArgumentsEvents = new ArrayList<VmArgumentsEvent>();
-        heapAddressEvents = new ArrayList<HeapAddressEvent>();
-        meminfoEvents = new ArrayList<MeminfoEvent>();
+        containerInfoEvents = new ArrayList<ContainerInfoEvent>();
         currentCompileTaskEvents = new ArrayList<CurrentCompileTaskEvent>();
+        cpuInfoEvents = new ArrayList<CpuInfoEvent>();
+        deoptimizationEvents = new ArrayList<DeoptimizationEvent>();
+        dynamicLibraryEvents = new ArrayList<DynamicLibraryEvent>();
+        exceptionCountsEvents = new ArrayList<ExceptionCountsEvent>();
+        globalFlagsEvents = new ArrayList<GlobalFlagsEvent>();
+        headerEvents = new ArrayList<HeaderEvent>();
+        heapAddressEvents = new ArrayList<HeapAddressEvent>();
+        heapEvents = new ArrayList<HeapEvent>();
+        meminfoEvents = new ArrayList<MeminfoEvent>();
+        memoryEvents = new ArrayList<MemoryEvent>();
         nativeMemoryTrackingEvents = new ArrayList<NativeMemoryTrackingEvent>();
+        osEvents = new ArrayList<OsEvent>();
+        stackEvents = new ArrayList<StackEvent>();
+        threadEvents = new ArrayList<ThreadEvent>();
+        unidentifiedLogLines = new ArrayList<String>();
+        vmArgumentsEvents = new ArrayList<VmArgumentsEvent>();
+        vmEvents = new ArrayList<VmEvent>();
     ***REMOVED***
 
     /**
@@ -226,6 +243,10 @@ public class FatalErrorLog {
         // Unidentified logging lines
         if (getUnidentifiedLogLines().size() > 0) {
             analysis.add(0, Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT);
+        ***REMOVED***
+        String jvmArgs = getJvmArgs();
+        if (jvmArgs != null) {
+            jvmOptions = new JvmOptions(jvmArgs);
         ***REMOVED***
         doDataAnalysis();
         doJvmOptionsAnalysis();
@@ -314,8 +335,8 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for insufficient physical memory
-        if (getPhysicalMemory() > 0 && getJvmMemory() > Long.MIN_VALUE) {
-            if (getJvmMemory() > getPhysicalMemory()) {
+        if (getJvmPhysicalMemory() > 0 && getJvmMemory() > Long.MIN_VALUE) {
+            if (getJvmMemory() > getJvmPhysicalMemory()) {
                 analysis.add(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY);
             ***REMOVED***
         ***REMOVED***
@@ -325,8 +346,8 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_OOME_STARTUP);
                 // Don't double report the JVM failing to start
                 analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
-            ***REMOVED*** else if (getPhysicalMemoryFree() > 0
-                    && JdkMath.calcPercent(getPhysicalMemoryFree(), getPhysicalMemory()) >= 5) {
+            ***REMOVED*** else if (getJvmPhysicalMemoryFree() > 0
+                    && JdkMath.calcPercent(getJvmPhysicalMemoryFree(), getJvmPhysicalMemory()) >= 5) {
                 // Plenty of physical memory, check for other limits/causes
                 if (isError("Native memory allocation \\(mmap\\) failed to map")
                         || isError("Out of swap space to map in thread stack")) {
@@ -334,15 +355,15 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED*** else {
                 // Low physical memory
-                if (getJvmMemory() > 0 && JdkMath.calcPercent(getJvmMemory(), getPhysicalMemory()) >= 95) {
+                if (getJvmMemory() > 0 && JdkMath.calcPercent(getJvmMemory(), getJvmPhysicalMemory()) >= 95) {
                     analysis.add(Analysis.ERROR_OOME_JVM);
                 ***REMOVED*** else {
                     analysis.add(Analysis.ERROR_OOME_EXTERNAL);
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (getSwap() > 0) {
+        ***REMOVED*** else if (getJvmSwap() > 0) {
             // Check for excessive swap usage
-            int swapUsedPercent = 100 - JdkMath.calcPercent(getSwapFree(), getSwap());
+            int swapUsedPercent = 100 - JdkMath.calcPercent(getJvmSwapFree(), getJvmSwap());
             if (swapUsedPercent > 5 && swapUsedPercent < 20) {
                 analysis.add(Analysis.INFO_SWAPPING);
             ***REMOVED*** else if (swapUsedPercent >= 20) {
@@ -350,13 +371,13 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for swap disabled
-        if (getSwap() == 0) {
+        if (getJvmSwap() == 0) {
             analysis.add(Analysis.INFO_SWAP_DISABLED);
         ***REMOVED***
         // Check for ShenadoahRootUpdater bug fixed in OpenJDK8 u282.
-        if (getJavaSpecification() == JavaSpecification.JDK8 && getStackFrameTop() != null && getStackFrameTop()
-                .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ShenandoahUpdateRefsClosure::do_oop.+$")) {
-            // TODO: Verify current JDK version < u282
+        if (getJavaSpecification() == JavaSpecification.JDK8 && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 282
+                && getStackFrameTop() != null && getStackFrameTop()
+                        .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ShenandoahUpdateRefsClosure::do_oop.+$")) {
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER);
         ***REMOVED***
         // Signal numbers
@@ -428,6 +449,13 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE);
             ***REMOVED***
         ***REMOVED***
+        // Thread stack size
+        long threadStackMaxSize = getThreadStackMaxSize();
+        if (threadStackMaxSize < 1) {
+            analysis.add(Analysis.WARN_THREAD_STACK_SIZE_TINY);
+        ***REMOVED*** else if (threadStackMaxSize < 128) {
+            analysis.add(Analysis.INFO_THREAD_STACK_SIZE_SMALL);
+        ***REMOVED***
         // OutOfMemoryError: Java heap space
         if (haveOomeJavaHeap()) {
             analysis.add(Analysis.ERROR_OOME_JAVA_HEAP);
@@ -447,24 +475,27 @@ public class FatalErrorLog {
                 .matches("^.+ org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done().+"))) {
             analysis.add(Analysis.ERROR_LIBAIO_CONTEXT_DONE);
         ***REMOVED***
+        // container
+        if (getContainerInfoEvents().size() > 0) {
+            analysis.add(Analysis.INFO_CGROUP);
+        ***REMOVED***
+        if (getJvmPhysicalMemory() != this.getSystemPhysicalMemory()) {
+            analysis.add(Analysis.INFO_MEMORY_JVM_NE_SYSTEM);
+            if (haveCgroupMemoryLimit()) {
+                analysis.add(Analysis.INFO_CGROUP_MEMORY_LIMIT);
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     /**
      * Do JVM options analysis.
      */
     private void doJvmOptionsAnalysis() {
-        String jvmOptions = getJvmOptions();
         if (jvmOptions != null) {
-            if (getThreadStackMaxSize() < 1) {
-                analysis.add(Analysis.WARN_THREAD_STACK_SIZE_TINY);
-            ***REMOVED*** else if (getThreadStackMaxSize() < 128) {
-                analysis.add(Analysis.INFO_THREAD_STACK_SIZE_SMALL);
-            ***REMOVED***
-            if (jvmOptions.matches("^.+-agentlib:jdwp=transport=dt_socket.+$")) {
+            if (jvmOptions.getJpdaSocketTransport() != null) {
                 analysis.add(Analysis.ERROR_REMOTE_DEBUGGING_ENABLED);
             ***REMOVED***
         ***REMOVED***
-
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -544,39 +575,26 @@ public class FatalErrorLog {
     public long getCompressedClassSpaceSize() {
         // Default is 1g
         long compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.BYTE_PRECISION);
-        if (getCompressedClassSpaceSizeOption() != null) {
-            // long bytes = JdkUtil.convertOptionSizeToBytes(getCompressedClassSpaceSizeValue());
-            // compressedClassSpaceSize = JdkMath.convertBytesToKilobytes(bytes);
+        if (jvmOptions != null && jvmOptions.getCompressedClassSpaceSize() != null) {
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher = pattern.matcher(jvmOptions.getCompressedClassSpaceSize());
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                ***REMOVED*** else {
+                    fromUnits = 'B';
+                ***REMOVED***
+                compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+            ***REMOVED***
         ***REMOVED***
         return compressedClassSpaceSize;
     ***REMOVED***
 
-    /**
-     * The option for setting CompressedClassSpaceSize.
-     * 
-     * <pre>
-     * -XX:CompressedClassSpaceSize=768m
-     * </pre>
-     * 
-     * @return the option if it exists, null otherwise.
-     */
-    public String getCompressedClassSpaceSizeOption() {
-        String regex = "(-XX:CompressedClassSpaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + ")";
-        return getJvmOption(regex);
-    ***REMOVED***
-
-    /**
-     * The compressed class space size value. For example:
-     * 
-     * <pre>
-     * 768m
-     * </pre>
-     * 
-     * @return The compressed class space size value, or null if not set. For example:
-     * 
-     */
-    public String getCompressedClassSpaceSizeValue() {
-        return JdkUtil.getOptionValue(getCompressedClassSpaceSizeOption());
+    public List<ContainerInfoEvent> getContainerInfoEvents() {
+        return containerInfoEvents;
     ***REMOVED***
 
     /**
@@ -745,6 +763,10 @@ public class FatalErrorLog {
         return garbageCollectors;
     ***REMOVED***
 
+    public List<GlobalFlagsEvent> getGlobalFlagsEvents() {
+        return globalFlagsEvents;
+    ***REMOVED***
+
     public List<HeaderEvent> getHeaderEvents() {
         return headerEvents;
     ***REMOVED***
@@ -836,11 +858,24 @@ public class FatalErrorLog {
      */
     public long getHeapMaxSize() {
         long heapMaxSize = Long.MIN_VALUE;
-        if (getMaxHeapOption() != null) {
+        // 1st check [Global flags]
+        if (globalFlagsEvents.size() > 0) {
+            Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
+            while (iterator.hasNext()) {
+                GlobalFlagsEvent event = iterator.next();
+                String regExMaxHeap = "^.+size_t MaxHeapSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
+                Pattern pattern = Pattern.compile(regExMaxHeap);
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    heapMaxSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B', Constants.BYTE_PRECISION);
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (jvmOptions != null && jvmOptions.getMaxHeapSize() != null) {
+            // Get from jvm_args
             char fromUnits;
             long value;
             Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(getMaxHeapOption());
+            Matcher matcher = pattern.matcher(jvmOptions.getMaxHeapSize());
             if (matcher.find()) {
                 value = Long.parseLong(matcher.group(2));
                 if (matcher.group(3) != null) {
@@ -849,17 +884,6 @@ public class FatalErrorLog {
                     fromUnits = 'B';
                 ***REMOVED***
                 heapMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
-            ***REMOVED***
-        ***REMOVED*** else if (vmArgumentsEvents.size() > 0) {
-            Iterator<VmArgumentsEvent> iterator = vmArgumentsEvents.iterator();
-            while (iterator.hasNext()) {
-                VmArgumentsEvent event = iterator.next();
-                String regExMaxHeap = "^.+MaxHeapSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
-                Pattern pattern = Pattern.compile(regExMaxHeap);
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    heapMaxSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B', Constants.BYTE_PRECISION);
-                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         // Max heap size not set (e.g. container), use allocation
@@ -1043,6 +1067,24 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return The JVM options, or null if none exist.
+     */
+    public String getJvmArgs() {
+        String jvmArgs = null;
+        if (vmArgumentsEvents.size() > 0) {
+            Iterator<VmArgumentsEvent> iterator = vmArgumentsEvents.iterator();
+            while (iterator.hasNext()) {
+                VmArgumentsEvent event = iterator.next();
+                if (event.isJvmArgs()) {
+                    jvmArgs = event.getValue();
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return jvmArgs;
+    ***REMOVED***
+
+    /**
      * @return The JVM memory (kilobytes).
      */
     public long getJvmMemory() {
@@ -1058,7 +1100,8 @@ public class FatalErrorLog {
                 jvmMemory = getMetaspaceMaxSize();
             ***REMOVED***
         ***REMOVED***
-        if (getUseCompressedOopsDisabled() == null && getUseCompressedClassPointersDisabled() == null) {
+        if (jvmOptions != null && !jvmOptions.isUseCompressedOopsDisabled()
+                && !jvmOptions.isUseCompressedClassPointersDisabled()) {
             // Using compressed class pointers space
             if (getCompressedClassSpaceSize() > 0) {
                 if (jvmMemory > 0) {
@@ -1072,83 +1115,6 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @param regex
-     *            The option regular expression.
-     * @return The JVM option, or null if not explicitly set.
-     */
-    public String getJvmOption(final String regex) {
-        String option = null;
-        if (getJvmOptions() != null) {
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(getJvmOptions());
-            if (matcher.find()) {
-                option = matcher.group(1);
-            ***REMOVED***
-        ***REMOVED***
-        return option;
-    ***REMOVED***
-
-    /**
-     * @return The JVM options, or null if none exist.
-     */
-    public String getJvmOptions() {
-        String jvmOptions = null;
-        if (vmArgumentsEvents.size() > 0) {
-            Iterator<VmArgumentsEvent> iterator = vmArgumentsEvents.iterator();
-            while (iterator.hasNext()) {
-                VmArgumentsEvent event = iterator.next();
-                if (event.isJvmArgs()) {
-                    jvmOptions = event.getValue();
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return jvmOptions;
-    ***REMOVED***
-
-    /**
-     * Maximum heap space. Specified with the <code>-Xmx</code> or <code>-XX:MaxHeapSize</code> option. For example:
-     * 
-     * <pre>
-     * -Xmx1024m
-     * -XX:MaxHeapSize=1234567890
-     * </pre>
-     * 
-     * @return The maximum heap space, or null if not explicitly set.
-     */
-    public String getMaxHeapOption() {
-        String regex = "(-X(mx|X:MaxHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + ")";
-        return getJvmOption(regex);
-    ***REMOVED***
-
-    /**
-     * For example:
-     * 
-     * <pre>
-     * 2048M
-     * </pre>
-     * 
-     * @return The maximum heap space value, or null if not set. For example:
-     */
-    public String getMaxHeapValue() {
-        return JdkUtil.getOptionValue(getMaxHeapOption());
-    ***REMOVED***
-
-    /**
-     * Maximum Metaspace (<code>-XX:MaxMetaspaceSize</code>). For example:
-     * 
-     * <pre>
-     * -XX:MaxMetaspaceSize=1M
-     * </pre>
-     * 
-     * @return The maximum Metaspace, or null if not explicitly set.
-     */
-    public String getMaxMetaspaceOption() {
-        String regex = "(-XX:MaxMetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + ")";
-        return getJvmOption(regex);
-    ***REMOVED***
-
-    /**
      * <pre>
      * 128M
      * </pre>
@@ -1156,7 +1122,11 @@ public class FatalErrorLog {
      * @return The maximum Metaspace value, or null if not set. For example:
      */
     public String getMaxMetaspaceValue() {
-        return JdkUtil.getOptionValue(getMaxMetaspaceOption());
+        String maxMetaspaceValue = null;
+        if (jvmOptions != null && jvmOptions.getMaxMetaspaceSize() != null) {
+            maxMetaspaceValue = JdkUtil.getOptionValue(jvmOptions.getMaxMetaspaceSize());
+        ***REMOVED***
+        return maxMetaspaceValue;
     ***REMOVED***
 
     public List<MeminfoEvent> getMeminfoEvents() {
@@ -1209,11 +1179,11 @@ public class FatalErrorLog {
      */
     public long getMetaspaceMaxSize() {
         long metaspaceMaxSize = Long.MIN_VALUE;
-        if (getMaxMetaspaceOption() != null) {
+        if (jvmOptions != null && jvmOptions.getMaxMetaspaceSize() != null) {
             char fromUnits;
             long value;
             Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(getMaxMetaspaceOption());
+            Matcher matcher = pattern.matcher(jvmOptions.getMaxMetaspaceSize());
             if (matcher.find()) {
                 value = Long.parseLong(matcher.group(2));
                 if (matcher.group(3) != null) {
@@ -1425,9 +1395,9 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total available physical memory (kilobytes).
+     * @return The total available physical memory (kilobytes) reported by the JVM.
      */
-    public long getPhysicalMemory() {
+    public long getJvmPhysicalMemory() {
         long physicalMemory = Long.MIN_VALUE;
         if (memoryEvents.size() > 0) {
             Iterator<MemoryEvent> iterator = memoryEvents.iterator();
@@ -1441,7 +1411,16 @@ public class FatalErrorLog {
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (meminfoEvents.size() > 0) {
+        ***REMOVED***
+        return physicalMemory;
+    ***REMOVED***
+
+    /**
+     * @return The total available physical memory (kilobytes) reported by the OS.
+     */
+    public long getSystemPhysicalMemory() {
+        long physicalMemory = Long.MIN_VALUE;
+        if (meminfoEvents.size() > 0) {
             String regexMemTotal = "MemTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
             Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
@@ -1458,9 +1437,9 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total free physical memory (kilobytes).
+     * @return The total free physical memory (kilobytes) as reported by the JVM.
      */
-    public long getPhysicalMemoryFree() {
+    public long getJvmPhysicalMemoryFree() {
         long physicalMemoryFree = Long.MIN_VALUE;
         if (memoryEvents.size() > 0) {
             Iterator<MemoryEvent> iterator = memoryEvents.iterator();
@@ -1474,7 +1453,16 @@ public class FatalErrorLog {
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (meminfoEvents.size() > 0) {
+        ***REMOVED***
+        return physicalMemoryFree;
+    ***REMOVED***
+
+    /**
+     * @return The total free physical memory (kilobytes) as reported by the OS.
+     */
+    public long getSystemPhysicalMemoryFree() {
+        long physicalMemoryFree = Long.MIN_VALUE;
+        if (meminfoEvents.size() > 0) {
             String regexMemTotal = "MemFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
             Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
@@ -1634,25 +1622,11 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total available swap (kilobytes).
+     * @return The total available swap (kilobytes) as reported by the JVM.
      */
-    public long getSwap() {
+    public long getSystemSwap() {
         long swap = Long.MIN_VALUE;
-        if (memoryEvents.size() > 0) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        if (matcher.group(11) != null && matcher.group(13) != null) {
-                            swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
-                                    Constants.BYTE_PRECISION);
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED*** else if (meminfoEvents.size() > 0) {
+        if (meminfoEvents.size() > 0) {
             String regexMemTotal = "SwapTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
             Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
@@ -1668,9 +1642,52 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total free swap (kilobytes).
+     * @return The total free swap (kilobytes) as reported by the JVM.
      */
-    public long getSwapFree() {
+    public long getSystemSwapFree() {
+        long swapFree = Long.MIN_VALUE;
+        if (meminfoEvents.size() > 0) {
+            String regexMemTotal = "SwapFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.BYTE_PRECISION);
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return swapFree;
+    ***REMOVED***
+
+    /**
+     * @return The total available swap (kilobytes) as reported by the JVM.
+     */
+    public long getJvmSwap() {
+        long swap = Long.MIN_VALUE;
+        if (memoryEvents.size() > 0) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        if (matcher.group(11) != null && matcher.group(13) != null) {
+                            swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
+                                    Constants.BYTE_PRECISION);
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return swap;
+    ***REMOVED***
+
+    /**
+     * @return The total free swap (kilobytes) as reported by the JVM.
+     */
+    public long getJvmSwapFree() {
         long swapFree = Long.MIN_VALUE;
         if (memoryEvents.size() > 0) {
             Iterator<MemoryEvent> iterator = memoryEvents.iterator();
@@ -1682,17 +1699,6 @@ public class FatalErrorLog {
                         swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)), matcher.group(16).charAt(0),
                                 Constants.BYTE_PRECISION);
                     ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED*** else if (meminfoEvents.size() > 0) {
-            String regexMemTotal = "SwapFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
-            while (iterator.hasNext()) {
-                MeminfoEvent event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.BYTE_PRECISION);
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -1708,11 +1714,11 @@ public class FatalErrorLog {
      */
     public long getThreadStackMaxSize() {
         long stackMaxSize = 1024;
-        if (getThreadStackSizeOption() != null) {
+        if (jvmOptions != null && jvmOptions.getThreadStackSize() != null) {
             char fromUnits;
             long value;
             Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(getThreadStackSizeOption());
+            Matcher matcher = pattern.matcher(jvmOptions.getThreadStackSize());
             if (matcher.find()) {
                 value = Long.parseLong(matcher.group(2));
                 if (matcher.group(3) != null) {
@@ -1726,61 +1732,12 @@ public class FatalErrorLog {
         return stackMaxSize;
     ***REMOVED***
 
-    /**
-     * Thread stack size. Specified with either the <code>-Xss</code>, <code>-ss</code>, or
-     * <code>-XX:ThreadStackSize</code> options. For example:
-     * 
-     * <pre>
-     * -Xss128k
-     * </pre>
-     * 
-     * <pre>
-     * -XX:ThreadStackSize=128
-     * </pre>
-     * 
-     * The <code>-Xss</code> option does not work on Solaris, only the <code>-XX:ThreadStackSize</code> option.
-     * 
-     * @return The JVM thread stack size setting, or null if not explicitly set.
-     */
-    public String getThreadStackSizeOption() {
-        String regex = "(-(X)?(ss|X:ThreadStackSize=)" + JdkRegEx.OPTION_SIZE_BYTES + ")";
-        return getJvmOption(regex);
-    ***REMOVED***
-
     public TimeElapsedTimeEvent getTimeElapsedTimeEvent() {
         return timeElapsedTimeEvent;
     ***REMOVED***
 
     public List<String> getUnidentifiedLogLines() {
         return unidentifiedLogLines;
-    ***REMOVED***
-
-    /**
-     * The option for compressed class pointers disabled.
-     * 
-     * <pre>
-     * -XX:-UseCompressedClassPointers
-     * </pre>
-     * 
-     * @return the option if it exists, null otherwise.
-     */
-    public String getUseCompressedClassPointersDisabled() {
-        String regex = "(-XX:\\-UseCompressedClassPointers)";
-        return getJvmOption(regex);
-    ***REMOVED***
-
-    /**
-     * The option for disabling compressed object references.
-     * 
-     * <pre>
-     * -XX:-UseCompressedOops
-     * </pre>
-     * 
-     * @return the option if it exists, null otherwise.
-     */
-    public String getUseCompressedOopsDisabled() {
-        String regex = "(-XX:\\-UseCompressedOops)";
-        return getJvmOption(regex);
     ***REMOVED***
 
     public List<VmArgumentsEvent> getVmArgumentsEvents() {
@@ -2061,6 +2018,24 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return isRhel;
+    ***REMOVED***
+
+    /**
+     * @return true if there is a cgroup memory limit, false otherwise.
+     */
+    public boolean haveCgroupMemoryLimit() {
+        boolean isCgroupMemoryLimit = false;
+        if (containerInfoEvents.size() > 0) {
+            Iterator<ContainerInfoEvent> iterator = containerInfoEvents.iterator();
+            while (iterator.hasNext()) {
+                ContainerInfoEvent event = iterator.next();
+                if (event.getLogEntry().matches("^memory_limit_in_bytes: \\d{1,***REMOVED***$")) {
+                    isCgroupMemoryLimit = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return isCgroupMemoryLimit;
     ***REMOVED***
 
     /**
