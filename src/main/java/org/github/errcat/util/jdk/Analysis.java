@@ -78,6 +78,11 @@ public enum Analysis {
     ERROR_LIBAIO_CONTEXT_DONE("error.libaio.context.done"),
 
     /**
+     * Property key for generic insufficient physical memory.
+     */
+    ERROR_OOME("error.oome"),
+
+    /**
      * Property key for Out of Memory Error due to CompressedOops blocking the growth of the native heap.
      */
     ERROR_OOME_COMPRESSED_OOPS("error.oome.compressed.oops"),
@@ -270,9 +275,9 @@ public enum Analysis {
     INFO_SWAPPING("info.swapping"),
 
     /**
-     * Property key for a small thread stack size (&lt; 128k).
+     * Property key for truncated fatal error log.
      */
-    INFO_THREAD_STACK_SIZE_SMALL("warn.thread.stack.size.small"),
+    INFO_TRUNCATED("info.truncated"),
 
     /**
      * Property key for no evidence the JDK debug symbols are installed.
@@ -298,6 +303,11 @@ public enum Analysis {
      * Property key for swapping &gt;= 20%.
      */
     WARN_SWAPPING("warn.swapping"),
+
+    /**
+     * Property key for a small thread stack size (&lt; 128k).
+     */
+    WARN_THREAD_STACK_SIZE_SMALL("warn.thread.stack.size.small"),
 
     /**
      * Property key for a tiny thread stack size (&lt; 1k).

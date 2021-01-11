@@ -380,4 +380,18 @@ public class TestAnalysis extends TestCase {
         Assert.assertTrue(Analysis.INFO_CGROUP_MEMORY_LIMIT + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_CGROUP_MEMORY_LIMIT));
     ***REMOVED***
+
+    public void testTruncatedLog() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset48.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse(Analysis.ERROR_OOME_EXTERNAL + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL));
+        Assert.assertFalse(Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT));
+        Assert.assertTrue(Analysis.INFO_TRUNCATED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_TRUNCATED));
+        Assert.assertTrue(Analysis.ERROR_OOME + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_OOME));
+    ***REMOVED***
 ***REMOVED***

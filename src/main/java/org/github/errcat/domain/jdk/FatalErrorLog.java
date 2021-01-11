@@ -296,7 +296,7 @@ public class FatalErrorLog {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
             ***REMOVED*** else if (isAdoptOpenJdkBuildString()) {
                 analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
-            ***REMOVED*** else {
+            ***REMOVED*** else if (vmInfoEvent != null) {
                 analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
             ***REMOVED***
         ***REMOVED***
@@ -355,10 +355,14 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED*** else {
                 // Low physical memory
-                if (getJvmMemory() > 0 && JdkMath.calcPercent(getJvmMemory(), getJvmPhysicalMemory()) >= 95) {
-                    analysis.add(Analysis.ERROR_OOME_JVM);
+                if (getJvmMemory() > 0) {
+                    if (JdkMath.calcPercent(getJvmMemory(), getJvmPhysicalMemory()) >= 95) {
+                        analysis.add(Analysis.ERROR_OOME_JVM);
+                    ***REMOVED*** else {
+                        analysis.add(Analysis.ERROR_OOME_EXTERNAL);
+                    ***REMOVED***
                 ***REMOVED*** else {
-                    analysis.add(Analysis.ERROR_OOME_EXTERNAL);
+                    analysis.add(Analysis.ERROR_OOME);
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED*** else if (getJvmSwap() > 0) {
@@ -454,7 +458,7 @@ public class FatalErrorLog {
         if (threadStackMaxSize < 1) {
             analysis.add(Analysis.WARN_THREAD_STACK_SIZE_TINY);
         ***REMOVED*** else if (threadStackMaxSize < 128) {
-            analysis.add(Analysis.INFO_THREAD_STACK_SIZE_SMALL);
+            analysis.add(Analysis.WARN_THREAD_STACK_SIZE_SMALL);
         ***REMOVED***
         // OutOfMemoryError: Java heap space
         if (haveOomeJavaHeap()) {
@@ -484,6 +488,10 @@ public class FatalErrorLog {
             if (haveCgroupMemoryLimit()) {
                 analysis.add(Analysis.INFO_CGROUP_MEMORY_LIMIT);
             ***REMOVED***
+        ***REMOVED***
+        // truncated fatal error log
+        if (isTruncated()) {
+            analysis.add(Analysis.INFO_TRUNCATED);
         ***REMOVED***
     ***REMOVED***
 
@@ -1100,7 +1108,7 @@ public class FatalErrorLog {
                 jvmMemory = getMetaspaceMaxSize();
             ***REMOVED***
         ***REMOVED***
-        if (jvmOptions != null && !jvmOptions.isUseCompressedOopsDisabled()
+        if (jvmMemory > 0 && jvmOptions != null && !jvmOptions.isUseCompressedOopsDisabled()
                 && !jvmOptions.isUseCompressedClassPointersDisabled()) {
             // Using compressed class pointers space
             if (getCompressedClassSpaceSize() > 0) {
@@ -2165,6 +2173,17 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return isWindows;
+    ***REMOVED***
+
+    /**
+     * @return true if the fatal error is truncated, false otherwise.
+     */
+    public boolean isTruncated() {
+        boolean isTruncated = false;
+        if (vmInfoEvent == null) {
+            isTruncated = true;
+        ***REMOVED***
+        return isTruncated;
     ***REMOVED***
 
     public void setAnalysis(List<Analysis> analysis) {
