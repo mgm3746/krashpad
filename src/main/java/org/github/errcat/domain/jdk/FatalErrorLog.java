@@ -296,7 +296,7 @@ public class FatalErrorLog {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
             } else if (isAdoptOpenJdkBuildString()) {
                 analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
-            } else {
+            } else if (vmInfoEvent != null) {
                 analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
             }
         }
@@ -355,10 +355,14 @@ public class FatalErrorLog {
                 }
             } else {
                 // Low physical memory
-                if (getJvmMemory() > 0 && JdkMath.calcPercent(getJvmMemory(), getJvmPhysicalMemory()) >= 95) {
-                    analysis.add(Analysis.ERROR_OOME_JVM);
+                if (getJvmMemory() > 0) {
+                    if (JdkMath.calcPercent(getJvmMemory(), getJvmPhysicalMemory()) >= 95) {
+                        analysis.add(Analysis.ERROR_OOME_JVM);
+                    } else {
+                        analysis.add(Analysis.ERROR_OOME_EXTERNAL);
+                    }
                 } else {
-                    analysis.add(Analysis.ERROR_OOME_EXTERNAL);
+                    analysis.add(Analysis.ERROR_OOME);
                 }
             }
         } else if (getJvmSwap() > 0) {
@@ -454,7 +458,7 @@ public class FatalErrorLog {
         if (threadStackMaxSize < 1) {
             analysis.add(Analysis.WARN_THREAD_STACK_SIZE_TINY);
         } else if (threadStackMaxSize < 128) {
-            analysis.add(Analysis.INFO_THREAD_STACK_SIZE_SMALL);
+            analysis.add(Analysis.WARN_THREAD_STACK_SIZE_SMALL);
         }
         // OutOfMemoryError: Java heap space
         if (haveOomeJavaHeap()) {
@@ -484,6 +488,10 @@ public class FatalErrorLog {
             if (haveCgroupMemoryLimit()) {
                 analysis.add(Analysis.INFO_CGROUP_MEMORY_LIMIT);
             }
+        }
+        // truncated fatal error log
+        if (isTruncated()) {
+            analysis.add(Analysis.INFO_TRUNCATED);
         }
     }
 
@@ -1100,7 +1108,7 @@ public class FatalErrorLog {
                 jvmMemory = getMetaspaceMaxSize();
             }
         }
-        if (jvmOptions != null && !jvmOptions.isUseCompressedOopsDisabled()
+        if (jvmMemory > 0 && jvmOptions != null && !jvmOptions.isUseCompressedOopsDisabled()
                 && !jvmOptions.isUseCompressedClassPointersDisabled()) {
             // Using compressed class pointers space
             if (getCompressedClassSpaceSize() > 0) {
@@ -2165,6 +2173,17 @@ public class FatalErrorLog {
             }
         }
         return isWindows;
+    }
+
+    /**
+     * @return true if the fatal error is truncated, false otherwise.
+     */
+    public boolean isTruncated() {
+        boolean isTruncated = false;
+        if (vmInfoEvent == null) {
+            isTruncated = true;
+        }
+        return isTruncated;
     }
 
     public void setAnalysis(List<Analysis> analysis) {
