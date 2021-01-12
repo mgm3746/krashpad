@@ -288,4 +288,64 @@ public class TestCpuInfoEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
     ***REMOVED***
+
+    public void testOnlineCpus() {
+        String logLine = "Online cpus:";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
+    ***REMOVED***
+
+    public void testOfflineCpus() {
+        String logLine = "Offline cpus:";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
+    ***REMOVED***
+
+    public void testBiosFrequencyLimitation() {
+        String logLine = "BIOS frequency limitation:";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
+    ***REMOVED***
+
+    public void testFrequencySwitchLatency() {
+        String logLine = "Frequency switch latency (ns):";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
+    ***REMOVED***
+
+    public void testAvailableCpuFrequencies() {
+        String logLine = "Available cpu frequencies:";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
+    ***REMOVED***
+
+    public void testCurrentGovernor() {
+        String logLine = "Current governor:";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
+    ***REMOVED***
+
+    public void testCurrentGovernorPerformance() {
+        String logLine = "performance";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
+    ***REMOVED***
+
+    public void testCorePerformanceTurboBoost() {
+        String logLine = "Core performance/turbo boost:";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
+    ***REMOVED***
+
+    public void testNotAvailable() {
+        String logLine = "<Not Available>";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
+    ***REMOVED***
+
+    public void testCpuIdentifier() {
+        String logLine = "10-65";
+        Assert.assertTrue(JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CPU_INFO);
+    ***REMOVED***
 ***REMOVED***

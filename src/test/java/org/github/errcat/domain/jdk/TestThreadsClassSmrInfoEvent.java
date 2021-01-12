@@ -66,4 +66,10 @@ public class TestThreadsClassSmrInfoEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO);
     ***REMOVED***
+
+    public void testAdress4NoEndComma() {
+        String logLine = "0x00007f99b80117c0, 0x00007f98f8024750, 0x00007f995001c480, 0x00007f99b0003e20";
+        Assert.assertTrue(JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO);
+    ***REMOVED***
 ***REMOVED***

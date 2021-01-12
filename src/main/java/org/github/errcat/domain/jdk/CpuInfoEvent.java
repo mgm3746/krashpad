@@ -79,11 +79,13 @@ public class CpuInfoEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER
-            + "|(address sizes|apicid|bogomips|bugs|cache_alignment|cache size|clflush size|clock|core id|cpu|"
-            + "cpu cores|cpu family|CPU Model and flags from \\/proc\\/cpuinfo|cpuid level|cpu MHz|flags|fpu|"
-            + "fpu_exception|initial apicid|machine|microcode|model|model name|MMU|physical id|platform|"
-            + "power management|\\/proc\\/cpuinfo|processor|revision|siblings|stepping|TLB size|timebase|vendor_id|wp)"
-            + "[\\s]{0,***REMOVED***:[ ]{0,1***REMOVED***)(.*)$";
+            + "|(<Not Available>|\\d{1,3***REMOVED***-\\d{1,3***REMOVED***|address sizes|apicid|Available cpu frequencies|"
+            + "BIOS frequency limitation|bogomips|bugs|cache_alignment|cache size|clflush size|clock|core id|"
+            + "Core performance/turbo boost|cpu|cpu cores|cpu family|CPU Model and flags from \\/proc\\/cpuinfo|"
+            + "cpuid level|cpu MHz|Current governor|flags|fpu|fpu_exception|Frequency switch latency \\(ns\\)|"
+            + "initial apicid|machine|microcode|model|model name|MMU|(Off|On)line cpus|performance|physical id|"
+            + "platform|power management|\\/proc\\/cpuinfo|processor|revision|siblings|stepping|timebase|TLB size|"
+            + "vendor_id|wp)[\\s]{0,***REMOVED***(:)?( )?)(.*)$";
 
     /**
      * The log entry for the event.
