@@ -52,7 +52,7 @@ public class ThreadsClassSmrInfoEvent implements LogEvent, ThrowAwayEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", "
-            + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ",|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", "
+            + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "(,)?|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", "
             + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS
             + "|_java_thread_list=.*)$";
 
