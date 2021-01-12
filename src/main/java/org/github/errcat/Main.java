@@ -292,8 +292,9 @@ public class Main {
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                 printWriter.write("Version: " + fel.getOsString() + Constants.LINE_SEPARATOR);
                 printWriter.write("ARCH: " + fel.getArch() + Constants.LINE_SEPARATOR);
-                if (fel.getCpuCores() > Integer.MIN_VALUE) {
-                    printWriter.write("CPU Cores: " + fel.getCpuCores() + Constants.LINE_SEPARATOR);
+                if (fel.getCpus() > Integer.MIN_VALUE) {
+                    printWriter.write(
+                            "CPUs (cpu x cpu cores x hyperthreading): " + fel.getCpus() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getSystemPhysicalMemory() > 0) {
                     printWriter.write("Memory: " + fel.getSystemPhysicalMemory()

@@ -624,10 +624,10 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The number of cpu cores.
+     * @return The number of logical cpus (cpus x cpu cores x hyperthreading).
      */
-    public int getCpuCores() {
-        int cpuCores = Integer.MIN_VALUE;
+    public int getCpus() {
+        int cpus = Integer.MIN_VALUE;
         if (cpuInfoEvents.size() > 0) {
             Iterator<CpuInfoEvent> iterator = cpuInfoEvents.iterator();
             while (iterator.hasNext()) {
@@ -636,17 +636,12 @@ public class FatalErrorLog {
                     Pattern pattern = Pattern.compile(CpuInfoEvent.REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        int cpus = Integer.parseInt(matcher.group(1));
-                        int cores = 1;
-                        if (matcher.group(4) != null) {
-                            cores = Integer.parseInt(matcher.group(5));
-                        ***REMOVED***
-                        cpuCores = cpus * cores;
+                        cpus = Integer.parseInt(matcher.group(1));
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        return cpuCores;
+        return cpus;
     ***REMOVED***
 
     public List<CpuInfoEvent> getCpuInfoEvents() {
