@@ -301,10 +301,9 @@ public class FatalErrorLog {
             }
         }
         // Check if there is vm code in the stack
-        if (!haveVmCodeInStack()) {
+        if (haveFramesInStack() && !haveVmCodeInStack()) {
             analysis.add(Analysis.INFO_STACK_NO_VM_CODE);
         }
-        // Check if LTS release
         if (getJavaSpecification() != JavaSpecification.UNKNOWN && !isJdkLts()) {
             analysis.add(Analysis.WARN_JDK_NOT_LTS);
         }
@@ -483,7 +482,8 @@ public class FatalErrorLog {
         if (getContainerInfoEvents().size() > 0) {
             analysis.add(Analysis.INFO_CGROUP);
         }
-        if (getJvmPhysicalMemory() != this.getSystemPhysicalMemory()) {
+        if (getJvmPhysicalMemory() > 0 && getSystemPhysicalMemory() > 0
+                && getJvmPhysicalMemory() != getSystemPhysicalMemory()) {
             analysis.add(Analysis.INFO_MEMORY_JVM_NE_SYSTEM);
             if (haveCgroupMemoryLimit()) {
                 analysis.add(Analysis.INFO_CGROUP_MEMORY_LIMIT);
@@ -1641,6 +1641,21 @@ public class FatalErrorLog {
                 if (matcher.find()) {
                     physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
                             Constants.BYTE_PRECISION);
+                    break;
+                }
+            }
+        } else if (memoryEvents.size() > 0) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(3)),
+                                matcher.group(5).charAt(0), Constants.BYTE_PRECISION);
+                    }
+                    break;
                 }
             }
         }
@@ -1662,6 +1677,21 @@ public class FatalErrorLog {
                 if (matcher.find()) {
                     physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
                             Constants.BYTE_PRECISION);
+                    break;
+                }
+            }
+        } else if (memoryEvents.size() > 0) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)),
+                                matcher.group(8).charAt(0), Constants.BYTE_PRECISION);
+                    }
+                    break;
                 }
             }
         }
@@ -1682,6 +1712,21 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.BYTE_PRECISION);
+                    break;
+                }
+            }
+        } else if (memoryEvents.size() > 0) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find() && matcher.group(9) != null) {
+                        swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0),
+                                Constants.BYTE_PRECISION);
+                    }
+                    break;
                 }
             }
         }
@@ -1702,6 +1747,21 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.BYTE_PRECISION);
+                    break;
+                }
+            }
+        } else if (memoryEvents.size() > 0) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find() && matcher.group(9) != null) {
+                        swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0),
+                                Constants.BYTE_PRECISION);
+                    }
+                    break;
                 }
             }
         }
@@ -1857,7 +1917,8 @@ public class FatalErrorLog {
      */
     public boolean haveVmCodeInStack() {
         boolean haveVmCodeInStack = false;
-        if (stackEvents.size() > 0) {
+        //
+        if (stackEvents.size() > 2) {
             Iterator<StackEvent> iterator = stackEvents.iterator();
             while (iterator.hasNext()) {
                 StackEvent event = iterator.next();
@@ -1904,6 +1965,24 @@ public class FatalErrorLog {
             }
         }
         return haveVmFrameInStack;
+    }
+
+    /**
+     * @return true if the stack contains frames, false otherwise.
+     */
+    public boolean haveFramesInStack() {
+        boolean haveFramesInStack = false;
+        if (stackEvents.size() > 0) {
+            Iterator<StackEvent> iterator = stackEvents.iterator();
+            while (iterator.hasNext()) {
+                StackEvent event = iterator.next();
+                if (event.isFrame()) {
+                    haveFramesInStack = true;
+                    break;
+                }
+            }
+        }
+        return haveFramesInStack;
     }
 
     /**
@@ -2000,8 +2079,10 @@ public class FatalErrorLog {
     public boolean isJnaCrash() {
         boolean isJnaCrash = false;
         if (getStackEvents() != null && getStackEvents().size() >= 2) {
-            if (getStackFrame(1).matches("^C[ ]{1,2}\\[jna.+$")
-                    && getStackFrame(2).matches("^j[ ]{1,2}com\\.sun\\.jna\\..+$")) {
+            String stackFrame1 = getStackFrame(1);
+            String stackFrame2 = getStackFrame(2);
+            if (stackFrame1 != null && stackFrame1.matches("^C[ ]{1,2}\\[jna.+$") && stackFrame2 != null
+                    && stackFrame2.matches("^j[ ]{1,2}com\\.sun\\.jna\\..+$")) {
                 isJnaCrash = true;
             }
         }
@@ -2157,16 +2238,7 @@ public class FatalErrorLog {
      */
     public boolean isTruncated() {
         boolean isTruncated = false;
-        if (headerEvents.size() > 0) {
-            Iterator<HeaderEvent> iterator = headerEvents.iterator();
-            while (iterator.hasNext()) {
-                HeaderEvent event = iterator.next();
-                if (event.getLogEntry().matches("^# This output file may be truncated or incomplete.$")) {
-                    isTruncated = true;
-                    break;
-                }
-            }
-        } else if (vmInfoEvent == null) {
+        if (vmInfoEvent == null) {
             isTruncated = true;
         }
         return isTruncated;
