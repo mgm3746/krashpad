@@ -55,7 +55,7 @@ public class MemoryEvent implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "^Memory: (4|8|64)k page,( system-wide)? physical " + JdkRegEx.SIZE
+    public static final String REGEX_HEADER = "^Memory: (4|8|64)k page,( system-wide)? physical " + JdkRegEx.SIZE
             + "[ ]{0,1***REMOVED***\\(" + JdkRegEx.SIZE + " free\\)(, swap " + JdkRegEx.SIZE + "\\(" + JdkRegEx.SIZE
             + " free\\))?$";
 

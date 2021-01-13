@@ -96,7 +96,7 @@ public class StackEvent implements LogEvent {
      */
     private static final String REGEX = "^(" + REGEX_HEADER
             + "|([CjJvV]) |(Java|Native) frames:|JavaThread|\\[error occurred during error reporting \\(printing "
-            + "native stack\\)|...<more frames>...).*$";
+            + "(native stack|stack bounds)\\)|...<more frames>...).*$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -135,6 +135,26 @@ public class StackEvent implements LogEvent {
     ***REMOVED***
 
     /**
+     * @return true if the stack frame is a Java or native frame, false otherwise.
+     * 
+     *         For example:
+     * 
+     *         V [libjvm.so+0x93a382] java_start(Thread*)+0xf2
+     * 
+     *         C [java.exe+0x1234]
+     */
+    public boolean isFrame() {
+        boolean isFrame = false;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(19) != null) {
+                isFrame = true;
+            ***REMOVED***
+        ***REMOVED***
+        return isFrame;
+    ***REMOVED***
+
+    /**
      * @return true if the log line is the header false otherwise.
      */
     public boolean isHeader() {
@@ -160,7 +180,7 @@ public class StackEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return true if the stack frame is vm code, false otherwise.
+     * @return true if the stack frame is vm generated code, false otherwise.
      * 
      *         For example:
      * 

@@ -394,4 +394,12 @@ public class TestAnalysis extends TestCase {
         Assert.assertTrue(Analysis.ERROR_OOME + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_OOME));
     ***REMOVED***
+
+    public void testNoStack() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset49.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse(Analysis.INFO_STACK_NO_VM_CODE + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_STACK_NO_VM_CODE));
+    ***REMOVED***
 ***REMOVED***

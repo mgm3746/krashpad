@@ -132,6 +132,12 @@ public class TestStackEvent extends TestCase {
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
     ***REMOVED***
 
+    public void testErrorPrintingStackBounds() {
+        String logLine = "[error occurred during error reporting (printing stack bounds), id 0xc0000005]";
+        Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK);
+    ***REMOVED***
+
     public void testMoreFrames() {
         String logLine = "...<more frames>...";
         Assert.assertTrue(JdkUtil.LogEventType.STACK.toString() + " not identified.",

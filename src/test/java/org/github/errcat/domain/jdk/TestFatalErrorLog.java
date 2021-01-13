@@ -463,4 +463,18 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("JBoss application not identified.", Application.JBOSS, fel.getApplication());
     ***REMOVED***
 
+    public void testWindows() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset49.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        long physicalMemory = JdkUtil.convertSize(16776740, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("System physical memory not correct.", physicalMemory, fel.getSystemPhysicalMemory());
+        long physicalMemoryFree = JdkUtil.convertSize(674168, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("System physical memory free not correct.", physicalMemoryFree,
+                fel.getSystemPhysicalMemoryFree());
+        long swap = JdkUtil.convertSize(20970784, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("System swap not correct.", swap, fel.getSystemSwap());
+        long swapFree = JdkUtil.convertSize(5252, 'K', Constants.BYTE_PRECISION);
+        Assert.assertEquals("System swap free not correct.", swapFree, fel.getSystemSwapFree());
+    ***REMOVED***
 ***REMOVED***
