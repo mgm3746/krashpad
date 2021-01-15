@@ -46,6 +46,14 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
     ***REMOVED***
 
+    public void testLibjvm() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset10.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_LIBJVM_SO + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO));
+    ***REMOVED***
+
     public void testSwappingInfo() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset11.txt");
         Manager manager = new Manager();
@@ -60,6 +68,8 @@ public class TestAnalysis extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue(Analysis.WARN_SWAPPING + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.WARN_SWAPPING));
+        Assert.assertTrue(Analysis.ERROR_JVM_DLL + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_JVM_DLL));
     ***REMOVED***
 
     public void testLatestRelease() {
@@ -266,6 +276,14 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_JVM_STARTUP_FAILS));
         Assert.assertTrue(Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_SIGNO_SIGSEGV));
+    ***REMOVED***
+
+    public void testAws() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset34.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.INFO_STORAGE_AWS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_STORAGE_AWS));
     ***REMOVED***
 
     public void testStackOverflowError() {

@@ -165,4 +165,10 @@ public class TestRegisterToMemoryMappingEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
     ***REMOVED***
+
+    public void testAdapterForSignature() {
+        String logLine = "Adapter for signature: 0x00007fb285046c20 is at code_begin+0 in";
+        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+    ***REMOVED***
 ***REMOVED***

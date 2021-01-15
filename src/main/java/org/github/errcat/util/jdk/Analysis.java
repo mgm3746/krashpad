@@ -73,9 +73,19 @@ public enum Analysis {
     ERROR_JNA_RH("error.jna.rh"),
 
     /**
+     * Property key for a crash in jvm.dll.
+     */
+    ERROR_JVM_DLL("error.jvm.dll"),
+
+    /**
      * Property key for a crash in org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done() method.
      */
     ERROR_LIBAIO_CONTEXT_DONE("error.libaio.context.done"),
+
+    /**
+     * Property key for a crash in libjvm.so.
+     */
+    ERROR_LIBJVM_SO("error.libjvm.so"),
 
     /**
      * Property key for generic insufficient physical memory.
@@ -263,6 +273,16 @@ public enum Analysis {
      * Property key for the stack not containing any VM code.
      */
     INFO_STACK_NO_VM_CODE("info.stack.no.vm.code"),
+
+    /**
+     * Property key for AWS block storage.
+     */
+    INFO_STORAGE_AWS("info.storage.aws"),
+
+    /**
+     * Property key for unknown storage.
+     */
+    INFO_STORAGE_UNKNOWN("info.storage.unknown"),
 
     /**
      * Property key for swapping disabled.

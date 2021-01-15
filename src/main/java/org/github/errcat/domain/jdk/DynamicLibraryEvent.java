@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.errcat.domain.LogEvent;
+import org.github.errcat.util.Constants.Device;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
@@ -103,6 +104,24 @@ public class DynamicLibraryEvent implements LogEvent {
     ***REMOVED***
 
     /**
+     * @return Device.
+     */
+    public Device getDevice() {
+        Device device = Device.UNKNOWN;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            int deviceIdIndex = 12;
+            String deviceId = matcher.group(deviceIdIndex);
+            if (deviceId.matches("^fd:[a-z0-9]{2***REMOVED***$")) {
+                device = Device.FIXED_DISK;
+            ***REMOVED*** else if (deviceId.equals("103:03")) {
+                device = Device.AWS_BLOCK_STORAGE;
+            ***REMOVED***
+        ***REMOVED***
+        return device;
+    ***REMOVED***
+
+    /**
      * @return Dynamic library file path.
      */
     public String getFilePath() {
@@ -114,5 +133,4 @@ public class DynamicLibraryEvent implements LogEvent {
         ***REMOVED***
         return filePath;
     ***REMOVED***
-
 ***REMOVED***

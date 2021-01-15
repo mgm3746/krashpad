@@ -18,6 +18,7 @@ import java.io.File;
 
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
+import org.github.errcat.util.Constants.Device;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.Constants.OsVersion;
 import org.github.errcat.util.jdk.Analysis;
@@ -390,6 +391,7 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Rpm directory not correct.", "java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64",
                 fel.getRpmDirectory());
         Assert.assertTrue("RH rpm install not identified.", fel.isRhRpmInstall());
+        Assert.assertEquals("Storage device not correct.", Device.AWS_BLOCK_STORAGE, fel.getStorageDevice());
         Assert.assertTrue(Analysis.INFO_RH_BUILD_RPM + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
         Assert.assertTrue(Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB + " analysis not identified.",

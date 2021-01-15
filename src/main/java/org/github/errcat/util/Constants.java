@@ -32,6 +32,13 @@ public class Constants {
     ***REMOVED***
 
     /**
+     * Defined devices.
+     */
+    public enum Device {
+        AWS_BLOCK_STORAGE, FIXED_DISK, UNKNOWN
+    ***REMOVED***
+
+    /**
      * Defined OS types.
      */
     public enum OsType {
