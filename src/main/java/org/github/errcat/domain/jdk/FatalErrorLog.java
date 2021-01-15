@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.Constants.CpuArch;
+import org.github.errcat.util.Constants.Device;
 import org.github.errcat.util.Constants.OsType;
 import org.github.errcat.util.Constants.OsVendor;
 import org.github.errcat.util.Constants.OsVersion;
@@ -382,6 +383,13 @@ public class FatalErrorLog {
                 && getStackFrameTop() != null && getStackFrameTop()
                         .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ShenandoahUpdateRefsClosure::do_oop.+$")) {
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER);
+        } else if (getStackFrameTop() != null) {
+            // Other libjvm.so/jvm.dll analysis
+            if (getStackFrameTop().matches("^V  \\[libjvm\\.so.+\\](.+)?$")) {
+                analysis.add(Analysis.ERROR_LIBJVM_SO);
+            } else if (getStackFrameTop().matches("^V  \\[jvm\\.dll.+\\](.+)?$")) {
+                analysis.add(Analysis.ERROR_JVM_DLL);
+            }
         }
         // Signal numbers
         switch (getSignalNumber()) {
@@ -491,6 +499,21 @@ public class FatalErrorLog {
         }
         // truncated fatal error log
         if (isTruncated()) {
+            analysis.add(Analysis.INFO_TRUNCATED);
+        }
+        // Storage analysis
+        if (getOsType() == OsType.LINUX) {
+            switch (getStorageDevice()) {
+            case AWS_BLOCK_STORAGE:
+                analysis.add(Analysis.INFO_STORAGE_AWS);
+                break;
+            case UNKNOWN:
+                analysis.add(Analysis.INFO_STORAGE_UNKNOWN);
+                break;
+            default:
+                break;
+
+            }
             analysis.add(Analysis.INFO_TRUNCATED);
         }
     }
@@ -1522,6 +1545,24 @@ public class FatalErrorLog {
             }
         }
         return rpmDirectory;
+    }
+
+    /**
+     * @return The storage device where the JDK is installed.
+     */
+    public Device getStorageDevice() {
+        Device device = Device.UNKNOWN;
+        if (getOsType() == OsType.LINUX && dynamicLibraryEvents.size() > 0) {
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getFilePath() != null && event.getFilePath().matches("^.+libjvm\\.so$")) {
+                    device = event.getDevice();
+                    break;
+                }
+            }
+        }
+        return device;
     }
 
     public SigInfoEvent getSigInfoEvent() {
