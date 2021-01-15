@@ -31,6 +31,11 @@ public enum Analysis {
     ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB("error.bufferblob.flush_icache_stub"),
 
     /**
+     * Property key for a crash in CompilerThread.
+     */
+    ERROR_COMPILER_THREAD("error.compiler.thread"),
+
+    /**
      * Property key for a crash due to multiple threads access DirectByteBuffer at the same time.
      */
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),

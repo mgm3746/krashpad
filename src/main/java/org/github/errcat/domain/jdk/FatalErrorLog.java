@@ -516,6 +516,17 @@ public class FatalErrorLog {
             }
             analysis.add(Analysis.INFO_TRUNCATED);
         }
+        // CompilerThread
+        if (getCurrentThread() != null && getCurrentThread().matches("^.+CompilerThread\\d{1,}.+$")) {
+            analysis.add(Analysis.ERROR_COMPILER_THREAD);
+            // Don't double report
+            if (analysis.contains(Analysis.ERROR_LIBJVM_SO)) {
+                analysis.remove(Analysis.ERROR_LIBJVM_SO);
+            }
+            if (analysis.contains(Analysis.ERROR_JVM_DLL)) {
+                analysis.remove(Analysis.ERROR_JVM_DLL);
+            }
+        }
     }
 
     /**
