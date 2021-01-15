@@ -276,6 +276,10 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_JVM_STARTUP_FAILS));
         Assert.assertTrue(Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_SIGNO_SIGSEGV));
+        Assert.assertTrue(Analysis.ERROR_COMPILER_THREAD + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD));
+        Assert.assertFalse(Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO));
     ***REMOVED***
 
     public void testAws() {

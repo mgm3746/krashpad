@@ -516,6 +516,17 @@ public class FatalErrorLog {
             ***REMOVED***
             analysis.add(Analysis.INFO_TRUNCATED);
         ***REMOVED***
+        // CompilerThread
+        if (getCurrentThread() != null && getCurrentThread().matches("^.+CompilerThread\\d{1,***REMOVED***.+$")) {
+            analysis.add(Analysis.ERROR_COMPILER_THREAD);
+            // Don't double report
+            if (analysis.contains(Analysis.ERROR_LIBJVM_SO)) {
+                analysis.remove(Analysis.ERROR_LIBJVM_SO);
+            ***REMOVED***
+            if (analysis.contains(Analysis.ERROR_JVM_DLL)) {
+                analysis.remove(Analysis.ERROR_JVM_DLL);
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     /**
