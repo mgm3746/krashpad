@@ -123,14 +123,14 @@ public enum Analysis {
     ERROR_OOME_STARTUP("error.oome.startup"),
 
     /**
+     * Property key for remote debugging enabled.
+     */
+    ERROR_OPT_REMOTE_DEBUGGING_ENABLED("error.opt.remote.debugging.enabled"),
+
+    /**
      * Property key for error calling pthread_getcpuclockid
      */
     ERROR_PTHREAD_GETCPUCLOCKID("error.pthread.getcpuclockid"),
-
-    /**
-     * Property key for error for remote debugging enabled.
-     */
-    ERROR_REMOTE_DEBUGGING_ENABLED("error.remote.debugging.enabled"),
 
     /**
      * Property key for stack free space greater than stack size.
@@ -178,6 +178,16 @@ public enum Analysis {
      * TODO: Remove this? It's basically a duplicate of INFO_CGROUP_MEMORY_LIMIT?
      */
     INFO_MEMORY_JVM_NE_SYSTEM("info.memory.jvm.ne.system"),
+
+    /**
+     * Property key for metaspace initial and/or max size being set.
+     */
+    INFO_OPT_METASPACE("info.opt.metaspace"),
+
+    /**
+     * Property key for undefined JVM option(s).
+     */
+    INFO_OPT_UNDEFINED("info.opt.undefined"),
 
     /**
      * Property key for Red Hat build of OpenJDK on CentOS.
@@ -318,6 +328,17 @@ public enum Analysis {
      * Property key for a JDK that is not a Long Term Support (LTS) version.
      */
     WARN_JDK_NOT_LTS("warn.jdk.not.lts"),
+
+    /**
+     * Property key for adaptive size policy disabled with -XX:-UseAdaptiveSizePolicy.
+     */
+    WARN_OPT_ADAPTIVE_RESIZE_POLICY_DISABLED(" warn.opt.adaptive.size.policy.disabled"),
+
+    /**
+     * Property key for MaxMetaspaceSize less than CompressedClassSpaceSize. MaxMetaspaceSize includes
+     * CompressedClassSpaceSize, so MaxMetaspaceSize should be larger than CompressedClassSpaceSize.
+     */
+    WARN_OPT_METASPACE_LT_COMP_CLASS("warn.opt.metaspace.lt.comp.class"),
 
     /**
      * Property key for a JDK that is deployed on RHEL6.

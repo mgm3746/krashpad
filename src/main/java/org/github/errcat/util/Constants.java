@@ -146,11 +146,6 @@ public class Constants {
     public static final String OPTION_VERSION_LONG = "version";
 
     /**
-     * Precision for reporting bytes.
-     */
-    public static final char BYTE_PRECISION = 'M';
-
-    /**
      * Version command line short option.
      */
     public static final String OPTION_VERSION_SHORT = "v";
@@ -159,6 +154,11 @@ public class Constants {
      * Default output file name.
      */
     public static final String OUTPUT_FILE_NAME = "report.txt";
+
+    /**
+     * Precision for reporting bytes.
+     */
+    public static final char PRECISION_REPORTING = 'M';
 
     /**
      * Test data directory.

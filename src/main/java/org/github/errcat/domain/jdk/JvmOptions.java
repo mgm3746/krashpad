@@ -15,8 +15,11 @@
 package org.github.errcat.domain.jdk;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkRegEx;
+import org.github.errcat.util.jdk.JdkUtil;
 
 /**
  * <p>
@@ -29,11 +32,48 @@ import org.github.errcat.util.jdk.JdkRegEx;
 public class JvmOptions {
 
     /**
-     * ABRT option. For example:
+     * ABRT option.
      * 
      * -ABRT %p
      */
     private String abrt;
+
+    /**
+     * The option for setting CompressedClassSpaceSize.
+     * 
+     * <pre>
+     * -XX:CompressedClassSpaceSize=768m
+     * </pre>
+     */
+    private String compressedClassSpaceSize;
+
+    /**
+     * Size of gc log file that triggers rotation. For example:
+     * 
+     * <pre>
+     * -XX:GCLogFileSize=3M
+     * </pre>
+     */
+    private String gcLogFileSize;
+
+    /**
+     * Initial heap space. Specified with the <code>-Xms</code> or <code>-XX:InitialHeapSize</code> option. For example:
+     * 
+     * <pre>
+     * -Xms1024m
+     * -XX:InitialHeapSize=257839744
+     * </pre>
+     */
+    private String initialHeapSize;
+
+    /**
+     * Initial metaspace size (<code>-XX:MetaspaceSize</code>). For example:
+     * 
+     * <pre>
+     * -XX:MetaspaceSize=1024M
+     * </pre>
+     */
+    private String initialMetaspaceSize;
 
     /**
      * JPDA socket transport used for debugging. For example:
@@ -41,6 +81,84 @@ public class JvmOptions {
      * -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n
      */
     private String jpdaSocketTransport;
+
+    /**
+     * Option to specify gc log location. For example:
+     * 
+     * <pre>
+     * -Xloggc:/path/to/EAP-7.1.0/standalone/log/gc.log
+     * </pre>
+     */
+    private String logGc;
+
+    /**
+     * Maximum heap space. Specified with the <code>-Xmx</code> or <code>-XX:MaxHeapSize</code> option. For example:
+     * 
+     * <pre>
+     * -Xmx1024m
+     * -XX:MaxHeapSize=1234567890
+     * </pre>
+     */
+    private String maxHeapSize;
+
+    /**
+     * Maximum metaspace size (<code>-XX:MaxMetaspaceSize</code>). For example:
+     * 
+     * <pre>
+     * -XX:MaxMetaspaceSize=2048m
+     * </pre>
+     */
+    private String maxMetaspaceSize;
+
+    /**
+     * Option to specify the number of gc log files to keep when rotation is enabled. For example:
+     * 
+     * <pre>
+     * -XX:NumberOfGCLogFiles=5
+     * </pre>
+     */
+    private String numberOfGcLogFiles;
+
+    /**
+     * Option to enable/disable ergonomic option that resizes generations to meet pause and throughput goals and
+     * minimize footprint. For example:
+     * 
+     * <pre>
+     * -XX:+UseAdaptiveSizePolicy
+     * </pre>
+     */
+    private String useAdaptiveSizePolicy;
+
+    public String getUseAdaptiveSizePolicy() {
+        return useAdaptiveSizePolicy;
+    ***REMOVED***
+
+    /**
+     * Option to enable/disable gc logging datestamps. Deprecated in JDK9. For example:
+     * 
+     * <pre>
+     * -XX:+PrintGCDateStamps
+     * </pre>
+     */
+    private String printGcDateStamps;
+
+    /**
+     * Option to enable/disable printing gc details. Deprecated in JDK9. For example:
+     * 
+     * <pre>
+     * -XX:+PrintGCDetails
+     * </pre>
+     */
+    private String printGcDetails;
+
+    /**
+     * JVM options used to define system properties.
+     * 
+     * For example:
+     * 
+     * -Dcatalina.base=/path/to/tomcat
+     */
+    private ArrayList<String> systemProperties = new ArrayList<String>();
 
     /**
      * Thread stack size. Specified with either the <code>-Xss</code>, <code>-ss</code>, or
@@ -63,50 +181,18 @@ public class JvmOptions {
     private String threadStackSize;
 
     /**
-     * JVM options used to define system properties.
-     * 
-     * For example:
-     * 
-     * -Dcatalina.base=/path/to/tomcat
-     */
-    private ArrayList<String> systemProperties = new ArrayList<String>();
-
-    /**
-     * The option for setting CompressedClassSpaceSize.
+     * Option to enable/disable class loading/unloading information in gc log. For example:
      * 
      * <pre>
-     * -XX:CompressedClassSpaceSize=768m
+     * -XX:-TraceClassUnloading
      * </pre>
      */
-    private String compressedClassSpaceSizeOption;
+    private String traceClassUnloading;
 
     /**
-     * Maximum Metaspace (<code>-XX:MaxMetaspaceSize</code>). For example:
-     * 
-     * <pre>
-     * -XX:MaxMetaspaceSize=2048m
-     * </pre>
+     * Undefined JVM options.
      */
-    private String maxMetaspaceSize;
-
-    /**
-     * Maximum heap space. Specified with the <code>-Xmx</code> or <code>-XX:MaxHeapSize</code> option. For example:
-     * 
-     * <pre>
-     * -Xmx1024m
-     * -XX:MaxHeapSize=1234567890
-     * </pre>
-     */
-    private String maxHeapSize;
-
-    /**
-     * Option to enable/disable compressed object pointers. For example:
-     * 
-     * <pre>
-     * -XX:-UseCompressedOops
-     * </pre>
-     */
-    private String useCompressedOops;
+    private ArrayList<String> undefined = new ArrayList<String>();
 
     /**
      * Option to enable/disable compressed class pointers. For example:
@@ -118,9 +204,27 @@ public class JvmOptions {
     private String useCompressedClassPointers;
 
     /**
-     * Undefined JVM options.
+     * Option to enable/disable compressed object pointers. For example:
+     * 
+     * <pre>
+     * -XX:-UseCompressedOops
+     * </pre>
      */
-    private ArrayList<String> undefined = new ArrayList<String>();
+    private String useCompressedOops;
+
+    /**
+     * Option to enable/disable gc log file rotation. For example:
+     * 
+     * -XX:+UseGCLogFileRotation
+     */
+    private String useGcLogFileRotation;
+
+    /**
+     * Flag to display information about each gc event.
+     * 
+     * -verbose:gc
+     */
+    private boolean verboseGc = false;
 
     /**
      * Convert JVM argument string to JVM options.
@@ -131,7 +235,7 @@ public class JvmOptions {
     public JvmOptions(String jvmArgs) {
         super();
         if (jvmArgs != null) {
-            String[] options = jvmArgs.split("(?<!^)(?=-)");
+            String[] options = jvmArgs.split("(?<!^)(?= -)");
             for (int i = 0; i < options.length; i++) {
                 String option = options[i].trim();
                 if (option.matches("^-agentlib:jdwp=transport=dt_socket.+$")) {
@@ -139,19 +243,41 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-ABRT.+$")) {
                     abrt = option;
                 ***REMOVED*** else if (option.matches("^-XX:CompressedClassSpaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
-                    compressedClassSpaceSizeOption = option;
+                    compressedClassSpaceSize = option;
                 ***REMOVED*** else if (option.matches("^-D.+$")) {
                     systemProperties.add(option);
+                ***REMOVED*** else if (option.matches("^-Xloggc:.+$")) {
+                    logGc = option;
+                ***REMOVED*** else if (option.matches("^-X(ms|X:InitialHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    initialHeapSize = option;
+                ***REMOVED*** else if (option.matches("^-XX:MetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    initialMetaspaceSize = option;
                 ***REMOVED*** else if (option.matches("^-X(mx|X:MaxHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxHeapSize = option;
-                ***REMOVED*** else if (option.matches("^-XX:MaxMetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
-                    maxMetaspaceSize = option;
                 ***REMOVED*** else if (option.matches("^-(X)?(ss|X:ThreadStackSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     threadStackSize = option;
+                ***REMOVED*** else if (option.matches("^-XX:GCLogFileSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    gcLogFileSize = option;
+                ***REMOVED*** else if (option.matches("^-XX:MaxMetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    maxMetaspaceSize = option;
+                ***REMOVED*** else if (option.matches("^-XX:NumberOfGCLogFiles=\\d{1,***REMOVED***$")) {
+                    numberOfGcLogFiles = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCDateStamps$")) {
+                    printGcDateStamps = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCDetails$")) {
+                    printGcDetails = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]TraceClassUnloading$")) {
+                    traceClassUnloading = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseAdaptiveSizePolicy$")) {
+                    useAdaptiveSizePolicy = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedClassPointers$")) {
                     useCompressedClassPointers = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedOops$")) {
                     useCompressedOops = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseGCLogFileRotation$")) {
+                    useGcLogFileRotation = option;
+                ***REMOVED*** else if (option.matches("^-verbose:gc$")) {
+                    verboseGc = true;
                 ***REMOVED*** else {
                     undefined.add(option);
                 ***REMOVED***
@@ -159,50 +285,121 @@ public class JvmOptions {
         ***REMOVED***
     ***REMOVED***
 
+    /**
+     * Do JVM options analysis.
+     */
+    public void doAnalysis(List<Analysis> analysis) {
+        // Check for remote debugging enabled
+        if (jpdaSocketTransport != null) {
+            analysis.add(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED);
+        ***REMOVED***
+        if (undefined.size() > 0) {
+            analysis.add(Analysis.INFO_OPT_UNDEFINED);
+        ***REMOVED***
+        // Check if initial or max metaspace size being set
+        if (initialMetaspaceSize != null || maxMetaspaceSize != null) {
+            analysis.add(Analysis.INFO_OPT_METASPACE);
+        ***REMOVED***
+        // Check if MaxMetaspaceSize is less than CompressedClassSpaceSize.
+        if (maxMetaspaceSize != null) {
+            long compressedClassSpaceBytes;
+            if (compressedClassSpaceSize != null) {
+                compressedClassSpaceBytes = JdkUtil
+                        .getByteOptionBytes(JdkUtil.getByteOptionValue(compressedClassSpaceSize));
+            ***REMOVED*** else {
+                // Default is 1G
+                compressedClassSpaceBytes = JdkUtil.convertSize(1, 'G', 'B');
+            ***REMOVED***
+            if (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(maxMetaspaceSize)) < compressedClassSpaceBytes) {
+                analysis.add(Analysis.WARN_OPT_METASPACE_LT_COMP_CLASS);
+            ***REMOVED***
+        ***REMOVED***
+        // Check if heap prevented from growing beyond initial heap size
+        if (initialHeapSize != null && maxHeapSize != null && useAdaptiveSizePolicy != null
+                && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(initialHeapSize)) != JdkUtil
+                        .getByteOptionBytes(JdkUtil.getByteOptionValue(maxHeapSize)))
+                && JdkUtil.isOptionDisabled(useAdaptiveSizePolicy)) {
+            analysis.add(Analysis.WARN_OPT_ADAPTIVE_RESIZE_POLICY_DISABLED);
+        ***REMOVED***
+    ***REMOVED***
+
     public String getAbrt() {
         return abrt;
     ***REMOVED***
 
-    public ArrayList<String> getSystemProperties() {
-        return systemProperties;
-    ***REMOVED***
-
-    public ArrayList<String> getUnknown() {
-        return undefined;
-    ***REMOVED***
-
     public String getCompressedClassSpaceSize() {
-        return compressedClassSpaceSizeOption;
+        return compressedClassSpaceSize;
     ***REMOVED***
 
-    public String getThreadStackSize() {
-        return threadStackSize;
+    public String getGcLogFileSize() {
+        return gcLogFileSize;
+    ***REMOVED***
+
+    public String getInitialHeapSize() {
+        return initialHeapSize;
+    ***REMOVED***
+
+    public String getInitialMetaspaceSize() {
+        return initialMetaspaceSize;
     ***REMOVED***
 
     public String getJpdaSocketTransport() {
         return jpdaSocketTransport;
     ***REMOVED***
 
-    public String getMaxMetaspaceSize() {
-        return maxMetaspaceSize;
+    public String getLogGc() {
+        return logGc;
     ***REMOVED***
 
     public String getMaxHeapSize() {
         return maxHeapSize;
     ***REMOVED***
 
-    /**
-     * @return True if compressed object references are disabled, false otherwise.
-     */
-    public boolean isUseCompressedOopsDisabled() {
-        return useCompressedOops != null && useCompressedOops.matches("-XX:\\-UseCompressedOops");
+    public String getMaxMetaspaceSize() {
+        return maxMetaspaceSize;
     ***REMOVED***
 
-    /**
-     * @return True if compressed object references are disabled, false otherwise.
-     */
-    public boolean isUseCompressedClassPointersDisabled() {
-        return useCompressedClassPointers != null
-                && useCompressedClassPointers.matches("-XX:\\-UseCompressedClassPointers");
+    public String getNumberOfGcLogFiles() {
+        return numberOfGcLogFiles;
+    ***REMOVED***
+
+    public String getPrintGcDateStamps() {
+        return printGcDateStamps;
+    ***REMOVED***
+
+    public String getPrintGcDetails() {
+        return printGcDetails;
+    ***REMOVED***
+
+    public ArrayList<String> getSystemProperties() {
+        return systemProperties;
+    ***REMOVED***
+
+    public String getThreadStackSize() {
+        return threadStackSize;
+    ***REMOVED***
+
+    public String getTraceClassUnloading() {
+        return traceClassUnloading;
+    ***REMOVED***
+
+    public ArrayList<String> getUndefined() {
+        return undefined;
+    ***REMOVED***
+
+    public String getUseCompressedClassPointers() {
+        return useCompressedClassPointers;
+    ***REMOVED***
+
+    public String getUseCompressedOops() {
+        return useCompressedOops;
+    ***REMOVED***
+
+    public String getUseGcLogFileRotation() {
+        return useGcLogFileRotation;
+    ***REMOVED***
+
+    public boolean isVerboseGc() {
+        return verboseGc;
     ***REMOVED***
 ***REMOVED***

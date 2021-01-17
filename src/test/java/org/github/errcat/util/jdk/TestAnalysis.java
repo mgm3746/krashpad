@@ -17,6 +17,7 @@ package org.github.errcat.util.jdk;
 import java.io.File;
 
 import org.github.errcat.domain.jdk.FatalErrorLog;
+import org.github.errcat.domain.jdk.VmArgumentsEvent;
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.ErrUtil;
@@ -191,29 +192,29 @@ public class TestAnalysis extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset27.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        long physicalMemory = JdkUtil.convertSize(15995796, 'K', Constants.BYTE_PRECISION);
+        long physicalMemory = JdkUtil.convertSize(15995796, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Physical memory not correct.", physicalMemory, fel.getJvmPhysicalMemory());
-        long physicalMemoryFree = JdkUtil.convertSize(241892, 'K', Constants.BYTE_PRECISION);
+        long physicalMemoryFree = JdkUtil.convertSize(241892, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Physical memory free not correct.", physicalMemoryFree, fel.getJvmPhysicalMemoryFree());
-        long swap = JdkUtil.convertSize(10592252, 'K', Constants.BYTE_PRECISION);
+        long swap = JdkUtil.convertSize(10592252, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Swap not correct.", swap, fel.getJvmSwap());
-        long swapFree = JdkUtil.convertSize(4, 'K', Constants.BYTE_PRECISION);
+        long swapFree = JdkUtil.convertSize(4, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Swap free not correct.", swapFree, fel.getJvmSwapFree());
-        long heapMax = JdkUtil.convertSize(8192, 'M', Constants.BYTE_PRECISION);
+        long heapMax = JdkUtil.convertSize(8192, 'M', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Heap max size not correct.", heapMax, fel.getHeapMaxSize());
-        long heapAllocationYoung = JdkUtil.convertSize(2761728, 'K', Constants.BYTE_PRECISION);
-        long heapAllocationOld = JdkUtil.convertSize(4838912, 'K', Constants.BYTE_PRECISION);
+        long heapAllocationYoung = JdkUtil.convertSize(2761728, 'K', Constants.PRECISION_REPORTING);
+        long heapAllocationOld = JdkUtil.convertSize(4838912, 'K', Constants.PRECISION_REPORTING);
         long heapAllocation = heapAllocationYoung + heapAllocationOld;
         Assert.assertEquals("Heap allocation not correct.", heapAllocation, fel.getHeapAllocation());
-        long heapUsed = JdkUtil.convertSize(0 + 2671671, 'K', Constants.BYTE_PRECISION);
+        long heapUsed = JdkUtil.convertSize(0 + 2671671, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Heap used not correct.", heapUsed, fel.getHeapUsed());
-        long metaspaceMax = JdkUtil.convertSize(8192, 'M', Constants.BYTE_PRECISION);
+        long metaspaceMax = JdkUtil.convertSize(8192, 'M', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Metaspace max size not correct.", metaspaceMax, fel.getMetaspaceMaxSize());
-        long metaspaceAllocation = JdkUtil.convertSize(471808, 'K', Constants.BYTE_PRECISION);
+        long metaspaceAllocation = JdkUtil.convertSize(471808, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Metaspace allocation not correct.", metaspaceAllocation, fel.getMetaspaceAllocation());
-        long metaspaceUsed = JdkUtil.convertSize(347525, 'K', Constants.BYTE_PRECISION);
+        long metaspaceUsed = JdkUtil.convertSize(347525, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Metaspace used not correct.", metaspaceUsed, fel.getMetaspaceUsed());
-        long jvmMemory = JdkUtil.convertSize(17825792, 'K', Constants.BYTE_PRECISION);
+        long jvmMemory = JdkUtil.convertSize(17825792, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Jvm memory not correct.", jvmMemory, fel.getJvmMemory());
         Assert.assertEquals("Java thread count not correct.", 225, fel.getJavaThreadCount());
         Assert.assertTrue(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY + " analysis not identified.",
@@ -233,9 +234,9 @@ public class TestAnalysis extends TestCase {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue("Out Of Memory Error not identified.", fel.isError("Out of Memory Error"));
-        long physicalMemory = JdkUtil.convertSize(24609684, 'K', Constants.BYTE_PRECISION);
+        long physicalMemory = JdkUtil.convertSize(24609684, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Physical memory not correct.", physicalMemory, fel.getJvmPhysicalMemory());
-        long jvmMemory = JdkUtil.convertSize(18581504, 'K', Constants.BYTE_PRECISION);
+        long jvmMemory = JdkUtil.convertSize(18581504, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Jvm memory not correct.", jvmMemory, fel.getJvmMemory());
         Assert.assertTrue(Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL));
@@ -258,6 +259,10 @@ public class TestAnalysis extends TestCase {
                 fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN));
         Assert.assertTrue(GarbageCollector.SHENANDOAH + " collector not identified.",
                 fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH));
+        Assert.assertTrue(Analysis.INFO_OPT_METASPACE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_METASPACE));
+        Assert.assertTrue(Analysis.WARN_OPT_METASPACE_LT_COMP_CLASS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_METASPACE_LT_COMP_CLASS));
     ***REMOVED***
 
     public void testPthreadGetcpuclockid() {
@@ -379,8 +384,8 @@ public class TestAnalysis extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset45.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertTrue(Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_REMOTE_DEBUGGING_ENABLED));
+        Assert.assertTrue(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED));
     ***REMOVED***
 
     public void testLibaioContextDone() {
@@ -423,5 +428,15 @@ public class TestAnalysis extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertFalse(Analysis.INFO_STACK_NO_VM_CODE + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.INFO_STACK_NO_VM_CODE));
+    ***REMOVED***
+
+    public void testUseAdaptiveSizePolicyDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:-UseAdaptiveSizePolicy";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_ADAPTIVE_RESIZE_POLICY_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_ADAPTIVE_RESIZE_POLICY_DISABLED));
     ***REMOVED***
 ***REMOVED***

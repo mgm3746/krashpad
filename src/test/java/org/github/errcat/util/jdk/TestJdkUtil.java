@@ -28,4 +28,24 @@ public class TestJdkUtil extends TestCase {
         String jdk8ReleaseString = "1.8.0_222-b10";
         Assert.assertEquals("JDK8 update number not correct.", 222, JdkUtil.getJdk8UpdateNumber(jdk8ReleaseString));
     ***REMOVED***
+
+    public void testByteOptionValue() {
+        Assert.assertEquals("-Xss not correct.", "512k", JdkUtil.getByteOptionValue("-Xss512k"));
+        Assert.assertEquals("-XX:MaxMetaspaceSize not correct.", "2048m",
+                JdkUtil.getByteOptionValue("-XX:MaxMetaspaceSize=2048m"));
+    ***REMOVED***
+
+    public void testOptionDisabled() {
+        Assert.assertEquals("-XX:+PrintFlagsFinal not correct.", false,
+                JdkUtil.isOptionDisabled("-XX:+PrintFlagsFinal"));
+        Assert.assertEquals("-XX:-TraceClassUnloading not correct.", true,
+                JdkUtil.isOptionDisabled("-XX:-TraceClassUnloading"));
+    ***REMOVED***
+
+    public void testByteOptionBytes() {
+        Assert.assertEquals("-Xss not correct.", 512L * 1024, JdkUtil.getByteOptionBytes("512k"));
+        Assert.assertEquals("-XX:MaxMetaspaceSize not correct.", 2048L * 1024 * 1024,
+                JdkUtil.getByteOptionBytes("2048m"));
+    ***REMOVED***
+
 ***REMOVED***
