@@ -248,9 +248,9 @@ public class FatalErrorLog {
         String jvmArgs = getJvmArgs();
         if (jvmArgs != null) {
             jvmOptions = new JvmOptions(jvmArgs);
+            jvmOptions.doAnalysis(analysis);
         }
         doDataAnalysis();
-        doJvmOptionsAnalysis();
     }
 
     /**
@@ -529,17 +529,6 @@ public class FatalErrorLog {
         }
     }
 
-    /**
-     * Do JVM options analysis.
-     */
-    private void doJvmOptionsAnalysis() {
-        if (jvmOptions != null) {
-            if (jvmOptions.getJpdaSocketTransport() != null) {
-                analysis.add(Analysis.ERROR_REMOTE_DEBUGGING_ENABLED);
-            }
-        }
-    }
-
     public List<Analysis> getAnalysis() {
         return analysis;
     }
@@ -616,7 +605,7 @@ public class FatalErrorLog {
      */
     public long getCompressedClassSpaceSize() {
         // Default is 1g
-        long compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.BYTE_PRECISION);
+        long compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.PRECISION_REPORTING);
         if (jvmOptions != null && jvmOptions.getCompressedClassSpaceSize() != null) {
             char fromUnits;
             long value;
@@ -629,7 +618,7 @@ public class FatalErrorLog {
                 } else {
                     fromUnits = 'B';
                 }
-                compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
             }
         }
         return compressedClassSpaceSize;
@@ -657,6 +646,10 @@ public class FatalErrorLog {
         return cpuArch;
     }
 
+    public List<CpuInfoEvent> getCpuInfoEvents() {
+        return cpuInfoEvents;
+    }
+
     /**
      * @return The number of logical cpus (cpus x cpu cores x hyperthreading).
      */
@@ -676,10 +669,6 @@ public class FatalErrorLog {
             }
         }
         return cpus;
-    }
-
-    public List<CpuInfoEvent> getCpuInfoEvents() {
-        return cpuInfoEvents;
     }
 
     /**
@@ -839,7 +828,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     }
                 } else if (heapAtCrash && event.isOldGen()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_OLD_GEN);
@@ -851,7 +840,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     }
                 } else if (heapAtCrash && event.isShenandoah()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
@@ -863,7 +852,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     }
                 } else if (heapAtCrash && event.isG1()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_G1);
@@ -875,7 +864,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     }
                 } else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
                     heapAtCrash = false;
@@ -904,7 +893,8 @@ public class FatalErrorLog {
                 Pattern pattern = Pattern.compile(regExMaxHeap);
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    heapMaxSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B', Constants.BYTE_PRECISION);
+                    heapMaxSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
+                            Constants.PRECISION_REPORTING);
                 }
             }
         } else if (jvmOptions != null && jvmOptions.getMaxHeapSize() != null) {
@@ -920,7 +910,7 @@ public class FatalErrorLog {
                 } else {
                     fromUnits = 'B';
                 }
-                heapMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                heapMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
             }
         }
         // Max heap size not set (e.g. container), use allocation
@@ -957,7 +947,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     }
                 } else if (heapAtCrash && event.isOldGen()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_OLD_GEN);
@@ -969,7 +959,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     }
                 } else if (heapAtCrash && event.isShenandoah()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
@@ -981,7 +971,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     }
                 } else if (heapAtCrash && event.isG1()) {
                     pattern = Pattern.compile(HeapEvent.REGEX_G1);
@@ -993,7 +983,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     }
                 } else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
                     heapAtCrash = false;
@@ -1137,8 +1127,8 @@ public class FatalErrorLog {
                 jvmMemory = getMetaspaceMaxSize();
             }
         }
-        if (jvmMemory > 0 && jvmOptions != null && !jvmOptions.isUseCompressedOopsDisabled()
-                && !jvmOptions.isUseCompressedClassPointersDisabled()) {
+        if (jvmMemory > 0 && jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())
+                && !JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
             // Using compressed class pointers space
             if (getCompressedClassSpaceSize() > 0) {
                 if (jvmMemory > 0) {
@@ -1149,6 +1139,10 @@ public class FatalErrorLog {
             }
         }
         return jvmMemory;
+    }
+
+    public JvmOptions getJvmOptions() {
+        return jvmOptions;
     }
 
     /**
@@ -1164,7 +1158,7 @@ public class FatalErrorLog {
                     Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(4)),
-                                matcher.group(6).charAt(0), Constants.BYTE_PRECISION);
+                                matcher.group(6).charAt(0), Constants.PRECISION_REPORTING);
                     }
                 }
             }
@@ -1185,7 +1179,7 @@ public class FatalErrorLog {
                     Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)),
-                                matcher.group(9).charAt(0), Constants.BYTE_PRECISION);
+                                matcher.group(9).charAt(0), Constants.PRECISION_REPORTING);
                     }
                 }
             }
@@ -1207,7 +1201,7 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         if (matcher.group(11) != null && matcher.group(13) != null) {
                             swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
-                                    Constants.BYTE_PRECISION);
+                                    Constants.PRECISION_REPORTING);
                         }
                     }
                 }
@@ -1229,7 +1223,7 @@ public class FatalErrorLog {
                     Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)), matcher.group(16).charAt(0),
-                                Constants.BYTE_PRECISION);
+                                Constants.PRECISION_REPORTING);
                     }
                 }
             }
@@ -1247,7 +1241,7 @@ public class FatalErrorLog {
     public String getMaxMetaspaceValue() {
         String maxMetaspaceValue = null;
         if (jvmOptions != null && jvmOptions.getMaxMetaspaceSize() != null) {
-            maxMetaspaceValue = JdkUtil.getOptionValue(jvmOptions.getMaxMetaspaceSize());
+            maxMetaspaceValue = JdkUtil.getByteOptionValue(jvmOptions.getMaxMetaspaceSize());
         }
         return maxMetaspaceValue;
     }
@@ -1286,7 +1280,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        metaspaceAllocation = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                        metaspaceAllocation = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                         break;
                     }
                 } else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
@@ -1314,7 +1308,7 @@ public class FatalErrorLog {
                 } else {
                     fromUnits = 'B';
                 }
-                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
             }
         }
         // If max metaspace size not set (recommended), get from <code>HeapEvent</code>
@@ -1340,7 +1334,7 @@ public class FatalErrorLog {
                             } else {
                                 fromUnits = 'B';
                             }
-                            metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                            metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                             break;
                         }
                     } else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
@@ -1378,7 +1372,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits, Constants.BYTE_PRECISION);
+                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                         break;
                     }
                 } else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
@@ -1558,24 +1552,6 @@ public class FatalErrorLog {
         return rpmDirectory;
     }
 
-    /**
-     * @return The storage device where the JDK is installed.
-     */
-    public Device getStorageDevice() {
-        Device device = Device.UNKNOWN;
-        if (getOsType() == OsType.LINUX && dynamicLibraryEvents.size() > 0) {
-            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
-            while (iterator.hasNext()) {
-                DynamicLibraryEvent event = iterator.next();
-                if (event.getFilePath() != null && event.getFilePath().matches("^.+libjvm\\.so$")) {
-                    device = event.getDevice();
-                    break;
-                }
-            }
-        }
-        return device;
-    }
-
     public SigInfoEvent getSigInfoEvent() {
         return sigInfoEvent;
     }
@@ -1679,6 +1655,24 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return The storage device where the JDK is installed.
+     */
+    public Device getStorageDevice() {
+        Device device = Device.UNKNOWN;
+        if (getOsType() == OsType.LINUX && dynamicLibraryEvents.size() > 0) {
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getFilePath() != null && event.getFilePath().matches("^.+libjvm\\.so$")) {
+                    device = event.getDevice();
+                    break;
+                }
+            }
+        }
+        return device;
+    }
+
+    /**
      * @return The total available physical memory (kilobytes) reported by the OS.
      */
     public long getSystemPhysicalMemory() {
@@ -1692,7 +1686,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.BYTE_PRECISION);
+                            Constants.PRECISION_REPORTING);
                     break;
                 }
             }
@@ -1705,7 +1699,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(3)),
-                                matcher.group(5).charAt(0), Constants.BYTE_PRECISION);
+                                matcher.group(5).charAt(0), Constants.PRECISION_REPORTING);
                     }
                     break;
                 }
@@ -1728,7 +1722,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.BYTE_PRECISION);
+                            Constants.PRECISION_REPORTING);
                     break;
                 }
             }
@@ -1741,7 +1735,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)),
-                                matcher.group(8).charAt(0), Constants.BYTE_PRECISION);
+                                matcher.group(8).charAt(0), Constants.PRECISION_REPORTING);
                     }
                     break;
                 }
@@ -1763,7 +1757,7 @@ public class FatalErrorLog {
                 MeminfoEvent event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.BYTE_PRECISION);
+                    swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.PRECISION_REPORTING);
                     break;
                 }
             }
@@ -1776,7 +1770,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find() && matcher.group(9) != null) {
                         swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0),
-                                Constants.BYTE_PRECISION);
+                                Constants.PRECISION_REPORTING);
                     }
                     break;
                 }
@@ -1798,7 +1792,8 @@ public class FatalErrorLog {
                 MeminfoEvent event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.BYTE_PRECISION);
+                    swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.PRECISION_REPORTING);
                     break;
                 }
             }
@@ -1811,7 +1806,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find() && matcher.group(9) != null) {
                         swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0),
-                                Constants.BYTE_PRECISION);
+                                Constants.PRECISION_REPORTING);
                     }
                     break;
                 }
@@ -1894,6 +1889,24 @@ public class FatalErrorLog {
             }
         }
         return isCgroupMemoryLimit;
+    }
+
+    /**
+     * @return true if the stack contains frames, false otherwise.
+     */
+    public boolean haveFramesInStack() {
+        boolean haveFramesInStack = false;
+        if (stackEvents.size() > 0) {
+            Iterator<StackEvent> iterator = stackEvents.iterator();
+            while (iterator.hasNext()) {
+                StackEvent event = iterator.next();
+                if (event.isFrame()) {
+                    haveFramesInStack = true;
+                    break;
+                }
+            }
+        }
+        return haveFramesInStack;
     }
 
     /**
@@ -2017,24 +2030,6 @@ public class FatalErrorLog {
             }
         }
         return haveVmFrameInStack;
-    }
-
-    /**
-     * @return true if the stack contains frames, false otherwise.
-     */
-    public boolean haveFramesInStack() {
-        boolean haveFramesInStack = false;
-        if (stackEvents.size() > 0) {
-            Iterator<StackEvent> iterator = stackEvents.iterator();
-            while (iterator.hasNext()) {
-                StackEvent event = iterator.next();
-                if (event.isFrame()) {
-                    haveFramesInStack = true;
-                    break;
-                }
-            }
-        }
-        return haveFramesInStack;
     }
 
     /**
