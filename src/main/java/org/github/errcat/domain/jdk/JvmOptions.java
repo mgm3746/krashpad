@@ -169,6 +169,24 @@ public class JvmOptions {
     private String numberOfGcLogFiles;
 
     /**
+     * Option to enable printing CMS Free List Space statistics in gc logging. For example:
+     * 
+     * <pre>
+     * -XX:PrintFLSStatistics=1
+     * </pre>
+     */
+    private String printFLSStatistics;
+
+    /**
+     * Option to enable/disable outputting application stopped time in gc logging. Deprecated in JDK9. For example:
+     * 
+     * <pre>
+     * -XX:+PrintGCApplicationStoppedTime
+     * </pre>
+     */
+    private String printGcApplicationStoppedTime;
+
+    /**
      * Option to enable/disable gc logging datestamps. Deprecated in JDK9. For example:
      * 
      * <pre>
@@ -185,6 +203,51 @@ public class JvmOptions {
      * </pre>
      */
     private String printGcDetails;
+
+    /**
+     * Option to enable/disable printing task timestamp for each GC thread. For example:
+     * 
+     * <pre>
+     * -XX:+PrintGCTaskTimeStamps
+     * </pre>
+     */
+    private String printGcTaskTimeStamps;
+
+    /**
+     * Option to enable/disable printing gc timestamps.
+     * 
+     * <pre>
+     * -XX:+PrintGCTimeStamps
+     * </pre>
+     */
+    private String printGcTimeStamps;
+
+    /**
+     * Option to enable/disable printing additional heap information in gc logging.
+     * 
+     * <pre>
+     * -XX:+PrintHeapAtGC
+     * </pre>
+     */
+    private String printHeapAtGc;
+
+    /**
+     * Option to enable/disable printing safepoint information. For example:
+     * 
+     * <pre>
+     *-XX:+PrintSafepointStatistics
+     * </pre>
+     */
+    private String printSafepointStatistics;
+
+    /**
+     * Option to enable/disable printing tenuring information in gc logging.
+     * 
+     * <pre>
+     * -XX:+PrintTenuringDistribution
+     * </pre>
+     */
+    private String printTenuringDistribution;
 
     /**
      * JVM options used to define system properties.
@@ -216,6 +279,15 @@ public class JvmOptions {
     private String threadStackSize;
 
     /**
+     * Option to enable/disable tiered compilation. For example:
+     * 
+     * <pre>
+     * -XX:+TieredCompilation
+     * </pre>
+     */
+    private String tieredCompilation;
+
+    /**
      * Option to enable/disable class loading/unloading information in gc log. For example:
      * 
      * <pre>
@@ -238,6 +310,15 @@ public class JvmOptions {
      * </pre>
      */
     private String useAdaptiveSizePolicy;
+
+    /**
+     * Option to enable/disable biased locking. For example:
+     * 
+     * <pre>
+     * -XX:-UseBiasedLocking
+     * </pre>
+     */
+    private String useBiasedLocking;
 
     /**
      * Option to enable/disable compressed class pointers. For example:
@@ -263,6 +344,13 @@ public class JvmOptions {
      * -XX:+UseGCLogFileRotation
      */
     private String useGcLogFileRotation;
+
+    /**
+     * Option to enable/disable the Shenandoah garbage collector. For example:
+     * 
+     * -XX:+UseShenandoahGC
+     */
+    private String useShenandoahGc;
 
     /**
      * Flag to log (to standard out) class loading information.
@@ -324,20 +412,42 @@ public class JvmOptions {
                     maxPermSize = option;
                 } else if (option.matches("^-XX:NumberOfGCLogFiles=\\d{1,}$")) {
                     numberOfGcLogFiles = option;
+                } else if (option.matches("^-XX:PrintFLSStatistics=\\d$")) {
+                    printFLSStatistics = option;
+                } else if (option.matches("^-XX:[\\-+]PrintGCApplicationStoppedTime$")) {
+                    printGcApplicationStoppedTime = option;
                 } else if (option.matches("^-XX:[\\-+]PrintGCDateStamps$")) {
                     printGcDateStamps = option;
                 } else if (option.matches("^-XX:[\\-+]PrintGCDetails$")) {
                     printGcDetails = option;
+                } else if (option.matches("^-XX:[\\-+]PrintGCTaskTimeStamps$")) {
+                    printGcTaskTimeStamps = option;
+                } else if (option.matches("^-XX:[\\-+]PrintGCTimeStamps$")) {
+                    printGcTimeStamps = option;
+                } else if (option.matches("^-XX:[\\-+]PrintHeapAtGC$")) {
+                    printHeapAtGc = option;
+                } else if (option.matches("^-XX:[\\-+]PrintSafepointStatistics$")) {
+                    printSafepointStatistics = option;
+                } else if (option.matches("^-XX:[\\-+]PrintTenuringDistribution$")) {
+                    printTenuringDistribution = option;
+                } else if (option.matches("^-XX:[\\-+]TieredCompilation$")) {
+                    tieredCompilation = option;
                 } else if (option.matches("^-XX:[\\-+]TraceClassUnloading$")) {
                     traceClassUnloading = option;
                 } else if (option.matches("^-XX:[\\-+]UseAdaptiveSizePolicy$")) {
                     useAdaptiveSizePolicy = option;
+                } else if (option.matches("^-XX:[\\-+]UseAdaptiveSizePolicy$")) {
+                    useAdaptiveSizePolicy = option;
+                } else if (option.matches("^-XX:[\\-+]UseBiasedLocking$")) {
+                    useBiasedLocking = option;
                 } else if (option.matches("^-XX:[\\-+]UseCompressedClassPointers$")) {
                     useCompressedClassPointers = option;
                 } else if (option.matches("^-XX:[\\-+]UseCompressedOops$")) {
                     useCompressedOops = option;
                 } else if (option.matches("^-XX:[\\-+]UseGCLogFileRotation$")) {
                     useGcLogFileRotation = option;
+                } else if (option.matches("^-XX:[\\-+]UseShenandoahGC$")) {
+                    useShenandoahGc = option;
                 } else if (option.matches("^-verbose:class$")) {
                     verboseClass = true;
                 } else if (option.matches("^-verbose:gc$")) {
@@ -460,8 +570,29 @@ public class JvmOptions {
                 analysis.add(Analysis.WARN_OPT_COMP_CLASS_SIZE_HEAP_GT_32G);
             }
         }
+        // Check for verbose class loading/unloading logging
         if (verboseClass) {
             analysis.add(Analysis.INFO_OPT_VERBOSE_CLASS);
+        }
+        // Check for -XX:+TieredCompilation.
+        if (tieredCompilation != null && !JdkUtil.isOptionDisabled(tieredCompilation)) {
+            analysis.add(Analysis.INFO_OPT_TIERED_COMPILATION_ENABLED);
+        }
+        // Check for -XX:-UseBiasedLocking.
+        if (JdkUtil.isOptionDisabled(useBiasedLocking) && useShenandoahGc == null) {
+            analysis.add(Analysis.WARN_OPT_BIASED_LOCKING_DISABLED);
+        }
+        // Check for -XX:+PrintHeapAtGC.
+        if (printHeapAtGc != null) {
+            analysis.add(Analysis.INFO_OPT_PRINT_HEAP_AT_GC);
+        }
+        // Check for -XX:+PrintTenuringDistribution
+        if (printTenuringDistribution != null) {
+            analysis.add(Analysis.INFO_OPT_PRINT_TENURING_DISTRIBUTION);
+        }
+        // Check for -XX:PrintFLSStatistics=\\d
+        if (this.printFLSStatistics != null) {
+            analysis.add(Analysis.INFO_OPT_PRINT_FLS_STATISTICS);
         }
     }
 
@@ -521,6 +652,14 @@ public class JvmOptions {
         return numberOfGcLogFiles;
     }
 
+    public String getPrintFLSStatistics() {
+        return printFLSStatistics;
+    }
+
+    public String getPrintGcApplicationStoppedTime() {
+        return printGcApplicationStoppedTime;
+    }
+
     public String getPrintGcDateStamps() {
         return printGcDateStamps;
     }
@@ -529,12 +668,36 @@ public class JvmOptions {
         return printGcDetails;
     }
 
+    public String getPrintGcTaskTimeStamps() {
+        return printGcTaskTimeStamps;
+    }
+
+    public String getPrintGcTimeStamps() {
+        return printGcTimeStamps;
+    }
+
+    public String getPrintHeapAtGC() {
+        return printHeapAtGc;
+    }
+
+    public String getPrintSafepointStatistics() {
+        return printSafepointStatistics;
+    }
+
+    public String getPrintTenuringDistribution() {
+        return printTenuringDistribution;
+    }
+
     public ArrayList<String> getSystemProperties() {
         return systemProperties;
     }
 
     public String getThreadStackSize() {
         return threadStackSize;
+    }
+
+    public String getTieredCompilation() {
+        return tieredCompilation;
     }
 
     public String getTraceClassUnloading() {
@@ -549,6 +712,10 @@ public class JvmOptions {
         return useAdaptiveSizePolicy;
     }
 
+    public String getUseBiasedLocking() {
+        return useBiasedLocking;
+    }
+
     public String getUseCompressedClassPointers() {
         return useCompressedClassPointers;
     }
@@ -559,6 +726,10 @@ public class JvmOptions {
 
     public String getUseGcLogFileRotation() {
         return useGcLogFileRotation;
+    }
+
+    public String getUseShenandoahGc() {
+        return useShenandoahGc;
     }
 
     public boolean isVerboseClass() {
