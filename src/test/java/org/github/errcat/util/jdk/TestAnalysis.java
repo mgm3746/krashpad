@@ -33,6 +33,15 @@ import junit.framework.TestCase;
  * 
  */
 public class TestAnalysis extends TestCase {
+    /**
+     * Verify analysis file property key/value lookup.
+     */
+    public void testPropertyKeyValueLookup() {
+        Analysis[] analysis = Analysis.values();
+        for (int i = 0; i < analysis.length; i++) {
+            Assert.assertNotNull(analysis[i].getKey() + " not found.", analysis[i].getValue());
+        ***REMOVED***
+    ***REMOVED***
 
     public void testWarnNotLatestJdkValue() {
         Assert.assertEquals(Analysis.WARN_JDK_NOT_LATEST + "value not correct.",
@@ -436,7 +445,210 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.WARN_OPT_ADAPTIVE_RESIZE_POLICY_DISABLED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.WARN_OPT_ADAPTIVE_RESIZE_POLICY_DISABLED));
+        Assert.assertTrue(Analysis.WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED));
+    ***REMOVED***
+
+    public void testMaxPermSize() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_MAX_PERM_SIZE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_MAX_PERM_SIZE));
+    ***REMOVED***
+
+    public void testHeapDumpOnOutOfMemoryErrorMissing() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_HEAP_DUMP_ON_OOME_MISSING + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_DUMP_ON_OOME_MISSING));
+    ***REMOVED***
+
+    public void testHeapDumpOnOutOfMemoryErrorDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:-HeapDumpOnOutOfMemoryError";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED));
+    ***REMOVED***
+
+    public void testHeapDumpOnOutOfMemoryErrorPathMissing() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:+HeapDumpOnOutOfMemoryError";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_HEAP_DUMP_PATH_MISSING + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_DUMP_PATH_MISSING));
+    ***REMOVED***
+
+    public void testHeapDumpOnOutOfMemoryErrorPathIsFileName() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:+HeapDumpOnOutOfMemoryError "
+                + "-XX:HeapDumpPath=/path/to/heap.hprof";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_HEAP_DUMP_PATH_FILENAME + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_DUMP_PATH_FILENAME));
+    ***REMOVED***
+
+    public void testHeapDumpOnOutOfMemoryErrorPathIsDirectory() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:+HeapDumpOnOutOfMemoryError "
+                + "-XX:HeapDumpPath=/path/to";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertFalse(Analysis.INFO_OPT_HEAP_DUMP_PATH_FILENAME + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_DUMP_PATH_FILENAME));
+    ***REMOVED***
+
+    public void testCmsParallelInitialMarkEnabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:-CMSParallelInitialMarkEnabled";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED));
+    ***REMOVED***
+
+    public void testCmsParallelRemarkEnabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:-CMSParallelRemarkEnabled";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED));
+    ***REMOVED***
+
+    public void testCompressedClassPointersEnabledCompressedOopsDisabledHeapUnknown() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedOops -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK));
+    ***REMOVED***
+
+    public void testCompressedClassPointersEnabledHeapGt32G() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UseCompressedClassPointers -Xmx32g";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G));
+        Assert.assertFalse(Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G + " incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G));
+    ***REMOVED***
+
+    public void testCompressedClassPointersDisabledHeapLt32G() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedClassPointers -XX:+UseCompressedOops -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_LT_32G + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_LT_32G));
+    ***REMOVED***
+
+    public void testCompressedClassPointersDisabledHeapUnknown() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedClassPointers -XX:+UseCompressedOops";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK));
+    ***REMOVED***
+
+    public void testCompressedClassSpaceSizeWithCompressedOopsDisabledHeapUnknown() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:CompressedClassSpaceSize=1G -XX:-UseCompressedOops -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK));
+        Assert.assertTrue(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_OOPS_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_OOPS_DISABLED));
+    ***REMOVED***
+
+    public void testCompressedClassSpaceSizeWithCompressedClassPointersDisabledHeapUnknown() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:CompressedClassSpaceSize=1G -XX:-UseCompressedClassPointers "
+                + "-Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK));
+        Assert.assertTrue(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_CLASS_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_CLASS_DISABLED));
+    ***REMOVED***
+
+    public void testCompressedOopsDisabledHeapLess32G() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedOops -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G));
+    ***REMOVED***
+
+    public void testCompressedOopsDisabledHeapEqual32G() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedOops -Xmx32G";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertFalse(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G));
+        Assert.assertFalse(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK));
+    ***REMOVED***
+
+    public void testCompressedOopsDisabledHeapGreater32G() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedOops -Xmx40G";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertFalse(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G));
+    ***REMOVED***
+
+    public void testCompressedOopsEnabledHeapGreater32G() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UseCompressedOops -Xmx40G";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G));
+        Assert.assertFalse(Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G + " incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G));
+    ***REMOVED***
+
+    public void testVerboseClass() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -verbose:class -Xmx2G";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_VERBOSE_CLASS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_VERBOSE_CLASS));
     ***REMOVED***
 ***REMOVED***

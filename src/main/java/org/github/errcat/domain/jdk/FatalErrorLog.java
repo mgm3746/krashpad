@@ -514,7 +514,6 @@ public class FatalErrorLog {
                 break;
 
             ***REMOVED***
-            analysis.add(Analysis.INFO_TRUNCATED);
         ***REMOVED***
         // CompilerThread
         if (getCurrentThread() != null && getCurrentThread().matches("^.+CompilerThread\\d{1,***REMOVED***.+$")) {
@@ -1040,11 +1039,14 @@ public class FatalErrorLog {
                 case JENKINS:
                     vendor = JavaVendor.ADOPTOPENJDK;
                     break;
+                case MOCKBUILD:
+                    // Some other OpenJDK
+                    vendor = JavaVendor.UNKNOWN;
+                    break;
                 case ZULU_RE:
                     vendor = JavaVendor.AZUL;
                     break;
                 case BUILD:
-                case MOCKBUILD:
                 case EMPTY:
                 case UNKNOWN:
                 default:
