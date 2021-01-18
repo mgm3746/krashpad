@@ -180,6 +180,38 @@ public enum Analysis {
     INFO_MEMORY_JVM_NE_SYSTEM("info.memory.jvm.ne.system"),
 
     /**
+     * Property key for compressed class pointers size set (-XX:CompressedClassSpaceSize) with compressed class pointers
+     * disabled (-XX:+UseCompressedClassPointers).
+     */
+    INFO_OPT_COMP_CLASS_SIZE_COMP_CLASS_DISABLED("info.opt.comp.class.size.comp.class.disabled"),
+
+    /**
+     * Property key for compressed class pointers size set (-XX:CompressedClassSpaceSize) with compressed object
+     * references disabled (-XX:-UseCompressedOops).
+     */
+    INFO_OPT_COMP_CLASS_SIZE_COMP_OOPS_DISABLED("info.opt.comp.class.size.comp.oops.disabled"),
+
+    /**
+     * Property key for heap dump on out of memory error option missing.
+     */
+    INFO_OPT_HEAP_DUMP_ON_OOME_MISSING("info.opt.heap.dump.on.oome.missing"),
+
+    /**
+     * Property key for heap dump filename specified.
+     */
+    INFO_OPT_HEAP_DUMP_PATH_FILENAME("info.opt.heap.dump.path.filename"),
+
+    /**
+     * Property key for heap dumps enabled without specifying a location with the -XX:HeapDumpPath option.
+     */
+    INFO_OPT_HEAP_DUMP_PATH_MISSING("info.opt.heap.dump.path.missing"),
+
+    /**
+     * Property key for undefined JVM option(s).
+     */
+    INFO_OPT_MAX_PERM_SIZE("info.opt.max.perm.size"),
+
+    /**
      * Property key for metaspace initial and/or max size being set.
      */
     INFO_OPT_METASPACE("info.opt.metaspace"),
@@ -188,6 +220,11 @@ public enum Analysis {
      * Property key for undefined JVM option(s).
      */
     INFO_OPT_UNDEFINED("info.opt.undefined"),
+
+    /**
+     * Property key for class loading logging (sent to standard out) enabled with -verbose:class.
+     */
+    INFO_OPT_VERBOSE_CLASS("info.opt.verbose.class"),
 
     /**
      * Property key for Red Hat build of OpenJDK on CentOS.
@@ -332,7 +369,57 @@ public enum Analysis {
     /**
      * Property key for adaptive size policy disabled with -XX:-UseAdaptiveSizePolicy.
      */
-    WARN_OPT_ADAPTIVE_RESIZE_POLICY_DISABLED(" warn.opt.adaptive.size.policy.disabled"),
+    WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED("warn.opt.adaptive.size.policy.disabled"),
+
+    /**
+     * Property key for multi-threaded CMS initial mark disabled with -XX:-CMSParallelInitialMarkEnabled.
+     */
+    WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED("warn.opt.cms.parallel.initial.mark.disabled"),
+
+    /**
+     * Property key for multi-threaded CMS remark disabled with -XX:-CMSParallelRemarkEnabled.
+     */
+    WARN_OPT_CMS_PARALLEL_REMARK_DISABLED("warn.opt.cms.parallel.remark.disabled"),
+
+    /**
+     * Property key for compressed class pointers disabled (-XX:-UseCompressedClassPointers), and heap &lt; 32G.
+     */
+    WARN_OPT_COMP_CLASS_DISABLED_HEAP_LT_32G("warn.opt.comp.class.disabled.heap.lt.32g"),
+
+    /**
+     * Property key for compressed class pointers disabled (-XX:-UseCompressedClassPointers), and heap size unknown.
+     */
+    WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK("warn.opt.comp.class.disabled.heap.unk"),
+
+    /**
+     * Property key for compressed class pointers enabled (-XX:+UseCompressedClassPointers), and heap &gt;= 32G.
+     */
+    WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G("warn.opt.comp.class.enabled.heap.gt.32g"),
+
+    /**
+     * Property key for compressed class pointers space size set (-XX:CompressedClassSpaceSize), and heap &gt;= 32G.
+     */
+    WARN_OPT_COMP_CLASS_SIZE_HEAP_GT_32G("warn.opt.comp.class.size.heap.gt.32g"),
+
+    /**
+     * Property key for compressed object references disabled (-XX:-UseCompressedOops), and heap &lt; 32G.
+     */
+    WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G("warn.opt.comp.oops.disabled.heap.lt.32g"),
+
+    /**
+     * Property key for compressed object references disabled (-XX:-UseCompressedOops), and heap size unknown.
+     */
+    WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK("warn.opt.comp.oops.disabled.heap.unk"),
+
+    /**
+     * Property key for compressed object references enabled (-XX:+UseCompressedOops), and heap &gt;= 32G.
+     */
+    WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G("warn.opt.comp.oops.enabled.heap.gt.32g"),
+
+    /**
+     * Property key for heap dump on memory error option disabled.
+     */
+    WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED("warn.opt.heap.dump.on.oome.disabled"),
 
     /**
      * Property key for MaxMetaspaceSize less than CompressedClassSpaceSize. MaxMetaspaceSize includes

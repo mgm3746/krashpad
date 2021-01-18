@@ -14,9 +14,11 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.github.errcat.util.Constants;
 import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
@@ -39,6 +41,24 @@ public class JvmOptions {
     private String abrt;
 
     /**
+     * Option to enable/disable CMS multi-threaded initial mark. For example:
+     * 
+     * <pre>
+     * -XX:-CMSParallelInitialMarkEnabled
+     * </pre>
+     */
+    private String cmsParallelInitialMarkEnabled;
+
+    /**
+     * Option to enable/disable CMS multi-threaded initial remark. For example:
+     * 
+     * <pre>
+     * -XX:-CMSParallelRemarkEnabled
+     * </pre>
+     */
+    private String cmsParallelRemarkEnabled;
+
+    /**
      * The option for setting CompressedClassSpaceSize.
      * 
      * <pre>
@@ -57,7 +77,26 @@ public class JvmOptions {
     private String gcLogFileSize;
 
     /**
-     * Initial heap space. Specified with the <code>-Xms</code> or <code>-XX:InitialHeapSize</code> option. For example:
+     * The option to write out a heap dump when OutOfMemoryError. For example:
+     * 
+     * <pre>
+     * -XX:+HeapDumpOnOutOfMemoryError
+     * </pre>
+     */
+    private String heapDumpOnOutOfMemoryError;
+
+    /**
+     * The option to specify the location where a a heap dump will be written on OutOfMemoryError. For example:
+     * 
+     * <pre>
+     *  -XX:HeapDumpPath=/mydir/
+     * </pre>
+     */
+    private String heapDumpPath;
+
+    /**
+     * Initial heap space size. Specified with the <code>-Xms</code> or <code>-XX:InitialHeapSize</code> option. For
+     * example:
      * 
      * <pre>
      * -Xms1024m
@@ -111,6 +150,16 @@ public class JvmOptions {
     private String maxMetaspaceSize;
 
     /**
+     * Maximum permanent generation size (<code>-XX:MaxPermSize</code>). In JDK8 the permanent generation space was
+     * replaced by the metaspace, so this option is being ignored. For example:
+     * 
+     * <pre>
+     * -XX:MaxPermSize=256m
+     * </pre>
+     */
+    private String maxPermSize;
+
+    /**
      * Option to specify the number of gc log files to keep when rotation is enabled. For example:
      * 
      * <pre>
@@ -118,20 +167,6 @@ public class JvmOptions {
      * </pre>
      */
     private String numberOfGcLogFiles;
-
-    /**
-     * Option to enable/disable ergonomic option that resizes generations to meet pause and throughput goals and
-     * minimize footprint. For example:
-     * 
-     * <pre>
-     * -XX:+UseAdaptiveSizePolicy
-     * </pre>
-     */
-    private String useAdaptiveSizePolicy;
-
-    public String getUseAdaptiveSizePolicy() {
-        return useAdaptiveSizePolicy;
-    }
 
     /**
      * Option to enable/disable gc logging datestamps. Deprecated in JDK9. For example:
@@ -195,6 +230,16 @@ public class JvmOptions {
     private ArrayList<String> undefined = new ArrayList<String>();
 
     /**
+     * Option to enable/disable ergonomic option that resizes generations to meet pause and throughput goals and
+     * minimize footprint. For example:
+     * 
+     * <pre>
+     * -XX:+UseAdaptiveSizePolicy
+     * </pre>
+     */
+    private String useAdaptiveSizePolicy;
+
+    /**
      * Option to enable/disable compressed class pointers. For example:
      * 
      * <pre>
@@ -220,6 +265,13 @@ public class JvmOptions {
     private String useGcLogFileRotation;
 
     /**
+     * Flag to log (to standard out) class loading information.
+     * 
+     * -verbose:class
+     */
+    private boolean verboseClass = false;
+
+    /**
      * Flag to display information about each gc event.
      * 
      * -verbose:gc
@@ -242,14 +294,22 @@ public class JvmOptions {
                     jpdaSocketTransport = option;
                 } else if (option.matches("^-ABRT.+$")) {
                     abrt = option;
+                } else if (option.matches("^-XX:[\\-+]CMSParallelInitialMarkEnabled$")) {
+                    cmsParallelInitialMarkEnabled = option;
+                } else if (option.matches("^-XX:[\\-+]CMSParallelRemarkEnabled$")) {
+                    cmsParallelRemarkEnabled = option;
                 } else if (option.matches("^-XX:CompressedClassSpaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     compressedClassSpaceSize = option;
                 } else if (option.matches("^-D.+$")) {
                     systemProperties.add(option);
-                } else if (option.matches("^-Xloggc:.+$")) {
-                    logGc = option;
+                } else if (option.matches("^-XX:[\\-+]HeapDumpOnOutOfMemoryError$")) {
+                    heapDumpOnOutOfMemoryError = option;
+                } else if (option.matches("^-XX:HeapDumpPath=\\S+$")) {
+                    heapDumpPath = option;
                 } else if (option.matches("^-X(ms|X:InitialHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     initialHeapSize = option;
+                } else if (option.matches("^-Xloggc:.+$")) {
+                    logGc = option;
                 } else if (option.matches("^-XX:MetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     initialMetaspaceSize = option;
                 } else if (option.matches("^-X(mx|X:MaxHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
@@ -260,6 +320,8 @@ public class JvmOptions {
                     gcLogFileSize = option;
                 } else if (option.matches("^-XX:MaxMetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxMetaspaceSize = option;
+                } else if (option.matches("^-XX:MaxPermSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    maxPermSize = option;
                 } else if (option.matches("^-XX:NumberOfGCLogFiles=\\d{1,}$")) {
                     numberOfGcLogFiles = option;
                 } else if (option.matches("^-XX:[\\-+]PrintGCDateStamps$")) {
@@ -276,6 +338,8 @@ public class JvmOptions {
                     useCompressedOops = option;
                 } else if (option.matches("^-XX:[\\-+]UseGCLogFileRotation$")) {
                     useGcLogFileRotation = option;
+                } else if (option.matches("^-verbose:class$")) {
+                    verboseClass = true;
                 } else if (option.matches("^-verbose:gc$")) {
                     verboseGc = true;
                 } else {
@@ -319,12 +383,98 @@ public class JvmOptions {
                 && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(initialHeapSize)) != JdkUtil
                         .getByteOptionBytes(JdkUtil.getByteOptionValue(maxHeapSize)))
                 && JdkUtil.isOptionDisabled(useAdaptiveSizePolicy)) {
-            analysis.add(Analysis.WARN_OPT_ADAPTIVE_RESIZE_POLICY_DISABLED);
+            analysis.add(Analysis.WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED);
+        }
+        // Check for erroneous perm gen settings
+        if (maxPermSize != null) {
+            analysis.add(Analysis.INFO_OPT_MAX_PERM_SIZE);
+        }
+        // Check heap dump options
+        if (heapDumpOnOutOfMemoryError == null) {
+            analysis.add(Analysis.INFO_OPT_HEAP_DUMP_ON_OOME_MISSING);
+        } else {
+            if (JdkUtil.isOptionDisabled(heapDumpOnOutOfMemoryError)) {
+                analysis.add(Analysis.WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED);
+            } else {
+                if (heapDumpPath == null) {
+                    analysis.add(Analysis.INFO_OPT_HEAP_DUMP_PATH_MISSING);
+                } else if (heapDumpPath.matches("^.+\\.(hprof|bin)$")) {
+                    analysis.add(Analysis.INFO_OPT_HEAP_DUMP_PATH_FILENAME);
+                }
+            }
+        }
+        // Check for multi-threaded CMS initial mark disabled
+        if (JdkUtil.isOptionDisabled(cmsParallelInitialMarkEnabled)) {
+            analysis.add(Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED);
+        }
+        // Check for multi-threaded CMS remark disabled
+        if (JdkUtil.isOptionDisabled(cmsParallelRemarkEnabled)) {
+            analysis.add(Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED);
+        }
+
+        // Compressed object references should only be used when heap < 32G
+        boolean heapLessThan32G = true;
+        BigDecimal thirtyTwoGigabytes = new BigDecimal("32").multiply(Constants.GIGABYTE);
+        if (maxHeapSize != null && JdkUtil
+                .getByteOptionBytes(JdkUtil.getByteOptionValue(maxHeapSize)) >= thirtyTwoGigabytes.longValue()) {
+            heapLessThan32G = false;
+        }
+        if (heapLessThan32G) {
+            // Should use compressed object pointers
+            if (JdkUtil.isOptionDisabled(useCompressedOops)) {
+                if (maxHeapSize == null) {
+                    // Heap size unknown
+                    analysis.add(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK);
+                } else {
+                    // Heap < 32G
+                    analysis.add(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G);
+                }
+                if (compressedClassSpaceSize != null) {
+                    analysis.add(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_OOPS_DISABLED);
+                }
+            }
+            // Should use compressed class pointers
+            if (JdkUtil.isOptionDisabled(useCompressedClassPointers)) {
+                if (maxHeapSize == null) {
+                    // Heap size unknown
+                    analysis.add(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK);
+                } else {
+                    // Heap < 32G
+                    analysis.add(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_LT_32G);
+                }
+                if (compressedClassSpaceSize != null) {
+                    analysis.add(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_CLASS_DISABLED);
+                }
+            }
+        } else {
+            // Should not use compressed object pointers
+            if (useCompressedOops != null && !JdkUtil.isOptionDisabled(useCompressedOops)) {
+                analysis.add(Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G);
+            }
+            // Should not use compressed class pointers
+            if (useCompressedClassPointers != null && !JdkUtil.isOptionDisabled(useCompressedClassPointers)) {
+                analysis.add(Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G);
+            }
+            // Should not be setting class pointer space size
+            if (compressedClassSpaceSize != null) {
+                analysis.add(Analysis.WARN_OPT_COMP_CLASS_SIZE_HEAP_GT_32G);
+            }
+        }
+        if (verboseClass) {
+            analysis.add(Analysis.INFO_OPT_VERBOSE_CLASS);
         }
     }
 
     public String getAbrt() {
         return abrt;
+    }
+
+    public String getCmsParallelInitialMarkEnabled() {
+        return cmsParallelInitialMarkEnabled;
+    }
+
+    public String getCmsParallelRemarkEnabled() {
+        return cmsParallelRemarkEnabled;
     }
 
     public String getCompressedClassSpaceSize() {
@@ -333,6 +483,14 @@ public class JvmOptions {
 
     public String getGcLogFileSize() {
         return gcLogFileSize;
+    }
+
+    public String getHeapDumpOnOutOfMemoryError() {
+        return heapDumpOnOutOfMemoryError;
+    }
+
+    public String getHeapDumpPath() {
+        return heapDumpPath;
     }
 
     public String getInitialHeapSize() {
@@ -387,6 +545,10 @@ public class JvmOptions {
         return undefined;
     }
 
+    public String getUseAdaptiveSizePolicy() {
+        return useAdaptiveSizePolicy;
+    }
+
     public String getUseCompressedClassPointers() {
         return useCompressedClassPointers;
     }
@@ -397,6 +559,10 @@ public class JvmOptions {
 
     public String getUseGcLogFileRotation() {
         return useGcLogFileRotation;
+    }
+
+    public boolean isVerboseClass() {
+        return verboseClass;
     }
 
     public boolean isVerboseGc() {
