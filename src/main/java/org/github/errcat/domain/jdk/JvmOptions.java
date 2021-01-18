@@ -169,6 +169,24 @@ public class JvmOptions {
     private String numberOfGcLogFiles;
 
     /**
+     * Option to enable printing CMS Free List Space statistics in gc logging. For example:
+     * 
+     * <pre>
+     * -XX:PrintFLSStatistics=1
+     * </pre>
+     */
+    private String printFLSStatistics;
+
+    /**
+     * Option to enable/disable outputting application stopped time in gc logging. Deprecated in JDK9. For example:
+     * 
+     * <pre>
+     * -XX:+PrintGCApplicationStoppedTime
+     * </pre>
+     */
+    private String printGcApplicationStoppedTime;
+
+    /**
      * Option to enable/disable gc logging datestamps. Deprecated in JDK9. For example:
      * 
      * <pre>
@@ -185,6 +203,51 @@ public class JvmOptions {
      * </pre>
      */
     private String printGcDetails;
+
+    /**
+     * Option to enable/disable printing task timestamp for each GC thread. For example:
+     * 
+     * <pre>
+     * -XX:+PrintGCTaskTimeStamps
+     * </pre>
+     */
+    private String printGcTaskTimeStamps;
+
+    /**
+     * Option to enable/disable printing gc timestamps.
+     * 
+     * <pre>
+     * -XX:+PrintGCTimeStamps
+     * </pre>
+     */
+    private String printGcTimeStamps;
+
+    /**
+     * Option to enable/disable printing additional heap information in gc logging.
+     * 
+     * <pre>
+     * -XX:+PrintHeapAtGC
+     * </pre>
+     */
+    private String printHeapAtGc;
+
+    /**
+     * Option to enable/disable printing safepoint information. For example:
+     * 
+     * <pre>
+     *-XX:+PrintSafepointStatistics
+     * </pre>
+     */
+    private String printSafepointStatistics;
+
+    /**
+     * Option to enable/disable printing tenuring information in gc logging.
+     * 
+     * <pre>
+     * -XX:+PrintTenuringDistribution
+     * </pre>
+     */
+    private String printTenuringDistribution;
 
     /**
      * JVM options used to define system properties.
@@ -216,6 +279,15 @@ public class JvmOptions {
     private String threadStackSize;
 
     /**
+     * Option to enable/disable tiered compilation. For example:
+     * 
+     * <pre>
+     * -XX:+TieredCompilation
+     * </pre>
+     */
+    private String tieredCompilation;
+
+    /**
      * Option to enable/disable class loading/unloading information in gc log. For example:
      * 
      * <pre>
@@ -238,6 +310,15 @@ public class JvmOptions {
      * </pre>
      */
     private String useAdaptiveSizePolicy;
+
+    /**
+     * Option to enable/disable biased locking. For example:
+     * 
+     * <pre>
+     * -XX:-UseBiasedLocking
+     * </pre>
+     */
+    private String useBiasedLocking;
 
     /**
      * Option to enable/disable compressed class pointers. For example:
@@ -263,6 +344,13 @@ public class JvmOptions {
      * -XX:+UseGCLogFileRotation
      */
     private String useGcLogFileRotation;
+
+    /**
+     * Option to enable/disable the Shenandoah garbage collector. For example:
+     * 
+     * -XX:+UseShenandoahGC
+     */
+    private String useShenandoahGc;
 
     /**
      * Flag to log (to standard out) class loading information.
@@ -324,20 +412,42 @@ public class JvmOptions {
                     maxPermSize = option;
                 ***REMOVED*** else if (option.matches("^-XX:NumberOfGCLogFiles=\\d{1,***REMOVED***$")) {
                     numberOfGcLogFiles = option;
+                ***REMOVED*** else if (option.matches("^-XX:PrintFLSStatistics=\\d$")) {
+                    printFLSStatistics = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCApplicationStoppedTime$")) {
+                    printGcApplicationStoppedTime = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCDateStamps$")) {
                     printGcDateStamps = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCDetails$")) {
                     printGcDetails = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCTaskTimeStamps$")) {
+                    printGcTaskTimeStamps = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCTimeStamps$")) {
+                    printGcTimeStamps = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintHeapAtGC$")) {
+                    printHeapAtGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintSafepointStatistics$")) {
+                    printSafepointStatistics = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintTenuringDistribution$")) {
+                    printTenuringDistribution = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]TieredCompilation$")) {
+                    tieredCompilation = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]TraceClassUnloading$")) {
                     traceClassUnloading = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseAdaptiveSizePolicy$")) {
                     useAdaptiveSizePolicy = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseAdaptiveSizePolicy$")) {
+                    useAdaptiveSizePolicy = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseBiasedLocking$")) {
+                    useBiasedLocking = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedClassPointers$")) {
                     useCompressedClassPointers = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedOops$")) {
                     useCompressedOops = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseGCLogFileRotation$")) {
                     useGcLogFileRotation = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseShenandoahGC$")) {
+                    useShenandoahGc = option;
                 ***REMOVED*** else if (option.matches("^-verbose:class$")) {
                     verboseClass = true;
                 ***REMOVED*** else if (option.matches("^-verbose:gc$")) {
@@ -460,8 +570,29 @@ public class JvmOptions {
                 analysis.add(Analysis.WARN_OPT_COMP_CLASS_SIZE_HEAP_GT_32G);
             ***REMOVED***
         ***REMOVED***
+        // Check for verbose class loading/unloading logging
         if (verboseClass) {
             analysis.add(Analysis.INFO_OPT_VERBOSE_CLASS);
+        ***REMOVED***
+        // Check for -XX:+TieredCompilation.
+        if (tieredCompilation != null && !JdkUtil.isOptionDisabled(tieredCompilation)) {
+            analysis.add(Analysis.INFO_OPT_TIERED_COMPILATION_ENABLED);
+        ***REMOVED***
+        // Check for -XX:-UseBiasedLocking.
+        if (JdkUtil.isOptionDisabled(useBiasedLocking) && useShenandoahGc == null) {
+            analysis.add(Analysis.WARN_OPT_BIASED_LOCKING_DISABLED);
+        ***REMOVED***
+        // Check for -XX:+PrintHeapAtGC.
+        if (printHeapAtGc != null) {
+            analysis.add(Analysis.INFO_OPT_PRINT_HEAP_AT_GC);
+        ***REMOVED***
+        // Check for -XX:+PrintTenuringDistribution
+        if (printTenuringDistribution != null) {
+            analysis.add(Analysis.INFO_OPT_PRINT_TENURING_DISTRIBUTION);
+        ***REMOVED***
+        // Check for -XX:PrintFLSStatistics=\\d
+        if (this.printFLSStatistics != null) {
+            analysis.add(Analysis.INFO_OPT_PRINT_FLS_STATISTICS);
         ***REMOVED***
     ***REMOVED***
 
@@ -521,6 +652,14 @@ public class JvmOptions {
         return numberOfGcLogFiles;
     ***REMOVED***
 
+    public String getPrintFLSStatistics() {
+        return printFLSStatistics;
+    ***REMOVED***
+
+    public String getPrintGcApplicationStoppedTime() {
+        return printGcApplicationStoppedTime;
+    ***REMOVED***
+
     public String getPrintGcDateStamps() {
         return printGcDateStamps;
     ***REMOVED***
@@ -529,12 +668,36 @@ public class JvmOptions {
         return printGcDetails;
     ***REMOVED***
 
+    public String getPrintGcTaskTimeStamps() {
+        return printGcTaskTimeStamps;
+    ***REMOVED***
+
+    public String getPrintGcTimeStamps() {
+        return printGcTimeStamps;
+    ***REMOVED***
+
+    public String getPrintHeapAtGC() {
+        return printHeapAtGc;
+    ***REMOVED***
+
+    public String getPrintSafepointStatistics() {
+        return printSafepointStatistics;
+    ***REMOVED***
+
+    public String getPrintTenuringDistribution() {
+        return printTenuringDistribution;
+    ***REMOVED***
+
     public ArrayList<String> getSystemProperties() {
         return systemProperties;
     ***REMOVED***
 
     public String getThreadStackSize() {
         return threadStackSize;
+    ***REMOVED***
+
+    public String getTieredCompilation() {
+        return tieredCompilation;
     ***REMOVED***
 
     public String getTraceClassUnloading() {
@@ -549,6 +712,10 @@ public class JvmOptions {
         return useAdaptiveSizePolicy;
     ***REMOVED***
 
+    public String getUseBiasedLocking() {
+        return useBiasedLocking;
+    ***REMOVED***
+
     public String getUseCompressedClassPointers() {
         return useCompressedClassPointers;
     ***REMOVED***
@@ -559,6 +726,10 @@ public class JvmOptions {
 
     public String getUseGcLogFileRotation() {
         return useGcLogFileRotation;
+    ***REMOVED***
+
+    public String getUseShenandoahGc() {
+        return useShenandoahGc;
     ***REMOVED***
 
     public boolean isVerboseClass() {

@@ -651,4 +651,64 @@ public class TestAnalysis extends TestCase {
         Assert.assertTrue(Analysis.INFO_OPT_VERBOSE_CLASS + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_OPT_VERBOSE_CLASS));
     ***REMOVED***
+
+    public void testTieredCompilation() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+TieredCompilation -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_TIERED_COMPILATION_ENABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_TIERED_COMPILATION_ENABLED));
+    ***REMOVED***
+
+    public void testBisasedLockingDisabledNotShenandoah() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:-UseBiasedLocking -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_BIASED_LOCKING_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_BIASED_LOCKING_DISABLED));
+    ***REMOVED***
+
+    public void testBisasedLockingDisabledShenandoah() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+UseShenandoahGC -Xss128k -XX:-UseBiasedLocking -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertFalse(Analysis.WARN_OPT_BIASED_LOCKING_DISABLED + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_BIASED_LOCKING_DISABLED));
+    ***REMOVED***
+
+    public void testPrintHeapAtGc() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+PrintHeapAtGC -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_PRINT_HEAP_AT_GC + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_HEAP_AT_GC));
+    ***REMOVED***
+
+    public void testPrintTenuringDistribution() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+PrintTenuringDistribution -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_PRINT_TENURING_DISTRIBUTION + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_TENURING_DISTRIBUTION));
+    ***REMOVED***
+
+    public void testPrintFLSStatistics() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:PrintFLSStatistics=1 -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_PRINT_FLS_STATISTICS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_FLS_STATISTICS));
+    ***REMOVED***
 ***REMOVED***

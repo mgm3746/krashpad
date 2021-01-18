@@ -217,6 +217,26 @@ public enum Analysis {
     INFO_OPT_METASPACE("info.opt.metaspace"),
 
     /**
+     * Property key for CMS Free List Space statistics being output.
+     */
+    INFO_OPT_PRINT_FLS_STATISTICS("info.opt.print.fls.statistics"),
+
+    /**
+     * Property key for printing additional heap data (-XX:+PrintHeapAtGC).
+     */
+    INFO_OPT_PRINT_HEAP_AT_GC("info.opt.print.heap.at.gc"),
+
+    /**
+     * Property key for outputting tenuring distribution information (-XX:+PrintTenuringDistribution).
+     */
+    INFO_OPT_PRINT_TENURING_DISTRIBUTION("info.opt.print.tenuring.distribution"),
+
+    /**
+     * Property key for -XX:+TieredCompilation.
+     */
+    INFO_OPT_TIERED_COMPILATION_ENABLED("info.opt.tiered.compilation.enabled"),
+
+    /**
      * Property key for undefined JVM option(s).
      */
     INFO_OPT_UNDEFINED("info.opt.undefined"),
@@ -370,6 +390,11 @@ public enum Analysis {
      * Property key for adaptive size policy disabled with -XX:-UseAdaptiveSizePolicy.
      */
     WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED("warn.opt.adaptive.size.policy.disabled"),
+
+    /**
+     * Property key for biased locking disabled (-XX:-UseBiasedLocking).
+     */
+    WARN_OPT_BIASED_LOCKING_DISABLED("warn.opt.biased.locking.disabled"),
 
     /**
      * Property key for multi-threaded CMS initial mark disabled with -XX:-CMSParallelInitialMarkEnabled.
