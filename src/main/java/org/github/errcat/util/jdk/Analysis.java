@@ -180,6 +180,11 @@ public enum Analysis {
     INFO_MEMORY_JVM_NE_SYSTEM("info.memory.jvm.ne.system"),
 
     /**
+     * Property key for -XX:CMSInitiatingOccupancyFraction without -XX:+UseCMSInitiatingOccupancyOnly.
+     */
+    INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING("info.opt.cms.init.occupancy.only.missing"),
+
+    /**
      * Property key for compressed class pointers size set (-XX:CompressedClassSpaceSize) with compressed class pointers
      * disabled (-XX:+UseCompressedClassPointers).
      */
@@ -190,6 +195,37 @@ public enum Analysis {
      * references disabled (-XX:-UseCompressedOops).
      */
     INFO_OPT_COMP_CLASS_SIZE_COMP_OOPS_DISABLED("info.opt.comp.class.size.comp.oops.disabled"),
+
+    /**
+     * Property key for -XX:-ExplicitGCInvokesConcurrentAndUnloadsClasses in combination with -XX:+DisableExplicitGC.
+     */
+    INFO_OPT_CRUFT_EXP_GC_INV_CON_AND_UNL_CLA("info.opt.cruft.exp.gc.inv.con.and.unl.cla"),
+
+    /**
+     * Property key for -XX:+UnlockDiagnosticVMOptions.
+     */
+    INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED("info.opt.diagnostic.vm.options.enabled"),
+
+    /**
+     * Property key for experimental jvm options enabled with <code>-XX:+UnlockExperimentalVMOptions</code>.
+     */
+    INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED("info.opt.experimental.vm.options.enabled"),
+
+    /**
+     * Property key for summarized remembered set processing output.
+     */
+    INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT("info.opt.g1.summarize.rset.stats.output"),
+
+    /**
+     * Property key for GC log file rotation disabled (-XX:-UseGCLogFileRotation).
+     */
+    INFO_OPT_GC_LOG_FILE_ROTATION_DISABLED("info.opt.gc.log.file.rotation.disabled"),
+
+    /**
+     * Property key for GC log file rotation not enabled (-XX:+UseGCLogFileRotation -XX:GCLogFileSize=N
+     * -XX:NumberOfGCLogFiles=N).
+     */
+    INFO_OPT_GC_LOG_FILE_ROTATION_NOT_ENABLED("info.opt.gc.log.file.rotation.not.enabled"),
 
     /**
      * Property key for heap dump on out of memory error option missing.
@@ -207,6 +243,21 @@ public enum Analysis {
     INFO_OPT_HEAP_DUMP_PATH_MISSING("info.opt.heap.dump.path.missing"),
 
     /**
+     * Property key for min heap not equal to max heap.
+     */
+    INFO_OPT_HEAP_MIN_NOT_EQUAL_MAX("info.opt.heap.min.not.equal.max"),
+
+    /**
+     * Property key for instrumentation.
+     */
+    INFO_OPT_INSTRUMENTATION("info.opt.instrumentation"),
+
+    /**
+     * Property key for JMX enabled with -Dcom.sun.management.jmxremote or -XX:+ManagementServer.
+     */
+    INFO_OPT_JMX_ENABLED("info.opt.jmx.enabled"),
+
+    /**
      * Property key for undefined JVM option(s).
      */
     INFO_OPT_MAX_PERM_SIZE("info.opt.max.perm.size"),
@@ -217,9 +268,34 @@ public enum Analysis {
     INFO_OPT_METASPACE("info.opt.metaspace"),
 
     /**
+     * Property key for native library.
+     */
+    INFO_OPT_NATIVE("info.opt.native"),
+
+    /**
+     * Property key for young space &gt;= old space.
+     */
+    INFO_OPT_NEW_RATIO_INVERTED("info.opt.new.ratio.inverted"),
+
+    /**
+     * Property key for disabling Adaptive Resize Policy output with -XX:-PrintAdaptiveSizePolicy.
+     */
+    INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED("info.opt.print.adaptive.resize.plcy.disabled"),
+
+    /**
+     * Property key for enabling Adaptive Resize Policy output with -XX:+PrintAdaptiveSizePolicy.
+     */
+    INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED("info.opt.print.adaptive.resize.plcy.enabled"),
+
+    /**
      * Property key for CMS Free List Space statistics being output.
      */
     INFO_OPT_PRINT_FLS_STATISTICS("info.opt.print.fls.statistics"),
+
+    /**
+     * Property key for printing application concurrent time (-XX:+PrintGCApplicationConcurrentTime).
+     */
+    INFO_OPT_PRINT_GC_APPLICATION_CONCURRENT_TIME("info.opt.print.gc.application.concurrent.time"),
 
     /**
      * Property key for printing additional heap data (-XX:+PrintHeapAtGC).
@@ -227,14 +303,49 @@ public enum Analysis {
     INFO_OPT_PRINT_HEAP_AT_GC("info.opt.print.heap.at.gc"),
 
     /**
+     * Property key for -XX:+PrintPromotionFailure.
+     */
+    INFO_OPT_PRINT_PROMOTION_FAILURE("info.opt.print.promotion.failure"),
+
+    /**
+     * Property key for -XX:+PrintReferenceGC.
+     */
+    INFO_OPT_PRINT_REFERENCE_GC_ENABLED("info.opt.print.reference.gc.enabled"),
+
+    /**
+     * Property key for -XX:+PrintStringDeduplicationStatistics.
+     */
+    INFO_OPT_PRINT_STRING_DEDUP_STATS_ENABLED("info.opt.print.string.dedup.stats.enabled"),
+
+    /**
      * Property key for outputting tenuring distribution information (-XX:+PrintTenuringDistribution).
      */
     INFO_OPT_PRINT_TENURING_DISTRIBUTION("info.opt.print.tenuring.distribution"),
 
     /**
+     * Property key for -Dsun.rmi.dgc.client.gcInterval.redundant in combination with -XX:+DisableExplicitGC.
+     */
+    INFO_OPT_RMI_DGC_CLIENT_GCINTERVAL_REDUNDANT("info.opt.rmi.dgc.client.gcInterval.redundant"),
+
+    /**
+     * Property key for the RMI Distributed Garbage Collection (DGC) not being managed.
+     */
+    INFO_OPT_RMI_DGC_NOT_MANAGED("info.opt.rmi.dgc.not.managed"),
+
+    /**
+     * Property key for -Dsun.rmi.dgc.server.gcInterval.redundant in combination with -XX:+DisableExplicitGC.
+     */
+    INFO_OPT_RMI_DGC_SERVER_GCINTERVAL_REDUNDANT("info.opt.rmi.dgc.server.gcInterval.redundant"),
+
+    /**
      * Property key for -XX:+TieredCompilation.
      */
     INFO_OPT_TIERED_COMPILATION_ENABLED("info.opt.tiered.compilation.enabled"),
+
+    /**
+     * Property key for outputting class unloading information (-XX:+TraceClassUnloading).
+     */
+    INFO_OPT_TRACE_CLASS_UNLOADING("info.opt.trace.class.unloading"),
 
     /**
      * Property key for undefined JVM option(s).
@@ -372,6 +483,11 @@ public enum Analysis {
     INFO_TRUNCATED("info.truncated"),
 
     /**
+     * Property key for CMS collector running in incremental mode.
+     */
+    WARN_CMS_INCREMENTAL_MODE("warn.cms.incremental.mode"),
+
+    /**
      * Property key for no evidence the JDK debug symbols are installed.
      */
     WARN_DEBUG_SYMBOLS("warn.jdk.debug.symbols"),
@@ -395,6 +511,47 @@ public enum Analysis {
      * Property key for biased locking disabled (-XX:-UseBiasedLocking).
      */
     WARN_OPT_BIASED_LOCKING_DISABLED("warn.opt.biased.locking.disabled"),
+
+    /**
+     * Property key for disabling compiling bytecode in the background.
+     */
+    WARN_OPT_BYTECODE_BACK_COMP_DISABLED("warn.opt.bytecode.back.comp.disabled"),
+
+    /**
+     * Property key for bytecode compilation disabled.
+     */
+    WARN_OPT_BYTECODE_COMPILE_DISABLED("warn.opt.bytecode.compile.disabled"),
+
+    /**
+     * Property key for precompiling bytecode.
+     */
+    WARN_OPT_BYTECODE_COMPILE_FIRST_INVOCATION("warn.opt.bytecode.compile.first.invocation"),
+
+    /**
+     * Property key for -XX:+UseCGroupMemoryLimitForHeap.
+     */
+    WARN_OPT_CGROUP_MEMORY_LIMIT("warn.opt.cgroup.memory.limit"),
+
+    /**
+     * Property key for class unloading disabled with -XX:-ClassUnloading.
+     */
+    WARN_OPT_CLASS_UNLOADING_DISABLED("warn.opt.class.unloading.disabled"),
+
+    /**
+     * Property key for CMS collector class unloading disabled.
+     */
+    WARN_OPT_CMS_CLASS_UNLOADING_DISABLED("warn.opt.cms.class.unloading.disabled"),
+
+    /**
+     * Property key for specifying both the CMS collector running in incremental mode and an initiating occupancy
+     * fraction.
+     */
+    WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT("warn.opt.cms.inc.mode.with.init.occup.fract"),
+
+    /**
+     * Property key for PAR_NEW collector disabled.
+     */
+    WARN_OPT_CMS_PAR_NEW_DISABLED("warn.opt.cms.par.new.disabled"),
 
     /**
      * Property key for multi-threaded CMS initial mark disabled with -XX:-CMSParallelInitialMarkEnabled.
@@ -442,6 +599,44 @@ public enum Analysis {
     WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G("warn.opt.comp.oops.enabled.heap.gt.32g"),
 
     /**
+     * Property key for explicit garbage collection disabled.
+     */
+    WARN_OPT_EXPLICIT_GC_DISABLED("warn.opt.explicit.gc.disabled"),
+
+    /**
+     * Property key for explicit garbage collection disabled and specifying concurrent collections.
+     */
+    WARN_OPT_EXPLICIT_GC_DISABLED_CONCURRENT("warn.opt.explicit.gc.disabled.concurrent"),
+
+    /**
+     * Property key for explicit garbage not collected concurrently.
+     */
+    WARN_OPT_EXPLICIT_GC_NOT_CONCURRENT("warn.opt.explicit.gc.not.concurrent"),
+
+    /**
+     * Property key for fast unordered timestamps (experimental) enabled with
+     * <code>-XX:+UseFastUnorderedTimeStamps</code>.
+     */
+    WARN_OPT_FAST_UNORDERED_TIMESTAMPS("warn.opt.fast.unordered.timestamps"),
+
+    /**
+     * Property key for the occupancy threshold for a region to be considered as a candidate region for a G1_CLEANUP
+     * collection being specified with <code>-XX:G1MixedGCLiveThresholdPercent=NN</code>.
+     */
+    WARN_OPT_G1_MIXED_GC_LIVE_THRSHOLD_PRCNT("warn.opt.g1.mixed.gc.live.thrshld.prcnt"),
+
+    /**
+     * Property key for specifying the number of GC log files (-XX:NumberOfGCLogFiles) to keep with log rotation is
+     * disabled (-XX:-UseGCLogFileRotation).
+     */
+    WARN_OPT_GC_LOG_FILE_NUM_ROTATION_DISABLED("warn.opt.gc.log.file.num.rotation.disabled"),
+
+    /**
+     * Property key for specifying the gc log file size that triggers rotation (-XX:GCLogFileSize=N) is small (&lt; 5M).
+     */
+    WARN_OPT_GC_LOG_FILE_SIZE_SMALL("warn.opt.gc.log.file.size.small"),
+
+    /**
      * Property key for heap dump on memory error option disabled.
      */
     WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED("warn.opt.heap.dump.on.oome.disabled"),
@@ -451,6 +646,53 @@ public enum Analysis {
      * CompressedClassSpaceSize, so MaxMetaspaceSize should be larger than CompressedClassSpaceSize.
      */
     WARN_OPT_METASPACE_LT_COMP_CLASS("warn.opt.metaspace.lt.comp.class"),
+
+    /**
+     * Property key for printing a class histogram when a thread dump is initiated (-XX:+PrintClassHistogram).
+     */
+    WARN_OPT_PRINT_CLASS_HISTOGRAM("warn.opt.print.class.histogram"),
+
+    /**
+     * Property key for printing a class histogram when a thread dump is initiated
+     * (-XX:+PrintClassHistogramAfterFullGC).
+     */
+    WARN_OPT_PRINT_CLASS_HISTOGRAM_AFTER_FULL_GC("warn.opt.print.class.histogram.after.full.gc"),
+
+    /**
+     * Property key for printing a class histogram when a thread dump is initiated
+     * (-XX:+PrintClassHistogramBeforeFullGC).
+     */
+    WARN_OPT_PRINT_CLASS_HISTOGRAM_BEFORE_FULL_GC("warn.opt.print.class.histogram.before.full.gc"),
+
+    /**
+     * Property key for gc details option disabled.
+     */
+    WARN_OPT_PRINT_GC_DETAILS_DISABLED("warn.opt.print.gc.details.disabled"),
+
+    /**
+     * Property key for adding option to output details at gc needed for analysis.
+     */
+    WARN_OPT_PRINT_GC_DETAILS_MISSING("warn.opt.print.gc.details.missing"),
+
+    /**
+     * Property key for small sun.rmi.dgc.client.gcInterval.
+     */
+    WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL("warn.opt.rmi.dgc.client.gcInterval.small"),
+    /**
+     * Property key for small sun.rmi.dgc.server.gcInterval.
+     */
+    WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL("warn.opt.rmi.dgc.server.gcInterval.small"),
+
+    /**
+     * Property key for disabling tenuring with -XX:MaxTenuringThreshold=0 or by setting it to a value greater than 15
+     * (e.g. -XX:MaxTenuringThreshold=32).
+     */
+    WARN_OPT_TENURING_DISABLED("warn.opt.tenuring.disabled"),
+
+    /**
+     * Property key for -XX:+UseMembar.
+     */
+    WARN_OPT_USE_MEMBAR("warn.opt.use.membar"),
 
     /**
      * Property key for a JDK that is deployed on RHEL6.

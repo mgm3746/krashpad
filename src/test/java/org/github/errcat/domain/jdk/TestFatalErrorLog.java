@@ -479,4 +479,33 @@ public class TestFatalErrorLog extends TestCase {
         long swapFree = JdkUtil.convertSize(5252, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("System swap free not correct.", swapFree, fel.getSystemSwapFree());
     ***REMOVED***
+
+    public void testDirectMemory() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset50.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        long heapMax = JdkUtil.convertSize(96, 'G', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Heap max size not correct.", heapMax, fel.getHeapMaxSize());
+        long heapAllocation = JdkUtil.convertSize(96, 'G', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Heap allocation not correct.", heapAllocation, fel.getHeapAllocation());
+        long heapUsed = JdkUtil.convertSize(78973, 'M', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Heap used not correct.", heapUsed, fel.getHeapUsed());
+        long metaspaceMax = JdkUtil.convertSize(182272, 'K', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Metaspace max size not correct.", metaspaceMax, fel.getMetaspaceMaxSize());
+        long metaspaceAllocation = JdkUtil.convertSize(180428, 'K', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Metaspace allocation not correct.", metaspaceAllocation, fel.getMetaspaceAllocation());
+        long metaspaceUsed = JdkUtil.convertSize(176392, 'K', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Metaspace used not correct.", metaspaceUsed, fel.getMetaspaceUsed());
+        long compressedClassSpace = JdkUtil.convertSize(1024, 'M', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Compressed Class Space size not correct.", compressedClassSpace,
+                fel.getCompressedClassSpaceSize());
+        long directMemoryMax = JdkUtil.convertSize(8, 'G', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Direct Memory mx not correct.", directMemoryMax, fel.getDirectMemoryMaxSize());
+        Assert.assertEquals("Thread stack size not correct.", 1024, fel.getThreadStackMaxSize());
+        Assert.assertEquals("Thread count not correct.", 720, fel.getJavaThreadCount());
+        long threadMemory = JdkUtil.convertSize(1024 * 720, 'K', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Thread memory not correct.", threadMemory, fel.getThreadStackMemory());
+        Assert.assertEquals("Jvm memory not correct.",
+                heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory, fel.getJvmMemory());
+    ***REMOVED***
 ***REMOVED***

@@ -16,10 +16,12 @@ package org.github.errcat.domain.jdk;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.jdk.Analysis;
+import org.github.errcat.util.jdk.JdkMath;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
 
@@ -41,6 +43,138 @@ public class JvmOptions {
     private String abrt;
 
     /**
+     * The percentage weight to give to recent gc stats (vs historic) for ergonomic calculations. For example:
+     * 
+     * <pre>
+     * -XX:AdaptiveSizePolicyWeight=90
+     * </pre>
+     */
+    private String adaptiveSizePolicyWeight;
+
+    /**
+     * Runtime modules. For example:
+     * 
+     * <pre>
+     * --add-modules=ALL-SYSTEM
+     * </pre>
+     */
+    private String addModules;
+
+    /**
+     * JVM options java instrumentation.
+     * 
+     * For example:
+     * 
+     * -agentpath:/path/to/agent.so
+     */
+    private ArrayList<String> agentpath = new ArrayList<String>();
+
+    /**
+     * Option to enable/disable to touch all pages of the Java heap on startup to avoid the performance penalty at
+     * runtime.
+     * 
+     * <pre>
+     *-XX:+AlwaysPreTouch
+     * </pre>
+     */
+    private String alwaysPreTouch;
+
+    /**
+     * The upper limit of Integers to cache. The lower limit is fixed at -128, and the upper limit defaults to 127. The
+     * following option would cache Integers between -128 and 1000:
+     * 
+     * <pre>
+     * -XX:AutoBoxCacheMax=1000
+     * </pre>
+     */
+    private String autoBoxCacheMax;
+
+    /**
+     * Option to enable/disable background compilation of bytecode. For example:
+     * 
+     * <pre>
+     * -XX:-BackgroundCompilation
+     * </pre>
+     */
+    private String backgroundCompilation;
+
+    /**
+     * Option to disable background compilation of bytecode. For example:
+     * 
+     * <pre>
+     * -Xbatch
+     * </pre>
+     */
+    private boolean batch = false;
+
+    /**
+     * JVM options for bootstrap classes and resources.
+     * 
+     * For example:
+     * 
+     * -Xbootclasspath/p:/path/to/some.jar
+     */
+    private ArrayList<String> bootclasspath = new ArrayList<String>();
+
+    /**
+     * The number of compiler threads. For example:
+     * 
+     * <pre>
+     * -XX:CICompilerCount=2
+     * </pre>
+     */
+    private String ciCompilerCount;
+
+    /**
+     * The option to enable/disable class unloading during gc. For example:
+     * 
+     * <pre>
+     * -XX:-ClassUnloading
+     * </pre>
+     */
+    private String classUnloading;
+
+    /**
+     * The option to enable/disable the CMS collector to collect perm/metaspace. For example:
+     * 
+     * <pre>
+     * -XX:+CMSClassUnloadingEnabled
+     * </pre>
+     */
+    private String cmsClassUnloadingEnabled;
+
+    /**
+     * The option to enable/disable the CMS collector running in incremental mode.
+     * 
+     * In incremental mode, the CMS collector does not hold the processor(s) for the entire long concurrent phases but
+     * periodically stops them and yields the processor back to other threads in the application. It divides the work to
+     * be done in concurrent phases into small chunks called duty cycles and schedules them between minor collections.
+     * This is very useful for applications that need low pause times and are run on machines with a small number of
+     * processors.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:+CMSIncrementalMode
+     * </pre>
+     */
+    private String cmsIncrementalMode;
+
+    public String getCmsIncrementalMode() {
+        return cmsIncrementalMode;
+    ***REMOVED***
+
+    /**
+     * The option for setting CMS initiating occupancy fraction, the tenured generation occupancy percentage that
+     * triggers a concurrent collection. For example:
+     * 
+     * <pre>
+     * -XX:CMSInitiatingOccupancyFraction=75
+     * </pre>
+     */
+    private String cmsInitiatingOccupancyFraction;
+
+    /**
      * Option to enable/disable CMS multi-threaded initial mark. For example:
      * 
      * <pre>
@@ -59,6 +193,15 @@ public class JvmOptions {
     private String cmsParallelRemarkEnabled;
 
     /**
+     * The option to enable compilation of bytecode on first invocation. For example:
+     * 
+     * <pre>
+     * -Xcomp
+     * </pre>
+     */
+    private boolean comp = false;
+
+    /**
      * The option for setting CompressedClassSpaceSize.
      * 
      * <pre>
@@ -66,6 +209,108 @@ public class JvmOptions {
      * </pre>
      */
     private String compressedClassSpaceSize;
+
+    /**
+     * The number of concurrent GC threads. For example:
+     * 
+     * <pre>
+     * -XX:ConcGCThreads=18
+     * </pre>
+     */
+    private String concGcThreads;
+
+    /**
+     * The option for specifying 64-bit.
+     * 
+     * <pre>
+     * -d64
+     * </pre>
+     */
+    private boolean d64 = false;
+
+    /**
+     * The option to enable/disable explicit garbage collection. For example:
+     * 
+     * <pre>
+     * -XX:+DisableExplicitGC
+     * </pre>
+     */
+    private String disableExplicitGc;
+
+    /**
+     * The option to specify the location where a fatal error log will be written. For example:
+     * 
+     * <pre>
+     *  -XX:ErrorFile=/mydir/hs_err_pid%p.log
+     * </pre>
+     */
+    private String errorFile;
+
+    /**
+     * Option to enable/disable the JVM process exiting on OutOfMemoryError. For example:
+     * 
+     * <pre>
+     * -XX:+ExitOnOutOfMemoryError
+     * </pre>
+     */
+    private String exitOnOutOfMemoryError;
+
+    /**
+     * The option to enable/disable explicit garbage collection to be handled concurrently by the CMS and G1 collectors.
+     * For example:
+     * 
+     * <pre>
+     * -XX:+ExplicitGCInvokesConcurrent
+     * </pre>
+     */
+    private String explicitGCInvokesConcurrent;
+
+    /**
+     * The option to enable/disable explicit garbage collection to be handled concurrently by the CMS and G1 collectors
+     * and classes unloaded. For example:
+     * 
+     * <pre>
+     * -XX:-ExplicitGCInvokesConcurrentAndUnloadsClasses
+     * </pre>
+     */
+    private String explicitGCInvokesConcurrentAndUnloadsClasses;
+
+    /**
+     * The option for setting the G1 heap waste percentage. For example:
+     * 
+     * <pre>
+     * -XX:G1HeapWastePercent=5
+     * </pre>
+     */
+    private String g1HeapWastePercent;
+
+    /**
+     * The option for setting the occupancy threshold for a region to be considered as a candidate region for a
+     * G1_CLEANUP collection. For example:
+     * 
+     * <pre>
+     * -XX:G1MixedGCLiveThresholdPercent=85
+     * </pre>
+     */
+    private String g1MixedGCLiveThresholdPercent;
+
+    /**
+     * Option to enable/disable output of summarized remembered set processing info. For example:
+     * 
+     * <pre>
+     * -XX:+G1SummarizeRSetStats
+     * </pre>
+     */
+    private String g1SummarizeRSetStats;
+
+    /**
+     * The option for setting the ***REMOVED*** of GCs to output update buffer processing info (0 = disabled). For example:
+     * 
+     * <pre>
+     * -XX:G1SummarizeRSetStatsPeriod=1
+     * </pre>
+     */
+    private String g1SummarizeRSetStatsPeriod;
 
     /**
      * Size of gc log file that triggers rotation. For example:
@@ -77,6 +322,24 @@ public class JvmOptions {
     private String gcLogFileSize;
 
     /**
+     * The ratio of GC time to application time. For example:
+     * 
+     * <pre>
+     * -XX:GCTimeRatio=4
+     * </pre>
+     */
+    private String gcTimeRatio;
+
+    /**
+     * Option to set a minimal safepoint interval (ms). For example:
+     * 
+     * <pre>
+     * -XX:GuaranteedSafepointInterval=90000000
+     * </pre>
+     */
+    private String guaranteedSafepointInterval;
+
+    /**
      * The option to write out a heap dump when OutOfMemoryError. For example:
      * 
      * <pre>
@@ -86,7 +349,7 @@ public class JvmOptions {
     private String heapDumpOnOutOfMemoryError;
 
     /**
-     * The option to specify the location where a a heap dump will be written on OutOfMemoryError. For example:
+     * The option to specify the location where a heap dump will be written on OutOfMemoryError. For example:
      * 
      * <pre>
      *  -XX:HeapDumpPath=/mydir/
@@ -106,13 +369,22 @@ public class JvmOptions {
     private String initialHeapSize;
 
     /**
-     * Initial metaspace size (<code>-XX:MetaspaceSize</code>). For example:
+     * Initial metaspace size. For example:
      * 
      * <pre>
      * -XX:MetaspaceSize=1024M
      * </pre>
      */
     private String initialMetaspaceSize;
+
+    /**
+     * JVM options native libraries.
+     * 
+     * For example:
+     * 
+     * -javaagent:/path/to/appdynamics/javaagent.jar
+     */
+    private ArrayList<String> javaagent = new ArrayList<String>();
 
     /**
      * JPDA socket transport used for debugging. For example:
@@ -122,13 +394,52 @@ public class JvmOptions {
     private String jpdaSocketTransport;
 
     /**
-     * Option to specify gc log location. For example:
+     * Option to specify gc logging options in JDK11+. For example:
+     * 
+     * <pre>
+     * -Xlog:gc*,gc+age=trace,safepoint:file=/path/to/gc.log:utctime,pid,tags:filecount=4,filesize=64m
+     * </pre>
+     */
+    private String log;
+
+    /**
+     * Option to specify gc log location in JDK8. For example:
      * 
      * <pre>
      * -Xloggc:/path/to/EAP-7.1.0/standalone/log/gc.log
      * </pre>
      */
     private String logGc;
+
+    /**
+     * Option to enable/disable JMX. For example:
+     * 
+     * <pre>
+     * -XX:+ManagementServer.
+     * </pre>
+     */
+    private String managementServer;
+
+    /**
+     * Maximum direct memory. Attempting to allocate direct memory that would cause the limit to be exceeded causes a
+     * full GC to initiate reference processing and release of unreferenced buffers.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:MaxDirectMemorySize=8g
+     * </pre>
+     */
+    private String maxDirectMemorySize;
+
+    /**
+     * The maximum percentage of free space to avoid shrinking the heap size. For example:
+     * 
+     * <pre>
+     * -XX:MaxHeapFreeRatio=20
+     * </pre>
+     */
+    private String maxHeapFreeRatio;
 
     /**
      * Maximum heap space. Specified with the <code>-Xmx</code> or <code>-XX:MaxHeapSize</code> option. For example:
@@ -141,7 +452,7 @@ public class JvmOptions {
     private String maxHeapSize;
 
     /**
-     * Maximum metaspace size (<code>-XX:MaxMetaspaceSize</code>). For example:
+     * Maximum metaspace size. For example:
      * 
      * <pre>
      * -XX:MaxMetaspaceSize=2048m
@@ -150,14 +461,56 @@ public class JvmOptions {
     private String maxMetaspaceSize;
 
     /**
-     * Maximum permanent generation size (<code>-XX:MaxPermSize</code>). In JDK8 the permanent generation space was
-     * replaced by the metaspace, so this option is being ignored. For example:
+     * Maximum permanent generation size. In JDK8 the permanent generation space was replaced by the metaspace, so this
+     * option is being ignored. For example:
      * 
      * <pre>
      * -XX:MaxPermSize=256m
      * </pre>
      */
     private String maxPermSize;
+
+    /**
+     * The option for setting the maximum tenuring threshold option (the number of times objects surviving a young
+     * collection are copied to a survivor space). For example:
+     * 
+     * <pre>
+     * -XX:MaxTenuringThreshold=0
+     * </pre>
+     */
+    private String maxTenuringThreshold;
+
+    /**
+     * The minimum percentage of free space to avoid expanding the heap size. For example:
+     * 
+     * <pre>
+     * -XX:MinHeapFreeRatio=10
+     * </pre>
+     */
+    private String minHeapFreeRatio;
+
+    /**
+     * Initial young generation size. Specified with either the <code>-XX:NewSize</code> or <code>-Xmn</code> option.
+     * For example:
+     * 
+     * <pre>
+     * -XX:NewSize=1g
+     * </pre>
+     * 
+     * <pre>
+     * -Xmn1g
+     * </pre>
+     */
+    private String newSize;
+
+    /**
+     * Option to disable the garbage collection of classes. For example:
+     * 
+     * <pre>
+     * -Xnoclassgc
+     * </pre>
+     */
+    private boolean noclassgc = false;
 
     /**
      * Option to specify the number of gc log files to keep when rotation is enabled. For example:
@@ -169,6 +522,75 @@ public class JvmOptions {
     private String numberOfGcLogFiles;
 
     /**
+     * Option to enable/disable the use of preallocated exceptions, an optimization when an exception is thrown many
+     * times the JVM stops including the stack trace. For example:
+     * 
+     * <pre>
+     * -XX:-OmitStackTraceInFastThrow
+     * </pre>
+     */
+    private String omitStackTraceInFastThrow;
+
+    /**
+     * The number of parallel gc threads. For example:
+     * 
+     * <pre>
+     * -XX:ParallelGCThreads=4
+     * </pre>
+     */
+    private String parallelGcThreads;
+
+    /**
+     * Option to enable/disable the JVM outputting statistics to the hsperfdata file. For example:
+     * 
+     * <pre>
+     * -XX:+PerfDisableSharedMem
+     * </pre>
+     */
+    private String perfDisableSharedMem;
+
+    /**
+     * The option enable/disable Adaptive Resize Policy output. For example:
+     * 
+     * <pre>
+     * -XX:+PrintAdaptiveSizePolicy
+     * </pre>
+     */
+    private String printAdaptiveSizePolicy;
+
+    /**
+     * The option to enable/disable outputting a class histogram in the gc logging when a thread dump is taken. For
+     * example:
+     * 
+     * <pre>
+     * -XX:+PrintClassHistogram
+     * </pre>
+     */
+    private String printClassHistogram;
+
+    /**
+     * The option to enable/disable outputting a class histogram in the gc logging after every full gc. For example:
+     * 
+     * <pre>
+     * -XX:+PrintClassHistogramAfterFullGC
+     * </pre>
+     */
+    private String printClassHistogramAfterFullGc;
+
+    public String getPrintClassHistogramBeforeFullGc() {
+        return printClassHistogramBeforeFullGc;
+    ***REMOVED***
+
+    /**
+     * The option to enable/disable outputting a class histogram in the gc logging before every full gc. For example:
+     * 
+     * <pre>
+     * -XX:+PrintClassHistogramBeforeFullGC
+     * </pre>
+     */
+    private String printClassHistogramBeforeFullGc;
+
+    /**
      * Option to enable printing CMS Free List Space statistics in gc logging. For example:
      * 
      * <pre>
@@ -176,6 +598,15 @@ public class JvmOptions {
      * </pre>
      */
     private String printFLSStatistics;
+
+    /**
+     * The option to enable/disable printing application concurrent time in the gc logging. For example:
+     * 
+     * <pre>
+     * -XX:+PrintGCApplicationConcurrentTime
+     * </pre>
+     */
+    private String printGcApplicationConcurrentTime;
 
     /**
      * Option to enable/disable outputting application stopped time in gc logging. Deprecated in JDK9. For example:
@@ -232,6 +663,25 @@ public class JvmOptions {
     private String printHeapAtGc;
 
     /**
+     * Option to enable/disable printing promotion failure information. For example:
+     * 
+     * <pre>
+     * -XX:+PrintPromotionFailure
+     * </pre>
+     */
+    private String printPromotionFailure;
+
+    /**
+     * The option to enable/disable outputting times for reference processing (weak, soft, JNI) in gc logging. For
+     * example:
+     * 
+     * <pre>
+     * -XX:+PrintReferenceGC
+     * </pre>
+     */
+    private String printReferenceGc;
+
+    /**
      * Option to enable/disable printing safepoint information. For example:
      * 
      * <pre>
@@ -239,6 +689,15 @@ public class JvmOptions {
      * </pre>
      */
     private String printSafepointStatistics;
+
+    /**
+     * The option to enable/disable outputting string deduplication statistics in gc logging. For example:
+     * 
+     * <pre>
+     * -XX:+PrintStringDeduplicationStatistics
+     * </pre>
+     */
+    private String printStringDeduplicationStatistics;
 
     /**
      * Option to enable/disable printing tenuring information in gc logging.
@@ -250,6 +709,33 @@ public class JvmOptions {
     private String printTenuringDistribution;
 
     /**
+     * Code cache size. For example:
+     * 
+     * <pre>
+     * -XX:ReservedCodeCacheSize=256m
+     * </pre>
+     */
+    private String reservedCodeCacheSize;
+
+    /**
+     * The minimum percentage of free space at which heuristics triggers the GC unconditionally. For example:
+     * 
+     * <pre>
+     * -XX:ShenandoahMinFreeThreshold=10
+     * </pre>
+     */
+    private String shenandoahMinFreeThreshold;
+
+    /**
+     * The option for setting the size of the eden space compared to ONE survivor space. For example:
+     * 
+     * <pre>
+     * -XX:SurvivorRatio=6
+     * </pre>
+     */
+    private String survivorRatio;
+
+    /**
      * JVM options used to define system properties.
      * 
      * For example:
@@ -259,8 +745,19 @@ public class JvmOptions {
     private ArrayList<String> systemProperties = new ArrayList<String>();
 
     /**
+     * The option for setting the percentage of the survivor space allowed to be occupied. For example:
+     * 
+     * <pre>
+     * -XX:TargetSurvivorRatio=90
+     * </pre>
+     * 
+     * @return the option if it exists, null otherwise.
+     */
+    private String targetSurvivorRatio;
+
+    /**
      * Thread stack size. Specified with either the <code>-Xss</code>, <code>-ss</code>, or
-     * <code>-XX:ThreadStackSize</code> options. For example:
+     * <code>-XX:ThreadStackSize</code> option. For example:
      * 
      * <pre>
      * -Xss256k
@@ -302,6 +799,24 @@ public class JvmOptions {
     private ArrayList<String> undefined = new ArrayList<String>();
 
     /**
+     * Option to enable/disable diagnostic options. For example:
+     * 
+     * <pre>
+     * -XX:+UnlockDiagnosticVMOptions
+     * </pre>
+     */
+    private String unlockDiagnosticVmOptions;
+
+    /**
+     * Option to enable/disable experimental options. For example:
+     * 
+     * <pre>
+     * -XX:+UnlockExperimentalVMOptions
+     * </pre>
+     */
+    private String unlockExperimentalVmOptions;
+
+    /**
      * Option to enable/disable ergonomic option that resizes generations to meet pause and throughput goals and
      * minimize footprint. For example:
      * 
@@ -319,6 +834,27 @@ public class JvmOptions {
      * </pre>
      */
     private String useBiasedLocking;
+
+    /**
+     * The option to enable/disabled cgroup memory limit for heap sizing.
+     * 
+     * <pre>
+     * -XX:+UseCGroupMemoryLimitForHeap
+     * </pre>
+     */
+    private String useCGroupMemoryLimitForHeap;
+
+    /**
+     * The option for disabling heuristics (calculating anticipated promotions) and use only the occupancy fraction to
+     * determine when to trigger a CMS cycle. When an application has large variances in object allocation and young
+     * generation promotion rates, the CMS collector is not able to accurately predict when to start the CMS cycle. For
+     * example:
+     * 
+     * <pre>
+     * -XX:+UseCMSInitiatingOccupancyOnly
+     * </pre>
+     */
+    private String useCmsInitiatingOccupancyOnly;
 
     /**
      * Option to enable/disable compressed class pointers. For example:
@@ -339,11 +875,87 @@ public class JvmOptions {
     private String useCompressedOops;
 
     /**
+     * Option to enable/disable the CMS old collector. For example:
+     * 
+     * -XX:+UseConcMarkSweepGC
+     */
+    private String useConcMarkSweepGc;
+
+    /**
+     * The option enable/disable fast unordered timestamps in gc logging.
+     * 
+     * <pre>
+     * -XX:+UseFastUnorderedTimeStamps
+     * </pre>
+     */
+    private String useFastUnorderedTimeStamps;
+
+    /**
+     * The option to enable/disable the G1 collector. For example:
+     * 
+     * <pre>
+     * -XX:+UseG1GC
+     * </pre>
+     */
+    private String useG1Gc;
+
+    /**
      * Option to enable/disable gc log file rotation. For example:
      * 
      * -XX:+UseGCLogFileRotation
      */
     private String useGcLogFileRotation;
+
+    /**
+     * Linux option equivalent to -XX:+UseLargePages to enable/disable the preallocation of all large pages on JVM
+     * startup, preventing the JVM from growing/shrinking large pages memory areas. For example:
+     * 
+     * <pre>
+     * -XX:+UseHugeTLBFS
+     * </pre>
+     */
+    private String useHugeTLBFS;
+
+    /**
+     * The option to enable/disable a strict memory barrier. For example:
+     * 
+     * <pre>
+     * -XX:+UseMembar
+     * </pre>
+     */
+    private String useMembar;
+
+    /**
+     * Option to enable/disable dedicated memory space per processor. For example:
+     * 
+     * <pre>
+     *-XX:+UseNUMA
+     * </pre>
+     */
+    private String useNUMA;
+
+    /**
+     * Option to enable/disable the parallel scavenge young garbage collector. For example:
+     * 
+     * -XX:+UseParallelGC
+     */
+    private String useParallelGc;
+
+    /**
+     * Option to enable/disable the parallel multi-threaded old garbage collector. For example:
+     * 
+     * -XX:+UseParallelOldGC
+     */
+    private String useParallelOldGc;
+
+    /**
+     * The option to enable/disable the CMS young collector. For example:
+     * 
+     * <pre>
+     * -XX:+UseParNewGC
+     * </pre>
+     */
+    private String useParNewGc;
 
     /**
      * Option to enable/disable the Shenandoah garbage collector. For example:
@@ -353,18 +965,27 @@ public class JvmOptions {
     private String useShenandoahGc;
 
     /**
-     * Flag to log (to standard out) class loading information.
+     * Option to enable logging (to standard out) class loading information.
      * 
      * -verbose:class
      */
     private boolean verboseClass = false;
 
     /**
-     * Flag to display information about each gc event.
+     * Option to enable displaying detailed information about each gc event.
      * 
      * -verbose:gc
      */
     private boolean verboseGc = false;
+
+    /**
+     * Option to disable just in time (JIT) compilation. For example:
+     * 
+     * <pre>
+     * -Xint
+     * </pre>
+     */
+    private boolean xInt = false;
 
     /**
      * Convert JVM argument string to JVM options.
@@ -378,42 +999,130 @@ public class JvmOptions {
             String[] options = jvmArgs.split("(?<!^)(?= -)");
             for (int i = 0; i < options.length; i++) {
                 String option = options[i].trim();
-                if (option.matches("^-agentlib:jdwp=transport=dt_socket.+$")) {
-                    jpdaSocketTransport = option;
-                ***REMOVED*** else if (option.matches("^-ABRT.+$")) {
+                if (option.matches("^-ABRT.+$")) {
                     abrt = option;
+                ***REMOVED*** else if (option.matches("^-agentlib:jdwp=transport=dt_socket.+$")) {
+                    jpdaSocketTransport = option;
+                ***REMOVED*** else if (option.matches("^-agentpath:.+$")) {
+                    agentpath.add(option);
+                ***REMOVED*** else if (option.matches("^--add-modules=.+$")) {
+                    addModules = option;
+                ***REMOVED*** else if (option.matches("^-XX:AdaptiveSizePolicyWeight=\\d{1,3***REMOVED***$")) {
+                    adaptiveSizePolicyWeight = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]AlwaysPreTouch$")) {
+                    alwaysPreTouch = option;
+                ***REMOVED*** else if (option.matches("^-XX:AutoBoxCacheMax=\\d{1,10***REMOVED***$")) {
+                    autoBoxCacheMax = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]BackgroundCompilation$")) {
+                    backgroundCompilation = option;
+                ***REMOVED*** else if (option.matches("^-Xbatch$")) {
+                    batch = true;
+                ***REMOVED*** else if (option.matches("^-Xbootclasspath.+$")) {
+                    bootclasspath.add(option);
+                ***REMOVED*** else if (option.matches("^-XX:CICompilerCount=\\d{1,3***REMOVED***$")) {
+                    ciCompilerCount = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]ClassUnloading$")) {
+                    classUnloading = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSClassUnloadingEnabled$")) {
+                    cmsClassUnloadingEnabled = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSIncrementalMode$")) {
+                    cmsIncrementalMode = option;
+                ***REMOVED*** else if (option.matches("^-XX:CMSInitiatingOccupancyFraction=\\d{1,3***REMOVED***$")) {
+                    cmsInitiatingOccupancyFraction = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSParallelInitialMarkEnabled$")) {
                     cmsParallelInitialMarkEnabled = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSParallelRemarkEnabled$")) {
                     cmsParallelRemarkEnabled = option;
+                ***REMOVED*** else if (option.matches("^-Xcomp$")) {
+                    comp = true;
                 ***REMOVED*** else if (option.matches("^-XX:CompressedClassSpaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     compressedClassSpaceSize = option;
+                ***REMOVED*** else if (option.matches("^-XX:ConcGCThreads=\\d{1,3***REMOVED***$")) {
+                    concGcThreads = option;
                 ***REMOVED*** else if (option.matches("^-D.+$")) {
                     systemProperties.add(option);
+                ***REMOVED*** else if (option.matches("^-d64$")) {
+                    d64 = true;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]DisableExplicitGC$")) {
+                    disableExplicitGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:ErrorFile=\\S+$")) {
+                    errorFile = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExitOnOutOfMemoryError$")) {
+                    exitOnOutOfMemoryError = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExplicitGCInvokesConcurrent$")) {
+                    explicitGCInvokesConcurrent = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExplicitGCInvokesConcurrentAndUnloadsClasses$")) {
+                    explicitGCInvokesConcurrentAndUnloadsClasses = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]G1SummarizeRSetStats$")) {
+                    g1SummarizeRSetStats = option;
+                ***REMOVED*** else if (option.matches("^-XX:G1SummarizeRSetStatsPeriod=\\d$")) {
+                    g1SummarizeRSetStatsPeriod = option;
+                ***REMOVED*** else if (option.matches("^-XX:G1HeapWastePercent=\\d{1,3***REMOVED***$")) {
+                    g1HeapWastePercent = option;
+                ***REMOVED*** else if (option.matches("^-XX:G1MixedGCLiveThresholdPercent=\\d{1,3***REMOVED***$")) {
+                    g1MixedGCLiveThresholdPercent = option;
+                ***REMOVED*** else if (option.matches("^-XX:GuaranteedSafepointInterval=\\d{1,10***REMOVED***$")) {
+                    guaranteedSafepointInterval = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]HeapDumpOnOutOfMemoryError$")) {
                     heapDumpOnOutOfMemoryError = option;
                 ***REMOVED*** else if (option.matches("^-XX:HeapDumpPath=\\S+$")) {
                     heapDumpPath = option;
                 ***REMOVED*** else if (option.matches("^-X(ms|X:InitialHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     initialHeapSize = option;
+                ***REMOVED*** else if (option.matches("^-Xint$")) {
+                    xInt = true;
+                ***REMOVED*** else if (option.matches("^-javaagent:.+$")) {
+                    javaagent.add(option);
+                ***REMOVED*** else if (option.matches("^-Xlog:.+$")) {
+                    log = option;
                 ***REMOVED*** else if (option.matches("^-Xloggc:.+$")) {
                     logGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:MetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     initialMetaspaceSize = option;
                 ***REMOVED*** else if (option.matches("^-X(mx|X:MaxHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxHeapSize = option;
-                ***REMOVED*** else if (option.matches("^-(X)?(ss|X:ThreadStackSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
-                    threadStackSize = option;
                 ***REMOVED*** else if (option.matches("^-XX:GCLogFileSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     gcLogFileSize = option;
+                ***REMOVED*** else if (option.matches("^-XX:GCTimeRatio=\\d{1,3***REMOVED***$")) {
+                    gcTimeRatio = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]ManagementServer$")) {
+                    managementServer = option;
+                ***REMOVED*** else if (option.matches("^-XX:MaxDirectMemorySize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    maxDirectMemorySize = option;
+                ***REMOVED*** else if (option.matches("^-XX:MaxHeapFreeRatio=\\d{1,3***REMOVED***$")) {
+                    maxHeapFreeRatio = option;
                 ***REMOVED*** else if (option.matches("^-XX:MaxMetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxMetaspaceSize = option;
                 ***REMOVED*** else if (option.matches("^-XX:MaxPermSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxPermSize = option;
+                ***REMOVED*** else if (option.matches("^-XX:MaxTenuringThreshold=\\d{1,***REMOVED***$")) {
+                    maxTenuringThreshold = option;
+                ***REMOVED*** else if (option.matches("^-XX:MinHeapFreeRatio=\\d{1,3***REMOVED***$")) {
+                    minHeapFreeRatio = option;
+                ***REMOVED*** else if (option.matches("^-X(mn|X:NewSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    newSize = option;
+                ***REMOVED*** else if (option.matches("^-Xnoclassgc$")) {
+                    noclassgc = true;
                 ***REMOVED*** else if (option.matches("^-XX:NumberOfGCLogFiles=\\d{1,***REMOVED***$")) {
                     numberOfGcLogFiles = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]OmitStackTraceInFastThrow$")) {
+                    omitStackTraceInFastThrow = option;
+                ***REMOVED*** else if (option.matches("^-XX:ParallelGCThreads=\\d{1,3***REMOVED***$")) {
+                    parallelGcThreads = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PerfDisableSharedMem$")) {
+                    perfDisableSharedMem = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintAdaptiveSizePolicy$")) {
+                    printAdaptiveSizePolicy = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintClassHistogram$")) {
+                    printClassHistogram = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintClassHistogramAfterFullGC$")) {
+                    printClassHistogramAfterFullGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintClassHistogramBeforeFullGC$")) {
+                    printClassHistogramBeforeFullGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:PrintFLSStatistics=\\d$")) {
                     printFLSStatistics = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCApplicationConcurrentTime$")) {
+                    printGcApplicationConcurrentTime = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCApplicationStoppedTime$")) {
                     printGcApplicationStoppedTime = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCDateStamps$")) {
@@ -426,26 +1135,68 @@ public class JvmOptions {
                     printGcTimeStamps = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintHeapAtGC$")) {
                     printHeapAtGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintPromotionFailure$")) {
+                    printPromotionFailure = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintReferenceGC$")) {
+                    printReferenceGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintSafepointStatistics$")) {
                     printSafepointStatistics = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintStringDeduplicationStatistics$")) {
+                    printStringDeduplicationStatistics = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintTenuringDistribution$")) {
                     printTenuringDistribution = option;
+                ***REMOVED*** else if (option.matches("^-XX:ReservedCodeCacheSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    reservedCodeCacheSize = option;
+                ***REMOVED*** else if (option.matches("^-XX:ShenandoahMinFreeThreshold=\\d{1,3***REMOVED***$")) {
+                    shenandoahMinFreeThreshold = option;
+                ***REMOVED*** else if (option.matches("^-XX:SurvivorRatio\\d{1,***REMOVED***$")) {
+                    survivorRatio = option;
+                ***REMOVED*** else if (option.matches("^-XX:TargetSurvivorRatio=\\d{1,3***REMOVED***$")) {
+                    targetSurvivorRatio = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]TieredCompilation$")) {
                     tieredCompilation = option;
+                ***REMOVED*** else if (option.matches("^-(X)?(ss|X:ThreadStackSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    threadStackSize = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]TraceClassUnloading$")) {
                     traceClassUnloading = option;
-                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseAdaptiveSizePolicy$")) {
-                    useAdaptiveSizePolicy = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UnlockDiagnosticVMOptions$")) {
+                    unlockDiagnosticVmOptions = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UnlockExperimentalVMOptions$")) {
+                    unlockExperimentalVmOptions = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseAdaptiveSizePolicy$")) {
                     useAdaptiveSizePolicy = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseBiasedLocking$")) {
                     useBiasedLocking = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCGroupMemoryLimitForHeap$")) {
+                    useCGroupMemoryLimitForHeap = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCMSInitiatingOccupancyOnly$")) {
+                    useCmsInitiatingOccupancyOnly = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseConcMarkSweepGC$")) {
+                    useConcMarkSweepGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedClassPointers$")) {
                     useCompressedClassPointers = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedOops$")) {
                     useCompressedOops = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseConcMarkSweepGC$")) {
+                    useConcMarkSweepGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseFastUnorderedTimeStamps$")) {
+                    useFastUnorderedTimeStamps = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseG1GC$")) {
+                    useG1Gc = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseGCLogFileRotation$")) {
                     useGcLogFileRotation = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseHugeTLBFS$")) {
+                    useHugeTLBFS = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseMembar$")) {
+                    useMembar = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseNUMA$")) {
+                    useNUMA = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseParallelGC$")) {
+                    useParallelGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseParallelOldGC$")) {
+                    useParallelOldGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseParNewGC$")) {
+                    useParNewGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseShenandoahGC$")) {
                     useShenandoahGc = option;
                 ***REMOVED*** else if (option.matches("^-verbose:class$")) {
@@ -461,6 +1212,9 @@ public class JvmOptions {
 
     /**
      * Do JVM options analysis.
+     * 
+     * @param analysis
+     *            The fatal error log analysis.
      */
     public void doAnalysis(List<Analysis> analysis) {
         // Check for remote debugging enabled
@@ -489,13 +1243,16 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED***
         // Check if heap prevented from growing beyond initial heap size
-        if (initialHeapSize != null && maxHeapSize != null && useAdaptiveSizePolicy != null
+        if (initialHeapSize != null && maxHeapSize != null
                 && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(initialHeapSize)) != JdkUtil
-                        .getByteOptionBytes(JdkUtil.getByteOptionValue(maxHeapSize)))
-                && JdkUtil.isOptionDisabled(useAdaptiveSizePolicy)) {
-            analysis.add(Analysis.WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED);
+                        .getByteOptionBytes(JdkUtil.getByteOptionValue(maxHeapSize)))) {
+            analysis.add(Analysis.INFO_OPT_HEAP_MIN_NOT_EQUAL_MAX);
+            if (JdkUtil.isOptionDisabled(useAdaptiveSizePolicy)) {
+                analysis.add(Analysis.WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED);
+            ***REMOVED***
+
         ***REMOVED***
-        // Check for erroneous perm gen settings
+        // Check for erroneous perm gen setting
         if (maxPermSize != null) {
             analysis.add(Analysis.INFO_OPT_MAX_PERM_SIZE);
         ***REMOVED***
@@ -558,11 +1315,11 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED*** else {
             // Should not use compressed object pointers
-            if (useCompressedOops != null && !JdkUtil.isOptionDisabled(useCompressedOops)) {
+            if (JdkUtil.isOptionEnabled(useCompressedOops)) {
                 analysis.add(Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G);
             ***REMOVED***
             // Should not use compressed class pointers
-            if (useCompressedClassPointers != null && !JdkUtil.isOptionDisabled(useCompressedClassPointers)) {
+            if (JdkUtil.isOptionEnabled(useCompressedClassPointers)) {
                 analysis.add(Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G);
             ***REMOVED***
             // Should not be setting class pointer space size
@@ -575,7 +1332,7 @@ public class JvmOptions {
             analysis.add(Analysis.INFO_OPT_VERBOSE_CLASS);
         ***REMOVED***
         // Check for -XX:+TieredCompilation.
-        if (tieredCompilation != null && !JdkUtil.isOptionDisabled(tieredCompilation)) {
+        if (JdkUtil.isOptionEnabled(tieredCompilation)) {
             analysis.add(Analysis.INFO_OPT_TIERED_COMPILATION_ENABLED);
         ***REMOVED***
         // Check for -XX:-UseBiasedLocking.
@@ -586,18 +1343,240 @@ public class JvmOptions {
         if (printHeapAtGc != null) {
             analysis.add(Analysis.INFO_OPT_PRINT_HEAP_AT_GC);
         ***REMOVED***
-        // Check for -XX:+PrintTenuringDistribution
+        // Check for -XX:+PrintTenuringDistribution.
         if (printTenuringDistribution != null) {
             analysis.add(Analysis.INFO_OPT_PRINT_TENURING_DISTRIBUTION);
         ***REMOVED***
-        // Check for -XX:PrintFLSStatistics=\\d
-        if (this.printFLSStatistics != null) {
+        // Check for -XX:PrintFLSStatistics=\\d.
+        if (printFLSStatistics != null) {
             analysis.add(Analysis.INFO_OPT_PRINT_FLS_STATISTICS);
+        ***REMOVED***
+        // Experimental VM options
+        if (JdkUtil.isOptionEnabled(useCGroupMemoryLimitForHeap)) {
+            analysis.add(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT);
+        ***REMOVED*** else if (JdkUtil.isOptionEnabled(useFastUnorderedTimeStamps)) {
+            analysis.add(Analysis.WARN_OPT_FAST_UNORDERED_TIMESTAMPS);
+        ***REMOVED*** else if (JdkUtil.isOptionEnabled(g1MixedGCLiveThresholdPercent)) {
+            analysis.add(Analysis.WARN_OPT_G1_MIXED_GC_LIVE_THRSHOLD_PRCNT);
+        ***REMOVED*** else if (JdkUtil.isOptionEnabled(unlockExperimentalVmOptions)) {
+            // Generic -XX:+UnlockExperimentalVMOptions.
+            analysis.add(Analysis.INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED);
+        ***REMOVED***
+        // Check for -XX:+UnlockDiagnosticVMOptions.
+        if (JdkUtil.isOptionEnabled(unlockDiagnosticVmOptions)) {
+            analysis.add(Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED);
+        ***REMOVED***
+        // Check for instrumentation.
+        if (javaagent.size() > 0) {
+            analysis.add(Analysis.INFO_OPT_INSTRUMENTATION);
+        ***REMOVED***
+        // If explicit gc is disabled, don't need to set explicit gc options
+        if (JdkUtil.isOptionDisabled(explicitGCInvokesConcurrentAndUnloadsClasses)
+                && JdkUtil.isOptionEnabled(disableExplicitGc)) {
+            analysis.add(Analysis.INFO_OPT_CRUFT_EXP_GC_INV_CON_AND_UNL_CLA);
+        ***REMOVED***
+        // Check if log file rotation missing or disabled
+        if (JdkUtil.isOptionDisabled(useGcLogFileRotation)) {
+            analysis.add(Analysis.INFO_OPT_GC_LOG_FILE_ROTATION_DISABLED);
+            if (numberOfGcLogFiles != null) {
+                analysis.add(Analysis.WARN_OPT_GC_LOG_FILE_NUM_ROTATION_DISABLED);
+            ***REMOVED***
+        ***REMOVED*** else if (useGcLogFileRotation == null) {
+            analysis.add(Analysis.INFO_OPT_GC_LOG_FILE_ROTATION_NOT_ENABLED);
+        ***REMOVED***
+        // Check if log file size is small
+        BigDecimal fiveGigabytes = new BigDecimal("5").multiply(Constants.GIGABYTE);
+        if (gcLogFileSize != null
+                && JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(gcLogFileSize)) < fiveGigabytes.longValue()) {
+            analysis.add(Analysis.WARN_OPT_GC_LOG_FILE_SIZE_SMALL);
+        ***REMOVED***
+        // Check for JMX enabled
+        if (JdkUtil.isOptionEnabled(managementServer) || systemProperties.contains("-Dcom.sun.management.jmxremote")) {
+            analysis.add(Analysis.INFO_OPT_JMX_ENABLED);
+        ***REMOVED***
+        // Check if native library being used.
+        if (agentpath.size() > 0) {
+            analysis.add(Analysis.INFO_OPT_NATIVE);
+        ***REMOVED***
+        // Check for young space >= old space
+        if (newSize != null && maxHeapSize != null
+                && JdkMath.calcPercent(JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(newSize)),
+                        JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(maxHeapSize))) >= 50) {
+            analysis.add(Analysis.INFO_OPT_NEW_RATIO_INVERTED);
+        ***REMOVED***
+        // Check for -XX:-PrintAdaptiveSizePolicy / -XX:+PrintAdaptiveSizePolicy
+        if (JdkUtil.isOptionDisabled(printAdaptiveSizePolicy)) {
+            analysis.add(Analysis.INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED);
+        ***REMOVED*** else if (JdkUtil.isOptionEnabled(printAdaptiveSizePolicy)) {
+            analysis.add(Analysis.INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED);
+        ***REMOVED***
+        // Check for -XX:+PrintPromotionFailure option being used
+        if (JdkUtil.isOptionEnabled(printPromotionFailure)) {
+            analysis.add(Analysis.INFO_OPT_PRINT_PROMOTION_FAILURE);
+        ***REMOVED***
+        // Check if background compilation disabled.
+        if (batch || JdkUtil.isOptionDisabled(backgroundCompilation)) {
+            analysis.add(Analysis.WARN_OPT_BYTECODE_BACK_COMP_DISABLED);
+        ***REMOVED***
+        // Check if just in time (JIT) compilation disabled.
+        if (xInt) {
+            analysis.add(Analysis.WARN_OPT_BYTECODE_COMPILE_DISABLED);
+        ***REMOVED***
+        // Check if compilation being forced on first invocation.
+        if (comp) {
+            analysis.add(Analysis.WARN_OPT_BYTECODE_COMPILE_FIRST_INVOCATION);
+        ***REMOVED***
+        // Check for class unloading disabled
+        if (JdkUtil.isOptionDisabled(classUnloading)) {
+            analysis.add(Analysis.WARN_OPT_CLASS_UNLOADING_DISABLED);
+        ***REMOVED***
+        // Check if CMS handling metaspace collections is disabled
+        if (JdkUtil.isOptionDisabled(cmsClassUnloadingEnabled)) {
+            analysis.add(Analysis.WARN_OPT_CMS_CLASS_UNLOADING_DISABLED);
+        ***REMOVED***
+        // Check for incremental mode in combination with -XX:CMSInitiatingOccupancyFraction=<n>.
+        if (JdkUtil.isOptionEnabled(cmsIncrementalMode) && cmsInitiatingOccupancyFraction != null) {
+            analysis.add(Analysis.WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT);
+        ***REMOVED***
+        // Check for-XX:CMSInitiatingOccupancyFraction without -XX:+UseCMSInitiatingOccupancyOnly.
+        if (cmsInitiatingOccupancyFraction != null && !JdkUtil.isOptionEnabled(useCmsInitiatingOccupancyOnly)) {
+            analysis.add(Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING);
+        ***REMOVED***
+        // Check if PAR_NEW collector disabled
+        if (JdkUtil.isOptionDisabled(useParNewGc)) {
+            analysis.add(Analysis.WARN_OPT_CMS_PAR_NEW_DISABLED);
+        ***REMOVED***
+        // Check to see if explicit gc is disabled
+        if (JdkUtil.isOptionEnabled(disableExplicitGc)) {
+            analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED);
+            // Specifying that explicit gc be collected concurrently makes no sense if explicit gc is disabled.
+            if (JdkUtil.isOptionEnabled(explicitGCInvokesConcurrent)) {
+                analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED_CONCURRENT);
+            ***REMOVED***
+        ***REMOVED*** else if (explicitGCInvokesConcurrent == null) {
+            analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_NOT_CONCURRENT);
+        ***REMOVED***
+        // Check for outputting application concurrent time
+        if (JdkUtil.isOptionEnabled(printGcApplicationConcurrentTime)) {
+            analysis.add(Analysis.INFO_OPT_PRINT_GC_APPLICATION_CONCURRENT_TIME);
+
+        ***REMOVED***
+        // Check for print class histogram output enabled with -XX:+PrintClassHistogram,
+        // -XX:+PrintClassHistogramBeforeFullGC, or -XX:+PrintClassHistogramAfterFullGC.
+        if (JdkUtil.isOptionEnabled(printClassHistogram)) {
+            analysis.add(Analysis.WARN_OPT_PRINT_CLASS_HISTOGRAM);
+        ***REMOVED***
+        if (JdkUtil.isOptionEnabled(printClassHistogramAfterFullGc)) {
+            analysis.add(Analysis.WARN_OPT_PRINT_CLASS_HISTOGRAM_AFTER_FULL_GC);
+        ***REMOVED***
+        if (JdkUtil.isOptionEnabled(printClassHistogramBeforeFullGc)) {
+            analysis.add(Analysis.WARN_OPT_PRINT_CLASS_HISTOGRAM_BEFORE_FULL_GC);
+        ***REMOVED***
+        // Check if print gc details option disabled
+        if (JdkUtil.isOptionEnabled(printGcDetails)) {
+            analysis.add(Analysis.WARN_OPT_PRINT_GC_DETAILS_DISABLED);
+        ***REMOVED*** else {
+            // Check if print gc details option missing
+            if (printGcDetails == null) {
+                analysis.add(Analysis.WARN_OPT_PRINT_GC_DETAILS_MISSING);
+            ***REMOVED***
+        ***REMOVED***
+        // Check for tenuring disabled or default overriden
+        long tenuring = JdkUtil.getNumberOptionValue(maxTenuringThreshold);
+        if (tenuring == 0 || tenuring > 15) {
+            analysis.add(Analysis.WARN_OPT_TENURING_DISABLED);
+        ***REMOVED***
+        // Check for -XX:+UseMembar option being used
+        if (JdkUtil.isOptionEnabled(useMembar)) {
+            analysis.add(Analysis.WARN_OPT_USE_MEMBAR);
+        ***REMOVED***
+        // Check if the RMI Distributed Garbage Collection (DGC) is managed.
+        if (getSunRmiDgcClientGcInterval() == null && getSunRmiDgcServerGcInterval() == null
+                && disableExplicitGc == null) {
+            analysis.add(Analysis.INFO_OPT_RMI_DGC_NOT_MANAGED);
+        ***REMOVED***
+        // Check for setting DGC intervals when explicit GC is disabled.
+        if (JdkUtil.isOptionEnabled(disableExplicitGc)) {
+            if (getSunRmiDgcClientGcInterval() != null) {
+                analysis.add(Analysis.INFO_OPT_RMI_DGC_CLIENT_GCINTERVAL_REDUNDANT);
+            ***REMOVED***
+            if (getSunRmiDgcServerGcInterval() != null) {
+                analysis.add(Analysis.INFO_OPT_RMI_DGC_SERVER_GCINTERVAL_REDUNDANT);
+            ***REMOVED***
+        ***REMOVED***
+        // Check for small DGC intervals.
+        if (getSunRmiDgcClientGcInterval() != null) {
+            long sunRmiDgcClientGcInterval = JdkUtil.getNumberOptionValue(getSunRmiDgcClientGcInterval());
+            if (sunRmiDgcClientGcInterval < 3600000) {
+                analysis.add(Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL);
+            ***REMOVED***
+        ***REMOVED***
+        if (getSunRmiDgcServerGcInterval() != null) {
+            long sunRmiDgcServerGcInterval = JdkUtil.getNumberOptionValue(getSunRmiDgcServerGcInterval());
+            if (sunRmiDgcServerGcInterval < 3600000) {
+                analysis.add(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL);
+            ***REMOVED***
+        ***REMOVED***
+        // Check for -XX:+PrintReferenceGC.
+        if (JdkUtil.isOptionEnabled(printReferenceGc)) {
+            analysis.add(Analysis.INFO_OPT_PRINT_REFERENCE_GC_ENABLED);
+        ***REMOVED***
+        // Check for -XX:+PrintStringDeduplicationStatistics.
+        if (JdkUtil.isOptionEnabled(printStringDeduplicationStatistics)) {
+            analysis.add(Analysis.INFO_OPT_PRINT_STRING_DEDUP_STATS_ENABLED);
+        ***REMOVED***
+        // Check for trace class unloading enabled with -XX:+TraceClassUnloading
+        if (JdkUtil.isOptionEnabled(traceClassUnloading)) {
+            analysis.add(Analysis.INFO_OPT_TRACE_CLASS_UNLOADING);
         ***REMOVED***
     ***REMOVED***
 
     public String getAbrt() {
         return abrt;
+    ***REMOVED***
+
+    public String getAdaptiveSizePolicyWeight() {
+        return adaptiveSizePolicyWeight;
+    ***REMOVED***
+
+    public String getAddModules() {
+        return addModules;
+    ***REMOVED***
+
+    public ArrayList<String> getAgentpath() {
+        return agentpath;
+    ***REMOVED***
+
+    public String getAlwaysPreTouch() {
+        return alwaysPreTouch;
+    ***REMOVED***
+
+    public String getAutoBoxCacheMax() {
+        return autoBoxCacheMax;
+    ***REMOVED***
+
+    public String getBackgroundCompilation() {
+        return backgroundCompilation;
+    ***REMOVED***
+
+    public ArrayList<String> getBootclasspath() {
+        return bootclasspath;
+    ***REMOVED***
+
+    public String getCiCompilerCount() {
+        return ciCompilerCount;
+    ***REMOVED***
+
+    public String getClassUnloading() {
+        return classUnloading;
+    ***REMOVED***
+
+    public String getCmsClassUnloadingEnabled() {
+        return cmsClassUnloadingEnabled;
+    ***REMOVED***
+
+    public String getCmsInitiatingOccupancyFraction() {
+        return cmsInitiatingOccupancyFraction;
     ***REMOVED***
 
     public String getCmsParallelInitialMarkEnabled() {
@@ -612,8 +1591,56 @@ public class JvmOptions {
         return compressedClassSpaceSize;
     ***REMOVED***
 
+    public String getConcGcThreads() {
+        return concGcThreads;
+    ***REMOVED***
+
+    public String getDisableExplicitGc() {
+        return disableExplicitGc;
+    ***REMOVED***
+
+    public String getErrorFile() {
+        return errorFile;
+    ***REMOVED***
+
+    public String getExitOnOutOfMemoryError() {
+        return exitOnOutOfMemoryError;
+    ***REMOVED***
+
+    public String getExplicitGCInvokesConcurrent() {
+        return explicitGCInvokesConcurrent;
+    ***REMOVED***
+
+    public String getExplicitGCInvokesConcurrentAndUnloadsClasses() {
+        return explicitGCInvokesConcurrentAndUnloadsClasses;
+    ***REMOVED***
+
+    public String getG1HeapWastePercent() {
+        return g1HeapWastePercent;
+    ***REMOVED***
+
+    public String getG1MixedGCLiveThresholdPercent() {
+        return g1MixedGCLiveThresholdPercent;
+    ***REMOVED***
+
+    public String getG1SummarizeRSetStats() {
+        return g1SummarizeRSetStats;
+    ***REMOVED***
+
+    public String getG1SummarizeRSetStatsPeriod() {
+        return g1SummarizeRSetStatsPeriod;
+    ***REMOVED***
+
     public String getGcLogFileSize() {
         return gcLogFileSize;
+    ***REMOVED***
+
+    public String getGcTimeRatio() {
+        return gcTimeRatio;
+    ***REMOVED***
+
+    public String getGuaranteedSafepointInterval() {
+        return guaranteedSafepointInterval;
     ***REMOVED***
 
     public String getHeapDumpOnOutOfMemoryError() {
@@ -632,12 +1659,32 @@ public class JvmOptions {
         return initialMetaspaceSize;
     ***REMOVED***
 
+    public ArrayList<String> getJavaagent() {
+        return javaagent;
+    ***REMOVED***
+
     public String getJpdaSocketTransport() {
         return jpdaSocketTransport;
     ***REMOVED***
 
+    public String getLog() {
+        return log;
+    ***REMOVED***
+
     public String getLogGc() {
         return logGc;
+    ***REMOVED***
+
+    public String getManagementServer() {
+        return managementServer;
+    ***REMOVED***
+
+    public String getMaxDirectMemorySize() {
+        return maxDirectMemorySize;
+    ***REMOVED***
+
+    public String getMaxHeapFreeRatio() {
+        return maxHeapFreeRatio;
     ***REMOVED***
 
     public String getMaxHeapSize() {
@@ -648,12 +1695,56 @@ public class JvmOptions {
         return maxMetaspaceSize;
     ***REMOVED***
 
+    public String getMaxPermSize() {
+        return maxPermSize;
+    ***REMOVED***
+
+    public String getMaxTenuringThreshold() {
+        return maxTenuringThreshold;
+    ***REMOVED***
+
+    public String getMinHeapFreeRatio() {
+        return minHeapFreeRatio;
+    ***REMOVED***
+
+    public String getNewSize() {
+        return newSize;
+    ***REMOVED***
+
     public String getNumberOfGcLogFiles() {
         return numberOfGcLogFiles;
     ***REMOVED***
 
+    public String getOmitStackTraceInFastThrow() {
+        return omitStackTraceInFastThrow;
+    ***REMOVED***
+
+    public String getParallelGcThreads() {
+        return parallelGcThreads;
+    ***REMOVED***
+
+    public String getPerfDisableSharedMem() {
+        return perfDisableSharedMem;
+    ***REMOVED***
+
+    public String getPrintAdaptiveSizePolicy() {
+        return printAdaptiveSizePolicy;
+    ***REMOVED***
+
+    public String getPrintClassHistogram() {
+        return printClassHistogram;
+    ***REMOVED***
+
+    public String getPrintClassHistogramAfterFullGc() {
+        return printClassHistogramAfterFullGc;
+    ***REMOVED***
+
     public String getPrintFLSStatistics() {
         return printFLSStatistics;
+    ***REMOVED***
+
+    public String getPrintGcApplicationConcurrentTime() {
+        return printGcApplicationConcurrentTime;
     ***REMOVED***
 
     public String getPrintGcApplicationStoppedTime() {
@@ -676,20 +1767,52 @@ public class JvmOptions {
         return printGcTimeStamps;
     ***REMOVED***
 
+    public String getPrintHeapAtGc() {
+        return printHeapAtGc;
+    ***REMOVED***
+
     public String getPrintHeapAtGC() {
         return printHeapAtGc;
+    ***REMOVED***
+
+    public String getPrintPromotionFailure() {
+        return printPromotionFailure;
+    ***REMOVED***
+
+    public String getPrintReferenceGc() {
+        return printReferenceGc;
     ***REMOVED***
 
     public String getPrintSafepointStatistics() {
         return printSafepointStatistics;
     ***REMOVED***
 
+    public String getPrintStringDeduplicationStatistics() {
+        return printStringDeduplicationStatistics;
+    ***REMOVED***
+
     public String getPrintTenuringDistribution() {
         return printTenuringDistribution;
     ***REMOVED***
 
+    public String getReservedCodeCacheSize() {
+        return reservedCodeCacheSize;
+    ***REMOVED***
+
+    public String getShenandoahMinFreeThreshold() {
+        return shenandoahMinFreeThreshold;
+    ***REMOVED***
+
+    public String getSurvivorRatio() {
+        return survivorRatio;
+    ***REMOVED***
+
     public ArrayList<String> getSystemProperties() {
         return systemProperties;
+    ***REMOVED***
+
+    public String getTargetSurvivorRatio() {
+        return targetSurvivorRatio;
     ***REMOVED***
 
     public String getThreadStackSize() {
@@ -708,12 +1831,28 @@ public class JvmOptions {
         return undefined;
     ***REMOVED***
 
+    public String getUnlockDiagnosticVmOptions() {
+        return unlockDiagnosticVmOptions;
+    ***REMOVED***
+
+    public String getUnlockExperimentalVmOptions() {
+        return unlockExperimentalVmOptions;
+    ***REMOVED***
+
     public String getUseAdaptiveSizePolicy() {
         return useAdaptiveSizePolicy;
     ***REMOVED***
 
     public String getUseBiasedLocking() {
         return useBiasedLocking;
+    ***REMOVED***
+
+    public String getUseCGroupMemoryLimitForHeap() {
+        return useCGroupMemoryLimitForHeap;
+    ***REMOVED***
+
+    public String getUseCmsInitiatingOccupancyOnly() {
+        return useCmsInitiatingOccupancyOnly;
     ***REMOVED***
 
     public String getUseCompressedClassPointers() {
@@ -724,12 +1863,64 @@ public class JvmOptions {
         return useCompressedOops;
     ***REMOVED***
 
+    public String getUseConcMarkSweepGc() {
+        return useConcMarkSweepGc;
+    ***REMOVED***
+
+    public String getUseFastUnorderedTimeStamps() {
+        return useFastUnorderedTimeStamps;
+    ***REMOVED***
+
+    public String getUseG1Gc() {
+        return useG1Gc;
+    ***REMOVED***
+
     public String getUseGcLogFileRotation() {
         return useGcLogFileRotation;
     ***REMOVED***
 
+    public String getUseHugeTLBFS() {
+        return useHugeTLBFS;
+    ***REMOVED***
+
+    public String getUseMembar() {
+        return useMembar;
+    ***REMOVED***
+
+    public String getUseNUMA() {
+        return useNUMA;
+    ***REMOVED***
+
+    public String getUseParallelGc() {
+        return useParallelGc;
+    ***REMOVED***
+
+    public String getUseParallelOldGc() {
+        return useParallelOldGc;
+    ***REMOVED***
+
+    public String getUseParNewGc() {
+        return useParNewGc;
+    ***REMOVED***
+
     public String getUseShenandoahGc() {
         return useShenandoahGc;
+    ***REMOVED***
+
+    public boolean isBatch() {
+        return batch;
+    ***REMOVED***
+
+    public boolean isComp() {
+        return comp;
+    ***REMOVED***
+
+    public boolean isD64() {
+        return d64;
+    ***REMOVED***
+
+    public boolean isNoclassgc() {
+        return noclassgc;
     ***REMOVED***
 
     public boolean isVerboseClass() {
@@ -738,5 +1929,57 @@ public class JvmOptions {
 
     public boolean isVerboseGc() {
         return verboseGc;
+    ***REMOVED***
+
+    public boolean isxInt() {
+        return xInt;
+    ***REMOVED***
+
+    /**
+     * Client Distributed Garbage Collection (DGC) interval in milliseconds.
+     * 
+     * <pre>
+     * -Dsun.rmi.dgc.client.gcInterval=14400000
+     * </pre>
+     * 
+     * @return The client Distributed Garbage Collection (DGC), or null if not explicitly set.
+     */
+    public String getSunRmiDgcClientGcInterval() {
+        String sunRmiDgcClientGcIntervalOption = null;
+        if (systemProperties.size() > 0) {
+            Iterator<String> iterator = systemProperties.iterator();
+            while (iterator.hasNext()) {
+                String property = iterator.next();
+                if (property.matches("-Dsun.rmi.dgc.client.gcInterval=\\d{1,***REMOVED***")) {
+                    sunRmiDgcClientGcIntervalOption = property;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return sunRmiDgcClientGcIntervalOption;
+    ***REMOVED***
+
+    /**
+     * Server Distributed Garbage Collection (DGC) interval in milliseconds.
+     * 
+     * <pre>
+     * -Dsun.rmi.dgc.server.gcInterval=14400000
+     * </pre>
+     * 
+     * @return The server Distributed Garbage Collection (DGC), or null if not explicitly set.
+     */
+    public String getSunRmiDgcServerGcInterval() {
+        String sunRmiDgcServerGcIntervalOption = null;
+        if (systemProperties.size() > 0) {
+            Iterator<String> iterator = systemProperties.iterator();
+            while (iterator.hasNext()) {
+                String property = iterator.next();
+                if (property.matches("-Dsun.rmi.dgc.server.gcInterval=\\d{1,***REMOVED***")) {
+                    sunRmiDgcServerGcIntervalOption = property;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return sunRmiDgcServerGcIntervalOption;
     ***REMOVED***
 ***REMOVED***

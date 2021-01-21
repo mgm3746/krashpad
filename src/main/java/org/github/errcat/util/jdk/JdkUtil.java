@@ -724,6 +724,97 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
+     * Get the bytes of a JVM option that specifies a byte value. For example, the bytes for <code>128k</code> is 128 x
+     * 1024 = 131,072.
+     * 
+     * @param optionValue
+     *            The JVM option value.
+     * @return The JVM option value in bytes, or <code>Long.MIN_VALUE</code> if the option does not exist
+     */
+    public static final long getByteOptionBytes(final String optionValue) {
+        long bytes = Long.MIN_VALUE;
+        if (optionValue != null) {
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher = pattern.matcher(optionValue);
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                ***REMOVED*** else {
+                    fromUnits = 'B';
+                ***REMOVED***
+                char toUnits = 'B';
+                if (fromUnits == toUnits) {
+                    bytes = value;
+                ***REMOVED*** else {
+                    bytes = JdkUtil.convertSize(value, fromUnits, toUnits);
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return bytes;
+    ***REMOVED***
+
+    /**
+     * Get the value of a JVM option that specifies a byte value. For example, the value for <code>-Xss128k</code> is
+     * 128k. The value for <code>-XX:PermSize=128M</code> is 128M.
+     * 
+     * @param option
+     *            The JVM option.
+     * @return The JVM option value, or null if the option does not exist.
+     */
+    public static final String getByteOptionValue(final String option) {
+        String value = null;
+        if (option != null) {
+            String regex = "^-[a-zA-Z:.]+={0,1***REMOVED***(" + JdkRegEx.OPTION_SIZE_BYTES + ")$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(option);
+            if (matcher.find()) {
+                value = matcher.group(1);
+            ***REMOVED***
+        ***REMOVED***
+        return value;
+    ***REMOVED***
+
+    /**
+     * Get the value of a JVM option that specifies a number value. For example, the value for
+     * <code>-XX:MaxTenuringThreshold=9</code> is 9.
+     * 
+     * @param option
+     *            The JVM option.
+     * @return The JVM option value, or <code>Integer.MIN_VALUE</code> if the option does not exist.
+     */
+    public static final long getNumberOptionValue(final String option) {
+        long value = Long.MIN_VALUE;
+        if (option != null) {
+            String regex = "^-XX:.+=(\\d{1,10***REMOVED***)$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(option);
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(1));
+            ***REMOVED***
+        ***REMOVED***
+        return value;
+    ***REMOVED***
+
+    /**
+     * @param jdk8ReleaseString
+     *            The JDK8 release string (e.g. 1.8.0_222-b10).
+     * @return The JDK update number (e.g. 222).
+     */
+    public static final int getJdk8UpdateNumber(String jdk8ReleaseString) {
+        int jdk8UpdateNumber = Integer.MIN_VALUE;
+        String regEx = "1.8.0_(\\d{1,***REMOVED***).+";
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(jdk8ReleaseString);
+        if (matcher.find()) {
+            jdk8UpdateNumber = Integer.parseInt(matcher.group(1));
+        ***REMOVED***
+        return jdk8UpdateNumber;
+    ***REMOVED***
+
+    /**
      * @param fatalErrorLog
      *            The fatal error log.
      * @return The known release date for the JDK build that produced the fatal error log.
@@ -871,60 +962,6 @@ public class JdkUtil {
             release = releases.get("LATEST").getVersion();
         ***REMOVED***
         return release;
-    ***REMOVED***
-
-    /**
-     * Get the value of a JVM option that specifies a byte value. For example, the value for <code>-Xss128k</code> is
-     * 128k. The value for <code>-XX:PermSize=128M</code> is 128M.
-     * 
-     * @param option
-     *            The JVM option.
-     * @return The JVM option value.
-     */
-    public static final String getByteOptionValue(final String option) {
-        String value = null;
-        if (option != null) {
-            String regex = "^-[a-zA-Z:.]+={0,1***REMOVED***(" + JdkRegEx.OPTION_SIZE_BYTES + ")$";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(option);
-            if (matcher.find()) {
-                value = matcher.group(1);
-            ***REMOVED***
-        ***REMOVED***
-        return value;
-    ***REMOVED***
-
-    /**
-     * Get the bytes of a JVM option that specifies a byte value. For example, the bytes for <code>128k</code> is 128 x
-     * 1024 = 131,072.
-     * 
-     * @param optionValue
-     *            The JVM option value.
-     * @return The JVM option value in bytes.
-     */
-    public static final long getByteOptionBytes(final String optionValue) {
-        long bytes = Long.MIN_VALUE;
-        if (optionValue != null) {
-            char fromUnits;
-            long value;
-            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(optionValue);
-            if (matcher.find()) {
-                value = Long.parseLong(matcher.group(2));
-                if (matcher.group(3) != null) {
-                    fromUnits = matcher.group(3).charAt(0);
-                ***REMOVED*** else {
-                    fromUnits = 'B';
-                ***REMOVED***
-                char toUnits = 'B';
-                if (fromUnits == toUnits) {
-                    bytes = value;
-                ***REMOVED*** else {
-                    bytes = JdkUtil.convertSize(value, fromUnits, toUnits);
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return bytes;
     ***REMOVED***
 
     /**
@@ -1081,6 +1118,36 @@ public class JdkUtil {
             ***REMOVED***
         ***REMOVED***
         return isLatestRelease;
+    ***REMOVED***
+
+    /**
+     * Determine if a JVM option is explicitly disabled. For example, <code>-XX:-TraceClassUnloading</code> is disabled.
+     * 
+     * @param option
+     *            The JVM option.
+     * @return True if the JVM option is disabled, false otherwise.
+     */
+    public static final boolean isOptionDisabled(final String option) {
+        boolean disabled = false;
+        if (option != null) {
+            disabled = option.matches("^-XX:-.+$");
+        ***REMOVED***
+        return disabled;
+    ***REMOVED***
+
+    /**
+     * Determine if a JVM option is explicitly enabled. For example, <code>-XX:+TraceClassUnloading</code> is enabled.
+     * 
+     * @param option
+     *            The JVM option.
+     * @return True if the JVM option is enabled, false otherwise.
+     */
+    public static final boolean isOptionEnabled(final String option) {
+        boolean enabled = false;
+        if (option != null) {
+            enabled = option.matches("^-XX:+.+$");
+        ***REMOVED***
+        return enabled;
     ***REMOVED***
 
     /**
@@ -1290,36 +1357,5 @@ public class JdkUtil {
             throw new AssertionError("Unexpected event type value: " + eventType);
         ***REMOVED***
         return event;
-    ***REMOVED***
-
-    /**
-     * @param jdk8ReleaseString
-     *            The JDK8 release string (e.g. 1.8.0_222-b10).
-     * @return The JDK update number (e.g. 222).
-     */
-    public static final int getJdk8UpdateNumber(String jdk8ReleaseString) {
-        int jdk8UpdateNumber = Integer.MIN_VALUE;
-        String regEx = "1.8.0_(\\d{1,***REMOVED***).+";
-        Pattern pattern = Pattern.compile(regEx);
-        Matcher matcher = pattern.matcher(jdk8ReleaseString);
-        if (matcher.find()) {
-            jdk8UpdateNumber = Integer.parseInt(matcher.group(1));
-        ***REMOVED***
-        return jdk8UpdateNumber;
-    ***REMOVED***
-
-    /**
-     * Determine if a JVM option is disabled. For example, <code>--XX:-TraceClassUnloading</code> is disabled.
-     * 
-     * @param option
-     *            The JVM option.
-     * @return True if the JVM option is disabled, false otherwise.
-     */
-    public static final boolean isOptionDisabled(final String option) {
-        boolean disabled = false;
-        if (option != null) {
-            disabled = option.matches("^-XX:-.+$");
-        ***REMOVED***
-        return disabled;
     ***REMOVED***
 ***REMOVED***

@@ -15,6 +15,7 @@
 
 package org.github.errcat.domain.jdk;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -248,9 +249,11 @@ public class FatalErrorLog {
         String jvmArgs = getJvmArgs();
         if (jvmArgs != null) {
             jvmOptions = new JvmOptions(jvmArgs);
-            jvmOptions.doAnalysis(analysis);
         ***REMOVED***
         doDataAnalysis();
+        if (jvmOptions != null) {
+            jvmOptions.doAnalysis(analysis);
+        ***REMOVED***
     ***REMOVED***
 
     /**
@@ -526,6 +529,16 @@ public class FatalErrorLog {
                 analysis.remove(Analysis.ERROR_JVM_DLL);
             ***REMOVED***
         ***REMOVED***
+        // Check if summarized remembered set processing information being output
+        if (getGarbageCollectors().contains(GarbageCollector.G1)
+                && JdkUtil.isOptionEnabled(jvmOptions.getG1SummarizeRSetStats())
+                && JdkUtil.getNumberOptionValue(jvmOptions.getG1SummarizeRSetStatsPeriod()) > 0) {
+            analysis.add(Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT);
+        ***REMOVED***
+        // Check for CMS incremental mode with > 2 cpu
+        if (getCpus() > 2 && jvmOptions != null && JdkUtil.isOptionEnabled(jvmOptions.getCmsIncrementalMode())) {
+            analysis.add(Analysis.WARN_CMS_INCREMENTAL_MODE);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -600,24 +613,28 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The max compressed class size reserved (kilobytes).
+     * @return The max compressed class size reserved in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getCompressedClassSpaceSize() {
-        // Default is 1g
-        long compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.PRECISION_REPORTING);
-        if (jvmOptions != null && jvmOptions.getCompressedClassSpaceSize() != null) {
-            char fromUnits;
-            long value;
-            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(jvmOptions.getCompressedClassSpaceSize());
-            if (matcher.find()) {
-                value = Long.parseLong(matcher.group(2));
-                if (matcher.group(3) != null) {
-                    fromUnits = matcher.group(3).charAt(0);
-                ***REMOVED*** else {
-                    fromUnits = 'B';
+        long compressedClassSpaceSize = 0;
+        if (jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())
+                && !JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
+            // Default is 1g
+            compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.PRECISION_REPORTING);
+            if (jvmOptions.getCompressedClassSpaceSize() != null) {
+                char fromUnits;
+                long value;
+                Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+                Matcher matcher = pattern.matcher(jvmOptions.getCompressedClassSpaceSize());
+                if (matcher.find()) {
+                    value = Long.parseLong(matcher.group(2));
+                    if (matcher.group(3) != null) {
+                        fromUnits = matcher.group(3).charAt(0);
+                    ***REMOVED*** else {
+                        fromUnits = 'B';
+                    ***REMOVED***
+                    compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                 ***REMOVED***
-                compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
             ***REMOVED***
         ***REMOVED***
         return compressedClassSpaceSize;
@@ -702,6 +719,43 @@ public class FatalErrorLog {
 
     public List<DeoptimizationEvent> getDeoptimizationEvents() {
         return deoptimizationEvents;
+    ***REMOVED***
+
+    /**
+     * @return The max direct memory size reserved in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getDirectMemoryMaxSize() {
+        long directMemorySize = 0;
+        if (jvmOptions != null && jvmOptions.getMaxDirectMemorySize() != null) {
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher = pattern.matcher(jvmOptions.getMaxDirectMemorySize());
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                ***REMOVED*** else {
+                    fromUnits = 'B';
+                ***REMOVED***
+                directMemorySize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+            ***REMOVED***
+        ***REMOVED***
+        return directMemorySize;
+    ***REMOVED***
+
+    /**
+     * @return The thread memory in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getThreadStackMemory() {
+        long threadStackMemory = Long.MIN_VALUE;
+        if (getJavaThreadCount() > 0) {
+            BigDecimal memoryPerThread = new BigDecimal(getThreadStackMaxSize());
+            BigDecimal threads = new BigDecimal(getJavaThreadCount());
+            threadStackMemory = memoryPerThread.multiply(threads).longValue();
+            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K', Constants.PRECISION_REPORTING);
+        ***REMOVED***
+        return threadStackMemory;
     ***REMOVED***
 
     public List<DynamicLibraryEvent> getDynamicLibraryEvents() {
@@ -801,7 +855,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total heap allocation (kilobytes).
+     * @return The total heap allocation in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapAllocation() {
         long heapAllocation = Long.MIN_VALUE;
@@ -879,7 +933,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The heap max size reserved (kilobytes).
+     * @return The heap max size reserved in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapMaxSize() {
         long heapMaxSize = Long.MIN_VALUE;
@@ -920,7 +974,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total heap used (kilobytes).
+     * @return The total heap used in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapUsed() {
         long heapUsed = Long.MIN_VALUE;
@@ -988,7 +1042,6 @@ public class FatalErrorLog {
                     heapAtCrash = false;
                 ***REMOVED***
             ***REMOVED***
-            // heapUsed = JdkMath.convertBytesToKilobytes(heapUsed);
         ***REMOVED***
         return heapUsed;
     ***REMOVED***
@@ -1114,11 +1167,10 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The JVM memory (kilobytes).
+     * @return The JVM memory in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmMemory() {
         long jvmMemory = Long.MIN_VALUE;
-        // Using compressed class pointers space
         if (getHeapMaxSize() > 0) {
             jvmMemory = getHeapMaxSize();
         ***REMOVED***
@@ -1129,16 +1181,25 @@ public class FatalErrorLog {
                 jvmMemory = getMetaspaceMaxSize();
             ***REMOVED***
         ***REMOVED***
-        if (jvmMemory > 0 && jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())
-                && !JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
-            // Using compressed class pointers space
-            if (getCompressedClassSpaceSize() > 0) {
-                if (jvmMemory > 0) {
-                    jvmMemory += getCompressedClassSpaceSize();
-                ***REMOVED*** else {
-                    jvmMemory = getCompressedClassSpaceSize();
-                ***REMOVED***
+        // Thread stack space
+        if (getThreadStackMemory() > 0) {
+            if (jvmMemory > 0) {
+                jvmMemory += getThreadStackMemory();
+            ***REMOVED*** else {
+                jvmMemory = getThreadStackMemory();
             ***REMOVED***
+        ***REMOVED***
+        // Compressed class pointers space
+        if (jvmMemory > 0) {
+            jvmMemory += getCompressedClassSpaceSize();
+        ***REMOVED*** else {
+            jvmMemory = getCompressedClassSpaceSize();
+        ***REMOVED***
+        // Direct memory
+        if (jvmMemory > 0) {
+            jvmMemory += getDirectMemoryMaxSize();
+        ***REMOVED*** else {
+            jvmMemory = getDirectMemoryMaxSize();
         ***REMOVED***
         return jvmMemory;
     ***REMOVED***
@@ -1148,7 +1209,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total available physical memory (kilobytes) reported by the JVM.
+     * @return The total available physical memory reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
+     *         units.
      */
     public long getJvmPhysicalMemory() {
         long physicalMemory = Long.MIN_VALUE;
@@ -1169,7 +1231,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total free physical memory (kilobytes) as reported by the JVM.
+     * @return The total free physical memory as reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
+     *         units.
      */
     public long getJvmPhysicalMemoryFree() {
         long physicalMemoryFree = Long.MIN_VALUE;
@@ -1190,7 +1253,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total available swap (kilobytes) as reported by the JVM.
+     * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmSwap() {
         long swap = Long.MIN_VALUE;
@@ -1213,7 +1276,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total free swap (kilobytes) as reported by the JVM.
+     * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmSwapFree() {
         long swapFree = Long.MIN_VALUE;
@@ -1233,21 +1296,6 @@ public class FatalErrorLog {
         return swapFree;
     ***REMOVED***
 
-    /**
-     * <pre>
-     * 128M
-     * </pre>
-     * 
-     * @return The maximum Metaspace value, or null if not set. For example:
-     */
-    public String getMaxMetaspaceValue() {
-        String maxMetaspaceValue = null;
-        if (jvmOptions != null && jvmOptions.getMaxMetaspaceSize() != null) {
-            maxMetaspaceValue = JdkUtil.getByteOptionValue(jvmOptions.getMaxMetaspaceSize());
-        ***REMOVED***
-        return maxMetaspaceValue;
-    ***REMOVED***
-
     public List<MeminfoEvent> getMeminfoEvents() {
         return meminfoEvents;
     ***REMOVED***
@@ -1257,7 +1305,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total metaspace allocation (kilobytes).
+     * @return The total metaspace allocation in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getMetaspaceAllocation() {
         long metaspaceAllocation = Long.MIN_VALUE;
@@ -1294,7 +1342,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The metaspace max size reserved (kilobytes).
+     * @return The metaspace max size reserved in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getMetaspaceMaxSize() {
         long metaspaceMaxSize = Long.MIN_VALUE;
@@ -1349,7 +1397,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total metaspace used (kilobytes).
+     * @return The total metaspace used in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getMetaspaceUsed() {
         long metaspaceUsed = Long.MIN_VALUE;
@@ -1639,7 +1687,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The stack free space (kilobytes).
+     * @return The stack free space in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getStackFreeSpace() {
         long stackFreeSpace = Long.MIN_VALUE;
@@ -1675,7 +1723,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total available physical memory (kilobytes) reported by the OS.
+     * @return The total available physical memory reported by the OS in <code>Constants.PRECISION_REPORTING</code>
+     *         units.
      */
     public long getSystemPhysicalMemory() {
         long physicalMemory = Long.MIN_VALUE;
@@ -1711,7 +1760,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total free physical memory (kilobytes) as reported by the OS.
+     * @return The total free physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getSystemPhysicalMemoryFree() {
         long physicalMemoryFree = Long.MIN_VALUE;
@@ -1747,7 +1796,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total available swap (kilobytes) as reported by the JVM.
+     * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getSystemSwap() {
         long swap = Long.MIN_VALUE;
@@ -1782,7 +1831,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total free swap (kilobytes) as reported by the JVM.
+     * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getSystemSwapFree() {
         long swapFree = Long.MIN_VALUE;

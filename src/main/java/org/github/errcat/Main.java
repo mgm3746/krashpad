@@ -357,7 +357,7 @@ public class Main {
                 ***REMOVED***
                 List<GarbageCollector> garbageCollectors = fel.getGarbageCollectors();
                 if (garbageCollectors.size() > 0) {
-                    printWriter.write("Garbage Collectors: ");
+                    printWriter.write("Garbage Collector(s): ");
                     Iterator<GarbageCollector> iteratorGarbageCollectors = garbageCollectors.iterator();
                     boolean punctuate = false;
                     while (iteratorGarbageCollectors.hasNext()) {
@@ -402,9 +402,21 @@ public class Main {
                             + JdkMath.calcPercent(fel.getMetaspaceUsed(), fel.getMetaspaceAllocation())
                             + "% Metaspace Allocation)" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
+                if (fel.getThreadStackMaxSize() > 0) {
+                    printWriter.write("Thread Stack Size: " + fel.getThreadStackMaxSize()
+                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+                if (fel.getThreadStackMemory() > 0) {
+                    printWriter.write("Thread Stack Memory: " + fel.getThreadStackMemory()
+                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+                if (fel.getDirectMemoryMaxSize() > 0) {
+                    printWriter.write("Direct Memory Max: " + fel.getDirectMemoryMaxSize()
+                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+                ***REMOVED***
                 if (fel.getJvmMemory() > 0) {
                     printWriter.write(
-                            "JVM Memory: ~" + fel.getJvmMemory() + Character.toString(Constants.PRECISION_REPORTING)
+                            "JVM Memory: >" + fel.getJvmMemory() + Character.toString(Constants.PRECISION_REPORTING)
                                     + " (" + JdkMath.calcPercent(fel.getJvmMemory(), fel.getJvmPhysicalMemory())
                                     + "% Available Memory)" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
@@ -547,6 +559,22 @@ public class Main {
                                 printWriter.write(" ");
                                 printWriter.write(option);
                             ***REMOVED***
+                        ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_INSTRUMENTATION)) {
+                            Iterator<String> iterator = fel.getJvmOptions().getJavaagent().iterator();
+                            while (iterator.hasNext()) {
+                                String option = iterator.next();
+                                printWriter.write(" ");
+                                printWriter.write(option);
+                            ***REMOVED***
+                            printWriter.write(".");
+                        ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_NATIVE)) {
+                            Iterator<String> iterator = fel.getJvmOptions().getAgentpath().iterator();
+                            while (iterator.hasNext()) {
+                                String option = iterator.next();
+                                printWriter.write(" ");
+                                printWriter.write(option);
+                            ***REMOVED***
+                            printWriter.write(".");
                         ***REMOVED***
                         printWriter.write(Constants.LINE_SEPARATOR);
                     ***REMOVED***
