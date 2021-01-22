@@ -344,7 +344,7 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Metaspace allocation not correct.", metaspaceAllocation, fel.getMetaspaceAllocation());
         long metaspaceUsed = JdkUtil.convertSize(257753, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Metaspace used not correct.", metaspaceUsed, fel.getMetaspaceUsed());
-        Assert.assertEquals("Application not correct.", Application.JBOSS, fel.getApplication());
+        Assert.assertEquals("Application not correct.", Application.JBOSS_EAP7, fel.getApplication());
         Assert.assertEquals("CPU cores not correct.", 16, fel.getCpus());
         Assert.assertEquals("State not correct.", "at safepoint (normal execution)", fel.getVmState());
         Assert.assertTrue(Analysis.INFO_SWAP_DISABLED + " analysis not identified.",

@@ -386,7 +386,7 @@ public class FatalErrorLog {
                 && getStackFrameTop() != null && getStackFrameTop()
                         .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ShenandoahUpdateRefsClosure::do_oop.+$")) {
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER);
-        } else if (getStackFrameTop() != null) {
+        } else if (getStackFrameTop() != null && !isError("Out of Memory Error")) {
             // Other libjvm.so/jvm.dll analysis
             if (getStackFrameTop().matches("^V  \\[libjvm\\.so.+\\](.+)?$")) {
                 analysis.add(Analysis.ERROR_LIBJVM_SO);
@@ -539,6 +539,17 @@ public class FatalErrorLog {
         if (getCpus() > 2 && jvmOptions != null && JdkUtil.isOptionEnabled(jvmOptions.getCmsIncrementalMode())) {
             analysis.add(Analysis.WARN_CMS_INCREMENTAL_MODE);
         }
+        // If CMS or G1, explicit gc is not handled concurrently by default
+        List<GarbageCollector> garbageCollectors = getGarbageCollectors();
+        if ((garbageCollectors.contains(GarbageCollector.CMS) || garbageCollectors.contains(GarbageCollector.G1))
+                && jvmOptions != null && !JdkUtil.isOptionEnabled(jvmOptions.getExplicitGCInvokesConcurrent())) {
+            analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_NOT_CONCURRENT);
+        }
+        // Check for explicit gc disabled on EAP7
+        if (getApplication() == Application.JBOSS_EAP7 && jvmOptions != null
+                && JdkUtil.isOptionEnabled(jvmOptions.getDisableExplicitGc())) {
+            analysis.add(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7);
+        }
     }
 
     public List<Analysis> getAnalysis() {
@@ -554,8 +565,11 @@ public class FatalErrorLog {
             Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
             while (iterator.hasNext()) {
                 DynamicLibraryEvent event = iterator.next();
-                if (event.getLogEntry().matches(JdkRegEx.JBOSS_JAR)) {
-                    application = Application.JBOSS;
+                if (event.getLogEntry().matches(JdkRegEx.JBOSS_EAP6_JAR)) {
+                    application = Application.JBOSS_EAP6;
+                    break;
+                } else if (event.getLogEntry().matches(JdkRegEx.JBOSS_EAP7_JAR)) {
+                    application = Application.JBOSS_EAP7;
                     break;
                 } else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_JAR)) {
                     application = Application.TOMCAT;

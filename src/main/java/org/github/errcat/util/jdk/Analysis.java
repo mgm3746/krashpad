@@ -41,6 +41,11 @@ public enum Analysis {
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),
 
     /**
+     * Property key for explicit gc disabled running JBoss EAP7.
+     */
+    ERROR_EXPLICIT_GC_DISABLED_EAP7("error.explicit.gc.disabled.eap7"),
+
+    /**
      * Property key for heap + metaspace &gt; physical memory.
      */
     ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY("error.heap.plus.metaspace.gt.physical.memory"),
@@ -263,6 +268,14 @@ public enum Analysis {
     INFO_OPT_MAX_PERM_SIZE("info.opt.max.perm.size"),
 
     /**
+     * Property key for overriding the number of times an object is copied between survivor spaces being set with
+     * -XX:MaxTenuringThreshold=N (0-15). 0 = disabled. 15 (default) = promote when the survivor space fills. Unless
+     * testing has shown this improves performance, consider removing this option to allow the default value to be
+     * applied.
+     */
+    INFO_OPT_MAX_TENURING_OVERRIDE("info.opt.max.tenuring.override"),
+
+    /**
      * Property key for metaspace initial and/or max size being set.
      */
     INFO_OPT_METASPACE("info.opt.metaspace"),
@@ -298,6 +311,11 @@ public enum Analysis {
     INFO_OPT_PRINT_GC_APPLICATION_CONCURRENT_TIME("info.opt.print.gc.application.concurrent.time"),
 
     /**
+     * Property key for adding option to output details at gc needed for analysis.
+     */
+    INFO_OPT_PRINT_GC_DETAILS_MISSING("info.opt.print.gc.details.missing"),
+
+    /**
      * Property key for printing additional heap data (-XX:+PrintHeapAtGC).
      */
     INFO_OPT_PRINT_HEAP_AT_GC("info.opt.print.heap.at.gc"),
@@ -328,14 +346,22 @@ public enum Analysis {
     INFO_OPT_RMI_DGC_CLIENT_GCINTERVAL_REDUNDANT("info.opt.rmi.dgc.client.gcInterval.redundant"),
 
     /**
-     * Property key for the RMI Distributed Garbage Collection (DGC) not being managed.
-     */
-    INFO_OPT_RMI_DGC_NOT_MANAGED("info.opt.rmi.dgc.not.managed"),
-
-    /**
      * Property key for -Dsun.rmi.dgc.server.gcInterval.redundant in combination with -XX:+DisableExplicitGC.
      */
     INFO_OPT_RMI_DGC_SERVER_GCINTERVAL_REDUNDANT("info.opt.rmi.dgc.server.gcInterval.redundant"),
+
+    /**
+     * Property key for the survivor ratio being set with -XX:SurvivorRatio=N (e.g. -XX:SurvivorRatio=6 ).
+     * 
+     */
+    INFO_OPT_SURVIVOR_RATIO("info.opt.survivor.ratio"),
+
+    /**
+     * Property key for the target survivor ratio being set with XX:TargetSurvivorRatio=N (e.g.
+     * -XX:TargetSurvivorRatio=90).
+     * 
+     */
+    INFO_OPT_SURVIVOR_RATIO_TARGET("info.opt.survivor.ratio.target"),
 
     /**
      * Property key for -XX:+TieredCompilation.
@@ -668,11 +694,6 @@ public enum Analysis {
      * Property key for gc details option disabled.
      */
     WARN_OPT_PRINT_GC_DETAILS_DISABLED("warn.opt.print.gc.details.disabled"),
-
-    /**
-     * Property key for adding option to output details at gc needed for analysis.
-     */
-    WARN_OPT_PRINT_GC_DETAILS_MISSING("warn.opt.print.gc.details.missing"),
 
     /**
      * Property key for small sun.rmi.dgc.client.gcInterval.

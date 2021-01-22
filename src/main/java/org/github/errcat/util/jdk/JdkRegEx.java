@@ -134,6 +134,24 @@ public class JdkRegEx {
     public static final String JBOSS_JAR = "^.+jboss-modules\\.jar.*$";
 
     /**
+     * JBoss EAP6 jar used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jbossweb-7.5.7.Final-redhat-1.jar
+     */
+    public static final String JBOSS_EAP6_JAR = "^.+jbossweb.+\\.jar$";
+
+    /**
+     * JBoss EAP6 jar used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/undertow-core-2.0.22.Final-redhat-00001.jar
+     */
+    public static final String JBOSS_EAP7_JAR = "^.+undertow-core.+\\.jar$";
+
+    /**
      * Kilobyte units identifier.
      */
     public static final String KILOBYTES = "kK";
