@@ -58,14 +58,6 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
     ***REMOVED***
 
-    public void testLibjvm() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset10.txt");
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertTrue(Analysis.ERROR_LIBJVM_SO + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO));
-    ***REMOVED***
-
     public void testSwappingInfo() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset11.txt");
         Manager manager = new Manager();
@@ -178,13 +170,17 @@ public class TestAnalysis extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset24.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertEquals("Application not correct.", Application.JBOSS, fel.getApplication());
+        Assert.assertEquals("Application not correct.", Application.JBOSS_EAP7, fel.getApplication());
         Assert.assertEquals("To stack frame not correct.", "v  ~StubRoutines::jbyte_disjoint_arraycopy",
                 fel.getStackFrameTop());
         Assert.assertTrue("DirectByteBuffer class not identified in stack.",
                 fel.isInStack(JdkRegEx.JAVA_NIO_BYTEBUFFER));
         Assert.assertTrue(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION));
+        Assert.assertTrue(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7 + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7));
+        Assert.assertFalse(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED));
     ***REMOVED***
 
     public void testParallelCollector() {
@@ -238,6 +234,8 @@ public class TestAnalysis extends TestCase {
                 heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory, fel.getJvmMemory());
         Assert.assertTrue(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY));
+        Assert.assertFalse(Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO));
     ***REMOVED***
 
     public void testSwapDisabled() {
@@ -272,6 +270,8 @@ public class TestAnalysis extends TestCase {
                 heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory, fel.getJvmMemory());
         Assert.assertTrue(Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL));
+        Assert.assertFalse(Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO));
     ***REMOVED***
 
     public void testPhysicalMemoryInsufficientJvmStartup() {
@@ -281,6 +281,8 @@ public class TestAnalysis extends TestCase {
         Assert.assertTrue("Out Of Memory Error not identified.", fel.isError("Out of Memory Error"));
         Assert.assertTrue(Analysis.ERROR_OOME_STARTUP + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP));
+        Assert.assertFalse(Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO));
     ***REMOVED***
 
     public void testShenandoahCollector() {
@@ -1083,6 +1085,10 @@ public class TestAnalysis extends TestCase {
         String jvm_args = "jvm_args: -Xss128k -Xms2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
+        String logLine = "concurrent mark-sweep generation total 21676032K, used 6923299K [0x0000000295000000, "
+                + "0x00000007c0000000, 0x00000007c0000000)";
+        HeapEvent heapEvent = new HeapEvent(logLine);
+        fel.getHeapEvents().add(heapEvent);
         fel.doAnalysis();
         Assert.assertTrue(Analysis.WARN_OPT_EXPLICIT_GC_NOT_CONCURRENT + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.WARN_OPT_EXPLICIT_GC_NOT_CONCURRENT));
@@ -1138,8 +1144,8 @@ public class TestAnalysis extends TestCase {
         fel.doAnalysis();
         Assert.assertTrue(Analysis.WARN_OPT_PRINT_GC_DETAILS_DISABLED + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.WARN_OPT_PRINT_GC_DETAILS_DISABLED));
-        Assert.assertFalse(Analysis.WARN_OPT_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.WARN_OPT_PRINT_GC_DETAILS_MISSING));
+        Assert.assertFalse(Analysis.INFO_OPT_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_GC_DETAILS_MISSING));
     ***REMOVED***
 
     /**
@@ -1151,11 +1157,11 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.WARN_OPT_PRINT_GC_DETAILS_MISSING + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.WARN_OPT_PRINT_GC_DETAILS_MISSING));
+        Assert.assertTrue(Analysis.INFO_OPT_PRINT_GC_DETAILS_MISSING + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_GC_DETAILS_MISSING));
     ***REMOVED***
 
-    public void testTenuringDisabledZero() {
+    public void testTenuringDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:MaxTenuringThreshold=0 -Xmx2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
@@ -1165,14 +1171,26 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.WARN_OPT_TENURING_DISABLED));
     ***REMOVED***
 
-    public void testTenuringDisabledGreater15() {
+    public void testTenuringNotDefault() {
         FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:MaxTenuringThreshold=32 -Xmx2048M";
+        String jvm_args = "jvm_args: -Xss128k -XX:MaxTenuringThreshold=8 -Xmx2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.WARN_OPT_TENURING_DISABLED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.WARN_OPT_TENURING_DISABLED));
+        Assert.assertTrue(Analysis.INFO_OPT_MAX_TENURING_OVERRIDE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_MAX_TENURING_OVERRIDE));
+        fel.getVmArgumentsEvents().clear();
+    ***REMOVED***
+
+    public void testTenuringMissing() {
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getVmArgumentsEvents().clear();
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertFalse(Analysis.INFO_OPT_MAX_TENURING_OVERRIDE + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_MAX_TENURING_OVERRIDE));
     ***REMOVED***
 
     /**
@@ -1186,19 +1204,6 @@ public class TestAnalysis extends TestCase {
         fel.doAnalysis();
         Assert.assertTrue(Analysis.WARN_OPT_USE_MEMBAR + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.WARN_OPT_USE_MEMBAR));
-    ***REMOVED***
-
-    /**
-     * Test DGC not managed analysis.
-     */
-    public void testDgcNotManaged() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: MGM";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_RMI_DGC_NOT_MANAGED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_RMI_DGC_NOT_MANAGED));
     ***REMOVED***
 
     /**
@@ -1284,5 +1289,25 @@ public class TestAnalysis extends TestCase {
         fel.doAnalysis();
         Assert.assertTrue(Analysis.INFO_OPT_TRACE_CLASS_UNLOADING + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_OPT_TRACE_CLASS_UNLOADING));
+    ***REMOVED***
+
+    public void testSurvivorRatio() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:SurvivorRatio=6 -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_SURVIVOR_RATIO + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_SURVIVOR_RATIO));
+    ***REMOVED***
+
+    public void testTargetSurvivorRatio() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:TargetSurvivorRatio=90 -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_SURVIVOR_RATIO_TARGET + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_SURVIVOR_RATIO_TARGET));
     ***REMOVED***
 ***REMOVED***

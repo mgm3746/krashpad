@@ -106,7 +106,7 @@ public class JdkUtil {
      */
     public enum Application {
         //
-        JBOSS, TOMCAT, UNKNOWN
+        JBOSS, JBOSS_EAP6, JBOSS_EAP7, TOMCAT, UNKNOWN
     ***REMOVED***
 
     /**

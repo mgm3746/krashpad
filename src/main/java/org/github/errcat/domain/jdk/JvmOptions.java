@@ -1149,7 +1149,7 @@ public class JvmOptions {
                     reservedCodeCacheSize = option;
                 ***REMOVED*** else if (option.matches("^-XX:ShenandoahMinFreeThreshold=\\d{1,3***REMOVED***$")) {
                     shenandoahMinFreeThreshold = option;
-                ***REMOVED*** else if (option.matches("^-XX:SurvivorRatio\\d{1,***REMOVED***$")) {
+                ***REMOVED*** else if (option.matches("^-XX:SurvivorRatio=\\d{1,***REMOVED***$")) {
                     survivorRatio = option;
                 ***REMOVED*** else if (option.matches("^-XX:TargetSurvivorRatio=\\d{1,3***REMOVED***$")) {
                     targetSurvivorRatio = option;
@@ -1447,14 +1447,13 @@ public class JvmOptions {
             analysis.add(Analysis.WARN_OPT_CMS_PAR_NEW_DISABLED);
         ***REMOVED***
         // Check to see if explicit gc is disabled
-        if (JdkUtil.isOptionEnabled(disableExplicitGc)) {
+        if (JdkUtil.isOptionEnabled(disableExplicitGc)
+                && !analysis.contains(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7)) {
             analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED);
             // Specifying that explicit gc be collected concurrently makes no sense if explicit gc is disabled.
             if (JdkUtil.isOptionEnabled(explicitGCInvokesConcurrent)) {
                 analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED_CONCURRENT);
             ***REMOVED***
-        ***REMOVED*** else if (explicitGCInvokesConcurrent == null) {
-            analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_NOT_CONCURRENT);
         ***REMOVED***
         // Check for outputting application concurrent time
         if (JdkUtil.isOptionEnabled(printGcApplicationConcurrentTime)) {
@@ -1473,27 +1472,24 @@ public class JvmOptions {
             analysis.add(Analysis.WARN_OPT_PRINT_CLASS_HISTOGRAM_BEFORE_FULL_GC);
         ***REMOVED***
         // Check if print gc details option disabled
-        if (JdkUtil.isOptionEnabled(printGcDetails)) {
+        if (JdkUtil.isOptionDisabled(printGcDetails)) {
             analysis.add(Analysis.WARN_OPT_PRINT_GC_DETAILS_DISABLED);
         ***REMOVED*** else {
             // Check if print gc details option missing
             if (printGcDetails == null) {
-                analysis.add(Analysis.WARN_OPT_PRINT_GC_DETAILS_MISSING);
+                analysis.add(Analysis.INFO_OPT_PRINT_GC_DETAILS_MISSING);
             ***REMOVED***
         ***REMOVED***
         // Check for tenuring disabled or default overriden
         long tenuring = JdkUtil.getNumberOptionValue(maxTenuringThreshold);
-        if (tenuring == 0 || tenuring > 15) {
+        if (tenuring == 0) {
             analysis.add(Analysis.WARN_OPT_TENURING_DISABLED);
+        ***REMOVED*** else if (tenuring > 0 && tenuring < 15) {
+            analysis.add(Analysis.INFO_OPT_MAX_TENURING_OVERRIDE);
         ***REMOVED***
         // Check for -XX:+UseMembar option being used
         if (JdkUtil.isOptionEnabled(useMembar)) {
             analysis.add(Analysis.WARN_OPT_USE_MEMBAR);
-        ***REMOVED***
-        // Check if the RMI Distributed Garbage Collection (DGC) is managed.
-        if (getSunRmiDgcClientGcInterval() == null && getSunRmiDgcServerGcInterval() == null
-                && disableExplicitGc == null) {
-            analysis.add(Analysis.INFO_OPT_RMI_DGC_NOT_MANAGED);
         ***REMOVED***
         // Check for setting DGC intervals when explicit GC is disabled.
         if (JdkUtil.isOptionEnabled(disableExplicitGc)) {
@@ -1528,6 +1524,14 @@ public class JvmOptions {
         // Check for trace class unloading enabled with -XX:+TraceClassUnloading
         if (JdkUtil.isOptionEnabled(traceClassUnloading)) {
             analysis.add(Analysis.INFO_OPT_TRACE_CLASS_UNLOADING);
+        ***REMOVED***
+        // Check for -XX:SurvivorRatio option being used
+        if (survivorRatio != null) {
+            analysis.add(Analysis.INFO_OPT_SURVIVOR_RATIO);
+        ***REMOVED***
+        // Check for -XX:TargetSurvivorRatio option being used
+        if (targetSurvivorRatio != null) {
+            analysis.add(Analysis.INFO_OPT_SURVIVOR_RATIO_TARGET);
         ***REMOVED***
     ***REMOVED***
 
