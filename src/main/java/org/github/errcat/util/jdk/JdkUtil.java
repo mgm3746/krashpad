@@ -363,7 +363,9 @@ public class JdkUtil {
 
         // RHEL7 amd64 OpenJDK8 rpm
         rhel7Amd64Jdk8RpmReleases = new HashMap<String, Release>();
-        rhel7Amd64Jdk8RpmReleases.put("LATEST", new Release("Nov 6 2020 00:00:00", 27, "1.8.0_275-b01"));
+        rhel7Amd64Jdk8RpmReleases.put("LATEST", new Release("Jan 18 2021 00:00:00", 28, "1.8.0_282-b08"));
+        rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.x86_64",
+                new Release("Jan 18 2021 00:00:00", 28, "1.8.0_282-b08"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.275.b01-0.el7_9.x86_64",
                 new Release("Nov 6 2020 00:00:00", 27, "1.8.0_275-b01"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64",
@@ -469,7 +471,13 @@ public class JdkUtil {
 
         // RHEL8 amd64 OpenJDK8 rpm
         rhel8Amd64Jdk8RpmReleases = new HashMap<String, Release>();
-        rhel8Amd64Jdk8RpmReleases.put("LATEST", new Release("Nov 6 2020 00:00:00", 10, "1.8.0_275-b01"));
+        rhel8Amd64Jdk8RpmReleases.put("LATEST", new Release("Jan 17 2021 16:21:17", 11, "1.8.0_282-b08"));
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.x86_64",
+                new Release("Jan 17 2021 16:21:17", 11, "1.8.0_282-b08"));
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.282.b08-1.el8_2.x86_64",
+                new Release("Jan 17 2021 00:00:00", 11, "1.8.0_282-b08"));
+        rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.282.b08-1.el8_1.x86_64",
+                new Release("Jan 17 2021 00:00:00", 11, "1.8.0_282-b08"));
         rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.275.b01-1.el8_3.x86_64",
                 new Release("Nov 6 2020 00:00:00", 10, "1.8.0_275-b01"));
         rhel8Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.275.b01-0.el8_2.x86_64",
@@ -528,7 +536,8 @@ public class JdkUtil {
         // RHEL amd64 OpenJDK8 zip
         rhelJdk8ZipReleases = new HashMap<String, Release>();
         // First RHEL zip was 1.8.0_222.
-        rhelJdk8ZipReleases.put("LATEST", new Release("Nov 11 2020 12:18:48", 8, "1.8.0_275-b01"));
+        rhelJdk8ZipReleases.put("LATEST", new Release("Jan 18 2021 13:56:21", 9, "1.8.0_282-b08"));
+        rhelJdk8ZipReleases.put("1.8.0_282-b08", new Release("Jan 18 2021 13:56:21", 9, "1.8.0_282-b08"));
         rhelJdk8ZipReleases.put("1.8.0_275-b01", new Release("Nov 11 2020 12:18:48", 8, "1.8.0_275-b01"));
         rhelJdk8ZipReleases.put("1.8.0_272-b10", new Release("Oct 20 2020 12:17:01", 7, "1.8.0_272-b10"));
         rhelJdk8ZipReleases.put("1.8.0_265-b01", new Release("Jul 28 2020 13:27:15", 6, "1.8.0_265-b01"));
@@ -541,7 +550,8 @@ public class JdkUtil {
         // Windows amd64 OpenJDK8 zip
         windowsJdk8Releases = new HashMap<String, Release>();
         // First RH Windows release was 1.8.0_191-1-redhat-b12. There was no RH Windows release for u202.
-        windowsJdk8Releases.put("LATEST", new Release("Nov 6 2020 21:03:52", 12, "1.8.0_275-b01"));
+        windowsJdk8Releases.put("LATEST", new Release("Jan 17 2021 20:58:15", 13, "1.8.0_282-b08"));
+        windowsJdk8Releases.put("1.8.0_282-b08", new Release("Jan 17 2021 20:58:15", 13, "1.8.0_282-b08"));
         windowsJdk8Releases.put("1.8.0_275-b01", new Release("Nov 6 2020 21:03:52", 12, "1.8.0_275-b01"));
         windowsJdk8Releases.put("1.8.0_272-b10", new Release("Oct 17 2020 18:45:37", 11, "1.8.0_272-b10"));
         windowsJdk8Releases.put("1.8.0_265-b01", new Release("Jul 31 2020 12:33:19", 10, "1.8.0_265-b01"));
@@ -561,7 +571,9 @@ public class JdkUtil {
 
         // RHEL7 amd64 OpenJDK11 rpm
         rhel7Amd64Jdk11RpmReleases = new HashMap<String, Release>();
-        rhel7Amd64Jdk11RpmReleases.put("LATEST", new Release("Nov 12 2020 00:00:00", 6, "11.0.9.1+1-LTS"));
+        rhel7Amd64Jdk11RpmReleases.put("LATEST", new Release("Jan 15 2021 00:00:00", 7, "11.0.10+9-LTS"));
+        rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.10.0.9-0.el7_9.x86_64",
+                new Release("Jan 15 2021 00:00:00", 7, "11.0.10+9-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-2.el7_9.x86_64",
                 new Release("Nov 12 2020 00:00:00", 6, "11.0.9.1+1-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el7_9.x86_64",
@@ -577,7 +589,13 @@ public class JdkUtil {
 
         // RHEL8 amd64 OpenJDK11 rpm
         rhel8Amd64Jdk11RpmReleases = new HashMap<String, Release>();
-        rhel8Amd64Jdk11RpmReleases.put("LATEST", new Release("Nov 10 2020 00:00:00", 5, "11.0.9.1+1-LTS"));
+        rhel8Amd64Jdk11RpmReleases.put("LATEST", new Release("Jan 18 2021 00:04:32", 6, "11.0.10+9-LTS"));
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.10.0.9-4.el8_3.x86_64",
+                new Release("Jan 18 2021 00:04:32", 6, "11.0.10+9-LTS"));
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.10.0.9-0.el8_2.x86_64",
+                new Release("Jan 15 2021 00:00:00", 6, "11.0.10+9-LTS"));
+        rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.10.0.9-1.el8_1.x86_64",
+                new Release("Jan 18 2021 00:00:00", 6, "11.0.10+9-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-3.el8_3.x86_64",
                 new Release("Nov 10 2020 21:42:14", 5, "11.0.9.1+1-LTS"));
         rhel8Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-2.el8_3.x86_64",
@@ -610,7 +628,8 @@ public class JdkUtil {
         // RHEL amd64 OpenJDK11 zip
         rhelJdk11ZipReleases = new HashMap<String, Release>();
         // First RHEL zip was 11.0.4.11.
-        rhelJdk11ZipReleases.put("LATEST", new Release("Nov 11 2020 12:19:11", 7, "11.0.9.1+1-LTS"));
+        rhelJdk11ZipReleases.put("LATEST", new Release("Jan 18 2021 00:04:32", 9, "11.0.10+9-LTS"));
+        rhelJdk11ZipReleases.put("11.0.10+9-LTS", new Release("Jan 18 2021 00:04:32", 8, "11.0.10+9-LTS"));
         rhelJdk11ZipReleases.put("11.0.9.1+1-LTS", new Release("Nov 11 2020 12:19:11", 7, "11.0.9.1+1-LTS"));
         rhelJdk11ZipReleases.put("11.0.9+11-LTS", new Release("Oct 20 2020 12:01:49", 6, "11.0.9+11-LTS"));
         rhelJdk11ZipReleases.put("11.0.8+10-LTS", new Release("Jul 14 2020 06:26:42", 5, "11.0.8+10-LTS"));
@@ -622,7 +641,8 @@ public class JdkUtil {
         // Windows amd64 OpenJDK11 zip
         windowsJdk11Releases = new HashMap<String, Release>();
         // First Windows zip was 11.0.1.13.
-        windowsJdk11Releases.put("LATEST", new Release("Nov 10 2020 12:16:00", 13, "11.0.9.1+1-LTS"));
+        windowsJdk11Releases.put("LATEST", new Release("Jan 16 2021 19:49:44", 14, "11.0.10+9-LTS"));
+        windowsJdk11Releases.put("11.0.10+9-LTS", new Release("Jan 16 2021 19:49:44", 14, "11.0.10+9-LTS"));
         windowsJdk11Releases.put("11.0.9.1+1-LTS", new Release("Nov 10 2020 12:16:00", 13, "11.0.9.1+1-LTS"));
         windowsJdk11Releases.put("11.0.9+11-LTS", new Release("Oct 17 2020 16:53:23", 12, "11.0.9+11-LTS"));
         windowsJdk11Releases.put("11.0.8+10-LTS", new Release("Jul 12 2020 15:20:55", 11, "11.0.8+10-LTS"));
@@ -644,7 +664,9 @@ public class JdkUtil {
 
         // RHEL7 ppc64le OpenJDK8 rpm
         rhel7Ppc64leJdk8RpmReleases = new HashMap<String, Release>();
-        rhel7Ppc64leJdk8RpmReleases.put("LATEST", new Release("Nov 6 2020 00:00:00", 27, "1.8.0_275-b01"));
+        rhel7Ppc64leJdk8RpmReleases.put("LATEST", new Release("Jan 17 2021 00:00:00", 28, "1.8.0_282-b08"));
+        rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.ppc64le",
+                new Release("Jan 17 2021 00:00:00", 28, "1.8.0_282-b08"));
         rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.275.b01-0.el7_9.ppc64le",
                 new Release("Nov 6 2020 00:00:00", 27, "1.8.0_275-b01"));
         rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.ppc64le",

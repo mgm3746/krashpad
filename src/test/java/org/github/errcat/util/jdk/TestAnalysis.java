@@ -82,9 +82,9 @@ public class TestAnalysis extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue(Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST));
-        Assert.assertEquals("Release days diff not correct.", 116,
+        Assert.assertEquals("Release days diff not correct.", 189,
                 ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)));
-        Assert.assertEquals("Release ***REMOVED*** diff not correct.", 2,
+        Assert.assertEquals("Release ***REMOVED*** diff not correct.", 3,
                 JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel));
     ***REMOVED***
 
