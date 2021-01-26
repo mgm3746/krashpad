@@ -126,4 +126,22 @@ public class TestEnvironmentVariablesEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
     ***REMOVED***
+
+    public void testHostType() {
+        String logLine = "HOSTTYPE=x86_64-linux";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    ***REMOVED***
+
+    public void testOsType() {
+        String logLine = "OSTYPE=linux";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    ***REMOVED***
+
+    public void testMachType() {
+        String logLine = "MACHTYPE=x86_64";
+        Assert.assertTrue(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES);
+    ***REMOVED***
 ***REMOVED***

@@ -530,7 +530,7 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check if summarized remembered set processing information being output
-        if (getGarbageCollectors().contains(GarbageCollector.G1)
+        if (getGarbageCollectors().contains(GarbageCollector.G1) && jvmOptions != null
                 && JdkUtil.isOptionEnabled(jvmOptions.getG1SummarizeRSetStats())
                 && JdkUtil.getNumberOptionValue(jvmOptions.getG1SummarizeRSetStatsPeriod()) > 0) {
             analysis.add(Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT);
