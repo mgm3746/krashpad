@@ -119,6 +119,27 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertFalse("Debugging symbols incorrectly identified.", fel.haveJdkDebugSymbols());
     ***REMOVED***
 
+    public void testThreadStackSize() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvmArgs = "jvm_args: -Xmx37400M -Xms37400M -XX:ThreadStackSize=256";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvmArgs);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertEquals("Thread stack size not correct.", 256, fel.getThreadStackSize());
+        fel.getVmArgumentsEvents().clear();
+        jvmArgs = "jvm_args: -Xmx37400M -Xms37400M -XX:ThreadStackSize=256k";
+        event = new VmArgumentsEvent(jvmArgs);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertEquals("Thread stack size not correct.", 256 * 1024, fel.getThreadStackSize());
+        fel.getVmArgumentsEvents().clear();
+        jvmArgs = "jvm_args: -Xmx37400M -Xms37400M -Xss256";
+        event = new VmArgumentsEvent(jvmArgs);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertEquals("Thread stack size not correct.", 0, fel.getThreadStackSize());
+    ***REMOVED***
+
     public void testInternalError() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset3.txt");
         Manager manager = new Manager();
@@ -380,7 +401,7 @@ public class TestFatalErrorLog extends TestCase {
         long metaspaceUsed = JdkUtil.convertSize(147896, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Metaspace used not correct.", metaspaceUsed, fel.getMetaspaceUsed());
         Assert.assertEquals("CPU cores not correct.", 8, fel.getCpus());
-        Assert.assertEquals("Thread stack size not correct.", 5 * 1024, fel.getThreadStackMaxSize());
+        Assert.assertEquals("Thread stack size not correct.", 5 * 1024, fel.getThreadStackSize());
     ***REMOVED***
 
     public void testAws() {
@@ -423,7 +444,7 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Metaspace allocation not correct.", metaspaceAllocation, fel.getMetaspaceAllocation());
         long metaspaceUsed = JdkUtil.convertSize(40246, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Metaspace used not correct.", metaspaceUsed, fel.getMetaspaceUsed());
-        Assert.assertEquals("Thread stack size not correct.", 0, fel.getThreadStackMaxSize());
+        Assert.assertEquals("Thread stack size not correct.", 256, fel.getThreadStackSize());
     ***REMOVED***
 
     public void testTenuredGeneration() {
@@ -442,7 +463,7 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Metaspace allocation not correct.", metaspaceAllocation, fel.getMetaspaceAllocation());
         long metaspaceUsed = JdkUtil.convertSize(243180, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Metaspace used not correct.", metaspaceUsed, fel.getMetaspaceUsed());
-        Assert.assertEquals("Thread stack size not correct.", 512, fel.getThreadStackMaxSize());
+        Assert.assertEquals("Thread stack size not correct.", 512, fel.getThreadStackSize());
     ***REMOVED***
 
     public void testHeapMaxGlobalFlag() {
@@ -501,7 +522,7 @@ public class TestFatalErrorLog extends TestCase {
                 fel.getCompressedClassSpaceSize());
         long directMemoryMax = JdkUtil.convertSize(8, 'G', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Direct Memory mx not correct.", directMemoryMax, fel.getDirectMemoryMaxSize());
-        Assert.assertEquals("Thread stack size not correct.", 1024, fel.getThreadStackMaxSize());
+        Assert.assertEquals("Thread stack size not correct.", 1024, fel.getThreadStackSize());
         Assert.assertEquals("Thread count not correct.", 720, fel.getJavaThreadCount());
         long threadMemory = JdkUtil.convertSize(1024 * 720, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Thread memory not correct.", threadMemory, fel.getThreadStackMemory());

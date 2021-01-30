@@ -20,6 +20,7 @@ import org.github.errcat.domain.jdk.CpuInfoEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeapEvent;
 import org.github.errcat.domain.jdk.VmArgumentsEvent;
+import org.github.errcat.domain.jdk.VmInfoEvent;
 import org.github.errcat.service.Manager;
 import org.github.errcat.util.Constants;
 import org.github.errcat.util.ErrUtil;
@@ -226,7 +227,7 @@ public class TestAnalysis extends TestCase {
                 fel.getCompressedClassSpaceSize());
         long directMemoryMax = JdkUtil.convertSize(0, 'G', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Direct Memory mx not correct.", directMemoryMax, fel.getDirectMemoryMaxSize());
-        Assert.assertEquals("Thread stack size not correct.", 1024, fel.getThreadStackMaxSize());
+        Assert.assertEquals("Thread stack size not correct.", 1024, fel.getThreadStackSize());
         Assert.assertEquals("Thread count not correct.", 225, fel.getJavaThreadCount());
         long threadMemory = JdkUtil.convertSize(1024 * 225, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Thread memory not correct.", threadMemory, fel.getThreadStackMemory());
@@ -262,7 +263,7 @@ public class TestAnalysis extends TestCase {
                 fel.getCompressedClassSpaceSize());
         long directMemoryMax = JdkUtil.convertSize(0, 'G', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Direct Memory mx not correct.", directMemoryMax, fel.getDirectMemoryMaxSize());
-        Assert.assertEquals("Thread stack size not correct.", 1024, fel.getThreadStackMaxSize());
+        Assert.assertEquals("Thread stack size not correct.", 1024, fel.getThreadStackSize());
         Assert.assertEquals("Thread count not correct.", 67, fel.getJavaThreadCount());
         long threadMemory = JdkUtil.convertSize(1024 * 67, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Thread memory not correct.", threadMemory, fel.getThreadStackMemory());
@@ -369,14 +370,6 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE));
     ***REMOVED***
 
-    public void testThreadStackSizeTiny() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset38.txt");
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertTrue(Analysis.WARN_THREAD_STACK_SIZE_TINY + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.WARN_THREAD_STACK_SIZE_TINY));
-    ***REMOVED***
-
     public void testSiKernel() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset39.txt");
         Manager manager = new Manager();
@@ -464,6 +457,14 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_STACK_NO_VM_CODE));
     ***REMOVED***
 
+    public void testNullPointer() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset51.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_NULL_POINTER + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_NULL_POINTER));
+    ***REMOVED***
+
     public void testUseAdaptiveSizePolicyDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:-UseAdaptiveSizePolicy";
@@ -482,6 +483,16 @@ public class TestAnalysis extends TestCase {
         fel.doAnalysis();
         Assert.assertTrue(Analysis.INFO_OPT_MAX_PERM_SIZE + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_OPT_MAX_PERM_SIZE));
+    ***REMOVED***
+
+    public void testPermSize() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:PermSize=256m";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_PERM_SIZE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_PERM_SIZE));
     ***REMOVED***
 
     public void testHeapDumpOnOutOfMemoryErrorMissing() {
@@ -1309,5 +1320,35 @@ public class TestAnalysis extends TestCase {
         fel.doAnalysis();
         Assert.assertTrue(Analysis.INFO_OPT_SURVIVOR_RATIO_TARGET + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_OPT_SURVIVOR_RATIO_TARGET));
+    ***REMOVED***
+
+    public void testThreadStackSizeTiny() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -XX:TargetSurvivorRatio=90 -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_THREAD_STACK_SIZE_TINY + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_THREAD_STACK_SIZE_TINY));
+    ***REMOVED***
+
+    public void testServerFlag() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -server -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        // 64-bit is assumed
+        Assert.assertTrue(Analysis.INFO_OPT_SERVER_REDUNDANT + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_SERVER_REDUNDANT));
+        // Specify 32-bit
+        String logLine = "vm_info: OpenJDK Server VM (25.252-b09) for linux-x86 JRE (1.8.0_252-b09), built on "
+                + "Apr 14 2020 14:55:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
+        fel.getAnalysis().clear();
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(logLine);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        Assert.assertFalse(Analysis.INFO_OPT_SERVER_REDUNDANT + " analysis incorreclty identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_SERVER_REDUNDANT));
     ***REMOVED***
 ***REMOVED***

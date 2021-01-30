@@ -459,12 +459,12 @@ public class FatalErrorLog {
         if (haveStackOverFlowError()) {
             analysis.add(Analysis.ERROR_STACKOVERFLOW);
         ***REMOVED*** else {
-            if (getStackFreeSpace() > getThreadStackMaxSize()) {
+            if (getStackFreeSpace() > getThreadStackSize()) {
                 analysis.add(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE);
             ***REMOVED***
         ***REMOVED***
         // Thread stack size
-        long threadStackMaxSize = getThreadStackMaxSize();
+        long threadStackMaxSize = getThreadStackSize();
         if (threadStackMaxSize < 1) {
             analysis.add(Analysis.WARN_THREAD_STACK_SIZE_TINY);
         ***REMOVED*** else if (threadStackMaxSize < 128) {
@@ -549,6 +549,15 @@ public class FatalErrorLog {
         if (getApplication() == Application.JBOSS_EAP7 && jvmOptions != null
                 && JdkUtil.isOptionEnabled(jvmOptions.getDisableExplicitGc())) {
             analysis.add(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7);
+        ***REMOVED***
+        // Check for redundant -server flag on 64-bit
+        if (is64Bit() && jvmOptions != null && jvmOptions.isServer()) {
+            analysis.add(Analysis.INFO_OPT_SERVER_REDUNDANT);
+        ***REMOVED***
+        // Check for crash caused trying to dereference a null pointer.
+        if (sigInfoEvent != null && sigInfoEvent.getSignalAddress() != null
+                && sigInfoEvent.getSignalAddress().matches(JdkRegEx.NULL_POINTER)) {
+            analysis.add(Analysis.ERROR_NULL_POINTER);
         ***REMOVED***
     ***REMOVED***
 
@@ -764,7 +773,7 @@ public class FatalErrorLog {
     public long getThreadStackMemory() {
         long threadStackMemory = Long.MIN_VALUE;
         if (getJavaThreadCount() > 0) {
-            BigDecimal memoryPerThread = new BigDecimal(getThreadStackMaxSize());
+            BigDecimal memoryPerThread = new BigDecimal(getThreadStackSize());
             BigDecimal threads = new BigDecimal(getJavaThreadCount());
             threadStackMemory = memoryPerThread.multiply(threads).longValue();
             threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K', Constants.PRECISION_REPORTING);
@@ -1885,26 +1894,31 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The stack max size reserved (kilobytes).
+     * @return The stack size reserved (kilobytes).
      */
-    public long getThreadStackMaxSize() {
-        long stackMaxSize = 1024;
+    public long getThreadStackSize() {
+        long stackSize = 1024;
         if (jvmOptions != null && jvmOptions.getThreadStackSize() != null) {
             char fromUnits;
             long value;
-            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Pattern pattern = Pattern.compile("^-(X)?(ss|X:ThreadStackSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$");
             Matcher matcher = pattern.matcher(jvmOptions.getThreadStackSize());
             if (matcher.find()) {
-                value = Long.parseLong(matcher.group(2));
-                if (matcher.group(3) != null) {
-                    fromUnits = matcher.group(3).charAt(0);
+                value = Long.parseLong(matcher.group(4));
+                if (matcher.group(2) != null && matcher.group(2).equals("X:ThreadStackSize=")) {
+                    // value is in kilobytes, multiply by 1024
+                    value = JdkUtil.convertSize(value, 'K', 'B');
+                ***REMOVED***
+                if (matcher.group(5) != null) {
+                    fromUnits = matcher.group(5).charAt(0);
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                stackMaxSize = JdkUtil.convertSize(value, fromUnits, 'K');
+                stackSize = JdkUtil.convertSize(value, fromUnits, 'K');
             ***REMOVED***
         ***REMOVED***
-        return stackMaxSize;
+        return stackSize;
+
     ***REMOVED***
 
     public TimeElapsedTimeEvent getTimeElapsedTimeEvent() {
@@ -2343,6 +2357,17 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return isRhWindowsZipInstall;
+    ***REMOVED***
+
+    /**
+     * @return true if the JDK is 64-bit, false otherwise.
+     */
+    public boolean is64Bit() {
+        boolean is64Bit = true;
+        if (getArch() == Arch.X86) {
+            is64Bit = false;
+        ***REMOVED***
+        return is64Bit;
     ***REMOVED***
 
     /**

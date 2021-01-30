@@ -30,8 +30,7 @@ public class TestJvmOptions extends TestCase {
         Assert.assertEquals("Thread stack size not correct.", "-Xss512k", jvmOptions.getThreadStackSize());
         Assert.assertEquals("Initial heap size not correct.", "-Xms1000m", jvmOptions.getInitialHeapSize());
         Assert.assertEquals("Max heap size not correct.", "-Xmx1500m", jvmOptions.getMaxHeapSize());
-        Assert.assertEquals("Initial metaspace size not correct.", "-XX:MetaspaceSize=256M",
-                jvmOptions.getInitialMetaspaceSize());
+        Assert.assertEquals("Metaspace size not correct.", "-XX:MetaspaceSize=256M", jvmOptions.getMetaspaceSize());
         Assert.assertEquals("Max metaspace size not correct.", "-XX:MaxMetaspaceSize=2048m",
                 jvmOptions.getMaxMetaspaceSize());
     ***REMOVED***

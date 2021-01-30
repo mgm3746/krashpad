@@ -203,6 +203,7 @@ public class TestVmInfoEvent extends TestCase {
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_INFO);
         LogEvent event = JdkUtil.parseLogLine(logLine);
         Assert.assertEquals("JDK builder not correct.", BuiltBy.MOCKBUILD, ((VmInfoEvent) event).getBuiltBy());
+        Assert.assertEquals("Arch not correct.", Arch.X86, ((VmInfoEvent) event).getArch());
     ***REMOVED***
 
     public void testSparc() {

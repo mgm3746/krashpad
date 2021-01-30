@@ -46,6 +46,7 @@ public class TestSigInfoEvent extends TestCase {
         SigInfoEvent event = new SigInfoEvent(logLine);
         Assert.assertEquals("Signal number not correct.", SignalNumber.SIGSEGV, event.getSignalNumber());
         Assert.assertEquals("Signal code not correct.", SignalCode.SEGV_MAPERR, event.getSignalCode());
+        Assert.assertEquals("Signal address not correct.", "0x0000000000000008", event.getSignalAddress());
     ***REMOVED***
 
     public void testExceptionAccessViolation() {

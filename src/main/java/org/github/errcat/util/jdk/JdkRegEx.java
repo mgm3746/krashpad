@@ -169,6 +169,11 @@ public class JdkRegEx {
     public static final String MEMORY_REGION = "([0-9a-f]{8,16***REMOVED***-[0-9a-f]{8,16***REMOVED***)";
 
     /**
+     * A null pointer address.
+     */
+    public static final String NULL_POINTER = "0x([0]{8***REMOVED***|[0]{16***REMOVED***)";
+
+    /**
      * Units for JVM options that take a byte number.
      * 
      * For example: -Xss128k -Xmx2048m -Xms2G -XX:ThreadStackSize=256

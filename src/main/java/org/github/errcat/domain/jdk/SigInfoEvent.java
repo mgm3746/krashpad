@@ -166,4 +166,18 @@ public class SigInfoEvent implements LogEvent {
         ***REMOVED***
         return code;
     ***REMOVED***
+
+    /**
+     * @return Signal address.
+     */
+    public String getSignalAddress() {
+        String address = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(6) != null) {
+                address = matcher.group(6);
+            ***REMOVED***
+        ***REMOVED***
+        return address;
+    ***REMOVED***
 ***REMOVED***

@@ -402,9 +402,9 @@ public class Main {
                             + JdkMath.calcPercent(fel.getMetaspaceUsed(), fel.getMetaspaceAllocation())
                             + "% Metaspace Allocation)" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getThreadStackMaxSize() > 0) {
-                    printWriter.write("Thread Stack Size: " + fel.getThreadStackMaxSize()
-                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+                if (fel.getThreadStackSize() > 0) {
+                    printWriter
+                            .write("Thread Stack Size: " + fel.getThreadStackSize() + "K" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getThreadStackMemory() > 0) {
                     printWriter.write("Thread Stack Memory: " + fel.getThreadStackMemory()
