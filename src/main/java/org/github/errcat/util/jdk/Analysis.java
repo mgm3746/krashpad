@@ -98,6 +98,11 @@ public enum Analysis {
     ERROR_LIBJVM_SO("error.libjvm.so"),
 
     /**
+     * Property key for crash caused trying to dereference a null pointer.
+     */
+    ERROR_NULL_POINTER("error.null.pointer"),
+
+    /**
      * Property key for generic insufficient physical memory.
      */
     ERROR_OOME("error.oome"),
@@ -263,7 +268,7 @@ public enum Analysis {
     INFO_OPT_JMX_ENABLED("info.opt.jmx.enabled"),
 
     /**
-     * Property key for undefined JVM option(s).
+     * Property key for maximum permanent generation size being set.
      */
     INFO_OPT_MAX_PERM_SIZE("info.opt.max.perm.size"),
 
@@ -289,6 +294,11 @@ public enum Analysis {
      * Property key for young space &gt;= old space.
      */
     INFO_OPT_NEW_RATIO_INVERTED("info.opt.new.ratio.inverted"),
+
+    /**
+     * Property key for initial permanent generation size being set.
+     */
+    INFO_OPT_PERM_SIZE("info.opt.perm.size"),
 
     /**
      * Property key for disabling Adaptive Resize Policy output with -XX:-PrintAdaptiveSizePolicy.
@@ -349,6 +359,11 @@ public enum Analysis {
      * Property key for -Dsun.rmi.dgc.server.gcInterval.redundant in combination with -XX:+DisableExplicitGC.
      */
     INFO_OPT_RMI_DGC_SERVER_GCINTERVAL_REDUNDANT("info.opt.rmi.dgc.server.gcInterval.redundant"),
+
+    /**
+     * Property key for -server flag on 64-bit.
+     */
+    INFO_OPT_SERVER_REDUNDANT("info.opt.server.redundant"),
 
     /**
      * Property key for the survivor ratio being set with -XX:SurvivorRatio=N (e.g. -XX:SurvivorRatio=6 ).

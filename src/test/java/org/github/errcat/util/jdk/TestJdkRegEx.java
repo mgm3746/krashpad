@@ -169,4 +169,14 @@ public class TestJdkRegEx extends TestCase {
         String size = "1234k";
         Assert.assertTrue("Size not recognized.", size.matches(JdkRegEx.SIZE));
     }
+
+    public void testNullPointer32Bit() {
+        String address = "0x00000000";
+        Assert.assertTrue("Null pointer not recognized.", address.matches(JdkRegEx.NULL_POINTER));
+    }
+
+    public void testNullPointer64Bit() {
+        String address = "0x0000000000000000";
+        Assert.assertTrue("Null pointer not recognized.", address.matches(JdkRegEx.NULL_POINTER));
+    }
 }

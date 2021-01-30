@@ -135,6 +135,17 @@ public class JvmOptions {
     private String classUnloading;
 
     /**
+     * Option to enable the client JIT compiler, a separate Java binary, optimized for fast startup and small footprint
+     * (e.g. interactive GUI applications). Only available on 32-bit JDKS. Both the client and server binaries are
+     * included in 32-bit JDKS. Only the client binary is included in 32-bit JREs. For example:
+     * 
+     * <pre>
+     * -client
+     * </pre>
+     */
+    private boolean client = false;
+
+    /**
      * The option to enable/disable the CMS collector to collect perm/metaspace. For example:
      * 
      * <pre>
@@ -159,10 +170,6 @@ public class JvmOptions {
      * </pre>
      */
     private String cmsIncrementalMode;
-
-    public String getCmsIncrementalMode() {
-        return cmsIncrementalMode;
-    }
 
     /**
      * The option for setting CMS initiating occupancy fraction, the tenured generation occupancy percentage that
@@ -369,15 +376,6 @@ public class JvmOptions {
     private String initialHeapSize;
 
     /**
-     * Initial metaspace size. For example:
-     * 
-     * <pre>
-     * -XX:MetaspaceSize=1024M
-     * </pre>
-     */
-    private String initialMetaspaceSize;
-
-    /**
      * JVM options native libraries.
      * 
      * For example:
@@ -481,6 +479,17 @@ public class JvmOptions {
     private String maxTenuringThreshold;
 
     /**
+     * The allocated class metadata space size that will trigger a garbage collection when it is exceeded for the first
+     * time. The JVM may choose a new threshold after the initial threshold is exceeded. The default size is platform
+     * dependent. For example:
+     * 
+     * <pre>
+     * -XX:MetaspaceSize=1024M
+     * </pre>
+     */
+    private String metaspaceSize;
+
+    /**
      * The minimum percentage of free space to avoid expanding the heap size. For example:
      * 
      * <pre>
@@ -550,6 +559,16 @@ public class JvmOptions {
     private String perfDisableSharedMem;
 
     /**
+     * initial permanent generation size. In JDK8 the permanent generation space was replaced by the metaspace, so this
+     * option is being ignored. For example:
+     * 
+     * <pre>
+     * -XX:PermSize=128m
+     * </pre>
+     */
+    private String permSize;
+
+    /**
      * The option enable/disable Adaptive Resize Policy output. For example:
      * 
      * <pre>
@@ -576,10 +595,6 @@ public class JvmOptions {
      * </pre>
      */
     private String printClassHistogramAfterFullGc;
-
-    public String getPrintClassHistogramBeforeFullGc() {
-        return printClassHistogramBeforeFullGc;
-    }
 
     /**
      * The option to enable/disable outputting a class histogram in the gc logging before every full gc. For example:
@@ -718,6 +733,16 @@ public class JvmOptions {
     private String reservedCodeCacheSize;
 
     /**
+     * Option to enable the server JIT compiler, a separate Java binary, optimized for overall performance. The only JIT
+     * compiler available on 64-bit. For example:
+     * 
+     * <pre>
+     * -server
+     * </pre>
+     */
+    private boolean server = false;
+
+    /**
      * The minimum percentage of free space at which heuristics triggers the GC unconditionally. For example:
      * 
      * <pre>
@@ -756,8 +781,8 @@ public class JvmOptions {
     private String targetSurvivorRatio;
 
     /**
-     * Thread stack size. Specified with either the <code>-Xss</code>, <code>-ss</code>, or
-     * <code>-XX:ThreadStackSize</code> option. For example:
+     * Thread stack size. Specified with either <code>-Xss</code> or <code>-ss</code> with optional units [kKmMgG] or
+     * <code>-XX:ThreadStackSize</code> with an integer representing kilobytes. For example:
      * 
      * <pre>
      * -Xss256k
@@ -917,6 +942,13 @@ public class JvmOptions {
     private String useHugeTLBFS;
 
     /**
+     * Option to enable/disable large pages. For example:
+     * 
+     * -XX:+UseLargePages
+     */
+    private String useLargePages;
+
+    /**
      * The option to enable/disable a strict memory barrier. For example:
      * 
      * <pre>
@@ -1007,6 +1039,8 @@ public class JvmOptions {
                     agentpath.add(option);
                 } else if (option.matches("^--add-modules=.+$")) {
                     addModules = option;
+                } else if (option.matches("^-client$")) {
+                    client = true;
                 } else if (option.matches("^-XX:AdaptiveSizePolicyWeight=\\d{1,3}$")) {
                     adaptiveSizePolicyWeight = option;
                 } else if (option.matches("^-XX:[\\-+]AlwaysPreTouch$")) {
@@ -1078,7 +1112,7 @@ public class JvmOptions {
                 } else if (option.matches("^-Xloggc:.+$")) {
                     logGc = option;
                 } else if (option.matches("^-XX:MetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
-                    initialMetaspaceSize = option;
+                    metaspaceSize = option;
                 } else if (option.matches("^-X(mx|X:MaxHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxHeapSize = option;
                 } else if (option.matches("^-XX:GCLogFileSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
@@ -1111,6 +1145,8 @@ public class JvmOptions {
                     parallelGcThreads = option;
                 } else if (option.matches("^-XX:[\\-+]PerfDisableSharedMem$")) {
                     perfDisableSharedMem = option;
+                } else if (option.matches("^-XX:PermSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    permSize = option;
                 } else if (option.matches("^-XX:[\\-+]PrintAdaptiveSizePolicy$")) {
                     printAdaptiveSizePolicy = option;
                 } else if (option.matches("^-XX:[\\-+]PrintClassHistogram$")) {
@@ -1147,6 +1183,8 @@ public class JvmOptions {
                     printTenuringDistribution = option;
                 } else if (option.matches("^-XX:ReservedCodeCacheSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     reservedCodeCacheSize = option;
+                } else if (option.matches("^-server$")) {
+                    server = true;
                 } else if (option.matches("^-XX:ShenandoahMinFreeThreshold=\\d{1,3}$")) {
                     shenandoahMinFreeThreshold = option;
                 } else if (option.matches("^-XX:SurvivorRatio=\\d{1,}$")) {
@@ -1189,6 +1227,8 @@ public class JvmOptions {
                     useHugeTLBFS = option;
                 } else if (option.matches("^-XX:[\\-+]UseMembar$")) {
                     useMembar = option;
+                } else if (option.matches("^-XX:[\\-+]UseLargePages$")) {
+                    useLargePages = option;
                 } else if (option.matches("^-XX:[\\-+]UseNUMA$")) {
                     useNUMA = option;
                 } else if (option.matches("^-XX:[\\-+]UseParallelGC$")) {
@@ -1225,7 +1265,7 @@ public class JvmOptions {
             analysis.add(Analysis.INFO_OPT_UNDEFINED);
         }
         // Check if initial or max metaspace size being set
-        if (initialMetaspaceSize != null || maxMetaspaceSize != null) {
+        if (metaspaceSize != null || maxMetaspaceSize != null) {
             analysis.add(Analysis.INFO_OPT_METASPACE);
         }
         // Check if MaxMetaspaceSize is less than CompressedClassSpaceSize.
@@ -1252,9 +1292,12 @@ public class JvmOptions {
             }
 
         }
-        // Check for erroneous perm gen setting
+        // Check for erroneous perm gen settings
         if (maxPermSize != null) {
             analysis.add(Analysis.INFO_OPT_MAX_PERM_SIZE);
+        }
+        if (permSize != null) {
+            analysis.add(Analysis.INFO_OPT_PERM_SIZE);
         }
         // Check heap dump options
         if (heapDumpOnOutOfMemoryError == null) {
@@ -1579,6 +1622,10 @@ public class JvmOptions {
         return cmsClassUnloadingEnabled;
     }
 
+    public String getCmsIncrementalMode() {
+        return cmsIncrementalMode;
+    }
+
     public String getCmsInitiatingOccupancyFraction() {
         return cmsInitiatingOccupancyFraction;
     }
@@ -1659,10 +1706,6 @@ public class JvmOptions {
         return initialHeapSize;
     }
 
-    public String getInitialMetaspaceSize() {
-        return initialMetaspaceSize;
-    }
-
     public ArrayList<String> getJavaagent() {
         return javaagent;
     }
@@ -1707,6 +1750,10 @@ public class JvmOptions {
         return maxTenuringThreshold;
     }
 
+    public String getMetaspaceSize() {
+        return metaspaceSize;
+    }
+
     public String getMinHeapFreeRatio() {
         return minHeapFreeRatio;
     }
@@ -1731,6 +1778,10 @@ public class JvmOptions {
         return perfDisableSharedMem;
     }
 
+    public String getPermSize() {
+        return permSize;
+    }
+
     public String getPrintAdaptiveSizePolicy() {
         return printAdaptiveSizePolicy;
     }
@@ -1741,6 +1792,10 @@ public class JvmOptions {
 
     public String getPrintClassHistogramAfterFullGc() {
         return printClassHistogramAfterFullGc;
+    }
+
+    public String getPrintClassHistogramBeforeFullGc() {
+        return printClassHistogramBeforeFullGc;
     }
 
     public String getPrintFLSStatistics() {
@@ -1805,6 +1860,54 @@ public class JvmOptions {
 
     public String getShenandoahMinFreeThreshold() {
         return shenandoahMinFreeThreshold;
+    }
+
+    /**
+     * Client Distributed Garbage Collection (DGC) interval in milliseconds.
+     * 
+     * <pre>
+     * -Dsun.rmi.dgc.client.gcInterval=14400000
+     * </pre>
+     * 
+     * @return The client Distributed Garbage Collection (DGC), or null if not explicitly set.
+     */
+    public String getSunRmiDgcClientGcInterval() {
+        String sunRmiDgcClientGcIntervalOption = null;
+        if (systemProperties.size() > 0) {
+            Iterator<String> iterator = systemProperties.iterator();
+            while (iterator.hasNext()) {
+                String property = iterator.next();
+                if (property.matches("-Dsun.rmi.dgc.client.gcInterval=\\d{1,}")) {
+                    sunRmiDgcClientGcIntervalOption = property;
+                    break;
+                }
+            }
+        }
+        return sunRmiDgcClientGcIntervalOption;
+    }
+
+    /**
+     * Server Distributed Garbage Collection (DGC) interval in milliseconds.
+     * 
+     * <pre>
+     * -Dsun.rmi.dgc.server.gcInterval=14400000
+     * </pre>
+     * 
+     * @return The server Distributed Garbage Collection (DGC), or null if not explicitly set.
+     */
+    public String getSunRmiDgcServerGcInterval() {
+        String sunRmiDgcServerGcIntervalOption = null;
+        if (systemProperties.size() > 0) {
+            Iterator<String> iterator = systemProperties.iterator();
+            while (iterator.hasNext()) {
+                String property = iterator.next();
+                if (property.matches("-Dsun.rmi.dgc.server.gcInterval=\\d{1,}")) {
+                    sunRmiDgcServerGcIntervalOption = property;
+                    break;
+                }
+            }
+        }
+        return sunRmiDgcServerGcIntervalOption;
     }
 
     public String getSurvivorRatio() {
@@ -1887,6 +1990,10 @@ public class JvmOptions {
         return useHugeTLBFS;
     }
 
+    public String getUseLargePages() {
+        return useLargePages;
+    }
+
     public String getUseMembar() {
         return useMembar;
     }
@@ -1915,6 +2022,10 @@ public class JvmOptions {
         return batch;
     }
 
+    public boolean isClient() {
+        return client;
+    }
+
     public boolean isComp() {
         return comp;
     }
@@ -1927,6 +2038,10 @@ public class JvmOptions {
         return noclassgc;
     }
 
+    public boolean isServer() {
+        return server;
+    }
+
     public boolean isVerboseClass() {
         return verboseClass;
     }
@@ -1937,53 +2052,5 @@ public class JvmOptions {
 
     public boolean isxInt() {
         return xInt;
-    }
-
-    /**
-     * Client Distributed Garbage Collection (DGC) interval in milliseconds.
-     * 
-     * <pre>
-     * -Dsun.rmi.dgc.client.gcInterval=14400000
-     * </pre>
-     * 
-     * @return The client Distributed Garbage Collection (DGC), or null if not explicitly set.
-     */
-    public String getSunRmiDgcClientGcInterval() {
-        String sunRmiDgcClientGcIntervalOption = null;
-        if (systemProperties.size() > 0) {
-            Iterator<String> iterator = systemProperties.iterator();
-            while (iterator.hasNext()) {
-                String property = iterator.next();
-                if (property.matches("-Dsun.rmi.dgc.client.gcInterval=\\d{1,}")) {
-                    sunRmiDgcClientGcIntervalOption = property;
-                    break;
-                }
-            }
-        }
-        return sunRmiDgcClientGcIntervalOption;
-    }
-
-    /**
-     * Server Distributed Garbage Collection (DGC) interval in milliseconds.
-     * 
-     * <pre>
-     * -Dsun.rmi.dgc.server.gcInterval=14400000
-     * </pre>
-     * 
-     * @return The server Distributed Garbage Collection (DGC), or null if not explicitly set.
-     */
-    public String getSunRmiDgcServerGcInterval() {
-        String sunRmiDgcServerGcIntervalOption = null;
-        if (systemProperties.size() > 0) {
-            Iterator<String> iterator = systemProperties.iterator();
-            while (iterator.hasNext()) {
-                String property = iterator.next();
-                if (property.matches("-Dsun.rmi.dgc.server.gcInterval=\\d{1,}")) {
-                    sunRmiDgcServerGcIntervalOption = property;
-                    break;
-                }
-            }
-        }
-        return sunRmiDgcServerGcIntervalOption;
     }
 }
