@@ -559,6 +559,15 @@ public class FatalErrorLog {
                 && sigInfoEvent.getSignalAddress().matches(JdkRegEx.NULL_POINTER)) {
             analysis.add(Analysis.ERROR_NULL_POINTER);
         ***REMOVED***
+        // Check if performance data is being written to disk in a container environment
+        if (isContainer() && jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUsePerfData())
+                && !JdkUtil.isOptionEnabled(jvmOptions.getPerfDisableSharedMem())) {
+            analysis.add(Analysis.WARN_OPT_CONTAINER_PERF_DATA_DISK);
+        ***REMOVED***
+        // Check if performance data disabled
+        if (jvmOptions != null && JdkUtil.isOptionDisabled(jvmOptions.getUsePerfData())) {
+            analysis.add(Analysis.INFO_OPT_PERF_DATA_DISABLED);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -2213,6 +2222,17 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return isJnaCrash;
+    ***REMOVED***
+
+    /**
+     * @return true if there is evidence the crash happens in a container environment, false otherwise.
+     */
+    public boolean isContainer() {
+        boolean isContainer = false;
+        if (containerInfoEvents.size() > 0 || getJvmSwap() == 0) {
+            isContainer = true;
+        ***REMOVED***
+        return isContainer;
     ***REMOVED***
 
     /**

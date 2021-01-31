@@ -16,6 +16,7 @@ package org.github.errcat.util.jdk;
 
 import java.io.File;
 
+import org.github.errcat.domain.jdk.ContainerInfoEvent;
 import org.github.errcat.domain.jdk.CpuInfoEvent;
 import org.github.errcat.domain.jdk.FatalErrorLog;
 import org.github.errcat.domain.jdk.HeapEvent;
@@ -1350,5 +1351,29 @@ public class TestAnalysis extends TestCase {
         fel.doAnalysis();
         Assert.assertFalse(Analysis.INFO_OPT_SERVER_REDUNDANT + " analysis incorreclty identified.",
                 fel.getAnalysis().contains(Analysis.INFO_OPT_SERVER_REDUNDANT));
+    ***REMOVED***
+
+    public void testCloudPerfDataDisk() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        ContainerInfoEvent containerInfoEvent = new ContainerInfoEvent("TEST");
+        fel.getContainerInfoEvents().add(containerInfoEvent);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_CONTAINER_PERF_DATA_DISK + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_CONTAINER_PERF_DATA_DISK));
+        Assert.assertFalse(Analysis.INFO_OPT_PERF_DATA_DISABLED + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_PERF_DATA_DISABLED));
+    ***REMOVED***
+
+    public void testPerfDataDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -XX:-UsePerfData -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_PERF_DATA_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_PERF_DATA_DISABLED));
     ***REMOVED***
 ***REMOVED***

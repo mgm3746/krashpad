@@ -990,6 +990,15 @@ public class JvmOptions {
     private String useParNewGc;
 
     /**
+     * The option to enable/disable outputting perfmance data to disk (/tmp/hsperfdata*) and via JMX. For example:
+     * 
+     * <pre>
+     * -XX:-UsePerfData
+     * </pre>
+     */
+    private String usePerfData;
+
+    /**
      * Option to enable/disable the Shenandoah garbage collector. For example:
      * 
      * -XX:+UseShenandoahGC
@@ -1237,6 +1246,8 @@ public class JvmOptions {
                     useParallelOldGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseParNewGC$")) {
                     useParNewGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UsePerfData$")) {
+                    usePerfData = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseShenandoahGC$")) {
                     useShenandoahGc = option;
                 ***REMOVED*** else if (option.matches("^-verbose:class$")) {
@@ -2012,6 +2023,10 @@ public class JvmOptions {
 
     public String getUseParNewGc() {
         return useParNewGc;
+    ***REMOVED***
+
+    public String getUsePerfData() {
+        return usePerfData;
     ***REMOVED***
 
     public String getUseShenandoahGc() {

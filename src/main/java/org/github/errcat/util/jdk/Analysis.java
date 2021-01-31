@@ -296,6 +296,11 @@ public enum Analysis {
     INFO_OPT_NEW_RATIO_INVERTED("info.opt.new.ratio.inverted"),
 
     /**
+     * Property key for performance data disabled.
+     */
+    INFO_OPT_PERF_DATA_DISABLED("info.opt.perf.data.disabled"),
+
+    /**
      * Property key for initial permanent generation size being set.
      */
     INFO_OPT_PERM_SIZE("info.opt.perm.size"),
@@ -638,6 +643,11 @@ public enum Analysis {
      * Property key for compressed object references enabled (-XX:+UseCompressedOops), and heap &gt;= 32G.
      */
     WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G("warn.opt.comp.oops.enabled.heap.gt.32g"),
+
+    /**
+     * Property key for performance data written to disk (/tmp/hsperfdata*) in a cloud environment.
+     */
+    WARN_OPT_CONTAINER_PERF_DATA_DISK("warn.opt.container.perf.data.disk"),
 
     /**
      * Property key for explicit garbage collection disabled.
