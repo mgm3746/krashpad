@@ -35,10 +35,17 @@ public class TestJdkUtil extends TestCase {
                 JdkUtil.getByteOptionValue("-XX:MaxMetaspaceSize=2048m"));
     ***REMOVED***
 
+    public void testOptionEnabled() {
+        Assert.assertTrue("-XX:+PrintFlagsFinal not identified as enabled.",
+                JdkUtil.isOptionEnabled("-XX:+PrintFlagsFinal"));
+        Assert.assertFalse("-XX:-TraceClassUnloading incorrectly identified as enabled.",
+                JdkUtil.isOptionEnabled("-XX:-TraceClassUnloading"));
+    ***REMOVED***
+
     public void testOptionDisabled() {
-        Assert.assertEquals("-XX:+PrintFlagsFinal not correct.", false,
+        Assert.assertFalse("-XX:+PrintFlagsFinal incorrectly identified as disabled.",
                 JdkUtil.isOptionDisabled("-XX:+PrintFlagsFinal"));
-        Assert.assertEquals("-XX:-TraceClassUnloading not correct.", true,
+        Assert.assertTrue("-XX:-TraceClassUnloading not identified as enabled.",
                 JdkUtil.isOptionDisabled("-XX:-TraceClassUnloading"));
     ***REMOVED***
 

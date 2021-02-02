@@ -43,5 +43,16 @@ public class TestRlimitEvent extends TestCase {
                 + "FSIZE infinity/infinity , MEMLOCK 64k/64k";
         Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.",
                 JdkUtil.parseLogLine(logLine) instanceof RlimitEvent);
+        RlimitEvent event = new RlimitEvent(logLine);
+        Assert.assertEquals("NPROC not correct.", "62502", event.getNproc());
     ***REMOVED***
+
+    public void testNprocInfinity() {
+        String logLine = "rlimit: STACK 8192k, CORE 0k, NPROC infinity, NOFILE 240000, AS infinity";
+        Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof RlimitEvent);
+        RlimitEvent event = new RlimitEvent(logLine);
+        Assert.assertEquals("NPROC not correct.", "infinity", event.getNproc());
+    ***REMOVED***
+
 ***REMOVED***

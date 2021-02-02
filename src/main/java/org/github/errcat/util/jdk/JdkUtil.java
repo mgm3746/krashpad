@@ -126,6 +126,10 @@ public class JdkUtil {
 
     /**
      * Defined garbage collectors
+     * 
+     * Default collectors JDK8: PARALLEL_SCAVENGE, PARALLEL_OLD
+     * 
+     * Default collectors JDK8: G1
      */
     public enum GarbageCollector {
         //
@@ -1167,7 +1171,7 @@ public class JdkUtil {
     public static final boolean isOptionEnabled(final String option) {
         boolean enabled = false;
         if (option != null) {
-            enabled = option.matches("^-XX:+.+$");
+            enabled = option.matches("^-XX:\\+.+$");
         ***REMOVED***
         return enabled;
     ***REMOVED***

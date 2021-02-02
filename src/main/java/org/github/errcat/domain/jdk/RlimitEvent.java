@@ -14,8 +14,10 @@
  *********************************************************************************************************************/
 package org.github.errcat.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.errcat.domain.LogEvent;
-import org.github.errcat.domain.ThrowAwayEvent;
 import org.github.errcat.util.jdk.JdkUtil;
 
 /**
@@ -36,12 +38,12 @@ import org.github.errcat.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class RlimitEvent implements LogEvent, ThrowAwayEvent {
+public class RlimitEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+$";
+    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+NPROC (\\d{1,***REMOVED***|infinity)(/(\\d{1,***REMOVED***))?.+$";
 
     /**
      * The log entry for the event.
@@ -75,5 +77,18 @@ public class RlimitEvent implements LogEvent, ThrowAwayEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
+    ***REMOVED***
+
+    /**
+     * @return The nproc (soft) value.
+     */
+    public String getNproc() {
+        String nproc = null;
+        Pattern pattern = Pattern.compile(REGEX);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            nproc = matcher.group(2);
+        ***REMOVED***
+        return nproc;
     ***REMOVED***
 ***REMOVED***

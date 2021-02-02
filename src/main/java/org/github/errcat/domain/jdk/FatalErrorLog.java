@@ -16,6 +16,7 @@
 package org.github.errcat.domain.jdk;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -150,6 +151,11 @@ public class FatalErrorLog {
      * OS information.
      */
     private List<OsEvent> osEvents;
+
+    /**
+     * rlimit information.
+     */
+    private RlimitEvent rlimitEvent;
 
     /**
      * Signal information.
@@ -346,7 +352,11 @@ public class FatalErrorLog {
         // OOME, swap
         if (isError("Out of Memory Error")) {
             if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
-                analysis.add(Analysis.ERROR_OOME_STARTUP);
+                if (getJvmMemory() > (getJvmPhysicalMemoryFree() + getJvmSwapFree())) {
+                    analysis.add(Analysis.ERROR_OOME_STARTUP_MEMORY);
+                ***REMOVED*** else {
+                    analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT);
+                ***REMOVED***
                 // Don't double report the JVM failing to start
                 analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
             ***REMOVED*** else if (getJvmPhysicalMemoryFree() > 0
@@ -776,20 +786,6 @@ public class FatalErrorLog {
         return directMemorySize;
     ***REMOVED***
 
-    /**
-     * @return The thread memory in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getThreadStackMemory() {
-        long threadStackMemory = Long.MIN_VALUE;
-        if (getJavaThreadCount() > 0) {
-            BigDecimal memoryPerThread = new BigDecimal(getThreadStackSize());
-            BigDecimal threads = new BigDecimal(getJavaThreadCount());
-            threadStackMemory = memoryPerThread.multiply(threads).longValue();
-            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K', Constants.PRECISION_REPORTING);
-        ***REMOVED***
-        return threadStackMemory;
-    ***REMOVED***
-
     public List<DynamicLibraryEvent> getDynamicLibraryEvents() {
         return dynamicLibraryEvents;
     ***REMOVED***
@@ -833,6 +829,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     public List<GarbageCollector> getGarbageCollectors() {
+        // Check heap events
         List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
         if (heapEvents.size() > 0) {
             Iterator<HeapEvent> iterator = heapEvents.iterator();
@@ -866,6 +863,19 @@ public class FatalErrorLog {
                         && !garbageCollectors.contains(GarbageCollector.SERIAL_OLD)) {
                     garbageCollectors.add(GarbageCollector.SERIAL_OLD);
                 ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        // Check JVM options if no heap events
+        if (garbageCollectors.size() == 0 && jvmOptions != null && jvmOptions.getGarbageCollectors().size() > 0) {
+            garbageCollectors.addAll(jvmOptions.getGarbageCollectors());
+        ***REMOVED***
+        // Assign JDK defaults JVM collector options
+        if (garbageCollectors.size() == 0) {
+            if (getJavaSpecification() == JavaSpecification.JDK11) {
+                garbageCollectors.add(GarbageCollector.G1);
+            ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK8) {
+                garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
+                garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
             ***REMOVED***
         ***REMOVED***
         if (garbageCollectors.size() == 0) {
@@ -997,9 +1007,14 @@ public class FatalErrorLog {
                 ***REMOVED***
                 heapMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
             ***REMOVED***
-        ***REMOVED***
-        // Max heap size not set (e.g. container), use allocation
-        if (heapMaxSize == Long.MIN_VALUE) {
+        ***REMOVED*** else if (getSystemPhysicalMemory() > 0) {
+            // Use JVM default = 1/4 system memory
+            BigDecimal systemPhysicalMemory = new BigDecimal(getSystemPhysicalMemory());
+            systemPhysicalMemory = systemPhysicalMemory.divide(new BigDecimal(4));
+            systemPhysicalMemory = systemPhysicalMemory.setScale(0, RoundingMode.HALF_EVEN);
+            heapMaxSize = systemPhysicalMemory.longValue();
+        ***REMOVED*** else if (getHeapAllocation() > 0) {
+            // Use allocation
             heapMaxSize = getHeapAllocation();
         ***REMOVED***
         return heapMaxSize;
@@ -1522,7 +1537,7 @@ public class FatalErrorLog {
         OsType osType = OsType.UNKNOWN;
         String osString = getOsString();
         if (osString != null) {
-            if (osString.matches(".+Linux.+")) {
+            if (osString.matches(".*Linux.*")) {
                 osType = OsType.LINUX;
             ***REMOVED*** else if (osString.matches("^OS: Windows.+$")) {
                 osType = OsType.WINDOWS;
@@ -1591,6 +1606,10 @@ public class FatalErrorLog {
             osVersion = unameEvent.getOsVersion();
         ***REMOVED***
         return osVersion;
+    ***REMOVED***
+
+    public RlimitEvent getRlimitEvent() {
+        return rlimitEvent;
     ***REMOVED***
 
     /**
@@ -1903,6 +1922,20 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return The thread memory in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getThreadStackMemory() {
+        long threadStackMemory = Long.MIN_VALUE;
+        if (getJavaThreadCount() > 0) {
+            BigDecimal memoryPerThread = new BigDecimal(getThreadStackSize());
+            BigDecimal threads = new BigDecimal(getJavaThreadCount());
+            threadStackMemory = memoryPerThread.multiply(threads).longValue();
+            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K', Constants.PRECISION_REPORTING);
+        ***REMOVED***
+        return threadStackMemory;
+    ***REMOVED***
+
+    /**
      * @return The stack size reserved (kilobytes).
      */
     public long getThreadStackSize() {
@@ -2139,6 +2172,17 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return true if the JDK is 64-bit, false otherwise.
+     */
+    public boolean is64Bit() {
+        boolean is64Bit = true;
+        if (getArch() == Arch.X86) {
+            is64Bit = false;
+        ***REMOVED***
+        return is64Bit;
+    ***REMOVED***
+
+    /**
      * AdoptOpenJDK has the same release versions as the RH build of OpenJDK but have a different build date/time and
      * builder string ("jenkins").
      * 
@@ -2146,6 +2190,17 @@ public class FatalErrorLog {
      */
     public boolean isAdoptOpenJdkBuildString() {
         return vmInfoEvent != null && (vmInfoEvent.getBuiltBy() == BuiltBy.JENKINS);
+    ***REMOVED***
+
+    /**
+     * @return true if there is evidence the crash happens in a container environment, false otherwise.
+     */
+    public boolean isContainer() {
+        boolean isContainer = false;
+        if (containerInfoEvents.size() > 0 || getJvmSwap() == 0) {
+            isContainer = true;
+        ***REMOVED***
+        return isContainer;
     ***REMOVED***
 
     /**
@@ -2222,17 +2277,6 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return isJnaCrash;
-    ***REMOVED***
-
-    /**
-     * @return true if there is evidence the crash happens in a container environment, false otherwise.
-     */
-    public boolean isContainer() {
-        boolean isContainer = false;
-        if (containerInfoEvents.size() > 0 || getJvmSwap() == 0) {
-            isContainer = true;
-        ***REMOVED***
-        return isContainer;
     ***REMOVED***
 
     /**
@@ -2380,17 +2424,6 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return true if the JDK is 64-bit, false otherwise.
-     */
-    public boolean is64Bit() {
-        boolean is64Bit = true;
-        if (getArch() == Arch.X86) {
-            is64Bit = false;
-        ***REMOVED***
-        return is64Bit;
-    ***REMOVED***
-
-    /**
      * @return true if the fatal error is truncated, false otherwise.
      */
     public boolean isTruncated() {
@@ -2433,6 +2466,10 @@ public class FatalErrorLog {
 
     public void setElapsedTimeEvent(ElapsedTimeEvent elapsedTimeEvent) {
         this.elapsedTimeEvent = elapsedTimeEvent;
+    ***REMOVED***
+
+    public void setRlimitEvent(RlimitEvent rlimitEvent) {
+        this.rlimitEvent = rlimitEvent;
     ***REMOVED***
 
     public void setSigInfoEvent(SigInfoEvent sigInfoEvent) {

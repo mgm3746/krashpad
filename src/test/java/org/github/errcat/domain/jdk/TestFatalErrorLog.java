@@ -43,6 +43,16 @@ public class TestFatalErrorLog extends TestCase {
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
         Assert.assertEquals("OS not correct.", OsType.LINUX, fel.getOsType());
+        Assert.assertEquals("OS version not correct.", OsVersion.RHEL7, fel.getOsVersion());
+    ***REMOVED***
+
+    public void testOsJustLinux() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Linux";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        Assert.assertEquals("OS not correct.", OsType.LINUX, fel.getOsType());
+        Assert.assertEquals("OS version not correct.", OsVersion.UNKNOWN, fel.getOsVersion());
     ***REMOVED***
 
     public void testVendorAdoptOpenJdk() {

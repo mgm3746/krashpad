@@ -339,6 +339,11 @@ public class Main {
                                 + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                 ***REMOVED***
+                if (fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT) && fel.getRlimitEvent() != null
+                        && fel.getRlimitEvent().getNproc() != null) {
+                    printWriter.write("NPROC: " + fel.getRlimitEvent().getNproc() + Constants.LINE_SEPARATOR);
+
+                ***REMOVED***
 
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 printWriter.write("JVM:" + Constants.LINE_SEPARATOR);

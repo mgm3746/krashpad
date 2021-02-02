@@ -281,8 +281,8 @@ public class TestAnalysis extends TestCase {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         Assert.assertTrue("Out Of Memory Error not identified.", fel.isError("Out of Memory Error"));
-        Assert.assertTrue(Analysis.ERROR_OOME_STARTUP + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP));
+        Assert.assertTrue(Analysis.ERROR_OOME_STARTUP_LIMIT + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT));
         Assert.assertFalse(Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO));
     ***REMOVED***
