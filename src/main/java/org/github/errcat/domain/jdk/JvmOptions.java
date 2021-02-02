@@ -24,6 +24,7 @@ import org.github.errcat.util.jdk.Analysis;
 import org.github.errcat.util.jdk.JdkMath;
 import org.github.errcat.util.jdk.JdkRegEx;
 import org.github.errcat.util.jdk.JdkUtil;
+import org.github.errcat.util.jdk.JdkUtil.GarbageCollector;
 
 /**
  * <p>
@@ -999,6 +1000,13 @@ public class JvmOptions {
     private String usePerfData;
 
     /**
+     * Option to enable/disable the Serial garbage collector. For example:
+     * 
+     * -XX:+UseSerialGC
+     */
+    private String useSerialGc;
+
+    /**
      * Option to enable/disable the Shenandoah garbage collector. For example:
      * 
      * -XX:+UseShenandoahGC
@@ -1248,6 +1256,8 @@ public class JvmOptions {
                     useParNewGc = option;
                 } else if (option.matches("^-XX:[\\-+]UsePerfData$")) {
                     usePerfData = option;
+                } else if (option.matches("^-XX:[\\-+]UseSerialGC$")) {
+                    useSerialGc = option;
                 } else if (option.matches("^-XX:[\\-+]UseShenandoahGC$")) {
                     useShenandoahGc = option;
                 } else if (option.matches("^-verbose:class$")) {
@@ -1410,7 +1420,7 @@ public class JvmOptions {
             analysis.add(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT);
         } else if (JdkUtil.isOptionEnabled(useFastUnorderedTimeStamps)) {
             analysis.add(Analysis.WARN_OPT_FAST_UNORDERED_TIMESTAMPS);
-        } else if (JdkUtil.isOptionEnabled(g1MixedGCLiveThresholdPercent)) {
+        } else if (g1MixedGCLiveThresholdPercent != null) {
             analysis.add(Analysis.WARN_OPT_G1_MIXED_GC_LIVE_THRSHOLD_PRCNT);
         } else if (JdkUtil.isOptionEnabled(unlockExperimentalVmOptions)) {
             // Generic -XX:+UnlockExperimentalVMOptions.
@@ -2029,6 +2039,10 @@ public class JvmOptions {
         return usePerfData;
     }
 
+    public String getUseSerialGc() {
+        return useSerialGc;
+    }
+
     public String getUseShenandoahGc() {
         return useShenandoahGc;
     }
@@ -2067,5 +2081,41 @@ public class JvmOptions {
 
     public boolean isxInt() {
         return xInt;
+    }
+
+    /**
+     * @return The garbage collector(s) based on the JVM options.
+     */
+    public List<GarbageCollector> getGarbageCollectors() {
+        List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
+        if (JdkUtil.isOptionEnabled(useSerialGc)) {
+            garbageCollectors.add(GarbageCollector.SERIAL);
+            garbageCollectors.add(GarbageCollector.SERIAL_OLD);
+        }
+        if (JdkUtil.isOptionEnabled(useParallelOldGc)) {
+            garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
+            garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
+        } else if (JdkUtil.isOptionEnabled(useParallelGc)) {
+            garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
+            if (JdkUtil.isOptionDisabled(useParallelOldGc)) {
+                garbageCollectors.add(GarbageCollector.SERIAL_OLD);
+            } else {
+                garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
+            }
+        }
+        if (JdkUtil.isOptionEnabled(useConcMarkSweepGc)) {
+            garbageCollectors.add(GarbageCollector.PAR_NEW);
+            garbageCollectors.add(GarbageCollector.CMS);
+        } else if (JdkUtil.isOptionEnabled(useParNewGc)) {
+            garbageCollectors.add(GarbageCollector.PAR_NEW);
+            garbageCollectors.add(GarbageCollector.SERIAL_OLD);
+        }
+        if (JdkUtil.isOptionEnabled(useG1Gc)) {
+            garbageCollectors.add(GarbageCollector.G1);
+        }
+        if (JdkUtil.isOptionEnabled(useShenandoahGc)) {
+            garbageCollectors.add(GarbageCollector.SHENANDOAH);
+        }
+        return garbageCollectors;
     }
 }

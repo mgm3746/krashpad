@@ -128,9 +128,14 @@ public enum Analysis {
     ERROR_OOME_JVM("error.oome.jvm"),
 
     /**
-     * Property key for not enough physical memory for the JVM to start.
+     * Property key for the JVM failing to start due to a thread limit.
      */
-    ERROR_OOME_STARTUP("error.oome.startup"),
+    ERROR_OOME_STARTUP_LIMIT("error.oome.startup.limit"),
+
+    /**
+     * Property key for the JVM failing to start due to enough physical memory.
+     */
+    ERROR_OOME_STARTUP_MEMORY("error.oome.startup.memory"),
 
     /**
      * Property key for remote debugging enabled.

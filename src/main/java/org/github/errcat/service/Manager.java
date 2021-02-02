@@ -43,6 +43,7 @@ import org.github.errcat.domain.jdk.MeminfoEvent;
 import org.github.errcat.domain.jdk.MemoryEvent;
 import org.github.errcat.domain.jdk.NativeMemoryTrackingEvent;
 import org.github.errcat.domain.jdk.OsEvent;
+import org.github.errcat.domain.jdk.RlimitEvent;
 import org.github.errcat.domain.jdk.SigInfoEvent;
 import org.github.errcat.domain.jdk.StackEvent;
 import org.github.errcat.domain.jdk.ThreadEvent;
@@ -132,6 +133,8 @@ public class Manager {
                         fatalErrorLog.getNativeMemoryTrackingEvents().add((NativeMemoryTrackingEvent) event);
                     } else if (event instanceof OsEvent) {
                         fatalErrorLog.getOsEvents().add((OsEvent) event);
+                    } else if (event instanceof RlimitEvent) {
+                        fatalErrorLog.setRlimitEvent((RlimitEvent) event);
                     } else if (event instanceof SigInfoEvent) {
                         fatalErrorLog.setSigInfoEvent((SigInfoEvent) event);
                     } else if (event instanceof StackEvent) {
