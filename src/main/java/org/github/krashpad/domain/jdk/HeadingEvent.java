@@ -41,6 +41,10 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * ---------------  S Y S T E M  ---------------
  * </pre>
  * 
+ * <pre>
+ * ----------------------------------------------------------------------
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -49,8 +53,8 @@ public class HeadingEvent implements LogEvent, ThrowAwayEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^[-]{15}  (T H R E A D|P R O C E S S|S U M M A R Y|S Y S T E M)"
-            + "[ ]{1,2}[-]{12,15}$";
+    private static final String REGEX = "^([-]{15}  (T H R E A D|P R O C E S S|S U M M A R Y|S Y S T E M)"
+            + "[ ]{1,2}[-]{12,15}|[-]{70})$";
 
     /**
      * The log entry for the event.

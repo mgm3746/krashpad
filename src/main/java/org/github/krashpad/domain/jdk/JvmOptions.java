@@ -339,7 +339,7 @@ public class JvmOptions {
     private String gcTimeRatio;
 
     /**
-     * Option to set a minimal safepoint interval (ms). For example:
+     * Diagnostic option (-XX:+UnlockDiagnosticVMOptions) to set a minimal safepoint interval (ms). For example:
      * 
      * <pre>
      * -XX:GuaranteedSafepointInterval=90000000
@@ -420,7 +420,8 @@ public class JvmOptions {
     private String logGc;
 
     /**
-     * The option to enable/disable vm logging for safepoint analysis. For example:
+     * Diagnostic option (-XX:+UnlockDiagnosticVMOptions) to enable/disable vm logging for safepoint analysis. For
+     * example:
      * 
      * <pre>
      * -XX:+LogVMOutput
@@ -716,7 +717,7 @@ public class JvmOptions {
     private String printReferenceGc;
 
     /**
-     * Option to enable/disable printing safepoint information. For example:
+     * Diagnostic option (-XX:+UnlockDiagnosticVMOptions) to enable/disable printing safepoint information. For example:
      * 
      * <pre>
      *-XX:+PrintSafepointStatistics

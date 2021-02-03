@@ -66,10 +66,11 @@ public class RegisterToMemoryMappingEvent implements LogEvent, ThrowAwayEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER + "|" + JdkRegEx.REGISTER
-            + "|[a-z]{1,}\\.|Adapter for signature:|\\[[BCIL]|BufferBlob|\\[CodeBlob|Framesize| - (klass|length):|\\{"
-            + JdkRegEx.ADDRESS + "\\} - klass:|"
-            + "(R[ ]{0,1}\\d{1,2}[ ]{0,1}|RBX|RCX|RDI|RSI)=|\\[error occurred during error reporting "
-            + "\\(printing register info\\)|method entry point|StubRoutines).*$";
+            + "|[a-z]{1,}\\..+|Adapter for signature:.+|\\[[BCIL]([a-z]{1,}\\..+)?|BufferBlob.+|\\[CodeBlob.+|"
+            + "Framesize.+| - (klass|length):.+|\\{" + JdkRegEx.ADDRESS
+            + "\\} - klass:.+|(R[ ]{0,1}\\d{1,2}[ ]{0,1}|RAX|RBP|RBX|RCX|RDX|RDI|RSI|RSP)=.*|"
+            + "\\[error occurred during error reporting \\(printing register info\\).+|method entry point.+|"
+            + "StubRoutines.+)$";
 
     /**
      * The log entry for the event.
