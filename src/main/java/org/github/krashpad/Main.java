@@ -56,7 +56,7 @@ import org.json.JSONObject;
 
 /**
  * <p>
- * vmcat main class. A controller that prepares the model (by parsinglog entries) and provides analysis (the report
+ * krashpad main class. A controller that prepares the model (by parsinglog entries) and provides analysis (the report
  * view).
  * </p>
  * 
@@ -137,10 +137,10 @@ public class Main {
             usage(options);
         ***REMOVED*** else if (args.length == 1 && (args[0].equals("-" + Constants.OPTION_VERSION_SHORT)
                 || args[0].equals("--" + Constants.OPTION_VERSION_LONG))) {
-            System.out.println("Running vmcat version: " + getVersion());
+            System.out.println("Running krashpad version: " + getVersion());
         ***REMOVED*** else if (args.length == 1 && (args[0].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
                 || args[0].equals("--" + Constants.OPTION_LATEST_VERSION_LONG))) {
-            System.out.println("Latest vmcat version/tag: " + getLatestVersion());
+            System.out.println("Latest krashpad version/tag: " + getLatestVersion());
         ***REMOVED*** else if (args.length == 2 && (((args[0].equals("-" + Constants.OPTION_VERSION_SHORT)
                 || args[0].equals("--" + Constants.OPTION_VERSION_LONG))
                 && (args[1].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
@@ -149,8 +149,8 @@ public class Main {
                         || args[1].equals("--" + Constants.OPTION_VERSION_LONG))
                         && (args[0].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
                                 || args[0].equals("--" + Constants.OPTION_LATEST_VERSION_LONG))))) {
-            System.out.println("Running vmcat version: " + getVersion());
-            System.out.println("Latest vmcat version/tag: " + getLatestVersion());
+            System.out.println("Running krashpad version: " + getVersion());
+            System.out.println("Latest krashpad version/tag: " + getLatestVersion());
         ***REMOVED*** else {
             cmd = parser.parse(options, args);
             validateOptions(cmd);
@@ -166,7 +166,7 @@ public class Main {
     private static void usage(Options options) {
         // Use the built in formatter class
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("vmcat [OPTION]... [FILE]", options);
+        formatter.printHelp("krashpad [OPTION]... [FILE]", options);
     ***REMOVED***
 
     /**
@@ -211,7 +211,7 @@ public class Main {
      * @return version string.
      */
     private static String getVersion() {
-        ResourceBundle rb = ResourceBundle.getBundle("META-INF/maven/vmcat/vmcat/pom");
+        ResourceBundle rb = ResourceBundle.getBundle("META-INF/maven/krashpad/krashpad/pom");
         return rb.getString("version");
     ***REMOVED***
 
@@ -265,6 +265,8 @@ public class Main {
             fileWriter = new FileWriter(reportFile);
             printWriter = new PrintWriter(fileWriter);
 
+            printWriter.write(logFileName + Constants.LINE_SEPARATOR);
+
             if (version || latestVersion) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 if (version) {
@@ -277,7 +279,6 @@ public class Main {
                 ***REMOVED***
             ***REMOVED***
 
-            printWriter.write(logFileName + Constants.LINE_SEPARATOR);
             if (fel.getJavaSpecification() == JavaSpecification.JDK6
                     || fel.getJavaSpecification() == JavaSpecification.JDK7) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);

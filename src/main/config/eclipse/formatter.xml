@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE profiles>
 <profiles version="12">
-	<profile kind="CodeFormatterProfile" name="vmcat" version="12">
+	<profile kind="CodeFormatterProfile" name="krashpad" version="12">
 		<setting
 			id="org.eclipse.jdt.core.formatter.insert_space_after_ellipsis"
 			value="insert" />
