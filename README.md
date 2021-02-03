@@ -141,7 +141,7 @@ https://github.com/mgm3746/krashpad/blob/main/src/test/data/dataset23.txt
 java -jar krashpad-1.0.0-SNAPSHOT.jar -v /path/to/dataset23.txt
 ```
 
-A file called report.txt is created in the directory where the krashpad tool is run which contains the following information and analysis identifying the issue:
+A file called report.txt is created in the directory where the krashpad tool is run with analysis identifying the issue:
 
 
 ```
