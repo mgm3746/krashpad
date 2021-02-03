@@ -1,4 +1,4 @@
-# errcat
+# krashpad
 A command line tool to parse Java fatal error logs.
 
 ## Supports
