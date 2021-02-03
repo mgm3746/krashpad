@@ -12,3 +12,34 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestCurrentCompileTaskEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "C2:   1092  423       4       java.util.HashMap$KeyIterator::next (8 bytes)";
+        Assert.assertTrue(JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "C2:   1092  423       4       java.util.HashMap$KeyIterator::next (8 bytes)";
+        Assert.assertTrue(JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CurrentCompileTaskEvent);
+    ***REMOVED***
+
+    public void testHeader() {
+        String logLine = "Current CompileTask:";
+        Assert.assertTrue(JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK);
+    ***REMOVED***
+***REMOVED***

@@ -12,3 +12,28 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestPollingPageEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "Polling page: 0x00007fcbd1b68000";
+        Assert.assertTrue(JdkUtil.LogEventType.POLLING_PAGE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.POLLING_PAGE);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "Polling page: 0x00007fcbd1b68000";
+        Assert.assertTrue(JdkUtil.LogEventType.POLLING_PAGE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof PollingPageEvent);
+    ***REMOVED***
+***REMOVED***

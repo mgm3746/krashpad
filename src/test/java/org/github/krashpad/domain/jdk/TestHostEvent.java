@@ -12,3 +12,30 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestHostEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation "
+                + "release 7.4 (Maipo)";
+        Assert.assertTrue(JdkUtil.LogEventType.HOST.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HOST);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation "
+                + "release 7.4 (Maipo)";
+        Assert.assertTrue(JdkUtil.LogEventType.HOST.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof HostEvent);
+    ***REMOVED***
+***REMOVED***

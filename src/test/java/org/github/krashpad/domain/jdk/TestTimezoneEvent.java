@@ -12,3 +12,36 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestTimezoneEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "timezone: UTC";
+        Assert.assertTrue(JdkUtil.LogEventType.TIMEZONE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.TIMEZONE);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "timezone: UTC";
+        Assert.assertTrue(JdkUtil.LogEventType.TIMEZONE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof TimezoneEvent);
+    ***REMOVED***
+
+    public void testTimezone() {
+        String logLine = "timezone: UTC";
+        Assert.assertTrue(JdkUtil.LogEventType.TIMEZONE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.TIMEZONE);
+        TimezoneEvent event = new TimezoneEvent(logLine);
+        Assert.assertEquals("Timezone not correct.", "UTC", event.getTimezone());
+    ***REMOVED***
+***REMOVED***

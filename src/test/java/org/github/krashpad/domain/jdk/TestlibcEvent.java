@@ -12,3 +12,28 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestlibcEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "libc:glibc 2.12 NPTL 2.12";
+        Assert.assertTrue(JdkUtil.LogEventType.LIBC.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.LIBC);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "libc:glibc 2.12 NPTL 2.12";
+        Assert.assertTrue(JdkUtil.LogEventType.LIBC.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof LibcEvent);
+    ***REMOVED***
+***REMOVED***

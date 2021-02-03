@@ -12,3 +12,36 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestThreadsActiveCompileEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "C2 CompilerThread0606385663 219105 %     4       com.example.SomeClass::toMethod @ 56 "
+                + "(111 bytes)";
+        Assert.assertTrue(JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "C2 CompilerThread0606385663 219105 %     4       com.example.SomeClass::toMethod @ 56 "
+                + "(111 bytes)";
+        Assert.assertTrue(JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof ThreadsActiveCompileEvent);
+    ***REMOVED***
+
+    public void testHeader() {
+        String logLine = "Threads with active compile tasks:";
+        Assert.assertTrue(JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE);
+    ***REMOVED***
+***REMOVED***

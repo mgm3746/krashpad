@@ -12,3 +12,28 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestThreadsMaxEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "/proc/sys/kernel/threads-max (system-wide limit on the number of threads):";
+        Assert.assertTrue(JdkUtil.LogEventType.THREADS_MAX.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREADS_MAX);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "/proc/sys/kernel/threads-max (system-wide limit on the number of threads):";
+        Assert.assertTrue(JdkUtil.LogEventType.THREADS_MAX.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof ThreadsMaxEvent);
+    ***REMOVED***
+***REMOVED***

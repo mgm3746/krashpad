@@ -12,3 +12,28 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestEndBraceEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "***REMOVED***";
+        Assert.assertTrue(JdkUtil.LogEventType.END_BRACE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.END_BRACE);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "***REMOVED***";
+        Assert.assertTrue(JdkUtil.LogEventType.END_BRACE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof EndBraceEvent);
+    ***REMOVED***
+***REMOVED***

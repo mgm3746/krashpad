@@ -12,3 +12,15 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+
+package org.github.krashpad.domain;
+
+/**
+ * Logging events that are not essential for analysis.
+ * 
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public interface ThrowAwayEvent extends LogEvent {
+
+***REMOVED***

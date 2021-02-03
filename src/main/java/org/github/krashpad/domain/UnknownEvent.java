@@ -12,3 +12,38 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+
+/**
+ * Logging event that could not be identified.
+ * 
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class UnknownEvent implements LogEvent {
+
+    /**
+     * The log entry for the event. Can be used for debugging purposes.
+     */
+    private String logEntry;
+
+    /**
+     * Default constructor.
+     * 
+     * @param logEntry
+     *            The log entry for the event.
+     */
+    public UnknownEvent(String logEntry) {
+        this.logEntry = logEntry;
+    ***REMOVED***
+
+    public String getLogEntry() {
+        return logEntry;
+    ***REMOVED***
+
+    public String getName() {
+        return JdkUtil.LogEventType.UNKNOWN.toString();
+    ***REMOVED***
+***REMOVED***

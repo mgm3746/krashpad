@@ -12,3 +12,21 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.util.jdk;
+
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestJdkMath extends TestCase {
+
+    public void testCalcPercent() {
+        long part = 44;
+        long whole = 100;
+        Assert.assertEquals("Percent not correctly.", 44, JdkMath.calcPercent(part, whole));
+    ***REMOVED***
+***REMOVED***

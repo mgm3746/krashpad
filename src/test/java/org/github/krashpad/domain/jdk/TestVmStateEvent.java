@@ -12,3 +12,36 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestVmStateEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "VM state:at safepoint (normal execution)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_STATE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_STATE);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "VM state:at safepoint (normal execution)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_STATE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof VmStateEvent);
+    ***REMOVED***
+
+    public void testStateValue() {
+        String logLine = "VM state:at safepoint (normal execution)";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_STATE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_STATE);
+        VmStateEvent event = new VmStateEvent(logLine);
+        Assert.assertEquals("State not correct.", "at safepoint (normal execution)", event.getState());
+    ***REMOVED***
+***REMOVED***

@@ -12,3 +12,40 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestLoggingEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "Log output configuration:";
+        Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.LOGGING);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "Log output configuration:";
+        Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof LoggingEvent);
+    ***REMOVED***
+
+    public void testHeader() {
+        String logLine = "Logging:";
+        Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.LOGGING);
+    ***REMOVED***
+
+    public void testConfiguration() {
+        String logLine = " ***REMOVED***0: stdout all=warning uptime,level,tags";
+        Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.LOGGING);
+    ***REMOVED***
+***REMOVED***

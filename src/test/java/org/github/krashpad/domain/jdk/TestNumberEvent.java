@@ -12,3 +12,28 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestNumberEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "44";
+        Assert.assertTrue(JdkUtil.LogEventType.NUMBER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.NUMBER);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "44";
+        Assert.assertTrue(JdkUtil.LogEventType.NUMBER.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof NumberEvent);
+    ***REMOVED***
+***REMOVED***

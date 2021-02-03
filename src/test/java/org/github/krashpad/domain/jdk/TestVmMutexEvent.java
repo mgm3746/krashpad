@@ -12,3 +12,34 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestVmMutexEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "[0x00007fcbc8008420] Threads_lock - owner thread: 0x00007fcbc82b6000";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_MUTEX.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_MUTEX);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "[0x00007fcbc8008420] Threads_lock - owner thread: 0x00007fcbc82b6000";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_MUTEX.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof VmMutexEvent);
+    ***REMOVED***
+
+    public void testHeader() {
+        String logLine = "VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])";
+        Assert.assertTrue(JdkUtil.LogEventType.VM_MUTEX.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_MUTEX);
+    ***REMOVED***
+***REMOVED***

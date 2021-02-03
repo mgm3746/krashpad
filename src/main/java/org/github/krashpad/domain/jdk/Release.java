@@ -12,3 +12,53 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import java.util.Date;
+
+import org.github.krashpad.util.ErrUtil;
+
+/**
+ * <p>
+ * JDK release information.
+ * </p>
+ * 
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class Release {
+
+    /**
+     * Release build date.
+     */
+    private Date buildDate;
+
+    /**
+     * Release number (1..x).
+     */
+    private int number;
+
+    /**
+     * The release version string.
+     */
+    private String version;
+
+    public Release(String buildDate, int number, String version) {
+        super();
+        this.buildDate = ErrUtil.getDate(buildDate);
+        this.number = number;
+        this.version = version;
+    ***REMOVED***
+
+    public Date getBuildDate() {
+        return buildDate;
+    ***REMOVED***
+
+    public int getNumber() {
+        return number;
+    ***REMOVED***
+
+    public String getVersion() {
+        return version;
+    ***REMOVED***
+***REMOVED***

@@ -12,3 +12,24 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+
+package org.github.krashpad.domain;
+
+/**
+ * Base logging event.
+ * 
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public interface LogEvent {
+
+    /**
+     * @return The log entry for the event.
+     */
+    String getLogEntry();
+
+    /**
+     * @return The event identifier.
+     */
+    String getName();
+***REMOVED***

@@ -12,3 +12,28 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestEndEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "END.";
+        Assert.assertTrue(JdkUtil.LogEventType.END.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.END);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "END.";
+        Assert.assertTrue(JdkUtil.LogEventType.END.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof EndEvent);
+    ***REMOVED***
+***REMOVED***

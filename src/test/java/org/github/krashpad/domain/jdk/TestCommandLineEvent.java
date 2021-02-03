@@ -12,3 +12,28 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestCommandLineEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "Command Line: -Xmx2048m -Xmx12G -Xms1G";
+        Assert.assertTrue(JdkUtil.LogEventType.COMMAND_LINE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.COMMAND_LINE);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "Command Line: -Xmx2048m -Xmx12G -Xms1G";
+        Assert.assertTrue(JdkUtil.LogEventType.COMMAND_LINE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof CommandLineEvent);
+    ***REMOVED***
+***REMOVED***

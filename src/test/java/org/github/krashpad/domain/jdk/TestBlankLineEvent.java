@@ -12,3 +12,29 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.domain.BlankLineEvent;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestBlankLineEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "";
+        Assert.assertTrue(JdkUtil.LogEventType.BLANK_LINE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.BLANK_LINE);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "";
+        Assert.assertTrue(JdkUtil.LogEventType.BLANK_LINE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof BlankLineEvent);
+    ***REMOVED***
+***REMOVED***

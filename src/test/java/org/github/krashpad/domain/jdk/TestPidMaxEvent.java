@@ -12,3 +12,28 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad.domain.jdk;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
+
+/**
+ * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
+ * 
+ */
+public class TestPidMaxEvent extends TestCase {
+
+    public void testIdentity() {
+        String logLine = "/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):";
+        Assert.assertTrue(JdkUtil.LogEventType.PID_MAX.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.PID_MAX);
+    ***REMOVED***
+
+    public void testParseLogLine() {
+        String logLine = "/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):";
+        Assert.assertTrue(JdkUtil.LogEventType.PID_MAX.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine) instanceof PidMaxEvent);
+    ***REMOVED***
+***REMOVED***
