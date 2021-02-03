@@ -579,7 +579,7 @@ public class JdkUtil {
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.10.0.9-0.el7_9.x86_64",
                 new Release("Jan 15 2021 00:00:00", 7, "11.0.10+9-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-2.el7_9.x86_64",
-                new Release("Nov 12 2020 00:00:00", 6, "11.0.9.1+1-LTS"));
+                new Release("Nov 12 2020 18:10:11", 6, "11.0.9.1+1-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el7_9.x86_64",
                 new Release("Oct 15 2020 11:45:12", 5, "11.0.9+11-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.8.10-1.el7.x86_64",
@@ -804,17 +804,22 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
-     * Get the value of a JVM option that specifies a number value. For example, the value for
-     * <code>-XX:MaxTenuringThreshold=9</code> is 9.
+     * Get the value of a JVM option that specifies a number value.
+     * 
+     * For example:
+     * <ul>
+     * <li>The value for <code>-XX:MaxTenuringThreshold=9</code> is 9.</li>
+     * <li>The value for <code>-Dsun.rmi.dgc.client.gcInterval=3600000</code> is 3600000.</li>
+     * </ul>
      * 
      * @param option
-     *            The JVM option.
-     * @return The JVM option value, or <code>Integer.MIN_VALUE</code> if the option does not exist.
+     *            The JVM option or system property.
+     * @return The JVM option or system property value, or <code>Integer.MIN_VALUE</code> if the option does not exist.
      */
     public static final long getNumberOptionValue(final String option) {
         long value = Long.MIN_VALUE;
         if (option != null) {
-            String regex = "^-XX:.+=(\\d{1,10***REMOVED***)$";
+            String regex = "^.+=(\\d{1,10***REMOVED***)$";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(option);
             if (matcher.find()) {

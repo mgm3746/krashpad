@@ -54,4 +54,10 @@ public class TestHeadingEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADING);
     ***REMOVED***
+
+    public void testDashes70() {
+        String logLine = "----------------------------------------------------------------------";
+        Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADING);
+    ***REMOVED***
 ***REMOVED***
