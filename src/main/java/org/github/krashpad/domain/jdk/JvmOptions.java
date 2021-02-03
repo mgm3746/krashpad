@@ -402,6 +402,15 @@ public class JvmOptions {
     private String log;
 
     /**
+     * The option to specify the location where safepoint logging will be written. For example:
+     * 
+     * <pre>
+     *  -XX:LogFile=/path/to/vm.log
+     * </pre>
+     */
+    private String logFile;
+
+    /**
      * Option to specify gc log location in JDK8. For example:
      * 
      * <pre>
@@ -409,6 +418,15 @@ public class JvmOptions {
      * </pre>
      */
     private String logGc;
+
+    /**
+     * The option to enable/disable vm logging for safepoint analysis. For example:
+     * 
+     * <pre>
+     * -XX:+LogVMOutput
+     * </pre>
+     */
+    private String logVmOutput;
 
     /**
      * Option to enable/disable JMX. For example:
@@ -1126,6 +1144,8 @@ public class JvmOptions {
                     javaagent.add(option);
                 } else if (option.matches("^-Xlog:.+$")) {
                     log = option;
+                } else if (option.matches("^-XX:LogFile=\\S+$")) {
+                    logFile = option;
                 } else if (option.matches("^-Xloggc:.+$")) {
                     logGc = option;
                 } else if (option.matches("^-XX:MetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
@@ -1136,6 +1156,8 @@ public class JvmOptions {
                     gcLogFileSize = option;
                 } else if (option.matches("^-XX:GCTimeRatio=\\d{1,3}$")) {
                     gcTimeRatio = option;
+                } else if (option.matches("^-XX:[\\-+]LogVMOutput$")) {
+                    logVmOutput = option;
                 } else if (option.matches("^-XX:[\\-+]ManagementServer$")) {
                     managementServer = option;
                 } else if (option.matches("^-XX:MaxDirectMemorySize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
@@ -1703,6 +1725,42 @@ public class JvmOptions {
         return g1SummarizeRSetStatsPeriod;
     }
 
+    /**
+     * @return The garbage collector(s) based on the JVM options.
+     */
+    public List<GarbageCollector> getGarbageCollectors() {
+        List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
+        if (JdkUtil.isOptionEnabled(useSerialGc)) {
+            garbageCollectors.add(GarbageCollector.SERIAL);
+            garbageCollectors.add(GarbageCollector.SERIAL_OLD);
+        }
+        if (JdkUtil.isOptionEnabled(useParallelOldGc)) {
+            garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
+            garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
+        } else if (JdkUtil.isOptionEnabled(useParallelGc)) {
+            garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
+            if (JdkUtil.isOptionDisabled(useParallelOldGc)) {
+                garbageCollectors.add(GarbageCollector.SERIAL_OLD);
+            } else {
+                garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
+            }
+        }
+        if (JdkUtil.isOptionEnabled(useConcMarkSweepGc)) {
+            garbageCollectors.add(GarbageCollector.PAR_NEW);
+            garbageCollectors.add(GarbageCollector.CMS);
+        } else if (JdkUtil.isOptionEnabled(useParNewGc)) {
+            garbageCollectors.add(GarbageCollector.PAR_NEW);
+            garbageCollectors.add(GarbageCollector.SERIAL_OLD);
+        }
+        if (JdkUtil.isOptionEnabled(useG1Gc)) {
+            garbageCollectors.add(GarbageCollector.G1);
+        }
+        if (JdkUtil.isOptionEnabled(useShenandoahGc)) {
+            garbageCollectors.add(GarbageCollector.SHENANDOAH);
+        }
+        return garbageCollectors;
+    }
+
     public String getGcLogFileSize() {
         return gcLogFileSize;
     }
@@ -1739,8 +1797,16 @@ public class JvmOptions {
         return log;
     }
 
+    public String getLogFile() {
+        return logFile;
+    }
+
     public String getLogGc() {
         return logGc;
+    }
+
+    public String getLogVmOutput() {
+        return logVmOutput;
     }
 
     public String getManagementServer() {
@@ -2081,41 +2147,5 @@ public class JvmOptions {
 
     public boolean isxInt() {
         return xInt;
-    }
-
-    /**
-     * @return The garbage collector(s) based on the JVM options.
-     */
-    public List<GarbageCollector> getGarbageCollectors() {
-        List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
-        if (JdkUtil.isOptionEnabled(useSerialGc)) {
-            garbageCollectors.add(GarbageCollector.SERIAL);
-            garbageCollectors.add(GarbageCollector.SERIAL_OLD);
-        }
-        if (JdkUtil.isOptionEnabled(useParallelOldGc)) {
-            garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
-            garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
-        } else if (JdkUtil.isOptionEnabled(useParallelGc)) {
-            garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
-            if (JdkUtil.isOptionDisabled(useParallelOldGc)) {
-                garbageCollectors.add(GarbageCollector.SERIAL_OLD);
-            } else {
-                garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
-            }
-        }
-        if (JdkUtil.isOptionEnabled(useConcMarkSweepGc)) {
-            garbageCollectors.add(GarbageCollector.PAR_NEW);
-            garbageCollectors.add(GarbageCollector.CMS);
-        } else if (JdkUtil.isOptionEnabled(useParNewGc)) {
-            garbageCollectors.add(GarbageCollector.PAR_NEW);
-            garbageCollectors.add(GarbageCollector.SERIAL_OLD);
-        }
-        if (JdkUtil.isOptionEnabled(useG1Gc)) {
-            garbageCollectors.add(GarbageCollector.G1);
-        }
-        if (JdkUtil.isOptionEnabled(useShenandoahGc)) {
-            garbageCollectors.add(GarbageCollector.SHENANDOAH);
-        }
-        return garbageCollectors;
     }
 }
