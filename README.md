@@ -129,7 +129,7 @@ info
 
 Notes:
   1. The report contains nine sections: (1) Version, (2) OS, (3) Container, (4) JVM, (5) Threads, (6) Error(s), (7) Stack, (8) Analysis, and (9) Unidentified log lines.
-  1. Some sections will only be displayed if relevant (e.g. Version if -v or -l options are used, Container if cgroups is used, etc.).
+  1. Some sections will only be displayed if relevant (e.g. *Version* if -v or -l options are used, *Container* if cgroups usage is identified, etc.).
   1. There is a limit of 1000 unidentified log lines that will be reported.
   1. Please report unidentified log lines by opening an issue: https://github.com/mgm3746/krashpad/issues. Attach the fatal error log after reviewing it and removing any sensitive information.
   
