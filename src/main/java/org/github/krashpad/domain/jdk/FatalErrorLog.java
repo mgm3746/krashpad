@@ -578,6 +578,31 @@ public class FatalErrorLog {
         if (jvmOptions != null && JdkUtil.isOptionDisabled(jvmOptions.getUsePerfData())) {
             analysis.add(Analysis.INFO_OPT_PERF_DATA_DISABLED);
         }
+        // Check JDK8 log file rotation
+        if (getJavaSpecification() == JavaSpecification.JDK8 && jvmOptions != null
+                && jvmOptions.getUseGcLogFileRotation() == null) {
+            analysis.add(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED);
+        }
+        // Check JDK8 print gc details option missing
+        if (getJavaSpecification() == JavaSpecification.JDK8 && jvmOptions != null
+                && jvmOptions.getPrintGcDetails() == null) {
+            analysis.add(Analysis.INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING);
+        }
+        // Check JDK11 print gc details option missing
+        if (getJavaSpecification() == JavaSpecification.JDK11 && jvmOptions != null && jvmOptions.getLog().size() > 0) {
+            Iterator<String> iterator = jvmOptions.getLog().iterator();
+            boolean haveGcDetails = false;
+            while (iterator.hasNext()) {
+                String xLog = iterator.next();
+                if (xLog.matches("^.+gc\\*=(?!off).+$")) {
+                    haveGcDetails = true;
+                    break;
+                }
+            }
+            if (!haveGcDetails) {
+                analysis.add(Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING);
+            }
+        }
     }
 
     public List<Analysis> getAnalysis() {
