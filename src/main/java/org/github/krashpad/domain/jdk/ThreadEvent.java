@@ -47,7 +47,7 @@ public class ThreadEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER + "|(  |=>)" + JdkRegEx.ADDRESS
-            + "( \\(exited\\))? (ConcurrentGCThread|GCTaskThread|JavaThread|VMThread|WatcherThread)|"
+            + "( \\(exited\\))? (ConcurrentGCThread|GCTaskThread|JavaThread|Thread|VMThread|WatcherThread)|"
             + "\\[error occurred during error reporting \\(printing all threads\\)).*$";
 
     /**

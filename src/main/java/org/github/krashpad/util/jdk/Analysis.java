@@ -252,6 +252,11 @@ public enum Analysis {
     INFO_OPT_HEAP_MIN_NOT_EQUAL_MAX("info.opt.heap.min.not.equal.max"),
 
     /**
+     * Property key for min heap not equal to max heap.
+     */
+    INFO_OPT_JFR("info.opt.jfr"),
+
+    /**
      * Property key for instrumentation.
      */
     INFO_OPT_INSTRUMENTATION("info.opt.instrumentation"),
