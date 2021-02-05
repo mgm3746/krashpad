@@ -232,17 +232,6 @@ public enum Analysis {
     INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT("info.opt.g1.summarize.rset.stats.output"),
 
     /**
-     * Property key for GC log file rotation disabled (-XX:-UseGCLogFileRotation).
-     */
-    INFO_OPT_GC_LOG_FILE_ROTATION_DISABLED("info.opt.gc.log.file.rotation.disabled"),
-
-    /**
-     * Property key for GC log file rotation not enabled (-XX:+UseGCLogFileRotation -XX:GCLogFileSize=N
-     * -XX:NumberOfGCLogFiles=N).
-     */
-    INFO_OPT_GC_LOG_FILE_ROTATION_NOT_ENABLED("info.opt.gc.log.file.rotation.not.enabled"),
-
-    /**
      * Property key for heap dump on out of memory error option missing.
      */
     INFO_OPT_HEAP_DUMP_ON_OOME_MISSING("info.opt.heap.dump.on.oome.missing"),
@@ -266,6 +255,67 @@ public enum Analysis {
      * Property key for instrumentation.
      */
     INFO_OPT_INSTRUMENTATION("info.opt.instrumentation"),
+
+    /**
+     * Property key for missing gc* to output details at gc needed for analysis.
+     */
+    INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING("info.opt.jdk11.print.gc.details.missing"),
+
+    /**
+     * Property key for GC log file rotation disabled (-XX:-UseGCLogFileRotation).
+     */
+    INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED("info.opt.jdk8.gc.log.file.rotation.disabled"),
+
+    /**
+     * Property key for GC log file rotation not enabled in JDK8 (-XX:+UseGCLogFileRotation -XX:GCLogFileSize=N
+     * -XX:NumberOfGCLogFiles=N).
+     */
+    INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED("info.opt.jdk8.gc.log.file.rotation.not.enabled"),
+
+    /**
+     * Property key for disabling Adaptive Resize Policy output with -XX:-PrintAdaptiveSizePolicy.
+     */
+    INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED("info.opt.jdk8.print.adaptive.resize.plcy.disabled"),
+
+    /**
+     * Property key for enabling Adaptive Resize Policy output with -XX:+PrintAdaptiveSizePolicy.
+     */
+    INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED("info.opt.jdk8.print.adaptive.resize.plcy.enabled"),
+
+    /**
+     * Property key for CMS Free List Space statistics being output.
+     */
+    INFO_OPT_JDK8_PRINT_FLS_STATISTICS("info.opt.jdk8.print.fls.statistics"),
+
+    /**
+     * Property key for missing -XX:+PrintGCDetails to output details at gc needed for analysis.
+     */
+    INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING("info.opt.jdk8.print.gc.details.missing"),
+
+    /**
+     * Property key for printing additional heap data (-XX:+PrintHeapAtGC).
+     */
+    INFO_OPT_JDK8_PRINT_HEAP_AT_GC("info.opt.jdk8.print.heap.at.gc"),
+
+    /**
+     * Property key for -XX:+PrintPromotionFailure.
+     */
+    INFO_OPT_JDK8_PRINT_PROMOTION_FAILURE("info.opt.jdk8.print.promotion.failure"),
+
+    /**
+     * Property key for -XX:+PrintReferenceGC.
+     */
+    INFO_OPT_JDK8_PRINT_REFERENCE_GC_ENABLED("info.opt.jdk8.print.reference.gc.enabled"),
+
+    /**
+     * Property key for -XX:+PrintStringDeduplicationStatistics.
+     */
+    INFO_OPT_JDK8_PRINT_STRING_DEDUP_STATS_ENABLED("info.opt.jdk8.print.string.dedup.stats.enabled"),
+
+    /**
+     * Property key for outputting tenuring distribution information (-XX:+PrintTenuringDistribution).
+     */
+    INFO_OPT_JDK8_PRINT_TENURING_DISTRIBUTION("info.opt.jdk8.print.tenuring.distribution"),
 
     /**
      * Property key for JMX enabled with -Dcom.sun.management.jmxremote or -XX:+ManagementServer.
@@ -311,54 +361,9 @@ public enum Analysis {
     INFO_OPT_PERM_SIZE("info.opt.perm.size"),
 
     /**
-     * Property key for disabling Adaptive Resize Policy output with -XX:-PrintAdaptiveSizePolicy.
-     */
-    INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED("info.opt.print.adaptive.resize.plcy.disabled"),
-
-    /**
-     * Property key for enabling Adaptive Resize Policy output with -XX:+PrintAdaptiveSizePolicy.
-     */
-    INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED("info.opt.print.adaptive.resize.plcy.enabled"),
-
-    /**
-     * Property key for CMS Free List Space statistics being output.
-     */
-    INFO_OPT_PRINT_FLS_STATISTICS("info.opt.print.fls.statistics"),
-
-    /**
      * Property key for printing application concurrent time (-XX:+PrintGCApplicationConcurrentTime).
      */
     INFO_OPT_PRINT_GC_APPLICATION_CONCURRENT_TIME("info.opt.print.gc.application.concurrent.time"),
-
-    /**
-     * Property key for adding option to output details at gc needed for analysis.
-     */
-    INFO_OPT_PRINT_GC_DETAILS_MISSING("info.opt.print.gc.details.missing"),
-
-    /**
-     * Property key for printing additional heap data (-XX:+PrintHeapAtGC).
-     */
-    INFO_OPT_PRINT_HEAP_AT_GC("info.opt.print.heap.at.gc"),
-
-    /**
-     * Property key for -XX:+PrintPromotionFailure.
-     */
-    INFO_OPT_PRINT_PROMOTION_FAILURE("info.opt.print.promotion.failure"),
-
-    /**
-     * Property key for -XX:+PrintReferenceGC.
-     */
-    INFO_OPT_PRINT_REFERENCE_GC_ENABLED("info.opt.print.reference.gc.enabled"),
-
-    /**
-     * Property key for -XX:+PrintStringDeduplicationStatistics.
-     */
-    INFO_OPT_PRINT_STRING_DEDUP_STATS_ENABLED("info.opt.print.string.dedup.stats.enabled"),
-
-    /**
-     * Property key for outputting tenuring distribution information (-XX:+PrintTenuringDistribution).
-     */
-    INFO_OPT_PRINT_TENURING_DISTRIBUTION("info.opt.print.tenuring.distribution"),
 
     /**
      * Property key for -Dsun.rmi.dgc.client.gcInterval.redundant in combination with -XX:+DisableExplicitGC.
@@ -682,20 +687,42 @@ public enum Analysis {
     WARN_OPT_G1_MIXED_GC_LIVE_THRSHOLD_PRCNT("warn.opt.g1.mixed.gc.live.thrshld.prcnt"),
 
     /**
-     * Property key for specifying the number of GC log files (-XX:NumberOfGCLogFiles) to keep with log rotation is
-     * disabled (-XX:-UseGCLogFileRotation).
-     */
-    WARN_OPT_GC_LOG_FILE_NUM_ROTATION_DISABLED("warn.opt.gc.log.file.num.rotation.disabled"),
-
-    /**
-     * Property key for specifying the gc log file size that triggers rotation (-XX:GCLogFileSize=N) is small (&lt; 5M).
-     */
-    WARN_OPT_GC_LOG_FILE_SIZE_SMALL("warn.opt.gc.log.file.size.small"),
-
-    /**
      * Property key for heap dump on memory error option disabled.
      */
     WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED("warn.opt.heap.dump.on.oome.disabled"),
+
+    /**
+     * Property key for specifying the number of GC log files (filecount=N) to keep with log rotation is disabled
+     * (filecount=0).
+     */
+    WARN_OPT_JDK11_GC_LOG_FILE_ROTATION_DISABLED("warn.opt.jdk11.gc.log.file.rotation.disabled"),
+
+    /**
+     * Property key for automatic GC log file rotation disabled with filesize=0.
+     */
+    WARN_OPT_JDK11_GC_LOG_FILE_SIZE_0("warn.opt.jdk11.gc.log.file.size.0"),
+
+    /**
+     * Property key for specifying the gc log file size that triggers rotation (filesize=N[K|M|G]) is small (&lt; 5M).
+     */
+    WARN_OPT_JDK11_GC_LOG_FILE_SIZE_SMALL("warn.opt.jdk11.gc.log.file.size.small"),
+
+    /**
+     * Property key for specifying the number of GC log files (-XX:NumberOfGCLogFiles) to keep with log rotation is
+     * disabled (-XX:-UseGCLogFileRotation).
+     */
+    WARN_OPT_JDK8_GC_LOG_FILE_NUM_ROTATION_DISABLED("warn.opt.jdk8.gc.log.file.num.rotation.disabled"),
+
+    /**
+     * Property key for specifying the gc log file size that triggers rotation (-XX:GCLogFileSize=N[K|M|G]) is small
+     * (&lt; 5M).
+     */
+    WARN_OPT_JDK8_GC_LOG_FILE_SIZE_SMALL("warn.opt.jdk8.gc.log.file.size.small"),
+
+    /**
+     * Property key for gc details option disabled.
+     */
+    WARN_OPT_JDK8_PRINT_GC_DETAILS_DISABLED("warn.opt.jdk8.print.gc.details.disabled"),
 
     /**
      * Property key for MaxMetaspaceSize less than CompressedClassSpaceSize. MaxMetaspaceSize includes
@@ -719,11 +746,6 @@ public enum Analysis {
      * (-XX:+PrintClassHistogramBeforeFullGC).
      */
     WARN_OPT_PRINT_CLASS_HISTOGRAM_BEFORE_FULL_GC("warn.opt.print.class.histogram.before.full.gc"),
-
-    /**
-     * Property key for gc details option disabled.
-     */
-    WARN_OPT_PRINT_GC_DETAILS_DISABLED("warn.opt.print.gc.details.disabled"),
 
     /**
      * Property key for small sun.rmi.dgc.client.gcInterval.

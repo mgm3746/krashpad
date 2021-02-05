@@ -725,8 +725,8 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_PRINT_HEAP_AT_GC + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_HEAP_AT_GC));
+        Assert.assertTrue(Analysis.INFO_OPT_JDK8_PRINT_HEAP_AT_GC + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_HEAP_AT_GC));
     ***REMOVED***
 
     public void testPrintTenuringDistribution() {
@@ -735,8 +735,8 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_PRINT_TENURING_DISTRIBUTION + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_TENURING_DISTRIBUTION));
+        Assert.assertTrue(Analysis.INFO_OPT_JDK8_PRINT_TENURING_DISTRIBUTION + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_TENURING_DISTRIBUTION));
     ***REMOVED***
 
     public void testPrintFLSStatistics() {
@@ -745,8 +745,8 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_PRINT_FLS_STATISTICS + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_FLS_STATISTICS));
+        Assert.assertTrue(Analysis.INFO_OPT_JDK8_PRINT_FLS_STATISTICS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_FLS_STATISTICS));
     ***REMOVED***
 
     public void testUnlockExperimentalVMOptions() {
@@ -803,14 +803,60 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT));
     ***REMOVED***
 
-    public void testLogFileRotationNotEnabled() {
+    public void testJdk8LogFileRotationNotEnabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
+                + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_GC_LOG_FILE_ROTATION_NOT_ENABLED));
+        Assert.assertTrue(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED));
+    ***REMOVED***
+
+    public void testJdk11LogFileRotationDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xlog:gc*:file=/path/to/gc.log::filecount=0,filesize=50M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9+11-LTS) for linux-amd64 JRE (11.0.9+11-LTS), built "
+                + "on Oct 15 2020 11:45:12 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_ROTATION_DISABLED));
+    ***REMOVED***
+
+    public void testJdk11AutomaticLogFileRotationDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xlog:gc*:file=/path/to/gc.log::filesize=0";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9+11-LTS) for linux-amd64 JRE (11.0.9+11-LTS), built "
+                + "on Oct 15 2020 11:45:12 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_0 + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_0));
+    ***REMOVED***
+
+    public void testJdk11LogFileSizeSmall() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xlog:gc*:file=/path/to/gc.log::filecount=10,filesize=4M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9+11-LTS) for linux-amd64 JRE (11.0.9+11-LTS), built "
+                + "on Oct 15 2020 11:45:12 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_SMALL + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_SMALL));
     ***REMOVED***
 
     public void testLogFileNumberWithRotationDisabled() {
@@ -819,21 +865,21 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_GC_LOG_FILE_ROTATION_DISABLED));
-        Assert.assertTrue(Analysis.WARN_OPT_GC_LOG_FILE_NUM_ROTATION_DISABLED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.WARN_OPT_GC_LOG_FILE_NUM_ROTATION_DISABLED));
+        Assert.assertTrue(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED));
+        Assert.assertTrue(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_NUM_ROTATION_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_NUM_ROTATION_DISABLED));
     ***REMOVED***
 
-    public void testLogFileSizeSmall() {
+    public void testJdk8LogFileSizeSmall() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation "
                 + "-XX:GCLogFileSize=8192";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.WARN_OPT_GC_LOG_FILE_SIZE_SMALL + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.WARN_OPT_GC_LOG_FILE_SIZE_SMALL));
+        Assert.assertTrue(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_SIZE_SMALL + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_SIZE_SMALL));
     ***REMOVED***
 
     public void testJmx() {
@@ -885,8 +931,8 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED));
+        Assert.assertTrue(Analysis.INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED));
     ***REMOVED***
 
     public void testPrintAdaptiveSizePolicyEnabled() {
@@ -895,8 +941,8 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED));
+        Assert.assertTrue(Analysis.INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED));
     ***REMOVED***
 
     public void testPrintPromotionFailure() {
@@ -905,8 +951,8 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_PRINT_PROMOTION_FAILURE + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_PROMOTION_FAILURE));
+        Assert.assertTrue(Analysis.INFO_OPT_JDK8_PRINT_PROMOTION_FAILURE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_PROMOTION_FAILURE));
     ***REMOVED***
 
     public void testBytecodeBackgroundCompilationDisabled() {
@@ -1154,23 +1200,45 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.WARN_OPT_PRINT_GC_DETAILS_DISABLED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.WARN_OPT_PRINT_GC_DETAILS_DISABLED));
-        Assert.assertFalse(Analysis.INFO_OPT_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_GC_DETAILS_MISSING));
+        Assert.assertTrue(Analysis.WARN_OPT_JDK8_PRINT_GC_DETAILS_DISABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_PRINT_GC_DETAILS_DISABLED));
+        Assert.assertFalse(Analysis.INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING));
     ***REMOVED***
 
     /**
      * Test with PrintGCDetails missing.
      */
-    public void testPrintGCDetailsMissing() {
+    public void testJdk8PrintGCDetailsMissing() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xms2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
+                + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_PRINT_GC_DETAILS_MISSING + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_GC_DETAILS_MISSING));
+        Assert.assertTrue(Analysis.INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING));
+    ***REMOVED***
+
+    /**
+     * Test with gc details missing.
+     */
+    public void testJdk11PrintGCDetailsMissing() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xms2048M -Xlog:gc=debug:file=/path/to/gc-%t.log:time,pid,tid,level,"
+                + "tags:filesize=1G";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9+11-LTS) for linux-amd64 JRE (11.0.9+11-LTS), built "
+                + "on Oct 15 2020 11:45:12 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING));
     ***REMOVED***
 
     public void testTenuringDisabled() {
@@ -1273,8 +1341,8 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_PRINT_REFERENCE_GC_ENABLED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_REFERENCE_GC_ENABLED));
+        Assert.assertTrue(Analysis.INFO_OPT_JDK8_PRINT_REFERENCE_GC_ENABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_REFERENCE_GC_ENABLED));
     ***REMOVED***
 
     /**
@@ -1286,8 +1354,8 @@ public class TestAnalysis extends TestCase {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        Assert.assertTrue(Analysis.INFO_OPT_PRINT_STRING_DEDUP_STATS_ENABLED + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_STRING_DEDUP_STATS_ENABLED));
+        Assert.assertTrue(Analysis.INFO_OPT_JDK8_PRINT_STRING_DEDUP_STATS_ENABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_STRING_DEDUP_STATS_ENABLED));
     ***REMOVED***
 
     /**

@@ -18,6 +18,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.jdk.Analysis;
@@ -395,11 +397,24 @@ public class JvmOptions {
     /**
      * Option to specify gc logging options in JDK11+. For example:
      * 
+     * <p>
+     * 1) Single option:
+     * </p>
+     * 
      * <pre>
      * -Xlog:gc*,gc+age=trace,safepoint:file=/path/to/gc.log:utctime,pid,tags:filecount=4,filesize=64m
      * </pre>
+     * 
+     * <p>
+     * 2) Multiple options:
+     * </p>
+     * 
+     * <pre>
+     * -Xlog:gc*=debug:file=/path/to/gc-%t.log:time,pid,tid,level,tags:filesize=1G 
+     * -Xlog:all=info,exceptions=warning,gc*=off:file=/path/to/vm-%t.log:time,pid,tid,level,tags:filesize=100M
+     * </pre>
      */
-    private String log;
+    private ArrayList<String> log = new ArrayList<String>();
 
     /**
      * The option to specify the location where safepoint logging will be written. For example:
@@ -1144,7 +1159,7 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-javaagent:.+$")) {
                     javaagent.add(option);
                 ***REMOVED*** else if (option.matches("^-Xlog:.+$")) {
-                    log = option;
+                    log.add(option);
                 ***REMOVED*** else if (option.matches("^-XX:LogFile=\\S+$")) {
                     logFile = option;
                 ***REMOVED*** else if (option.matches("^-Xloggc:.+$")) {
@@ -1428,15 +1443,15 @@ public class JvmOptions {
         ***REMOVED***
         // Check for -XX:+PrintHeapAtGC.
         if (printHeapAtGc != null) {
-            analysis.add(Analysis.INFO_OPT_PRINT_HEAP_AT_GC);
+            analysis.add(Analysis.INFO_OPT_JDK8_PRINT_HEAP_AT_GC);
         ***REMOVED***
         // Check for -XX:+PrintTenuringDistribution.
         if (printTenuringDistribution != null) {
-            analysis.add(Analysis.INFO_OPT_PRINT_TENURING_DISTRIBUTION);
+            analysis.add(Analysis.INFO_OPT_JDK8_PRINT_TENURING_DISTRIBUTION);
         ***REMOVED***
         // Check for -XX:PrintFLSStatistics=\\d.
         if (printFLSStatistics != null) {
-            analysis.add(Analysis.INFO_OPT_PRINT_FLS_STATISTICS);
+            analysis.add(Analysis.INFO_OPT_JDK8_PRINT_FLS_STATISTICS);
         ***REMOVED***
         // Experimental VM options
         if (JdkUtil.isOptionEnabled(useCGroupMemoryLimitForHeap)) {
@@ -1462,21 +1477,60 @@ public class JvmOptions {
                 && JdkUtil.isOptionEnabled(disableExplicitGc)) {
             analysis.add(Analysis.INFO_OPT_CRUFT_EXP_GC_INV_CON_AND_UNL_CLA);
         ***REMOVED***
-        // Check if log file rotation missing or disabled
+        // Check if JDK8 gc log file rotation missing or disabled
         if (JdkUtil.isOptionDisabled(useGcLogFileRotation)) {
-            analysis.add(Analysis.INFO_OPT_GC_LOG_FILE_ROTATION_DISABLED);
+            analysis.add(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED);
             if (numberOfGcLogFiles != null) {
-                analysis.add(Analysis.WARN_OPT_GC_LOG_FILE_NUM_ROTATION_DISABLED);
+                analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_NUM_ROTATION_DISABLED);
             ***REMOVED***
-        ***REMOVED*** else if (useGcLogFileRotation == null) {
-            analysis.add(Analysis.INFO_OPT_GC_LOG_FILE_ROTATION_NOT_ENABLED);
         ***REMOVED***
-        // Check if log file size is small
-        BigDecimal fiveGigabytes = new BigDecimal("5").multiply(Constants.GIGABYTE);
-        if (gcLogFileSize != null
-                && JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(gcLogFileSize)) < fiveGigabytes.longValue()) {
-            analysis.add(Analysis.WARN_OPT_GC_LOG_FILE_SIZE_SMALL);
+        // JDK11 gc log file rotation checks
+        if (log.size() > 0) {
+            Iterator<String> iterator = log.iterator();
+            while (iterator.hasNext()) {
+                String xLog = iterator.next();
+                if (xLog.matches("^-Xlog:gc.+filecount=0.*$")) {
+                    analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_ROTATION_DISABLED);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
+        // Check if JDK11 automatic gc log file rotation disabled
+        if (log.size() > 0) {
+            Iterator<String> iterator = log.iterator();
+            while (iterator.hasNext()) {
+                String xLog = iterator.next();
+                if (xLog.matches("^-Xlog:gc.+filesize=0.*$")) {
+                    analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_0);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        // Check if JDK8 log file size is small
+        if (gcLogFileSize != null) {
+            BigDecimal fiveGigabytes = new BigDecimal("5").multiply(Constants.MEGABYTE);
+            if (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(gcLogFileSize)) < fiveGigabytes.longValue()) {
+                analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_SIZE_SMALL);
+            ***REMOVED***
+        ***REMOVED***
+        // Check if JDK11 log file size is small
+        if (log.size() > 0) {
+            Iterator<String> iterator = log.iterator();
+            while (iterator.hasNext()) {
+                String xLog = iterator.next();
+                String filesize = null;
+                Pattern pattern = Pattern.compile("^-Xlog:gc.+filesize=" + JdkRegEx.OPTION_SIZE_BYTES + ".*$");
+                Matcher matcher = pattern.matcher(xLog);
+                if (matcher.find()) {
+                    filesize = matcher.group(1);
+                ***REMOVED***
+                BigDecimal fiveGigabytes = new BigDecimal("5").multiply(Constants.MEGABYTE);
+                if (JdkUtil.getByteOptionBytes(filesize) < fiveGigabytes.longValue()) {
+                    analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_SMALL);
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+
         // Check for JMX enabled
         if (JdkUtil.isOptionEnabled(managementServer) || systemProperties.contains("-Dcom.sun.management.jmxremote")) {
             analysis.add(Analysis.INFO_OPT_JMX_ENABLED);
@@ -1493,13 +1547,13 @@ public class JvmOptions {
         ***REMOVED***
         // Check for -XX:-PrintAdaptiveSizePolicy / -XX:+PrintAdaptiveSizePolicy
         if (JdkUtil.isOptionDisabled(printAdaptiveSizePolicy)) {
-            analysis.add(Analysis.INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED);
+            analysis.add(Analysis.INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED);
         ***REMOVED*** else if (JdkUtil.isOptionEnabled(printAdaptiveSizePolicy)) {
-            analysis.add(Analysis.INFO_OPT_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED);
+            analysis.add(Analysis.INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED);
         ***REMOVED***
         // Check for -XX:+PrintPromotionFailure option being used
         if (JdkUtil.isOptionEnabled(printPromotionFailure)) {
-            analysis.add(Analysis.INFO_OPT_PRINT_PROMOTION_FAILURE);
+            analysis.add(Analysis.INFO_OPT_JDK8_PRINT_PROMOTION_FAILURE);
         ***REMOVED***
         // Check if background compilation disabled.
         if (batch || JdkUtil.isOptionDisabled(backgroundCompilation)) {
@@ -1560,12 +1614,7 @@ public class JvmOptions {
         ***REMOVED***
         // Check if print gc details option disabled
         if (JdkUtil.isOptionDisabled(printGcDetails)) {
-            analysis.add(Analysis.WARN_OPT_PRINT_GC_DETAILS_DISABLED);
-        ***REMOVED*** else {
-            // Check if print gc details option missing
-            if (printGcDetails == null) {
-                analysis.add(Analysis.INFO_OPT_PRINT_GC_DETAILS_MISSING);
-            ***REMOVED***
+            analysis.add(Analysis.WARN_OPT_JDK8_PRINT_GC_DETAILS_DISABLED);
         ***REMOVED***
         // Check for tenuring disabled or default overriden
         long tenuring = JdkUtil.getNumberOptionValue(maxTenuringThreshold);
@@ -1602,11 +1651,11 @@ public class JvmOptions {
         ***REMOVED***
         // Check for -XX:+PrintReferenceGC.
         if (JdkUtil.isOptionEnabled(printReferenceGc)) {
-            analysis.add(Analysis.INFO_OPT_PRINT_REFERENCE_GC_ENABLED);
+            analysis.add(Analysis.INFO_OPT_JDK8_PRINT_REFERENCE_GC_ENABLED);
         ***REMOVED***
         // Check for -XX:+PrintStringDeduplicationStatistics.
         if (JdkUtil.isOptionEnabled(printStringDeduplicationStatistics)) {
-            analysis.add(Analysis.INFO_OPT_PRINT_STRING_DEDUP_STATS_ENABLED);
+            analysis.add(Analysis.INFO_OPT_JDK8_PRINT_STRING_DEDUP_STATS_ENABLED);
         ***REMOVED***
         // Check for trace class unloading enabled with -XX:+TraceClassUnloading
         if (JdkUtil.isOptionEnabled(traceClassUnloading)) {
@@ -1794,7 +1843,7 @@ public class JvmOptions {
         return jpdaSocketTransport;
     ***REMOVED***
 
-    public String getLog() {
+    public ArrayList<String> getLog() {
         return log;
     ***REMOVED***
 
