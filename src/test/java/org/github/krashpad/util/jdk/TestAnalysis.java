@@ -466,6 +466,14 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.ERROR_NULL_POINTER));
     ***REMOVED***
 
+    public void testJfr() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.INFO_OPT_JFR + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_JFR));
+    ***REMOVED***
+
     public void testUseAdaptiveSizePolicyDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:-UseAdaptiveSizePolicy";
@@ -1224,7 +1232,7 @@ public class TestAnalysis extends TestCase {
     ***REMOVED***
 
     /**
-     * Test with gc details missing.
+     * HEAP_MIN_NOT_EQUAL_MAX Test with gc details missing.
      */
     public void testJdk11PrintGCDetailsMissing() {
         FatalErrorLog fel = new FatalErrorLog();

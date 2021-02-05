@@ -189,4 +189,12 @@ public class TestRegisterToMemoryMappingEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
     ***REMOVED***
+
+    public void testSmallR() {
+        String logLine = "r0 =0x00007fff7fd30614: <offset 0xbe0614> in /usr/lib/jvm/"
+                + "java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.ppc64le/jre/lib/ppc64le/server/libjvm.so at "
+                + "0x00007fff7f150000";
+        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+    ***REMOVED***
 ***REMOVED***

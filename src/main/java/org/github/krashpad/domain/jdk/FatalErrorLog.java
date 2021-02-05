@@ -552,7 +552,8 @@ public class FatalErrorLog {
         // If CMS or G1, explicit gc is not handled concurrently by default
         List<GarbageCollector> garbageCollectors = getGarbageCollectors();
         if ((garbageCollectors.contains(GarbageCollector.CMS) || garbageCollectors.contains(GarbageCollector.G1))
-                && jvmOptions != null && !JdkUtil.isOptionEnabled(jvmOptions.getExplicitGCInvokesConcurrent())) {
+                && jvmOptions != null && !JdkUtil.isOptionEnabled(jvmOptions.getExplicitGCInvokesConcurrent())
+                && !JdkUtil.isOptionEnabled(jvmOptions.getDisableExplicitGc())) {
             analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_NOT_CONCURRENT);
         ***REMOVED***
         // Check for explicit gc disabled on EAP7
@@ -603,6 +604,13 @@ public class FatalErrorLog {
                 analysis.add(Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING);
             ***REMOVED***
         ***REMOVED***
+        // Check heap initial/max values non container
+        if (getContainerInfoEvents().size() == 0 && jvmOptions != null && jvmOptions.getInitialHeapSize() != null
+                && jvmOptions.getMaxHeapSize() != null
+                && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(jvmOptions.getInitialHeapSize())) != JdkUtil
+                        .getByteOptionBytes(JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize())))) {
+            analysis.add(Analysis.INFO_OPT_HEAP_MIN_NOT_EQUAL_MAX);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -630,7 +638,7 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        // Check jvm_args
+        // Check java_command
         if (application == Application.UNKNOWN && vmArgumentsEvents.size() > 0) {
             Iterator<VmArgumentsEvent> iterator = vmArgumentsEvents.iterator();
             while (iterator.hasNext()) {
@@ -639,7 +647,8 @@ public class FatalErrorLog {
                     if (event.getLogEntry().matches(JdkRegEx.JBOSS_JAR)) {
                         application = Application.JBOSS;
                         break;
-                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_JAR)) {
+                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_JAR)
+                            || event.getLogEntry().matches(JdkRegEx.TOMCAT_BOOTSTRAP)) {
                         application = Application.TOMCAT;
                         break;
                     ***REMOVED***
@@ -2394,8 +2403,15 @@ public class FatalErrorLog {
                     break;
                 case CENTOS8:
                 case RHEL8:
-                    isRhelRpmInstall = JdkUtil.rhel8Amd64Jdk8RpmReleases.containsKey(rpmDirectory) && getJdkBuildDate()
-                            .compareTo(JdkUtil.rhel8Amd64Jdk8RpmReleases.get(rpmDirectory).getBuildDate()) == 0;
+                    if (getArch() == Arch.X86_64) {
+                        isRhelRpmInstall = JdkUtil.rhel8Amd64Jdk8RpmReleases.containsKey(rpmDirectory)
+                                && getJdkBuildDate().compareTo(
+                                        JdkUtil.rhel8Amd64Jdk8RpmReleases.get(rpmDirectory).getBuildDate()) == 0;
+                    ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
+                        isRhelRpmInstall = JdkUtil.rhel8Ppc64leJdk8RpmReleases.containsKey(rpmDirectory)
+                                && getJdkBuildDate().compareTo(
+                                        JdkUtil.rhel8Ppc64leJdk8RpmReleases.get(rpmDirectory).getBuildDate()) == 0;
+                    ***REMOVED***
                     break;
                 case UNKNOWN:
                 default:

@@ -239,6 +239,16 @@ public class JvmOptions {
     private boolean d64 = false;
 
     /**
+     * The option to enable/disable the compiler generating metadata for code not at safe points to improve the accuracy
+     * of Java Flight Recorder (JFR) Method Profiler.
+     * 
+     * <pre>
+     * -XX:+DebugNonSafepoints
+     * </pre>
+     */
+    private String debugNonSafepoints;
+
+    /**
      * The option to enable/disable explicit garbage collection. For example:
      * 
      * <pre>
@@ -284,6 +294,24 @@ public class JvmOptions {
      * </pre>
      */
     private String explicitGCInvokesConcurrentAndUnloadsClasses;
+
+    /**
+     * The option for starting Java Flight Recorder (JFR). For example:
+     * 
+     * <pre>
+     * -XX:FlightRecorderOptions=stackdepth=256
+     * </pre>
+     */
+    private String flightRecorderOptions;
+
+    /**
+     * The option to set the size of the G1 region. For example:
+     * 
+     * <pre>
+     * -XX:G1HeapRegionSize=4m
+     * </pre>
+     */
+    private String g1HeapRegionSize;
 
     /**
      * The option for setting the G1 heap waste percentage. For example:
@@ -466,6 +494,15 @@ public class JvmOptions {
     private String maxDirectMemorySize;
 
     /**
+     * The option for setting the maximum gc pause time ergonomic option. For example:
+     * 
+     * <pre>
+     * -XX:MaxGCPauseMillis=500
+     * </pre>
+     */
+    private String maxGcPauseMillis;
+
+    /**
      * The maximum percentage of free space to avoid shrinking the heap size. For example:
      * 
      * <pre>
@@ -483,6 +520,15 @@ public class JvmOptions {
      * </pre>
      */
     private String maxHeapSize;
+
+    /**
+     * The option for setting the number of lines in stack trace output. For example:
+     * 
+     * <pre>
+     * -XX:MaxJavaStackTraceDepth=50000
+     * </pre>
+     */
+    private String maxJavaStackTraceDepth;
 
     /**
      * Maximum metaspace size. For example:
@@ -574,6 +620,15 @@ public class JvmOptions {
      * </pre>
      */
     private String omitStackTraceInFastThrow;
+
+    /**
+     * The option to run a command or script when OutOfMemoryError happens. For example:
+     * 
+     * <pre>
+     * -XX:OnOutOfMemoryError="pmap %p"
+     * </pre>
+     */
+    private String onOutOfMemoryError;
 
     /**
      * The number of parallel gc threads. For example:
@@ -1048,6 +1103,16 @@ public class JvmOptions {
     private String useShenandoahGc;
 
     /**
+     * The option to enable/disable string deduplication to minimize string footprint. The performance impact is minimal
+     * (some cpu cycles to run the concurrent deduplication process.
+     * 
+     * <pre>
+     * -XX:+UseStringDeduplication
+     * </pre>
+     */
+    private String useStringDeduplication;
+
+    /**
      * Option to enable logging (to standard out) class loading information.
      * 
      * -verbose:class
@@ -1128,6 +1193,8 @@ public class JvmOptions {
                     systemProperties.add(option);
                 ***REMOVED*** else if (option.matches("^-d64$")) {
                     d64 = true;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]DebugNonSafepoints$")) {
+                    debugNonSafepoints = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]DisableExplicitGC$")) {
                     disableExplicitGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:ErrorFile=\\S+$")) {
@@ -1138,6 +1205,10 @@ public class JvmOptions {
                     explicitGCInvokesConcurrent = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExplicitGCInvokesConcurrentAndUnloadsClasses$")) {
                     explicitGCInvokesConcurrentAndUnloadsClasses = option;
+                ***REMOVED*** else if (option.matches("^-XX:FlightRecorderOptions=.+$")) {
+                    flightRecorderOptions = option;
+                ***REMOVED*** else if (option.matches("^-XX:G1HeapRegionSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    g1HeapRegionSize = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]G1SummarizeRSetStats$")) {
                     g1SummarizeRSetStats = option;
                 ***REMOVED*** else if (option.matches("^-XX:G1SummarizeRSetStatsPeriod=\\d$")) {
@@ -1164,6 +1235,10 @@ public class JvmOptions {
                     logFile = option;
                 ***REMOVED*** else if (option.matches("^-Xloggc:.+$")) {
                     logGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:MaxGCPauseMillis=\\d{1,***REMOVED***$")) {
+                    maxGcPauseMillis = option;
+                ***REMOVED*** else if (option.matches("^-XX:MaxJavaStackTraceDepth=\\d{1,***REMOVED***$")) {
+                    maxJavaStackTraceDepth = option;
                 ***REMOVED*** else if (option.matches("^-XX:MetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     metaspaceSize = option;
                 ***REMOVED*** else if (option.matches("^-X(mx|X:MaxHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
@@ -1196,6 +1271,8 @@ public class JvmOptions {
                     numberOfGcLogFiles = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]OmitStackTraceInFastThrow$")) {
                     omitStackTraceInFastThrow = option;
+                ***REMOVED*** else if (option.matches("^-XX:OnOutOfMemoryError=.+$")) {
+                    onOutOfMemoryError = option;
                 ***REMOVED*** else if (option.matches("^-XX:ParallelGCThreads=\\d{1,3***REMOVED***$")) {
                     parallelGcThreads = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PerfDisableSharedMem$")) {
@@ -1298,6 +1375,8 @@ public class JvmOptions {
                     useSerialGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseShenandoahGC$")) {
                     useShenandoahGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseStringDeduplication$")) {
+                    useStringDeduplication = option;
                 ***REMOVED*** else if (option.matches("^-verbose:class$")) {
                     verboseClass = true;
                 ***REMOVED*** else if (option.matches("^-verbose:gc$")) {
@@ -1344,12 +1423,9 @@ public class JvmOptions {
         // Check if heap prevented from growing beyond initial heap size
         if (initialHeapSize != null && maxHeapSize != null
                 && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(initialHeapSize)) != JdkUtil
-                        .getByteOptionBytes(JdkUtil.getByteOptionValue(maxHeapSize)))) {
-            analysis.add(Analysis.INFO_OPT_HEAP_MIN_NOT_EQUAL_MAX);
-            if (JdkUtil.isOptionDisabled(useAdaptiveSizePolicy)) {
-                analysis.add(Analysis.WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED);
-            ***REMOVED***
-
+                        .getByteOptionBytes(JdkUtil.getByteOptionValue(maxHeapSize)))
+                && JdkUtil.isOptionDisabled(useAdaptiveSizePolicy)) {
+            analysis.add(Analysis.WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED);
         ***REMOVED***
         // Check for erroneous perm gen settings
         if (maxPermSize != null) {
@@ -1591,7 +1667,7 @@ public class JvmOptions {
         if (JdkUtil.isOptionEnabled(disableExplicitGc)
                 && !analysis.contains(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7)) {
             analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED);
-            // Specifying that explicit gc be collected concurrently makes no sense if explicit gc is disabled.
+            // Specifying that explicit gc being collected concurrently makes no sense if explicit gc is disabled.
             if (JdkUtil.isOptionEnabled(explicitGCInvokesConcurrent)) {
                 analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED_CONCURRENT);
             ***REMOVED***
@@ -1669,6 +1745,10 @@ public class JvmOptions {
         if (targetSurvivorRatio != null) {
             analysis.add(Analysis.INFO_OPT_SURVIVOR_RATIO_TARGET);
         ***REMOVED***
+        // Check for JFR being used
+        if (flightRecorderOptions != null) {
+            analysis.add(Analysis.INFO_OPT_JFR);
+        ***REMOVED***
     ***REMOVED***
 
     public String getAbrt() {
@@ -1739,6 +1819,10 @@ public class JvmOptions {
         return concGcThreads;
     ***REMOVED***
 
+    public String getDebugNonSafepoints() {
+        return debugNonSafepoints;
+    ***REMOVED***
+
     public String getDisableExplicitGc() {
         return disableExplicitGc;
     ***REMOVED***
@@ -1757,6 +1841,14 @@ public class JvmOptions {
 
     public String getExplicitGCInvokesConcurrentAndUnloadsClasses() {
         return explicitGCInvokesConcurrentAndUnloadsClasses;
+    ***REMOVED***
+
+    public String getFlightRecorderOptions() {
+        return flightRecorderOptions;
+    ***REMOVED***
+
+    public String getG1HeapRegionSize() {
+        return g1HeapRegionSize;
     ***REMOVED***
 
     public String getG1HeapWastePercent() {
@@ -1867,12 +1959,20 @@ public class JvmOptions {
         return maxDirectMemorySize;
     ***REMOVED***
 
+    public String getMaxGcPauseMillis() {
+        return maxGcPauseMillis;
+    ***REMOVED***
+
     public String getMaxHeapFreeRatio() {
         return maxHeapFreeRatio;
     ***REMOVED***
 
     public String getMaxHeapSize() {
         return maxHeapSize;
+    ***REMOVED***
+
+    public String getMaxJavaStackTraceDepth() {
+        return maxJavaStackTraceDepth;
     ***REMOVED***
 
     public String getMaxMetaspaceSize() {
@@ -1905,6 +2005,10 @@ public class JvmOptions {
 
     public String getOmitStackTraceInFastThrow() {
         return omitStackTraceInFastThrow;
+    ***REMOVED***
+
+    public String getOnOutOfMemoryError() {
+        return onOutOfMemoryError;
     ***REMOVED***
 
     public String getParallelGcThreads() {
@@ -2161,6 +2265,10 @@ public class JvmOptions {
 
     public String getUseShenandoahGc() {
         return useShenandoahGc;
+    ***REMOVED***
+
+    public String getUseStringDeduplication() {
+        return useStringDeduplication;
     ***REMOVED***
 
     public boolean isBatch() {

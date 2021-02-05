@@ -170,4 +170,25 @@ public class TestJvmOptions extends TestCase {
         Assert.assertTrue(GarbageCollector.G1 + " collector not identified.",
                 jvmOptions.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH));
     ***REMOVED***
+
+    public void test7NewOptions() {
+        String jvmArgs = "-XX:MaxJavaStackTraceDepth=50000 -XX:MaxGCPauseMillis=500 -XX:G1HeapRegionSize=4m "
+                + "-XX:+UseStringDeduplication -XX:OnOutOfMemoryError=\"pmap %p\"  -XX:+DebugNonSafepoints "
+                + "-XX:FlightRecorderOptions=stackdepth=256";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        Assert.assertEquals("MaxJavaStackTraceDepth not correct.", "-XX:MaxJavaStackTraceDepth=50000",
+                jvmOptions.getMaxJavaStackTraceDepth());
+        Assert.assertEquals("MaxGCPauseMillis not correct.", "-XX:MaxGCPauseMillis=500",
+                jvmOptions.getMaxGcPauseMillis());
+        Assert.assertEquals("G1HeapRegionSize not correct.", "-XX:G1HeapRegionSize=4m",
+                jvmOptions.getG1HeapRegionSize());
+        Assert.assertEquals("UseStringDeduplication not correct.", "-XX:+UseStringDeduplication",
+                jvmOptions.getUseStringDeduplication());
+        Assert.assertEquals("OnOutOfMemoryError not correct.", "-XX:OnOutOfMemoryError=\"pmap %p\"",
+                jvmOptions.getOnOutOfMemoryError());
+        Assert.assertEquals("DebugNonSafepoints not correct.", "-XX:+DebugNonSafepoints",
+                jvmOptions.getDebugNonSafepoints());
+        Assert.assertEquals("FlightRecorderOptions not correct.", "-XX:FlightRecorderOptions=stackdepth=256",
+                jvmOptions.getFlightRecorderOptions());
+    ***REMOVED***
 ***REMOVED***

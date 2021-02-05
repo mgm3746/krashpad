@@ -539,4 +539,13 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Jvm memory not correct.",
                 heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory, fel.getJvmMemory());
     ***REMOVED***
+
+    public void testRhel8Ppc64le() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertEquals("Arch not correct.", Arch.PPC64LE, fel.getArch());
+        Assert.assertEquals("Java vendor not correct.", JavaVendor.RED_HAT, fel.getJavaVendor());
+        Assert.assertEquals("Application not correct.", Application.TOMCAT, fel.getApplication());
+    ***REMOVED***
 ***REMOVED***

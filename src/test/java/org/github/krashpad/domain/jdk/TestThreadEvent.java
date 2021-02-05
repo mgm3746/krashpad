@@ -58,9 +58,16 @@ public class TestThreadEvent extends TestCase {
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREAD);
     ***REMOVED***
 
-    public void testCurrentThread() {
+    public void testCurrentThreadJavaThread() {
         String logLine = "=>0x00007ff0ec053800 JavaThread \"main\" [_thread_in_native, id=92334, "
                 + "stack(0x00007ff0f60c5000,0x00007ff0f61c5000)]";
+        Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREAD);
+    ***REMOVED***
+
+    public void testCurrentThreadThread() {
+        String logLine = "=>0x00007ffeb4ee1800 (exited) Thread [stack: 0x00007ffe956e0000,0x00007ffe958e0000] "
+                + "[id=107493]";
         Assert.assertTrue(JdkUtil.LogEventType.THREAD.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREAD);
     ***REMOVED***

@@ -283,6 +283,15 @@ public class JdkRegEx {
     public static final String TIMESTAMP = "(\\d{0,12***REMOVED***[\\.\\,]\\d{3***REMOVED***)";
 
     /**
+     * Tomcat bootstrap loader used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * ***REMOVED***
+     */
+    public static final String TOMCAT_BOOTSTRAP = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap.+$";
+
+    /**
      * Tomcat jar used for <code>Application</code> identification.
      * 
      * For example:
@@ -290,4 +299,5 @@ public class JdkRegEx {
      * 7f0c4b92c000-7f0c4b93e000 r--s 00183000 fd:04 51406344 /path/to/WEB-INF/lib/catalina.jar
      */
     public static final String TOMCAT_JAR = "^.+catalina\\.jar$";
+
 ***REMOVED***

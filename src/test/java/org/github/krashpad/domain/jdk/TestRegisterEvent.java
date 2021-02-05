@@ -65,6 +65,12 @@ public class TestRegisterEvent extends TestCase {
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER);
     ***REMOVED***
 
+    public void test2RegistersSpacesAtEnd() {
+        String logLine = "r30=0x00007ffe958dde20  r31=0x00007ffe958ddcc0  ";
+        Assert.assertTrue(JdkUtil.LogEventType.REGISTER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER);
+    ***REMOVED***
+
     public void testRop() {
         String logLine = "RIP=0x00007fcbd05a3b71, EFLAGS=0x0000000000010293, CSGSFS=0x0000000000000033, "
                 + "ERR=0x0000000000000004";
@@ -80,6 +86,12 @@ public class TestRegisterEvent extends TestCase {
 
     public void testPcSmallLetters() {
         String logLine = "pc =0x00003fff7a9ddba0  lr =0x00003fff7a9ddb54  ctr=0x000000000000000f";
+        Assert.assertTrue(JdkUtil.LogEventType.REGISTER.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER);
+    ***REMOVED***
+
+    public void testSpaceAtEnd() {
+        String logLine = "pc =0x00007fff7fd30634  lr =0x00007fff7fd30614  ctr=0x00007fff7f481a90 ";
         Assert.assertTrue(JdkUtil.LogEventType.REGISTER.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER);
     ***REMOVED***

@@ -230,37 +230,42 @@ public class JdkUtil {
     /**
      * OpenJDK8 RHEL7 rpm ppc64le release information.
      */
-    public static final HashMap<String, Release> rhel7Ppc64leJdk8RpmReleases;;
+    public static final HashMap<String, Release> rhel7Ppc64leJdk8RpmReleases;
 
     /**
      * OpenJDK11 RHEL8 rpm release information.
      */
-    public static final HashMap<String, Release> rhel8Amd64Jdk11RpmReleases;;
+    public static final HashMap<String, Release> rhel8Amd64Jdk11RpmReleases;
 
     /**
      * OpenJDK8 RHEL8 amd64 rpm release information.
      */
-    public static final HashMap<String, Release> rhel8Amd64Jdk8RpmReleases;;
+    public static final HashMap<String, Release> rhel8Amd64Jdk8RpmReleases;
+
+    /**
+     * OpenJDK8 RHEL8 rpm ppc64le release information.
+     */
+    public static final HashMap<String, Release> rhel8Ppc64leJdk8RpmReleases;
 
     /**
      * OpenJDK11 RHEL zip release information.
      */
-    public static final HashMap<String, Release> rhelJdk11ZipReleases;;
+    public static final HashMap<String, Release> rhelJdk11ZipReleases;
 
     /**
      * OpenJDK8 RHEL zip release information.
      */
-    public static final HashMap<String, Release> rhelJdk8ZipReleases;;
+    public static final HashMap<String, Release> rhelJdk8ZipReleases;
 
     /**
      * OpenJDK11 Windows release information.
      */
-    public static final HashMap<String, Release> windowsJdk11Releases;;
+    public static final HashMap<String, Release> windowsJdk11Releases;
 
     /**
      * OpenJDK8 Windows release information.
      */
-    public static final HashMap<String, Release> windowsJdk8Releases;;
+    public static final HashMap<String, Release> windowsJdk8Releases;
 
     static {
         /*
@@ -681,6 +686,16 @@ public class JdkUtil {
                 new Release("Jul 16 2018 15:46:59 ", 18, "1.8.0_181-b13"));
         rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-3.b13.el7_5.ppc64le",
                 new Release("Jul 16 2018 11:33:43", 18, "1.8.0_181-b13"));
+
+        // RHEL8 ppc64le OpenJDK8 rpm
+        rhel8Ppc64leJdk8RpmReleases = new HashMap<String, Release>();
+        rhel8Ppc64leJdk8RpmReleases.put("LATEST", new Release("Jan 17 2021 00:00:00", 28, "1.8.0_282-b08"));
+        rhel8Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.ppc64le",
+                new Release("Jan 17 2021 16:29:12", 31, "1.8.0_282-b08"));
+        rhel8Ppc64leJdk8RpmReleases.put(" java-1.8.0-openjdk-1.8.0.282.b08-1.el8_2.ppc64le",
+                new Release("Jan 17 2021 00:00:00", 31, "1.8.0_282-b08"));
+        rhel8Ppc64leJdk8RpmReleases.put(" java-1.8.0-openjdk-1.8.0.282.b08-1.el8_1.ppc64le",
+                new Release("Jan 17 2021 00:00:00", 31, "1.8.0_282-b08"));
     ***REMOVED***
 
     /**
