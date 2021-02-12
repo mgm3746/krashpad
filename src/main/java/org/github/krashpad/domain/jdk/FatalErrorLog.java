@@ -344,15 +344,15 @@ public class FatalErrorLog {
             }
         }
         // Check for insufficient physical memory
-        if (getJvmPhysicalMemory() > 0 && getJvmMemory() > Long.MIN_VALUE) {
-            if (getJvmMemory() > getJvmPhysicalMemory()) {
+        if (getJvmPhysicalMemory() > 0 && getJvmMemoryMax() > Long.MIN_VALUE) {
+            if (getJvmMemoryMax() > getJvmPhysicalMemory()) {
                 analysis.add(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY);
             }
         }
         // OOME, swap
         if (isError("Out of Memory Error")) {
             if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
-                if (getJvmMemory() > (getJvmPhysicalMemoryFree() + getJvmSwapFree())) {
+                if (getJvmMemoryMax() > (getJvmPhysicalMemoryFree() + getJvmSwapFree())) {
                     analysis.add(Analysis.ERROR_OOME_STARTUP_MEMORY);
                 } else {
                     analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT);
@@ -368,8 +368,8 @@ public class FatalErrorLog {
                 }
             } else {
                 // Low physical memory
-                if (getJvmMemory() > 0 && getJvmPhysicalMemory() > 0) {
-                    if (JdkMath.calcPercent(getJvmMemory(), getJvmPhysicalMemory()) >= 95) {
+                if (getJvmMemoryMax() > 0 && getJvmPhysicalMemory() > 0) {
+                    if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmPhysicalMemory()) >= 95) {
                         analysis.add(Analysis.ERROR_OOME_JVM);
                     } else {
                         analysis.add(Analysis.ERROR_OOME_EXTERNAL);
@@ -692,25 +692,88 @@ public class FatalErrorLog {
      * @return The max compressed class size reserved in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getCompressedClassSpaceSize() {
-        // Default is 1g
-        long compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.PRECISION_REPORTING);
+        // 1) Determine if compressed pointers are being used.
+        boolean usingCompressedPointers = true;
+
+        // 2) Default is to use compressed pointers based on heap size
+        BigDecimal thirtyTwoGigabytes = new BigDecimal("32").multiply(Constants.GIGABYTE);
+        long heapMaxSize = getHeapMaxSize();
+        if (heapMaxSize >= thirtyTwoGigabytes.longValue()) {
+            usingCompressedPointers = false;
+        }
+
+        // 3) Check if the default behavior is being overridden
         if (jvmOptions != null) {
-            if (JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())
-                    || JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
-                compressedClassSpaceSize = 0;
-            } else if (jvmOptions.getCompressedClassSpaceSize() != null) {
-                char fromUnits;
-                long value;
-                Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-                Matcher matcher = pattern.matcher(jvmOptions.getCompressedClassSpaceSize());
-                if (matcher.find()) {
-                    value = Long.parseLong(matcher.group(2));
-                    if (matcher.group(3) != null) {
-                        fromUnits = matcher.group(3).charAt(0);
-                    } else {
-                        fromUnits = 'B';
+            if (JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())) {
+                usingCompressedPointers = false;
+            } else {
+                if (JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
+                    usingCompressedPointers = false;
+                } else {
+                    usingCompressedPointers = true;
+                }
+            }
+        } else if (globalFlagsEvents.size() > 0) {
+            Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
+            boolean useCompressedOops = true;
+            boolean useCompressedClassPointers = true;
+            while (iterator.hasNext()) {
+                GlobalFlagsEvent event = iterator.next();
+                String regExCompressedOopsDisabled = "^.+bool UseCompressedOops[ ]{1,}= false.+$";
+                String regExCompressedClassPointersDisabled = "^.+bool UseCompressedClassPointers[ ]{1,}= false.+$";
+                if (event.getLogEntry().matches(regExCompressedOopsDisabled)) {
+                    useCompressedOops = false;
+                } else if (event.getLogEntry().matches(regExCompressedClassPointersDisabled)) {
+                    useCompressedClassPointers = false;
+                }
+            }
+            if (!useCompressedOops) {
+                usingCompressedPointers = false;
+            } else {
+                if (!useCompressedClassPointers) {
+                    usingCompressedPointers = false;
+                } else {
+                    usingCompressedPointers = true;
+                }
+            }
+        }
+
+        long compressedClassSpaceSize = 0;
+
+        if (usingCompressedPointers) {
+            // Default is 1g
+            compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.PRECISION_REPORTING);
+            // 1st check [Global flags]
+            if (globalFlagsEvents.size() > 0) {
+                Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
+                while (iterator.hasNext()) {
+                    GlobalFlagsEvent event = iterator.next();
+                    String regExCompressedClassSpaceSize = "^.+uintx CompressedClassSpaceSize[ ]{1,}= (\\d{1,}).+$";
+                    Pattern pattern = Pattern.compile(regExCompressedClassSpaceSize);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        compressedClassSpaceSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
+                                Constants.PRECISION_REPORTING);
                     }
-                    compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                }
+            } else if (jvmOptions != null) {
+                if (JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())
+                        || JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
+                    compressedClassSpaceSize = 0;
+                } else if (jvmOptions.getCompressedClassSpaceSize() != null) {
+                    char fromUnits;
+                    long value;
+                    Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+                    Matcher matcher = pattern.matcher(jvmOptions.getCompressedClassSpaceSize());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(2));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
+                        } else {
+                            fromUnits = 'B';
+                        }
+                        compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                    }
                 }
             }
         }
@@ -803,7 +866,21 @@ public class FatalErrorLog {
      */
     public long getDirectMemoryMaxSize() {
         long directMemorySize = 0;
-        if (jvmOptions != null && jvmOptions.getMaxDirectMemorySize() != null) {
+        // 1st check [Global flags]
+        if (globalFlagsEvents.size() > 0) {
+            Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
+            while (iterator.hasNext()) {
+                GlobalFlagsEvent event = iterator.next();
+                String regExMaxDirectMemorySize = "^.+uintx MaxDirectMemorySize[ ]{1,}= (\\d{1,}).+$";
+                Pattern pattern = Pattern.compile(regExMaxDirectMemorySize);
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    directMemorySize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                }
+            }
+        } else if (jvmOptions != null && jvmOptions.getMaxDirectMemorySize() != null) {
             char fromUnits;
             long value;
             Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
@@ -824,7 +901,7 @@ public class FatalErrorLog {
     /**
      * @return The max code cache size in <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public long getReservedCodeCacheize() {
+    public long getReservedCodeCacheSize() {
         // Default is 420m
         long reservedCodeCacheize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
         // 1st check [Global flags]
@@ -832,12 +909,13 @@ public class FatalErrorLog {
             Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
             while (iterator.hasNext()) {
                 GlobalFlagsEvent event = iterator.next();
-                String regExMaxHeap = "^.+uintx ReservedCodeCacheSize[ ]{1,}= (\\d{1,}).+$";
-                Pattern pattern = Pattern.compile(regExMaxHeap);
+                String regExReservedCodeCacheSize = "^.+uintx ReservedCodeCacheSize[ ]{1,}= (\\d{1,}).+$";
+                Pattern pattern = Pattern.compile(regExReservedCodeCacheSize);
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     reservedCodeCacheize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
                             Constants.PRECISION_REPORTING);
+                    break;
                 }
             }
         } else if (jvmOptions != null && jvmOptions.getReservedCodeCacheSize() != null) {
@@ -1056,12 +1134,13 @@ public class FatalErrorLog {
             Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
             while (iterator.hasNext()) {
                 GlobalFlagsEvent event = iterator.next();
-                String regExMaxHeap = "^.+size_t MaxHeapSize[ ]{1,}= (\\d{1,}).+$";
-                Pattern pattern = Pattern.compile(regExMaxHeap);
+                String regExMaxHeapSize = "^.+size_t MaxHeapSize[ ]{1,}= (\\d{1,}).+$";
+                Pattern pattern = Pattern.compile(regExMaxHeapSize);
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     heapMaxSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
                             Constants.PRECISION_REPORTING);
+                    break;
                 }
             }
         } else if (jvmOptions != null && jvmOptions.getMaxHeapSize() != null) {
@@ -1286,47 +1365,41 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The JVM memory in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The JVM maximum smemory in <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public long getJvmMemory() {
-        long jvmMemory = Long.MIN_VALUE;
+    public long getJvmMemoryMax() {
+        long jvmMemoryMax = Long.MIN_VALUE;
         if (getHeapMaxSize() > 0) {
-            jvmMemory = getHeapMaxSize();
+            jvmMemoryMax = getHeapMaxSize();
         }
         if (getMetaspaceMaxSize() > 0) {
-            if (jvmMemory > 0) {
-                jvmMemory += getMetaspaceMaxSize();
+            if (jvmMemoryMax > 0) {
+                jvmMemoryMax += getMetaspaceMaxSize();
             } else {
-                jvmMemory = getMetaspaceMaxSize();
+                jvmMemoryMax = getMetaspaceMaxSize();
             }
         }
         // Thread stack space
         if (getThreadStackMemory() > 0) {
-            if (jvmMemory > 0) {
-                jvmMemory += getThreadStackMemory();
+            if (jvmMemoryMax > 0) {
+                jvmMemoryMax += getThreadStackMemory();
             } else {
-                jvmMemory = getThreadStackMemory();
+                jvmMemoryMax = getThreadStackMemory();
             }
         }
-        // Compressed class pointers space
-        if (jvmMemory > 0) {
-            jvmMemory += getCompressedClassSpaceSize();
-        } else {
-            jvmMemory = getCompressedClassSpaceSize();
-        }
         // code cache
-        if (jvmMemory > 0) {
-            jvmMemory += getReservedCodeCacheize();
+        if (jvmMemoryMax > 0) {
+            jvmMemoryMax += getReservedCodeCacheSize();
         } else {
-            jvmMemory = getReservedCodeCacheize();
+            jvmMemoryMax = getReservedCodeCacheSize();
         }
         // Direct memory
-        if (jvmMemory > 0) {
-            jvmMemory += getDirectMemoryMaxSize();
+        if (jvmMemoryMax > 0) {
+            jvmMemoryMax += getDirectMemoryMaxSize();
         } else {
-            jvmMemory = getDirectMemoryMaxSize();
+            jvmMemoryMax = getDirectMemoryMaxSize();
         }
-        return jvmMemory;
+        return jvmMemoryMax;
     }
 
     public JvmOptions getJvmOptions() {
@@ -1468,6 +1541,9 @@ public class FatalErrorLog {
 
     /**
      * @return The metaspace max size reserved in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    /**
+     * @return
      */
     public long getMetaspaceMaxSize() {
         long metaspaceMaxSize = Long.MIN_VALUE;
@@ -2018,7 +2094,20 @@ public class FatalErrorLog {
      */
     public long getThreadStackSize() {
         long stackSize = 1024;
-        if (jvmOptions != null && jvmOptions.getThreadStackSize() != null) {
+        // 1st check [Global flags]
+        if (globalFlagsEvents.size() > 0) {
+            Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
+            while (iterator.hasNext()) {
+                GlobalFlagsEvent event = iterator.next();
+                String regExThreadStackSize = "^.+intx ThreadStackSize[ ]{1,}= (\\d{1,}).+$";
+                Pattern pattern = Pattern.compile(regExThreadStackSize);
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    stackSize = Long.parseLong(matcher.group(1));
+                    break;
+                }
+            }
+        } else if (jvmOptions != null && jvmOptions.getThreadStackSize() != null) {
             char fromUnits;
             long value;
             Pattern pattern = Pattern.compile("^-(X)?(ss|X:ThreadStackSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$");

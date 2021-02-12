@@ -224,9 +224,6 @@ public class TestAnalysis extends TestCase {
         Assert.assertEquals("Metaspace allocation not correct.", metaspaceAllocation, fel.getMetaspaceAllocation());
         long metaspaceUsed = JdkUtil.convertSize(347525, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Metaspace used not correct.", metaspaceUsed, fel.getMetaspaceUsed());
-        long compressedClassSpace = JdkUtil.convertSize(1024, 'M', Constants.PRECISION_REPORTING);
-        Assert.assertEquals("Compressed Class Space size not correct.", compressedClassSpace,
-                fel.getCompressedClassSpaceSize());
         long directMemoryMax = JdkUtil.convertSize(0, 'G', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Direct Memory mx not correct.", directMemoryMax, fel.getDirectMemoryMaxSize());
         Assert.assertEquals("Thread stack size not correct.", 1024, fel.getThreadStackSize());
@@ -234,10 +231,9 @@ public class TestAnalysis extends TestCase {
         long threadMemory = JdkUtil.convertSize(1024 * 225, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Thread memory not correct.", threadMemory, fel.getThreadStackMemory());
         long codeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
-        Assert.assertEquals("Code cache size not correct.", codeCacheSize, fel.getReservedCodeCacheize());
+        Assert.assertEquals("Code cache size not correct.", codeCacheSize, fel.getReservedCodeCacheSize());
         Assert.assertEquals("Jvm memory not correct.",
-                heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory + codeCacheSize,
-                fel.getJvmMemory());
+                heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax());
         Assert.assertTrue(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY));
         Assert.assertFalse(Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.",
@@ -264,9 +260,6 @@ public class TestAnalysis extends TestCase {
         Assert.assertEquals("Heap max size not correct.", heapMax, fel.getHeapMaxSize());
         long metaspaceMax = JdkUtil.convertSize(1148928, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Metaspace max size not correct.", metaspaceMax, fel.getMetaspaceMaxSize());
-        long compressedClassSpace = JdkUtil.convertSize(1024, 'M', Constants.PRECISION_REPORTING);
-        Assert.assertEquals("Compressed Class Space size not correct.", compressedClassSpace,
-                fel.getCompressedClassSpaceSize());
         long directMemoryMax = JdkUtil.convertSize(0, 'G', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Direct Memory mx not correct.", directMemoryMax, fel.getDirectMemoryMaxSize());
         Assert.assertEquals("Thread stack size not correct.", 1024, fel.getThreadStackSize());
@@ -274,10 +267,9 @@ public class TestAnalysis extends TestCase {
         long threadMemory = JdkUtil.convertSize(1024 * 67, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Thread memory not correct.", threadMemory, fel.getThreadStackMemory());
         long codeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
-        Assert.assertEquals("Code cache size not correct.", codeCacheSize, fel.getReservedCodeCacheize());
+        Assert.assertEquals("Code cache size not correct.", codeCacheSize, fel.getReservedCodeCacheSize());
         Assert.assertEquals("Jvm memory not correct.",
-                heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory + codeCacheSize,
-                fel.getJvmMemory());
+                heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax());
         Assert.assertTrue(Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL));
         Assert.assertFalse(Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.",

@@ -212,7 +212,7 @@ public class JvmOptions {
     private boolean comp = false;
 
     /**
-     * The option for setting CompressedClassSpaceSize.
+     * The option for setting the virtual (reserved) size of the compressed class space (a single area). For example:
      * 
      * <pre>
      * -XX:CompressedClassSpaceSize=768m
@@ -531,7 +531,7 @@ public class JvmOptions {
     private String maxJavaStackTraceDepth;
 
     /**
-     * Maximum metaspace size. For example:
+     * Maximum committed metaspace (class metadata + compressed class space). For example:
      * 
      * <pre>
      * -XX:MaxMetaspaceSize=2048m
