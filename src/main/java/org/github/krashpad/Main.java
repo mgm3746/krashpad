@@ -319,7 +319,7 @@ public class Main {
                     printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                     printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                     printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                    if (fel.getJvmMemory() > 0) {
+                    if (fel.getJvmMemoryMax() > 0) {
                         printWriter.write("Memory: " + fel.getJvmPhysicalMemory()
                                 + Character.toString(Constants.PRECISION_REPORTING) + " ("
                                 + JdkMath.calcPercent(fel.getJvmPhysicalMemory(), fel.getSystemPhysicalMemory()) + "%)"
@@ -417,15 +417,19 @@ public class Main {
                     printWriter.write("Thread Stack Memory: " + fel.getThreadStackMemory()
                             + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
                 ***REMOVED***
+                if (fel.getReservedCodeCacheSize() > 0) {
+                    printWriter.write("Code Cache Max: " + fel.getReservedCodeCacheSize()
+                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+                ***REMOVED***
                 if (fel.getDirectMemoryMaxSize() > 0) {
                     printWriter.write("Direct Memory Max: " + fel.getDirectMemoryMaxSize()
                             + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getJvmMemory() > 0) {
-                    printWriter.write(
-                            "JVM Memory: >" + fel.getJvmMemory() + Character.toString(Constants.PRECISION_REPORTING)
-                                    + " (" + JdkMath.calcPercent(fel.getJvmMemory(), fel.getJvmPhysicalMemory())
-                                    + "% Available Memory)" + Constants.LINE_SEPARATOR);
+                if (fel.getJvmMemoryMax() > 0) {
+                    printWriter.write("JVM Memory Max: >" + fel.getJvmMemoryMax()
+                            + Character.toString(Constants.PRECISION_REPORTING) + " ("
+                            + JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmPhysicalMemory())
+                            + "% Available Memory)" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
 
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);

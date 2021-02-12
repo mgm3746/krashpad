@@ -1491,6 +1491,8 @@ jvm_args: -Xmx12G -Xms1G -Xss5m -XX:ReservedCodeCacheSize=256m -javaagent:/path/
      bool UseCompressedClassPointers               = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
      bool UseCompressedOops                        = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
      bool UseG1GC                                  = true                                      {product***REMOVED*** {ergonomic***REMOVED***
+    uintx CompressedClassSpaceSize                 = 805306368                                 {product***REMOVED***
+    uintx MaxDirectMemorySize                      = 1073741824                                {product***REMOVED***    
 
 Logging:
 Log output configuration:
