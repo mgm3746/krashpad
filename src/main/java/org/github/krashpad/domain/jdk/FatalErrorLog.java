@@ -368,7 +368,7 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED*** else {
                 // Low physical memory
-                if (getJvmMemory() > 0) {
+                if (getJvmMemory() > 0 && getJvmPhysicalMemory() > 0) {
                     if (JdkMath.calcPercent(getJvmMemory(), getJvmPhysicalMemory()) >= 95) {
                         analysis.add(Analysis.ERROR_OOME_JVM);
                     ***REMOVED*** else {
@@ -692,12 +692,13 @@ public class FatalErrorLog {
      * @return The max compressed class size reserved in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getCompressedClassSpaceSize() {
-        long compressedClassSpaceSize = 0;
-        if (jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())
-                && !JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
-            // Default is 1g
-            compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.PRECISION_REPORTING);
-            if (jvmOptions.getCompressedClassSpaceSize() != null) {
+        // Default is 1g
+        long compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.PRECISION_REPORTING);
+        if (jvmOptions != null) {
+            if (JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())
+                    || JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
+                compressedClassSpaceSize = 0;
+            ***REMOVED*** else if (jvmOptions.getCompressedClassSpaceSize() != null) {
                 char fromUnits;
                 long value;
                 Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
@@ -818,6 +819,43 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return directMemorySize;
+    ***REMOVED***
+
+    /**
+     * @return The max code cache size in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getReservedCodeCacheize() {
+        // Default is 420m
+        long reservedCodeCacheize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
+        // 1st check [Global flags]
+        if (globalFlagsEvents.size() > 0) {
+            Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
+            while (iterator.hasNext()) {
+                GlobalFlagsEvent event = iterator.next();
+                String regExMaxHeap = "^.+uintx ReservedCodeCacheSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
+                Pattern pattern = Pattern.compile(regExMaxHeap);
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    reservedCodeCacheize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
+                            Constants.PRECISION_REPORTING);
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (jvmOptions != null && jvmOptions.getReservedCodeCacheSize() != null) {
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher = pattern.matcher(jvmOptions.getReservedCodeCacheSize());
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                ***REMOVED*** else {
+                    fromUnits = 'B';
+                ***REMOVED***
+                reservedCodeCacheize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+            ***REMOVED***
+        ***REMOVED***
+        return reservedCodeCacheize;
     ***REMOVED***
 
     public List<DynamicLibraryEvent> getDynamicLibraryEvents() {
@@ -1275,6 +1313,12 @@ public class FatalErrorLog {
             jvmMemory += getCompressedClassSpaceSize();
         ***REMOVED*** else {
             jvmMemory = getCompressedClassSpaceSize();
+        ***REMOVED***
+        // code cache
+        if (jvmMemory > 0) {
+            jvmMemory += getReservedCodeCacheize();
+        ***REMOVED*** else {
+            jvmMemory = getReservedCodeCacheize();
         ***REMOVED***
         // Direct memory
         if (jvmMemory > 0) {

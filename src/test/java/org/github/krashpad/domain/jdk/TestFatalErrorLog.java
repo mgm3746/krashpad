@@ -482,7 +482,9 @@ public class TestFatalErrorLog extends TestCase {
         FatalErrorLog fel = manager.parse(testFile);
         long heapMax = JdkUtil.convertSize(33554432, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Heap max size not correct.", heapMax, fel.getHeapMaxSize());
-        long jvmMemory = JdkUtil.convertSize(33554432 + 1048576, 'K', Constants.PRECISION_REPORTING);
+        long codeCacheSize = JdkUtil.convertSize(251658240, 'B', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Code cache size not correct.", codeCacheSize, fel.getReservedCodeCacheize());
+        long jvmMemory = JdkUtil.convertSize(33554432 + 1048576 + 245760, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Jvm memory not correct.", jvmMemory, fel.getJvmMemory());
     ***REMOVED***
 
@@ -536,8 +538,11 @@ public class TestFatalErrorLog extends TestCase {
         Assert.assertEquals("Thread count not correct.", 720, fel.getJavaThreadCount());
         long threadMemory = JdkUtil.convertSize(1024 * 720, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Thread memory not correct.", threadMemory, fel.getThreadStackMemory());
+        long codeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Code cache size not correct.", codeCacheSize, fel.getReservedCodeCacheize());
         Assert.assertEquals("Jvm memory not correct.",
-                heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory, fel.getJvmMemory());
+                heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory + codeCacheSize,
+                fel.getJvmMemory());
     ***REMOVED***
 
     public void testRhel8Ppc64le() {

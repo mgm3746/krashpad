@@ -705,6 +705,16 @@ public class JvmOptions {
     private String printFLSStatistics;
 
     /**
+     * Option to enable/disable displaying detailed information about each gc event. Equivalent to
+     * <code>-verbose:gc</code>. For example:
+     * 
+     * <pre>
+     * -XX:+PrintGC
+     * </pre>
+     */
+    private String printGc;
+
+    /**
      * The option to enable/disable printing application concurrent time in the gc logging. For example:
      * 
      * <pre>
@@ -814,7 +824,7 @@ public class JvmOptions {
     private String printTenuringDistribution;
 
     /**
-     * Code cache size. For example:
+     * Code cache size (default 240m). For example:
      * 
      * <pre>
      * -XX:ReservedCodeCacheSize=256m
@@ -1289,6 +1299,8 @@ public class JvmOptions {
                     printClassHistogramBeforeFullGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:PrintFLSStatistics=\\d$")) {
                     printFLSStatistics = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGC$")) {
+                    printGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCApplicationConcurrentTime$")) {
                     printGcApplicationConcurrentTime = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCApplicationStoppedTime$")) {
@@ -2041,6 +2053,10 @@ public class JvmOptions {
 
     public String getPrintFLSStatistics() {
         return printFLSStatistics;
+    ***REMOVED***
+
+    public String getPrintGc() {
+        return printGc;
     ***REMOVED***
 
     public String getPrintGcApplicationConcurrentTime() {

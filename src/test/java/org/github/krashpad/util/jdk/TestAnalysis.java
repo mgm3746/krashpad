@@ -201,6 +201,7 @@ public class TestAnalysis extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset27.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse("RH build of OpenJDK incorrectly identified.", fel.isRhBuildOpenJdk());
         long physicalMemory = JdkUtil.convertSize(15995796, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Physical memory not correct.", physicalMemory, fel.getJvmPhysicalMemory());
         long physicalMemoryFree = JdkUtil.convertSize(241892, 'K', Constants.PRECISION_REPORTING);
@@ -232,8 +233,11 @@ public class TestAnalysis extends TestCase {
         Assert.assertEquals("Thread count not correct.", 225, fel.getJavaThreadCount());
         long threadMemory = JdkUtil.convertSize(1024 * 225, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Thread memory not correct.", threadMemory, fel.getThreadStackMemory());
+        long codeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Code cache size not correct.", codeCacheSize, fel.getReservedCodeCacheize());
         Assert.assertEquals("Jvm memory not correct.",
-                heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory, fel.getJvmMemory());
+                heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory + codeCacheSize,
+                fel.getJvmMemory());
         Assert.assertTrue(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY));
         Assert.assertFalse(Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.",
@@ -244,6 +248,7 @@ public class TestAnalysis extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset28.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertFalse("RH build of OpenJDK incorrectly identified.", fel.isRhBuildOpenJdk());
         Assert.assertTrue(Analysis.INFO_SWAP_DISABLED + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED));
     ***REMOVED***
@@ -268,8 +273,11 @@ public class TestAnalysis extends TestCase {
         Assert.assertEquals("Thread count not correct.", 67, fel.getJavaThreadCount());
         long threadMemory = JdkUtil.convertSize(1024 * 67, 'K', Constants.PRECISION_REPORTING);
         Assert.assertEquals("Thread memory not correct.", threadMemory, fel.getThreadStackMemory());
+        long codeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
+        Assert.assertEquals("Code cache size not correct.", codeCacheSize, fel.getReservedCodeCacheize());
         Assert.assertEquals("Jvm memory not correct.",
-                heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory, fel.getJvmMemory());
+                heapMax + metaspaceMax + compressedClassSpace + directMemoryMax + threadMemory + codeCacheSize,
+                fel.getJvmMemory());
         Assert.assertTrue(Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL));
         Assert.assertFalse(Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.",
