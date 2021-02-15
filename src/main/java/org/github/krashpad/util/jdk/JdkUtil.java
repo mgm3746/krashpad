@@ -408,7 +408,7 @@ public class JdkUtil {
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64",
                 new Release("Nov 19 2018 16:07:16", 19, "1.8.0_191-b12"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.191.b12-0.el7_5.x86_64",
-                new Release("Oct 9 2018 00:00:00", 19, "1.8.0_191-b12"));
+                new Release("Oct 9 2018 08:21:41", 19, "1.8.0_191-b12"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-7.b13.el7.x86_64",
                 new Release("Jul 16 2018 00:00:00", 18, "1.8.0_181-b13"));
         rhel7Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-3.b13.el7_5.x86_64",

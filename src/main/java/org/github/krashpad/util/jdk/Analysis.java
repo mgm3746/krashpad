@@ -222,6 +222,16 @@ public enum Analysis {
     INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED("info.opt.diagnostic.vm.options.enabled"),
 
     /**
+     * Property key for metaspace including only class metadata.
+     */
+    INFO_OPT_METASPACE_CLASS_METADATA("info.opt.metaspace.class.metadata"),
+
+    /**
+     * Property key for metaspace including class metadata and compressed class space.
+     */
+    INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE("info.opt.metaspace.class.metadata.and.comp.class.space"),
+
+    /**
      * Property key for experimental jvm options enabled with <code>-XX:+UnlockExperimentalVMOptions</code>.
      */
     INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED("info.opt.experimental.vm.options.enabled"),
