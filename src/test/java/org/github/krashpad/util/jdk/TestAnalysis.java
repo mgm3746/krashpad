@@ -1452,4 +1452,34 @@ public class TestAnalysis extends TestCase {
         Assert.assertTrue(Analysis.INFO_OPT_PERF_DATA_DISABLED + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_OPT_PERF_DATA_DISABLED));
     ***REMOVED***
+
+    public void testMetaspaceLt32g() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE));
+    ***REMOVED***
+
+    public void testMetaspaceEq32g() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -Xmx32g";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_METASPACE_CLASS_METADATA + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_METASPACE_CLASS_METADATA));
+    ***REMOVED***
+
+    public void testMetaspaceGt32G() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -Xmx33g";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_METASPACE_CLASS_METADATA + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_METASPACE_CLASS_METADATA));
+    ***REMOVED***
 ***REMOVED***

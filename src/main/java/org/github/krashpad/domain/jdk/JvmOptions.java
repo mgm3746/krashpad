@@ -1489,9 +1489,8 @@ public class JvmOptions {
                 if (compressedClassSpaceSize != null) {
                     analysis.add(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_OOPS_DISABLED);
                 ***REMOVED***
-            ***REMOVED***
-            // Should use compressed class pointers
-            if (JdkUtil.isOptionDisabled(useCompressedClassPointers)) {
+            ***REMOVED*** else if (JdkUtil.isOptionDisabled(useCompressedClassPointers)) {
+                // Should use compressed class pointers
                 if (maxHeapSize == null) {
                     // Heap size unknown
                     analysis.add(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK);
@@ -1502,15 +1501,18 @@ public class JvmOptions {
                 if (compressedClassSpaceSize != null) {
                     analysis.add(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_CLASS_DISABLED);
                 ***REMOVED***
+            ***REMOVED*** else {
+                analysis.add(Analysis.INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE);
             ***REMOVED***
         ***REMOVED*** else {
             // Should not use compressed object pointers
             if (JdkUtil.isOptionEnabled(useCompressedOops)) {
                 analysis.add(Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G);
-            ***REMOVED***
-            // Should not use compressed class pointers
-            if (JdkUtil.isOptionEnabled(useCompressedClassPointers)) {
+            ***REMOVED*** else if (JdkUtil.isOptionEnabled(useCompressedClassPointers)) {
+                // Should not use compressed class pointers
                 analysis.add(Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G);
+            ***REMOVED*** else {
+                analysis.add(Analysis.INFO_OPT_METASPACE_CLASS_METADATA);
             ***REMOVED***
             // Should not be setting class pointer space size
             if (compressedClassSpaceSize != null) {

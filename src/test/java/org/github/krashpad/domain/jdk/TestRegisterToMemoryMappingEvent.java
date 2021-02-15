@@ -130,6 +130,12 @@ public class TestRegisterToMemoryMappingEvent extends TestCase {
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
     ***REMOVED***
 
+    public void testIWithSpaceAtEnd() {
+        String logLine = "[I ";
+        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+    ***REMOVED***
+
     public void testC() {
         String logLine = "[C";
         Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
