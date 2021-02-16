@@ -222,6 +222,16 @@ public enum Analysis {
     INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED("info.opt.diagnostic.vm.options.enabled"),
 
     /**
+     * Property key for -XX:LargePageSizeInBytes being extraneous on Linux.
+     */
+    INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_LINUX("info.opt.large.page.size.in.bytes.linux"),
+
+    /**
+     * Property key for -XX:LargePageSizeInBytes being extraneous on Linux.
+     */
+    INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS("info.opt.large.page.size.in.bytes.windows"),
+
+    /**
      * Property key for metaspace including only class metadata.
      */
     INFO_OPT_METASPACE_CLASS_METADATA("info.opt.metaspace.class.metadata"),
