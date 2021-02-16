@@ -73,6 +73,18 @@ public class JvmOptions {
     private ArrayList<String> agentpath = new ArrayList<String>();
 
     /**
+     * Option to enable/disable various experimental performance optimizations that have varied over time. Disabled by
+     * default and deprecated in JDK11.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:+AggressiveOpts
+     * </pre>
+     */
+    private String aggressiveOpts;
+
+    /**
      * Option to enable/disable to touch all pages of the Java heap on startup to avoid the performance penalty at
      * runtime.
      * 
@@ -212,6 +224,15 @@ public class JvmOptions {
     private boolean comp = false;
 
     /**
+     * The option for specifying a command for the Just in Time (JIT) compiler to execute on a method . For example:
+     * 
+     * <pre>
+     * -XX:CompileCommand=exclude,com/example/MyClass
+     * </pre>
+     */
+    private String compileCommand;
+
+    /**
      * The option for setting the virtual (reserved) size of the compressed class space (a single area). For example:
      * 
      * <pre>
@@ -256,6 +277,25 @@ public class JvmOptions {
      * </pre>
      */
     private String disableExplicitGc;
+
+    /**
+     * Option to enable/disable Just In Time (JIT) compiler optimization for objects created and referenced by a single
+     * thread within the scope of a method:
+     * 
+     * 1) Objects are not created, and their fields are treated as local variables and allocated on the method stack or
+     * in cpu registers. This effectively moves the allocation from the heap to the stack, which is much faster.
+     * 
+     * 2) Locking and memory synchronization is removed, reducing overhead.
+     * 
+     * Enabled by default in JDK 1.6+.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:+DoEscapeAnalysis
+     * </pre>
+     */
+    private String doEscapeAnalysis;
 
     /**
      * The option to specify the location where a fatal error log will be written. For example:
@@ -321,6 +361,16 @@ public class JvmOptions {
      * </pre>
      */
     private String g1HeapWastePercent;
+
+    /**
+     * Experimental option (requires <code>-XX:+UnlockExperimentalVMOptions</code>) that sets the percentage of the heap
+     * to use as the maximum new generation size (default 60%). Replaces <code>-XX:DefaultMaxNewGenPercent</code>.
+     * 
+     * <pre>
+     * -XX:G1MaxNewSizePercent=30
+     * </pre>
+     */
+    private String g1MaxNewSizePercent;
 
     /**
      * The option for setting the occupancy threshold for a region to be considered as a candidate region for a
@@ -407,6 +457,18 @@ public class JvmOptions {
     private String initialHeapSize;
 
     /**
+     * The heap occupancy threshold that G1 marking starts (default 45%). Lower it to start marking earlier to avoid
+     * marking not finishing before heap fills up (analogous to CMS concurrent mode failure).
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:InitiatingHeapOccupancyPercent=40
+     * </pre>
+     */
+    private String initiatingHeapOccupancyPercent;
+
+    /**
      * JVM options native libraries.
      * 
      * For example:
@@ -421,6 +483,19 @@ public class JvmOptions {
      * -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n
      */
     private String jpdaSocketTransport;
+
+    /**
+     * The option for setting the virtual (reserved) size of the compressed class space (a single area). Only has
+     * meaning on Solaris. Other OS like Linux use the page size the kernel is set to support
+     * (<code>Hugepagesize</code>). On Windows it cannot be set (like in Linux) and is fixed at 2MB.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:LargePageSizeInBytes=4m
+     * </pre>
+     */
+    private String largePageSizeInBytes;
 
     /**
      * Option to specify gc logging options in JDK11+. For example:
@@ -694,6 +769,15 @@ public class JvmOptions {
      * </pre>
      */
     private String printClassHistogramBeforeFullGc;
+
+    /**
+     * The option to enable/disable outputting every JVM option and value to standard out on JVM startup. For example:
+     * 
+     * <pre>
+     * -XX:+PrintFlagsFinal
+     * </pre>
+     */
+    private String printFlagsFinal;
 
     /**
      * Option to enable printing CMS Free List Space statistics in gc logging. For example:
@@ -1090,7 +1174,7 @@ public class JvmOptions {
     private String useParNewGc;
 
     /**
-     * The option to enable/disable outputting perfmance data to disk (/tmp/hsperfdata*) and via JMX. For example:
+     * The option to enable/disable outputting performance data to disk (/tmp/hsperfdata*) and via JMX. For example:
      * 
      * <pre>
      * -XX:-UsePerfData
@@ -1169,6 +1253,8 @@ public class JvmOptions {
                     client = true;
                 ***REMOVED*** else if (option.matches("^-XX:AdaptiveSizePolicyWeight=\\d{1,3***REMOVED***$")) {
                     adaptiveSizePolicyWeight = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]AggressiveOpts$")) {
+                    aggressiveOpts = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]AlwaysPreTouch$")) {
                     alwaysPreTouch = option;
                 ***REMOVED*** else if (option.matches("^-XX:AutoBoxCacheMax=\\d{1,10***REMOVED***$")) {
@@ -1195,6 +1281,8 @@ public class JvmOptions {
                     cmsParallelRemarkEnabled = option;
                 ***REMOVED*** else if (option.matches("^-Xcomp$")) {
                     comp = true;
+                ***REMOVED*** else if (option.matches("^-XX:CompileCommand=.+$")) {
+                    compileCommand = option;
                 ***REMOVED*** else if (option.matches("^-XX:CompressedClassSpaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     compressedClassSpaceSize = option;
                 ***REMOVED*** else if (option.matches("^-XX:ConcGCThreads=\\d{1,3***REMOVED***$")) {
@@ -1207,6 +1295,8 @@ public class JvmOptions {
                     debugNonSafepoints = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]DisableExplicitGC$")) {
                     disableExplicitGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]DoEscapeAnalysis$")) {
+                    doEscapeAnalysis = option;
                 ***REMOVED*** else if (option.matches("^-XX:ErrorFile=\\S+$")) {
                     errorFile = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExitOnOutOfMemoryError$")) {
@@ -1219,6 +1309,8 @@ public class JvmOptions {
                     flightRecorderOptions = option;
                 ***REMOVED*** else if (option.matches("^-XX:G1HeapRegionSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     g1HeapRegionSize = option;
+                ***REMOVED*** else if (option.matches("^-XX:G1MaxNewSizePercent=\\d{1,3***REMOVED***$")) {
+                    g1MaxNewSizePercent = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]G1SummarizeRSetStats$")) {
                     g1SummarizeRSetStats = option;
                 ***REMOVED*** else if (option.matches("^-XX:G1SummarizeRSetStatsPeriod=\\d$")) {
@@ -1235,10 +1327,14 @@ public class JvmOptions {
                     heapDumpPath = option;
                 ***REMOVED*** else if (option.matches("^-X(ms|X:InitialHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     initialHeapSize = option;
+                ***REMOVED*** else if (option.matches("^-XX:InitiatingHeapOccupancyPercent=\\d{1,3***REMOVED***$")) {
+                    initiatingHeapOccupancyPercent = option;
                 ***REMOVED*** else if (option.matches("^-Xint$")) {
                     xInt = true;
                 ***REMOVED*** else if (option.matches("^-javaagent:.+$")) {
                     javaagent.add(option);
+                ***REMOVED*** else if (option.matches("^-XX:LargePageSizeInBytes=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    largePageSizeInBytes = option;
                 ***REMOVED*** else if (option.matches("^-Xlog:.+$")) {
                     log.add(option);
                 ***REMOVED*** else if (option.matches("^-XX:LogFile=\\S+$")) {
@@ -1297,6 +1393,8 @@ public class JvmOptions {
                     printClassHistogramAfterFullGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintClassHistogramBeforeFullGC$")) {
                     printClassHistogramBeforeFullGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintFlagsFinal$")) {
+                    printFlagsFinal = option;
                 ***REMOVED*** else if (option.matches("^-XX:PrintFLSStatistics=\\d$")) {
                     printFLSStatistics = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGC$")) {
@@ -1781,6 +1879,10 @@ public class JvmOptions {
         return agentpath;
     ***REMOVED***
 
+    public String getAggressiveOpts() {
+        return aggressiveOpts;
+    ***REMOVED***
+
     public String getAlwaysPreTouch() {
         return alwaysPreTouch;
     ***REMOVED***
@@ -1825,6 +1927,10 @@ public class JvmOptions {
         return cmsParallelRemarkEnabled;
     ***REMOVED***
 
+    public String getCompileCommand() {
+        return compileCommand;
+    ***REMOVED***
+
     public String getCompressedClassSpaceSize() {
         return compressedClassSpaceSize;
     ***REMOVED***
@@ -1839,6 +1945,10 @@ public class JvmOptions {
 
     public String getDisableExplicitGc() {
         return disableExplicitGc;
+    ***REMOVED***
+
+    public String getDoEscapeAnalysis() {
+        return doEscapeAnalysis;
     ***REMOVED***
 
     public String getErrorFile() {
@@ -1867,6 +1977,10 @@ public class JvmOptions {
 
     public String getG1HeapWastePercent() {
         return g1HeapWastePercent;
+    ***REMOVED***
+
+    public String getG1MaxNewSizePercent() {
+        return g1MaxNewSizePercent;
     ***REMOVED***
 
     public String getG1MixedGCLiveThresholdPercent() {
@@ -1941,12 +2055,20 @@ public class JvmOptions {
         return initialHeapSize;
     ***REMOVED***
 
+    public String getInitiatingHeapOccupancyPercent() {
+        return initiatingHeapOccupancyPercent;
+    ***REMOVED***
+
     public ArrayList<String> getJavaagent() {
         return javaagent;
     ***REMOVED***
 
     public String getJpdaSocketTransport() {
         return jpdaSocketTransport;
+    ***REMOVED***
+
+    public String getLargePageSizeInBytes() {
+        return largePageSizeInBytes;
     ***REMOVED***
 
     public ArrayList<String> getLog() {
@@ -2051,6 +2173,10 @@ public class JvmOptions {
 
     public String getPrintClassHistogramBeforeFullGc() {
         return printClassHistogramBeforeFullGc;
+    ***REMOVED***
+
+    public String getPrintFlagsFinal() {
+        return printFlagsFinal;
     ***REMOVED***
 
     public String getPrintFLSStatistics() {

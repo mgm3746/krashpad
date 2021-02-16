@@ -20,6 +20,7 @@ import org.github.krashpad.domain.jdk.ContainerInfoEvent;
 import org.github.krashpad.domain.jdk.CpuInfoEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.HeapEvent;
+import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
 import org.github.krashpad.service.Manager;
@@ -1481,5 +1482,31 @@ public class TestAnalysis extends TestCase {
         fel.doAnalysis();
         Assert.assertTrue(Analysis.INFO_OPT_METASPACE_CLASS_METADATA + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_OPT_METASPACE_CLASS_METADATA));
+    ***REMOVED***
+
+    public void testLargePageSizeInBytesLinux() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:+UseLargePages -XX:LargePageSizeInBytes=4m";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String os = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_LINUX + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_LINUX));
+    ***REMOVED***
+
+    public void testLargePageSizeInBytesWindows() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:+UseLargePages -XX:LargePageSizeInBytes=4m";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String os = "OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS));
     ***REMOVED***
 ***REMOVED***

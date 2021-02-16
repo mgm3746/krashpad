@@ -611,6 +611,14 @@ public class FatalErrorLog {
                         .getByteOptionBytes(JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize())))) {
             analysis.add(Analysis.INFO_OPT_HEAP_MIN_NOT_EQUAL_MAX);
         ***REMOVED***
+        // Test extraneous use of -XX:LargePageSizeInBytes
+        if (jvmOptions != null && jvmOptions.getLargePageSizeInBytes() != null) {
+            if (getOsType() == OsType.LINUX) {
+                analysis.add(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_LINUX);
+            ***REMOVED*** else if (getOsType() == OsType.WINDOWS) {
+                analysis.add(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS);
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -1693,7 +1701,7 @@ public class FatalErrorLog {
         if (osString != null) {
             if (osString.matches(".*Linux.*")) {
                 osType = OsType.LINUX;
-            ***REMOVED*** else if (osString.matches("^OS: Windows.+$")) {
+            ***REMOVED*** else if (osString.matches("^Windows.+$")) {
                 osType = OsType.WINDOWS;
             ***REMOVED*** else if (osString.matches(".+Solaris.+")) {
                 osType = OsType.SOLARIS;
