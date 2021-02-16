@@ -31,6 +31,11 @@ public enum Analysis {
     ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB("error.bufferblob.flush_icache_stub"),
 
     /**
+     * Property key for a crash when executing compiled java code.
+     */
+    ERROR_COMPILED_JAVA_CODE("error.compiled.java.code"),
+
+    /**
      * Property key for a crash in CompilerThread.
      */
     ERROR_COMPILER_THREAD("error.compiler.thread"),
@@ -222,26 +227,6 @@ public enum Analysis {
     INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED("info.opt.diagnostic.vm.options.enabled"),
 
     /**
-     * Property key for -XX:LargePageSizeInBytes being extraneous on Linux.
-     */
-    INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_LINUX("info.opt.large.page.size.in.bytes.linux"),
-
-    /**
-     * Property key for -XX:LargePageSizeInBytes being extraneous on Linux.
-     */
-    INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS("info.opt.large.page.size.in.bytes.windows"),
-
-    /**
-     * Property key for metaspace including only class metadata.
-     */
-    INFO_OPT_METASPACE_CLASS_METADATA("info.opt.metaspace.class.metadata"),
-
-    /**
-     * Property key for metaspace including class metadata and compressed class space.
-     */
-    INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE("info.opt.metaspace.class.metadata.and.comp.class.space"),
-
-    /**
      * Property key for experimental jvm options enabled with <code>-XX:+UnlockExperimentalVMOptions</code>.
      */
     INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED("info.opt.experimental.vm.options.enabled"),
@@ -270,11 +255,6 @@ public enum Analysis {
      * Property key for min heap not equal to max heap.
      */
     INFO_OPT_HEAP_MIN_NOT_EQUAL_MAX("info.opt.heap.min.not.equal.max"),
-
-    /**
-     * Property key for min heap not equal to max heap.
-     */
-    INFO_OPT_JFR("info.opt.jfr"),
 
     /**
      * Property key for instrumentation.
@@ -343,9 +323,24 @@ public enum Analysis {
     INFO_OPT_JDK8_PRINT_TENURING_DISTRIBUTION("info.opt.jdk8.print.tenuring.distribution"),
 
     /**
+     * Property key for min heap not equal to max heap.
+     */
+    INFO_OPT_JFR("info.opt.jfr"),
+
+    /**
      * Property key for JMX enabled with -Dcom.sun.management.jmxremote or -XX:+ManagementServer.
      */
     INFO_OPT_JMX_ENABLED("info.opt.jmx.enabled"),
+
+    /**
+     * Property key for -XX:LargePageSizeInBytes being extraneous on Linux.
+     */
+    INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_LINUX("info.opt.large.page.size.in.bytes.linux"),
+
+    /**
+     * Property key for -XX:LargePageSizeInBytes being extraneous on Linux.
+     */
+    INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS("info.opt.large.page.size.in.bytes.windows"),
 
     /**
      * Property key for maximum permanent generation size being set.
@@ -364,6 +359,16 @@ public enum Analysis {
      * Property key for metaspace initial and/or max size being set.
      */
     INFO_OPT_METASPACE("info.opt.metaspace"),
+
+    /**
+     * Property key for metaspace including only class metadata.
+     */
+    INFO_OPT_METASPACE_CLASS_METADATA("info.opt.metaspace.class.metadata"),
+
+    /**
+     * Property key for metaspace including class metadata and compressed class space.
+     */
+    INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE("info.opt.metaspace.class.metadata.and.comp.class.space"),
 
     /**
      * Property key for native library.

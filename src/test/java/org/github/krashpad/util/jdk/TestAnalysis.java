@@ -134,6 +134,8 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS));
         Assert.assertTrue(Analysis.INFO_JDK_ANCIENT + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_JDK_ANCIENT));
+        Assert.assertTrue(Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE));
     ***REMOVED***
 
     public void testRhel7WorkstationrRpm() {
