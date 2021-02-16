@@ -619,6 +619,10 @@ public class FatalErrorLog {
                 analysis.add(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS);
             }
         }
+        // Test crash in Java compiled code
+        if (getStackFrameTop() != null && getStackFrameTop().matches("^J \\d{1,} C[12].+$")) {
+            analysis.add(Analysis.ERROR_COMPILED_JAVA_CODE);
+        }
     }
 
     public List<Analysis> getAnalysis() {
