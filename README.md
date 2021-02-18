@@ -43,7 +43,7 @@ Notes:
 ```
 hs_err_pid12345.log
 ========================================
-Running krashpad version: 1.0.0-SNAPSHOT
+Running krashpad version: 1.0.0
 ========================================
 OS:
 ----------------------------------------
@@ -138,16 +138,16 @@ Notes:
 https://github.com/mgm3746/krashpad/blob/main/src/test/data/dataset23.txt
 
 ```
-java -jar krashpad-1.0.0-SNAPSHOT.jar -v /path/to/dataset23.txt
+java -jar krashpad-1.0.0-SNAPSHOT.jar -v /path/to/hs_err_pid67890.log
 ```
 
 A file called report.txt is created in the directory where the krashpad tool is run with analysis identifying the issue:
 
 
 ```
-dataset23.txt
+hs_err_pid67890.log
 ========================================
-Running krashpad version: 1.0.0-SNAPSHOT
+Running krashpad version: 1.0.0
 ========================================
 OS:
 ----------------------------------------
