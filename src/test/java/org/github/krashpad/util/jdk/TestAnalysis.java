@@ -18,6 +18,7 @@ import java.io.File;
 
 import org.github.krashpad.domain.jdk.ContainerInfoEvent;
 import org.github.krashpad.domain.jdk.CpuInfoEvent;
+import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
@@ -1510,5 +1511,39 @@ public class TestAnalysis extends TestCase {
         fel.doAnalysis();
         Assert.assertTrue(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS));
+    ***REMOVED***
+
+    public void testEliminateLocks() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:+EliminateLocks";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_OPT_ELIMINATE_LOCKS_ENABLED + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_OPT_ELIMINATE_LOCKS_ENABLED));
+    ***REMOVED***
+
+    public void testUseVmInterruptibleIo() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:-UseVMInterruptibleIO";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_JDK8_USE_VM_INTERRUPTIBLE_IO + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_USE_VM_INTERRUPTIBLE_IO));
+    ***REMOVED***
+
+    public void testNfs() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logline = "7f5f66892000-7f5f6757a000 r-xp 00000000 00:38 1062721                    "
+                + "/tools/java/jdk1.8.0_201/jre/lib/amd64/server/libjvm.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
+        fel.getDynamicLibraryEvents().add(event);
+        String os = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_STORAGE_NFS + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_STORAGE_NFS));
     ***REMOVED***
 ***REMOVED***

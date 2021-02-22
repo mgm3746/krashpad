@@ -298,6 +298,16 @@ public class JvmOptions {
     private String doEscapeAnalysis;
 
     /**
+     * The option to enable/disable the compiler optimization to eliminate locks if the monitor is not reachable from
+     * other threads. Enabled by default in JDK 1.8+.
+     * 
+     * <pre>
+     * -XX:+EliminateLocks
+     * </pre>
+     */
+    private String eliminateLocks;
+
+    /**
      * The option to specify the location where a fatal error log will be written. For example:
      * 
      * <pre>
@@ -1207,6 +1217,12 @@ public class JvmOptions {
     private String useStringDeduplication;
 
     /**
+     * Option to enable/disable making Solaris interruptible blocking I/O noninterruptible as they are on Linux and
+     * Windows. Deprecated in JDK8 and removed in JDK11.
+     */
+    private String useVmInterruptibleIo;
+
+    /**
      * Option to enable logging (to standard out) class loading information.
      * 
      * -verbose:class
@@ -1233,7 +1249,7 @@ public class JvmOptions {
      * Convert JVM argument string to JVM options.
      * 
      * @param jvmArgs
-     *            The JVM arguments.
+     *            The JVM arguments.debugNonSafepoints
      */
     public JvmOptions(String jvmArgs) {
         super();
@@ -1297,6 +1313,8 @@ public class JvmOptions {
                     disableExplicitGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]DoEscapeAnalysis$")) {
                     doEscapeAnalysis = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]EliminateLocks$")) {
+                    eliminateLocks = option;
                 ***REMOVED*** else if (option.matches("^-XX:ErrorFile=\\S+$")) {
                     errorFile = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExitOnOutOfMemoryError$")) {
@@ -1487,6 +1505,8 @@ public class JvmOptions {
                     useShenandoahGc = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseStringDeduplication$")) {
                     useStringDeduplication = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseVMInterruptibleIO$")) {
+                    useVmInterruptibleIo = option;
                 ***REMOVED*** else if (option.matches("^-verbose:class$")) {
                     verboseClass = true;
                 ***REMOVED*** else if (option.matches("^-verbose:gc$")) {
@@ -1861,6 +1881,14 @@ public class JvmOptions {
         if (flightRecorderOptions != null) {
             analysis.add(Analysis.INFO_OPT_JFR);
         ***REMOVED***
+        // Check for -XX:+EliminateLocks
+        if (eliminateLocks != null && JdkUtil.isOptionEnabled(eliminateLocks)) {
+            analysis.add(Analysis.INFO_OPT_ELIMINATE_LOCKS_ENABLED);
+        ***REMOVED***
+        // Check for -XX:-UseVMInterruptibleIO
+        if (useVmInterruptibleIo != null) {
+            analysis.add(Analysis.WARN_OPT_JDK8_USE_VM_INTERRUPTIBLE_IO);
+        ***REMOVED***
     ***REMOVED***
 
     public String getAbrt() {
@@ -1949,6 +1977,10 @@ public class JvmOptions {
 
     public String getDoEscapeAnalysis() {
         return doEscapeAnalysis;
+    ***REMOVED***
+
+    public String getEliminateLocks() {
+        return eliminateLocks;
     ***REMOVED***
 
     public String getErrorFile() {
@@ -2413,6 +2445,10 @@ public class JvmOptions {
 
     public String getUseStringDeduplication() {
         return useStringDeduplication;
+    ***REMOVED***
+
+    public String getUseVmInterruptibleIo() {
+        return useVmInterruptibleIo;
     ***REMOVED***
 
     public boolean isBatch() {

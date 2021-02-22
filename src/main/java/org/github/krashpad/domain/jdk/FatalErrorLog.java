@@ -520,6 +520,9 @@ public class FatalErrorLog {
             case AWS_BLOCK_STORAGE:
                 analysis.add(Analysis.INFO_STORAGE_AWS);
                 break;
+            case NFS:
+                analysis.add(Analysis.INFO_STORAGE_NFS);
+                break;
             case UNKNOWN:
                 analysis.add(Analysis.INFO_STORAGE_UNKNOWN);
                 break;
