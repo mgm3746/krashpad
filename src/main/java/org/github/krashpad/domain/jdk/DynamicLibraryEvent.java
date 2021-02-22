@@ -112,10 +112,12 @@ public class DynamicLibraryEvent implements LogEvent {
         if (matcher.find()) {
             int deviceIdIndex = 12;
             String deviceId = matcher.group(deviceIdIndex);
-            if (deviceId.matches("^fd:[a-z0-9]{2}$")) {
+            if (deviceId.matches("fd:[a-z0-9]{2}")) {
                 device = Device.FIXED_DISK;
             } else if (deviceId.equals("103:03")) {
                 device = Device.AWS_BLOCK_STORAGE;
+            } else if (deviceId.matches("00:[0-9]{2}")) {
+                device = Device.NFS;
             }
         }
         return device;

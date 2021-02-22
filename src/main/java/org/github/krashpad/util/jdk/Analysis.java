@@ -227,6 +227,11 @@ public enum Analysis {
     INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED("info.opt.diagnostic.vm.options.enabled"),
 
     /**
+     * Property key for -XX:+EliminateLocks.
+     */
+    INFO_OPT_ELIMINATE_LOCKS_ENABLED("info.opt.eliminate.locks.enabled"),
+
+    /**
      * Property key for experimental jvm options enabled with <code>-XX:+UnlockExperimentalVMOptions</code>.
      */
     INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED("info.opt.experimental.vm.options.enabled"),
@@ -549,6 +554,11 @@ public enum Analysis {
     INFO_STORAGE_AWS("info.storage.aws"),
 
     /**
+     * Property key for NFS storage.
+     */
+    INFO_STORAGE_NFS("info.storage.nfs"),
+
+    /**
      * Property key for unknown storage.
      */
     INFO_STORAGE_UNKNOWN("info.storage.unknown"),
@@ -753,6 +763,11 @@ public enum Analysis {
      * Property key for gc details option disabled.
      */
     WARN_OPT_JDK8_PRINT_GC_DETAILS_DISABLED("warn.opt.jdk8.print.gc.details.disabled"),
+
+    /**
+     * Property key for -XX:-UseVMInterruptibleIO.
+     */
+    WARN_OPT_JDK8_USE_VM_INTERRUPTIBLE_IO("warn.opt.jdk8.use.vm.interruptible.io"),
 
     /**
      * Property key for MaxMetaspaceSize less than CompressedClassSpaceSize. MaxMetaspaceSize includes
