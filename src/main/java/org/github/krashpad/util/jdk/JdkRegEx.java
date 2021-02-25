@@ -252,7 +252,7 @@ public class JdkRegEx {
      * java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le
      */
     public static final String RH_RPM_OPENJDK8_DIR = "(java\\-1\\.8\\.0\\-openjdk\\-1\\.8\\.0\\..+\\.el[678]"
-            + "(_\\d{1,2***REMOVED***)?\\.(ppc64le|x86_64))";
+            + "(_\\d{1,2***REMOVED***)?\\.(ppc64(le)?|x86_64))";
 
     /**
      * Red Hat OpenJDK 8 rpm file path.
@@ -263,10 +263,12 @@ public class JdkRegEx {
      * 
      * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64/jre/lib/amd64/server/libjvm.so
      * 
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.ppc64/jre/lib/ppc64/server/libjvm.so
+     * 
      * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so
      */
     public static final String RH_RPM_OPENJDK8_LIBJVM_PATH = "\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK8_DIR
-            + "\\/jre\\/lib\\/(amd64|ppc64le)\\/server\\/libjvm\\.so";
+            + "\\/jre\\/lib\\/(amd64|ppc64(le)?)\\/server\\/libjvm\\.so";
     /**
      * The size of memory in bytes (B), kilobytes (K), megabytes (M), or gigabytes (G) to a whole number or to one
      * decimal place.

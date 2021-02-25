@@ -2543,6 +2543,10 @@ public class FatalErrorLog {
                         isRhelRpmInstall = JdkUtil.rhel7Amd64Jdk8RpmReleases.containsKey(rpmDirectory)
                                 && getJdkBuildDate().compareTo(
                                         JdkUtil.rhel7Amd64Jdk8RpmReleases.get(rpmDirectory).getBuildDate()) == 0;
+                    ***REMOVED*** else if (getArch() == Arch.PPC64) {
+                        isRhelRpmInstall = JdkUtil.rhel7Ppc64Jdk8RpmReleases.containsKey(rpmDirectory)
+                                && getJdkBuildDate().compareTo(
+                                        JdkUtil.rhel7Ppc64Jdk8RpmReleases.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
                         isRhelRpmInstall = JdkUtil.rhel7Ppc64leJdk8RpmReleases.containsKey(rpmDirectory)
                                 && getJdkBuildDate().compareTo(

@@ -203,4 +203,10 @@ public class TestRegisterToMemoryMappingEvent extends TestCase {
         Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
                 JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
     ***REMOVED***
+
+    public void testReturn() {
+        String logLine = "return  177 return  [0x00003fff79024b80, 0x00003fff79024f80]  1024 bytes";
+        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+    ***REMOVED***
 ***REMOVED***

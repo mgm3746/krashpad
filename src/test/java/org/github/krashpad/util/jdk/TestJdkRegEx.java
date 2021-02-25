@@ -61,8 +61,7 @@ public class TestJdkRegEx extends TestCase {
 
     public void testRhel6Amd64RpmOpenjdk8Dir() {
         String dir = "java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64";
-        Assert.assertTrue("Red Hat RPM OpenJDK 11 directory not identified.",
-                dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR));
+        Assert.assertTrue("Red Hat RPM OpenJDKdirectory not identified.", dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR));
     ***REMOVED***
 
     public void testRhel6Amd64RpmOpenjdk8LibjvmFilePath() {
@@ -72,14 +71,17 @@ public class TestJdkRegEx extends TestCase {
 
     public void testRhel7Amd64RpmOpenjdk8Dir() {
         String dir = "java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64";
-        Assert.assertTrue("Red Hat RPM OpenJDK 11 directory not identified.",
-                dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR));
+        Assert.assertTrue("Red Hat RPM OpenJDKdirectory not identified.", dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR));
+    ***REMOVED***
+
+    public void testRhel7Ppc64RpmOpenjdk8Dir() {
+        String dir = "java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.ppc64";
+        Assert.assertTrue("Red Hat RPM OpenJDKdirectory not identified.", dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR));
     ***REMOVED***
 
     public void testRhel7Ppc64leRpmOpenjdk8Dir() {
         String dir = "java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le";
-        Assert.assertTrue("Red Hat RPM OpenJDK 11 directory not identified.",
-                dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR));
+        Assert.assertTrue("Red Hat RPM OpenJDKdirectory not identified.", dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR));
     ***REMOVED***
 
     public void testRhel7Amd64RpmOpenjdk8LibjvmFilePath() {
@@ -94,8 +96,7 @@ public class TestJdkRegEx extends TestCase {
 
     public void testRhel7Amd64RpmOpenjdk11Dir() {
         String dir = "java-11-openjdk-11.0.7.10-4.el7_8.x86_64";
-        Assert.assertTrue("Red Hat RPM OpenJDK 11 directory not identified.",
-                dir.matches(JdkRegEx.RH_RPM_OPENJDK11_DIR));
+        Assert.assertTrue("Red Hat RPM OpenJDKdirectory not identified.", dir.matches(JdkRegEx.RH_RPM_OPENJDK11_DIR));
     ***REMOVED***
 
     public void testRhel7Amd64RpmOpenjdk11LibjvmFilePath() {
@@ -105,8 +106,7 @@ public class TestJdkRegEx extends TestCase {
 
     public void testRhel8Amd64RpmOpenjdk11Dir() {
         String dir = "java-11-openjdk-11.0.8.10-0.el8_2.x86_64";
-        Assert.assertTrue("Red Hat RPM OpenJDK 11 directory not identified.",
-                dir.matches(JdkRegEx.RH_RPM_OPENJDK11_DIR));
+        Assert.assertTrue("Red Hat RPM OpenJDKdirectory not identified.", dir.matches(JdkRegEx.RH_RPM_OPENJDK11_DIR));
     ***REMOVED***
 
     public void testRhel8Amd64RpmOpenjdk11LibjvmFilePath() {

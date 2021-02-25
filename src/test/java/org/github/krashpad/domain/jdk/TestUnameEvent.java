@@ -62,6 +62,17 @@ public class TestUnameEvent extends TestCase {
         Assert.assertEquals("Version not correct.", OsVersion.RHEL7, ((UnameEvent) event).getOsVersion());
     ***REMOVED***
 
+    public void testRhel7Ppc64() {
+        String logLine = "uname:Linux 3.10.0-693.el7.ppc64 ***REMOVED***1 SMP Thu Jul 6 20:01:28 EDT 2017 ppc64";
+        Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.UNAME);
+        LogEvent event = JdkUtil.parseLogLine(logLine);
+        Assert.assertEquals("Arch not correct.", Arch.PPC64, ((UnameEvent) event).getArch());
+        Assert.assertEquals("Version not correct.", OsType.LINUX, ((UnameEvent) event).getOsType());
+        Assert.assertEquals("Vendor not correct.", OsVendor.REDHAT, ((UnameEvent) event).getOsVendor());
+        Assert.assertEquals("Version not correct.", OsVersion.RHEL7, ((UnameEvent) event).getOsVersion());
+    ***REMOVED***
+
     public void testRhel7Ppc64le() {
         String logLine = "uname:Linux 3.10.0-862.9.1.el7.ppc64le ***REMOVED***1 SMP Wed Jun 27 08:33:42 UTC 2018 ppc64le";
         Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not identified.",

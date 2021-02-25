@@ -228,6 +228,11 @@ public class JdkUtil {
     public static final HashMap<String, Release> rhel7Amd64Jdk8RpmReleases;
 
     /**
+     * OpenJDK8 RHEL7 rpm ppc64 release information.
+     */
+    public static final HashMap<String, Release> rhel7Ppc64Jdk8RpmReleases;
+
+    /**
      * OpenJDK8 RHEL7 rpm ppc64le release information.
      */
     public static final HashMap<String, Release> rhel7Ppc64leJdk8RpmReleases;
@@ -671,6 +676,22 @@ public class JdkUtil {
         windowsJdk11Releases.put("11.0.1-redhat+13-LTS",
                 new Release("Oct 25 2018 09:40:01", 1, "11.0.1-redhat+13-LTS"));
 
+        // RHEL7 ppc64 OpenJDK8 rpm
+        rhel7Ppc64Jdk8RpmReleases = new HashMap<String, Release>();
+        rhel7Ppc64Jdk8RpmReleases.put("LATEST", new Release("Jan 17 2021 19:55:50", 28, "1.8.0_282-b08"));
+        rhel7Ppc64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.ppc64",
+                new Release("Jan 17 2021 19:55:50", 28, "1.8.0_282-b08"));
+        rhel7Ppc64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.275.b01-0.el7_9.ppc64",
+                new Release("Nov 6 2020 00:00:00", 27, "1.8.0_275-b01"));
+        rhel7Ppc64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.ppc64",
+                new Release("Oct 20 2020 00:00:00", 26, "1.8.0_272-b10"));
+        rhel7Ppc64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64",
+                new Release("Jul 28 2020 00:00:00", 25, "1.8.0_265-b01"));
+        rhel7Ppc64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-7.b13.el7.ppc64",
+                new Release("Jul 16 2018 00:00:00", 18, "1.8.0_181-b13"));
+        rhel7Ppc64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-3.b13.el7_5.ppc64",
+                new Release("Jul 16 2018 00:00:00", 18, "1.8.0_181-b13"));
+
         // RHEL7 ppc64le OpenJDK8 rpm
         rhel7Ppc64leJdk8RpmReleases = new HashMap<String, Release>();
         rhel7Ppc64leJdk8RpmReleases.put("LATEST", new Release("Jan 17 2021 00:00:00", 28, "1.8.0_282-b08"));
@@ -683,7 +704,7 @@ public class JdkUtil {
         rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le",
                 new Release("Jul 28 2020 11:16:00", 25, "1.8.0_265-b01"));
         rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-7.b13.el7.ppc64le",
-                new Release("Jul 16 2018 15:46:59 ", 18, "1.8.0_181-b13"));
+                new Release("Jul 16 2018 15:46:59", 18, "1.8.0_181-b13"));
         rhel7Ppc64leJdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.181-3.b13.el7_5.ppc64le",
                 new Release("Jul 16 2018 11:33:43", 18, "1.8.0_181-b13"));
 
@@ -924,6 +945,9 @@ public class JdkUtil {
                     ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7 && fatalErrorLog.getArch() == Arch.X86_64
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
                         releases = rhel7Amd64Jdk8RpmReleases;
+                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7 && fatalErrorLog.getArch() == Arch.PPC64
+                            && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
+                        releases = rhel7Ppc64Jdk8RpmReleases;
                     ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7
                             && fatalErrorLog.getArch() == Arch.PPC64LE
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {

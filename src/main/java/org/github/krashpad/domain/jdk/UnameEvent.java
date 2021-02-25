@@ -55,7 +55,7 @@ public class UnameEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^uname:((Linux|SunOS) .+(i86pc|sun4v|ppc64le|x86_64).*)$";
+    private static final String REGEX = "^uname:((Linux|SunOS) .+(i86pc|sun4v|ppc64(le)?|x86_64).*)$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -156,6 +156,8 @@ public class UnameEvent implements LogEvent {
             int indexArch = 3;
             if (matcher.group(indexArch).equals("x86_64")) {
                 arch = Arch.X86_64;
+            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64")) {
+                arch = Arch.PPC64;
             ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64le")) {
                 arch = Arch.PPC64LE;
             ***REMOVED*** else if (matcher.group(indexArch).equals("sun4v")) {
