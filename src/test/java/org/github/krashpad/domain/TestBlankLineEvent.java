@@ -12,81 +12,28 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
-package org.github.krashpad.domain.jdk;
+package org.github.krashpad.domain;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * TIMEZONE
- * </p>
- * 
- * <p>
- * The timezone of the JVM crash box.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * timezone: UTC
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TimezoneEvent implements LogEvent {
+public class TestBlankLineEvent extends TestCase {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^timezone: (.+)$";
-
-    private static Pattern pattern = Pattern.compile(REGEX);
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public TimezoneEvent(String logEntry) {
-        this.logEntry = logEntry;
+    public void testIdentity() {
+        String logLine = "";
+        Assert.assertTrue(JdkUtil.LogEventType.BLANK_LINE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.BLANK_LINE);
     }
 
-    public String getLogEntry() {
-        return logEntry;
-    }
-
-    public String getName() {
-        return JdkUtil.LogEventType.TIME.toString();
-    }
-
-    public String getTimezone() {
-        String timezone = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            timezone = matcher.group(1);
-        }
-        return timezone;
-    }
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public void testParseLogLine() {
+        String logLine = "";
+        Assert.assertTrue(JdkUtil.LogEventType.BLANK_LINE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine, null) instanceof BlankLineEvent);
     }
 }

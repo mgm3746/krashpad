@@ -14,83 +14,26 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.Assert;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * CONTAINER_INFO
- * </p>
- * 
- * <p>
- * Container information.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * container (cgroup) information:
- * container_type: cgroupv1
- * cpu_cpuset_cpus: 0-7
- * cpu_memory_nodes: 0
- * active_processor_count: 8
- * cpu_quota: -1
- * cpu_period: 100000
- * cpu_shares: -1
- * memory_limit_in_bytes: -1
- * memory_and_swap_limit_in_bytes: -1
- * memory_soft_limit_in_bytes: -1
- * memory_usage_in_bytes: 3469758464
- * memory_max_usage_in_bytes: 0
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class ContainerInfoEvent implements LogEvent {
+public class TestUmaskEvent extends TestCase {
 
-    /**
-     * Regular expression for the header.
-     */
-    private static final String REGEX_HEADER = "container \\(cgroup\\) information:";
-
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|active_processor|container_type|cpu_|KVM|memory_|"
-            + "Steal ticks|VMWare virtualization detected).*$";
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public ContainerInfoEvent(String logEntry) {
-        this.logEntry = logEntry;
+    public void testIdentity() {
+        String logLine = "umask: 0022 (----w--w-)";
+        Assert.assertTrue(JdkUtil.LogEventType.UMASK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UMASK);
     }
 
-    public String getLogEntry() {
-        return logEntry;
-    }
-
-    public String getName() {
-        return JdkUtil.LogEventType.CONTAINER_INFO.toString();
-    }
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public void testParseLogLine() {
+        String logLine = "umask: 0022 (----w--w-)";
+        Assert.assertTrue(JdkUtil.LogEventType.UMASK.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine, null) instanceof UmaskEvent);
     }
 }

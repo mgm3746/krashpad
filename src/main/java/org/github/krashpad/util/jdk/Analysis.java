@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -811,6 +811,11 @@ public enum Analysis {
      * Property key for -XX:+UseMembar.
      */
     WARN_OPT_USE_MEMBAR("warn.opt.use.membar"),
+
+    /**
+     * Property key for class verification on loading disabled with -Xverify:none.
+     */
+    WARN_OPT_VERIFY_NONE("warn.opt.verify.none"),
 
     /**
      * Property key for a JDK that is deployed on RHEL6.

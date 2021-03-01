@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,36 +28,36 @@ public class TestHeadingEvent extends TestCase {
     public void testIdentity() {
         String logLine = "---------------  T H R E A D  ---------------";
         Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADING);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING);
     }
 
     public void testParseLogLine() {
         String logLine = "---------------  T H R E A D  ---------------";
         Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof HeadingEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof HeadingEvent);
     }
 
     public void testSystem() {
         String logLine = "---------------  P R O C E S S  ---------------";
         Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADING);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING);
     }
 
     public void testProcess() {
         String logLine = "---------------  S Y S T E M  ---------------";
         Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADING);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING);
     }
 
     public void testSummary() {
         String logLine = "---------------  S U M M A R Y ------------";
         Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADING);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING);
     }
 
     public void testDashes70() {
         String logLine = "----------------------------------------------------------------------";
         Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HEADING);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING);
     }
 }

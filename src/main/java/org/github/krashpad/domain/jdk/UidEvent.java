@@ -19,46 +19,28 @@ import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * CONTAINER_INFO
+ * UID
  * </p>
  * 
  * <p>
- * Container information.
+ * uid information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * container (cgroup) information:
- * container_type: cgroupv1
- * cpu_cpuset_cpus: 0-7
- * cpu_memory_nodes: 0
- * active_processor_count: 8
- * cpu_quota: -1
- * cpu_period: 100000
- * cpu_shares: -1
- * memory_limit_in_bytes: -1
- * memory_and_swap_limit_in_bytes: -1
- * memory_soft_limit_in_bytes: -1
- * memory_usage_in_bytes: 3469758464
- * memory_max_usage_in_bytes: 0
+ * uid  : 22408 euid : 22408 gid  : 7001 egid : 7001
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class ContainerInfoEvent implements LogEvent {
-
-    /**
-     * Regular expression for the header.
-     */
-    private static final String REGEX_HEADER = "container \\(cgroup\\) information:";
+public class UidEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|active_processor|container_type|cpu_|KVM|memory_|"
-            + "Steal ticks|VMWare virtualization detected).*$";
+    private static final String REGEX = "^uid[ ]{0,}: .+$";
 
     /**
      * The log entry for the event.
@@ -71,7 +53,7 @@ public class ContainerInfoEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public ContainerInfoEvent(String logEntry) {
+    public UidEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -80,7 +62,7 @@ public class ContainerInfoEvent implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.CONTAINER_INFO.toString();
+        return JdkUtil.LogEventType.UID.toString();
     }
 
     /**
