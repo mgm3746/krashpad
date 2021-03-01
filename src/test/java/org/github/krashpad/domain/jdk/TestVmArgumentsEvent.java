@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,31 +28,31 @@ public class TestVmArgumentsEvent extends TestCase {
     public void testIdentity() {
         String logLine = "***REMOVED***";
         Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "***REMOVED***";
         Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof VmArgumentsEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof VmArgumentsEvent);
     ***REMOVED***
 
     public void testHeader() {
         String logLine = "***REMOVED***";
         Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS);
     ***REMOVED***
 
     public void testJvmArgs() {
         String logLine = "jvm_args: -D[Standalone] -verbose:gc -Xloggc:/path/to/gc.log";
         Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS);
     ***REMOVED***
 
     public void testJavaCommand() {
         String logLine = "java_command: /path/to/jboss-modules.jar -Djboss.home.dir=/path/to/standalone";
         Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS);
         VmArgumentsEvent event = new VmArgumentsEvent(logLine);
         Assert.assertTrue("Java command not identified.", event.isJavaCommand());
     ***REMOVED***
@@ -60,6 +60,6 @@ public class TestVmArgumentsEvent extends TestCase {
     public void testJavaClassPath() {
         String logLine = "java_class_path (initial): /path/to/jboss-modules.jar";
         Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.VM_ARGUMENTS);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS);
     ***REMOVED***
 ***REMOVED***

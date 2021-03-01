@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,19 +28,19 @@ public class TestTimeEvent extends TestCase {
     public void testIdentity() {
         String logLine = "time: Tue Aug 18 14:10:59 2020";
         Assert.assertTrue(JdkUtil.LogEventType.TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.TIME);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "time: Tue Aug 18 14:10:59 2020";
         Assert.assertTrue(JdkUtil.LogEventType.TIME.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof TimeEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof TimeEvent);
     ***REMOVED***
 
     public void testTime() {
         String logLine = "time: Tue Aug 18 14:10:59 2020";
         Assert.assertTrue(JdkUtil.LogEventType.TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.TIME);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME);
         TimeEvent event = new TimeEvent(logLine);
         Assert.assertEquals("Time not correct.", "Tue Aug 18 14:10:59 2020", event.getTime());
     ***REMOVED***

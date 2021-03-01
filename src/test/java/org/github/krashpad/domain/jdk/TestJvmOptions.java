@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -190,5 +190,11 @@ public class TestJvmOptions extends TestCase {
                 jvmOptions.getDebugNonSafepoints());
         Assert.assertEquals("FlightRecorderOptions not correct.", "-XX:FlightRecorderOptions=stackdepth=256",
                 jvmOptions.getFlightRecorderOptions());
+    ***REMOVED***
+
+    public void testVerify() {
+        String jvmArgs = "-Xverify:none";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        Assert.assertEquals("Verify not correct.", "-Xverify:none", jvmOptions.getVerify());
     ***REMOVED***
 ***REMOVED***

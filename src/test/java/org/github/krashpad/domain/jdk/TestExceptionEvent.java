@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -31,7 +31,7 @@ public class TestExceptionEvent extends TestCase {
                 + "[/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/"
                 + "vm/runtime/sharedRuntime.cpp, line 609]";
         Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.EXCEPTION_EVENT);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT);
     ***REMOVED***
 
     public void testParseLogLine() {
@@ -40,19 +40,19 @@ public class TestExceptionEvent extends TestCase {
                 + "[/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/"
                 + "vm/runtime/sharedRuntime.cpp, line 609]";
         Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof ExceptionEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof ExceptionEvent);
     ***REMOVED***
 
     public void testHeader() {
         String logLine = "***REMOVED***";
         Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.EXCEPTION_EVENT);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT);
     ***REMOVED***
 
     public void testMeta() {
         String logLine = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=0> (0x000000079d702b90) "
                 + "thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.265";
         Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.EXCEPTION_EVENT);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT);
     ***REMOVED***
 ***REMOVED***

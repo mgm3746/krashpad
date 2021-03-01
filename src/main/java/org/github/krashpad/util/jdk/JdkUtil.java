@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -81,6 +81,8 @@ import org.github.krashpad.domain.jdk.TimeEvent;
 import org.github.krashpad.domain.jdk.TimezoneEvent;
 import org.github.krashpad.domain.jdk.TopOfStackEvent;
 import org.github.krashpad.domain.jdk.TransparentHugepageEvent;
+import org.github.krashpad.domain.jdk.UidEvent;
+import org.github.krashpad.domain.jdk.UmaskEvent;
 import org.github.krashpad.domain.jdk.UnameEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmEvent;
@@ -162,15 +164,17 @@ public class JdkUtil {
         //
         END_BRACE, ENVIRONMENT_VARIABLES, EXCEPTION_COUNTS, EXCEPTION_EVENT, GLOBAL_FLAGS, HEADER, HEADING, HEAP,
         //
-        HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO, MEMORY,
+        HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO,
         //
-        METASPACE, NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME, PID_MAX, POLLING_PAGE, REGISTER,
+        MEMORY, METASPACE, NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME, PID_MAX, POLLING_PAGE, REGISTER,
         //
         REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD,
         //
         THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK,
         //
-        TRANSPARENT_HUGEPAGE, UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
+        TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX, VM_OPERATION,
+        //
+        VM_STATE
     ***REMOVED***
 
     /**
@@ -1039,9 +1043,11 @@ public class JdkUtil {
      * 
      * @param logLine
      *            The log entry.
+     * @param priorEvent
+     *            The previous log line event.
      * @return The <code>LogEventType</code> of the log entry.
      */
-    public static final LogEventType identifyEventType(String logLine) {
+    public static final LogEventType identifyEventType(String logLine, LogEvent priorEvent) {
         LogEventType logEventType = LogEventType.UNKNOWN;
         if (BitsEvent.match(logLine)) {
             logEventType = LogEventType.BITS;
@@ -1059,7 +1065,8 @@ public class JdkUtil {
             logEventType = LogEventType.COMPILATION;
         ***REMOVED*** else if (ContainerInfoEvent.match(logLine)) {
             logEventType = LogEventType.CONTAINER_INFO;
-        ***REMOVED*** else if (CpuInfoEvent.match(logLine)) {
+        ***REMOVED*** else if (CpuInfoEvent.match(logLine)
+                || (logLine.matches(CpuInfoEvent.REGEX_VALUE) && priorEvent instanceof CpuInfoEvent)) {
             logEventType = LogEventType.CPU_INFO;
         ***REMOVED*** else if (CurrentCompileTaskEvent.match(logLine)) {
             logEventType = LogEventType.CURRENT_COMPILE_TASK;
@@ -1155,6 +1162,10 @@ public class JdkUtil {
             logEventType = LogEventType.TOP_OF_STACK;
         ***REMOVED*** else if (TransparentHugepageEvent.match(logLine)) {
             logEventType = LogEventType.TRANSPARENT_HUGEPAGE;
+        ***REMOVED*** else if (UidEvent.match(logLine)) {
+            logEventType = LogEventType.UID;
+        ***REMOVED*** else if (UmaskEvent.match(logLine)) {
+            logEventType = LogEventType.UMASK;
         ***REMOVED*** else if (UnameEvent.match(logLine)) {
             logEventType = LogEventType.UNAME;
         ***REMOVED*** else if (VmArgumentsEvent.match(logLine)) {
@@ -1225,10 +1236,12 @@ public class JdkUtil {
      * 
      * @param logLine
      *            The log line as it appears in the VM log.
+     * @param priorEvent
+     *            The previous log line event.
      * @return The <code>LogEvent</code> corresponding to the log line.
      */
-    public static final LogEvent parseLogLine(String logLine) {
-        LogEventType eventType = identifyEventType(logLine);
+    public static final LogEvent parseLogLine(String logLine, LogEvent priorEvent) {
+        LogEventType eventType = identifyEventType(logLine, priorEvent);
         LogEvent event = null;
         switch (eventType) {
         case BITS:
@@ -1398,6 +1411,12 @@ public class JdkUtil {
             break;
         case TRANSPARENT_HUGEPAGE:
             event = new TransparentHugepageEvent(logLine);
+            break;
+        case UID:
+            event = new UidEvent(logLine);
+            break;
+        case UMASK:
+            event = new UmaskEvent(logLine);
             break;
         case UNAME:
             event = new UnameEvent(logLine);

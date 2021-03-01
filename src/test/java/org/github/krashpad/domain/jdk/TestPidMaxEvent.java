@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,12 +28,12 @@ public class TestPidMaxEvent extends TestCase {
     public void testIdentity() {
         String logLine = "/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):";
         Assert.assertTrue(JdkUtil.LogEventType.PID_MAX.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.PID_MAX);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.PID_MAX);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):";
         Assert.assertTrue(JdkUtil.LogEventType.PID_MAX.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof PidMaxEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof PidMaxEvent);
     ***REMOVED***
 ***REMOVED***

@@ -14,38 +14,65 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
-
-import junit.framework.TestCase;
 
 /**
+ * <p>
+ * UID
+ * </p>
+ * 
+ * <p>
+ * uid information.
+ * </p>
+ * 
+ * <h3>Example Logging</h3>
+ * 
+ * <pre>
+ * uid  : 22408 euid : 22408 gid  : 7001 egid : 7001
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestExceptionCountsEvent extends TestCase {
+public class UidEvent implements LogEvent {
 
-    public void testIdentity() {
-        String logLine = "StackOverflowErrors=54";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS);
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^uid[ ]{0,***REMOVED***: .+$";
+
+    /**
+     * The log entry for the event.
+     */
+    private String logEntry;
+
+    /**
+     * Create event from log entry.
+     * 
+     * @param logEntry
+     *            The log entry for the event.
+     */
+    public UidEvent(String logEntry) {
+        this.logEntry = logEntry;
     ***REMOVED***
 
-    public void testParseLogLine() {
-        String logLine = "StackOverflowErrors=54";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof ExceptionCountsEvent);
+    public String getLogEntry() {
+        return logEntry;
     ***REMOVED***
 
-    public void testHeader() {
-        String logLine = "OutOfMemory and StackOverflow Exception counts:";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS);
+    public String getName() {
+        return JdkUtil.LogEventType.UID.toString();
     ***REMOVED***
 
-    public void testOomeJavaHeap() {
-        String logLine = "OutOfMemoryError java_heap_errors=7096811";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS);
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

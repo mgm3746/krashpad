@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -33,20 +33,20 @@ public class TestUnameEvent extends TestCase {
     public void testIdentity() {
         String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
         Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.UNAME);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
         Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof UnameEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof UnameEvent);
     ***REMOVED***
 
     public void testSolaris() {
         String logLine = "uname:SunOS 5.11 11.4.23.69.3 sun4v";
         Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.UNAME);
-        LogEvent event = JdkUtil.parseLogLine(logLine);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME);
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
         Assert.assertEquals("Arch not correct.", Arch.SPARC, ((UnameEvent) event).getArch());
         Assert.assertEquals("OS type not correct.", OsType.SOLARIS, ((UnameEvent) event).getOsType());
     ***REMOVED***
@@ -54,8 +54,8 @@ public class TestUnameEvent extends TestCase {
     public void testRhel7() {
         String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
         Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.UNAME);
-        LogEvent event = JdkUtil.parseLogLine(logLine);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME);
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
         Assert.assertEquals("Arch not correct.", Arch.X86_64, ((UnameEvent) event).getArch());
         Assert.assertEquals("Version not correct.", OsType.LINUX, ((UnameEvent) event).getOsType());
         Assert.assertEquals("Vendor not correct.", OsVendor.REDHAT, ((UnameEvent) event).getOsVendor());
@@ -65,8 +65,8 @@ public class TestUnameEvent extends TestCase {
     public void testRhel7Ppc64() {
         String logLine = "uname:Linux 3.10.0-693.el7.ppc64 ***REMOVED***1 SMP Thu Jul 6 20:01:28 EDT 2017 ppc64";
         Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.UNAME);
-        LogEvent event = JdkUtil.parseLogLine(logLine);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME);
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
         Assert.assertEquals("Arch not correct.", Arch.PPC64, ((UnameEvent) event).getArch());
         Assert.assertEquals("Version not correct.", OsType.LINUX, ((UnameEvent) event).getOsType());
         Assert.assertEquals("Vendor not correct.", OsVendor.REDHAT, ((UnameEvent) event).getOsVendor());
@@ -76,8 +76,8 @@ public class TestUnameEvent extends TestCase {
     public void testRhel7Ppc64le() {
         String logLine = "uname:Linux 3.10.0-862.9.1.el7.ppc64le ***REMOVED***1 SMP Wed Jun 27 08:33:42 UTC 2018 ppc64le";
         Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.UNAME);
-        LogEvent event = JdkUtil.parseLogLine(logLine);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME);
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
         Assert.assertEquals("Arch not correct.", Arch.PPC64LE, ((UnameEvent) event).getArch());
         Assert.assertEquals("Version not correct.", OsType.LINUX, ((UnameEvent) event).getOsType());
         Assert.assertEquals("Vendor not correct.", OsVendor.REDHAT, ((UnameEvent) event).getOsVendor());
@@ -87,8 +87,8 @@ public class TestUnameEvent extends TestCase {
     public void testRhel8() {
         String logLine = "uname:Linux 4.18.0-193.14.3.el8_2.x86_64 ***REMOVED***1 SMP Mon Jul 20 15:02:29 UTC 2020 x86_64";
         Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.UNAME);
-        LogEvent event = JdkUtil.parseLogLine(logLine);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME);
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
         Assert.assertEquals("Arch not correct.", Arch.X86_64, ((UnameEvent) event).getArch());
         Assert.assertEquals("Version not correct.", OsType.LINUX, ((UnameEvent) event).getOsType());
         Assert.assertEquals("Vendor not correct.", OsVendor.REDHAT, ((UnameEvent) event).getOsVendor());
@@ -98,8 +98,8 @@ public class TestUnameEvent extends TestCase {
     public void testI686Pc() {
         String logLine = "uname:SunOS 5.11 11.3 i86pc  (T2 libthread)";
         Assert.assertTrue(JdkUtil.LogEventType.UNAME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.UNAME);
-        LogEvent event = JdkUtil.parseLogLine(logLine);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME);
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
         Assert.assertEquals("Arch not correct.", Arch.I86PC, ((UnameEvent) event).getArch());
         Assert.assertEquals("Version not correct.", OsType.SOLARIS, ((UnameEvent) event).getOsType());
         Assert.assertEquals("Vendor not correct.", OsVendor.ORACLE, ((UnameEvent) event).getOsVendor());

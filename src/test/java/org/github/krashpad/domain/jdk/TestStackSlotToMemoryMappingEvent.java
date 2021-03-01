@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,25 +28,25 @@ public class TestStackSlotToMemoryMappingEvent extends TestCase {
     public void testIdentity() {
         String logLine = "stack at sp + 5 slots: 0x0 is NULL";
         Assert.assertTrue(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "stack at sp + 5 slots: 0x0 is NULL";
         Assert.assertTrue(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof StackSlotToMemoryMappingEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof StackSlotToMemoryMappingEvent);
     ***REMOVED***
 
     public void testHeader() {
         String logLine = "Stack slot to memory mapping:";
         Assert.assertTrue(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING);
     ***REMOVED***
 
     public void testError() {
         String logLine = "[error occurred during error reporting (inspecting top of stack), id 0xb, SIGSEGV (0xb) at "
                 + "pc=0x00007f68376aea9e]";
         Assert.assertTrue(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING);
     ***REMOVED***
 ***REMOVED***

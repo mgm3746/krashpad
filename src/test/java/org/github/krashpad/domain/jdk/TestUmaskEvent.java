@@ -23,29 +23,17 @@ import junit.framework.TestCase;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestExceptionCountsEvent extends TestCase {
+public class TestUmaskEvent extends TestCase {
 
     public void testIdentity() {
-        String logLine = "StackOverflowErrors=54";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS);
+        String logLine = "umask: 0022 (----w--w-)";
+        Assert.assertTrue(JdkUtil.LogEventType.UMASK.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UMASK);
     ***REMOVED***
 
     public void testParseLogLine() {
-        String logLine = "StackOverflowErrors=54";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof ExceptionCountsEvent);
-    ***REMOVED***
-
-    public void testHeader() {
-        String logLine = "OutOfMemory and StackOverflow Exception counts:";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS);
-    ***REMOVED***
-
-    public void testOomeJavaHeap() {
-        String logLine = "OutOfMemoryError java_heap_errors=7096811";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS);
+        String logLine = "umask: 0022 (----w--w-)";
+        Assert.assertTrue(JdkUtil.LogEventType.UMASK.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine, null) instanceof UmaskEvent);
     ***REMOVED***
 ***REMOVED***

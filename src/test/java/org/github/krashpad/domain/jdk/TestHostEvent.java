@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -29,13 +29,13 @@ public class TestHostEvent extends TestCase {
         String logLine = "Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation "
                 + "release 7.4 (Maipo)";
         Assert.assertTrue(JdkUtil.LogEventType.HOST.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.HOST);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HOST);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation "
                 + "release 7.4 (Maipo)";
         Assert.assertTrue(JdkUtil.LogEventType.HOST.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof HostEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof HostEvent);
     ***REMOVED***
 ***REMOVED***

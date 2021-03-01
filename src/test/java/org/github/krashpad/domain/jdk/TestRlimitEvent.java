@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,13 +28,13 @@ public class TestRlimitEvent extends TestCase {
     public void testIdentity() {
         String logLine = "rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity";
         Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.RLIMIT);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.RLIMIT);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity";
         Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof RlimitEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent);
     ***REMOVED***
 
     public void testSoftHard() {
@@ -42,7 +42,7 @@ public class TestRlimitEvent extends TestCase {
                 + "NOFILE 262144/262144 , AS infinity/infinity , CPU infinity/infinity , DATA infinity/infinity , "
                 + "FSIZE infinity/infinity , MEMLOCK 64k/64k";
         Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof RlimitEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent);
         RlimitEvent event = new RlimitEvent(logLine);
         Assert.assertEquals("NPROC not correct.", "62502", event.getNproc());
     ***REMOVED***
@@ -50,7 +50,7 @@ public class TestRlimitEvent extends TestCase {
     public void testNprocInfinity() {
         String logLine = "rlimit: STACK 8192k, CORE 0k, NPROC infinity, NOFILE 240000, AS infinity";
         Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof RlimitEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent);
         RlimitEvent event = new RlimitEvent(logLine);
         Assert.assertEquals("NPROC not correct.", "infinity", event.getNproc());
     ***REMOVED***

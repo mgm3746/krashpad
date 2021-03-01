@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,12 +28,12 @@ public class TestPollingPageEvent extends TestCase {
     public void testIdentity() {
         String logLine = "Polling page: 0x00007fcbd1b68000";
         Assert.assertTrue(JdkUtil.LogEventType.POLLING_PAGE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.POLLING_PAGE);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.POLLING_PAGE);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "Polling page: 0x00007fcbd1b68000";
         Assert.assertTrue(JdkUtil.LogEventType.POLLING_PAGE.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof PollingPageEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof PollingPageEvent);
     ***REMOVED***
 ***REMOVED***

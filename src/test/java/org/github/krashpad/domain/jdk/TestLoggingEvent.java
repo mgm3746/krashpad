@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,24 +28,24 @@ public class TestLoggingEvent extends TestCase {
     public void testIdentity() {
         String logLine = "Log output configuration:";
         Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.LOGGING);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "Log output configuration:";
         Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof LoggingEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof LoggingEvent);
     ***REMOVED***
 
     public void testHeader() {
         String logLine = "Logging:";
         Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.LOGGING);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING);
     ***REMOVED***
 
     public void testConfiguration() {
         String logLine = " ***REMOVED***0: stdout all=warning uptime,level,tags";
         Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.LOGGING);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING);
     ***REMOVED***
 ***REMOVED***

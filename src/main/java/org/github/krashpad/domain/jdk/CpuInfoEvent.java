@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -15,6 +15,7 @@
 package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
@@ -80,12 +81,25 @@ public class CpuInfoEvent implements LogEvent {
      */
     private static final String REGEX = "^(" + REGEX_HEADER
             + "|(<Not Available>|\\d{1,3***REMOVED***-\\d{1,3***REMOVED***|address sizes|apicid|Available cpu frequencies|"
-            + "BIOS frequency limitation|bogomips|bugs|cache_alignment|cache size|clflush size|clock|core id|"
+            + "(Available|Current) governor[s]{0,1***REMOVED***|BIOS frequency limitation|bogomips|bugs|cache_alignment|"
+            + "cache coherency line size|cache level|cache size|cache type|clflush size|clock|core id|"
             + "Core performance/turbo boost|cpu|cpu cores|cpu family|CPU Model and flags from \\/proc\\/cpuinfo|"
-            + "cpuid level|cpu MHz|Current governor|flags|fpu|fpu_exception|Frequency switch latency \\(ns\\)|"
-            + "initial apicid|machine|microcode|model|model name|MMU|(Off|On)line cpus|performance|physical id|"
-            + "platform|power management|\\/proc\\/cpuinfo|processor|revision|siblings|stepping|timebase|TLB size|"
-            + "vendor_id|wp)[\\s]{0,***REMOVED***(:)?( )?)(.*)$";
+            + "cpuid level|cpu MHz|(Current|Maximum|Minimum) cpu frequency|flags|fpu|fpu_exception|"
+            + "Frequency switch latency \\(ns\\)|initial apicid|machine|microcode|model|model name|MMU|"
+            + "(Off|On)line cpus|performance|physical id|platform|power management|\\/proc\\/cpuinfo|processor|"
+            + "revision|siblings|stepping|timebase|TLB size|vendor_id|wp)[\\s]{0,***REMOVED***(:)?( )?)(.*)$";
+
+    /**
+     * * Regular expression for values for multi line entries.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * cache type:
+     * Data
+     * </pre>
+     */
+    public static final String REGEX_VALUE = "^(" + JdkRegEx.SIZE + "|\\d{1,2***REMOVED***KFrequency|Data|Instruction|Unified)$";
 
     /**
      * The log entry for the event.

@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -94,11 +94,11 @@ public class Manager {
             try {
                 bufferedReader = new BufferedReader(new FileReader(logFile));
                 String logLine = bufferedReader.readLine();
+                LogEvent priorEvent = null;
                 while (logLine != null) {
-                    LogEvent event = JdkUtil.parseLogLine(logLine);
+                    LogEvent event = JdkUtil.parseLogLine(logLine, priorEvent);
                     if (event instanceof CommandLineEvent) {
                         fatalErrorLog.setCommandLineEvent((CommandLineEvent) event);
-                        ;
                     ***REMOVED*** else if (event instanceof CompilationEvent) {
                         fatalErrorLog.getCompilationEvents().add((CompilationEvent) event);
                     ***REMOVED*** else if (event instanceof ContainerInfoEvent) {
@@ -151,10 +151,9 @@ public class Manager {
                         fatalErrorLog.setTimezoneEvent((TimezoneEvent) event);
                     ***REMOVED*** else if (event instanceof UnameEvent) {
                         fatalErrorLog.setUnameEvent((UnameEvent) event);
-                    ***REMOVED*** else if (event instanceof UnknownEvent) {
-                        if (fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
-                            fatalErrorLog.getUnidentifiedLogLines().add(logLine);
-                        ***REMOVED***
+                    ***REMOVED*** else if (event instanceof UnknownEvent
+                            && fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
+                        fatalErrorLog.getUnidentifiedLogLines().add(logLine);
                     ***REMOVED*** else if (event instanceof VmArgumentsEvent) {
                         fatalErrorLog.getVmArgumentsEvents().add((VmArgumentsEvent) event);
                     ***REMOVED*** else if (event instanceof VmEvent) {
@@ -164,6 +163,7 @@ public class Manager {
                     ***REMOVED*** else if (event instanceof VmStateEvent) {
                         fatalErrorLog.setVmStateEvent((VmStateEvent) event);
                     ***REMOVED***
+                    priorEvent = event;
                     logLine = bufferedReader.readLine();
                 ***REMOVED***
             ***REMOVED*** catch (FileNotFoundException e) {

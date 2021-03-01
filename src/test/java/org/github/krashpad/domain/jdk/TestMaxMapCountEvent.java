@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,12 +28,12 @@ public class TestMaxMapCountEvent extends TestCase {
     public void testIdentity() {
         String logLine = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):";
         Assert.assertTrue(JdkUtil.LogEventType.MAX_MAP_COUNT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.MAX_MAP_COUNT);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MAX_MAP_COUNT);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):";
         Assert.assertTrue(JdkUtil.LogEventType.MAX_MAP_COUNT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof MaxMapCountEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof MaxMapCountEvent);
     ***REMOVED***
 ***REMOVED***

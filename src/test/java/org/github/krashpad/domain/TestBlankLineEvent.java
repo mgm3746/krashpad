@@ -12,7 +12,7 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
-package org.github.krashpad.domain.jdk;
+package org.github.krashpad.domain;
 
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.junit.Assert;
@@ -23,29 +23,17 @@ import junit.framework.TestCase;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestExceptionCountsEvent extends TestCase {
+public class TestBlankLineEvent extends TestCase {
 
     public void testIdentity() {
-        String logLine = "StackOverflowErrors=54";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS);
+        String logLine = "";
+        Assert.assertTrue(JdkUtil.LogEventType.BLANK_LINE.toString() + " not identified.",
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.BLANK_LINE);
     ***REMOVED***
 
     public void testParseLogLine() {
-        String logLine = "StackOverflowErrors=54";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof ExceptionCountsEvent);
-    ***REMOVED***
-
-    public void testHeader() {
-        String logLine = "OutOfMemory and StackOverflow Exception counts:";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS);
-    ***REMOVED***
-
-    public void testOomeJavaHeap() {
-        String logLine = "OutOfMemoryError java_heap_errors=7096811";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS);
+        String logLine = "";
+        Assert.assertTrue(JdkUtil.LogEventType.BLANK_LINE.toString() + " not parsed.",
+                JdkUtil.parseLogLine(logLine, null) instanceof BlankLineEvent);
     ***REMOVED***
 ***REMOVED***

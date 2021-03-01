@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -346,6 +346,15 @@ public class JvmOptions {
     private String explicitGCInvokesConcurrentAndUnloadsClasses;
 
     /**
+     * Option to enable/disable outputting additional information in the fatal error logs. For example:
+     * 
+     * <pre>
+     * -XX:+ExtensiveErrorReports
+     * </pre>
+     */
+    private String extensiveErrorReports;
+
+    /**
      * The option for starting Java Flight Recorder (JFR). For example:
      * 
      * <pre>
@@ -610,6 +619,7 @@ public class JvmOptions {
      * The option for setting the number of lines in stack trace output. For example:
      * 
      * <pre>
+     * jvmOptions
      * -XX:MaxJavaStackTraceDepth=50000
      * </pre>
      */
@@ -707,6 +717,15 @@ public class JvmOptions {
     private String omitStackTraceInFastThrow;
 
     /**
+     * The option to run a command or script when an irrecoverable error happens. For example:
+     * 
+     * <pre>
+     * -XX:OnError=gcore %p
+     * </pre>
+     */
+    private String onError;
+
+    /**
      * The option to run a command or script when OutOfMemoryError happens. For example:
      * 
      * <pre>
@@ -714,6 +733,16 @@ public class JvmOptions {
      * </pre>
      */
     private String onOutOfMemoryError;
+
+    /**
+     * Option to enable/disable optimizing String concatenation operations. For example:
+     * 
+     * <pre>
+     * s
+     * -XX:-OptimizeStringConcat
+     * </pre>
+     */
+    private String optimizeStringConcat;
 
     /**
      * The number of parallel gc threads. For example:
@@ -1101,6 +1130,17 @@ public class JvmOptions {
     private String useConcMarkSweepGc;
 
     /**
+     * Option to enable/disable using optimized versions of Get<Primitive>Field. Removed in JDK11.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:-UseFastAccessorMethods
+     * </pre>
+     */
+    private String useFastAccessorMethods;
+
+    /**
      * The option enable/disable fast unordered timestamps in gc logging.
      * 
      * <pre>
@@ -1237,6 +1277,20 @@ public class JvmOptions {
     private boolean verboseGc = false;
 
     /**
+     * Option to specify class verification during class loading.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -Xverify
+     * -Xverify:all
+     * -Xverify:none
+     * -Xverify:remote
+     * </pre>
+     */
+    private String verify;
+
+    /**
      * Option to disable just in time (JIT) compilation. For example:
      * 
      * <pre>
@@ -1323,6 +1377,8 @@ public class JvmOptions {
                     explicitGCInvokesConcurrent = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExplicitGCInvokesConcurrentAndUnloadsClasses$")) {
                     explicitGCInvokesConcurrentAndUnloadsClasses = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExtensiveErrorReports$")) {
+                    extensiveErrorReports = option;
                 ***REMOVED*** else if (option.matches("^-XX:FlightRecorderOptions=.+$")) {
                     flightRecorderOptions = option;
                 ***REMOVED*** else if (option.matches("^-XX:G1HeapRegionSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
@@ -1395,8 +1451,12 @@ public class JvmOptions {
                     numberOfGcLogFiles = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]OmitStackTraceInFastThrow$")) {
                     omitStackTraceInFastThrow = option;
+                ***REMOVED*** else if (option.matches("^-XX:OnError=.+$")) {
+                    onError = option;
                 ***REMOVED*** else if (option.matches("^-XX:OnOutOfMemoryError=.+$")) {
                     onOutOfMemoryError = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]OptimizeStringConcat$")) {
+                    optimizeStringConcat = option;
                 ***REMOVED*** else if (option.matches("^-XX:ParallelGCThreads=\\d{1,3***REMOVED***$")) {
                     parallelGcThreads = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PerfDisableSharedMem$")) {
@@ -1477,6 +1537,8 @@ public class JvmOptions {
                     useCompressedOops = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseConcMarkSweepGC$")) {
                     useConcMarkSweepGc = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseFastAccessorMethods$")) {
+                    useFastAccessorMethods = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseFastUnorderedTimeStamps$")) {
                     useFastUnorderedTimeStamps = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseG1GC$")) {
@@ -1511,6 +1573,8 @@ public class JvmOptions {
                     verboseClass = true;
                 ***REMOVED*** else if (option.matches("^-verbose:gc$")) {
                     verboseGc = true;
+                ***REMOVED*** else if (option.matches("^-Xverify(:(all|none|remote))?$")) {
+                    verify = option;
                 ***REMOVED*** else {
                     undefined.add(option);
                 ***REMOVED***
@@ -1889,6 +1953,10 @@ public class JvmOptions {
         if (useVmInterruptibleIo != null) {
             analysis.add(Analysis.WARN_OPT_JDK8_USE_VM_INTERRUPTIBLE_IO);
         ***REMOVED***
+        // Check for class verifcation disabled
+        if (verify != null && verify.equals("-Xverify:none")) {
+            analysis.add(Analysis.WARN_OPT_VERIFY_NONE);
+        ***REMOVED***
     ***REMOVED***
 
     public String getAbrt() {
@@ -1997,6 +2065,10 @@ public class JvmOptions {
 
     public String getExplicitGCInvokesConcurrentAndUnloadsClasses() {
         return explicitGCInvokesConcurrentAndUnloadsClasses;
+    ***REMOVED***
+
+    public String getExtensiveErrorReports() {
+        return extensiveErrorReports;
     ***REMOVED***
 
     public String getFlightRecorderOptions() {
@@ -2175,8 +2247,16 @@ public class JvmOptions {
         return omitStackTraceInFastThrow;
     ***REMOVED***
 
+    public String getOnError() {
+        return onError;
+    ***REMOVED***
+
     public String getOnOutOfMemoryError() {
         return onOutOfMemoryError;
+    ***REMOVED***
+
+    public String getOptimizeStringConcat() {
+        return optimizeStringConcat;
     ***REMOVED***
 
     public String getParallelGcThreads() {
@@ -2391,6 +2471,10 @@ public class JvmOptions {
         return useConcMarkSweepGc;
     ***REMOVED***
 
+    public String getUseFastAccessorMethods() {
+        return useFastAccessorMethods;
+    ***REMOVED***
+
     public String getUseFastUnorderedTimeStamps() {
         return useFastUnorderedTimeStamps;
     ***REMOVED***
@@ -2449,6 +2533,10 @@ public class JvmOptions {
 
     public String getUseVmInterruptibleIo() {
         return useVmInterruptibleIo;
+    ***REMOVED***
+
+    public String getVerify() {
+        return verify;
     ***REMOVED***
 
     public boolean isBatch() {

@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,18 +28,18 @@ public class TestCurrentCompileTaskEvent extends TestCase {
     public void testIdentity() {
         String logLine = "C2:   1092  423       4       java.util.HashMap$KeyIterator::next (8 bytes)";
         Assert.assertTrue(JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "C2:   1092  423       4       java.util.HashMap$KeyIterator::next (8 bytes)";
         Assert.assertTrue(JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof CurrentCompileTaskEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof CurrentCompileTaskEvent);
     ***REMOVED***
 
     public void testHeader() {
         String logLine = "Current CompileTask:";
         Assert.assertTrue(JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK);
     ***REMOVED***
 ***REMOVED***

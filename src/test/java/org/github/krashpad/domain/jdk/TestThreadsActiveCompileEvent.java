@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -29,19 +29,19 @@ public class TestThreadsActiveCompileEvent extends TestCase {
         String logLine = "C2 CompilerThread0606385663 219105 %     4       com.example.SomeClass::toMethod @ 56 "
                 + "(111 bytes)";
         Assert.assertTrue(JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "C2 CompilerThread0606385663 219105 %     4       com.example.SomeClass::toMethod @ 56 "
                 + "(111 bytes)";
         Assert.assertTrue(JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof ThreadsActiveCompileEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof ThreadsActiveCompileEvent);
     ***REMOVED***
 
     public void testHeader() {
         String logLine = "Threads with active compile tasks:";
         Assert.assertTrue(JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE);
     ***REMOVED***
 ***REMOVED***

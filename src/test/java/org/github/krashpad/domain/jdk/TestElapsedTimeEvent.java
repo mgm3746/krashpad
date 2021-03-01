@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,19 +28,19 @@ public class TestElapsedTimeEvent extends TestCase {
     public void testIdentity() {
         String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
         Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ELAPSED_TIME);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
         Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof ElapsedTimeEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof ElapsedTimeEvent);
     ***REMOVED***
 
     public void testElapsedTime() {
         String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
         Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ELAPSED_TIME);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME);
         ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
         Assert.assertEquals("Elapsed time not correct.", "9d 21h 33m 5s", event.getElapsedTime());
     ***REMOVED***
@@ -48,7 +48,7 @@ public class TestElapsedTimeEvent extends TestCase {
     public void testZero() {
         String logLine = "elapsed time: 0.606413 seconds (0d 0h 0m 0s)";
         Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ELAPSED_TIME);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME);
         ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
         Assert.assertEquals("Elapsed time not correct.", "0d 0h 0m 0s", event.getElapsedTime());
     ***REMOVED***
@@ -56,7 +56,7 @@ public class TestElapsedTimeEvent extends TestCase {
     public void testSecondsOnly() {
         String logLine = "elapsed time: 228058 seconds";
         Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.ELAPSED_TIME);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME);
         ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
         Assert.assertEquals("Elapsed time not correct.", "228058 seconds", event.getElapsedTime());
     ***REMOVED***

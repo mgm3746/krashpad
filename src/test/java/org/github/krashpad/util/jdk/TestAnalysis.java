@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -1545,5 +1545,15 @@ public class TestAnalysis extends TestCase {
         fel.doAnalysis();
         Assert.assertTrue(Analysis.INFO_STORAGE_NFS + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.INFO_STORAGE_NFS));
+    ***REMOVED***
+
+    public void testClassVerificationDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -Xmx33g -Xverify:none";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.WARN_OPT_VERIFY_NONE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.WARN_OPT_VERIFY_NONE));
     ***REMOVED***
 ***REMOVED***

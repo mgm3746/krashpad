@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -28,12 +28,12 @@ public class TestNumberEvent extends TestCase {
     public void testIdentity() {
         String logLine = "44";
         Assert.assertTrue(JdkUtil.LogEventType.NUMBER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.NUMBER);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NUMBER);
     ***REMOVED***
 
     public void testParseLogLine() {
         String logLine = "44";
         Assert.assertTrue(JdkUtil.LogEventType.NUMBER.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof NumberEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof NumberEvent);
     ***REMOVED***
 ***REMOVED***

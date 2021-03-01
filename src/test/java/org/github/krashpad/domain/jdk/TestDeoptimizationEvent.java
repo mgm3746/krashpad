@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
- * krashpad                                                                                                             *
+ * krashpad                                                                                                           *
  *                                                                                                                    *
- * Copyright (c) 2020-2021 Mike Millson                                                                                    *
+ * Copyright (c) 2020-2021 Mike Millson                                                                               *
  *                                                                                                                    * 
  * This program and the accompanying materials are made available under the terms of the Eclipse Public License       * 
  * v. 2.0 which is available at https://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0 which is    *
@@ -30,7 +30,7 @@ public class TestDeoptimizationEvent extends TestCase {
                 + "action=reinterpret pc=0x00007ff0df4a0408 "
                 + "method=org.eclipse.jface.text.ListLineTracker.getLineLength(I)I @ 28";
         Assert.assertTrue(JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT);
     ***REMOVED***
 
     public void testParseLogLine() {
@@ -38,13 +38,13 @@ public class TestDeoptimizationEvent extends TestCase {
                 + "action=reinterpret pc=0x00007ff0df4a0408 "
                 + "method=org.eclipse.jface.text.ListLineTracker.getLineLength(I)I @ 28";
         Assert.assertTrue(JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine) instanceof DeoptimizationEvent);
+                JdkUtil.parseLogLine(logLine, null) instanceof DeoptimizationEvent);
     ***REMOVED***
 
     public void testHeader() {
         String logLine = "Deoptimization events (250 events):";
         Assert.assertTrue(JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT);
     ***REMOVED***
 
     /**
@@ -53,6 +53,6 @@ public class TestDeoptimizationEvent extends TestCase {
     public void testError() {
         String logLine = "[error occurred during error reporting (printing ring buffers), id 0xb]";
         Assert.assertTrue(JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT);
+                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT);
     ***REMOVED***
 ***REMOVED***
