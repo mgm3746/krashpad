@@ -73,6 +73,17 @@ public class JvmOptions {
     private ArrayList<String> agentpath = new ArrayList<String>();
 
     /**
+     * Option to enable/disable aggressive heap management for long running, memory intensive processes.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:+AggressiveHeap
+     * </pre>
+     */
+    private String aggressiveHeap;
+
+    /**
      * Option to enable/disable various experimental performance optimizations that have varied over time. Disabled by
      * default and deprecated in JDK11.
      * 
@@ -247,6 +258,9 @@ public class JvmOptions {
      * <pre>
      * -XX:ConcGCThreads=18
      * </pre>
+     * 
+     * various experimental performance optimizations that have varied over time. Disabled by default and deprecated in
+     * JDK11.
      */
     private String concGcThreads;
 
@@ -639,7 +653,8 @@ public class JvmOptions {
      * option is being ignored. For example:
      * 
      * <pre>
-     * -XX:MaxPermSize=256m
+     * -XX:MaxPermSize=256mvarious experimental performance optimizations that have varied over time. Disabled by
+     * default and deprecated in JDK11.
      * </pre>
      */
     private String maxPermSize;
@@ -966,6 +981,57 @@ public class JvmOptions {
     private boolean server = false;
 
     /**
+     * Option to define Shenandoah heuristics. Heuristics tell Shenandoah when to start the GC cycle and what regions to
+     * use for evacuation. Some heuristics accept additional configuration options to tailor GC to specific use cases.
+     * 
+     * For example:
+     * 
+     * <p>
+     * 1) adaptive (default)
+     * </p>
+     * 
+     * <pre>
+     * -XX:ShenandoahGCHeuristics=adaptive
+     * 
+     * -XX:ShenandoahInitFreeThreshold=***REMOVED***
+     * -XX:ShenandoahMinFreeThreshold=***REMOVED*** 
+     * -XX:ShenandoahAllocSpikeFactor=***REMOVED*** 
+     * -XX:ShenandoahGarbageThreshold=***REMOVED***
+     * </pre>
+     * 
+     * <p>
+     * 2) static
+     * </p>
+     * 
+     * <pre>
+     * -XX:ShenandoahGCHeuristics=static
+     * 
+     * -XX:ShenandoahInitFreeThreshold=***REMOVED*** 
+     * -XX:ShenandoahGarbageThreshold=***REMOVED***
+     * </pre>
+     * 
+     * <p>
+     * 3) compact
+     * </p>
+     * 
+     * <pre>
+     * -XX:ShenandoahGCHeuristics=compact
+     * 
+     * -XX:ConcGCThreads=***REMOVED***
+     * -XX:ShenandoahAllocationThreshold=***REMOVED***
+     * </pre>
+     * 
+     * <p>
+     * 4) aggressive
+     * </p>
+     * 
+     * <pre>
+     * -XX:ShenandoahGCHeuristics=aggressive
+     * </pre>
+     */
+    private String shenandoahGcHeuristics;
+
+    /**
      * The minimum percentage of free space at which heuristics triggers the GC unconditionally. For example:
      * 
      * <pre>
@@ -1099,7 +1165,8 @@ public class JvmOptions {
      * example:
      * 
      * <pre>
-     * -XX:+UseCMSInitiatingOccupancyOnly
+     * -XX:+UseCMSInitiatingOccupancyOnlyvarious experimental performance optimizations that have varied over time. 
+     * Disabled by default and deprecated in JDK11.
      * </pre>
      */
     private String useCmsInitiatingOccupancyOnly;
@@ -1323,6 +1390,8 @@ public class JvmOptions {
                     client = true;
                 ***REMOVED*** else if (option.matches("^-XX:AdaptiveSizePolicyWeight=\\d{1,3***REMOVED***$")) {
                     adaptiveSizePolicyWeight = option;
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]AggressiveHeap$")) {
+                    aggressiveHeap = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]AggressiveOpts$")) {
                     aggressiveOpts = option;
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]AlwaysPreTouch$")) {
@@ -1505,6 +1574,8 @@ public class JvmOptions {
                     reservedCodeCacheSize = option;
                 ***REMOVED*** else if (option.matches("^-server$")) {
                     server = true;
+                ***REMOVED*** else if (option.matches("^-XX:ShenandoahGCHeuristics=(adaptive|aggressive|compact|static)$")) {
+                    shenandoahGcHeuristics = option;
                 ***REMOVED*** else if (option.matches("^-XX:ShenandoahMinFreeThreshold=\\d{1,3***REMOVED***$")) {
                     shenandoahMinFreeThreshold = option;
                 ***REMOVED*** else if (option.matches("^-XX:SurvivorRatio=\\d{1,***REMOVED***$")) {
@@ -1975,6 +2046,10 @@ public class JvmOptions {
         return agentpath;
     ***REMOVED***
 
+    public String getAggressiveHeap() {
+        return aggressiveHeap;
+    ***REMOVED***
+
     public String getAggressiveOpts() {
         return aggressiveOpts;
     ***REMOVED***
@@ -2353,6 +2428,10 @@ public class JvmOptions {
 
     public String getReservedCodeCacheSize() {
         return reservedCodeCacheSize;
+    ***REMOVED***
+
+    public String getShenandoahGcHeuristics() {
+        return shenandoahGcHeuristics;
     ***REMOVED***
 
     public String getShenandoahMinFreeThreshold() {
