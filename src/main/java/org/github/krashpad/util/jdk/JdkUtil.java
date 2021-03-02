@@ -291,9 +291,9 @@ public class JdkUtil {
 
         // RHEL6 amd64 OpenJDK8 rpm
         rhel6Amd64Jdk8RpmReleases = new HashMap<String, Release>();
-        rhel6Amd64Jdk8RpmReleases.put("LATEST", new Release("Nov 5 2020 00:00:00", 30, "1.8.0_275-b01"));
+        rhel6Amd64Jdk8RpmReleases.put("LATEST", new Release("Nov 6 2020 02:01:23", 30, "1.8.0_275-b01"));
         rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.275.b01-0.el6_10.x86_64",
-                new Release("Nov 5 2020 00:00:00", 30, "1.8.0_275-b01"));
+                new Release("Nov 6 2020 02:01:23", 30, "1.8.0_275-b01"));
         rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.272.b10-0.el6_10.x86_64",
                 new Release("Oct 20 2020 23:38:03", 29, "1.8.0_272-b10"));
         rhel6Amd64Jdk8RpmReleases.put("java-1.8.0-openjdk-1.8.0.265.b01-0.el6_10.x86_64",
