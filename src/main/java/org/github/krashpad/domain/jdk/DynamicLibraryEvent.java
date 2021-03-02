@@ -89,7 +89,7 @@ public class DynamicLibraryEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.OS.toString();
+        return JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString();
     ***REMOVED***
 
     /**

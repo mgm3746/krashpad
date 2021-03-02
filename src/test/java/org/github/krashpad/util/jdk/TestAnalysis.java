@@ -96,8 +96,8 @@ public class TestAnalysis extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset15.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertTrue(Analysis.INFO_RH_BUILD_RPM + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL));
         Assert.assertTrue(Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST));
         Assert.assertTrue(Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9 + " analysis not identified.",
@@ -143,8 +143,8 @@ public class TestAnalysis extends TestCase {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset19.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        Assert.assertTrue(Analysis.INFO_RH_BUILD_RPM + " analysis not identified.",
-                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM));
+        Assert.assertTrue(Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL));
     ***REMOVED***
 
     public void testJnaRedHatJdk() {
@@ -1555,5 +1555,16 @@ public class TestAnalysis extends TestCase {
         fel.doAnalysis();
         Assert.assertTrue(Analysis.WARN_OPT_VERIFY_NONE + " analysis not identified.",
                 fel.getAnalysis().contains(Analysis.WARN_OPT_VERIFY_NONE));
+    ***REMOVED***
+
+    public void testJffi() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logline = "3ffe9c800000-3ffe9c820000 r-xp 00000000 fd:00 1107498958                 "
+                + "/path/to/jffi3667428567419554714.so (deleted)";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
+        fel.getDynamicLibraryEvents().add(event);
+        fel.doAnalysis();
+        Assert.assertTrue(Analysis.INFO_JFFI + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.INFO_JFFI));
     ***REMOVED***
 ***REMOVED***

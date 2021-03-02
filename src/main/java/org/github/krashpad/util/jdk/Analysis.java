@@ -188,6 +188,11 @@ public enum Analysis {
     INFO_JDK_ANCIENT("info.jdk.ancient"),
 
     /**
+     * Property key for possible Java Foreign Function Interface (JFFI) usage.
+     */
+    INFO_JFFI("info.jffi"),
+
+    /**
      * Property key for crash on JVM startup.
      */
     INFO_JVM_STARTUP_FAILS("info.jvm.startup.fails"),
@@ -469,9 +474,14 @@ public enum Analysis {
     INFO_RH_BUILD_POSSIBLE("info.rh.build.possible"),
 
     /**
+     * Property key for Red Hat build of OpenJDK from rpm (e.g. jlink custom runtime).
+     */
+    INFO_RH_BUILD_RPM_BASED("info.rh.build.rpm.based"),
+
+    /**
      * Property key for Red Hat build of OpenJDK rpm install.
      */
-    INFO_RH_BUILD_RPM("info.rh.build.rpm"),
+    INFO_RH_BUILD_RPM_INSTALL("info.rh.build.rpm.install"),
 
     /**
      * Property key for Red Hat build of OpenJDK Windows zip install.
