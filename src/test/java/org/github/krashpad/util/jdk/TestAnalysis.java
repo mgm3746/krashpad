@@ -478,6 +478,14 @@ public class TestAnalysis extends TestCase {
                 fel.getAnalysis().contains(Analysis.INFO_OPT_JFR));
     ***REMOVED***
 
+    public void testFreetypeFontScalerGetGlyphImageNative() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset54.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        Assert.assertTrue(Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE + " analysis not identified.",
+                fel.getAnalysis().contains(Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE));
+    ***REMOVED***
+
     public void testUseAdaptiveSizePolicyDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:-UseAdaptiveSizePolicy";

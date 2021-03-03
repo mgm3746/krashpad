@@ -88,6 +88,11 @@ public enum Analysis {
     ERROR_JNA_RH("error.jna.rh"),
 
     /**
+     * Property key for a crash due to a temporary font file being removed from java.io.tmpdir.
+     */
+    ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE("error.freetype.font.scaler.get.glyph.image.native"),
+
+    /**
      * Property key for a crash in jvm.dll.
      */
     ERROR_JVM_DLL("error.jvm.dll"),

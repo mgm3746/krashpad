@@ -640,6 +640,12 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        //
+        // Check for JVM crash due to temporary font file being removed from java.io.tmpdir.
+        if (getStackFrameTopJava() != null
+                && getStackFrameTopJava().matches("^.+sun\\.font\\.FreetypeFontScaler\\.getGlyphImageNative.+$")) {
+            analysis.add(Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -1918,6 +1924,22 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return stackFrameTopCompiledJavaCode;
+    ***REMOVED***
+
+    /**
+     * @return The top Java stack frame (J=compiled Java code, j=interpreted), or null if none exists.
+     */
+    public String getStackFrameTopJava() {
+        String stackFrameTopJava = null;
+        Iterator<StackEvent> iterator = stackEvents.iterator();
+        while (iterator.hasNext()) {
+            StackEvent event = iterator.next();
+            if (event.getLogEntry().matches("^[jJ][ ]{1,2***REMOVED***.+$")) {
+                stackFrameTopJava = event.getLogEntry();
+                break;
+            ***REMOVED***
+        ***REMOVED***
+        return stackFrameTopJava;
     ***REMOVED***
 
     /**
