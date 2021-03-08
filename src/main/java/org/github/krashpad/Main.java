@@ -180,11 +180,11 @@ public class Main {
      */
     public static void validateOptions(CommandLine cmd) throws ParseException {
         // Ensure log file specified.
-        if (cmd.getArgList().size() == 0) {
+        if (cmd.getArgList().isEmpty()) {
             throw new ParseException("Missing log file");
         ***REMOVED***
         String logFileName = null;
-        if (cmd.getArgList().size() > 0) {
+        if (!cmd.getArgList().isEmpty()) {
             logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
         ***REMOVED***
         // Ensure vm log file exists.
@@ -363,7 +363,7 @@ public class Main {
                     printWriter.write("Run Time: " + fel.getElapsedTime() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 List<GarbageCollector> garbageCollectors = fel.getGarbageCollectors();
-                if (garbageCollectors.size() > 0) {
+                if (!garbageCollectors.isEmpty()) {
                     printWriter.write("Garbage Collector(s): ");
                     Iterator<GarbageCollector> iteratorGarbageCollectors = garbageCollectors.iterator();
                     boolean punctuate = false;
@@ -442,7 +442,7 @@ public class Main {
                     printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                     printWriter.write("Error(s):" + Constants.LINE_SEPARATOR);
                     printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                    if (fel.getExceptionCountsEvents().size() > 0) {
+                    if (!fel.getExceptionCountsEvents().isEmpty()) {
                         Iterator<ExceptionCountsEvent> iteratorExceptionCounts = fel.getExceptionCountsEvents()
                                 .iterator();
                         while (iteratorExceptionCounts.hasNext()) {

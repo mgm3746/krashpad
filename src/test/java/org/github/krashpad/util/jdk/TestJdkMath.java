@@ -14,19 +14,20 @@
  *********************************************************************************************************************/
 package org.github.krashpad.util.jdk;
 
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestJdkMath extends TestCase {
+class TestJdkMath {
 
-    public void testCalcPercent() {
+    @Test
+    void testCalcPercent() {
         long part = 44;
         long whole = 100;
-        Assert.assertEquals("Percent not correctly.", 44, JdkMath.calcPercent(part, whole));
+        assertEquals(44, JdkMath.calcPercent(part, whole), "Percent not correctly.");
     ***REMOVED***
 ***REMOVED***

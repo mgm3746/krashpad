@@ -14,199 +14,229 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestRegisterToMemoryMappingEvent extends TestCase {
+class TestRegisterToMemoryMappingEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "RAX=0x0000000000000001 is an unknown value";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "RAX=0x0000000000000001 is an unknown value";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof RegisterToMemoryMappingEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof RegisterToMemoryMappingEvent,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testClass() {
+    @Test
+    void testClass() {
         String logLine = "java.util.LinkedList$Node";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testKlass() {
+    @Test
+    void testKlass() {
         String logLine = " - klass: 'java/util/LinkedList$Node'";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testKlassWithAddress() {
+    @Test
+    void testKlassWithAddress() {
         String logLine = "{0x0000000090057468***REMOVED*** - klass: 'org/elasticsearch/common/util/concurrent/ThreadContext"
                 + "$ContextPreservingAbstractRunnable'";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testNoRegisterInformation() {
+    @Test
+    void testNoRegisterInformation() {
         String logLine = "R13=";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testErrorReportingRegisterInfo() {
+    @Test
+    void testErrorReportingRegisterInfo() {
         String logLine = "[error occurred during error reporting (printing register info), id 0xb]";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testNoRbxInformation() {
+    @Test
+    void testNoRbxInformation() {
         String logLine = "RBX=";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testB() {
+    @Test
+    void testB() {
         String logLine = "[B";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testLength() {
+    @Test
+    void testLength() {
         String logLine = " - length: 4096";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testStubroutines() {
+    @Test
+    void testStubroutines() {
         String logLine = "StubRoutines::unsafe_arraycopy [0x00007feac1053080, 0x00007feac10530bb[ (59 bytes)";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testCodeBlob() {
+    @Test
+    void testCodeBlob() {
         String logLine = "[CodeBlob (0x00007f45c5205f90)]";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testFramesize() {
+    @Test
+    void testFramesize() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testMethodEntryPoint() {
+    @Test
+    void testMethodEntryPoint() {
         String logLine = "method entry point (kind = zerolocals)  [0x00007f95e5519600, 0x00007f95e5519ac0]  "
                 + "1216 bytes";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testR8Space() {
+    @Test
+    void testR8Space() {
         String logLine = "R8 ={method***REMOVED*** {0x00007fdd9a9b91a8***REMOVED*** 'readBlock' '(Ljava/nio/ByteBuffer;II)I' in "
                 + "'sun/font/TrueTypeFont'";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testI() {
+    @Test
+    void testI() {
         String logLine = "[I";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testIWithSpaceAtEnd() {
+    @Test
+    void testIWithSpaceAtEnd() {
         String logLine = "[I ";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testC() {
+    @Test
+    void testC() {
         String logLine = "[C";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testL() {
+    @Test
+    void testL() {
         String logLine = "[Ljava.lang.Object;";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testRBP() {
+    @Test
+    void testRBP() {
         String logLine = "RBP=0x0000000000000003 is an unknown value";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testRDI() {
+    @Test
+    void testRDI() {
         String logLine = "RDI=0x0 is NULL";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testRSI() {
+    @Test
+    void testRSI() {
         String logLine = "RSI=";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testRSP() {
+    @Test
+    void testRSP() {
         String logLine = "RSP=0x00007f4c86318ce0 is pointing into the stack for thread: 0x00007f4e2de48c30";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testRCX() {
+    @Test
+    void testRCX() {
         String logLine = "RCX=";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testRDX() {
+    @Test
+    void testRDX() {
         String logLine = "RDX=0x0000000000000e8c is an unknown value";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testBufferBlob() {
+    @Test
+    void testBufferBlob() {
         String logLine = "BufferBlob (0x00007ffae9049e10) used for adapters";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testAdapterForSignature() {
+    @Test
+    void testAdapterForSignature() {
         String logLine = "Adapter for signature: 0x00007fb285046c20 is at code_begin+0 in";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testSmallR() {
+    @Test
+    void testSmallR() {
         String logLine = "r0 =0x00007fff7fd30614: <offset 0xbe0614> in /usr/lib/jvm/"
                 + "java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.ppc64le/jre/lib/ppc64le/server/libjvm.so at "
                 + "0x00007fff7f150000";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testReturn() {
+    @Test
+    void testReturn() {
         String logLine = "return  177 return  [0x00003fff79024b80, 0x00003fff79024f80]  1024 bytes";
-        Assert.assertTrue(JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

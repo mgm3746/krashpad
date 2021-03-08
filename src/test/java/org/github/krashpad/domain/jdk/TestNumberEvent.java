@@ -14,26 +14,28 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestNumberEvent extends TestCase {
+class TestNumberEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "44";
-        Assert.assertTrue(JdkUtil.LogEventType.NUMBER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NUMBER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NUMBER,
+                JdkUtil.LogEventType.NUMBER.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "44";
-        Assert.assertTrue(JdkUtil.LogEventType.NUMBER.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof NumberEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof NumberEvent,
+                JdkUtil.LogEventType.NUMBER.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

@@ -14,34 +14,38 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestTimeEvent extends TestCase {
+class TestTimeEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "time: Tue Aug 18 14:10:59 2020";
-        Assert.assertTrue(JdkUtil.LogEventType.TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME,
+                JdkUtil.LogEventType.TIME.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "time: Tue Aug 18 14:10:59 2020";
-        Assert.assertTrue(JdkUtil.LogEventType.TIME.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof TimeEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TimeEvent,
+                JdkUtil.LogEventType.TIME.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testTime() {
+    @Test
+    void testTime() {
         String logLine = "time: Tue Aug 18 14:10:59 2020";
-        Assert.assertTrue(JdkUtil.LogEventType.TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME,
+                JdkUtil.LogEventType.TIME.toString() + " not identified.");
         TimeEvent event = new TimeEvent(logLine);
-        Assert.assertEquals("Time not correct.", "Tue Aug 18 14:10:59 2020", event.getTime());
+        assertEquals("Tue Aug 18 14:10:59 2020", event.getTime(), "Time not correct.");
     ***REMOVED***
 ***REMOVED***

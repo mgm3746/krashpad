@@ -14,28 +14,30 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestVmOperationEvent extends TestCase {
+class TestVmOperationEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread "
                 + "0x0000000001b2a";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_OPERATION.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_OPERATION);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_OPERATION,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread "
                 + "0x0000000001b2a";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

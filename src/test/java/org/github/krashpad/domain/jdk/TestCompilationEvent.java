@@ -14,34 +14,37 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestCompilationEvent extends TestCase {
+class TestCompilationEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
                 + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
-        Assert.assertTrue(JdkUtil.LogEventType.COMPILATION.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMPILATION);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMPILATION,
+                JdkUtil.LogEventType.COMPILATION.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
                 + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
-        Assert.assertTrue(JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent,
+                JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent,
+                JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

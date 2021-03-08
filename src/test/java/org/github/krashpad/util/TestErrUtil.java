@@ -14,20 +14,21 @@
  *********************************************************************************************************************/
 package org.github.krashpad.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Calendar;
 import java.util.Date;
 
-import org.junit.Assert;
-
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestErrUtil extends TestCase {
+class TestErrUtil {
 
-    public void testConvertStringToDate() {
+    @Test
+    void testConvertStringToDate() {
         String MMM = "Jul";
         String d = "12";
         String yyyy = "2020";
@@ -38,11 +39,11 @@ public class TestErrUtil extends TestCase {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         // Java Calendar month is 0 based
-        Assert.assertEquals("Start month not parsed correctly.", 6, calendar.get(Calendar.MONTH));
-        Assert.assertEquals("Start day not parsed correctly.", 12, calendar.get(Calendar.DAY_OF_MONTH));
-        Assert.assertEquals("Start year not parsed correctly.", 2020, calendar.get(Calendar.YEAR));
-        Assert.assertEquals("Start hour not parsed correctly.", 18, calendar.get(Calendar.HOUR_OF_DAY));
-        Assert.assertEquals("Start minute not parsed correctly.", 55, calendar.get(Calendar.MINUTE));
-        Assert.assertEquals("Start second not parsed correctly.", 8, calendar.get(Calendar.SECOND));
+        assertEquals(6, calendar.get(Calendar.MONTH), "Start month not parsed correctly.");
+        assertEquals(12, calendar.get(Calendar.DAY_OF_MONTH), "Start day not parsed correctly.");
+        assertEquals(2020, calendar.get(Calendar.YEAR), "Start year not parsed correctly.");
+        assertEquals(18, calendar.get(Calendar.HOUR_OF_DAY), "Start hour not parsed correctly.");
+        assertEquals(55, calendar.get(Calendar.MINUTE), "Start minute not parsed correctly.");
+        assertEquals(8, calendar.get(Calendar.SECOND), "Start second not parsed correctly.");
     ***REMOVED***
 ***REMOVED***

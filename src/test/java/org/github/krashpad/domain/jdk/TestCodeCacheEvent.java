@@ -14,63 +14,71 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestCodeCacheEvent extends TestCase {
+class TestCodeCacheEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "CodeCache: size=245760Kb used=145576Kb max_used=178661Kb free=100183Kb";
-        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE,
+                JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "CodeCache: size=245760Kb used=145576Kb max_used=178661Kb free=100183Kb";
-        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof CodeCacheEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CodeCacheEvent,
+                JdkUtil.LogEventType.CODE_CACHE.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testBounds() {
+    @Test
+    void testBounds() {
         String logLine = " bounds [0x00007ffb8051b000, 0x00007ffb8b60b000, 0x00007ffb8f51b000]";
-        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE,
+                JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testTotalBlobs() {
+    @Test
+    void testTotalBlobs() {
         String logLine = " total_blobs=24995 nmethods=23856 adapters=1049";
-        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE,
+                JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testCompilation() {
+    @Test
+    void testCompilation() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE,
+                JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testCodeHeap() {
+    @Test
+    void testCodeHeap() {
         String logLine = "CodeHeap 'non-profiled nmethods': size=128224Kb used=11542Kb max_used=14409Kb free=116681Kb";
-        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE,
+                JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testStoppedCount() {
+    @Test
+    void testStoppedCount() {
         String logLine = "              stopped_count=0, restarted_count=0";
-        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE,
+                JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testFullCount() {
+    @Test
+    void testFullCount() {
         String logLine = " full_count=0";
-        Assert.assertTrue(JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE,
+                JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.");
     ***REMOVED***
 
 ***REMOVED***

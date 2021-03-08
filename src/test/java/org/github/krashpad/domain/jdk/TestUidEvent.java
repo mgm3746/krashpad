@@ -14,26 +14,28 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestUidEvent extends TestCase {
+class TestUidEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "uid  : 22408 euid : 22408 gid  : 7001 egid : 7001";
-        Assert.assertTrue(JdkUtil.LogEventType.UID.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UID);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UID,
+                JdkUtil.LogEventType.UID.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "uid  : 22408 euid : 22408 gid  : 7001 egid : 7001";
-        Assert.assertTrue(JdkUtil.LogEventType.UID.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof UidEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof UidEvent,
+                JdkUtil.LogEventType.UID.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

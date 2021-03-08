@@ -894,7 +894,7 @@ public class JdkUtil {
         Date date = null;
         if (fatalErrorLog != null) {
             HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-            if (releases != null && releases.size() > 0) {
+            if (releases != null && !releases.isEmpty()) {
                 Release release = null;
                 if (fatalErrorLog.isRhRpmInstall()) {
                     release = releases.get(fatalErrorLog.getRpmDirectory());
@@ -918,7 +918,7 @@ public class JdkUtil {
         int number = 0;
         if (fatalErrorLog != null) {
             HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-            if (releases != null && releases.size() > 0) {
+            if (releases != null && !releases.isEmpty()) {
                 Release release = null;
                 if (fatalErrorLog.isRhRpmInstall()) {
                     release = releases.get(fatalErrorLog.getRpmDirectory());
@@ -1003,7 +1003,7 @@ public class JdkUtil {
     public static final Date getLatestJdkReleaseDate(FatalErrorLog fatalErrorLog) {
         Date date = null;
         HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-        if (releases != null && releases.size() > 0) {
+        if (releases != null && !releases.isEmpty()) {
             date = releases.get("LATEST").getBuildDate();
         ***REMOVED***
         return date;
@@ -1017,7 +1017,7 @@ public class JdkUtil {
     public static final int getLatestJdkReleaseNumber(FatalErrorLog fatalErrorLog) {
         int number = 0;
         HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-        if (releases != null && releases.size() > 0) {
+        if (releases != null && !releases.isEmpty()) {
             Release latest = releases.get("LATEST");
             number = latest.getNumber();
         ***REMOVED***
@@ -1032,7 +1032,7 @@ public class JdkUtil {
     public static final String getLatestJdkReleaseString(FatalErrorLog fatalErrorLog) {
         String release = null;
         HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-        if (releases != null && releases.size() > 0) {
+        if (releases != null && !releases.isEmpty()) {
             release = releases.get("LATEST").getVersion();
         ***REMOVED***
         return release;
@@ -1192,7 +1192,7 @@ public class JdkUtil {
     public static final boolean isLatestJdkRelease(FatalErrorLog fatalErrorLog) {
         boolean isLatestRelease = true;
         HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-        if (releases != null && releases.size() > 0) {
+        if (releases != null && !releases.isEmpty()) {
             Release latest = releases.get("LATEST");
             if (!latest.getVersion().equals(fatalErrorLog.getJdkReleaseString())) {
                 isLatestRelease = false;

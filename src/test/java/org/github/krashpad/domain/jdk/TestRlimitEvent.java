@@ -14,45 +14,50 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestRlimitEvent extends TestCase {
+class TestRlimitEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity";
-        Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.RLIMIT);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.RLIMIT,
+                JdkUtil.LogEventType.RLIMIT.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity";
-        Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent,
+                JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testSoftHard() {
+    @Test
+    void testSoftHard() {
         String logLine = "rlimit (soft/hard): STACK 8192k/infinity , CORE infinity/infinity , NPROC 62502/62502 , "
                 + "NOFILE 262144/262144 , AS infinity/infinity , CPU infinity/infinity , DATA infinity/infinity , "
                 + "FSIZE infinity/infinity , MEMLOCK 64k/64k";
-        Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent,
+                JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
         RlimitEvent event = new RlimitEvent(logLine);
-        Assert.assertEquals("NPROC not correct.", "62502", event.getNproc());
+        assertEquals("62502", event.getNproc(), "NPROC not correct.");
     ***REMOVED***
 
-    public void testNprocInfinity() {
+    @Test
+    void testNprocInfinity() {
         String logLine = "rlimit: STACK 8192k, CORE 0k, NPROC infinity, NOFILE 240000, AS infinity";
-        Assert.assertTrue(JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent,
+                JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
         RlimitEvent event = new RlimitEvent(logLine);
-        Assert.assertEquals("NPROC not correct.", "infinity", event.getNproc());
+        assertEquals("infinity", event.getNproc(), "NPROC not correct.");
     ***REMOVED***
 
 ***REMOVED***

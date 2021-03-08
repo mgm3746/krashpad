@@ -14,28 +14,30 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestHostEvent extends TestCase {
+class TestHostEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation "
                 + "release 7.4 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.HOST.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HOST);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HOST,
+                JdkUtil.LogEventType.HOST.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation "
                 + "release 7.4 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.HOST.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof HostEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof HostEvent,
+                JdkUtil.LogEventType.HOST.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

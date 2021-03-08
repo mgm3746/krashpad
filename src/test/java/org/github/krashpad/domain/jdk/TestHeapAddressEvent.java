@@ -14,46 +14,51 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestHeapAddressEvent extends TestCase {
+class TestHeapAddressEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "Narrow klass base: 0x0000000000000000, Narrow klass shift: 3";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
+                JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "Narrow klass base: 0x0000000000000000, Narrow klass shift: 3";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof HeapAddressEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof HeapAddressEvent,
+                JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: Zero based, Oop "
                 + "shift amount: 3";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
+                JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testHeaderCapitalH() {
+    @Test
+    void testHeaderCapitalH() {
         String logLine = "Heap address: 0x0000000500000000, size: 12288 MB, Compressed Oops mode: Zero based, Oop "
                 + "shift amount: 3";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
+                JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testCompressClassSpaceSize() {
+    @Test
+    void testCompressClassSpaceSize() {
         String logLine = "Compressed class space size: 1073741824 Address: 0x00000007c0000000";
-        Assert.assertTrue(JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
+                JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

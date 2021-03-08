@@ -14,66 +14,75 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestInstructionsEvent extends TestCase {
+class TestInstructionsEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "0x00007fcbd05a3b51:   5d c3 0f 1f 44 00 00 48 8d 35 01 db 4c 00 bf 03";
-        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "0x00007fcbd05a3b51:   5d c3 0f 1f 44 00 00 48 8d 35 01 db 4c 00 bf 03";
-        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof InstructionsEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof InstructionsEvent,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "Instructions: (pc=0x00007fcbd05a3b71)";
-        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testNotTopOfStack() {
+    @Test
+    void testNotTopOfStack() {
         String logLine = "0x00007fcbcc676d10:   00007fcbcc676d90 00007fcbd088f2ca";
-        Assert.assertFalse(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " incorrectly identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS);
+        assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " incorrectly identified.");
     ***REMOVED***
 
-    public void testSpaceAtEnd() {
+    @Test
+    void testSpaceAtEnd() {
         String logLine = "0x00007fcbd05a3b81:   75 0f c1 f8 03 5d c3 0f 1f 84 00 00 00 00 00 75 ";
-        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testBlocksOf8() {
+    @Test
+    void testBlocksOf8() {
         String logLine = "0x00003fff7a9ddb60:   2fa40000 7d491b96 79470020 409e0044";
-        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testSingleAddress() {
+    @Test
+    void testSingleAddress() {
         String logLine = "0x000000002fffffe0:   ";
-        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
     ***REMOVED***
 
     /**
      * TODO: Does this error apply to multiple events and should be moved to a dedicated ErrorEvent?
      */
-    public void testError() {
+    @Test
+    void testError() {
         String logLine = "[error occurred during error reporting (printing registers, top of stack, "
                 + "instructions near pc), id 0xb]";
-        Assert.assertTrue(JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

@@ -1664,7 +1664,7 @@ public class JvmOptions {
         if (jpdaSocketTransport != null) {
             analysis.add(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED);
         ***REMOVED***
-        if (undefined.size() > 0) {
+        if (!undefined.isEmpty()) {
             analysis.add(Analysis.INFO_OPT_UNDEFINED);
         ***REMOVED***
         // Check if initial or max metaspace size being set
@@ -1812,7 +1812,7 @@ public class JvmOptions {
             analysis.add(Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED);
         ***REMOVED***
         // Check for instrumentation.
-        if (javaagent.size() > 0) {
+        if (!javaagent.isEmpty()) {
             analysis.add(Analysis.INFO_OPT_INSTRUMENTATION);
         ***REMOVED***
         // If explicit gc is disabled, don't need to set explicit gc options
@@ -1828,7 +1828,7 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED***
         // JDK11 gc log file rotation checks
-        if (log.size() > 0) {
+        if (!log.isEmpty()) {
             Iterator<String> iterator = log.iterator();
             while (iterator.hasNext()) {
                 String xLog = iterator.next();
@@ -1839,7 +1839,7 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED***
         // Check if JDK11 automatic gc log file rotation disabled
-        if (log.size() > 0) {
+        if (!log.isEmpty()) {
             Iterator<String> iterator = log.iterator();
             while (iterator.hasNext()) {
                 String xLog = iterator.next();
@@ -1857,7 +1857,7 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED***
         // Check if JDK11 log file size is small
-        if (log.size() > 0) {
+        if (!log.isEmpty()) {
             Iterator<String> iterator = log.iterator();
             while (iterator.hasNext()) {
                 String xLog = iterator.next();
@@ -1879,7 +1879,7 @@ public class JvmOptions {
             analysis.add(Analysis.INFO_OPT_JMX_ENABLED);
         ***REMOVED***
         // Check if native library being used.
-        if (agentpath.size() > 0) {
+        if (!agentpath.isEmpty()) {
             analysis.add(Analysis.INFO_OPT_NATIVE);
         ***REMOVED***
         // Check for young space >= old space
@@ -2449,7 +2449,7 @@ public class JvmOptions {
      */
     public String getSunRmiDgcClientGcInterval() {
         String sunRmiDgcClientGcIntervalOption = null;
-        if (systemProperties.size() > 0) {
+        if (!systemProperties.isEmpty()) {
             Iterator<String> iterator = systemProperties.iterator();
             while (iterator.hasNext()) {
                 String property = iterator.next();
@@ -2473,7 +2473,7 @@ public class JvmOptions {
      */
     public String getSunRmiDgcServerGcInterval() {
         String sunRmiDgcServerGcIntervalOption = null;
-        if (systemProperties.size() > 0) {
+        if (!systemProperties.isEmpty()) {
             Iterator<String> iterator = systemProperties.iterator();
             while (iterator.hasNext()) {
                 String property = iterator.next();

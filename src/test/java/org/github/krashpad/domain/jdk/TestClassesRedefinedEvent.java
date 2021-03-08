@@ -14,40 +14,44 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestClassesRedefinedEvent extends TestCase {
+class TestClassesRedefinedEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
                 + "count=1";
-        Assert.assertTrue(JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
+                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
                 + "count=1";
-        Assert.assertTrue(JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof ClassesRedefinedEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ClassesRedefinedEvent,
+                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "Classes redefined (34 events):";
-        Assert.assertTrue(JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
+                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
     ***REMOVED***
 
-    public void testNoEvents() {
+    @Test
+    void testNoEvents() {
         String logLine = "No events";
-        Assert.assertTrue(JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
+                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

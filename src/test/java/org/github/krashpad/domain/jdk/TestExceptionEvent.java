@@ -14,45 +14,49 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestExceptionEvent extends TestCase {
+class TestExceptionEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "Event: 101.811 Thread 0x00007ff0ec698000 Exception "
                 + "<a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ef71fd30) thrown at "
                 + "[/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/"
                 + "vm/runtime/sharedRuntime.cpp, line 609]";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT,
+                JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "Event: 101.811 Thread 0x00007ff0ec698000 Exception "
                 + "<a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ef71fd30) thrown at "
                 + "[/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/"
                 + "vm/runtime/sharedRuntime.cpp, line 609]";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof ExceptionEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ExceptionEvent,
+                JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT,
+                JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.");
     ***REMOVED***
 
-    public void testMeta() {
+    @Test
+    void testMeta() {
         String logLine = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=0> (0x000000079d702b90) "
                 + "thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.265";
-        Assert.assertTrue(JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT,
+                JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

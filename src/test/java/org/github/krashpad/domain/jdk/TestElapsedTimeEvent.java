@@ -14,50 +14,56 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestElapsedTimeEvent extends TestCase {
+class TestElapsedTimeEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
-        Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
+                JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
-        Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof ElapsedTimeEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ElapsedTimeEvent,
+                JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testElapsedTime() {
+    @Test
+    void testElapsedTime() {
         String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
-        Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
+                JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
         ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
-        Assert.assertEquals("Elapsed time not correct.", "9d 21h 33m 5s", event.getElapsedTime());
+        assertEquals("9d 21h 33m 5s", event.getElapsedTime(), "Elapsed time not correct.");
     ***REMOVED***
 
-    public void testZero() {
+    @Test
+    void testZero() {
         String logLine = "elapsed time: 0.606413 seconds (0d 0h 0m 0s)";
-        Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
+                JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
         ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
-        Assert.assertEquals("Elapsed time not correct.", "0d 0h 0m 0s", event.getElapsedTime());
+        assertEquals("0d 0h 0m 0s", event.getElapsedTime(), "Elapsed time not correct.");
     ***REMOVED***
 
-    public void testSecondsOnly() {
+    @Test
+    void testSecondsOnly() {
         String logLine = "elapsed time: 228058 seconds";
-        Assert.assertTrue(JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
+                JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
         ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
-        Assert.assertEquals("Elapsed time not correct.", "228058 seconds", event.getElapsedTime());
+        assertEquals("228058 seconds", event.getElapsedTime(), "Elapsed time not correct.");
     ***REMOVED***
 ***REMOVED***

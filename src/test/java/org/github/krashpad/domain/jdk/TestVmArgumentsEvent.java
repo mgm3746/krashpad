@@ -14,52 +14,58 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestVmArgumentsEvent extends TestCase {
+class TestVmArgumentsEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof VmArgumentsEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmArgumentsEvent,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testJvmArgs() {
+    @Test
+    void testJvmArgs() {
         String logLine = "jvm_args: -D[Standalone] -verbose:gc -Xloggc:/path/to/gc.log";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testJavaCommand() {
+    @Test
+    void testJavaCommand() {
         String logLine = "java_command: /path/to/jboss-modules.jar -Djboss.home.dir=/path/to/standalone";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
         VmArgumentsEvent event = new VmArgumentsEvent(logLine);
-        Assert.assertTrue("Java command not identified.", event.isJavaCommand());
+        assertTrue(event.isJavaCommand(), "Java command not identified.");
     ***REMOVED***
 
-    public void testJavaClassPath() {
+    @Test
+    void testJavaClassPath() {
         String logLine = "java_class_path (initial): /path/to/jboss-modules.jar";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

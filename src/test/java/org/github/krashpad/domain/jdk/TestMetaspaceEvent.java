@@ -14,83 +14,94 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestMetaspaceEvent extends TestCase {
+class TestMetaspaceEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "Usage:";
-        Assert.assertTrue(JdkUtil.LogEventType.METASPACE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "Usage:";
-        Assert.assertTrue(JdkUtil.LogEventType.METASPACE.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof MetaspaceEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof MetaspaceEvent,
+                JdkUtil.LogEventType.METASPACE.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "Metaspace:";
-        Assert.assertTrue(JdkUtil.LogEventType.METASPACE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testNonClass() {
+    @Test
+    void testNonClass() {
         String logLine = "  Non-class:    136.84 MB capacity,   129.90 MB ( 95%) used,     6.64 MB (  5%) "
                 + "free+waste,   305.00 KB ( <1%) overhead.";
-        Assert.assertTrue(JdkUtil.LogEventType.METASPACE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testNonClassCapitalC() {
+    @Test
+    void testNonClassCapitalC() {
         String logLine = "   Non-Class:  507.00 KB";
-        Assert.assertTrue(JdkUtil.LogEventType.METASPACE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testClass() {
+    @Test
+    void testClass() {
         String logLine = "      Class:     17.93 MB capacity,    14.53 MB ( 81%) used,     3.26 MB ( 18%) "
                 + "free+waste,   143.81 KB ( <1%) overhead.";
-        Assert.assertTrue(JdkUtil.LogEventType.METASPACE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testBoth() {
+    @Test
+    void testBoth() {
         String logLine = "       Both:    154.76 MB capacity,   144.43 MB ( 93%) used,     9.90 MB (  6%) "
                 + "free+waste,   448.81 KB ( <1%) overhead.";
-        Assert.assertTrue(JdkUtil.LogEventType.METASPACE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testVirtualSpace() {
+    @Test
+    void testVirtualSpace() {
         String logLine = "Virtual space:";
-        Assert.assertTrue(JdkUtil.LogEventType.METASPACE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testChunFreelists() {
+    @Test
+    void testChunFreelists() {
         String logLine = "Chunk freelists:";
-        Assert.assertTrue(JdkUtil.LogEventType.METASPACE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testMaxMetaspaceSize() {
+    @Test
+    void testMaxMetaspaceSize() {
         String logLine = "MaxMetaspaceSize: unlimited";
-        Assert.assertTrue(JdkUtil.LogEventType.METASPACE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testCompressedClassSpaceSize() {
+    @Test
+    void testCompressedClassSpaceSize() {
         String logLine = "CompressedClassSpaceSize: 1.00 GB";
-        Assert.assertTrue(JdkUtil.LogEventType.METASPACE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

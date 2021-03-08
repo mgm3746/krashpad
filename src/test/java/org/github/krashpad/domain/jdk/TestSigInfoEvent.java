@@ -14,74 +14,81 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.SignalCode;
 import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
-import org.junit.Assert;
-
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestSigInfoEvent extends TestCase {
+class TestSigInfoEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof SigInfoEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof SigInfoEvent,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testSigsegvSegvMaperr() {
+    @Test
+    void testSigsegvSegvMaperr() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
         SigInfoEvent event = new SigInfoEvent(logLine);
-        Assert.assertEquals("Signal number not correct.", SignalNumber.SIGSEGV, event.getSignalNumber());
-        Assert.assertEquals("Signal code not correct.", SignalCode.SEGV_MAPERR, event.getSignalCode());
-        Assert.assertEquals("Signal address not correct.", "0x0000000000000008", event.getSignalAddress());
+        assertEquals(SignalNumber.SIGSEGV, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.SEGV_MAPERR, event.getSignalCode(), "Signal code not correct.");
+        assertEquals("0x0000000000000008", event.getSignalAddress(), "Signal address not correct.");
     ***REMOVED***
 
-    public void testExceptionAccessViolation() {
+    @Test
+    void testExceptionAccessViolation() {
         String logLine = "siginfo: ExceptionCode=0xc0000005, reading address 0x0000000000000048";
-        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
         SigInfoEvent event = new SigInfoEvent(logLine);
-        Assert.assertEquals("Signal number not correct.", SignalNumber.EXCEPTION_ACCESS_VIOLATION,
-                event.getSignalNumber());
+        assertEquals(SignalNumber.EXCEPTION_ACCESS_VIOLATION, event.getSignalNumber(), "Signal number not correct.");
     ***REMOVED***
 
-    public void testSignalCodeSiKernel() {
+    @Test
+    void testSignalCodeSiKernel() {
         String logLine = "siginfo: si_signo: 11 (SIGSEGV), si_code: 128 (SI_KERNEL), si_addr: 0x0000000000000000";
-        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
         SigInfoEvent event = new SigInfoEvent(logLine);
-        Assert.assertEquals("Signal number not correct.", SignalNumber.SIGSEGV, event.getSignalNumber());
-        Assert.assertEquals("Signal code not correct.", SignalCode.SI_KERNEL, event.getSignalCode());
+        assertEquals(SignalNumber.SIGSEGV, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.SI_KERNEL, event.getSignalCode(), "Signal code not correct.");
     ***REMOVED***
 
-    public void testSignalCodeSiUser() {
+    @Test
+    void testSignalCodeSiUser() {
         String logLine = "siginfo: si_signo: 11 (SIGSEGV), si_code: 0 (SI_USER), sent from pid: 107614 (uid: 1000)";
-        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
         SigInfoEvent event = new SigInfoEvent(logLine);
-        Assert.assertEquals("Signal number not correct.", SignalNumber.SIGSEGV, event.getSignalNumber());
-        Assert.assertEquals("Signal code not correct.", SignalCode.SI_USER, event.getSignalCode());
+        assertEquals(SignalNumber.SIGSEGV, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.SI_USER, event.getSignalCode(), "Signal code not correct.");
     ***REMOVED***
 
-    public void testSignalCodeIllIllOpn() {
+    @Test
+    void testSignalCodeIllIllOpn() {
         String logLine = "siginfo: si_signo: 4 (SIGILL), si_code: 2 (ILL_ILLOPN), si_addr: 0x00007f682098912c";
-        Assert.assertTrue(JdkUtil.LogEventType.SIGINFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
         SigInfoEvent event = new SigInfoEvent(logLine);
-        Assert.assertEquals("Signal number not correct.", SignalNumber.SIGILL, event.getSignalNumber());
-        Assert.assertEquals("Signal code not correct.", SignalCode.ILL_ILLOPN, event.getSignalCode());
+        assertEquals(SignalNumber.SIGILL, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.ILL_ILLOPN, event.getSignalCode(), "Signal code not correct.");
     ***REMOVED***
 ***REMOVED***

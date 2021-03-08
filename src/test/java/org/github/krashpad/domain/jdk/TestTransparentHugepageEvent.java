@@ -14,44 +14,49 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestTransparentHugepageEvent extends TestCase {
+class TestTransparentHugepageEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/enabled:";
-        Assert.assertTrue(JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/enabled:";
-        Assert.assertTrue(JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof TransparentHugepageEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TransparentHugepageEvent,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testAlwaysBrackets() {
+    @Test
+    void testAlwaysBrackets() {
         String logLine = "[always] madvise never";
-        Assert.assertTrue(JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testDefrag() {
+    @Test
+    void testDefrag() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter):";
-        Assert.assertTrue(JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testAlwaysNoBrackets() {
+    @Test
+    void testAlwaysNoBrackets() {
         String logLine = "always defer defer+madvise [madvise] never";
-        Assert.assertTrue(JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

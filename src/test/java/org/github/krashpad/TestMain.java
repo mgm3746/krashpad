@@ -15,202 +15,98 @@
 
 package org.github.krashpad;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import static org.github.krashpad.util.Constants.OPTION_HELP_LONG;
+import static org.github.krashpad.util.Constants.OPTION_HELP_SHORT;
+import static org.github.krashpad.util.Constants.OPTION_LATEST_VERSION_LONG;
+import static org.github.krashpad.util.Constants.OPTION_LATEST_VERSION_SHORT;
+import static org.github.krashpad.util.Constants.OPTION_OUTPUT_LONG;
+import static org.github.krashpad.util.Constants.OPTION_OUTPUT_SHORT;
+import static org.github.krashpad.util.Constants.OPTION_VERSION_LONG;
+import static org.github.krashpad.util.Constants.OPTION_VERSION_SHORT;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.File;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.ParseException;
-import org.github.krashpad.util.Constants;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import junit.framework.TestCase;
+class TestMain {
 
-public class TestMain extends TestCase {
-
-    public void testShortOptions() {
-        try {
-            Class<?> c = Class.forName("org.github.krashpad.Main");
-            Class.forName("java.lang.IllegalArgumentException");
-            Class<?>[] argTypes = new Class[] { String[].class ***REMOVED***;
-            Method parseOptions = c.getDeclaredMethod("parseOptions", argTypes);
-            // Make private method accessible
-            parseOptions.setAccessible(true);
-            // Method arguments
-            String[] args = new String[6];
-            args[0] = "-h";
-            args[1] = "-o";
-            args[2] = "12345678.txt";
-            args[3] = "-v";
-            args[4] = "-l";
-            // Instead of a file, use a location sure to exist.
-            args[5] = System.getProperty("user.dir");
-            // Pass null object since parseOptions is static
-            Object o = parseOptions.invoke(null, (Object) args);
-            CommandLine cmd = (CommandLine) o;
-            Assert.assertNotNull(cmd);
-            Assert.assertTrue("'-" + Constants.OPTION_HELP_SHORT + "' is a valid option",
-                    cmd.hasOption(Constants.OPTION_HELP_SHORT));
-            Assert.assertTrue("'-" + Constants.OPTION_OUTPUT_SHORT + "' is a valid option",
-                    cmd.hasOption(Constants.OPTION_OUTPUT_SHORT));
-            Assert.assertTrue("'-" + Constants.OPTION_VERSION_SHORT + "' is a valid option",
-                    cmd.hasOption(Constants.OPTION_VERSION_SHORT));
-            Assert.assertTrue("'-" + Constants.OPTION_LATEST_VERSION_SHORT + "' is a valid option",
-                    cmd.hasOption(Constants.OPTION_LATEST_VERSION_SHORT));
-        ***REMOVED*** catch (ClassNotFoundException e) {
-            Assert.fail(e.getMessage());
-        ***REMOVED*** catch (SecurityException e) {
-            Assert.fail("SecurityException: " + e.getMessage());
-        ***REMOVED*** catch (NoSuchMethodException e) {
-            Assert.fail("NoSuchMethodException: " + e.getMessage());
-        ***REMOVED*** catch (IllegalArgumentException e) {
-            Assert.fail("IllegalArgumentException: " + e.getMessage());
-        ***REMOVED*** catch (IllegalAccessException e) {
-            Assert.fail("IllegalAccessException: " + e.getMessage());
-        ***REMOVED*** catch (InvocationTargetException e) {
-            // Anything the invoked method throws is wrapped by InvocationTargetException.
-            Assert.fail("InvocationTargetException: " + e.getMessage());
-        ***REMOVED***
+    @Test
+    void testShortOptions(@TempDir File temporaryFolder) throws Exception {
+        // Method arguments
+        String[] args = new String[] { //
+                "-h", //
+                "-o", //
+                "12345678.txt", //
+                "-v", //
+                "-l", //
+                // Instead of a file, use a location sure to exist.
+                temporaryFolder.getAbsolutePath() //
+        ***REMOVED***;
+        CommandLine cmd = OptionsParser.parseOptions(args);
+        assertNotNull(cmd);
+        assertHasOption(cmd, OPTION_HELP_SHORT);
+        assertHasOption(cmd, OPTION_OUTPUT_SHORT);
+        assertHasOption(cmd, OPTION_VERSION_SHORT);
+        assertHasOption(cmd, OPTION_LATEST_VERSION_SHORT);
     ***REMOVED***
 
-    public void testLongOptions() {
-        try {
-            Class<?> c = Class.forName("org.github.krashpad.Main");
-            Class<?>[] argTypes = new Class[] { String[].class ***REMOVED***;
-            Method parseOptions = c.getDeclaredMethod("parseOptions", argTypes);
-            // Make private method accessible
-            parseOptions.setAccessible(true);
-            // Method arguments
-            String[] args = new String[6];
-            args[0] = "--help";
-            args[1] = "--output";
-            args[2] = "12345678.txt";
-            args[3] = "--version";
-            args[4] = "--latest";
-            // Instead of a file, use a location sure to exist.
-            args[5] = System.getProperty("user.dir");
-            // Pass null object since parseOptions is static
-            Object o = parseOptions.invoke(null, (Object) args);
-            CommandLine cmd = (CommandLine) o;
-            Assert.assertNotNull(cmd);
-            Assert.assertTrue("'-" + Constants.OPTION_HELP_LONG + "' is a valid option",
-                    cmd.hasOption(Constants.OPTION_HELP_LONG));
-            Assert.assertTrue("'-" + Constants.OPTION_OUTPUT_LONG + "' is a valid option",
-                    cmd.hasOption(Constants.OPTION_OUTPUT_LONG));
-            Assert.assertTrue("'-" + Constants.OPTION_VERSION_LONG + "' is a valid option",
-                    cmd.hasOption(Constants.OPTION_VERSION_LONG));
-            Assert.assertTrue("'-" + Constants.OPTION_LATEST_VERSION_LONG + "' is a valid option",
-                    cmd.hasOption(Constants.OPTION_LATEST_VERSION_LONG));
-        ***REMOVED*** catch (ClassNotFoundException e) {
-            Assert.fail(e.getMessage());
-        ***REMOVED*** catch (SecurityException e) {
-            Assert.fail("SecurityException: " + e.getMessage());
-        ***REMOVED*** catch (NoSuchMethodException e) {
-            Assert.fail("NoSuchMethodException: " + e.getMessage());
-        ***REMOVED*** catch (IllegalArgumentException e) {
-            Assert.fail("IllegalArgumentException: " + e.getMessage());
-        ***REMOVED*** catch (IllegalAccessException e) {
-            Assert.fail("IllegalAccessException: " + e.getMessage());
-        ***REMOVED*** catch (InvocationTargetException e) {
-            Assert.fail("InvocationTargetException: " + e.getMessage());
-        ***REMOVED***
+    @Test
+    void testLongOptions(@TempDir File temporaryFolder) throws Exception {
+        // Method arguments
+        String[] args = new String[] { //
+                "--help", //
+                "--output", //
+                "12345678.txt", //
+                "--version", //
+                "--latest", //
+                // Instead of a file, use a location sure to exist.
+                temporaryFolder.getAbsolutePath() //
+        ***REMOVED***;
+        CommandLine cmd = OptionsParser.parseOptions(args);
+        assertNotNull(cmd);
+        assertHasOption(cmd, OPTION_HELP_LONG);
+        assertHasOption(cmd, OPTION_OUTPUT_LONG);
+        assertHasOption(cmd, OPTION_VERSION_LONG);
+        assertHasOption(cmd, OPTION_LATEST_VERSION_LONG);
+
     ***REMOVED***
 
-    public void testInvalidOption() {
-        try {
-            Class<?> c = Class.forName("org.github.krashpad.Main");
-            Class<?>[] argTypes = new Class[] { String[].class ***REMOVED***;
-            Method parseOptions = c.getDeclaredMethod("parseOptions", argTypes);
-            // Make private method accessible
-            parseOptions.setAccessible(true);
-            // Method arguments
-            String[] args = new String[2];
-            // Test typo (extra 'h')
-            args[0] = "--hhelp";
-            args[1] = System.getProperty("user.dir");
-            // Pass null object since parseOptions is static
-            Object o = parseOptions.invoke(null, (Object) args);
-            CommandLine cmd = (CommandLine) o;
-            // An unrecognized option throws an <code>UnrecognizedOptionException</code>,
-            // which is
-            // caught and the usage line output.
-            Assert.assertNull("An invalid option was accepted.", cmd);
-        ***REMOVED*** catch (ClassNotFoundException e) {
-            Assert.fail(e.getMessage());
-        ***REMOVED*** catch (SecurityException e) {
-            Assert.fail("SecurityException: " + e.getMessage());
-        ***REMOVED*** catch (NoSuchMethodException e) {
-            Assert.fail("NoSuchMethodException: " + e.getMessage());
-        ***REMOVED*** catch (IllegalArgumentException e) {
-            Assert.fail("IllegalArgumentException: " + e.getMessage());
-        ***REMOVED*** catch (IllegalAccessException e) {
-            Assert.fail("IllegalAccessException: " + e.getMessage());
-        ***REMOVED*** catch (InvocationTargetException e) {
-            // Anything the invoked method throws is wrapped by InvocationTargetException.
-            Assert.assertTrue("Epected ParseException not thrown.", e.getTargetException() instanceof ParseException);
-        ***REMOVED***
+    @Test
+    void testInvalidOption(@TempDir File temporaryFolder) throws Exception {
+        String[] args = new String[] { //
+                "--hhelp", //
+                // Instead of a file, use a location sure to exist.
+                temporaryFolder.getAbsolutePath() //
+        ***REMOVED***;
+        CommandLine cmd = OptionsParser.parseOptions(args);
+        assertNull(cmd);
     ***REMOVED***
 
-    public void testShortHelpOption() {
-        try {
-            Class<?> c = Class.forName("org.github.krashpad.Main");
-            Class<?>[] argTypes = new Class[] { String[].class ***REMOVED***;
-            Method parseOptions = c.getDeclaredMethod("parseOptions", argTypes);
-            // Make private method accessible
-            parseOptions.setAccessible(true);
-            // Method arguments
-            String[] args = new String[1];
-            args[0] = "-h";
-            // Pass null object since parseOptions is static
-            parseOptions.invoke(null, (Object) args);
-            Object o = parseOptions.invoke(null, (Object) args);
-            CommandLine cmd = (CommandLine) o;
-            // CommandLine will be null if only the help option is passed in.
-            Assert.assertNull(cmd);
-            Assert.assertTrue("'-h' is a valid option", true);
-        ***REMOVED*** catch (ClassNotFoundException e) {
-            Assert.fail(e.getMessage());
-        ***REMOVED*** catch (SecurityException e) {
-            Assert.fail("SecurityException: " + e.getMessage());
-        ***REMOVED*** catch (NoSuchMethodException e) {
-            Assert.fail("NoSuchMethodException: " + e.getMessage());
-        ***REMOVED*** catch (IllegalArgumentException expected) {
-            Assert.assertNotNull(expected.getMessage());
-        ***REMOVED*** catch (IllegalAccessException e) {
-            Assert.fail("IllegalAccessException: " + e.getMessage());
-        ***REMOVED*** catch (InvocationTargetException e) {
-            Assert.fail("InvocationTargetException: " + e.getMessage());
-        ***REMOVED***
+    @Test
+    void testShortHelpOption() throws Exception {
+        // Method arguments
+        String[] args = new String[] { "-h" ***REMOVED***;
+        CommandLine cmd = OptionsParser.parseOptions(args);
+        // CommandLine will be null if only the help option is passed in.
+        assertNull(cmd);
     ***REMOVED***
 
-    public void testLongHelpOption() {
-        try {
-            Class<?> c = Class.forName("org.github.krashpad.Main");
-            Class<?>[] argTypes = new Class[] { String[].class ***REMOVED***;
-            Method parseOptions = c.getDeclaredMethod("parseOptions", argTypes);
-            // Make private method accessible
-            parseOptions.setAccessible(true);
-            // Method arguments
-            String[] args = new String[1];
-            args[0] = "--help";
-            // Pass null object since parseOptions is static
-            parseOptions.invoke(null, (Object) args);
-            Object o = parseOptions.invoke(null, (Object) args);
-            CommandLine cmd = (CommandLine) o;
-            // CommandLine will be null if only the help option is passed in.
-            Assert.assertNull(cmd);
-            Assert.assertTrue("'--help' is a valid option", true);
-        ***REMOVED*** catch (ClassNotFoundException e) {
-            Assert.fail(e.getMessage());
-        ***REMOVED*** catch (SecurityException e) {
-            Assert.fail("SecurityException: " + e.getMessage());
-        ***REMOVED*** catch (NoSuchMethodException e) {
-            Assert.fail("NoSuchMethodException: " + e.getMessage());
-        ***REMOVED*** catch (IllegalArgumentException expected) {
-            Assert.assertNotNull(expected.getMessage());
-        ***REMOVED*** catch (IllegalAccessException e) {
-            Assert.fail("IllegalAccessException: " + e.getMessage());
-        ***REMOVED*** catch (InvocationTargetException e) {
-            Assert.fail("InvocationTargetException: " + e.getMessage());
-        ***REMOVED***
+    @Test
+    void testLongHelpOption() throws Exception {
+        // Method arguments
+        String[] args = new String[] { "--help" ***REMOVED***;
+        // Pass null object since parseOptions is static
+        CommandLine cmd = OptionsParser.parseOptions(args);
+        // CommandLine will be null if only the help option is passed in.
+        assertNull(cmd);
+    ***REMOVED***
+
+    private static void assertHasOption(CommandLine cmd, String option) {
+        assertTrue(cmd.hasOption(option), "'-" + option + "' is a valid option");
     ***REMOVED***
 ***REMOVED***

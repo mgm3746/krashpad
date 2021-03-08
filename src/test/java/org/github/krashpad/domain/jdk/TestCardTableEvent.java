@@ -14,28 +14,30 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestCardTableEvent extends TestCase {
+class TestCardTableEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "Card table byte_map: [0x00007f69332bf000,0x00007f6964000000] byte_map_base: "
                 + "0x00007f297e79f000";
-        Assert.assertTrue(JdkUtil.LogEventType.CARD_TABLE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CARD_TABLE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CARD_TABLE,
+                JdkUtil.LogEventType.CARD_TABLE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "Card table byte_map: [0x00007f69332bf000,0x00007f6964000000] byte_map_base: "
                 + "0x00007f297e79f000";
-        Assert.assertTrue(JdkUtil.LogEventType.CARD_TABLE.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof CardTableEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CardTableEvent,
+                JdkUtil.LogEventType.CARD_TABLE.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

@@ -14,26 +14,28 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestOsUptimeEvent extends TestCase {
+class TestOsUptimeEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "OS uptime: 3 days 8:33 hours";
-        Assert.assertTrue(JdkUtil.LogEventType.OS_UPTIME.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_UPTIME);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_UPTIME,
+                JdkUtil.LogEventType.OS_UPTIME.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "OS uptime: 3 days 8:33 hours";
-        Assert.assertTrue(JdkUtil.LogEventType.OS_UPTIME.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof OsUptimeEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof OsUptimeEvent,
+                JdkUtil.LogEventType.OS_UPTIME.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

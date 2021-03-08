@@ -14,26 +14,28 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestlibcEvent extends TestCase {
+class TestlibcEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "libc:glibc 2.12 NPTL 2.12";
-        Assert.assertTrue(JdkUtil.LogEventType.LIBC.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LIBC);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LIBC,
+                JdkUtil.LogEventType.LIBC.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "libc:glibc 2.12 NPTL 2.12";
-        Assert.assertTrue(JdkUtil.LogEventType.LIBC.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof LibcEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof LibcEvent,
+                JdkUtil.LogEventType.LIBC.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

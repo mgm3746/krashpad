@@ -14,38 +14,42 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestLoggingEvent extends TestCase {
+class TestLoggingEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "Log output configuration:";
-        Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING,
+                JdkUtil.LogEventType.LOGGING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "Log output configuration:";
-        Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof LoggingEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof LoggingEvent,
+                JdkUtil.LogEventType.LOGGING.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "Logging:";
-        Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING,
+                JdkUtil.LogEventType.LOGGING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testConfiguration() {
+    @Test
+    void testConfiguration() {
         String logLine = " ***REMOVED***0: stdout all=warning uptime,level,tags";
-        Assert.assertTrue(JdkUtil.LogEventType.LOGGING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING,
+                JdkUtil.LogEventType.LOGGING.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

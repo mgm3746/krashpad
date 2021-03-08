@@ -14,34 +14,38 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestVmStateEvent extends TestCase {
+class TestVmStateEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "VM state:at safepoint (normal execution)";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_STATE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_STATE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_STATE,
+                JdkUtil.LogEventType.VM_STATE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "VM state:at safepoint (normal execution)";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_STATE.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof VmStateEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmStateEvent,
+                JdkUtil.LogEventType.VM_STATE.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testStateValue() {
+    @Test
+    void testStateValue() {
         String logLine = "VM state:at safepoint (normal execution)";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_STATE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_STATE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_STATE,
+                JdkUtil.LogEventType.VM_STATE.toString() + " not identified.");
         VmStateEvent event = new VmStateEvent(logLine);
-        Assert.assertEquals("State not correct.", "at safepoint (normal execution)", event.getState());
+        assertEquals("at safepoint (normal execution)", event.getState(), "State not correct.");
     ***REMOVED***
 ***REMOVED***

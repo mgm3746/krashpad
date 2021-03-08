@@ -14,34 +14,38 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestTimezoneEvent extends TestCase {
+class TestTimezoneEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "timezone: UTC";
-        Assert.assertTrue(JdkUtil.LogEventType.TIMEZONE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIMEZONE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIMEZONE,
+                JdkUtil.LogEventType.TIMEZONE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "timezone: UTC";
-        Assert.assertTrue(JdkUtil.LogEventType.TIMEZONE.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof TimezoneEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TimezoneEvent,
+                JdkUtil.LogEventType.TIMEZONE.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testTimezone() {
+    @Test
+    void testTimezone() {
         String logLine = "timezone: UTC";
-        Assert.assertTrue(JdkUtil.LogEventType.TIMEZONE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIMEZONE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIMEZONE,
+                JdkUtil.LogEventType.TIMEZONE.toString() + " not identified.");
         TimezoneEvent event = new TimezoneEvent(logLine);
-        Assert.assertEquals("Timezone not correct.", "UTC", event.getTimezone());
+        assertEquals("UTC", event.getTimezone(), "Timezone not correct.");
     ***REMOVED***
 ***REMOVED***

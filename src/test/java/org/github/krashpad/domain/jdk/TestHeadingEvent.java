@@ -14,50 +14,56 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestHeadingEvent extends TestCase {
+class TestHeadingEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
+                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof HeadingEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof HeadingEvent,
+                JdkUtil.LogEventType.HEADING.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testSystem() {
+    @Test
+    void testSystem() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
+                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testProcess() {
+    @Test
+    void testProcess() {
         String logLine = "***REMOVED***";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
+                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testSummary() {
+    @Test
+    void testSummary() {
         String logLine = "---------------  S U M M A R Y ------------";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
+                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testDashes70() {
+    @Test
+    void testDashes70() {
         String logLine = "----------------------------------------------------------------------";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
+                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

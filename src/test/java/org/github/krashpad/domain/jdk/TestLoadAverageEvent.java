@@ -14,26 +14,28 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestLoadAverageEvent extends TestCase {
+class TestLoadAverageEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "load average:0.39 0.39 0.42";
-        Assert.assertTrue(JdkUtil.LogEventType.LOAD_AVERAGE.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOAD_AVERAGE);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOAD_AVERAGE,
+                JdkUtil.LogEventType.LOAD_AVERAGE.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "load average:0.39 0.39 0.42";
-        Assert.assertTrue(JdkUtil.LogEventType.LOAD_AVERAGE.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof LoadAverageEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof LoadAverageEvent,
+                JdkUtil.LogEventType.LOAD_AVERAGE.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

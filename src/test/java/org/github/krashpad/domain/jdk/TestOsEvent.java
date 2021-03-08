@@ -14,135 +14,155 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestOsEvent extends TestCase {
+class TestOsEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof OsEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof OsEvent,
+                JdkUtil.LogEventType.OS.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testOracleSolaris() {
+    @Test
+    void testOracleSolaris() {
         String logLine = "OS:                            Oracle Solaris 11.4 SPARC";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testOracleLinux() {
+    @Test
+    void testOracleLinux() {
         String logLine = "OS:Oracle Linux Server release 6.10";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testRhel6() {
+    @Test
+    void testRhel6() {
         String logLine = "OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testRhel7Workstation() {
+    @Test
+    void testRhel7Workstation() {
         String logLine = "OS:Red Hat Enterprise Linux Workstation release 7.4 (Maipo)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testRhel8() {
+    @Test
+    void testRhel8() {
         String logLine = "OS:Red Hat Enterprise Linux release 8.2 (Ootpa)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testWindows() {
+    @Test
+    void testWindows() {
         String logLine = "OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
 
     ***REMOVED***
 
-    public void testCentOs() {
+    @Test
+    void testCentOs() {
         String logLine = "OS:CentOS Linux release 7.7.1908 (Core)";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testCopyright() {
+    @Test
+    void testCopyright() {
         String logLine = "             Copyright (c) 1983, 2020, Oracle and/or its affiliates.";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testAssembled() {
+    @Test
+    void testAssembled() {
         String logLine = "                             Assembled 23 June 2020";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testOsPrettyName() {
+    @Test
+    void testOsPrettyName() {
         String logLine = "OS:PRETTY_NAME=\"Debian GNU/Linux 10 (buster)\"";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testName() {
+    @Test
+    void testName() {
         String logLine = "NAME=\"Debian GNU/Linux\"";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testVersionId() {
+    @Test
+    void testVersionId() {
         String logLine = "VERSION_ID=\"10\"";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testVersion() {
+    @Test
+    void testVersion() {
         String logLine = "VERSION=\"10 (buster)\"";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testVersionCodeName() {
+    @Test
+    void testVersionCodeName() {
         String logLine = "VERSION_CODENAME=buster";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testId() {
+    @Test
+    void testId() {
         String logLine = "ID=debian";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testHomeUrl() {
+    @Test
+    void testHomeUrl() {
         String logLine = "HOME_URL=\"https://www.debian.org/\"";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testSupportUrl() {
+    @Test
+    void testSupportUrl() {
         String logLine = "SUPPORT_URL=\"https://www.debian.org/support\"";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 
-    public void testBugReportUrl() {
+    @Test
+    void testBugReportUrl() {
         String logLine = "BUG_REPORT_URL=\"https://bugs.debian.org/\"";
-        Assert.assertTrue(JdkUtil.LogEventType.OS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

@@ -14,48 +14,52 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
-
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestCurrentThreadEvent extends TestCase {
+class TestCurrentThreadEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "Current thread (0x00007f127434f800):  JavaThread \"ajp-/hostname:8109-16\" daemon "
                 + "[_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]";
-        Assert.assertTrue(JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_THREAD);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_THREAD,
+                JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "Current thread (0x00007f127434f800):  JavaThread \"ajp-/hostname:8109-16\" daemon "
                 + "[_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]";
-        Assert.assertTrue(JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof CurrentThreadEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CurrentThreadEvent,
+                JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not parsed.");
     ***REMOVED***
 
-    public void test32BitAddress() {
+    @Test
+    void test32BitAddress() {
         String logLine = "Current thread (0x08ec6400):  JavaThread \"main\" [_thread_blocked, id=29301, "
                 + "stack(0xffc15000,0xffc65000)]";
-        Assert.assertTrue(JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_THREAD);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_THREAD,
+                JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
-        Assert.assertEquals("Current thread not correct.",
-                "JavaThread \"main\" [_thread_blocked, id=29301, stack(0xffc15000,0xffc65000)]",
-                ((CurrentThreadEvent) event).getCurrentThread());
+        assertEquals("JavaThread \"main\" [_thread_blocked, id=29301, stack(0xffc15000,0xffc65000)]",
+                ((CurrentThreadEvent) event).getCurrentThread(), "Current thread not correct.");
     ***REMOVED***
 
-    public void testCurrentThreadIsNativeThread() {
+    @Test
+    void testCurrentThreadIsNativeThread() {
         String logLine = "Current thread is native thread";
-        Assert.assertTrue(JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_THREAD);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_THREAD,
+                JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
-        Assert.assertEquals("is native thread", ((CurrentThreadEvent) event).getCurrentThread());
+        assertEquals("is native thread", ((CurrentThreadEvent) event).getCurrentThread());
     ***REMOVED***
 ***REMOVED***

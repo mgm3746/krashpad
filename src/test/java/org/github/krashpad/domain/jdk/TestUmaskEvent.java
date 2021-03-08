@@ -14,26 +14,28 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestUmaskEvent extends TestCase {
+class TestUmaskEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "umask: 0022 (----w--w-)";
-        Assert.assertTrue(JdkUtil.LogEventType.UMASK.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UMASK);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UMASK,
+                JdkUtil.LogEventType.UMASK.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "umask: 0022 (----w--w-)";
-        Assert.assertTrue(JdkUtil.LogEventType.UMASK.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof UmaskEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof UmaskEvent,
+                JdkUtil.LogEventType.UMASK.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

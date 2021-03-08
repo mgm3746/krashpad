@@ -14,32 +14,35 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestVmMutexEvent extends TestCase {
+class TestVmMutexEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "[0x00007fcbc8008420] Threads_lock - owner thread: 0x00007fcbc82b6000";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_MUTEX.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_MUTEX);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_MUTEX,
+                JdkUtil.LogEventType.VM_MUTEX.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "[0x00007fcbc8008420] Threads_lock - owner thread: 0x00007fcbc82b6000";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_MUTEX.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof VmMutexEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmMutexEvent,
+                JdkUtil.LogEventType.VM_MUTEX.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])";
-        Assert.assertTrue(JdkUtil.LogEventType.VM_MUTEX.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_MUTEX);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_MUTEX,
+                JdkUtil.LogEventType.VM_MUTEX.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

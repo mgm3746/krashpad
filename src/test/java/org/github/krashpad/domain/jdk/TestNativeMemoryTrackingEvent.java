@@ -14,141 +14,162 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestNativeMemoryTrackingEvent extends TestCase {
+class TestNativeMemoryTrackingEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "Total: reserved=18369225KB, committed=17150661KB";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "Total: reserved=18369225KB, committed=17150661KB";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof NativeMemoryTrackingEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof NativeMemoryTrackingEvent,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not parsed.");
     ***REMOVED***
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "Native Memory Tracking:";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testJavaHeap() {
+    @Test
+    void testJavaHeap() {
         String logLine = "-                 Java Heap (reserved=8388608KB, committed=8388608KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testNMap() {
+    @Test
+    void testNMap() {
         String logLine = "                            (mmap: reserved=8388608KB, committed=8388608KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testClass() {
+    @Test
+    void testClass() {
         String logLine = "-                     Class (reserved=1236886KB, committed=214626KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testClasses() {
+    @Test
+    void testClasses() {
         String logLine = "                            (classes ***REMOVED***32343)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testMalloc() {
+    @Test
+    void testMalloc() {
         String logLine = "                            (malloc=6038KB ***REMOVED***64830)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testThread() {
+    @Test
+    void testThread() {
         String logLine = "-                    Thread (reserved=6278193KB, committed=6278193KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testThreadNumber() {
+    @Test
+    void testThreadNumber() {
         String logLine = "                            (thread ***REMOVED***6079)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testStack() {
+    @Test
+    void testStack() {
         String logLine = "                            (stack: reserved=6250236KB, committed=6250236KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testArena() {
+    @Test
+    void testArena() {
         String logLine = "                            (arena=7124KB ***REMOVED***12155)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testCode() {
+    @Test
+    void testCode() {
         String logLine = "-                      Code (reserved=264372KB, committed=84452KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testGc() {
+    @Test
+    void testGc() {
         String logLine = "-                        GC (reserved=417612KB, committed=417612KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testCompiler() {
+    @Test
+    void testCompiler() {
         String logLine = "-                  Compiler (reserved=26862KB, committed=26862KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testInternal() {
+    @Test
+    void testInternal() {
         String logLine = "-                  Internal (reserved=1385758KB, committed=1385758KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testSymbol() {
+    @Test
+    void testSymbol() {
         String logLine = "-                    Symbol (reserved=36100KB, committed=36100KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testNativeMemoryTracking() {
+    @Test
+    void testNativeMemoryTracking() {
         String logLine = "-    Native Memory Tracking (reserved=13441KB, committed=13441KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testTracking() {
+    @Test
+    void testTracking() {
         String logLine = "                            (tracking overhead=12618KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testArenaChunk() {
+    @Test
+    void testArenaChunk() {
         String logLine = "-               Arena Chunk (reserved=305008KB, committed=305008KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
-    public void testUnknown() {
+    @Test
+    void testUnknown() {
         String logLine = "-                   Unknown (reserved=16384KB, committed=0KB)";
-        Assert.assertTrue(JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
 ***REMOVED***
