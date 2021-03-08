@@ -589,9 +589,9 @@ public class JdkUtil {
 
         // RHEL7 amd64 OpenJDK11 rpm
         rhel7Amd64Jdk11RpmReleases = new HashMap<String, Release>();
-        rhel7Amd64Jdk11RpmReleases.put("LATEST", new Release("Jan 15 2021 00:00:00", 7, "11.0.10+9-LTS"));
+        rhel7Amd64Jdk11RpmReleases.put("LATEST", new Release("Jan 14 2021 23:18:04", 7, "11.0.10+9-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.10.0.9-0.el7_9.x86_64",
-                new Release("Jan 15 2021 00:00:00", 7, "11.0.10+9-LTS"));
+                new Release("Jan 14 2021 23:18:04", 7, "11.0.10+9-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-2.el7_9.x86_64",
                 new Release("Nov 12 2020 18:10:11", 6, "11.0.9.1+1-LTS"));
         rhel7Amd64Jdk11RpmReleases.put("java-11-openjdk-11.0.9.11-0.el7_9.x86_64",

@@ -77,17 +77,6 @@ class TestMain {
     ***REMOVED***
 
     @Test
-    void testInvalidOption(@TempDir File temporaryFolder) throws Exception {
-        String[] args = new String[] { //
-                "--hhelp", //
-                // Instead of a file, use a location sure to exist.
-                temporaryFolder.getAbsolutePath() //
-        ***REMOVED***;
-        CommandLine cmd = OptionsParser.parseOptions(args);
-        assertNull(cmd);
-    ***REMOVED***
-
-    @Test
     void testShortHelpOption() throws Exception {
         // Method arguments
         String[] args = new String[] { "-h" ***REMOVED***;

@@ -224,9 +224,11 @@ public class JdkRegEx {
      * java-11-openjdk-11.0.7.10-4.el7_8.x86_64
      * 
      * java-11-openjdk-11.0.9.11-2.el8_3.x86_64
+     * 
+     * java-11-openjdk-11.0.10.0.9-0.el7_9.x86_64
      */
-    public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d\\.\\d{1,2***REMOVED***-\\d\\.el[78]"
-            + "_\\d\\.x86_64)";
+    public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d{1,2***REMOVED***\\.\\d{1,2***REMOVED***(\\.\\d)?"
+            + "-\\d\\.el[78]_\\d\\.x86_64)";
 
     /**
      * Red Hat OpenJDK 11 rpm libjvm.so file path.
