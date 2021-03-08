@@ -14,76 +14,85 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestGlobalFlagsEvent extends TestCase {
+class TestGlobalFlagsEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "     intx CICompilerCount                          = 4"
                 + "                                         {product} {ergonomic}";
-        Assert.assertTrue(JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
+                JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
     }
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "     intx CICompilerCount                          = 4"
                 + "                                         {product} {ergonomic}";
-        Assert.assertTrue(JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof GlobalFlagsEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GlobalFlagsEvent,
+                JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not parsed.");
     }
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "[Global flags]";
-        Assert.assertTrue(JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
+                JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
     }
 
-    public void testGlobalFlagUint() {
+    @Test
+    void testGlobalFlagUint() {
         String logLine = "     uint ConcGCThreads                            = 2"
                 + "                                         {product} {ergonomic}";
-        Assert.assertTrue(JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
+                JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
     }
 
-    public void testGlobalFlagCcstr() {
+    @Test
+    void testGlobalFlagCcstr() {
         String logLine = "    ccstr ErrorFile                                = /path/to/vm_crash_%p.log            "
                 + "{product} {command line}";
-        Assert.assertTrue(JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
+                JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
     }
 
-    public void testGlobalFlagSizeT() {
+    @Test
+    void testGlobalFlagSizeT() {
         String logLine = "   size_t G1HeapRegionSize                         = 2097152"
                 + "                                   {product} {ergonomic}";
-        Assert.assertTrue(JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
+                JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
     }
 
-    public void testGlobalFlagUintx() {
+    @Test
+    void testGlobalFlagUintx() {
         String logLine = "    uintx GCDrainStackTargetSize                   = 64"
                 + "                                        {product} {ergonomic}";
-        Assert.assertTrue(JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
+                JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
     }
 
-    public void testGlobalFlagBool() {
+    @Test
+    void testGlobalFlagBool() {
         String logLine = "     bool SegmentedCodeCache                       = true"
                 + "                                      {product} {ergonomic}";
-        Assert.assertTrue(JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
+                JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
     }
 
-    public void testCcstrlist() {
+    @Test
+    void testCcstrlist() {
         String logLine = "ccstrlist OnOutOfMemoryError                       = /u/search/bin/on-oom.sh"
                 + "                   {product} {command line}";
-        Assert.assertTrue(JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
+                JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
     }
 }

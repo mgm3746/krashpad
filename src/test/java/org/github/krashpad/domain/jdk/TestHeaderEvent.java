@@ -14,149 +14,166 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestHeaderEvent extends TestCase {
+class TestHeaderEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "#";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
     }
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "#";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof HeaderEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof HeaderEvent,
+                JdkUtil.LogEventType.HEADER.toString() + " not parsed.");
     }
 
-    public void testProblematicFrameNativeCode() {
+    @Test
+    void testProblematicFrameNativeCode() {
         String logLine = "# C  0x0000000000000000";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("Problematic frame not identified.", headerEvent.isProblematicFrame());
+        assertTrue(headerEvent.isProblematicFrame(), "Problematic frame not identified.");
     }
 
-    public void testProblematicFrameVmCodeCapitalV() {
+    @Test
+    void testProblematicFrameVmCodeCapitalV() {
         String logLine = "# V  [libjvm.so+0xa41a10]";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("Problematic frame not identified.", headerEvent.isProblematicFrame());
+        assertTrue(headerEvent.isProblematicFrame(), "Problematic frame not identified.");
     }
 
-    public void testProblematicFrameVmCodeSmallV() {
+    @Test
+    void testProblematicFrameVmCodeSmallV() {
         String logLine = "# v  ~StubRoutines::jbyte_disjoint_arraycopy";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("Problematic frame not identified.", headerEvent.isProblematicFrame());
+        assertTrue(headerEvent.isProblematicFrame(), "Problematic frame not identified.");
     }
 
-    public void testProblematicFrameJavaCompiledCode() {
+    @Test
+    void testProblematicFrameJavaCompiledCode() {
         String logLine = "# J 3285 c2 java.util.AbstractList.subListRangeCheck(III)V java.base@12.0.1 (110 bytes) "
                 + "@ 0x00007f682098912c [0x00007f68209891a0+0xffffffffffffff8c]";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("Problematic frame not identified.", headerEvent.isProblematicFrame());
+        assertTrue(headerEvent.isProblematicFrame(), "Problematic frame not identified.");
     }
 
-    public void testSigSegv() {
+    @Test
+    void testSigSegv() {
         String logLine = "#  SIGSEGV (0xb) at pc=0x00007f11cbec3480, pid=101755, tid=139714768807680";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("SIGSEGV not identified.", headerEvent.isSignalNumber());
+        assertTrue(headerEvent.isSignalNumber(), "SIGSEGV not identified.");
     }
 
-    public void testSigBus() {
+    @Test
+    void testSigBus() {
         String logLine = "#  SIGBUS (0x7) at pc=0x00007f824afe3410, pid=14689, tid=0x00007f81a3452700";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("SIGBUS not identified.", headerEvent.isSignalNumber());
+        assertTrue(headerEvent.isSignalNumber(), "SIGBUS not identified.");
     }
 
-    public void testSigIll() {
+    @Test
+    void testSigIll() {
         String logLine = "#  SIGILL (0x4) at pc=0x00007f682098912c, pid=12005, tid=44979";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("SIGILL not identified.", headerEvent.isSignalNumber());
+        assertTrue(headerEvent.isSignalNumber(), "SIGILL not identified.");
     }
 
-    public void testInternalError() {
+    @Test
+    void testInternalError() {
         String logLine = "#  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("Internal Errror not identified.", headerEvent.isInternalError());
+        assertTrue(headerEvent.isInternalError(), "Internal Errror not identified.");
     }
 
-    public void testError() {
+    @Test
+    void testError() {
         String logLine = "#  Error: ShouldNotReachHere()";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("Error not identified.", headerEvent.isError());
+        assertTrue(headerEvent.isError(), "Error not identified.");
     }
 
-    public void testJavaVm() {
+    @Test
+    void testJavaVm() {
         String logLine = "# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode solaris-sparc compressed "
                 + "oops)";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("Java VM not identified.", headerEvent.isJavaVm());
+        assertTrue(headerEvent.isJavaVm(), "Java VM not identified.");
     }
 
-    public void testJreVersion() {
+    @Test
+    void testJreVersion() {
         String logLine = "# JRE version: Java(TM) SE Runtime Environment (8.0_251-b08) (build 1.8.0_251-b08)";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("JRE version not identified.", headerEvent.isJreVersion());
+        assertTrue(headerEvent.isJreVersion(), "JRE version not identified.");
     }
 
-    public void testInsufficientMemoroy() {
+    @Test
+    void testInsufficientMemoroy() {
         String logLine = "# There is insufficient memory for the Java Runtime Environment to continue.";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("Insufficient not identified.", headerEvent.isInsufficient());
+        assertTrue(headerEvent.isInsufficient(), "Insufficient not identified.");
     }
 
-    public void testOutOfSwapSpace() {
+    @Test
+    void testOutOfSwapSpace() {
         String logLine = "# Out of swap space to map in thread stack.";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("Out of not identified.", headerEvent.isOutOf());
+        assertTrue(headerEvent.isOutOf(), "Out of not identified.");
     }
 
-    public void testOutOfMemoryError() {
+    @Test
+    void testOutOfMemoryError() {
         String logLine = "#  Out of Memory Error (os_solaris_sparc.cpp:570), pid=1129, tid=0x0000000000008488";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("Out of not identified.", headerEvent.isOutOf());
+        assertTrue(headerEvent.isOutOf(), "Out of not identified.");
     }
 
-    public void testNativeMemoryAllocationFailed() {
+    @Test
+    void testNativeMemoryAllocationFailed() {
         String logLine = "# Native memory allocation (mmap) failed to map 754974720 bytes for committing reserved "
                 + "memory.";
-        Assert.assertTrue(JdkUtil.LogEventType.HEADER.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        Assert.assertTrue("Failed not identified.", headerEvent.isFailed());
+        assertTrue(headerEvent.isFailed(), "Failed not identified.");
     }
 }

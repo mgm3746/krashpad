@@ -14,128 +14,147 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TestContainerInfoEvent extends TestCase {
+class TestContainerInfoEvent {
 
-    public void testIdentity() {
+    @Test
+    void testIdentity() {
         String logLine = "container_type: cgroupv1";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testParseLogLine() {
+    @Test
+    void testParseLogLine() {
         String logLine = "container_type: cgroupv1";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not parsed.",
-                JdkUtil.parseLogLine(logLine, null) instanceof ContainerInfoEvent);
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ContainerInfoEvent,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not parsed.");
     }
 
-    public void testHeader() {
+    @Test
+    void testHeader() {
         String logLine = "container (cgroup) information:";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testCpuCpusetCpus() {
+    @Test
+    void testCpuCpusetCpus() {
         String logLine = "cpu_cpuset_cpus: 0-7";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testCpuMemoryNodes() {
+    @Test
+    void testCpuMemoryNodes() {
         String logLine = "cpu_memory_nodes: 0";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testActiveProcessorCount() {
+    @Test
+    void testActiveProcessorCount() {
         String logLine = "active_processor_count: 8";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testBuffers() {
+    @Test
+    void testBuffers() {
         String logLine = "cpu_cpuset_cpus: 0-7";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testCpuQuota() {
+    @Test
+    void testCpuQuota() {
         String logLine = "cpu_quota: -1";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testCpuPeriod() {
+    @Test
+    void testCpuPeriod() {
         String logLine = "cpu_period: 100000";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testCpuShares() {
+    @Test
+    void testCpuShares() {
         String logLine = "cpu_shares: -1";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testMemoryLimit() {
+    @Test
+    void testMemoryLimit() {
         String logLine = "memory_limit_in_bytes: -1";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testMemoryAndSwapLimit() {
+    @Test
+    void testMemoryAndSwapLimit() {
         String logLine = "memory_and_swap_limit_in_bytes: -1";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testMemorySoftLimit() {
+    @Test
+    void testMemorySoftLimit() {
         String logLine = "memory_soft_limit_in_bytes: -1";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testMemoryUsage() {
+    @Test
+    void testMemoryUsage() {
         String logLine = "memory_usage_in_bytes: 3469758464";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testMemoryMaxUsage() {
+    @Test
+    void testMemoryMaxUsage() {
         String logLine = "memory_max_usage_in_bytes: 0";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testKvmVirtualizationDetected() {
+    @Test
+    void testKvmVirtualizationDetected() {
         String logLine = "KVM virtualization detected";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testStealTicks() {
+    @Test
+    void testStealTicks() {
         String logLine = "Steal ticks since vm start: 152";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testStealTicksPercentage() {
+    @Test
+    void testStealTicksPercentage() {
         String logLine = "Steal ticks percentage since vm start:  0.000";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 
-    public void testVmWare() {
+    @Test
+    void testVmWare() {
         String logLine = "VMWare virtualization detected";
-        Assert.assertTrue(JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.",
-                JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO);
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 }
