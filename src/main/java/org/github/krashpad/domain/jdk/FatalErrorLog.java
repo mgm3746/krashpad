@@ -1578,7 +1578,7 @@ public class FatalErrorLog {
      * @return The metaspace max size reserved in <code>Constants.PRECISION_REPORTING</code> units.
      */
     /**
-     * @return
+     * @return The Metaspace maximum size.
      */
     public long getMetaspaceMaxSize() {
         long metaspaceMaxSize = Long.MIN_VALUE;

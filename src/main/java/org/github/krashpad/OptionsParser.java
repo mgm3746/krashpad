@@ -1,5 +1,3 @@
-package org.github.krashpad;
-
 /**********************************************************************************************************************
  * krashpad                                                                                                           *
  *                                                                                                                    *
@@ -14,6 +12,8 @@ package org.github.krashpad;
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
+package org.github.krashpad;
+
 import static org.github.krashpad.util.Constants.OPTION_HELP_LONG;
 import static org.github.krashpad.util.Constants.OPTION_HELP_SHORT;
 import static org.github.krashpad.util.Constants.OPTION_LATEST_VERSION_LONG;
@@ -64,9 +64,11 @@ public class OptionsParser {
     ***REMOVED***
 
     /**
-     * Parse command line options.
-     * 
-     * @return
+     * @param args
+     *            The command line options.
+     * @return Create <code>CommandLineParser</code> from the command line options.
+     * @throws ParseException
+     *             for invalid command line options.
      */
     public static final CommandLine parseOptions(String[] args) throws ParseException {
         CommandLineParser parser = new BasicParser();
