@@ -198,6 +198,11 @@ public enum Analysis {
     INFO_JFFI("info.jffi"),
 
     /**
+     * Property key for possible Java Native Interface (JNA) usage.
+     */
+    INFO_JNA("info.jna"),
+
+    /**
      * Property key for crash on JVM startup.
      */
     INFO_JVM_STARTUP_FAILS("info.jvm.startup.fails"),
