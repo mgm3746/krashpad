@@ -1706,4 +1706,15 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_JFFI), Analysis.INFO_JFFI + " analysis not identified.");
     ***REMOVED***
+
+    @Test
+    void testJna() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logline = "7f99774f8000-7f99775f7000 ---p 00017000 00:27 165351280                  "
+                + "/tmp/jna-100343/jna17878442429968131541.tmp (deleted)";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
+        fel.getDynamicLibraryEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JNA), Analysis.INFO_JNA + " analysis not identified.");
+    ***REMOVED***
 ***REMOVED***

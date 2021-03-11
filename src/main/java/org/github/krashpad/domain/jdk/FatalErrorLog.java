@@ -634,13 +634,24 @@ public class FatalErrorLog {
             Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
             while (iterator.hasNext()) {
                 DynamicLibraryEvent event = iterator.next();
-                if (event.getFilePath() != null && event.getFilePath().matches("^.+(jffi|JFFI).+$")) {
+                if (event.getFilePath() != null && event.getFilePath().matches("^.+[\\\\/](jffi|JFFI).+$")) {
                     analysis.add(Analysis.INFO_JFFI);
                     break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        //
+        // Check for possible JNA usage
+        if (!analysis.contains(Analysis.ERROR_JNA) && !analysis.contains(Analysis.ERROR_JNA_RH)
+                && !dynamicLibraryEvents.isEmpty()) {
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getFilePath() != null && event.getFilePath().matches("^.+[\\\\/](jna|JNA).+$")) {
+                    analysis.add(Analysis.INFO_JNA);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
         // Check for JVM crash due to temporary font file being removed from java.io.tmpdir.
         if (getStackFrameTopJava() != null
                 && getStackFrameTopJava().matches("^.+sun\\.font\\.FreetypeFontScaler\\.getGlyphImageNative.+$")) {
