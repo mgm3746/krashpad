@@ -1735,4 +1735,13 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP),
                 Analysis.ERROR_OOME_STARTUP + " analysis not identified.");
     ***REMOVED***
+
+    @Test
+    void testHeapMaxMissing() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset56.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_MAX_MISSING),
+                Analysis.INFO_OPT_HEAP_MAX_MISSING + " analysis not identified.");
+    ***REMOVED***
 ***REMOVED***

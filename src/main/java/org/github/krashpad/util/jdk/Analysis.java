@@ -277,6 +277,11 @@ public enum Analysis {
     INFO_OPT_HEAP_DUMP_PATH_MISSING("info.opt.heap.dump.path.missing"),
 
     /**
+     * Property key for the maximum heap size not being explicitly set.
+     */
+    INFO_OPT_HEAP_MAX_MISSING("info.opt.heap.max.missing"),
+
+    /**
      * Property key for min heap not equal to max heap.
      */
     INFO_OPT_HEAP_MIN_NOT_EQUAL_MAX("info.opt.heap.min.not.equal.max"),

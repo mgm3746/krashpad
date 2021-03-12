@@ -2028,6 +2028,10 @@ public class JvmOptions {
         if (verify != null && verify.equals("-Xverify:none")) {
             analysis.add(Analysis.WARN_OPT_VERIFY_NONE);
         ***REMOVED***
+        // Check for max heap size not being explicitly set
+        if (this.maxHeapSize == null) {
+            analysis.add(Analysis.INFO_OPT_HEAP_MAX_MISSING);
+        ***REMOVED***
     ***REMOVED***
 
     public String getAbrt() {
