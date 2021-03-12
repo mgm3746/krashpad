@@ -356,7 +356,11 @@ public class FatalErrorLog {
         if (isError("Out of Memory Error")) {
             if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
                 if (getJvmMemoryMax() > (getJvmPhysicalMemoryFree() + getJvmSwapFree())) {
-                    analysis.add(Analysis.ERROR_OOME_STARTUP_MEMORY);
+                    if (JdkMath.calcPercent(getJvmMemoryMax(), getSystemPhysicalMemory()) < 50) {
+                        analysis.add(Analysis.ERROR_OOME_STARTUP_EXTERNAL);
+                    ***REMOVED*** else {
+                        analysis.add(Analysis.ERROR_OOME_STARTUP);
+                    ***REMOVED***
                 ***REMOVED*** else {
                     analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT);
                 ***REMOVED***

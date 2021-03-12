@@ -51,6 +51,11 @@ public enum Analysis {
     ERROR_EXPLICIT_GC_DISABLED_EAP7("error.explicit.gc.disabled.eap7"),
 
     /**
+     * Property key for a crash due to a temporary font file being removed from java.io.tmpdir.
+     */
+    ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE("error.freetype.font.scaler.get.glyph.image.native"),
+
+    /**
      * Property key for heap + metaspace &gt; physical memory.
      */
     ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY("error.heap.plus.metaspace.gt.physical.memory"),
@@ -86,11 +91,6 @@ public enum Analysis {
      * Property key for a crash in JNA code on a Red Hat JDK.
      */
     ERROR_JNA_RH("error.jna.rh"),
-
-    /**
-     * Property key for a crash due to a temporary font file being removed from java.io.tmpdir.
-     */
-    ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE("error.freetype.font.scaler.get.glyph.image.native"),
 
     /**
      * Property key for a crash in jvm.dll.
@@ -138,14 +138,19 @@ public enum Analysis {
     ERROR_OOME_JVM("error.oome.jvm"),
 
     /**
+     * Property key for the JVM failing to start due to enough physical memory.
+     */
+    ERROR_OOME_STARTUP("error.oome.startup"),
+
+    /**
+     * Property key for the JVM failing to start due to enough physical memory when JVM memory &lt; 50% memory.
+     */
+    ERROR_OOME_STARTUP_EXTERNAL("error.oome.startup.external"),
+
+    /**
      * Property key for the JVM failing to start due to a thread limit.
      */
     ERROR_OOME_STARTUP_LIMIT("error.oome.startup.limit"),
-
-    /**
-     * Property key for the JVM failing to start due to enough physical memory.
-     */
-    ERROR_OOME_STARTUP_MEMORY("error.oome.startup.memory"),
 
     /**
      * Property key for remote debugging enabled.

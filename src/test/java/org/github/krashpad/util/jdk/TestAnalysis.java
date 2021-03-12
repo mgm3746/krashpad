@@ -1717,4 +1717,22 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_JNA), Analysis.INFO_JNA + " analysis not identified.");
     ***REMOVED***
+
+    @Test
+    void testOomStartupExternal() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_EXTERNAL),
+                Analysis.ERROR_OOME_STARTUP_EXTERNAL + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOomStartup() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset56.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP),
+                Analysis.ERROR_OOME_STARTUP + " analysis not identified.");
+    ***REMOVED***
 ***REMOVED***
