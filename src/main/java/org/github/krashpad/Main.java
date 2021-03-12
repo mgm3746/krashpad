@@ -306,13 +306,15 @@ public class Main {
                             + JdkMath.calcPercent(fel.getSystemPhysicalMemoryFree(), fel.getSystemPhysicalMemory())
                             + "%)" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getSystemSwap() > 0) {
+                if (fel.getSystemSwap() >= 0) {
                     printWriter.write("Swap: " + fel.getSystemSwap() + Character.toString(Constants.PRECISION_REPORTING)
                             + Constants.LINE_SEPARATOR);
-                    printWriter.write(
-                            "Swap Free: " + fel.getSystemSwapFree() + Character.toString(Constants.PRECISION_REPORTING)
-                                    + " (" + JdkMath.calcPercent(fel.getSystemSwapFree(), fel.getSystemSwap()) + "%)"
-                                    + Constants.LINE_SEPARATOR);
+                    if (fel.getSystemSwap() > 0) {
+                        printWriter.write("Swap Free: " + fel.getSystemSwapFree()
+                                + Character.toString(Constants.PRECISION_REPORTING) + " ("
+                                + JdkMath.calcPercent(fel.getSystemSwapFree(), fel.getSystemSwap()) + "%)"
+                                + Constants.LINE_SEPARATOR);
+                    ***REMOVED***
                 ***REMOVED***
 
                 if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
