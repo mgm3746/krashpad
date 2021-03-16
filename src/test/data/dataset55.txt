@@ -110,69 +110,6 @@ libc:glibc 2.17 NPTL 2.17
 rlimit: STACK 8192k, CORE 0k, NPROC 4096, NOFILE 4096, AS infinity
 load average:0.02 0.31 0.30
 
-***REMOVED***
-MemTotal:       35010512 kB
-MemFree:          238504 kB
-MemAvailable:     185940 kB
-Buffers:            9544 kB
-Cached:           303020 kB
-SwapCached:            0 kB
-Active:         33182708 kB
-Inactive:         143856 kB
-Active(anon):   33061388 kB
-Inactive(anon):    30052 kB
-Active(file):     121320 kB
-Inactive(file):   113804 kB
-Unevictable:          56 kB
-Mlocked:              56 kB
-SwapTotal:             0 kB
-SwapFree:              0 kB
-Dirty:               648 kB
-***REMOVED***
-AnonPages:      33014304 kB
-Mapped:           154492 kB
-Shmem:             77228 kB
-Slab:             149284 kB
-SReclaimable:      77468 kB
-SUnreclaim:        71816 kB
-KernelStack:       59920 kB
-PageTables:        87504 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-CommitLimit:    17505256 kB
-Committed_AS:    9586856 kB
-VmallocTotal:   34359738367 kB
-VmallocUsed:      254328 kB
-VmallocChunk:   34359341052 kB
-Percpu:              400 kB
-***REMOVED***
-AnonHugePages:  12908544 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-Hugepagesize:       2048 kB
-DirectMap4k:      247152 kB
-DirectMap2M:    24918016 kB
-DirectMap1G:    12582912 kB
-
-***REMOVED***
-***REMOVED***
-cpu_cpuset_cpus: 0-1
-cpu_memory_nodes: 0
-active_processor_count: 2
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-memory_usage_in_bytes: 34127003648
-memory_max_usage_in_bytes: 76361728
-
 
 CPU:total 2 (initial active 2) (1 cores per cpu, 1 threads per core) family 6 model 85 stepping 7, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, tsc, tscinvbit, bmi1, bmi2, adx
 
@@ -231,7 +168,7 @@ power management:
 
 
 
-Memory: 4k page, physical 35010512k(238504k free), swap 0k(0k free)
+Memory: 4k page, physical 786432k(238504k free), swap 0k(0k free)
 
 vm_info: OpenJDK 64-Bit Server VM (25.272-b10) for linux-amd64 JRE (1.8.0_272-b10), built on Oct 19 2020 21:30:02 by "mockbuild" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)
 
