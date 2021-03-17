@@ -225,9 +225,9 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.isRhBuildOpenJdk(), "RH build of OpenJDK incorrectly identified.");
         long physicalMemory = JdkUtil.convertSize(15995796, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(physicalMemory, fel.getJvmPhysicalMemory(), "Physical memory not correct.");
+        assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(241892, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(physicalMemoryFree, fel.getJvmPhysicalMemoryFree(), "Physical memory free not correct.");
+        assertEquals(physicalMemoryFree, fel.getJvmMemFree(), "Physical memory free not correct.");
         long swap = JdkUtil.convertSize(10592252, 'K', Constants.PRECISION_REPORTING);
         assertEquals(swap, fel.getJvmSwap(), "Swap not correct.");
         long swapFree = JdkUtil.convertSize(4, 'K', Constants.PRECISION_REPORTING);
@@ -279,7 +279,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isError("Out of Memory Error"), "Out Of Memory Error not identified.");
         long physicalMemory = JdkUtil.convertSize(24609684, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(physicalMemory, fel.getJvmPhysicalMemory(), "Physical memory not correct.");
+        assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
         long heapMax = JdkUtil.convertSize(16000, 'M', Constants.PRECISION_REPORTING);
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long metaspaceMax = JdkUtil.convertSize(1148928, 'K', Constants.PRECISION_REPORTING);
@@ -1743,5 +1743,14 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_MAX_MISSING),
                 Analysis.INFO_OPT_HEAP_MAX_MISSING + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOomLimit() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset57.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT),
+                Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
     ***REMOVED***
 ***REMOVED***

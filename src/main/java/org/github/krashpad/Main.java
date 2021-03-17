@@ -298,13 +298,19 @@ public class Main {
                     printWriter.write(
                             "CPUs (cpu x cpu cores x hyperthreading): " + fel.getCpus() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getSystemPhysicalMemory() > 0) {
-                    printWriter.write("Memory: " + fel.getSystemPhysicalMemory()
-                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
-                    printWriter.write("Memory Free: " + fel.getSystemPhysicalMemoryFree()
-                            + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getSystemPhysicalMemoryFree(), fel.getSystemPhysicalMemory())
-                            + "%)" + Constants.LINE_SEPARATOR);
+                if (fel.getMemTotal() > 0) {
+                    printWriter.write("Memory: " + fel.getMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
+                            + Constants.LINE_SEPARATOR);
+                    printWriter.write(
+                            "Memory Free: " + fel.getMemFree() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getMemFree(), fel.getMemTotal()) + "%)"
+                                    + Constants.LINE_SEPARATOR);
+                    if (fel.getMemAvailable() > 0) {
+                        printWriter.write("Memory Available: " + fel.getMemAvailable()
+                                + Character.toString(Constants.PRECISION_REPORTING) + " ("
+                                + JdkMath.calcPercent(fel.getMemAvailable(), fel.getMemTotal()) + "%)"
+                                + Constants.LINE_SEPARATOR);
+                    ***REMOVED***
                 ***REMOVED***
                 if (fel.getSystemSwap() >= 0) {
                     printWriter.write("Swap: " + fel.getSystemSwap() + Character.toString(Constants.PRECISION_REPORTING)
@@ -322,14 +328,14 @@ public class Main {
                     printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                     printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     if (fel.getJvmMemoryMax() > 0) {
-                        printWriter.write("Memory: " + fel.getJvmPhysicalMemory()
+                        printWriter.write("Memory: " + fel.getJvmMemTotal()
                                 + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                                + JdkMath.calcPercent(fel.getJvmPhysicalMemory(), fel.getSystemPhysicalMemory()) + "%)"
+                                + JdkMath.calcPercent(fel.getJvmMemTotal(), fel.getMemTotal()) + "%)"
                                 + Constants.LINE_SEPARATOR);
                         printWriter
-                                .write("Memory Free: " + fel.getJvmPhysicalMemoryFree()
+                                .write("Memory Free: " + fel.getJvmMemFree()
                                         + Character.toString(Constants.PRECISION_REPORTING) + " (" + JdkMath
-                                                .calcPercent(fel.getJvmPhysicalMemoryFree(), fel.getJvmPhysicalMemory())
+                                                .calcPercent(fel.getJvmMemFree(), fel.getJvmMemTotal())
                                         + "%)" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     if (fel.getSystemSwap() > 0) {
@@ -430,7 +436,7 @@ public class Main {
                 if (fel.getJvmMemoryMax() > 0) {
                     printWriter.write("JVM Memory Max: >" + fel.getJvmMemoryMax()
                             + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmPhysicalMemory())
+                            + JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal())
                             + "% Available Memory)" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
 

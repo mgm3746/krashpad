@@ -347,16 +347,16 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for insufficient physical memory
-        if (getJvmPhysicalMemory() > 0 && getJvmMemoryMax() > Long.MIN_VALUE) {
-            if (getJvmMemoryMax() > getJvmPhysicalMemory()) {
+        if (getJvmMemTotal() > 0 && getJvmMemoryMax() > Long.MIN_VALUE) {
+            if (getJvmMemoryMax() > getJvmMemTotal()) {
                 analysis.add(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY);
             ***REMOVED***
         ***REMOVED***
         // OOME, swap
         if (isError("Out of Memory Error")) {
             if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
-                if (getJvmMemoryMax() > (getJvmPhysicalMemoryFree() + getJvmSwapFree())) {
-                    if (JdkMath.calcPercent(getJvmMemoryMax(), getSystemPhysicalMemory()) < 50) {
+                if (getJvmMemoryMax() > (getJvmMemFree() + getJvmSwapFree())) {
+                    if (JdkMath.calcPercent(getJvmMemoryMax(), getMemTotal()) < 50) {
                         analysis.add(Analysis.ERROR_OOME_STARTUP_EXTERNAL);
                     ***REMOVED*** else {
                         analysis.add(Analysis.ERROR_OOME_STARTUP);
@@ -366,23 +366,44 @@ public class FatalErrorLog {
                 ***REMOVED***
                 // Don't double report the JVM failing to start
                 analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
-            ***REMOVED*** else if (getJvmPhysicalMemoryFree() > 0
-                    && JdkMath.calcPercent(getJvmPhysicalMemoryFree(), getJvmPhysicalMemory()) >= 5) {
-                // Plenty of physical memory, check for other limits/causes
-                if (isError("Native memory allocation \\(mmap\\) failed to map")
-                        || isError("Out of swap space to map in thread stack")) {
-                    analysis.add(Analysis.ERROR_OOME_COMPRESSED_OOPS);
-                ***REMOVED***
             ***REMOVED*** else {
-                // Low physical memory
-                if (getJvmMemoryMax() > 0 && getJvmPhysicalMemory() > 0) {
-                    if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmPhysicalMemory()) >= 95) {
-                        analysis.add(Analysis.ERROR_OOME_JVM);
-                    ***REMOVED*** else {
-                        analysis.add(Analysis.ERROR_OOME_EXTERNAL);
+                // Check for failed allocation size in header
+                long allocation = Long.MIN_VALUE;
+                if (!headerEvents.isEmpty()) {
+                    Iterator<HeaderEvent> iterator = headerEvents.iterator();
+                    String regex = "^.+failed to allocate (\\d{1,***REMOVED***) bytes.+$";
+                    while (iterator.hasNext()) {
+                        HeaderEvent he = iterator.next();
+                        if (he.getLogEntry().matches(regex)) {
+                            Pattern pattern = Pattern.compile(regex);
+                            Matcher matcher = pattern.matcher(he.getLogEntry());
+                            if (matcher.find()) {
+                                allocation = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
+                                        Constants.PRECISION_REPORTING);
+                                break;
+                            ***REMOVED***
+                        ***REMOVED***
                     ***REMOVED***
+                ***REMOVED***
+                if (allocation >= 0 && getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
+                        && allocation < (getJvmMemFree() + getJvmSwapFree())) {
+                    // Plenty of physical memory, check for other causes
+                    analysis.add(Analysis.ERROR_OOME_LIMIT);
+                ***REMOVED*** else if (getOsType() == OsType.SOLARIS
+                        && (isError("Native memory allocation \\(mmap\\) failed to map")
+                                || isError("Out of swap space to map in thread stack"))) {
+                    analysis.add(Analysis.ERROR_OOME_COMPRESSED_OOPS);
                 ***REMOVED*** else {
-                    analysis.add(Analysis.ERROR_OOME);
+                    // Low physical memory
+                    if (getJvmMemoryMax() > 0 && getJvmMemTotal() > 0) {
+                        if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) >= 95) {
+                            analysis.add(Analysis.ERROR_OOME_JVM);
+                        ***REMOVED*** else {
+                            analysis.add(Analysis.ERROR_OOME_EXTERNAL);
+                        ***REMOVED***
+                    ***REMOVED*** else {
+                        analysis.add(Analysis.ERROR_OOME);
+                    ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED*** else if (getJvmSwap() > 0) {
@@ -510,8 +531,7 @@ public class FatalErrorLog {
         if (!getContainerInfoEvents().isEmpty()) {
             analysis.add(Analysis.INFO_CGROUP);
         ***REMOVED***
-        if (getJvmPhysicalMemory() > 0 && getSystemPhysicalMemory() > 0
-                && getJvmPhysicalMemory() != getSystemPhysicalMemory()) {
+        if (getJvmMemTotal() > 0 && getMemTotal() > 0 && getJvmMemTotal() != getMemTotal()) {
             analysis.add(Analysis.INFO_MEMORY_JVM_NE_SYSTEM);
             if (haveCgroupMemoryLimit()) {
                 analysis.add(Analysis.INFO_CGROUP_MEMORY_LIMIT);
@@ -1208,9 +1228,9 @@ public class FatalErrorLog {
                 ***REMOVED***
                 heapMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
             ***REMOVED***
-        ***REMOVED*** else if (getSystemPhysicalMemory() > 0) {
+        ***REMOVED*** else if (getMemTotal() > 0) {
             // Use JVM default = 1/4 system memory
-            BigDecimal systemPhysicalMemory = new BigDecimal(getSystemPhysicalMemory());
+            BigDecimal systemPhysicalMemory = new BigDecimal(getMemTotal());
             systemPhysicalMemory = systemPhysicalMemory.divide(new BigDecimal(4));
             systemPhysicalMemory = systemPhysicalMemory.setScale(0, RoundingMode.HALF_EVEN);
             heapMaxSize = systemPhysicalMemory.longValue();
@@ -1460,7 +1480,7 @@ public class FatalErrorLog {
      * @return The total available physical memory reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
      *         units.
      */
-    public long getJvmPhysicalMemory() {
+    public long getJvmMemTotal() {
         long physicalMemory = Long.MIN_VALUE;
         if (!memoryEvents.isEmpty()) {
             Iterator<MemoryEvent> iterator = memoryEvents.iterator();
@@ -1482,7 +1502,7 @@ public class FatalErrorLog {
      * @return The total free physical memory as reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
      *         units.
      */
-    public long getJvmPhysicalMemoryFree() {
+    public long getJvmMemFree() {
         long physicalMemoryFree = Long.MIN_VALUE;
         if (!memoryEvents.isEmpty()) {
             Iterator<MemoryEvent> iterator = memoryEvents.iterator();
@@ -1535,8 +1555,10 @@ public class FatalErrorLog {
                 if (event.isHeader()) {
                     Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)), matcher.group(16).charAt(0),
-                                Constants.PRECISION_REPORTING);
+                        if (matcher.group(14) != null && matcher.group(16) != null) {
+                            swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)),
+                                    matcher.group(16).charAt(0), Constants.PRECISION_REPORTING);
+                        ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -1997,8 +2019,8 @@ public class FatalErrorLog {
      * @return The total available physical memory reported by the OS in <code>Constants.PRECISION_REPORTING</code>
      *         units.
      */
-    public long getSystemPhysicalMemory() {
-        long physicalMemory = Long.MIN_VALUE;
+    public long getMemTotal() {
+        long memTotal = Long.MIN_VALUE;
         if (!meminfoEvents.isEmpty()) {
             String regexMemTotal = "MemTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
@@ -2007,7 +2029,7 @@ public class FatalErrorLog {
                 MeminfoEvent event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                    memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
                             Constants.PRECISION_REPORTING);
                     break;
                 ***REMOVED***
@@ -2020,21 +2042,21 @@ public class FatalErrorLog {
                     Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(3)),
-                                matcher.group(5).charAt(0), Constants.PRECISION_REPORTING);
+                        memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0),
+                                Constants.PRECISION_REPORTING);
                     ***REMOVED***
                     break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        return physicalMemory;
+        return memTotal;
     ***REMOVED***
 
     /**
      * @return The total free physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public long getSystemPhysicalMemoryFree() {
-        long physicalMemoryFree = Long.MIN_VALUE;
+    public long getMemFree() {
+        long memFree = Long.MIN_VALUE;
         if (!meminfoEvents.isEmpty()) {
             String regexMemTotal = "MemFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
@@ -2043,8 +2065,7 @@ public class FatalErrorLog {
                 MeminfoEvent event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
+                    memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.PRECISION_REPORTING);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -2056,14 +2077,37 @@ public class FatalErrorLog {
                     Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)),
-                                matcher.group(8).charAt(0), Constants.PRECISION_REPORTING);
+                        memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0),
+                                Constants.PRECISION_REPORTING);
                     ***REMOVED***
                     break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        return physicalMemoryFree;
+        return memFree;
+    ***REMOVED***
+
+    /**
+     * @return An estimate of how much physical memory is available without swapping in
+     *         <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getMemAvailable() {
+        long memAvailable = Long.MIN_VALUE;
+        if (!meminfoEvents.isEmpty()) {
+            String regexMemTotal = "MemAvailable:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    memAvailable = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return memAvailable;
     ***REMOVED***
 
     /**
