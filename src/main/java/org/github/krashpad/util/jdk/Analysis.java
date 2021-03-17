@@ -138,6 +138,11 @@ public enum Analysis {
     ERROR_OOME_JVM("error.oome.jvm"),
 
     /**
+     * Property key for failing to allocate memory due to a thread limit.
+     */
+    ERROR_OOME_LIMIT("error.oome.limit"),
+
+    /**
      * Property key for the JVM failing to start due to enough physical memory.
      */
     ERROR_OOME_STARTUP("error.oome.startup"),
