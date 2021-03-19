@@ -14,7 +14,6 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -47,8 +46,6 @@ class TestRlimitEvent {
                 + "FSIZE infinity/infinity , MEMLOCK 64k/64k";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent,
                 JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
-        RlimitEvent event = new RlimitEvent(logLine);
-        assertEquals("62502", event.getNproc(), "NPROC not correct.");
     ***REMOVED***
 
     @Test
@@ -56,8 +53,6 @@ class TestRlimitEvent {
         String logLine = "rlimit: STACK 8192k, CORE 0k, NPROC infinity, NOFILE 240000, AS infinity";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent,
                 JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
-        RlimitEvent event = new RlimitEvent(logLine);
-        assertEquals("infinity", event.getNproc(), "NPROC not correct.");
     ***REMOVED***
 
     @Test
@@ -65,8 +60,12 @@ class TestRlimitEvent {
         String logLine = "rlimit: STACK 32768k, CORE infinity, NPROC 95259, NOFILE 10240, AS infinity";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent,
                 JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
-        RlimitEvent event = new RlimitEvent(logLine);
-        assertEquals("10240", event.getNofile(), "NOFILE not correct.");
     ***REMOVED***
 
+    @Test
+    void testSolaris() {
+        String logLine = "rlimit: STACK 8192k, CORE infinity, NOFILE 65536, AS infinity";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof RlimitEvent,
+                JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
+    ***REMOVED***
 ***REMOVED***

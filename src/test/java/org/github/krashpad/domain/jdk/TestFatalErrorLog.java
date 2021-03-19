@@ -245,6 +245,8 @@ class TestFatalErrorLog {
         assertEquals("1.8.0_251-b08", fel.getJdkReleaseString(), "Jdk release not correct.");
         // No vm_info, so not possible to determine vendor
         assertEquals(JavaVendor.UNKNOWN, fel.getJavaVendor(), "Java vendor not correct.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT),
+                Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test

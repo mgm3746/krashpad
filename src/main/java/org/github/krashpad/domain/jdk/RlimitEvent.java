@@ -14,9 +14,6 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
@@ -35,6 +32,8 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity
  * 
  * rlimit: STACK 32768k, CORE infinity, NPROC 95259, NOFILE 10240, AS infinity
+ * 
+ * rlimit: STACK 8192k, CORE infinity, NOFILE 65536, AS infinity
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -45,8 +44,7 @@ public class RlimitEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+NPROC "
-            + "(\\d{1,***REMOVED***|infinity)(/(\\d{1,***REMOVED***))?.+NOFILE (\\d{1,***REMOVED***|infinity)(/(\\d{1,***REMOVED***))?.+$";
+    private static final String REGEX = "^rlimit.+$";
 
     /**
      * The log entry for the event.
@@ -80,31 +78,5 @@ public class RlimitEvent implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
-
-    /**
-     * @return The nproc (soft) value.
-     */
-    public String getNproc() {
-        String nproc = null;
-        Pattern pattern = Pattern.compile(REGEX);
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            nproc = matcher.group(2);
-        ***REMOVED***
-        return nproc;
-    ***REMOVED***
-
-    /**
-     * @return The nofile (soft) value.
-     */
-    public String getNofile() {
-        String nproc = null;
-        Pattern pattern = Pattern.compile(REGEX);
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            nproc = matcher.group(5);
-        ***REMOVED***
-        return nproc;
     ***REMOVED***
 ***REMOVED***

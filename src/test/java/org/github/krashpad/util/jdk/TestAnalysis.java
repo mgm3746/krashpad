@@ -487,7 +487,8 @@ class TestAnalysis {
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_TRUNCATED),
                 Analysis.INFO_TRUNCATED + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME), Analysis.ERROR_OOME + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_OOPS),
+                Analysis.ERROR_OOME_OOPS + " analysis not identified.");
     ***REMOVED***
 
     @Test

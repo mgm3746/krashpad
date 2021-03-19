@@ -144,6 +144,11 @@ public enum Analysis {
     ERROR_OOME_LIMIT_OOPS("error.oome.limit.oops"),
 
     /**
+     * Property key for generic insufficient physical memory with oops enabled.
+     */
+    ERROR_OOME_OOPS("error.oome.oops"),
+
+    /**
      * Property key for the JVM failing to start due to enough physical memory.
      */
     ERROR_OOME_STARTUP("error.oome.startup"),

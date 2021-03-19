@@ -410,7 +410,11 @@ public class FatalErrorLog {
                             analysis.add(Analysis.ERROR_OOME_EXTERNAL);
                         ***REMOVED***
                     ***REMOVED*** else {
-                        analysis.add(Analysis.ERROR_OOME);
+                        if (!isTruncated() || !isInHeader("Java Heap may be blocking the growth of the native heap")) {
+                            analysis.add(Analysis.ERROR_OOME);
+                        ***REMOVED***else {
+                            analysis.add(Analysis.ERROR_OOME_OOPS);
+                        ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
