@@ -27,8 +27,7 @@ OS:                            Oracle Solaris 11.4 SPARC
              Copyright (c) 1983, 2020, Oracle and/or its affiliates.
                              Assembled 23 June 2020
 
-uname:SunOS 5.11 11.4.23.69.3 sun4v
-  (T2 libthread)
+uname:SunOS 5.11 11.4.23.69.3 sun4v (T2 libthread)
 rlimit: STACK 8192k, CORE infinity, NOFILE 65536, AS infinity
 load average:2.09 2.89 4.25
 
