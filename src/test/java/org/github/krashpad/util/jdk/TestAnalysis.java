@@ -1753,4 +1753,13 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT),
                 Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
     ***REMOVED***
+
+    @Test
+    void testFailedToMapBytes() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset58.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT),
+                Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
+    ***REMOVED***
 ***REMOVED***

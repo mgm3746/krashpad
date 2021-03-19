@@ -389,9 +389,8 @@ public class FatalErrorLog {
                         && allocation < (getJvmMemFree() + getJvmSwapFree())) {
                     // Plenty of physical memory, check for other causes
                     analysis.add(Analysis.ERROR_OOME_LIMIT);
-                ***REMOVED*** else if (getOsType() == OsType.SOLARIS
-                        && (isError("Native memory allocation \\(mmap\\) failed to map")
-                                || isError("Out of swap space to map in thread stack"))) {
+                ***REMOVED*** else if (isError("Native memory allocation \\(mmap\\) failed to map")
+                        || isError("Out of swap space to map in thread stack")) {
                     analysis.add(Analysis.ERROR_OOME_COMPRESSED_OOPS);
                 ***REMOVED*** else {
                     // Low physical memory
@@ -1499,6 +1498,11 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * Free memory as reported by the JVM in a <code>MemoryEvent</code>.
+     * 
+     * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
+     * low free memory does not necessarily indicate swapping or out of memory is imminent.
+     * 
      * @return The total free physical memory as reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
      *         units.
      */
@@ -2053,6 +2057,10 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * Free memory as reported by the OS. Note that free memory does not include Buffers or Cached memory, which can be
+     * reclaimed at any time. Therefore, low free memory does not necessarily indicate swapping or out of memory is
+     * imminent.
+     * 
      * @return The total free physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getMemFree() {

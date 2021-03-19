@@ -328,15 +328,14 @@ public class Main {
                     printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                     printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     if (fel.getJvmMemoryMax() > 0) {
-                        printWriter.write("Memory: " + fel.getJvmMemTotal()
+                        printWriter.write(
+                                "Memory: " + fel.getJvmMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
+                                        + " (" + JdkMath.calcPercent(fel.getJvmMemTotal(), fel.getMemTotal()) + "%)"
+                                        + Constants.LINE_SEPARATOR);
+                        printWriter.write("Memory Free: " + fel.getJvmMemFree()
                                 + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                                + JdkMath.calcPercent(fel.getJvmMemTotal(), fel.getMemTotal()) + "%)"
+                                + JdkMath.calcPercent(fel.getJvmMemFree(), fel.getJvmMemTotal()) + "%)"
                                 + Constants.LINE_SEPARATOR);
-                        printWriter
-                                .write("Memory Free: " + fel.getJvmMemFree()
-                                        + Character.toString(Constants.PRECISION_REPORTING) + " (" + JdkMath
-                                                .calcPercent(fel.getJvmMemFree(), fel.getJvmMemTotal())
-                                        + "%)" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     if (fel.getSystemSwap() > 0) {
                         printWriter
@@ -349,9 +348,11 @@ public class Main {
                                 + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                 ***REMOVED***
-                if (fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT) && fel.getRlimitEvent() != null
+                if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT)
+                        || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)) && fel.getRlimitEvent() != null
                         && fel.getRlimitEvent().getNproc() != null) {
                     printWriter.write("NPROC: " + fel.getRlimitEvent().getNproc() + Constants.LINE_SEPARATOR);
+                    printWriter.write("NOFILE: " + fel.getRlimitEvent().getNofile() + Constants.LINE_SEPARATOR);
 
                 ***REMOVED***
 
@@ -436,8 +437,8 @@ public class Main {
                 if (fel.getJvmMemoryMax() > 0) {
                     printWriter.write("JVM Memory Max: >" + fel.getJvmMemoryMax()
                             + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal())
-                            + "% Available Memory)" + Constants.LINE_SEPARATOR);
+                            + JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal()) + "% Available Memory)"
+                            + Constants.LINE_SEPARATOR);
                 ***REMOVED***
 
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);

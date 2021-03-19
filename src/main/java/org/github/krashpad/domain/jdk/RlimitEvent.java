@@ -26,13 +26,15 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <p>
- * rlimit information.
+ * Resource limit (rlimit) information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
  * rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity
+ * 
+ * rlimit: STACK 32768k, CORE infinity, NPROC 95259, NOFILE 10240, AS infinity
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -43,7 +45,8 @@ public class RlimitEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+NPROC (\\d{1,***REMOVED***|infinity)(/(\\d{1,***REMOVED***))?.+$";
+    private static final String REGEX = "^rlimit( \\(soft/hard\\))?:.+NPROC "
+            + "(\\d{1,***REMOVED***|infinity)(/(\\d{1,***REMOVED***))?.+NOFILE (\\d{1,***REMOVED***|infinity)(/(\\d{1,***REMOVED***))?.+$";
 
     /**
      * The log entry for the event.
@@ -88,6 +91,19 @@ public class RlimitEvent implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             nproc = matcher.group(2);
+        ***REMOVED***
+        return nproc;
+    ***REMOVED***
+
+    /**
+     * @return The nofile (soft) value.
+     */
+    public String getNofile() {
+        String nproc = null;
+        Pattern pattern = Pattern.compile(REGEX);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            nproc = matcher.group(5);
         ***REMOVED***
         return nproc;
     ***REMOVED***
