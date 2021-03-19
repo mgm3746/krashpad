@@ -118,11 +118,6 @@ public enum Analysis {
     ERROR_OOME("error.oome"),
 
     /**
-     * Property key for Out of Memory Error due to CompressedOops blocking the growth of the native heap.
-     */
-    ERROR_OOME_COMPRESSED_OOPS("error.oome.compressed.oops"),
-
-    /**
      * Property key for insufficient physical memory due to an external process.
      */
     ERROR_OOME_EXTERNAL("error.oome.external"),
@@ -138,9 +133,15 @@ public enum Analysis {
     ERROR_OOME_JVM("error.oome.jvm"),
 
     /**
-     * Property key for failing to allocate memory due to a thread limit.
+     * Property key for failing to allocate memory due to a resource limit (rlimit).
      */
     ERROR_OOME_LIMIT("error.oome.limit"),
+
+    /**
+     * Property key for failing to allocate memory due to a resource limit (rlimit) being reached or the native heap
+     * reaching the java heap base address.
+     */
+    ERROR_OOME_LIMIT_OOPS("error.oome.limit.oops"),
 
     /**
      * Property key for the JVM failing to start due to enough physical memory.
@@ -153,9 +154,15 @@ public enum Analysis {
     ERROR_OOME_STARTUP_EXTERNAL("error.oome.startup.external"),
 
     /**
-     * Property key for the JVM failing to start due to a thread limit.
+     * Property key for the JVM failing to start due to a resource limit (rlimit).
      */
     ERROR_OOME_STARTUP_LIMIT("error.oome.startup.limit"),
+
+    /**
+     * Property key for the JVM failing to start due to a resource limit (rlimit) being reached or the native heap
+     * reaching the java heap base address.
+     */
+    ERROR_OOME_STARTUP_LIMIT_OOPS("error.oome.startup.limit.oops"),
 
     /**
      * Property key for remote debugging enabled.

@@ -362,7 +362,11 @@ public class FatalErrorLog {
                         analysis.add(Analysis.ERROR_OOME_STARTUP);
                     ***REMOVED***
                 ***REMOVED*** else {
-                    analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT);
+                    if (isInHeader("Java Heap may be blocking the growth of the native heap")) {
+                        analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT_OOPS);
+                    ***REMOVED*** else {
+                        analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT);
+                    ***REMOVED***
                 ***REMOVED***
                 // Don't double report the JVM failing to start
                 analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
@@ -371,29 +375,34 @@ public class FatalErrorLog {
                 long allocation = Long.MIN_VALUE;
                 if (!headerEvents.isEmpty()) {
                     Iterator<HeaderEvent> iterator = headerEvents.iterator();
-                    String regex = "^.+failed to allocate (\\d{1,***REMOVED***) bytes.+$";
+                    String regex = "^.+failed to (allocate|map) (\\d{1,***REMOVED***) bytes.+$";
                     while (iterator.hasNext()) {
                         HeaderEvent he = iterator.next();
                         if (he.getLogEntry().matches(regex)) {
                             Pattern pattern = Pattern.compile(regex);
                             Matcher matcher = pattern.matcher(he.getLogEntry());
                             if (matcher.find()) {
-                                allocation = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
+                                allocation = JdkUtil.convertSize(Long.parseLong(matcher.group(2)), 'B',
                                         Constants.PRECISION_REPORTING);
                                 break;
                             ***REMOVED***
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
-                if (allocation >= 0 && getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
-                        && allocation < (getJvmMemFree() + getJvmSwapFree())) {
-                    // Plenty of physical memory, check for other causes
-                    analysis.add(Analysis.ERROR_OOME_LIMIT);
-                ***REMOVED*** else if (isError("Native memory allocation \\(mmap\\) failed to map")
-                        || isError("Out of swap space to map in thread stack")) {
-                    analysis.add(Analysis.ERROR_OOME_COMPRESSED_OOPS);
+                if ((allocation >= 0 && getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
+                        && allocation < (getJvmMemFree() + getJvmSwapFree()))
+                        || (getJvmMemFree() >= 0 && getJvmMemTotal() > 0
+                                && JdkMath.calcPercent(getJvmMemFree(), getJvmMemTotal()) >= 50)
+                        || (getJvmMemoryMax() >= 0 && getJvmMemTotal() > 0
+                                && JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) < 50)) {
+                    // allocation < available memory or free memory >= 50%
+                    if (isInHeader("Java Heap may be blocking the growth of the native heap")) {
+                        analysis.add(Analysis.ERROR_OOME_LIMIT_OOPS);
+                    ***REMOVED*** else {
+                        analysis.add(Analysis.ERROR_OOME_LIMIT);
+                    ***REMOVED***
                 ***REMOVED*** else {
-                    // Low physical memory
+                    // low memory
                     if (getJvmMemoryMax() > 0 && getJvmMemTotal() > 0) {
                         if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) >= 95) {
                             analysis.add(Analysis.ERROR_OOME_JVM);
@@ -2520,6 +2529,25 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return isInStack;
+    ***REMOVED***
+
+    /**
+     * @param regEx
+     *            A regular expression.
+     * @return true if the regex is in the header, false otherwise.
+     */
+    public boolean isInHeader(String regEx) {
+        boolean isInHeader = false;
+        if (!headerEvents.isEmpty()) {
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent event = iterator.next();
+                if (event.getLogEntry().matches("^.*" + regEx + ".*$")) {
+                    isInHeader = true;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return isInHeader;
     ***REMOVED***
 
     /**

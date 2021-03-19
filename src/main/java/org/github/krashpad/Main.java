@@ -349,10 +349,8 @@ public class Main {
                     ***REMOVED***
                 ***REMOVED***
                 if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT)
-                        || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)) && fel.getRlimitEvent() != null
-                        && fel.getRlimitEvent().getNproc() != null) {
-                    printWriter.write("NPROC: " + fel.getRlimitEvent().getNproc() + Constants.LINE_SEPARATOR);
-                    printWriter.write("NOFILE: " + fel.getRlimitEvent().getNofile() + Constants.LINE_SEPARATOR);
+                        || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)) && fel.getRlimitEvent() != null) {
+                    printWriter.write(fel.getRlimitEvent().getLogEntry() + Constants.LINE_SEPARATOR);
 
                 ***REMOVED***
 
