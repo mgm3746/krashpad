@@ -337,6 +337,11 @@ public class FatalErrorLog {
                 && getStackFrameTopCompiledJavaCode().matches("^.+java\\.util\\.zip\\.ZipFile\\.getEntry.+$")) {
             analysis.add(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION);
         ***REMOVED***
+        // Check for JDK8 Deflator contention
+        if (getJavaSpecification() == JavaSpecification.JDK8 && getStackFrameTopCompiledJavaCode() != null
+                && getStackFrameTopCompiledJavaCode().matches("^.+java\\.util\\.zip\\.Deflater\\.deflateBytes.+$")) {
+            analysis.add(Analysis.ERROR_JDK8_DEFLATER_CONTENTION);
+        ***REMOVED***
         // Check for unsynchronized access to DirectByteBuffer
         String stackFrameTop = "^v  ~StubRoutines::jbyte_disjoint_arraycopy$";
         if (getStackFrameTop() != null && getStackFrameTop().matches(stackFrameTop)) {

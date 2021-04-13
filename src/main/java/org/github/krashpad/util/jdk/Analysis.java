@@ -61,6 +61,11 @@ public enum Analysis {
     ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY("error.heap.plus.metaspace.gt.physical.memory"),
 
     /**
+     * Property key for a crash in JDK8 in Deflater when a file is attempting to be modified while Java has it open.
+     */
+    ERROR_JDK8_DEFLATER_CONTENTION("error.jdk8.deflater.contention"),
+
+    /**
      * Property key for a crash on RHEL7 where a power8 rpm is deployed on power9. Power8 support is through the
      * rhel-7-for-power-le-rpms repo (least release 7.9). Power9 support is through the rhel-7-for-power-9-rpms repo
      * (last release 7.6).
@@ -78,7 +83,7 @@ public enum Analysis {
     ERROR_JDK8_SHENANDOAH_ROOT_UPDATER("error.jdk8.shenandoah.root.updater"),
 
     /**
-     * Property key for a crash in JDK8 when a file is attempting to be modified while Java has it open.
+     * Property key for a crash in JDK8 in ZipFile when a file is attempting to be modified while Java has it open.
      */
     ERROR_JDK8_ZIPFILE_CONTENTION("error.jdk8.zipfile.contention"),
 

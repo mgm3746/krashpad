@@ -119,7 +119,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset16.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertEquals(JavaSpecification.JDK12, fel.getJavaSpecification(), "Release ***REMOVED*** diff not correct.");
+        assertEquals(JavaSpecification.JDK12, fel.getJavaSpecification(), "Java specification not correct.");
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LTS),
                 Analysis.WARN_JDK_NOT_LTS + " analysis not identified.");
     ***REMOVED***
@@ -179,13 +179,27 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset23.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Release ***REMOVED*** diff not correct.");
+        assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         String stackFrameTopCompiledJavaCode = "J 302  java.util.zip.ZipFile.getEntry(J[BZ)J (0 bytes) @ "
                 + "0x00007fa287303dce [0x00007fa287303d00+0xce]";
         assertEquals(stackFrameTopCompiledJavaCode, fel.getStackFrameTopCompiledJavaCode(),
                 "Top compiled Java code (J) stack frame not correct.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdk8DeflaterContention() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset59.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
+        String stackFrameTopCompiledJavaCode = "J 3602  java.util.zip.Deflater.deflateBytes(J[BIII)I (0 bytes) @ "
+                + "0x00007f641d41accd [0x00007f641d41ac00+0xcd]";
+        assertEquals(stackFrameTopCompiledJavaCode, fel.getStackFrameTopCompiledJavaCode(),
+                "Top compiled Java code (J) stack frame not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_DEFLATER_CONTENTION),
+                Analysis.ERROR_JDK8_DEFLATER_CONTENTION + " analysis not identified.");
     ***REMOVED***
 
     @Test
