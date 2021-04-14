@@ -23,8 +23,8 @@ import static org.github.krashpad.util.Constants.OPTION_OUTPUT_LONG;
 import static org.github.krashpad.util.Constants.OPTION_OUTPUT_SHORT;
 import static org.github.krashpad.util.Constants.OPTION_VERSION_LONG;
 import static org.github.krashpad.util.Constants.OPTION_VERSION_SHORT;
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;

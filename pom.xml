@@ -93,8 +93,8 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
 			<version>5.7.1</version>
 			<scope>test</scope>
 		</dependency>
