@@ -1734,6 +1734,15 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testJfrPdGetTopFrame() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JFR_PD_GET_TOP_FRAME),
+                Analysis.ERROR_JFR_PD_GET_TOP_FRAME + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testOomStartup() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
         Manager manager = new Manager();

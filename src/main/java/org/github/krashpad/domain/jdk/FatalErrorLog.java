@@ -698,6 +698,11 @@ public class FatalErrorLog {
                 && getStackFrameTopJava().matches("^.+sun\\.font\\.FreetypeFontScaler\\.getGlyphImageNative.+$")) {
             analysis.add(Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE);
         ***REMOVED***
+        // Check for JDK8 Deflator contention
+        if ((getArch().equals(Arch.PPC64) || getArch().equals(Arch.PPC64LE))
+                && getStackFrameTop().matches("^V.+JavaThread::pd_get_top_frame_for_profiling.+$")) {
+            analysis.add(Analysis.ERROR_JFR_PD_GET_TOP_FRAME);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {

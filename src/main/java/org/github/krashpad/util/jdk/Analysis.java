@@ -88,6 +88,11 @@ public enum Analysis {
     ERROR_JDK8_ZIPFILE_CONTENTION("error.jdk8.zipfile.contention"),
 
     /**
+     * Property key for a crash in JFR pd_get_top_frame_for_profiling.
+     */
+    ERROR_JFR_PD_GET_TOP_FRAME("error.jfr.pd.get.top.frame"),
+
+    /**
      * Property key for a crash in JNA code.
      */
     ERROR_JNA("error.jna"),
