@@ -1386,6 +1386,9 @@ public class FatalErrorLog {
                     // Some other OpenJDK
                     vendor = JavaVendor.UNKNOWN;
                     break;
+                case VSTS:
+                    vendor = JavaVendor.MICROSOFT;
+                    break;
                 case ZULU_RE:
                     vendor = JavaVendor.AZUL;
                     break;
