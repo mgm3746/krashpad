@@ -91,6 +91,16 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testVendorMicrosoft() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.10+9) for linux-amd64 JRE (11.0.10+9), "
+                + "built on Jan 22 2021 19:24:16 by \"vsts\" with gcc 7.3.0";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        assertEquals(JavaVendor.MICROSOFT, fel.getJavaVendor(), "JDK vendor not correct.");
+    ***REMOVED***
+
+    @Test
     void testVendorUnknown() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.242-b08) for linux-amd64 JRE (1.8.0_242-b08), built on "

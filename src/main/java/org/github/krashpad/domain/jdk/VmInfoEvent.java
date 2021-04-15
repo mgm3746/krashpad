@@ -53,6 +53,10 @@ import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
  * vm_info: Java HotSpot(TM) 64-Bit Server VM (25.231-b11) for solaris-sparc JRE (1.8.0_231-b11), built on Oct  5 2019 10:35:34 by "java_re" with Sun Studio 12u1
  * </pre>
  * 
+ * <pre>
+ * vm_info: OpenJDK 64-Bit Server VM (11.0.10+9) for linux-amd64 JRE (11.0.10+9), built on Jan 22 2021 19:24:16 by "vsts" with gcc 7.3.0
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -180,15 +184,19 @@ public class VmInfoEvent implements LogEvent {
         ***REMOVED*** else if (logEntry.matches(".+\"\".+")) {
             builtBy = BuiltBy.EMPTY;
         ***REMOVED*** else if (logEntry.matches(".+\"jenkins\".+")) {
-            // Used by AdoptOpenJDK
+            // AdoptOpenJDK
             builtBy = BuiltBy.JENKINS;
         ***REMOVED*** else if (logEntry.matches(".+\"java_re\".+")) {
-            // Used by Oracle
+            // Oracle
             builtBy = BuiltBy.JAVA_RE;
         ***REMOVED*** else if (logEntry.matches(".+\"mockbuild\".+")) {
-            // Used by Red Hat, CentOS
+            // Red Hat, CentOS
             builtBy = BuiltBy.MOCKBUILD;
+        ***REMOVED*** else if (logEntry.matches(".+\"vsts\".+")) {
+            // Microsoft
+            builtBy = BuiltBy.VSTS;
         ***REMOVED*** else if (logEntry.matches(".+\"zulu_re\".+")) {
+            // Azul
             builtBy = BuiltBy.ZULU_RE;
         ***REMOVED***
         return builtBy;

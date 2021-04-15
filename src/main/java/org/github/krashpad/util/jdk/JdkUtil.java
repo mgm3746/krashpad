@@ -123,7 +123,7 @@ public class JdkUtil {
      */
     public enum BuiltBy {
         //
-        BUILD, EMPTY, JAVA_RE, JENKINS, MOCKBUILD, UNKNOWN, ZULU_RE
+        BUILD, EMPTY, JAVA_RE, JENKINS, MOCKBUILD, UNKNOWN, VSTS, ZULU_RE
     ***REMOVED***
 
     /**
@@ -150,7 +150,7 @@ public class JdkUtil {
      * Defined Java vendors.
      */
     public enum JavaVendor {
-        ADOPTOPENJDK, AZUL, ORACLE, RED_HAT, UNKNOWN
+        ADOPTOPENJDK, AZUL, ORACLE, MICROSOFT, RED_HAT, UNKNOWN
     ***REMOVED***
 
     /**
