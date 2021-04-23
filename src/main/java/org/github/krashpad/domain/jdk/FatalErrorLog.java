@@ -2651,12 +2651,12 @@ public class FatalErrorLog {
         if (getOsType() == OsType.LINUX && getArch() == Arch.X86_64) {
             switch (getJavaSpecification()) {
             case JDK8:
-                isRhLinuxZipInstall = JdkUtil.RHEL_JDK8_ZIPS.containsKey(getJdkReleaseString()) && getJdkBuildDate()
-                        .compareTo(JdkUtil.RHEL_JDK8_ZIPS.get(getJdkReleaseString()).getBuildDate()) == 0;
+                isRhLinuxZipInstall = JdkUtil.JDK8_RHEL_ZIPS.containsKey(getJdkReleaseString()) && getJdkBuildDate()
+                        .compareTo(JdkUtil.JDK8_RHEL_ZIPS.get(getJdkReleaseString()).getBuildDate()) == 0;
                 break;
             case JDK11:
-                isRhLinuxZipInstall = JdkUtil.RHEL_JDK11_ZIPS.containsKey(getJdkReleaseString()) && getJdkBuildDate()
-                        .compareTo(JdkUtil.RHEL_JDK11_ZIPS.get(getJdkReleaseString()).getBuildDate()) == 0;
+                isRhLinuxZipInstall = JdkUtil.JDK11_RHEL_ZIPS.containsKey(getJdkReleaseString()) && getJdkBuildDate()
+                        .compareTo(JdkUtil.JDK11_RHEL_ZIPS.get(getJdkReleaseString()).getBuildDate()) == 0;
                 break;
             case JDK6:
             case JDK7:
@@ -2680,7 +2680,7 @@ public class FatalErrorLog {
             switch (getOsVersion()) {
             case CENTOS6:
             case RHEL6:
-                iterator = JdkUtil.RHEL6_X86_64_JDK8_RPMS.entrySet().iterator();
+                iterator = JdkUtil.JDK8_RHEL6_X86_64_RPMS.entrySet().iterator();
                 while (iterator.hasNext()) {
                     Entry<String, Release> entry = iterator.next();
                     Release release = entry.getValue();
@@ -2694,7 +2694,7 @@ public class FatalErrorLog {
             case CENTOS7:
             case RHEL7:
                 if (getArch() == Arch.X86_64) {
-                    iterator = JdkUtil.RHEL7_X86_64_JDK8_RPMS.entrySet().iterator();
+                    iterator = JdkUtil.JDK8_RHEL7_X86_64_RPMS.entrySet().iterator();
                     while (iterator.hasNext()) {
                         Entry<String, Release> entry = iterator.next();
                         Release release = entry.getValue();
@@ -2705,7 +2705,7 @@ public class FatalErrorLog {
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (getArch() == Arch.PPC64) {
-                    iterator = JdkUtil.RHEL7_PPC64_JDK8_RPMS.entrySet().iterator();
+                    iterator = JdkUtil.JDK8_RHEL7_PPC64_RPMS.entrySet().iterator();
                     while (iterator.hasNext()) {
                         Entry<String, Release> entry = iterator.next();
                         Release release = entry.getValue();
@@ -2716,7 +2716,7 @@ public class FatalErrorLog {
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
-                    iterator = JdkUtil.RHEL7_PPC64LE_JDK8_RPMS.entrySet().iterator();
+                    iterator = JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.entrySet().iterator();
                     while (iterator.hasNext()) {
                         Entry<String, Release> entry = iterator.next();
                         Release release = entry.getValue();
@@ -2731,7 +2731,7 @@ public class FatalErrorLog {
             case CENTOS8:
             case RHEL8:
                 if (getArch() == Arch.X86_64) {
-                    iterator = JdkUtil.RHEL8_X86_64_JDK8_RPMS.entrySet().iterator();
+                    iterator = JdkUtil.JDK8_RHEL8_X86_64_RPMS.entrySet().iterator();
                     while (iterator.hasNext()) {
                         Entry<String, Release> entry = iterator.next();
                         Release release = entry.getValue();
@@ -2742,7 +2742,7 @@ public class FatalErrorLog {
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
-                    iterator = JdkUtil.RHEL8_PPC64LE_JDK8_RPMS.entrySet().iterator();
+                    iterator = JdkUtil.JDK_RHEL8_PPC64LE_RPMS.entrySet().iterator();
                     while (iterator.hasNext()) {
                         Entry<String, Release> entry = iterator.next();
                         Release release = entry.getValue();
@@ -2762,7 +2762,7 @@ public class FatalErrorLog {
             switch (getOsVersion()) {
             case CENTOS7:
             case RHEL7:
-                iterator = JdkUtil.RHEL7_X86_64_JDK11_RPMS.entrySet().iterator();
+                iterator = JdkUtil.JDK11_RHEL7_X86_64_RPMS.entrySet().iterator();
                 while (iterator.hasNext()) {
                     Entry<String, Release> entry = iterator.next();
                     Release release = entry.getValue();
@@ -2775,7 +2775,7 @@ public class FatalErrorLog {
                 break;
             case CENTOS8:
             case RHEL8:
-                iterator = JdkUtil.RHEL8_X86_64_JRK11_RPMS.entrySet().iterator();
+                iterator = JdkUtil.JDK11_RHEL8_X86_64_RPMS.entrySet().iterator();
                 while (iterator.hasNext()) {
                     Entry<String, Release> entry = iterator.next();
                     Release release = entry.getValue();
@@ -2808,32 +2808,31 @@ public class FatalErrorLog {
                 switch (getOsVersion()) {
                 case CENTOS6:
                 case RHEL6:
-                    isRhelRpmInstall = JdkUtil.RHEL6_X86_64_JDK8_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
-                            .compareTo(JdkUtil.RHEL6_X86_64_JDK8_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    isRhelRpmInstall = JdkUtil.JDK8_RHEL6_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
+                            .compareTo(JdkUtil.JDK8_RHEL6_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     break;
                 case CENTOS7:
                 case RHEL7:
                     if (getArch() == Arch.X86_64) {
-                        isRhelRpmInstall = JdkUtil.RHEL7_X86_64_JDK8_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
-                                .compareTo(JdkUtil.RHEL7_X86_64_JDK8_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                        isRhelRpmInstall = JdkUtil.JDK8_RHEL7_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
+                                .compareTo(JdkUtil.JDK8_RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED*** else if (getArch() == Arch.PPC64) {
-                        isRhelRpmInstall = JdkUtil.RHEL7_PPC64_JDK8_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
-                                .compareTo(JdkUtil.RHEL7_PPC64_JDK8_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                        isRhelRpmInstall = JdkUtil.JDK8_RHEL7_PPC64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
+                                .compareTo(JdkUtil.JDK8_RHEL7_PPC64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
-                        isRhelRpmInstall = JdkUtil.RHEL7_PPC64LE_JDK8_RPMS.containsKey(rpmDirectory)
+                        isRhelRpmInstall = JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.containsKey(rpmDirectory)
                                 && getJdkBuildDate().compareTo(
-                                        JdkUtil.RHEL7_PPC64LE_JDK8_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                                        JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED***
                     break;
                 case CENTOS8:
                 case RHEL8:
                     if (getArch() == Arch.X86_64) {
-                        isRhelRpmInstall = JdkUtil.RHEL8_X86_64_JDK8_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
-                                .compareTo(JdkUtil.RHEL8_X86_64_JDK8_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                        isRhelRpmInstall = JdkUtil.JDK8_RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
+                                .compareTo(JdkUtil.JDK8_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
-                        isRhelRpmInstall = JdkUtil.RHEL8_PPC64LE_JDK8_RPMS.containsKey(rpmDirectory)
-                                && getJdkBuildDate().compareTo(
-                                        JdkUtil.RHEL8_PPC64LE_JDK8_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                        isRhelRpmInstall = JdkUtil.JDK_RHEL8_PPC64LE_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
+                                .compareTo(JdkUtil.JDK_RHEL8_PPC64LE_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED***
                     break;
                 case UNKNOWN:
@@ -2844,13 +2843,13 @@ public class FatalErrorLog {
                 switch (getOsVersion()) {
                 case CENTOS7:
                 case RHEL7:
-                    isRhelRpmInstall = JdkUtil.RHEL7_X86_64_JDK11_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
-                            .compareTo(JdkUtil.RHEL7_X86_64_JDK11_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    isRhelRpmInstall = JdkUtil.JDK11_RHEL7_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
+                            .compareTo(JdkUtil.JDK11_RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     break;
                 case CENTOS8:
                 case RHEL8:
-                    isRhelRpmInstall = JdkUtil.RHEL8_X86_64_JRK11_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
-                            .compareTo(JdkUtil.RHEL8_X86_64_JRK11_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    isRhelRpmInstall = JdkUtil.JDK11_RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate()
+                            .compareTo(JdkUtil.JDK11_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     break;
                 case CENTOS6:
                 case RHEL6:
@@ -2872,10 +2871,10 @@ public class FatalErrorLog {
         if (isWindows() && getArch() == Arch.X86_64) {
             switch (getJavaSpecification()) {
             case JDK8:
-                isRhWindowsZipInstall = JdkUtil.WINDOWS_JDK8.containsKey(getJdkReleaseString());
+                isRhWindowsZipInstall = JdkUtil.JDK8_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
                 break;
             case JDK11:
-                isRhWindowsZipInstall = JdkUtil.WINDOWS_JDK11.containsKey(getJdkReleaseString());
+                isRhWindowsZipInstall = JdkUtil.JDK11_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
                 break;
             case JDK6:
             case JDK7:
