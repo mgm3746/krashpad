@@ -206,4 +206,11 @@ class TestJvmOptions {
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals("-Xverify:none", jvmOptions.getVerify(), "Verify not correct.");
     ***REMOVED***
+
+    @Test
+    void testMaxNewSize() {
+        String jvmArgs = "-XX:MaxNewSize=512m";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:MaxNewSize=512m", jvmOptions.getMaxNewSize(), "MaxNewSize not correct.");
+    ***REMOVED***
 ***REMOVED***

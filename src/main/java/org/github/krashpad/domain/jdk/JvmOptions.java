@@ -649,6 +649,19 @@ public class JvmOptions {
     private String maxMetaspaceSize;
 
     /**
+     * Maximum new generation size. The following forumula is used to determine new generation size:
+     * 
+     * min(MaxNewSize, max(NewSize, heap/(NewRatio+1)))
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:MaxNewSize=512m
+     * </pre>
+     */
+    private String maxNewSize;
+
+    /**
      * Maximum permanent generation size. In JDK8 the permanent generation space was replaced by the metaspace, so this
      * option is being ignored. For example:
      * 
@@ -691,6 +704,10 @@ public class JvmOptions {
 
     /**
      * Initial young generation size. Specified with either the <code>-XX:NewSize</code> or <code>-Xmn</code> option.
+     * The following forumula is used to determine new generation size:
+     * 
+     * min(MaxNewSize, max(NewSize, heap/(NewRatio+1)))
+     * 
      * For example:
      * 
      * <pre>
@@ -1488,6 +1505,8 @@ public class JvmOptions {
                     maxGcPauseMillis = option;
                 ***REMOVED*** else if (option.matches("^-XX:MaxJavaStackTraceDepth=\\d{1,***REMOVED***$")) {
                     maxJavaStackTraceDepth = option;
+                ***REMOVED*** else if (option.matches("^-XX:MaxNewSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    maxNewSize = option;
                 ***REMOVED*** else if (option.matches("^-XX:MetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     metaspaceSize = option;
                 ***REMOVED*** else if (option.matches("^-X(mx|X:MaxHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
@@ -2296,6 +2315,10 @@ public class JvmOptions {
 
     public String getMaxMetaspaceSize() {
         return maxMetaspaceSize;
+    ***REMOVED***
+
+    public String getMaxNewSize() {
+        return maxNewSize;
     ***REMOVED***
 
     public String getMaxPermSize() {
