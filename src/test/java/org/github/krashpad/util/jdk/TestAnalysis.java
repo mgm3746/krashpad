@@ -95,9 +95,9 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
-        assertEquals(189, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
+        assertEquals(270, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
                 "Release days diff not correct.");
-        assertEquals(3, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
+        assertEquals(4, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
                 "Release ***REMOVED*** diff not correct.");
     ***REMOVED***
 
@@ -1785,5 +1785,16 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS),
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCannotGetLibraryInformation() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logline = "Can not get library information for pid = 123456";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
+        fel.getDynamicLibraryEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION),
+                Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION + " analysis not identified.");
     ***REMOVED***
 ***REMOVED***

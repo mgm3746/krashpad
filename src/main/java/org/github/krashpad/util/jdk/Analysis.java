@@ -31,6 +31,11 @@ public enum Analysis {
     ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB("error.bufferblob.flush_icache_stub"),
 
     /**
+     * Property key for not being able to get library information.
+     */
+    ERROR_CANNOT_GET_LIBRARY_INFORMATION("error.cannot.get.library.information"),
+
+    /**
      * Property key for a crash when executing compiled java code.
      */
     ERROR_COMPILED_JAVA_CODE("error.compiled.java.code"),

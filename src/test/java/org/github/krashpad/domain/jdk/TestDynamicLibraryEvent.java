@@ -155,4 +155,11 @@ class TestDynamicLibraryEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
     ***REMOVED***
+
+    @Test
+    void testCannotGetLibraryInformation() {
+        String logLine = "Can not get library information for pid = 123456";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

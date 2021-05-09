@@ -703,6 +703,19 @@ public class FatalErrorLog {
                 && getStackFrameTop().matches("^V.+JavaThread::pd_get_top_frame_for_profiling.+$")) {
             analysis.add(Analysis.ERROR_JFR_PD_GET_TOP_FRAME);
         ***REMOVED***
+
+        // Cannot get library information
+        if (!dynamicLibraryEvents.isEmpty()) {
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getLogEntry().matches("^Can not get library information for pid = \\d{1,***REMOVED***$")) {
+                    analysis.add(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
