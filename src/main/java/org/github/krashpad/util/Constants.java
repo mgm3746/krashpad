@@ -35,7 +35,7 @@ public class Constants {
      * Defined devices.
      */
     public enum Device {
-        AWS_BLOCK_STORAGE, FIXED_DISK, NFS, UNKNOWN
+        AWS_BLOCK_STORAGE, FIXED_DISK, NFS, SCSI_DISK, UNKNOWN
     ***REMOVED***
 
     /**

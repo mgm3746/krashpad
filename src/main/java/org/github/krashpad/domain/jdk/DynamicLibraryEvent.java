@@ -119,6 +119,8 @@ public class DynamicLibraryEvent implements LogEvent {
                 device = Device.AWS_BLOCK_STORAGE;
             ***REMOVED*** else if (deviceId.matches("00:[0-9]{2***REMOVED***")) {
                 device = Device.NFS;
+            ***REMOVED*** else if (deviceId.matches("08:[0-9]{2***REMOVED***")) {
+                device = Device.SCSI_DISK;
             ***REMOVED***
         ***REMOVED***
         return device;
