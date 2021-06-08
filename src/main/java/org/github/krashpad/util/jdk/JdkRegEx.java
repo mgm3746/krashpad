@@ -69,11 +69,29 @@ public class JdkRegEx {
     public static final String BYTES = "bB";
 
     /**
-     * Major ID and minor ID of the device where the file is located.
+     * Major ID and minor ID of the device where the file is located in hexadecimal.
      * 
-     * Reference: https://www.kernel.org/doc/Documentation/admin-guide/devices.txt
+     * To determine the device, convert the major id to decimal and cross reference lsblk output.
      * 
      * For example:
+     * 
+     * 7f6d941a5000-7f6d95338000 r-xp 00000000 fd:01 34113771
+     * /usr/lib/jvm/java-11-openjdk-11.0.11.0.9-0.el8_3.x86_64/lib/server/libjvm.so
+     * 
+     * fd = 253, and 253:1 maps to fixed disk "/":
+     * 
+     * <code>
+     * $ lsblk
+     * NAME                                          MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT
+     * nvme0n1                                       259:0    0   477G  0 disk  
+     * ├─nvme0n1p1                                   259:1    0   600M  0 part  /boot/efi
+     * ├─nvme0n1p2                                   259:2    0     1G  0 part  /boot
+     * └─nvme0n1p3                                   259:3    0 475.4G  0 part  
+     *   └─luks-43efaec5-acef-4c6a-b96e-3fa67b5a0a15 253:0    0 475.3G  0 crypt 
+     *     ├─rhel-root                               253:1    0    50G  0 lvm   /
+     *     ├─rhel-swap                               253:2    0  15.7G  0 lvm   [SWAP]
+     *     └─rhel-home                               253:3    0 409.7G  0 lvm   /home
+     *</code>
      * 
      * <p>
      * 1) Fixed disk:
