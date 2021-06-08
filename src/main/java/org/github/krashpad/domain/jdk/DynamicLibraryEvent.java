@@ -31,6 +31,14 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Virtual memory regions at the time of the crash.
  * </p>
  * 
+ * <p>
+ * On Linux, it is output from the following:
+ * </p>
+ * 
+ * <pre>
+ * $ cat /proc/<pid>/maps
+ * </pre>
+ * 
  * <h3>Example Logging</h3>
  * 
  * <p>
@@ -48,6 +56,14 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * 
  * <pre>
  * 0xffffffff49400000      /apps/java/jdk1.8.0_251_no_compiler/jre/lib/sparcv9/server/libjvm.so
+ * </pre>
+ * 
+ * <p>
+ * 3) Linux format:
+ * </p>
+ * 
+ * <pre>
+ * 7fb19f83e000-7fb1a04ab000 r-xp 00000000 fc:30 12596294                   /usr/local/clo/ven/jdk1.8.0_25-64/jre/lib/amd64/server/libjvm.so
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
