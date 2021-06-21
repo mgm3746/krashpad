@@ -1999,13 +1999,13 @@ public class JvmOptions {
             }
         }
         // Check for small DGC intervals.
-        if (getSunRmiDgcClientGcInterval() != null) {
+        if (getSunRmiDgcClientGcInterval() != null && !JdkUtil.isOptionEnabled(disableExplicitGc)) {
             long sunRmiDgcClientGcInterval = JdkUtil.getNumberOptionValue(getSunRmiDgcClientGcInterval());
             if (sunRmiDgcClientGcInterval < 3600000) {
                 analysis.add(Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL);
             }
         }
-        if (getSunRmiDgcServerGcInterval() != null) {
+        if (getSunRmiDgcServerGcInterval() != null && !JdkUtil.isOptionEnabled(disableExplicitGc)) {
             long sunRmiDgcServerGcInterval = JdkUtil.getNumberOptionValue(getSunRmiDgcServerGcInterval());
             if (sunRmiDgcServerGcInterval < 3600000) {
                 analysis.add(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL);

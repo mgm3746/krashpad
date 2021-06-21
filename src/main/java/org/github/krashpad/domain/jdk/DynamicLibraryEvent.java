@@ -36,7 +36,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <pre>
- * $ cat /proc/<pid>/maps
+ * $ cat /proc/&lt;pid&gt;/maps
  * </pre>
  * 
  * <h3>Example Logging</h3>
