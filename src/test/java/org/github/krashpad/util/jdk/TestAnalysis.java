@@ -1481,6 +1481,23 @@ class TestAnalysis {
     ***REMOVED***
 
     /**
+     * Test analysis small DGC intervals with explicit gc disable
+     */
+    @Test
+    void testDgcSmallIntervalsDisableExplicitGc() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Dsun.rmi.dgc.client.gcInterval=3599999 -Dsun.rmi.dgc.server.gcInterval=3599999 "
+                + "-XX:+DisableExplicitGC";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL),
+                Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL),
+                Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    /**
      * Test if -XX:+PrintReferenceGC enabled
      */
     @Test

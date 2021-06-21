@@ -56,7 +56,8 @@ public class OsEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER
-            + "|[ ]{0,***REMOVED***(Assembled|Copyright|ID|NAME|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?)(.+))$";
+            + "|[ ]{0,***REMOVED***(Assembled|Copyright|ID|NAME|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?|\\[error "
+            + "occurred during error reporting \\(printing OS information\\))(.+))$";
 
     public static final Pattern PATTERN = Pattern.compile(REGEX);
 
