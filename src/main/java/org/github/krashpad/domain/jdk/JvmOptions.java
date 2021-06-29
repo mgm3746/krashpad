@@ -1818,7 +1818,8 @@ public class JvmOptions {
         // Experimental VM options
         if (JdkUtil.isOptionEnabled(useCGroupMemoryLimitForHeap)) {
             analysis.add(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT);
-        ***REMOVED*** else if (JdkUtil.isOptionEnabled(useFastUnorderedTimeStamps)) {
+        ***REMOVED*** else if (JdkUtil.isOptionEnabled(useFastUnorderedTimeStamps)
+                && JdkUtil.isOptionEnabled(unlockExperimentalVmOptions)) {
             analysis.add(Analysis.WARN_OPT_FAST_UNORDERED_TIMESTAMPS);
         ***REMOVED*** else if (g1MixedGCLiveThresholdPercent != null) {
             analysis.add(Analysis.WARN_OPT_G1_MIXED_GC_LIVE_THRSHOLD_PRCNT);
