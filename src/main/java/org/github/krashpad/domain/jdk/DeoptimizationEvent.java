@@ -51,7 +51,7 @@ public class DeoptimizationEvent implements LogEvent {
      */
     private static final String REGEX = "^(" + REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
             + JdkRegEx.ADDRESS
-            + " Uncommon trap|\\[error occurred during error reporting \\(printing ring buffers\\), id 0xb\\]).*$";
+            + " Uncommon trap|\\[error occurred during error reporting \\(printing ring buffers\\), id 0x).*$";
 
     /**
      * The log entry for the event.
