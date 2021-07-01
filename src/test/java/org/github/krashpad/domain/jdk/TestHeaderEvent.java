@@ -176,4 +176,11 @@ class TestHeaderEvent {
         HeaderEvent headerEvent = new HeaderEvent(logLine);
         assertTrue(headerEvent.isFailed(), "Failed not identified.");
     ***REMOVED***
+
+    @Test
+    void testErrorPrintingProblematicFrame() {
+        String logLine = "[error occurred during error reporting (printing problematic frame), id 0x7]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

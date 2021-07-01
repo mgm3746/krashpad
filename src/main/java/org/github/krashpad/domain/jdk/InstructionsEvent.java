@@ -56,7 +56,7 @@ public class InstructionsEvent implements LogEvent, ThrowAwayEvent {
             + "[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED*** "
             + "[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED*** "
             + "[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***)?|\\[error occurred during error "
-            + "reporting \\(printing registers, top of stack, instructions near pc\\), id 0xb\\])[ ]{0,***REMOVED***$";
+            + "reporting \\(printing registers, top of stack, instructions near pc\\), id 0x[a-z0-9]\\])[ ]{0,***REMOVED***$";
 
     /**
      * The log entry for the event.

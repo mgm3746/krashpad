@@ -84,7 +84,8 @@ public class HeaderEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^***REMOVED***(.*)?$";
+    private static final String REGEX = "^(***REMOVED***|\\[error occurred during error reporting \\(printing problematic "
+            + "frame\\), id 0x[a-z0-9]\\])(.*)?$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 

@@ -75,9 +75,6 @@ class TestInstructionsEvent {
                 JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
     ***REMOVED***
 
-    /**
-     * TODO: Does this error apply to multiple events and should be moved to a dedicated ErrorEvent?
-     */
     @Test
     void testError() {
         String logLine = "[error occurred during error reporting (printing registers, top of stack, "
