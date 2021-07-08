@@ -1196,9 +1196,9 @@ public class FatalErrorLog {
                     pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        value = Long.parseLong(matcher.group(4));
-                        if (matcher.group(6) != null) {
-                            fromUnits = matcher.group(6).charAt(0);
+                        value = Long.parseLong(matcher.group(9));
+                        if (matcher.group(11) != null) {
+                            fromUnits = matcher.group(11).charAt(0);
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
@@ -1321,9 +1321,9 @@ public class FatalErrorLog {
                     pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        value = Long.parseLong(matcher.group(7));
-                        if (matcher.group(9) != null) {
-                            fromUnits = matcher.group(9).charAt(0);
+                        value = Long.parseLong(matcher.group(12));
+                        if (matcher.group(14) != null) {
+                            fromUnits = matcher.group(14).charAt(0);
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
