@@ -196,6 +196,18 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testHeapAllocation() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String event1 = "Heap:";
+        HeapEvent heapEvent1 = new HeapEvent(event1);
+        fel.getHeapEvents().add(heapEvent1);
+        String event2 = " 3456M max, 3456M soft max, 3200M committed, 2325M used";
+        HeapEvent heapEvent2 = new HeapEvent(event2);
+        fel.getHeapEvents().add(heapEvent2);
+        assertEquals(3200, fel.getHeapAllocation(), "Heap allocation not correct.");
+    }
+
+    @Test
     void testInternalError() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset3.txt");
         Manager manager = new Manager();

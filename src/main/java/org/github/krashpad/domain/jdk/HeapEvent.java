@@ -145,9 +145,11 @@ public class HeapEvent implements LogEvent {
      * Regular expression for Shenandoah combined event.
      * 
      * 5734M total, 5734M committed, 3795M used
+     * 
+     * 3456M max, 3456M soft max, 3200M committed, 2325M used
      */
-    public static final String REGEX_SHENANDOAH = " " + JdkRegEx.SIZE + " total, " + JdkRegEx.SIZE + " committed, "
-            + JdkRegEx.SIZE + " used";
+    public static final String REGEX_SHENANDOAH = " " + JdkRegEx.SIZE + " (total|max)(, " + JdkRegEx.SIZE
+            + " soft max)?, " + JdkRegEx.SIZE + " committed, " + JdkRegEx.SIZE + " used";
 
     /**
      * Regular expression for G1 combined event.
