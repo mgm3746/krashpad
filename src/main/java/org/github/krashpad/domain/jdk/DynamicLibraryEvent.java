@@ -133,7 +133,7 @@ public class DynamicLibraryEvent implements LogEvent {
                 device = Device.FIXED_DISK;
             } else if (deviceId.equals("103:03")) {
                 device = Device.AWS_BLOCK_STORAGE;
-            } else if (deviceId.matches("00:[0-9]{2}")) {
+            } else if (deviceId.matches("00:[a-z0-9]{2}")) {
                 device = Device.NFS;
             } else if (deviceId.matches("08:[0-9]{2}")) {
                 device = Device.SCSI_DISK;
