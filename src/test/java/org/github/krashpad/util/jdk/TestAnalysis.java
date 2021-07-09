@@ -27,6 +27,7 @@ import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
+import org.github.krashpad.domain.jdk.StackEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
 import org.github.krashpad.service.Manager;
@@ -1751,6 +1752,33 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testJnaInvolvedRedHatJdk() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "C  [libcrypt.so+0x1825]";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String stack2 = "J 14265  com.sun.jna.Native.invokePointer(Lcom/sun/jna/Function;JI[Ljava/lang/Object;)J "
+                + "(0 bytes) @ 0x00007fb6f9855969 [0x00007fb6f9855900+0x69]";
+        StackEvent stackEvent2 = new StackEvent(stack2);
+        fel.getStackEvents().add(stackEvent2);
+        String logline = "7f7dc59c6000-7f7dc673b000 r-xp 00000000 fd:01 17006104                   "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.x86_64/jre/lib/amd64/server/libjvm.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
+        fel.getDynamicLibraryEvents().add(event);
+        String os = "OS:Red Hat Enterprise Linux release 8.3 (Ootpa)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.282-b08) for linux-amd64 JRE (1.8.0_282-b08), "
+                + "built on Jan 17 2021 16:21:17 by \"mockbuild\" with gcc 8.3.1 20191121 (Red Hat 8.3.1-5)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.isJnaCrash(), "JNA crash not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JNA_RH),
+                Analysis.ERROR_JNA_RH + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testJfrPdGetTopFrame() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();
@@ -1814,4 +1842,5 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION),
                 Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION + " analysis not identified.");
     ***REMOVED***
+
 ***REMOVED***
