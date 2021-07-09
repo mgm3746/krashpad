@@ -2612,10 +2612,8 @@ public class FatalErrorLog {
     public boolean isJnaCrash() {
         boolean isJnaCrash = false;
         if (getStackEvents() != null && getStackEvents().size() >= 2) {
-            String stackFrame1 = getStackFrame(1);
             String stackFrame2 = getStackFrame(2);
-            if (stackFrame1 != null && stackFrame1.matches("^C[ ]{1,2}\\[jna.+$") && stackFrame2 != null
-                    && stackFrame2.matches("^j[ ]{1,2}com\\.sun\\.jna\\..+$")) {
+            if (stackFrame2 != null && stackFrame2.matches("^[jJ]( \\d{1,})?[ ]{1,2}com\\.sun\\.jna\\..+$")) {
                 isJnaCrash = true;
             }
         }
