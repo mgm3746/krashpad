@@ -2250,7 +2250,21 @@ public class FatalErrorLog {
      * @return The stack size reserved (kilobytes).
      */
     public long getThreadStackSize() {
-        long stackSize = 1024;
+        long stackSize;
+        switch (getArch()) {
+        case PPC64:
+        case PPC64LE:
+            stackSize = 2048;
+            break;
+        case SPARC:
+        case I86PC:
+        case X86:
+        case X86_64:
+        case UNKNOWN:
+        default:
+            stackSize = 1024;
+            break;
+        ***REMOVED***
         // 1st check [Global flags]
         if (!globalFlagsEvents.isEmpty()) {
             Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
