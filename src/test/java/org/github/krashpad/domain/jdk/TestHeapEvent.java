@@ -187,7 +187,7 @@ class TestHeapEvent {
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         assertTrue(logLine.matches(HeapEvent.REGEX_SHENANDOAH), "Shenandoah heap event not recognized.");
     ***REMOVED***
-    
+
     @Test
     void testShenandoahSoftMax() {
         String logLine = " 3456M max, 3456M soft max, 3200M committed, 2325M used";

@@ -616,8 +616,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_DUMP_PATH_FILENAME),
-                Analysis.INFO_OPT_HEAP_DUMP_PATH_FILENAME + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_HEAP_DUMP_PATH_FILENAME),
+                Analysis.WARN_OPT_HEAP_DUMP_PATH_FILENAME + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -628,8 +628,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_DUMP_PATH_FILENAME),
-                Analysis.INFO_OPT_HEAP_DUMP_PATH_FILENAME + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_HEAP_DUMP_PATH_FILENAME),
+                Analysis.WARN_OPT_HEAP_DUMP_PATH_FILENAME + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test

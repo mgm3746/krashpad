@@ -1728,7 +1728,7 @@ public class JvmOptions {
                 if (heapDumpPath == null) {
                     analysis.add(Analysis.INFO_OPT_HEAP_DUMP_PATH_MISSING);
                 ***REMOVED*** else if (heapDumpPath.matches("^.+\\.(hprof|bin)$")) {
-                    analysis.add(Analysis.INFO_OPT_HEAP_DUMP_PATH_FILENAME);
+                    analysis.add(Analysis.WARN_OPT_HEAP_DUMP_PATH_FILENAME);
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
