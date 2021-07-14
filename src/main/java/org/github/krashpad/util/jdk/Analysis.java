@@ -299,11 +299,6 @@ public enum Analysis {
     INFO_OPT_HEAP_DUMP_ON_OOME_MISSING("info.opt.heap.dump.on.oome.missing"),
 
     /**
-     * Property key for heap dump filename specified.
-     */
-    INFO_OPT_HEAP_DUMP_PATH_FILENAME("info.opt.heap.dump.path.filename"),
-
-    /**
      * Property key for heap dumps enabled without specifying a location with the -XX:HeapDumpPath option.
      */
     INFO_OPT_HEAP_DUMP_PATH_MISSING("info.opt.heap.dump.path.missing"),
@@ -792,6 +787,11 @@ public enum Analysis {
      * Property key for heap dump on memory error option disabled.
      */
     WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED("warn.opt.heap.dump.on.oome.disabled"),
+
+    /**
+     * Property key for heap dump filename specified.
+     */
+    WARN_OPT_HEAP_DUMP_PATH_FILENAME("warn.opt.heap.dump.path.filename"),
 
     /**
      * Property key for specifying the number of GC log files (filecount=N) to keep with log rotation is disabled
