@@ -45,4 +45,11 @@ class TestCurrentCompileTaskEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
                 JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.");
     ***REMOVED***
+
+    @Test
+    void testC1() {
+        String logLine = "C1:    234  385       3       org.jboss.modules.xml.MXParser::nextImpl (1195 bytes)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
+                JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

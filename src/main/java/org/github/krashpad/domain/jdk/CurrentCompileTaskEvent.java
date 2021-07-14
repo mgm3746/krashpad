@@ -46,7 +46,7 @@ public class CurrentCompileTaskEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|C2:).*$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|C[12]:).*$";
 
     /**
      * The log entry for the event.
