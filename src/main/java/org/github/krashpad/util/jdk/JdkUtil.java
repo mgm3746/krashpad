@@ -195,7 +195,7 @@ public class JdkUtil {
      * 
      * SI_KERNEL: Sent by the kernel.
      * 
-     * SI_USER: Sent by kill.
+     * SI_USER: A process or thread in the current process is raising the signal by calling kill.
      */
     public enum SignalCode {
         //
