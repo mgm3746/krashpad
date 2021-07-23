@@ -301,6 +301,13 @@ public class FatalErrorLog {
                 if (getOsVersion() == OsVersion.RHEL6) {
                     analysis.add(Analysis.WARN_RHEL6);
                 ***REMOVED***
+                // Check for unnecessary use of -XX:+UnlockExperimentalVMOptions with Shenandoah on RH build.
+                if (getJvmOptions() != null) {
+                    if (JdkUtil.isOptionEnabled(getJvmOptions().getUseShenandoahGc())
+                            && JdkUtil.isOptionEnabled(getJvmOptions().getUnlockExperimentalVmOptions())) {
+                        analysis.add(Analysis.INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH);
+                    ***REMOVED***
+                ***REMOVED***
             ***REMOVED*** else if (isWindows()) {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             ***REMOVED***

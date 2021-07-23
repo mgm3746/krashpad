@@ -633,4 +633,25 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(Application.TOMCAT, fel.getApplication(), "Application not correct.");
     ***REMOVED***
+
+    @Test
+    void testRhShenandoahNotExperimental() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9.1+1-LTS) for linux-amd64 JRE (11.0.9.1+1-LTS), "
+                + "built on Nov 12 2020 18:10:11 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        String jvmArgs = "jvm_args: -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC";
+        VmArgumentsEvent vmArgumentsEvent = new VmArgumentsEvent(jvmArgs);
+        fel.getVmArgumentsEvents().add(vmArgumentsEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_BASED),
+                Analysis.INFO_RH_BUILD_RPM_BASED + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH),
+                Analysis.INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH + " analysis not identified.");
+    ***REMOVED***
+
 ***REMOVED***

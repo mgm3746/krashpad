@@ -536,6 +536,11 @@ public enum Analysis {
     INFO_RH_BUILD_WINDOWS_ZIP("info.rh.build.windows.zip"),
 
     /**
+     * Property key for -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC on a RH build.
+     */
+    INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH("info.rh.opt.experimental.shenandoah"),
+
+    /**
      * Property key for BUS_ADDRERR.
      */
     INFO_SIGCODE_BUS_ADDERR("info.sigcode.bus.adrerr"),
