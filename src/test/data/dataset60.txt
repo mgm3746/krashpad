@@ -155,7 +155,7 @@ CodeCache: size=245760Kb used=54711Kb max_used=54754Kb free=191048Kb
 7f510e287000-7f510ef6f000 r-xp 00000000 fd:00 4738837                    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b10-1.el7_7.x86_64/jre/lib/amd64/server/libjvm.so
 
 ***REMOVED***
-jvm_args: -Xmx6144m -XX:+UseG1GC -XX:+CMSClassUnloadingEnabled -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xloggc:/tmp/fxpb_intra_heapdump.hprof -verbose:gc -Dserver.port=8888 -Dsecret.storage=/sbcimp/dyn/data/pulse/properties/secret.key -Dspring.profiles.active=all -Denv=prod -Dfxpb.home=/sbcimp/dyn/data/pulse 
+jvm_args: -Xmx6144m -XX:+UseG1GC -XX:+CMSClassUnloadingEnabled -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xloggc:/path/to/heapdump.hprof -verbose:gc -Dserver.port=8888 -Dsecret.storage=/path/to/secret.key -Dspring.profiles.active=all -Denv=prod 
 java_command: org.springframework.boot.loader.JarLauncher
 ***REMOVED***
 
