@@ -722,7 +722,12 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        // Check for G1ParScanThreadState::copy_to_survivor_space
+        if (getJavaSpecification() == JavaSpecification.JDK8
+                && getStackFrameTop().matches("^V.+G1ParScanThreadState::copy_to_survivor_space.+$")) {
+            analysis.add(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE);
 
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {

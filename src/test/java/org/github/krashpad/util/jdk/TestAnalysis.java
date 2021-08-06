@@ -176,6 +176,21 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testG1ParScanThreadStateCopyToSurvivorSpace() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset60.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        String stackFrame1 = "V  [libjvm.so+0x5b4ab3]  G1ParScanThreadState::copy_to_survivor_space(InCSetState, "
+                + "oopDesc*, markOopDesc*)+0x2e3";
+        String stackFrame2 = "V  [libjvm.so+0x5b54ae]  G1ParScanThreadState::trim_queue()+0x59e";
+        assertEquals(stackFrame1, fel.getStackFrame(1), "Stack frame 1 not correct.");
+        assertEquals(stackFrame2, fel.getStackFrame(2), "Stack frame 2 not correct.");
+        assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE),
+                Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testJdk8ZipFileContention() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset23.txt");
         Manager manager = new Manager();

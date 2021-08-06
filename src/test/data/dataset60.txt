@@ -1,0 +1,368 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00007f510e83bab3, pid=205542, tid=0x00007f510c1d4700
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_222-b10) (build 1.8.0_222-b10)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.222-b10 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Problematic frame:
+***REMOVED*** V  [libjvm.so+0x5b4ab3]  G1ParScanThreadState::copy_to_survivor_space(InCSetState, oopDesc*, markOopDesc*)+0x2e3
+***REMOVED***
+***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x00007f5108060000):  GCTaskThread [stack: 0x00007f510c0d5000,0x00007f510c1d5000] [id=205546]
+
+***REMOVED***
+
+***REMOVED***
+RAX=0x0000000000000001, RBX=0x000000070e3deee8, RCX=0x0000000000000003, RDX=0x00007f510f230f40
+RSP=0x00007f510c1d36a0, RBP=0x00007f510c1d3700, RSI=0x0000000000000001, RDI=0x0000000000000000
+R8 =0x0000000000000009, R9 =0x00007f5108085840, R10=0x0000000000000001, R11=0x0000000000000006
+R12=0x000000070e3deee8, R13=0x00007f510c1d3c50, R14=0x00007f510c1d3c50, R15=0x00007f50ac1115a0
+RIP=0x00007f510e83bab3, EFLAGS=0x0000000000010246, CSGSFS=0x0000000000000033, ERR=0x0000000000000004
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x00007f510c1d36a0)
+0x00007f510c1d36a0:   00007f510c1d36d0 00000001cd91f000
+0x00007f510c1d36b0:   00007f510c1d3c60 0000000000000000
+0x00007f510c1d36c0:   01007f5100000001 00007f50e40de202
+0x00007f510c1d36d0:   00007f5106060602 000000070e3deee8
+0x00007f510c1d36e0:   00007f510f230f50 00007f510c1d3c50
+0x00007f510c1d36f0:   0000000674e547e8 00007f50ac1115a0
+0x00007f510c1d3700:   00007f510c1d37a0 00007f510e83c4ae
+0x00007f510c1d3710:   00007f510805d620 00007f5100000001
+0x00007f510c1d3720:   00007f510f212e80 00007f50b00eb360
+0x00007f510c1d3730:   00007f50b00eb360 00007f510c1d3c60
+0x00007f510c1d3740:   00007f510c1d3dc0 0000000600000001
+0x00007f510c1d3750:   00007f51088ac600 00007f510eb4b48e
+0x00007f510c1d3760:   0000000000018c10 00000000200005fe
+0x00007f510c1d3770:   00007f51093a15e8 00007f510c1d3c50
+0x00007f510c1d3780:   00007f510c1d3c50 0000000000000001
+0x00007f510c1d3790:   00007f5108060480 00007f510c1d39b0
+0x00007f510c1d37a0:   00007f510c1d3840 00007f510e81fdb7
+0x00007f510c1d37b0:   40ef8539b5724fff 00007f510000000c
+0x00007f510c1d37c0:   00007f510805d620 00007f5100000001
+0x00007f510c1d37d0:   00007f510f206ce0 00007f51096e9c00
+0x00007f510c1d37e0:   00007f510f206cb0 00007f510c1d38b0
+0x00007f510c1d37f0:   00007f510c1d3c50 00007f510c1d3c50
+0x00007f510c1d3800:   00007f510c1d3840 d90b646acd91f000
+0x00007f510c1d3810:   00007f510c1d3c50 00007f50f04266a0
+0x00007f510c1d3820:   00007f510c1d3c50 0000000000000001
+0x00007f510c1d3830:   00007f5108060480 00007f510c1d39b0
+0x00007f510c1d3840:   00007f510c1d3e90 00007f510e8208e1
+0x00007f510c1d3850:   0000000000000001 00007f510c1d3a00
+0x00007f510c1d3860:   00007f510c1d39b0 00000000000003d8
+0x00007f510c1d3870:   00007f5100000000 00007f510c1d3aa0
+0x00007f510c1d3880:   00007f510c1d3aa0 00007f510c1d38e0
+0x00007f510c1d3890:   00007f51080608a8 00007f51080604d0 
+
+Instructions: (pc=0x00007f510e83bab3)
+0x00007f510e83ba93:   38 5b 41 5c 41 5d 41 5e 41 5f 5d c3 90 8b 7a 08
+0x00007f510e83baa3:   48 8d 15 96 54 9f 00 8b 4a 08 48 d3 e7 48 03 3a
+0x00007f510e83bab3:   8b 4f 08 83 f9 00 0f 8f 52 fd ff ff 0f 85 a6 02
+0x00007f510e83bac3:   00 00 0f 1f 00 48 8b 07 4c 89 e6 ff 90 e8 00 00 
+
+***REMOVED***
+
+RAX=0x0000000000000001 is an unknown value
+RBX=0x000000070e3deee8 is pointing into object: 0x000000070e3dee78
+[Ljava.math.BigDecimal; 
+ - klass: 'java/math/BigDecimal'[]
+ - length: 85
+RCX=0x0000000000000003 is an unknown value
+RDX=0x00007f510f230f40: <offset 0xfa9f40> in /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b10-1.el7_7.x86_64/jre/lib/amd64/server/libjvm.so at 0x00007f510e287000
+RSP=0x00007f510c1d36a0 is an unknown value
+RBP=0x00007f510c1d3700 is an unknown value
+RSI=0x0000000000000001 is an unknown value
+RDI=0x0000000000000000 is an unknown value
+R8 =0x0000000000000009 is an unknown value
+R9 =0x00007f5108085840 is an unknown value
+R10=0x0000000000000001 is an unknown value
+R11=0x0000000000000006 is an unknown value
+R12=0x000000070e3deee8 is pointing into object: 0x000000070e3dee78
+[Ljava.math.BigDecimal; 
+ - klass: 'java/math/BigDecimal'[]
+ - length: 85
+R13=0x00007f510c1d3c50 is an unknown value
+R14=0x00007f510c1d3c50 is an unknown value
+R15=0x00007f50ac1115a0 is an unknown value
+
+
+Stack: [0x00007f510c0d5000,0x00007f510c1d5000],  sp=0x00007f510c1d36a0,  free space=1017k
+***REMOVED***
+V  [libjvm.so+0x5b4ab3]  G1ParScanThreadState::copy_to_survivor_space(InCSetState, oopDesc*, markOopDesc*)+0x2e3
+V  [libjvm.so+0x5b54ae]  G1ParScanThreadState::trim_queue()+0x59e
+V  [libjvm.so+0x598db7]  G1ParEvacuateFollowersClosure::do_void()+0x37
+V  [libjvm.so+0x5998e1]  G1ParTask::work(unsigned int) [clone .part.431]+0x491
+V  [libjvm.so+0xae685a]  GangWorker::loop()+0xca
+V  [libjvm.so+0x8c3a72]  java_start(Thread*)+0xf2
+
+
+***REMOVED***
+
+***REMOVED***
+  0x00007f5068021000 JavaThread "RMI TCP Connection(idle)" daemon [_thread_blocked, id=557488, stack(0x00007f5062090000,0x00007f5062191000)]
+  0x00007f510903d800 JavaThread "ContainerBackgroundProcessor[StandardEngine[Tomcat]]" daemon [_thread_blocked, id=205662, stack(0x00007f50bccf9000,0x00007f50bcdfa000)]
+  0x00007f510839a800 JavaThread "Service Thread" daemon [_thread_blocked, id=205570, stack(0x00007f50bd2fb000,0x00007f50bd3fc000)]
+  0x00007f5108387000 JavaThread "C1 CompilerThread2" daemon [_thread_blocked, id=205569, stack(0x00007f50bd3fd000,0x00007f50bd4fd000)]
+  0x00007f5108385000 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=205568, stack(0x00007f50bd4fe000,0x00007f50bd5fe000)]
+  0x00007f5108383000 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=205567, stack(0x00007f50bd5ff000,0x00007f50bd6ff000)]
+  0x00007f5108380800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=205566, stack(0x00007f50bd6ff000,0x00007f50bd800000)]
+  0x00007f5108374000 JavaThread "Surrogate Locker Thread (Concurrent GC)" daemon [_thread_blocked, id=205565, stack(0x00007f50f0024000,0x00007f50f0125000)]
+  0x00007f5108349800 JavaThread "Finalizer" daemon [_thread_blocked, id=205564, stack(0x00007f50f0125000,0x00007f50f0226000)]
+  0x00007f5108344800 JavaThread "Reference Handler" daemon [_thread_blocked, id=205563, stack(0x00007f50f0226000,0x00007f50f0327000)]
+
+***REMOVED***
+  0x00007f510833b000 VMThread [stack: 0x00007f50f0328000,0x00007f50f0428000] [id=205562]
+  0x00007f51083af800 WatcherThread [stack: 0x00007f50bd1fb000,0x00007f50bd2fb000] [id=205571]
+
+=>0x00007f5108060000 (exited) GCTaskThread [stack: 0x00007f510c0d5000,0x00007f510c1d5000] [id=205546]
+
+VM state:at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00007f510804a910] Threads_lock - owner thread: 0x00007f510833b000
+[0x00007f510804ae10] Heap_lock - owner thread: 0x00007f510a446800
+
+heap address: 0x0000000640000000, size: 6144 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
+Compressed class space size: 1073741824 Address: 0x00000007c0000000
+
+***REMOVED***
+ garbage-first heap   total 3477504K, used 1163715K [0x0000000640000000, 0x0000000640106a20, 0x00000007c0000000)
+  region size 1024K, 169 young (173056K), 22 survivors (22528K)
+ Metaspace       used 93882K, capacity 97842K, committed 98176K, reserved 1134592K
+  class space    used 11892K, capacity 12578K, committed 12672K, reserved 1048576K
+
+Marking Bits (Prev, Next): (CMBitMap*) 0x00007f510808ed48, (CMBitMap*) 0x00007f510808eda0
+ Prev Bits: [0x00007f50c6000000, 0x00007f50cc000000)
+ Next Bits: [0x00007f50c0000000, 0x00007f50c6000000)
+
+Polling page: 0x00007f51100aa000
+
+CodeCache: size=245760Kb used=54711Kb max_used=54754Kb free=191048Kb
+ bounds [0x00007f50f9000000, 0x00007f50fc5e0000, 0x00007f5108000000]
+ total_blobs=15673 nmethods=15034 adapters=551
+***REMOVED***
+
+***REMOVED***
+7f510e287000-7f510ef6f000 r-xp 00000000 fd:00 4738837                    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b10-1.el7_7.x86_64/jre/lib/amd64/server/libjvm.so
+
+***REMOVED***
+jvm_args: -Xmx6144m -XX:+UseG1GC -XX:+CMSClassUnloadingEnabled -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xloggc:/tmp/fxpb_intra_heapdump.hprof -verbose:gc -Dserver.port=8888 -Dsecret.storage=/sbcimp/dyn/data/pulse/properties/secret.key -Dspring.profiles.active=all -Denv=prod -Dfxpb.home=/sbcimp/dyn/data/pulse 
+java_command: org.springframework.boot.loader.JarLauncher
+***REMOVED***
+
+***REMOVED***
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+***REMOVED***
+
+***REMOVED***
+SIGSEGV: [libjvm.so+0xacf850], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xacf850], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0x8c1cb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0x8c1cb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0x8c1cb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0x8c1cb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+***REMOVED***
+SIGUSR2: [libjvm.so+0x8c1b60], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: [libjvm.so+0x8c1d70], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGTERM: [libjvm.so+0x8c1d70], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0x8c1d70], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)
+
+uname:Linux 3.10.0-1160.21.1.el7.x86_64 ***REMOVED***1 SMP Mon Feb 22 18:03:13 EST 2021 x86_64
+libc:glibc 2.17 NPTL 2.17 
+rlimit: STACK 8192k, CORE 0k, NPROC 32768, NOFILE 32768, AS infinity
+load average:0.87 0.50 0.45
+
+***REMOVED***
+MemTotal:       32775532 kB
+MemFree:        16887660 kB
+MemAvailable:   21688284 kB
+Buffers:           28464 kB
+Cached:          4978588 kB
+SwapCached:            0 kB
+Active:         11651504 kB
+Inactive:        2660260 kB
+Active(anon):    9298908 kB
+Inactive(anon):    44800 kB
+Active(file):    2352596 kB
+Inactive(file):  2615460 kB
+***REMOVED***
+***REMOVED***
+SwapTotal:      16775164 kB
+SwapFree:       16775164 kB
+Dirty:               852 kB
+***REMOVED***
+AnonPages:       9304736 kB
+Mapped:           372552 kB
+Shmem:             38972 kB
+Slab:             342732 kB
+SReclaimable:     235388 kB
+SUnreclaim:       107344 kB
+KernelStack:        9984 kB
+PageTables:        33204 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+CommitLimit:    33162928 kB
+Committed_AS:   11206284 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      217900 kB
+VmallocChunk:   34359334908 kB
+Percpu:             7680 kB
+***REMOVED***
+AnonHugePages:   5787648 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+Hugepagesize:       2048 kB
+DirectMap4k:      236868 kB
+DirectMap2M:    33316864 kB
+
+***REMOVED***
+***REMOVED***
+cpu_cpuset_cpus: 0-3
+cpu_memory_nodes: 0
+active_processor_count: 4
+***REMOVED***
+***REMOVED***
+***REMOVED***
+memory_limit_in_bytes: -2
+memory_and_swap_limit_in_bytes: -2
+memory_soft_limit_in_bytes: -2
+memory_usage_in_bytes: -2
+memory_max_usage_in_bytes: -2
+
+
+CPU:total 4 (initial active 4) (1 cores per cpu, 1 threads per core) family 6 model 58 stepping 0, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, tsc, tscinvbit, tscinv
+
+***REMOVED***
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 58
+model name	: Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz
+stepping	: 0
+microcode	: 0xb00003a
+cpu MHz		: 2397.223
+cache size	: 35840 KB
+physical id	: 0
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 popcnt aes xsave avx hypervisor lahf_lm arat
+bogomips	: 4794.44
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 40 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 58
+model name	: Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz
+stepping	: 0
+microcode	: 0xb00003a
+cpu MHz		: 2397.223
+cache size	: 35840 KB
+physical id	: 2
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 popcnt aes xsave avx hypervisor lahf_lm arat
+bogomips	: 4794.44
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 40 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 58
+model name	: Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz
+stepping	: 0
+microcode	: 0xb00003a
+cpu MHz		: 2397.223
+cache size	: 35840 KB
+physical id	: 4
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 4
+initial apicid	: 4
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 popcnt aes xsave avx hypervisor lahf_lm arat
+bogomips	: 4794.44
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 40 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 58
+model name	: Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz
+stepping	: 0
+microcode	: 0xb00003a
+cpu MHz		: 2397.223
+cache size	: 35840 KB
+physical id	: 6
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 6
+initial apicid	: 6
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts nopl tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 popcnt aes xsave avx hypervisor lahf_lm arat
+bogomips	: 4794.44
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 40 bits physical, 48 bits virtual
+power management:
+
+
+
+Memory: 4k page, physical 32775532k(16887660k free), swap 16775164k(16775164k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.222-b10) for linux-amd64 JRE (1.8.0_222-b10), built on Jul 11 2019 03:23:03 by "mockbuild" with gcc 4.8.5 20150623 (Red Hat 4.8.5-36)
+
+time: Wed Aug  4 13:45:57 2021
+timezone: BST
+elapsed time: 64554 seconds (0d 17h 55m 54s)
