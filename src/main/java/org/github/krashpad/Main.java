@@ -365,6 +365,8 @@ public class Main {
                 printWriter.write("Application: " + fel.getApplication() + Constants.LINE_SEPARATOR);
                 if (fel.getJvmUser() != null) {
                     printWriter.write("User: " + fel.getJvmUser() + Constants.LINE_SEPARATOR);
+                ***REMOVED*** else if (fel.getUsername() != null) {
+                    printWriter.write("User: " + fel.getUsername() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getVmStateEvent() != null) {
                     printWriter.write("VM State: " + fel.getVmState() + Constants.LINE_SEPARATOR);

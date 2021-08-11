@@ -1481,7 +1481,6 @@ public class FatalErrorLog {
      */
     public String getJvmUser() {
         String jvmUser = null;
-        // 1st look at performance data file
         if (!dynamicLibraryEvents.isEmpty()) {
             String regExHsPerfData = System.getProperty("file.separator") + "hsperfdata_([a-zA-Z\\d]+).*"
                     + System.getProperty("file.separator");
@@ -1498,8 +1497,15 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        // 2nd look in environment variables
-        if (jvmUser == null && !environmentVariablesEvents.isEmpty()) {
+        return jvmUser;
+    ***REMOVED***
+
+    /**
+     * @return The USERNAME environment variable.
+     */
+    public String getUsername() {
+        String username = null;
+        if (!environmentVariablesEvents.isEmpty()) {
             String regExUsername = "^USERNAME=([a-zA-Z\\d]+)$";
             Pattern pattern = Pattern.compile(regExUsername);
             Iterator<EnvironmentVariablesEvent> iterator = environmentVariablesEvents.iterator();
@@ -1507,12 +1513,12 @@ public class FatalErrorLog {
                 EnvironmentVariablesEvent event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    jvmUser = matcher.group(1);
+                    username = matcher.group(1);
                     break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        return jvmUser;
+        return username;
     ***REMOVED***
 
     /**

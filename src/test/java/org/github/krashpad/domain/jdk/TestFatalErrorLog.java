@@ -426,11 +426,11 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
-    void testUserEnvironmentVariable() {
+    void testUsernameEnvironmentVariable() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset40.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertEquals("username", fel.getJvmUser(), "JVM user not correct.");
+        assertEquals("username", fel.getUsername(), "USERNAME not correct.");
     ***REMOVED***
 
     @Test
