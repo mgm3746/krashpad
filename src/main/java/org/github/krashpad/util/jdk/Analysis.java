@@ -250,6 +250,11 @@ public enum Analysis {
     INFO_JVM_STARTUP_FAILS("info.jvm.startup.fails"),
 
     /**
+     * Property key for the USERNAME environment variable different than the user the JVM process is running under.
+     */
+    INFO_JVM_USER_NE_USERNAME("info.jvm.user.ne.username"),
+
+    /**
      * Property key for JVM memory not equal to system memory.
      * 
      * TODO: Remove this? It's basically a duplicate of INFO_CGROUP_MEMORY_LIMIT?

@@ -363,10 +363,14 @@ public class Main {
                 printWriter.write("Version: " + fel.getJdkReleaseString() + Constants.LINE_SEPARATOR);
                 printWriter.write("Vendor: " + fel.getJavaVendor() + Constants.LINE_SEPARATOR);
                 printWriter.write("Application: " + fel.getApplication() + Constants.LINE_SEPARATOR);
-                if (fel.getJvmUser() != null) {
-                    printWriter.write("User: " + fel.getJvmUser() + Constants.LINE_SEPARATOR);
+                if (fel.getUsername() != null && fel.getJvmUser() != null
+                        && !fel.getUsername().equals(fel.getJvmUser())) {
+                    printWriter.write("USERNAME: " + fel.getUsername() + Constants.LINE_SEPARATOR);
+                    printWriter.write("JVM User: " + fel.getJvmUser() + Constants.LINE_SEPARATOR);
+                ***REMOVED*** else if (fel.getJvmUser() != null) {
+                    printWriter.write("JVM User: " + fel.getJvmUser() + Constants.LINE_SEPARATOR);
                 ***REMOVED*** else if (fel.getUsername() != null) {
-                    printWriter.write("User: " + fel.getUsername() + Constants.LINE_SEPARATOR);
+                    printWriter.write("JVM User: " + fel.getUsername() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getVmStateEvent() != null) {
                     printWriter.write("VM State: " + fel.getVmState() + Constants.LINE_SEPARATOR);

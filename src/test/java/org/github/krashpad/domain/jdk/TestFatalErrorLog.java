@@ -426,7 +426,7 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
-    void testUsernameEnvironmentVariable() {
+    void testUsername() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset40.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
@@ -434,11 +434,30 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
-    void testUserPerfDataFile() {
+    void testUsernameWithUnderscore() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String username = "USERNAME=jb_admin";
+        EnvironmentVariablesEvent environmentVariablesEvent = new EnvironmentVariablesEvent(username);
+        fel.getEnvironmentVariablesEvents().add(environmentVariablesEvent);
+        assertEquals("jb_admin", fel.getUsername(), "USERNAME not correct.");
+    ***REMOVED***
+
+    @Test
+    void testJvmUser() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals("user123", fel.getJvmUser(), "JVM user not correct.");
+    ***REMOVED***
+
+    @Test
+    void testJvmUserUnderscore() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String hsperfdata = "7ff0f61d2000-7ff0f61da000 rw-s 00000000 fd:01 33563495                   "
+                + "/tmp/hsperfdata_jb_admin/92333";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(hsperfdata);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        assertEquals("jb_admin", fel.getJvmUser(), "JVM user not correct.");
     ***REMOVED***
 
     @Test

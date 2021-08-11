@@ -99,14 +99,14 @@ public class FatalErrorLog {
     private List<DynamicLibraryEvent> dynamicLibraryEvents;
 
     /**
-     * Environment variables information.
-     */
-    private List<EnvironmentVariablesEvent> environmentVariablesEvents;
-
-    /**
      * JVM run duration information.
      */
     private ElapsedTimeEvent elapsedTimeEvent;
+
+    /**
+     * Environment variables information.
+     */
+    private List<EnvironmentVariablesEvent> environmentVariablesEvents;
 
     /**
      * Exception counts information.
@@ -249,10 +249,6 @@ public class FatalErrorLog {
         unidentifiedLogLines = new ArrayList<String>();
         vmArgumentsEvents = new ArrayList<VmArgumentsEvent>();
         vmEvents = new ArrayList<VmEvent>();
-    ***REMOVED***
-
-    public List<EnvironmentVariablesEvent> getEnvironmentVariablesEvents() {
-        return environmentVariablesEvents;
     ***REMOVED***
 
     /**
@@ -738,6 +734,10 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE);
 
         ***REMOVED***
+        // Check if JVM user ne USERNAME
+        if (getJvmUser() != null && getUsername() != null && !getJvmUser().equals(getUsername())) {
+            analysis.add(Analysis.INFO_JVM_USER_NE_USERNAME);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -1025,44 +1025,6 @@ public class FatalErrorLog {
         return directMemorySize;
     ***REMOVED***
 
-    /**
-     * @return The max code cache size in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getReservedCodeCacheSize() {
-        // Default is 420m
-        long reservedCodeCacheize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
-        // 1st check [Global flags]
-        if (!globalFlagsEvents.isEmpty()) {
-            Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
-            while (iterator.hasNext()) {
-                GlobalFlagsEvent event = iterator.next();
-                String regExReservedCodeCacheSize = "^.+uintx ReservedCodeCacheSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
-                Pattern pattern = Pattern.compile(regExReservedCodeCacheSize);
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    reservedCodeCacheize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            Constants.PRECISION_REPORTING);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED*** else if (jvmOptions != null && jvmOptions.getReservedCodeCacheSize() != null) {
-            char fromUnits;
-            long value;
-            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(jvmOptions.getReservedCodeCacheSize());
-            if (matcher.find()) {
-                value = Long.parseLong(matcher.group(2));
-                if (matcher.group(3) != null) {
-                    fromUnits = matcher.group(3).charAt(0);
-                ***REMOVED*** else {
-                    fromUnits = 'B';
-                ***REMOVED***
-                reservedCodeCacheize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
-            ***REMOVED***
-        ***REMOVED***
-        return reservedCodeCacheize;
-    ***REMOVED***
-
     public List<DynamicLibraryEvent> getDynamicLibraryEvents() {
         return dynamicLibraryEvents;
     ***REMOVED***
@@ -1078,6 +1040,10 @@ public class FatalErrorLog {
             elapsedTime = timeElapsedTimeEvent.getElapsedTime();
         ***REMOVED***
         return elapsedTime;
+    ***REMOVED***
+
+    public List<EnvironmentVariablesEvent> getEnvironmentVariablesEvents() {
+        return environmentVariablesEvents;
     ***REMOVED***
 
     /**
@@ -1477,51 +1443,6 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The user the JVM process is running under.
-     */
-    public String getJvmUser() {
-        String jvmUser = null;
-        if (!dynamicLibraryEvents.isEmpty()) {
-            String regExHsPerfData = System.getProperty("file.separator") + "hsperfdata_([a-zA-Z\\d]+).*"
-                    + System.getProperty("file.separator");
-            Pattern pattern = Pattern.compile(regExHsPerfData);
-            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
-            while (iterator.hasNext()) {
-                DynamicLibraryEvent event = iterator.next();
-                if (event.getFilePath() != null) {
-                    Matcher matcher = pattern.matcher(event.getFilePath());
-                    if (matcher.find()) {
-                        jvmUser = matcher.group(1);
-                        break;
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return jvmUser;
-    ***REMOVED***
-
-    /**
-     * @return The USERNAME environment variable.
-     */
-    public String getUsername() {
-        String username = null;
-        if (!environmentVariablesEvents.isEmpty()) {
-            String regExUsername = "^USERNAME=([a-zA-Z\\d]+)$";
-            Pattern pattern = Pattern.compile(regExUsername);
-            Iterator<EnvironmentVariablesEvent> iterator = environmentVariablesEvents.iterator();
-            while (iterator.hasNext()) {
-                EnvironmentVariablesEvent event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    username = matcher.group(1);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return username;
-    ***REMOVED***
-
-    /**
      * @return The JVM options, or null if none exist.
      */
     public String getJvmArgs() {
@@ -1537,6 +1458,33 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return jvmArgs;
+    ***REMOVED***
+
+    /**
+     * Free memory as reported by the JVM in a <code>MemoryEvent</code>.
+     * 
+     * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
+     * low free memory does not necessarily indicate swapping or out of memory is imminent.
+     * 
+     * @return The total free physical memory as reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
+     *         units.
+     */
+    public long getJvmMemFree() {
+        long physicalMemoryFree = Long.MIN_VALUE;
+        if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)),
+                                matcher.group(9).charAt(0), Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return physicalMemoryFree;
     ***REMOVED***
 
     /**
@@ -1577,10 +1525,6 @@ public class FatalErrorLog {
         return jvmMemoryMax;
     ***REMOVED***
 
-    public JvmOptions getJvmOptions() {
-        return jvmOptions;
-    ***REMOVED***
-
     /**
      * @return The total available physical memory reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
      *         units.
@@ -1603,31 +1547,8 @@ public class FatalErrorLog {
         return physicalMemory;
     ***REMOVED***
 
-    /**
-     * Free memory as reported by the JVM in a <code>MemoryEvent</code>.
-     * 
-     * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
-     * low free memory does not necessarily indicate swapping or out of memory is imminent.
-     * 
-     * @return The total free physical memory as reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
-     *         units.
-     */
-    public long getJvmMemFree() {
-        long physicalMemoryFree = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)),
-                                matcher.group(9).charAt(0), Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return physicalMemoryFree;
+    public JvmOptions getJvmOptions() {
+        return jvmOptions;
     ***REMOVED***
 
     /**
@@ -1676,12 +1597,135 @@ public class FatalErrorLog {
         return swapFree;
     ***REMOVED***
 
+    /**
+     * @return The user the JVM process is running under.
+     */
+    public String getJvmUser() {
+        String jvmUser = null;
+        if (!dynamicLibraryEvents.isEmpty()) {
+            String regExHsPerfData = System.getProperty("file.separator") + "hsperfdata_([a-zA-Z\\d_]+).*"
+                    + System.getProperty("file.separator");
+            Pattern pattern = Pattern.compile(regExHsPerfData);
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getFilePath() != null) {
+                    Matcher matcher = pattern.matcher(event.getFilePath());
+                    if (matcher.find()) {
+                        jvmUser = matcher.group(1);
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return jvmUser;
+    ***REMOVED***
+
+    /**
+     * @return An estimate of how much physical memory is available without swapping in
+     *         <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getMemAvailable() {
+        long memAvailable = Long.MIN_VALUE;
+        if (!meminfoEvents.isEmpty()) {
+            String regexMemTotal = "MemAvailable:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    memAvailable = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return memAvailable;
+    ***REMOVED***
+
+    /**
+     * Free memory as reported by the OS. Note that free memory does not include Buffers or Cached memory, which can be
+     * reclaimed at any time. Therefore, low free memory does not necessarily indicate swapping or out of memory is
+     * imminent.
+     * 
+     * @return The total free physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getMemFree() {
+        long memFree = Long.MIN_VALUE;
+        if (!meminfoEvents.isEmpty()) {
+            String regexMemTotal = "MemFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0),
+                                Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return memFree;
+    ***REMOVED***
+
     public List<MeminfoEvent> getMeminfoEvents() {
         return meminfoEvents;
     ***REMOVED***
 
     public List<MemoryEvent> getMemoryEvents() {
         return memoryEvents;
+    ***REMOVED***
+
+    /**
+     * @return The total available physical memory reported by the OS in <code>Constants.PRECISION_REPORTING</code>
+     *         units.
+     */
+    public long getMemTotal() {
+        long memTotal = Long.MIN_VALUE;
+        if (!meminfoEvents.isEmpty()) {
+            String regexMemTotal = "MemTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0),
+                                Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return memTotal;
     ***REMOVED***
 
     /**
@@ -1944,6 +1988,44 @@ public class FatalErrorLog {
         return osVersion;
     ***REMOVED***
 
+    /**
+     * @return The max code cache size in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getReservedCodeCacheSize() {
+        // Default is 420m
+        long reservedCodeCacheize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
+        // 1st check [Global flags]
+        if (!globalFlagsEvents.isEmpty()) {
+            Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
+            while (iterator.hasNext()) {
+                GlobalFlagsEvent event = iterator.next();
+                String regExReservedCodeCacheSize = "^.+uintx ReservedCodeCacheSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
+                Pattern pattern = Pattern.compile(regExReservedCodeCacheSize);
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    reservedCodeCacheize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (jvmOptions != null && jvmOptions.getReservedCodeCacheSize() != null) {
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher = pattern.matcher(jvmOptions.getReservedCodeCacheSize());
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                ***REMOVED*** else {
+                    fromUnits = 'B';
+                ***REMOVED***
+                reservedCodeCacheize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+            ***REMOVED***
+        ***REMOVED***
+        return reservedCodeCacheize;
+    ***REMOVED***
+
     public RlimitEvent getRlimitEvent() {
         return rlimitEvent;
     ***REMOVED***
@@ -2126,105 +2208,6 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total available physical memory reported by the OS in <code>Constants.PRECISION_REPORTING</code>
-     *         units.
-     */
-    public long getMemTotal() {
-        long memTotal = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
-            String regexMemTotal = "MemTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
-            while (iterator.hasNext()) {
-                MeminfoEvent event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0),
-                                Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return memTotal;
-    ***REMOVED***
-
-    /**
-     * Free memory as reported by the OS. Note that free memory does not include Buffers or Cached memory, which can be
-     * reclaimed at any time. Therefore, low free memory does not necessarily indicate swapping or out of memory is
-     * imminent.
-     * 
-     * @return The total free physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getMemFree() {
-        long memFree = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
-            String regexMemTotal = "MemFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
-            while (iterator.hasNext()) {
-                MeminfoEvent event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.PRECISION_REPORTING);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0),
-                                Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return memFree;
-    ***REMOVED***
-
-    /**
-     * @return An estimate of how much physical memory is available without swapping in
-     *         <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getMemAvailable() {
-        long memAvailable = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
-            String regexMemTotal = "MemAvailable:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
-            while (iterator.hasNext()) {
-                MeminfoEvent event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    memAvailable = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return memAvailable;
-    ***REMOVED***
-
-    /**
      * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getSystemSwap() {
@@ -2374,6 +2357,27 @@ public class FatalErrorLog {
 
     public List<String> getUnidentifiedLogLines() {
         return unidentifiedLogLines;
+    ***REMOVED***
+
+    /**
+     * @return The USERNAME environment variable.
+     */
+    public String getUsername() {
+        String username = null;
+        if (!environmentVariablesEvents.isEmpty()) {
+            String regExUsername = "^USERNAME=([a-zA-Z\\d_]+)$";
+            Pattern pattern = Pattern.compile(regExUsername);
+            Iterator<EnvironmentVariablesEvent> iterator = environmentVariablesEvents.iterator();
+            while (iterator.hasNext()) {
+                EnvironmentVariablesEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    username = matcher.group(1);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return username;
     ***REMOVED***
 
     public List<VmArgumentsEvent> getVmArgumentsEvents() {
@@ -2624,25 +2628,6 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @param classRegEx
-     *            A class name as a regular expression.
-     * @return true if the class is in the stack, false otherwise.
-     */
-    public boolean isInStack(String classRegEx) {
-        boolean isInStack = false;
-        if (!stackEvents.isEmpty()) {
-            Iterator<StackEvent> iterator = stackEvents.iterator();
-            while (iterator.hasNext()) {
-                StackEvent event = iterator.next();
-                if (event.getLogEntry().matches("^.+" + classRegEx + ".+$")) {
-                    isInStack = true;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return isInStack;
-    ***REMOVED***
-
-    /**
      * @param regEx
      *            A regular expression.
      * @return true if the regex is in the header, false otherwise.
@@ -2659,6 +2644,25 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return isInHeader;
+    ***REMOVED***
+
+    /**
+     * @param classRegEx
+     *            A class name as a regular expression.
+     * @return true if the class is in the stack, false otherwise.
+     */
+    public boolean isInStack(String classRegEx) {
+        boolean isInStack = false;
+        if (!stackEvents.isEmpty()) {
+            Iterator<StackEvent> iterator = stackEvents.iterator();
+            while (iterator.hasNext()) {
+                StackEvent event = iterator.next();
+                if (event.getLogEntry().matches("^.+" + classRegEx + ".+$")) {
+                    isInStack = true;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return isInStack;
     ***REMOVED***
 
     /**

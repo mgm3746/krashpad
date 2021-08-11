@@ -24,6 +24,7 @@ import java.io.File;
 import org.github.krashpad.domain.jdk.ContainerInfoEvent;
 import org.github.krashpad.domain.jdk.CpuInfoEvent;
 import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
+import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
@@ -1858,4 +1859,18 @@ class TestAnalysis {
                 Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION + " analysis not identified.");
     ***REMOVED***
 
+    @Test
+    void testJvmUserNeUsername() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String username = "USERNAME=user1";
+        EnvironmentVariablesEvent environmentVariablesEvent = new EnvironmentVariablesEvent(username);
+        fel.getEnvironmentVariablesEvents().add(environmentVariablesEvent);
+        String hsperfdata = "7ff0f61d2000-7ff0f61da000 rw-s 00000000 fd:01 33563495                   "
+                + "/tmp/hsperfdata_user2/92333";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(hsperfdata);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JVM_USER_NE_USERNAME),
+                Analysis.INFO_JVM_USER_NE_USERNAME + " analysis not identified.");
+    ***REMOVED***
 ***REMOVED***
