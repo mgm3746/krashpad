@@ -426,6 +426,22 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testUserEnvironmentVariable() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset40.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals("username", fel.getJvmUser(), "JVM user not correct.");
+    ***REMOVED***
+
+    @Test
+    void testUserPerfDataFile() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals("user123", fel.getJvmUser(), "JVM user not correct.");
+    ***REMOVED***
+
+    @Test
     void testShenandoah() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset31.txt");
         Manager manager = new Manager();

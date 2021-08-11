@@ -99,6 +99,11 @@ public class FatalErrorLog {
     private List<DynamicLibraryEvent> dynamicLibraryEvents;
 
     /**
+     * Environment variables information.
+     */
+    private List<EnvironmentVariablesEvent> environmentVariablesEvents;
+
+    /**
      * JVM run duration information.
      */
     private ElapsedTimeEvent elapsedTimeEvent;
@@ -229,6 +234,7 @@ public class FatalErrorLog {
         cpuInfoEvents = new ArrayList<CpuInfoEvent>();
         deoptimizationEvents = new ArrayList<DeoptimizationEvent>();
         dynamicLibraryEvents = new ArrayList<DynamicLibraryEvent>();
+        environmentVariablesEvents = new ArrayList<EnvironmentVariablesEvent>();
         exceptionCountsEvents = new ArrayList<ExceptionCountsEvent>();
         globalFlagsEvents = new ArrayList<GlobalFlagsEvent>();
         headerEvents = new ArrayList<HeaderEvent>();
@@ -243,6 +249,10 @@ public class FatalErrorLog {
         unidentifiedLogLines = new ArrayList<String>();
         vmArgumentsEvents = new ArrayList<VmArgumentsEvent>();
         vmEvents = new ArrayList<VmEvent>();
+    ***REMOVED***
+
+    public List<EnvironmentVariablesEvent> getEnvironmentVariablesEvents() {
+        return environmentVariablesEvents;
     ***REMOVED***
 
     /**
@@ -723,7 +733,7 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for G1ParScanThreadState::copy_to_survivor_space
-        if (getJavaSpecification() == JavaSpecification.JDK8
+        if (getJavaSpecification() == JavaSpecification.JDK8 && getStackFrameTop() != null
                 && getStackFrameTop().matches("^V.+G1ParScanThreadState::copy_to_survivor_space.+$")) {
             analysis.add(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE);
 
@@ -1464,6 +1474,45 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return release;
+    ***REMOVED***
+
+    /**
+     * @return The user the JVM process is running under.
+     */
+    public String getJvmUser() {
+        String jvmUser = null;
+        // 1st look at performance data file
+        if (!dynamicLibraryEvents.isEmpty()) {
+            String regExHsPerfData = System.getProperty("file.separator") + "hsperfdata_([a-zA-Z\\d]+).*"
+                    + System.getProperty("file.separator");
+            Pattern pattern = Pattern.compile(regExHsPerfData);
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getFilePath() != null) {
+                    Matcher matcher = pattern.matcher(event.getFilePath());
+                    if (matcher.find()) {
+                        jvmUser = matcher.group(1);
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        // 2nd look in environment variables
+        if (jvmUser == null && !environmentVariablesEvents.isEmpty()) {
+            String regExUsername = "^USERNAME=([a-zA-Z\\d]+)$";
+            Pattern pattern = Pattern.compile(regExUsername);
+            Iterator<EnvironmentVariablesEvent> iterator = environmentVariablesEvents.iterator();
+            while (iterator.hasNext()) {
+                EnvironmentVariablesEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    jvmUser = matcher.group(1);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return jvmUser;
     ***REMOVED***
 
     /**

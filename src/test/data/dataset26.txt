@@ -1536,7 +1536,7 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7feff3c38000-7feff4438000 rw-p 00000000 00:00 0 
 7feff4438000-7feff4439000 ---p 00000000 00:00 0 
 7feff4439000-7feff4c39000 rw-p 00000000 00:00 0 
-7feff4c39000-7feff4d7a000 rw-s 00000000 fd:03 140                        /home/mmillson/.cache/mesa_shader_cache/index
+7feff4c39000-7feff4d7a000 rw-s 00000000 fd:03 140                        /home/user123/.cache/mesa_shader_cache/index
 7feff4d7a000-7feff5797000 r-xp 00000000 fd:01 34728250                   /usr/lib64/dri/i965_dri.so
 7feff5797000-7feff5996000 ---p 00a1d000 fd:01 34728250                   /usr/lib64/dri/i965_dri.so
 7feff5996000-7feff5a30000 r--p 00a1c000 fd:01 34728250                   /usr/lib64/dri/i965_dri.so
@@ -1843,10 +1843,10 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff0447bc000-7ff0449a8000 r--p 029d9000 fd:01 35336806                   /usr/lib64/libwebkit2gtk-4.0.so.37.37.6
 7ff0449a8000-7ff0449b8000 rw-p 02bc5000 fd:01 35336806                   /usr/lib64/libwebkit2gtk-4.0.so.37.37.6
 7ff0449b8000-7ff0449d9000 rw-p 00000000 00:00 0 
-7ff0449d9000-7ff0449e2000 r-xp 00000000 fd:03 134375090                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-webkit-gtk-4934r6.so
-7ff0449e2000-7ff044be2000 ---p 00009000 fd:03 134375090                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-webkit-gtk-4934r6.so
-7ff044be2000-7ff044be3000 r--p 00009000 fd:03 134375090                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-webkit-gtk-4934r6.so
-7ff044be3000-7ff044be4000 rw-p 0000a000 fd:03 134375090                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-webkit-gtk-4934r6.so
+7ff0449d9000-7ff0449e2000 r-xp 00000000 fd:03 134375090                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-webkit-gtk-4934r6.so
+7ff0449e2000-7ff044be2000 ---p 00009000 fd:03 134375090                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-webkit-gtk-4934r6.so
+7ff044be2000-7ff044be3000 r--p 00009000 fd:03 134375090                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-webkit-gtk-4934r6.so
+7ff044be3000-7ff044be4000 rw-p 0000a000 fd:03 134375090                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-webkit-gtk-4934r6.so
 7ff044be4000-7ff044de4000 rw-p 00000000 00:00 0 
 7ff044de4000-7ff04559b000 rw-s 00000000 00:05 1218702                    /memfd:gdk-wayland (deleted)
 7ff04559b000-7ff04559c000 ---p 00000000 00:00 0 
@@ -1946,7 +1946,7 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff04c021000-7ff050000000 ---p 00000000 00:00 0 
 7ff05006f000-7ff05026f000 rw-p 00000000 00:00 0 
 7ff05026f000-7ff05046f000 rw-p 00000000 00:00 0 
-7ff05046f000-7ff050475000 r--s 0003c000 fd:03 1102219                    /home/mmillson/codereadystudio/studio/plugins/org.glassfish.jersey.core.jersey-client_2.30.1.v20200513-1859.jar
+7ff05046f000-7ff050475000 r--s 0003c000 fd:03 1102219                    /home/user123/codereadystudio/studio/plugins/org.glassfish.jersey.core.jersey-client_2.30.1.v20200513-1859.jar
 7ff0504ad000-7ff0506ad000 rw-p 00000000 00:00 0 
 7ff05070b000-7ff0507a8000 r--p 00000000 fd:01 33555388                   /usr/share/fonts/dejavu/DejaVuSans-BoldOblique.ttf
 7ff050805000-7ff050843000 r--p 00000000 fd:01 36100505                   /usr/share/fonts/dejavu/DejaVuSansMono-Oblique.ttf
@@ -1958,8 +1958,8 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff0514d2000-7ff0516d2000 rw-p 00000000 00:00 0 
 7ff0516d2000-7ff0516d5000 ---p 00000000 00:00 0 
 7ff0516d5000-7ff0517d3000 rw-p 00000000 00:00 0 
-7ff0517f7000-7ff05180f000 r--s 00127000 fd:03 373842                     /home/mmillson/codereadystudio/studio/plugins/org.apache.xerces_2.9.0.v201101211617.jar
-7ff05180f000-7ff051844000 r--s 0034f000 fd:03 1093240                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.ui.workbench_3.119.0.v20200521-1247.jar
+7ff0517f7000-7ff05180f000 r--s 00127000 fd:03 373842                     /home/user123/codereadystudio/studio/plugins/org.apache.xerces_2.9.0.v201101211617.jar
+7ff05180f000-7ff051844000 r--s 0034f000 fd:03 1093240                    /home/user123/codereadystudio/studio/plugins/org.eclipse.ui.workbench_3.119.0.v20200521-1247.jar
 7ff051844000-7ff051847000 ---p 00000000 00:00 0 
 7ff051847000-7ff051b45000 rw-p 00000000 00:00 0 
 7ff051b45000-7ff051d45000 rw-p 00000000 00:00 0 
@@ -1969,16 +1969,16 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff052345000-7ff052545000 rw-p 00000000 00:00 0 
 7ff052545000-7ff052745000 rw-p 00000000 00:00 0 
 7ff052745000-7ff052945000 rw-p 00000000 00:00 0 
-7ff052949000-7ff052967000 r--s 00127000 fd:03 546646                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jpt.common.utility_2.4.1.v201902121834.jar
-7ff052967000-7ff052978000 r--s 000a8000 fd:03 546649                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jpt.jaxb.core_1.4.101.v201902121834.jar
+7ff052949000-7ff052967000 r--s 00127000 fd:03 546646                     /home/user123/codereadystudio/studio/plugins/org.eclipse.jpt.common.utility_2.4.1.v201902121834.jar
+7ff052967000-7ff052978000 r--s 000a8000 fd:03 546649                     /home/user123/codereadystudio/studio/plugins/org.eclipse.jpt.jaxb.core_1.4.101.v201902121834.jar
 7ff052978000-7ff052b78000 rw-p 00000000 00:00 0 
 7ff052b78000-7ff052d78000 rw-p 00000000 00:00 0 
 7ff052d78000-7ff052f78000 rw-p 00000000 00:00 0 
 7ff052f78000-7ff053178000 rw-p 00000000 00:00 0 
 7ff053178000-7ff053378000 rw-p 00000000 00:00 0 
 7ff053378000-7ff053578000 rw-p 00000000 00:00 0 
-7ff053578000-7ff0535b6000 r--s 00697000 fd:03 1074352                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jdt.core_3.22.0.v20200530-2032.jar
-7ff0535b8000-7ff0535dc000 r--s 001c2000 fd:03 1092392                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.mylyn.tasks.ui_3.25.1.v20200512-0316.jar
+7ff053578000-7ff0535b6000 r--s 00697000 fd:03 1074352                    /home/user123/codereadystudio/studio/plugins/org.eclipse.jdt.core_3.22.0.v20200530-2032.jar
+7ff0535b8000-7ff0535dc000 r--s 001c2000 fd:03 1092392                    /home/user123/codereadystudio/studio/plugins/org.eclipse.mylyn.tasks.ui_3.25.1.v20200512-0316.jar
 7ff0535dc000-7ff0535e2000 r-xp 00000000 fd:01 101073840                  /usr/lib64/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so
 7ff0535e2000-7ff0537e2000 ---p 00006000 fd:01 101073840                  /usr/lib64/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so
 7ff0537e2000-7ff0537e3000 r--p 00006000 fd:01 101073840                  /usr/lib64/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so
@@ -2000,72 +2000,72 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff060021000-7ff064000000 ---p 00000000 00:00 0 
 7ff064000000-7ff0640da000 rw-p 00000000 00:00 0 
 7ff0640da000-7ff068000000 ---p 00000000 00:00 0 
-7ff068010000-7ff068022000 r--s 000ef000 fd:03 1074703                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jface.text_3.16.300.v20200526-0811.jar
+7ff068010000-7ff068022000 r--s 000ef000 fd:03 1074703                    /home/user123/codereadystudio/studio/plugins/org.eclipse.jface.text_3.16.300.v20200526-0811.jar
 7ff068022000-7ff0680ce000 r--p 00000000 fd:01 33555387                   /usr/share/fonts/dejavu/DejaVuSans-Bold.ttf
 7ff0680ce000-7ff068122000 r--p 00000000 fd:01 36100506                   /usr/share/fonts/dejavu/DejaVuSansMono.ttf
 7ff068122000-7ff068322000 rw-p 00000000 00:00 0 
-7ff068328000-7ff068331000 r--s 00052000 fd:03 810589                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.common.project.facet.core_1.4.400.v201903222010.jar
-7ff068340000-7ff0683dd000 r--s 00a57000 fd:03 1074689                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jdt.ui_3.21.100.v20200602-0959.jar
-7ff0683dd000-7ff0683ea000 r--s 00079000 fd:03 546640                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jpt.common.core_1.5.1.v201902121834.jar
+7ff068328000-7ff068331000 r--s 00052000 fd:03 810589                     /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.common.project.facet.core_1.4.400.v201903222010.jar
+7ff068340000-7ff0683dd000 r--s 00a57000 fd:03 1074689                    /home/user123/codereadystudio/studio/plugins/org.eclipse.jdt.ui_3.21.100.v20200602-0959.jar
+7ff0683dd000-7ff0683ea000 r--s 00079000 fd:03 546640                     /home/user123/codereadystudio/studio/plugins/org.eclipse.jpt.common.core_1.5.1.v201902121834.jar
 7ff0683ea000-7ff0685ea000 rw-p 00000000 00:00 0 
-7ff0685ef000-7ff0685fb000 r--s 00092000 fd:03 616342                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.lsp4j_0.9.0.v20200229-1009.jar
+7ff0685ef000-7ff0685fb000 r--s 00092000 fd:03 616342                     /home/user123/codereadystudio/studio/plugins/org.eclipse.lsp4j_0.9.0.v20200229-1009.jar
 7ff0685fb000-7ff0687fb000 rw-p 00000000 00:00 0 
 7ff0687fb000-7ff0687fe000 ---p 00000000 00:00 0 
 7ff0687fe000-7ff0688fc000 rw-p 00000000 00:00 0 
 7ff0688fc000-7ff0688ff000 ---p 00000000 00:00 0 
 7ff0688ff000-7ff0689fd000 rw-p 00000000 00:00 0 
-7ff0689fe000-7ff068a0f000 r--s 00101000 fd:03 1074701                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jface_3.20.0.v20200505-1952.jar
-7ff068a10000-7ff068a17000 r--s 0005f000 fd:03 1074726                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.lsp4e_0.13.2.202006041453.jar
+7ff0689fe000-7ff068a0f000 r--s 00101000 fd:03 1074701                    /home/user123/codereadystudio/studio/plugins/org.eclipse.jface_3.20.0.v20200505-1952.jar
+7ff068a10000-7ff068a17000 r--s 0005f000 fd:03 1074726                    /home/user123/codereadystudio/studio/plugins/org.eclipse.lsp4e_0.13.2.202006041453.jar
 7ff068a17000-7ff068c17000 rw-p 00000000 00:00 0 
-7ff068c23000-7ff068c2d000 r--s 00071000 fd:03 1092388                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.mylyn.tasks.core_3.25.1.v20200512-0316.jar
-7ff068c2d000-7ff068c36000 r--s 0006c000 fd:03 1093209                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.ui_3.117.0.v20200518-1705.jar
+7ff068c23000-7ff068c2d000 r--s 00071000 fd:03 1092388                    /home/user123/codereadystudio/studio/plugins/org.eclipse.mylyn.tasks.core_3.25.1.v20200512-0316.jar
+7ff068c2d000-7ff068c36000 r--s 0006c000 fd:03 1093209                    /home/user123/codereadystudio/studio/plugins/org.eclipse.ui_3.117.0.v20200518-1705.jar
 7ff068c36000-7ff068c47000 r--p 00000000 fd:01 100664038                  /usr/share/fonts/abattis-cantarell/Cantarell-Regular.otf
-7ff068c4d000-7ff068c6d000 r--s 0018b000 fd:03 1074355                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jdt.debug.ui_3.11.0.v20200525-2012.jar
-7ff068c6d000-7ff068c78000 r--s 00096000 fd:03 1093241                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.ui.workbench.texteditor_3.14.200.v20200421-1954.jar
-7ff068c9a000-7ff068caf000 r--s 0016c000 fd:03 1074353                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jdt.core.manipulation_1.14.0.v20200526-0740.jar
-7ff068cd2000-7ff068cff000 r--s 001eb000 fd:03 1238847                    /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.jst.web.ui_3.9.300.v20200605-1455.jar
+7ff068c4d000-7ff068c6d000 r--s 0018b000 fd:03 1074355                    /home/user123/codereadystudio/studio/plugins/org.eclipse.jdt.debug.ui_3.11.0.v20200525-2012.jar
+7ff068c6d000-7ff068c78000 r--s 00096000 fd:03 1093241                    /home/user123/codereadystudio/studio/plugins/org.eclipse.ui.workbench.texteditor_3.14.200.v20200421-1954.jar
+7ff068c9a000-7ff068caf000 r--s 0016c000 fd:03 1074353                    /home/user123/codereadystudio/studio/plugins/org.eclipse.jdt.core.manipulation_1.14.0.v20200526-0740.jar
+7ff068cd2000-7ff068cff000 r--s 001eb000 fd:03 1238847                    /home/user123/codereadystudio/studio/plugins/org.jboss.tools.jst.web.ui_3.9.300.v20200605-1455.jar
 7ff068cff000-7ff068d09000 rw-s 00000000 00:2a 1218132                    /i915 (deleted)
-7ff068d09000-7ff068d14000 r--s 000d0000 fd:03 392315                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.core.resources_3.13.700.v20200209-1624.jar
+7ff068d09000-7ff068d14000 r--s 000d0000 fd:03 392315                     /home/user123/codereadystudio/studio/plugins/org.eclipse.core.resources_3.13.700.v20200209-1624.jar
 7ff068d14000-7ff068d1e000 rw-s 00000000 00:2a 1218126                    /i915 (deleted)
 7ff068d1e000-7ff068d31000 r--p 00000000 fd:01 100664036                  /usr/share/fonts/abattis-cantarell/Cantarell-BoldOblique.otf
 7ff068d4a000-7ff068d88000 r--p 00000000 fd:01 36100504                   /usr/share/fonts/dejavu/DejaVuSansMono-BoldOblique.ttf
 7ff068d9b000-7ff068f9b000 rw-p 00000000 00:00 0 
-7ff068f9b000-7ff068fa5000 r--s 00063000 fd:03 1098841                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.sse.core_1.2.400.v202004081818.jar
+7ff068f9b000-7ff068fa5000 r--s 00063000 fd:03 1098841                    /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.sse.core_1.2.400.v202004081818.jar
 7ff068fac000-7ff068fbf000 r--p 00000000 fd:01 100664037                  /usr/share/fonts/abattis-cantarell/Cantarell-Oblique.otf
 7ff068fbf000-7ff068fc2000 ---p 00000000 00:00 0 
 7ff068fc2000-7ff0690c0000 rw-p 00000000 00:00 0 
-7ff0690f3000-7ff0690f9000 r--s 0003a000 fd:03 1225872                    /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.common.ui_3.14.0.v20200424-0835.jar
-7ff0690f9000-7ff069101000 r--s 00051000 fd:03 1074329                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.metadata_2.5.0.v20200511-1530.jar
+7ff0690f3000-7ff0690f9000 r--s 0003a000 fd:03 1225872                    /home/user123/codereadystudio/studio/plugins/org.jboss.tools.common.ui_3.14.0.v20200424-0835.jar
+7ff0690f9000-7ff069101000 r--s 00051000 fd:03 1074329                    /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.metadata_2.5.0.v20200511-1530.jar
 7ff06911b000-7ff06916c000 r--p 00000000 fd:01 36100503                   /usr/share/fonts/dejavu/DejaVuSansMono-Bold.ttf
-7ff06916c000-7ff069175000 r-xp 00000000 fd:03 134222024                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-atk-gtk-4934r6.so
-7ff069175000-7ff069374000 ---p 00009000 fd:03 134222024                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-atk-gtk-4934r6.so
-7ff069374000-7ff069375000 r--p 00008000 fd:03 134222024                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-atk-gtk-4934r6.so
-7ff069375000-7ff069376000 rw-p 00009000 fd:03 134222024                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-atk-gtk-4934r6.so
+7ff06916c000-7ff069175000 r-xp 00000000 fd:03 134222024                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-atk-gtk-4934r6.so
+7ff069175000-7ff069374000 ---p 00009000 fd:03 134222024                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-atk-gtk-4934r6.so
+7ff069374000-7ff069375000 r--p 00008000 fd:03 134222024                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-atk-gtk-4934r6.so
+7ff069375000-7ff069376000 rw-p 00009000 fd:03 134222024                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-atk-gtk-4934r6.so
 7ff069376000-7ff069576000 rw-p 00000000 00:00 0 
 7ff069576000-7ff069776000 rw-p 00000000 00:00 0 
 7ff069776000-7ff069976000 rw-p 00000000 00:00 0 
 7ff069976000-7ff069979000 ---p 00000000 00:00 0 
 7ff069979000-7ff069c77000 rw-p 00000000 00:00 0 
-7ff069c77000-7ff069c79000 r-xp 00000000 fd:03 1232499                    /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/142/0/.cp/os/linux/x86_64/libunixfile_1_0_0.so
-7ff069c79000-7ff069e78000 ---p 00002000 fd:03 1232499                    /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/142/0/.cp/os/linux/x86_64/libunixfile_1_0_0.so
-7ff069e78000-7ff069e79000 r--p 00001000 fd:03 1232499                    /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/142/0/.cp/os/linux/x86_64/libunixfile_1_0_0.so
-7ff069e79000-7ff069e7a000 rw-p 00002000 fd:03 1232499                    /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/142/0/.cp/os/linux/x86_64/libunixfile_1_0_0.so
+7ff069c77000-7ff069c79000 r-xp 00000000 fd:03 1232499                    /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/142/0/.cp/os/linux/x86_64/libunixfile_1_0_0.so
+7ff069c79000-7ff069e78000 ---p 00002000 fd:03 1232499                    /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/142/0/.cp/os/linux/x86_64/libunixfile_1_0_0.so
+7ff069e78000-7ff069e79000 r--p 00001000 fd:03 1232499                    /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/142/0/.cp/os/linux/x86_64/libunixfile_1_0_0.so
+7ff069e79000-7ff069e7a000 rw-p 00002000 fd:03 1232499                    /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/142/0/.cp/os/linux/x86_64/libunixfile_1_0_0.so
 7ff069e7a000-7ff06a07a000 rw-p 00000000 00:00 0 
-7ff06a371000-7ff06a393000 r--s 0023d000 fd:03 1093217                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.ui.ide_3.17.100.v20200530-0835.jar
+7ff06a371000-7ff06a393000 r--s 0023d000 fd:03 1093217                    /home/user123/codereadystudio/studio/plugins/org.eclipse.ui.ide_3.17.100.v20200530-0835.jar
 7ff06a393000-7ff06a39d000 rw-s 00000000 00:2a 1350743                    /i915 (deleted)
 7ff06a39d000-7ff06a3a7000 rw-s 00000000 00:2a 1343723                    /i915 (deleted)
-7ff06a3a7000-7ff06a3b4000 r--s 000d7000 fd:03 1242076                    /home/mmillson/codereadystudio/studio/plugins/org.testng_7.3.0.r202008060316.jar
-7ff06a3b4000-7ff06a3e6000 r--s 00295000 fd:03 282396                     /home/mmillson/codereadystudio/studio/plugins/com.google.guava_27.1.0.v20190517-1946.jar
-7ff06a3e6000-7ff06a3f3000 r--s 00079000 fd:03 1057732                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.buildship.core_3.1.4.v20200326-1743.jar
+7ff06a3a7000-7ff06a3b4000 r--s 000d7000 fd:03 1242076                    /home/user123/codereadystudio/studio/plugins/org.testng_7.3.0.r202008060316.jar
+7ff06a3b4000-7ff06a3e6000 r--s 00295000 fd:03 282396                     /home/user123/codereadystudio/studio/plugins/com.google.guava_27.1.0.v20190517-1946.jar
+7ff06a3e6000-7ff06a3f3000 r--s 00079000 fd:03 1057732                    /home/user123/codereadystudio/studio/plugins/org.eclipse.buildship.core_3.1.4.v20200326-1743.jar
 7ff06a3f3000-7ff06a5b3000 rw-p 00000000 00:00 0 
 7ff06a5b3000-7ff06a5f3000 ---p 00000000 00:00 0 
 7ff06a5f3000-7ff06a7f3000 rw-p 00000000 00:00 0 
-7ff06a7f3000-7ff06a7ff000 r--s 000c7000 fd:03 1201010                    /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.jsf_3.8.400.v20200325-1204.jar
-7ff06a7ff000-7ff06a813000 r--s 000f4000 fd:03 1098852                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.sse.ui_1.7.0.v202005172302.jar
-7ff06a813000-7ff06a825000 r--s 000e9000 fd:03 1102210                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.xml.ui_1.2.400.v202005192253.jar
-7ff06a825000-7ff06a836000 r--s 000ce000 fd:03 287932682                  /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.common.model_3.14.0.v20200424-0835/org.jboss.tools.common.model.jar
-7ff06a836000-7ff06a854000 r--s 0013a000 fd:03 407571820                  /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.common.model.ui_3.14.0.v20200506-1709/org.jboss.tools.common.model.ui.jar
-7ff06a854000-7ff06a87b000 r--s 0028d000 fd:03 1074704                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jgit_5.8.0.202006091008-r.jar
+7ff06a7f3000-7ff06a7ff000 r--s 000c7000 fd:03 1201010                    /home/user123/codereadystudio/studio/plugins/org.jboss.tools.jsf_3.8.400.v20200325-1204.jar
+7ff06a7ff000-7ff06a813000 r--s 000f4000 fd:03 1098852                    /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.sse.ui_1.7.0.v202005172302.jar
+7ff06a813000-7ff06a825000 r--s 000e9000 fd:03 1102210                    /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.xml.ui_1.2.400.v202005192253.jar
+7ff06a825000-7ff06a836000 r--s 000ce000 fd:03 287932682                  /home/user123/codereadystudio/studio/plugins/org.jboss.tools.common.model_3.14.0.v20200424-0835/org.jboss.tools.common.model.jar
+7ff06a836000-7ff06a854000 r--s 0013a000 fd:03 407571820                  /home/user123/codereadystudio/studio/plugins/org.jboss.tools.common.model.ui_3.14.0.v20200506-1709/org.jboss.tools.common.model.ui.jar
+7ff06a854000-7ff06a87b000 r--s 0028d000 fd:03 1074704                    /home/user123/codereadystudio/studio/plugins/org.eclipse.jgit_5.8.0.202006091008-r.jar
 7ff06a87b000-7ff06a87c000 ---p 00000000 00:00 0 
 7ff06a87c000-7ff06b07c000 rw-p 00000000 00:00 0 
 7ff06b07c000-7ff06b0f1000 r-xp 00000000 fd:01 34311036                   /usr/lib64/libibus-1.0.so.5.0.519
@@ -2076,23 +2076,23 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff06b2fb000-7ff06b4fb000 ---p 00007000 fd:01 101298957                  /usr/lib64/gtk-3.0/3.0.0/immodules/im-ibus.so
 7ff06b4fb000-7ff06b4fc000 r--p 00007000 fd:01 101298957                  /usr/lib64/gtk-3.0/3.0.0/immodules/im-ibus.so
 7ff06b4fc000-7ff06b4fd000 rw-p 00008000 fd:01 101298957                  /usr/lib64/gtk-3.0/3.0.0/immodules/im-ibus.so
-7ff06b4fd000-7ff06b507000 r-xp 00000000 fd:03 134218235                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-cairo-gtk-4934r6.so
-7ff06b507000-7ff06b706000 ---p 0000a000 fd:03 134218235                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-cairo-gtk-4934r6.so
-7ff06b706000-7ff06b707000 r--p 00009000 fd:03 134218235                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-cairo-gtk-4934r6.so
-7ff06b707000-7ff06b708000 rw-p 0000a000 fd:03 134218235                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-cairo-gtk-4934r6.so
+7ff06b4fd000-7ff06b507000 r-xp 00000000 fd:03 134218235                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-cairo-gtk-4934r6.so
+7ff06b507000-7ff06b706000 ---p 0000a000 fd:03 134218235                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-cairo-gtk-4934r6.so
+7ff06b706000-7ff06b707000 r--p 00009000 fd:03 134218235                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-cairo-gtk-4934r6.so
+7ff06b707000-7ff06b708000 rw-p 0000a000 fd:03 134218235                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-cairo-gtk-4934r6.so
 7ff06b708000-7ff06b709000 r-xp 00000000 fd:01 33877798                   /usr/lib64/libgthread-2.0.so.0.5600.4
 7ff06b709000-7ff06b908000 ---p 00001000 fd:01 33877798                   /usr/lib64/libgthread-2.0.so.0.5600.4
 7ff06b908000-7ff06b909000 r--p 00000000 fd:01 33877798                   /usr/lib64/libgthread-2.0.so.0.5600.4
 7ff06b909000-7ff06b90a000 rw-p 00000000 00:00 0 
-7ff06b90a000-7ff06b973000 r-xp 00000000 fd:03 134218234                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-pi3-gtk-4934r6.so
-7ff06b973000-7ff06bb72000 ---p 00069000 fd:03 134218234                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-pi3-gtk-4934r6.so
-7ff06bb72000-7ff06bb73000 r--p 00068000 fd:03 134218234                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-pi3-gtk-4934r6.so
-7ff06bb73000-7ff06bb76000 rw-p 00069000 fd:03 134218234                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-pi3-gtk-4934r6.so
+7ff06b90a000-7ff06b973000 r-xp 00000000 fd:03 134218234                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-pi3-gtk-4934r6.so
+7ff06b973000-7ff06bb72000 ---p 00069000 fd:03 134218234                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-pi3-gtk-4934r6.so
+7ff06bb72000-7ff06bb73000 r--p 00068000 fd:03 134218234                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-pi3-gtk-4934r6.so
+7ff06bb73000-7ff06bb76000 rw-p 00069000 fd:03 134218234                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-pi3-gtk-4934r6.so
 7ff06bb76000-7ff06bb77000 rw-p 00000000 00:00 0 
-7ff06bb77000-7ff06bbf5000 r-xp 00000000 fd:03 134218232                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-gtk-4934r6.so
-7ff06bbf5000-7ff06bdf4000 ---p 0007e000 fd:03 134218232                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-gtk-4934r6.so
-7ff06bdf4000-7ff06bdf5000 r--p 0007d000 fd:03 134218232                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-gtk-4934r6.so
-7ff06bdf5000-7ff06bdfc000 rw-p 0007e000 fd:03 134218232                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-gtk-4934r6.so
+7ff06bb77000-7ff06bbf5000 r-xp 00000000 fd:03 134218232                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-gtk-4934r6.so
+7ff06bbf5000-7ff06bdf4000 ---p 0007e000 fd:03 134218232                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-gtk-4934r6.so
+7ff06bdf4000-7ff06bdf5000 r--p 0007d000 fd:03 134218232                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-gtk-4934r6.so
+7ff06bdf5000-7ff06bdfc000 rw-p 0007e000 fd:03 134218232                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1379/0/.cp/libswt-gtk-4934r6.so
 7ff06bdfc000-7ff06c000000 rw-p 00000000 00:00 0 
 7ff06c000000-7ff06c021000 rw-p 00000000 00:00 0 
 7ff06c021000-7ff070000000 ---p 00000000 00:00 0 
@@ -2117,64 +2117,64 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff094000000-7ff09405d000 rw-p 00000000 00:00 0 
 7ff09405d000-7ff098000000 ---p 00000000 00:00 0 
 7ff098000000-7ff098005000 r--s 00046000 fd:01 234853                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre/lib/ext/sunjce_provider.jar
-7ff098005000-7ff09803d000 r--s 002c6000 fd:03 1057765                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.debug.ui_3.14.500.v20200520-0842.jar
-7ff098044000-7ff098054000 r--s 0009b000 fd:03 1057744                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.buildship.ui_3.1.4.v20200326-1743.jar
-7ff098054000-7ff09805d000 r--s 0005e000 fd:03 810584                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.common.modulecore_1.3.100.v201903222010.jar
-7ff09805d000-7ff098062000 r--s 0001d000 fd:03 134218188                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1271/0/.cp/lib/java14api.jar
-7ff098067000-7ff09806d000 r--s 0004c000 fd:03 1093216                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.ui.forms_3.9.100.v20200413-1417.jar
-7ff09806d000-7ff098072000 r--s 00033000 fd:03 810570                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.common.emf_1.2.600.v201903222010.jar
+7ff098005000-7ff09803d000 r--s 002c6000 fd:03 1057765                    /home/user123/codereadystudio/studio/plugins/org.eclipse.debug.ui_3.14.500.v20200520-0842.jar
+7ff098044000-7ff098054000 r--s 0009b000 fd:03 1057744                    /home/user123/codereadystudio/studio/plugins/org.eclipse.buildship.ui_3.1.4.v20200326-1743.jar
+7ff098054000-7ff09805d000 r--s 0005e000 fd:03 810584                     /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.common.modulecore_1.3.100.v201903222010.jar
+7ff09805d000-7ff098062000 r--s 0001d000 fd:03 134218188                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1271/0/.cp/lib/java14api.jar
+7ff098067000-7ff09806d000 r--s 0004c000 fd:03 1093216                    /home/user123/codereadystudio/studio/plugins/org.eclipse.ui.forms_3.9.100.v20200413-1417.jar
+7ff09806d000-7ff098072000 r--s 00033000 fd:03 810570                     /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.common.emf_1.2.600.v201903222010.jar
 7ff09807b000-7ff09807e000 ---p 00000000 00:00 0 
 7ff09807e000-7ff0980b4000 rw-p 00000000 00:00 0 
-7ff0980b8000-7ff0980bc000 r--s 0001a000 fd:03 810575                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.common.frameworks_1.2.201.v201903222010.jar
+7ff0980b8000-7ff0980bc000 r--s 0001a000 fd:03 810575                     /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.common.frameworks_1.2.201.v201903222010.jar
 7ff0980bd000-7ff0980c7000 rw-s 00000000 00:2a 1350747                    /i915 (deleted)
-7ff0980c7000-7ff0980da000 r--s 000d5000 fd:03 1021471                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.server.ui_1.5.600.v201910252115.jar
-7ff0980da000-7ff0980ee000 r--s 00146000 fd:03 1074310                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.emf.ecore_2.22.0.v20200519-1135.jar
-7ff0980ee000-7ff0980f2000 r--s 00019000 fd:03 544566                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jem.util_2.1.201.v201903222010.jar
+7ff0980c7000-7ff0980da000 r--s 000d5000 fd:03 1021471                    /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.server.ui_1.5.600.v201910252115.jar
+7ff0980da000-7ff0980ee000 r--s 00146000 fd:03 1074310                    /home/user123/codereadystudio/studio/plugins/org.eclipse.emf.ecore_2.22.0.v20200519-1135.jar
+7ff0980ee000-7ff0980f2000 r--s 00019000 fd:03 544566                     /home/user123/codereadystudio/studio/plugins/org.eclipse.jem.util_2.1.201.v201903222010.jar
 7ff0980f5000-7ff098106000 r--p 00000000 fd:01 100664035                  /usr/share/fonts/abattis-cantarell/Cantarell-Bold.otf
 7ff098106000-7ff098109000 r--p 00000000 fd:01 403822                     /usr/share/icons/hicolor/icon-theme.cache
 7ff098109000-7ff098124000 r--p 00000000 fd:01 958817                     /usr/share/icons/Adwaita/icon-theme.cache
 7ff098124000-7ff09812f000 r--s 0011d000 fd:01 234848                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre/lib/ext/localedata.jar
-7ff09812f000-7ff098133000 r--s 00020000 fd:03 810571                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.common.emfworkbench.integration_1.2.101.v201903222010.jar
-7ff098133000-7ff09813e000 r--s 0008c000 fd:03 1093214                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.ui.editors_3.13.200.v20200501-2307.jar
+7ff09812f000-7ff098133000 r--s 00020000 fd:03 810571                     /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.common.emfworkbench.integration_1.2.101.v201903222010.jar
+7ff098133000-7ff09813e000 r--s 0008c000 fd:03 1093214                    /home/user123/codereadystudio/studio/plugins/org.eclipse.ui.editors_3.13.200.v20200501-2307.jar
 7ff09813e000-7ff098151000 r--s 00346000 fd:01 34312014                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre/lib/resources.jar
-7ff098151000-7ff09815f000 r--s 001e7000 fd:03 1093198                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.swt.gtk.linux.x86_64_3.114.100.v20200604-0951.jar
+7ff098151000-7ff09815f000 r--s 001e7000 fd:03 1093198                    /home/user123/codereadystudio/studio/plugins/org.eclipse.swt.gtk.linux.x86_64_3.114.100.v20200604-0951.jar
 7ff098160000-7ff098163000 ---p 00000000 00:00 0 
 7ff098163000-7ff098261000 rw-p 00000000 00:00 0 
-7ff098262000-7ff098269000 r--s 0003f000 fd:03 274526272                  /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.vpe_3.8.300.v20181123-0958/vpe.jar
-7ff098269000-7ff098272000 r--s 000ea000 fd:03 1238837                    /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.jst.web_3.9.300.v20200605-1455.jar
+7ff098262000-7ff098269000 r--s 0003f000 fd:03 274526272                  /home/user123/codereadystudio/studio/plugins/org.jboss.tools.vpe_3.8.300.v20181123-0958/vpe.jar
+7ff098269000-7ff098272000 r--s 000ea000 fd:03 1238837                    /home/user123/codereadystudio/studio/plugins/org.jboss.tools.jst.web_3.9.300.v20200605-1455.jar
 7ff098272000-7ff098275000 ---p 00000000 00:00 0 
 7ff098275000-7ff098373000 rw-p 00000000 00:00 0 
-7ff098374000-7ff098378000 r--s 0001f000 fd:03 1234792                    /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.hibernate.xml_5.4.9.v20200506-1716.jar
+7ff098374000-7ff098378000 r--s 0001f000 fd:03 1234792                    /home/user123/codereadystudio/studio/plugins/org.jboss.tools.hibernate.xml_5.4.9.v20200506-1716.jar
 7ff098378000-7ff09837b000 ---p 00000000 00:00 0 
 7ff09837b000-7ff098679000 rw-p 00000000 00:00 0 
 7ff098681000-7ff09868c000 rw-p 00000000 00:00 0 
 7ff09868c000-7ff09888c000 rw-p 00000000 00:00 0 
 7ff09888c000-7ff0988a2000 rw-p 00000000 00:00 0 
-7ff0988a5000-7ff0988a8000 r--s 00017000 fd:03 1225871                    /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.common.text.xml_3.14.0.v20200605-1425.jar
+7ff0988a5000-7ff0988a8000 r--s 00017000 fd:03 1225871                    /home/user123/codereadystudio/studio/plugins/org.jboss.tools.common.text.xml_3.14.0.v20200605-1425.jar
 7ff0988aa000-7ff0988b2000 rw-s 00000000 00:2a 1350732                    /i915 (deleted)
-7ff0988b2000-7ff0988b9000 r--s 00055000 fd:03 1074309                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.emf.common_2.19.0.v20200324-0932.jar
+7ff0988b2000-7ff0988b9000 r--s 00055000 fd:03 1074309                    /home/user123/codereadystudio/studio/plugins/org.eclipse.emf.common_2.19.0.v20200324-0932.jar
 7ff0988b9000-7ff0988c1000 rw-s 00000000 00:2a 1215358                    /i915 (deleted)
 7ff0988c1000-7ff098ac1000 rw-p 00000000 00:00 0 
 7ff098ac1000-7ff098ac4000 ---p 00000000 00:00 0 
 7ff098ac4000-7ff098bc2000 rw-p 00000000 00:00 0 
 7ff098bc2000-7ff098bc5000 ---p 00000000 00:00 0 
 7ff098bc5000-7ff098cc3000 rw-p 00000000 00:00 0 
-7ff098cc3000-7ff098cc7000 r--s 00036000 fd:03 541607                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.emf.ecore.xmi_2.16.0.v20190528-0725.jar
-7ff098cc9000-7ff098ccc000 r--s 00018000 fd:03 1093227                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.ui.views_3.10.300.v20200311-1018.jar
-7ff098ccc000-7ff098cd7000 r--s 000ce000 fd:03 1242070                    /home/mmillson/codereadystudio/studio/plugins/org.testng.eclipse_7.3.0.202008060412.jar
-7ff098cd7000-7ff098cdc000 r--s 0002a000 fd:03 1225870                    /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.common.text.ext_3.14.0.v20200424-0835.jar
-7ff098cdc000-7ff098ce1000 r--s 0002d000 fd:03 1068676                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.e4.ui.css.swt_0.13.1000.v20200525-0806.jar
+7ff098cc3000-7ff098cc7000 r--s 00036000 fd:03 541607                     /home/user123/codereadystudio/studio/plugins/org.eclipse.emf.ecore.xmi_2.16.0.v20190528-0725.jar
+7ff098cc9000-7ff098ccc000 r--s 00018000 fd:03 1093227                    /home/user123/codereadystudio/studio/plugins/org.eclipse.ui.views_3.10.300.v20200311-1018.jar
+7ff098ccc000-7ff098cd7000 r--s 000ce000 fd:03 1242070                    /home/user123/codereadystudio/studio/plugins/org.testng.eclipse_7.3.0.202008060412.jar
+7ff098cd7000-7ff098cdc000 r--s 0002a000 fd:03 1225870                    /home/user123/codereadystudio/studio/plugins/org.jboss.tools.common.text.ext_3.14.0.v20200424-0835.jar
+7ff098cdc000-7ff098ce1000 r--s 0002d000 fd:03 1068676                    /home/user123/codereadystudio/studio/plugins/org.eclipse.e4.ui.css.swt_0.13.1000.v20200525-0806.jar
 7ff098ce1000-7ff098ceb000 rw-s 00000000 00:2a 1215357                    /i915 (deleted)
-7ff098ceb000-7ff098cf2000 r--s 00075000 fd:03 1210749                    /home/mmillson/codereadystudio/studio/plugins/com.redhat.microprofile.jdt.core_0.8.0.20200708-1309.jar
+7ff098ceb000-7ff098cf2000 r--s 00075000 fd:03 1210749                    /home/user123/codereadystudio/studio/plugins/com.redhat.microprofile.jdt.core_0.8.0.20200708-1309.jar
 7ff098cf2000-7ff098cfd000 rw-p 00000000 00:00 0 
-7ff098d00000-7ff098d05000 r--s 00039000 fd:03 1068728                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.e4.ui.workbench_1.11.300.v20200514-1625.jar
-7ff098d05000-7ff098d0c000 r--s 00044000 fd:03 134218186                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1168/0/.cp/lib/snakeyaml-1.25.jar
+7ff098d00000-7ff098d05000 r--s 00039000 fd:03 1068728                    /home/user123/codereadystudio/studio/plugins/org.eclipse.e4.ui.workbench_1.11.300.v20200514-1625.jar
+7ff098d05000-7ff098d0c000 r--s 00044000 fd:03 134218186                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1168/0/.cp/lib/snakeyaml-1.25.jar
 7ff098d0c000-7ff098d14000 rw-s 00000000 00:2a 1218133                    /i915 (deleted)
 7ff098d15000-7ff098d1f000 rw-s 00000000 00:2a 1343782                    /i915 (deleted)
 7ff098d1f000-7ff098d2a000 rw-p 00000000 00:00 0 
-7ff098d2c000-7ff098d32000 r--s 0003a000 fd:03 282392                     /home/mmillson/codereadystudio/studio/plugins/com.google.gson_2.8.2.v20180104-1110.jar
+7ff098d2c000-7ff098d32000 r--s 0003a000 fd:03 282392                     /home/user123/codereadystudio/studio/plugins/com.google.gson_2.8.2.v20180104-1110.jar
 7ff098d32000-7ff098d35000 rw-p 00000000 00:00 0 
-7ff098d35000-7ff098d3c000 r--s 00041000 fd:03 810595                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.common.snippets_1.2.500.v201811170421.jar
+7ff098d35000-7ff098d3c000 r--s 00041000 fd:03 810595                     /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.common.snippets_1.2.500.v201811170421.jar
 7ff098d3c000-7ff098d47000 rw-p 00000000 00:00 0 
 7ff098d47000-7ff098d4a000 ---p 00000000 00:00 0 
 7ff098d4a000-7ff098e48000 rw-p 00000000 00:00 0 
@@ -2332,8 +2332,8 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff09fffe000-7ff0a0000000 rw-p 00000000 00:00 0 
 7ff0a0000000-7ff0a009d000 rw-p 00000000 00:00 0 
 7ff0a009d000-7ff0a4000000 ---p 00000000 00:00 0 
-7ff0a4001000-7ff0a4008000 r--s 0004d000 fd:03 1081073                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.ltk.core.refactoring_3.11.0.v20200515-0330.jar
-7ff0a4008000-7ff0a4043000 r--s 0035f000 fd:03 1070403                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.egit.ui_5.8.0.202006091008-r.jar
+7ff0a4001000-7ff0a4008000 r--s 0004d000 fd:03 1081073                    /home/user123/codereadystudio/studio/plugins/org.eclipse.ltk.core.refactoring_3.11.0.v20200515-0330.jar
+7ff0a4008000-7ff0a4043000 r--s 0035f000 fd:03 1070403                    /home/user123/codereadystudio/studio/plugins/org.eclipse.egit.ui_5.8.0.202006091008-r.jar
 7ff0a4043000-7ff0a4163000 rw-s 00000000 00:33 1216798                    /run/user/1000/wayland-cursor-shared-GXeQKs (deleted)
 7ff0a4163000-7ff0a418a000 r-xp 00000000 fd:01 34728083                   /usr/lib64/libselinux.so.1
 7ff0a418a000-7ff0a438a000 ---p 00027000 fd:01 34728083                   /usr/lib64/libselinux.so.1
@@ -2469,64 +2469,64 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff0d0000000-7ff0d0029000 rw-p 00000000 00:00 0 
 7ff0d0029000-7ff0d4000000 ---p 00000000 00:00 0 
 7ff0d4005000-7ff0d4006000 rw-p 00000000 00:00 0 
-7ff0d4006000-7ff0d4009000 r--s 0001e000 fd:03 544336                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.touchpoint.eclipse_2.2.600.v20200114-1339.jar
-7ff0d400a000-7ff0d400e000 r--s 0001c000 fd:03 1246488                    /home/mmillson/codereadystudio/studio/plugins/org.tukaani.xz_1.8.0.v20180207-1613.jar
+7ff0d4006000-7ff0d4009000 r--s 0001e000 fd:03 544336                     /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.touchpoint.eclipse_2.2.600.v20200114-1339.jar
+7ff0d400a000-7ff0d400e000 r--s 0001c000 fd:03 1246488                    /home/user123/codereadystudio/studio/plugins/org.tukaani.xz_1.8.0.v20180207-1613.jar
 7ff0d400e000-7ff0d4016000 rw-s 00000000 00:2a 1350738                    /i915 (deleted)
-7ff0d4016000-7ff0d401a000 r--s 00023000 fd:03 1074325                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.artifact.repository_1.3.500.v20200406-2025.jar
-7ff0d401c000-7ff0d4024000 r--s 00048000 fd:03 403651097                  /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1580/0/.cp/lib/testng-remote.jar
+7ff0d4016000-7ff0d401a000 r--s 00023000 fd:03 1074325                    /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.artifact.repository_1.3.500.v20200406-2025.jar
+7ff0d401c000-7ff0d4024000 r--s 00048000 fd:03 403651097                  /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1580/0/.cp/lib/testng-remote.jar
 7ff0d4024000-7ff0d402a000 r--s 00309000 fd:01 34572821                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre/lib/charsets.jar
 7ff0d402b000-7ff0d402f000 rw-s 00000000 00:2a 1350762                    /i915 (deleted)
 7ff0d402f000-7ff0d4035000 rw-s 00000000 00:2a 1350758                    /i915 (deleted)
 7ff0d4035000-7ff0d4040000 rw-p 00000000 00:00 0 
 7ff0d4041000-7ff0d4045000 rw-s 00000000 00:2a 1218129                    /i915 (deleted)
-7ff0d4045000-7ff0d4048000 r--s 0001a000 fd:03 1057755                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.core.filebuffers_3.6.1000.v20200409-1035.jar
-7ff0d4048000-7ff0d404b000 r--s 00033000 fd:03 1074350                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jdt.compiler.apt_1.3.1000.v20200505-1625.jar
+7ff0d4045000-7ff0d4048000 r--s 0001a000 fd:03 1057755                    /home/user123/codereadystudio/studio/plugins/org.eclipse.core.filebuffers_3.6.1000.v20200409-1035.jar
+7ff0d4048000-7ff0d404b000 r--s 00033000 fd:03 1074350                    /home/user123/codereadystudio/studio/plugins/org.eclipse.jdt.compiler.apt_1.3.1000.v20200505-1625.jar
 7ff0d404e000-7ff0d4056000 rw-s 00000000 00:2a 1348323                    /i915 (deleted)
 7ff0d4056000-7ff0d405a000 rw-s 00000000 00:2a 1218122                    /i915 (deleted)
-7ff0d405a000-7ff0d405c000 r--s 00005000 fd:03 541879                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.garbagecollector_1.1.400.v20200221-1022.jar
-7ff0d405c000-7ff0d405f000 r--s 0004a000 fd:03 1222371                    /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.common.core_3.14.0.v20200424-0835.jar
-7ff0d405f000-7ff0d4066000 r--s 0005a000 fd:03 850821                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.server.core_1.10.100.v201910252115.jar
-7ff0d4066000-7ff0d4068000 r--s 0001c000 fd:03 1222370                    /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.common_3.14.0.v20200424-0835.jar
+7ff0d405a000-7ff0d405c000 r--s 00005000 fd:03 541879                     /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.garbagecollector_1.1.400.v20200221-1022.jar
+7ff0d405c000-7ff0d405f000 r--s 0004a000 fd:03 1222371                    /home/user123/codereadystudio/studio/plugins/org.jboss.tools.common.core_3.14.0.v20200424-0835.jar
+7ff0d405f000-7ff0d4066000 r--s 0005a000 fd:03 850821                     /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.server.core_1.10.100.v201910252115.jar
+7ff0d4066000-7ff0d4068000 r--s 0001c000 fd:03 1222370                    /home/user123/codereadystudio/studio/plugins/org.jboss.tools.common_3.14.0.v20200424-0835.jar
 7ff0d406a000-7ff0d4072000 rw-s 00000000 00:2a 1345535                    /i915 (deleted)
-7ff0d4072000-7ff0d4074000 r--s 00015000 fd:03 274487508                  /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.jsf.vpe.richfaces_3.8.400.v20200325-1204/lib/jhighlight-1.0.jar
-7ff0d4074000-7ff0d4077000 r--s 0000c000 fd:03 810569                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.wst.common.core_1.3.0.v201903222010.jar
-7ff0d4077000-7ff0d4079000 r--s 00004000 fd:03 1209861                    /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.jsf.verification_3.8.400.v20200325-1204.jar
-7ff0d4079000-7ff0d4090000 r--s 00153000 fd:03 1092393                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.osgi_3.15.300.v20200520-1959.jar
+7ff0d4072000-7ff0d4074000 r--s 00015000 fd:03 274487508                  /home/user123/codereadystudio/studio/plugins/org.jboss.tools.jsf.vpe.richfaces_3.8.400.v20200325-1204/lib/jhighlight-1.0.jar
+7ff0d4074000-7ff0d4077000 r--s 0000c000 fd:03 810569                     /home/user123/codereadystudio/studio/plugins/org.eclipse.wst.common.core_1.3.0.v201903222010.jar
+7ff0d4077000-7ff0d4079000 r--s 00004000 fd:03 1209861                    /home/user123/codereadystudio/studio/plugins/org.jboss.tools.jsf.verification_3.8.400.v20200325-1204.jar
+7ff0d4079000-7ff0d4090000 r--s 00153000 fd:03 1092393                    /home/user123/codereadystudio/studio/plugins/org.eclipse.osgi_3.15.300.v20200520-1959.jar
 7ff0d4090000-7ff0d4091000 rw-p 00000000 00:00 0 
-7ff0d4092000-7ff0d4098000 r--s 00043000 fd:03 1093204                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.text_3.10.200.v20200428-0633.jar
+7ff0d4092000-7ff0d4098000 r--s 00043000 fd:03 1093204                    /home/user123/codereadystudio/studio/plugins/org.eclipse.text_3.10.200.v20200428-0633.jar
 7ff0d4098000-7ff0d4099000 rw-p 00000000 00:00 0 
-7ff0d409a000-7ff0d409c000 r--s 00019000 fd:03 1074326                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.director_2.4.700.v20200511-1530.jar
+7ff0d409a000-7ff0d409c000 r--s 00019000 fd:03 1074326                    /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.director_2.4.700.v20200511-1530.jar
 7ff0d409c000-7ff0d409d000 rw-p 00000000 00:00 0 
 7ff0d409d000-7ff0d40a1000 rw-s 00000000 00:2a 1215360                    /i915 (deleted)
 7ff0d40a1000-7ff0d40a2000 rw-p 00000000 00:00 0 
-7ff0d40a2000-7ff0d40a5000 r--s 0002b000 fd:03 348142                     /home/mmillson/codereadystudio/studio/configuration/org.eclipse.osgi/1482/0/.cp/lib/jandex-2.0.4.Final.jar
-7ff0d40a6000-7ff0d40a9000 r--s 0001d000 fd:03 541483                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.ecf.provider.filetransfer_3.2.500.v20191017-1905.jar
-7ff0d40a9000-7ff0d40ad000 r--s 0002c000 fd:03 1210752                    /home/mmillson/codereadystudio/studio/plugins/org.hibernate.eclipse.jdt.ui_5.4.9.v20200625-1214.jar
+7ff0d40a2000-7ff0d40a5000 r--s 0002b000 fd:03 348142                     /home/user123/codereadystudio/studio/configuration/org.eclipse.osgi/1482/0/.cp/lib/jandex-2.0.4.Final.jar
+7ff0d40a6000-7ff0d40a9000 r--s 0001d000 fd:03 541483                     /home/user123/codereadystudio/studio/plugins/org.eclipse.ecf.provider.filetransfer_3.2.500.v20191017-1905.jar
+7ff0d40a9000-7ff0d40ad000 r--s 0002c000 fd:03 1210752                    /home/user123/codereadystudio/studio/plugins/org.hibernate.eclipse.jdt.ui_5.4.9.v20200625-1214.jar
 7ff0d40ad000-7ff0d40ae000 r--p 00000000 00:00 0 
-7ff0d40ae000-7ff0d40b0000 r--s 00019000 fd:03 375819                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.ant.core_3.5.700.v20191221-1203.jar
-7ff0d40b0000-7ff0d40b3000 r--s 0001d000 fd:03 1092382                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.mylyn.context.core_3.25.1.v20200512-2113.jar
+7ff0d40ae000-7ff0d40b0000 r--s 00019000 fd:03 375819                     /home/user123/codereadystudio/studio/plugins/org.eclipse.ant.core_3.5.700.v20191221-1203.jar
+7ff0d40b0000-7ff0d40b3000 r--s 0001d000 fd:03 1092382                    /home/user123/codereadystudio/studio/plugins/org.eclipse.mylyn.context.core_3.25.1.v20200512-2113.jar
 7ff0d40b5000-7ff0d40b6000 rw-p 00000000 00:00 0 
-7ff0d40b7000-7ff0d40b9000 r--s 0000b000 fd:03 1171651                    /home/mmillson/codereadystudio/studio/plugins/org.jboss.tools.cdi.xml_1.9.0.v20190604-1433.jar
+7ff0d40b7000-7ff0d40b9000 r--s 0000b000 fd:03 1171651                    /home/user123/codereadystudio/studio/plugins/org.jboss.tools.cdi.xml_1.9.0.v20190604-1433.jar
 7ff0d40bb000-7ff0d40bc000 rw-p 00000000 00:00 0 
-7ff0d40bc000-7ff0d40bf000 r--s 00020000 fd:03 1068731                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.e4.ui.workbench.swt_0.14.1000.v20200514-1625.jar
+7ff0d40bc000-7ff0d40bf000 r--s 00020000 fd:03 1068731                    /home/user123/codereadystudio/studio/plugins/org.eclipse.e4.ui.workbench.swt_0.14.1000.v20200514-1625.jar
 7ff0d40c0000-7ff0d40c1000 rw-p 00000000 00:00 0 
-7ff0d40c1000-7ff0d40c4000 r--s 0001e000 fd:03 616344                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.lsp4j.jsonrpc_0.9.0.v20200229-1009.jar
-7ff0d40c4000-7ff0d40c6000 r--s 00008000 fd:03 1092386                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.mylyn.monitor.core_3.25.1.v20200511-1958.jar
+7ff0d40c1000-7ff0d40c4000 r--s 0001e000 fd:03 616344                     /home/user123/codereadystudio/studio/plugins/org.eclipse.lsp4j.jsonrpc_0.9.0.v20200229-1009.jar
+7ff0d40c4000-7ff0d40c6000 r--s 00008000 fd:03 1092386                    /home/user123/codereadystudio/studio/plugins/org.eclipse.mylyn.monitor.core_3.25.1.v20200511-1958.jar
 7ff0d40c8000-7ff0d40c9000 rw-p 00000000 00:00 0 
-7ff0d40c9000-7ff0d40cb000 r--s 00007000 fd:03 1210750                    /home/mmillson/codereadystudio/studio/plugins/com.redhat.microprofile.jdt.quarkus_0.8.0.20200708-1309.jar
+7ff0d40c9000-7ff0d40cb000 r--s 00007000 fd:03 1210750                    /home/user123/codereadystudio/studio/plugins/com.redhat.microprofile.jdt.quarkus_0.8.0.20200708-1309.jar
 7ff0d40cd000-7ff0d40ce000 r--s 0000c000 fd:01 234852                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre/lib/ext/sunec.jar
-7ff0d40ce000-7ff0d40d2000 r--s 0001f000 fd:03 541887                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.repository_2.4.700.v20200110-2121.jar
-7ff0d40d2000-7ff0d40d6000 r--s 00030000 fd:03 1074328                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.engine_2.6.700.v20200511-1530.jar
-7ff0d40d7000-7ff0d40da000 r--s 0001e000 fd:03 541882                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.metadata.repository_1.3.400.v20191211-1528.jar
-7ff0d40da000-7ff0d40de000 r--s 00019000 fd:03 380229                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.core.commands_3.9.700.v20191217-1850.jar
-7ff0d40de000-7ff0d40df000 r--s 00004000 fd:03 1093197                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.swt_3.114.100.v20200604-0951.jar
-7ff0d40df000-7ff0d40e1000 r--s 00017000 fd:03 1074331                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.publisher_1.5.400.v20200511-1530.jar
-7ff0d40e1000-7ff0d40e3000 r--s 00011000 fd:03 541866                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.core_2.6.300.v20200211-1504.jar
-7ff0d40e3000-7ff0d40e4000 r--s 00007000 fd:03 541869                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.directorywatcher_1.2.500.v20191211-1631.jar
-7ff0d40e4000-7ff0d40e5000 r--s 00008000 fd:03 541878                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.extensionlocation_1.3.400.v20191213-1911.jar
+7ff0d40ce000-7ff0d40d2000 r--s 0001f000 fd:03 541887                     /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.repository_2.4.700.v20200110-2121.jar
+7ff0d40d2000-7ff0d40d6000 r--s 00030000 fd:03 1074328                    /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.engine_2.6.700.v20200511-1530.jar
+7ff0d40d7000-7ff0d40da000 r--s 0001e000 fd:03 541882                     /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.metadata.repository_1.3.400.v20191211-1528.jar
+7ff0d40da000-7ff0d40de000 r--s 00019000 fd:03 380229                     /home/user123/codereadystudio/studio/plugins/org.eclipse.core.commands_3.9.700.v20191217-1850.jar
+7ff0d40de000-7ff0d40df000 r--s 00004000 fd:03 1093197                    /home/user123/codereadystudio/studio/plugins/org.eclipse.swt_3.114.100.v20200604-0951.jar
+7ff0d40df000-7ff0d40e1000 r--s 00017000 fd:03 1074331                    /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.publisher_1.5.400.v20200511-1530.jar
+7ff0d40e1000-7ff0d40e3000 r--s 00011000 fd:03 541866                     /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.core_2.6.300.v20200211-1504.jar
+7ff0d40e3000-7ff0d40e4000 r--s 00007000 fd:03 541869                     /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.directorywatcher_1.2.500.v20191211-1631.jar
+7ff0d40e4000-7ff0d40e5000 r--s 00008000 fd:03 541878                     /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.extensionlocation_1.3.400.v20191213-1911.jar
 7ff0d40e5000-7ff0d40e6000 rw-s 00000000 00:2a 1350753                    /i915 (deleted)
-7ff0d40e6000-7ff0d40e8000 r--s 00011000 fd:03 1074330                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.operations_2.5.800.v20200410-1336.jar
-7ff0d40e8000-7ff0d40ec000 r--s 0002c000 fd:03 1074341                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.registry_3.8.800.v20200406-0956.jar
+7ff0d40e6000-7ff0d40e8000 r--s 00011000 fd:03 1074330                    /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.operations_2.5.800.v20200410-1336.jar
+7ff0d40e8000-7ff0d40ec000 r--s 0002c000 fd:03 1074341                    /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.registry_3.8.800.v20200406-0956.jar
 7ff0d40ec000-7ff0d40ed000 rw-s 00000000 00:2a 1350680                    /i915 (deleted)
 7ff0d40ed000-7ff0d40ef000 rw-s 00000000 00:2a 1350669                    /i915 (deleted)
 7ff0d40ef000-7ff0d40f2000 rw-p 00000000 00:00 0 
@@ -2581,29 +2581,29 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff0d5be5000-7ff0d5de5000 ---p 000f1000 fd:01 35002699                   /usr/lib64/libgdk-3.so.0.2200.30
 7ff0d5de5000-7ff0d5ded000 r--p 000f1000 fd:01 35002699                   /usr/lib64/libgdk-3.so.0.2200.30
 7ff0d5ded000-7ff0d5def000 rw-p 000f9000 fd:01 35002699                   /usr/lib64/libgdk-3.so.0.2200.30
-7ff0d5def000-7ff0d5dff000 r-xp 00000000 fd:03 269747298                  /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.1200.v20200508-1552/eclipse_1801.so
-7ff0d5dff000-7ff0d5ffe000 ---p 00010000 fd:03 269747298                  /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.1200.v20200508-1552/eclipse_1801.so
-7ff0d5ffe000-7ff0d5fff000 r--p 0000f000 fd:03 269747298                  /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.1200.v20200508-1552/eclipse_1801.so
-7ff0d5fff000-7ff0d6000000 rw-p 00010000 fd:03 269747298                  /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.1200.v20200508-1552/eclipse_1801.so
+7ff0d5def000-7ff0d5dff000 r-xp 00000000 fd:03 269747298                  /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.1200.v20200508-1552/eclipse_1801.so
+7ff0d5dff000-7ff0d5ffe000 ---p 00010000 fd:03 269747298                  /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.1200.v20200508-1552/eclipse_1801.so
+7ff0d5ffe000-7ff0d5fff000 r--p 0000f000 fd:03 269747298                  /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.1200.v20200508-1552/eclipse_1801.so
+7ff0d5fff000-7ff0d6000000 rw-p 00010000 fd:03 269747298                  /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.1200.v20200508-1552/eclipse_1801.so
 7ff0d6000000-7ff0d8000000 rw-p 00000000 00:00 0 
 7ff0d8000000-7ff0d808f000 rw-p 00000000 00:00 0 
 7ff0d808f000-7ff0dc000000 ---p 00000000 00:00 0 
-7ff0dc000000-7ff0dc003000 r--s 0001d000 fd:03 1074315                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.common_3.12.0.v20200504-1602.jar
+7ff0dc000000-7ff0dc003000 r--s 0001d000 fd:03 1074315                    /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.common_3.12.0.v20200504-1602.jar
 7ff0dc003000-7ff0dc004000 rw-s 00000000 00:2a 1350746                    /i915 (deleted)
 7ff0dc004000-7ff0dc005000 rw-s 00000000 00:2a 1350681                    /i915 (deleted)
 7ff0dc005000-7ff0dc006000 rw-s 00000000 00:2a 1350737                    /i915 (deleted)
 7ff0dc006000-7ff0dc007000 rw-s 00000000 00:2a 1350745                    /i915 (deleted)
 7ff0dc007000-7ff0dc009000 rw-s 00000000 00:2a 1350673                    /i915 (deleted)
-7ff0dc009000-7ff0dc00b000 r--s 00033000 fd:03 1074351                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.jdt.compiler.tool_1.2.900.v20200428-1854.jar
+7ff0dc009000-7ff0dc00b000 r--s 00033000 fd:03 1074351                    /home/user123/codereadystudio/studio/plugins/org.eclipse.jdt.compiler.tool_1.2.900.v20200428-1854.jar
 7ff0dc00b000-7ff0dc00c000 rwxp 00000000 00:00 0 
 7ff0dc00c000-7ff0dc00d000 rw-s 00000000 00:2a 1350733                    /i915 (deleted)
 7ff0dc00d000-7ff0dc00e000 rw-s 00000000 00:2a 1350735                    /i915 (deleted)
 7ff0dc00e000-7ff0dc00f000 rw-s 00000000 00:2a 1350731                    /i915 (deleted)
-7ff0dc00f000-7ff0dc010000 r--s 0000a000 fd:03 544339                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.transport.ecf_1.2.400.v20200123-2221.jar
+7ff0dc00f000-7ff0dc010000 r--s 0000a000 fd:03 544339                     /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.transport.ecf_1.2.400.v20200123-2221.jar
 7ff0dc010000-7ff0dc011000 rw-s 00000000 00:05 1218105                    /memfd:WebKitSharedMemory (deleted)
 7ff0dc011000-7ff0dc012000 rw-s 00000000 00:2a 1348732                    /i915 (deleted)
 7ff0dc012000-7ff0dc013000 rw-s 00000000 00:2a 1348725                    /i915 (deleted)
-7ff0dc013000-7ff0dc015000 r--s 00017000 fd:03 1074338                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.p2.ui.sdk.scheduler_1.4.700.v20200511-1530.jar
+7ff0dc013000-7ff0dc015000 r--s 00017000 fd:03 1074338                    /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.p2.ui.sdk.scheduler_1.4.700.v20200511-1530.jar
 7ff0dc015000-7ff0dc02d000 r--s 00000000 fd:01 101626621                  /usr/lib/fontconfig/cache/b4333c75-0597-43a9-b5eb-8b30cc961cce-le64.cache-7
 7ff0dc02d000-7ff0dc02f000 r--s 00000000 fd:01 102246646                  /usr/lib/fontconfig/cache/559c63df-76b0-4522-abe3-e369cb159d18-le64.cache-7
 7ff0dc02f000-7ff0dc032000 r--s 00000000 fd:01 102246645                  /usr/lib/fontconfig/cache/91b107e3-118b-4dee-beef-9327b0a3046f-le64.cache-7
@@ -2752,17 +2752,17 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff0f5fdf000-7ff0f5fea000 r--s 00000000 fd:01 102246616                  /usr/lib/fontconfig/cache/0e4202bd-37b3-4679-9a6e-96b6e73f7995-le64.cache-7
 7ff0f5fea000-7ff0f5fec000 r--s 00000000 fd:01 100794986                  /usr/lib/fontconfig/cache/045620ce-9172-4640-a6f9-1a2bec804825-le64.cache-7
 7ff0f5fec000-7ff0f5ff1000 r--s 00000000 fd:01 102900443                  /usr/lib/fontconfig/cache/3493d829-882b-4c64-9a49-d822bef05952-le64.cache-7
-7ff0f5ff1000-7ff0f5ff2000 r--s 00000000 fd:03 269714501                  /home/mmillson/.local/share/mime/mime.cache
+7ff0f5ff1000-7ff0f5ff2000 r--s 00000000 fd:03 269714501                  /home/user123/.local/share/mime/mime.cache
 7ff0f5ff2000-7ff0f5ff3000 r--p 00000000 fd:01 34311082                   /etc/dconf/db/distro
 7ff0f5ff3000-7ff0f5ff4000 r--p 00000000 fd:01 36250898                   /etc/dconf/db/site
 7ff0f5ff4000-7ff0f5ff5000 r--p 00000000 fd:01 36250899                   /etc/dconf/db/local
-7ff0f5ff5000-7ff0f5ff9000 r--p 00000000 fd:03 134312503                  /home/mmillson/.config/dconf/user (deleted)
+7ff0f5ff5000-7ff0f5ff9000 r--p 00000000 fd:03 134312503                  /home/user123/.config/dconf/user (deleted)
 7ff0f5ff9000-7ff0f5ffa000 r--s 00000000 00:33 1217683                    /run/user/1000/dconf/user (deleted)
 7ff0f5ffa000-7ff0f5ffb000 r--p 00000000 fd:01 950213                     /usr/share/locale/en/LC_MESSAGES/gtk30.mo
-7ff0f5ffb000-7ff0f5ffe000 r--s 0003a000 fd:03 1092394                    /home/mmillson/codereadystudio/studio/plugins/org.eclipse.osgi.compatibility.state_1.1.800.v20200511-1223.jar
+7ff0f5ffb000-7ff0f5ffe000 r--s 0003a000 fd:03 1092394                    /home/user123/codereadystudio/studio/plugins/org.eclipse.osgi.compatibility.state_1.1.800.v20200511-1223.jar
 7ff0f5ffe000-7ff0f6000000 r--s 00019000 fd:01 34992651                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre/lib/jce.jar
 7ff0f6000000-7ff0f6005000 r--s 000c1000 fd:01 34992654                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre/lib/jsse.jar
-7ff0f6005000-7ff0f6006000 r--s 0000c000 fd:03 541863                     /home/mmillson/codereadystudio/studio/plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar
+7ff0f6005000-7ff0f6006000 r--s 0000c000 fd:03 541863                     /home/user123/codereadystudio/studio/plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar
 7ff0f6006000-7ff0f600c000 r--s 000f5000 fd:01 34992653                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/jre/lib/jfr.jar
 7ff0f600c000-7ff0f600d000 r--p 00000000 fd:01 1905504                    /usr/lib/locale/en_US.utf8/LC_NUMERIC
 7ff0f600d000-7ff0f600e000 r--p 00000000 fd:01 36095098                   /usr/lib/locale/en_US.utf8/LC_TIME
@@ -2779,7 +2779,7 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ff0f61c9000-7ff0f61ca000 r--p 00000000 fd:01 36094468                   /usr/lib/locale/en_US.utf8/LC_MEASUREMENT
 7ff0f61ca000-7ff0f61d1000 r--s 00000000 fd:01 67184121                   /usr/lib64/gconv/gconv-modules.cache
 7ff0f61d1000-7ff0f61d2000 r--p 00000000 fd:01 36094463                   /usr/lib/locale/en_US.utf8/LC_IDENTIFICATION
-7ff0f61d2000-7ff0f61da000 rw-s 00000000 fd:01 33563495                   /tmp/hsperfdata_mmillson/92333
+7ff0f61d2000-7ff0f61da000 rw-s 00000000 fd:01 33563495                   /tmp/hsperfdata_user123/92333
 7ff0f61da000-7ff0f61db000 rw-p 00000000 00:00 0 
 7ff0f61db000-7ff0f61dc000 r--p 00000000 00:00 0 
 7ff0f61dc000-7ff0f61dd000 r--p 00028000 fd:01 33562860                   /usr/lib64/ld-2.28.so
@@ -2792,13 +2792,12 @@ ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsysca
 
 ***REMOVED***
 jvm_args: -Xloggc:gc.log -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Xms512m -Xmx1024m -XX:MaxMetaspaceSize=1183744K -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=detail -XX:+PrintNMTStatistics
-java_command: /home/mmillson/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar -os linux -ws gtk -arch x86_64 -showsplash -launcher /home/mmillson/codereadystudio/studio/codereadystudio -name Codereadystudio --launcher.library /home/mmillson/codereadystudio/studio//plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.1200.v20200508-1552/eclipse_1801.so -startup /home/mmillson/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar --launcher.overrideVmargs -exitdata 80002 -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product -vm /etc/alternatives/java_sdk/bin/java -vmargs -Xloggc:gc.log -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Xms512m -Xmx1024m -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=detail -XX:+PrintNMTStatistics -Dosgi.instance.area.default=@user.home/workspace -jar /home/mmillson/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar
-java_class_path (initial): /home/mmillson/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar
+java_command: /home/user123/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar -os linux -ws gtk -arch x86_64 -showsplash -launcher /home/user123/codereadystudio/studio/codereadystudio -name Codereadystudio --launcher.library /home/user123/codereadystudio/studio//plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.1200.v20200508-1552/eclipse_1801.so -startup /home/user123/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar --launcher.overrideVmargs -exitdata 80002 -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product -vm /etc/alternatives/java_sdk/bin/java -vmargs -Xloggc:gc.log -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Xms512m -Xmx1024m -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=detail -XX:+PrintNMTStatistics -Dosgi.instance.area.default=@user.home/workspace -jar /home/user123/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar
+java_class_path (initial): /home/user123/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar
 ***REMOVED***
 
 ***REMOVED***
-PATH=/home/mmillson/.local/bin:/home/mmillson/bin:/usr/share/Modules/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
-USERNAME=mmillson
+PATH=/home/user123/.local/bin:/home/user123/bin:/usr/share/Modules/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
 ***REMOVED***
 DISPLAY=:0
 

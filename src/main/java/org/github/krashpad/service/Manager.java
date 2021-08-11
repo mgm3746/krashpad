@@ -33,6 +33,7 @@ import org.github.krashpad.domain.jdk.CurrentThreadEvent;
 import org.github.krashpad.domain.jdk.DeoptimizationEvent;
 import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
 import org.github.krashpad.domain.jdk.ElapsedTimeEvent;
+import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
 import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.GlobalFlagsEvent;
@@ -113,6 +114,8 @@ public class Manager {
                         fatalErrorLog.getDeoptimizationEvents().add((DeoptimizationEvent) event);
                     ***REMOVED*** else if (event instanceof DynamicLibraryEvent) {
                         fatalErrorLog.getDynamicLibraryEvents().add((DynamicLibraryEvent) event);
+                    ***REMOVED*** else if (event instanceof EnvironmentVariablesEvent) {
+                        fatalErrorLog.getEnvironmentVariablesEvents().add((EnvironmentVariablesEvent) event);
                     ***REMOVED*** else if (event instanceof ElapsedTimeEvent) {
                         fatalErrorLog.setElapsedTimeEvent((ElapsedTimeEvent) event);
                     ***REMOVED*** else if (event instanceof ExceptionCountsEvent) {
