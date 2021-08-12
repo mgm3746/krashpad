@@ -412,6 +412,7 @@ public class Main {
                                     + " (" + JdkMath.calcPercent(fel.getHeapUsed(), fel.getHeapAllocation())
                                     + "% Heap Allocation)" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
+                printWriter.write("Compressed oops mode: " + fel.getCompressedOopMode() + Constants.LINE_SEPARATOR);
                 if (fel.getMetaspaceMaxSize() > 0) {
                     printWriter.write("Metaspace Max: " + fel.getMetaspaceMaxSize()
                             + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);

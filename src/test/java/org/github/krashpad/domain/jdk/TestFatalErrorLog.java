@@ -29,6 +29,7 @@ import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
 import org.github.krashpad.util.jdk.JdkUtil.Arch;
+import org.github.krashpad.util.jdk.JdkUtil.CompressedOopMode;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 import org.github.krashpad.util.jdk.JdkUtil.JavaVendor;
 import org.junit.jupiter.api.Test;
@@ -458,6 +459,39 @@ class TestFatalErrorLog {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(hsperfdata);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         assertEquals("jb_admin", fel.getJvmUser(), "JVM user not correct.");
+    ***REMOVED***
+
+    @Test
+    void testCompressedOopMode() {
+        FatalErrorLog fel = new FatalErrorLog();
+
+        String heapAddress = "heap address: 0x00000000c0000000, size: 1024 MB, Compressed Oops mode: 32-bit";
+        HeapAddressEvent heapAddressEvent = new HeapAddressEvent(heapAddress);
+        fel.getHeapAddressEvents().add(heapAddressEvent);
+        assertEquals(CompressedOopMode.BIT32, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
+
+        fel.getHeapAddressEvents().clear();
+        heapAddress = "heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: "
+                + "Zero based, Oop shift amount: 3";
+        heapAddressEvent = new HeapAddressEvent(heapAddress);
+        fel.getHeapAddressEvents().add(heapAddressEvent);
+        assertEquals(CompressedOopMode.ZERO, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
+
+        fel.getHeapAddressEvents().clear();
+        heapAddress = "heap address: 0x00000005a9c00000, size: 8548 MB, Compressed Oops mode: "
+                + "Non-zero based:0x00000005a9bff000, Oop shift amount: 3";
+        heapAddressEvent = new HeapAddressEvent(heapAddress);
+        fel.getHeapAddressEvents().add(heapAddressEvent);
+        assertEquals(CompressedOopMode.NON_ZERO, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
+    ***REMOVED***
+
+    @Test
+    void testNoCompressedOops() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String headerLine = "***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.302-b08 mixed mode linux-amd64 )";
+        HeaderEvent he = new HeaderEvent(headerLine);
+        fel.getHeaderEvents().add(he);
+        assertEquals(CompressedOopMode.NONE, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
     ***REMOVED***
 
     @Test

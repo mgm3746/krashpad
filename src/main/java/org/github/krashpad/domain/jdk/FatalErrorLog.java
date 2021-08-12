@@ -39,6 +39,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
 import org.github.krashpad.util.jdk.JdkUtil.Arch;
 import org.github.krashpad.util.jdk.JdkUtil.BuiltBy;
+import org.github.krashpad.util.jdk.JdkUtil.CompressedOopMode;
 import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 import org.github.krashpad.util.jdk.JdkUtil.JavaVendor;
@@ -1619,6 +1620,42 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return jvmUser;
+    ***REMOVED***
+
+    /**
+     * @return The JVM compressed oop mode.
+     */
+    public CompressedOopMode getCompressedOopMode() {
+        CompressedOopMode compressedOopMode = CompressedOopMode.UNKNOWN;
+        if (!headerEvents.isEmpty()) {
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent event = iterator.next();
+                if (event.isJavaVm()) {
+                    if (!event.getLogEntry().matches(".*compressed oops.*")) {
+                        compressedOopMode = CompressedOopMode.NONE;
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        if (compressedOopMode != CompressedOopMode.NONE && !heapAddressEvents.isEmpty()) {
+            Iterator<HeapAddressEvent> iterator = heapAddressEvents.iterator();
+            while (iterator.hasNext()) {
+                HeapAddressEvent event = iterator.next();
+                if (event.getLogEntry().matches(".*Compressed Oops mode: 32-bit.*")) {
+                    compressedOopMode = CompressedOopMode.BIT32;
+                    break;
+                ***REMOVED*** else if (event.getLogEntry().matches(".*Compressed Oops mode: Zero based.*")) {
+                    compressedOopMode = CompressedOopMode.ZERO;
+                    break;
+                ***REMOVED*** else if (event.getLogEntry().matches(".*Compressed Oops mode: Non-zero based.*")) {
+                    compressedOopMode = CompressedOopMode.NON_ZERO;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return compressedOopMode;
     ***REMOVED***
 
     /**

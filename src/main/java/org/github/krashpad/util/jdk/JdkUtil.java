@@ -127,6 +127,35 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
+     * Compressed ordinary object pointer (oop) modes used by the JVM to encode 64-bit addresses as 32-bit pointers to
+     * save heap space for heaps &lt; 32G.
+     * 
+     * The JVM checks first checks if Heap + HeapBaseMinAddress can fit in the first 4G address space. If yes, 32-bit
+     * (BIT32) mode is used.
+     * 
+     * If Heap + HeapBaseMinAddress cannot fit in the first 4G address space, the JVM checks if it can fit in the first
+     * 32G address space. If yes zero-based (ZERO) mode is used.
+     * 
+     * If Heap + HeapBaseMinAddress cannot fit in the first 32G address space, and Heap &lt; 32G, non-zero mode
+     * (NON-ZERO) is used.
+     * 
+     * BIT32: Heap mapped into the first 4G of virtual memory. Lower 32 bits of 64 bit address are used for the pointer
+     * reference because higher order bits are all 0 (encoding/decoding not necessary).
+     * 
+     * NONE: 64-bit pointers are used (e.g. Heap &gt;= 32G).
+     * 
+     * NON_ZERO: Same as ZERO except Heap is mapped above the first 32G of virtual memory. Significant bits are stored
+     * in the lowest bits, and encoding/decoding is done by bit shifting and added the heap base address.
+     * 
+     * ZERO: Heap mapped into the first 32G of virtual memory. Significant bits are stored in the lowest bits, and
+     * encoding/decoding is done by bit shifting.
+     */
+    public enum CompressedOopMode {
+        //
+        BIT32, NON_ZERO, NONE, UNKNOWN, ZERO
+    ***REMOVED***
+
+    /**
      * Defined garbage collectors
      * 
      * Default collectors JDK8: PARALLEL_SCAVENGE, PARALLEL_OLD
