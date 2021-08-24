@@ -1115,7 +1115,7 @@ public class JdkUtil {
     public static final long getNumberOptionValue(final String option) {
         long value = Long.MIN_VALUE;
         if (option != null) {
-            String regex = "^.+=(\\d{1,10***REMOVED***)$";
+            String regex = "^.+=(\\d{1,19***REMOVED***)$";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(option);
             if (matcher.find()) {
