@@ -16,8 +16,10 @@ package org.github.krashpad.domain.jdk;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1384,6 +1386,15 @@ public class JvmOptions {
     private boolean xInt = false;
 
     /**
+     * Map of jvm options.
+     */
+    private Map<String, ArrayList<String>> options = new HashMap<String, ArrayList<String>>();
+
+    public Map<String, ArrayList<String>> getOptions() {
+        return options;
+    ***REMOVED***
+
+    /**
      * Convert JVM argument string to JVM options.
      * 
      * @param jvmArgs
@@ -1392,282 +1403,423 @@ public class JvmOptions {
     public JvmOptions(String jvmArgs) {
         super();
         if (jvmArgs != null) {
-            String[] options = jvmArgs.split("(?<!^)(?= -)");
-            for (int i = 0; i < options.length; i++) {
-                String option = options[i].trim();
+            String[] opts = jvmArgs.split("(?<!^)(?= -)");
+            String key = null;
+            for (int i = 0; i < opts.length; i++) {
+                String option = opts[i].trim();
                 if (option.matches("^-ABRT.+$")) {
                     abrt = option;
+                    key = "ABRT";
                 ***REMOVED*** else if (option.matches("^-agentlib:jdwp=transport=dt_socket.+$")) {
                     jpdaSocketTransport = option;
+                    key = "agentlib:jdwp=transport";
                 ***REMOVED*** else if (option.matches("^-agentpath:.+$")) {
                     agentpath.add(option);
+                    key = "agentpath";
                 ***REMOVED*** else if (option.matches("^--add-modules=.+$")) {
                     addModules = option;
+                    key = "addModules";
                 ***REMOVED*** else if (option.matches("^-client$")) {
                     client = true;
+                    key = "client";
                 ***REMOVED*** else if (option.matches("^-XX:AdaptiveSizePolicyWeight=\\d{1,3***REMOVED***$")) {
                     adaptiveSizePolicyWeight = option;
+                    key = "AdaptiveSizePolicyWeight";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]AggressiveHeap$")) {
                     aggressiveHeap = option;
+                    key = "AggressiveHeap";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]AggressiveOpts$")) {
                     aggressiveOpts = option;
+                    key = "AggressiveOpts";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]AlwaysPreTouch$")) {
                     alwaysPreTouch = option;
+                    key = "alwaysPreTouch";
                 ***REMOVED*** else if (option.matches("^-XX:AutoBoxCacheMax=\\d{1,10***REMOVED***$")) {
                     autoBoxCacheMax = option;
+                    key = "autoBoxCacheMax";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]BackgroundCompilation$")) {
                     backgroundCompilation = option;
+                    key = "BackgroundCompilation";
                 ***REMOVED*** else if (option.matches("^-Xbatch$")) {
                     batch = true;
+                    key = "batch";
                 ***REMOVED*** else if (option.matches("^-Xbootclasspath.+$")) {
                     bootclasspath.add(option);
+                    key = "Xbootclasspath";
                 ***REMOVED*** else if (option.matches("^-XX:CICompilerCount=\\d{1,3***REMOVED***$")) {
                     ciCompilerCount = option;
+                    key = "CICompilerCount";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]ClassUnloading$")) {
                     classUnloading = option;
+                    key = "ClassUnloading";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSClassUnloadingEnabled$")) {
                     cmsClassUnloadingEnabled = option;
+                    key = "CMSClassUnloadingEnabled";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSIncrementalMode$")) {
                     cmsIncrementalMode = option;
+                    key = "CMSIncrementalMode";
                 ***REMOVED*** else if (option.matches("^-XX:CMSInitiatingOccupancyFraction=\\d{1,3***REMOVED***$")) {
                     cmsInitiatingOccupancyFraction = option;
+                    key = "CMSInitiatingOccupancyFraction";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSParallelInitialMarkEnabled$")) {
                     cmsParallelInitialMarkEnabled = option;
+                    key = "CMSParallelInitialMarkEnabled";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSParallelRemarkEnabled$")) {
                     cmsParallelRemarkEnabled = option;
+                    key = "CMSParallelRemarkEnabled";
                 ***REMOVED*** else if (option.matches("^-Xcomp$")) {
                     comp = true;
+                    key = "comp";
                 ***REMOVED*** else if (option.matches("^-XX:CompileCommand=.+$")) {
                     compileCommand = option;
+                    key = "CompileCommand";
                 ***REMOVED*** else if (option.matches("^-XX:CompressedClassSpaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     compressedClassSpaceSize = option;
+                    key = "CompressedClassSpaceSize";
                 ***REMOVED*** else if (option.matches("^-XX:ConcGCThreads=\\d{1,3***REMOVED***$")) {
                     concGcThreads = option;
+                    key = "ConcGCThreads";
                 ***REMOVED*** else if (option.matches("^-D.+$")) {
                     systemProperties.add(option);
+                    key = "D";
                 ***REMOVED*** else if (option.matches("^-d64$")) {
                     d64 = true;
+                    key = "d64";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]DebugNonSafepoints$")) {
                     debugNonSafepoints = option;
+                    key = "DebugNonSafepoints";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]DisableExplicitGC$")) {
                     disableExplicitGc = option;
+                    key = "DisableExplicitGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]DoEscapeAnalysis$")) {
                     doEscapeAnalysis = option;
+                    key = "DoEscapeAnalysis";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]EliminateLocks$")) {
                     eliminateLocks = option;
+                    key = "EliminateLocks";
                 ***REMOVED*** else if (option.matches("^-XX:ErrorFile=\\S+$")) {
                     errorFile = option;
+                    key = "ErrorFile";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExitOnOutOfMemoryError$")) {
                     exitOnOutOfMemoryError = option;
+                    key = "ExitOnOutOfMemoryError";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExplicitGCInvokesConcurrent$")) {
                     explicitGCInvokesConcurrent = option;
+                    key = "ExplicitGCInvokesConcurrent";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExplicitGCInvokesConcurrentAndUnloadsClasses$")) {
                     explicitGCInvokesConcurrentAndUnloadsClasses = option;
+                    key = "ExplicitGCInvokesConcurrentAndUnloadsClasses";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]ExtensiveErrorReports$")) {
                     extensiveErrorReports = option;
+                    key = "ExtensiveErrorReports";
                 ***REMOVED*** else if (option.matches("^-XX:FlightRecorderOptions=.+$")) {
                     flightRecorderOptions = option;
+                    key = "FlightRecorderOptions";
                 ***REMOVED*** else if (option.matches("^-XX:G1HeapRegionSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     g1HeapRegionSize = option;
+                    key = "G1HeapRegionSize";
                 ***REMOVED*** else if (option.matches("^-XX:G1MaxNewSizePercent=\\d{1,3***REMOVED***$")) {
                     g1MaxNewSizePercent = option;
+                    key = "G1MaxNewSizePercent";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]G1SummarizeRSetStats$")) {
                     g1SummarizeRSetStats = option;
+                    key = "G1SummarizeRSetStats";
                 ***REMOVED*** else if (option.matches("^-XX:G1SummarizeRSetStatsPeriod=\\d$")) {
                     g1SummarizeRSetStatsPeriod = option;
+                    key = "G1SummarizeRSetStatsPeriod";
                 ***REMOVED*** else if (option.matches("^-XX:G1HeapWastePercent=\\d{1,3***REMOVED***$")) {
                     g1HeapWastePercent = option;
+                    key = "G1HeapWastePercent";
                 ***REMOVED*** else if (option.matches("^-XX:G1MixedGCLiveThresholdPercent=\\d{1,3***REMOVED***$")) {
                     g1MixedGCLiveThresholdPercent = option;
+                    key = "G1MixedGCLiveThresholdPercent";
                 ***REMOVED*** else if (option.matches("^-XX:GuaranteedSafepointInterval=\\d{1,10***REMOVED***$")) {
                     guaranteedSafepointInterval = option;
+                    key = "GuaranteedSafepointInterval";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]HeapDumpOnOutOfMemoryError$")) {
                     heapDumpOnOutOfMemoryError = option;
+                    key = "HeapDumpOnOutOfMemoryError";
                 ***REMOVED*** else if (option.matches("^-XX:HeapDumpPath=\\S+$")) {
                     heapDumpPath = option;
+                    key = "HeapDumpPath";
                 ***REMOVED*** else if (option.matches("^-X(ms|X:InitialHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     initialHeapSize = option;
+                    key = "InitialHeapSize";
                 ***REMOVED*** else if (option.matches("^-XX:InitiatingHeapOccupancyPercent=\\d{1,3***REMOVED***$")) {
                     initiatingHeapOccupancyPercent = option;
+                    key = "InitiatingHeapOccupancyPercent";
                 ***REMOVED*** else if (option.matches("^-Xint$")) {
                     xInt = true;
+                    key = "int";
                 ***REMOVED*** else if (option.matches("^-javaagent:.+$")) {
                     javaagent.add(option);
+                    key = "javaagent";
                 ***REMOVED*** else if (option.matches("^-XX:LargePageSizeInBytes=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     largePageSizeInBytes = option;
+                    key = "LargePageSizeInBytes";
                 ***REMOVED*** else if (option.matches("^-Xlog:.+$")) {
                     log.add(option);
+                    key = "log";
                 ***REMOVED*** else if (option.matches("^-XX:LogFile=\\S+$")) {
                     logFile = option;
+                    key = "LogFile";
                 ***REMOVED*** else if (option.matches("^-Xloggc:.+$")) {
                     logGc = option;
+                    key = "loggc";
                 ***REMOVED*** else if (option.matches("^-XX:MaxGCPauseMillis=\\d{1,***REMOVED***$")) {
                     maxGcPauseMillis = option;
+                    key = "MaxGCPauseMillis";
                 ***REMOVED*** else if (option.matches("^-XX:MaxJavaStackTraceDepth=\\d{1,***REMOVED***$")) {
                     maxJavaStackTraceDepth = option;
+                    key = "MaxJavaStackTraceDepth";
                 ***REMOVED*** else if (option.matches("^-XX:MaxNewSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxNewSize = option;
+                    key = "MaxNewSize";
                 ***REMOVED*** else if (option.matches("^-XX:MetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     metaspaceSize = option;
+                    key = "MetaspaceSize";
                 ***REMOVED*** else if (option.matches("^-X(mx|X:MaxHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxHeapSize = option;
+                    key = "MaxHeapSize";
                 ***REMOVED*** else if (option.matches("^-XX:GCLogFileSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     gcLogFileSize = option;
+                    key = "GCLogFileSize";
                 ***REMOVED*** else if (option.matches("^-XX:GCTimeRatio=\\d{1,3***REMOVED***$")) {
                     gcTimeRatio = option;
+                    key = "GCTimeRatio";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]LogVMOutput$")) {
                     logVmOutput = option;
+                    key = "LogVMOutput";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]ManagementServer$")) {
                     managementServer = option;
+                    key = "ManagementServer";
                 ***REMOVED*** else if (option.matches("^-XX:MaxDirectMemorySize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxDirectMemorySize = option;
+                    key = "MaxDirectMemorySize";
                 ***REMOVED*** else if (option.matches("^-XX:MaxHeapFreeRatio=\\d{1,3***REMOVED***$")) {
                     maxHeapFreeRatio = option;
+                    key = "MaxHeapFreeRatio";
                 ***REMOVED*** else if (option.matches("^-XX:MaxMetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxMetaspaceSize = option;
+                    key = "MaxMetaspaceSize";
                 ***REMOVED*** else if (option.matches("^-XX:MaxPermSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxPermSize = option;
+                    key = "MaxPermSize";
                 ***REMOVED*** else if (option.matches("^-XX:MaxTenuringThreshold=\\d{1,***REMOVED***$")) {
                     maxTenuringThreshold = option;
+                    key = "MaxTenuringThreshold";
                 ***REMOVED*** else if (option.matches("^-XX:MinHeapFreeRatio=\\d{1,3***REMOVED***$")) {
                     minHeapFreeRatio = option;
+                    key = "MinHeapFreeRatio";
                 ***REMOVED*** else if (option.matches("^-X(mn|X:NewSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     newSize = option;
+                    key = "NewSize";
                 ***REMOVED*** else if (option.matches("^-Xnoclassgc$")) {
                     noclassgc = true;
+                    key = "noclassgc";
                 ***REMOVED*** else if (option.matches("^-XX:NumberOfGCLogFiles=\\d{1,***REMOVED***$")) {
                     numberOfGcLogFiles = option;
+                    key = "NumberOfGCLogFiles";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]OmitStackTraceInFastThrow$")) {
                     omitStackTraceInFastThrow = option;
+                    key = "OmitStackTraceInFastThrow";
                 ***REMOVED*** else if (option.matches("^-XX:OnError=.+$")) {
                     onError = option;
+                    key = "OnError";
                 ***REMOVED*** else if (option.matches("^-XX:OnOutOfMemoryError=.+$")) {
                     onOutOfMemoryError = option;
+                    key = "OnOutOfMemoryError";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]OptimizeStringConcat$")) {
                     optimizeStringConcat = option;
+                    key = "OptimizeStringConcat";
                 ***REMOVED*** else if (option.matches("^-XX:ParallelGCThreads=\\d{1,3***REMOVED***$")) {
                     parallelGcThreads = option;
+                    key = "ParallelGCThreads";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PerfDisableSharedMem$")) {
                     perfDisableSharedMem = option;
+                    key = "PerfDisableSharedMem";
                 ***REMOVED*** else if (option.matches("^-XX:PermSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     permSize = option;
+                    key = "PermSize";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintAdaptiveSizePolicy$")) {
                     printAdaptiveSizePolicy = option;
+                    key = "PrintAdaptiveSizePolicy";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintClassHistogram$")) {
                     printClassHistogram = option;
+                    key = "PrintClassHistogram";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintClassHistogramAfterFullGC$")) {
                     printClassHistogramAfterFullGc = option;
+                    key = "PrintClassHistogramAfterFullGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintClassHistogramBeforeFullGC$")) {
                     printClassHistogramBeforeFullGc = option;
+                    key = "PrintClassHistogramBeforeFullGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintFlagsFinal$")) {
                     printFlagsFinal = option;
+                    key = "PrintFlagsFinal";
                 ***REMOVED*** else if (option.matches("^-XX:PrintFLSStatistics=\\d$")) {
                     printFLSStatistics = option;
+                    key = "PrintFLSStatistics";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGC$")) {
                     printGc = option;
+                    key = "PrintGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCApplicationConcurrentTime$")) {
                     printGcApplicationConcurrentTime = option;
+                    key = "PrintGCApplicationConcurrentTime";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCApplicationStoppedTime$")) {
                     printGcApplicationStoppedTime = option;
+                    key = "PrintGCApplicationStoppedTime";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCDateStamps$")) {
                     printGcDateStamps = option;
+                    key = "PrintGCDateStamps";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCDetails$")) {
                     printGcDetails = option;
+                    key = "PrintGCDetails";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCTaskTimeStamps$")) {
                     printGcTaskTimeStamps = option;
+                    key = "PrintGCTaskTimeStamps";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCTimeStamps$")) {
                     printGcTimeStamps = option;
+                    key = "PrintGCTimeStamps";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintHeapAtGC$")) {
                     printHeapAtGc = option;
+                    key = "PrintHeapAtGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintPromotionFailure$")) {
                     printPromotionFailure = option;
+                    key = "PrintPromotionFailure";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintReferenceGC$")) {
                     printReferenceGc = option;
+                    key = "PrintReferenceGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintSafepointStatistics$")) {
                     printSafepointStatistics = option;
+                    key = "PrintSafepointStatistics";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintStringDeduplicationStatistics$")) {
                     printStringDeduplicationStatistics = option;
+                    key = "PrintStringDeduplicationStatistics";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintTenuringDistribution$")) {
                     printTenuringDistribution = option;
+                    key = "PrintTenuringDistribution";
                 ***REMOVED*** else if (option.matches("^-XX:ReservedCodeCacheSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     reservedCodeCacheSize = option;
+                    key = "ReservedCodeCacheSize";
                 ***REMOVED*** else if (option.matches("^-server$")) {
                     server = true;
+                    key = "server";
                 ***REMOVED*** else if (option.matches("^-XX:ShenandoahGCHeuristics=(adaptive|aggressive|compact|static)$")) {
                     shenandoahGcHeuristics = option;
+                    key = "ShenandoahGCHeuristics";
                 ***REMOVED*** else if (option.matches("^-XX:ShenandoahMinFreeThreshold=\\d{1,3***REMOVED***$")) {
                     shenandoahMinFreeThreshold = option;
+                    key = "ShenandoahMinFreeThreshold";
                 ***REMOVED*** else if (option.matches("^-XX:SurvivorRatio=\\d{1,***REMOVED***$")) {
                     survivorRatio = option;
+                    key = "SurvivorRatio";
                 ***REMOVED*** else if (option.matches("^-XX:TargetSurvivorRatio=\\d{1,3***REMOVED***$")) {
                     targetSurvivorRatio = option;
+                    key = "TargetSurvivorRatio";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]TieredCompilation$")) {
                     tieredCompilation = option;
+                    key = "TieredCompilation";
                 ***REMOVED*** else if (option.matches("^-(X)?(ss|X:ThreadStackSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     threadStackSize = option;
+                    key = "ThreadStackSize";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]TraceClassUnloading$")) {
                     traceClassUnloading = option;
+                    key = "TraceClassUnloading";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UnlockDiagnosticVMOptions$")) {
                     unlockDiagnosticVmOptions = option;
+                    key = "UnlockDiagnosticVMOptions";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UnlockExperimentalVMOptions$")) {
                     unlockExperimentalVmOptions = option;
+                    key = "UnlockExperimentalVMOptions";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseAdaptiveSizePolicy$")) {
                     useAdaptiveSizePolicy = option;
+                    key = "UseAdaptiveSizePolicy";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseBiasedLocking$")) {
                     useBiasedLocking = option;
+                    key = "UseBiasedLocking";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCGroupMemoryLimitForHeap$")) {
                     useCGroupMemoryLimitForHeap = option;
+                    key = "UseCGroupMemoryLimitForHeap";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCMSInitiatingOccupancyOnly$")) {
                     useCmsInitiatingOccupancyOnly = option;
-                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseConcMarkSweepGC$")) {
+                    key = "UseCMSInitiatingOccupancyOnly";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCMSInitiatingOccupancyOnly$")) {
                     useConcMarkSweepGc = option;
-                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedClassPointers$")) {
+                    key = "UseCMSInitiatingOccupancyOnly";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCMSInitiatingOccupancyOnly$")) {
                     useCompressedClassPointers = option;
+                    key = "UseCMSInitiatingOccupancyOnly";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedOops$")) {
                     useCompressedOops = option;
+                    key = "UseCompressedOops";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseConcMarkSweepGC$")) {
                     useConcMarkSweepGc = option;
+                    key = "UseConcMarkSweepGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseFastAccessorMethods$")) {
                     useFastAccessorMethods = option;
+                    key = "UseFastAccessorMethods";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseFastUnorderedTimeStamps$")) {
                     useFastUnorderedTimeStamps = option;
+                    key = "UseFastUnorderedTimeStamps";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseG1GC$")) {
                     useG1Gc = option;
+                    key = "UseG1GC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseGCLogFileRotation$")) {
                     useGcLogFileRotation = option;
+                    key = "UseGCLogFileRotation";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseHugeTLBFS$")) {
                     useHugeTLBFS = option;
+                    key = "UseHugeTLBFS";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseMembar$")) {
                     useMembar = option;
+                    key = "UseMembar";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseLargePages$")) {
                     useLargePages = option;
+                    key = "UseLargePages";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseNUMA$")) {
                     useNUMA = option;
+                    key = "UseNUMA";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseParallelGC$")) {
                     useParallelGc = option;
+                    key = "UseParallelGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseParallelOldGC$")) {
                     useParallelOldGc = option;
+                    key = "UseParallelOldGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseParNewGC$")) {
                     useParNewGc = option;
+                    key = "UseParNewGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UsePerfData$")) {
                     usePerfData = option;
+                    key = "UsePerfData";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseSerialGC$")) {
                     useSerialGc = option;
+                    key = "UseSerialGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseShenandoahGC$")) {
                     useShenandoahGc = option;
+                    key = "UseShenandoahGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseStringDeduplication$")) {
                     useStringDeduplication = option;
+                    key = "UseStringDeduplication";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseVMInterruptibleIO$")) {
                     useVmInterruptibleIo = option;
+                    key = "UseVMInterruptibleIO";
                 ***REMOVED*** else if (option.matches("^-verbose:class$")) {
                     verboseClass = true;
+                    key = "class";
                 ***REMOVED*** else if (option.matches("^-verbose:gc$")) {
                     verboseGc = true;
+                    key = "verbose";
                 ***REMOVED*** else if (option.matches("^-Xverify(:(all|none|remote))?$")) {
                     verify = option;
+                    key = "verify";
                 ***REMOVED*** else {
                     undefined.add(option);
+                    key = "undefined";
                 ***REMOVED***
+                if (!this.options.containsKey(key)) {
+                    this.options.put(key, new ArrayList<String>());
+                ***REMOVED***
+                this.options.get(key).add(option);
             ***REMOVED***
         ***REMOVED***
     ***REMOVED***
