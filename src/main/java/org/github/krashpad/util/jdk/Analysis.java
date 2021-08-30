@@ -438,6 +438,11 @@ public enum Analysis {
     INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE("info.opt.metaspace.class.metadata.and.comp.class.space"),
 
     /**
+     * Property key for no JVM options.
+     */
+    INFO_OPT_MISSING("info.opt.missing"),
+
+    /**
      * Property key for native library.
      */
     INFO_OPT_NATIVE("info.opt.native"),

@@ -739,6 +739,10 @@ public class FatalErrorLog {
         if (getJvmUser() != null && getUsername() != null && !getJvmUser().equals(getUsername())) {
             analysis.add(Analysis.INFO_JVM_USER_NE_USERNAME);
         ***REMOVED***
+        // Check for no jvm options
+        if (this.getJvmOptions() == null) {
+            analysis.add(Analysis.INFO_OPT_MISSING);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
