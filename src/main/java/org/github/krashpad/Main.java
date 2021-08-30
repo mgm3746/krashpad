@@ -533,26 +533,28 @@ public class Main {
                         printWriter.write(Constants.LINE_SEPARATOR);
                     ***REMOVED***
 
-                    Iterator<Entry<String, ArrayList<String>>> iteratorOptions = fel.getJvmOptions().getOptions()
-                            .entrySet().iterator();
-                    while (iteratorOptions.hasNext()) {
-                        Entry<String, ArrayList<String>> option = iteratorOptions.next();
-                        if (!option.getKey().equals("D") && !option.getKey().equals("undefined")
-                                && option.getValue().size() > 1) {
-                            // duplicate options
-                            printWriter.write("*Duplicate jvm options: ");
-                            ArrayList<String> opt = option.getValue();
-                            Iterator<String> iteratorOption = opt.iterator();
-                            boolean first = true;
-                            while (iteratorOption.hasNext()) {
-                                if (!first) {
-                                    printWriter.write(" ");
+                    if (fel.getJvmOptions() != null) {
+                        Iterator<Entry<String, ArrayList<String>>> iteratorOptions = fel.getJvmOptions().getOptions()
+                                .entrySet().iterator();
+                        while (iteratorOptions.hasNext()) {
+                            Entry<String, ArrayList<String>> option = iteratorOptions.next();
+                            if (!option.getKey().equals("D") && !option.getKey().equals("undefined")
+                                    && option.getValue().size() > 1) {
+                                // duplicate options
+                                printWriter.write("*Duplicate jvm options: ");
+                                ArrayList<String> opt = option.getValue();
+                                Iterator<String> iteratorOption = opt.iterator();
+                                boolean first = true;
+                                while (iteratorOption.hasNext()) {
+                                    if (!first) {
+                                        printWriter.write(" ");
+                                    ***REMOVED***
+                                    printWriter.write(iteratorOption.next());
+                                    first = false;
                                 ***REMOVED***
-                                printWriter.write(iteratorOption.next());
-                                first = false;
+                                printWriter.write(".");
+                                printWriter.write(Constants.LINE_SEPARATOR);
                             ***REMOVED***
-                            printWriter.write(".");
-                            printWriter.write(Constants.LINE_SEPARATOR);
                         ***REMOVED***
                     ***REMOVED***
 
