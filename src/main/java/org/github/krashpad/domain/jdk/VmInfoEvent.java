@@ -113,15 +113,15 @@ public class VmInfoEvent implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             int indexJdkVersion = 7;
-            if (matcher.group(indexJdkVersion).equals("12.0")) {
+            if (matcher.group(indexJdkVersion).equals("12")) {
                 version = JavaSpecification.JDK12;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("11.0")) {
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("11")) {
                 version = JavaSpecification.JDK11;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.8")) {
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.8.0")) {
                 version = JavaSpecification.JDK8;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.7")) {
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.7.0")) {
                 version = JavaSpecification.JDK7;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.6")) {
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.6.0")) {
                 version = JavaSpecification.JDK6;
             ***REMOVED***
         ***REMOVED***
@@ -168,8 +168,8 @@ public class VmInfoEvent implements LogEvent {
         Date date = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            date = ErrUtil.getDate(matcher.group(10), matcher.group(11), matcher.group(12), matcher.group(13),
-                    matcher.group(14), matcher.group(15));
+            date = ErrUtil.getDate(matcher.group(8), matcher.group(9), matcher.group(10), matcher.group(11),
+                    matcher.group(12), matcher.group(13));
         ***REMOVED***
         return date;
     ***REMOVED***
@@ -187,8 +187,11 @@ public class VmInfoEvent implements LogEvent {
             // AdoptOpenJDK
             builtBy = BuiltBy.JENKINS;
         ***REMOVED*** else if (logEntry.matches(".+\"java_re\".+")) {
-            // Oracle
+            // Oracle current
             builtBy = BuiltBy.JAVA_RE;
+        ***REMOVED*** else if (logEntry.matches(".+\"mach5one\".+")) {
+            // Oracle previous
+            builtBy = BuiltBy.MACH5ONE;
         ***REMOVED*** else if (logEntry.matches(".+\"mockbuild\".+")) {
             // Red Hat, CentOS
             builtBy = BuiltBy.MOCKBUILD;

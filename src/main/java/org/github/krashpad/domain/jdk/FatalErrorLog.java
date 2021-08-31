@@ -1383,6 +1383,7 @@ public class FatalErrorLog {
             if (vmInfoEvent != null) {
                 switch (vmInfoEvent.getBuiltBy()) {
                 case JAVA_RE:
+                case MACH5ONE:
                     vendor = JavaVendor.ORACLE;
                     break;
                 case JENKINS:

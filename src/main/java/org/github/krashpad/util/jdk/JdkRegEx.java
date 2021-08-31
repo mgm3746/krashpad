@@ -232,7 +232,7 @@ public class JdkRegEx {
      * 12.0.1+12
      * </pre>
      */
-    public static final String RELEASE_STRING = "(((1|9|10|11|12|13|14|15)\\.(0|6|7|8))\\.\\d.+)";
+    public static final String RELEASE_STRING = "((1.8.0|9|10|11|12|13|14|15).+)";
 
     /**
      * Red Hat OpenJDK 11 rpm version directory.

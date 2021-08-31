@@ -123,7 +123,19 @@ public class JdkUtil {
      */
     public enum BuiltBy {
         //
-        BUILD, EMPTY, JAVA_RE, JENKINS, MOCKBUILD, UNKNOWN, VSTS, ZULU_RE
+        BUILD, EMPTY,
+        // Oracle: "Java Release Engineering"
+        JAVA_RE,
+        //
+        JENKINS,
+        // Oracle: "mach5one" is the name of their build/test system? Replace by "java_re"?
+        MACH5ONE,
+        // Red Hat, CentOS
+        MOCKBUILD, UNKNOWN,
+        // Microsoft
+        VSTS,
+        // Azul
+        ZULU_RE
     ***REMOVED***
 
     /**

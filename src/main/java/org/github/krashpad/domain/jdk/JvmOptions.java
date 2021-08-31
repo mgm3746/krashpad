@@ -1742,19 +1742,19 @@ public class JvmOptions {
                     key = "UseCGroupMemoryLimitForHeap";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCMSInitiatingOccupancyOnly$")) {
                     useCmsInitiatingOccupancyOnly = option;
-                    key = "UseCMSInitiatingOccupancyOnly";
-                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCMSInitiatingOccupancyOnly$")) {
-                    useConcMarkSweepGc = option;
-                    key = "UseCMSInitiatingOccupancyOnly";
-                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCMSInitiatingOccupancyOnly$")) {
-                    useCompressedClassPointers = option;
-                    key = "UseCMSInitiatingOccupancyOnly";
-                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedOops$")) {
-                    useCompressedOops = option;
-                    key = "UseCompressedOops";
+                    key = "useCmsInitiatingOccupancyOnly";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseConcMarkSweepGC$")) {
                     useConcMarkSweepGc = option;
-                    key = "UseConcMarkSweepGC";
+                    key = "useConcMarkSweepGc";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedClassPointers$")) {
+                    useCompressedClassPointers = option;
+                    key = "useCompressedClassPointers";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedOops$")) {
+                    useCompressedOops = option;
+                    key = "useCompressedOops";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseConcMarkSweepGC$")) {
+                    useConcMarkSweepGc = option;
+                    key = "useConcMarkSweepGc";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseFastAccessorMethods$")) {
                     useFastAccessorMethods = option;
                     key = "UseFastAccessorMethods";
