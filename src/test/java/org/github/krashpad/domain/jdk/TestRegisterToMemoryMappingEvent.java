@@ -239,4 +239,11 @@ class TestRegisterToMemoryMappingEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
+
+    @Test
+    void testRip() {
+        String logLine = "RIP=0x00007ff8193e0c3b TGenClient.dll";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

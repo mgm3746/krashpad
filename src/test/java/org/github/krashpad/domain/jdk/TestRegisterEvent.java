@@ -79,6 +79,13 @@ class TestRegisterEvent {
     ***REMOVED***
 
     @Test
+    void test2RegistersNoSpacesAtEnd() {
+        String logLine = "RIP=0x00007ff8193e0c3b, EFLAGS=0x0000000000010202";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
+                JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testRop() {
         String logLine = "RIP=0x00007fcbd05a3b71, EFLAGS=0x0000000000010293, CSGSFS=0x0000000000000033, "
                 + "ERR=0x0000000000000004";

@@ -48,6 +48,7 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  * 
  * <pre>
  * siginfo: ExceptionCode=0xc0000005, reading address 0x0000000000000048
+ * siginfo: EXCEPTION_ACCESS_VIOLATION (0xc0000005), reading address 0xffffffffffffffff
  * </pre>
  * 
  * <p>
@@ -66,13 +67,14 @@ public class SigInfoEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^siginfo: ((si_signo: \\d{1,2***REMOVED*** \\((" + SignalNumber.SIGBUS + "|"
-            + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ")\\), si_code: \\d{1,3***REMOVED*** \\((" + SignalCode.BUS_ADRALN
-            + "|" + SignalCode.BUS_ADRERR + "|" + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|"
-            + SignalCode.SEGV_ACCERR + "|" + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|"
-            + SignalCode.SI_USER + ")\\), (si_addr: " + JdkRegEx.ADDRESS
-            + "|sent from pid: \\d{1,***REMOVED*** \\(uid: \\d{1,***REMOVED***\\)))|ExceptionCode=" + JdkRegEx.ADDRESS + ", reading address "
-            + JdkRegEx.ADDRESS + ")$";
+    private static final String REGEX = "^siginfo: ((si_signo: \\d{1,2***REMOVED*** \\((" + SignalNumber.EXCEPTION_ACCESS_VIOLATION
+            + "|" + SignalNumber.SIGBUS + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV
+            + ")\\), si_code: \\d{1,3***REMOVED*** \\((" + SignalCode.BUS_ADRALN + "|" + SignalCode.BUS_ADRERR + "|"
+            + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|" + SignalCode.SEGV_ACCERR + "|"
+            + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|" + SignalCode.SI_USER + ")\\), (si_addr: "
+            + JdkRegEx.ADDRESS
+            + "|sent from pid: \\d{1,***REMOVED*** \\(uid: \\d{1,***REMOVED***\\)))|(ExceptionCode=|EXCEPTION_ACCESS_VIOLATION \\()"
+            + JdkRegEx.ADDRESS + "[\\)]{0,1***REMOVED***, reading address " + JdkRegEx.ADDRESS + ")$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 

@@ -216,7 +216,7 @@ public class JdkRegEx {
     /**
      * A 32-bit or 64-bit register.
      */
-    public static final String REGISTER = "(CR2|CSGSFS|ctr|EFLAGS|EAX|EBP|EBX|ECX|EDI|EDX|EIP|ERR|ESI|ESP|lr |pc |RAX|"
+    public static final String REGISTER = "(CR2|CSGSFS|ctr|EAX|EBP|EBX|ECX|EDI|EDX|EFLAGS|EIP|ERR|ESI|ESP|lr |pc |RAX|"
             + "RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|[Rr]" + "\\d{1,2***REMOVED***[ ]{0,1***REMOVED***)=(" + ADDRESS32 + "|" + ADDRESS64 + ")";
 
     /**

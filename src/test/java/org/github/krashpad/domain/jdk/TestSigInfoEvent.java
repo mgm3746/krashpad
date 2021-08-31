@@ -91,4 +91,14 @@ class TestSigInfoEvent {
         assertEquals(SignalNumber.SIGILL, event.getSignalNumber(), "Signal number not correct.");
         assertEquals(SignalCode.ILL_ILLOPN, event.getSignalCode(), "Signal code not correct.");
     ***REMOVED***
+
+    @Test
+    void testSignalCodeExceptionAccessViolation() {
+        String logLine = "siginfo: EXCEPTION_ACCESS_VIOLATION (0xc0000005), reading address 0xffffffffffffffff";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
+        SigInfoEvent event = new SigInfoEvent(logLine);
+        assertEquals(SignalNumber.EXCEPTION_ACCESS_VIOLATION, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.UNKNOWN, event.getSignalCode(), "Signal code not correct.");
+    ***REMOVED***
 ***REMOVED***
