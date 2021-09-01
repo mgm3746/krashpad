@@ -1866,6 +1866,25 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testOomLibJvm() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset61.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        StringBuilder error = new StringBuilder();
+        error.append("***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.");
+        error.append(Constants.LINE_SEPARATOR);
+        error.append(
+                "***REMOVED*** Native memory allocation (mmap) failed to map 32304529408 bytes for committing reserved memory.");
+        error.append(Constants.LINE_SEPARATOR);
+        error.append("***REMOVED***  INVALID (0xe0000002) at pc=0x0000000000000000, pid=108047, tid=0x00007f67eb450700");
+        assertEquals(error.toString(), fel.getError());
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+                Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP),
+                Analysis.ERROR_OOME_STARTUP + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testCannotGetLibraryInformation() {
         FatalErrorLog fel = new FatalErrorLog();
         String logline = "Can not get library information for pid = 123456";

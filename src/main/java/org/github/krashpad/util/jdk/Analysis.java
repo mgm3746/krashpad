@@ -169,12 +169,12 @@ public enum Analysis {
     ERROR_OOME_OOPS("error.oome.oops"),
 
     /**
-     * Property key for the JVM failing to start due to enough physical memory.
+     * Property key for the JVM failing to start due to insufficient physical memory.
      */
     ERROR_OOME_STARTUP("error.oome.startup"),
 
     /**
-     * Property key for the JVM failing to start due to enough physical memory when JVM memory &lt; 50% memory.
+     * Property key for the JVM failing to start due to insufficient physical memory when JVM memory &lt; 50% memory.
      */
     ERROR_OOME_STARTUP_EXTERNAL("error.oome.startup.external"),
 

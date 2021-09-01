@@ -372,7 +372,7 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // OOME, swap
-        if (isError("Out of Memory Error")) {
+        if (isError("There is insufficient memory for the Java Runtime Environment to continue.")) {
             if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
                 if (getJvmMemoryMax() > (getJvmMemFree() + getJvmSwapFree())) {
                     if (JdkMath.calcPercent(getJvmMemoryMax(), getMemTotal()) < 50) {
@@ -455,7 +455,8 @@ public class FatalErrorLog {
                 && getStackFrameTop() != null && getStackFrameTop()
                         .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ShenandoahUpdateRefsClosure::do_oop.+$")) {
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER);
-        ***REMOVED*** else if (getStackFrameTop() != null && !isError("Out of Memory Error")) {
+        ***REMOVED*** else if (getStackFrameTop() != null
+                && !isError("There is insufficient memory for the Java Runtime Environment to continue")) {
             // Other libjvm.so/jvm.dll analysis
             if (getStackFrameTop().matches("^V  \\[libjvm\\.so.+\\](.+)?$")) {
                 analysis.add(Analysis.ERROR_LIBJVM_SO);
@@ -1061,7 +1062,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
                 if (he.isSignalNumber() || he.isInternalError() || he.isError() || he.isFailed() || he.isInsufficient()
-                        || he.isOutOf() || he.isProblematicFrame()) {
+                        || he.isInvalid() || he.isOutOf() || he.isProblematicFrame()) {
                     if (causedBy.length() > 0) {
                         causedBy.append(Constants.LINE_SEPARATOR);
                     ***REMOVED***

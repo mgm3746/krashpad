@@ -206,6 +206,17 @@ public class HeaderEvent implements LogEvent {
     ***REMOVED***
 
     /**
+     * Check for INVALID. For example:
+     * 
+     * ***REMOVED*** INVALID (0xe0000002) at pc=0x0000000000000000, pid=108047, tid=0x00007f67eb450700
+     * 
+     * @return True if the event is INVALID, false otherwise. For example:
+     */
+    public boolean isInvalid() {
+        return logEntry.matches("^***REMOVED***  INVALID .+$");
+    ***REMOVED***
+
+    /**
      * @return True if the event is Java VM event, false otherwise.
      */
     public boolean isJavaVm() {
