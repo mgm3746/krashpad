@@ -173,11 +173,27 @@ class TestDynamicLibraryEvent {
     ***REMOVED***
 
     @Test
-    void testAwsBlockStorage() {
+    void testAwsBlockStorage10303() {
         String logLine = "7ffafde1f000-7ffafebb0000 r-xp 00000000 103:03 51649                     "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        assertEquals("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so",
+                event.getFilePath(), "File path not correct.");
+        assertEquals(Device.AWS_BLOCK_STORAGE, event.getDevice(), "Device not correct.");
+    ***REMOVED***
+
+    @Test
+    void testAwsBlockStorage10300() {
+        String logLine = "7f4fe5ad8000-7f4fe67b1000 r-xp 00000000 103:00 2361173                   "
+                + "/data/jdk1.8.0_171/jre/lib/amd64/server/libjvm.so";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        assertEquals("/data/jdk1.8.0_171/jre/lib/amd64/server/libjvm.so", event.getFilePath(),
+                "File path not correct.");
+        assertEquals(Device.AWS_BLOCK_STORAGE, event.getDevice(), "Device not correct.");
     ***REMOVED***
 
     @Test
