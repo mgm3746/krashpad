@@ -351,7 +351,7 @@ class TestFatalErrorLog {
                 + "built on Jul 16 2018 11:33:43 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-28";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
-        assertTrue(fel.isRedHatBuildString(), "RH build string identified.");
+        assertTrue(fel.isRhBuildString(), "RH build string identified.");
     ***REMOVED***
 
     @Test

@@ -319,7 +319,7 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             ***REMOVED***
         ***REMOVED*** else {
-            if (isRedHatBuildString()) {
+            if (isRhBuildString()) {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
             ***REMOVED*** else if (isAdoptOpenJdkBuildString()) {
                 analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
@@ -2751,7 +2751,7 @@ public class FatalErrorLog {
     /**
      * @return true if the fatal error log was created by a JDK build string used by Red Hat, false otherwise.
      */
-    public boolean isRedHatBuildString() {
+    public boolean isRhBuildString() {
         return vmInfoEvent != null && (vmInfoEvent.getBuiltBy() == BuiltBy.BUILD
                 || vmInfoEvent.getBuiltBy() == BuiltBy.EMPTY || vmInfoEvent.getBuiltBy() == BuiltBy.MOCKBUILD);
     ***REMOVED***

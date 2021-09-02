@@ -779,6 +779,11 @@ public class JvmOptions {
     private String optimizeStringConcat;
 
     /**
+     * Map of jvm options.
+     */
+    private Map<String, ArrayList<String>> options = new HashMap<String, ArrayList<String>>();
+
+    /**
      * The number of parallel gc threads. For example:
      * 
      * <pre>
@@ -988,6 +993,15 @@ public class JvmOptions {
      * </pre>
      */
     private String reservedCodeCacheSize;
+
+    /**
+     * Option to disable JVM signal handling. For example:
+     * 
+     * <pre>
+     * -Xrs
+     * </pre>
+     */
+    private boolean rs = false;
 
     /**
      * Option to enable the server JIT compiler, a separate Java binary, optimized for overall performance. The only JIT
@@ -1386,15 +1400,6 @@ public class JvmOptions {
     private boolean xInt = false;
 
     /**
-     * Map of jvm options.
-     */
-    private Map<String, ArrayList<String>> options = new HashMap<String, ArrayList<String>>();
-
-    public Map<String, ArrayList<String>> getOptions() {
-        return options;
-    ***REMOVED***
-
-    /**
      * Convert JVM argument string to JVM options.
      * 
      * @param jvmArgs
@@ -1407,21 +1412,75 @@ public class JvmOptions {
             String key = null;
             for (int i = 0; i < opts.length; i++) {
                 String option = opts[i].trim();
-                if (option.matches("^-ABRT.+$")) {
-                    abrt = option;
-                    key = "ABRT";
+                if (option.matches("^--add-modules=.+$")) {
+                    addModules = option;
+                    key = "addModules";
                 ***REMOVED*** else if (option.matches("^-agentlib:jdwp=transport=dt_socket.+$")) {
                     jpdaSocketTransport = option;
                     key = "agentlib:jdwp=transport";
                 ***REMOVED*** else if (option.matches("^-agentpath:.+$")) {
                     agentpath.add(option);
                     key = "agentpath";
-                ***REMOVED*** else if (option.matches("^--add-modules=.+$")) {
-                    addModules = option;
-                    key = "addModules";
+                ***REMOVED*** else if (option.matches("^-ABRT.+$")) {
+                    abrt = option;
+                    key = "ABRT";
                 ***REMOVED*** else if (option.matches("^-client$")) {
                     client = true;
                     key = "client";
+                ***REMOVED*** else if (option.matches("^-d64$")) {
+                    d64 = true;
+                    key = "d64";
+                ***REMOVED*** else if (option.matches("^-D.+$")) {
+                    systemProperties.add(option);
+                    key = "D";
+                ***REMOVED*** else if (option.matches("^-javaagent:.+$")) {
+                    javaagent.add(option);
+                    key = "javaagent";
+                ***REMOVED*** else if (option.matches("^-server$")) {
+                    server = true;
+                    key = "server";
+                ***REMOVED*** else if (option.matches("^-verbose:class$")) {
+                    verboseClass = true;
+                    key = "class";
+                ***REMOVED*** else if (option.matches("^-verbose:gc$")) {
+                    verboseGc = true;
+                    key = "verbose";
+                ***REMOVED*** else if (option.matches("^-Xbatch$")) {
+                    batch = true;
+                    key = "batch";
+                ***REMOVED*** else if (option.matches("^-Xbootclasspath.+$")) {
+                    bootclasspath.add(option);
+                    key = "Xbootclasspath";
+                ***REMOVED*** else if (option.matches("^-Xcomp$")) {
+                    comp = true;
+                    key = "comp";
+                ***REMOVED*** else if (option.matches("^-Xint$")) {
+                    xInt = true;
+                    key = "int";
+                ***REMOVED*** else if (option.matches("^-Xlog:.+$")) {
+                    log.add(option);
+                    key = "log";
+                ***REMOVED*** else if (option.matches("^-Xloggc:.+$")) {
+                    logGc = option;
+                    key = "loggc";
+                ***REMOVED*** else if (option.matches("^-X(mn|X:NewSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    newSize = option;
+                    key = "NewSize";
+                ***REMOVED*** else if (option.matches("^-X(ms|X:InitialHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    initialHeapSize = option;
+                    key = "InitialHeapSize";
+                ***REMOVED*** else if (option.matches("^-X(mx|X:MaxHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    maxHeapSize = option;
+                    key = "MaxHeapSize";
+                ***REMOVED*** else if (option.matches("^-Xnoclassgc$")) {
+                    noclassgc = true;
+                    key = "noclassgc";
+                ***REMOVED*** else if (option.matches("^-Xrs$")) {
+                    rs = true;
+                    key = "rs";
+                ***REMOVED*** else if (option.matches("^-Xverify(:(all|none|remote))?$")) {
+                    verify = option;
+                    key = "verify";
                 ***REMOVED*** else if (option.matches("^-XX:AdaptiveSizePolicyWeight=\\d{1,3***REMOVED***$")) {
                     adaptiveSizePolicyWeight = option;
                     key = "AdaptiveSizePolicyWeight";
@@ -1440,12 +1499,6 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]BackgroundCompilation$")) {
                     backgroundCompilation = option;
                     key = "BackgroundCompilation";
-                ***REMOVED*** else if (option.matches("^-Xbatch$")) {
-                    batch = true;
-                    key = "batch";
-                ***REMOVED*** else if (option.matches("^-Xbootclasspath.+$")) {
-                    bootclasspath.add(option);
-                    key = "Xbootclasspath";
                 ***REMOVED*** else if (option.matches("^-XX:CICompilerCount=\\d{1,3***REMOVED***$")) {
                     ciCompilerCount = option;
                     key = "CICompilerCount";
@@ -1467,9 +1520,6 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSParallelRemarkEnabled$")) {
                     cmsParallelRemarkEnabled = option;
                     key = "CMSParallelRemarkEnabled";
-                ***REMOVED*** else if (option.matches("^-Xcomp$")) {
-                    comp = true;
-                    key = "comp";
                 ***REMOVED*** else if (option.matches("^-XX:CompileCommand=.+$")) {
                     compileCommand = option;
                     key = "CompileCommand";
@@ -1479,12 +1529,6 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:ConcGCThreads=\\d{1,3***REMOVED***$")) {
                     concGcThreads = option;
                     key = "ConcGCThreads";
-                ***REMOVED*** else if (option.matches("^-D.+$")) {
-                    systemProperties.add(option);
-                    key = "D";
-                ***REMOVED*** else if (option.matches("^-d64$")) {
-                    d64 = true;
-                    key = "d64";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]DebugNonSafepoints$")) {
                     debugNonSafepoints = option;
                     key = "DebugNonSafepoints";
@@ -1542,30 +1586,15 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:HeapDumpPath=\\S+$")) {
                     heapDumpPath = option;
                     key = "HeapDumpPath";
-                ***REMOVED*** else if (option.matches("^-X(ms|X:InitialHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
-                    initialHeapSize = option;
-                    key = "InitialHeapSize";
                 ***REMOVED*** else if (option.matches("^-XX:InitiatingHeapOccupancyPercent=\\d{1,3***REMOVED***$")) {
                     initiatingHeapOccupancyPercent = option;
                     key = "InitiatingHeapOccupancyPercent";
-                ***REMOVED*** else if (option.matches("^-Xint$")) {
-                    xInt = true;
-                    key = "int";
-                ***REMOVED*** else if (option.matches("^-javaagent:.+$")) {
-                    javaagent.add(option);
-                    key = "javaagent";
                 ***REMOVED*** else if (option.matches("^-XX:LargePageSizeInBytes=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     largePageSizeInBytes = option;
                     key = "LargePageSizeInBytes";
-                ***REMOVED*** else if (option.matches("^-Xlog:.+$")) {
-                    log.add(option);
-                    key = "log";
                 ***REMOVED*** else if (option.matches("^-XX:LogFile=\\S+$")) {
                     logFile = option;
                     key = "LogFile";
-                ***REMOVED*** else if (option.matches("^-Xloggc:.+$")) {
-                    logGc = option;
-                    key = "loggc";
                 ***REMOVED*** else if (option.matches("^-XX:MaxGCPauseMillis=\\d{1,***REMOVED***$")) {
                     maxGcPauseMillis = option;
                     key = "MaxGCPauseMillis";
@@ -1578,9 +1607,6 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:MetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     metaspaceSize = option;
                     key = "MetaspaceSize";
-                ***REMOVED*** else if (option.matches("^-X(mx|X:MaxHeapSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
-                    maxHeapSize = option;
-                    key = "MaxHeapSize";
                 ***REMOVED*** else if (option.matches("^-XX:GCLogFileSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     gcLogFileSize = option;
                     key = "GCLogFileSize";
@@ -1611,12 +1637,6 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:MinHeapFreeRatio=\\d{1,3***REMOVED***$")) {
                     minHeapFreeRatio = option;
                     key = "MinHeapFreeRatio";
-                ***REMOVED*** else if (option.matches("^-X(mn|X:NewSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
-                    newSize = option;
-                    key = "NewSize";
-                ***REMOVED*** else if (option.matches("^-Xnoclassgc$")) {
-                    noclassgc = true;
-                    key = "noclassgc";
                 ***REMOVED*** else if (option.matches("^-XX:NumberOfGCLogFiles=\\d{1,***REMOVED***$")) {
                     numberOfGcLogFiles = option;
                     key = "NumberOfGCLogFiles";
@@ -1701,9 +1721,6 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:ReservedCodeCacheSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     reservedCodeCacheSize = option;
                     key = "ReservedCodeCacheSize";
-                ***REMOVED*** else if (option.matches("^-server$")) {
-                    server = true;
-                    key = "server";
                 ***REMOVED*** else if (option.matches("^-XX:ShenandoahGCHeuristics=(adaptive|aggressive|compact|static)$")) {
                     shenandoahGcHeuristics = option;
                     key = "ShenandoahGCHeuristics";
@@ -1803,15 +1820,6 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseVMInterruptibleIO$")) {
                     useVmInterruptibleIo = option;
                     key = "UseVMInterruptibleIO";
-                ***REMOVED*** else if (option.matches("^-verbose:class$")) {
-                    verboseClass = true;
-                    key = "class";
-                ***REMOVED*** else if (option.matches("^-verbose:gc$")) {
-                    verboseGc = true;
-                    key = "verbose";
-                ***REMOVED*** else if (option.matches("^-Xverify(:(all|none|remote))?$")) {
-                    verify = option;
-                    key = "verify";
                 ***REMOVED*** else {
                     undefined.add(option);
                     key = "undefined";
@@ -2204,6 +2212,10 @@ public class JvmOptions {
         if (this.maxHeapSize == null) {
             analysis.add(Analysis.INFO_OPT_HEAP_MAX_MISSING);
         ***REMOVED***
+        // Check if JVM signal handling disabled
+        if (rs) {
+            analysis.add(Analysis.WARN_OPT_RS);
+        ***REMOVED***
     ***REMOVED***
 
     public String getAbrt() {
@@ -2514,6 +2526,10 @@ public class JvmOptions {
         return optimizeStringConcat;
     ***REMOVED***
 
+    public Map<String, ArrayList<String>> getOptions() {
+        return options;
+    ***REMOVED***
+
     public String getParallelGcThreads() {
         return parallelGcThreads;
     ***REMOVED***
@@ -2816,6 +2832,10 @@ public class JvmOptions {
 
     public boolean isNoclassgc() {
         return noclassgc;
+    ***REMOVED***
+
+    public boolean isRs() {
+        return rs;
     ***REMOVED***
 
     public boolean isServer() {

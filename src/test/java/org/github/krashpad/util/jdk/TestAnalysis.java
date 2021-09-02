@@ -1763,6 +1763,17 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testSignalHandlingDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -Xmx33g -Xrs";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_RS),
+                Analysis.WARN_OPT_RS + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testJffi() {
         FatalErrorLog fel = new FatalErrorLog();
         String logline = "3ffe9c800000-3ffe9c820000 r-xp 00000000 fd:00 1107498958                 "

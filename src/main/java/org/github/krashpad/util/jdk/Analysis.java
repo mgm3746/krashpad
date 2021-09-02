@@ -878,10 +878,16 @@ public enum Analysis {
      * Property key for small sun.rmi.dgc.client.gcInterval.
      */
     WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL("warn.opt.rmi.dgc.client.gcInterval.small"),
+
     /**
      * Property key for small sun.rmi.dgc.server.gcInterval.
      */
     WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL("warn.opt.rmi.dgc.server.gcInterval.small"),
+
+    /**
+     * Property key for -Xrs disabling JVM signal handling.
+     */
+    WARN_OPT_RS("warn.opt.rs"),
 
     /**
      * Property key for disabling tenuring with -XX:MaxTenuringThreshold=0 or by setting it to a value greater than 15
