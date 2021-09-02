@@ -281,6 +281,10 @@ public class FatalErrorLog {
         // Check for unsupported JDK version
         if (getJavaSpecification() == JavaSpecification.JDK6 || getJavaSpecification() == JavaSpecification.JDK7) {
             analysis.add(Analysis.ERROR_JDK_VERSION_UNSUPPORTED);
+            // Unidentified lines are expected on unsupported JDKs
+            if (analysis.contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT)) {
+                analysis.remove(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT);
+            ***REMOVED***
         ***REMOVED***
         // Check for JVM failing to start
         if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
