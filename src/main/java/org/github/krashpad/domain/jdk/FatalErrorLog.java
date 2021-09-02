@@ -319,7 +319,7 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             ***REMOVED***
         ***REMOVED*** else {
-            if (isRhBuildString()) {
+            if (isRhBuildString() && isRhVersion()) {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
             ***REMOVED*** else if (isAdoptOpenJdkBuildString()) {
                 analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
@@ -2754,6 +2754,48 @@ public class FatalErrorLog {
     public boolean isRhBuildString() {
         return vmInfoEvent != null && (vmInfoEvent.getBuiltBy() == BuiltBy.BUILD
                 || vmInfoEvent.getBuiltBy() == BuiltBy.EMPTY || vmInfoEvent.getBuiltBy() == BuiltBy.MOCKBUILD);
+    ***REMOVED***
+
+    /**
+     * @return true if the version matches a Red Hat build of OpenJDK, false otherwise.
+     */
+    public boolean isRhVersion() {
+        boolean isRhVersion = false;
+        if (getOsType() == OsType.LINUX) {
+            switch (getJavaSpecification()) {
+            case JDK8:
+                isRhVersion = JdkUtil.JDK8_RHEL_ZIPS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK8_RHEL6_X86_64_RPMS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK8_RHEL7_X86_64_RPMS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK8_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString());
+                break;
+            case JDK11:
+                isRhVersion = JdkUtil.JDK11_RHEL_ZIPS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK11_RHEL7_X86_64_RPMS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK11_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString());
+                break;
+            case JDK6:
+            case JDK7:
+            case UNKNOWN:
+            default:
+                break;
+            ***REMOVED***
+        ***REMOVED*** else if (getOsType() == OsType.WINDOWS) {
+            switch (getJavaSpecification()) {
+            case JDK8:
+                isRhVersion = JdkUtil.JDK8_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
+                break;
+            case JDK11:
+                isRhVersion = JdkUtil.JDK11_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
+                break;
+            case JDK6:
+            case JDK7:
+            case UNKNOWN:
+            default:
+                break;
+            ***REMOVED***
+        ***REMOVED***
+        return isRhVersion;
     ***REMOVED***
 
     /**

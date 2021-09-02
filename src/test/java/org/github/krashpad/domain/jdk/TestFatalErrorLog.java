@@ -723,4 +723,18 @@ class TestFatalErrorLog {
                 Analysis.INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH + " analysis not identified.");
     ***REMOVED***
 
+    @Test
+    void testNotRhVersion() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS: Windows 10.0 , 64 bit Build 17763 (10.0.17763.2028)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String vmInfo = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.271-b09) for windows-amd64 JRE "
+                + "(1.8.0_271-b09), built on Sep 16 2020 19:14:59 by \"\" with MS VC++ 15.9 (VS2017)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_POSSIBLE),
+                Analysis.INFO_RH_BUILD_RPM_BASED + " analysis incorrectly identified.");
+    ***REMOVED***
 ***REMOVED***
