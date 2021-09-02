@@ -52,7 +52,6 @@ import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.JdkMath;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
-import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 import org.json.JSONObject;
 
 /**
@@ -280,381 +279,363 @@ public class Main {
                 ***REMOVED***
             ***REMOVED***
 
-            if (fel.getJavaSpecification() == JavaSpecification.JDK6
-                    || fel.getJavaSpecification() == JavaSpecification.JDK7) {
-                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                printWriter.write("ERROR:" + Constants.LINE_SEPARATOR);
-                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                printWriter.write("*It appears the fatal error log is from " + fel.getJavaSpecification() + "."
-                        + Constants.LINE_SEPARATOR + "*Fatal error log analysis prior to JDK8 is not supported."
+            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+            printWriter.write("OS:" + Constants.LINE_SEPARATOR);
+            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+            printWriter.write("Version: " + fel.getOsString() + Constants.LINE_SEPARATOR);
+            printWriter.write("ARCH: " + fel.getArch() + Constants.LINE_SEPARATOR);
+            if (fel.getCpus() > Integer.MIN_VALUE) {
+                printWriter
+                        .write("CPUs (cpu x cpu cores x hyperthreading): " + fel.getCpus() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getMemTotal() > 0) {
+                printWriter.write("Memory: " + fel.getMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
                         + Constants.LINE_SEPARATOR);
-            ***REMOVED*** else {
-
-                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                printWriter.write("OS:" + Constants.LINE_SEPARATOR);
-                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                printWriter.write("Version: " + fel.getOsString() + Constants.LINE_SEPARATOR);
-                printWriter.write("ARCH: " + fel.getArch() + Constants.LINE_SEPARATOR);
-                if (fel.getCpus() > Integer.MIN_VALUE) {
-                    printWriter.write(
-                            "CPUs (cpu x cpu cores x hyperthreading): " + fel.getCpus() + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fel.getMemTotal() > 0) {
-                    printWriter.write("Memory: " + fel.getMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
+                printWriter.write("Memory Free: " + fel.getMemFree() + Character.toString(Constants.PRECISION_REPORTING)
+                        + " (" + JdkMath.calcPercent(fel.getMemFree(), fel.getMemTotal()) + "%)"
+                        + Constants.LINE_SEPARATOR);
+                if (fel.getMemAvailable() > 0) {
+                    printWriter.write("Memory Available: " + fel.getMemAvailable()
+                            + Character.toString(Constants.PRECISION_REPORTING) + " ("
+                            + JdkMath.calcPercent(fel.getMemAvailable(), fel.getMemTotal()) + "%)"
                             + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+            ***REMOVED***
+            if (fel.getSystemSwap() >= 0) {
+                printWriter.write("Swap: " + fel.getSystemSwap() + Character.toString(Constants.PRECISION_REPORTING)
+                        + Constants.LINE_SEPARATOR);
+                if (fel.getSystemSwap() > 0) {
                     printWriter.write(
-                            "Memory Free: " + fel.getMemFree() + Character.toString(Constants.PRECISION_REPORTING)
-                                    + " (" + JdkMath.calcPercent(fel.getMemFree(), fel.getMemTotal()) + "%)"
+                            "Swap Free: " + fel.getSystemSwapFree() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getSystemSwapFree(), fel.getSystemSwap()) + "%)"
                                     + Constants.LINE_SEPARATOR);
-                    if (fel.getMemAvailable() > 0) {
-                        printWriter.write("Memory Available: " + fel.getMemAvailable()
-                                + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                                + JdkMath.calcPercent(fel.getMemAvailable(), fel.getMemTotal()) + "%)"
-                                + Constants.LINE_SEPARATOR);
-                    ***REMOVED***
                 ***REMOVED***
-                if (fel.getSystemSwap() >= 0) {
-                    printWriter.write("Swap: " + fel.getSystemSwap() + Character.toString(Constants.PRECISION_REPORTING)
-                            + Constants.LINE_SEPARATOR);
-                    if (fel.getSystemSwap() > 0) {
-                        printWriter.write("Swap Free: " + fel.getSystemSwapFree()
-                                + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                                + JdkMath.calcPercent(fel.getSystemSwapFree(), fel.getSystemSwap()) + "%)"
-                                + Constants.LINE_SEPARATOR);
-                    ***REMOVED***
-                ***REMOVED***
+            ***REMOVED***
 
-                if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
-                    printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                    printWriter.write("Container:" + Constants.LINE_SEPARATOR);
-                    printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                    if (fel.getJvmMemoryMax() > 0) {
-                        printWriter.write(
-                                "Memory: " + fel.getJvmMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
-                                        + " (" + JdkMath.calcPercent(fel.getJvmMemTotal(), fel.getMemTotal()) + "%)"
-                                        + Constants.LINE_SEPARATOR);
-                        printWriter.write("Memory Free: " + fel.getJvmMemFree()
-                                + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                                + JdkMath.calcPercent(fel.getJvmMemFree(), fel.getJvmMemTotal()) + "%)"
-                                + Constants.LINE_SEPARATOR);
-                    ***REMOVED***
-                    if (fel.getSystemSwap() > 0) {
-                        printWriter
-                                .write("Swap: " + fel.getJvmSwap() + Character.toString(Constants.PRECISION_REPORTING)
-                                        + " (" + JdkMath.calcPercent(fel.getJvmSwap(), fel.getSystemSwap()) + "%)"
-                                        + Constants.LINE_SEPARATOR);
-                        printWriter.write("Swap Free: " + fel.getSystemSwapFree()
-                                + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                                + JdkMath.calcPercent(fel.getSystemSwapFree(), fel.getSystemSwap()) + "%)"
-                                + Constants.LINE_SEPARATOR);
-                    ***REMOVED***
-                ***REMOVED***
-                if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT)
-                        || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT_OOPS)
-                        || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)
-                        || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS))
-                        && fel.getRlimitEvent() != null) {
-                    printWriter.write(fel.getRlimitEvent().getLogEntry() + Constants.LINE_SEPARATOR);
-
-                ***REMOVED***
-
+            if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                printWriter.write("JVM:" + Constants.LINE_SEPARATOR);
+                printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                printWriter.write("Version: " + fel.getJdkReleaseString() + Constants.LINE_SEPARATOR);
-                printWriter.write("Vendor: " + fel.getJavaVendor() + Constants.LINE_SEPARATOR);
-                printWriter.write("Application: " + fel.getApplication() + Constants.LINE_SEPARATOR);
-                if (fel.getUsername() != null && fel.getJvmUser() != null
-                        && !fel.getUsername().equals(fel.getJvmUser())) {
-                    printWriter.write("USERNAME: " + fel.getUsername() + Constants.LINE_SEPARATOR);
-                    printWriter.write("JVM User: " + fel.getJvmUser() + Constants.LINE_SEPARATOR);
-                ***REMOVED*** else if (fel.getJvmUser() != null) {
-                    printWriter.write("JVM User: " + fel.getJvmUser() + Constants.LINE_SEPARATOR);
-                ***REMOVED*** else if (fel.getUsername() != null) {
-                    printWriter.write("JVM User: " + fel.getUsername() + Constants.LINE_SEPARATOR);
+                if (fel.getJvmMemoryMax() > 0) {
+                    printWriter
+                            .write("Memory: " + fel.getJvmMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getJvmMemTotal(), fel.getMemTotal()) + "%)"
+                                    + Constants.LINE_SEPARATOR);
+                    printWriter.write(
+                            "Memory Free: " + fel.getJvmMemFree() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getJvmMemFree(), fel.getJvmMemTotal()) + "%)"
+                                    + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getVmStateEvent() != null) {
-                    printWriter.write("VM State: " + fel.getVmState() + Constants.LINE_SEPARATOR);
+                if (fel.getSystemSwap() > 0) {
+                    printWriter.write("Swap: " + fel.getJvmSwap() + Character.toString(Constants.PRECISION_REPORTING)
+                            + " (" + JdkMath.calcPercent(fel.getJvmSwap(), fel.getSystemSwap()) + "%)"
+                            + Constants.LINE_SEPARATOR);
+                    printWriter.write(
+                            "Swap Free: " + fel.getSystemSwapFree() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getSystemSwapFree(), fel.getSystemSwap()) + "%)"
+                                    + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (!fel.getCrashTime().equals("")) {
-                    printWriter.write("Crash Date: " + fel.getCrashTime() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT)
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT_OOPS)
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS)) && fel.getRlimitEvent() != null) {
+                printWriter.write(fel.getRlimitEvent().getLogEntry() + Constants.LINE_SEPARATOR);
+
+            ***REMOVED***
+
+            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+            printWriter.write("JVM:" + Constants.LINE_SEPARATOR);
+            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+            printWriter.write("Version: " + fel.getJdkReleaseString() + Constants.LINE_SEPARATOR);
+            printWriter.write("Vendor: " + fel.getJavaVendor() + Constants.LINE_SEPARATOR);
+            printWriter.write("Application: " + fel.getApplication() + Constants.LINE_SEPARATOR);
+            if (fel.getUsername() != null && fel.getJvmUser() != null && !fel.getUsername().equals(fel.getJvmUser())) {
+                printWriter.write("USERNAME: " + fel.getUsername() + Constants.LINE_SEPARATOR);
+                printWriter.write("JVM User: " + fel.getJvmUser() + Constants.LINE_SEPARATOR);
+            ***REMOVED*** else if (fel.getJvmUser() != null) {
+                printWriter.write("JVM User: " + fel.getJvmUser() + Constants.LINE_SEPARATOR);
+            ***REMOVED*** else if (fel.getUsername() != null) {
+                printWriter.write("JVM User: " + fel.getUsername() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getVmStateEvent() != null) {
+                printWriter.write("VM State: " + fel.getVmState() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (!fel.getCrashTime().equals("")) {
+                printWriter.write("Crash Date: " + fel.getCrashTime() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getElapsedTime() != null) {
+                printWriter.write("Run Time: " + fel.getElapsedTime() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            List<GarbageCollector> garbageCollectors = fel.getGarbageCollectors();
+            if (!garbageCollectors.isEmpty()) {
+                printWriter.write("Garbage Collector(s): ");
+                Iterator<GarbageCollector> iteratorGarbageCollectors = garbageCollectors.iterator();
+                boolean punctuate = false;
+                while (iteratorGarbageCollectors.hasNext()) {
+                    GarbageCollector garbageCollector = iteratorGarbageCollectors.next();
+                    if (punctuate) {
+                        printWriter.write(", ");
+                    ***REMOVED***
+                    printWriter.write(garbageCollector.toString());
+                    punctuate = true;
                 ***REMOVED***
-                if (fel.getElapsedTime() != null) {
-                    printWriter.write("Run Time: " + fel.getElapsedTime() + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                List<GarbageCollector> garbageCollectors = fel.getGarbageCollectors();
-                if (!garbageCollectors.isEmpty()) {
-                    printWriter.write("Garbage Collector(s): ");
-                    Iterator<GarbageCollector> iteratorGarbageCollectors = garbageCollectors.iterator();
-                    boolean punctuate = false;
-                    while (iteratorGarbageCollectors.hasNext()) {
-                        GarbageCollector garbageCollector = iteratorGarbageCollectors.next();
-                        if (punctuate) {
-                            printWriter.write(", ");
+                printWriter.write(Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getHeapMaxSize() > 0) {
+                printWriter.write("Heap Max: " + fel.getHeapMaxSize()
+                        + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getHeapAllocation() > 0) {
+                printWriter.write("Heap Allocation: " + fel.getHeapAllocation()
+                        + Character.toString(Constants.PRECISION_REPORTING) + " ("
+                        + JdkMath.calcPercent(fel.getHeapAllocation(), fel.getHeapMaxSize()) + "% Heap Max)"
+                        + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getHeapUsed() > 0) {
+                printWriter.write("Heap Used: " + fel.getHeapUsed() + Character.toString(Constants.PRECISION_REPORTING)
+                        + " (" + JdkMath.calcPercent(fel.getHeapUsed(), fel.getHeapAllocation()) + "% Heap Allocation)"
+                        + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            printWriter.write("Compressed oops mode: " + fel.getCompressedOopMode() + Constants.LINE_SEPARATOR);
+            if (fel.getMetaspaceMaxSize() > 0) {
+                printWriter.write("Metaspace Max: " + fel.getMetaspaceMaxSize()
+                        + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getMetaspaceAllocation() > 0) {
+                printWriter.write("Metaspace Allocation: " + fel.getMetaspaceAllocation()
+                        + Character.toString(Constants.PRECISION_REPORTING) + " ("
+                        + JdkMath.calcPercent(fel.getMetaspaceAllocation(), fel.getMetaspaceMaxSize())
+                        + "% Metaspace Max)" + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getMetaspaceUsed() > 0) {
+                printWriter.write(
+                        "Metaspace Used: " + fel.getMetaspaceUsed() + Character.toString(Constants.PRECISION_REPORTING)
+                                + " (" + JdkMath.calcPercent(fel.getMetaspaceUsed(), fel.getMetaspaceAllocation())
+                                + "% Metaspace Allocation)" + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getThreadStackSize() > 0) {
+                printWriter.write("Thread Stack Size: " + fel.getThreadStackSize() + "K" + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getThreadStackMemory() > 0) {
+                printWriter.write("Thread Stack Memory: " + fel.getThreadStackMemory()
+                        + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getReservedCodeCacheSize() > 0) {
+                printWriter.write("Code Cache Max: " + fel.getReservedCodeCacheSize()
+                        + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getDirectMemoryMaxSize() > 0) {
+                printWriter.write("Direct Memory Max: " + fel.getDirectMemoryMaxSize()
+                        + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getJvmMemoryMax() > 0) {
+                printWriter.write(
+                        "JVM Memory Max: >" + fel.getJvmMemoryMax() + Character.toString(Constants.PRECISION_REPORTING)
+                                + " (" + JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal())
+                                + "% Available Memory)" + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+
+            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+            printWriter.write("Threads:" + Constants.LINE_SEPARATOR);
+            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+            printWriter.write("Current thread: " + fel.getCurrentThread() + Constants.LINE_SEPARATOR);
+            printWriter.write("***REMOVED*** Java threads: " + fel.getJavaThreadCount() + Constants.LINE_SEPARATOR);
+
+            if (!fel.getError().equals("")) {
+                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+                printWriter.write("Error(s):" + Constants.LINE_SEPARATOR);
+                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                if (!fel.getExceptionCountsEvents().isEmpty()) {
+                    Iterator<ExceptionCountsEvent> iteratorExceptionCounts = fel.getExceptionCountsEvents().iterator();
+                    while (iteratorExceptionCounts.hasNext()) {
+                        ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
+                        if (!exceptionCountsEvent.isHeader()) {
+                            printWriter.write(exceptionCountsEvent.getLogEntry() + Constants.LINE_SEPARATOR);
                         ***REMOVED***
-                        printWriter.write(garbageCollector.toString());
-                        punctuate = true;
+                    ***REMOVED***
+                ***REMOVED***
+                printWriter.write(fel.getError() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+
+            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+            printWriter.write("Stack:" + Constants.LINE_SEPARATOR);
+            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+            List<StackEvent> stack = fel.getStackEvents();
+            Iterator<StackEvent> iteratorStackEvents = stack.iterator();
+            // Limit stack output for report readability
+            int stackLength = 0;
+            while (iteratorStackEvents.hasNext() && stackLength < 10) {
+                StackEvent se = iteratorStackEvents.next();
+                printWriter.write(se.getLogEntry() + Constants.LINE_SEPARATOR);
+                stackLength++;
+            ***REMOVED***
+            if (stack.size() > 10) {
+                printWriter.write("..." + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+
+            // Analysis
+            List<Analysis> analysis = fel.getAnalysis();
+            if (!analysis.isEmpty()) {
+
+                // Determine analysis levels
+                List<Analysis> error = new ArrayList<Analysis>();
+                List<Analysis> warn = new ArrayList<Analysis>();
+                List<Analysis> info = new ArrayList<Analysis>();
+
+                Iterator<Analysis> iteratorAnalysis = analysis.iterator();
+                while (iteratorAnalysis.hasNext()) {
+                    Analysis a = iteratorAnalysis.next();
+                    String level = a.getKey().split("\\.")[0];
+                    if (level.equals("error")) {
+                        error.add(a);
+                    ***REMOVED*** else if (level.equals("warn")) {
+                        warn.add(a);
+                    ***REMOVED*** else if (level.equals("info")) {
+                        info.add(a);
+                    ***REMOVED***
+                ***REMOVED***
+
+                printWriter.write("ANALYSIS:" + Constants.LINE_SEPARATOR);
+
+                iteratorAnalysis = error.iterator();
+                boolean printHeader = true;
+                // ERROR
+                while (iteratorAnalysis.hasNext()) {
+                    if (printHeader) {
+                        printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                        printWriter.write("error" + Constants.LINE_SEPARATOR);
+                        printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                    ***REMOVED***
+                    printHeader = false;
+                    Analysis a = iteratorAnalysis.next();
+                    printWriter.write("*");
+                    printWriter.write(a.getValue());
+                    printWriter.write(Constants.LINE_SEPARATOR);
+                ***REMOVED***
+
+                if (fel.getJvmOptions() != null) {
+                    Iterator<Entry<String, ArrayList<String>>> iteratorOptions = fel.getJvmOptions().getOptions()
+                            .entrySet().iterator();
+                    while (iteratorOptions.hasNext()) {
+                        Entry<String, ArrayList<String>> option = iteratorOptions.next();
+                        if (!option.getKey().equals("D") && !option.getKey().equals("undefined")
+                                && option.getValue().size() > 1) {
+                            // duplicate options
+                            printWriter.write("*Duplicate jvm options: ");
+                            ArrayList<String> opt = option.getValue();
+                            Iterator<String> iteratorOption = opt.iterator();
+                            boolean first = true;
+                            while (iteratorOption.hasNext()) {
+                                if (!first) {
+                                    printWriter.write(" ");
+                                ***REMOVED***
+                                printWriter.write(iteratorOption.next());
+                                first = false;
+                            ***REMOVED***
+                            printWriter.write(".");
+                            printWriter.write(Constants.LINE_SEPARATOR);
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+
+                // WARN
+                iteratorAnalysis = warn.iterator();
+                printHeader = true;
+                while (iteratorAnalysis.hasNext()) {
+                    if (printHeader) {
+                        printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                        printWriter.write("warn" + Constants.LINE_SEPARATOR);
+                        printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                    ***REMOVED***
+                    printHeader = false;
+                    Analysis a = iteratorAnalysis.next();
+                    printWriter.write("*");
+                    printWriter.write(a.getValue());
+                    if (a.equals(Analysis.WARN_JDK_NOT_LATEST)) {
+                        printWriter.write(JdkUtil.getLatestJdkReleaseString(fel));
+                        // Add latest release info
+                        int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel),
+                                JdkUtil.getLatestJdkReleaseDate(fel));
+                        int releaseNumberDiff = JdkUtil.getLatestJdkReleaseNumber(fel)
+                                - JdkUtil.getJdkReleaseNumber(fel);
+                        if (releaseDayDiff > 0 && releaseNumberDiff > 0) {
+                            printWriter.write(" (newer by ");
+                            printWriter.write("" + releaseNumberDiff);
+                            printWriter.write(" version");
+                            if (releaseNumberDiff > 1) {
+                                printWriter.write("s");
+                            ***REMOVED***
+                            printWriter.write(" and ");
+                            printWriter.write("" + releaseDayDiff);
+                            printWriter.write(" day");
+                            if (releaseDayDiff > 1) {
+                                printWriter.write("s");
+                            ***REMOVED***
+                            printWriter.write(")");
+                        ***REMOVED***
+                        printWriter.write(".");
                     ***REMOVED***
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getHeapMaxSize() > 0) {
-                    printWriter.write("Heap Max: " + fel.getHeapMaxSize()
-                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fel.getHeapAllocation() > 0) {
-                    printWriter.write("Heap Allocation: " + fel.getHeapAllocation()
-                            + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getHeapAllocation(), fel.getHeapMaxSize()) + "% Heap Max)"
-                            + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fel.getHeapUsed() > 0) {
-                    printWriter
-                            .write("Heap Used: " + fel.getHeapUsed() + Character.toString(Constants.PRECISION_REPORTING)
-                                    + " (" + JdkMath.calcPercent(fel.getHeapUsed(), fel.getHeapAllocation())
-                                    + "% Heap Allocation)" + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                printWriter.write("Compressed oops mode: " + fel.getCompressedOopMode() + Constants.LINE_SEPARATOR);
-                if (fel.getMetaspaceMaxSize() > 0) {
-                    printWriter.write("Metaspace Max: " + fel.getMetaspaceMaxSize()
-                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fel.getMetaspaceAllocation() > 0) {
-                    printWriter.write("Metaspace Allocation: " + fel.getMetaspaceAllocation()
-                            + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getMetaspaceAllocation(), fel.getMetaspaceMaxSize())
-                            + "% Metaspace Max)" + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fel.getMetaspaceUsed() > 0) {
-                    printWriter.write("Metaspace Used: " + fel.getMetaspaceUsed()
-                            + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getMetaspaceUsed(), fel.getMetaspaceAllocation())
-                            + "% Metaspace Allocation)" + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fel.getThreadStackSize() > 0) {
-                    printWriter
-                            .write("Thread Stack Size: " + fel.getThreadStackSize() + "K" + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fel.getThreadStackMemory() > 0) {
-                    printWriter.write("Thread Stack Memory: " + fel.getThreadStackMemory()
-                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fel.getReservedCodeCacheSize() > 0) {
-                    printWriter.write("Code Cache Max: " + fel.getReservedCodeCacheSize()
-                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fel.getDirectMemoryMaxSize() > 0) {
-                    printWriter.write("Direct Memory Max: " + fel.getDirectMemoryMaxSize()
-                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fel.getJvmMemoryMax() > 0) {
-                    printWriter.write("JVM Memory Max: >" + fel.getJvmMemoryMax()
-                            + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal()) + "% Available Memory)"
-                            + Constants.LINE_SEPARATOR);
-                ***REMOVED***
 
+                // INFO
+                iteratorAnalysis = info.iterator();
+                printHeader = true;
+                while (iteratorAnalysis.hasNext()) {
+                    if (printHeader) {
+                        printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                        printWriter.write("info" + Constants.LINE_SEPARATOR);
+                        printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                    ***REMOVED***
+                    printHeader = false;
+                    Analysis a = iteratorAnalysis.next();
+                    printWriter.write("*");
+                    printWriter.write(a.getValue());
+                    if (a.equals(Analysis.INFO_OPT_UNDEFINED)) {
+                        Iterator<String> iterator = fel.getJvmOptions().getUndefined().iterator();
+                        while (iterator.hasNext()) {
+                            String option = iterator.next();
+                            printWriter.write(" ");
+                            printWriter.write(option);
+                        ***REMOVED***
+                    ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_INSTRUMENTATION)) {
+                        Iterator<String> iterator = fel.getJvmOptions().getJavaagent().iterator();
+                        while (iterator.hasNext()) {
+                            String option = iterator.next();
+                            printWriter.write(" ");
+                            printWriter.write(option);
+                        ***REMOVED***
+                        printWriter.write(".");
+                    ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_NATIVE)) {
+                        Iterator<String> iterator = fel.getJvmOptions().getAgentpath().iterator();
+                        while (iterator.hasNext()) {
+                            String option = iterator.next();
+                            printWriter.write(" ");
+                            printWriter.write(option);
+                        ***REMOVED***
+                        printWriter.write(".");
+                    ***REMOVED***
+                    printWriter.write(Constants.LINE_SEPARATOR);
+                ***REMOVED***
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                printWriter.write("Threads:" + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+
+            // Unidentified log lines
+            List<String> unidentifiedLogLines = fel.getUnidentifiedLogLines();
+            if (!unidentifiedLogLines.isEmpty()) {
+                printWriter
+                        .write(unidentifiedLogLines.size() + " UNIDENTIFIED LOG LINE(S):" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                printWriter.write("Current thread: " + fel.getCurrentThread() + Constants.LINE_SEPARATOR);
-                printWriter.write("***REMOVED*** Java threads: " + fel.getJavaThreadCount() + Constants.LINE_SEPARATOR);
 
-                if (!fel.getError().equals("")) {
-                    printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                    printWriter.write("Error(s):" + Constants.LINE_SEPARATOR);
-                    printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                    if (!fel.getExceptionCountsEvents().isEmpty()) {
-                        Iterator<ExceptionCountsEvent> iteratorExceptionCounts = fel.getExceptionCountsEvents()
-                                .iterator();
-                        while (iteratorExceptionCounts.hasNext()) {
-                            ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
-                            if (!exceptionCountsEvent.isHeader()) {
-                                printWriter.write(exceptionCountsEvent.getLogEntry() + Constants.LINE_SEPARATOR);
-                            ***REMOVED***
-                        ***REMOVED***
-                    ***REMOVED***
-                    printWriter.write(fel.getError() + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-
-                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                printWriter.write("Stack:" + Constants.LINE_SEPARATOR);
-                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                List<StackEvent> stack = fel.getStackEvents();
-                Iterator<StackEvent> iteratorStackEvents = stack.iterator();
-                // Limit stack output for report readability
-                int stackLength = 0;
-                while (iteratorStackEvents.hasNext() && stackLength < 10) {
-                    StackEvent se = iteratorStackEvents.next();
-                    printWriter.write(se.getLogEntry() + Constants.LINE_SEPARATOR);
-                    stackLength++;
-                ***REMOVED***
-                if (stack.size() > 10) {
-                    printWriter.write("..." + Constants.LINE_SEPARATOR);
+                Iterator<String> iterator = unidentifiedLogLines.iterator();
+                while (iterator.hasNext()) {
+                    String unidentifiedLogLine = iterator.next();
+                    printWriter.write(unidentifiedLogLine);
+                    printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-
-                // Analysis
-                List<Analysis> analysis = fel.getAnalysis();
-                if (!analysis.isEmpty()) {
-
-                    // Determine analysis levels
-                    List<Analysis> error = new ArrayList<Analysis>();
-                    List<Analysis> warn = new ArrayList<Analysis>();
-                    List<Analysis> info = new ArrayList<Analysis>();
-
-                    Iterator<Analysis> iteratorAnalysis = analysis.iterator();
-                    while (iteratorAnalysis.hasNext()) {
-                        Analysis a = iteratorAnalysis.next();
-                        String level = a.getKey().split("\\.")[0];
-                        if (level.equals("error")) {
-                            error.add(a);
-                        ***REMOVED*** else if (level.equals("warn")) {
-                            warn.add(a);
-                        ***REMOVED*** else if (level.equals("info")) {
-                            info.add(a);
-                        ***REMOVED***
-                    ***REMOVED***
-
-                    printWriter.write("ANALYSIS:" + Constants.LINE_SEPARATOR);
-
-                    iteratorAnalysis = error.iterator();
-                    boolean printHeader = true;
-                    // ERROR
-                    while (iteratorAnalysis.hasNext()) {
-                        if (printHeader) {
-                            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                            printWriter.write("error" + Constants.LINE_SEPARATOR);
-                            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                        ***REMOVED***
-                        printHeader = false;
-                        Analysis a = iteratorAnalysis.next();
-                        printWriter.write("*");
-                        printWriter.write(a.getValue());
-                        printWriter.write(Constants.LINE_SEPARATOR);
-                    ***REMOVED***
-
-                    if (fel.getJvmOptions() != null) {
-                        Iterator<Entry<String, ArrayList<String>>> iteratorOptions = fel.getJvmOptions().getOptions()
-                                .entrySet().iterator();
-                        while (iteratorOptions.hasNext()) {
-                            Entry<String, ArrayList<String>> option = iteratorOptions.next();
-                            if (!option.getKey().equals("D") && !option.getKey().equals("undefined")
-                                    && option.getValue().size() > 1) {
-                                // duplicate options
-                                printWriter.write("*Duplicate jvm options: ");
-                                ArrayList<String> opt = option.getValue();
-                                Iterator<String> iteratorOption = opt.iterator();
-                                boolean first = true;
-                                while (iteratorOption.hasNext()) {
-                                    if (!first) {
-                                        printWriter.write(" ");
-                                    ***REMOVED***
-                                    printWriter.write(iteratorOption.next());
-                                    first = false;
-                                ***REMOVED***
-                                printWriter.write(".");
-                                printWriter.write(Constants.LINE_SEPARATOR);
-                            ***REMOVED***
-                        ***REMOVED***
-                    ***REMOVED***
-
-                    // WARN
-                    iteratorAnalysis = warn.iterator();
-                    printHeader = true;
-                    while (iteratorAnalysis.hasNext()) {
-                        if (printHeader) {
-                            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                            printWriter.write("warn" + Constants.LINE_SEPARATOR);
-                            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                        ***REMOVED***
-                        printHeader = false;
-                        Analysis a = iteratorAnalysis.next();
-                        printWriter.write("*");
-                        printWriter.write(a.getValue());
-                        if (a.equals(Analysis.WARN_JDK_NOT_LATEST)) {
-                            printWriter.write(JdkUtil.getLatestJdkReleaseString(fel));
-                            // Add latest release info
-                            int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel),
-                                    JdkUtil.getLatestJdkReleaseDate(fel));
-                            int releaseNumberDiff = JdkUtil.getLatestJdkReleaseNumber(fel)
-                                    - JdkUtil.getJdkReleaseNumber(fel);
-                            if (releaseDayDiff > 0 && releaseNumberDiff > 0) {
-                                printWriter.write(" (newer by ");
-                                printWriter.write("" + releaseNumberDiff);
-                                printWriter.write(" version");
-                                if (releaseNumberDiff > 1) {
-                                    printWriter.write("s");
-                                ***REMOVED***
-                                printWriter.write(" and ");
-                                printWriter.write("" + releaseDayDiff);
-                                printWriter.write(" day");
-                                if (releaseDayDiff > 1) {
-                                    printWriter.write("s");
-                                ***REMOVED***
-                                printWriter.write(")");
-                            ***REMOVED***
-                            printWriter.write(".");
-                        ***REMOVED***
-                        printWriter.write(Constants.LINE_SEPARATOR);
-                    ***REMOVED***
-
-                    // INFO
-                    iteratorAnalysis = info.iterator();
-                    printHeader = true;
-                    while (iteratorAnalysis.hasNext()) {
-                        if (printHeader) {
-                            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                            printWriter.write("info" + Constants.LINE_SEPARATOR);
-                            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                        ***REMOVED***
-                        printHeader = false;
-                        Analysis a = iteratorAnalysis.next();
-                        printWriter.write("*");
-                        printWriter.write(a.getValue());
-                        if (a.equals(Analysis.INFO_OPT_UNDEFINED)) {
-                            Iterator<String> iterator = fel.getJvmOptions().getUndefined().iterator();
-                            while (iterator.hasNext()) {
-                                String option = iterator.next();
-                                printWriter.write(" ");
-                                printWriter.write(option);
-                            ***REMOVED***
-                        ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_INSTRUMENTATION)) {
-                            Iterator<String> iterator = fel.getJvmOptions().getJavaagent().iterator();
-                            while (iterator.hasNext()) {
-                                String option = iterator.next();
-                                printWriter.write(" ");
-                                printWriter.write(option);
-                            ***REMOVED***
-                            printWriter.write(".");
-                        ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_NATIVE)) {
-                            Iterator<String> iterator = fel.getJvmOptions().getAgentpath().iterator();
-                            while (iterator.hasNext()) {
-                                String option = iterator.next();
-                                printWriter.write(" ");
-                                printWriter.write(option);
-                            ***REMOVED***
-                            printWriter.write(".");
-                        ***REMOVED***
-                        printWriter.write(Constants.LINE_SEPARATOR);
-                    ***REMOVED***
-                    printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                ***REMOVED***
-
-                // Unidentified log lines
-                List<String> unidentifiedLogLines = fel.getUnidentifiedLogLines();
-                if (!unidentifiedLogLines.isEmpty()) {
-                    printWriter.write(
-                            unidentifiedLogLines.size() + " UNIDENTIFIED LOG LINE(S):" + Constants.LINE_SEPARATOR);
-                    printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-
-                    Iterator<String> iterator = unidentifiedLogLines.iterator();
-                    while (iterator.hasNext()) {
-                        String unidentifiedLogLine = iterator.next();
-                        printWriter.write(unidentifiedLogLine);
-                        printWriter.write(Constants.LINE_SEPARATOR);
-                    ***REMOVED***
-                    printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                ***REMOVED***
             ***REMOVED***
         ***REMOVED*** catch (
 

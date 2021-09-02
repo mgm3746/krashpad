@@ -250,4 +250,15 @@ class TestVmInfoEvent {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.MACH5ONE, ((VmInfoEvent) event).getBuiltBy(), "JDK builder not correct.");
     ***REMOVED***
+
+    @Test
+    void testJdk7() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (24.51-b03) for linux-amd64 JRE (1.7.0_55-b13), built on "
+                + "Apr  9 2014 12:07:12 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-4)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
+                JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(JavaSpecification.JDK7, ((VmInfoEvent) event).getJavaSpecification(),
+                "Java specification not correct.");
+    ***REMOVED***
 ***REMOVED***

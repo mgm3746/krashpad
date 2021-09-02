@@ -71,6 +71,16 @@ public enum Analysis {
     ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY("error.heap.plus.metaspace.gt.physical.memory"),
 
     /**
+     * Property key for an unknown JDK version.
+     */
+    ERROR_JDK_VERSION_UNKNOWN("error.jdk.version.unknown"),
+
+    /**
+     * Property key for an unsupported JDK version (prior to JDK8).
+     */
+    ERROR_JDK_VERSION_UNSUPPORTED("error.jdk.version.unsupported"),
+
+    /**
      * Property key for a crash in JDK8 in Deflater when a file is attempting to be modified while Java has it open.
      */
     ERROR_JDK8_DEFLATER_CONTENTION("error.jdk8.deflater.contention"),

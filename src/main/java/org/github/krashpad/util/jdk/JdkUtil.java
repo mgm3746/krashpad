@@ -122,8 +122,10 @@ public class JdkUtil {
      * Defined JDK builders
      */
     public enum BuiltBy {
-        //
-        BUILD, EMPTY,
+        // Red Hat
+        BUILD,
+        // In some Oracle and Red Hat builds
+        EMPTY,
         // Oracle: "Java Release Engineering"
         JAVA_RE,
         //

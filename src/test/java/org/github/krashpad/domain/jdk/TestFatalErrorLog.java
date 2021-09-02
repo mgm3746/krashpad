@@ -724,7 +724,7 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
-    void testNotRhVersion() {
+    void testJdk8NotRhVersion() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS: Windows 10.0 , 64 bit Build 17763 (10.0.17763.2028)";
         OsEvent osEvent = new OsEvent(os);

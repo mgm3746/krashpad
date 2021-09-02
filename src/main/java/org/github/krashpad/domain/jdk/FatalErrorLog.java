@@ -274,6 +274,14 @@ public class FatalErrorLog {
      * Do data analysis.
      */
     private void doDataAnalysis() {
+        // Check for unknown JDK version
+        if (getJavaSpecification() == JavaSpecification.UNKNOWN) {
+            analysis.add(Analysis.ERROR_JDK_VERSION_UNKNOWN);
+        ***REMOVED***
+        // Check for unsupported JDK version
+        if (getJavaSpecification() == JavaSpecification.JDK6 || getJavaSpecification() == JavaSpecification.JDK7) {
+            analysis.add(Analysis.ERROR_JDK_VERSION_UNSUPPORTED);
+        ***REMOVED***
         // Check for JVM failing to start
         if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
             analysis.add(Analysis.INFO_JVM_STARTUP_FAILS);
@@ -319,7 +327,7 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             ***REMOVED***
         ***REMOVED*** else {
-            if (isRhBuildString() && isRhVersion()) {
+            if (isRhBuildString()) {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
             ***REMOVED*** else if (isAdoptOpenJdkBuildString()) {
                 analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
@@ -2749,11 +2757,12 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return true if the fatal error log was created by a JDK build string used by Red Hat, false otherwise.
+     * @return true if the fatal error log was created by a JDK build string (ignore empty string) used by Red Hat,
+     *         false otherwise.
      */
     public boolean isRhBuildString() {
-        return vmInfoEvent != null && (vmInfoEvent.getBuiltBy() == BuiltBy.BUILD
-                || vmInfoEvent.getBuiltBy() == BuiltBy.EMPTY || vmInfoEvent.getBuiltBy() == BuiltBy.MOCKBUILD);
+        return vmInfoEvent != null
+                && (vmInfoEvent.getBuiltBy() == BuiltBy.BUILD || vmInfoEvent.getBuiltBy() == BuiltBy.MOCKBUILD);
     ***REMOVED***
 
     /**

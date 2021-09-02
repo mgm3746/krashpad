@@ -1920,4 +1920,27 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_JVM_USER_NE_USERNAME),
                 Analysis.INFO_JVM_USER_NE_USERNAME + " analysis not identified.");
     ***REMOVED***
+
+    @Test
+    void testJdk7() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (24.51-b03) for linux-amd64 JRE (1.7.0_55-b13), "
+                + "built on Apr  9 2014 12:07:12 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-4)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK_VERSION_UNSUPPORTED),
+                Analysis.ERROR_JDK_VERSION_UNSUPPORTED + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdkUnknown() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: test";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK_VERSION_UNKNOWN),
+                Analysis.ERROR_JDK_VERSION_UNKNOWN + " analysis not identified.");
+    ***REMOVED***
 ***REMOVED***
