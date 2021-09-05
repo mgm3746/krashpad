@@ -1408,6 +1408,8 @@ public class JvmOptions {
     public JvmOptions(String jvmArgs) {
         super();
         if (jvmArgs != null) {
+            // (?<!^) match whatever follows, but not the start of the string
+            // (?= -) match "space dash", but don't include the empty leading substring in the result
             String[] opts = jvmArgs.split("(?<!^)(?= -)");
             String key = null;
             for (int i = 0; i < opts.length; i++) {
