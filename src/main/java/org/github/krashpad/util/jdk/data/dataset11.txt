@@ -1,0 +1,34 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00002b41eda950c6, pid=26950, tid=0x00002b431c320700
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_262-b10) (build 1.8.0_262-b10)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.262-b10 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Problematic frame:
+***REMOVED*** J 107380  SomeClass.someMethod(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String; (0 bytes) @ 0x00002b41eda950c6 [0x00002b41eda94ec0+0x206]
+***REMOVED***
+***REMOVED*** Core dump written. Default location: /path/to/core or core.26950
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
+***REMOVED***
+
+***REMOVED***
+
+2b41e6246000-2b41e6fd2000 r-xp 00000000 fd:09 269880629                  /apps/scope/3rdparty/java/jre/lib/amd64/server/libjvm.so
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux Server release 7.4 (Maipo)
+
+OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)
+
+uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64
+libc:glibc 2.17 NPTL 2.17
+rlimit: STACK infinity, CORE infinity, NPROC 48000, NOFILE 1048576, AS infinity
+load average:0.45 0.57 0.71
+
+Memory: 4k page, physical 49294188k(392268k free), swap 2047996k(1695820k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), built on Jul 12 2020 18:55:08 by "mockbuild" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)

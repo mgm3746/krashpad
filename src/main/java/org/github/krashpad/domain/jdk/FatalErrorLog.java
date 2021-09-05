@@ -449,6 +449,10 @@ public class FatalErrorLog {
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
+            // G1 collector is not good when memory is tight
+            if (getGarbageCollectors().contains(GarbageCollector.G1)) {
+                analysis.add(Analysis.WARN_OOM_G1);
+            ***REMOVED***
         ***REMOVED*** else if (getJvmSwap() > 0) {
             // Check for excessive swap usage
             int swapUsedPercent = 100 - JdkMath.calcPercent(getJvmSwapFree(), getJvmSwap());
@@ -461,6 +465,10 @@ public class FatalErrorLog {
         // Check for swap disabled
         if (getJvmSwap() == 0) {
             analysis.add(Analysis.INFO_SWAP_DISABLED);
+            // G1 collector is not good when swap disabled (container use cases)
+            if (getGarbageCollectors().contains(GarbageCollector.G1) && getJvmSwap() == 0) {
+                analysis.add(Analysis.WARN_SWAP_DISABLED_G1);
+            ***REMOVED***
         ***REMOVED***
         // Check for ShenadoahRootUpdater bug fixed in OpenJDK8 u282.
         if (getJavaSpecification() == JavaSpecification.JDK8 && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 282

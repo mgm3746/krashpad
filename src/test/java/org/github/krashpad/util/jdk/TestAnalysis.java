@@ -1943,4 +1943,15 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK_VERSION_UNKNOWN),
                 Analysis.ERROR_JDK_VERSION_UNKNOWN + " analysis not identified.");
     ***REMOVED***
+
+    @Test
+    void testOomSwapDisabledG1() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset62.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OOM_G1),
+                Analysis.WARN_OOM_G1 + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_SWAP_DISABLED_G1),
+                Analysis.WARN_SWAP_DISABLED_G1 + " analysis not identified.");
+    ***REMOVED***
 ***REMOVED***

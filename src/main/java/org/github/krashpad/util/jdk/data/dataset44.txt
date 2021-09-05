@@ -1,0 +1,497 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00007f90f122912d, pid=19906, tid=0x00007f90ee71e700
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_262-b10) (build 1.8.0_262-b10)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.262-b10 mixed mode linux-amd64 )
+***REMOVED*** Problematic frame:
+***REMOVED*** V  [libjvm.so+0xa2e12d]  void ShenandoahConcurrentMark::mark_loop_work<ShenandoahMarkRefsClosure, true>(ShenandoahMarkRefsClosure*, unsigned short*, unsigned int, ShenandoahTaskTerminator*)+0x19d
+***REMOVED***
+***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x00007f90e8060000):  GCTaskThread [stack: 0x00007f90ee61f000,0x00007f90ee71f000] [id=19908]
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 128 (SI_KERNEL), si_addr: 0x0000000000000000
+
+***REMOVED***
+RAX=0x00007f8972b936f8, RBX=0x00007f8972b936f8, RCX=0x00000000000003a6, RDX=0x0000000000000000
+RSP=0x00007f90ee71dba0, RBP=0x00007f90ee71dd00, RSI=0x000000000000001f, RDI=0x0030003000310030
+R8 =0x0000000020000000, R9 =0x00007f90f18699f3, R10=0x0000000000000001, R11=0x00547f88bf9a1078
+R12=0x0000000000000030, R13=0x00007f90f2572580, R14=0x00007f90f18733f0, R15=0x00007f90e811ff40
+RIP=0x00007f90f122912d, EFLAGS=0x0000000000010246, CSGSFS=0x0000000000000033, ERR=0x0000000000000000
+  TRAPNO=0x000000000000000d
+
+Top of Stack: (sp=0x00007f90ee71dba0)
+0x00007f90ee71dba0:   0000000000000000 00007f90ee71dbc0
+0x00007f90ee71dbb0:   00007f90edb1fa80 00007f90f10f3633
+0x00007f90ee71dbc0:   0000000000000000 00007f90d0f23e50
+0x00007f90ee71dbd0:   00007f90d0f23e50 0000000000000c00
+0x00007f90ee71dbe0:   00007f90e811f9d8 00007f90e811ff48
+0x00007f90ee71dbf0:   00007f90e805ed80 00007f90e811f980
+0x00007f90ee71dc00:   00007f90e811ff78 00007f90e807cc10
+0x00007f90ee71dc10:   00007f88bfacf1f8 00007f90e805fb10
+0x00007f90ee71dc20:   00000000000003e8 000000d000000001
+0x00007f90ee71dc30:   00007f90ee71dc50 00007f90ee71dcd0
+0x00007f90ee71dc40:   00007f90f18699f3 00007f90ee71dd20
+0x00007f90ee71dc50:   00007f9000000011 00007f90ee71dce0
+0x00007f90ee71dc60:   00007f8972b936f8 00007f90ecb85540
+0x00007f90ee71dc70:   00007f90ee71dcb0 00007f90f19a97fd
+0x00007f90ee71dc80:   0000000000000000 00007f90f1135d9e
+0x00007f90ee71dc90:   000013d600004280 00000000020fe7b7
+0x00007f90ee71dca0:   000013d700004280 d903cfb78c51a900
+0x00007f90ee71dcb0:   00007f90ee71dcd0 00007f90f124cff1
+0x00007f90ee71dcc0:   00007f90e80607f0 d903cfb78c51a900
+0x00007f90ee71dcd0:   00007f90ee71dd20 0000000000000001
+0x00007f90ee71dce0:   00007f90e805fb10 00007f90edb1fa80
+0x00007f90ee71dcf0:   00007f90e811fc00 0000000000000000
+0x00007f90ee71dd00:   00007f90ee71ddb0 00007f90f1231c59
+0x00007f90ee71dd10:   00007f90e807cc10 0000000000000000
+0x00007f90ee71dd20:   00007f90f182d8d0 00007f90f1232700
+0x00007f90ee71dd30:   0000000000000000 00007f90f18227a0
+0x00007f90ee71dd40:   00007f90e8061300 00007f90ee71dd20
+0x00007f90ee71dd50:   00007f90e811fc00 0000000000000000
+0x00007f90ee71dd60:   00007f90e805ed80 00007f90e806f630
+0x00007f90ee71dd70:   00007f90f18227c0 d903cfb78c51a900
+0x00007f90ee71dd80:   00007f90ee71de20 00007f90edb1fa30
+0x00007f90ee71dd90:   0000000000000001 00007f90ee71ddd0 
+
+Instructions: (pc=0x00007f90f122912d)
+0x00007f90f122910d:   48 85 f8 0f 85 5a 02 00 00 4c 8d 0d d6 08 64 00
+0x00007f90f122911d:   41 0f b6 11 84 d2 0f 85 87 03 00 00 48 8b 7b 08
+0x00007f90f122912d:   8b 47 08 85 c0 0f 8f 96 03 00 00 3d 00 00 00 c0
+0x00007f90f122913d:   0f 8c 25 04 00 00 48 8b 85 18 ff ff ff 4c 8d 35 
+
+***REMOVED***
+
+RAX=0x00007f8972b936f8 is pointing into object: 0x00007f8972b936b0
+[C 
+ - klass: {type array char***REMOVED***
+ - length: 75
+RBX=0x00007f8972b936f8 is pointing into object: 0x00007f8972b936b0
+[C 
+ - klass: {type array char***REMOVED***
+ - length: 75
+RCX=0x00000000000003a6 is an unknown value
+RDX=0x0000000000000000 is an unknown value
+RSP=0x00007f90ee71dba0 is an unknown value
+RBP=0x00007f90ee71dd00 is an unknown value
+RSI=0x000000000000001f is an unknown value
+RDI=0x0030003000310030 is an unknown value
+R8 =0x0000000020000000 is an unknown value
+R9 =0x00007f90f18699f3: <offset 0x106e9f3> in /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/jre/lib/amd64/server/libjvm.so at 0x00007f90f07fb000
+R10=0x0000000000000001 is an unknown value
+R11=0x00547f88bf9a1078 is an unknown value
+R12=0x0000000000000030 is an unknown value
+R13=0x00007f90f2572580 is an unknown value
+R14=0x00007f90f18733f0: <offset 0x10783f0> in /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/jre/lib/amd64/server/libjvm.so at 0x00007f90f07fb000
+R15=0x00007f90e811ff40 is an unknown value
+
+
+Stack: [0x00007f90ee61f000,0x00007f90ee71f000],  sp=0x00007f90ee71dba0,  free space=1018k
+***REMOVED***
+V  [libjvm.so+0xa2e12d]  void ShenandoahConcurrentMark::mark_loop_work<ShenandoahMarkRefsClosure, true>(ShenandoahMarkRefsClosure*, unsigned short*, unsigned int, ShenandoahTaskTerminator*)+0x19d
+V  [libjvm.so+0xa36c59]  void ShenandoahConcurrentMark::mark_loop_prework<true>(unsigned int, ShenandoahTaskTerminator*, ReferenceProcessor*, bool)+0x209
+V  [libjvm.so+0xa36fd4]  ShenandoahConcurrentMarkingTask::work(unsigned int)+0xd4
+V  [libjvm.so+0xb7398a]  GangWorker::loop()+0xca
+V  [libjvm.so+0x93a382]  java_start(Thread*)+0xf2
+
+
+***REMOVED***
+
+***REMOVED***
+  0x00007f879c02e800 JavaThread "Thread-15518 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5099, stack(0x00007f87444c7000,0x00007f87445c8000)]
+  0x00007f879c024000 JavaThread "Thread-15514 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5098, stack(0x00007f8747dfe000,0x00007f8747eff000)]
+  0x00007f884813e000 JavaThread "Thread-15515 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5097, stack(0x00007f8747cfd000,0x00007f8747dfe000)]
+  0x00007f88540dc000 JavaThread "Thread-15516 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5096, stack(0x00007f87447ca000,0x00007f87448cb000)]
+  0x00007f8818244800 JavaThread "Thread-15517 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5095, stack(0x00007f87472f3000,0x00007f87473f4000)]
+  0x00007f90bc07b000 JavaThread "Thread-15519 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5094, stack(0x00007f87466e7000,0x00007f87467e8000)]
+  0x00007f87f07af000 JavaThread "Thread-15513 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5093, stack(0x00007f87439bc000,0x00007f8743abd000)]
+  0x00007f87a4031800 JavaThread "Old I/O client worker ([id: 0xe82c2b4f, /10.249.26.23:37696 => /10.249.23.17:5545]), runningThread=Thread-199 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20401, stack(0x00007f8768ba0000,0x00007f8768ca1000)]
+  0x00007f87a804b800 JavaThread "Old I/O client worker ([id: 0xb6f317b2, /10.249.26.23:37694 => /10.249.23.17:5545]), runningThread=Thread-198 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20400, stack(0x00007f8768ca1000,0x00007f8768da2000)]
+  0x00007f879c019000 JavaThread "Old I/O client worker ([id: 0x6e865b38, /10.249.26.23:37692 => /10.249.23.17:5545]), runningThread=Thread-197 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20399, stack(0x00007f8768da2000,0x00007f8768ea3000)]
+  0x00007f87a0008000 JavaThread "Old I/O client worker ([id: 0x9f157eff, /10.249.26.23:37690 => /10.249.23.17:5545]), runningThread=Thread-196 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20398, stack(0x00007f8768ea3000,0x00007f8768fa4000)]
+  0x00007f8794046000 JavaThread "Old I/O client worker ([id: 0xf0294379, /10.249.26.23:37688 => /10.249.23.17:5545]), runningThread=Thread-195 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20397, stack(0x00007f8768fa4000,0x00007f87690a5000)]
+  0x00007f879806b800 JavaThread "Old I/O client worker ([id: 0x76bf2744, /10.249.26.23:37686 => /10.249.23.17:5545]), runningThread=Thread-194 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20396, stack(0x00007f87690a5000,0x00007f87691a6000)]
+  
+
+***REMOVED***
+  0x00007f90e8138800 VMThread [stack: 0x00007f90eca87000,0x00007f90ecb87000] [id=19913]
+  0x00007f90e8193000 WatcherThread [stack: 0x00007f90ec27f000,0x00007f90ec37f000] [id=19921]
+
+=>0x00007f90e8060000 (exited) GCTaskThread [stack: 0x00007f90ee61f000,0x00007f90ee71f000] [id=19908]
+
+***REMOVED***
+
+***REMOVED***
+
+***REMOVED***
+Shenandoah Heap
+ 32768M total, 32768M committed, 6279M used
+ 2048 x 16384K regions
+Status: marking, not cancelled
+Reserved region:
+ - [0x00007f88b8000000, 0x00007f90b8000000) 
+Collection set:
+ - map (vanilla): 0x00007f90ee3198b8
+ - map (biased):  0x00007f90edb21000
+
+ Metaspace       used 284748K, capacity 291837K, committed 297216K, reserved 299008K
+Heap Regions:
+EU=empty-uncommitted, EC=empty-committed, R=regular, H=humongous start, HC=humongous continuation, CS=collection set, T=trash, P=pinned
+BTE=bottom/top/end, U=used, T=TLAB allocs, G=GCLAB allocs, S=shared allocs, L=live data
+R=root, CP=critical pins, TAMS=top-at-mark-start, UWM=update watermark
+SN=alloc sequence number
+|    0|R  |BTE 7f88b8000000, 7f88b8ffffc8, 7f88b9000000|TAMS 7f88b8ffffc8|UWM 7f88b8ffffc8|U 16383K|T     0B|G     0B|S 16383K|L  2049K|CP   0
+|    1|R  |BTE 7f88b9000000, 7f88b9fffc70, 7f88ba000000|TAMS 7f88b9fffc70|UWM 7f88b9fffc70|U 16383K|T     0B|G     0B|S 16383K|L     0B|CP   0
+
+
+ShenandoahBarrierSet
+Polling page: 0x00007f90f26c7000
+
+CodeCache: size=524288Kb used=175212Kb max_used=175277Kb free=349075Kb
+ bounds [0x00007f90c8000000, 0x00007f90e8000000, 0x00007f90e8000000]
+ total_blobs=15390 nmethods=14629 adapters=708
+***REMOVED***
+
+
+***REMOVED***
+Event: 557592.950 loading class sun/reflect/GeneratedMethodAccessor170 done
+Event: 557593.029 Concurrent reset done
+Event: 557593.029 Executing VM operation: ShenandoahInitMark
+Event: 557593.033 Pause Init Mark
+Event: 557593.041 Pause Init Mark done
+Event: 557593.041 Executing VM operation: ShenandoahInitMark done
+Event: 557593.041 Concurrent marking
+
+
+***REMOVED***
+
+7f90f07fb000-7f90f1587000 r-xp 00000000 fd:02 4216592                    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/jre/lib/amd64/server/libjvm.so
+
+
+***REMOVED***
+jvm_args: -D[Standalone] -XX:+UseCompressedOops -Xms32768M -Xmx32768M -XX:+DisableExplicitGC -XX:NewSize=4096M -XX:MaxNewSize=4096M -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=512M -XX:+UseShenandoahGC -XX:ShenandoahGCMode=satb -XX:ShenandoahGCHeuristics=adaptive -verbose:gc -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/crash/ -XX:+PrintHeapAtGC -XX:+PrintGCApplicationConcurrentTime -XX:+PrintGCApplicationStoppedTime -XX:-TraceClassUnloading -Xloggc:/var/log/pqd/ietafj/eap/gc.asietafj_1.log.2020-09-30.13-56-25 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=3 -XX:GCLogFileSize=100M -XX:+PrintTenuringDistribution -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8 -XX:-TieredCompilation -XX:ReservedCodeCacheSize=512M  -XX:InitialCodeCacheSize=512M  
+java_command: /path/to/jboss-modules.jar
+java_class_path (initial):
+***REMOVED***
+
+***REMOVED***
+***REMOVED***
+***REMOVED***
+
+***REMOVED***
+SIGSEGV: [libjvm.so+0xb57c40], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xb57c40], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0x9385c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGXFSZ: [libjvm.so+0x9385c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0x9385c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+***REMOVED***
+SIGUSR2: [libjvm.so+0x938470], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGTERM: [libjvm.so+0x938680], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0x938680], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)
+
+uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64
+libc:glibc 2.17 NPTL 2.17 
+rlimit: STACK 8192k, CORE 0k, NPROC 32768, NOFILE 32768, AS infinity
+load average:25.59 26.63 26.98
+
+***REMOVED***
+MemTotal:       98481808 kB
+MemFree:        15941592 kB
+MemAvailable:   59370640 kB
+Buffers:            4212 kB
+Cached:         40785296 kB
+SwapCached:            0 kB
+Active:         49172752 kB
+Inactive:       28771444 kB
+Active(anon):   37109268 kB
+Inactive(anon):    47480 kB
+Active(file):   12063484 kB
+Inactive(file): 28723964 kB
+Unevictable:         916 kB
+Mlocked:             916 kB
+SwapTotal:       4194300 kB
+SwapFree:        4194300 kB
+Dirty:              3884 kB
+***REMOVED***
+AnonPages:      37156036 kB
+Mapped:           195792 kB
+Shmem:              1628 kB
+Slab:            3728940 kB
+SReclaimable:    3302484 kB
+SUnreclaim:       426456 kB
+KernelStack:       17952 kB
+PageTables:        87112 kB
+NFS_Unstable:        188 kB
+***REMOVED***
+***REMOVED***
+CommitLimit:    53435204 kB
+Committed_AS:   39152796 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      369368 kB
+VmallocChunk:   34359267304 kB
+Percpu:             1696 kB
+***REMOVED***
+AnonHugePages:  36487168 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+Hugepagesize:       2048 kB
+DirectMap4k:      114560 kB
+DirectMap2M:     7225344 kB
+DirectMap1G:    95420416 kB
+
+***REMOVED***
+***REMOVED***
+cpu_cpuset_cpus: 0-7
+cpu_memory_nodes: 0
+active_processor_count: 8
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+memory_usage_in_bytes: 79816192000
+memory_max_usage_in_bytes: 0
+
+
+CPU:total 8 (initial active 8) (8 cores per cpu, 1 threads per core) family 6 model 63 stepping 0, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, lzcnt, tsc, tscinvbit, bmi1, bmi2
+
+***REMOVED***
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 63
+model name	: Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz
+stepping	: 0
+microcode	: 0x43
+cpu MHz		: 2297.339
+cache size	: 35840 KB
+physical id	: 0
+siblings	: 8
+core id		: 0
+cpu cores	: 8
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 avx2 smep bmi2 invpcid xsaveopt arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4594.67
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 43 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 63
+model name	: Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz
+stepping	: 0
+microcode	: 0x43
+cpu MHz		: 2297.339
+cache size	: 35840 KB
+physical id	: 0
+siblings	: 8
+core id		: 1
+cpu cores	: 8
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 avx2 smep bmi2 invpcid xsaveopt arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4594.67
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 43 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 63
+model name	: Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz
+stepping	: 0
+microcode	: 0x43
+cpu MHz		: 2297.339
+cache size	: 35840 KB
+physical id	: 0
+siblings	: 8
+core id		: 2
+cpu cores	: 8
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 avx2 smep bmi2 invpcid xsaveopt arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4594.67
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 43 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 63
+model name	: Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz
+stepping	: 0
+microcode	: 0x43
+cpu MHz		: 2297.339
+cache size	: 35840 KB
+physical id	: 0
+siblings	: 8
+core id		: 3
+cpu cores	: 8
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 avx2 smep bmi2 invpcid xsaveopt arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4594.67
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 43 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 63
+model name	: Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz
+stepping	: 0
+microcode	: 0x43
+cpu MHz		: 2297.339
+cache size	: 35840 KB
+physical id	: 0
+siblings	: 8
+core id		: 4
+cpu cores	: 8
+apicid		: 4
+initial apicid	: 4
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 avx2 smep bmi2 invpcid xsaveopt arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4594.67
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 43 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 63
+model name	: Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz
+stepping	: 0
+microcode	: 0x43
+cpu MHz		: 2297.339
+cache size	: 35840 KB
+physical id	: 0
+siblings	: 8
+core id		: 5
+cpu cores	: 8
+apicid		: 5
+initial apicid	: 5
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 avx2 smep bmi2 invpcid xsaveopt arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4594.67
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 43 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 63
+model name	: Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz
+stepping	: 0
+microcode	: 0x43
+cpu MHz		: 2297.339
+cache size	: 35840 KB
+physical id	: 0
+siblings	: 8
+core id		: 6
+cpu cores	: 8
+apicid		: 6
+initial apicid	: 6
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 avx2 smep bmi2 invpcid xsaveopt arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4594.67
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 43 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 63
+model name	: Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz
+stepping	: 0
+microcode	: 0x43
+cpu MHz		: 2297.339
+cache size	: 35840 KB
+physical id	: 0
+siblings	: 8
+core id		: 7
+cpu cores	: 8
+apicid		: 7
+initial apicid	: 7
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm invpcid_single ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 avx2 smep bmi2 invpcid xsaveopt arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4594.67
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 43 bits physical, 48 bits virtual
+power management:
+
+
+
+Memory: 4k page, physical 98481808k(15941592k free), swap 4194300k(4194300k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), built on Jul 12 2020 18:55:08 by "mockbuild" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)
+
+time: Wed Oct  7 00:49:39 2020
+timezone: IST
+elapsed time: 557593 seconds (6d 10h 53m 13s)
+

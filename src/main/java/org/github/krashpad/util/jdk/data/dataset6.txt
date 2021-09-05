@@ -1,0 +1,61 @@
+0x00007f9089c93be0:   00007f907fcb8100 00007f907fcb82e8
+0x00007f9089c93bf0:   00007f908cab3c90 00007f9089c93b80
+0x00007f9089c93c00:   0000000000000000 40c711abb76e78a6
+0x00007f9089c93c10:   0000000000000000 00007f77b37963b0
+0x00007f9089c93c20:   00007f9089c93c90 00007f907fcb1090
+0x00007f9089c93c30:   00007f9089c93d00 00007f9089c93d00
+0x00007f9089c93c40:   00007f9084005360 00007f90840604f0
+0x00007f9089c93c50:   00007f9089c93c70 00007f908c110ca2
+0x00007f9089c93c60:   00007f905604ff10 00000011519f88d0
+0x00007f9089c93c70:   00007f9089c93ca0 00007f9084061280 
+
+Instructions: (pc=0x00007f908c4a9ea4)
+0x00007f908c4a9e84:   48 f7 d6 48 d3 e0 48 8d 14 07 48 21 f2 48 c1 ea
+0x00007f908c4a9e94:   03 e9 f3 fb ff ff 66 0f 1f 44 00 00 49 8b 41 08
+0x00007f908c4a9ea4:   8b 50 08 85 d2 0f 8f 30 fb ff ff 40 84 f6 0f 84
+0x00007f908c4a9eb4:   48 03 00 00 48 8b 15 a9 65 61 00 41 8b 41 08 8b 
+
+***REMOVED***
+
+RAX=0x007000700061002f is an unknown value
+RBX=0x00007f9084160ba0 is an unknown value
+RCX=0x00000000000084c3 is an unknown value
+RDX=0x000000000000c890 is an unknown value
+RSP=0x00007f9089c93a80 is an unknown value
+RBP=0x00007f9089c93ca0 is an unknown value
+RSI=0x0000000000000000 is an unknown value
+RDI=0x00000000000084c2 is an unknown value
+R8 =0x00007f908409b5b0 is an unknown value
+R9 =0x00007f905604ff10 is pointing into object: 0x00007f905604fef0
+[C 
+ - klass: {type array char***REMOVED***
+ - length: 125
+R10=0x0000000000000001 is an unknown value
+R11=0x0000000000000010 is an unknown value
+R12=0x00007f9084160a40 is an unknown value
+R13=0x00007f908caf8119: <offset 0x1090119> in /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so at 0x00007f908ba68000
+R14=0x00007f77b3ff3300 is an unknown value
+R15=0x00007f908cb00e00: <offset 0x1098e00> in /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so at 0x00007f908ba68000
+
+
+Stack: [0x00007f9089b94000,0x00007f9089c95000],  sp=0x00007f9089c93a80,  free space=1022k
+***REMOVED***
+V  [libjvm.so+0xa41ea4]
+V  [libjvm.so+0xa47cb7]
+V  [libjvm.so+0xa553c8]
+V  [libjvm.so+0xb93fd7]
+V  [libjvm.so+0x967dd2]
+
+***REMOVED***
+7f908ba68000-7f908c80e000 r-xp 00000000 fd:0a 140891                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)
+
+uname:Linux 2.6.32-754.31.1.el6.x86_64 ***REMOVED***1 SMP Mon Jun 15 08:08:31 EDT 2020 x86_64
+libc:glibc 2.12 NPTL 2.12
+rlimit: STACK 10240k, CORE 0k, NPROC 65536, NOFILE 16384, AS infinity
+load average:4.05 3.61 2.68
+
+vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), built on Jul 12 2020 19:35:32 by "mockbuild" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)

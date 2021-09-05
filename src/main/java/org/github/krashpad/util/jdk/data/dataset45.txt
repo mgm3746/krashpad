@@ -1,0 +1,608 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00007fd57e24ad0d, pid=1976, tid=127576
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment (11.0.6+10) (build 11.0.6+10-LTS)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (11.0.6+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+***REMOVED*** Problematic frame:
+***REMOVED*** V  [libjvm.so+0xbf6d0d]  os::PlatformEvent::unpark()+0xd
+***REMOVED***
+***REMOVED*** Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /opt/OpenIAM/core.1976)
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
+***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
+***REMOVED*** See problematic frame for where to report the bug.
+***REMOVED***
+
+---------------  S U M M A R Y ------------
+
+Command Line: -D[Standalone] -Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M -Xms8192m -Xmx8192m -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=1024m -XX:+UseStringDeduplication -XX:+UseLWPSynchronization -XX:StringTableSize=120121 -Djava.net.preferIPv4Stack=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -XX:ReservedCodeCacheSize=256m -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n
+Host: Intel(R) Xeon(R) Platinum 8160 CPU @ 2.10GHz, 8 cores, 15G, Red Hat Enterprise Linux release 8.1 (Ootpa)
+Time: Tue Dec 22 16:10:12 2020 IST elapsed time: 1409563 seconds (16d 7h 32m 43s)
+
+***REMOVED***
+
+Current thread (0x000055ed9f6a3800):  JavaThread "I/O dispatcher 30248931" [_thread_in_native, id=127576, stack(0x00007fd52f5ea000,0x00007fd52f6eb000)]
+
+Stack: [0x00007fd52f5ea000,0x00007fd52f6eb000],  sp=0x00007fd52f6e9888,  free space=1022k
+Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0xbf6d0d]  os::PlatformEvent::unpark()+0xd
+V  [libjvm.so+0xa1279b]  JvmtiRawMonitor::raw_exit(Thread*)+0x5b
+V  [libjvm.so+0x9f087b]  JvmtiEnv::RawMonitorExit(JvmtiRawMonitor*)+0x8b
+C  [libjdwp.so+0x29a11]  debugMonitorExit+0x21
+C  [libjdwp.so+0x24bde]  threadControl_onEventHandlerEntry+0x6e
+C  [libjdwp.so+0x162e8]  event_callback+0xd8
+C  [libjdwp.so+0x1760e]  cbThreadEnd+0x9e
+V  [libjvm.so+0xa01fe7]  JvmtiExport::post_thread_end(JavaThread*)+0x137
+V  [libjvm.so+0xe938e0]  JavaThread::exit(bool, JavaThread::ExitType)+0xb10
+V  [libjvm.so+0xe93cba]  JavaThread::thread_main_inner()+0x10a
+V  [libjvm.so+0xe94158]  JavaThread::run()+0x398
+V  [libjvm.so+0xe8fb47]  Thread::call_run()+0x147
+V  [libjvm.so+0xbeccd6]  thread_native_entry(Thread*)+0xf6
+
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000020
+
+***REMOVED***
+
+RAX=0x0000000000000001 is an unknown value
+RBX=0x000055ed3ccfc7e0 points into unknown readable memory: 00 00 00 00 00 00 00 00
+RCX=0x0 is NULL
+RDX=0x0000000000000020 is an unknown value
+RSP=0x00007fd52f6e9888 is pointing into the stack for thread: 0x000055ed9f6a3800
+RBP=0x00007fd52f6e98b0 is pointing into the stack for thread: 0x000055ed9f6a3800
+RSI=0x000055ed9f6a3800 is a thread
+RDI=0x0 is NULL
+R8 =0x0 is NULL
+R9 =0x0000000000000001 is an unknown value
+R10=0x0 is NULL
+R11=0x0000000000000206 is an unknown value
+R12=0x00007fd530cff7f0 points into unknown readable memory: b0 f8 cf 30 d5 7f 00 00
+R13=0x00007fd57eb48930: <offset 0x00000000014f4930> in /usr/lib/jvm/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/lib/server/libjvm.so at 0x00007fd57d654000
+R14=0x000055ed9f6a3b40 points into unknown readable memory: e0 ca ae 7e d5 7f 00 00
+R15=0x0 is NULL
+
+
+***REMOVED***
+RAX=0x0000000000000001, RBX=0x000055ed3ccfc7e0, RCX=0x0000000000000000, RDX=0x0000000000000020
+RSP=0x00007fd52f6e9888, RBP=0x00007fd52f6e98b0, RSI=0x000055ed9f6a3800, RDI=0x0000000000000000
+R8 =0x0000000000000000, R9 =0x0000000000000001, R10=0x0000000000000000, R11=0x0000000000000206
+R12=0x00007fd530cff7f0, R13=0x00007fd57eb48930, R14=0x000055ed9f6a3b40, R15=0x0000000000000000
+RIP=0x00007fd57e24ad0d, EFLAGS=0x0000000000010282, CSGSFS=0x002b000000000033, ERR=0x0000000000000006
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x00007fd52f6e9888)
+0x00007fd52f6e9888:   00007fd57e065ec8 000055ed9f6a3b40
+0x00007fd52f6e9898:   000055ed3ccfc7e0 000055ed9f6a3800
+0x00007fd52f6e98a8:   0000000000000006 00007fd52f6e98c0
+0x00007fd52f6e98b8:   00007fd57e06679b 00007fd52f6e98e0 
+
+Instructions: (pc=0x00007fd57e24ad0d)
+0x00007fd57e24ac0d:   89 00 48 8d 0d 09 e5 3e 00 48 8d 15 ad 6a 3f 00
+0x00007fd57e24ac1d:   be 9b 07 00 00 48 8d 3d 4f 70 3f 00 48 8b 00 c6
+0x00007fd57e24ac2d:   00 58 31 c0 e8 1a d7 a9 ff e8 45 df fe ff e9 0a
+0x00007fd57e24ac3d:   ff ff ff 48 8d 05 a1 fe 89 00 48 8d 0d d1 e4 3e
+0x00007fd57e24ac4d:   00 48 8d 15 03 70 3f 00 be a0 07 00 00 48 8d 3d
+0x00007fd57e24ac5d:   17 70 3f 00 48 8b 00 c6 00 58 31 c0 e8 e2 d6 a9
+0x00007fd57e24ac6d:   ff e8 0d df fe ff e9 ff fe ff ff 0f 1f 84 00 00
+0x00007fd57e24ac7d:   00 00 00 f3 0f 1e fa 4c 8d 47 20 0f 1f 84 00 00
+0x00007fd57e24ac8d:   00 00 00 8b 57 20 8d 4a ff 89 d0 f0 41 0f b1 08
+0x00007fd57e24ac9d:   39 c2 75 ef 85 d2 78 13 74 09 31 c0 c3 66 0f 1f
+0x00007fd57e24acad:   44 00 00 e9 2b d5 ff ff 0f 1f 00 48 8d 05 29 fe
+0x00007fd57e24acbd:   89 00 55 48 8d 0d 58 e4 3e 00 48 8d 15 fc 69 3f
+0x00007fd57e24accd:   00 be c3 07 00 00 48 8d 3d 9e 6f 3f 00 48 8b 00
+0x00007fd57e24acdd:   48 89 e5 c6 00 58 31 c0 e8 66 d6 a9 ff e8 91 de
+0x00007fd57e24aced:   fe ff 31 c0 5d c3 90 66 90 66 2e 0f 1f 84 00 00
+0x00007fd57e24acfd:   00 00 00 f3 0f 1e fa 48 8d 57 20 b8 01 00 00 00
+0x00007fd57e24ad0d:   87 02 85 c0 78 05 c3 0f 1f 40 00 55 48 89 e5 41
+0x00007fd57e24ad1d:   55 41 54 4c 8d 67 28 53 48 89 fb 4c 89 e7 48 83
+0x00007fd57e24ad2d:   ec 08 e8 dc 4a 68 ff 44 8b 6b 24 4c 89 e7 e8 70
+0x00007fd57e24ad3d:   4a 68 ff 45 85 ed 75 0b 48 83 c4 08 5b 41 5c 41
+0x00007fd57e24ad4d:   5d 5d c3 48 83 c4 08 48 8d 7b 50 5b 41 5c 41 5d
+0x00007fd57e24ad5d:   5d e9 fd 4f 68 ff 90 66 90 66 2e 0f 1f 84 00 00
+0x00007fd57e24ad6d:   00 00 00 f3 0f 1e fa 55 48 8d 35 18 2a 90 00 48
+0x00007fd57e24ad7d:   89 e5 53 48 89 fb 48 8d 7f 30 48 83 ec 08 e8 70
+0x00007fd57e24ad8d:   4c 68 ff 48 8d 7b 60 31 f6 e8 65 4c 68 ff 48 8d
+0x00007fd57e24ad9d:   7b 08 48 8d 35 ea 29 90 00 e8 c5 4b 68 ff c7 03
+0x00007fd57e24adad:   ff ff ff ff 48 83 c4 08 5b 5d c3 0f 1f 84 00 00
+0x00007fd57e24adbd:   00 00 00 f3 0f 1e fa 55 48 89 e5 41 57 41 56 49
+0x00007fd57e24adcd:   89 d6 48 8d 97 90 00 00 00 41 55 41 54 53 48 83
+0x00007fd57e24addd:   ec 48 64 48 8b 04 25 28 00 00 00 48 89 45 c8 31
+0x00007fd57e24aded:   c0 87 02 85 c0 7e 2c 48 8b 45 c8 64 48 33 04 25
+0x00007fd57e24adfd:   28 00 00 00 0f 85 30 04 00 00 48 83 c4 48 5b 41 
+
+
+Stack slot to memory mapping:
+stack at sp + 0 slots: 0x00007fd57e065ec8: <offset 0x0000000000a11ec8> in /usr/lib/jvm/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/lib/server/libjvm.so at 0x00007fd57d654000
+stack at sp + 1 slots: 0x000055ed9f6a3b40 points into unknown readable memory: e0 ca ae 7e d5 7f 00 00
+stack at sp + 2 slots: 0x000055ed3ccfc7e0 points into unknown readable memory: 00 00 00 00 00 00 00 00
+stack at sp + 3 slots: 0x000055ed9f6a3800 is a thread
+stack at sp + 4 slots: 0x0000000000000006 is an unknown value
+stack at sp + 5 slots: 0x00007fd52f6e98c0 is pointing into the stack for thread: 0x000055ed9f6a3800
+stack at sp + 6 slots: 0x00007fd57e06679b: <offset 0x0000000000a1279b> in /usr/lib/jvm/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/lib/server/libjvm.so at 0x00007fd57d654000
+stack at sp + 7 slots: 0x00007fd52f6e98e0 is pointing into the stack for thread: 0x000055ed9f6a3800
+
+
+***REMOVED***
+
+Threads class SMR info:
+_java_thread_list=0x000055ed9f6a13f0, length=137, elements={
+0x000055ed3cb0d800, 0x000055ed3cb0f800, 0x000055ed3cb22000, 0x000055ed3cb24000,
+0x000055ed3cb26800, 0x000055ed3cb29000, 0x000055ed3cc63000, 0x000055ed3cdb9800,
+0x000055ed3cddb000, 0x000055ed3cddd800, 0x000055ed3cdcd000, 0x000055ed3fccf000,
+0x000055ed3fbda800, 0x000055ed3f8ab000, 0x000055ed3f6af000, 0x000055ed3daca800,
+0x000055ed3d9ef000, 0x000055ed3f8da000, 0x000055ed3dcf7000, 0x000055ed40305000,
+0x000055ed3bf2b000, 0x000055ed400c7000, 0x000055ed3f3b8000, 0x000055ed43a54000,
+0x000055ed42d75000, 0x000055ed42482800, 0x000055ed41b3b000, 0x000055ed424e7800,
+0x000055ed40550800, 0x000055ed434f4000, 0x000055ed415d4000, 0x000055ed41abe000,
+0x000055ed43459800, 0x000055ed4345e800, 0x000055ed405a5800, 0x000055ed405a8800,
+0x000055ed405ab800, 0x000055ed43455000, 0x000055ed43457800, 0x000055ed405c3800,
+0x000055ed4328f800, 0x000055ed4329a800, 0x000055ed4329d800, 0x000055ed432a0000,
+0x000055ed42e2c000, 0x000055ed42e2f000, 0x000055ed43405000, 0x000055ed42953800,
+0x000055ed43016800, 0x000055ed44bc6000, 0x000055ed45467000, 0x000055ed454f6800,
+0x000055ed459ed800, 0x000055ed447bb800, 0x000055ed45a13800, 0x000055ed459e6000,
+0x000055ed452bc800, 0x000055ed43607800, 0x000055ed47ec7000, 0x000055ed42763800,
+0x000055ed477b9800, 0x000055ed47338000, 0x000055ed3da72800, 0x000055ed3da74000,
+0x000055ed3e637800, 0x000055ed48398800, 0x000055ed49012000, 0x000055ed46cb9000,
+0x000055ed3f55c800, 0x000055ed436a7800, 0x000055ed436a4800, 0x000055ed46851000,
+0x000055ed4385c800, 0x000055ed4385d000, 0x000055ed3ff60000, 0x000055ed3ff62000,
+0x000055ed4761b000, 0x000055ed4761d000, 0x000055ed49e51800, 0x000055ed49e54000,
+0x000055ed4624d000, 0x000055ed46250000, 0x000055ed437e7000, 0x000055ed47bcb800,
+0x000055ed3ecd9000, 0x000055ed425ef000, 0x000055ed43b4e800, 0x000055ed48946800,
+0x000055ed3f544000, 0x000055ed470f0800, 0x000055ed470f2800, 0x000055ed3f537000,
+0x000055ed3f539800, 0x000055ed420f7800, 0x000055ed47e4c800, 0x000055ed3fb25800,
+0x000055ed3fb34000, 0x000055ed42bfe800, 0x000055ed3ecd7000, 0x000055ed3ec97800,
+0x000055ed43dce800, 0x000055ed43dd1800, 0x000055ed47bc9800, 0x000055ed41d2d000,
+0x000055ed41d30000, 0x000055ed47869800, 0x000055ed46a60000, 0x000055ed41de5800,
+0x000055ed3f57e800, 0x000055ed4984d800, 0x000055ed46b63000, 0x000055ed47fab000,
+0x000055ed4442e000, 0x000055ed465b2000, 0x000055ed3fdea000, 0x000055ed495c9800,
+0x000055ed4728a000, 0x000055ed4d756000, 0x000055ed3f50d800, 0x000055ed6277a800,
+0x000055ed9ebdf000, 0x000055ed9ed27800, 0x000055ed9ebe0000, 0x000055ed9ee12000,
+0x000055ed9f1b5800, 0x000055ed9f1f3000, 0x000055ed9f3bf800, 0x000055ed9f1cf800,
+0x000055ed9fa4b000, 0x000055ed9f3d9000, 0x000055ed9ed5b800, 0x000055ed9f878800,
+0x000055ed9f68c800, 0x000055ed9f279800, 0x000055ed9f577800, 0x000055ed9fa45800,
+0x000055ed9f6a3800
+***REMOVED***
+
+***REMOVED***
+  0x000055ed3cb0d800 JavaThread "Reference Handler" daemon [_thread_blocked, id=1985, stack(0x00007fd54ba12000,0x00007fd54bb13000)]
+  0x000055ed3cb0f800 JavaThread "Finalizer" daemon [_thread_blocked, id=1986, stack(0x00007fd54b911000,0x00007fd54ba12000)]
+  0x000055ed3cb22000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=1987, stack(0x00007fd54b545000,0x00007fd54b646000)]
+  0x000055ed3cb24000 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=1988, stack(0x00007fd54b444000,0x00007fd54b545000)]
+  0x000055ed3cb26800 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=1989, stack(0x00007fd54b343000,0x00007fd54b444000)]
+  0x000055ed3cb29000 JavaThread "Sweeper thread" daemon [_thread_blocked, id=1990, stack(0x00007fd54b242000,0x00007fd54b343000)]
+  0x000055ed3cc63000 JavaThread "Common-Cleaner" daemon [_thread_blocked, id=1992, stack(0x00007fd54b141000,0x00007fd54b242000)]
+  0x000055ed3cdb9800 JavaThread "JDWP Transport Listener: dt_socket" daemon [_thread_in_native, id=1995, stack(0x00007fd54ac38000,0x00007fd54ad39000)]
+  0x000055ed3cddb000 JavaThread "JDWP Event Helper Thread" daemon [_thread_blocked, id=1996, stack(0x00007fd54ab37000,0x00007fd54ac38000)]
+  0x000055ed3cddd800 JavaThread "Service Thread" daemon [_thread_blocked, id=1997, stack(0x00007fd54aa36000,0x00007fd54ab37000)]
+  0x000055ed3cdcd000 JavaThread "Reference Reaper" daemon [_thread_blocked, id=1999, stack(0x00007fd54a355000,0x00007fd54a456000)]
+  0x000055ed3fccf000 JavaThread "MSC service thread 1-1" [_thread_blocked, id=2000, stack(0x00007fd5489b5000,0x00007fd548ab6000)]
+  0x000055ed3fbda800 JavaThread "MSC service thread 1-2" [_thread_blocked, id=2001, stack(0x00007fd548397000,0x00007fd548498000)]
+=>0x000055ed9f6a3800 JavaThread "I/O dispatcher 30248931" [_thread_in_native, id=127576, stack(0x00007fd52f5ea000,0x00007fd52f6eb000)]
+
+***REMOVED***
+  0x000055ed3cb0a000 VMThread "VM Thread" [stack: 0x00007fd54bb15000,0x00007fd54bc15000] [id=1984]
+  0x000055ed3cdea000 WatcherThread [stack: 0x00007fd54a936000,0x00007fd54aa36000] [id=1998]
+  0x000055ed3bf45000 GCTaskThread "GC Thread***REMOVED***0" [stack: 0x00007fd562a8d000,0x00007fd562b8d000] [id=1978]
+  0x000055ed4160c000 GCTaskThread "GC Thread***REMOVED***1" [stack: 0x00007fd5418fe000,0x00007fd5419fe000] [id=2162]
+  0x000055ed439d9000 GCTaskThread "GC Thread***REMOVED***2" [stack: 0x00007fd5417fc000,0x00007fd5418fc000] [id=2163]
+  0x000055ed42079000 GCTaskThread "GC Thread***REMOVED***3" [stack: 0x00007fd5416fa000,0x00007fd5417fa000] [id=2164]
+  0x000055ed41197800 GCTaskThread "GC Thread***REMOVED***4" [stack: 0x00007fd5415f8000,0x00007fd5416f8000] [id=2165]
+  0x000055ed416dd000 GCTaskThread "GC Thread***REMOVED***5" [stack: 0x00007fd5414f6000,0x00007fd5415f6000] [id=2167]
+  0x000055ed416df000 GCTaskThread "GC Thread***REMOVED***6" [stack: 0x00007fd5413f4000,0x00007fd5414f4000] [id=2169]
+  0x000055ed42977000 GCTaskThread "GC Thread***REMOVED***7" [stack: 0x00007fd5412f2000,0x00007fd5413f2000] [id=2170]
+  0x000055ed3bf66800 ConcurrentGCThread "G1 Main Marker" [stack: 0x00007fd54f183000,0x00007fd54f283000] [id=1979]
+  0x000055ed3bf68800 ConcurrentGCThread "G1 Conc***REMOVED***0" [stack: 0x00007fd54f081000,0x00007fd54f181000] [id=1980]
+  0x000055ed3ca6b800 ConcurrentGCThread "G1 Refine***REMOVED***0" [stack: 0x00007fd54c777000,0x00007fd54c877000] [id=1981]
+  0x000055ed44863800 ConcurrentGCThread "G1 Refine***REMOVED***1" [stack: 0x00007fd53d9cd000,0x00007fd53dacd000] [id=2228]
+  0x000055ed46773800 ConcurrentGCThread "G1 Refine***REMOVED***2" [stack: 0x00007fd53d8cb000,0x00007fd53d9cb000] [id=2230]
+  0x000055ed48403800 ConcurrentGCThread "G1 Refine***REMOVED***3" [stack: 0x00007fd53c36e000,0x00007fd53c46e000] [id=2247]
+  0x000055ed3f60c000 ConcurrentGCThread "G1 Refine***REMOVED***4" [stack: 0x00007fd54486c000,0x00007fd54496c000] [id=3849]
+  0x000055ed3ca6d800 ConcurrentGCThread "G1 Young RemSet Sampling" [stack: 0x00007fd54c675000,0x00007fd54c775000] [id=1982]
+  0x000055ed3ca76000 ConcurrentGCThread "StrDedup" [stack: 0x00007fd54c573000,0x00007fd54c673000] [id=1983]
+
+Threads with active compile tasks:
+
+***REMOVED***
+
+***REMOVED***
+
+Heap address: 0x0000000600000000, size: 8192 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+Narrow klass base: 0x0000000800000000, Narrow klass shift: 3
+Compressed class space size: 1065353216 Address: 0x0000000840000000
+
+***REMOVED***
+ garbage-first heap   total 8388608K, used 6158247K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 1147 young (4698112K), 12 survivors (49152K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+Heap Regions: E=young(eden), S=young(survivor), O=old, HS=humongous(starts), HC=humongous(continues), CS=collection set, F=free, A=archive, TAMS=top-at-mark-start (previous, next)
+|   0|0x0000000600000000, 0x0000000600400000, 0x0000000600400000|100%| O|  |TAMS 0x0000000600000000, 0x0000000600000000| Untracked 
+|   1|0x0000000600400000, 0x0000000600800000, 0x0000000600800000|100%| O|  |TAMS 0x0000000600400000, 0x0000000600400000| Untracked 
+
+
+Card table byte_map: [0x00007fd560283000,0x00007fd561283000] _byte_map_base: 0x00007fd55d283000
+
+Marking Bits (Prev, Next): (CMBitMap*) 0x000055ed3bf5d9e8, (CMBitMap*) 0x000055ed3bf5da20
+ Prev Bits: [0x00007fd557283000, 0x00007fd55f283000)
+ Next Bits: [0x00007fd54f283000, 0x00007fd557283000)
+
+Polling page: 0x00007fd57f9ab000
+
+Metaspace:
+
+Usage:
+  Non-class:    215.17 MB capacity,   201.86 MB ( 94%) used,    12.35 MB (  6%) free+waste,   981.19 KB ( <1%) overhead. 
+      Class:     33.37 MB capacity,    26.50 MB ( 79%) used,     6.43 MB ( 19%) free+waste,   457.69 KB (  1%) overhead. 
+       Both:    248.54 MB capacity,   228.36 MB ( 92%) used,    18.77 MB (  8%) free+waste,     1.41 MB ( <1%) overhead. 
+
+Virtual space:
+  Non-class space:      216.00 MB reserved,     215.25 MB (>99%) committed 
+      Class space:     1016.00 MB reserved,      33.38 MB (  3%) committed 
+             Both:        1.20 GB reserved,     248.62 MB ( 20%) committed 
+
+Chunk freelists:
+   Non-Class:  37.00 KB
+       Class:  0 bytes
+        Both:  37.00 KB
+
+MaxMetaspaceSize: 1.00 GB
+CompressedClassSpaceSize: 1016.00 MB
+
+CodeHeap 'non-profiled nmethods': size=128224Kb used=61967Kb max_used=68737Kb free=66256Kb
+ bounds [0x00007fd56b04b000, 0x00007fd56f43b000, 0x00007fd572d83000]
+CodeHeap 'profiled nmethods': size=128220Kb used=15373Kb max_used=69877Kb free=112847Kb
+ bounds [0x00007fd563314000, 0x00007fd5678c4000, 0x00007fd56b04b000]
+CodeHeap 'non-nmethods': size=5700Kb used=2584Kb max_used=2691Kb free=3116Kb
+ bounds [0x00007fd562d83000, 0x00007fd563043000, 0x00007fd563314000]
+ total_blobs=262669 nmethods=16735 adapters=1128
+***REMOVED***
+              stopped_count=0, restarted_count=0
+ full_count=0
+
+Compilation events (20 events):
+Event: 1409407.341 Thread 0x000055ed3cb24000 130646       4       org.apache.cxf.ws.addressing.ContextUtils::retrieveMAPs (150 bytes)
+
+
+GC Heap History (20 events):
+Event: 1409129.277 GC heap before
+{Heap before GC invocations=15340 (full 0):
+ garbage-first heap   total 8388608K, used 6489425K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 1228 young (5029888K), 11 survivors (45056K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409129.467 GC heap after
+{Heap after GC invocations=15341 (full 0):
+ garbage-first heap   total 8388608K, used 1526105K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 15 young (61440K), 15 survivors (61440K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409177.724 GC heap before
+{Heap before GC invocations=15341 (full 0):
+ garbage-first heap   total 8388608K, used 6490457K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 1228 young (5029888K), 15 survivors (61440K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409177.908 GC heap after
+{Heap after GC invocations=15342 (full 0):
+ garbage-first heap   total 8388608K, used 1516638K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 13 young (53248K), 13 survivors (53248K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409216.534 GC heap before
+{Heap before GC invocations=15342 (full 0):
+ garbage-first heap   total 8388608K, used 6489182K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 1228 young (5029888K), 13 survivors (53248K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409216.704 GC heap after
+{Heap after GC invocations=15343 (full 0):
+ garbage-first heap   total 8388608K, used 1515265K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 13 young (53248K), 13 survivors (53248K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409247.741 GC heap before
+{Heap before GC invocations=15343 (full 0):
+ garbage-first heap   total 8388608K, used 6487809K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 1228 young (5029888K), 13 survivors (53248K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409247.931 GC heap after
+{Heap after GC invocations=15344 (full 0):
+ garbage-first heap   total 8388608K, used 1509382K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 11 young (45056K), 11 survivors (45056K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409291.309 GC heap before
+{Heap before GC invocations=15344 (full 0):
+ garbage-first heap   total 8388608K, used 6490118K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 1228 young (5029888K), 11 survivors (45056K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409291.493 GC heap after
+{Heap after GC invocations=15345 (full 0):
+ garbage-first heap   total 8388608K, used 1510126K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 11 young (45056K), 11 survivors (45056K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409328.029 GC heap before
+{Heap before GC invocations=15345 (full 0):
+ garbage-first heap   total 8388608K, used 6494958K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 1228 young (5029888K), 11 survivors (45056K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409328.210 GC heap after
+{Heap after GC invocations=15346 (full 0):
+ garbage-first heap   total 8388608K, used 1501020K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 9 young (36864K), 9 survivors (36864K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409395.487 GC heap before
+{Heap before GC invocations=15346 (full 0):
+ garbage-first heap   total 8388608K, used 6494044K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 1228 young (5029888K), 9 survivors (36864K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409395.677 GC heap after
+{Heap after GC invocations=15347 (full 0):
+ garbage-first heap   total 8388608K, used 1522723K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 14 young (57344K), 14 survivors (57344K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409438.110 GC heap before
+{Heap before GC invocations=15347 (full 0):
+ garbage-first heap   total 8388608K, used 6495267K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 1228 young (5029888K), 14 survivors (57344K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409438.287 GC heap after
+{Heap after GC invocations=15348 (full 0):
+ garbage-first heap   total 8388608K, used 1512926K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 12 young (49152K), 12 survivors (49152K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409505.351 GC heap before
+{Heap before GC invocations=15348 (full 0):
+ garbage-first heap   total 8388608K, used 6493662K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 1228 young (5029888K), 12 survivors (49152K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409505.537 GC heap after
+{Heap after GC invocations=15349 (full 0):
+ garbage-first heap   total 8388608K, used 1517279K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 13 young (53248K), 13 survivors (53248K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409549.338 GC heap before
+{Heap before GC invocations=15349 (full 0):
+ garbage-first heap   total 8388608K, used 6489823K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 1228 young (5029888K), 13 survivors (53248K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+Event: 1409549.521 GC heap after
+{Heap after GC invocations=15350 (full 0):
+ garbage-first heap   total 8388608K, used 1513383K [0x0000000600000000, 0x0000000800000000)
+  region size 4096K, 12 young (49152K), 12 survivors (49152K)
+ Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
+  class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
+***REMOVED***
+
+Deoptimization events (20 events):
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT PACKING pc=0x00007fd56d0f8118 sp=0x00007fd52f6e90a0
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT UNPACKING pc=0x00007fd562dbc0ba sp=0x00007fd52f6e8520 mode 1
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT PACKING pc=0x00007fd56dda438c sp=0x00007fd52f6e9160
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT UNPACKING pc=0x00007fd562dbc0ba sp=0x00007fd52f6e8600 mode 1
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT PACKING pc=0x00007fd56ceb5c14 sp=0x00007fd52f6e91b0
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT UNPACKING pc=0x00007fd562dbc0ba sp=0x00007fd52f6e8688 mode 1
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT PACKING pc=0x00007fd56d0fa124 sp=0x00007fd52f6e9280
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT UNPACKING pc=0x00007fd562dbc0ba sp=0x00007fd52f6e87d0 mode 1
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT PACKING pc=0x00007fd56c3bfe90 sp=0x00007fd52f6e9380
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT UNPACKING pc=0x00007fd562dbc0ba sp=0x00007fd52f6e8888 mode 1
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT PACKING pc=0x00007fd56b3ce2cc sp=0x00007fd52f6e9420
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT UNPACKING pc=0x00007fd562dbc0ba sp=0x00007fd52f6e8950 mode 1
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT PACKING pc=0x00007fd56e57b320 sp=0x00007fd52f6e94d0
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT UNPACKING pc=0x00007fd562dbc0ba sp=0x00007fd52f6e8a28 mode 1
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT PACKING pc=0x00007fd56e2723f0 sp=0x00007fd52f6e9620
+Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT UNPACKING pc=0x00007fd562dbc0ba sp=0x00007fd52f6e8ac8 mode 1
+Event: 1409563.634 Thread 0x000055ed9f573000 DEOPT PACKING pc=0x00007fd56cf211bc sp=0x00007fd52f2e5780
+Event: 1409563.634 Thread 0x000055ed9f573000 DEOPT UNPACKING pc=0x00007fd562dbc0ba sp=0x00007fd52f2e4c98 mode 1
+Event: 1409563.634 Thread 0x000055ed9f573000 DEOPT PACKING pc=0x00007fd56db069b0 sp=0x00007fd52f2e5830
+Event: 1409563.634 Thread 0x000055ed9f573000 DEOPT UNPACKING pc=0x00007fd562dbc0ba sp=0x00007fd52f2e4c80 mode 1
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (20 events):
+Event: 1409563.522 Thread 0x000055ed9f3bf800 Exception <a 'java/net/ConnectException'{0x00000006e5e136b8***REMOVED***> (0x00000006e5e136b8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
+Event: 1409563.539 Thread 0x000055ed9f1f3000 Exception <a 'java/net/ConnectException'{0x00000006e5ca46b8***REMOVED***> (0x00000006e5ca46b8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
+Event: 1409563.540 Thread 0x000055ed9f1f3000 Exception <a 'java/net/ConnectException'{0x00000006e5ca8180***REMOVED***> (0x00000006e5ca8180) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
+
+Events (20 events):
+Event: 1409563.636 Protecting memory [0x00007fd5306fb000,0x00007fd5306ff000] with protection modes 0
+Event: 1409563.637 Thread 0x000055ed9f573000 Thread added: 0x000055ed9f573000
+
+
+
+***REMOVED***
+
+7fd57d654000-7fd57e824000 r-xp 00000000 fd:02 571545                     /usr/lib/jvm/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/lib/server/libjvm.so
+
+
+***REMOVED***
+jvm_args: -D[Standalone] -Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M -Xms8192m -Xmx8192m -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=1024m -XX:+UseStringDeduplication -XX:+UseLWPSynchronization -XX:StringTableSize=120121 -Djava.net.preferIPv4Stack=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -XX:ReservedCodeCacheSize=256m -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n
+java_command: /path/to/jboss-modules.jar
+java_class_path (initial):
+***REMOVED***
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product***REMOVED*** {ergonomic***REMOVED***
+   size_t CompressedClassSpaceSize                 = 1065353216                                {product***REMOVED*** {ergonomic***REMOVED***
+     uint ConcGCThreads                            = 2                                         {product***REMOVED*** {ergonomic***REMOVED***
+     uint G1ConcRefinementThreads                  = 8                                         {product***REMOVED*** {ergonomic***REMOVED***
+   size_t G1HeapRegionSize                         = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
+    uintx GCDrainStackTargetSize                   = 64                                        {product***REMOVED*** {ergonomic***REMOVED***
+   size_t InitialHeapSize                          = 8589934592                                {product***REMOVED*** {command line***REMOVED***
+   size_t MarkStackSize                            = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
+   size_t MaxHeapSize                              = 8589934592                                {product***REMOVED*** {command line***REMOVED***
+   size_t MaxMetaspaceSize                         = 1073741824                                {product***REMOVED*** {command line***REMOVED***
+   size_t MaxNewSize                               = 5150605312                                {product***REMOVED*** {ergonomic***REMOVED***
+   size_t MetaspaceSize                            = 536870912                              {pd product***REMOVED*** {command line***REMOVED***
+   size_t MinHeapDeltaBytes                        = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
+    uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product***REMOVED*** {ergonomic***REMOVED***
+    uintx NonProfiledCodeHeapSize                  = 131299578                              {pd product***REMOVED*** {ergonomic***REMOVED***
+    uintx ProfiledCodeHeapSize                     = 131299578                              {pd product***REMOVED*** {ergonomic***REMOVED***
+    uintx ReservedCodeCacheSize                    = 268435456                              {pd product***REMOVED*** {command line***REMOVED***
+     bool SegmentedCodeCache                       = true                                      {product***REMOVED*** {ergonomic***REMOVED***
+    uintx StringTableSize                          = 120121                                    {product***REMOVED*** {command line***REMOVED***
+     bool UseCompressedClassPointers               = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
+     bool UseCompressedOops                        = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
+     bool UseG1GC                                  = true                                      {product***REMOVED*** {ergonomic***REMOVED***
+     bool UseLWPSynchronization                    = true                                      {product***REMOVED*** {command line***REMOVED***
+     bool UseStringDeduplication                   = true                                      {product***REMOVED*** {command line***REMOVED***
+
+Logging:
+Log output configuration:
+ ***REMOVED***0: stdout all=warning uptime,level,tags
+ ***REMOVED***1: stderr all=off uptime,level,tags
+ ***REMOVED***2: file=/opt/OpenIAM/jboss-eap-7.2/standalone/log/gc.log all=off,gc*=info time,uptimemillis filecount=5,filesize=3072K
+
+***REMOVED***
+***REMOVED***
+***REMOVED***
+
+***REMOVED***
+SIGSEGV: [libjvm.so+0xef8500], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xef8500], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0xef8500], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0xbe37e0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0xbe37e0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0xef8500], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGUSR2: [libjvm.so+0xbe3650], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGTERM: [libjvm.so+0xbe3b40], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0xbe3b40], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux release 8.1 (Ootpa)
+uname:Linux 4.18.0-193.19.1.el8_2.x86_64 ***REMOVED***1 SMP Wed Aug 26 15:29:02 EDT 2020 x86_64
+***REMOVED***
+rlimit: STACK 8192k, CORE infinity, NPROC 65536, NOFILE 65536, AS infinity, DATA infinity, FSIZE infinity
+load average:0.96 0.66 0.64
+
+***REMOVED***
+MemTotal:       16228352 kB
+MemFree:          248256 kB
+MemAvailable:    5328680 kB
+Buffers:               4 kB
+Cached:          5947800 kB
+SwapCached:         1564 kB
+Active:          8771552 kB
+Inactive:        6299460 kB
+Active(anon):    8348124 kB
+Inactive(anon):  1539060 kB
+Active(file):     423428 kB
+Inactive(file):  4760400 kB
+***REMOVED***
+***REMOVED***
+SwapTotal:       8388604 kB
+SwapFree:        8101116 kB
+Dirty:              2384 kB
+***REMOVED***
+AnonPages:       9093352 kB
+Mapped:           264824 kB
+Shmem:            763828 kB
+KReclaimable:     234280 kB
+Slab:             493352 kB
+SReclaimable:     234280 kB
+SUnreclaim:       259072 kB
+KernelStack:       13564 kB
+PageTables:        46348 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+CommitLimit:    16502780 kB
+Committed_AS:   14234044 kB
+VmallocTotal:   34359738367 kB
+***REMOVED***
+***REMOVED***
+Percpu:           143872 kB
+***REMOVED***
+AnonHugePages:   8558592 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+Hugepagesize:       2048 kB
+***REMOVED***
+DirectMap4k:     2910016 kB
+DirectMap2M:    13867008 kB
+DirectMap1G:     2097152 kB
+
+
+/proc/sys/kernel/threads-max (system-wide limit on the number of threads):
+126524
+
+
+/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):
+65530
+
+
+/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):
+131072
+
+
+
+***REMOVED***
+***REMOVED***
+cpu_cpuset_cpus: 0-7
+cpu_memory_nodes: 0
+active_processor_count: 8
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+memory_usage_in_bytes: 14066225152
+memory_max_usage_in_bytes: 14112825344
+
+VMWare virtualization detected
+Steal ticks since vm start: 0
+Steal ticks percentage since vm start:  0.000
+
+CPU:total 8 (initial active 8) (1 cores per cpu, 1 threads per core) family 6 model 85 stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, tsc, tscinvbit, bmi1, bmi2, adx, fma
+CPU Model and flags from ***REMOVED***
+model name	: Intel(R) Xeon(R) Platinum 8160 CPU @ 2.10GHz
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 avx2 smep bmi2 invpcid mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xsaves arat pku ospke md_clear flush_l1d arch_capabilities
+
+Memory: 4k page, physical 16228352k(248256k free), swap 8388604k(8101116k free)
+
+vm_info: OpenJDK 64-Bit Server VM (11.0.6+10-LTS) for linux-amd64 JRE (11.0.6+10-LTS), built on Jan 11 2020 04:53:43 by "mockbuild" with gcc 8.3.1 20190507 (Red Hat 8.3.1-4)
+
+END.

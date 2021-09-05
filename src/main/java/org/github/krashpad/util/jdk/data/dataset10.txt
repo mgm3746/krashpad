@@ -1,0 +1,56 @@
+***REMOVED***
+***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
+***REMOVED*** Cannot create GC thread. Out of system resources.
+***REMOVED*** Possible reasons:
+***REMOVED***   The system is out of physical RAM or swap space
+***REMOVED***   In 32 bit mode, the process size limit was hit
+***REMOVED*** Possible solutions:
+***REMOVED***   Reduce memory load on the system
+***REMOVED***   Increase physical memory or swap space
+***REMOVED***   Check if swap backing store is full
+***REMOVED***   Use 64 bit Java on a 64 bit OS
+***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
+***REMOVED***   Decrease number of Java threads
+***REMOVED***   Decrease Java thread stack sizes (-Xss)
+***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
+***REMOVED*** This output file may be truncated or incomplete.
+***REMOVED***
+***REMOVED***  Out of Memory Error (gcTaskThread.cpp:48), pid=30601, tid=0x00007f177a43b700
+***REMOVED***
+***REMOVED*** JRE version:  (8.0_131-b12) (build )
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.131-b12 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+***REMOVED***
+
+Stack: [0x00007f177a33b000,0x00007f177a43c000],  sp=0x00007f177a43a770,  free space=1021k
+***REMOVED***
+V  [libjvm.so+0xaa477d]
+V  [libjvm.so+0x4e862a]
+V  [libjvm.so+0x5b7f5f]
+V  [libjvm.so+0x5b7737]
+V  [libjvm.so+0x8cc234]
+V  [libjvm.so+0xa6dd09]
+V  [libjvm.so+0xa6dfa2]
+V  [libjvm.so+0x618765]
+V  [libjvm.so+0xa50c3e]
+V  [libjvm.so+0x691c85]  JNI_CreateJavaVM+0x65
+C  [libjli.so+0x3057]
+C  [libpthread.so.0+0x7e25]  start_thread+0xc5
+
+
+***REMOVED***
+
+7f1778675000-7f1779326000 r-xp 00000000 fd:02 152814                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64/jre/lib/amd64/server/libjvm.so
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux Server release 7.4 (Maipo)
+
+uname:Linux 3.10.0-693.el7.x86_64 ***REMOVED***1 SMP Thu Jul 6 19:56:57 EDT 2017 x86_64
+libc:glibc 2.17 NPTL 2.17
+rlimit: STACK 8192k, CORE 0k, NPROC 4096, NOFILE 655360, AS infinity
+load average:0.65 1.49 3.01
+
+Memory: 4k page, physical 32946384k(457052k free), swap 16777212k(14134040k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.131-b12) for linux-amd64 JRE (1.8.0_131-b12), built on Jun 13 2017 11:27:53 by "mockbuild" with gcc 4.8.5 20150623 (Red Hat 4.8.5-16)

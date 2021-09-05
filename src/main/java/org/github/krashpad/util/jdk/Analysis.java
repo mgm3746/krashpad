@@ -686,6 +686,11 @@ public enum Analysis {
     WARN_JDK_NOT_LTS("warn.jdk.not.lts"),
 
     /**
+     * Property key for OOM with G1 collector.
+     */
+    WARN_OOM_G1("warn.oom.g1"),
+
+    /**
      * Property key for adaptive size policy disabled with -XX:-UseAdaptiveSizePolicy.
      */
     WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED("warn.opt.adaptive.size.policy.disabled"),
@@ -806,6 +811,11 @@ public enum Analysis {
      * <code>-XX:+UseFastUnorderedTimeStamps</code>.
      */
     WARN_OPT_FAST_UNORDERED_TIMESTAMPS("warn.opt.fast.unordered.timestamps"),
+
+    /**
+     * Property key for using the G1 collector when swap is disabled.
+     */
+    WARN_SWAP_DISABLED_G1("warn.swap.disabled.g1"),
 
     /**
      * Property key for the occupancy threshold for a region to be considered as a candidate region for a G1_CLEANUP

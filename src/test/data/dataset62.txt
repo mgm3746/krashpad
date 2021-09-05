@@ -1,0 +1,279 @@
+***REMOVED***
+***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
+***REMOVED*** Native memory allocation (mmap) failed to map 11811160064 bytes for committing reserved memory.
+***REMOVED*** Possible reasons:
+***REMOVED***   The system is out of physical RAM or swap space
+***REMOVED***   In 32 bit mode, the process size limit was hit
+***REMOVED*** Possible solutions:
+***REMOVED***   Reduce memory load on the system
+***REMOVED***   Increase physical memory or swap space
+***REMOVED***   Check if swap backing store is full
+***REMOVED***   Use 64 bit Java on a 64 bit OS
+***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
+***REMOVED***   Decrease number of Java threads
+***REMOVED***   Decrease Java thread stack sizes (-Xss)
+***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
+***REMOVED*** This output file may be truncated or incomplete.
+***REMOVED***
+***REMOVED***  Out of Memory Error (os_linux.cpp:2640), pid=11416, tid=0x00007f039f48a700
+***REMOVED***
+***REMOVED*** JRE version:  (8.0_171-b11) (build )
+***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.171-b11 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x00007f039800e000):  JavaThread "Unknown thread" [_thread_in_vm, id=11417, stack(0x00007f039f38b000,0x00007f039f48b000)]
+
+Stack: [0x00007f039f38b000,0x00007f039f48b000],  sp=0x00007f039f488e10,  free space=1015k
+***REMOVED***
+V  [libjvm.so+0xacfffa]  VMError::report_and_die()+0x2ba
+V  [libjvm.so+0x5005cb]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0x8b
+V  [libjvm.so+0x92dd93]  os::Linux::commit_memory_impl(char*, unsigned long, bool)+0x123
+V  [libjvm.so+0x92df05]  os::pd_commit_memory_or_exit(char*, unsigned long, unsigned long, bool, char const*)+0x35
+V  [libjvm.so+0x925c66]  os::commit_memory_or_exit(char*, unsigned long, unsigned long, bool, char const*)+0x26
+V  [libjvm.so+0x5c7a1f]  G1PageBasedVirtualSpace::commit_internal(unsigned long, unsigned long)+0xbf
+V  [libjvm.so+0x5c7cac]  G1PageBasedVirtualSpace::commit(unsigned long, unsigned long)+0x11c
+V  [libjvm.so+0x5ca990]  G1RegionsLargerThanCommitSizeMapper::commit_regions(unsigned int, unsigned long)+0x40
+V  [libjvm.so+0x62e927]  HeapRegionManager::commit_regions(unsigned int, unsigned long)+0x77
+V  [libjvm.so+0x62fbc1]  HeapRegionManager::make_regions_available(unsigned int, unsigned int)+0x31
+V  [libjvm.so+0x630140]  HeapRegionManager::expand_by(unsigned int)+0xb0
+V  [libjvm.so+0x59eb99]  G1Collected***REMOVED***:expand(unsigned long)+0x199
+V  [libjvm.so+0x5a4e95]  G1Collected***REMOVED***:initialize()+0x895
+V  [libjvm.so+0xa98033]  Universe::initialize_heap()+0xf3
+V  [libjvm.so+0xa9859e]  universe_init()+0x3e
+V  [libjvm.so+0x642105]  init_globals()+0x65
+V  [libjvm.so+0xa7cd4e]  Threads::create_vm(JavaVMInitArgs*, bool*)+0x23e
+V  [libjvm.so+0x6d6e44]  JNI_CreateJavaVM+0x74
+C  [libjli.so+0x797e]  JavaMain+0x9e
+C  [libpthread.so.0+0x7ea5]  start_thread+0xc5
+
+***REMOVED***
+
+***REMOVED***
+
+***REMOVED***
+
+=>0x00007f039800e000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=11417, stack(0x00007f039f38b000,0x00007f039f48b000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00007f039800bc90] Heap_lock - owner thread: 0x00007f039800e000
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+***REMOVED***
+7f039d874000-7f039e54d000 r-xp 00000000 103:00 2361173                   /data/jdk1.8.0_171/jre/lib/amd64/server/libjvm.so
+
+***REMOVED***
+jvm_args: -Xms128M -Xmx512M -XX:+UnlockDiagnosticVMOptions -XX:+UnsyncloadClass -Dcom.sun.management.jmxremote -Xms11G -Xmx11G -XX:MaxPermSize=1024m -XX:ParallelGCThreads=12 -XX:+AggressiveOpts -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:ConcGCThreads=6 -XX:InitiatingHeapOccupancyPercent=60 
+java_command: org.apache.karaf.main.Stop
+java_class_path (initial): /data/jboss-fuse-6.2.1.redhat-159-18009/lib/karaf-jaas-boot.jar:/data/jboss-fuse-6.2.1.redhat-159-18009/lib/karaf.jar:/data/jboss-fuse-6.2.1.redhat-159-18009/lib/karaf-jmx-boot.jar:
+***REMOVED***
+
+***REMOVED***
+JAVA_HOME=/path/to/jdk
+LD_LIBRARY_PATH=:/path/to/jboss-fuse-6.2.1.redhat-159-18009/lib:/path/to/jboss-fuse-6.2.1.redhat-159-18009/lib
+***REMOVED***
+
+***REMOVED***
+SIGSEGV: [libjvm.so+0xad0890], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xad0890], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0x928640], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0x928640], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0x928640], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0x928640], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+***REMOVED***
+SIGUSR2: [libjvm.so+0x929ea0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGINT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGTERM: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGQUIT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)
+
+uname:Linux 3.10.0-1160.25.1.el7.x86_64 ***REMOVED***1 SMP Tue Apr 13 18:55:45 EDT 2021 x86_64
+libc:glibc 2.17 NPTL 2.17 
+rlimit: STACK 8192k, CORE 0k, NPROC 120200, NOFILE 120200, AS infinity
+load average:0.21 1.10 1.01
+
+***REMOVED***
+MemTotal:       16075756 kB
+MemFree:         1005732 kB
+MemAvailable:    1195228 kB
+Buffers:           10964 kB
+Cached:           431332 kB
+SwapCached:            0 kB
+Active:         14188096 kB
+Inactive:         213844 kB
+Active(anon):   13959924 kB
+Inactive(anon):    16776 kB
+Active(file):     228172 kB
+Inactive(file):   197068 kB
+***REMOVED***
+***REMOVED***
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:               176 kB
+***REMOVED***
+AnonPages:      13951588 kB
+Mapped:           130452 kB
+Shmem:             17056 kB
+Slab:              94560 kB
+SReclaimable:      34572 kB
+SUnreclaim:        59988 kB
+KernelStack:       35584 kB
+PageTables:        40144 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+CommitLimit:     8037876 kB
+Committed_AS:   28066972 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       33172 kB
+VmallocChunk:   34359701188 kB
+Percpu:              704 kB
+***REMOVED***
+AnonHugePages:  12775424 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+Hugepagesize:       2048 kB
+DirectMap4k:      141224 kB
+DirectMap2M:     4909056 kB
+DirectMap1G:    11534336 kB
+
+CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 85 stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx
+
+***REMOVED***
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 85
+model name	: Intel(R) Xeon(R) Platinum 8175M CPU @ 2.50GHz
+stepping	: 4
+microcode	: 0x2006906
+cpu MHz		: 2500.000
+cache size	: 33792 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 ida arat pku ospke
+bogomips	: 5000.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 85
+model name	: Intel(R) Xeon(R) Platinum 8175M CPU @ 2.50GHz
+stepping	: 4
+microcode	: 0x2006906
+cpu MHz		: 2500.000
+cache size	: 33792 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 ida arat pku ospke
+bogomips	: 5000.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 85
+model name	: Intel(R) Xeon(R) Platinum 8175M CPU @ 2.50GHz
+stepping	: 4
+microcode	: 0x2006906
+cpu MHz		: 2500.000
+cache size	: 33792 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 ida arat pku ospke
+bogomips	: 5000.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 85
+model name	: Intel(R) Xeon(R) Platinum 8175M CPU @ 2.50GHz
+stepping	: 4
+microcode	: 0x2006906
+cpu MHz		: 2500.000
+cache size	: 33792 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 ida arat pku ospke
+bogomips	: 5000.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+Memory: 4k page, physical 16075756k(1005732k free), swap 0k(0k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.171-b11) for linux-amd64 JRE (1.8.0_171-b11), built on Mar 28 2018 17:07:08 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
+
+time: Thu Aug 12 06:55:11 2021
+elapsed time: 0 seconds (0d 0h 0m 0s)
+
