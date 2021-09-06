@@ -813,11 +813,6 @@ public enum Analysis {
     WARN_OPT_FAST_UNORDERED_TIMESTAMPS("warn.opt.fast.unordered.timestamps"),
 
     /**
-     * Property key for using the G1 collector when swap is disabled.
-     */
-    WARN_SWAP_DISABLED_G1("warn.swap.disabled.g1"),
-
-    /**
      * Property key for the occupancy threshold for a region to be considered as a candidate region for a G1_CLEANUP
      * collection being specified with <code>-XX:G1MixedGCLiveThresholdPercent=NN</code>.
      */
@@ -929,6 +924,16 @@ public enum Analysis {
      * Property key for a JDK that is deployed on RHEL6.
      */
     WARN_RHEL6("warn.rhel6"),
+
+    /**
+     * Property key for using the CMS collector when swap is disabled.
+     */
+    WARN_SWAP_DISABLED_CMS("warn.swap.disabled.cms"),
+
+    /**
+     * Property key for using the G1 collector when swap is disabled.
+     */
+    WARN_SWAP_DISABLED_G1("warn.swap.disabled.g1"),
 
     /**
      * Property key for swapping &gt;= 20%.

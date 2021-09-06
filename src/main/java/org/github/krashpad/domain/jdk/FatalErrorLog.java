@@ -465,9 +465,11 @@ public class FatalErrorLog {
         // Check for swap disabled
         if (getJvmSwap() == 0) {
             analysis.add(Analysis.INFO_SWAP_DISABLED);
-            // G1 collector is not good when swap disabled (container use cases)
+            // Check if collector is appropriate for no-swap (e.g. container) use cases
             if (getGarbageCollectors().contains(GarbageCollector.G1) && getJvmSwap() == 0) {
                 analysis.add(Analysis.WARN_SWAP_DISABLED_G1);
+            ***REMOVED*** else if (getGarbageCollectors().contains(GarbageCollector.CMS) && getJvmSwap() == 0) {
+                analysis.add(Analysis.WARN_SWAP_DISABLED_CMS);
             ***REMOVED***
         ***REMOVED***
         // Check for ShenadoahRootUpdater bug fixed in OpenJDK8 u282.
