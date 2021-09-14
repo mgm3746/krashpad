@@ -2166,12 +2166,16 @@ public class JvmOptions {
             long sunRmiDgcClientGcInterval = JdkUtil.getNumberOptionValue(getSunRmiDgcClientGcInterval());
             if (sunRmiDgcClientGcInterval < 3600000) {
                 analysis.add(Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL);
+            ***REMOVED*** else if (sunRmiDgcClientGcInterval > 86400000) {
+                analysis.add(Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_LARGE);
             ***REMOVED***
         ***REMOVED***
         if (getSunRmiDgcServerGcInterval() != null && !JdkUtil.isOptionEnabled(disableExplicitGc)) {
             long sunRmiDgcServerGcInterval = JdkUtil.getNumberOptionValue(getSunRmiDgcServerGcInterval());
             if (sunRmiDgcServerGcInterval < 3600000) {
                 analysis.add(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL);
+            ***REMOVED*** else if (sunRmiDgcServerGcInterval > 86400000) {
+                analysis.add(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_LARGE);
             ***REMOVED***
         ***REMOVED***
         // Check for -XX:+PrintReferenceGC.

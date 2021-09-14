@@ -1496,6 +1496,10 @@ class TestAnalysis {
                 Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL + " analysis incorrectly identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL),
                 Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_LARGE),
+                Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_LARGE + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_LARGE),
+                Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_LARGE + " analysis nto identified.");
     ***REMOVED***
 
     /**

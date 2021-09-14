@@ -890,12 +890,22 @@ public enum Analysis {
     WARN_OPT_PRINT_CLASS_HISTOGRAM_BEFORE_FULL_GC("warn.opt.print.class.histogram.before.full.gc"),
 
     /**
-     * Property key for small sun.rmi.dgc.client.gcInterval.
+     * Property key for large (&gt;24 hours) sun.rmi.dgc.client.gcInterval.
+     */
+    WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_LARGE("warn.opt.rmi.dgc.client.gcInterval.large"),
+
+    /**
+     * Property key for small (&lt;1 hour) sun.rmi.dgc.client.gcInterval.
      */
     WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL("warn.opt.rmi.dgc.client.gcInterval.small"),
 
     /**
-     * Property key for small sun.rmi.dgc.server.gcInterval.
+     * Property key for large (&gt;24 hours) sun.rmi.dgc.server.gcInterval.
+     */
+    WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_LARGE("warn.opt.rmi.dgc.server.gcInterval.large"),
+
+    /**
+     * Property key for small (&lt;1 hour)sun.rmi.dgc.server.gcInterval.
      */
     WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL("warn.opt.rmi.dgc.server.gcInterval.small"),
 
