@@ -324,6 +324,11 @@ public enum Analysis {
     INFO_OPT_HEAP_DUMP_PATH_MISSING("info.opt.heap.dump.path.missing"),
 
     /**
+     * Property key for many threads (>1,000).
+     */
+    INFO_THREADS_MANY("info.threads.many"),
+
+    /**
      * Property key for the maximum heap size not being explicitly set.
      */
     INFO_OPT_HEAP_MAX_MISSING("info.opt.heap.max.missing"),

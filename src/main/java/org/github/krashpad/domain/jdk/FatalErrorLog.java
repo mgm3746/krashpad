@@ -766,6 +766,10 @@ public class FatalErrorLog {
         if (this.getJvmOptions() == null) {
             analysis.add(Analysis.INFO_OPT_MISSING);
         ***REMOVED***
+        // Check for many threads
+        if (getJavaThreadCount() > 1000) {
+            analysis.add(Analysis.INFO_THREADS_MANY);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
