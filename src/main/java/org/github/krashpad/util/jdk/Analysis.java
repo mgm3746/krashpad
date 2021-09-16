@@ -324,7 +324,7 @@ public enum Analysis {
     INFO_OPT_HEAP_DUMP_PATH_MISSING("info.opt.heap.dump.path.missing"),
 
     /**
-     * Property key for many threads (>1,000).
+     * Property key for many threads (&gt;1,000).
      */
     INFO_THREADS_MANY("info.threads.many"),
 
