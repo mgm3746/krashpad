@@ -73,6 +73,8 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * DirectMap4k:        8192 kB
  * DirectMap2M:     2088960 kB
  * DirectMap1G:    65011712 kB
+ * ***REMOVED***
+ * ***REMOVED***
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -89,9 +91,9 @@ public class MeminfoEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER
-            + "|Active|Anon|Bounce|Buffers|Cached|Cma|Commit|Direct|Dirty|Hardware|Huge|Inactive|Kernel|Mapped|"
-            + "MemAvailable|MemFree|MemTotal|Mlocked|NFS|Page|Percpu|[KS]Reclaimable|Shmem|Slab|SUnreclaim|Swap|"
-            + "Unevictable|Vmalloc|Write).*$";
+            + "|Active|Anon|Bounce|Buffers|Cached|Cma|Commit|Direct|Dirty|FileHugePages|FilePmdMapped|Hardware|Huge|"
+            + "Inactive|Kernel|Mapped|MemAvailable|MemFree|MemTotal|Mlocked|NFS|Page|Percpu|[KS]Reclaimable|Shmem|Slab|"
+            + "SUnreclaim|Swap|Unevictable|Vmalloc|Write).*$";
 
     /**
      * The log entry for the event.

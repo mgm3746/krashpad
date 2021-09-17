@@ -213,4 +213,18 @@ class TestMeminfoEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***
+
+    @Test
+    void testFileHugePages() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testFilePmdMapped() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***
