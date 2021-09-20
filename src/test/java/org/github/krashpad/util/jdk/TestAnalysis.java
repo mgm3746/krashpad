@@ -1785,10 +1785,6 @@ class TestAnalysis {
                 + "-XX:+PrintGCApplicationStoppedTime";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
-                + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE),
                 Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE + " analysis not identified.");

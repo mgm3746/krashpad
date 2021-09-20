@@ -2223,17 +2223,26 @@ public class JvmOptions {
         if (useVmInterruptibleIo != null) {
             analysis.add(Analysis.WARN_OPT_JDK8_USE_VM_INTERRUPTIBLE_IO);
         ***REMOVED***
-        // Check for class verifcation disabled
+        // Check for class verification disabled
         if (verify != null && verify.equals("-Xverify:none")) {
             analysis.add(Analysis.WARN_OPT_VERIFY_NONE);
         ***REMOVED***
         // Check for max heap size not being explicitly set
-        if (this.maxHeapSize == null) {
+        if (maxHeapSize == null) {
             analysis.add(Analysis.INFO_OPT_HEAP_MAX_MISSING);
         ***REMOVED***
         // Check if JVM signal handling disabled
         if (rs) {
             analysis.add(Analysis.WARN_OPT_RS);
+        ***REMOVED***
+        // Check JDK8 gc log file rotation
+        if (logGc != null && useGcLogFileRotation == null) {
+            analysis.add(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED);
+        ***REMOVED***
+        // Check for JDK8 gc log file overwrite
+        if ((useGcLogFileRotation == null || JdkUtil.isOptionDisabled(useGcLogFileRotation)) && logGc != null
+                && !logGc.contains("%")) {
+            analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE);
         ***REMOVED***
     ***REMOVED***
 
