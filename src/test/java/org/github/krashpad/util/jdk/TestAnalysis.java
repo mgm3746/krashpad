@@ -1767,6 +1767,45 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testJdk8GcLogFileRotationDisabledOverwrite() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+PrintGC -Xloggc:gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps "
+                + "-XX:+PrintGCApplicationStoppedTime -XX:-UseGCLogFileRotation";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE),
+                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdk8GcLogFileRotationNotEnabledOverwrite() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+PrintGC -Xloggc:gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps "
+                + "-XX:+PrintGCApplicationStoppedTime";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
+                + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE),
+                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdk11GcLogFileOverwrite() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xlog:gc*,safepoint=info:file=gc.log:uptimemillis:filecount=0,filesize=50M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE),
+                Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testSignalHandlingDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -Xmx33g -Xrs";

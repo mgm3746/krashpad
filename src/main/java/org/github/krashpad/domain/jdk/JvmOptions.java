@@ -2008,14 +2008,22 @@ public class JvmOptions {
             if (numberOfGcLogFiles != null) {
                 analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_NUM_ROTATION_DISABLED);
             ***REMOVED***
+            if (logGc != null && !logGc.contains("%")) {
+                analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE);
+            ***REMOVED***
         ***REMOVED***
         // JDK11 gc log file rotation checks
         if (!log.isEmpty()) {
             Iterator<String> iterator = log.iterator();
+            Pattern pattern = Pattern.compile("^-Xlog:gc(.+)filecount=0.*$");
             while (iterator.hasNext()) {
                 String xLog = iterator.next();
-                if (xLog.matches("^-Xlog:gc.+filecount=0.*$")) {
+                Matcher matcher = pattern.matcher(xLog);
+                if (matcher.find()) {
                     analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_ROTATION_DISABLED);
+                    if (!matcher.group(1).contains("%")) {
+                        analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE);
+                    ***REMOVED***
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -2023,10 +2031,15 @@ public class JvmOptions {
         // Check if JDK11 automatic gc log file rotation disabled
         if (!log.isEmpty()) {
             Iterator<String> iterator = log.iterator();
+            Pattern pattern = Pattern.compile("^-Xlog:gc(.+)filesize=0.*$");
             while (iterator.hasNext()) {
                 String xLog = iterator.next();
-                if (xLog.matches("^-Xlog:gc.+filesize=0.*$")) {
+                Matcher matcher = pattern.matcher(xLog);
+                if (matcher.find()) {
                     analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_0);
+                    if (!matcher.group(1).contains("%")) {
+                        analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE);
+                    ***REMOVED***
                     break;
                 ***REMOVED***
             ***REMOVED***

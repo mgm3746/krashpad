@@ -324,11 +324,6 @@ public enum Analysis {
     INFO_OPT_HEAP_DUMP_PATH_MISSING("info.opt.heap.dump.path.missing"),
 
     /**
-     * Property key for many threads (&gt;1,000).
-     */
-    INFO_THREADS_MANY("info.threads.many"),
-
-    /**
      * Property key for the maximum heap size not being explicitly set.
      */
     INFO_OPT_HEAP_MAX_MISSING("info.opt.heap.max.missing"),
@@ -666,6 +661,11 @@ public enum Analysis {
     INFO_SWAPPING("info.swapping"),
 
     /**
+     * Property key for many threads (&gt;1,000).
+     */
+    INFO_THREADS_MANY("info.threads.many"),
+
+    /**
      * Property key for truncated fatal error log.
      */
     INFO_TRUNCATED("info.truncated"),
@@ -834,6 +834,11 @@ public enum Analysis {
     WARN_OPT_HEAP_DUMP_PATH_FILENAME("warn.opt.heap.dump.path.filename"),
 
     /**
+     * Property key for JDK11 gc log file with static name that will be overwritten on JVM startup.
+     */
+    WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE("warn.opt.jdk11.gc.log.file.overwrite"),
+
+    /**
      * Property key for specifying the number of GC log files (filecount=N) to keep with log rotation is disabled
      * (filecount=0).
      */
@@ -854,6 +859,11 @@ public enum Analysis {
      * disabled (-XX:-UseGCLogFileRotation).
      */
     WARN_OPT_JDK8_GC_LOG_FILE_NUM_ROTATION_DISABLED("warn.opt.jdk8.gc.log.file.num.rotation.disabled"),
+
+    /**
+     * Property key for JDK8 gc log file with a static name that will be overwritten on JVM startup.
+     */
+    WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE("warn.opt.jdk8.gc.log.file.overwrite"),
 
     /**
      * Property key for specifying the gc log file size that triggers rotation (-XX:GCLogFileSize=N[K|M|G]) is small

@@ -667,6 +667,9 @@ public class FatalErrorLog {
         if (getJavaSpecification() == JavaSpecification.JDK8 && jvmOptions != null
                 && jvmOptions.getUseGcLogFileRotation() == null) {
             analysis.add(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED);
+            if (getJvmOptions().getLogGc() != null && !getJvmOptions().getLogGc().contains("%")) {
+                analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE);
+            ***REMOVED***
         ***REMOVED***
         // Check JDK8 print gc details option missing
         if (getJavaSpecification() == JavaSpecification.JDK8 && jvmOptions != null
