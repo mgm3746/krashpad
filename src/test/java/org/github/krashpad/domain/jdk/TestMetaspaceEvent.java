@@ -104,4 +104,25 @@ class TestMetaspaceEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
+
+    @Test
+    void testInitialGcThreshold() {
+        String logLine = "Initial GC threshold: 2.00 GB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCurrentGcThreshold() {
+        String logLine = "Current GC threshold: 2.00 GB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCdsOn() {
+        String logLine = "CDS: on";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

@@ -93,7 +93,7 @@ public class MeminfoEvent implements LogEvent {
     private static final String REGEX = "^(" + REGEX_HEADER
             + "|Active|Anon|Bounce|Buffers|Cached|Cma|Commit|Direct|Dirty|FileHugePages|FilePmdMapped|Hardware|Huge|"
             + "Inactive|Kernel|Mapped|MemAvailable|MemFree|MemTotal|Mlocked|NFS|Page|Percpu|[KS]Reclaimable|Shmem|Slab|"
-            + "SUnreclaim|Swap|Unevictable|Vmalloc|Write).*$";
+            + "SUnreclaim|SwapCached|SwapFree|SwapTotal|Unevictable|Vmalloc|Write).*$";
 
     /**
      * The log entry for the event.

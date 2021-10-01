@@ -14,70 +14,48 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * METASPACE
+ * PROCESS_MEMORY
  * </p>
  * 
  * <p>
- * Metaspace information.
+ * Process memory information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
+ * 
  * <pre>
- * Metaspace:
- * 
- * Usage:
- *   Non-class:    136.84 MB capacity,   129.90 MB ( 95%) used,     6.64 MB (  5%) free+waste,   305.00 KB ( &lt;1%) overhead.
- *       Class:     17.93 MB capacity,    14.53 MB ( 81%) used,     3.26 MB ( 18%) free+waste,   143.81 KB ( &lt;1%) overhead.
- *        Both:    154.76 MB capacity,   144.43 MB ( 93%) used,     9.90 MB (  6%) free+waste,   448.81 KB ( &lt;1%) overhead.
- * 
- * Virtual space:
- *   Non-class space:      138.00 MB reserved,     137.49 MB (&gt;99%) committed
- *       Class space:        1.00 GB reserved,      17.95 MB (  2%) committed
- *              Both:        1.13 GB reserved,     155.44 MB ( 13%) committed
- * 
- * Chunk freelists:
- *    Non-Class:  507.00 KB
- *        Class:  10.00 KB
- *         Both:  517.00 KB
- * 
- * MaxMetaspaceSize: unlimited
- * CompressedClassSpaceSize: 1.00 GB
- * 
- * CodeHeap 'non-profiled nmethods': size=128224Kb used=11542Kb max_used=14409Kb free=116681Kb
- *  bounds [0x00007fffdfc09000, 0x00007fffe0a29000, 0x00007fffe7941000]
- * CodeHeap 'profiled nmethods': size=128220Kb used=38331Kb max_used=45088Kb free=89888Kb
- *  bounds [0x00007fffd7ed2000, 0x00007fffdab82000, 0x00007fffdfc09000]
- * CodeHeap 'non-nmethods': size=5700Kb used=1496Kb max_used=1524Kb free=4203Kb
- *  bounds [0x00007fffd7941000, 0x00007fffd7bb1000, 0x00007fffd7ed2000]
- *  total_blobs=29416 nmethods=14571 adapters=913
- * ***REMOVED***
- *               stopped_count=0, restarted_count=0
- *  full_count=0
+ * Process Memory:
+ * Virtual Size: 11384200K (peak: 19821176K)
+ * Resident Set Size: 9169564K (peak: 9198848K) (anon: 9144372K, file: 25192K, shmem: 0K)
+ * Swapped out: 0K
+ * C-Heap outstanding allocations: 323983K (may have wrapped)
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class MetaspaceEvent implements LogEvent {
+public class ProcessMemoryEvent implements LogEvent {
 
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "(Metaspace:)";
+    public static final String REGEX_HEADER = "^Process Memory:$";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER
-            + "|[ ]{1,***REMOVED***Both:|CDS:|[ ]{1,***REMOVED***Class( space)?:|Chunk freelists:|CompressedClassSpaceSize:|"
-            + "(Current|Initial) GC threshold|MaxMetaspaceSize:|[ ]{1,***REMOVED***Non-[c|C]lass( space)?:|Usage:|Virtual space:)"
-            + ".*$";
+            + "|C-Heap outstanding allocations:|Resident Set Size:|Swapped out:|Virtual Size:).*$";
+
+    public static final Pattern PATTERN = Pattern.compile(REGEX);
 
     /**
      * The log entry for the event.
@@ -90,7 +68,7 @@ public class MetaspaceEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public MetaspaceEvent(String logEntry) {
+    public ProcessMemoryEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -99,7 +77,7 @@ public class MetaspaceEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.METASPACE.toString();
+        return JdkUtil.LogEventType.PROCESS_MEMORY.toString();
     ***REMOVED***
 
     /**
@@ -112,4 +90,12 @@ public class MetaspaceEvent implements LogEvent {
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
     ***REMOVED***
+
+    /**
+     * @return true if the log line is the header false otherwise.
+     */
+    public boolean isHeader() {
+        return logEntry.matches(REGEX_HEADER);
+    ***REMOVED***
+
 ***REMOVED***

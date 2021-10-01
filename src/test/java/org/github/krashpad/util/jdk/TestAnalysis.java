@@ -930,7 +930,7 @@ class TestAnalysis {
     @Test
     void testJdk8LogFileRotationNotEnabled() {
         FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k";
+        String jvm_args = "jvm_args: -Xss128k -Xloggc:gc.log";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
@@ -1859,6 +1859,35 @@ class TestAnalysis {
         assertTrue(fel.isJnaCrash(), "JNA crash not identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JNA_RH),
                 Analysis.ERROR_JNA_RH + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testModuleEntryPurgeReads() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "V  [libjvm.so+0xbfb228]  ModuleEntry::purge_reads()+0x118";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String stack2 = "V  [libjvm.so+0xbfb338]  ModuleEntryTable::purge_all_module_reads()+0x38";
+        StackEvent stackEvent2 = new StackEvent(stack2);
+        fel.getStackEvents().add(stackEvent2);
+        String logline = "7f03a6cbf000-7f03a7ef9000 r-xp 00000000 fd:00 1180422                    "
+                + "/usr/lib/jvm/java-11-openjdk-11.0.12.0.7-0.el7_9.x86_64/lib/server/libjvm.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
+        fel.getDynamicLibraryEvents().add(event);
+        String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.12+7-LTS) for linux-amd64 JRE (11.0.12+7-LTS), built "
+                + "on Jul 14 2021 00:06:01 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
+                Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+                Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_JVM_DLL),
+                Analysis.ERROR_JVM_DLL + " analysis not identified.");
     ***REMOVED***
 
     @Test

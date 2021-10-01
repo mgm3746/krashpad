@@ -765,6 +765,19 @@ public class FatalErrorLog {
         if (getJavaThreadCount() > 1000) {
             analysis.add(Analysis.INFO_THREADS_MANY);
         ***REMOVED***
+
+        // Check for ModuleEntry::purge_reads() bug.
+        if (getStackFrameTop() != null && getStackFrameTop()
+                .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ModuleEntry::purge_reads\\(\\).+$")) {
+            analysis.add(Analysis.ERROR_MODULE_ENTRY_PURGE_READS);
+            // Don't double report
+            if (analysis.contains(Analysis.ERROR_LIBJVM_SO)) {
+                analysis.remove(Analysis.ERROR_LIBJVM_SO);
+            ***REMOVED***
+            if (analysis.contains(Analysis.ERROR_JVM_DLL)) {
+                analysis.remove(Analysis.ERROR_JVM_DLL);
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {

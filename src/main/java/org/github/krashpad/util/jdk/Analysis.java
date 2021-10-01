@@ -71,6 +71,11 @@ public enum Analysis {
     ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY("error.heap.plus.metaspace.gt.physical.memory"),
 
     /**
+     * Property key for JVM crash in ModuleEntry::purge_reads.
+     */
+    ERROR_MODULE_ENTRY_PURGE_READS("error.module.entry.purge.reads"),
+
+    /**
      * Property key for an unknown JDK version.
      */
     ERROR_JDK_VERSION_UNKNOWN("error.jdk.version.unknown"),

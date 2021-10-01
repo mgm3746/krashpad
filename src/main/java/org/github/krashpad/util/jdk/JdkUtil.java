@@ -64,6 +64,7 @@ import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.OsUptimeEvent;
 import org.github.krashpad.domain.jdk.PidMaxEvent;
 import org.github.krashpad.domain.jdk.PollingPageEvent;
+import org.github.krashpad.domain.jdk.ProcessMemoryEvent;
 import org.github.krashpad.domain.jdk.RegisterEvent;
 import org.github.krashpad.domain.jdk.RegisterToMemoryMappingEvent;
 import org.github.krashpad.domain.jdk.Release;
@@ -209,15 +210,15 @@ public class JdkUtil {
         //
         HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO,
         //
-        MEMORY, METASPACE, NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME, PID_MAX, POLLING_PAGE, REGISTER,
+        MEMORY, METASPACE, NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME, PID_MAX, POLLING_PAGE, PROCESS_MEMORY,
         //
-        REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD,
+        REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING,
         //
-        THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK,
+        THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE,
         //
-        TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX, VM_OPERATION,
+        TOP_OF_STACK, TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN, VM_ARGUMENTS, VM_EVENT, VM_INFO, VM_MUTEX,
         //
-        VM_STATE
+        VM_OPERATION, VM_STATE
     ***REMOVED***
 
     /**
@@ -718,7 +719,7 @@ public class JdkUtil {
         JDK11_RHEL7_X86_64_RPMS = new HashMap<String, Release>();
         JDK11_RHEL7_X86_64_RPMS.put("LATEST", new Release("Jul 14 2021 00:00:00", 9, "11.0.12+7-LTS)"));
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.12.0.7-0.el7_9.x86_64",
-                new Release("Jul 14 2021 00:00:00", 13, "11.0.12+7-LTS)"));
+                new Release("Jul 14 2021 00:06:01", 13, "11.0.12+7-LTS)"));
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.11.0.9-1.el7_9.x86_64",
                 new Release("Apr 13 2021 00:00:00", 12, "11.0.11+9-LTS"));
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.10.0.9-0.el7_9.x86_64",
@@ -1263,6 +1264,8 @@ public class JdkUtil {
             logEventType = LogEventType.PID_MAX;
         ***REMOVED*** else if (PollingPageEvent.match(logLine)) {
             logEventType = LogEventType.POLLING_PAGE;
+        ***REMOVED*** else if (ProcessMemoryEvent.match(logLine)) {
+            logEventType = LogEventType.PROCESS_MEMORY;
         ***REMOVED*** else if (RegisterEvent.match(logLine)) {
             logEventType = LogEventType.REGISTER;
         ***REMOVED*** else if (RegisterToMemoryMappingEvent.match(logLine)) {
@@ -1496,6 +1499,9 @@ public class JdkUtil {
             break;
         case POLLING_PAGE:
             event = new PollingPageEvent(logLine);
+            break;
+        case PROCESS_MEMORY:
+            event = new ProcessMemoryEvent(logLine);
             break;
         case REGISTER:
             event = new RegisterEvent(logLine);
