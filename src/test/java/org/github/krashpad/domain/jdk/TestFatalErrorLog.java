@@ -483,6 +483,7 @@ class TestFatalErrorLog {
         heapAddressEvent = new HeapAddressEvent(heapAddress);
         fel.getHeapAddressEvents().add(heapAddressEvent);
         assertEquals(CompressedOopMode.NON_ZERO, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
+        assertEquals(8548, fel.getHeapMaxSize(), "Heap max size not correct.");
     ***REMOVED***
 
     @Test

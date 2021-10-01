@@ -15,6 +15,7 @@
 package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
@@ -42,7 +43,7 @@ public class HeapAddressEvent implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "[h|H]eap address:";
+    public static final String REGEX_HEADER = "^[h|H]eap address: " + JdkRegEx.ADDRESS + ", size: (\\d{1,***REMOVED***) MB.*$";
 
     /**
      * Regular expression defining the logging.
@@ -81,5 +82,12 @@ public class HeapAddressEvent implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
+    ***REMOVED***
+
+    /**
+     * @return true if the log line is the header false otherwise.
+     */
+    public boolean isHeader() {
+        return logEntry.matches(REGEX_HEADER);
     ***REMOVED***
 ***REMOVED***

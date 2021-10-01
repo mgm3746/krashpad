@@ -1291,6 +1291,22 @@ public class FatalErrorLog {
                 ***REMOVED***
                 heapMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
             ***REMOVED***
+        ***REMOVED*** else if (!heapAddressEvents.isEmpty()) {
+            Iterator<HeapAddressEvent> iterator = heapAddressEvents.iterator();
+            while (iterator.hasNext()) {
+                HeapAddressEvent event = iterator.next();
+                if (event.isHeader()) {
+                    char fromUnits = 'M';
+                    long value;
+                    Pattern pattern = Pattern.compile(HeapAddressEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(6));
+                        heapMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED*** else if (getMemTotal() > 0) {
             // Use JVM default = 1/4 system memory
             BigDecimal systemPhysicalMemory = new BigDecimal(getMemTotal());
