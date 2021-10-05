@@ -207,6 +207,13 @@ public class JdkRegEx {
     public static final String OPTION_SIZE_BYTES = "((\\d{1,***REMOVED***)(b|B|k|K|m|M|g|G)?)";
 
     /**
+     * Percent rounded to whole number.
+     * 
+     * For example: 54%
+     */
+    public static final String PERCENT = "\\d{1,3***REMOVED***%";
+
+    /**
      * Permission
      * 
      * For example: r--s
@@ -306,6 +313,13 @@ public class JdkRegEx {
     public static final String SIZE = "(\\d{1,10***REMOVED***([\\.,]\\d)?)([" + BYTES + KILOBYTES + MEGABYTES + GIGABYTES + "])";
 
     /**
+     * The size of memory in kilobytes (KB), megabytes (MB), or gigabytes (GB) to two decimal places. For example:
+     * 
+     * 3.00 KB, 395.36 MB, 1.00 GB
+     */
+    public static final String SIZE2 = "(\\d{1,***REMOVED***([\\.,]\\d{2***REMOVED***)?) (KB|MB|GB)";
+
+    /**
      * Timestamp. Milliseconds since JVM started.
      * 
      * For example: 487.020
@@ -329,5 +343,4 @@ public class JdkRegEx {
      * 7f0c4b92c000-7f0c4b93e000 r--s 00183000 fd:04 51406344 /path/to/WEB-INF/lib/catalina.jar
      */
     public static final String TOMCAT_JAR = "^.+catalina\\.jar$";
-
 ***REMOVED***

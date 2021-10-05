@@ -216,4 +216,28 @@ class TestJdkRegEx {
         String address = "0x0000000000000000";
         assertTrue(address.matches(JdkRegEx.NULL_POINTER), "Null pointer not recognized.");
     ***REMOVED***
+
+    @Test
+    void testSizeKb() {
+        String address = "3.00 KB";
+        assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testSizeMb() {
+        String address = "395.36 MB";
+        assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testSizeGb() {
+        String address = "1.00 GB";
+        assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testPercent() {
+        String address = "54%";
+        assertTrue(address.matches(JdkRegEx.PERCENT), "PERCENT not recognized.");
+    ***REMOVED***
 ***REMOVED***

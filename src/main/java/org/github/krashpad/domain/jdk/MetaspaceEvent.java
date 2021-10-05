@@ -15,6 +15,7 @@
 package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
@@ -28,6 +29,10 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * 
  * <h3>Example Logging</h3>
  * 
+ * <p>
+ * 1) JDK8:
+ * </p>
+ *
  * <pre>
  * Metaspace:
  * 
@@ -60,6 +65,25 @@ import org.github.krashpad.util.jdk.JdkUtil;
  *               stopped_count=0, restarted_count=0
  *  full_count=0
  * </pre>
+ *
+ * <p>
+ * 1) JDK11:
+ * </p>
+ *
+ * <pre>
+ * Metaspace:
+ * 
+ * Usage:
+ *   414.40 MB capacity,   395.36 MB ( 95%) used,    17.73 MB (  4%) free+waste,     1.30 MB ( &lt;1%) overhead.
+ * 
+ * Virtual space:
+ *     416.00 MB reserved,     414.50 MB (&gt;99%) committed
+ * 
+ * Chunk freelists:
+ * 3.00 KB
+ * 
+ * MaxMetaspaceSize: 1.00 GB
+ * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
@@ -76,8 +100,11 @@ public class MetaspaceEvent implements LogEvent {
      */
     private static final String REGEX = "^(" + REGEX_HEADER
             + "|[ ]{1,***REMOVED***Both:|CDS:|[ ]{1,***REMOVED***Class( space)?:|Chunk freelists:|CompressedClassSpaceSize:|"
-            + "(Current|Initial) GC threshold|MaxMetaspaceSize:|[ ]{1,***REMOVED***Non-[c|C]lass( space)?:|Usage:|Virtual space:)"
-            + ".*$";
+            + "(Current|Initial) GC threshold|MaxMetaspaceSize:|[ ]{1,***REMOVED***Non-[c|C]lass( space)?:|Usage:|Virtual space:|"
+            + JdkRegEx.SIZE2 + "|    " + JdkRegEx.SIZE2 + " reserved,     " + JdkRegEx.SIZE2 + " \\(>"
+            + JdkRegEx.PERCENT + "\\) committed|  " + JdkRegEx.SIZE2 + " capacity,   " + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***"
+            + JdkRegEx.PERCENT + "\\) used,    " + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***" + JdkRegEx.PERCENT
+            + "\\) free\\+waste,     " + JdkRegEx.SIZE2 + " \\( <" + JdkRegEx.PERCENT + "\\) overhead\\.)" + ".*$";
 
     /**
      * The log entry for the event.
