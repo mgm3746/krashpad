@@ -213,4 +213,12 @@ class TestJvmOptions {
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals("-XX:MaxNewSize=512m", jvmOptions.getMaxNewSize(), "MaxNewSize not correct.");
     ***REMOVED***
+
+    @Test
+    void testDisableAttachMechanism() {
+        String jvmArgs = "-XX:+DisableAttachMechanism";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:+DisableAttachMechanism", jvmOptions.getDisableAttachMechanism(),
+                "DisableAttachMechanism not correct.");
+    ***REMOVED***
 ***REMOVED***

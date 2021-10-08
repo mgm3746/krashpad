@@ -71,11 +71,6 @@ public enum Analysis {
     ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY("error.heap.plus.metaspace.gt.physical.memory"),
 
     /**
-     * Property key for JVM crash in ModuleEntry::purge_reads.
-     */
-    ERROR_MODULE_ENTRY_PURGE_READS("error.module.entry.purge.reads"),
-
-    /**
      * Property key for an unknown JDK version.
      */
     ERROR_JDK_VERSION_UNKNOWN("error.jdk.version.unknown"),
@@ -141,6 +136,11 @@ public enum Analysis {
      * Property key for a crash in libjvm.so.
      */
     ERROR_LIBJVM_SO("error.libjvm.so"),
+
+    /**
+     * Property key for JVM crash in ModuleEntry::purge_reads.
+     */
+    ERROR_MODULE_ENTRY_PURGE_READS("error.module.entry.purge.reads"),
 
     /**
      * Property key for crash caused trying to dereference a null pointer.
@@ -800,6 +800,12 @@ public enum Analysis {
      * Property key for performance data written to disk (/tmp/hsperfdata*) in a cloud environment.
      */
     WARN_OPT_CONTAINER_PERF_DATA_DISK("warn.opt.container.perf.data.disk"),
+
+    /**
+     * Property key for the creation of the AttachListener socket file (/tmp/.java_pid&lt;pid&gt;) used by
+     * jcmd/jmap/jstack to communicate with the JVM being disabled.
+     */
+    WARN_OPT_DISABLE_ATTACH_MECHANISM("warn.opt.disable.attach.mechanism"),
 
     /**
      * Property key for explicit garbage collection disabled.

@@ -1891,6 +1891,17 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testAttachMechanismDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:+DisableAttachMechanism";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_DISABLE_ATTACH_MECHANISM),
+                Analysis.WARN_OPT_DISABLE_ATTACH_MECHANISM + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testJfrPdGetTopFrame() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();

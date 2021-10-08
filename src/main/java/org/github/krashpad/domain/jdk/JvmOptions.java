@@ -286,6 +286,18 @@ public class JvmOptions {
     private String debugNonSafepoints;
 
     /**
+     * The option to disable the creation of the AttachListener socket file (/tmp/.java_pid<pid>) used by
+     * jcmd/jmap/jstack to communicate with the JVM. Created the first time jcmd/jmap/jstack is run.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:+DisableAttachMechanism
+     * </pre>
+     */
+    private String disableAttachMechanism;
+
+    /**
      * The option to enable/disable explicit garbage collection. For example:
      * 
      * <pre>
@@ -1534,6 +1546,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]DebugNonSafepoints$")) {
                     debugNonSafepoints = option;
                     key = "DebugNonSafepoints";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]DisableAttachMechanism$")) {
+                    disableAttachMechanism = option;
+                    key = "DisableAttachMechanism";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]DisableExplicitGC$")) {
                     disableExplicitGc = option;
                     key = "DisableExplicitGC";
@@ -2244,6 +2259,10 @@ public class JvmOptions {
                 && !logGc.contains("%")) {
             analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE);
         ***REMOVED***
+        // Check for the creation of the AttachListener socket file (/tmp/.java_pid<pid>) disabled
+        if (JdkUtil.isOptionEnabled(disableAttachMechanism)) {
+            analysis.add(Analysis.WARN_OPT_DISABLE_ATTACH_MECHANISM);
+        ***REMOVED***
     ***REMOVED***
 
     public String getAbrt() {
@@ -2328,6 +2347,10 @@ public class JvmOptions {
 
     public String getDebugNonSafepoints() {
         return debugNonSafepoints;
+    ***REMOVED***
+
+    public String getDisableAttachMechanism() {
+        return disableAttachMechanism;
     ***REMOVED***
 
     public String getDisableExplicitGc() {
