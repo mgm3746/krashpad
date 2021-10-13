@@ -390,7 +390,11 @@ public class FatalErrorLog {
                     if (JdkMath.calcPercent(getJvmMemoryMax(), getMemTotal()) < 50) {
                         analysis.add(Analysis.ERROR_OOME_STARTUP_EXTERNAL);
                     ***REMOVED*** else {
-                        analysis.add(Analysis.ERROR_OOME_STARTUP);
+                        if (this.getApplication() == Application.TOMCAT_SHUTDOWN) {
+                            analysis.add(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN);
+                        ***REMOVED*** else {
+                            analysis.add(Analysis.ERROR_OOME_STARTUP);
+                        ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else {
                     if (isInHeader("Java Heap may be blocking the growth of the native heap")) {
@@ -815,8 +819,11 @@ public class FatalErrorLog {
                         application = Application.JBOSS;
                         break;
                     ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_JAR)
-                            || event.getLogEntry().matches(JdkRegEx.TOMCAT_BOOTSTRAP)) {
+                            || event.getLogEntry().matches(JdkRegEx.TOMCAT_BOOTSTRAP_START)) {
                         application = Application.TOMCAT;
+                        break;
+                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_BOOTSTRAP_STOP)) {
+                        application = Application.TOMCAT_SHUTDOWN;
                         break;
                     ***REMOVED***
                 ***REMOVED***

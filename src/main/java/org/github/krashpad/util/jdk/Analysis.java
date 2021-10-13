@@ -189,6 +189,11 @@ public enum Analysis {
     ERROR_OOME_STARTUP("error.oome.startup"),
 
     /**
+     * Property key for the tomcat shutdown JVM failing to start due to insufficient physical memory.
+     */
+    ERROR_OOME_TOMCAT_SHUTDOWN("error.oome.tomcat.shutdown"),
+
+    /**
      * Property key for the JVM failing to start due to insufficient physical memory when JVM memory &lt; 50% memory.
      */
     ERROR_OOME_STARTUP_EXTERNAL("error.oome.startup.external"),

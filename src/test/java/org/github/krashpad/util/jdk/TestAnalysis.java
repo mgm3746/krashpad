@@ -2033,4 +2033,13 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_SWAP_DISABLED_G1),
                 Analysis.WARN_SWAP_DISABLED_G1 + " analysis not identified.");
     ***REMOVED***
+
+    @Test
+    void testOomTomcatShutdown() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset63.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN),
+                Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
+    ***REMOVED***
 ***REMOVED***

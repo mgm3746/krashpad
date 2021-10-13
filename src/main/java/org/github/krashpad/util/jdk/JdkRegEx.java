@@ -151,15 +151,6 @@ public class JdkRegEx {
     public static final String JAVA_NIO_BYTEBUFFER = "java[\\.\\/]nio[\\.\\/]ByteBuffer";
 
     /**
-     * JBoss jar used for <code>Application</code> identification.
-     * 
-     * For example:
-     * 
-     * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jboss-eap-7.2/jboss-modules.jar
-     */
-    public static final String JBOSS_JAR = "^.+jboss-modules\\.jar.*$";
-
-    /**
      * JBoss EAP6 jar used for <code>Application</code> identification.
      * 
      * For example:
@@ -176,6 +167,15 @@ public class JdkRegEx {
      * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/undertow-core-2.0.22.Final-redhat-00001.jar
      */
     public static final String JBOSS_EAP7_JAR = "^.+undertow-core.+\\.jar$";
+
+    /**
+     * JBoss jar used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jboss-eap-7.2/jboss-modules.jar
+     */
+    public static final String JBOSS_JAR = "^.+jboss-modules\\.jar.*$";
 
     /**
      * Kilobyte units identifier.
@@ -333,7 +333,16 @@ public class JdkRegEx {
      * 
      * ***REMOVED***
      */
-    public static final String TOMCAT_BOOTSTRAP = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap.+$";
+    public static final String TOMCAT_BOOTSTRAP_START = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap start$";
+
+    /**
+     * Tomcat bootstrap loader used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * java_command: org.apache.catalina.startup.Bootstrap stop stop
+     */
+    public static final String TOMCAT_BOOTSTRAP_STOP = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap stop stop$";
 
     /**
      * Tomcat jar used for <code>Application</code> identification.
