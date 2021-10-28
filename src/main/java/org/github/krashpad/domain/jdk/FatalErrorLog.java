@@ -559,6 +559,10 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE);
             ***REMOVED***
         ***REMOVED***
+        // LinkageError
+        if (haveLinkageError()) {
+            analysis.add(Analysis.ERROR_LINKAGE);
+        ***REMOVED***
         // Thread stack size
         long threadStackMaxSize = getThreadStackSize();
         if (threadStackMaxSize < 1) {
@@ -952,6 +956,42 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return compressedClassSpaceSize;
+    ***REMOVED***
+
+    /**
+     * @return The JVM compressed oop mode.
+     */
+    public CompressedOopMode getCompressedOopMode() {
+        CompressedOopMode compressedOopMode = CompressedOopMode.UNKNOWN;
+        if (!headerEvents.isEmpty()) {
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent event = iterator.next();
+                if (event.isJavaVm()) {
+                    if (!event.getLogEntry().matches(".*compressed oops.*")) {
+                        compressedOopMode = CompressedOopMode.NONE;
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        if (compressedOopMode != CompressedOopMode.NONE && !heapAddressEvents.isEmpty()) {
+            Iterator<HeapAddressEvent> iterator = heapAddressEvents.iterator();
+            while (iterator.hasNext()) {
+                HeapAddressEvent event = iterator.next();
+                if (event.getLogEntry().matches(".*Compressed Oops mode: 32-bit.*")) {
+                    compressedOopMode = CompressedOopMode.BIT32;
+                    break;
+                ***REMOVED*** else if (event.getLogEntry().matches(".*Compressed Oops mode: Zero based.*")) {
+                    compressedOopMode = CompressedOopMode.ZERO;
+                    break;
+                ***REMOVED*** else if (event.getLogEntry().matches(".*Compressed Oops mode: Non-zero based.*")) {
+                    compressedOopMode = CompressedOopMode.NON_ZERO;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return compressedOopMode;
     ***REMOVED***
 
     public List<ContainerInfoEvent> getContainerInfoEvents() {
@@ -1683,42 +1723,6 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return jvmUser;
-    ***REMOVED***
-
-    /**
-     * @return The JVM compressed oop mode.
-     */
-    public CompressedOopMode getCompressedOopMode() {
-        CompressedOopMode compressedOopMode = CompressedOopMode.UNKNOWN;
-        if (!headerEvents.isEmpty()) {
-            Iterator<HeaderEvent> iterator = headerEvents.iterator();
-            while (iterator.hasNext()) {
-                HeaderEvent event = iterator.next();
-                if (event.isJavaVm()) {
-                    if (!event.getLogEntry().matches(".*compressed oops.*")) {
-                        compressedOopMode = CompressedOopMode.NONE;
-                    ***REMOVED***
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        if (compressedOopMode != CompressedOopMode.NONE && !heapAddressEvents.isEmpty()) {
-            Iterator<HeapAddressEvent> iterator = heapAddressEvents.iterator();
-            while (iterator.hasNext()) {
-                HeapAddressEvent event = iterator.next();
-                if (event.getLogEntry().matches(".*Compressed Oops mode: 32-bit.*")) {
-                    compressedOopMode = CompressedOopMode.BIT32;
-                    break;
-                ***REMOVED*** else if (event.getLogEntry().matches(".*Compressed Oops mode: Zero based.*")) {
-                    compressedOopMode = CompressedOopMode.ZERO;
-                    break;
-                ***REMOVED*** else if (event.getLogEntry().matches(".*Compressed Oops mode: Non-zero based.*")) {
-                    compressedOopMode = CompressedOopMode.NON_ZERO;
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return compressedOopMode;
     ***REMOVED***
 
     /**
@@ -2570,6 +2574,25 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return true if there were LinkageErrors before the crash, false otherwise.
+     */
+    public boolean haveLinkageError() {
+        boolean haveLinkageError = false;
+        if (!exceptionCountsEvents.isEmpty()) {
+            Iterator<ExceptionCountsEvent> iteratorExceptionCounts = exceptionCountsEvents.iterator();
+            while (iteratorExceptionCounts.hasNext()) {
+                ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
+                if (!exceptionCountsEvent.isHeader()
+                        && exceptionCountsEvent.getLogEntry().matches("^LinkageErrors=\\d{1,***REMOVED***$")) {
+                    haveLinkageError = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return haveLinkageError;
+    ***REMOVED***
+
+    /**
      * @return true if there were OutOfMemoryError: Java heap space before the crash, false otherwise.
      */
     public boolean haveOomeJavaHeap() {
@@ -2806,61 +2829,19 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return true if the fatal error log was created by a RH build of OpenJDK, false otherwise.
+     */
+    public boolean isRhBuildOpenJdk() {
+        return isRhRpmInstall() || isRhLinuxZipInstall() || isRhWindowsZipInstall() || isRhRpm();
+    ***REMOVED***
+
+    /**
      * @return true if the fatal error log was created by a JDK build string (ignore empty string) used by Red Hat,
      *         false otherwise.
      */
     public boolean isRhBuildString() {
         return vmInfoEvent != null
                 && (vmInfoEvent.getBuiltBy() == BuiltBy.BUILD || vmInfoEvent.getBuiltBy() == BuiltBy.MOCKBUILD);
-    ***REMOVED***
-
-    /**
-     * @return true if the version matches a Red Hat build of OpenJDK, false otherwise.
-     */
-    public boolean isRhVersion() {
-        boolean isRhVersion = false;
-        if (getOsType() == OsType.LINUX) {
-            switch (getJavaSpecification()) {
-            case JDK8:
-                isRhVersion = JdkUtil.JDK8_RHEL_ZIPS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK8_RHEL6_X86_64_RPMS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK8_RHEL7_X86_64_RPMS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK8_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString());
-                break;
-            case JDK11:
-                isRhVersion = JdkUtil.JDK11_RHEL_ZIPS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK11_RHEL7_X86_64_RPMS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK11_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString());
-                break;
-            case JDK6:
-            case JDK7:
-            case UNKNOWN:
-            default:
-                break;
-            ***REMOVED***
-        ***REMOVED*** else if (getOsType() == OsType.WINDOWS) {
-            switch (getJavaSpecification()) {
-            case JDK8:
-                isRhVersion = JdkUtil.JDK8_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
-                break;
-            case JDK11:
-                isRhVersion = JdkUtil.JDK11_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
-                break;
-            case JDK6:
-            case JDK7:
-            case UNKNOWN:
-            default:
-                break;
-            ***REMOVED***
-        ***REMOVED***
-        return isRhVersion;
-    ***REMOVED***
-
-    /**
-     * @return true if the fatal error log was created by a RH build of OpenJDK, false otherwise.
-     */
-    public boolean isRhBuildOpenJdk() {
-        return isRhRpmInstall() || isRhLinuxZipInstall() || isRhWindowsZipInstall() || isRhRpm();
     ***REMOVED***
 
     /**
@@ -3099,6 +3080,48 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return isRhelRpmInstall;
+    ***REMOVED***
+
+    /**
+     * @return true if the version matches a Red Hat build of OpenJDK, false otherwise.
+     */
+    public boolean isRhVersion() {
+        boolean isRhVersion = false;
+        if (getOsType() == OsType.LINUX) {
+            switch (getJavaSpecification()) {
+            case JDK8:
+                isRhVersion = JdkUtil.JDK8_RHEL_ZIPS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK8_RHEL6_X86_64_RPMS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK8_RHEL7_X86_64_RPMS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK8_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString());
+                break;
+            case JDK11:
+                isRhVersion = JdkUtil.JDK11_RHEL_ZIPS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK11_RHEL7_X86_64_RPMS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK11_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString());
+                break;
+            case JDK6:
+            case JDK7:
+            case UNKNOWN:
+            default:
+                break;
+            ***REMOVED***
+        ***REMOVED*** else if (getOsType() == OsType.WINDOWS) {
+            switch (getJavaSpecification()) {
+            case JDK8:
+                isRhVersion = JdkUtil.JDK8_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
+                break;
+            case JDK11:
+                isRhVersion = JdkUtil.JDK11_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
+                break;
+            case JDK6:
+            case JDK7:
+            case UNKNOWN:
+            default:
+                break;
+            ***REMOVED***
+        ***REMOVED***
+        return isRhVersion;
     ***REMOVED***
 
     /**

@@ -52,4 +52,11 @@ class TestExceptionCountsEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS,
                 JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.");
     ***REMOVED***
+
+    @Test
+    void testLinkageErrors() {
+        String logLine = "LinkageErrors=5276";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS,
+                JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

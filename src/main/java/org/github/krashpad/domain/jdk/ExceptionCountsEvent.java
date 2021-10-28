@@ -46,7 +46,7 @@ public class ExceptionCountsEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|StackOverflowErrors|OutOfMemoryError).*$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|LinkageErrors|StackOverflowErrors|OutOfMemoryError).*$";
 
     /**
      * The log entry for the event.

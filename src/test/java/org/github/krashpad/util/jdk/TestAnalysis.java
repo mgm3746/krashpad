@@ -25,6 +25,7 @@ import org.github.krashpad.domain.jdk.ContainerInfoEvent;
 import org.github.krashpad.domain.jdk.CpuInfoEvent;
 import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
 import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
+import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
@@ -59,6 +60,17 @@ class TestAnalysis {
     void testWarnNotLatestJdkValue() {
         assertEquals("JDK is not the latest version. Latest version is ", Analysis.WARN_JDK_NOT_LATEST.getValue(),
                 Analysis.WARN_JDK_NOT_LATEST + "value not correct.");
+    ***REMOVED***
+
+    @Test
+    void testLinkageError() {
+        String logLine = "LinkageErrors=5276";
+        ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getExceptionCountsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_LINKAGE),
+                Analysis.ERROR_LINKAGE + " analysis not identified.");
     ***REMOVED***
 
     @Test

@@ -138,6 +138,11 @@ public enum Analysis {
     ERROR_LIBJVM_SO("error.libjvm.so"),
 
     /**
+     * Property key for LinkageError.
+     */
+    ERROR_LINKAGE("error.linkage"),
+
+    /**
      * Property key for JVM crash in ModuleEntry::purge_reads.
      */
     ERROR_MODULE_ENTRY_PURGE_READS("error.module.entry.purge.reads"),
@@ -189,11 +194,6 @@ public enum Analysis {
     ERROR_OOME_STARTUP("error.oome.startup"),
 
     /**
-     * Property key for the tomcat shutdown JVM failing to start due to insufficient physical memory.
-     */
-    ERROR_OOME_TOMCAT_SHUTDOWN("error.oome.tomcat.shutdown"),
-
-    /**
      * Property key for the JVM failing to start due to insufficient physical memory when JVM memory &lt; 50% memory.
      */
     ERROR_OOME_STARTUP_EXTERNAL("error.oome.startup.external"),
@@ -208,6 +208,11 @@ public enum Analysis {
      * reaching the java heap base address.
      */
     ERROR_OOME_STARTUP_LIMIT_OOPS("error.oome.startup.limit.oops"),
+
+    /**
+     * Property key for the tomcat shutdown JVM failing to start due to insufficient physical memory.
+     */
+    ERROR_OOME_TOMCAT_SHUTDOWN("error.oome.tomcat.shutdown"),
 
     /**
      * Property key for remote debugging enabled.
