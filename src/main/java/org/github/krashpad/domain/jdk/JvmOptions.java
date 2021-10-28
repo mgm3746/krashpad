@@ -1382,7 +1382,7 @@ public class JvmOptions {
     private boolean verboseClass = false;
 
     /**
-     * Option to enable displaying detailed information about each gc event.
+     * Option to enable displaying detailed information about each gc event. Equivalent to <code>-XX:+PrintGC</code>.
      * 
      * -verbose:gc
      */
