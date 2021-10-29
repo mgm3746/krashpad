@@ -444,6 +444,15 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testUsernameWithDotAtSign() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String username = "USERNAME=first.last@location";
+        EnvironmentVariablesEvent environmentVariablesEvent = new EnvironmentVariablesEvent(username);
+        fel.getEnvironmentVariablesEvents().add(environmentVariablesEvent);
+        assertEquals("first.last@location", fel.getUsername(), "USERNAME not correct.");
+    ***REMOVED***
+
+    @Test
     void testJvmUser() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
         Manager manager = new Manager();
@@ -452,13 +461,23 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
-    void testJvmUserUnderscore() {
+    void testJvmUserWithUnderscore() {
         FatalErrorLog fel = new FatalErrorLog();
         String hsperfdata = "7ff0f61d2000-7ff0f61da000 rw-s 00000000 fd:01 33563495                   "
                 + "/tmp/hsperfdata_jb_admin/92333";
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(hsperfdata);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         assertEquals("jb_admin", fel.getJvmUser(), "JVM user not correct.");
+    ***REMOVED***
+
+    @Test
+    void testJvmUserWithDotAndAtSign() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String hsperfdata = "7f23f0838000-7f23f0840000 rw-s 00000000 fd:05 3430                       "
+                + "/tmp/hsperfdata_first.last@location/12345";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(hsperfdata);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        assertEquals("first.last@location", fel.getJvmUser(), "JVM user not correct.");
     ***REMOVED***
 
     @Test

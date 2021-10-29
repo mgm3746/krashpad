@@ -1702,13 +1702,17 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * Parse JVM user from hsperfdata string. For example, the following user is jb_admin:
+     * 
+     * 7ff0f61d2000-7ff0f61da000 rw-s 00000000 fd:01 33563495 /tmp/hsperfdata_jb_admin/92333
+     * 
      * @return The user the JVM process is running under.
      */
     public String getJvmUser() {
         String jvmUser = null;
         if (!dynamicLibraryEvents.isEmpty()) {
-            String regExHsPerfData = System.getProperty("file.separator") + "hsperfdata_([a-zA-Z\\d_]+).*"
-                    + System.getProperty("file.separator");
+            String regExHsPerfData = System.getProperty("file.separator") + "hsperfdata_([^"
+                    + System.getProperty("file.separator") + "]+)";
             Pattern pattern = Pattern.compile(regExHsPerfData);
             Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
             while (iterator.hasNext()) {
@@ -2469,7 +2473,7 @@ public class FatalErrorLog {
     public String getUsername() {
         String username = null;
         if (!environmentVariablesEvents.isEmpty()) {
-            String regExUsername = "^USERNAME=([a-zA-Z\\d_]+)$";
+            String regExUsername = "^USERNAME=(.+)$";
             Pattern pattern = Pattern.compile(regExUsername);
             Iterator<EnvironmentVariablesEvent> iterator = environmentVariablesEvents.iterator();
             while (iterator.hasNext()) {
