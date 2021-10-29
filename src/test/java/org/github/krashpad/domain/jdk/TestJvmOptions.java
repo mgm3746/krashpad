@@ -221,4 +221,11 @@ class TestJvmOptions {
         assertEquals("-XX:+DisableAttachMechanism", jvmOptions.getDisableAttachMechanism(),
                 "DisableAttachMechanism not correct.");
     ***REMOVED***
+
+    @Test
+    void testNewRatio() {
+        String jvmArgs = "-XX:NewRatio=3";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:NewRatio=3", jvmOptions.getNewRatio(), "NewRatio not correct.");
+    ***REMOVED***
 ***REMOVED***

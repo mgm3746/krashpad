@@ -98,6 +98,21 @@ public class JvmOptions {
     private String aggressiveOpts;
 
     /**
+     * Option to set the ratio of old/new generation sizes.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:NewRatio=3
+     * </pre>
+     */
+    private String newRatio;
+
+    public String getNewRatio() {
+        return newRatio;
+    ***REMOVED***
+
+    /**
      * Option to enable/disable to touch all pages of the Java heap on startup to avoid the performance penalty at
      * runtime.
      * 
@@ -1654,6 +1669,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:MinHeapFreeRatio=\\d{1,3***REMOVED***$")) {
                     minHeapFreeRatio = option;
                     key = "MinHeapFreeRatio";
+                ***REMOVED*** else if (option.matches("^-XX:NewRatio=.+$")) {
+                    newRatio = option;
+                    key = "NewRatio";
                 ***REMOVED*** else if (option.matches("^-XX:NumberOfGCLogFiles=\\d{1,***REMOVED***$")) {
                     numberOfGcLogFiles = option;
                     key = "NumberOfGCLogFiles";
