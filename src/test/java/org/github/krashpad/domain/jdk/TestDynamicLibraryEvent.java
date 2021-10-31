@@ -144,6 +144,18 @@ class TestDynamicLibraryEvent {
     ***REMOVED***
 
     @Test
+    void testDeviceId4Char() {
+        String logLine = "7f9c5d1f2000-7f9c5dec0000 r-xp 00000000 c7:c738 14627                    "
+                + "/path/to/jre/jre1.8.0_121/lib/amd64/server/libjvm.so";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        assertEquals("/path/to/jre/jre1.8.0_121/lib/amd64/server/libjvm.so", event.getFilePath(),
+                "File path not correct.");
+        assertEquals(Device.UNKNOWN, event.getDevice(), "Device not correct.");
+    ***REMOVED***
+
+    @Test
     void testSolarisMemoryRegionAndFileOnly() {
         String logLine = "0xffffffff49400000      "
                 + "/apps/java/jdk1.8.0_251_no_compiler/jre/lib/sparcv9/server/libjvm.so";

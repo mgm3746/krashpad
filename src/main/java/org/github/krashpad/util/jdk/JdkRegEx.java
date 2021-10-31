@@ -117,7 +117,7 @@ public class JdkRegEx {
      * 00:38
      * </pre>
      */
-    public static final String DEVICE_IDS = "([0-9a-f]{2,3***REMOVED***:[0-9a-f]{2***REMOVED***)";
+    public static final String DEVICE_IDS = "([0-9a-f]{2,3***REMOVED***:[0-9a-f]{2,4***REMOVED***)";
 
     /**
      * Memory map file path.

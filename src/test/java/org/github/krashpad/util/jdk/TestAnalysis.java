@@ -1936,6 +1936,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset56.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_MISSING),
+                Analysis.INFO_OPT_MISSING + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_EXTERNAL),
                 Analysis.ERROR_OOME_STARTUP_EXTERNAL + " analysis not identified.");
     ***REMOVED***

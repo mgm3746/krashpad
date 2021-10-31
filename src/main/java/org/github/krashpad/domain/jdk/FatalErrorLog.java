@@ -431,7 +431,8 @@ public class FatalErrorLog {
                         || (getJvmMemoryMax() >= 0 && getJvmMemTotal() > 0
                                 && JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) < 50)) {
                     // allocation < available memory or free memory >= 50%
-                    if (isInHeader("Java Heap may be blocking the growth of the native heap")) {
+                    if (isInHeader("Java Heap may be blocking the growth of the native heap")
+                            || isInHeader("compressed oops")) {
                         analysis.add(Analysis.ERROR_OOME_LIMIT_OOPS);
                     ***REMOVED*** else {
                         analysis.add(Analysis.ERROR_OOME_LIMIT);
@@ -445,7 +446,8 @@ public class FatalErrorLog {
                             analysis.add(Analysis.ERROR_OOME_EXTERNAL);
                         ***REMOVED***
                     ***REMOVED*** else {
-                        if (!isTruncated() || !isInHeader("Java Heap may be blocking the growth of the native heap")) {
+                        if (!(isTruncated() || isInHeader("Java Heap may be blocking the growth of the native heap")
+                                || isInHeader("compressed oops"))) {
                             analysis.add(Analysis.ERROR_OOME);
                         ***REMOVED*** else {
                             analysis.add(Analysis.ERROR_OOME_OOPS);
@@ -1339,6 +1341,7 @@ public class FatalErrorLog {
                 heapMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
             ***REMOVED***
         ***REMOVED*** else if (!heapAddressEvents.isEmpty()) {
+            // Get from heap address output
             Iterator<HeapAddressEvent> iterator = heapAddressEvents.iterator();
             while (iterator.hasNext()) {
                 HeapAddressEvent event = iterator.next();

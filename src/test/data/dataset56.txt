@@ -183,7 +183,7 @@ power management:
 
 
 
-Memory: 4k page, physical 12582912k(238504k free), swap 0k(0k free)
+Memory: 4k page, physical 24582912k(238504k free), swap 0k(0k free)
 
 vm_info: OpenJDK 64-Bit Server VM (25.272-b10) for linux-amd64 JRE (1.8.0_272-b10), built on Oct 19 2020 21:30:02 by "mockbuild" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)
 
