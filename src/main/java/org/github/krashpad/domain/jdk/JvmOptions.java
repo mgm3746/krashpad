@@ -57,6 +57,15 @@ public class JvmOptions {
     private String adaptiveSizePolicyWeight;
 
     /**
+     * Module exports. For example:
+     * 
+     * <pre>
+     * -add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED
+     * </pre>
+     */
+    private String addExports;
+
+    /**
      * Runtime modules. For example:
      * 
      * <pre>
@@ -96,21 +105,6 @@ public class JvmOptions {
      * </pre>
      */
     private String aggressiveOpts;
-
-    /**
-     * Option to set the ratio of old/new generation sizes.
-     * 
-     * For example:
-     * 
-     * <pre>
-     * -XX:NewRatio=3
-     * </pre>
-     */
-    private String newRatio;
-
-    public String getNewRatio() {
-        return newRatio;
-    ***REMOVED***
 
     /**
      * Option to enable/disable to touch all pages of the Java heap on startup to avoid the performance penalty at
@@ -730,6 +724,17 @@ public class JvmOptions {
      * </pre>
      */
     private String minHeapFreeRatio;
+
+    /**
+     * Option to set the ratio of old/new generation sizes.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:NewRatio=3
+     * </pre>
+     */
+    private String newRatio;
 
     /**
      * Initial young generation size. Specified with either the <code>-XX:NewSize</code> or <code>-Xmn</code> option.
@@ -1441,7 +1446,10 @@ public class JvmOptions {
             String key = null;
             for (int i = 0; i < opts.length; i++) {
                 String option = opts[i].trim();
-                if (option.matches("^--add-modules=.+$")) {
+                if (option.matches("^--add-exports=.+$")) {
+                    addExports = option;
+                    key = "addExports";
+                ***REMOVED*** else if (option.matches("^--add-modules=.+$")) {
                     addModules = option;
                     key = "addModules";
                 ***REMOVED*** else if (option.matches("^-agentlib:jdwp=transport=dt_socket.+$")) {
@@ -2291,6 +2299,10 @@ public class JvmOptions {
         return adaptiveSizePolicyWeight;
     ***REMOVED***
 
+    public String getAddExports() {
+        return addExports;
+    ***REMOVED***
+
     public String getAddModules() {
         return addModules;
     ***REMOVED***
@@ -2569,6 +2581,10 @@ public class JvmOptions {
 
     public String getMinHeapFreeRatio() {
         return minHeapFreeRatio;
+    ***REMOVED***
+
+    public String getNewRatio() {
+        return newRatio;
     ***REMOVED***
 
     public String getNewSize() {

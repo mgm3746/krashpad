@@ -228,4 +228,12 @@ class TestJvmOptions {
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals("-XX:NewRatio=3", jvmOptions.getNewRatio(), "NewRatio not correct.");
     ***REMOVED***
+
+    @Test
+    void testAddExports() {
+        String jvmArgs = "-Xmx1g --add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED", jvmOptions.getAddExports(),
+                "NewRatio not correct.");
+    ***REMOVED***
 ***REMOVED***
