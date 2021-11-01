@@ -147,4 +147,12 @@ class TestMetaspaceEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
+
+    @Test
+    void testReservedCommitted100() {
+        String logLine = "    460.00 MB reserved,     460.00 MB (100%) committed";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
 ***REMOVED***

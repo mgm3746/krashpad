@@ -101,7 +101,7 @@ public class MetaspaceEvent implements LogEvent {
     private static final String REGEX = "^(" + REGEX_HEADER
             + "|[ ]{1,***REMOVED***Both:|CDS:|[ ]{1,***REMOVED***Class( space)?:|Chunk freelists:|CompressedClassSpaceSize:|"
             + "(Current|Initial) GC threshold|MaxMetaspaceSize:|[ ]{1,***REMOVED***Non-[c|C]lass( space)?:|Usage:|Virtual space:|"
-            + JdkRegEx.SIZE2 + "|    " + JdkRegEx.SIZE2 + " reserved,     " + JdkRegEx.SIZE2 + " \\(>"
+            + JdkRegEx.SIZE2 + "|    " + JdkRegEx.SIZE2 + " reserved,     " + JdkRegEx.SIZE2 + " \\([>]{0,1***REMOVED***"
             + JdkRegEx.PERCENT + "\\) committed|  " + JdkRegEx.SIZE2 + " capacity,   " + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***"
             + JdkRegEx.PERCENT + "\\) used,    " + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***" + JdkRegEx.PERCENT
             + "\\) free\\+waste,     " + JdkRegEx.SIZE2 + " \\( <" + JdkRegEx.PERCENT + "\\) overhead\\.)" + ".*$";

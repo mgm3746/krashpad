@@ -495,6 +495,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED),
                 Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VMWARE),
+                Analysis.INFO_VMWARE + " analysis not identified.");
     ***REMOVED***
 
     @Test

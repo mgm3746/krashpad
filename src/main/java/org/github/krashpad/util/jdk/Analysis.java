@@ -686,6 +686,11 @@ public enum Analysis {
     INFO_TRUNCATED("info.truncated"),
 
     /**
+     * Property key for VMWare environment.
+     */
+    INFO_VMWARE("info.vmware"),
+
+    /**
      * Property key for CMS collector running in incremental mode.
      */
     WARN_CMS_INCREMENTAL_MODE("warn.cms.incremental.mode"),

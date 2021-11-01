@@ -788,6 +788,10 @@ public class FatalErrorLog {
                 analysis.remove(Analysis.ERROR_JVM_DLL);
             ***REMOVED***
         ***REMOVED***
+        // Check if VMWare environment
+        if (isVMWareEnvironment()) {
+            analysis.add(Analysis.INFO_VMWARE);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -3164,6 +3168,24 @@ public class FatalErrorLog {
             isTruncated = true;
         ***REMOVED***
         return isTruncated;
+    ***REMOVED***
+
+    /**
+     * @return true if VMWare environment, false otherwise.
+     */
+    public boolean isVMWareEnvironment() {
+        boolean isVMWareEnvironment = false;
+        if (!containerInfoEvents.isEmpty()) {
+            Iterator<ContainerInfoEvent> iterator = containerInfoEvents.iterator();
+            while (iterator.hasNext()) {
+                ContainerInfoEvent event = iterator.next();
+                if (event.getLogEntry().matches("^VMWare virtualization detected$")) {
+                    isVMWareEnvironment = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return isVMWareEnvironment;
     ***REMOVED***
 
     /**
