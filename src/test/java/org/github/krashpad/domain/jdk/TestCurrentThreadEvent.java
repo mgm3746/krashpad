@@ -62,4 +62,13 @@ class TestCurrentThreadEvent {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals("is native thread", ((CurrentThreadEvent) event).getCurrentThread());
     ***REMOVED***
+
+    @Test
+    void testCurrentThreadVmOperation() {
+        String logLine = "Current thread (0x000001e1fb66f000):  VMThread \"VM Thread\" [stack: 0x0000008e27a00000,"
+                + "0x0000008e27b00000] [id=19320]";
+        CurrentThreadEvent event = new CurrentThreadEvent(logLine);
+        assertEquals("VMThread \"VM Thread\" [stack: 0x0000008e27a00000,0x0000008e27b00000] [id=19320]",
+                ((CurrentThreadEvent) event).getCurrentThread(), "Current thread not correct.");
+    ***REMOVED***
 ***REMOVED***

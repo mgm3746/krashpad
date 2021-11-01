@@ -440,6 +440,11 @@ public class Main {
             printWriter.write("Threads:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             printWriter.write("Current thread: " + fel.getCurrentThread() + Constants.LINE_SEPARATOR);
+            if (fel.getCurrentThread() != null && fel.getCurrentThread().matches("^VMThread.+$")
+                    && fel.getVmOperationEvent() != null) {
+                printWriter.write(
+                        "VM operation: " + fel.getVmOperationEvent().getVmOperation() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
             printWriter.write("***REMOVED*** Java threads: " + fel.getJavaThreadCount() + Constants.LINE_SEPARATOR);
 
             if (!fel.getError().equals("")) {

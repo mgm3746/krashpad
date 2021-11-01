@@ -14,8 +14,11 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.domain.ThrowAwayEvent;
+import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
@@ -36,12 +39,14 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class VmOperationEvent implements LogEvent, ThrowAwayEvent {
+public class VmOperationEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^VM_Operation .+$";
+    private static final String REGEX = "^VM_Operation \\(" + JdkRegEx.ADDRESS + "\\): (.+)$";
+
+    private static Pattern pattern = Pattern.compile(REGEX);
 
     /**
      * The log entry for the event.
@@ -64,6 +69,18 @@ public class VmOperationEvent implements LogEvent, ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.VM_OPERATION.toString();
+    ***REMOVED***
+
+    /**
+     * @return The VM operation.
+     */
+    public String getVmOperation() {
+        String vmOperation = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            vmOperation = matcher.group(6);
+        ***REMOVED***
+        return vmOperation;
     ***REMOVED***
 
     /**

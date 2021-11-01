@@ -14,8 +14,11 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.junit.jupiter.api.Test;
 
@@ -39,5 +42,35 @@ class TestVmOperationEvent {
                 + "0x0000000001b2a";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testVmOperationPrintThreads() {
+        String logLine = "VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread "
+                + "0x0000000001b2a";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperationEvent event = new VmOperationEvent(logLine);
+        assertEquals("PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a", event.getVmOperation(),
+                "VM operation not correct.");
+    ***REMOVED***
+
+    @Test
+    void testVmOperationCGCOperation() {
+        String logLine = "VM_Operation (0x0000008e276ff410): CGC_Operation, mode: safepoint, requested by thread "
+                + "0x000001d9d3e12800";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperationEvent event = new VmOperationEvent(logLine);
+        assertEquals("CGC_Operation, mode: safepoint, requested by thread 0x000001d9d3e12800", event.getVmOperation(),
+                "VM operation not correct.");
+    ***REMOVED***
+
+    @Test
+    void testIsNotThrowaway() {
+        String logLine = "VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread "
+                + "0x0000000001b2a";
+        assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof ThrowAwayEvent,
+                "ThrowAwayEvent incorrectly identified.");
     ***REMOVED***
 ***REMOVED***

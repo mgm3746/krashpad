@@ -220,6 +220,11 @@ public class FatalErrorLog {
     private VmInfoEvent vmInfoEvent;
 
     /**
+     * VM operation information.
+     */
+    private VmOperationEvent vmOperationEvent;
+
+    /**
      * VM state information.
      */
     private VmStateEvent vmStateEvent;
@@ -2503,6 +2508,10 @@ public class FatalErrorLog {
         return vmEvents;
     ***REMOVED***
 
+    public VmOperationEvent getVmOperationEvent() {
+        return vmOperationEvent;
+    ***REMOVED***
+
     /**
      * @return The VM state.
      */
@@ -3252,6 +3261,10 @@ public class FatalErrorLog {
 
     public void setVmInfoEvent(VmInfoEvent vmInfoEvent) {
         this.vmInfoEvent = vmInfoEvent;
+    ***REMOVED***
+
+    public void setVmOperationEvent(VmOperationEvent vmOperationEvent) {
+        this.vmOperationEvent = vmOperationEvent;
     ***REMOVED***
 
     public void setVmStateEvent(VmStateEvent vmStateEvent) {
