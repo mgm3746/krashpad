@@ -430,10 +430,14 @@ public class Main {
                         + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getJvmMemoryMax() > 0) {
-                printWriter.write(
-                        "JVM Memory Max: >" + fel.getJvmMemoryMax() + Character.toString(Constants.PRECISION_REPORTING)
-                                + " (" + JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal())
-                                + "% Available Memory)" + Constants.LINE_SEPARATOR);
+                long percent = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal());
+                printWriter.write("JVM Memory Max: >" + fel.getJvmMemoryMax()
+                        + Character.toString(Constants.PRECISION_REPORTING) + " (");
+                // provide rounding indicator
+                if (percent == 0 || (percent == 100 && fel.getJvmMemoryMax() != fel.getJvmMemTotal())) {
+                    printWriter.write("~");
+                ***REMOVED***
+                printWriter.write(percent + "% Available Memory)" + Constants.LINE_SEPARATOR);
             ***REMOVED***
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
