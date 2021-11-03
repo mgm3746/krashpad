@@ -1237,6 +1237,15 @@ public class JvmOptions {
     private String useCmsInitiatingOccupancyOnly;
 
     /**
+     * Option to enable/disable code cache flushing. For example:
+     * 
+     * <pre>
+     * -XX + UseCodeCacheFlushing
+     * </pre>
+     */
+    private String useCodeCacheFlushing;
+
+    /**
      * Option to enable/disable compressed class pointers. For example:
      * 
      * <pre>
@@ -1803,6 +1812,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCMSInitiatingOccupancyOnly$")) {
                     useCmsInitiatingOccupancyOnly = option;
                     key = "useCmsInitiatingOccupancyOnly";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCodeCacheFlushing$")) {
+                    useCodeCacheFlushing = option;
+                    key = "useCodeCacheFlushing";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseConcMarkSweepGC$")) {
                     useConcMarkSweepGc = option;
                     key = "useConcMarkSweepGc";
@@ -2817,6 +2829,10 @@ public class JvmOptions {
 
     public String getUseCmsInitiatingOccupancyOnly() {
         return useCmsInitiatingOccupancyOnly;
+    ***REMOVED***
+
+    public String getUseCodeCacheFlushing() {
+        return useCodeCacheFlushing;
     ***REMOVED***
 
     public String getUseCompressedClassPointers() {

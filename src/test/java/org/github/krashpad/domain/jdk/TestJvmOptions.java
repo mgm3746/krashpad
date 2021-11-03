@@ -236,4 +236,12 @@ class TestJvmOptions {
         assertEquals("--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED", jvmOptions.getAddExports(),
                 "NewRatio not correct.");
     ***REMOVED***
+
+    @Test
+    void testUseCodeCacheFlushing() {
+        String jvmArgs = "-Xmx1g -XX:+UseCodeCacheFlushing";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:+UseCodeCacheFlushing", jvmOptions.getUseCodeCacheFlushing(),
+                "UseCodeCacheFlushing not correct.");
+    ***REMOVED***
 ***REMOVED***
