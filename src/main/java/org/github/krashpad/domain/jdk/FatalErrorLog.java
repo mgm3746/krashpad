@@ -2475,6 +2475,10 @@ public class FatalErrorLog {
         return timeElapsedTimeEvent;
     ***REMOVED***
 
+    public UnameEvent getUnameEvent() {
+        return unameEvent;
+    ***REMOVED***
+
     public List<String> getUnidentifiedLogLines() {
         return unidentifiedLogLines;
     ***REMOVED***

@@ -1,0 +1,2 @@
+uname:SunOS 5.11 11.4.32.88.3 sun4v
+  (T2 libthread)

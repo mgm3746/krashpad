@@ -17,7 +17,11 @@ package org.github.krashpad.domain.jdk;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
+
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.service.Manager;
+import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
@@ -112,5 +116,21 @@ class TestUnameEvent {
         assertEquals(Arch.I86PC, ((UnameEvent) event).getArch(), "Arch not correct.");
         assertEquals(OsType.SOLARIS, ((UnameEvent) event).getOsType(), "Version not correct.");
         assertEquals(OsVendor.ORACLE, ((UnameEvent) event).getOsVendor(), "Vendor not correct.");
+    ***REMOVED***
+
+    @Test
+    void testT2Libthread() {
+        String logLine = "  (T2 libthread)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
+                JdkUtil.LogEventType.UNAME.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testSplitAcross2Lines() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset64.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals("uname:SunOS 5.11 11.4.32.88.3 sun4v  (T2 libthread)", fel.getUnameEvent().getUname(),
+                "uname not correct.");
     ***REMOVED***
 ***REMOVED***

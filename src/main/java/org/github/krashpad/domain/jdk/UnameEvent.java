@@ -47,6 +47,11 @@ import org.github.krashpad.util.jdk.JdkUtil.Arch;
  * uname:SunOS 5.11 11.3 i86pc  (T2 libthread)
  * </pre>
  * 
+ * <pre>
+ * uname:SunOS 5.11 11.4.32.88.3 sun4v
+ *   (T2 libthread)
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -55,7 +60,8 @@ public class UnameEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^uname:((Linux|SunOS) .+(i86pc|sun4v|ppc64(le)?|x86_64).*)$";
+    private static final String REGEX = "^(uname:((Linux|SunOS) .+(i86pc|sun4v|ppc64(le)?|x86_64).*)|"
+            + "  \\(T2 libthread\\))$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 

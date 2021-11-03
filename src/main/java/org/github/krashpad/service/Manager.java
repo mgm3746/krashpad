@@ -154,7 +154,14 @@ public class Manager {
                     ***REMOVED*** else if (event instanceof TimezoneEvent) {
                         fatalErrorLog.setTimezoneEvent((TimezoneEvent) event);
                     ***REMOVED*** else if (event instanceof UnameEvent) {
-                        fatalErrorLog.setUnameEvent((UnameEvent) event);
+                        // some uname information is split across 2 lines
+                        if (fatalErrorLog.getUnameEvent() == null) {
+                            fatalErrorLog.setUnameEvent((UnameEvent) event);
+                        ***REMOVED*** else {
+                            UnameEvent unameEvent = new UnameEvent(
+                                    fatalErrorLog.getUnameEvent().getLogEntry() + ((UnameEvent) event).getLogEntry());
+                            fatalErrorLog.setUnameEvent(unameEvent);
+                        ***REMOVED***
                     ***REMOVED*** else if (event instanceof UnknownEvent
                             && fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
                         fatalErrorLog.getUnidentifiedLogLines().add(logLine);
