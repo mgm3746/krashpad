@@ -273,6 +273,18 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testArchSparc() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset65.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(Arch.SPARC, fel.getArch(), "Arch not correct.");
+        // No vm_info, so not possible to determine vendor
+        assertEquals(JavaVendor.UNKNOWN, fel.getJavaVendor(), "Java vendor not correct.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT),
+                Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testRhel7Jdk11() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset8.txt");
         Manager manager = new Manager();

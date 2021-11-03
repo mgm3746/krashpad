@@ -159,7 +159,7 @@ public class UnameEvent implements LogEvent {
         Arch arch = Arch.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int indexArch = 3;
+            int indexArch = 4;
             if (matcher.group(indexArch).equals("x86_64")) {
                 arch = Arch.X86_64;
             ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64")) {
