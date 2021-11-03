@@ -430,14 +430,22 @@ public class Main {
                         + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getJvmMemoryMax() > 0) {
-                long percent = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal());
+                long percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal());
                 printWriter.write("JVM Memory Max: >" + fel.getJvmMemoryMax()
                         + Character.toString(Constants.PRECISION_REPORTING) + " (");
                 // provide rounding indicator
-                if (percent == 0 || (percent == 100 && fel.getJvmMemoryMax() != fel.getJvmMemTotal())) {
+                if (percentMemory == 0 || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getJvmMemTotal())) {
                     printWriter.write("~");
                 ***REMOVED***
-                printWriter.write(percent + "% Available Memory)" + Constants.LINE_SEPARATOR);
+                printWriter.write(percentMemory + "% Memory");
+                long percentMemoryAvailable = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getMemAvailable());
+                printWriter.write(", ");
+                // provide rounding indicator
+                if (percentMemoryAvailable == 0
+                        || (percentMemoryAvailable == 100 && fel.getJvmMemoryMax() != fel.getMemAvailable())) {
+                    printWriter.write("~");
+                ***REMOVED***
+                printWriter.write(percentMemoryAvailable + "% Memory Available)" + Constants.LINE_SEPARATOR);
             ***REMOVED***
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
