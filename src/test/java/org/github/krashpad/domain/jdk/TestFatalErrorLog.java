@@ -436,6 +436,10 @@ class TestFatalErrorLog {
         long metaspaceUsed = JdkUtil.convertSize(139716, 'K', Constants.PRECISION_REPORTING);
         assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
         assertEquals(4, fel.getCpus(), "CPU cores not correct.");
+        long commitLimit = JdkUtil.convertSize(16127136, 'K', Constants.PRECISION_REPORTING);
+        assertEquals(commitLimit, fel.getCommitLimit(), "CommitLimit not correct.");
+        long committedAs = JdkUtil.convertSize(28976296, 'K', Constants.PRECISION_REPORTING);
+        assertEquals(committedAs, fel.getCommittedAs(), "Committed_AS not correct.");
     ***REMOVED***
 
     @Test

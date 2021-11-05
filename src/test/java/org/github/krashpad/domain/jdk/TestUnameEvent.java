@@ -130,7 +130,7 @@ class TestUnameEvent {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset64.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertEquals("uname:SunOS 5.11 11.4.32.88.3 sun4v  (T2 libthread)", fel.getUnameEvent().getUname(),
+        assertEquals("SunOS 5.11 11.4.32.88.3 sun4v  (T2 libthread)", fel.getUnameEvent().getUname(),
                 "uname not correct.");
     ***REMOVED***
 ***REMOVED***

@@ -144,12 +144,12 @@ public class UnameEvent implements LogEvent {
      * @return The uname string.
      */
     public String getUname() {
-        String os = null;
+        String uname = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            os = matcher.group(1);
+            uname = matcher.group(2);
         ***REMOVED***
-        return os;
+        return uname;
     ***REMOVED***
 
     /**

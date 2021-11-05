@@ -227,4 +227,18 @@ class TestMeminfoEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***
+
+    @Test
+    void testCommitLimit() {
+        String logLine = "CommitLimit:    13329920 kB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCommitLimitAs() {
+        String logLine = "Committed_AS:   13301540 kB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

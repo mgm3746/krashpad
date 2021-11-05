@@ -1,0 +1,324 @@
+***REMOVED***
+***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
+***REMOVED*** Cannot create GC thread. Out of system resources.
+***REMOVED*** Possible reasons:
+***REMOVED***   The system is out of physical RAM or swap space
+***REMOVED***   In 32 bit mode, the process size limit was hit
+***REMOVED*** Possible solutions:
+***REMOVED***   Reduce memory load on the system
+***REMOVED***   Increase physical memory or swap space
+***REMOVED***   Check if swap backing store is full
+***REMOVED***   Use 64 bit Java on a 64 bit OS
+***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
+***REMOVED***   Decrease number of Java threads
+***REMOVED***   Decrease Java thread stack sizes (-Xss)
+***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
+***REMOVED*** This output file may be truncated or incomplete.
+***REMOVED***
+***REMOVED***  Out of Memory Error (gcTaskThread.cpp:48), pid=45280, tid=0x00007f2156868700
+***REMOVED***
+***REMOVED*** JRE version:  (8.0_151-b12) (build )
+***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.151-b12 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x00007f2150008800):  JavaThread "Unknown thread" [_thread_in_vm, id=45281, stack(0x00007f2156769000,0x00007f2156869000)]
+
+Stack: [0x00007f2156769000,0x00007f2156869000],  sp=0x00007f21568675b0,  free space=1017k
+***REMOVED***
+V  [libjvm.so+0xacb58a]  VMError::report_and_die()+0x2ba
+V  [libjvm.so+0x4ff4ab]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0x8b
+V  [libjvm.so+0x5daabf]  GCTaskThread::GCTaskThread(GCTaskManager*, unsigned int, unsigned int)+0x15f
+V  [libjvm.so+0x5d987b]  GCTaskManager::initialize()+0x3ab
+V  [libjvm.so+0x94b90d]  ParallelScavenge***REMOVED***:initialize()+0x34d
+V  [libjvm.so+0xa93603]  Universe::initialize_heap()+0xf3
+V  [libjvm.so+0xa93b6e]  universe_init()+0x3e
+V  [libjvm.so+0x640545]  init_globals()+0x65
+V  [libjvm.so+0xa7725e]  Threads::create_vm(JavaVMInitArgs*, bool*)+0x23e
+V  [libjvm.so+0x6d4e44]  JNI_CreateJavaVM+0x74
+C  [libjli.so+0x797e]  JavaMain+0x9e
+C  [libpthread.so.0+0x7dd5]  start_thread+0xc5
+
+
+***REMOVED***
+
+***REMOVED***
+
+***REMOVED***
+
+=>0x00007f2150008800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=45281, stack(0x00007f2156769000,0x00007f2156869000)]
+
+VM state:not at safepoint (not fully initialized)
+
+***REMOVED***
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+***REMOVED***
+7f215592e000-7f2155b2d000 ---p 00cd3000 fd:00 287379                     /usr/java/jdk1.8.0_151/jre/lib/amd64/server/libjvm.so
+
+***REMOVED***
+jvm_args: -Xms512m -Xmx512m 
+java_command: /path/to/my.jar
+java_class_path (initial): /path/to/my.jar
+***REMOVED***
+
+***REMOVED***
+PATH=
+USERNAME=root
+***REMOVED***
+
+***REMOVED***
+SIGSEGV: [libjvm.so+0xacbe10], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xacbe10], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0x924f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0x924f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0x924f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0x924f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+***REMOVED***
+SIGUSR2: [libjvm.so+0x9267d0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGINT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGTERM: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGQUIT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux Server release 7.6 (Maipo)
+
+uname:Linux 3.10.0-957.1.3.el7.x86_64 ***REMOVED***1 SMP Thu Nov 15 17:36:42 UTC 2018 x86_64
+libc:glibc 2.17 NPTL 2.17 
+rlimit: STACK 8192k, CORE 0k, NPROC 55305, NOFILE 100000, AS infinity
+load average:0.80 0.86 0.82
+
+***REMOVED***
+MemTotal:       14183432 kB
+MemFree:          206316 kB
+MemAvailable:    4812740 kB
+Buffers:            9336 kB
+Cached:          5429596 kB
+SwapCached:           12 kB
+Active:          8312416 kB
+Inactive:        5079928 kB
+Active(anon):    7262872 kB
+Inactive(anon):  1415264 kB
+Active(file):    1049544 kB
+Inactive(file):  3664664 kB
+***REMOVED***
+***REMOVED***
+SwapTotal:       6238204 kB
+SwapFree:        6237684 kB
+Dirty:               124 kB
+***REMOVED***
+AnonPages:       7953544 kB
+Mapped:           162432 kB
+Shmem:            724724 kB
+Slab:             308352 kB
+SReclaimable:     222380 kB
+SUnreclaim:        85972 kB
+KernelStack:       14816 kB
+PageTables:        37412 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+CommitLimit:    13329920 kB
+Committed_AS:   13301540 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      248192 kB
+VmallocChunk:   34359310332 kB
+***REMOVED***
+AnonHugePages:   3448832 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+Hugepagesize:       2048 kB
+DirectMap4k:      175936 kB
+DirectMap2M:     4018176 kB
+DirectMap1G:    12582912 kB
+
+
+CPU:total 6 (initial active 6) (1 cores per cpu, 1 threads per core) family 6 model 79 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, tsc, tscinvbit, bmi1, bmi2, adx
+
+***REMOVED***
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz
+stepping	: 1
+microcode	: 0xb00002e
+cpu MHz		: 2197.455
+cache size	: 51200 KB
+physical id	: 0
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 invpcid rtm rdseed adx smap xsaveopt arat spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4394.91
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 42 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz
+stepping	: 1
+microcode	: 0xb00002e
+cpu MHz		: 2197.455
+cache size	: 51200 KB
+physical id	: 2
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 invpcid rtm rdseed adx smap xsaveopt arat spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4394.91
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 42 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz
+stepping	: 1
+microcode	: 0xb00002e
+cpu MHz		: 2197.455
+cache size	: 51200 KB
+physical id	: 4
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 4
+initial apicid	: 4
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 invpcid rtm rdseed adx smap xsaveopt arat spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4394.91
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 42 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz
+stepping	: 1
+microcode	: 0xb00002e
+cpu MHz		: 2197.455
+cache size	: 51200 KB
+physical id	: 6
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 6
+initial apicid	: 6
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 invpcid rtm rdseed adx smap xsaveopt arat spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4394.91
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 42 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz
+stepping	: 1
+microcode	: 0xb00002e
+cpu MHz		: 2197.455
+cache size	: 51200 KB
+physical id	: 8
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 8
+initial apicid	: 8
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 invpcid rtm rdseed adx smap xsaveopt arat spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4394.91
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 42 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz
+stepping	: 1
+microcode	: 0xb00002e
+cpu MHz		: 2197.455
+cache size	: 51200 KB
+physical id	: 10
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 10
+initial apicid	: 10
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 invpcid rtm rdseed adx smap xsaveopt arat spec_ctrl intel_stibp flush_l1d arch_capabilities
+bogomips	: 4394.91
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 42 bits physical, 48 bits virtual
+power management:
+
+
+
+Memory: 4k page, physical 14183432k(206316k free), swap 6238204k(6237684k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.151-b12) for linux-amd64 JRE (1.8.0_151-b12), built on Sep  5 2017 19:20:58 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
+
+time: Tue Nov  2 15:17:35 2021
+elapsed time: 0 seconds (0d 0h 0m 0s)
+

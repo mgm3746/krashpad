@@ -111,7 +111,7 @@ class TestAnalysis {
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
         assertEquals(459, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
                 "Release days diff not correct.");
-        assertEquals(5, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
+        assertEquals(6, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
                 "Release ***REMOVED*** diff not correct.");
     ***REMOVED***
 
@@ -2057,5 +2057,14 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOomStartupOvercommit() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset66.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_OVERCOMMIT),
+                Analysis.ERROR_OOME_STARTUP_OVERCOMMIT + " analysis not identified.");
     ***REMOVED***
 ***REMOVED***

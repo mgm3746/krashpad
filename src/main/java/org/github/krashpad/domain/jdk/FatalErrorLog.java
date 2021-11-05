@@ -401,6 +401,8 @@ public class FatalErrorLog {
                             analysis.add(Analysis.ERROR_OOME_STARTUP);
                         ***REMOVED***
                     ***REMOVED***
+                ***REMOVED*** else if (getJvmMemoryMax() > (getCommitLimit() - getCommittedAs())) {
+                    analysis.add(Analysis.ERROR_OOME_STARTUP_OVERCOMMIT);
                 ***REMOVED*** else {
                     if (isInHeader("Java Heap may be blocking the growth of the native heap")) {
                         analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT_OOPS);
@@ -871,6 +873,62 @@ public class FatalErrorLog {
 
     public CommandLineEvent getCommandLineEvent() {
         return commandLineEvent;
+    ***REMOVED***
+
+    /**
+     * The total amount of memory currently available to be allocated by the system, based on the overcommit ratio (vm.
+     * overcommit_ratio), this is the total amount of memory currently available to be allocated on the system.
+     * 
+     * This limit is only adhered to if strict overcommit accounting is enabled (mode 2 in vm.overcommit_memory)
+     * 
+     * @return The total amount of memory currently available to be allocated by the system in
+     *         <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getCommitLimit() {
+        long commitLimit = Long.MIN_VALUE;
+        if (!meminfoEvents.isEmpty()) {
+            String regexMemTotal = "CommitLimit:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    commitLimit = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return commitLimit;
+    ***REMOVED***
+
+    /**
+     * The amount of memory currently allocated on the system.
+     * 
+     * The committed memory is a sum of all of the memory which has been allocated by processes, even if it has not been
+     * "used" by them yet.
+     * 
+     * @return The amount of memory currently allocated on the system in <code>Constants.PRECISION_REPORTING</code>
+     *         units.
+     */
+    public long getCommittedAs() {
+        long committedAs = Long.MIN_VALUE;
+        if (!meminfoEvents.isEmpty()) {
+            String regexMemTotal = "Committed_AS:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    committedAs = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return committedAs;
     ***REMOVED***
 
     public List<CompilationEvent> getCompilationEvents() {

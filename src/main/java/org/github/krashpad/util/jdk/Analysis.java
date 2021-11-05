@@ -158,6 +158,11 @@ public enum Analysis {
     ERROR_OOME("error.oome"),
 
     /**
+     * Property key for unused memory committed to other processes is inaccessible.
+     */
+    ERROR_OOME_OVERCOMMIT("error.oome.overcommit"),
+
+    /**
      * Property key for insufficient physical memory due to an external process.
      */
     ERROR_OOME_EXTERNAL("error.oome.external"),
@@ -202,6 +207,11 @@ public enum Analysis {
      * Property key for the JVM failing to start due to a resource limit (rlimit).
      */
     ERROR_OOME_STARTUP_LIMIT("error.oome.startup.limit"),
+
+    /**
+     * Property key for the JVM failing to start due to unused memory committed to other processes is inaccessible.
+     */
+    ERROR_OOME_STARTUP_OVERCOMMIT("error.oome.startup.overcommit"),
 
     /**
      * Property key for the JVM failing to start due to a resource limit (rlimit) being reached or the native heap
