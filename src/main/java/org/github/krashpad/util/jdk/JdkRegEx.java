@@ -23,6 +23,11 @@ package org.github.krashpad.util.jdk;
 public class JdkRegEx {
 
     /**
+     * A 32-bit or 64-bit memory address.
+     */
+    public static final String ADDRESS = "(" + JdkRegEx.ADDRESS32 + "|" + JdkRegEx.ADDRESS64 + ")";
+
+    /**
      * A 32-bit memory address.
      */
     public static final String ADDRESS32 = "((0x)?[0-9a-f]{8***REMOVED***)";
@@ -33,9 +38,14 @@ public class JdkRegEx {
     public static final String ADDRESS64 = "((0x)?[0-9a-f]{16***REMOVED***)";
 
     /**
-     * A 32-bit or 64-bit memory address.
+     * ActiveMQ main class used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * java_command: org.apache.activemq.artemis.boot.Artemis queue stat --url tcp://domain:12345 --user myuser
+     * --password mypassword --maxRows 1234
      */
-    public static final String ADDRESS = "(" + ADDRESS32 + "|" + ADDRESS64 + ")";
+    public static final String ARTEMIS = "^.+org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis.+$";
 
     /**
      * Memory map area.
@@ -280,7 +290,6 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK8_DIR = "(java\\-1\\.8\\.0\\-openjdk\\-1\\.8\\.0\\..+\\.el[678]"
             + "(_\\d{1,2***REMOVED***)?\\.(ppc64(le)?|x86_64))";
-
     /**
      * Red Hat OpenJDK 8 rpm file path.
      * 
@@ -296,6 +305,7 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK8_LIBJVM_PATH = "\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK8_DIR
             + "\\/jre\\/lib\\/(amd64|ppc64(le)?)\\/server\\/libjvm\\.so";
+
     /**
      * The size of memory in bytes (B), kilobytes (K), megabytes (M), or gigabytes (G) to a whole number or to one
      * decimal place.
@@ -327,22 +337,22 @@ public class JdkRegEx {
     public static final String TIMESTAMP = "(\\d{0,12***REMOVED***[\\.\\,]\\d{3***REMOVED***)";
 
     /**
-     * Tomcat bootstrap loader used for <code>Application</code> identification.
+     * Tomcat start main class used for <code>Application</code> identification.
      * 
      * For example:
      * 
      * ***REMOVED***
      */
-    public static final String TOMCAT_BOOTSTRAP_START = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap start$";
+    public static final String TOMCAT_START = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap start$";
 
     /**
-     * Tomcat bootstrap loader used for <code>Application</code> identification.
+     * Tomcat stop main class used for <code>Application</code> identification.
      * 
      * For example:
      * 
      * java_command: org.apache.catalina.startup.Bootstrap stop stop
      */
-    public static final String TOMCAT_BOOTSTRAP_STOP = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap stop stop$";
+    public static final String TOMCAT_STOP = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap stop stop$";
 
     /**
      * Tomcat jar used for <code>Application</code> identification.

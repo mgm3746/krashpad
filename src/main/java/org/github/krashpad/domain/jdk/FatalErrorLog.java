@@ -835,12 +835,14 @@ public class FatalErrorLog {
                     if (event.getLogEntry().matches(JdkRegEx.JBOSS_JAR)) {
                         application = Application.JBOSS;
                         break;
-                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_JAR)
-                            || event.getLogEntry().matches(JdkRegEx.TOMCAT_BOOTSTRAP_START)) {
+                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_START)) {
                         application = Application.TOMCAT;
                         break;
-                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_BOOTSTRAP_STOP)) {
+                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_STOP)) {
                         application = Application.TOMCAT_SHUTDOWN;
+                        break;
+                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.ARTEMIS)) {
+                        application = Application.AMQ_CLI;
                         break;
                     ***REMOVED***
                 ***REMOVED***

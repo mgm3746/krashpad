@@ -686,6 +686,18 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testAmqCli() {
+        String logLine = "java_command: org.apache.activemq.artemis.boot.Artemis queue stat --url tcp://domain:12345 "
+                + "--user myuser --password mypassword --maxRows 1234";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
+        VmArgumentsEvent event = new VmArgumentsEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getVmArgumentsEvents().add(event);
+        assertEquals(Application.AMQ_CLI, fel.getApplication(), "AMQ CLI application not identified.");
+    ***REMOVED***
+
+    @Test
     void testWindows() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset49.txt");
         Manager manager = new Manager();
