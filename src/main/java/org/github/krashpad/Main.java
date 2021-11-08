@@ -447,7 +447,7 @@ public class Main {
                             || (percentMemoryAvailable == 100 && fel.getJvmMemoryMax() != fel.getMemAvailable())) {
                         printWriter.write("~");
                     ***REMOVED***
-                    printWriter.write(percentMemoryAvailable + "% Memory Available)" + Constants.LINE_SEPARATOR);
+                    printWriter.write(percentMemoryAvailable + "% Memory Available)");
                 ***REMOVED***
                 printWriter.write(Constants.LINE_SEPARATOR);
             ***REMOVED***
