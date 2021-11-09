@@ -397,6 +397,8 @@ public class FatalErrorLog {
                     ***REMOVED*** else {
                         if (this.getApplication() == Application.TOMCAT_SHUTDOWN) {
                             analysis.add(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN);
+                        ***REMOVED*** else if (this.getApplication() == Application.AMQ_CLI) {
+                            analysis.add(Analysis.ERROR_OOME_AMQ_CLI);
                         ***REMOVED*** else {
                             analysis.add(Analysis.ERROR_OOME_STARTUP);
                         ***REMOVED***
@@ -842,6 +844,9 @@ public class FatalErrorLog {
                         application = Application.TOMCAT_SHUTDOWN;
                         break;
                     ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.ARTEMIS)) {
+                        application = Application.AMQ;
+                        break;
+                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.ARTEMIS_CLI)) {
                         application = Application.AMQ_CLI;
                         break;
                     ***REMOVED***

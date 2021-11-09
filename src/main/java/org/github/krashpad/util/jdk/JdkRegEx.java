@@ -42,10 +42,26 @@ public class JdkRegEx {
      * 
      * For example:
      * 
-     * java_command: org.apache.activemq.artemis.boot.Artemis queue stat --url tcp://domain:12345 --user myuser
-     * --password mypassword --maxRows 1234
+     * <pre>
+     * java_command: org.apache.activemq.artemis.boot.Artemis run
+     * </pre>
      */
-    public static final String ARTEMIS = "^.+org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis.+$";
+    public static final String ARTEMIS = "^.+org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis run.*$";
+
+    /**
+     * ActiveMQ CLI main class used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * java_command: org.apache.activemq.artemis.boot.Artemis queue stat --url tcp://mydomain:12345 --user myuser 
+     * --password mypassword --maxRows 1234
+     * 
+     * java_command: org.apache.activemq.artemis.boot.Artemis queue purge --name ExpiryQueue --url tcp://mydomain:12345 
+     * --user myuser --password mypassword
+     * </pre>
+     */
+    public static final String ARTEMIS_CLI = "^.+org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!run).*$";
 
     /**
      * Memory map area.

@@ -240,4 +240,19 @@ class TestJdkRegEx {
         String address = "54%";
         assertTrue(address.matches(JdkRegEx.PERCENT), "PERCENT not recognized.");
     ***REMOVED***
+
+    @Test
+    void testAmq() {
+        String javaCommand = "java_command: org.apache.activemq.artemis.boot.Artemis run";
+        assertTrue(javaCommand.matches(JdkRegEx.ARTEMIS), "AMQ not recognized.");
+        assertFalse(javaCommand.matches(JdkRegEx.ARTEMIS_CLI), "AMQ CLI incorrectly recognized.");
+    ***REMOVED***
+
+    @Test
+    void testAmqCli() {
+        String javaCommand = "java_command: org.apache.activemq.artemis.boot.Artemis queue purge --name ExpiryQueue "
+                + "--url tcp://mydomain:12345 --user myuser --password mypassword";
+        assertFalse(javaCommand.matches(JdkRegEx.ARTEMIS), "AMQ incorrectly recognized.");
+        assertTrue(javaCommand.matches(JdkRegEx.ARTEMIS_CLI), "AMQ CLI not recognized.");
+    ***REMOVED***
 ***REMOVED***

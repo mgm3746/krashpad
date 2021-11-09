@@ -694,7 +694,7 @@ class TestFatalErrorLog {
         VmArgumentsEvent event = new VmArgumentsEvent(logLine);
         FatalErrorLog fel = new FatalErrorLog();
         fel.getVmArgumentsEvents().add(event);
-        assertEquals(Application.AMQ_CLI, fel.getApplication(), "AMQ CLI application not identified.");
+        assertEquals(Application.AMQ, fel.getApplication(), "AMQ CLI application not identified.");
     ***REMOVED***
 
     @Test
