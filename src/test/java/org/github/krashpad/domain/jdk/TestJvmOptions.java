@@ -38,16 +38,9 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
-    void testAbrt() {
-        String jvmArgs = "-XX:OnOutOfMemoryError=/bin/kill -ABRT %p";
-        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-ABRT %p", jvmOptions.getAbrt(), "ABRT not correct.");
-    ***REMOVED***
-
-    @Test
     void testDebugging() {
         String jvmArgs = "-XX:OnOutOfMemoryError=/bin/kill "
-                + "-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n -ABRT %p";
+                + "-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals("-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n",
                 jvmOptions.getJpdaSocketTransport(), "JDPA socket transport (debugging) not correct.");
@@ -243,5 +236,21 @@ class TestJvmOptions {
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals("-XX:+UseCodeCacheFlushing", jvmOptions.getUseCodeCacheFlushing(),
                 "UseCodeCacheFlushing not correct.");
+    ***REMOVED***
+
+    @Test
+    void testOnOutOfMemoryErrorKillAbrt() {
+        String jvmArgs = "-Xms1g -XX:OnOutOfMemoryError=/bin/kill -ABRT %p -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:OnOutOfMemoryError=/bin/kill -ABRT %p", jvmOptions.getOnOutOfMemoryError(),
+                "OnOutOfMemoryError not correct.");
+    ***REMOVED***
+
+    @Test
+    void testOnOutOfMemoryErrorKill9() {
+        String jvmArgs = "-Xms1g -XX:OnOutOfMemoryError=kill -9 %p -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:OnOutOfMemoryError=kill -9 %p", jvmOptions.getOnOutOfMemoryError(),
+                "OnOutOfMemoryError not correct.");
     ***REMOVED***
 ***REMOVED***

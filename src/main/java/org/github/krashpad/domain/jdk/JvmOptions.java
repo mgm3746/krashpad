@@ -41,13 +41,6 @@ import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
 public class JvmOptions {
 
     /**
-     * ABRT option.
-     * 
-     * -ABRT %p
-     */
-    private String abrt;
-
-    /**
      * The percentage weight to give to recent gc stats (vs historic) for ergonomic calculations. For example:
      * 
      * <pre>
@@ -1450,8 +1443,9 @@ public class JvmOptions {
         super();
         if (jvmArgs != null) {
             // (?<!^) match whatever follows, but not the start of the string
-            // (?= -) match "space dash", but don't include the empty leading substring in the result
-            String[] opts = jvmArgs.split("(?<!^)(?= -)");
+            // (?= -) match "space dash" followed by jvm option starting patterns, but don't include the empty leading
+            // substring in the result
+            String[] opts = jvmArgs.split("(?<!^)(?= -(-add|agentlib|verbose|D|X))");
             String key = null;
             for (int i = 0; i < opts.length; i++) {
                 String option = opts[i].trim();
@@ -1467,9 +1461,6 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-agentpath:.+$")) {
                     agentpath.add(option);
                     key = "agentpath";
-                ***REMOVED*** else if (option.matches("^-ABRT.+$")) {
-                    abrt = option;
-                    key = "ABRT";
                 ***REMOVED*** else if (option.matches("^-client$")) {
                     client = true;
                     key = "client";
@@ -2301,10 +2292,6 @@ public class JvmOptions {
         if (JdkUtil.isOptionEnabled(disableAttachMechanism)) {
             analysis.add(Analysis.WARN_OPT_DISABLE_ATTACH_MECHANISM);
         ***REMOVED***
-    ***REMOVED***
-
-    public String getAbrt() {
-        return abrt;
     ***REMOVED***
 
     public String getAdaptiveSizePolicyWeight() {
