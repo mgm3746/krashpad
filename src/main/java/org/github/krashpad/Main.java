@@ -440,14 +440,18 @@ public class Main {
                         printWriter.write("~");
                     ***REMOVED***
                     printWriter.write(percentMemory + "% Memory");
-                    long percentMemoryAvailable = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getMemAvailable());
-                    printWriter.write(", ");
-                    // provide rounding indicator
-                    if (percentMemoryAvailable == 0
-                            || (percentMemoryAvailable == 100 && fel.getJvmMemoryMax() != fel.getMemAvailable())) {
-                        printWriter.write("~");
+                    if (fel.getMemAvailable() > 0) {
+                        // Memory Available n/a RHEL6
+                        long percentMemoryAvailable = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getMemAvailable());
+                        printWriter.write(", ");
+                        // provide rounding indicator
+                        if (percentMemoryAvailable == 0
+                                || (percentMemoryAvailable == 100 && fel.getJvmMemoryMax() != fel.getMemAvailable())) {
+                            printWriter.write("~");
+                        ***REMOVED***
+                        printWriter.write(percentMemoryAvailable + "% Memory Available");
                     ***REMOVED***
-                    printWriter.write(percentMemoryAvailable + "% Memory Available)");
+                    printWriter.write(")");
                 ***REMOVED***
                 printWriter.write(Constants.LINE_SEPARATOR);
             ***REMOVED***
