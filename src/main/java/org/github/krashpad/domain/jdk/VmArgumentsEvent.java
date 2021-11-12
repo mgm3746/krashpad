@@ -29,6 +29,10 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * VM arguments information.
  * </p>
  * 
+ * <p>
+ * jvm_args will be missing if no JVM options are being used, or the JVM crashes very early in startup.
+ * </p>
+ * 
  * <h3>Example Logging</h3>
  * 
  * <pre>

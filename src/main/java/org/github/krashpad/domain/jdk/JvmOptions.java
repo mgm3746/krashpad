@@ -545,7 +545,7 @@ public class JvmOptions {
     private String initiatingHeapOccupancyPercent;
 
     /**
-     * JVM options native libraries.
+     * Instrumentation (byte code manipulation).
      * 
      * For example:
      * 

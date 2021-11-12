@@ -352,7 +352,8 @@ public class FatalErrorLog {
             analysis.add(Analysis.WARN_JDK_NOT_LTS);
         ***REMOVED***
         // Check for ancient JDK
-        if (ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this), JdkUtil.getLatestJdkReleaseDate(this)) > 365) {
+        if (ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this), JdkUtil.getLatestJdkReleaseDate(this)) > 365
+                || ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this), new Date()) > 365) {
             analysis.add(Analysis.INFO_JDK_ANCIENT);
         ***REMOVED***
         // Check for crash in JNA
