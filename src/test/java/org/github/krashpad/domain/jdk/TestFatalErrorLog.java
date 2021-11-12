@@ -614,6 +614,15 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testMaxjitcodesize() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset37.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        long codeCacheSize = JdkUtil.convertSize(1024, 'm', Constants.PRECISION_REPORTING);
+        assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
+    ***REMOVED***
+
+    @Test
     void testMeminfo() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset38.txt");
         Manager manager = new Manager();
@@ -669,7 +678,7 @@ class TestFatalErrorLog {
         long heapMax = JdkUtil.convertSize(33554432, 'K', Constants.PRECISION_REPORTING);
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long codeCacheSize = JdkUtil.convertSize(251658240, 'B', Constants.PRECISION_REPORTING);
-        assertEquals(codeCacheSize, fel.getReservedCodeCacheSize(), "Code cache size not correct.");
+        assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         long jvmMemory = JdkUtil.convertSize(33554432 + 245760, 'K', Constants.PRECISION_REPORTING);
         assertEquals(jvmMemory, fel.getJvmMemoryMax(), "Jvm memory not correct.");
     ***REMOVED***
@@ -736,7 +745,7 @@ class TestFatalErrorLog {
         long threadMemory = JdkUtil.convertSize(1024 * 720, 'K', Constants.PRECISION_REPORTING);
         assertEquals(threadMemory, fel.getThreadStackMemory(), "Thread memory not correct.");
         long codeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
-        assertEquals(codeCacheSize, fel.getReservedCodeCacheSize(), "Code cache size not correct.");
+        assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
                 "Jvm memory not correct.");
     ***REMOVED***

@@ -664,9 +664,17 @@ public class FatalErrorLog {
                 && JdkUtil.isOptionEnabled(jvmOptions.getDisableExplicitGc())) {
             analysis.add(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7);
         ***REMOVED***
-        // Check for redundant -server flag on 64-bit
-        if (is64Bit() && jvmOptions != null && jvmOptions.isServer()) {
-            analysis.add(Analysis.INFO_OPT_SERVER_REDUNDANT);
+        // Check for redundant -server flag and ignored -client flag on 64-bit
+        if (is64Bit() && jvmOptions != null) {
+            if (jvmOptions.isD64()) {
+                analysis.add(Analysis.INFO_OPT_D64_REDUNDANT);
+            ***REMOVED***
+            if (jvmOptions.isServer()) {
+                analysis.add(Analysis.INFO_OPT_SERVER_REDUNDANT);
+            ***REMOVED***
+            if (jvmOptions.isClient()) {
+                analysis.add(Analysis.INFO_OPT_CLIENT);
+            ***REMOVED***
         ***REMOVED***
         // Check for crash caused trying to dereference a null pointer.
         if (sigInfoEvent != null && sigInfoEvent.getSignalAddress() != null
@@ -1693,9 +1701,9 @@ public class FatalErrorLog {
         ***REMOVED***
         // code cache
         if (jvmMemoryMax > 0) {
-            jvmMemoryMax += getReservedCodeCacheSize();
+            jvmMemoryMax += getCodeCacheSize();
         ***REMOVED*** else {
-            jvmMemoryMax = getReservedCodeCacheSize();
+            jvmMemoryMax = getCodeCacheSize();
         ***REMOVED***
         // Direct memory
         if (jvmMemoryMax > 0) {
@@ -2176,9 +2184,9 @@ public class FatalErrorLog {
     /**
      * @return The max code cache size in <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public long getReservedCodeCacheSize() {
+    public long getCodeCacheSize() {
         // Default is 420m
-        long reservedCodeCacheize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
+        long reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
         // 1st check [Global flags]
         if (!globalFlagsEvents.isEmpty()) {
             Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
@@ -2188,16 +2196,22 @@ public class FatalErrorLog {
                 Pattern pattern = Pattern.compile(regExReservedCodeCacheSize);
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    reservedCodeCacheize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
+                    reservedCodeCacheSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
                             Constants.PRECISION_REPORTING);
                     break;
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (jvmOptions != null && jvmOptions.getReservedCodeCacheSize() != null) {
+        ***REMOVED*** else if (jvmOptions != null
+                && (jvmOptions.getReservedCodeCacheSize() != null || jvmOptions.getMaxjitcodesize() != null)) {
             char fromUnits;
             long value;
             Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(jvmOptions.getReservedCodeCacheSize());
+            Matcher matcher;
+            if (jvmOptions.getReservedCodeCacheSize() != null) {
+                matcher = pattern.matcher(jvmOptions.getReservedCodeCacheSize());
+            ***REMOVED*** else {
+                matcher = pattern.matcher(jvmOptions.getMaxjitcodesize());
+            ***REMOVED***
             if (matcher.find()) {
                 value = Long.parseLong(matcher.group(2));
                 if (matcher.group(3) != null) {
@@ -2205,10 +2219,10 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                reservedCodeCacheize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
             ***REMOVED***
         ***REMOVED***
-        return reservedCodeCacheize;
+        return reservedCodeCacheSize;
     ***REMOVED***
 
     public RlimitEvent getRlimitEvent() {

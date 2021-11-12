@@ -253,4 +253,68 @@ class TestJvmOptions {
         assertEquals("-XX:OnOutOfMemoryError=kill -9 %p", jvmOptions.getOnOutOfMemoryError(),
                 "OnOutOfMemoryError not correct.");
     ***REMOVED***
+
+    @Test
+    void testCMSScavengeBeforeRemark() {
+        String jvmArgs = "-Xms1g -XX:+CMSScavengeBeforeRemark -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:+CMSScavengeBeforeRemark", jvmOptions.getCmsScavengeBeforeRemark(),
+                "CMSScavengeBeforeRemark not correct.");
+    ***REMOVED***
+
+    @Test
+    void testCompileThreshold() {
+        String jvmArgs = "-Xms1g -XX:CompileThreshold=5000 -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:CompileThreshold=5000", jvmOptions.getCompileThreshold(), "CompileThreshold not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeNoUnits() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize4096000 -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize4096000", jvmOptions.getMaxjitcodesize(), "CompileThreshold not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeSmallK() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize4096k -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize4096k", jvmOptions.getMaxjitcodesize(), "CompileThreshold not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeBigK() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize4096K -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize4096K", jvmOptions.getMaxjitcodesize(), "CompileThreshold not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeSmallM() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize1024m -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize1024m", jvmOptions.getMaxjitcodesize(), "CompileThreshold not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeBigM() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize1024M -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize1024M", jvmOptions.getMaxjitcodesize(), "CompileThreshold not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeSmallG() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize1g -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize1g", jvmOptions.getMaxjitcodesize(), "CompileThreshold not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeBigG() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize1G -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize1G", jvmOptions.getMaxjitcodesize(), "CompileThreshold not correct.");
+    ***REMOVED***
 ***REMOVED***

@@ -230,6 +230,17 @@ public class JvmOptions {
     private String cmsParallelRemarkEnabled;
 
     /**
+     * Option to enable a young collection before the CMS remark phase, pruning the young generation to minimize remark
+     * pause times.
+     * 
+     * 
+     * <pre>
+     *-XX:+CMSScavengeBeforeRemark
+     * </pre>
+     */
+    private String cmsScavengeBeforeRemark;
+
+    /**
      * The option to enable compilation of bytecode on first invocation. For example:
      * 
      * <pre>
@@ -246,6 +257,22 @@ public class JvmOptions {
      * </pre>
      */
     private String compileCommand;
+
+    /**
+     * The option for setting the number of method executions before a method is compiled from bytecode to native code
+     * by the Just in Time (JIT) compiler with "standard compilation" (when tiered compilation is disabled).
+     * 
+     * Default is 10,000. Setting -XX:CompileThreshold=1 forces compiling at first execution.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:CompileThreshold=500
+     * </pre>
+     * 
+     * @return the option if it exists, null otherwise.
+     */
+    private String compileThreshold;
 
     /**
      * The option for setting the virtual (reserved) size of the compressed class space (a single area). For example:
@@ -269,7 +296,7 @@ public class JvmOptions {
     private String concGcThreads;
 
     /**
-     * The option for specifying 64-bit.
+     * The option for specifying 64-bit. Removed in JDK11.
      * 
      * <pre>
      * -d64
@@ -656,6 +683,17 @@ public class JvmOptions {
     private String maxJavaStackTraceDepth;
 
     /**
+     * Equivalent to {@link ***REMOVED***reservedCodeCacheSize***REMOVED***.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -Xmaxjitcodesize1024m
+     * </pre>
+     */
+    private String maxjitcodesize;
+
+    /**
      * Maximum committed metaspace (class metadata + compressed class space). For example:
      * 
      * <pre>
@@ -1011,7 +1049,16 @@ public class JvmOptions {
     private String printTenuringDistribution;
 
     /**
-     * Code cache size (default 240m). For example:
+     * Code cache size (default 240m), where the JVM stores the assembly language instructions of compiled code.
+     * 
+     * It's only necessary to set the max size, not min and max, for the following reasons:
+     * 
+     * 1) Memory is not allocated until needed, so setting a large code cache size only impacts reserved (virtual)
+     * memory, not allocated (physical) memory.
+     * 
+     * 2) Resizing the code cache is done in the background and does not affect performance.
+     * 
+     * For example:
      * 
      * <pre>
      * -XX:ReservedCodeCacheSize=256m
@@ -1148,7 +1195,21 @@ public class JvmOptions {
     private String threadStackSize;
 
     /**
-     * Option to enable/disable tiered compilation. For example:
+     * Option to enable/disable tiered compilation.
+     * 
+     * The JVM contains 2 Just in Time (JIT) compilers:
+     * 
+     * C1: Called the "client" compiler because it was originally designed with GUI applications in mind, where fast
+     * startup is required.
+     * 
+     * C2: Called the "server" compiler because it was originally designed with long running server applications in
+     * mind, aggressive optimization and performance is required.
+     * 
+     * Tiered compilation is enabled by default. The C1 compiler first compiles the code quickly to provide better
+     * startup performance. After the application is warmed up, the C2 compiler compiles the code again with more
+     * aggressive optimizations for better performance.
+     * 
+     * For example:
      * 
      * <pre>
      * -XX:+TieredCompilation
@@ -1445,7 +1506,8 @@ public class JvmOptions {
             // (?<!^) match whatever follows, but not the start of the string
             // (?= -) match "space dash" followed by jvm option starting patterns, but don't include the empty leading
             // substring in the result
-            String[] opts = jvmArgs.split("(?<!^)(?= -(-add|agentlib|verbose|D|X))");
+            String[] opts = jvmArgs
+                    .split("(?<!^)(?= -(-add|agentlib|agentpath|client|d(32|64)|javaagent|server|verbose|D|X))");
             String key = null;
             for (int i = 0; i < opts.length; i++) {
                 String option = opts[i].trim();
@@ -1472,7 +1534,7 @@ public class JvmOptions {
                     key = "D";
                 ***REMOVED*** else if (option.matches("^-javaagent:.+$")) {
                     javaagent.add(option);
-                    key = "javaagent";
+                    key = option;
                 ***REMOVED*** else if (option.matches("^-server$")) {
                     server = true;
                     key = "server";
@@ -1500,6 +1562,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-Xloggc:.+$")) {
                     logGc = option;
                     key = "loggc";
+                ***REMOVED*** else if (option.matches("^-Xmaxjitcodesize\\d{1,***REMOVED***[kKmMgG]{0,1***REMOVED***$")) {
+                    maxjitcodesize = option;
+                    key = "maxjitcodesize";
                 ***REMOVED*** else if (option.matches("^-X(mn|X:NewSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     newSize = option;
                     key = "NewSize";
@@ -1557,9 +1622,15 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSParallelRemarkEnabled$")) {
                     cmsParallelRemarkEnabled = option;
                     key = "CMSParallelRemarkEnabled";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSScavengeBeforeRemark$")) {
+                    cmsScavengeBeforeRemark = option;
+                    key = "CMSScavengeBeforeRemark";
                 ***REMOVED*** else if (option.matches("^-XX:CompileCommand=.+$")) {
                     compileCommand = option;
                     key = "CompileCommand";
+                ***REMOVED*** else if (option.matches("^-XX:CompileThreshold=\\d{1,***REMOVED***$")) {
+                    compileThreshold = option;
+                    key = "CompileThreshold";
                 ***REMOVED*** else if (option.matches("^-XX:CompressedClassSpaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     compressedClassSpaceSize = option;
                     key = "CompressedClassSpaceSize";
@@ -2292,6 +2363,10 @@ public class JvmOptions {
         if (JdkUtil.isOptionEnabled(disableAttachMechanism)) {
             analysis.add(Analysis.WARN_OPT_DISABLE_ATTACH_MECHANISM);
         ***REMOVED***
+        // Check for ignored -XX:CompileThreshold
+        if (!JdkUtil.isOptionDisabled(tieredCompilation) && compileThreshold != null) {
+            analysis.add(Analysis.INFO_OPT_COMPILE_THRESHOLD_IGNORED);
+        ***REMOVED***
     ***REMOVED***
 
     public String getAdaptiveSizePolicyWeight() {
@@ -2362,8 +2437,16 @@ public class JvmOptions {
         return cmsParallelRemarkEnabled;
     ***REMOVED***
 
+    public String getCmsScavengeBeforeRemark() {
+        return cmsScavengeBeforeRemark;
+    ***REMOVED***
+
     public String getCompileCommand() {
         return compileCommand;
+    ***REMOVED***
+
+    public String getCompileThreshold() {
+        return compileThreshold;
     ***REMOVED***
 
     public String getCompressedClassSpaceSize() {
@@ -2556,6 +2639,10 @@ public class JvmOptions {
 
     public String getMaxJavaStackTraceDepth() {
         return maxJavaStackTraceDepth;
+    ***REMOVED***
+
+    public String getMaxjitcodesize() {
+        return maxjitcodesize;
     ***REMOVED***
 
     public String getMaxMetaspaceSize() {

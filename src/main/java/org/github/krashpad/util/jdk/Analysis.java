@@ -302,6 +302,11 @@ public enum Analysis {
     INFO_MEMORY_JVM_NE_SYSTEM("info.memory.jvm.ne.system"),
 
     /**
+     * Property key for the -client flag on 64-bit.
+     */
+    INFO_OPT_CLIENT("info.opt.client"),
+
+    /**
      * Property key for -XX:CMSInitiatingOccupancyFraction without -XX:+UseCMSInitiatingOccupancyOnly.
      */
     INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING("info.opt.cms.init.occupancy.only.missing"),
@@ -319,9 +324,19 @@ public enum Analysis {
     INFO_OPT_COMP_CLASS_SIZE_COMP_OOPS_DISABLED("info.opt.comp.class.size.comp.oops.disabled"),
 
     /**
+     * Property key for -XX:CompileThreshold when tiered compilation is enabled.
+     */
+    INFO_OPT_COMPILE_THRESHOLD_IGNORED("info.opt.compile.threshold.ignored"),
+
+    /**
      * Property key for -XX:-ExplicitGCInvokesConcurrentAndUnloadsClasses in combination with -XX:+DisableExplicitGC.
      */
     INFO_OPT_CRUFT_EXP_GC_INV_CON_AND_UNL_CLA("info.opt.cruft.exp.gc.inv.con.and.unl.cla"),
+
+    /**
+     * Property key for -d64 flag on 64-bit.
+     */
+    INFO_OPT_D64_REDUNDANT("info.opt.d64.redundant"),
 
     /**
      * Property key for -XX:+UnlockDiagnosticVMOptions.

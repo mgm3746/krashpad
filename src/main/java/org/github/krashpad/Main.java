@@ -421,8 +421,8 @@ public class Main {
                 printWriter.write("Thread Stack Memory: " + fel.getThreadStackMemory()
                         + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
             ***REMOVED***
-            if (fel.getReservedCodeCacheSize() > 0) {
-                printWriter.write("Code Cache Max: " + fel.getReservedCodeCacheSize()
+            if (fel.getCodeCacheSize() > 0) {
+                printWriter.write("Code Cache Max: " + fel.getCodeCacheSize()
                         + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getDirectMemoryMaxSize() > 0) {
@@ -547,6 +547,14 @@ public class Main {
                         Entry<String, ArrayList<String>> option = iteratorOptions.next();
                         if (!option.getKey().equals("D") && !option.getKey().equals("undefined")
                                 && option.getValue().size() > 1) {
+                            if (printHeader) {
+                                printWriter
+                                        .write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                                printWriter.write("error" + Constants.LINE_SEPARATOR);
+                                printWriter
+                                        .write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                            ***REMOVED***
+                            printHeader = false;
                             // duplicate options
                             printWriter.write("*Duplicate jvm options: ");
                             ArrayList<String> opt = option.getValue();
