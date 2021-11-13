@@ -382,9 +382,18 @@ public class Main {
                 ***REMOVED***
                 printWriter.write(Constants.LINE_SEPARATOR);
             ***REMOVED***
-            if (fel.getHeapMaxSize() > 0) {
-                printWriter.write("Heap Max: " + fel.getHeapMaxSize()
-                        + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+            if (fel.getElapsedTime() != null && fel.getElapsedTime().matches("0d 0h 0m 0s")) {
+                // Display JVM initial memory if it fails to start
+                if (fel.getHeapMaxSize() > 0) {
+                    printWriter.write("Heap Initial: " + fel.getHeapInitialSize()
+                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+            ***REMOVED*** else {
+                if (fel.getHeapMaxSize() > 0) {
+                    printWriter.write("Heap Max: " + fel.getHeapMaxSize()
+                            + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+
             ***REMOVED***
             if (fel.getHeapAllocation() > 0) {
                 printWriter.write("Heap Allocation: " + fel.getHeapAllocation()
@@ -429,31 +438,65 @@ public class Main {
                 printWriter.write("Direct Memory Max: " + fel.getDirectMemoryMaxSize()
                         + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
             ***REMOVED***
-            if (fel.getJvmMemoryMax() > 0) {
-                long percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal());
-                printWriter.write("JVM Memory Max: >" + fel.getJvmMemoryMax()
-                        + Character.toString(Constants.PRECISION_REPORTING));
-                if (fel.getMemTotal() > 0) {
-                    printWriter.write(" (");
-                    // provide rounding indicator
-                    if (percentMemory == 0 || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getJvmMemTotal())) {
-                        printWriter.write("~");
-                    ***REMOVED***
-                    printWriter.write(percentMemory + "% Memory");
-                    if (fel.getMemAvailable() > 0) {
-                        // Memory Available n/a RHEL6
-                        long percentMemoryAvailable = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getMemAvailable());
-                        printWriter.write(", ");
+            if (fel.getElapsedTime() != null && fel.getElapsedTime().matches("0d 0h 0m 0s")) {
+                // Display JVM initial memory if it fails to start
+                if (fel.getJvmMemoryInitial() > 0) {
+                    long percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getJvmMemTotal());
+                    printWriter.write("JVM Memory Initial: >" + fel.getJvmMemoryInitial()
+                            + Character.toString(Constants.PRECISION_REPORTING));
+                    if (fel.getMemTotal() > 0) {
+                        printWriter.write(" (");
                         // provide rounding indicator
-                        if (percentMemoryAvailable == 0
-                                || (percentMemoryAvailable == 100 && fel.getJvmMemoryMax() != fel.getMemAvailable())) {
+                        if (percentMemory == 0
+                                || (percentMemory == 100 && fel.getJvmMemoryInitial() != fel.getJvmMemTotal())) {
                             printWriter.write("~");
                         ***REMOVED***
-                        printWriter.write(percentMemoryAvailable + "% Memory Available");
+                        printWriter.write(percentMemory + "% Memory");
+                        if (fel.getMemAvailable() > 0) {
+                            // Memory Available n/a RHEL6
+                            long percentMemoryAvailable = JdkMath.calcPercent(fel.getJvmMemoryInitial(),
+                                    fel.getMemAvailable());
+                            printWriter.write(", ");
+                            // provide rounding indicator
+                            if (percentMemoryAvailable == 0 || (percentMemoryAvailable == 100
+                                    && fel.getJvmMemoryMax() != fel.getMemAvailable())) {
+                                printWriter.write("~");
+                            ***REMOVED***
+                            printWriter.write(percentMemoryAvailable + "% Memory Available");
+                        ***REMOVED***
+                        printWriter.write(")");
                     ***REMOVED***
-                    printWriter.write(")");
+                    printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                printWriter.write(Constants.LINE_SEPARATOR);
+            ***REMOVED*** else {
+                if (fel.getJvmMemoryMax() > 0) {
+                    long percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal());
+                    printWriter.write("JVM Memory Max: >" + fel.getJvmMemoryMax()
+                            + Character.toString(Constants.PRECISION_REPORTING));
+                    if (fel.getMemTotal() > 0) {
+                        printWriter.write(" (");
+                        // provide rounding indicator
+                        if (percentMemory == 0
+                                || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getJvmMemTotal())) {
+                            printWriter.write("~");
+                        ***REMOVED***
+                        printWriter.write(percentMemory + "% Memory");
+                        if (fel.getMemAvailable() > 0) {
+                            // Memory Available n/a RHEL6
+                            long percentMemoryAvailable = JdkMath.calcPercent(fel.getJvmMemoryMax(),
+                                    fel.getMemAvailable());
+                            printWriter.write(", ");
+                            // provide rounding indicator
+                            if (percentMemoryAvailable == 0 || (percentMemoryAvailable == 100
+                                    && fel.getJvmMemoryMax() != fel.getMemAvailable())) {
+                                printWriter.write("~");
+                            ***REMOVED***
+                            printWriter.write(percentMemoryAvailable + "% Memory Available");
+                        ***REMOVED***
+                        printWriter.write(")");
+                    ***REMOVED***
+                    printWriter.write(Constants.LINE_SEPARATOR);
+                ***REMOVED***
             ***REMOVED***
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);

@@ -189,14 +189,15 @@ public enum Analysis {
     ERROR_OOME_LIMIT_OOPS("error.oome.limit.oops"),
 
     /**
+     * Property key for failing to allocate memory due to a resource limit (rlimit) being reached or unused memory
+     * committed to other processes is inaccessible.
+     */
+    ERROR_OOME_LIMIT_OVERCOMMIT("error.oome.limit.overcommit"),
+
+    /**
      * Property key for generic insufficient physical memory with oops enabled.
      */
     ERROR_OOME_OOPS("error.oome.oops"),
-
-    /**
-     * Property key for unused memory committed to other processes is inaccessible.
-     */
-    ERROR_OOME_OVERCOMMIT("error.oome.overcommit"),
 
     /**
      * Property key for the JVM failing to start due to insufficient physical memory.
@@ -220,9 +221,10 @@ public enum Analysis {
     ERROR_OOME_STARTUP_LIMIT_OOPS("error.oome.startup.limit.oops"),
 
     /**
-     * Property key for the JVM failing to start due to unused memory committed to other processes is inaccessible.
+     * Property key for the JVM failing to start due to a resource limit (rlimit) being reached or unused memory
+     * committed to other processes is inaccessible.
      */
-    ERROR_OOME_STARTUP_OVERCOMMIT("error.oome.startup.overcommit"),
+    ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT("error.oome.startup.limit.overcommit"),
 
     /**
      * Property key for the tomcat shutdown JVM failing to start due to insufficient physical memory.

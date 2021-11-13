@@ -139,6 +139,8 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset50.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        long heapInitial = JdkUtil.convertSize(96, 'G', Constants.PRECISION_REPORTING);
+        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(96, 'G', Constants.PRECISION_REPORTING);
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(96, 'G', Constants.PRECISION_REPORTING);
@@ -152,15 +154,17 @@ class TestFatalErrorLog {
         long metaspaceUsed = JdkUtil.convertSize(176392, 'K', Constants.PRECISION_REPORTING);
         assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
         long directMemoryMax = JdkUtil.convertSize(8, 'G', Constants.PRECISION_REPORTING);
-        assertEquals(directMemoryMax, fel.getDirectMemoryMaxSize(), "Direct Memory mx not correct.");
+        assertEquals(directMemoryMax, fel.getDirectMemoryMaxSize(), "Direct Memory max not correct.");
         assertEquals(1024, fel.getThreadStackSize(), "Thread stack size not correct.");
         assertEquals(720, fel.getJavaThreadCount(), "Thread count not correct.");
         long threadMemory = JdkUtil.convertSize(1024 * 720, 'K', Constants.PRECISION_REPORTING);
         assertEquals(threadMemory, fel.getThreadStackMemory(), "Thread memory not correct.");
         long codeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
+        assertEquals(heapInitial + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize,
+                fel.getJvmMemoryInitial(), "Jvm memory max not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
-                "Jvm memory not correct.");
+                "Jvm memory max not correct.");
     ***REMOVED***
 
     @Test
@@ -178,7 +182,9 @@ class TestFatalErrorLog {
         assertEquals(swap, fel.getJvmSwap(), "Swap not correct.");
         long swapFree = JdkUtil.convertSize(8190972, 'K', Constants.PRECISION_REPORTING);
         assertEquals(swapFree, fel.getJvmSwapFree(), "Swap free not correct.");
-        long heapMax = JdkUtil.convertSize(12 * 1024, 'M', Constants.PRECISION_REPORTING);
+        long heapInitial = JdkUtil.convertSize(1073741824, 'B', Constants.PRECISION_REPORTING);
+        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
+        long heapMax = JdkUtil.convertSize(12884901888L, 'B', Constants.PRECISION_REPORTING);
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(1933312, 'K', Constants.PRECISION_REPORTING);
         assertEquals(heapAllocation, fel.getHeapAllocation(), "Heap allocation not correct.");
@@ -222,12 +228,14 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset41.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        long heapInitial = JdkUtil.convertSize(32, 'G', Constants.PRECISION_REPORTING);
+        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(33554432, 'K', Constants.PRECISION_REPORTING);
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long codeCacheSize = JdkUtil.convertSize(251658240, 'B', Constants.PRECISION_REPORTING);
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
-        long jvmMemory = JdkUtil.convertSize(33554432 + 245760, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(jvmMemory, fel.getJvmMemoryMax(), "Jvm memory not correct.");
+        long jvmMemoryMax = JdkUtil.convertSize(33554432 + 245760, 'K', Constants.PRECISION_REPORTING);
+        assertEquals(jvmMemoryMax, fel.getJvmMemoryMax(), "Jvm memory max not correct.");
     ***REMOVED***
 
     @Test
@@ -358,6 +366,8 @@ class TestFatalErrorLog {
         assertEquals(swap, fel.getSystemSwap(), "System swap not correct.");
         long swapFree = JdkUtil.convertSize(33554428, 'K', Constants.PRECISION_REPORTING);
         assertEquals(swapFree, fel.getSystemSwapFree(), "System swap free not correct.");
+        long heapInitial = JdkUtil.convertSize(220000, 'M', Constants.PRECISION_REPORTING);
+        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(220000, 'M', Constants.PRECISION_REPORTING);
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(225041472, 'K', Constants.PRECISION_REPORTING);
@@ -386,6 +396,8 @@ class TestFatalErrorLog {
         assertEquals(swap, fel.getJvmSwap(), "Swap not correct.");
         long swapFree = JdkUtil.convertSize(7612768, 'K', Constants.PRECISION_REPORTING);
         assertEquals(swapFree, fel.getJvmSwapFree(), "Swap free not correct.");
+        long heapInitial = JdkUtil.convertSize(512, 'M', Constants.PRECISION_REPORTING);
+        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(1024, 'M', Constants.PRECISION_REPORTING);
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(244736 + 699392, 'K', Constants.PRECISION_REPORTING);
@@ -574,6 +586,8 @@ class TestFatalErrorLog {
         assertEquals(swap, fel.getJvmSwap(), "Swap not correct.");
         long swapFree = JdkUtil.convertSize(0, 'K', Constants.PRECISION_REPORTING);
         assertEquals(swapFree, fel.getJvmSwapFree(), "Swap free not correct.");
+        long heapInitial = JdkUtil.convertSize(4014, 'M', Constants.PRECISION_REPORTING);
+        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(5734, 'M', Constants.PRECISION_REPORTING);
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(5734, 'M', Constants.PRECISION_REPORTING);
@@ -636,6 +650,8 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset40.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        long heapInitial = JdkUtil.convertSize(3172, 'M', Constants.PRECISION_REPORTING);
+        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(3172, 'M', Constants.PRECISION_REPORTING);
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(947392 + 2165440, 'K', Constants.PRECISION_REPORTING);

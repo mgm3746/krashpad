@@ -392,8 +392,8 @@ public class FatalErrorLog {
         // OOME, swap
         if (isError("There is insufficient memory for the Java Runtime Environment to continue.")) {
             if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
-                if (getJvmMemoryMax() > (getJvmMemFree() + getJvmSwapFree())) {
-                    if (JdkMath.calcPercent(getJvmMemoryMax(), getMemTotal()) < 50) {
+                if (getJvmMemoryInitial() > (Math.max(getJvmMemFree(), getMemAvailable()) + getJvmSwapFree())) {
+                    if (JdkMath.calcPercent(getJvmMemoryInitial(), getMemTotal()) < 50) {
                         analysis.add(Analysis.ERROR_OOME_STARTUP_EXTERNAL);
                     ***REMOVED*** else {
                         if (this.getApplication() == Application.TOMCAT_SHUTDOWN) {
@@ -404,8 +404,9 @@ public class FatalErrorLog {
                             analysis.add(Analysis.ERROR_OOME_STARTUP);
                         ***REMOVED***
                     ***REMOVED***
-                ***REMOVED*** else if (getJvmMemoryMax() > (getCommitLimit() - getCommittedAs())) {
-                    analysis.add(Analysis.ERROR_OOME_STARTUP_OVERCOMMIT);
+                ***REMOVED*** else if (getCommitLimit() > 0 && getCommittedAs() > 0
+                        && (getJvmMemoryInitial() > (getCommitLimit() - getCommittedAs()))) {
+                    analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT);
                 ***REMOVED*** else {
                     if (isInHeader("Java Heap may be blocking the growth of the native heap")) {
                         analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT_OOPS);
@@ -441,11 +442,16 @@ public class FatalErrorLog {
                         || (getJvmMemoryMax() >= 0 && getJvmMemTotal() > 0
                                 && JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) < 50)) {
                     // allocation < available memory or free memory >= 50%
-                    if (isInHeader("Java Heap may be blocking the growth of the native heap")
-                            || isInHeader("compressed oops")) {
-                        analysis.add(Analysis.ERROR_OOME_LIMIT_OOPS);
+                    if (getCommitLimit() > 0 && getCommittedAs() > 0
+                            && (getJvmMemoryMax() > (getCommitLimit() - getCommittedAs()))) {
+                        analysis.add(Analysis.ERROR_OOME_LIMIT_OVERCOMMIT);
                     ***REMOVED*** else {
-                        analysis.add(Analysis.ERROR_OOME_LIMIT);
+                        if (isInHeader("Java Heap may be blocking the growth of the native heap")
+                                || isInHeader("compressed oops")) {
+                            analysis.add(Analysis.ERROR_OOME_LIMIT_OOPS);
+                        ***REMOVED*** else {
+                            analysis.add(Analysis.ERROR_OOME_LIMIT);
+                        ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else {
                     // low memory
@@ -885,6 +891,50 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return arch;
+    ***REMOVED***
+
+    /**
+     * @return The max code cache size in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getCodeCacheSize() {
+        // Default is 420m
+        long reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
+        // 1st check [Global flags]
+        if (!globalFlagsEvents.isEmpty()) {
+            Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
+            while (iterator.hasNext()) {
+                GlobalFlagsEvent event = iterator.next();
+                String regExReservedCodeCacheSize = "^.+uintx ReservedCodeCacheSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
+                Pattern pattern = Pattern.compile(regExReservedCodeCacheSize);
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    reservedCodeCacheSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (jvmOptions != null
+                && (jvmOptions.getReservedCodeCacheSize() != null || jvmOptions.getMaxjitcodesize() != null)) {
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher;
+            if (jvmOptions.getReservedCodeCacheSize() != null) {
+                matcher = pattern.matcher(jvmOptions.getReservedCodeCacheSize());
+            ***REMOVED*** else {
+                matcher = pattern.matcher(jvmOptions.getMaxjitcodesize());
+            ***REMOVED***
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                ***REMOVED*** else {
+                    fromUnits = 'B';
+                ***REMOVED***
+                reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+            ***REMOVED***
+        ***REMOVED***
+        return reservedCodeCacheSize;
     ***REMOVED***
 
     public CommandLineEvent getCommandLineEvent() {
@@ -1390,6 +1440,70 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return The heap initial size reserved in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getHeapInitialSize() {
+        long heapIitialSize = Long.MIN_VALUE;
+        // 1st check [Global flags]
+        if (!globalFlagsEvents.isEmpty()) {
+            Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
+            while (iterator.hasNext()) {
+                GlobalFlagsEvent event = iterator.next();
+                String regExInitialHeapSize = "^.+size_t InitialHeapSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
+                Pattern pattern = Pattern.compile(regExInitialHeapSize);
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    heapIitialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (jvmOptions != null && jvmOptions.getInitialHeapSize() != null) {
+            // Get from jvm_args
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher = pattern.matcher(jvmOptions.getInitialHeapSize());
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                ***REMOVED*** else {
+                    fromUnits = 'B';
+                ***REMOVED***
+                heapIitialSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+            ***REMOVED***
+        ***REMOVED*** else if (!heapAddressEvents.isEmpty()) {
+            // Get from heap address output
+            Iterator<HeapAddressEvent> iterator = heapAddressEvents.iterator();
+            while (iterator.hasNext()) {
+                HeapAddressEvent event = iterator.next();
+                if (event.isHeader()) {
+                    char fromUnits = 'M';
+                    long value;
+                    Pattern pattern = Pattern.compile(HeapAddressEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(6));
+                        heapIitialSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (getMemTotal() > 0) {
+            // Use JVM default = 1/64 system memory
+            BigDecimal systemPhysicalMemory = new BigDecimal(getMemTotal());
+            systemPhysicalMemory = systemPhysicalMemory.divide(new BigDecimal(64));
+            systemPhysicalMemory = systemPhysicalMemory.setScale(0, RoundingMode.HALF_EVEN);
+            heapIitialSize = systemPhysicalMemory.longValue();
+        ***REMOVED*** else if (getHeapAllocation() > 0) {
+            // Use allocation
+            heapIitialSize = getHeapAllocation();
+        ***REMOVED***
+        return heapIitialSize;
+    ***REMOVED***
+
+    /**
      * @return The heap max size reserved in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapMaxSize() {
@@ -1678,7 +1792,45 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The JVM maximum smemory in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return Estimated JVM initial memory in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getJvmMemoryInitial() {
+        long jvmMemoryInitial = Long.MIN_VALUE;
+        if (getHeapMaxSize() > 0) {
+            jvmMemoryInitial = getHeapInitialSize();
+        ***REMOVED***
+        if (getMetaspaceMaxSize() > 0) {
+            if (jvmMemoryInitial > 0) {
+                jvmMemoryInitial += getMetaspaceMaxSize();
+            ***REMOVED*** else {
+                jvmMemoryInitial = getMetaspaceMaxSize();
+            ***REMOVED***
+        ***REMOVED***
+        // Thread stack space
+        if (getThreadStackMemory() > 0) {
+            if (jvmMemoryInitial > 0) {
+                jvmMemoryInitial += getThreadStackMemory();
+            ***REMOVED*** else {
+                jvmMemoryInitial = getThreadStackMemory();
+            ***REMOVED***
+        ***REMOVED***
+        // code cache
+        if (jvmMemoryInitial > 0) {
+            jvmMemoryInitial += getCodeCacheSize();
+        ***REMOVED*** else {
+            jvmMemoryInitial = getCodeCacheSize();
+        ***REMOVED***
+        // Direct memory
+        if (jvmMemoryInitial > 0) {
+            jvmMemoryInitial += getDirectMemoryMaxSize();
+        ***REMOVED*** else {
+            jvmMemoryInitial = getDirectMemoryMaxSize();
+        ***REMOVED***
+        return jvmMemoryInitial;
+    ***REMOVED***
+
+    /**
+     * @return Estimated JVM maximum memory in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmMemoryMax() {
         long jvmMemoryMax = Long.MIN_VALUE;
@@ -2180,50 +2332,6 @@ public class FatalErrorLog {
             osVersion = unameEvent.getOsVersion();
         ***REMOVED***
         return osVersion;
-    ***REMOVED***
-
-    /**
-     * @return The max code cache size in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getCodeCacheSize() {
-        // Default is 420m
-        long reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
-        // 1st check [Global flags]
-        if (!globalFlagsEvents.isEmpty()) {
-            Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
-            while (iterator.hasNext()) {
-                GlobalFlagsEvent event = iterator.next();
-                String regExReservedCodeCacheSize = "^.+uintx ReservedCodeCacheSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
-                Pattern pattern = Pattern.compile(regExReservedCodeCacheSize);
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    reservedCodeCacheSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            Constants.PRECISION_REPORTING);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED*** else if (jvmOptions != null
-                && (jvmOptions.getReservedCodeCacheSize() != null || jvmOptions.getMaxjitcodesize() != null)) {
-            char fromUnits;
-            long value;
-            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher;
-            if (jvmOptions.getReservedCodeCacheSize() != null) {
-                matcher = pattern.matcher(jvmOptions.getReservedCodeCacheSize());
-            ***REMOVED*** else {
-                matcher = pattern.matcher(jvmOptions.getMaxjitcodesize());
-            ***REMOVED***
-            if (matcher.find()) {
-                value = Long.parseLong(matcher.group(2));
-                if (matcher.group(3) != null) {
-                    fromUnits = matcher.group(3).charAt(0);
-                ***REMOVED*** else {
-                    fromUnits = 'B';
-                ***REMOVED***
-                reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
-            ***REMOVED***
-        ***REMOVED***
-        return reservedCodeCacheSize;
     ***REMOVED***
 
     public RlimitEvent getRlimitEvent() {

@@ -819,6 +819,8 @@ class TestAnalysis {
         assertEquals(swap, fel.getJvmSwap(), "Swap not correct.");
         long swapFree = JdkUtil.convertSize(4, 'K', Constants.PRECISION_REPORTING);
         assertEquals(swapFree, fel.getJvmSwapFree(), "Swap free not correct.");
+        long heapInitial = JdkUtil.convertSize(2048, 'M', Constants.PRECISION_REPORTING);
+        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(8192, 'M', Constants.PRECISION_REPORTING);
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocationYoung = JdkUtil.convertSize(2761728, 'K', Constants.PRECISION_REPORTING);
@@ -1438,6 +1440,8 @@ class TestAnalysis {
         assertTrue(fel.isError("Out of Memory Error"), "Out Of Memory Error not identified.");
         long physicalMemory = JdkUtil.convertSize(24609684, 'K', Constants.PRECISION_REPORTING);
         assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
+        long heapInitial = JdkUtil.convertSize(1303, 'M', Constants.PRECISION_REPORTING);
+        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(16000, 'M', Constants.PRECISION_REPORTING);
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long metaspaceMax = JdkUtil.convertSize(1148928, 'K', Constants.PRECISION_REPORTING);
@@ -1451,7 +1455,7 @@ class TestAnalysis {
         long codeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
-                "Jvm memory not correct.");
+                "Jvm memory max not correct.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL),
                 Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
@@ -1511,8 +1515,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset66.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_OVERCOMMIT),
-                Analysis.ERROR_OOME_STARTUP_OVERCOMMIT + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT),
+                Analysis.ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT + " analysis not identified.");
     ***REMOVED***
 
     @Test
