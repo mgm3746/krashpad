@@ -674,6 +674,17 @@ public class JvmOptions {
     private String maxHeapSize;
 
     /**
+     * Maximum number of nested calls to inline.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:MaxInlineLevel=15
+     * </pre>
+     */
+    private String maxInlineLevel;
+
+    /**
      * The option for setting the number of lines in stack trace output. For example:
      * 
      * <pre>
@@ -1737,6 +1748,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:MaxHeapFreeRatio=\\d{1,3***REMOVED***$")) {
                     maxHeapFreeRatio = option;
                     key = "MaxHeapFreeRatio";
+                ***REMOVED*** else if (option.matches("^-XX:MaxInlineLevel=\\d{1,***REMOVED***$")) {
+                    maxInlineLevel = option;
+                    key = "MaxInlineLevel";
                 ***REMOVED*** else if (option.matches("^-XX:MaxMetaspaceSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     maxMetaspaceSize = option;
                     key = "MaxMetaspaceSize";
@@ -2474,6 +2488,39 @@ public class JvmOptions {
         return doEscapeAnalysis;
     ***REMOVED***
 
+    /**
+     * Duplicate JVM options.
+     * 
+     * @return The duplicate JVM options, or null if no duplicates.
+     */
+    public String getDuplicates() {
+        String duplicates = null;
+        if (options != null) {
+            Iterator<Entry<String, ArrayList<String>>> iteratorOptions = getOptions().entrySet().iterator();
+            StringBuffer options = new StringBuffer();
+            while (iteratorOptions.hasNext()) {
+                Entry<String, ArrayList<String>> option = iteratorOptions.next();
+                if (!option.getKey().equals("D") && !option.getKey().equals("undefined")
+                        && option.getValue().size() > 1) {
+                    ArrayList<String> opt = option.getValue();
+                    Iterator<String> iteratorOption = opt.iterator();
+                    boolean first = true;
+                    while (iteratorOption.hasNext()) {
+                        if (!first) {
+                            options.append(" ");
+                        ***REMOVED***
+                        options.append(iteratorOption.next());
+                        first = false;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+            if (options.length() > 0) {
+                duplicates = options.toString();
+            ***REMOVED***
+        ***REMOVED***
+        return duplicates;
+    ***REMOVED***
+
     public String getEliminateLocks() {
         return eliminateLocks;
     ***REMOVED***
@@ -2636,6 +2683,10 @@ public class JvmOptions {
 
     public String getMaxHeapSize() {
         return maxHeapSize;
+    ***REMOVED***
+
+    public String getMaxInlineLevel() {
+        return maxInlineLevel;
     ***REMOVED***
 
     public String getMaxJavaStackTraceDepth() {
@@ -2828,39 +2879,6 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED***
         return sunRmiDgcClientGcIntervalOption;
-    ***REMOVED***
-
-    /**
-     * Duplicate JVM options.
-     * 
-     * @return The duplicate JVM options, or null if no duplicates.
-     */
-    public String getDuplicates() {
-        String duplicates = null;
-        if (options != null) {
-            Iterator<Entry<String, ArrayList<String>>> iteratorOptions = getOptions().entrySet().iterator();
-            StringBuffer options = new StringBuffer();
-            while (iteratorOptions.hasNext()) {
-                Entry<String, ArrayList<String>> option = iteratorOptions.next();
-                if (!option.getKey().equals("D") && !option.getKey().equals("undefined")
-                        && option.getValue().size() > 1) {
-                    ArrayList<String> opt = option.getValue();
-                    Iterator<String> iteratorOption = opt.iterator();
-                    boolean first = true;
-                    while (iteratorOption.hasNext()) {
-                        if (!first) {
-                            options.append(" ");
-                        ***REMOVED***
-                        options.append(iteratorOption.next());
-                        first = false;
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-            if (options.length() > 0) {
-                duplicates = options.toString();
-            ***REMOVED***
-        ***REMOVED***
-        return duplicates;
     ***REMOVED***
 
     /**

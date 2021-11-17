@@ -38,6 +38,13 @@ public class JdkRegEx {
     public static final String ADDRESS64 = "((0x)?[0-9a-f]{16***REMOVED***)";
 
     /**
+     * Memory map area.
+     * 
+     * For example: [vsyscall]
+     */
+    public static final String AREA = "(\\[(stack|vdso|vsyscall)\\])";
+
+    /**
      * ActiveMQ main class used for <code>Application</code> identification.
      * 
      * For example:
@@ -62,13 +69,6 @@ public class JdkRegEx {
      * </pre>
      */
     public static final String ARTEMIS_CLI = "^.+org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!run).*$";
-
-    /**
-     * Memory map area.
-     * 
-     * For example: [vsyscall]
-     */
-    public static final String AREA = "(\\[(stack|vdso|vsyscall)\\])";
 
     /**
      * Blank line.
@@ -202,6 +202,17 @@ public class JdkRegEx {
      * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jboss-eap-7.2/jboss-modules.jar
      */
     public static final String JBOSS_JAR = "^.+jboss-modules\\.jar.*$";
+
+    /**
+     * Kafka main class used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * java_command: kafka.Kafka /path/to/my.properties
+     * </pre>
+     */
+    public static final String KAFKA = "^.+kafka\\.Kafka.*$";
 
     /**
      * Kilobyte units identifier.
@@ -353,6 +364,15 @@ public class JdkRegEx {
     public static final String TIMESTAMP = "(\\d{0,12***REMOVED***[\\.\\,]\\d{3***REMOVED***)";
 
     /**
+     * Tomcat jar used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * 7f0c4b92c000-7f0c4b93e000 r--s 00183000 fd:04 51406344 /path/to/WEB-INF/lib/catalina.jar
+     */
+    public static final String TOMCAT_JAR = "^.+catalina\\.jar$";
+
+    /**
      * Tomcat start main class used for <code>Application</code> identification.
      * 
      * For example:
@@ -369,13 +389,4 @@ public class JdkRegEx {
      * java_command: org.apache.catalina.startup.Bootstrap stop stop
      */
     public static final String TOMCAT_STOP = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap stop stop$";
-
-    /**
-     * Tomcat jar used for <code>Application</code> identification.
-     * 
-     * For example:
-     * 
-     * 7f0c4b92c000-7f0c4b93e000 r--s 00183000 fd:04 51406344 /path/to/WEB-INF/lib/catalina.jar
-     */
-    public static final String TOMCAT_JAR = "^.+catalina\\.jar$";
 ***REMOVED***

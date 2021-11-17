@@ -345,6 +345,17 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testKafka() {
+        String logLine = "java_command: kafka.Kafka /path/to/my.properties";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
+        VmArgumentsEvent event = new VmArgumentsEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getVmArgumentsEvents().add(event);
+        assertEquals(Application.KAFKA, fel.getApplication(), "KAFKA application not identified.");
+    ***REMOVED***
+
+    @Test
     void testMaxjitcodesize() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset37.txt");
         Manager manager = new Manager();

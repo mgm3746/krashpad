@@ -168,11 +168,6 @@ public enum Analysis {
     ERROR_OOME_EXTERNAL("error.oome.external"),
 
     /**
-     * Property key for OutOfMemoryError Java heap space.
-     */
-    ERROR_OOME_JAVA_HEAP("error.oome.java.heap"),
-
-    /**
      * Property key for insufficient physical memory due to the JVM process.
      */
     ERROR_OOME_JVM("error.oome.jvm"),
@@ -225,6 +220,21 @@ public enum Analysis {
      * committed to other processes is inaccessible.
      */
     ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT("error.oome.startup.limit.overcommit"),
+
+    /**
+     * Property key for "OutOfMemoryError: Compressed class space" caught and thrown.
+     */
+    ERROR_OOME_THROWN_COMP_CLASS_SPACE("error.oome.thrown.comp.class.space"),
+
+    /**
+     * Property key for OutOfMemoryError other than "Metaspace" or "Compressed class space" caught and thrown.
+     */
+    ERROR_OOME_THROWN_JAVA_HEAP("error.oome.thrown.java.heap"),
+
+    /**
+     * Property key for "OutOfMemoryError: Metaspace" caught and thrown.
+     */
+    ERROR_OOME_THROWN_METASPACE("error.oome.thrown.metaspace"),
 
     /**
      * Property key for the tomcat shutdown JVM failing to start due to insufficient physical memory.

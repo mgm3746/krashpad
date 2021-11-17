@@ -1236,6 +1236,39 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testOutOfMemoryErrorThrownJavaHeap() {
+        String logLine = "OutOfMemoryError java_heap_errors=13";
+        ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getExceptionCountsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_JAVA_HEAP),
+                Analysis.ERROR_OOME_THROWN_JAVA_HEAP + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOutOfMemoryErrorThrownMetaspace() {
+        String logLine = "OutOfMemoryError metaspace_errors=48";
+        ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getExceptionCountsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_METASPACE),
+                Analysis.ERROR_OOME_THROWN_METASPACE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOutOfMemoryErrorThrownCompressedClassSpace() {
+        String logLine = "OutOfMemoryError class_metaspace_errors=7";
+        ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getExceptionCountsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE),
+                Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testLogFileNumberWithRotationDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:NumberOfGCLogFiles=5 -XX:-UseGCLogFileRotation -Xms2048M";
@@ -1424,8 +1457,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset36.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_JAVA_HEAP),
-                Analysis.ERROR_OOME_JAVA_HEAP + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_JAVA_HEAP),
+                Analysis.ERROR_OOME_THROWN_JAVA_HEAP + " analysis not identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGNO_SIGSEGV),
                 Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGCODE_SEGV_MAPERR),

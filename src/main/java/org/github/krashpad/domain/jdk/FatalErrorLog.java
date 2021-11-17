@@ -588,9 +588,17 @@ public class FatalErrorLog {
         ***REMOVED*** else if (threadStackMaxSize < 128) {
             analysis.add(Analysis.WARN_THREAD_STACK_SIZE_SMALL);
         ***REMOVED***
-        // OutOfMemoryError: Java heap space
-        if (haveOomeJavaHeap()) {
-            analysis.add(Analysis.ERROR_OOME_JAVA_HEAP);
+        // OutOfMemoryError other than "Metaspace" or "Compressed class space" caught and thrown
+        if (haveOomeThrownJavaHeap()) {
+            analysis.add(Analysis.ERROR_OOME_THROWN_JAVA_HEAP);
+        ***REMOVED***
+        // "OutOfMemoryError: Metaspace" caught and thrown
+        if (haveOomeThrownMetaspace()) {
+            analysis.add(Analysis.ERROR_OOME_THROWN_METASPACE);
+        ***REMOVED***
+        // "OutOfMemoryError: Compressed class space" caught and thrown
+        if (haveOomeThrownCompressedClassSpace()) {
+            analysis.add(Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE);
         ***REMOVED***
         // Stubroutines
         if ((getStackFrameTop() != null && getStackFrameTop().matches("^v  ~BufferBlob::StubRoutines.*"))
@@ -864,7 +872,11 @@ public class FatalErrorLog {
                     ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.ARTEMIS_CLI)) {
                         application = Application.AMQ_CLI;
                         break;
+                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.KAFKA)) {
+                        application = Application.KAFKA;
+                        break;
                     ***REMOVED***
+
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -2805,22 +2817,62 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return true if there were OutOfMemoryError: Java heap space before the crash, false otherwise.
+     * @return true if there were OutOfMemoryError other than "Metaspace" or "Compressed class space" caught and thrown
+     *         before the crash, false otherwise.
      */
-    public boolean haveOomeJavaHeap() {
-        boolean haveStackOverFlowError = false;
+    public boolean haveOomeThrownJavaHeap() {
+        boolean haveOomeThrownJavaHeap = false;
         if (!exceptionCountsEvents.isEmpty()) {
             Iterator<ExceptionCountsEvent> iteratorExceptionCounts = exceptionCountsEvents.iterator();
             while (iteratorExceptionCounts.hasNext()) {
                 ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
                 if (!exceptionCountsEvent.isHeader()
                         && exceptionCountsEvent.getLogEntry().matches("^OutOfMemoryError java_heap_errors=\\d{1,***REMOVED***$")) {
-                    haveStackOverFlowError = true;
+                    haveOomeThrownJavaHeap = true;
                     break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        return haveStackOverFlowError;
+        return haveOomeThrownJavaHeap;
+    ***REMOVED***
+
+    /**
+     * @return true if there were "OutOfMemoryError: Metaspace" or caught and thrown before the crash, false otherwise.
+     */
+    public boolean haveOomeThrownMetaspace() {
+        boolean haveOomeThrownMetaspace = false;
+        if (!exceptionCountsEvents.isEmpty()) {
+            Iterator<ExceptionCountsEvent> iteratorExceptionCounts = exceptionCountsEvents.iterator();
+            while (iteratorExceptionCounts.hasNext()) {
+                ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
+                if (!exceptionCountsEvent.isHeader()
+                        && exceptionCountsEvent.getLogEntry().matches("^OutOfMemoryError metaspace_errors=\\d{1,***REMOVED***$")) {
+                    haveOomeThrownMetaspace = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return haveOomeThrownMetaspace;
+    ***REMOVED***
+
+    /**
+     * @return true if there were "OutOfMemoryError: Compressed class space" or caught and thrown before the crash,
+     *         false otherwise.
+     */
+    public boolean haveOomeThrownCompressedClassSpace() {
+        boolean haveOomeThrownCompressedClassSpace = false;
+        if (!exceptionCountsEvents.isEmpty()) {
+            Iterator<ExceptionCountsEvent> iteratorExceptionCounts = exceptionCountsEvents.iterator();
+            while (iteratorExceptionCounts.hasNext()) {
+                ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
+                if (!exceptionCountsEvent.isHeader() && exceptionCountsEvent.getLogEntry()
+                        .matches("^OutOfMemoryError class_metaspace_errors=\\d{1,***REMOVED***$")) {
+                    haveOomeThrownCompressedClassSpace = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return haveOomeThrownCompressedClassSpace;
     ***REMOVED***
 
     /**
