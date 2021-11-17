@@ -589,7 +589,7 @@ public class Main {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     printHeader = false;
-                    printWriter.write("*Duplicate jvm options: ");
+                    printWriter.write("*Duplicate jvm options:");
                     printWriter.write(fel.getJvmOptions().getDuplicates());
                     printWriter.write(".");
                     printWriter.write(Constants.LINE_SEPARATOR);

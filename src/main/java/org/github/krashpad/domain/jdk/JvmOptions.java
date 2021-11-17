@@ -2504,13 +2504,9 @@ public class JvmOptions {
                         && option.getValue().size() > 1) {
                     ArrayList<String> opt = option.getValue();
                     Iterator<String> iteratorOption = opt.iterator();
-                    boolean first = true;
                     while (iteratorOption.hasNext()) {
-                        if (!first) {
-                            options.append(" ");
-                        ***REMOVED***
+                        options.append(" ");
                         options.append(iteratorOption.next());
-                        first = false;
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
