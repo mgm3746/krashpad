@@ -1236,39 +1236,6 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
-    void testOutOfMemoryErrorThrownJavaHeap() {
-        String logLine = "OutOfMemoryError java_heap_errors=13";
-        ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);
-        FatalErrorLog fel = new FatalErrorLog();
-        fel.getExceptionCountsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_JAVA_HEAP),
-                Analysis.ERROR_OOME_THROWN_JAVA_HEAP + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testOutOfMemoryErrorThrownMetaspace() {
-        String logLine = "OutOfMemoryError metaspace_errors=48";
-        ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);
-        FatalErrorLog fel = new FatalErrorLog();
-        fel.getExceptionCountsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_METASPACE),
-                Analysis.ERROR_OOME_THROWN_METASPACE + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testOutOfMemoryErrorThrownCompressedClassSpace() {
-        String logLine = "OutOfMemoryError class_metaspace_errors=7";
-        ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);
-        FatalErrorLog fel = new FatalErrorLog();
-        fel.getExceptionCountsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE),
-                Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
     void testLogFileNumberWithRotationDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:NumberOfGCLogFiles=5 -XX:-UseGCLogFileRotation -Xms2048M";
@@ -1323,6 +1290,18 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE),
                 Analysis.INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMmapDeleted() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String library = "7ca8cf3d6000-7ca8cfdd6000 rw-s 00000000 fd:00 1074566196                 "
+                + "/var/lib/kafka/data/kafka-log0/something/00000000000002627674.index.deleted (deleted)";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(library);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_MMAP_DELETED),
+                Analysis.WARN_MMAP_DELETED + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1570,6 +1549,50 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOutOfMemoryErrorThrownCompressedClassSpace() {
+        String logLine = "OutOfMemoryError class_metaspace_errors=7";
+        ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getExceptionCountsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE),
+                Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOutOfMemoryErrorThrownJavaHeap() {
+        String logLine = "OutOfMemoryError java_heap_errors=13";
+        ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getExceptionCountsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_JAVA_HEAP),
+                Analysis.ERROR_OOME_THROWN_JAVA_HEAP + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOutOfMemoryErrorThrownMetaspace() {
+        String logLine = "OutOfMemoryError metaspace_errors=48";
+        ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getExceptionCountsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_METASPACE),
+                Analysis.ERROR_OOME_THROWN_METASPACE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParallelClassLoading() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UnlockDiagnosticVMOptions -XX:+UnsyncloadClass -Xmx2G";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_UNSYNCLOAD_CLASS),
+                Analysis.WARN_OPT_UNSYNCLOAD_CLASS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2178,25 +2201,6 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_JDK_ANCIENT),
                 Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMmapDeleted() {
-        FatalErrorLog fel = new FatalErrorLog();
-        // String os = "OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)";
-        // OsEvent osEvent = new OsEvent(os);
-        // fel.getOsEvents().add(osEvent);
-        String library = "7ca8cf3d6000-7ca8cfdd6000 rw-s 00000000 fd:00 1074566196                 "
-                + "/var/lib/kafka/data/kafka-log0/something/00000000000002627674.index.deleted (deleted)";
-        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(library);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
-        //String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.275-b01) for linux-amd64 JRE (1.8.0_275-b01), "
-        //        + "built on Nov  6 2020 02:01:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
-        //VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        //fel.setVmInfoEvent(vmInfoEvent);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_MMAP_DELETED),
-                Analysis.WARN_MMAP_DELETED + " analysis not identified.");
     ***REMOVED***
 
     @Test

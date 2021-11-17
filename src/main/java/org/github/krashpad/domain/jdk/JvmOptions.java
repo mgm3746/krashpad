@@ -1262,6 +1262,18 @@ public class JvmOptions {
     private String unlockExperimentalVmOptions;
 
     /**
+     * Diagnostic option (-requires XX:+UnlockDiagnosticVMOptions) to enable/disable parallel class loading. Disabled by
+     * default and deprecated in JDK11.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:+UnlockDiagnosticVMOptions -XX:+UnsyncloadClass
+     * </pre>
+     */
+    private String unsyncloadClass;
+
+    /**
      * Option to enable/disable ergonomic option that resizes generations to meet pause and throughput goals and
      * minimize footprint. For example:
      * 
@@ -1877,6 +1889,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UnlockExperimentalVMOptions$")) {
                     unlockExperimentalVmOptions = option;
                     key = "UnlockExperimentalVMOptions";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UnsyncloadClass$")) {
+                    unsyncloadClass = option;
+                    key = "UnsyncloadClass";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseAdaptiveSizePolicy$")) {
                     useAdaptiveSizePolicy = option;
                     key = "UseAdaptiveSizePolicy";
@@ -2381,6 +2396,10 @@ public class JvmOptions {
         // Check for ignored -XX:CompileThreshold
         if (!JdkUtil.isOptionDisabled(tieredCompilation) && compileThreshold != null) {
             analysis.add(Analysis.INFO_OPT_COMPILE_THRESHOLD_IGNORED);
+        ***REMOVED***
+        // Check for parallel class loading -XX:+UnsyncloadClass
+        if (JdkUtil.isOptionEnabled(this.unsyncloadClass)) {
+            analysis.add(Analysis.WARN_OPT_UNSYNCLOAD_CLASS);
         ***REMOVED***
     ***REMOVED***
 
@@ -2935,6 +2954,10 @@ public class JvmOptions {
 
     public String getUnlockExperimentalVmOptions() {
         return unlockExperimentalVmOptions;
+    ***REMOVED***
+
+    public String getUnsyncloadClass() {
+        return unsyncloadClass;
     ***REMOVED***
 
     public String getUseAdaptiveSizePolicy() {

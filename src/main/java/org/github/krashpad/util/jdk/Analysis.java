@@ -1009,6 +1009,11 @@ public enum Analysis {
     WARN_OPT_TENURING_DISABLED("warn.opt.tenuring.disabled"),
 
     /**
+     * Property key for parallel class loading enabled.
+     */
+    WARN_OPT_UNSYNCLOAD_CLASS("warn.opt.unsyncload.class"),
+
+    /**
      * Property key for -XX:+UseMembar.
      */
     WARN_OPT_USE_MEMBAR("warn.opt.use.membar"),
