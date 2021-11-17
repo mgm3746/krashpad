@@ -15,6 +15,7 @@
 package org.github.krashpad.domain.jdk;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
@@ -316,5 +317,21 @@ class TestJvmOptions {
         String jvmArgs = "-Xms1g -Xmaxjitcodesize1G -Xmx1g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals("-Xmaxjitcodesize1G", jvmOptions.getMaxjitcodesize(), "CompileThreshold not correct.");
+    ***REMOVED***
+
+    @Test
+    void testDuplicateXms() {
+        String jvmArgs = "-Xms1g -Xms2g -Xmaxjitcodesize1G -Xmx2g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xms1g -Xms2g", jvmOptions.getDuplicates(), "Duplicates not correct.");
+    ***REMOVED***
+
+    @Test
+    void testDuplicateAddExports() {
+        String jvmArgs = "-Xms1g --add-exports=java.base/sun.nio.ch=ALL-UNNAMED "
+                + "--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED "
+                + "--add-exports=jdk.unsupported/sun.reflect=ALL-UNNAMED -Xmx2g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertNull(jvmOptions.getDuplicates(), "Duplicates not correct.");
     ***REMOVED***
 ***REMOVED***

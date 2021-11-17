@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1513,10 +1514,10 @@ public class JvmOptions {
                 String option = opts[i].trim();
                 if (option.matches("^--add-exports=.+$")) {
                     addExports = option;
-                    key = "addExports";
+                    key = option;
                 ***REMOVED*** else if (option.matches("^--add-modules=.+$")) {
                     addModules = option;
-                    key = "addModules";
+                    key = option;
                 ***REMOVED*** else if (option.matches("^-agentlib:jdwp=transport=dt_socket.+$")) {
                     jpdaSocketTransport = option;
                     key = "agentlib:jdwp=transport";
@@ -2827,6 +2828,39 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED***
         return sunRmiDgcClientGcIntervalOption;
+    ***REMOVED***
+
+    /**
+     * Duplicate JVM options.
+     * 
+     * @return The duplicate JVM options, or null if no duplicates.
+     */
+    public String getDuplicates() {
+        String duplicates = null;
+        if (options != null) {
+            Iterator<Entry<String, ArrayList<String>>> iteratorOptions = getOptions().entrySet().iterator();
+            StringBuffer options = new StringBuffer();
+            while (iteratorOptions.hasNext()) {
+                Entry<String, ArrayList<String>> option = iteratorOptions.next();
+                if (!option.getKey().equals("D") && !option.getKey().equals("undefined")
+                        && option.getValue().size() > 1) {
+                    ArrayList<String> opt = option.getValue();
+                    Iterator<String> iteratorOption = opt.iterator();
+                    boolean first = true;
+                    while (iteratorOption.hasNext()) {
+                        if (!first) {
+                            options.append(" ");
+                        ***REMOVED***
+                        options.append(iteratorOption.next());
+                        first = false;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+            if (options.length() > 0) {
+                duplicates = options.toString();
+            ***REMOVED***
+        ***REMOVED***
+        return duplicates;
     ***REMOVED***
 
     /**

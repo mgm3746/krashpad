@@ -23,7 +23,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -583,37 +582,17 @@ public class Main {
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
 
-                if (fel.getJvmOptions() != null) {
-                    Iterator<Entry<String, ArrayList<String>>> iteratorOptions = fel.getJvmOptions().getOptions()
-                            .entrySet().iterator();
-                    while (iteratorOptions.hasNext()) {
-                        Entry<String, ArrayList<String>> option = iteratorOptions.next();
-                        if (!option.getKey().equals("D") && !option.getKey().equals("undefined")
-                                && option.getValue().size() > 1) {
-                            if (printHeader) {
-                                printWriter
-                                        .write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                                printWriter.write("error" + Constants.LINE_SEPARATOR);
-                                printWriter
-                                        .write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                            ***REMOVED***
-                            printHeader = false;
-                            // duplicate options
-                            printWriter.write("*Duplicate jvm options: ");
-                            ArrayList<String> opt = option.getValue();
-                            Iterator<String> iteratorOption = opt.iterator();
-                            boolean first = true;
-                            while (iteratorOption.hasNext()) {
-                                if (!first) {
-                                    printWriter.write(" ");
-                                ***REMOVED***
-                                printWriter.write(iteratorOption.next());
-                                first = false;
-                            ***REMOVED***
-                            printWriter.write(".");
-                            printWriter.write(Constants.LINE_SEPARATOR);
-                        ***REMOVED***
+                if (fel.getJvmOptions() != null && fel.getJvmOptions().getDuplicates() != null) {
+                    if (printHeader) {
+                        printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                        printWriter.write("error" + Constants.LINE_SEPARATOR);
+                        printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
+                    printHeader = false;
+                    printWriter.write("*Duplicate jvm options: ");
+                    printWriter.write(fel.getJvmOptions().getDuplicates());
+                    printWriter.write(".");
+                    printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
 
                 // WARN
