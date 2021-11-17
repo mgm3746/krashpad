@@ -753,6 +753,11 @@ public enum Analysis {
     WARN_JDK_NOT_LTS("warn.jdk.not.lts"),
 
     /**
+     * Property key mmapped files in a deleted state.
+     */
+    WARN_MMAP_DELETED("warn.mmap.deleted"),
+
+    /**
      * Property key for OOM with G1 collector.
      */
     WARN_OOM_G1("warn.oom.g1"),

@@ -2181,6 +2181,25 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testMmapDeleted() {
+        FatalErrorLog fel = new FatalErrorLog();
+        // String os = "OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)";
+        // OsEvent osEvent = new OsEvent(os);
+        // fel.getOsEvents().add(osEvent);
+        String library = "7ca8cf3d6000-7ca8cfdd6000 rw-s 00000000 fd:00 1074566196                 "
+                + "/var/lib/kafka/data/kafka-log0/something/00000000000002627674.index.deleted (deleted)";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(library);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        //String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.275-b01) for linux-amd64 JRE (1.8.0_275-b01), "
+        //        + "built on Nov  6 2020 02:01:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
+        //VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        //fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_MMAP_DELETED),
+                Analysis.WARN_MMAP_DELETED + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testWarnNotLatestJdkValue() {
         assertEquals("JDK is not the latest version. Latest version is ", Analysis.WARN_JDK_NOT_LATEST.getValue(),
                 Analysis.WARN_JDK_NOT_LATEST + "value not correct.");

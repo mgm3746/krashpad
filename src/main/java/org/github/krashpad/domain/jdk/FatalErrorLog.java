@@ -824,6 +824,10 @@ public class FatalErrorLog {
         if (isVMWareEnvironment()) {
             analysis.add(Analysis.INFO_VMWARE);
         ***REMOVED***
+        // Check for mmap resources in deleted state
+        if (getDynamicLibraryEvents().size() > 0 && getMmapDeletedCount() > 0) {
+            analysis.add(Analysis.WARN_MMAP_DELETED);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -2218,6 +2222,24 @@ public class FatalErrorLog {
         return metaspaceUsed;
     ***REMOVED***
 
+    /**
+     * @return The number of mmap resources in a deleted state.
+     */
+    public int getMmapDeletedCount() {
+        int mmapDeletedCount = 0;
+        if (!dynamicLibraryEvents.isEmpty()) {
+            String regExMmapDeleted = "^.+ \\(deleted\\)$";
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getLogEntry().matches(regExMmapDeleted)) {
+                    mmapDeletedCount++;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return mmapDeletedCount;
+    ***REMOVED***
+
     public List<NativeMemoryTrackingEvent> getNativeMemoryTrackingEvents() {
         return nativeMemoryTrackingEvents;
     ***REMOVED***
@@ -2817,6 +2839,26 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return true if there were "OutOfMemoryError: Compressed class space" or caught and thrown before the crash,
+     *         false otherwise.
+     */
+    public boolean haveOomeThrownCompressedClassSpace() {
+        boolean haveOomeThrownCompressedClassSpace = false;
+        if (!exceptionCountsEvents.isEmpty()) {
+            Iterator<ExceptionCountsEvent> iteratorExceptionCounts = exceptionCountsEvents.iterator();
+            while (iteratorExceptionCounts.hasNext()) {
+                ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
+                if (!exceptionCountsEvent.isHeader() && exceptionCountsEvent.getLogEntry()
+                        .matches("^OutOfMemoryError class_metaspace_errors=\\d{1,***REMOVED***$")) {
+                    haveOomeThrownCompressedClassSpace = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return haveOomeThrownCompressedClassSpace;
+    ***REMOVED***
+
+    /**
      * @return true if there were OutOfMemoryError other than "Metaspace" or "Compressed class space" caught and thrown
      *         before the crash, false otherwise.
      */
@@ -2853,26 +2895,6 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return haveOomeThrownMetaspace;
-    ***REMOVED***
-
-    /**
-     * @return true if there were "OutOfMemoryError: Compressed class space" or caught and thrown before the crash,
-     *         false otherwise.
-     */
-    public boolean haveOomeThrownCompressedClassSpace() {
-        boolean haveOomeThrownCompressedClassSpace = false;
-        if (!exceptionCountsEvents.isEmpty()) {
-            Iterator<ExceptionCountsEvent> iteratorExceptionCounts = exceptionCountsEvents.iterator();
-            while (iteratorExceptionCounts.hasNext()) {
-                ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
-                if (!exceptionCountsEvent.isHeader() && exceptionCountsEvent.getLogEntry()
-                        .matches("^OutOfMemoryError class_metaspace_errors=\\d{1,***REMOVED***$")) {
-                    haveOomeThrownCompressedClassSpace = true;
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return haveOomeThrownCompressedClassSpace;
     ***REMOVED***
 
     /**
