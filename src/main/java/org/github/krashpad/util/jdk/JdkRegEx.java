@@ -388,5 +388,5 @@ public class JdkRegEx {
      * 
      * java_command: org.apache.catalina.startup.Bootstrap stop stop
      */
-    public static final String TOMCAT_STOP = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap stop stop$";
+    public static final String TOMCAT_STOP = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap stop.*$";
 ***REMOVED***

@@ -1544,6 +1544,15 @@ class TestAnalysis {
 
     @Test
     void testOomTomcatShutdown() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset68.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN),
+                Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOomTomcatShutdownStopStop() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset63.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
