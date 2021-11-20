@@ -859,8 +859,8 @@ public class FatalErrorLog {
         if (application == Application.UNKNOWN) {
             String javaCommand = getJavaCommand();
             if (javaCommand != null) {
-                if (javaCommand.matches(JdkRegEx.JBOSS_JAR)) {
-                    application = Application.JBOSS;
+                if (javaCommand.matches(JdkRegEx.WILDFLY_JAR)) {
+                    application = Application.WILDFLY;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_START)) {
                     application = Application.TOMCAT;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_STOP)) {

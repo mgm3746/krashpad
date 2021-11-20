@@ -201,7 +201,7 @@ public class JdkRegEx {
      * 
      * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jboss-eap-7.2/jboss-modules.jar
      */
-    public static final String JBOSS_JAR = "^.+jboss-modules\\.jar.*$";
+    public static final String WILDFLY_JAR = "^.+jboss-modules\\.jar.*$";
 
     /**
      * Kafka main class used for <code>Application</code> identification.

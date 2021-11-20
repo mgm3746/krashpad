@@ -109,7 +109,7 @@ public class JdkUtil {
      */
     public enum Application {
         //
-        AMQ, AMQ_CLI, JBOSS, JBOSS_EAP6, JBOSS_EAP7, KAFKA, TOMCAT, TOMCAT_SHUTDOWN, UNKNOWN
+        AMQ, AMQ_CLI, WILDFLY, JBOSS_EAP6, JBOSS_EAP7, KAFKA, TOMCAT, TOMCAT_SHUTDOWN, UNKNOWN
     ***REMOVED***
 
     /**

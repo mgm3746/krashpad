@@ -265,7 +265,7 @@ class TestFatalErrorLog {
         VmArgumentsEvent event = new VmArgumentsEvent(logLine);
         FatalErrorLog fel = new FatalErrorLog();
         fel.getVmArgumentsEvents().add(event);
-        assertEquals(Application.JBOSS, fel.getApplication(), "JBoss application not identified.");
+        assertEquals(Application.WILDFLY, fel.getApplication(), "JBoss application not identified.");
     ***REMOVED***
 
     @Test
