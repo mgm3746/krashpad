@@ -2517,6 +2517,7 @@ public class JvmOptions {
         if (options != null) {
             Iterator<Entry<String, ArrayList<String>>> iteratorOptions = getOptions().entrySet().iterator();
             StringBuffer options = new StringBuffer();
+            boolean firstEntry = true;
             while (iteratorOptions.hasNext()) {
                 Entry<String, ArrayList<String>> option = iteratorOptions.next();
                 if (!option.getKey().equals("D") && !option.getKey().equals("undefined")
@@ -2524,8 +2525,11 @@ public class JvmOptions {
                     ArrayList<String> opt = option.getValue();
                     Iterator<String> iteratorOption = opt.iterator();
                     while (iteratorOption.hasNext()) {
-                        options.append(" ");
+                        if (!firstEntry) {
+                            options.append(" ");
+                        ***REMOVED***
                         options.append(iteratorOption.next());
+                        firstEntry = false;
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***

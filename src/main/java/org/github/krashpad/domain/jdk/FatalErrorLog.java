@@ -856,31 +856,21 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check java_command
-        if (application == Application.UNKNOWN && !vmArgumentsEvents.isEmpty()) {
-            Iterator<VmArgumentsEvent> iterator = vmArgumentsEvents.iterator();
-            while (iterator.hasNext()) {
-                VmArgumentsEvent event = iterator.next();
-                if (event.isJavaCommand()) {
-                    if (event.getLogEntry().matches(JdkRegEx.JBOSS_JAR)) {
-                        application = Application.JBOSS;
-                        break;
-                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_START)) {
-                        application = Application.TOMCAT;
-                        break;
-                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_STOP)) {
-                        application = Application.TOMCAT_SHUTDOWN;
-                        break;
-                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.ARTEMIS)) {
-                        application = Application.AMQ;
-                        break;
-                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.ARTEMIS_CLI)) {
-                        application = Application.AMQ_CLI;
-                        break;
-                    ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.KAFKA)) {
-                        application = Application.KAFKA;
-                        break;
-                    ***REMOVED***
-
+        if (application == Application.UNKNOWN) {
+            String javaCommand = getJavaCommand();
+            if (javaCommand != null) {
+                if (javaCommand.matches(JdkRegEx.JBOSS_JAR)) {
+                    application = Application.JBOSS;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_START)) {
+                    application = Application.TOMCAT;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_STOP)) {
+                    application = Application.TOMCAT_SHUTDOWN;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.ARTEMIS)) {
+                    application = Application.AMQ;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.ARTEMIS_CLI)) {
+                    application = Application.AMQ_CLI;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.KAFKA)) {
+                    application = Application.KAFKA;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -1657,6 +1647,24 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return The Java command used to start the JVM, or null if none exists.
+     */
+    public String getJavaCommand() {
+        String javaCommand = null;
+        if (!vmArgumentsEvents.isEmpty()) {
+            Iterator<VmArgumentsEvent> iterator = vmArgumentsEvents.iterator();
+            while (iterator.hasNext()) {
+                VmArgumentsEvent event = iterator.next();
+                if (event.isJavaCommand()) {
+                    javaCommand = event.getValue();
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return javaCommand;
+    ***REMOVED***
+
+    /**
      * @return <code>JavaSpecificiation</code>
      */
     public JavaSpecification getJavaSpecification() {
@@ -1763,7 +1771,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The JVM options, or null if none exist.
+     * @return The JVM options, or null if none exists.
      */
     public String getJvmArgs() {
         String jvmArgs = null;

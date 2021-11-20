@@ -348,7 +348,6 @@ public class Main {
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             printWriter.write("Version: " + fel.getJdkReleaseString() + Constants.LINE_SEPARATOR);
             printWriter.write("Vendor: " + fel.getJavaVendor() + Constants.LINE_SEPARATOR);
-            printWriter.write("Application: " + fel.getApplication() + Constants.LINE_SEPARATOR);
             if (fel.getUsername() != null && fel.getJvmUser() != null && !fel.getUsername().equals(fel.getJvmUser())) {
                 printWriter.write("USERNAME: " + fel.getUsername() + Constants.LINE_SEPARATOR);
                 printWriter.write("JVM User: " + fel.getJvmUser() + Constants.LINE_SEPARATOR);
@@ -362,9 +361,6 @@ public class Main {
             ***REMOVED***
             if (!fel.getCrashTime().equals("")) {
                 printWriter.write("Crash Date: " + fel.getCrashTime() + Constants.LINE_SEPARATOR);
-            ***REMOVED***
-            if (fel.getElapsedTime() != null) {
-                printWriter.write("Run Time: " + fel.getElapsedTime() + Constants.LINE_SEPARATOR);
             ***REMOVED***
             List<GarbageCollector> garbageCollectors = fel.getGarbageCollectors();
             if (!garbageCollectors.isEmpty()) {
@@ -499,6 +495,17 @@ public class Main {
             ***REMOVED***
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+            printWriter.write("Application:" + Constants.LINE_SEPARATOR);
+            printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+            printWriter.write("ID: " + fel.getApplication() + Constants.LINE_SEPARATOR);
+            if (fel.getJavaCommand() != null) {
+                printWriter.write("Java Command: " + fel.getJavaCommand() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getJvmArgs() != null) {
+                printWriter.write("JVM Args: " + fel.getJvmArgs() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+
+            printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Threads:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             printWriter.write("Current thread: " + fel.getCurrentThread() + Constants.LINE_SEPARATOR);
@@ -589,7 +596,7 @@ public class Main {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     printHeader = false;
-                    printWriter.write("*Duplicate jvm options:");
+                    printWriter.write("*Duplicate jvm options: ");
                     printWriter.write(fel.getJvmOptions().getDuplicates());
                     printWriter.write(".");
                     printWriter.write(Constants.LINE_SEPARATOR);

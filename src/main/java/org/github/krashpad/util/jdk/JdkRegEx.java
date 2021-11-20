@@ -50,10 +50,10 @@ public class JdkRegEx {
      * For example:
      * 
      * <pre>
-     * java_command: org.apache.activemq.artemis.boot.Artemis run
+     * org.apache.activemq.artemis.boot.Artemis run
      * </pre>
      */
-    public static final String ARTEMIS = "^.+org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis run.*$";
+    public static final String ARTEMIS = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis run.*$";
 
     /**
      * ActiveMQ CLI main class used for <code>Application</code> identification.
@@ -61,14 +61,14 @@ public class JdkRegEx {
      * For example:
      * 
      * <pre>
-     * java_command: org.apache.activemq.artemis.boot.Artemis queue stat --url tcp://mydomain:12345 --user myuser 
+     * org.apache.activemq.artemis.boot.Artemis queue stat --url tcp://mydomain:12345 --user myuser 
      * --password mypassword --maxRows 1234
      * 
-     * java_command: org.apache.activemq.artemis.boot.Artemis queue purge --name ExpiryQueue --url tcp://mydomain:12345 
+     * org.apache.activemq.artemis.boot.Artemis queue purge --name ExpiryQueue --url tcp://mydomain:12345 
      * --user myuser --password mypassword
      * </pre>
      */
-    public static final String ARTEMIS_CLI = "^.+org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!run).*$";
+    public static final String ARTEMIS_CLI = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!run).*$";
 
     /**
      * Blank line.
@@ -209,10 +209,10 @@ public class JdkRegEx {
      * For example:
      * 
      * <pre>
-     * java_command: kafka.Kafka /path/to/my.properties
+     * kafka.Kafka / path / to / my.properties
      * </pre>
      */
-    public static final String KAFKA = "^.+kafka\\.Kafka.*$";
+    public static final String KAFKA = "^.*kafka\\.Kafka.*$";
 
     /**
      * Kilobyte units identifier.
@@ -377,16 +377,16 @@ public class JdkRegEx {
      * 
      * For example:
      * 
-     * ***REMOVED***
+     * org.apache.catalina.startup.Bootstrap start
      */
-    public static final String TOMCAT_START = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap start$";
+    public static final String TOMCAT_START = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap start$";
 
     /**
      * Tomcat stop main class used for <code>Application</code> identification.
      * 
      * For example:
      * 
-     * java_command: org.apache.catalina.startup.Bootstrap stop stop
+     * org.apache.catalina.startup.Bootstrap stop stop
      */
-    public static final String TOMCAT_STOP = "^.+org\\.apache\\.catalina\\.startup\\.Bootstrap stop.*$";
+    public static final String TOMCAT_STOP = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap stop.*$";
 ***REMOVED***
