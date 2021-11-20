@@ -864,6 +864,21 @@ public enum Analysis {
     WARN_OPT_CONTAINER_PERF_DATA_DISK("warn.opt.container.perf.data.disk"),
 
     /**
+     * Property key for safepoint statistics logging.
+     */
+    WARN_OPT_DIAGNOSTIC_PRINT_SAFEPOINT_STATISTICS("warn.opt.diagnostic.print.safepoint.statistics"),
+
+    /**
+     * Property key for parallel class loading enabled.
+     */
+    WARN_OPT_DIAGNOSTIC_UNSYNCLOAD_CLASS("warn.opt.diagnostic.unsyncload.class"),
+
+    /**
+     * Property key for guaranteed safepoint interval being set.
+     */
+    WARN_OPT_DIAGNOSTICS_GUARANTEED_SAFEPOINT_INTERVAL("warn.opt.diagnostic.guaranteed.safepoint.interval"),
+
+    /**
      * Property key for the creation of the AttachListener socket file (/tmp/.java_pid&lt;pid&gt;) used by
      * jcmd/jmap/jstack to communicate with the JVM being disabled.
      */
@@ -1007,11 +1022,6 @@ public enum Analysis {
      * (e.g. -XX:MaxTenuringThreshold=32).
      */
     WARN_OPT_TENURING_DISABLED("warn.opt.tenuring.disabled"),
-
-    /**
-     * Property key for parallel class loading enabled.
-     */
-    WARN_OPT_UNSYNCLOAD_CLASS("warn.opt.unsyncload.class"),
 
     /**
      * Property key for -XX:+UseMembar.

@@ -715,6 +715,20 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testGuaranteedSafepointInterval() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UnlockDiagnosticVMOptions -XX:GuaranteedSafepointInterval=100000 "
+                + "-Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED),
+                Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_DIAGNOSTICS_GUARANTEED_SAFEPOINT_INTERVAL),
+                Analysis.WARN_OPT_DIAGNOSTICS_GUARANTEED_SAFEPOINT_INTERVAL + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testHeapDumpOnOutOfMemoryErrorDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:-HeapDumpOnOutOfMemoryError";
@@ -1600,8 +1614,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_UNSYNCLOAD_CLASS),
-                Analysis.WARN_OPT_UNSYNCLOAD_CLASS + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_DIAGNOSTIC_UNSYNCLOAD_CLASS),
+                Analysis.WARN_OPT_DIAGNOSTIC_UNSYNCLOAD_CLASS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1859,6 +1873,20 @@ class TestAnalysis {
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9),
                 Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9 + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testSafepointLogging() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UnlockDiagnosticVMOptions -XX:+PrintSafepointStatistics "
+                + "-XX:PrintSafepointStatisticsCount=1 -XX:+LogVMOutput -XX:LogFile=/path/to/vm.log -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED),
+                Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_DIAGNOSTIC_PRINT_SAFEPOINT_STATISTICS),
+                Analysis.WARN_OPT_DIAGNOSTIC_PRINT_SAFEPOINT_STATISTICS + " analysis not identified.");
     ***REMOVED***
 
     @Test

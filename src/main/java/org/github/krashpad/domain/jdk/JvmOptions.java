@@ -2398,8 +2398,16 @@ public class JvmOptions {
             analysis.add(Analysis.INFO_OPT_COMPILE_THRESHOLD_IGNORED);
         ***REMOVED***
         // Check for parallel class loading -XX:+UnsyncloadClass
-        if (JdkUtil.isOptionEnabled(this.unsyncloadClass)) {
-            analysis.add(Analysis.WARN_OPT_UNSYNCLOAD_CLASS);
+        if (JdkUtil.isOptionEnabled(unsyncloadClass)) {
+            analysis.add(Analysis.WARN_OPT_DIAGNOSTIC_UNSYNCLOAD_CLASS);
+        ***REMOVED***
+        // Check for guaranteed safepoint interval being set
+        if (guaranteedSafepointInterval != null) {
+            analysis.add(Analysis.WARN_OPT_DIAGNOSTICS_GUARANTEED_SAFEPOINT_INTERVAL);
+        ***REMOVED***
+        // Check for safepoint logging
+        if (JdkUtil.isOptionEnabled(printSafepointStatistics)) {
+            analysis.add(Analysis.WARN_OPT_DIAGNOSTIC_PRINT_SAFEPOINT_STATISTICS);
         ***REMOVED***
     ***REMOVED***
 
