@@ -495,8 +495,9 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for ShenadoahRootUpdater bug fixed in OpenJDK8 u282.
-        if (getJavaSpecification() == JavaSpecification.JDK8 && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 282
-                && getStackFrameTop() != null && getStackFrameTop()
+        if (getJavaSpecification() == JavaSpecification.JDK8 && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) > 0
+                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 282 && getStackFrameTop() != null
+                && getStackFrameTop()
                         .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ShenandoahUpdateRefsClosure::do_oop.+$")) {
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER);
         ***REMOVED*** else if (getStackFrameTop() != null
@@ -630,7 +631,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_TRUNCATED);
         ***REMOVED***
         // Storage analysis
-        if (getOsType() == OsType.LINUX) {
+        if (getOsType() == OsType.LINUX && !dynamicLibraryEvents.isEmpty()) {
             switch (getStorageDevice()) {
             case AWS_BLOCK_STORAGE:
                 analysis.add(Analysis.INFO_STORAGE_AWS);
@@ -643,7 +644,6 @@ public class FatalErrorLog {
                 break;
             default:
                 break;
-
             ***REMOVED***
         ***REMOVED***
         // CompilerThread
@@ -825,7 +825,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_VMWARE);
         ***REMOVED***
         // Check for mmap resources in deleted state
-        if (getDynamicLibraryEvents().size() > 0 && getMmapDeletedCount() > 0) {
+        if (!getDynamicLibraryEvents().isEmpty() && getMmapDeletedCount() > 0) {
             analysis.add(Analysis.WARN_MMAP_DELETED);
         ***REMOVED***
     ***REMOVED***
@@ -891,8 +891,16 @@ public class FatalErrorLog {
             Iterator<HeaderEvent> iterator = headerEvents.iterator();
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
-                if (he.isJavaVm() && he.getLogEntry().matches("^.+solaris-sparc.+$")) {
-                    arch = Arch.SPARC;
+                if (he.isJavaVm()) {
+                    if (he.getLogEntry().matches("^.+ppc64.+$")) {
+                        arch = Arch.PPC64;
+                    ***REMOVED*** else if (he.getLogEntry().matches("^.+ppc64le.+$")) {
+                        arch = Arch.PPC64LE;
+                    ***REMOVED*** else if (he.getLogEntry().matches("^.+solaris-sparc.+$")) {
+                        arch = Arch.SPARC;
+                    ***REMOVED*** else if (he.getLogEntry().matches("^.+amd64.+$")) {
+                        arch = Arch.X86_64;
+                    ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -1672,6 +1680,39 @@ public class FatalErrorLog {
         if (vmInfoEvent != null) {
             version = vmInfoEvent.getJavaSpecification();
         ***REMOVED***
+        // Get from header
+        if (version == JavaSpecification.UNKNOWN && !headerEvents.isEmpty()) {
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent he = iterator.next();
+                String regEx = "\\((\\d{1,2***REMOVED***)\\..+\\)";
+                Pattern pattern = Pattern.compile(regEx);
+                if (he.isJreVersion()) {
+                    Matcher matcher = pattern.matcher(he.getLogEntry());
+                    if (matcher.find()) {
+                        switch (Integer.parseInt(matcher.group(1))) {
+                        case 6:
+                            version = JavaSpecification.JDK6;
+                            break;
+                        case 7:
+                            version = JavaSpecification.JDK7;
+                            break;
+                        case 8:
+                            version = JavaSpecification.JDK8;
+                            break;
+                        case 11:
+                            version = JavaSpecification.JDK11;
+                            break;
+                        case 17:
+                            version = JavaSpecification.JDK17;
+                            break;
+                        default:
+                            break;
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
         return version;
     ***REMOVED***
 
@@ -1744,9 +1785,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return JDK release string. For example:
-     * 
-     *         1.8.0_251-b08
+     * @return JDK release string, or UNKNOWN if it cannot be determined.
      */
     public String getJdkReleaseString() {
         String release = "UNKNOWN";
@@ -1758,12 +1797,23 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 HeaderEvent he = iterator.next();
                 if (he.isJreVersion()) {
-                    String regEx = "^.+\\(build " + JdkRegEx.RELEASE_STRING + "\\)$";
+                    String regEx = "^.+\\(" + JdkRegEx.VERSION_STRING + "\\)( \\(build " + JdkRegEx.BUILD_STRING
+                            + "\\))?.*$";
                     Pattern pattern = Pattern.compile(regEx);
                     Matcher matcher = pattern.matcher(he.getLogEntry());
                     if (matcher.find()) {
-                        release = matcher.group(1);
+                        if (matcher.group(4) != null) {
+                            release = matcher.group(4);
+                        ***REMOVED*** else if (matcher.group(1) != null) {
+                            // Add leading "1."
+                            if (matcher.group(1).matches("^[678].+$")) {
+                                release = "1." + matcher.group(1);
+                            ***REMOVED*** else {
+                                release = matcher.group(1);
+                            ***REMOVED***
+                        ***REMOVED***
                     ***REMOVED***
+                    break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -2278,10 +2328,10 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return OS string.
+     * @return OS string, of null if it doesn't exist.
      */
     public String getOsString() {
-        String osString = "UNKNOWN";
+        String osString = null;
         if (!osEvents.isEmpty()) {
             Iterator<OsEvent> iterator = osEvents.iterator();
             while (iterator.hasNext()) {
@@ -2311,6 +2361,16 @@ public class FatalErrorLog {
                 osType = OsType.WINDOWS;
             ***REMOVED*** else if (osString.matches(".+Solaris.+")) {
                 osType = OsType.SOLARIS;
+            ***REMOVED***
+        ***REMOVED*** else if (!headerEvents.isEmpty()) {
+            // Check header
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent he = iterator.next();
+                if (he.isJavaVm()) {
+                    osType = he.getOsType();
+                    break;
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         return osType;
@@ -3165,12 +3225,14 @@ public class FatalErrorLog {
         if (getOsType() == OsType.LINUX && getArch() == Arch.X86_64) {
             switch (getJavaSpecification()) {
             case JDK8:
-                isRhLinuxZipInstall = JdkUtil.JDK8_RHEL_ZIPS.containsKey(getJdkReleaseString()) && getJdkBuildDate()
-                        .compareTo(JdkUtil.JDK8_RHEL_ZIPS.get(getJdkReleaseString()).getBuildDate()) == 0;
+                isRhLinuxZipInstall = JdkUtil.JDK8_RHEL_ZIPS.containsKey(getJdkReleaseString())
+                        && getJdkBuildDate() != null && getJdkBuildDate()
+                                .compareTo(JdkUtil.JDK8_RHEL_ZIPS.get(getJdkReleaseString()).getBuildDate()) == 0;
                 break;
             case JDK11:
-                isRhLinuxZipInstall = JdkUtil.JDK11_RHEL_ZIPS.containsKey(getJdkReleaseString()) && getJdkBuildDate()
-                        .compareTo(JdkUtil.JDK11_RHEL_ZIPS.get(getJdkReleaseString()).getBuildDate()) == 0;
+                isRhLinuxZipInstall = JdkUtil.JDK11_RHEL_ZIPS.containsKey(getJdkReleaseString())
+                        && getJdkBuildDate() != null && getJdkBuildDate()
+                                .compareTo(JdkUtil.JDK11_RHEL_ZIPS.get(getJdkReleaseString()).getBuildDate()) == 0;
                 break;
             case JDK6:
             case JDK7:
@@ -3212,7 +3274,7 @@ public class FatalErrorLog {
                     while (iterator.hasNext()) {
                         Entry<String, Release> entry = iterator.next();
                         Release release = entry.getValue();
-                        if (release.getVersion().equals(jdkReleaseString)
+                        if (release.getVersion().equals(jdkReleaseString) && jdkBuildDate != null
                                 && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
                             isRhelRpm = true;
                             break;

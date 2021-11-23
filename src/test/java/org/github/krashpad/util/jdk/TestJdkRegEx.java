@@ -142,7 +142,13 @@ class TestJdkRegEx {
     @Test
     void testJdk12ReleaseString() {
         String release = "12.0.1+12";
-        assertTrue(release.matches(JdkRegEx.RELEASE_STRING), "Release not identified.");
+        assertTrue(release.matches(JdkRegEx.VERSION_STRING), "Version string not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdk8BuildString() {
+        String release = "1.8.0_251-b08";
+        assertTrue(release.matches(JdkRegEx.BUILD_STRING), "Build string not identified.");
     ***REMOVED***
 
     @Test

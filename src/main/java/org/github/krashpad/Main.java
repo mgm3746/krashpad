@@ -281,7 +281,11 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("OS:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            printWriter.write("Version: " + fel.getOsString() + Constants.LINE_SEPARATOR);
+            if (fel.getOsString() != null) {
+                printWriter.write("Version: " + fel.getOsString() + Constants.LINE_SEPARATOR);
+            ***REMOVED*** else {
+                printWriter.write("Version: " + fel.getOsType() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
             printWriter.write("ARCH: " + fel.getArch() + Constants.LINE_SEPARATOR);
             if (fel.getCpus() > Integer.MIN_VALUE) {
                 printWriter

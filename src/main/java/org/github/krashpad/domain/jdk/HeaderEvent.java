@@ -14,9 +14,6 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -87,8 +84,6 @@ public class HeaderEvent implements LogEvent {
     private static final String REGEX = "^(***REMOVED***|\\[error occurred during error reporting \\(printing problematic "
             + "frame\\), id 0x[a-z0-9]\\])(.*)?$";
 
-    private static Pattern pattern = Pattern.compile(REGEX);
-
     /**
      * The log entry for the event.
      */
@@ -124,28 +119,18 @@ public class HeaderEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return The OS.
+     * @return The <code>OsType</code>.
      */
-    public OsType getOs() {
+    public OsType getOsType() {
         OsType osType = OsType.UNKNOWN;
-        if (getOsString().matches(".+Linux.+")) {
+        if (logEntry.matches(".+linux.+")) {
             osType = OsType.LINUX;
-        ***REMOVED*** else if (getOsString().matches(".+Solaris.+")) {
+        ***REMOVED*** else if (logEntry.matches(".+solaris.+")) {
             osType = OsType.SOLARIS;
+        ***REMOVED*** else if (logEntry.matches(".+windows.+")) {
+            osType = OsType.WINDOWS;
         ***REMOVED***
         return osType;
-    ***REMOVED***
-
-    /**
-     * @return The OS string.
-     */
-    public String getOsString() {
-        String os = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            os = matcher.group(1);
-        ***REMOVED***
-        return os;
     ***REMOVED***
 
     /**

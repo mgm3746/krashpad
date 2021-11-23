@@ -66,8 +66,8 @@ public class VmInfoEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^vm_info: (Java HotSpot\\(TM\\)|OpenJDK)( 64-Bit)? Server VM \\(.+\\) for "
-            + "(linux|windows|solaris)-(amd64|ppc64|ppc64le|sparc|x86) JRE (\\(Zulu.+\\) )?\\("
-            + JdkRegEx.RELEASE_STRING + "\\).+ built on " + JdkRegEx.BUILD_DATE_TIME + ".+$";
+            + "(linux|windows|solaris)-(amd64|ppc64|ppc64le|sparc|x86) JRE (\\(Zulu.+\\) )?\\(" + JdkRegEx.BUILD_STRING
+            + "\\).+ built on " + JdkRegEx.BUILD_DATE_TIME + ".+$";
 
     private static Pattern pattern = Pattern.compile(REGEX);
 

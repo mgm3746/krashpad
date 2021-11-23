@@ -79,6 +79,13 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testUnknownStorageFalseReporting() {
+        FatalErrorLog fel = new FatalErrorLog();
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_STORAGE_UNKNOWN),
+                Analysis.INFO_STORAGE_UNKNOWN + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testBisasedLockingDisabledNotShenandoah() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:-UseBiasedLocking -Xms2048M";

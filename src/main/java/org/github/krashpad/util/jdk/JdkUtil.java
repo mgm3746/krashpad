@@ -186,7 +186,8 @@ public class JdkUtil {
      * Defined Java specifications.
      */
     public enum JavaSpecification {
-        JDK10, JDK11, JDK12, JDK13, JDK14, JDK15, //
+        JDK10, JDK11, JDK12, JDK13, JDK14, JDK15, JDK16, JDK17,
+        //
         JDK6, JDK7, JDK8, JDK9, UNKNOWN
     ***REMOVED***
 
@@ -1010,11 +1011,11 @@ public class JdkUtil {
      */
     public static final int getJdk8UpdateNumber(String jdk8ReleaseString) {
         int jdk8UpdateNumber = Integer.MIN_VALUE;
-        String regEx = "1.8.0_(\\d{1,***REMOVED***).+";
+        String regEx = "(1.)?8.0_(\\d{1,***REMOVED***).+";
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(jdk8ReleaseString);
         if (matcher.find()) {
-            jdk8UpdateNumber = Integer.parseInt(matcher.group(1));
+            jdk8UpdateNumber = Integer.parseInt(matcher.group(2));
         ***REMOVED***
         return jdk8UpdateNumber;
     ***REMOVED***

@@ -60,4 +60,14 @@ class TestJdkUtil {
         assertEquals(2048L * 1024 * 1024, JdkUtil.getByteOptionBytes("2048m"), "-XX:MaxMetaspaceSize not correct.");
     ***REMOVED***
 
+    @Test
+    void testJdk8UpdateNumberFromBuildString() {
+        assertEquals(282, JdkUtil.getJdk8UpdateNumber("1.8.0_282-b08"), "Update number not correct.");
+    ***REMOVED***
+
+    @Test
+    void testJdk8UpdateNumberFromVersionString() {
+        assertEquals(282, JdkUtil.getJdk8UpdateNumber("8.0_282-b08"), "Update number not correct.");
+    ***REMOVED***
+
 ***REMOVED***

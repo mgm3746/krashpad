@@ -90,6 +90,22 @@ public class JdkRegEx {
     public static final String BUILD_DATE_TIME = "([a-zA-Z]{3***REMOVED***)[ ]{1,2***REMOVED***(\\d{1,2***REMOVED***) (\\d{4***REMOVED***) (\\d{2***REMOVED***):(\\d{2***REMOVED***):(\\d{2***REMOVED***)";
 
     /**
+     * <p>
+     * Regular expression for a JDK release string.
+     * </p>
+     * 
+     * For example:
+     * 
+     * <pre>
+     * 1.7.0_85-b15
+     * 1.8.0_131-b11
+     * 11.0.9+11-LTS
+     * 12.0.1+12
+     * </pre>
+     */
+    public static final String BUILD_STRING = "((1.6.0|1.7.0|1.8.0|9|10|11|12|13|14|15|16|17)[^\\)]{1,***REMOVED***)";
+
+    /**
      * Byte units identifier.
      */
     public static final String BYTES = "bB";
@@ -195,15 +211,6 @@ public class JdkRegEx {
     public static final String JBOSS_EAP7_JAR = "^.+undertow-core.+\\.jar$";
 
     /**
-     * JBoss jar used for <code>Application</code> identification.
-     * 
-     * For example:
-     * 
-     * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jboss-eap-7.2/jboss-modules.jar
-     */
-    public static final String WILDFLY_JAR = "^.+jboss-modules\\.jar.*$";
-
-    /**
      * Kafka main class used for <code>Application</code> identification.
      * 
      * For example:
@@ -264,21 +271,6 @@ public class JdkRegEx {
             + "RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|[Rr]" + "\\d{1,2***REMOVED***[ ]{0,1***REMOVED***)=(" + ADDRESS32 + "|" + ADDRESS64 + ")";
 
     /**
-     * <p>
-     * Regular expression for a JDK release string.
-     * </p>
-     * 
-     * For example:
-     * 
-     * <pre>
-     * 1.8.0_131-b11
-     * 11.0.9+11-LTS
-     * 12.0.1+12
-     * </pre>
-     */
-    public static final String RELEASE_STRING = "((1.6.0|1.7.0|1.8.0|9|10|11|12|13|14|15|16).+)";
-
-    /**
      * Red Hat OpenJDK 11 rpm version directory.
      * 
      * For example:
@@ -317,6 +309,7 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK8_DIR = "(java\\-1\\.8\\.0\\-openjdk\\-1\\.8\\.0\\..+\\.el[678]"
             + "(_\\d{1,2***REMOVED***)?\\.(ppc64(le)?|x86_64))";
+
     /**
      * Red Hat OpenJDK 8 rpm file path.
      * 
@@ -348,7 +341,6 @@ public class JdkRegEx {
      * With comma: 306,0M
      */
     public static final String SIZE = "(\\d{1,10***REMOVED***([\\.,]\\d)?)([" + BYTES + KILOBYTES + MEGABYTES + GIGABYTES + "])";
-
     /**
      * The size of memory in kilobytes (KB), megabytes (MB), or gigabytes (GB) to two decimal places. For example:
      * 
@@ -389,4 +381,29 @@ public class JdkRegEx {
      * org.apache.catalina.startup.Bootstrap stop stop
      */
     public static final String TOMCAT_STOP = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap stop.*$";
+
+    /**
+     * <p>
+     * Regular expression for a JDK version string. Can be used for sorting purposes.
+     * </p>
+     * 
+     * For example, given the following header:
+     * 
+     * <pre>
+     * 7.0_85-b15
+     * 8.0_131-b11
+     * 11.0.9+11-LTS
+     * 12.0.1+12
+     * </pre>
+     */
+    public static final String VERSION_STRING = "((6.0|7.0|8.0|9|10|11|12|13|14|15|16|17)[^\\)]{1,***REMOVED***)";
+
+    /**
+     * JBoss jar used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jboss-eap-7.2/jboss-modules.jar
+     */
+    public static final String WILDFLY_JAR = "^.+jboss-modules\\.jar.*$";
 ***REMOVED***

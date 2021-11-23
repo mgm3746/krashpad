@@ -212,6 +212,37 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testHeaderArch() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String headerLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
+                + "oops)";
+        HeaderEvent he = new HeaderEvent(headerLine);
+        fel.getHeaderEvents().add(he);
+        assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
+    ***REMOVED***
+
+    @Test
+    void testHeaderJdkVersion() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String headerLine = "***REMOVED*** JRE version:  (7.0_85-b15) (build )";
+        HeaderEvent he = new HeaderEvent(headerLine);
+        fel.getHeaderEvents().add(he);
+        assertEquals(JavaSpecification.JDK7, fel.getJavaSpecification(), "Java specification not correct.");
+        assertEquals("1.7.0_85-b15", fel.getJdkReleaseString(), "Java release not correct.");
+    ***REMOVED***
+
+    @Test
+    void testHeaderOsVersion() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String headerLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
+                + "oops)";
+        HeaderEvent he = new HeaderEvent(headerLine);
+        fel.getHeaderEvents().add(he);
+        assertEquals(OsVersion.UNKNOWN, fel.getOsVersion(), "OS version not correct.");
+        assertEquals(OsType.LINUX, fel.getOsType(), "OS type not correct.");
+    ***REMOVED***
+
+    @Test
     void testHeapAllocation() {
         FatalErrorLog fel = new FatalErrorLog();
         String event1 = "***REMOVED***";
