@@ -335,12 +335,14 @@ public class Main {
                                     + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
-            if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT)
+            if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS)
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OVERCOMMIT)
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT)
                     || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT_OOPS)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS)) && fel.getRlimitEvent() != null) {
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT))
+                    && fel.getRlimitEvent() != null) {
                 printWriter.write(fel.getRlimitEvent().getLogEntry() + Constants.LINE_SEPARATOR);
-
             ***REMOVED***
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
