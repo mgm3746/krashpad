@@ -242,6 +242,11 @@ public enum Analysis {
     ERROR_OOME_TOMCAT_SHUTDOWN("error.oome.tomcat.shutdown"),
 
     /**
+     * Property key for limiting a multi-thread garbage collector to a single thread with -XX:ParallelGCThreads=1.
+     */
+    ERROR_OPT_PARALLEL_GC_THREADS_1("error.opt.parallel.gc.threads.1"),
+
+    /**
      * Property key for remote debugging enabled.
      */
     ERROR_OPT_REMOTE_DEBUGGING_ENABLED("error.opt.remote.debugging.enabled"),
@@ -312,6 +317,11 @@ public enum Analysis {
      * TODO: Remove this? It's basically a duplicate of INFO_CGROUP_MEMORY_LIMIT?
      */
     INFO_MEMORY_JVM_NE_SYSTEM("info.memory.jvm.ne.system"),
+
+    /**
+     * Property key for setting the number of compiler threads (-XX:CICompilerCount=N).
+     */
+    INFO_OPT_CI_COMPILER_COUNT("info.opt.ci.compiler.count"),
 
     /**
      * Property key for the -client flag on 64-bit.
@@ -518,6 +528,17 @@ public enum Analysis {
      * Property key for young space &gt;= old space.
      */
     INFO_OPT_NEW_RATIO_INVERTED("info.opt.new.ratio.inverted"),
+
+    /**
+     * Property key for explicitly setting the number of parallel garbage collector threads (-XX:ParallelGCThreads=N).
+     */
+    INFO_OPT_PARALLEL_GC_THREADS("info.opt.parallel.gc.threads"),
+
+    /**
+     * Property key for setting the number of parallel garbage collector threads (-XX:ParallelGCThreads=N) with the
+     * serial collector.
+     */
+    INFO_OPT_PARALLEL_GC_THREADS_SERIAL("info.opt.parallel.gc.threads.serial"),
 
     /**
      * Property key for performance data disabled.

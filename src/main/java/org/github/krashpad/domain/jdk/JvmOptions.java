@@ -157,6 +157,19 @@ public class JvmOptions {
     private String ciCompilerCount;
 
     /**
+     * The option to enable native memory tracking. For example:
+     * 
+     * <pre>
+     *  -XX:NativeMemoryTracking=detail
+     * </pre>
+     */
+    private String nativeMemoryTracking;
+
+    public String getNativeMemoryTracking() {
+        return nativeMemoryTracking;
+    ***REMOVED***
+
+    /**
      * The option to enable/disable class unloading during gc. For example:
      * 
      * <pre>
@@ -1349,6 +1362,25 @@ public class JvmOptions {
     private String useConcMarkSweepGc;
 
     /**
+     * Option to enable/disable ergonomic option to manage the number of compiler threads. For example:
+     * 
+     * <pre>
+     * -XX:+UseDynamicNumberOfCompilerThreads
+     * </pre>
+     */
+    private String useDynamicNumberOfCompilerThreads;
+
+    /**
+     * Option to enable/disable ergonomic option to manage the number of parallel garbage collector threads. For
+     * example:
+     * 
+     * <pre>
+     * -XX:+UseDynamicNumberOfGCThreads
+     * </pre>
+     */
+    private String useDynamicNumberOfGcThreads;
+
+    /**
      * Option to enable/disable using optimized versions of Get<Primitive>Field. Removed in JDK11.
      * 
      * For example:
@@ -1775,6 +1807,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:MinHeapFreeRatio=\\d{1,3***REMOVED***$")) {
                     minHeapFreeRatio = option;
                     key = "MinHeapFreeRatio";
+                ***REMOVED*** else if (option.matches("^-XX:NativeMemoryTracking=.+$")) {
+                    nativeMemoryTracking = option;
+                    key = "NativeMemoryTracking";
                 ***REMOVED*** else if (option.matches("^-XX:NewRatio=.+$")) {
                     newRatio = option;
                     key = "NewRatio";
@@ -1903,22 +1938,28 @@ public class JvmOptions {
                     key = "UseCGroupMemoryLimitForHeap";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCMSInitiatingOccupancyOnly$")) {
                     useCmsInitiatingOccupancyOnly = option;
-                    key = "useCmsInitiatingOccupancyOnly";
+                    key = "UseCGroupMemoryLimitForHeap";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCodeCacheFlushing$")) {
                     useCodeCacheFlushing = option;
-                    key = "useCodeCacheFlushing";
+                    key = "UseCodeCacheFlushing";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseConcMarkSweepGC$")) {
                     useConcMarkSweepGc = option;
-                    key = "useConcMarkSweepGc";
+                    key = "UseConcMarkSweepGC";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedClassPointers$")) {
                     useCompressedClassPointers = option;
-                    key = "useCompressedClassPointers";
+                    key = "UseCompressedClassPointers";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseCompressedOops$")) {
                     useCompressedOops = option;
-                    key = "useCompressedOops";
+                    key = "UseCompressedOops";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseConcMarkSweepGC$")) {
                     useConcMarkSweepGc = option;
-                    key = "useConcMarkSweepGc";
+                    key = "UseConcMarkSweepGC";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseDynamicNumberOfCompilerThreads$")) {
+                    useDynamicNumberOfCompilerThreads = option;
+                    key = "UseDynamicNumberOfCompilerThreads";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseDynamicNumberOfGCThreads$")) {
+                    useDynamicNumberOfGcThreads = option;
+                    key = "useDynamicNumberOfGcThreads";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseFastAccessorMethods$")) {
                     useFastAccessorMethods = option;
                     key = "UseFastAccessorMethods";
@@ -2408,6 +2449,19 @@ public class JvmOptions {
         // Check for safepoint logging
         if (JdkUtil.isOptionEnabled(printSafepointStatistics)) {
             analysis.add(Analysis.WARN_OPT_DIAGNOSTIC_PRINT_SAFEPOINT_STATISTICS);
+        ***REMOVED***
+        // Check ParallelGCThreads
+        if (parallelGcThreads != null) {
+            if (JdkUtil.isOptionEnabled(useSerialGc)) {
+                analysis.add(Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL);
+            ***REMOVED*** else if (JdkUtil.getNumberOptionValue(parallelGcThreads) == 1) {
+                analysis.add(Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1);
+            ***REMOVED*** else {
+                analysis.add(Analysis.INFO_OPT_PARALLEL_GC_THREADS);
+            ***REMOVED***
+        ***REMOVED***
+        if (ciCompilerCount != null) {
+            analysis.add(Analysis.INFO_OPT_CI_COMPILER_COUNT);
         ***REMOVED***
     ***REMOVED***
 
@@ -3002,6 +3056,14 @@ public class JvmOptions {
 
     public String getUseConcMarkSweepGc() {
         return useConcMarkSweepGc;
+    ***REMOVED***
+
+    public String getUseDynamicNumberOfCompilerThreads() {
+        return useDynamicNumberOfCompilerThreads;
+    ***REMOVED***
+
+    public String getUseDynamicNumberOfGcThreads() {
+        return useDynamicNumberOfGcThreads;
     ***REMOVED***
 
     public String getUseFastAccessorMethods() {

@@ -28,6 +28,41 @@ import org.junit.jupiter.api.Test;
 class TestJvmOptions {
 
     @Test
+    void test7NewOptions() {
+        String jvmArgs = "-XX:MaxJavaStackTraceDepth=50000 -XX:MaxGCPauseMillis=500 -XX:G1HeapRegionSize=4m "
+                + "-XX:+UseStringDeduplication -XX:OnOutOfMemoryError=\"pmap %p\"  -XX:+DebugNonSafepoints "
+                + "-XX:FlightRecorderOptions=stackdepth=256";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:MaxJavaStackTraceDepth=50000", jvmOptions.getMaxJavaStackTraceDepth(),
+                "MaxJavaStackTraceDepth not correct.");
+        assertEquals("-XX:MaxGCPauseMillis=500", jvmOptions.getMaxGcPauseMillis(), "MaxGCPauseMillis not correct.");
+        assertEquals("-XX:G1HeapRegionSize=4m", jvmOptions.getG1HeapRegionSize(), "G1HeapRegionSize not correct.");
+        assertEquals("-XX:+UseStringDeduplication", jvmOptions.getUseStringDeduplication(),
+                "UseStringDeduplication not correct.");
+        assertEquals("-XX:OnOutOfMemoryError=\"pmap %p\"", jvmOptions.getOnOutOfMemoryError(),
+                "OnOutOfMemoryError not correct.");
+        assertEquals("-XX:+DebugNonSafepoints", jvmOptions.getDebugNonSafepoints(), "DebugNonSafepoints not correct.");
+        assertEquals("-XX:FlightRecorderOptions=stackdepth=256", jvmOptions.getFlightRecorderOptions(),
+                "FlightRecorderOptions not correct.");
+    ***REMOVED***
+
+    @Test
+    void testAddExports() {
+        String jvmArgs = "-Xmx1g --add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED", jvmOptions.getAddExports(),
+                "NewRatio not correct.");
+    ***REMOVED***
+
+    @Test
+    void testCMSScavengeBeforeRemark() {
+        String jvmArgs = "-Xms1g -XX:+CMSScavengeBeforeRemark -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:+CMSScavengeBeforeRemark", jvmOptions.getCmsScavengeBeforeRemark(),
+                "CMSScavengeBeforeRemark not correct.");
+    ***REMOVED***
+
+    @Test
     void testCommonOptions() {
         String jvmArgs = "-Xmx1500m -Xms1000m -Xss512k -XX:MetaspaceSize=256M -XX:MaxMetaspaceSize=2048m";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
@@ -36,6 +71,13 @@ class TestJvmOptions {
         assertEquals("-Xmx1500m", jvmOptions.getMaxHeapSize(), "Max heap size not correct.");
         assertEquals("-XX:MetaspaceSize=256M", jvmOptions.getMetaspaceSize(), "Metaspace size not correct.");
         assertEquals("-XX:MaxMetaspaceSize=2048m", jvmOptions.getMaxMetaspaceSize(), "Max metaspace size not correct.");
+    ***REMOVED***
+
+    @Test
+    void testCompileThreshold() {
+        String jvmArgs = "-Xms1g -XX:CompileThreshold=5000 -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:CompileThreshold=5000", jvmOptions.getCompileThreshold(), "CompileThreshold not correct.");
     ***REMOVED***
 
     @Test
@@ -48,59 +90,45 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
-    void testSystemProperties() {
-        String jvmArgs = "-Xmx1500m -Xms1000m -Dcatalina.base=/path/to/tomcat -Xss512k";
+    void testDisableAttachMechanism() {
+        String jvmArgs = "-XX:+DisableAttachMechanism";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals(1, jvmOptions.getSystemProperties().size(), "System properties count not correct.");
-        assertEquals("-Dcatalina.base=/path/to/tomcat", jvmOptions.getSystemProperties().get(0),
-                "System property not correct.");
+        assertEquals("-XX:+DisableAttachMechanism", jvmOptions.getDisableAttachMechanism(),
+                "DisableAttachMechanism not correct.");
     ***REMOVED***
 
     @Test
-    void testGcLoggingOptions() {
-        String jvmArgs = "-Xmx1500m -Xms1000m -verbose:gc -Xloggc:/path/to/EAP-7.1.0/standalone/log/gc.log "
-                + "-XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 "
-                + "-XX:GCLogFileSize=3M -Xss512k";
+    void testDuplicateAddExports() {
+        String jvmArgs = "-Xms1g --add-exports=java.base/sun.nio.ch=ALL-UNNAMED "
+                + "--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED "
+                + "--add-exports=jdk.unsupported/sun.reflect=ALL-UNNAMED -Xmx2g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-Xloggc:/path/to/EAP-7.1.0/standalone/log/gc.log", jvmOptions.getLogGc(),
-                "Gc log location not correct.");
-        assertEquals(true, jvmOptions.isVerboseGc(), "-verbose:gc not correct.");
-        assertEquals("-XX:NumberOfGCLogFiles=5", jvmOptions.getNumberOfGcLogFiles(), "NumberOfGCLogFiles not correct.");
-        assertEquals("-XX:GCLogFileSize=3M", jvmOptions.getGcLogFileSize(), "GCLogFileSize not correct.");
-        assertEquals("-XX:+UseGCLogFileRotation", jvmOptions.getUseGcLogFileRotation(),
-                "UseGCLogFileRotation not correct.");
-        assertEquals("-XX:+PrintGCDetails", jvmOptions.getPrintGcDetails(), "PrintGCDetails not correct.");
-        assertEquals("-XX:+PrintGCDateStamps", jvmOptions.getPrintGcDateStamps(), "PrintGCDateStamps not correct.");
+        assertNull(jvmOptions.getDuplicates(), "Duplicates not correct.");
     ***REMOVED***
 
     @Test
-    void testTraceClassUnloading() {
-        String jvmArgs = "-Xmx1500m -Xms1000m -XX:-TraceClassUnloading -Xss512k";
+    void testDuplicateXms() {
+        String jvmArgs = "-Xms1g -Xms2g -Xmaxjitcodesize1G -Xmx2g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-XX:-TraceClassUnloading", jvmOptions.getTraceClassUnloading(),
-                "TraceClassUnloading not correct.");
+        assertEquals("-Xms1g -Xms2g", jvmOptions.getDuplicates(), "Duplicates not correct.");
     ***REMOVED***
 
     @Test
-    void testGarbageCollectorsSerialSerialOld() {
-        String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseSerialGC";
+    void testGarbageCollectorG1() {
+        String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseG1GC";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals(2, jvmOptions.getGarbageCollectors().size(), "Number of garbage collector not correct.");
-        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.SERIAL),
-                GarbageCollector.SERIAL + " collector not identified.");
-        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.SERIAL_OLD),
-                GarbageCollector.SERIAL_OLD + " collector not identified.");
+        assertEquals(1, jvmOptions.getGarbageCollectors().size(), "Number of garbage collector not correct.");
+        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.G1),
+                GarbageCollector.G1 + " collector not identified.");
     ***REMOVED***
 
     @Test
-    void testGarbageCollectorsParallelScavengeSerialOld() {
-        String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseParallelGC -XX:-UseParallelOldGC";
+    void testGarbageCollectorShenandoah() {
+        String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseShenandoahGC";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals(2, jvmOptions.getGarbageCollectors().size(), "Number of garbage collector not correct.");
-        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.PARALLEL_SCAVENGE),
-                GarbageCollector.PARALLEL_SCAVENGE + " collector not identified.");
-        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.SERIAL_OLD),
-                GarbageCollector.SERIAL_OLD + " collector not identified.");
+        assertEquals(1, jvmOptions.getGarbageCollectors().size(), "Number of garbage collector not correct.");
+        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH),
+                GarbageCollector.G1 + " collector not identified.");
     ***REMOVED***
 
     @Test
@@ -129,12 +157,12 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
-    void testGarbageCollectorsParNewSerialOld() {
-        String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseParNewGC";
+    void testGarbageCollectorsParallelScavengeSerialOld() {
+        String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseParallelGC -XX:-UseParallelOldGC";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals(2, jvmOptions.getGarbageCollectors().size(), "Number of garbage collector not correct.");
-        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.PAR_NEW),
-                GarbageCollector.PAR_NEW + " collector not identified.");
+        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.PARALLEL_SCAVENGE),
+                GarbageCollector.PARALLEL_SCAVENGE + " collector not identified.");
         assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.SERIAL_OLD),
                 GarbageCollector.SERIAL_OLD + " collector not identified.");
     ***REMOVED***
@@ -158,47 +186,98 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
-    void testGarbageCollectorG1() {
-        String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseG1GC";
+    void testGarbageCollectorsParNewSerialOld() {
+        String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseParNewGC";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals(1, jvmOptions.getGarbageCollectors().size(), "Number of garbage collector not correct.");
-        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.G1),
-                GarbageCollector.G1 + " collector not identified.");
+        assertEquals(2, jvmOptions.getGarbageCollectors().size(), "Number of garbage collector not correct.");
+        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.PAR_NEW),
+                GarbageCollector.PAR_NEW + " collector not identified.");
+        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.SERIAL_OLD),
+                GarbageCollector.SERIAL_OLD + " collector not identified.");
     ***REMOVED***
 
     @Test
-    void testGarbageCollectorShenandoah() {
-        String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseShenandoahGC";
+    void testGarbageCollectorsSerialSerialOld() {
+        String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseSerialGC";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals(1, jvmOptions.getGarbageCollectors().size(), "Number of garbage collector not correct.");
-        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH),
-                GarbageCollector.G1 + " collector not identified.");
+        assertEquals(2, jvmOptions.getGarbageCollectors().size(), "Number of garbage collector not correct.");
+        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.SERIAL),
+                GarbageCollector.SERIAL + " collector not identified.");
+        assertTrue(jvmOptions.getGarbageCollectors().contains(GarbageCollector.SERIAL_OLD),
+                GarbageCollector.SERIAL_OLD + " collector not identified.");
     ***REMOVED***
 
     @Test
-    void test7NewOptions() {
-        String jvmArgs = "-XX:MaxJavaStackTraceDepth=50000 -XX:MaxGCPauseMillis=500 -XX:G1HeapRegionSize=4m "
-                + "-XX:+UseStringDeduplication -XX:OnOutOfMemoryError=\"pmap %p\"  -XX:+DebugNonSafepoints "
-                + "-XX:FlightRecorderOptions=stackdepth=256";
+    void testGcLoggingOptions() {
+        String jvmArgs = "-Xmx1500m -Xms1000m -verbose:gc -Xloggc:/path/to/EAP-7.1.0/standalone/log/gc.log "
+                + "-XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 "
+                + "-XX:GCLogFileSize=3M -Xss512k";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-XX:MaxJavaStackTraceDepth=50000", jvmOptions.getMaxJavaStackTraceDepth(),
-                "MaxJavaStackTraceDepth not correct.");
-        assertEquals("-XX:MaxGCPauseMillis=500", jvmOptions.getMaxGcPauseMillis(), "MaxGCPauseMillis not correct.");
-        assertEquals("-XX:G1HeapRegionSize=4m", jvmOptions.getG1HeapRegionSize(), "G1HeapRegionSize not correct.");
-        assertEquals("-XX:+UseStringDeduplication", jvmOptions.getUseStringDeduplication(),
-                "UseStringDeduplication not correct.");
-        assertEquals("-XX:OnOutOfMemoryError=\"pmap %p\"", jvmOptions.getOnOutOfMemoryError(),
-                "OnOutOfMemoryError not correct.");
-        assertEquals("-XX:+DebugNonSafepoints", jvmOptions.getDebugNonSafepoints(), "DebugNonSafepoints not correct.");
-        assertEquals("-XX:FlightRecorderOptions=stackdepth=256", jvmOptions.getFlightRecorderOptions(),
-                "FlightRecorderOptions not correct.");
+        assertEquals("-Xloggc:/path/to/EAP-7.1.0/standalone/log/gc.log", jvmOptions.getLogGc(),
+                "Gc log location not correct.");
+        assertEquals(true, jvmOptions.isVerboseGc(), "-verbose:gc not correct.");
+        assertEquals("-XX:NumberOfGCLogFiles=5", jvmOptions.getNumberOfGcLogFiles(), "NumberOfGCLogFiles not correct.");
+        assertEquals("-XX:GCLogFileSize=3M", jvmOptions.getGcLogFileSize(), "GCLogFileSize not correct.");
+        assertEquals("-XX:+UseGCLogFileRotation", jvmOptions.getUseGcLogFileRotation(),
+                "UseGCLogFileRotation not correct.");
+        assertEquals("-XX:+PrintGCDetails", jvmOptions.getPrintGcDetails(), "PrintGCDetails not correct.");
+        assertEquals("-XX:+PrintGCDateStamps", jvmOptions.getPrintGcDateStamps(), "PrintGCDateStamps not correct.");
     ***REMOVED***
 
     @Test
-    void testVerify() {
-        String jvmArgs = "-Xverify:none";
+    void testMaxInlinLevel() {
+        String jvmArgs = "-Xms1g -XX:MaxInlineLevel=15 -Xmx1g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-Xverify:none", jvmOptions.getVerify(), "Verify not correct.");
+        assertEquals("-XX:MaxInlineLevel=15", jvmOptions.getMaxInlineLevel(), "MaxInlineLevel not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeBigG() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize1G -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize1G", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeBigK() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize4096K -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize4096K", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeBigM() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize1024M -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize1024M", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeNoUnits() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize4096000 -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize4096000", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeSmallG() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize1g -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize1g", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeSmallK() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize4096k -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize4096k", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMaxjitcodesizeSmallM() {
+        String jvmArgs = "-Xms1g -Xmaxjitcodesize1024m -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xmaxjitcodesize1024m", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
     ***REMOVED***
 
     @Test
@@ -209,11 +288,11 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
-    void testDisableAttachMechanism() {
-        String jvmArgs = "-XX:+DisableAttachMechanism";
+    void testNativeMemoryTracking() {
+        String jvmArgs = "-Xms1g -XX:NativeMemoryTracking=detail -Xmx1g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-XX:+DisableAttachMechanism", jvmOptions.getDisableAttachMechanism(),
-                "DisableAttachMechanism not correct.");
+        assertEquals("-XX:NativeMemoryTracking=detail", jvmOptions.getNativeMemoryTracking(),
+                "NativeMemoryTracking not correct.");
     ***REMOVED***
 
     @Test
@@ -221,30 +300,6 @@ class TestJvmOptions {
         String jvmArgs = "-XX:NewRatio=3";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals("-XX:NewRatio=3", jvmOptions.getNewRatio(), "NewRatio not correct.");
-    ***REMOVED***
-
-    @Test
-    void testAddExports() {
-        String jvmArgs = "-Xmx1g --add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED";
-        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED", jvmOptions.getAddExports(),
-                "NewRatio not correct.");
-    ***REMOVED***
-
-    @Test
-    void testUseCodeCacheFlushing() {
-        String jvmArgs = "-Xmx1g -XX:+UseCodeCacheFlushing";
-        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-XX:+UseCodeCacheFlushing", jvmOptions.getUseCodeCacheFlushing(),
-                "UseCodeCacheFlushing not correct.");
-    ***REMOVED***
-
-    @Test
-    void testOnOutOfMemoryErrorKillAbrt() {
-        String jvmArgs = "-Xms1g -XX:OnOutOfMemoryError=/bin/kill -ABRT %p -Xmx1g";
-        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-XX:OnOutOfMemoryError=/bin/kill -ABRT %p", jvmOptions.getOnOutOfMemoryError(),
-                "OnOutOfMemoryError not correct.");
     ***REMOVED***
 
     @Test
@@ -256,90 +311,59 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
-    void testCMSScavengeBeforeRemark() {
-        String jvmArgs = "-Xms1g -XX:+CMSScavengeBeforeRemark -Xmx1g";
+    void testOnOutOfMemoryErrorKillAbrt() {
+        String jvmArgs = "-Xms1g -XX:OnOutOfMemoryError=/bin/kill -ABRT %p -Xmx1g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-XX:+CMSScavengeBeforeRemark", jvmOptions.getCmsScavengeBeforeRemark(),
-                "CMSScavengeBeforeRemark not correct.");
+        assertEquals("-XX:OnOutOfMemoryError=/bin/kill -ABRT %p", jvmOptions.getOnOutOfMemoryError(),
+                "OnOutOfMemoryError not correct.");
     ***REMOVED***
 
     @Test
-    void testCompileThreshold() {
-        String jvmArgs = "-Xms1g -XX:CompileThreshold=5000 -Xmx1g";
+    void testSystemProperties() {
+        String jvmArgs = "-Xmx1500m -Xms1000m -Dcatalina.base=/path/to/tomcat -Xss512k";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-XX:CompileThreshold=5000", jvmOptions.getCompileThreshold(), "CompileThreshold not correct.");
+        assertEquals(1, jvmOptions.getSystemProperties().size(), "System properties count not correct.");
+        assertEquals("-Dcatalina.base=/path/to/tomcat", jvmOptions.getSystemProperties().get(0),
+                "System property not correct.");
     ***REMOVED***
 
     @Test
-    void testMaxjitcodesizeNoUnits() {
-        String jvmArgs = "-Xms1g -Xmaxjitcodesize4096000 -Xmx1g";
+    void testTraceClassUnloading() {
+        String jvmArgs = "-Xmx1500m -Xms1000m -XX:-TraceClassUnloading -Xss512k";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-Xmaxjitcodesize4096000", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
+        assertEquals("-XX:-TraceClassUnloading", jvmOptions.getTraceClassUnloading(),
+                "TraceClassUnloading not correct.");
     ***REMOVED***
 
     @Test
-    void testMaxjitcodesizeSmallK() {
-        String jvmArgs = "-Xms1g -Xmaxjitcodesize4096k -Xmx1g";
+    void testUseCodeCacheFlushing() {
+        String jvmArgs = "-Xmx1g -XX:+UseCodeCacheFlushing";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-Xmaxjitcodesize4096k", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
+        assertEquals("-XX:+UseCodeCacheFlushing", jvmOptions.getUseCodeCacheFlushing(),
+                "UseCodeCacheFlushing not correct.");
     ***REMOVED***
 
     @Test
-    void testMaxjitcodesizeBigK() {
-        String jvmArgs = "-Xms1g -Xmaxjitcodesize4096K -Xmx1g";
+    void testUseDynamicNumberOfCompilerThreads() {
+        String jvmArgs = "-Xms1g -XX:+UseDynamicNumberOfCompilerThreads -Xmx1g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-Xmaxjitcodesize4096K", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
+        assertEquals("-XX:+UseDynamicNumberOfCompilerThreads", jvmOptions.getUseDynamicNumberOfCompilerThreads(),
+                "UseDynamicNumberOfCompilerThreads not correct.");
     ***REMOVED***
 
     @Test
-    void testMaxjitcodesizeSmallM() {
-        String jvmArgs = "-Xms1g -Xmaxjitcodesize1024m -Xmx1g";
+    void testUseDynamicNumberOfGcThreads() {
+        String jvmArgs = "-Xms1g -XX:+UseDynamicNumberOfGCThreads -Xmx1g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-Xmaxjitcodesize1024m", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
+        assertEquals("-XX:+UseDynamicNumberOfGCThreads", jvmOptions.getUseDynamicNumberOfGcThreads(),
+                "UseDynamicNumberOfGCThreads not correct.");
     ***REMOVED***
 
     @Test
-    void testMaxjitcodesizeBigM() {
-        String jvmArgs = "-Xms1g -Xmaxjitcodesize1024M -Xmx1g";
+    void testVerify() {
+        String jvmArgs = "-Xverify:none";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-Xmaxjitcodesize1024M", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
-    ***REMOVED***
-
-    @Test
-    void testMaxjitcodesizeSmallG() {
-        String jvmArgs = "-Xms1g -Xmaxjitcodesize1g -Xmx1g";
-        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-Xmaxjitcodesize1g", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
-    ***REMOVED***
-
-    @Test
-    void testMaxjitcodesizeBigG() {
-        String jvmArgs = "-Xms1g -Xmaxjitcodesize1G -Xmx1g";
-        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-Xmaxjitcodesize1G", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
-    ***REMOVED***
-
-    @Test
-    void testDuplicateXms() {
-        String jvmArgs = "-Xms1g -Xms2g -Xmaxjitcodesize1G -Xmx2g";
-        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-Xms1g -Xms2g", jvmOptions.getDuplicates(), "Duplicates not correct.");
-    ***REMOVED***
-
-    @Test
-    void testDuplicateAddExports() {
-        String jvmArgs = "-Xms1g --add-exports=java.base/sun.nio.ch=ALL-UNNAMED "
-                + "--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED "
-                + "--add-exports=jdk.unsupported/sun.reflect=ALL-UNNAMED -Xmx2g";
-        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertNull(jvmOptions.getDuplicates(), "Duplicates not correct.");
-    ***REMOVED***
-
-    @Test
-    void testMaxInlinLevel() {
-        String jvmArgs = "-Xms1g -XX:MaxInlineLevel=15 -Xmx1g";
-        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-XX:MaxInlineLevel=15", jvmOptions.getMaxInlineLevel(), "MaxInlineLevel not correct.");
+        assertEquals("-Xverify:none", jvmOptions.getVerify(), "Verify not correct.");
     ***REMOVED***
 
 ***REMOVED***

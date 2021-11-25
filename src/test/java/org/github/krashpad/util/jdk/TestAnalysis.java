@@ -79,13 +79,6 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
-    void testUnknownStorageFalseReporting() {
-        FatalErrorLog fel = new FatalErrorLog();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_STORAGE_UNKNOWN),
-                Analysis.INFO_STORAGE_UNKNOWN + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
     void testBisasedLockingDisabledNotShenandoah() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:-UseBiasedLocking -Xms2048M";
@@ -316,6 +309,17 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_BYTECODE_COMPILE_FIRST_INVOCATION),
                 Analysis.WARN_OPT_BYTECODE_COMPILE_FIRST_INVOCATION + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCompilerThreads() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:CICompilerCount=2 -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CI_COMPILER_COUNT),
+                Analysis.INFO_OPT_CI_COMPILER_COUNT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1615,6 +1619,45 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testParalleGcThreads1() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:ParallelGCThreads=1 -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1),
+                Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1 + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParalleGcThreadsSerial() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UseSerialGC -XX:ParallelGCThreads=1 -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1),
+                Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1 + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL),
+                Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParalleGcThreads() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:ParallelGCThreads=4 -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1),
+                Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1 + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL),
+                Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_PARALLEL_GC_THREADS),
+                Analysis.INFO_OPT_PARALLEL_GC_THREADS + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testParallelClassLoading() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:+UnlockDiagnosticVMOptions -XX:+UnsyncloadClass -Xmx2G";
@@ -2129,6 +2172,13 @@ class TestAnalysis {
                 Analysis.INFO_TRUNCATED + " analysis not identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_OOPS),
                 Analysis.ERROR_OOME_OOPS + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testUnknownStorageFalseReporting() {
+        FatalErrorLog fel = new FatalErrorLog();
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_STORAGE_UNKNOWN),
+                Analysis.INFO_STORAGE_UNKNOWN + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
