@@ -664,7 +664,8 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT);
         ***REMOVED***
         // Check for CMS incremental mode with > 2 cpu
-        if (getCpus() > 2 && jvmOptions != null && JdkUtil.isOptionEnabled(jvmOptions.getCmsIncrementalMode())) {
+        if (getCpus() > 2 && jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUseConcMarkSweepGc())
+                && JdkUtil.isOptionEnabled(jvmOptions.getCmsIncrementalMode())) {
             analysis.add(Analysis.WARN_CMS_INCREMENTAL_MODE);
         ***REMOVED***
         // If CMS or G1, explicit gc is not handled concurrently by default

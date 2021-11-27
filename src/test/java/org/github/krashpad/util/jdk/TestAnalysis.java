@@ -203,12 +203,21 @@ class TestAnalysis {
     @Test
     void testCmsClassUnloadingDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-CMSClassUnloadingEnabled";
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:-CMSClassUnloadingEnabled";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_CLASS_UNLOADING_DISABLED),
                 Analysis.WARN_OPT_CMS_CLASS_UNLOADING_DISABLED + " analysis not identified.");
+        // Don't report if CMS collector not being used
+        fel.getVmArgumentsEvents().clear();
+        fel.getAnalysis().clear();
+        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:-CMSClassUnloadingEnabled";
+        event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_CLASS_UNLOADING_DISABLED),
+                Analysis.WARN_OPT_CMS_CLASS_UNLOADING_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -224,10 +233,42 @@ class TestAnalysis {
                 GarbageCollector.CMS + " collector not identified.");
     ***REMOVED***
 
+    /**
+     * Test if CMS collector disabled with -XX:-UseConcMarkSweepGC -XX:-UseParNewGC.
+     */
+    @Test
+    void testCmsDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        // JDK 8/11
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParNewGC -XX:-UseConcMarkSweepGC "
+                + "-XX:CMSInitiatingOccupancyFraction=70";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
+                Analysis.INFO_OPT_CMS_DISABLED + " analysis not identified.");
+        // JDK 11
+        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC " + "-XX:CMSInitiatingOccupancyFraction=70";
+        event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().clear();
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
+                Analysis.INFO_OPT_CMS_DISABLED + " analysis not identified.");
+    ***REMOVED***
+
     @Test
     void testCmsIncrementalMode() {
         FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseCMS -XX:+CMSIncrementalMode ";
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode ";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         String cpu = "CPU:total 8 (2 cores per cpu, 1 threads per core)";
@@ -236,29 +277,57 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_CMS_INCREMENTAL_MODE),
                 Analysis.WARN_CMS_INCREMENTAL_MODE + " analysis not identified.");
+        // Don't report if CMS collector not being used
+        fel.getVmArgumentsEvents().clear();
+        fel.getAnalysis().clear();
+        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:+CMSIncrementalMode ";
+        event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_CMS_INCREMENTAL_MODE),
+                Analysis.WARN_CMS_INCREMENTAL_MODE + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
     void testCmsIncrementalModeWithInitatingOccupancyFraction() {
         FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseCMS -XX:+CMSIncrementalMode "
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode "
                 + "-XX:CMSInitiatingOccupancyFraction=70";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT),
                 Analysis.WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT + " analysis not identified.");
+        // Don't report if CMS collector not being used
+        fel.getVmArgumentsEvents().clear();
+        fel.getAnalysis().clear();
+        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:+CMSIncrementalMode "
+                + "-XX:CMSInitiatingOccupancyFraction=70";
+        event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT),
+                Analysis.WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
     void testCmsInitatingOccupancyOnlyMissing() {
         FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseCMS -XX:CMSInitiatingOccupancyFraction=70";
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING),
                 Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING + " analysis not identified.");
+        // Don't report if CMS collector not being used
+        fel.getVmArgumentsEvents().clear();
+        fel.getAnalysis().clear();
+        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70";
+        event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING),
+                Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -270,6 +339,15 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED),
                 Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED + " analysis not identified.");
+        // Don't report if CMS collector not being used
+        fel.getVmArgumentsEvents().clear();
+        fel.getAnalysis().clear();
+        jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:-UseConcMarkSweepGC -XX:-CMSParallelInitialMarkEnabled";
+        event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED),
+                Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -281,6 +359,33 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED),
                 Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED + " analysis not identified.");
+        // Don't report if CMS collector not being used
+        fel.getVmArgumentsEvents().clear();
+        fel.getAnalysis().clear();
+        jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:-UseConcMarkSweepGC -XX:-CMSParallelRemarkEnabled";
+        event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED),
+                Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    /**
+     * Test if PAR_NEW collector disabled with -XX:-UseParNewGC without -XX:+UseConcMarkSweepGC.
+     */
+    @Test
+    void testCmsParNewDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParNewGC";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
+                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
     /**
@@ -1619,6 +1724,21 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testParalleGcThreads() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:ParallelGCThreads=4 -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1),
+                Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1 + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL),
+                Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_PARALLEL_GC_THREADS),
+                Analysis.INFO_OPT_PARALLEL_GC_THREADS + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testParalleGcThreads1() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:ParallelGCThreads=1 -Xms2048M";
@@ -1640,21 +1760,6 @@ class TestAnalysis {
                 Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1 + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL),
                 Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParalleGcThreads() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:ParallelGCThreads=4 -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1),
-                Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1 + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL),
-                Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_PARALLEL_GC_THREADS),
-                Analysis.INFO_OPT_PARALLEL_GC_THREADS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2242,18 +2347,22 @@ class TestAnalysis {
     ***REMOVED***
 
     /**
-     * Test if PAR_NEW collector disabled with -XX:-UseParNewGC.
+     * Test if PAR_NEW collector disabled with -XX:-UseParNewGC with the CMS collector.
      */
     @Test
     void testUseParNewGcDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseCMS -XX:-UseParNewGC "
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:-UseParNewGC "
                 + "-XX:CMSInitiatingOccupancyFraction=70";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_PAR_NEW_DISABLED),
-                Analysis.WARN_OPT_CMS_PAR_NEW_DISABLED + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
+                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test

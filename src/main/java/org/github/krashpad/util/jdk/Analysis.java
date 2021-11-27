@@ -329,6 +329,11 @@ public enum Analysis {
     INFO_OPT_CLIENT("info.opt.client"),
 
     /**
+     * Property key for the CMS collector disabled in JDK11.
+     */
+    INFO_OPT_CMS_DISABLED("info.opt.cms.disabled"),
+
+    /**
      * Property key for -XX:CMSInitiatingOccupancyFraction without -XX:+UseCMSInitiatingOccupancyOnly.
      */
     INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING("info.opt.cms.init.occupancy.only.missing"),
@@ -409,6 +414,11 @@ public enum Analysis {
      * Property key for missing gc* to output details at gc needed for analysis.
      */
     INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING("info.opt.jdk11.print.gc.details.missing"),
+
+    /**
+     * Property key for the PAR_NEW collector disabled without the CMS collector being used.
+     */
+    INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED("info.opt.jdk8.cms.par.new.disabled"),
 
     /**
      * Property key for GC log file rotation disabled (-XX:-UseGCLogFileRotation).
@@ -830,11 +840,6 @@ public enum Analysis {
     WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT("warn.opt.cms.inc.mode.with.init.occup.fract"),
 
     /**
-     * Property key for PAR_NEW collector disabled.
-     */
-    WARN_OPT_CMS_PAR_NEW_DISABLED("warn.opt.cms.par.new.disabled"),
-
-    /**
      * Property key for multi-threaded CMS initial mark disabled with -XX:-CMSParallelInitialMarkEnabled.
      */
     WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED("warn.opt.cms.parallel.initial.mark.disabled"),
@@ -962,6 +967,12 @@ public enum Analysis {
      * Property key for specifying the gc log file size that triggers rotation (filesize=N[K|M|G]) is small (&lt; 5M).
      */
     WARN_OPT_JDK11_GC_LOG_FILE_SIZE_SMALL("warn.opt.jdk11.gc.log.file.size.small"),
+
+    /**
+     * Property key for PAR_NEW collector disabled, resulting in the SERIAL collector being used in combination with the
+     * CMS collector.
+     */
+    WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED("warn.opt.jdk8.cms.par.new.disabled"),
 
     /**
      * Property key for specifying the number of GC log files (-XX:NumberOfGCLogFiles) to keep with log rotation is

@@ -1466,7 +1466,13 @@ public class JvmOptions {
     private String useParallelOldGc;
 
     /**
-     * The option to enable/disable the CMS young collector. For example:
+     * The option to enable/disable the CMS young collector. The use case for this option is to -disable the CMS young
+     * (parallel) collector with XX:-UseParNewGC to force using the serial new collector.
+     * 
+     * Deprecated in JDK8 and removed in JDK9 (i.e. you can only use the CMS young collector in combination with the CMS
+     * old collector in JDK9+).
+     * 
+     * For example:
      * 
      * <pre>
      * -XX:+UseParNewGC
@@ -2081,11 +2087,11 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED***
         // Check for multi-threaded CMS initial mark disabled
-        if (JdkUtil.isOptionDisabled(cmsParallelInitialMarkEnabled)) {
+        if (!JdkUtil.isOptionDisabled(useConcMarkSweepGc) && JdkUtil.isOptionDisabled(cmsParallelInitialMarkEnabled)) {
             analysis.add(Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED);
         ***REMOVED***
         // Check for multi-threaded CMS remark disabled
-        if (JdkUtil.isOptionDisabled(cmsParallelRemarkEnabled)) {
+        if (!JdkUtil.isOptionDisabled(useConcMarkSweepGc) && JdkUtil.isOptionDisabled(cmsParallelRemarkEnabled)) {
             analysis.add(Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED);
         ***REMOVED***
 
@@ -2296,20 +2302,32 @@ public class JvmOptions {
             analysis.add(Analysis.WARN_OPT_CLASS_UNLOADING_DISABLED);
         ***REMOVED***
         // Check if CMS handling metaspace collections is disabled
-        if (JdkUtil.isOptionDisabled(cmsClassUnloadingEnabled)) {
+        if (!JdkUtil.isOptionDisabled(useConcMarkSweepGc) && JdkUtil.isOptionDisabled(cmsClassUnloadingEnabled)) {
             analysis.add(Analysis.WARN_OPT_CMS_CLASS_UNLOADING_DISABLED);
         ***REMOVED***
         // Check for incremental mode in combination with -XX:CMSInitiatingOccupancyFraction=<n>.
-        if (JdkUtil.isOptionEnabled(cmsIncrementalMode) && cmsInitiatingOccupancyFraction != null) {
+        if (!JdkUtil.isOptionDisabled(useConcMarkSweepGc) && JdkUtil.isOptionEnabled(cmsIncrementalMode)
+                && cmsInitiatingOccupancyFraction != null) {
             analysis.add(Analysis.WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT);
         ***REMOVED***
         // Check for-XX:CMSInitiatingOccupancyFraction without -XX:+UseCMSInitiatingOccupancyOnly.
-        if (cmsInitiatingOccupancyFraction != null && !JdkUtil.isOptionEnabled(useCmsInitiatingOccupancyOnly)) {
+        if (!JdkUtil.isOptionDisabled(useConcMarkSweepGc) && cmsInitiatingOccupancyFraction != null
+                && !JdkUtil.isOptionEnabled(useCmsInitiatingOccupancyOnly)) {
             analysis.add(Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING);
         ***REMOVED***
         // Check if PAR_NEW collector disabled
         if (JdkUtil.isOptionDisabled(useParNewGc)) {
-            analysis.add(Analysis.WARN_OPT_CMS_PAR_NEW_DISABLED);
+            if (JdkUtil.isOptionEnabled(useConcMarkSweepGc)) {
+                analysis.add(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED);
+            ***REMOVED*** else if (JdkUtil.isOptionDisabled(useConcMarkSweepGc)) {
+                analysis.add(Analysis.INFO_OPT_CMS_DISABLED);
+            ***REMOVED*** else {
+                analysis.add(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED);
+            ***REMOVED***
+        ***REMOVED***
+        // Check if CMS disabled
+        if (!analysis.contains(Analysis.INFO_OPT_CMS_DISABLED) && JdkUtil.isOptionDisabled(useConcMarkSweepGc)) {
+            analysis.add(Analysis.INFO_OPT_CMS_DISABLED);
         ***REMOVED***
         // Check to see if explicit gc is disabled
         if (JdkUtil.isOptionEnabled(disableExplicitGc)
