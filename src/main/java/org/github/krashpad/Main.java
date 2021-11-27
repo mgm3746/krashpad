@@ -368,6 +368,9 @@ public class Main {
             if (!fel.getCrashTime().equals("")) {
                 printWriter.write("Crash Date: " + fel.getCrashTime() + Constants.LINE_SEPARATOR);
             ***REMOVED***
+            if (fel.getElapsedTime() != null) {
+                printWriter.write("Run Time: " + fel.getElapsedTime() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
             List<GarbageCollector> garbageCollectors = fel.getGarbageCollectors();
             if (!garbageCollectors.isEmpty()) {
                 printWriter.write("Garbage Collector(s): ");

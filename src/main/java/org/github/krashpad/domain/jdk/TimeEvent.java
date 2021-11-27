@@ -26,7 +26,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <p>
- * Time when the JVM crashed.
+ * Time when the JVM crashed in JDK8.
  * </p>
  * 
  * <h3>Example Logging</h3>

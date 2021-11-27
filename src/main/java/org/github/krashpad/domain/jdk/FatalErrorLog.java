@@ -100,7 +100,7 @@ public class FatalErrorLog {
     private List<DynamicLibraryEvent> dynamicLibraryEvents;
 
     /**
-     * JVM run duration information.
+     * JVM run duration information in JDK8.
      */
     private ElapsedTimeEvent elapsedTimeEvent;
 
@@ -190,7 +190,7 @@ public class FatalErrorLog {
     private TimeEvent timeEvent;
 
     /**
-     * JVM crash time timezone information.
+     * JVM crash time timezone information in JDK8.
      */
     private TimezoneEvent timezoneEvent;
 
@@ -1199,9 +1199,8 @@ public class FatalErrorLog {
         if (timeEvent != null) {
             crashTime.append(timeEvent.getTime());
             if (timezoneEvent != null) {
-                crashTime.append(" (");
+                crashTime.append(" ");
                 crashTime.append(timezoneEvent.getTimezone());
-                crashTime.append(")");
             ***REMOVED***
         ***REMOVED*** else if (timeElapsedTimeEvent != null) {
             crashTime.append(timeElapsedTimeEvent.getTime());

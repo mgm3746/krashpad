@@ -26,7 +26,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <p>
- * Combined <code>TimeEvent</code> and <code>ElapsedTimeEvent</code>.
+ * Combined <code>TimeEvent</code> and <code>ElapsedTimeEvent</code> in JDK11+.
  * </p>
  * 
  * <h3>Example Logging</h3>
