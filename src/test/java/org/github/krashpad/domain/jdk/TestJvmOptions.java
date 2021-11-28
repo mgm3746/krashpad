@@ -114,6 +114,14 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testG1ConcRefinementThreads() {
+        String jvmArgs = "-Xmx1500m -Xms1000m -XX:G1ConcRefinementThreads=4";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:G1ConcRefinementThreads=4", jvmOptions.getG1ConcRefinementThreads(),
+                "G1ConcRefinementThreads not correct.");
+    ***REMOVED***
+
+    @Test
     void testGarbageCollectorG1() {
         String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseG1GC";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);

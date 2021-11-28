@@ -2018,6 +2018,42 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testRhelJdkRpmMismatchJdk8() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset69.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le", fel.getRpmDirectory(),
+                "Rpm directory not correct.");
+        assertEquals("8.4", fel.getRhelVersion(), "RHEL version not correct.");
+        assertEquals("8.5", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST),
+                Analysis.WARN_JDK_NOT_LATEST + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testRhelJdkRpmMismatchJdk11() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux release 8.5 (Ootpa)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String library = "7ff001124000-7ff001ecf000 r-xp 00000000 fd:00 17385                      "
+                + "/usr/lib/jvm/java-11-openjdk-11.0.13.0.8-1.el8_4.x86_64/lib/server/libjvm.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(library);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.13+8-LTS) for linux-amd64 JRE (11.0.13+8-LTS), built "
+                + "on Oct 13 2021 11:20:31 by \"mockbuild\" with gcc 8.4.1 20200928 (Red Hat 8.4.1-1)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("8.5", fel.getRhelVersion(), "RHEL version not correct.");
+        assertEquals("8.4", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testRpmPpc64le() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset15.txt");
         Manager manager = new Manager();

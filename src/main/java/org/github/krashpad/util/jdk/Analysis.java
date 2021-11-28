@@ -257,6 +257,11 @@ public enum Analysis {
     ERROR_PTHREAD_GETCPUCLOCKID("error.pthread.getcpuclockid"),
 
     /**
+     * Property key RHEL/JDK rpm version mismatch.
+     */
+    ERROR_RHEL_JDK_RPM_MISMATCH("error.rhel.jdk.rpm.mismatch"),
+
+    /**
      * Property key for stack free space greater than stack size.
      */
     ERROR_STACK_FREESPACE_GT_STACK_SIZE("error.stack.freespace.gt.stack.size"),
@@ -888,6 +893,11 @@ public enum Analysis {
      * Property key for performance data written to disk (/tmp/hsperfdata*) in a cloud environment.
      */
     WARN_OPT_CONTAINER_PERF_DATA_DISK("warn.opt.container.perf.data.disk"),
+
+    /**
+     * Property key for safepoint statistics logging.
+     */
+    WARN_OPT_DIAGNOSTIC_DEBUG_NON_SAFEPOINTS("warn.opt.diagnostic.debug.non.safepoints"),
 
     /**
      * Property key for safepoint statistics logging.

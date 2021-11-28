@@ -271,7 +271,19 @@ public class JdkRegEx {
             + "RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|[Rr]" + "\\d{1,2***REMOVED***[ ]{0,1***REMOVED***)=(" + ADDRESS32 + "|" + ADDRESS64 + ")";
 
     /**
-     * Red Hat OpenJDK 11 rpm version directory.
+     * Red Hat OpenJDK rpm directory.
+     * 
+     * For example:
+     * 
+     * java-11-openjdk-11.0.9.11-0.el8_2.x86_64
+     * 
+     * java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le
+     */
+    public static final String RH_RPM_DIR = "(" + JdkRegEx.RH_RPM_OPENJDK8_DIR + "|" + JdkRegEx.RH_RPM_OPENJDK11_DIR
+            + ")";
+
+    /**
+     * Red Hat OpenJDK 11 rpm directory.
      * 
      * For example:
      * 
@@ -282,7 +294,7 @@ public class JdkRegEx {
      * java-11-openjdk-11.0.10.0.9-0.el7_9.x86_64
      */
     public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d{1,2***REMOVED***\\.\\d{1,2***REMOVED***(\\.\\d)?"
-            + "-\\d\\.el[78]_\\d\\.x86_64)";
+            + "-\\d\\.el([78])_(\\d{1,2***REMOVED***)\\.x86_64)";
 
     /**
      * Red Hat OpenJDK 11 rpm libjvm.so file path.
@@ -295,11 +307,9 @@ public class JdkRegEx {
             + "\\/lib\\/server\\/libjvm\\.so$";
 
     /**
-     * Red Hat OpenJDK 8 rpm version directory.
+     * Red Hat OpenJDK 8 rpm directory.
      * 
      * For example:
-     * 
-     * java-11-openjdk-11.0.9.11-0.el8_2.x86_64
      * 
      * java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64
      * 
@@ -307,8 +317,8 @@ public class JdkRegEx {
      * 
      * java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le
      */
-    public static final String RH_RPM_OPENJDK8_DIR = "(java\\-1\\.8\\.0\\-openjdk\\-1\\.8\\.0\\..+\\.el[678]"
-            + "(_\\d{1,2***REMOVED***)?\\.(ppc64(le)?|x86_64))";
+    public static final String RH_RPM_OPENJDK8_DIR = "(java\\-1\\.8\\.0\\-openjdk\\-1\\.8\\.0\\..+\\.el([678])"
+            + "(_(\\d{1,2***REMOVED***))?\\.(ppc64(le)?|x86_64))";
 
     /**
      * Red Hat OpenJDK 8 rpm file path.

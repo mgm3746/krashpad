@@ -157,19 +157,6 @@ public class JvmOptions {
     private String ciCompilerCount;
 
     /**
-     * The option to enable native memory tracking. For example:
-     * 
-     * <pre>
-     *  -XX:NativeMemoryTracking=detail
-     * </pre>
-     */
-    private String nativeMemoryTracking;
-
-    public String getNativeMemoryTracking() {
-        return nativeMemoryTracking;
-    ***REMOVED***
-
-    /**
      * The option to enable/disable class unloading during gc. For example:
      * 
      * <pre>
@@ -303,9 +290,6 @@ public class JvmOptions {
      * <pre>
      * -XX:ConcGCThreads=18
      * </pre>
-     * 
-     * various experimental performance optimizations that have varied over time. Disabled by default and deprecated in
-     * JDK11.
      */
     private String concGcThreads;
 
@@ -433,6 +417,15 @@ public class JvmOptions {
      * </pre>
      */
     private String flightRecorderOptions;
+
+    /**
+     * The number of G1 concurrent refinement threads. For example:
+     * 
+     * <pre>
+     * -XX:G1ConcRefinementThreads=4
+     * </pre>
+     */
+    private String g1ConcRefinementThreads;
 
     /**
      * The option to set the size of the G1 region. For example:
@@ -745,8 +738,7 @@ public class JvmOptions {
      * option is being ignored. For example:
      * 
      * <pre>
-     * -XX:MaxPermSize=256mvarious experimental performance optimizations that have varied over time. Disabled by
-     * default and deprecated in JDK11.
+     * -XX:MaxPermSize=256m
      * </pre>
      */
     private String maxPermSize;
@@ -780,6 +772,15 @@ public class JvmOptions {
      * </pre>
      */
     private String minHeapFreeRatio;
+
+    /**
+     * The option to enable native memory tracking. For example:
+     * 
+     * <pre>
+     *  -XX:NativeMemoryTracking=detail
+     * </pre>
+     */
+    private String nativeMemoryTracking;
 
     /**
      * Option to set the ratio of old/new generation sizes.
@@ -1321,8 +1322,7 @@ public class JvmOptions {
      * example:
      * 
      * <pre>
-     * -XX:+UseCMSInitiatingOccupancyOnlyvarious experimental performance optimizations that have varied over time. 
-     * Disabled by default and deprecated in JDK11.
+     * -XX:+UseCMSInitiatingOccupancyOnly
      * </pre>
      */
     private String useCmsInitiatingOccupancyOnly;
@@ -1732,6 +1732,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:FlightRecorderOptions=.+$")) {
                     flightRecorderOptions = option;
                     key = "FlightRecorderOptions";
+                ***REMOVED*** else if (option.matches("^-XX:G1ConcRefinementThreads=\\d{1,***REMOVED***$")) {
+                    g1ConcRefinementThreads = option;
+                    key = "G1ConcRefinementThreads";
                 ***REMOVED*** else if (option.matches("^-XX:G1HeapRegionSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     g1HeapRegionSize = option;
                     key = "G1HeapRegionSize";
@@ -2468,6 +2471,10 @@ public class JvmOptions {
         if (JdkUtil.isOptionEnabled(printSafepointStatistics)) {
             analysis.add(Analysis.WARN_OPT_DIAGNOSTIC_PRINT_SAFEPOINT_STATISTICS);
         ***REMOVED***
+        // Check for non safepoint debugging is enabled
+        if (JdkUtil.isOptionEnabled(debugNonSafepoints)) {
+            analysis.add(Analysis.WARN_OPT_DIAGNOSTIC_DEBUG_NON_SAFEPOINTS);
+        ***REMOVED***
         // Check ParallelGCThreads
         if (parallelGcThreads != null) {
             if (JdkUtil.isOptionEnabled(useSerialGc)) {
@@ -2648,6 +2655,10 @@ public class JvmOptions {
         return flightRecorderOptions;
     ***REMOVED***
 
+    public String getG1ConcRefinementThreads() {
+        return g1ConcRefinementThreads;
+    ***REMOVED***
+
     public String getG1HeapRegionSize() {
         return g1HeapRegionSize;
     ***REMOVED***
@@ -2818,6 +2829,10 @@ public class JvmOptions {
 
     public String getMinHeapFreeRatio() {
         return minHeapFreeRatio;
+    ***REMOVED***
+
+    public String getNativeMemoryTracking() {
+        return nativeMemoryTracking;
     ***REMOVED***
 
     public String getNewRatio() {

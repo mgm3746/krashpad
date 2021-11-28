@@ -352,7 +352,11 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("JVM:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            printWriter.write("Version: " + fel.getJdkReleaseString() + Constants.LINE_SEPARATOR);
+            if (fel.isRhRpmInstall()) {
+                printWriter.write("RPM: " + fel.getRpmDirectory() + Constants.LINE_SEPARATOR);
+            ***REMOVED*** else {
+                printWriter.write("Version: " + fel.getJdkReleaseString() + Constants.LINE_SEPARATOR);
+            ***REMOVED***
             printWriter.write("Vendor: " + fel.getJavaVendor() + Constants.LINE_SEPARATOR);
             if (fel.getUsername() != null && fel.getJvmUser() != null && !fel.getUsername().equals(fel.getJvmUser())) {
                 printWriter.write("USERNAME: " + fel.getUsername() + Constants.LINE_SEPARATOR);
