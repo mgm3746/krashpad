@@ -344,9 +344,19 @@ public class Main {
                     || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OVERCOMMIT)
                     || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT)
                     || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT_OOPS)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT))
-                    && fel.getRlimitEvent() != null) {
-                printWriter.write(fel.getRlimitEvent().getLogEntry() + Constants.LINE_SEPARATOR);
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT))) {
+                if (fel.getRlimitEvent() != null) {
+                    printWriter.write(fel.getRlimitEvent().getLogEntry() + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+                if (fel.getThreadsMax() > 0) {
+                    printWriter.write("threads-max: " + fel.getThreadsMax() + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+                if (fel.getMaxMapCount() > 0) {
+                    printWriter.write("max_map_count: " + fel.getMaxMapCount() + Constants.LINE_SEPARATOR);
+                ***REMOVED***
+                if (fel.getPidMax() > 0) {
+                    printWriter.write("pid_max: " + fel.getPidMax() + Constants.LINE_SEPARATOR);
+                ***REMOVED***
             ***REMOVED***
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);

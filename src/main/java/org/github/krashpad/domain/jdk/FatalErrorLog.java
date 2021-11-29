@@ -115,6 +115,11 @@ public class FatalErrorLog {
     private List<EnvironmentVariablesEvent> environmentVariablesEvents;
 
     /**
+     * Vm event information.
+     */
+    private List<EventEvent> eventEvents;
+
+    /**
      * Exception counts information.
      */
     private List<ExceptionCountsEvent> exceptionCountsEvents;
@@ -145,14 +150,14 @@ public class FatalErrorLog {
     private List<HeapEvent> heapEvents;
 
     /**
-     * Statistics information.
-     */
-    private List<StatisticsEvent> statisticsEvents;
-
-    /**
      * JVM options convenience field
      */
     private JvmOptions jvmOptions;
+
+    /**
+     * max_map_count information.
+     */
+    private MaxMapCountEvent maxMapCountEvent;
 
     /**
      * Memory information.
@@ -180,6 +185,11 @@ public class FatalErrorLog {
     private List<OsEvent> osEvents;
 
     /**
+     * pid_max information.
+     */
+    private PidMaxEvent pidMaxEvent;
+
+    /**
      * rlimit information.
      */
     private RlimitEvent rlimitEvent;
@@ -195,9 +205,19 @@ public class FatalErrorLog {
     private List<StackEvent> stackEvents;
 
     /**
+     * Statistics information.
+     */
+    private List<StatisticsEvent> statisticsEvents;
+
+    /**
      * Thread information.
      */
     private List<ThreadEvent> threadEvents;
+
+    /**
+     * threads-max information.
+     */
+    private ThreadsMaxEvent threadsMaxEvent;
 
     /**
      * Combined time + elapsed time information.
@@ -228,11 +248,6 @@ public class FatalErrorLog {
      * VM arguments information.
      */
     private List<VmArgumentsEvent> vmArgumentsEvents;
-
-    /**
-     * Vm event information.
-     */
-    private List<EventEvent> eventEvents;
 
     /**
      * JVM environment information.
@@ -1316,6 +1331,10 @@ public class FatalErrorLog {
         return causedBy.toString();
     ***REMOVED***
 
+    public List<EventEvent> getEventEvents() {
+        return eventEvents;
+    ***REMOVED***
+
     public List<ExceptionCountsEvent> getExceptionCountsEvents() {
         return exceptionCountsEvents;
     ***REMOVED***
@@ -1639,10 +1658,6 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return heapUsed;
-    ***REMOVED***
-
-    public List<StatisticsEvent> getStatisticsEvents() {
-        return statisticsEvents;
     ***REMOVED***
 
     /**
@@ -2052,6 +2067,21 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return jvmUser;
+    ***REMOVED***
+
+    /**
+     * @return max_map_count, or a negative value if undefined.
+     */
+    public Long getMaxMapCount() {
+        Long maxMapCount = Long.MIN_VALUE;
+        if (maxMapCountEvent != null) {
+            maxMapCount = maxMapCountEvent.getLimit();
+        ***REMOVED***
+        return maxMapCount;
+    ***REMOVED***
+
+    public MaxMapCountEvent getMaxMapCountEvent() {
+        return maxMapCountEvent;
     ***REMOVED***
 
     /**
@@ -2472,6 +2502,21 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return pid_max, or a negative value if undefined.
+     */
+    public Long getPidMax() {
+        Long pidMax = Long.MIN_VALUE;
+        if (pidMaxEvent != null) {
+            pidMax = pidMaxEvent.getLimit();
+        ***REMOVED***
+        return pidMax;
+    ***REMOVED***
+
+    public PidMaxEvent getPidMaxEvent() {
+        return pidMaxEvent;
+    ***REMOVED***
+
+    /**
      * @return The RHEL version, or null if unknown.
      */
     public String getRhelVersion() {
@@ -2658,6 +2703,10 @@ public class FatalErrorLog {
         return stackFreeSpace;
     ***REMOVED***
 
+    public List<StatisticsEvent> getStatisticsEvents() {
+        return statisticsEvents;
+    ***REMOVED***
+
     /**
      * @return The storage device where the JDK is installed.
      */
@@ -2749,6 +2798,21 @@ public class FatalErrorLog {
 
     public List<ThreadEvent> getThreadEvents() {
         return threadEvents;
+    ***REMOVED***
+
+    /**
+     * @return threads-max, or a negative value if undefined.
+     */
+    public Long getThreadsMax() {
+        Long threadsMax = Long.MIN_VALUE;
+        if (threadsMaxEvent != null) {
+            threadsMax = threadsMaxEvent.getLimit();
+        ***REMOVED***
+        return threadsMax;
+    ***REMOVED***
+
+    public ThreadsMaxEvent getThreadsMaxEvent() {
+        return threadsMaxEvent;
     ***REMOVED***
 
     /**
@@ -2855,10 +2919,6 @@ public class FatalErrorLog {
 
     public List<VmArgumentsEvent> getVmArgumentsEvents() {
         return vmArgumentsEvents;
-    ***REMOVED***
-
-    public List<EventEvent> getEventEvents() {
-        return eventEvents;
     ***REMOVED***
 
     public VmOperationEvent getVmOperationEvent() {
@@ -3710,8 +3770,16 @@ public class FatalErrorLog {
         this.heapAddressEvent = heapAddressEvent;
     ***REMOVED***
 
+    public void setMaxMapCountEvent(MaxMapCountEvent maxMapCountEvent) {
+        this.maxMapCountEvent = maxMapCountEvent;
+    ***REMOVED***
+
     public void setNarrowKlassEvent(NarrowKlassEvent narrowKlassEvent) {
         this.narrowKlassEvent = narrowKlassEvent;
+    ***REMOVED***
+
+    public void setPidMaxEvent(PidMaxEvent pidMaxEvent) {
+        this.pidMaxEvent = pidMaxEvent;
     ***REMOVED***
 
     public void setRlimitEvent(RlimitEvent rlimitEvent) {
@@ -3720,6 +3788,10 @@ public class FatalErrorLog {
 
     public void setSigInfoEvent(SigInfoEvent sigInfoEvent) {
         this.sigInfoEvent = sigInfoEvent;
+    ***REMOVED***
+
+    public void setThreadsMaxEvent(ThreadsMaxEvent threadsMaxEvent) {
+        this.threadsMaxEvent = threadsMaxEvent;
     ***REMOVED***
 
     public void setTimeElapsedTimeEvent(TimeElapsedTimeEvent timeElapsedTimeEvent) {

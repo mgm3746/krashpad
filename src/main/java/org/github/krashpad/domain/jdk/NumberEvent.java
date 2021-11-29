@@ -14,7 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.domain.ThrowAwayEvent;
+import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
@@ -22,12 +22,10 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * NUMBER
  * </p>
  * 
- * TODO: Add multi-line parsing and associate number with appropriate event.
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class NumberEvent implements ThrowAwayEvent {
+public class NumberEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.

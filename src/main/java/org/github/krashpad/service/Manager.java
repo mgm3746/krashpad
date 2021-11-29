@@ -43,16 +43,20 @@ import org.github.krashpad.domain.jdk.GlobalFlagsEvent;
 import org.github.krashpad.domain.jdk.HeaderEvent;
 import org.github.krashpad.domain.jdk.HeapAddressEvent;
 import org.github.krashpad.domain.jdk.HeapEvent;
+import org.github.krashpad.domain.jdk.MaxMapCountEvent;
 import org.github.krashpad.domain.jdk.MeminfoEvent;
 import org.github.krashpad.domain.jdk.MemoryEvent;
 import org.github.krashpad.domain.jdk.NarrowKlassEvent;
 import org.github.krashpad.domain.jdk.NativeMemoryTrackingEvent;
+import org.github.krashpad.domain.jdk.NumberEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
+import org.github.krashpad.domain.jdk.PidMaxEvent;
 import org.github.krashpad.domain.jdk.RlimitEvent;
 import org.github.krashpad.domain.jdk.SigInfoEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
 import org.github.krashpad.domain.jdk.StatisticsEvent;
 import org.github.krashpad.domain.jdk.ThreadEvent;
+import org.github.krashpad.domain.jdk.ThreadsMaxEvent;
 import org.github.krashpad.domain.jdk.TimeElapsedTimeEvent;
 import org.github.krashpad.domain.jdk.TimeEvent;
 import org.github.krashpad.domain.jdk.TimezoneEvent;
@@ -137,8 +141,8 @@ public class Manager {
                         fatalErrorLog.setHeapAddressEvent((HeapAddressEvent) event);
                     ***REMOVED*** else if (event instanceof HeapEvent) {
                         fatalErrorLog.getHeapEvents().add((HeapEvent) event);
-                    ***REMOVED*** else if (event instanceof StatisticsEvent) {
-                        fatalErrorLog.getStatisticsEvents().add((StatisticsEvent) event);
+                    ***REMOVED*** else if (event instanceof MaxMapCountEvent) {
+                        fatalErrorLog.setMaxMapCountEvent((MaxMapCountEvent) event);
                     ***REMOVED*** else if (event instanceof MeminfoEvent) {
                         fatalErrorLog.getMeminfoEvents().add((MeminfoEvent) event);
                     ***REMOVED*** else if (event instanceof MemoryEvent) {
@@ -147,16 +151,35 @@ public class Manager {
                         fatalErrorLog.getNativeMemoryTrackingEvents().add((NativeMemoryTrackingEvent) event);
                     ***REMOVED*** else if (event instanceof NarrowKlassEvent) {
                         fatalErrorLog.setNarrowKlassEvent((NarrowKlassEvent) event);
+                    ***REMOVED*** else if (event instanceof NumberEvent) {
+                        // Add number to prior event
+                        String combinedLogLine = priorEvent.getLogEntry() + " " + event.getLogEntry();
+                        if (priorEvent instanceof MaxMapCountEvent) {
+                            fatalErrorLog.setMaxMapCountEvent(new MaxMapCountEvent(combinedLogLine));
+                        ***REMOVED*** else if (priorEvent instanceof PidMaxEvent) {
+                            fatalErrorLog.setPidMaxEvent(new PidMaxEvent(combinedLogLine));
+                        ***REMOVED*** else if (priorEvent instanceof ThreadsMaxEvent) {
+                            fatalErrorLog.setThreadsMaxEvent(new ThreadsMaxEvent(combinedLogLine));
+                        ***REMOVED*** else if (fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
+                            // catch for future handling
+                            fatalErrorLog.getUnidentifiedLogLines().add(logLine);
+                        ***REMOVED***
                     ***REMOVED*** else if (event instanceof OsEvent) {
                         fatalErrorLog.getOsEvents().add((OsEvent) event);
+                    ***REMOVED*** else if (event instanceof PidMaxEvent) {
+                        fatalErrorLog.setPidMaxEvent((PidMaxEvent) event);
                     ***REMOVED*** else if (event instanceof RlimitEvent) {
                         fatalErrorLog.setRlimitEvent((RlimitEvent) event);
                     ***REMOVED*** else if (event instanceof SigInfoEvent) {
                         fatalErrorLog.setSigInfoEvent((SigInfoEvent) event);
                     ***REMOVED*** else if (event instanceof StackEvent) {
                         fatalErrorLog.getStackEvents().add((StackEvent) event);
+                    ***REMOVED*** else if (event instanceof StatisticsEvent) {
+                        fatalErrorLog.getStatisticsEvents().add((StatisticsEvent) event);
                     ***REMOVED*** else if (event instanceof ThreadEvent) {
                         fatalErrorLog.getThreadEvents().add((ThreadEvent) event);
+                    ***REMOVED*** else if (event instanceof ThreadsMaxEvent) {
+                        fatalErrorLog.setThreadsMaxEvent((ThreadsMaxEvent) event);
                     ***REMOVED*** else if (event instanceof ThrowAwayEvent) {
                         // ThrowAwayEvents are ignored
                     ***REMOVED*** else if (event instanceof TimeEvent) {

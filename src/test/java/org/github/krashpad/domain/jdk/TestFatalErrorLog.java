@@ -222,6 +222,9 @@ class TestFatalErrorLog {
         assertEquals(5 * 1024, fel.getThreadStackSize(), "Thread stack size not correct.");
         assertEquals(768, fel.getCompressedClassSpaceSize(), "CompressedClassSpaceSize not correct.");
         assertEquals(1024, fel.getDirectMemoryMaxSize(), "MaxDirectMemorySize not correct.");
+        assertEquals(255838, fel.getThreadsMax(), "threads-max not correct.");
+        assertEquals(32768, fel.getPidMax(), "pid_max not correct.");
+        assertEquals(65530, fel.getMaxMapCount(), "max_map_count not correct.");
     ***REMOVED***
 
     @Test
@@ -546,6 +549,9 @@ class TestFatalErrorLog {
         assertTrue(fel.isRhRpmInstall(), "Red Hat rpm install not identified.");
         assertTrue(fel.isRhel(), "RHEL not identified.");
         assertFalse(fel.isWindows(), "Windows incorrectly identified.");
+        assertEquals(254790, fel.getThreadsMax(), "threads-max not correct.");
+        assertEquals(4194304, fel.getPidMax(), "pid_max not correct.");
+        assertEquals(65530, fel.getMaxMapCount(), "max_map_count not correct.");
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***

@@ -14,6 +14,9 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -55,7 +58,18 @@ public class ThreadsMaxEvent implements LogEvent, ThrowAwayEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^/proc/sys/kernel/threads-max \\(system-wide limit on the number of "
-            + "threads\\):( \\d{1,***REMOVED***)?$";
+            + "threads\\):( (\\d{1,***REMOVED***))?$";
+
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -72,22 +86,26 @@ public class ThreadsMaxEvent implements LogEvent, ThrowAwayEvent {
         this.logEntry = logEntry;
     ***REMOVED***
 
+    /**
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public Long getLimit() {
+        Long limit = Long.MIN_VALUE;
+        Pattern pattern = Pattern.compile(REGEX);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(1) != null) {
+                limit = Long.parseLong(matcher.group(2));
+            ***REMOVED***
+        ***REMOVED***
+        return limit;
+    ***REMOVED***
+
     public String getLogEntry() {
         return logEntry;
     ***REMOVED***
 
     public String getName() {
         return JdkUtil.LogEventType.THREADS_MAX.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***
