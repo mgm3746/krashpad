@@ -43,7 +43,7 @@ public class PidMaxEvent implements LogEvent, ThrowAwayEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^/proc/sys/kernel/pid_max \\(system-wide limit on number of process "
-            + "identifiers\\):$";
+            + "identifiers\\):( \\d{1,***REMOVED***)?$";
 
     /**
      * The log entry for the event.

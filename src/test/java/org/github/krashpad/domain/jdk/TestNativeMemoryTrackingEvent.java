@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -172,4 +173,10 @@ class TestNativeMemoryTrackingEvent {
                 JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     ***REMOVED***
 
+    @Test
+    void testInternalStatisticsHeader() {
+        String logLine = "Internal statistics:";
+        assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " incorrectly identified.");
+    ***REMOVED***
 ***REMOVED***

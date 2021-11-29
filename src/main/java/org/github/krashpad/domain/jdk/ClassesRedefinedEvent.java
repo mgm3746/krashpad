@@ -32,7 +32,6 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * 
  * <pre>
  * Classes redefined (0 events):
- * No events
  * </pre>
  * 
  * <pre>
@@ -52,7 +51,7 @@ public class ClassesRedefinedEvent implements LogEvent, ThrowAwayEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|No events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
+    private static final String REGEX = "^(" + REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
             + JdkRegEx.ADDRESS + " redefined class).*$";
 
     /**

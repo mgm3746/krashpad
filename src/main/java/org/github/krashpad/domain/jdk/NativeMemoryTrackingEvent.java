@@ -93,7 +93,7 @@ public class NativeMemoryTrackingEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER
-            + "|[-]{0,1***REMOVED***[ ]{0,***REMOVED***(\\(arena=|Arena Chunk|\\(classes|Class|Code|Compiler|GC|Internal|Java Heap|"
+            + "|[-]{0,1***REMOVED***[ ]{0,***REMOVED***(\\(arena=|Arena Chunk|\\(classes|Class|Code|Compiler|GC|Internal \\(|Java Heap|"
             + "Native Memory Tracking|\\(malloc|\\(mmap:|\\(stack|Symbol|\\(thread|Thread \\(|Total: reserved|"
             + "\\(tracking|Unknown)).*$";
 

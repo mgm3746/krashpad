@@ -85,6 +85,44 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * MaxMetaspaceSize: 1.00 GB
  * </pre>
  * 
+ * <p>
+ * 2) JDK17:
+ * </p>
+ * 
+ * <pre>
+ * Metaspace:
+ * 
+ * Usage:
+ *   Non-class:    110.87 KB used.
+ *       Class:      6.34 KB used.
+ *        Both:    117.20 KB used.
+ * 
+ * Virtual space:
+ *   Non-class space:        8.00 MB reserved,     192.00 KB (  2%) committed,  1 nodes.
+ *       Class space:        1.00 GB reserved,     128.00 KB ( &lt;1%) committed,  1 nodes.
+ *              Both:        1.01 GB reserved,     320.00 KB ( &lt;1%) committed.
+ * 
+ * Chunk freelists:
+ *    Non-Class:  4.00 MB
+ *        Class:  3.75 MB
+ *         Both:  7.74 MB
+ * 
+ * MaxMetaspaceSize: unlimited
+ * CompressedClassSpaceSize: 1.00 GB
+ * Initial GC threshold: 21.00 MB
+ * Current GC threshold: 21.00 MB
+ * CDS: on
+ * MetaspaceReclaimPolicy: balanced
+ *  - commit_granule_bytes: 65536.
+ *  - commit_granule_words: 8192.
+ *  - virtual_space_node_default_size: 1048576.
+ *  - enlarge_chunks_in_place: 1.
+ *  - new_chunks_are_fully_committed: 0.
+ *  - uncommit_free_chunks: 1.
+ *  - use_allocation_guard: 0.
+ *  - handle_deallocations: 1.
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -93,18 +131,21 @@ public class MetaspaceEvent implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "(Metaspace:)";
+    private static final String REGEX_HEADER = "Metaspace:";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER
-            + "|[ ]{1,***REMOVED***Both:|CDS:|[ ]{1,***REMOVED***Class( space)?:|Chunk freelists:|CompressedClassSpaceSize:|"
-            + "(Current|Initial) GC threshold|MaxMetaspaceSize:|[ ]{1,***REMOVED***Non-[c|C]lass( space)?:|Usage:|Virtual space:|"
-            + JdkRegEx.SIZE2 + "|    " + JdkRegEx.SIZE2 + " reserved,     " + JdkRegEx.SIZE2 + " \\([>]{0,1***REMOVED***"
-            + JdkRegEx.PERCENT + "\\) committed|  " + JdkRegEx.SIZE2 + " capacity,   " + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***"
-            + JdkRegEx.PERCENT + "\\) used,    " + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***" + JdkRegEx.PERCENT
-            + "\\) free\\+waste,     " + JdkRegEx.SIZE2 + " \\( <" + JdkRegEx.PERCENT + "\\) overhead\\.)" + ".*$";
+            + "|[ ]{1,***REMOVED***Both:|CDS:|[ ]{1,***REMOVED***Class( space)?:|Chunk freelists:| - commit_granule_(bytes|words):|"
+            + "CompressedClassSpaceSize:| - enlarge_chunks_in_place:|"
+            + "(Current|Initial) GC threshold|MaxMetaspaceSize:|MetaspaceReclaimPolicy:| - handle_deallocations:|"
+            + " - new_chunks_are_fully_committed:|[ ]{1,***REMOVED***Non-[c|C]lass( space)?:|Usage:| - uncommit_free_chunks:|"
+            + " - use_allocation_guard:| - virtual_space_node_default_size:|Virtual space:|" + JdkRegEx.SIZE2 + "|    "
+            + JdkRegEx.SIZE2 + " reserved,     " + JdkRegEx.SIZE2 + " \\([>]{0,1***REMOVED***" + JdkRegEx.PERCENT
+            + "\\) committed|  " + JdkRegEx.SIZE2 + " capacity,   " + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***" + JdkRegEx.PERCENT
+            + "\\) used,    " + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***" + JdkRegEx.PERCENT + "\\) free\\+waste,     "
+            + JdkRegEx.SIZE2 + " \\( <" + JdkRegEx.PERCENT + "\\) overhead\\.)" + ".*$";
 
     /**
      * The log entry for the event.

@@ -167,6 +167,15 @@ class TestHeapEvent {
     ***REMOVED***
 
     @Test
+    void testMetaspaceJdk17() {
+        String logLine = " Metaspace       used 117K, committed 320K, reserved 1056768K";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP,
+                JdkUtil.LogEventType.HEAP.toString() + " not identified.");
+        HeapEvent event = new HeapEvent(logLine);
+        assertTrue(event.isMetaspace(), "Metaspace not identified.");
+    ***REMOVED***
+
+    @Test
     void testClassSpace() {
         String logLine = "  class space    used 1971K, capacity 2479K, committed 2560K, reserved 1048576K";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP,

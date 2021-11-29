@@ -14,70 +14,36 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkRegEx;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
- * <p>
- * VM_EVENT
- * </p>
- * 
- * <p>
- * VM events leading up to the crash.
- * </p>
- * 
- * <h3>Example Logging</h3>
- * 
- * <pre>
- * ***REMOVED***
- * Event: 6665.311 Executing VM operation: RevokeBias done
- * Event: 6665.311 Thread 0x00007fefe944f000 Thread exited: 0x00007fefe944f000
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class VmEvent implements LogEvent {
+class TestOperationEvent {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(Events|Event: " + JdkRegEx.TIMESTAMP
-            + " (Concurrent|Executing( coalesced safepoint)? VM operation|Loaded shared library|loading class|Pause|"
-            + "Protecting memory|Thread)).+$";
-
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public VmEvent(String logEntry) {
-        this.logEntry = logEntry;
+    @Test
+    void testIdentity() {
+        String logLine = "VM Operations (0 events):";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OPERATION,
+                JdkUtil.LogEventType.OPERATION.toString() + " not identified.");
     ***REMOVED***
 
-    public String getLogEntry() {
-        return logEntry;
+    @Test
+    void testParseLogLine() {
+        String logLine = "VM Operations (0 events):";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof OperationEvent,
+                JdkUtil.LogEventType.OPERATION.toString() + " not parsed.");
     ***REMOVED***
 
-    public String getName() {
-        return JdkUtil.LogEventType.VM_EVENT.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    @Test
+    void testNoEvents() {
+        String logLine = "No Events";
+        assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OPERATION,
+                JdkUtil.LogEventType.OPERATION.toString() + " incorrectly identified.");
     ***REMOVED***
 ***REMOVED***

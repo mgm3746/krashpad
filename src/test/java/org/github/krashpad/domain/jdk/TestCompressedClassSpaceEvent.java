@@ -14,7 +14,6 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -24,35 +23,27 @@ import org.junit.jupiter.api.Test;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestClassesRedefinedEvent {
+class TestCompressedClassSpaceEvent {
 
     @Test
     void testIdentity() {
-        String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
-                + "count=1";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
+        String logLine = "Compressed class space size: 1073741824 Address: 0x00000007c0000000";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE,
+                JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testParseLogLine() {
-        String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
-                + "count=1";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ClassesRedefinedEvent,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not parsed.");
+        String logLine = "Compressed class space size: 1073741824 Address: 0x00000007c0000000";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompressedClassSpaceEvent,
+                JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString() + " not parsed.");
     ***REMOVED***
 
     @Test
-    void testHeader() {
-        String logLine = "Classes redefined (34 events):";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testNoEvents() {
-        String logLine = "No events";
-        assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " incorrectly identified.");
+    void testJdk17() {
+        String logLine = "Compressed class space mapped at: 0x0000000800c00000-0x0000000840c00000, reserved size: "
+                + "1073741824";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompressedClassSpaceEvent,
+                JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

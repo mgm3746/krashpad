@@ -60,8 +60,8 @@ class TestFatalErrorLog {
         assertEquals(Arch.SPARC, fel.getArch(), "Arch not correct.");
         // No vm_info, so not possible to determine vendor
         assertEquals(JavaVendor.UNKNOWN, fel.getJavaVendor(), "Java vendor not correct.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT),
-                Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+                Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -83,24 +83,22 @@ class TestFatalErrorLog {
     @Test
     void testCompressedOopMode() {
         FatalErrorLog fel = new FatalErrorLog();
-
+        // BIT32
         String heapAddress = "heap address: 0x00000000c0000000, size: 1024 MB, Compressed Oops mode: 32-bit";
         HeapAddressEvent heapAddressEvent = new HeapAddressEvent(heapAddress);
-        fel.getHeapAddressEvents().add(heapAddressEvent);
+        fel.setHeapAddressEvent(heapAddressEvent);
         assertEquals(CompressedOopMode.BIT32, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
-
-        fel.getHeapAddressEvents().clear();
+        // ZERO
         heapAddress = "heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: "
                 + "Zero based, Oop shift amount: 3";
         heapAddressEvent = new HeapAddressEvent(heapAddress);
-        fel.getHeapAddressEvents().add(heapAddressEvent);
+        fel.setHeapAddressEvent(heapAddressEvent);
         assertEquals(CompressedOopMode.ZERO, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
-
-        fel.getHeapAddressEvents().clear();
+        // NON_ZERO
         heapAddress = "heap address: 0x00000005a9c00000, size: 8548 MB, Compressed Oops mode: "
                 + "Non-zero based:0x00000005a9bff000, Oop shift amount: 3";
         heapAddressEvent = new HeapAddressEvent(heapAddress);
-        fel.getHeapAddressEvents().add(heapAddressEvent);
+        fel.setHeapAddressEvent(heapAddressEvent);
         assertEquals(CompressedOopMode.NON_ZERO, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
         assertEquals(8548, fel.getHeapMaxSize(), "Heap max size not correct.");
     ***REMOVED***
@@ -144,8 +142,8 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset5.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT),
-                Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+                Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
         assertFalse(fel.isRhel(), "OS incorrectly identified as RHEL.");
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
@@ -535,6 +533,17 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testRel8Jdk17() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset70.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals("Red Hat Enterprise Linux release 8.5 (Ootpa)", fel.getOsString(), "OS string not correct.");
+        assertTrue(fel.isJdkLts(), "LTS release not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+                Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testRhBuildStringMockbuild() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.181-b13) for linux-ppc64 JRE (1.8.0_181-b13), "
@@ -706,8 +715,8 @@ class TestFatalErrorLog {
         assertEquals("1.8.0_251-b08", fel.getJdkReleaseString(), "Jdk release not correct.");
         // No vm_info, so not possible to determine vendor
         assertEquals(JavaVendor.UNKNOWN, fel.getJavaVendor(), "Java vendor not correct.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT),
-                Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+                Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -752,6 +761,15 @@ class TestFatalErrorLog {
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertEquals(0, fel.getThreadStackSize(), "Thread stack size not correct.");
+    ***REMOVED***
+
+    @Test
+    void testUnameSplitAcross2Lines() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset64.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals("SunOS 5.11 11.4.32.88.3 sun4v  (T2 libthread)", fel.getUnameEvent().getUname(),
+                "uname not correct.");
     ***REMOVED***
 
     @Test

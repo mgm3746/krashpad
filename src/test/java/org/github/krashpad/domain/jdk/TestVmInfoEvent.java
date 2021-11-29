@@ -261,4 +261,15 @@ class TestVmInfoEvent {
         assertEquals(JavaSpecification.JDK7, ((VmInfoEvent) event).getJavaSpecification(),
                 "Java specification not correct.");
     ***REMOVED***
+
+    @Test
+    void testJdk17() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (17.0.1+12-LTS) for linux-amd64 JRE (17.0.1+12-LTS), built "
+                + "on Oct 28 2021 01:59:13 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-3)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
+                JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(JavaSpecification.JDK17, ((VmInfoEvent) event).getJavaSpecification(),
+                "Java specification not correct.");
+    ***REMOVED***
 ***REMOVED***

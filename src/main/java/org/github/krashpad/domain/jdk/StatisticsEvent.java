@@ -14,45 +14,85 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.jupiter.api.Test;
 
 /**
+ * <p>
+ * INTERNAL_STATISTICS
+ * </p>
+ * 
+ * <p>
+ * Metaspace information.
+ * </p>
+ * 
+ * <h3>Example Logging</h3>
+ * 
+ * <pre>
+ * Internal statistics:
+ *
+ * num_allocs_failed_limit: 0.
+ * num_arena_births: 4.
+ * num_arena_deaths: 0.
+ * num_vsnodes_births: 2.
+ * num_vsnodes_deaths: 0.
+ * num_space_committed: 5.
+ * num_space_uncommitted: 0.
+ * num_chunks_returned_to_freelist: 0.
+ * num_chunks_taken_from_freelist: 5.
+ * num_chunk_merges: 0.
+ * num_chunk_splits: 2.
+ * num_chunks_enlarged: 0.
+ * num_purges: 0.
+ * num_inconsistent_stats: 0.
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestClassesRedefinedEvent {
+public class StatisticsEvent implements LogEvent {
 
-    @Test
-    void testIdentity() {
-        String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
-                + "count=1";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "Internal statistics:";
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + REGEX_HEADER + "|num_)" + ".*$";
+
+    /**
+     * The log entry for the event.
+     */
+    private String logEntry;
+
+    /**
+     * Create event from log entry.
+     * 
+     * @param logEntry
+     *            The log entry for the event.
+     */
+    public StatisticsEvent(String logEntry) {
+        this.logEntry = logEntry;
     ***REMOVED***
 
-    @Test
-    void testParseLogLine() {
-        String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
-                + "count=1";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ClassesRedefinedEvent,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not parsed.");
+    public String getLogEntry() {
+        return logEntry;
     ***REMOVED***
 
-    @Test
-    void testHeader() {
-        String logLine = "Classes redefined (34 events):";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
+    public String getName() {
+        return JdkUtil.LogEventType.STATISTICS.toString();
     ***REMOVED***
 
-    @Test
-    void testNoEvents() {
-        String logLine = "No events";
-        assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " incorrectly identified.");
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

@@ -15,35 +15,68 @@
 package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * MAX_MAP_COUNT
+ * GC_PRECIOUS_LOG
  * </p>
  * 
  * <p>
- * Max map count information.
+ * GC precious information.
+ * </p>
+ * 
+ * <p>
+ * <a href="https://bugs.openjdk.java.net/browse/JDK-8246272">JDK-8246135</a>
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
- * /proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):
- * 65530
+ * GC Precious Log:
+ *  CPUs: 12 total, 12 available
+ *  Memory: 31907M
+ *  Large Page Support: Disabled
+ *  NUMA Support: Disabled
+ *  Compressed Oops: Enabled (Zero based)
+ *  Heap Region Size: 4M
+ *  Heap Min Capacity: 8M
+ *  Heap Initial Capacity: 500M
+ *  Heap Max Capacity: 7980M
+ *  Pre-touch: Disabled
+ *  Parallel Workers: 10
+ *  Concurrent Workers: 3
+ *  Concurrent Refinement Workers: 10
+ *  Periodic GC: Disabled
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class MaxMapCountEvent implements LogEvent, ThrowAwayEvent {
+public class GcPreciousLogEvent implements LogEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "GC Precious Log:";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^/proc/sys/vm/max_map_count \\(maximum number of memory map areas a process "
-            + "may have\\):( \\d{1,***REMOVED***)?$";
+    private static final String REGEX = "^(" + REGEX_HEADER
+            + "| Compressed Oops:| CPUs:| Heap ((Initial|Min|Max) Capacity|Region Size): | Large Page Support:"
+            + "| Memory:| NUMA Support:| Periodic GC:| Pre-touch:| (Concurrent( Refinement)?|Parallel) Workers:).*$";
+
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -56,7 +89,7 @@ public class MaxMapCountEvent implements LogEvent, ThrowAwayEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public MaxMapCountEvent(String logEntry) {
+    public GcPreciousLogEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -65,17 +98,6 @@ public class MaxMapCountEvent implements LogEvent, ThrowAwayEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.MAX_MAP_COUNT.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+        return JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString();
     ***REMOVED***
 ***REMOVED***

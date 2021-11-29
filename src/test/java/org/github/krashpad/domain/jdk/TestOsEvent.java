@@ -172,4 +172,18 @@ class TestOsEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
                 JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
+
+    @Test
+    void testHeaderOnSeparateLine() {
+        String logLine = "OS:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOsOnSeparateLine() {
+        String logLine = "Red Hat Enterprise Linux release 8.5 (Ootpa)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

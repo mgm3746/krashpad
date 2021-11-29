@@ -1108,7 +1108,7 @@ public enum Analysis {
     /**
      * Property key for unidentified line(s) needing reporting.
      */
-    WARN_UNIDENTIFIED_LOG_LINE_REPORT("warn.unidentified.log.line.report");
+    WARN_UNIDENTIFIED_LOG_LINE("warn.unidentified.log.line");
 
     private String key;
 

@@ -26,6 +26,7 @@ import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.domain.UnknownEvent;
 import org.github.krashpad.domain.jdk.CommandLineEvent;
 import org.github.krashpad.domain.jdk.CompilationEvent;
+import org.github.krashpad.domain.jdk.CompressedClassSpaceEvent;
 import org.github.krashpad.domain.jdk.ContainerInfoEvent;
 import org.github.krashpad.domain.jdk.CpuInfoEvent;
 import org.github.krashpad.domain.jdk.CurrentCompileTaskEvent;
@@ -34,26 +35,29 @@ import org.github.krashpad.domain.jdk.DeoptimizationEvent;
 import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
 import org.github.krashpad.domain.jdk.ElapsedTimeEvent;
 import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
+import org.github.krashpad.domain.jdk.EventEvent;
 import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
+import org.github.krashpad.domain.jdk.GcPreciousLogEvent;
 import org.github.krashpad.domain.jdk.GlobalFlagsEvent;
 import org.github.krashpad.domain.jdk.HeaderEvent;
 import org.github.krashpad.domain.jdk.HeapAddressEvent;
 import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.MeminfoEvent;
 import org.github.krashpad.domain.jdk.MemoryEvent;
+import org.github.krashpad.domain.jdk.NarrowKlassEvent;
 import org.github.krashpad.domain.jdk.NativeMemoryTrackingEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.RlimitEvent;
 import org.github.krashpad.domain.jdk.SigInfoEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
+import org.github.krashpad.domain.jdk.StatisticsEvent;
 import org.github.krashpad.domain.jdk.ThreadEvent;
 import org.github.krashpad.domain.jdk.TimeElapsedTimeEvent;
 import org.github.krashpad.domain.jdk.TimeEvent;
 import org.github.krashpad.domain.jdk.TimezoneEvent;
 import org.github.krashpad.domain.jdk.UnameEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
-import org.github.krashpad.domain.jdk.VmEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
 import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.domain.jdk.VmStateEvent;
@@ -103,6 +107,8 @@ public class Manager {
                         fatalErrorLog.setCommandLineEvent((CommandLineEvent) event);
                     ***REMOVED*** else if (event instanceof CompilationEvent) {
                         fatalErrorLog.getCompilationEvents().add((CompilationEvent) event);
+                    ***REMOVED*** else if (event instanceof CompressedClassSpaceEvent) {
+                        fatalErrorLog.setCompressedClassSpaceEvent((CompressedClassSpaceEvent) event);
                     ***REMOVED*** else if (event instanceof ContainerInfoEvent) {
                         fatalErrorLog.getContainerInfoEvents().add((ContainerInfoEvent) event);
                     ***REMOVED*** else if (event instanceof CpuInfoEvent) {
@@ -121,20 +127,26 @@ public class Manager {
                         fatalErrorLog.setElapsedTimeEvent((ElapsedTimeEvent) event);
                     ***REMOVED*** else if (event instanceof ExceptionCountsEvent) {
                         fatalErrorLog.getExceptionCountsEvents().add((ExceptionCountsEvent) event);
+                    ***REMOVED*** else if (event instanceof GcPreciousLogEvent) {
+                        fatalErrorLog.getGcPreciousLogEvents().add((GcPreciousLogEvent) event);
                     ***REMOVED*** else if (event instanceof GlobalFlagsEvent) {
                         fatalErrorLog.getGlobalFlagsEvents().add((GlobalFlagsEvent) event);
                     ***REMOVED*** else if (event instanceof HeaderEvent) {
                         fatalErrorLog.getHeaderEvents().add((HeaderEvent) event);
                     ***REMOVED*** else if (event instanceof HeapAddressEvent) {
-                        fatalErrorLog.getHeapAddressEvents().add((HeapAddressEvent) event);
+                        fatalErrorLog.setHeapAddressEvent((HeapAddressEvent) event);
                     ***REMOVED*** else if (event instanceof HeapEvent) {
                         fatalErrorLog.getHeapEvents().add((HeapEvent) event);
+                    ***REMOVED*** else if (event instanceof StatisticsEvent) {
+                        fatalErrorLog.getStatisticsEvents().add((StatisticsEvent) event);
                     ***REMOVED*** else if (event instanceof MeminfoEvent) {
                         fatalErrorLog.getMeminfoEvents().add((MeminfoEvent) event);
                     ***REMOVED*** else if (event instanceof MemoryEvent) {
                         fatalErrorLog.getMemoryEvents().add((MemoryEvent) event);
                     ***REMOVED*** else if (event instanceof NativeMemoryTrackingEvent) {
                         fatalErrorLog.getNativeMemoryTrackingEvents().add((NativeMemoryTrackingEvent) event);
+                    ***REMOVED*** else if (event instanceof NarrowKlassEvent) {
+                        fatalErrorLog.setNarrowKlassEvent((NarrowKlassEvent) event);
                     ***REMOVED*** else if (event instanceof OsEvent) {
                         fatalErrorLog.getOsEvents().add((OsEvent) event);
                     ***REMOVED*** else if (event instanceof RlimitEvent) {
@@ -167,8 +179,8 @@ public class Manager {
                         fatalErrorLog.getUnidentifiedLogLines().add(logLine);
                     ***REMOVED*** else if (event instanceof VmArgumentsEvent) {
                         fatalErrorLog.getVmArgumentsEvents().add((VmArgumentsEvent) event);
-                    ***REMOVED*** else if (event instanceof VmEvent) {
-                        fatalErrorLog.getVmEvents().add((VmEvent) event);
+                    ***REMOVED*** else if (event instanceof EventEvent) {
+                        fatalErrorLog.getEventEvents().add((EventEvent) event);
                     ***REMOVED*** else if (event instanceof VmInfoEvent) {
                         fatalErrorLog.setVmInfoEvent((VmInfoEvent) event);
                     ***REMOVED*** else if (event instanceof VmOperationEvent) {

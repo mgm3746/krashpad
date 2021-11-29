@@ -80,6 +80,18 @@ class TestCpuInfoEvent {
     ***REMOVED***
 
     @Test
+    void testCpuJdk17() {
+        String logLine = "CPU: total 12 (initial active 12) (6 cores per cpu, 2 threads per core) family 6 model 165 "
+                + "stepping 2 microcode 0xea, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4.1, "
+                + "sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, erms, clmul, bmi1, bmi2, adx, fma, "
+                + "vzeroupper, clflush, clflushopt";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+        CpuInfoEvent event = new CpuInfoEvent(logLine);
+        assertTrue(event.isCpuHeader(), "CPU header not identified.");
+    ***REMOVED***
+
+    @Test
     void testCpuInfo() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CPU_INFO,
@@ -445,7 +457,7 @@ class TestCpuInfoEvent {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset53.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT),
-                Analysis.WARN_UNIDENTIFIED_LOG_LINE_REPORT + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+                Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***
 ***REMOVED***

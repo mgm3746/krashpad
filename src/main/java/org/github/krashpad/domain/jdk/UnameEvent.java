@@ -35,6 +35,10 @@ import org.github.krashpad.util.jdk.JdkUtil.Arch;
  * 
  * <h3>Example Logging</h3>
  * 
+ * <p>
+ * 1) JDK8/11:
+ * </p>
+ * 
  * <pre>
  * uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64
  * </pre>
@@ -47,9 +51,21 @@ import org.github.krashpad.util.jdk.JdkUtil.Arch;
  * uname:SunOS 5.11 11.3 i86pc  (T2 libthread)
  * </pre>
  * 
+ * <p>
+ * 2) Split across 2 lines:
+ * </p>
+ * 
  * <pre>
  * uname:SunOS 5.11 11.4.32.88.3 sun4v
  *   (T2 libthread)
+ * </pre>
+ * 
+ * <p>
+ * JDK17:
+ * </p>
+ * 
+ * <pre>
+ * uname: Linux 4.18.0-348.2.1.el8_5.x86_64 ***REMOVED***1 SMP Mon Nov 8 13:30:15 EST 2021 x86_64
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -60,7 +76,7 @@ public class UnameEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(uname:((Linux|SunOS) .+(i86pc|sun4v|ppc64(le)?|x86_64).*)|"
+    private static final String REGEX = "^(uname:[ ]{0,1***REMOVED***((Linux|SunOS) .+(i86pc|sun4v|ppc64(le)?|x86_64).*)|"
             + "  \\(T2 libthread\\))$";
 
     private static Pattern pattern = Pattern.compile(REGEX);

@@ -14,45 +14,69 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.jupiter.api.Test;
 
 /**
+ * <p>
+ * CDS_ARCHIVE
+ * </p>
+ * 
+ * <p>
+ * Class data archive(s) information.
+ * </p>
+ * 
+ * <p>
+ * Reference: <a href="https://openjdk.java.net/jeps/350">JEP 350: Dynamic CDS Archives</a>
+ * </p>
+ * 
+ * <h3>Example Logging</h3>
+ * 
+ * <pre>
+ * CDS archive(s) mapped at: [0x0000000800000000-0x0000000800be2000-0x0000000800be2000), size 12460032, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestClassesRedefinedEvent {
+public class CdsArchiveEvent implements LogEvent {
 
-    @Test
-    void testIdentity() {
-        String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
-                + "count=1";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^CDS archive\\(s\\) mapped at:.*$";
+
+    /**
+     * The log entry for the event.
+     */
+    private String logEntry;
+
+    /**
+     * Create event from log entry.
+     * 
+     * @param logEntry
+     *            The log entry for the event.
+     */
+    public CdsArchiveEvent(String logEntry) {
+        this.logEntry = logEntry;
     ***REMOVED***
 
-    @Test
-    void testParseLogLine() {
-        String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
-                + "count=1";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ClassesRedefinedEvent,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not parsed.");
+    public String getLogEntry() {
+        return logEntry;
     ***REMOVED***
 
-    @Test
-    void testHeader() {
-        String logLine = "Classes redefined (34 events):";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
+    public String getName() {
+        return JdkUtil.LogEventType.CDS_ARCHIVE.toString();
     ***REMOVED***
 
-    @Test
-    void testNoEvents() {
-        String logLine = "No events";
-        assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " incorrectly identified.");
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

@@ -164,8 +164,8 @@ public class HeapEvent implements LogEvent {
      * 
      * Metaspace used 19510K, capacity 21116K, committed 21248K, reserved 1069056K
      */
-    public static final String REGEX_METASPACE = " Metaspace[ ]{1,7***REMOVED***used " + JdkRegEx.SIZE + ", capacity "
-            + JdkRegEx.SIZE + ", committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE;
+    public static final String REGEX_METASPACE = " Metaspace[ ]{1,7***REMOVED***used " + JdkRegEx.SIZE + ", (capacity "
+            + JdkRegEx.SIZE + ", )?committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE;
 
     /**
      * Regular expression defining the logging.

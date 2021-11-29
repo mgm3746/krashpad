@@ -14,9 +14,11 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.CompressedOopMode;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -26,21 +28,18 @@ import org.junit.jupiter.api.Test;
 class TestHeapAddressEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "Narrow klass base: 0x0000000000000000, Narrow klass shift: 3";
+    void testCapitalH() {
+        String logLine = "Heap address: 0x0000000500000000, size: 12288 MB, Compressed Oops mode: Zero based, Oop "
+                + "shift amount: 3";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
                 JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
+        HeapAddressEvent event = new HeapAddressEvent(logLine);
+        assertEquals(12288, event.getSize(), "Size not correct.");
+        assertEquals(CompressedOopMode.ZERO, event.getCompressedOopMode(), "Compressed oop mode not correct.");
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = "Narrow klass base: 0x0000000000000000, Narrow klass shift: 3";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof HeapAddressEvent,
-                JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
+    void testIdentity() {
         String logLine = "heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: Zero based, Oop "
                 + "shift amount: 3";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
@@ -48,17 +47,10 @@ class TestHeapAddressEvent {
     ***REMOVED***
 
     @Test
-    void testHeaderCapitalH() {
-        String logLine = "Heap address: 0x0000000500000000, size: 12288 MB, Compressed Oops mode: Zero based, Oop "
+    void testParseLogLine() {
+        String logLine = "heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: Zero based, Oop "
                 + "shift amount: 3";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
-                JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressClassSpaceSize() {
-        String logLine = "Compressed class space size: 1073741824 Address: 0x00000007c0000000";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
-                JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof HeapAddressEvent,
+                JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

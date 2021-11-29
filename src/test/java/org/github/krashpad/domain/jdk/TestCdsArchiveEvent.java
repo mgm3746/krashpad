@@ -14,7 +14,6 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -24,35 +23,21 @@ import org.junit.jupiter.api.Test;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestClassesRedefinedEvent {
+class TestCdsArchiveEvent {
 
     @Test
     void testIdentity() {
-        String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
-                + "count=1";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
+        String logLine = "CDS archive(s) mapped at: [0x0000000800000000-0x0000000800be2000-0x0000000800be2000), size "
+                + "12460032, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CDS_ARCHIVE,
+                JdkUtil.LogEventType.CDS_ARCHIVE.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testParseLogLine() {
-        String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
-                + "count=1";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ClassesRedefinedEvent,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
-        String logLine = "Classes redefined (34 events):";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testNoEvents() {
-        String logLine = "No events";
-        assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " incorrectly identified.");
+        String logLine = "CDS archive(s) mapped at: [0x0000000800000000-0x0000000800be2000-0x0000000800be2000), size "
+                + "12460032, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CdsArchiveEvent,
+                JdkUtil.LogEventType.CDS_ARCHIVE.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

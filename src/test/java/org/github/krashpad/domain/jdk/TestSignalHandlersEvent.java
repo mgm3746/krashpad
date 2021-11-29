@@ -155,4 +155,12 @@ class TestSignalHandlersEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
                 JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
     ***REMOVED***
+
+    @Test
+    void testJdk17() {
+        String logLine = "   SIGSEGV: crash_handler in libjvm.so, mask=11100100010111111101111111111110, "
+                + "flags=SA_RESTART|SA_SIGINFO";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

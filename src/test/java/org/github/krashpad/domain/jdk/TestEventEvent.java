@@ -23,84 +23,84 @@ import org.junit.jupiter.api.Test;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestVmEvent {
+class TestEventEvent {
 
     @Test
     void testIdentity() {
         String logLine = "Event: 6665.311 Executing VM operation: RevokeBias done";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_EVENT,
-                JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EVENT,
+                JdkUtil.LogEventType.EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testParseLogLine() {
         String logLine = "Event: 6665.311 Executing VM operation: RevokeBias done";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmEvent,
-                JdkUtil.LogEventType.VM_EVENT.toString() + " not parsed.");
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof EventEvent,
+                JdkUtil.LogEventType.EVENT.toString() + " not parsed.");
     ***REMOVED***
 
     @Test
     void testHeader() {
         String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_EVENT,
-                JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EVENT,
+                JdkUtil.LogEventType.EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testThreadExited() {
         String logLine = "Event: 6665.311 Thread 0x00007fefe944f000 Thread exited: 0x00007fefe944f00";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_EVENT,
-                JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EVENT,
+                JdkUtil.LogEventType.EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testThreadAdded() {
         String logLine = "Event: 6668.297 Thread 0x00007fefe944f000 Thread added: 0x00007fefe944f000";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_EVENT,
-                JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EVENT,
+                JdkUtil.LogEventType.EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testLoadingClass() {
         String logLine = "Event: 6669.549 loading class projectNature";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_EVENT,
-                JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EVENT,
+                JdkUtil.LogEventType.EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testConcurrent() {
         String logLine = "Event: 1683619.717 Concurrent reset";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_EVENT,
-                JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EVENT,
+                JdkUtil.LogEventType.EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testPause() {
         String logLine = "Event: 1683619.731 Pause Init Mark (unload classes)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_EVENT,
-                JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EVENT,
+                JdkUtil.LogEventType.EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testCoalescedSafepoint() {
         String logLine = "Event: 38778.824 Executing coalesced safepoint VM operation: RevokeBias";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_EVENT,
-                JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EVENT,
+                JdkUtil.LogEventType.EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testProtectingMemory() {
         String logLine = "Event: 949.037 Protecting memory [0x00007fffaa12b000,0x00007fffaa12f000] with protection "
                 + "modes 0";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_EVENT,
-                JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EVENT,
+                JdkUtil.LogEventType.EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testLoadedSharedLibrary() {
         String logLine = "Event: 0.001 Loaded shared library "
                 + "/usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64/lib/libzip.so";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_EVENT,
-                JdkUtil.LogEventType.VM_EVENT.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EVENT,
+                JdkUtil.LogEventType.EVENT.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

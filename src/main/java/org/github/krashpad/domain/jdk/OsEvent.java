@@ -42,6 +42,11 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)
  * </pre>
  * 
+ * <pre>
+ * OS:
+ * Red Hat Enterprise Linux release 8.5 (Ootpa)
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -50,13 +55,13 @@ public class OsEvent implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "OS:(PRETTY_NAME=\")?(.+)[\"]{0,1***REMOVED***";
+    private static final String REGEX_HEADER = "OS:((PRETTY_NAME=\")?(.+)[\"]{0,1***REMOVED***)?";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "|[ ]{0,***REMOVED***(Assembled|Copyright|ID|NAME|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?|\\[error "
+    private static final String REGEX = "^(" + REGEX_HEADER + "|(CentOS|Oracle|Red Hat Enterprise) Linux.+|Windows|"
+            + "[ ]{0,***REMOVED***(Assembled|Copyright|ID|NAME|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?|\\[error "
             + "occurred during error reporting \\(printing OS information\\))(.+))$";
 
     public static final Pattern PATTERN = Pattern.compile(REGEX);

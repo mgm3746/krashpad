@@ -38,4 +38,11 @@ class TestPidMaxEvent {
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof PidMaxEvent,
                 JdkUtil.LogEventType.PID_MAX.toString() + " not parsed.");
     ***REMOVED***
+
+    @Test
+    void testJdk17() {
+        String logLine = "/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers): 4194304";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.PID_MAX,
+                JdkUtil.LogEventType.PID_MAX.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

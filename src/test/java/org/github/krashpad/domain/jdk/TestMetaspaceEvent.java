@@ -155,4 +155,66 @@ class TestMetaspaceEvent {
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 
+    @Test
+    void testMetasapceReclaimPolicy() {
+        String logLine = "MetaspaceReclaimPolicy: balanced";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCommitGranuelBytes() {
+        String logLine = " - commit_granule_bytes: 65536.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCommitGranuelWords() {
+        String logLine = " - commit_granule_words: 8192.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testVirtualSpaceNodeDefaultSize() {
+        String logLine = " - virtual_space_node_default_size: 1048576.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testEnlargeChunksInPlace() {
+        String logLine = " - enlarge_chunks_in_place: 1.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNewChunksAreFullyCommitted() {
+        String logLine = " - new_chunks_are_fully_committed: 0.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testUncommitFreeChunks() {
+        String logLine = " - uncommit_free_chunks: 1.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testUseAllocationGuard() {
+        String logLine = " - use_allocation_guard: 0.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testHandleDeallocations() {
+        String logLine = " - handle_deallocations: 1.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

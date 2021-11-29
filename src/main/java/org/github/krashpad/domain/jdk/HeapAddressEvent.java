@@ -14,9 +14,14 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.CompressedOopMode;
 
 /**
  * <p>
@@ -24,15 +29,13 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <p>
- * VM mutex/monitor information.
+ * Head address information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
  * heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
- * Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
- * Compressed class space size: 1073741824 Address: 0x00000007c0000000
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -41,14 +44,20 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class HeapAddressEvent implements LogEvent {
 
     /**
-     * Regular expression for the header.
-     */
-    public static final String REGEX_HEADER = "^[h|H]eap address: " + JdkRegEx.ADDRESS + ", size: (\\d{1,***REMOVED***) MB.*$";
-
-    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|Narrow klass base:|Compressed class space size:).*$";
+    private static final String REGEX = "^[h|H]eap address: " + JdkRegEx.ADDRESS + ", size: (\\d{1,***REMOVED***) MB.*$";
+
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -65,6 +74,21 @@ public class HeapAddressEvent implements LogEvent {
         this.logEntry = logEntry;
     ***REMOVED***
 
+    /**
+     * @return The compressed oop mode.
+     */
+    public final CompressedOopMode getCompressedOopMode() {
+        CompressedOopMode compressedOopMode = CompressedOopMode.UNKNOWN;
+        if (logEntry.matches(".*Compressed Oops mode: 32-bit.*")) {
+            compressedOopMode = CompressedOopMode.BIT32;
+        ***REMOVED*** else if (logEntry.matches(".*Compressed Oops mode: Zero based.*")) {
+            compressedOopMode = CompressedOopMode.ZERO;
+        ***REMOVED*** else if (logEntry.matches(".*Compressed Oops mode: Non-zero based.*")) {
+            compressedOopMode = CompressedOopMode.NON_ZERO;
+        ***REMOVED***
+        return compressedOopMode;
+    ***REMOVED***
+
     public String getLogEntry() {
         return logEntry;
     ***REMOVED***
@@ -74,20 +98,15 @@ public class HeapAddressEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
+     * @return The heap size reserved in <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
-    ***REMOVED***
-
-    /**
-     * @return true if the log line is the header false otherwise.
-     */
-    public boolean isHeader() {
-        return logEntry.matches(REGEX_HEADER);
+    public final Long getSize() {
+        long initialSize = Long.MIN_VALUE;
+        Pattern pattern = Pattern.compile(REGEX);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            initialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), 'M', Constants.PRECISION_REPORTING);
+        ***REMOVED***
+        return initialSize;
     ***REMOVED***
 ***REMOVED***

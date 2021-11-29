@@ -113,7 +113,9 @@ public class VmInfoEvent implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             int indexJdkVersion = 7;
-            if (matcher.group(indexJdkVersion).equals("12")) {
+            if (matcher.group(indexJdkVersion).equals("17")) {
+                version = JavaSpecification.JDK17;
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("12")) {
                 version = JavaSpecification.JDK12;
             ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("11")) {
                 version = JavaSpecification.JDK11;

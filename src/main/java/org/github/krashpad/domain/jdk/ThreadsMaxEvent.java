@@ -29,9 +29,21 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * 
  * <h3>Example Logging</h3>
  * 
+ * <p>
+ * 1) Split across 2 lines:
+ * </p>
+ * 
  * <pre>
  * /proc/sys/kernel/threads-max (system-wide limit on the number of threads):
  * 255838
+ * </pre>
+ * 
+ * <p>
+ * 2) Single line:
+ * </p>
+ * 
+ * <pre>
+ * /proc/sys/kernel/threads-max (system-wide limit on the number of threads): 254790
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -43,7 +55,7 @@ public class ThreadsMaxEvent implements LogEvent, ThrowAwayEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^/proc/sys/kernel/threads-max \\(system-wide limit on the number of "
-            + "threads\\):$";
+            + "threads\\):( \\d{1,***REMOVED***)?$";
 
     /**
      * The log entry for the event.

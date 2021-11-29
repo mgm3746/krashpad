@@ -73,8 +73,8 @@ public class CpuInfoEvent implements LogEvent {
      * sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, erms, tsc, tscinvbit
      * </pre>
      */
-    public static final String REGEX_HEADER = "CPU:total (\\d{1,3***REMOVED***)( \\(initial active (\\d{1,3***REMOVED***)\\))?( \\((\\d{1,2***REMOVED***) "
-            + "cores per cpu, (\\d) threads per core\\))?.*";
+    public static final String REGEX_HEADER = "CPU:[ ]{0,1***REMOVED***total (\\d{1,3***REMOVED***)( \\(initial active (\\d{1,3***REMOVED***)\\))?"
+            + "( \\((\\d{1,2***REMOVED***) cores per cpu, (\\d) threads per core\\))?.*";
 
     /**
      * Regular expression defining the logging.

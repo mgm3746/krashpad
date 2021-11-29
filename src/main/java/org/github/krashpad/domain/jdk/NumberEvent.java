@@ -22,7 +22,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * NUMBER
  * </p>
  * 
- * TODO: Add multi-line parsing and assoicate number with appropriate event.
+ * TODO: Add multi-line parsing and associate number with appropriate event.
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
