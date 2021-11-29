@@ -24,6 +24,7 @@ import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.Device;
 import org.github.krashpad.util.Constants.OsType;
+import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
 import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -538,7 +539,13 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals("Red Hat Enterprise Linux release 8.5 (Ootpa)", fel.getOsString(), "OS string not correct.");
+        assertEquals(OsVendor.REDHAT, fel.getOsVendor(), "OS vendor not correct.");
+        assertEquals(OsVersion.RHEL8, fel.getOsVersion(), "OS version not correct.");
         assertTrue(fel.isJdkLts(), "LTS release not identified.");
+        assertTrue(fel.isRhRpm(), "Red Hat rpm not identified.");
+        assertTrue(fel.isRhRpmInstall(), "Red Hat rpm install not identified.");
+        assertTrue(fel.isRhel(), "RHEL not identified.");
+        assertFalse(fel.isWindows(), "Windows incorrectly identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***

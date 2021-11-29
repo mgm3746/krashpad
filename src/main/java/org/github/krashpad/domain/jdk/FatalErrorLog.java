@@ -2413,13 +2413,17 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 OsEvent event = iterator.next();
                 if (event.isHeader()) {
-                    if (event.getLogEntry().matches("^OS:Red Hat.+$")) {
+                    if (event.getLogEntry().matches("^OS:$")) {
+                        // OS string on next line
+                        event = iterator.next();
+                    ***REMOVED***
+                    if (event.getLogEntry().matches("^.*Red Hat.+$")) {
                         osVendor = OsVendor.REDHAT;
-                    ***REMOVED*** else if (event.getLogEntry().matches("^OS: Windows.+$")) {
+                    ***REMOVED*** else if (event.getLogEntry().matches(".*Windows.+$")) {
                         osVendor = OsVendor.MICROSOFT;
                     ***REMOVED*** else if (event.getLogEntry().matches("^.+Oracle.+$")) {
                         osVendor = OsVendor.ORACLE;
-                    ***REMOVED*** else if (event.getLogEntry().matches("^OS:CentOS.+$")) {
+                    ***REMOVED*** else if (event.getLogEntry().matches("^.*CentOS.+$")) {
                         osVendor = OsVendor.CENTOS;
                     ***REMOVED***
                     break;
@@ -2440,18 +2444,22 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 OsEvent event = iterator.next();
                 if (event.isHeader()) {
-                    if (event.getLogEntry().matches("^OS:Red Hat Enterprise Linux (Server|Workstation) release 6.+$")) {
+                    if (event.getLogEntry().matches("^OS:$")) {
+                        // OS on next line
+                        event = iterator.next();
+                    ***REMOVED***
+                    if (event.getLogEntry().matches("^.*Red Hat Enterprise Linux (Server|Workstation) release 6.+$")) {
                         osVersion = OsVersion.RHEL6;
                     ***REMOVED*** else if (event.getLogEntry()
-                            .matches("^OS:Red Hat Enterprise Linux (Server|Workstation) release 7.+$")) {
+                            .matches("^.*Red Hat Enterprise Linux (Server|Workstation) release 7.+$")) {
                         osVersion = OsVersion.RHEL7;
-                    ***REMOVED*** else if (event.getLogEntry().matches("^OS:Red Hat Enterprise Linux release 8.+$")) {
+                    ***REMOVED*** else if (event.getLogEntry().matches("^.*Red Hat Enterprise Linux release 8.+$")) {
                         osVersion = OsVersion.RHEL8;
-                    ***REMOVED*** else if (event.getLogEntry().matches("^OS:CentOS Linux release 6.+$")) {
+                    ***REMOVED*** else if (event.getLogEntry().matches("^.*CentOS Linux release 6.+$")) {
                         osVersion = OsVersion.CENTOS6;
-                    ***REMOVED*** else if (event.getLogEntry().matches("^OS:CentOS Linux release 7.+$")) {
+                    ***REMOVED*** else if (event.getLogEntry().matches("^.*CentOS Linux release 7.+$")) {
                         osVersion = OsVersion.CENTOS7;
-                    ***REMOVED*** else if (event.getLogEntry().matches("^OS:CentOS Linux release 8.+$")) {
+                    ***REMOVED*** else if (event.getLogEntry().matches("^.*CentOS Linux release 8.+$")) {
                         osVersion = OsVersion.CENTOS8;
                     ***REMOVED***
                     break;
@@ -2512,6 +2520,13 @@ public class FatalErrorLog {
                             break;
                         ***REMOVED*** else if (event.getFilePath().matches(JdkRegEx.RH_RPM_OPENJDK11_LIBJVM_PATH)) {
                             pattern = Pattern.compile(JdkRegEx.RH_RPM_OPENJDK11_LIBJVM_PATH);
+                            matcher = pattern.matcher(event.getFilePath());
+                            if (matcher.find()) {
+                                rpmDirectory = matcher.group(1);
+                            ***REMOVED***
+                            break;
+                        ***REMOVED*** else if (event.getFilePath().matches(JdkRegEx.RH_RPM_OPENJDK17_LIBJVM_PATH)) {
+                            pattern = Pattern.compile(JdkRegEx.RH_RPM_OPENJDK17_LIBJVM_PATH);
                             matcher = pattern.matcher(event.getFilePath());
                             if (matcher.find()) {
                                 rpmDirectory = matcher.group(1);
@@ -3254,7 +3269,11 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 OsEvent event = iterator.next();
                 if (event.isHeader()) {
-                    isRhel = event.getLogEntry().matches("^OS:Red Hat Enterprise Linux.+$");
+                    if (event.getLogEntry().matches("^OS:$")) {
+                        // OS string on next line
+                        event = iterator.next();
+                    ***REMOVED***
+                    isRhel = event.getLogEntry().matches("^.*Red Hat Enterprise Linux.+$");
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -3655,6 +3674,10 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 OsEvent event = iterator.next();
                 if (event.isHeader()) {
+                    if (event.getLogEntry().matches("^OS:$")) {
+                        // OS string on next line
+                        event = iterator.next();
+                    ***REMOVED***
                     isWindows = event.getLogEntry().matches("^OS: Windows.+$");
                     break;
                 ***REMOVED***
