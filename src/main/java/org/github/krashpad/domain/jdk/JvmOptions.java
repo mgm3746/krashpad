@@ -2203,7 +2203,8 @@ public class JvmOptions {
             if (numberOfGcLogFiles != null) {
                 analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_NUM_ROTATION_DISABLED);
             ***REMOVED***
-            if (logGc != null && !logGc.contains("%")) {
+            if (logGc != null && !logGc.contains("%")
+                    && !analysis.contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE)) {
                 analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE);
             ***REMOVED***
         ***REMOVED***
@@ -2216,7 +2217,8 @@ public class JvmOptions {
                 Matcher matcher = pattern.matcher(xLog);
                 if (matcher.find()) {
                     analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_ROTATION_DISABLED);
-                    if (!matcher.group(1).contains("%")) {
+                    if (!matcher.group(1).contains("%")
+                            && !analysis.contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE)) {
                         analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE);
                     ***REMOVED***
                     break;
@@ -2232,7 +2234,8 @@ public class JvmOptions {
                 Matcher matcher = pattern.matcher(xLog);
                 if (matcher.find()) {
                     analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_0);
-                    if (!matcher.group(1).contains("%")) {
+                    if (!matcher.group(1).contains("%")
+                            && !analysis.contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE)) {
                         analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE);
                     ***REMOVED***
                     break;
@@ -2448,7 +2451,7 @@ public class JvmOptions {
         ***REMOVED***
         // Check for JDK8 gc log file overwrite
         if ((useGcLogFileRotation == null || JdkUtil.isOptionDisabled(useGcLogFileRotation)) && logGc != null
-                && !logGc.contains("%")) {
+                && !logGc.contains("%") && !analysis.contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE)) {
             analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE);
         ***REMOVED***
         // Check for the creation of the AttachListener socket file (/tmp/.java_pid<pid>) disabled
