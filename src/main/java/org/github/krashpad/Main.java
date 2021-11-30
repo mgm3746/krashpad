@@ -327,8 +327,8 @@ public class Main {
                                     + "% OS Memory)" + Constants.LINE_SEPARATOR);
                     printWriter.write("Memory Free: " + fel.getContainerMemFree()
                             + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getContainerMemFree(), fel.getContainerMemTotal())
-                            + "% Container Memory)" + Constants.LINE_SEPARATOR);
+                            + JdkMath.calcPercent(fel.getContainerMemFree(), fel.getContainerMemTotal()) + "%)"
+                            + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getOsSwap() > 0) {
                     printWriter
@@ -337,8 +337,8 @@ public class Main {
                                     + Constants.LINE_SEPARATOR);
                     printWriter.write("Swap Free: " + fel.getContainerSwapFree()
                             + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getContainerSwapFree(), fel.getContainerSwap())
-                            + "% Container Swap)" + Constants.LINE_SEPARATOR);
+                            + JdkMath.calcPercent(fel.getContainerSwapFree(), fel.getContainerSwap()) + "%)"
+                            + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
             if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)
