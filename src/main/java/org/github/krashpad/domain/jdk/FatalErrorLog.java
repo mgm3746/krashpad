@@ -416,16 +416,17 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for insufficient physical memory
-        if (getJvmMemTotal() > 0 && getJvmMemoryMax() > Long.MIN_VALUE) {
-            if (getJvmMemoryMax() > getJvmMemTotal()) {
+        if (getContainerMemTotal() > 0 && getJvmMemoryMax() > Long.MIN_VALUE) {
+            if (getJvmMemoryMax() > getContainerMemTotal()) {
                 analysis.add(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY);
             ***REMOVED***
         ***REMOVED***
         // OOME, swap
         if (isError("There is insufficient memory for the Java Runtime Environment to continue.")) {
             if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
-                if (getJvmMemoryInitial() > (Math.max(getJvmMemFree(), getMemAvailable()) + getJvmSwapFree())) {
-                    if (JdkMath.calcPercent(getJvmMemoryInitial(), getMemTotal()) < 50) {
+                if (getJvmMemoryInitial() > (Math.max(getContainerMemFree(), getOsMemAvailable())
+                        + getContainerSwapFree())) {
+                    if (JdkMath.calcPercent(getJvmMemoryInitial(), getOsMemTotal()) < 50) {
                         analysis.add(Analysis.ERROR_OOME_STARTUP_EXTERNAL);
                     ***REMOVED*** else {
                         if (this.getApplication() == Application.TOMCAT_SHUTDOWN) {
@@ -467,12 +468,12 @@ public class FatalErrorLog {
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
-                if ((allocation >= 0 && getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
-                        && allocation < (getJvmMemFree() + getJvmSwapFree()))
-                        || (getJvmMemFree() >= 0 && getJvmMemTotal() > 0
-                                && JdkMath.calcPercent(getJvmMemFree(), getJvmMemTotal()) >= 50)
-                        || (getJvmMemoryMax() >= 0 && getJvmMemTotal() > 0
-                                && JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) < 50)) {
+                if ((allocation >= 0 && getContainerMemFree() >= 0 && getContainerSwapFree() >= 0
+                        && allocation < (getContainerMemFree() + getContainerSwapFree()))
+                        || (getContainerMemFree() >= 0 && getContainerMemTotal() > 0
+                                && JdkMath.calcPercent(getContainerMemFree(), getContainerMemTotal()) >= 50)
+                        || (getJvmMemoryMax() >= 0 && getContainerMemTotal() > 0
+                                && JdkMath.calcPercent(getJvmMemoryMax(), getContainerMemTotal()) < 50)) {
                     // allocation < available memory or free memory >= 50%
                     if (getCommitLimit() > 0 && getCommittedAs() > 0
                             && (getJvmMemoryMax() > (getCommitLimit() - getCommittedAs()))) {
@@ -487,8 +488,8 @@ public class FatalErrorLog {
                     ***REMOVED***
                 ***REMOVED*** else {
                     // low memory
-                    if (getJvmMemoryMax() > 0 && getJvmMemTotal() > 0) {
-                        if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) >= 95) {
+                    if (getJvmMemoryMax() > 0 && getContainerMemTotal() > 0) {
+                        if (JdkMath.calcPercent(getJvmMemoryMax(), getContainerMemTotal()) >= 95) {
                             analysis.add(Analysis.ERROR_OOME_JVM);
                         ***REMOVED*** else {
                             analysis.add(Analysis.ERROR_OOME_EXTERNAL);
@@ -507,9 +508,9 @@ public class FatalErrorLog {
             if (getGarbageCollectors().contains(GarbageCollector.G1)) {
                 analysis.add(Analysis.WARN_OOM_G1);
             ***REMOVED***
-        ***REMOVED*** else if (getJvmSwap() > 0) {
+        ***REMOVED*** else if (getContainerSwap() > 0) {
             // Check for excessive swap usage
-            int swapUsedPercent = 100 - JdkMath.calcPercent(getJvmSwapFree(), getJvmSwap());
+            int swapUsedPercent = 100 - JdkMath.calcPercent(getContainerSwapFree(), getContainerSwap());
             if (swapUsedPercent > 5 && swapUsedPercent < 20) {
                 analysis.add(Analysis.INFO_SWAPPING);
             ***REMOVED*** else if (swapUsedPercent >= 20) {
@@ -517,12 +518,12 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for swap disabled
-        if (getJvmSwap() == 0) {
+        if (getContainerSwap() == 0) {
             analysis.add(Analysis.INFO_SWAP_DISABLED);
             // Check if collector is appropriate for no-swap (e.g. container) use cases
-            if (getGarbageCollectors().contains(GarbageCollector.G1) && getJvmSwap() == 0) {
+            if (getGarbageCollectors().contains(GarbageCollector.G1) && getContainerSwap() == 0) {
                 analysis.add(Analysis.WARN_SWAP_DISABLED_G1);
-            ***REMOVED*** else if (getGarbageCollectors().contains(GarbageCollector.CMS) && getJvmSwap() == 0) {
+            ***REMOVED*** else if (getGarbageCollectors().contains(GarbageCollector.CMS) && getContainerSwap() == 0) {
                 analysis.add(Analysis.WARN_SWAP_DISABLED_CMS);
             ***REMOVED***
         ***REMOVED***
@@ -652,7 +653,7 @@ public class FatalErrorLog {
         if (!getContainerInfoEvents().isEmpty()) {
             analysis.add(Analysis.INFO_CGROUP);
         ***REMOVED***
-        if (getJvmMemTotal() > 0 && getMemTotal() > 0 && getJvmMemTotal() != getMemTotal()) {
+        if (getContainerMemTotal() > 0 && getOsMemTotal() > 0 && getContainerMemTotal() != getOsMemTotal()) {
             analysis.add(Analysis.INFO_MEMORY_JVM_NE_SYSTEM);
             if (haveCgroupMemoryLimit()) {
                 analysis.add(Analysis.INFO_CGROUP_MEMORY_LIMIT);
@@ -1525,9 +1526,9 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED*** else if (heapAddressEvent != null) {
             heapInitialSize = heapAddressEvent.getSize();
-        ***REMOVED*** else if (getMemTotal() > 0) {
+        ***REMOVED*** else if (getOsMemTotal() > 0) {
             // Use JVM default = 1/64 system memory
-            BigDecimal systemPhysicalMemory = new BigDecimal(getMemTotal());
+            BigDecimal systemPhysicalMemory = new BigDecimal(getOsMemTotal());
             systemPhysicalMemory = systemPhysicalMemory.divide(new BigDecimal(64));
             systemPhysicalMemory = systemPhysicalMemory.setScale(0, RoundingMode.HALF_EVEN);
             heapInitialSize = systemPhysicalMemory.longValue();
@@ -1574,9 +1575,9 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED*** else if (heapAddressEvent != null) {
             heapMaxSize = heapAddressEvent.getSize();
-        ***REMOVED*** else if (getMemTotal() > 0) {
+        ***REMOVED*** else if (getOsMemTotal() > 0) {
             // Use JVM default = 1/4 system memory
-            BigDecimal systemPhysicalMemory = new BigDecimal(getMemTotal());
+            BigDecimal systemPhysicalMemory = new BigDecimal(getOsMemTotal());
             systemPhysicalMemory = systemPhysicalMemory.divide(new BigDecimal(4));
             systemPhysicalMemory = systemPhysicalMemory.setScale(0, RoundingMode.HALF_EVEN);
             heapMaxSize = systemPhysicalMemory.longValue();
@@ -1867,7 +1868,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * Free memory as reported by the JVM in a <code>MemoryEvent</code>.
+     * Free memory as reported by the JVM <code>MemoryEvent</code>.
      * 
      * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
      * low free memory does not necessarily indicate swapping or out of memory is imminent.
@@ -1875,7 +1876,7 @@ public class FatalErrorLog {
      * @return The total free physical memory as reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
      *         units.
      */
-    public long getJvmMemFree() {
+    public long getContainerMemFree() {
         long physicalMemoryFree = Long.MIN_VALUE;
         if (!memoryEvents.isEmpty()) {
             Iterator<MemoryEvent> iterator = memoryEvents.iterator();
@@ -1973,7 +1974,7 @@ public class FatalErrorLog {
      * @return The total available physical memory reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
      *         units.
      */
-    public long getJvmMemTotal() {
+    public long getContainerMemTotal() {
         long physicalMemory = Long.MIN_VALUE;
         if (!memoryEvents.isEmpty()) {
             Iterator<MemoryEvent> iterator = memoryEvents.iterator();
@@ -1998,7 +1999,7 @@ public class FatalErrorLog {
     /**
      * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public long getJvmSwap() {
+    public long getContainerSwap() {
         long swap = Long.MIN_VALUE;
         if (!memoryEvents.isEmpty()) {
             Iterator<MemoryEvent> iterator = memoryEvents.iterator();
@@ -2021,7 +2022,7 @@ public class FatalErrorLog {
     /**
      * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public long getJvmSwapFree() {
+    public long getContainerSwapFree() {
         long swapFree = Long.MIN_VALUE;
         if (!memoryEvents.isEmpty()) {
             Iterator<MemoryEvent> iterator = memoryEvents.iterator();
@@ -2088,7 +2089,7 @@ public class FatalErrorLog {
      * @return An estimate of how much physical memory is available without swapping in
      *         <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public long getMemAvailable() {
+    public long getOsMemAvailable() {
         long memAvailable = Long.MIN_VALUE;
         if (!meminfoEvents.isEmpty()) {
             String regexMemTotal = "MemAvailable:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
@@ -2114,7 +2115,7 @@ public class FatalErrorLog {
      * 
      * @return The total free physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public long getMemFree() {
+    public long getOsMemFree() {
         long memFree = Long.MIN_VALUE;
         if (!meminfoEvents.isEmpty()) {
             String regexMemTotal = "MemFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
@@ -2158,7 +2159,7 @@ public class FatalErrorLog {
      * @return The total available physical memory reported by the OS in <code>Constants.PRECISION_REPORTING</code>
      *         units.
      */
-    public long getMemTotal() {
+    public long getOsMemTotal() {
         long memTotal = Long.MIN_VALUE;
         if (!meminfoEvents.isEmpty()) {
             String regexMemTotal = "MemTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
@@ -2728,7 +2729,7 @@ public class FatalErrorLog {
     /**
      * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public long getSystemSwap() {
+    public long getOsSwap() {
         long swap = Long.MIN_VALUE;
         if (!meminfoEvents.isEmpty()) {
             String regexMemTotal = "SwapTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
@@ -2763,7 +2764,7 @@ public class FatalErrorLog {
     /**
      * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public long getSystemSwapFree() {
+    public long getOsSwapFree() {
         long swapFree = Long.MIN_VALUE;
         if (!meminfoEvents.isEmpty()) {
             String regexMemTotal = "SwapFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
@@ -3202,7 +3203,7 @@ public class FatalErrorLog {
      */
     public boolean isContainer() {
         boolean isContainer = false;
-        if (!containerInfoEvents.isEmpty() || getJvmSwap() == 0) {
+        if (!containerInfoEvents.isEmpty() || getContainerSwap() == 0) {
             isContainer = true;
         ***REMOVED***
         return isContainer;

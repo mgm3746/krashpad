@@ -291,26 +291,27 @@ public class Main {
                 printWriter
                         .write("CPUs (cpu x cpu cores x hyperthreading): " + fel.getCpus() + Constants.LINE_SEPARATOR);
             ***REMOVED***
-            if (fel.getMemTotal() > 0) {
-                printWriter.write("Memory: " + fel.getMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
+            if (fel.getOsMemTotal() > 0) {
+                printWriter.write("Memory: " + fel.getOsMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
                         + Constants.LINE_SEPARATOR);
-                printWriter.write("Memory Free: " + fel.getMemFree() + Character.toString(Constants.PRECISION_REPORTING)
-                        + " (" + JdkMath.calcPercent(fel.getMemFree(), fel.getMemTotal()) + "%)"
-                        + Constants.LINE_SEPARATOR);
-                if (fel.getMemAvailable() > 0) {
-                    printWriter.write("Memory Available: " + fel.getMemAvailable()
+                printWriter
+                        .write("Memory Free: " + fel.getOsMemFree() + Character.toString(Constants.PRECISION_REPORTING)
+                                + " (" + JdkMath.calcPercent(fel.getOsMemFree(), fel.getOsMemTotal()) + "%)"
+                                + Constants.LINE_SEPARATOR);
+                if (fel.getOsMemAvailable() >= 0) {
+                    printWriter.write("Memory Available: " + fel.getOsMemAvailable()
                             + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getMemAvailable(), fel.getMemTotal()) + "%)"
+                            + JdkMath.calcPercent(fel.getOsMemAvailable(), fel.getOsMemTotal()) + "%)"
                             + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
-            if (fel.getSystemSwap() >= 0) {
-                printWriter.write("Swap: " + fel.getSystemSwap() + Character.toString(Constants.PRECISION_REPORTING)
+            if (fel.getOsSwap() >= 0) {
+                printWriter.write("Swap: " + fel.getOsSwap() + Character.toString(Constants.PRECISION_REPORTING)
                         + Constants.LINE_SEPARATOR);
-                if (fel.getSystemSwap() > 0) {
+                if (fel.getOsSwap() > 0) {
                     printWriter.write(
-                            "Swap Free: " + fel.getSystemSwapFree() + Character.toString(Constants.PRECISION_REPORTING)
-                                    + " (" + JdkMath.calcPercent(fel.getSystemSwapFree(), fel.getSystemSwap()) + "%)"
+                            "Swap Free: " + fel.getOsSwapFree() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getOsSwapFree(), fel.getOsSwap()) + "%)"
                                     + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
@@ -320,23 +321,24 @@ public class Main {
                 printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                 if (fel.getJvmMemoryMax() > 0) {
-                    printWriter
-                            .write("Memory: " + fel.getJvmMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
-                                    + " (" + JdkMath.calcPercent(fel.getJvmMemTotal(), fel.getMemTotal()) + "%)"
-                                    + Constants.LINE_SEPARATOR);
                     printWriter.write(
-                            "Memory Free: " + fel.getJvmMemFree() + Character.toString(Constants.PRECISION_REPORTING)
-                                    + " (" + JdkMath.calcPercent(fel.getJvmMemFree(), fel.getJvmMemTotal()) + "%)"
-                                    + Constants.LINE_SEPARATOR);
+                            "Memory: " + fel.getContainerMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getContainerMemTotal(), fel.getOsMemTotal())
+                                    + "% OS Memory)" + Constants.LINE_SEPARATOR);
+                    printWriter.write("Memory Free: " + fel.getContainerMemFree()
+                            + Character.toString(Constants.PRECISION_REPORTING) + " ("
+                            + JdkMath.calcPercent(fel.getContainerMemFree(), fel.getContainerMemTotal())
+                            + "% Container Memory)" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getSystemSwap() > 0) {
-                    printWriter.write("Swap: " + fel.getJvmSwap() + Character.toString(Constants.PRECISION_REPORTING)
-                            + " (" + JdkMath.calcPercent(fel.getJvmSwap(), fel.getSystemSwap()) + "%)"
-                            + Constants.LINE_SEPARATOR);
-                    printWriter.write(
-                            "Swap Free: " + fel.getSystemSwapFree() + Character.toString(Constants.PRECISION_REPORTING)
-                                    + " (" + JdkMath.calcPercent(fel.getSystemSwapFree(), fel.getSystemSwap()) + "%)"
+                if (fel.getOsSwap() > 0) {
+                    printWriter
+                            .write("Swap: " + fel.getContainerSwap() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getContainerSwap(), fel.getOsSwap()) + "% OS Swap)"
                                     + Constants.LINE_SEPARATOR);
+                    printWriter.write("Swap Free: " + fel.getContainerSwapFree()
+                            + Character.toString(Constants.PRECISION_REPORTING) + " ("
+                            + JdkMath.calcPercent(fel.getContainerSwapFree(), fel.getContainerSwap()) + "% JVM Swap)"
+                            + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
             if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)
@@ -419,7 +421,7 @@ public class Main {
                         + JdkMath.calcPercent(fel.getHeapAllocation(), fel.getHeapMaxSize()) + "% Heap Max)"
                         + Constants.LINE_SEPARATOR);
             ***REMOVED***
-            if (fel.getHeapUsed() > 0) {
+            if (fel.getHeapUsed() >= 0) {
                 printWriter.write("Heap Used: " + fel.getHeapUsed() + Character.toString(Constants.PRECISION_REPORTING)
                         + " (" + JdkMath.calcPercent(fel.getHeapUsed(), fel.getHeapAllocation()) + "% Heap Allocation)"
                         + Constants.LINE_SEPARATOR);
@@ -435,7 +437,7 @@ public class Main {
                         + JdkMath.calcPercent(fel.getMetaspaceAllocation(), fel.getMetaspaceMaxSize())
                         + "% Metaspace Max)" + Constants.LINE_SEPARATOR);
             ***REMOVED***
-            if (fel.getMetaspaceUsed() > 0) {
+            if (fel.getMetaspaceUsed() >= 0) {
                 printWriter.write(
                         "Metaspace Used: " + fel.getMetaspaceUsed() + Character.toString(Constants.PRECISION_REPORTING)
                                 + " (" + JdkMath.calcPercent(fel.getMetaspaceUsed(), fel.getMetaspaceAllocation())
@@ -459,28 +461,45 @@ public class Main {
             if (fel.getElapsedTime() != null && fel.getElapsedTime().matches("0d 0h 0m 0s")) {
                 // Display JVM initial memory if it fails to start
                 if (fel.getJvmMemoryInitial() > 0) {
-                    long percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getJvmMemTotal());
+                    long percentMemory;
+                    if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getContainerMemTotal());
+                    ***REMOVED*** else {
+                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getOsMemTotal());
+                    ***REMOVED***
                     printWriter.write("JVM Memory Initial: >" + fel.getJvmMemoryInitial()
                             + Character.toString(Constants.PRECISION_REPORTING));
-                    if (fel.getMemTotal() > 0) {
+                    if (fel.getOsMemTotal() > 0) {
                         printWriter.write(" (");
                         // provide rounding indicator
-                        if (percentMemory == 0
-                                || (percentMemory == 100 && fel.getJvmMemoryInitial() != fel.getJvmMemTotal())) {
-                            printWriter.write("~");
+                        if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                            if (percentMemory == 0 || (percentMemory == 100
+                                    && fel.getJvmMemoryInitial() != fel.getContainerMemTotal())) {
+                                printWriter.write("~");
+                            ***REMOVED***
+                        ***REMOVED*** else {
+                            if (percentMemory == 0
+                                    || (percentMemory == 100 && fel.getJvmMemoryInitial() != fel.getOsMemTotal())) {
+                                printWriter.write("~");
+                            ***REMOVED***
                         ***REMOVED***
-                        printWriter.write(percentMemory + "% Memory");
-                        if (fel.getMemAvailable() > 0) {
+                        printWriter.write(percentMemory + "% ");
+                        if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                            printWriter.write("Container Memory");
+                        ***REMOVED*** else {
+                            printWriter.write("OS Memory");
+                        ***REMOVED***
+                        if (fel.getOsMemAvailable() >= 0) {
                             // Memory Available n/a RHEL6
                             long percentMemoryAvailable = JdkMath.calcPercent(fel.getJvmMemoryInitial(),
-                                    fel.getMemAvailable());
+                                    fel.getOsMemAvailable());
                             printWriter.write(", ");
                             // provide rounding indicator
                             if (percentMemoryAvailable == 0 || (percentMemoryAvailable == 100
-                                    && fel.getJvmMemoryMax() != fel.getMemAvailable())) {
+                                    && fel.getJvmMemoryMax() != fel.getOsMemAvailable())) {
                                 printWriter.write("~");
                             ***REMOVED***
-                            printWriter.write(percentMemoryAvailable + "% Memory Available");
+                            printWriter.write(percentMemoryAvailable + "% OS Memory Available");
                         ***REMOVED***
                         printWriter.write(")");
                     ***REMOVED***
@@ -488,28 +507,45 @@ public class Main {
                 ***REMOVED***
             ***REMOVED*** else {
                 if (fel.getJvmMemoryMax() > 0) {
-                    long percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal());
+                    long percentMemory;
+                    if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getContainerMemTotal());
+                    ***REMOVED*** else {
+                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getOsMemTotal());
+                    ***REMOVED***
                     printWriter.write("JVM Memory Max: >" + fel.getJvmMemoryMax()
                             + Character.toString(Constants.PRECISION_REPORTING));
-                    if (fel.getMemTotal() > 0) {
+                    if (fel.getOsMemTotal() > 0) {
                         printWriter.write(" (");
                         // provide rounding indicator
-                        if (percentMemory == 0
-                                || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getJvmMemTotal())) {
-                            printWriter.write("~");
+                        if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                            if (percentMemory == 0
+                                    || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getContainerMemTotal())) {
+                                printWriter.write("~");
+                            ***REMOVED***
+                        ***REMOVED*** else {
+                            if (percentMemory == 0
+                                    || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getOsMemTotal())) {
+                                printWriter.write("~");
+                            ***REMOVED***
                         ***REMOVED***
-                        printWriter.write(percentMemory + "% Memory");
-                        if (fel.getMemAvailable() > 0) {
+                        printWriter.write(percentMemory + "% ");
+                        if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                            printWriter.write("Container Memory");
+                        ***REMOVED*** else {
+                            printWriter.write("OS Memory");
+                        ***REMOVED***
+                        if (fel.getOsMemAvailable() >= 0) {
                             // Memory Available n/a RHEL6
                             long percentMemoryAvailable = JdkMath.calcPercent(fel.getJvmMemoryMax(),
-                                    fel.getMemAvailable());
+                                    fel.getOsMemAvailable());
                             printWriter.write(", ");
                             // provide rounding indicator
                             if (percentMemoryAvailable == 0 || (percentMemoryAvailable == 100
-                                    && fel.getJvmMemoryMax() != fel.getMemAvailable())) {
+                                    && fel.getJvmMemoryMax() != fel.getOsMemAvailable())) {
                                 printWriter.write("~");
                             ***REMOVED***
-                            printWriter.write(percentMemoryAvailable + "% Memory Available");
+                            printWriter.write(percentMemoryAvailable + "% OS Memory Available");
                         ***REMOVED***
                         printWriter.write(")");
                     ***REMOVED***
