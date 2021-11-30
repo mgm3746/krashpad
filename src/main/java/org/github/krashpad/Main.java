@@ -337,8 +337,8 @@ public class Main {
                                     + Constants.LINE_SEPARATOR);
                     printWriter.write("Swap Free: " + fel.getContainerSwapFree()
                             + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getContainerSwapFree(), fel.getContainerSwap()) + "% JVM Swap)"
-                            + Constants.LINE_SEPARATOR);
+                            + JdkMath.calcPercent(fel.getContainerSwapFree(), fel.getContainerSwap())
+                            + "% Container Swap)" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
             if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)
