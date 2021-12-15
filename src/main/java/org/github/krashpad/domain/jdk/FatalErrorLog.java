@@ -843,8 +843,9 @@ public class FatalErrorLog {
         ***REMOVED***
 
         // Check for ModuleEntry::purge_reads() bug.
-        if (getStackFrameTop() != null && getStackFrameTop()
-                .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ModuleEntry::purge_reads\\(\\).+$")) {
+        if (getStackFrameTop() != null
+                && getStackFrameTop().matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  (ModuleEntry::purge_reads|"
+                        + "ModuleEntryTable::purge_all_module_reads).+$")) {
             analysis.add(Analysis.ERROR_MODULE_ENTRY_PURGE_READS);
             // Don't double report
             if (analysis.contains(Analysis.ERROR_LIBJVM_SO)) {

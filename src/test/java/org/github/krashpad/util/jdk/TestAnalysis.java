@@ -1435,6 +1435,35 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testModuleEntryPurgeAllModuleReads() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "V  [jvm.dll+0x5ab390]  ModuleEntryTable::purge_all_module_reads+0x140  (moduleentry.cpp:444)";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String stack2 = "V  [jvm.dll+0x1ce246]  ClassLoaderDataGraph::do_unloading+0x1c6  (classloaderdata.cpp:1435)";
+        StackEvent stackEvent2 = new StackEvent(stack2);
+        fel.getStackEvents().add(stackEvent2);
+        String logline = "0x00007ffdd2230000 - 0x00007ffdd2d76000         "
+                + "D:\\Java\\jdk11.0.7.10\\bin\\server\\jvm.dll";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
+        fel.getDynamicLibraryEvents().add(event);
+        String os = "OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.4651)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.7+10-LTS) for windows-amd64 JRE (11.0.7+10-LTS), "
+                + "built on Apr  9 2020 00:20:14 by \"\" with MS VC++ 15.9 (VS2017)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
+                Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+                Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_JVM_DLL),
+                Analysis.ERROR_JVM_DLL + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testModuleEntryPurgeReads() {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "V  [libjvm.so+0xbfb228]  ModuleEntry::purge_reads()+0x118";
@@ -2018,21 +2047,6 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
-    void testRhelJdkRpmMismatchJdk8() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset69.txt");
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(testFile);
-        assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le", fel.getRpmDirectory(),
-                "Rpm directory not correct.");
-        assertEquals("8.4", fel.getRhelVersion(), "RHEL version not correct.");
-        assertEquals("8.5", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
-                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST),
-                Analysis.WARN_JDK_NOT_LATEST + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
     void testRhelJdkRpmMismatchJdk11() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux release 8.5 (Ootpa)";
@@ -2051,6 +2065,21 @@ class TestAnalysis {
         assertEquals("8.4", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testRhelJdkRpmMismatchJdk8() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset69.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le", fel.getRpmDirectory(),
+                "Rpm directory not correct.");
+        assertEquals("8.4", fel.getRhelVersion(), "RHEL version not correct.");
+        assertEquals("8.5", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST),
+                Analysis.WARN_JDK_NOT_LATEST + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
