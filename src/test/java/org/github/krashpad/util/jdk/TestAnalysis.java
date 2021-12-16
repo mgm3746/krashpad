@@ -27,6 +27,7 @@ import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
 import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
 import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
+import org.github.krashpad.domain.jdk.HeaderEvent;
 import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
@@ -737,6 +738,17 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_ELIMINATE_LOCKS_ENABLED),
                 Analysis.INFO_OPT_ELIMINATE_LOCKS_ENABLED + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testErrorStubroutinesHeaderOnly() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "***REMOVED*** v  ~StubRoutines::jbyte_disjoint_arraycopy";
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        fel.getHeaderEvents().add(headerEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_STUBROUTINES),
+                Analysis.ERROR_STUBROUTINES + " analysis not identified.");
     ***REMOVED***
 
     @Test

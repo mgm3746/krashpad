@@ -34,7 +34,6 @@ j  com.itextpdf.text.pdf.PdfWriter.addToBody(Lcom/itextpdf/text/pdf/PdfObject;IZ
 j  com.itextpdf.text.pdf.PdfStamperImp.close(Lcom/itextpdf/text/pdf/PdfIndirectReference;I)V+241
 j  com.itextpdf.text.pdf.PdfStamperImp.close(Ljava/util/Map;)V+1405
 j  com.itextpdf.text.pdf.PdfStamper.close()V+30
-<snip/>
 
 
 ***REMOVED***

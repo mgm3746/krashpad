@@ -2644,12 +2644,22 @@ public class FatalErrorLog {
      */
     public String getStackFrameTop() {
         String stackFrameTop = null;
-        Iterator<StackEvent> iterator = stackEvents.iterator();
-        while (iterator.hasNext()) {
-            StackEvent event = iterator.next();
+        Iterator<StackEvent> iteratorStack = stackEvents.iterator();
+        while (iteratorStack.hasNext()) {
+            StackEvent event = iteratorStack.next();
             if (event.getLogEntry().matches("^(A|C|j|J|v|V)[ ]{1,2***REMOVED***.+$")) {
                 stackFrameTop = event.getLogEntry();
                 break;
+            ***REMOVED***
+        ***REMOVED***
+        if (stackFrameTop == null && !headerEvents.isEmpty()) {
+            Iterator<HeaderEvent> iteratorHeader = headerEvents.iterator();
+            while (iteratorHeader.hasNext()) {
+                HeaderEvent he = iteratorHeader.next();
+                if (he.isProblematicFrame()) {
+                    stackFrameTop = he.getLogEntry().substring(2, he.getLogEntry().length());
+                    break;
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         return stackFrameTop;

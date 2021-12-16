@@ -272,7 +272,7 @@ public enum Analysis {
     ERROR_STACKOVERFLOW("error.stackoverflow"),
 
     /**
-     * Property key for crash in ~BufferBlob::StubRoutines.
+     * Property key for crash in StubRoutines.
      */
     ERROR_STUBROUTINES("error.stubroutines"),
 
