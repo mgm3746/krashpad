@@ -287,9 +287,9 @@ public class Main {
                 printWriter.write("Version: " + fel.getOsType() + Constants.LINE_SEPARATOR);
             ***REMOVED***
             printWriter.write("ARCH: " + fel.getArch() + Constants.LINE_SEPARATOR);
-            if (fel.getCpus() > Integer.MIN_VALUE) {
-                printWriter
-                        .write("CPUs (cpu x cpu cores x hyperthreading): " + fel.getCpus() + Constants.LINE_SEPARATOR);
+            if (fel.getCpusLogical() > Integer.MIN_VALUE) {
+                printWriter.write(
+                        "CPUs (cpu x cpu cores x hyperthreading): " + fel.getCpusLogical() + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getOsMemTotal() > 0) {
                 printWriter.write("Memory: " + fel.getOsMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
@@ -422,9 +422,13 @@ public class Main {
                         + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getHeapUsed() >= 0) {
-                printWriter.write("Heap Used: " + fel.getHeapUsed() + Character.toString(Constants.PRECISION_REPORTING)
-                        + " (" + JdkMath.calcPercent(fel.getHeapUsed(), fel.getHeapAllocation()) + "% Heap Allocation)"
-                        + Constants.LINE_SEPARATOR);
+                printWriter
+                        .write("Heap Used: " + fel.getHeapUsed() + Character.toString(Constants.PRECISION_REPORTING));
+                if (fel.getHeapAllocation() > 0) {
+                    printWriter.write(" (" + JdkMath.calcPercent(fel.getHeapUsed(), fel.getHeapAllocation())
+                            + "% Heap Allocation)");
+                ***REMOVED***
+                printWriter.write(Constants.LINE_SEPARATOR);
             ***REMOVED***
             printWriter.write("Compressed oops mode: " + fel.getCompressedOopMode() + Constants.LINE_SEPARATOR);
             if (fel.getMetaspaceMaxSize() > 0) {

@@ -292,6 +292,11 @@ public enum Analysis {
     INFO_CGROUP_MEMORY_LIMIT("info.cgroup.memory.limit"),
 
     /**
+     * Property key for HyperV (Viridian) environment. Previously referred to as Windows Server Virtualization.
+     */
+    INFO_HYPERV("info.hyperv"),
+
+    /**
      * Property key for a JDK that is more than 1 year older than the latest release.
      */
     INFO_JDK_ANCIENT("info.jdk.ancient"),

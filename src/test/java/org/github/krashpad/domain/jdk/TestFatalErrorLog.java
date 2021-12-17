@@ -218,7 +218,7 @@ class TestFatalErrorLog {
         assertEquals(metaspaceAllocation, fel.getMetaspaceAllocation(), "Metaspace allocation not correct.");
         long metaspaceUsed = JdkUtil.convertSize(147896, 'K', Constants.PRECISION_REPORTING);
         assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
-        assertEquals(8, fel.getCpus(), "CPU cores not correct.");
+        assertEquals(8, fel.getCpusLogical(), "CPU cores not correct.");
         assertEquals(5 * 1024, fel.getThreadStackSize(), "Thread stack size not correct.");
         assertEquals(768, fel.getCompressedClassSpaceSize(), "CompressedClassSpaceSize not correct.");
         assertEquals(1024, fel.getDirectMemoryMaxSize(), "MaxDirectMemorySize not correct.");
@@ -412,6 +412,14 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testLogicalCpus() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset53.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(200, fel.getCpusLogical(), "CPU cores not correct.");
+    ***REMOVED***
+
+    @Test
     void testMaxjitcodesize() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset37.txt");
         Manager manager = new Manager();
@@ -477,7 +485,7 @@ class TestFatalErrorLog {
         assertEquals(metaspaceAllocation, fel.getMetaspaceAllocation(), "Metaspace allocation not correct.");
         long metaspaceUsed = JdkUtil.convertSize(139716, 'K', Constants.PRECISION_REPORTING);
         assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
-        assertEquals(4, fel.getCpus(), "CPU cores not correct.");
+        assertEquals(16, fel.getCpusLogical(), "CPU cores not correct.");
         long commitLimit = JdkUtil.convertSize(16127136, 'K', Constants.PRECISION_REPORTING);
         assertEquals(commitLimit, fel.getCommitLimit(), "CommitLimit not correct.");
         long committedAs = JdkUtil.convertSize(28976296, 'K', Constants.PRECISION_REPORTING);
@@ -688,7 +696,7 @@ class TestFatalErrorLog {
         long metaspaceUsed = JdkUtil.convertSize(257753, 'K', Constants.PRECISION_REPORTING);
         assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
         assertEquals(Application.JBOSS_EAP7, fel.getApplication(), "Application not correct.");
-        assertEquals(16, fel.getCpus(), "CPU cores not correct.");
+        assertEquals(16, fel.getCpusLogical(), "CPU cores not correct.");
         assertEquals("at safepoint (normal execution)", fel.getVmState(), "State not correct.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED),
                 Analysis.INFO_SWAP_DISABLED + " analysis not identified.");

@@ -154,7 +154,11 @@ public class Manager {
                     ***REMOVED*** else if (event instanceof NumberEvent) {
                         // Add number to prior event
                         String combinedLogLine = priorEvent.getLogEntry() + " " + event.getLogEntry();
-                        if (priorEvent instanceof MaxMapCountEvent) {
+                        if (priorEvent instanceof CpuInfoEvent) {
+                            fatalErrorLog.getCpuInfoEvents().remove(priorEvent);
+                            CpuInfoEvent combinedCpuInfoEvent = new CpuInfoEvent(combinedLogLine);
+                            fatalErrorLog.getCpuInfoEvents().add(combinedCpuInfoEvent);
+                        ***REMOVED*** else if (priorEvent instanceof MaxMapCountEvent) {
                             fatalErrorLog.setMaxMapCountEvent(new MaxMapCountEvent(combinedLogLine));
                         ***REMOVED*** else if (priorEvent instanceof PidMaxEvent) {
                             fatalErrorLog.setPidMaxEvent(new PidMaxEvent(combinedLogLine));

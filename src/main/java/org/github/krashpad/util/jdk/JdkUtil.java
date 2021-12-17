@@ -1198,7 +1198,7 @@ public class JdkUtil {
     public static final Date getLatestJdkReleaseDate(FatalErrorLog fatalErrorLog) {
         Date date = null;
         HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-        if (releases != null && !releases.isEmpty()) {
+        if (releases != null && releases.get("LATEST") != null) {
             date = releases.get("LATEST").getBuildDate();
         ***REMOVED***
         return date;
@@ -1431,7 +1431,8 @@ public class JdkUtil {
         HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
         if (releases != null && !releases.isEmpty()) {
             Release latest = releases.get("LATEST");
-            if (!latest.getVersion().equals(fatalErrorLog.getJdkReleaseString())) {
+            if (latest != null && latest.getVersion() != null
+                    && !latest.getVersion().equals(fatalErrorLog.getJdkReleaseString())) {
                 isLatestRelease = false;
             ***REMOVED***
         ***REMOVED***

@@ -26,22 +26,15 @@ import org.junit.jupiter.api.Test;
 class TestContainerInfoEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "***REMOVED***";
+    void testActiveProcessorCount() {
+        String logLine = "active_processor_count: 8";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ContainerInfoEvent,
-                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
-        String logLine = "***REMOVED***";
+    void testBuffers() {
+        String logLine = "cpu_cpuset_cpus: 0-7";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     ***REMOVED***
@@ -61,28 +54,14 @@ class TestContainerInfoEvent {
     ***REMOVED***
 
     @Test
-    void testActiveProcessorCount() {
-        String logLine = "active_processor_count: 8";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
-                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testBuffers() {
-        String logLine = "cpu_cpuset_cpus: 0-7";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
-                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCpuQuota() {
+    void testCpuPeriod() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testCpuPeriod() {
+    void testCpuQuota() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
@@ -96,8 +75,29 @@ class TestContainerInfoEvent {
     ***REMOVED***
 
     @Test
-    void testMemoryLimit() {
+    void testHeader() {
         String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testHyperV() {
+        String logLine = "HyperV virtualization detected";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testIdentity() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testKvmVirtualizationDetected() {
+        String logLine = "KVM virtualization detected";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     ***REMOVED***
@@ -105,6 +105,20 @@ class TestContainerInfoEvent {
     @Test
     void testMemoryAndSwapLimit() {
         String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMemoryLimit() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMemoryMaxUsage() {
+        String logLine = "memory_max_usage_in_bytes: 0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     ***REMOVED***
@@ -124,17 +138,10 @@ class TestContainerInfoEvent {
     ***REMOVED***
 
     @Test
-    void testMemoryMaxUsage() {
-        String logLine = "memory_max_usage_in_bytes: 0";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
-                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testKvmVirtualizationDetected() {
-        String logLine = "KVM virtualization detected";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
-                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    void testParseLogLine() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ContainerInfoEvent,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not parsed.");
     ***REMOVED***
 
     @Test

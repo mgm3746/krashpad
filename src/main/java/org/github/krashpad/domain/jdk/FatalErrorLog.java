@@ -697,7 +697,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT);
         ***REMOVED***
         // Check for CMS incremental mode with > 2 cpu
-        if (getCpus() > 2 && jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUseConcMarkSweepGc())
+        if (getCpusLogical() > 2 && jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUseConcMarkSweepGc())
                 && JdkUtil.isOptionEnabled(jvmOptions.getCmsIncrementalMode())) {
             analysis.add(Analysis.WARN_CMS_INCREMENTAL_MODE);
         ***REMOVED***
@@ -855,9 +855,11 @@ public class FatalErrorLog {
                 analysis.remove(Analysis.ERROR_JVM_DLL);
             ***REMOVED***
         ***REMOVED***
-        // Check if VMWare environment
+        // Check environments
         if (isVMWareEnvironment()) {
             analysis.add(Analysis.INFO_VMWARE);
+        ***REMOVED*** else if (isHyperVEnvironment()) {
+            analysis.add(Analysis.INFO_HYPERV);
         ***REMOVED***
         // Check for mmap resources in deleted state
         if (!getDynamicLibraryEvents().isEmpty() && getMmapDeletedCount() > 0) {
@@ -1179,6 +1181,101 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * Free memory as reported by the JVM <code>MemoryEvent</code>.
+     * 
+     * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
+     * low free memory does not necessarily indicate swapping or out of memory is imminent.
+     * 
+     * @return The total free physical memory as reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
+     *         units.
+     */
+    public long getContainerMemFree() {
+        long physicalMemoryFree = Long.MIN_VALUE;
+        if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)),
+                                matcher.group(9).charAt(0), Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return physicalMemoryFree;
+    ***REMOVED***
+
+    /**
+     * @return The total available physical memory reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
+     *         units.
+     */
+    public long getContainerMemTotal() {
+        long physicalMemory = Long.MIN_VALUE;
+        if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(4)),
+                                matcher.group(6).charAt(0), Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return physicalMemory;
+    ***REMOVED***
+
+    /**
+     * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getContainerSwap() {
+        long swap = Long.MIN_VALUE;
+        if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        if (matcher.group(11) != null && matcher.group(13) != null) {
+                            swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
+                                    Constants.PRECISION_REPORTING);
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return swap;
+    ***REMOVED***
+
+    /**
+     * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getContainerSwapFree() {
+        long swapFree = Long.MIN_VALUE;
+        if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        if (matcher.group(14) != null && matcher.group(16) != null) {
+                            swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)),
+                                    matcher.group(16).charAt(0), Constants.PRECISION_REPORTING);
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return swapFree;
+    ***REMOVED***
+
+    /**
      * @return The CPU architecture.
      */
     public CpuArch getCpuArch() {
@@ -1203,8 +1300,8 @@ public class FatalErrorLog {
     /**
      * @return The number of logical cpus (cpus x cpu cores x hyperthreading).
      */
-    public int getCpus() {
-        int cpus = Integer.MIN_VALUE;
+    public int getCpusLogical() {
+        int cpuLogical = Integer.MIN_VALUE;
         if (!cpuInfoEvents.isEmpty()) {
             Iterator<CpuInfoEvent> iterator = cpuInfoEvents.iterator();
             while (iterator.hasNext()) {
@@ -1212,13 +1309,23 @@ public class FatalErrorLog {
                 if (event.isCpuHeader()) {
                     Pattern pattern = Pattern.compile(CpuInfoEvent.REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        cpus = Integer.parseInt(matcher.group(1));
+                    if (matcher.find() && matcher.group(1) != null) {
+                        int cpus = Integer.parseInt(matcher.group(1));
+                        BigDecimal calc = new BigDecimal(cpus);
+                        if (matcher.group(5) != null) {
+                            int cores = Integer.parseInt(matcher.group(5));
+                            calc = calc.multiply(new BigDecimal(cores));
+                        ***REMOVED***
+                        if (matcher.group(6) != null) {
+                            int threads = Integer.parseInt(matcher.group(6));
+                            calc = calc.multiply(new BigDecimal(threads));
+                        ***REMOVED***
+                        cpuLogical = calc.intValue();
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        return cpus;
+        return cpuLogical;
     ***REMOVED***
 
     /**
@@ -1869,33 +1976,6 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * Free memory as reported by the JVM <code>MemoryEvent</code>.
-     * 
-     * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
-     * low free memory does not necessarily indicate swapping or out of memory is imminent.
-     * 
-     * @return The total free physical memory as reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
-     *         units.
-     */
-    public long getContainerMemFree() {
-        long physicalMemoryFree = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)),
-                                matcher.group(9).charAt(0), Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return physicalMemoryFree;
-    ***REMOVED***
-
-    /**
      * @return Estimated JVM initial memory in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmMemoryInitial() {
@@ -1971,76 +2051,8 @@ public class FatalErrorLog {
         return jvmMemoryMax;
     ***REMOVED***
 
-    /**
-     * @return The total available physical memory reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
-     *         units.
-     */
-    public long getContainerMemTotal() {
-        long physicalMemory = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(4)),
-                                matcher.group(6).charAt(0), Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return physicalMemory;
-    ***REMOVED***
-
     public JvmOptions getJvmOptions() {
         return jvmOptions;
-    ***REMOVED***
-
-    /**
-     * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getContainerSwap() {
-        long swap = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        if (matcher.group(11) != null && matcher.group(13) != null) {
-                            swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
-                                    Constants.PRECISION_REPORTING);
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return swap;
-    ***REMOVED***
-
-    /**
-     * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getContainerSwapFree() {
-        long swapFree = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        if (matcher.group(14) != null && matcher.group(16) != null) {
-                            swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)),
-                                    matcher.group(16).charAt(0), Constants.PRECISION_REPORTING);
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return swapFree;
     ***REMOVED***
 
     /**
@@ -2086,111 +2098,12 @@ public class FatalErrorLog {
         return maxMapCountEvent;
     ***REMOVED***
 
-    /**
-     * @return An estimate of how much physical memory is available without swapping in
-     *         <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getOsMemAvailable() {
-        long memAvailable = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
-            String regexMemTotal = "MemAvailable:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
-            while (iterator.hasNext()) {
-                MeminfoEvent event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    memAvailable = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return memAvailable;
-    ***REMOVED***
-
-    /**
-     * Free memory as reported by the OS. Note that free memory does not include Buffers or Cached memory, which can be
-     * reclaimed at any time. Therefore, low free memory does not necessarily indicate swapping or out of memory is
-     * imminent.
-     * 
-     * @return The total free physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getOsMemFree() {
-        long memFree = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
-            String regexMemTotal = "MemFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
-            while (iterator.hasNext()) {
-                MeminfoEvent event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.PRECISION_REPORTING);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0),
-                                Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return memFree;
-    ***REMOVED***
-
     public List<MeminfoEvent> getMeminfoEvents() {
         return meminfoEvents;
     ***REMOVED***
 
     public List<MemoryEvent> getMemoryEvents() {
         return memoryEvents;
-    ***REMOVED***
-
-    /**
-     * @return The total available physical memory reported by the OS in <code>Constants.PRECISION_REPORTING</code>
-     *         units.
-     */
-    public long getOsMemTotal() {
-        long memTotal = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
-            String regexMemTotal = "MemTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
-            while (iterator.hasNext()) {
-                MeminfoEvent event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0),
-                                Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return memTotal;
     ***REMOVED***
 
     /**
@@ -2377,6 +2290,105 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return An estimate of how much physical memory is available without swapping in
+     *         <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getOsMemAvailable() {
+        long memAvailable = Long.MIN_VALUE;
+        if (!meminfoEvents.isEmpty()) {
+            String regexMemTotal = "MemAvailable:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    memAvailable = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return memAvailable;
+    ***REMOVED***
+
+    /**
+     * Free memory as reported by the OS. Note that free memory does not include Buffers or Cached memory, which can be
+     * reclaimed at any time. Therefore, low free memory does not necessarily indicate swapping or out of memory is
+     * imminent.
+     * 
+     * @return The total free physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getOsMemFree() {
+        long memFree = Long.MIN_VALUE;
+        if (!meminfoEvents.isEmpty()) {
+            String regexMemTotal = "MemFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0),
+                                Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return memFree;
+    ***REMOVED***
+
+    /**
+     * @return The total available physical memory reported by the OS in <code>Constants.PRECISION_REPORTING</code>
+     *         units.
+     */
+    public long getOsMemTotal() {
+        long memTotal = Long.MIN_VALUE;
+        if (!meminfoEvents.isEmpty()) {
+            String regexMemTotal = "MemTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0),
+                                Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return memTotal;
+    ***REMOVED***
+
+    /**
      * The OS string. For example:
      * 
      * Red Hat Enterprise Linux Server release 7.7 (Maipo)
@@ -2405,6 +2417,77 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return osString;
+    ***REMOVED***
+
+    /**
+     * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getOsSwap() {
+        long swap = Long.MIN_VALUE;
+        if (!meminfoEvents.isEmpty()) {
+            String regexMemTotal = "SwapTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find() && matcher.group(9) != null) {
+                        swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0),
+                                Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return swap;
+    ***REMOVED***
+
+    /**
+     * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getOsSwapFree() {
+        long swapFree = Long.MIN_VALUE;
+        if (!meminfoEvents.isEmpty()) {
+            String regexMemTotal = "SwapFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
+            while (iterator.hasNext()) {
+                MeminfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Matcher matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find() && matcher.group(9) != null) {
+                        swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0),
+                                Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return swapFree;
     ***REMOVED***
 
     /**
@@ -2735,77 +2818,6 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return device;
-    ***REMOVED***
-
-    /**
-     * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getOsSwap() {
-        long swap = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
-            String regexMemTotal = "SwapTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
-            while (iterator.hasNext()) {
-                MeminfoEvent event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.PRECISION_REPORTING);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find() && matcher.group(9) != null) {
-                        swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0),
-                                Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return swap;
-    ***REMOVED***
-
-    /**
-     * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getOsSwapFree() {
-        long swapFree = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
-            String regexMemTotal = "SwapFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<MeminfoEvent> iterator = meminfoEvents.iterator();
-            while (iterator.hasNext()) {
-                MeminfoEvent event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find() && matcher.group(9) != null) {
-                        swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0),
-                                Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return swapFree;
     ***REMOVED***
 
     public List<ThreadEvent> getThreadEvents() {
@@ -3233,6 +3245,24 @@ public class FatalErrorLog {
             isError = true;
         ***REMOVED***
         return isError;
+    ***REMOVED***
+
+    /**
+     * @return true if HyperV environment, false otherwise.
+     */
+    public boolean isHyperVEnvironment() {
+        boolean isVMWareEnvironment = false;
+        if (!containerInfoEvents.isEmpty()) {
+            Iterator<ContainerInfoEvent> iterator = containerInfoEvents.iterator();
+            while (iterator.hasNext()) {
+                ContainerInfoEvent event = iterator.next();
+                if (event.getLogEntry().matches("^HyperV virtualization detected$")) {
+                    isVMWareEnvironment = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return isVMWareEnvironment;
     ***REMOVED***
 
     /**
