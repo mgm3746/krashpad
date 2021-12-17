@@ -168,6 +168,10 @@ public enum Analysis {
     ERROR_OOME_EXTERNAL("error.oome.external"),
 
     /**
+     * Property key for insufficient physical memory when doing a JBoss version check (e.g. standalone.sh --version).
+     */
+    ERROR_OOME_JBOSS_VERSION("error.oome.jboss.version"),
+    /**
      * Property key for insufficient physical memory due to the JVM process.
      */
     ERROR_OOME_JVM("error.oome.jvm"),

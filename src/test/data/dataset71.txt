@@ -1,0 +1,129 @@
+***REMOVED***
+***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
+***REMOVED*** Native memory allocation (mmap) failed to map 8589934592 bytes for Failed to commit area from 0x00000003c0800000 to 0x00000005c0800000 of length 8589934592.
+***REMOVED*** Possible reasons:
+***REMOVED***   The system is out of physical RAM or swap space
+***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+***REMOVED*** Possible solutions:
+***REMOVED***   Reduce memory load on the system
+***REMOVED***   Increase physical memory or swap space
+***REMOVED***   Check if swap backing store is full
+***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
+***REMOVED***   Decrease number of Java threads
+***REMOVED***   Decrease Java thread stack sizes (-Xss)
+***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
+***REMOVED*** This output file may be truncated or incomplete.
+***REMOVED***
+***REMOVED***  Out of Memory Error (os_windows.cpp:3491), pid=33296, tid=0x0000000000008038
+***REMOVED***
+***REMOVED*** JRE version:  (8.0_292-b10) (build )
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.292-b10 mixed mode windows-amd64 compressed oops)
+***REMOVED*** Core dump written. Default location: C:\path\to\hs_err_pid12345.mdmp
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x0000000001be3800):  JavaThread "Unknown thread" [_thread_in_vm, id=32824, stack(0x0000000001a90000,0x0000000001b90000)]
+
+Stack: [0x0000000001a90000,0x0000000001b90000]
+[error occurred during error reporting (printing stack bounds), id 0xc0000005]
+
+***REMOVED***
+
+
+***REMOVED***
+
+***REMOVED***
+
+***REMOVED***
+
+=>0x0000000001be3800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=32824, stack(0x0000000001a90000,0x0000000001b90000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x0000000001be1b60] Heap_lock - owner thread: 0x0000000001be3800
+
+heap address: 0x00000003c0800000, size: 16384 MB, Compressed Oops mode: Non-zero based:0x00000003c07ff000, Oop shift amount: 3
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+***REMOVED***
+0x00007ff7bb0c0000 - 0x00007ff7bb0f5000 	C:\Program Files\Zulu\zulu-8\bin\java.exe
+0x00007ffd61b50000 - 0x00007ffd61d3d000 	C:\Windows\SYSTEM32\ntdll.dll
+0x00007ffd3fb50000 - 0x00007ffd3fb77000 	C:\Program Files\Cylance\Desktop\CyMemDef64.dll
+0x00007ffd611a0000 - 0x00007ffd61254000 	C:\Windows\System32\KERNEL32.DLL
+0x00007ffd5dec0000 - 0x00007ffd5e154000 	C:\Windows\System32\KERNELBASE.dll
+0x00007ffd61a70000 - 0x00007ffd61b14000 	C:\Windows\System32\ADVAPI32.dll
+0x00007ffd5f2b0000 - 0x00007ffd5f34e000 	C:\Windows\System32\msvcrt.dll
+0x00007ffd61530000 - 0x00007ffd615ce000 	C:\Windows\System32\sechost.dll
+0x00007ffd5edb0000 - 0x00007ffd5eecf000 	C:\Windows\System32\RPCRT4.dll
+0x00007ffd5f110000 - 0x00007ffd5f2a7000 	C:\Windows\System32\USER32.dll
+0x00007ffd5dbf0000 - 0x00007ffd5dc10000 	C:\Windows\System32\win32u.dll
+0x00007ffd5ed80000 - 0x00007ffd5eda9000 	C:\Windows\System32\GDI32.dll
+0x00007ffd5e160000 - 0x00007ffd5e2fc000 	C:\Windows\System32\gdi32full.dll
+0x00007ffd5ea50000 - 0x00007ffd5eaf0000 	C:\Windows\System32\msvcp_win.dll
+0x00007ffd5ec80000 - 0x00007ffd5ed7a000 	C:\Windows\System32\ucrtbase.dll
+0x00007ffd4f260000 - 0x00007ffd4f4d9000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.17763.2300_none_de6de3f4534e3b8d\COMCTL32.dll
+0x00007ffd616c0000 - 0x00007ffd619ed000 	C:\Windows\System32\combase.dll
+0x00007ffd5eaf0000 - 0x00007ffd5eb72000 	C:\Windows\System32\bcryptPrimitives.dll
+0x0000000074b70000 - 0x0000000074c42000 	C:\Program Files\Zulu\zulu-8\jre\bin\msvcr100.dll
+0x00000000742b0000 - 0x0000000074b70000 	C:\Program Files\Zulu\zulu-8\jre\bin\server\jvm.dll
+0x00007ffd61630000 - 0x00007ffd61638000 	C:\Windows\System32\PSAPI.DLL
+0x00007ffd54e40000 - 0x00007ffd54e49000 	C:\Windows\SYSTEM32\WSOCK32.dll
+0x00007ffd60850000 - 0x00007ffd608bd000 	C:\Windows\System32\WS2_32.dll
+0x00007ffd54de0000 - 0x00007ffd54e04000 	C:\Windows\SYSTEM32\WINMM.dll
+0x00007ffd590f0000 - 0x00007ffd590fa000 	C:\Windows\SYSTEM32\VERSION.dll
+0x00007ffd54a60000 - 0x00007ffd54a8d000 	C:\Windows\SYSTEM32\WINMMBASE.dll
+0x00007ffd5eb80000 - 0x00007ffd5ebca000 	C:\Windows\System32\cfgmgr32.dll
+0x00007ffd46920000 - 0x00007ffd4692f000 	C:\Program Files\Zulu\zulu-8\jre\bin\verify.dll
+0x00007ffd44540000 - 0x00007ffd44569000 	C:\Program Files\Zulu\zulu-8\jre\bin\java.dll
+0x00007ffd462c0000 - 0x00007ffd462d6000 	C:\Program Files\Zulu\zulu-8\jre\bin\zip.dll
+0x00007ffd52080000 - 0x00007ffd5226d000 	C:\Windows\system32\DBGHELP.DLL
+0x00007ffd52050000 - 0x00007ffd5207a000 	C:\Windows\SYSTEM32\dbgcore.DLL
+
+***REMOVED***
+jvm_args: -Dprogram.name=standalone.bat -Xms8G -Xmx16G -XX:MetaspaceSize=500M -XX:MaxMetaspaceSize=1024M -XX:+UseG1GC -XX:+AggressiveOpts -Djava.net.preferIPv4Stack=true -Djboss.as.management.blocking.timeout=5000 -Djboss.modules.system.pkgs=org.jboss.byteman -Dlog4j2.formatMsgNoLookups=true -verbose:gc -Xloggc:C:\path\to\gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -Dorg.jboss.boot.log.file=C:\path\to\server.log -Dlogging.configuration=file:C:\path\to\logging.properties 
+java_command: C:\path\to\jboss-modules.jar -mp C:\path\to\modules org.jboss.as.standalone -Djboss.home.dir=C:\path\to -version
+java_class_path (initial): C:\path\to\jboss-modules.jar
+***REMOVED***
+
+***REMOVED***
+JAVA_HOME=C:\Program Files\Zulu\zulu-8
+PATH=C:\Windows\system32;C:\Windows;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Windows\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps
+USERNAME=username
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 63 Stepping 2, GenuineIntel
+
+
+
+***REMOVED***
+
+OS: Windows 10.0 , 64 bit Build 17763 (10.0.17763.2300)
+HyperV virtualization detected
+
+CPU:total 8 (initial active 8) (4 cores per cpu, 2 threads per core) family 6 model 63 stepping 2, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, lzcnt, ht, tsc, bmi1, bmi2
+
+Memory: 4k page, physical 33553972k(2352668k free), swap 41942320k(2729768k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.292-b10) for windows-amd64 JRE (Zulu 8.54.0.22-SA-win64) (1.8.0_292-b10), built on Apr  6 2021 15:10:49 by "tester" with MS VC++ 10.0 (VS2010)
+
+time: Wed Dec 15 00:04:28 2021
+timezone: Eastern Standard Time
+elapsed time: 0.374493 seconds (0d 0h 0m 0s)
+

@@ -26,21 +26,30 @@ import org.junit.jupiter.api.Test;
 class TestJdkRegEx {
 
     @Test
-    void testMemoryRegion() {
-        String s = "7f0f159f8000-7f0f159f9000";
-        assertTrue(s.matches(JdkRegEx.MEMORY_REGION), "Memory region not identified.");
+    void testAddress32Bit() {
+        String release = "0x08ec6400";
+        assertTrue(release.matches(JdkRegEx.ADDRESS32), "Address not identified.");
     ***REMOVED***
 
     @Test
-    void testPermission() {
-        String s = "rw-p";
-        assertTrue(s.matches(JdkRegEx.PERMISION), "Permission not identified.");
+    void testAddress64Bit() {
+        String release = "0x000000000232c800";
+        assertTrue(release.matches(JdkRegEx.ADDRESS64), "Address not identified.");
     ***REMOVED***
 
     @Test
-    void testFileOffset() {
-        String s = "0001a000";
-        assertTrue(s.matches(JdkRegEx.FILE_OFFSET), "File offset not identified.");
+    void testAmq() {
+        String javaCommand = "java_command: org.apache.activemq.artemis.boot.Artemis run";
+        assertTrue(javaCommand.matches(JdkRegEx.ARTEMIS_COMMAND), "AMQ not recognized.");
+        assertFalse(javaCommand.matches(JdkRegEx.ARTEMIS_CLI_COMMAND), "AMQ CLI incorrectly recognized.");
+    ***REMOVED***
+
+    @Test
+    void testAmqCli() {
+        String javaCommand = "java_command: org.apache.activemq.artemis.boot.Artemis queue purge --name ExpiryQueue "
+                + "--url tcp://mydomain:12345 --user myuser --password mypassword";
+        assertFalse(javaCommand.matches(JdkRegEx.ARTEMIS_COMMAND), "AMQ incorrectly recognized.");
+        assertTrue(javaCommand.matches(JdkRegEx.ARTEMIS_CLI_COMMAND), "AMQ CLI not recognized.");
     ***REMOVED***
 
     @Test
@@ -50,15 +59,91 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testFile() {
+        String s = "/usr/lib64/libaio.so.1.0.1";
+        assertTrue(s.matches(JdkRegEx.FILE), "Inode not identified.");
+    ***REMOVED***
+
+    @Test
+    void testFileOffset() {
+        String s = "0001a000";
+        assertTrue(s.matches(JdkRegEx.FILE_OFFSET), "File offset not identified.");
+    ***REMOVED***
+
+    @Test
     void testInode() {
         String s = "135188646";
         assertTrue(s.matches(JdkRegEx.INODE), "Inode not identified.");
     ***REMOVED***
 
     @Test
-    void testFile() {
-        String s = "/usr/lib64/libaio.so.1.0.1";
-        assertTrue(s.matches(JdkRegEx.FILE), "Inode not identified.");
+    void testJBossVersionDoubleDashVersion() {
+        String javaCommand = "java_command: C:\\path\\to\\jboss-modules.jar -mp "
+                + "C:\\path\\to\\modules org.jboss.as.standalone -Djboss.home.dir=C:\\path\\to --version";
+        assertTrue(javaCommand.matches(JdkRegEx.JBOSS_VERSION_COMMAND), "JBoss version check not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testJBossVersionLowercaseV() {
+        String javaCommand = "java_command: C:\\path\\to\\jboss-modules.jar -mp "
+                + "C:\\path\\to\\modules org.jboss.as.standalone -Djboss.home.dir=C:\\path\\to -v";
+        assertTrue(javaCommand.matches(JdkRegEx.JBOSS_VERSION_COMMAND), "JBoss version check not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testJBossVersionSingleDashVersion() {
+        String javaCommand = "java_command: C:\\path\\to\\jboss-modules.jar -mp "
+                + "C:\\path\\to\\modules org.jboss.as.standalone -Djboss.home.dir=C:\\path\\to -version";
+        assertTrue(javaCommand.matches(JdkRegEx.JBOSS_VERSION_COMMAND), "JBoss version check not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testJBossVersionUppercaseV() {
+        String javaCommand = "java_command: C:\\path\\to\\jboss-modules.jar -mp "
+                + "C:\\path\\to\\modules org.jboss.as.standalone -Djboss.home.dir=C:\\path\\to -V";
+        assertTrue(javaCommand.matches(JdkRegEx.JBOSS_VERSION_COMMAND), "JBoss version check not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testJdk12ReleaseString() {
+        String release = "12.0.1+12";
+        assertTrue(release.matches(JdkRegEx.VERSION_STRING), "Version string not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdk8BuildString() {
+        String release = "1.8.0_251-b08";
+        assertTrue(release.matches(JdkRegEx.BUILD_STRING), "Build string not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMemoryRegion() {
+        String s = "7f0f159f8000-7f0f159f9000";
+        assertTrue(s.matches(JdkRegEx.MEMORY_REGION), "Memory region not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNullPointer32Bit() {
+        String address = "0x00000000";
+        assertTrue(address.matches(JdkRegEx.NULL_POINTER), "Null pointer not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testNullPointer64Bit() {
+        String address = "0x0000000000000000";
+        assertTrue(address.matches(JdkRegEx.NULL_POINTER), "Null pointer not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testPercent() {
+        String address = "54%";
+        assertTrue(address.matches(JdkRegEx.PERCENT), "PERCENT not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testPermission() {
+        String s = "rw-p";
+        assertTrue(s.matches(JdkRegEx.PERMISION), "Permission not identified.");
     ***REMOVED***
 
     @Test
@@ -80,20 +165,20 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testRhel7Amd64RpmOpenjdk11Dir() {
+        String dir = "java-11-openjdk-11.0.7.10-4.el7_8.x86_64";
+        assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK11_DIR), "Red Hat RPM OpenJDK directory not identified.");
+    ***REMOVED***
+
+    @Test
+    void testRhel7Amd64RpmOpenjdk11LibjvmFilePath() {
+        String path = "/usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so";
+        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK11_LIBJVM_PATH), "Red Hat RPM file path not identified.");
+    ***REMOVED***
+
+    @Test
     void testRhel7Amd64RpmOpenjdk8Dir() {
         String dir = "java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64";
-        assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR), "Red Hat RPM OpenJDK directory not identified.");
-    ***REMOVED***
-
-    @Test
-    void testRhel7Ppc64RpmOpenjdk8Dir() {
-        String dir = "java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.ppc64";
-        assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR), "Red Hat RPM OpenJDK directory not identified.");
-    ***REMOVED***
-
-    @Test
-    void testRhel7Ppc64leRpmOpenjdk8Dir() {
-        String dir = "java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le";
         assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR), "Red Hat RPM OpenJDK directory not identified.");
     ***REMOVED***
 
@@ -104,21 +189,21 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testRhel7Ppc64leRpmOpenjdk8Dir() {
+        String dir = "java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le";
+        assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR), "Red Hat RPM OpenJDK directory not identified.");
+    ***REMOVED***
+
+    @Test
     void testRhel7Ppc64leRpmOpenjdk8LibjvmFilePath() {
         String path = "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so";
         assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK8_LIBJVM_PATH), "Red Hat RPM file path not identified.");
     ***REMOVED***
 
     @Test
-    void testRhel7Amd64RpmOpenjdk11Dir() {
-        String dir = "java-11-openjdk-11.0.7.10-4.el7_8.x86_64";
-        assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK11_DIR), "Red Hat RPM OpenJDK directory not identified.");
-    ***REMOVED***
-
-    @Test
-    void testRhel7Amd64RpmOpenjdk11LibjvmFilePath() {
-        String path = "/usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so";
-        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK11_LIBJVM_PATH), "Red Hat RPM file path not identified.");
+    void testRhel7Ppc64RpmOpenjdk8Dir() {
+        String dir = "java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.ppc64";
+        assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR), "Red Hat RPM OpenJDK directory not identified.");
     ***REMOVED***
 
     @Test
@@ -140,87 +225,15 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
-    void testJdk12ReleaseString() {
-        String release = "12.0.1+12";
-        assertTrue(release.matches(JdkRegEx.VERSION_STRING), "Version string not identified.");
-    ***REMOVED***
-
-    @Test
-    void testJdk8BuildString() {
-        String release = "1.8.0_251-b08";
-        assertTrue(release.matches(JdkRegEx.BUILD_STRING), "Build string not identified.");
-    ***REMOVED***
-
-    @Test
-    void testAddress64Bit() {
-        String release = "0x000000000232c800";
-        assertTrue(release.matches(JdkRegEx.ADDRESS64), "Address not identified.");
-    ***REMOVED***
-
-    @Test
-    void testAddress32Bit() {
-        String release = "0x08ec6400";
-        assertTrue(release.matches(JdkRegEx.ADDRESS32), "Address not identified.");
-    ***REMOVED***
-
-    @Test
-    void testTimestampWithCharacter() {
-        String timestamp = "A.123";
-        assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps are decimal numbers.");
-    ***REMOVED***
-
-    @Test
-    void testTimestampWithFewerDecimalPlaces() {
-        String timestamp = "1.12";
-        assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps have 3 decimal places.");
-    ***REMOVED***
-
-    @Test
-    void testTimestampWithMoreDecimalPlaces() {
-        String timestamp = "1.1234";
-        assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps have 3 decimal places.");
-    ***REMOVED***
-
-    @Test
-    void testTimestampWithNoDecimal() {
-        String timestamp = "11234";
-        assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps have 3 decimal places.");
-    ***REMOVED***
-
-    @Test
-    void testTimestampLessThanOne() {
-        String timestamp = ".123";
-        assertTrue(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps less than one do not have a leading zero.");
-    ***REMOVED***
-
-    @Test
-    void testTimestampValid() {
-        String timestamp = "1.123";
-        assertTrue(timestamp.matches(JdkRegEx.TIMESTAMP), "'" + timestamp + "' is a valid timestamp.");
-    ***REMOVED***
-
-    @Test
-    void testTimestampDecimalComma() {
-        String timestamp = "1,123";
-        assertTrue(timestamp.matches(JdkRegEx.TIMESTAMP), "'" + timestamp + "' is a valid timestamp.");
+    void testSizeGb() {
+        String address = "1.00 GB";
+        assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
     ***REMOVED***
 
     @Test
     void testSizeK() {
         String size = "1234k";
         assertTrue(size.matches(JdkRegEx.SIZE), "Size not recognized.");
-    ***REMOVED***
-
-    @Test
-    void testNullPointer32Bit() {
-        String address = "0x00000000";
-        assertTrue(address.matches(JdkRegEx.NULL_POINTER), "Null pointer not recognized.");
-    ***REMOVED***
-
-    @Test
-    void testNullPointer64Bit() {
-        String address = "0x0000000000000000";
-        assertTrue(address.matches(JdkRegEx.NULL_POINTER), "Null pointer not recognized.");
     ***REMOVED***
 
     @Test
@@ -236,29 +249,44 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
-    void testSizeGb() {
-        String address = "1.00 GB";
-        assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
+    void testTimestampDecimalComma() {
+        String timestamp = "1,123";
+        assertTrue(timestamp.matches(JdkRegEx.TIMESTAMP), "'" + timestamp + "' is a valid timestamp.");
     ***REMOVED***
 
     @Test
-    void testPercent() {
-        String address = "54%";
-        assertTrue(address.matches(JdkRegEx.PERCENT), "PERCENT not recognized.");
+    void testTimestampLessThanOne() {
+        String timestamp = ".123";
+        assertTrue(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps less than one do not have a leading zero.");
     ***REMOVED***
 
     @Test
-    void testAmq() {
-        String javaCommand = "java_command: org.apache.activemq.artemis.boot.Artemis run";
-        assertTrue(javaCommand.matches(JdkRegEx.ARTEMIS), "AMQ not recognized.");
-        assertFalse(javaCommand.matches(JdkRegEx.ARTEMIS_CLI), "AMQ CLI incorrectly recognized.");
+    void testTimestampValid() {
+        String timestamp = "1.123";
+        assertTrue(timestamp.matches(JdkRegEx.TIMESTAMP), "'" + timestamp + "' is a valid timestamp.");
     ***REMOVED***
 
     @Test
-    void testAmqCli() {
-        String javaCommand = "java_command: org.apache.activemq.artemis.boot.Artemis queue purge --name ExpiryQueue "
-                + "--url tcp://mydomain:12345 --user myuser --password mypassword";
-        assertFalse(javaCommand.matches(JdkRegEx.ARTEMIS), "AMQ incorrectly recognized.");
-        assertTrue(javaCommand.matches(JdkRegEx.ARTEMIS_CLI), "AMQ CLI not recognized.");
+    void testTimestampWithCharacter() {
+        String timestamp = "A.123";
+        assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps are decimal numbers.");
+    ***REMOVED***
+
+    @Test
+    void testTimestampWithFewerDecimalPlaces() {
+        String timestamp = "1.12";
+        assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps have 3 decimal places.");
+    ***REMOVED***
+    
+    @Test
+    void testTimestampWithMoreDecimalPlaces() {
+        String timestamp = "1.1234";
+        assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps have 3 decimal places.");
+    ***REMOVED***
+    
+    @Test
+    void testTimestampWithNoDecimal() {
+        String timestamp = "11234";
+        assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps have 3 decimal places.");
     ***REMOVED***
 ***REMOVED***

@@ -39,6 +39,7 @@ import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
 import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
+import org.github.krashpad.util.jdk.JdkUtil.JavaVendor;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -1643,6 +1644,17 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testOomJBossVersion() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset71.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(JavaVendor.AZUL, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(Application.JBOSS_VERSION, fel.getApplication(), "Application not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_JBOSS_VERSION),
+                Analysis.ERROR_OOME_JBOSS_VERSION + " analysis not identified.");
     ***REMOVED***
 
     @Test

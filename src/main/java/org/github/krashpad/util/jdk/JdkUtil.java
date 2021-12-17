@@ -116,7 +116,7 @@ public class JdkUtil {
      */
     public enum Application {
         //
-        AMQ, AMQ_CLI, JBOSS_EAP6, JBOSS_EAP7, KAFKA, TOMCAT, TOMCAT_SHUTDOWN, UNKNOWN, WILDFLY
+        AMQ, AMQ_CLI, JBOSS_EAP6, JBOSS_EAP7, JBOSS_VERSION, KAFKA, TOMCAT, TOMCAT_SHUTDOWN, UNKNOWN, WILDFLY
     ***REMOVED***
 
     /**
@@ -136,12 +136,14 @@ public class JdkUtil {
         EMPTY,
         // Oracle: "Java Release Engineering"
         JAVA_RE,
-        //
+        // AdoptOpenJDK
         JENKINS,
         // Oracle: "mach5one" is the name of their build/test system? Replace by "java_re"?
         MACH5ONE,
         // Red Hat, CentOS
         MOCKBUILD, UNKNOWN,
+        // Azul
+        TESTER,
         // Microsoft
         VSTS,
         // Azul

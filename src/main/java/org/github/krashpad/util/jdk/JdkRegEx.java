@@ -45,17 +45,6 @@ public class JdkRegEx {
     public static final String AREA = "(\\[(stack|vdso|vsyscall)\\])";
 
     /**
-     * ActiveMQ main class used for <code>Application</code> identification.
-     * 
-     * For example:
-     * 
-     * <pre>
-     * org.apache.activemq.artemis.boot.Artemis run
-     * </pre>
-     */
-    public static final String ARTEMIS = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis run.*$";
-
-    /**
      * ActiveMQ CLI main class used for <code>Application</code> identification.
      * 
      * For example:
@@ -68,7 +57,18 @@ public class JdkRegEx {
      * --user myuser --password mypassword
      * </pre>
      */
-    public static final String ARTEMIS_CLI = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!run).*$";
+    public static final String ARTEMIS_CLI_COMMAND = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!run).*$";
+
+    /**
+     * ActiveMQ main class used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * org.apache.activemq.artemis.boot.Artemis run
+     * </pre>
+     */
+    public static final String ARTEMIS_COMMAND = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis run.*$";
 
     /**
      * Blank line.
@@ -211,6 +211,17 @@ public class JdkRegEx {
     public static final String JBOSS_EAP7_JAR = "^.+undertow-core.+\\.jar$";
 
     /**
+     * JBoss version check string used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * org.jboss.as.standalone -Djboss.home.dir=C:\path\to -version
+     * </pre>
+     */
+    public static final String JBOSS_VERSION_COMMAND = "^.+org\\.jboss\\.as\\.standalone .*(-[vV]|[-]{1,2***REMOVED***version)$";
+
+    /**
      * Kafka main class used for <code>Application</code> identification.
      * 
      * For example:
@@ -219,7 +230,7 @@ public class JdkRegEx {
      * kafka.Kafka / path / to / my.properties
      * </pre>
      */
-    public static final String KAFKA = "^.*kafka\\.Kafka.*$";
+    public static final String KAFKA_COMMAND = "^.*kafka\\.Kafka.*$";
 
     /**
      * Kilobyte units identifier.
@@ -401,7 +412,7 @@ public class JdkRegEx {
      * 
      * org.apache.catalina.startup.Bootstrap start
      */
-    public static final String TOMCAT_START = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap start$";
+    public static final String TOMCAT_START_COMMAND = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap start$";
 
     /**
      * Tomcat stop main class used for <code>Application</code> identification.
@@ -410,7 +421,7 @@ public class JdkRegEx {
      * 
      * org.apache.catalina.startup.Bootstrap stop stop
      */
-    public static final String TOMCAT_STOP = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap stop.*$";
+    public static final String TOMCAT_STOP_COMMAND = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap stop.*$";
 
     /**
      * <p>

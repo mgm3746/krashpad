@@ -197,6 +197,9 @@ public class VmInfoEvent implements LogEvent {
         ***REMOVED*** else if (logEntry.matches(".+\"mockbuild\".+")) {
             // Red Hat, CentOS
             builtBy = BuiltBy.MOCKBUILD;
+        ***REMOVED*** else if (logEntry.matches(".+\"tester\".+")) {
+            // Azul
+            builtBy = BuiltBy.TESTER;
         ***REMOVED*** else if (logEntry.matches(".+\"vsts\".+")) {
             // Microsoft
             builtBy = BuiltBy.VSTS;

@@ -426,13 +426,15 @@ public class FatalErrorLog {
             if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
                 if (getJvmMemoryInitial() > (Math.max(getContainerMemFree(), getOsMemAvailable())
                         + getContainerSwapFree())) {
-                    if (JdkMath.calcPercent(getJvmMemoryInitial(), getOsMemTotal()) < 50) {
-                        analysis.add(Analysis.ERROR_OOME_STARTUP_EXTERNAL);
+                    if (getApplication() == Application.TOMCAT_SHUTDOWN) {
+                        analysis.add(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN);
+                    ***REMOVED*** else if (getApplication() == Application.JBOSS_VERSION) {
+                        analysis.add(Analysis.ERROR_OOME_JBOSS_VERSION);
+                    ***REMOVED*** else if (getApplication() == Application.AMQ_CLI) {
+                        analysis.add(Analysis.ERROR_OOME_AMQ_CLI);
                     ***REMOVED*** else {
-                        if (this.getApplication() == Application.TOMCAT_SHUTDOWN) {
-                            analysis.add(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN);
-                        ***REMOVED*** else if (this.getApplication() == Application.AMQ_CLI) {
-                            analysis.add(Analysis.ERROR_OOME_AMQ_CLI);
+                        if (JdkMath.calcPercent(getJvmMemoryInitial(), getOsMemTotal()) < 50) {
+                            analysis.add(Analysis.ERROR_OOME_STARTUP_EXTERNAL);
                         ***REMOVED*** else {
                             analysis.add(Analysis.ERROR_OOME_STARTUP);
                         ***REMOVED***
@@ -834,7 +836,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_JVM_USER_NE_USERNAME);
         ***REMOVED***
         // Check for no jvm options
-        if (this.getJvmOptions() == null) {
+        if (getJvmOptions() == null) {
             analysis.add(Analysis.INFO_OPT_MISSING);
         ***REMOVED***
         // Check for many threads
@@ -901,18 +903,20 @@ public class FatalErrorLog {
         if (application == Application.UNKNOWN) {
             String javaCommand = getJavaCommand();
             if (javaCommand != null) {
-                if (javaCommand.matches(JdkRegEx.WILDFLY_JAR)) {
-                    application = Application.WILDFLY;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_START)) {
+                if (javaCommand.matches(JdkRegEx.TOMCAT_START_COMMAND)) {
                     application = Application.TOMCAT;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_STOP)) {
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_STOP_COMMAND)) {
                     application = Application.TOMCAT_SHUTDOWN;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.ARTEMIS)) {
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.ARTEMIS_COMMAND)) {
                     application = Application.AMQ;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.ARTEMIS_CLI)) {
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.ARTEMIS_CLI_COMMAND)) {
                     application = Application.AMQ_CLI;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.KAFKA)) {
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.KAFKA_COMMAND)) {
                     application = Application.KAFKA;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.JBOSS_VERSION_COMMAND)) {
+                    application = Application.JBOSS_VERSION;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.WILDFLY_JAR)) {
+                    application = Application.WILDFLY;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -1874,6 +1878,7 @@ public class FatalErrorLog {
                 case VSTS:
                     vendor = JavaVendor.MICROSOFT;
                     break;
+                case TESTER:
                 case ZULU_RE:
                     vendor = JavaVendor.AZUL;
                     break;
@@ -3719,13 +3724,19 @@ public class FatalErrorLog {
         if (isWindows() && getArch() == Arch.X86_64) {
             switch (getJavaSpecification()) {
             case JDK8:
-                isRhWindowsZipInstall = JdkUtil.JDK8_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
+                isRhWindowsZipInstall = JdkUtil.JDK8_WINDOWS_ZIPS.containsKey(getJdkReleaseString())
+                        && getJdkBuildDate() != null && getJdkBuildDate()
+                                .compareTo(JdkUtil.JDK8_WINDOWS_ZIPS.get(getJdkReleaseString()).getBuildDate()) == 0;
                 break;
             case JDK11:
-                isRhWindowsZipInstall = JdkUtil.JDK11_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
+                isRhWindowsZipInstall = JdkUtil.JDK11_WINDOWS_ZIPS.containsKey(getJdkReleaseString())
+                        && getJdkBuildDate() != null && getJdkBuildDate()
+                                .compareTo(JdkUtil.JDK11_WINDOWS_ZIPS.get(getJdkReleaseString()).getBuildDate()) == 0;
                 break;
             case JDK17:
-                isRhWindowsZipInstall = JdkUtil.JDK17_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
+                isRhWindowsZipInstall = JdkUtil.JDK17_WINDOWS_ZIPS.containsKey(getJdkReleaseString())
+                        && getJdkBuildDate() != null && getJdkBuildDate()
+                                .compareTo(JdkUtil.JDK17_WINDOWS_ZIPS.get(getJdkReleaseString()).getBuildDate()) == 0;
                 break;
             case JDK6:
             case JDK7:
