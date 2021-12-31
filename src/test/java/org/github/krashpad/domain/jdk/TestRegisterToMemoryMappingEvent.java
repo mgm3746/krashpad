@@ -253,4 +253,11 @@ class TestRegisterToMemoryMappingEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
+
+    @Test
+    void testIReturn() {
+        String logLine = "ireturn  172 ireturn  [0x00007fff4c023000, 0x00007fff4c023400]  1024 bytes";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***
