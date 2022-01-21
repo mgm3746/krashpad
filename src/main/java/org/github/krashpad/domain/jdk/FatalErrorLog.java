@@ -1890,6 +1890,19 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        if (vendor == JavaVendor.UNKNOWN) {
+            // Check header
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent he = iterator.next();
+                if (he.isJreVersion()) {
+                    if (he.getLogEntry().matches("^.+AdoptOpenJDK.+$")) {
+                        vendor = JavaVendor.ADOPTOPENJDK;
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
         return vendor;
     ***REMOVED***
 

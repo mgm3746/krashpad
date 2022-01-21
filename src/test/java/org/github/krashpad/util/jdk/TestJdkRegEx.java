@@ -277,13 +277,13 @@ class TestJdkRegEx {
         String timestamp = "1.12";
         assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps have 3 decimal places.");
     ***REMOVED***
-    
+
     @Test
     void testTimestampWithMoreDecimalPlaces() {
         String timestamp = "1.1234";
         assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps have 3 decimal places.");
     ***REMOVED***
-    
+
     @Test
     void testTimestampWithNoDecimal() {
         String timestamp = "11234";

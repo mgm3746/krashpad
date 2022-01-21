@@ -15,8 +15,10 @@
 package org.github.krashpad.domain.jdk;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.junit.jupiter.api.Test;
@@ -147,6 +149,14 @@ class TestHeaderEvent {
     ***REMOVED***
 
     @Test
+    void testPleaseCheckEtcOsRelease() {
+        LogEvent priorEvent = new OsEvent(null);
+        String logLine = "***REMOVED*** Please check /etc/os-release for details about this release.";
+        assertFalse(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testProblematicFrameJavaCompiledCode() {
         String logLine = "***REMOVED*** J 3285 c2 java.util.AbstractList.subListRangeCheck(III)V java.base@12.0.1 (110 bytes) "
                 + "@ 0x00007f682098912c [0x00007f68209891a0+0xffffffffffffff8c]";
@@ -208,5 +218,13 @@ class TestHeaderEvent {
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
         assertTrue(headerEvent.isSignalNumber(), "SIGSEGV not identified.");
+    ***REMOVED***
+
+    @Test
+    void testThisFileIsDeprecated() {
+        LogEvent priorEvent = new OsEvent(null);
+        String logLine = "***REMOVED*** This file is deprecated and will be removed in a future service pack or release.";
+        assertFalse(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " incorrectly identified.");
     ***REMOVED***
 ***REMOVED***

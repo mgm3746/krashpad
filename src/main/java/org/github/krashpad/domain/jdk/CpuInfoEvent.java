@@ -86,8 +86,8 @@ public class CpuInfoEvent implements LogEvent {
             + "Core performance/turbo boost|cpu|cpu cores|cpu family|CPU Model and flags from \\/proc\\/cpuinfo|"
             + "cpuid level|cpu MHz|(Current|Maximum|Minimum) cpu frequency|flags|fpu|fpu_exception|"
             + "Frequency switch latency \\(ns\\)|initial apicid|machine|microcode|model|model name|MMU|"
-            + "(Off|On)line cpus|performance|physical id|platform|power management|\\/proc\\/cpuinfo|processor|"
-            + "revision|siblings|stepping|timebase|TLB size|vendor_id|wp)[\\s]{0,***REMOVED***(:)?( )?)(.*)$";
+            + "(Off|On)line cpus|ondemand|performance|physical id|platform|power management|\\/proc\\/cpuinfo|"
+            + "processor|revision|siblings|stepping|timebase|TLB size|vendor_id|wp)[\\s]{0,***REMOVED***(:)?( )?)(.*)$";
 
     /**
      * * Regular expression for values for multi line entries.

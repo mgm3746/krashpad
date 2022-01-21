@@ -504,7 +504,7 @@ public class JdkUtil {
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.292.b10-1.el7_9.x86_64",
                 new Release("Apr 09 2021 05:00:30", 29, "1.8.0_292-b10"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.x86_64",
-                new Release("Jan 18 2021 00:00:00", 28, "1.8.0_282-b08"));
+                new Release("Jan 17 2021 19:44:11", 28, "1.8.0_282-b08"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.275.b01-0.el7_9.x86_64",
                 new Release("Nov 6 2020 01:41:37", 27, "1.8.0_275-b01"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64",
@@ -1319,7 +1319,7 @@ public class JdkUtil {
             logEventType = LogEventType.GC_PRECIOUS_LOG;
         ***REMOVED*** else if (GlobalFlagsEvent.match(logLine)) {
             logEventType = LogEventType.GLOBAL_FLAGS;
-        ***REMOVED*** else if (HeaderEvent.match(logLine)) {
+        ***REMOVED*** else if (HeaderEvent.match(logLine) && (priorEvent == null || priorEvent instanceof HeaderEvent)) {
             logEventType = LogEventType.HEADER;
         ***REMOVED*** else if (HeadingEvent.match(logLine)) {
             logEventType = LogEventType.HEADING;

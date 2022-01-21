@@ -61,8 +61,9 @@ public class OsEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + REGEX_HEADER + "|(CentOS|Oracle|Red Hat Enterprise) Linux.+|Windows|"
-            + "[ ]{0,***REMOVED***(Assembled|Copyright|ID|NAME|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?|\\[error "
-            + "occurred during error reporting \\(printing OS information\\))(.+))$";
+            + "[ ]{0,***REMOVED***(Assembled|Copyright|ID|NAME|PATCHLEVEL|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?|"
+            + "***REMOVED*** Please check \\/etc\\/os-release|***REMOVED*** This file is deprecated|"
+            + "\\[error occurred during error reporting \\(printing OS information\\))(.+))$";
 
     public static final Pattern PATTERN = Pattern.compile(REGEX);
 
