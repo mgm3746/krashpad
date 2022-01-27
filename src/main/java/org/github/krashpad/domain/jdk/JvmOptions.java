@@ -30,6 +30,7 @@ import org.github.krashpad.util.jdk.JdkMath;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
+import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 
 /**
  * <p>
@@ -2034,8 +2035,10 @@ public class JvmOptions {
      * 
      * @param analysis
      *            The fatal error log analysis.
+     * @param javaSpecification
+     *            The JDK major version.
      */
-    public void doAnalysis(List<Analysis> analysis) {
+    public void doAnalysis(List<Analysis> analysis, JavaSpecification javaSpecification) {
         // Check for remote debugging enabled
         if (jpdaSocketTransport != null) {
             analysis.add(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED);
@@ -2069,12 +2072,15 @@ public class JvmOptions {
             analysis.add(Analysis.WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED);
         ***REMOVED***
         // Check for erroneous perm gen settings
-        if (maxPermSize != null) {
-            analysis.add(Analysis.INFO_OPT_MAX_PERM_SIZE);
+        if (!(javaSpecification == JavaSpecification.JDK6 || javaSpecification == JavaSpecification.JDK7)) {
+            if (maxPermSize != null) {
+                analysis.add(Analysis.INFO_OPT_MAX_PERM_SIZE);
+            ***REMOVED***
+            if (permSize != null) {
+                analysis.add(Analysis.INFO_OPT_PERM_SIZE);
+            ***REMOVED***
         ***REMOVED***
-        if (permSize != null) {
-            analysis.add(Analysis.INFO_OPT_PERM_SIZE);
-        ***REMOVED***
+
         // Check heap dump options
         if (heapDumpOnOutOfMemoryError == null) {
             analysis.add(Analysis.INFO_OPT_HEAP_DUMP_ON_OOME_MISSING);
@@ -2099,53 +2105,55 @@ public class JvmOptions {
         ***REMOVED***
 
         // Compressed object references should only be used when heap < 32G
-        boolean heapLessThan32G = true;
-        BigDecimal thirtyTwoGigabytes = new BigDecimal("32").multiply(Constants.GIGABYTE);
-        if (maxHeapSize != null && JdkUtil
-                .getByteOptionBytes(JdkUtil.getByteOptionValue(maxHeapSize)) >= thirtyTwoGigabytes.longValue()) {
-            heapLessThan32G = false;
-        ***REMOVED***
-        if (heapLessThan32G) {
-            // Should use compressed object pointers
-            if (JdkUtil.isOptionDisabled(useCompressedOops)) {
-                if (maxHeapSize == null) {
-                    // Heap size unknown
-                    analysis.add(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK);
+        if (!(javaSpecification == JavaSpecification.JDK6 || javaSpecification == JavaSpecification.JDK7)) {
+            boolean heapLessThan32G = true;
+            BigDecimal thirtyTwoGigabytes = new BigDecimal("32").multiply(Constants.GIGABYTE);
+            if (maxHeapSize != null && JdkUtil
+                    .getByteOptionBytes(JdkUtil.getByteOptionValue(maxHeapSize)) >= thirtyTwoGigabytes.longValue()) {
+                heapLessThan32G = false;
+            ***REMOVED***
+            if (heapLessThan32G) {
+                // Should use compressed object pointers
+                if (JdkUtil.isOptionDisabled(useCompressedOops)) {
+                    if (maxHeapSize == null) {
+                        // Heap size unknown
+                        analysis.add(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK);
+                    ***REMOVED*** else {
+                        // Heap < 32G
+                        analysis.add(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G);
+                    ***REMOVED***
+                    if (compressedClassSpaceSize != null) {
+                        analysis.add(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_OOPS_DISABLED);
+                    ***REMOVED***
+                ***REMOVED*** else if (JdkUtil.isOptionDisabled(useCompressedClassPointers)) {
+                    // Should use compressed class pointers
+                    if (maxHeapSize == null) {
+                        // Heap size unknown
+                        analysis.add(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK);
+                    ***REMOVED*** else {
+                        // Heap < 32G
+                        analysis.add(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_LT_32G);
+                    ***REMOVED***
+                    if (compressedClassSpaceSize != null) {
+                        analysis.add(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_CLASS_DISABLED);
+                    ***REMOVED***
                 ***REMOVED*** else {
-                    // Heap < 32G
-                    analysis.add(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G);
-                ***REMOVED***
-                if (compressedClassSpaceSize != null) {
-                    analysis.add(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_OOPS_DISABLED);
-                ***REMOVED***
-            ***REMOVED*** else if (JdkUtil.isOptionDisabled(useCompressedClassPointers)) {
-                // Should use compressed class pointers
-                if (maxHeapSize == null) {
-                    // Heap size unknown
-                    analysis.add(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK);
-                ***REMOVED*** else {
-                    // Heap < 32G
-                    analysis.add(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_LT_32G);
-                ***REMOVED***
-                if (compressedClassSpaceSize != null) {
-                    analysis.add(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_CLASS_DISABLED);
+                    analysis.add(Analysis.INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE);
                 ***REMOVED***
             ***REMOVED*** else {
-                analysis.add(Analysis.INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE);
-            ***REMOVED***
-        ***REMOVED*** else {
-            // Should not use compressed object pointers
-            if (JdkUtil.isOptionEnabled(useCompressedOops)) {
-                analysis.add(Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G);
-            ***REMOVED*** else if (JdkUtil.isOptionEnabled(useCompressedClassPointers)) {
-                // Should not use compressed class pointers
-                analysis.add(Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G);
-            ***REMOVED*** else {
-                analysis.add(Analysis.INFO_OPT_METASPACE_CLASS_METADATA);
-            ***REMOVED***
-            // Should not be setting class pointer space size
-            if (compressedClassSpaceSize != null) {
-                analysis.add(Analysis.WARN_OPT_COMP_CLASS_SIZE_HEAP_GT_32G);
+                // Should not use compressed object pointers
+                if (JdkUtil.isOptionEnabled(useCompressedOops)) {
+                    analysis.add(Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G);
+                ***REMOVED*** else if (JdkUtil.isOptionEnabled(useCompressedClassPointers)) {
+                    // Should not use compressed class pointers
+                    analysis.add(Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G);
+                ***REMOVED*** else {
+                    analysis.add(Analysis.INFO_OPT_METASPACE_CLASS_METADATA);
+                ***REMOVED***
+                // Should not be setting class pointer space size
+                if (compressedClassSpaceSize != null) {
+                    analysis.add(Analysis.WARN_OPT_COMP_CLASS_SIZE_HEAP_GT_32G);
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         // Check for verbose class loading/unloading logging

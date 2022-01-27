@@ -298,7 +298,8 @@ public class FatalErrorLog {
      */
     public void doAnalysis() {
         // Unidentified logging lines
-        if (!getUnidentifiedLogLines().isEmpty()) {
+        if (!(getJavaSpecification() == JavaSpecification.JDK6 || getJavaSpecification() == JavaSpecification.JDK7)
+                && !getUnidentifiedLogLines().isEmpty()) {
             analysis.add(0, Analysis.WARN_UNIDENTIFIED_LOG_LINE);
         ***REMOVED***
         String jvmArgs = getJvmArgs();
@@ -307,7 +308,7 @@ public class FatalErrorLog {
         ***REMOVED***
         doDataAnalysis();
         if (jvmOptions != null) {
-            jvmOptions.doAnalysis(analysis);
+            jvmOptions.doAnalysis(analysis, getJavaSpecification());
         ***REMOVED***
     ***REMOVED***
 
