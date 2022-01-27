@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,9 +28,9 @@ import org.junit.jupiter.api.Test;
 class TestJdkUtil {
 
     @Test
-    void testJdk8UpdateNumber() {
-        String jdk8ReleaseString = "1.8.0_222-b10";
-        assertEquals(222, JdkUtil.getJdk8UpdateNumber(jdk8ReleaseString), "JDK8 update number not correct.");
+    void testByteOptionBytes() {
+        assertEquals(512L * 1024, JdkUtil.getByteOptionBytes("512k"), "-Xss not correct.");
+        assertEquals(2048L * 1024 * 1024, JdkUtil.getByteOptionBytes("2048m"), "-XX:MaxMetaspaceSize not correct.");
     ***REMOVED***
 
     @Test
@@ -40,24 +41,9 @@ class TestJdkUtil {
     ***REMOVED***
 
     @Test
-    void testOptionEnabled() {
-        assertTrue(JdkUtil.isOptionEnabled("-XX:+PrintFlagsFinal"), "-XX:+PrintFlagsFinal not identified as enabled.");
-        assertFalse(JdkUtil.isOptionEnabled("-XX:-TraceClassUnloading"),
-                "-XX:-TraceClassUnloading incorrectly identified as enabled.");
-    ***REMOVED***
-
-    @Test
-    void testOptionDisabled() {
-        assertFalse(JdkUtil.isOptionDisabled("-XX:+PrintFlagsFinal"),
-                "-XX:+PrintFlagsFinal incorrectly identified as disabled.");
-        assertTrue(JdkUtil.isOptionDisabled("-XX:-TraceClassUnloading"),
-                "-XX:-TraceClassUnloading not identified as enabled.");
-    ***REMOVED***
-
-    @Test
-    void testByteOptionBytes() {
-        assertEquals(512L * 1024, JdkUtil.getByteOptionBytes("512k"), "-Xss not correct.");
-        assertEquals(2048L * 1024 * 1024, JdkUtil.getByteOptionBytes("2048m"), "-XX:MaxMetaspaceSize not correct.");
+    void testJdk8UpdateNumber() {
+        String jdk8ReleaseString = "1.8.0_222-b10";
+        assertEquals(222, JdkUtil.getJdk8UpdateNumber(jdk8ReleaseString), "JDK8 update number not correct.");
     ***REMOVED***
 
     @Test
@@ -70,4 +56,28 @@ class TestJdkUtil {
         assertEquals(282, JdkUtil.getJdk8UpdateNumber("8.0_282-b08"), "Update number not correct.");
     ***REMOVED***
 
+    @Test
+    void testJdkVersionNumber17() {
+        assertEquals(17, JdkUtil.getJavaSpecificationNumber(JavaSpecification.JDK17), "Update number not correct.");
+    ***REMOVED***
+
+    @Test
+    void testJdkVersionNumber8() {
+        assertEquals(8, JdkUtil.getJavaSpecificationNumber(JavaSpecification.JDK8), "Update number not correct.");
+    ***REMOVED***
+
+    @Test
+    void testOptionDisabled() {
+        assertFalse(JdkUtil.isOptionDisabled("-XX:+PrintFlagsFinal"),
+                "-XX:+PrintFlagsFinal incorrectly identified as disabled.");
+        assertTrue(JdkUtil.isOptionDisabled("-XX:-TraceClassUnloading"),
+                "-XX:-TraceClassUnloading not identified as enabled.");
+    ***REMOVED***
+
+    @Test
+    void testOptionEnabled() {
+        assertTrue(JdkUtil.isOptionEnabled("-XX:+PrintFlagsFinal"), "-XX:+PrintFlagsFinal not identified as enabled.");
+        assertFalse(JdkUtil.isOptionEnabled("-XX:-TraceClassUnloading"),
+                "-XX:-TraceClassUnloading incorrectly identified as enabled.");
+    ***REMOVED***
 ***REMOVED***

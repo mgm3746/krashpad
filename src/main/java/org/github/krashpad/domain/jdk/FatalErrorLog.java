@@ -298,8 +298,7 @@ public class FatalErrorLog {
      */
     public void doAnalysis() {
         // Unidentified logging lines
-        if (!(getJavaSpecification() == JavaSpecification.JDK6 || getJavaSpecification() == JavaSpecification.JDK7)
-                && !getUnidentifiedLogLines().isEmpty()) {
+        if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) >= 8 && !getUnidentifiedLogLines().isEmpty()) {
             analysis.add(0, Analysis.WARN_UNIDENTIFIED_LOG_LINE);
         ***REMOVED***
         String jvmArgs = getJvmArgs();
@@ -398,7 +397,9 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for JDK8 ZipFile contention
-        if (getJavaSpecification() == JavaSpecification.JDK8 && getStackFrameTopCompiledJavaCode() != null
+        if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) >= 6
+                && JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) <= 8
+                && getStackFrameTopCompiledJavaCode() != null
                 && getStackFrameTopCompiledJavaCode().matches("^.+java\\.util\\.zip\\.ZipFile\\.getEntry.+$")) {
             analysis.add(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION);
         ***REMOVED***

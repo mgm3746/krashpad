@@ -748,7 +748,7 @@ public class Main {
             ***REMOVED***
 
             // Unidentified log lines
-            if (!fel.getAnalysis().contains(Analysis.ERROR_JDK_VERSION_UNSUPPORTED)) {
+            //if (!fel.getAnalysis().contains(Analysis.ERROR_JDK_VERSION_UNSUPPORTED)) {
                 List<String> unidentifiedLogLines = fel.getUnidentifiedLogLines();
                 if (!unidentifiedLogLines.isEmpty()) {
                     printWriter.write(
@@ -763,7 +763,7 @@ public class Main {
                     ***REMOVED***
                     printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-            ***REMOVED***
+    //        ***REMOVED***
         ***REMOVED*** catch (FileNotFoundException e) {
             e.printStackTrace();
         ***REMOVED*** catch (IOException e) {

@@ -141,9 +141,8 @@ public class JdkUtil {
         // Oracle: "mach5one" is the name of their build/test system? Replace by "java_re"?
         MACH5ONE,
         // Red Hat, CentOS
-        MOCKBUILD, UNKNOWN,
-        // Azul
-        TESTER,
+        MOCKBUILD, // Azul
+        TESTER, UNKNOWN,
         // Microsoft
         VSTS,
         // Azul
@@ -1119,6 +1118,19 @@ public class JdkUtil {
             ***REMOVED***
         ***REMOVED***
         return number;
+    ***REMOVED***
+
+    /**
+     * @param version
+     *            The JDK version.
+     * @return The Java specification as a release number that can be used for comparing release order.
+     */
+    public static final int getJavaSpecificationNumber(JavaSpecification version) {
+        int javaSpecificationNumber = Integer.MIN_VALUE;
+        if (version != JavaSpecification.UNKNOWN) {
+            javaSpecificationNumber = Integer.parseInt(version.toString().substring(3));
+        ***REMOVED***
+        return javaSpecificationNumber;
     ***REMOVED***
 
     /**
