@@ -616,6 +616,11 @@ public enum Analysis {
      * Property key for outputting class unloading information (-XX:+TraceClassUnloading).
      */
     INFO_OPT_TRACE_CLASS_UNLOADING("info.opt.trace.class.unloading"),
+    
+    /**
+     * Property key for outputting class loading information (-XX:+TraceClassLoading).
+     */
+    INFO_OPT_TRACE_CLASS_LOADING("info.opt.trace.class.loading"),
 
     /**
      * Property key for undefined JVM option(s).

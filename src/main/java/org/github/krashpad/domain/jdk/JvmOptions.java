@@ -2429,6 +2429,10 @@ public class JvmOptions {
         if (JdkUtil.isOptionEnabled(printStringDeduplicationStatistics)) {
             analysis.add(Analysis.INFO_OPT_JDK8_PRINT_STRING_DEDUP_STATS_ENABLED);
         ***REMOVED***
+        // Check for trace class loading enabled with -XX:+TraceClassLoading
+        if (JdkUtil.isOptionEnabled(traceClassLoading)) {
+            analysis.add(Analysis.INFO_OPT_TRACE_CLASS_LOADING);
+        ***REMOVED***
         // Check for trace class unloading enabled with -XX:+TraceClassUnloading
         if (JdkUtil.isOptionEnabled(traceClassUnloading)) {
             analysis.add(Analysis.INFO_OPT_TRACE_CLASS_UNLOADING);

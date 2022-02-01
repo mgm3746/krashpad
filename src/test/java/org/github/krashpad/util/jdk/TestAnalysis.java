@@ -2339,9 +2339,17 @@ class TestAnalysis {
                 Analysis.INFO_OPT_TIERED_COMPILATION_ENABLED + " analysis not identified.");
     ***REMOVED***
 
-    /**
-     * Test if -XX:+TraceClassUnloading enabled
-     */
+    @Test
+    void testTraceClassLoading() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+TraceClassLoading -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_TRACE_CLASS_LOADING),
+                Analysis.INFO_OPT_TRACE_CLASS_LOADING + " analysis not identified.");
+    ***REMOVED***
+
     @Test
     void testTraceClassUnloading() {
         FatalErrorLog fel = new FatalErrorLog();
