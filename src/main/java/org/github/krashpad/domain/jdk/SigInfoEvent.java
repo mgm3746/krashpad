@@ -52,7 +52,7 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  * </pre>
  * 
  * <p>
- * 3) SI_USER
+ * 3) SI_USER:
  * </p>
  * 
  * <pre>

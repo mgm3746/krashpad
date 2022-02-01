@@ -1245,7 +1245,16 @@ public class JvmOptions {
     private String tieredCompilation;
 
     /**
-     * Option to enable/disable class loading/unloading information in gc log. For example:
+     * Option to enable/disable tracing class loading. Removed in JDK17. For example:
+     * 
+     * <pre>
+     * -XX:+TraceClassLoading.
+     * </pre>
+     */
+    private String traceClassLoading;
+
+    /**
+     * Option to enable/disable class loading/unloading information in gc log. Removed JDK17. For example:
      * 
      * <pre>
      * -XX:-TraceClassUnloading
@@ -1925,6 +1934,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-(X)?(ss|X:ThreadStackSize=)" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     threadStackSize = option;
                     key = "ThreadStackSize";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]TraceClassLoading$")) {
+                    traceClassLoading = option;
+                    key = "TraceClassLoading";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]TraceClassUnloading$")) {
                     traceClassUnloading = option;
                     key = "TraceClassUnloading";
@@ -3048,6 +3060,10 @@ public class JvmOptions {
 
     public String getTieredCompilation() {
         return tieredCompilation;
+    ***REMOVED***
+
+    public String getTraceClassLoading() {
+        return traceClassLoading;
     ***REMOVED***
 
     public String getTraceClassUnloading() {

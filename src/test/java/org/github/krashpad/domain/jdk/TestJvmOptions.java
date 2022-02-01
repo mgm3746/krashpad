@@ -336,6 +336,13 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testTraceClassLoading() {
+        String jvmArgs = "-Xmx1500m -Xms1000m -XX:-TraceClassLoading -Xss512k";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:-TraceClassLoading", jvmOptions.getTraceClassLoading(), "TraceClassLoading not correct.");
+    ***REMOVED***
+
+    @Test
     void testTraceClassUnloading() {
         String jvmArgs = "-Xmx1500m -Xms1000m -XX:-TraceClassUnloading -Xss512k";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
