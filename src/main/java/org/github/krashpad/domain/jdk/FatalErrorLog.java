@@ -874,6 +874,10 @@ public class FatalErrorLog {
                 && !getRhelVersion().matches(getJdkRhelVersion())) {
             analysis.add(0, Analysis.ERROR_RHEL_JDK_RPM_MISMATCH);
         ***REMOVED***
+        // Crash in HashMap
+        if (getStackFrameTop() != null && getStackFrameTop().matches("^J.+java\\.util\\.HashMap.+$")) {
+            analysis.add(Analysis.ERROR_HASHMAP);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {

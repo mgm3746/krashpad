@@ -66,6 +66,11 @@ public enum Analysis {
     ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE("error.g1_par_scan_thread_state.copy_to_survivor_space"),
 
     /**
+     * Property key for a crash in java.util.HashMap.
+     */
+    ERROR_HASHMAP("error.hashmap"),
+
+    /**
      * Property key for heap + metaspace &gt; physical memory.
      */
     ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY("error.heap.plus.metaspace.gt.physical.memory"),
@@ -613,14 +618,14 @@ public enum Analysis {
     INFO_OPT_TIERED_COMPILATION_ENABLED("info.opt.tiered.compilation.enabled"),
 
     /**
-     * Property key for outputting class unloading information (-XX:+TraceClassUnloading).
-     */
-    INFO_OPT_TRACE_CLASS_UNLOADING("info.opt.trace.class.unloading"),
-    
-    /**
      * Property key for outputting class loading information (-XX:+TraceClassLoading).
      */
     INFO_OPT_TRACE_CLASS_LOADING("info.opt.trace.class.loading"),
+
+    /**
+     * Property key for outputting class unloading information (-XX:+TraceClassUnloading).
+     */
+    INFO_OPT_TRACE_CLASS_UNLOADING("info.opt.trace.class.unloading"),
 
     /**
      * Property key for undefined JVM option(s).
