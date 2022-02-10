@@ -658,6 +658,18 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testRhSso() {
+        String logLine = "  0x00005587a9039000 JavaThread \"Brute Force Protector\" [_thread_blocked, id=6073, "
+                + "stack(0x00007f5abb897000,0x00007f5abb998000)]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
+                JdkUtil.LogEventType.THREAD.toString() + " not identified.");
+        ThreadEvent event = new ThreadEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getThreadEvents().add(event);
+        assertEquals(Application.RHSSO, fel.getApplication(), "RHSSO application not identified.");
+    ***REMOVED***
+
+    @Test
     void testRhWindowsReleaseWith2BuildDateTimes() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset25.txt");
         Manager manager = new Manager();

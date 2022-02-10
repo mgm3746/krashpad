@@ -889,6 +889,7 @@ public class FatalErrorLog {
      */
     public Application getApplication() {
         Application application = Application.UNKNOWN;
+        // Check libraries
         if (!dynamicLibraryEvents.isEmpty()) {
             Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
             while (iterator.hasNext()) {
@@ -902,6 +903,19 @@ public class FatalErrorLog {
                 ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_JAR)) {
                     application = Application.TOMCAT;
                     break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        // Check threads
+        if (application == Application.UNKNOWN) {
+            if (!threadEvents.isEmpty()) {
+                Iterator<ThreadEvent> iterator = threadEvents.iterator();
+                while (iterator.hasNext()) {
+                    ThreadEvent event = iterator.next();
+                    if (event.getLogEntry() != null && event.getLogEntry().matches(JdkRegEx.RHSSO_THREAD)) {
+                        application = Application.RHSSO;
+                        break;
+                    ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***

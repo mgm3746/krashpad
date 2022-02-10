@@ -116,7 +116,29 @@ public class JdkUtil {
      */
     public enum Application {
         //
-        AMQ, AMQ_CLI, JBOSS_EAP6, JBOSS_EAP7, JBOSS_VERSION, KAFKA, TOMCAT, TOMCAT_SHUTDOWN, UNKNOWN, WILDFLY
+        AMQ,
+        //
+        AMQ_CLI,
+        //
+        JBOSS_EAP6,
+        //
+        JBOSS_EAP7,
+        //
+        JBOSS_VERSION,
+        //
+        KAFKA,
+        //
+        TOMCAT,
+        //
+        TOMCAT_SHUTDOWN,
+        //
+        RHSSO,
+        //
+        UNKNOWN,
+        /**
+         * Upstream WildFly or an unidentified derivative (e.g. EAP, RHSSO, etc.).
+         */
+        WILDFLY
     ***REMOVED***
 
     /**

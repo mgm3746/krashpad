@@ -368,6 +368,15 @@ public class JdkRegEx {
             + "\\/jre\\/lib\\/(amd64|ppc64(le)?)\\/server\\/libjvm\\.so";
 
     /**
+     * RHSSO thread used for <code>Application</code> identification.
+     * 
+     * For example:
+     * 
+     * 0x00005587a9039000 JavaThread "Brute Force Protector" [_thread_blocked, id=6073,
+     * stack(0x00007f5abb897000,0x00007f5abb998000)]
+     */
+    public static final String RHSSO_THREAD = "^.+\"Brute Force Protector\".+$";
+    /**
      * The size of memory in bytes (B), kilobytes (K), megabytes (M), or gigabytes (G) to a whole number or to one
      * decimal place.
      * 
@@ -382,6 +391,7 @@ public class JdkRegEx {
      * With comma: 306,0M
      */
     public static final String SIZE = "(\\d{1,10***REMOVED***([\\.,]\\d)?)([" + BYTES + KILOBYTES + MEGABYTES + GIGABYTES + "])";
+
     /**
      * The size of memory in kilobytes (KB), megabytes (MB), or gigabytes (GB) to two decimal places. For example:
      * 
