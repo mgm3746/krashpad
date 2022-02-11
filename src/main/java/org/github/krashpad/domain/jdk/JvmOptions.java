@@ -58,7 +58,7 @@ public class JvmOptions {
      * -add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED
      * </pre>
      */
-    private String addExports;
+    private ArrayList<String> addExports = new ArrayList<String>();
 
     /**
      * Runtime modules. For example:
@@ -67,7 +67,16 @@ public class JvmOptions {
      * --add-modules=ALL-SYSTEM
      * </pre>
      */
-    private String addModules;
+    private ArrayList<String> addModules = new ArrayList<String>();
+
+    /**
+     * Used to allow deep reflection to access nonpublic members. For example:
+     * 
+     * <pre>
+     * --add-opens=java.base/java.security=ALL-UNNAMED
+     * </pre>
+     */
+    private ArrayList<String> addOpens = new ArrayList<String>();
 
     /**
      * JVM options java instrumentation.
@@ -1584,10 +1593,13 @@ public class JvmOptions {
             for (int i = 0; i < opts.length; i++) {
                 String option = opts[i].trim();
                 if (option.matches("^--add-exports=.+$")) {
-                    addExports = option;
+                    addExports.add(option);
                     key = option;
                 ***REMOVED*** else if (option.matches("^--add-modules=.+$")) {
-                    addModules = option;
+                    addModules.add(option);
+                    key = option;
+                ***REMOVED*** else if (option.matches("^--add-opens=.+$")) {
+                    addOpens.add(option);
                     key = option;
                 ***REMOVED*** else if (option.matches("^-agentlib:jdwp=transport=dt_socket.+$")) {
                     jpdaSocketTransport = option;
@@ -2522,12 +2534,16 @@ public class JvmOptions {
         return adaptiveSizePolicyWeight;
     ***REMOVED***
 
-    public String getAddExports() {
+    public ArrayList<String> getAddExports() {
         return addExports;
     ***REMOVED***
 
-    public String getAddModules() {
+    public ArrayList<String> getAddModules() {
         return addModules;
+    ***REMOVED***
+
+    public ArrayList<String> getAddOpens() {
+        return addOpens;
     ***REMOVED***
 
     public ArrayList<String> getAgentpath() {
