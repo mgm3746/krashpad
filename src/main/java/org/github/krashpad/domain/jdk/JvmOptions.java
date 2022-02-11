@@ -2283,6 +2283,7 @@ public class JvmOptions {
                 BigDecimal fiveGigabytes = new BigDecimal("5").multiply(Constants.MEGABYTE);
                 if (JdkUtil.getByteOptionBytes(filesize) < fiveGigabytes.longValue()) {
                     analysis.add(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_SMALL);
+                    break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
