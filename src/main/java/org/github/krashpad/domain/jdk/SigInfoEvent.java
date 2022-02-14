@@ -64,7 +64,7 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  */
 public class SigInfoEvent implements LogEvent {
 
-    private static Pattern pattern = Pattern.compile(SigInfoEvent.REGEX);
+    private static final Pattern PATTERN;
 
     /**
      * Regular expression defining the logging.
@@ -77,6 +77,10 @@ public class SigInfoEvent implements LogEvent {
             + JdkRegEx.ADDRESS
             + "|sent from pid: \\d{1,***REMOVED*** \\(uid: \\d{1,***REMOVED***\\)))|(ExceptionCode=|EXCEPTION_ACCESS_VIOLATION \\()"
             + JdkRegEx.ADDRESS + "[\\)]{0,1***REMOVED***, reading address " + JdkRegEx.ADDRESS + ")$";
+
+    static {
+        PATTERN = Pattern.compile(SigInfoEvent.REGEX);
+    ***REMOVED***
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -117,7 +121,7 @@ public class SigInfoEvent implements LogEvent {
      */
     public String getSignalAddress() {
         String address = null;
-        Matcher matcher = pattern.matcher(logEntry);
+        Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
             if (matcher.group(6) != null) {
                 address = matcher.group(6);
@@ -131,7 +135,7 @@ public class SigInfoEvent implements LogEvent {
      */
     public SignalCode getSignalCode() {
         SignalCode code = SignalCode.UNKNOWN;
-        Matcher matcher = pattern.matcher(logEntry);
+        Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
             // Linux
             if (matcher.group(4) != null) {
@@ -162,7 +166,7 @@ public class SigInfoEvent implements LogEvent {
      */
     public SignalNumber getSignalNumber() {
         SignalNumber number = SignalNumber.UNKNOWN;
-        Matcher matcher = pattern.matcher(logEntry);
+        Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
             // Linux
             if (matcher.group(3) != null) {

@@ -41,12 +41,16 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class CurrentThreadEvent implements LogEvent {
 
-    private static Pattern pattern = Pattern.compile(CurrentThreadEvent.REGEX);
+    private static final Pattern PATTERN;
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^Current thread( \\(" + JdkRegEx.ADDRESS + "\\):)?[ ]{1,2***REMOVED***(.+)$";
+
+    static {
+        PATTERN = Pattern.compile(CurrentThreadEvent.REGEX);
+    ***REMOVED***
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -79,7 +83,7 @@ public class CurrentThreadEvent implements LogEvent {
      */
     public String getCurrentThread() {
         String currentThread = null;
-        Matcher matcher = pattern.matcher(logEntry);
+        Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
             currentThread = matcher.group(7);
         ***REMOVED***

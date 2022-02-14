@@ -693,7 +693,6 @@ public class Main {
             if (cmd.hasOption(Constants.OPTION_HELP_LONG)) {
                 usage(options);
             ***REMOVED*** else {
-
                 String logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
                 File logFile = new File(logFileName);
                 Manager manager = new Manager();
