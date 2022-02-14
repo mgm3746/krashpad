@@ -98,6 +98,7 @@ import org.github.krashpad.domain.jdk.VmInfoEvent;
 import org.github.krashpad.domain.jdk.VmMutexEvent;
 import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.domain.jdk.VmStateEvent;
+import org.github.krashpad.domain.jdk.VirtualizationInfoEvent;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.OsVersion;
 
@@ -251,7 +252,7 @@ public class JdkUtil {
         //
         TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN,
         //
-        VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
+        VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
     ***REMOVED***
 
     /**
@@ -1453,6 +1454,8 @@ public class JdkUtil {
             logEventType = LogEventType.VM_OPERATION;
         ***REMOVED*** else if (VmStateEvent.match(logLine)) {
             logEventType = LogEventType.VM_STATE;
+        ***REMOVED*** else if (VirtualizationInfoEvent.match(logLine)) {
+            logEventType = LogEventType.VIRTUALIZATION_INFO;
         ***REMOVED***
         return logEventType;
     ***REMOVED***
@@ -1739,6 +1742,9 @@ public class JdkUtil {
             break;
         case VM_STATE:
             event = new VmStateEvent(logLine);
+            break;
+        case VIRTUALIZATION_INFO:
+            event = new VirtualizationInfoEvent(logLine);
             break;
         default:
             throw new AssertionError("Unexpected event type value: " + eventType);

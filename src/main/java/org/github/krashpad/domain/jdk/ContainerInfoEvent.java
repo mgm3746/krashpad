@@ -57,8 +57,7 @@ public class ContainerInfoEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|active_processor|container_type|cpu_|KVM|memory_|"
-            + "Steal ticks|(HyperV|VMWare) virtualization detected).*$";
+    private static final String REGEX = "^(" + REGEX_HEADER + "|active_processor|container_type|cpu_|memory_).*$";
 
     /**
      * The log entry for the event.

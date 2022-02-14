@@ -82,22 +82,8 @@ class TestContainerInfoEvent {
     ***REMOVED***
 
     @Test
-    void testHyperV() {
-        String logLine = "HyperV virtualization detected";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
-                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
     void testIdentity() {
         String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
-                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testKvmVirtualizationDetected() {
-        String logLine = "KVM virtualization detected";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     ***REMOVED***
@@ -142,26 +128,5 @@ class TestContainerInfoEvent {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ContainerInfoEvent,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testStealTicks() {
-        String logLine = "Steal ticks since vm start: 152";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
-                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testStealTicksPercentage() {
-        String logLine = "Steal ticks percentage since vm start:  0.000";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
-                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testVmWare() {
-        String logLine = "VMWare virtualization detected";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
-                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

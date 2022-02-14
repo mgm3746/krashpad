@@ -61,6 +61,7 @@ import org.github.krashpad.domain.jdk.TimeElapsedTimeEvent;
 import org.github.krashpad.domain.jdk.TimeEvent;
 import org.github.krashpad.domain.jdk.TimezoneEvent;
 import org.github.krashpad.domain.jdk.UnameEvent;
+import org.github.krashpad.domain.jdk.VirtualizationInfoEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
 import org.github.krashpad.domain.jdk.VmOperationEvent;
@@ -129,6 +130,8 @@ public class Manager {
                         fatalErrorLog.getEnvironmentVariablesEvents().add((EnvironmentVariablesEvent) event);
                     ***REMOVED*** else if (event instanceof ElapsedTimeEvent) {
                         fatalErrorLog.setElapsedTimeEvent((ElapsedTimeEvent) event);
+                    ***REMOVED*** else if (event instanceof EventEvent) {
+                        fatalErrorLog.getEventEvents().add((EventEvent) event);
                     ***REMOVED*** else if (event instanceof ExceptionCountsEvent) {
                         fatalErrorLog.getExceptionCountsEvents().add((ExceptionCountsEvent) event);
                     ***REMOVED*** else if (event instanceof GcPreciousLogEvent) {
@@ -204,10 +207,10 @@ public class Manager {
                     ***REMOVED*** else if (event instanceof UnknownEvent
                             && fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
                         fatalErrorLog.getUnidentifiedLogLines().add(logLine);
+                    ***REMOVED*** else if (event instanceof VirtualizationInfoEvent) {
+                        fatalErrorLog.getVirtualizationInfoEvents().add((VirtualizationInfoEvent) event);
                     ***REMOVED*** else if (event instanceof VmArgumentsEvent) {
                         fatalErrorLog.getVmArgumentsEvents().add((VmArgumentsEvent) event);
-                    ***REMOVED*** else if (event instanceof EventEvent) {
-                        fatalErrorLog.getEventEvents().add((EventEvent) event);
                     ***REMOVED*** else if (event instanceof VmInfoEvent) {
                         fatalErrorLog.setVmInfoEvent((VmInfoEvent) event);
                     ***REMOVED*** else if (event instanceof VmOperationEvent) {

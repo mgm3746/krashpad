@@ -245,6 +245,11 @@ public class FatalErrorLog {
     private List<String> unidentifiedLogLines;
 
     /**
+     * VMware information.
+     */
+    private List<VirtualizationInfoEvent> virtualizationInfoEvents;
+
+    /**
      * VM arguments information.
      */
     private List<VmArgumentsEvent> vmArgumentsEvents;
@@ -276,6 +281,7 @@ public class FatalErrorLog {
         deoptimizationEvents = new ArrayList<DeoptimizationEvent>();
         dynamicLibraryEvents = new ArrayList<DynamicLibraryEvent>();
         environmentVariablesEvents = new ArrayList<EnvironmentVariablesEvent>();
+        eventEvents = new ArrayList<EventEvent>();
         exceptionCountsEvents = new ArrayList<ExceptionCountsEvent>();
         gcPreciousLogEvents = new ArrayList<GcPreciousLogEvent>();
         globalFlagsEvents = new ArrayList<GlobalFlagsEvent>();
@@ -290,7 +296,7 @@ public class FatalErrorLog {
         threadEvents = new ArrayList<ThreadEvent>();
         unidentifiedLogLines = new ArrayList<String>();
         vmArgumentsEvents = new ArrayList<VmArgumentsEvent>();
-        eventEvents = new ArrayList<EventEvent>();
+        virtualizationInfoEvents = new ArrayList<VirtualizationInfoEvent>();
     ***REMOVED***
 
     /**
@@ -2979,6 +2985,10 @@ public class FatalErrorLog {
         return username;
     ***REMOVED***
 
+    public List<VirtualizationInfoEvent> getVirtualizationInfoEvents() {
+        return virtualizationInfoEvents;
+    ***REMOVED***
+
     public List<VmArgumentsEvent> getVmArgumentsEvents() {
         return vmArgumentsEvents;
     ***REMOVED***
@@ -3797,10 +3807,10 @@ public class FatalErrorLog {
      */
     public boolean isVMWareEnvironment() {
         boolean isVMWareEnvironment = false;
-        if (!containerInfoEvents.isEmpty()) {
-            Iterator<ContainerInfoEvent> iterator = containerInfoEvents.iterator();
+        if (!virtualizationInfoEvents.isEmpty()) {
+            Iterator<VirtualizationInfoEvent> iterator = virtualizationInfoEvents.iterator();
             while (iterator.hasNext()) {
-                ContainerInfoEvent event = iterator.next();
+                VirtualizationInfoEvent event = iterator.next();
                 if (event.getLogEntry().matches("^VMWare virtualization detected$")) {
                     isVMWareEnvironment = true;
                     break;

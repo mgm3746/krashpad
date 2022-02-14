@@ -15,62 +15,52 @@
 package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.domain.ThrowAwayEvent;
-import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * REGISTER_TO_MEMORY_MAPPING
+ * VMWARE_INFO
  * </p>
  * 
  * <p>
- * Register to memory mapping information.
+ * Container information.
  * </p>
  * 
  * <h3>Example Logging</h3>
  * 
  * <pre>
  * ***REMOVED***
- * 
- * RAX=0x0000000000000001 is an unknown value
- * RBX=0x00007f67383dc748 is an unknown value
- * RCX=0x0000000000000004 is an unknown value
- * RDX=0x00007f69b031f898 is an oop
- * java.util.LinkedList$Node 
-  * - klass: 'java/util/LinkedList$Node'
- * RSP=0x00007fcbcc676c50 is an unknown value
- * RBP=0x00007fcbcc676cb0 is an unknown value
- * RSI=0x0000000000000000 is an unknown value
- * RDI=0x00007f69b031f898 is an oop
- * java.util.LinkedList$Node 
-  * - klass: 'java/util/LinkedList$Node'
- * R8 =0x0000000000000005 is an unknown value
- * R9 =0x0000000000000010 is an unknown value
- * R10=0x0000000000000000 is an unknown value
- * R11=0x0000000000000000 is an unknown value
- * R12=0x00007f673d50bfe0 is pointing into metadata
+ * ***REMOVED***
+ * cpu_cpuset_cpus: 0-7
+ * cpu_memory_nodes: 0
+ * active_processor_count: 8
+ * ***REMOVED***
+ * ***REMOVED***
+ * ***REMOVED***
+ * ***REMOVED***
+ * ***REMOVED***
+ * ***REMOVED***
+ * memory_usage_in_bytes: 3469758464
+ * memory_max_usage_in_bytes: 0
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class RegisterToMemoryMappingEvent implements LogEvent, ThrowAwayEvent {
+public class VirtualizationInfoEvent implements LogEvent {
 
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "***REMOVED***";
+    private static final String REGEX_HEADER = "(HyperV|KVM|VMWare) virtualization detected";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|" + JdkRegEx.REGISTER
-            + "|java\\..+|Adapter for signature:.+|\\[[BCIL]([a-z]{1,***REMOVED***\\..+)?|BufferBlob.+|\\[CodeBlob.+|"
-            + "Framesize.+| - (klass|length):.+|\\{" + JdkRegEx.ADDRESS
-            + "\\***REMOVED*** - klass:.+|([R|r][ ]{0,1***REMOVED***\\d{1,2***REMOVED***[ ]{0,1***REMOVED***|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
-            + "\\[error occurred during error reporting \\(printing register info\\).+|invoke return entry points.+|"
-            + "method entry point.+|(i)?return.+|StubRoutines.+)[ ]{0,***REMOVED***$";
+    private static final String REGEX = "^(" + REGEX_HEADER
+            + "|guest\\.mem\\.|host\\.cpu\\.|ovhd\\.mem\\.|Steal ticks|vm\\.cpu\\.|vm\\.numa\\.|"
+            + "vSphere host information:|vSphere resource information available now:|"
+            + "vSphere resource information collected at VM startup:).*$";
 
     /**
      * The log entry for the event.
@@ -83,7 +73,7 @@ public class RegisterToMemoryMappingEvent implements LogEvent, ThrowAwayEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public RegisterToMemoryMappingEvent(String logEntry) {
+    public VirtualizationInfoEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -92,7 +82,7 @@ public class RegisterToMemoryMappingEvent implements LogEvent, ThrowAwayEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString();
+        return JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString();
     ***REMOVED***
 
     /**

@@ -50,8 +50,8 @@ class TestJvmOptions {
     void testAddExports() {
         String jvmArgs = "-Xmx1g --add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED", jvmOptions.getAddExports(),
-                "NewRatio not correct.");
+        assertEquals("--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED", jvmOptions.getAddExports().get(0),
+                "--add-exports not correct.");
     ***REMOVED***
 
     @Test
