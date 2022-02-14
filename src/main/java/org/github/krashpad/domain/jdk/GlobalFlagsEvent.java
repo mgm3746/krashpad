@@ -60,18 +60,29 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class GlobalFlagsEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(GlobalFlagsEvent.REGEX);
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + GlobalFlagsEvent.REGEX_HEADER
+            + "|[ ]{0,***REMOVED***(bool|ccstr|ccstrlist|intx|size_t|uint|uintx))(.*)$";
+
     /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "\\[Global flags\\]";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "|[ ]{0,***REMOVED***(bool|ccstr|ccstrlist|intx|size_t|uint|uintx))(.*)$";
-
-    private static Pattern pattern = Pattern.compile(REGEX);
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -94,17 +105,6 @@ public class GlobalFlagsEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.GLOBAL_FLAGS.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 
     /**

@@ -55,6 +55,17 @@ public class CompressedClassSpaceEvent implements LogEvent {
     private static final String REGEX = "^Compressed class space (size|mapped at):.*$";
 
     /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
+
+    /**
      * The log entry for the event.
      */
     private String logEntry;
@@ -75,16 +86,5 @@ public class CompressedClassSpaceEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

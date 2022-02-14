@@ -85,6 +85,15 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class StackEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(StackEvent.REGEX);
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + StackEvent.REGEX_HEADER
+            + "|([CjJvV]) |(Java|Native) frames:|JavaThread|\\[error occurred during error reporting \\(printing "
+            + "(native stack|stack bounds)\\)|...<more frames>...).*$";
+
     /**
      * Regular expression for the header.
      */
@@ -92,13 +101,15 @@ public class StackEvent implements LogEvent {
             + JdkRegEx.ADDRESS + ",  free space=(\\d{1,***REMOVED***)k)?";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "|([CjJvV]) |(Java|Native) frames:|JavaThread|\\[error occurred during error reporting \\(printing "
-            + "(native stack|stack bounds)\\)|...<more frames>...).*$";
-
-    private static Pattern pattern = Pattern.compile(REGEX);
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -124,14 +135,19 @@ public class StackEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
+     * @return The stack free space (kilobytes).
      */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public long getStackFreeSpace() {
+        long stackFreeSpace = Long.MIN_VALUE;
+        if (isHeader()) {
+            Matcher matcher = pattern.matcher(logEntry);
+            if (matcher.find()) {
+                if (matcher.group(18) != null) {
+                    stackFreeSpace = Long.parseLong(matcher.group(18));
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return stackFreeSpace;
     ***REMOVED***
 
     /**
@@ -195,21 +211,5 @@ public class StackEvent implements LogEvent {
             ***REMOVED***
         ***REMOVED***
         return isVmGeneratedCodeFrame;
-    ***REMOVED***
-
-    /**
-     * @return The stack free space (kilobytes).
-     */
-    public long getStackFreeSpace() {
-        long stackFreeSpace = Long.MIN_VALUE;
-        if (isHeader()) {
-            Matcher matcher = pattern.matcher(logEntry);
-            if (matcher.find()) {
-                if (matcher.group(18) != null) {
-                    stackFreeSpace = Long.parseLong(matcher.group(18));
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return stackFreeSpace;
     ***REMOVED***
 ***REMOVED***

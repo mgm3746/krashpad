@@ -80,6 +80,26 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class HeapEvent implements LogEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + HeapEvent.REGEX_HEADER + "|" + HeapEvent.REGEX_HEAP_AT_CRASH_HEADER + "|"
+            + HeapEvent.REGEX_HEAP_HISTORY_HEADER + "|" + HeapEvent.REGEX_SHENANDOAH_HEADER + "|"
+            + HeapEvent.REGEX_YOUNG_GEN + "|" + HeapEvent.REGEX_OLD_GEN + "|" + HeapEvent.REGEX_SHENANDOAH + "|"
+            + HeapEvent.REGEX_SHENANDOAH + "|" + HeapEvent.REGEX_G1 + "|" + HeapEvent.REGEX_G1 + "|"
+            + HeapEvent.REGEX_METASPACE
+            + "|[ ]{2,3***REMOVED***(class space|eden|from|object space|region size|the|to)| \\d{1,5***REMOVED*** x " + JdkRegEx.SIZE
+            + " regions| - (\\[|map)|[\\{]{0,1***REMOVED***Heap (after|before) GC|Status:|Event: " + JdkRegEx.TIMESTAMP
+            + " GC heap (after|before)).*$";
+
+    /**
+     * Regular expression for G1 combined event.
+     * 
+     * garbage-first heap total 1933312K, used 1030565K [0x0000000500000000, 0x0000000800000000)
+     */
+    public static final String REGEX_G1 = " garbage-first heap   total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE
+            + ".+";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "GC Heap History \\(\\d{1,***REMOVED*** events\\):";
@@ -95,27 +115,12 @@ public class HeapEvent implements LogEvent {
     public static final String REGEX_HEAP_HISTORY_HEADER = "GC Heap History \\(\\d{1,***REMOVED*** events\\):";
 
     /**
-     * Regular expression for a shenandoah header.
+     * Regular expression for a metaspace event.
+     * 
+     * Metaspace used 19510K, capacity 21116K, committed 21248K, reserved 1069056K
      */
-    public static final String REGEX_SHENANDOAH_HEADER = "(Collection set:|Reserved region:|Shenandoah Heap)";
-
-    /**
-     * Regular expression for a young generation event.
-     * 
-     * 1) <code>GarbageCollection.PARALLEL_SCAVENGE</code>:
-     * 
-     * PSYoungGen total 153088K, used 116252K [0x00000000eab00000, 0x00000000f5580000, 0x0000000100000000)
-     * 
-     * 2) <code>GarbageCollection.SERIAL</code>:
-     * 
-     * def new generation total 629440K, used 511995K [0x00000006c0000000, 0x00000006eaaf0000, 0x0000000715550000)
-     * 
-     * 3) <code>GarbageCollection.PAR_NEW</code>:
-     * 
-     * par new generation total 766784K, used 37193K [0x0000000261000000, 0x0000000295000000, 0x0000000295000000)
-     */
-    public static final String REGEX_YOUNG_GEN = " ((def|par) new generation|PSYoungGen)[ ]{1,6***REMOVED***total " + JdkRegEx.SIZE
-            + ", used " + JdkRegEx.SIZE + ".+";
+    public static final String REGEX_METASPACE = " Metaspace[ ]{1,7***REMOVED***used " + JdkRegEx.SIZE + ", (capacity "
+            + JdkRegEx.SIZE + ", )?committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE;
 
     /**
      * Regular expression for a old generation event.
@@ -152,30 +157,38 @@ public class HeapEvent implements LogEvent {
             + " soft max)?, " + JdkRegEx.SIZE + " committed, " + JdkRegEx.SIZE + " used";
 
     /**
-     * Regular expression for G1 combined event.
-     * 
-     * garbage-first heap total 1933312K, used 1030565K [0x0000000500000000, 0x0000000800000000)
+     * Regular expression for a shenandoah header.
      */
-    public static final String REGEX_G1 = " garbage-first heap   total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE
-            + ".+";
+    public static final String REGEX_SHENANDOAH_HEADER = "(Collection set:|Reserved region:|Shenandoah Heap)";
 
     /**
-     * Regular expression for a metaspace event.
+     * Regular expression for a young generation event.
      * 
-     * Metaspace used 19510K, capacity 21116K, committed 21248K, reserved 1069056K
+     * 1) <code>GarbageCollection.PARALLEL_SCAVENGE</code>:
+     * 
+     * PSYoungGen total 153088K, used 116252K [0x00000000eab00000, 0x00000000f5580000, 0x0000000100000000)
+     * 
+     * 2) <code>GarbageCollection.SERIAL</code>:
+     * 
+     * def new generation total 629440K, used 511995K [0x00000006c0000000, 0x00000006eaaf0000, 0x0000000715550000)
+     * 
+     * 3) <code>GarbageCollection.PAR_NEW</code>:
+     * 
+     * par new generation total 766784K, used 37193K [0x0000000261000000, 0x0000000295000000, 0x0000000295000000)
      */
-    public static final String REGEX_METASPACE = " Metaspace[ ]{1,7***REMOVED***used " + JdkRegEx.SIZE + ", (capacity "
-            + JdkRegEx.SIZE + ", )?committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE;
+    public static final String REGEX_YOUNG_GEN = " ((def|par) new generation|PSYoungGen)[ ]{1,6***REMOVED***total " + JdkRegEx.SIZE
+            + ", used " + JdkRegEx.SIZE + ".+";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|" + REGEX_HEAP_AT_CRASH_HEADER + "|"
-            + REGEX_HEAP_HISTORY_HEADER + "|" + REGEX_SHENANDOAH_HEADER + "|" + REGEX_YOUNG_GEN + "|" + REGEX_OLD_GEN
-            + "|" + REGEX_SHENANDOAH + "|" + REGEX_SHENANDOAH + "|" + REGEX_G1 + "|" + REGEX_G1 + "|" + REGEX_METASPACE
-            + "|[ ]{2,3***REMOVED***(class space|eden|from|object space|region size|the|to)| \\d{1,5***REMOVED*** x " + JdkRegEx.SIZE
-            + " regions| - (\\[|map)|[\\{]{0,1***REMOVED***Heap (after|before) GC|Status:|Event: " + JdkRegEx.TIMESTAMP
-            + " GC heap (after|before)).*$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -201,21 +214,17 @@ public class HeapEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
+     * @return true if the log line contains G1 heap information, false otherwise.
      */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public boolean isG1() {
+        return logEntry.matches(REGEX_G1);
     ***REMOVED***
 
     /**
-     * @return true if the log line contains young generation heap information, false otherwise.
+     * @return true if the log line contains metaspace information, false otherwise.
      */
-    public boolean isYoungGen() {
-        return logEntry.matches(REGEX_YOUNG_GEN);
+    public boolean isMetaspace() {
+        return logEntry.matches(REGEX_METASPACE);
     ***REMOVED***
 
     /**
@@ -233,16 +242,9 @@ public class HeapEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return true if the log line contains G1 heap information, false otherwise.
+     * @return true if the log line contains young generation heap information, false otherwise.
      */
-    public boolean isG1() {
-        return logEntry.matches(REGEX_G1);
-    ***REMOVED***
-
-    /**
-     * @return true if the log line contains metaspace information, false otherwise.
-     */
-    public boolean isMetaspace() {
-        return logEntry.matches(REGEX_METASPACE);
+    public boolean isYoungGen() {
+        return logEntry.matches(REGEX_YOUNG_GEN);
     ***REMOVED***
 ***REMOVED***

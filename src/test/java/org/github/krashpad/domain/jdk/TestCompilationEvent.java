@@ -26,6 +26,13 @@ import org.junit.jupiter.api.Test;
 class TestCompilationEvent {
 
     @Test
+    void testHeader() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent,
+                JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
                 + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
@@ -37,13 +44,6 @@ class TestCompilationEvent {
     void testParseLogLine() {
         String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
                 + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent,
-                JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
-        String logLine = "***REMOVED***";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent,
                 JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
     ***REMOVED***

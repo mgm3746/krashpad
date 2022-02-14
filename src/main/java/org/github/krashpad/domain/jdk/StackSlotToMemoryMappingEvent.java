@@ -47,15 +47,26 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class StackSlotToMemoryMappingEvent implements LogEvent, ThrowAwayEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + StackSlotToMemoryMappingEvent.REGEX_HEADER
+            + "|stack at sp|\\[error occurred during error reporting \\(inspecting top of stack\\)).*$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "Stack slot to memory mapping:";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "|stack at sp|\\[error occurred during error reporting \\(inspecting top of stack\\)).*$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -78,16 +89,5 @@ public class StackSlotToMemoryMappingEvent implements LogEvent, ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

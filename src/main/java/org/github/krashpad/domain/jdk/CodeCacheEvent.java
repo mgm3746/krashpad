@@ -44,15 +44,26 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class CodeCacheEvent implements LogEvent, ThrowAwayEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + CodeCacheEvent.REGEX_HEADER
+            + "| bounds| compilation:|CodeHeap| full_count=|              stopped_count=| total_blobs)(.*)$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "(CodeCache:)";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "| bounds| compilation:|CodeHeap| full_count=|              stopped_count=| total_blobs)(.*)$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -75,16 +86,5 @@ public class CodeCacheEvent implements LogEvent, ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.CODE_CACHE.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

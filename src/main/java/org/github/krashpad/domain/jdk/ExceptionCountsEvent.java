@@ -39,14 +39,26 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class ExceptionCountsEvent implements LogEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + ExceptionCountsEvent.REGEX_HEADER
+            + "|LinkageErrors|StackOverflowErrors|OutOfMemoryError).*$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "OutOfMemory and StackOverflow Exception counts:";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|LinkageErrors|StackOverflowErrors|OutOfMemoryError).*$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -69,17 +81,6 @@ public class ExceptionCountsEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.EXCEPTION_COUNTS.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 
     /**

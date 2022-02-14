@@ -56,16 +56,16 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class GcPreciousLogEvent implements LogEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + GcPreciousLogEvent.REGEX_HEADER
+            + "| Compressed Oops:| CPUs:| Heap ((Initial|Min|Max) Capacity|Region Size): | Large Page Support:"
+            + "| Memory:| NUMA Support:| Periodic GC:| Pre-touch:| (Concurrent( Refinement)?|Parallel) Workers:).*$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "GC Precious Log:";
-
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "| Compressed Oops:| CPUs:| Heap ((Initial|Min|Max) Capacity|Region Size): | Large Page Support:"
-            + "| Memory:| NUMA Support:| Periodic GC:| Pre-touch:| (Concurrent( Refinement)?|Parallel) Workers:).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

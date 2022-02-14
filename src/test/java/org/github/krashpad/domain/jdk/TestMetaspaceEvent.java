@@ -26,6 +26,100 @@ import org.junit.jupiter.api.Test;
 class TestMetaspaceEvent {
 
     @Test
+    void testBoth() {
+        String logLine = "       Both:    154.76 MB capacity,   144.43 MB ( 93%) used,     9.90 MB (  6%) "
+                + "free+waste,   448.81 KB ( <1%) overhead.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCapacity() {
+        String logLine = "  414.40 MB capacity,   395.36 MB ( 95%) used,    17.73 MB (  4%) free+waste,     1.30 MB "
+                + "( <1%) overhead.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCdsOn() {
+        String logLine = "CDS: on";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testChunkFreelists() {
+        String logLine = "Chunk freelists:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testChunkFreelistsData() {
+        String logLine = "3.00 KB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testClass() {
+        String logLine = "      Class:     17.93 MB capacity,    14.53 MB ( 81%) used,     3.26 MB ( 18%) "
+                + "free+waste,   143.81 KB ( <1%) overhead.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCommitGranuelBytes() {
+        String logLine = " - commit_granule_bytes: 65536.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCommitGranuelWords() {
+        String logLine = " - commit_granule_words: 8192.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCompressedClassSpaceSize() {
+        String logLine = "CompressedClassSpaceSize: 1.00 GB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCurrentGcThreshold() {
+        String logLine = "Current GC threshold: 2.00 GB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testEnlargeChunksInPlace() {
+        String logLine = " - enlarge_chunks_in_place: 1.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testHandleDeallocations() {
+        String logLine = " - handle_deallocations: 1.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testHeader() {
+        String logLine = "Metaspace:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "Usage:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
@@ -33,15 +127,29 @@ class TestMetaspaceEvent {
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = "Usage:";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof MetaspaceEvent,
-                JdkUtil.LogEventType.METASPACE.toString() + " not parsed.");
+    void testInitialGcThreshold() {
+        String logLine = "Initial GC threshold: 2.00 GB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testHeader() {
-        String logLine = "Metaspace:";
+    void testMaxMetaspaceSize() {
+        String logLine = "MaxMetaspaceSize: unlimited";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMetasapceReclaimPolicy() {
+        String logLine = "MetaspaceReclaimPolicy: balanced";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNewChunksAreFullyCommitted() {
+        String logLine = " - new_chunks_are_fully_committed: 0.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
@@ -62,83 +170,10 @@ class TestMetaspaceEvent {
     ***REMOVED***
 
     @Test
-    void testClass() {
-        String logLine = "      Class:     17.93 MB capacity,    14.53 MB ( 81%) used,     3.26 MB ( 18%) "
-                + "free+waste,   143.81 KB ( <1%) overhead.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testBoth() {
-        String logLine = "       Both:    154.76 MB capacity,   144.43 MB ( 93%) used,     9.90 MB (  6%) "
-                + "free+waste,   448.81 KB ( <1%) overhead.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testVirtualSpace() {
-        String logLine = "Virtual space:";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testChunkFreelists() {
-        String logLine = "Chunk freelists:";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testChunkFreelistsData() {
-        String logLine = "3.00 KB";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMaxMetaspaceSize() {
-        String logLine = "MaxMetaspaceSize: unlimited";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressedClassSpaceSize() {
-        String logLine = "CompressedClassSpaceSize: 1.00 GB";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testInitialGcThreshold() {
-        String logLine = "Initial GC threshold: 2.00 GB";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCurrentGcThreshold() {
-        String logLine = "Current GC threshold: 2.00 GB";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCdsOn() {
-        String logLine = "CDS: on";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCapacity() {
-        String logLine = "  414.40 MB capacity,   395.36 MB ( 95%) used,    17.73 MB (  4%) free+waste,     1.30 MB "
-                + "( <1%) overhead.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    void testParseLogLine() {
+        String logLine = "Usage:";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof MetaspaceEvent,
+                JdkUtil.LogEventType.METASPACE.toString() + " not parsed.");
     ***REMOVED***
 
     @Test
@@ -151,48 +186,6 @@ class TestMetaspaceEvent {
     @Test
     void testReservedCommitted100() {
         String logLine = "    460.00 MB reserved,     460.00 MB (100%) committed";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMetasapceReclaimPolicy() {
-        String logLine = "MetaspaceReclaimPolicy: balanced";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCommitGranuelBytes() {
-        String logLine = " - commit_granule_bytes: 65536.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCommitGranuelWords() {
-        String logLine = " - commit_granule_words: 8192.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testVirtualSpaceNodeDefaultSize() {
-        String logLine = " - virtual_space_node_default_size: 1048576.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testEnlargeChunksInPlace() {
-        String logLine = " - enlarge_chunks_in_place: 1.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
-                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testNewChunksAreFullyCommitted() {
-        String logLine = " - new_chunks_are_fully_committed: 0.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
@@ -212,8 +205,15 @@ class TestMetaspaceEvent {
     ***REMOVED***
 
     @Test
-    void testHandleDeallocations() {
-        String logLine = " - handle_deallocations: 1.";
+    void testVirtualSpace() {
+        String logLine = "Virtual space:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testVirtualSpaceNodeDefaultSize() {
+        String logLine = " - virtual_space_node_default_size: 1048576.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***

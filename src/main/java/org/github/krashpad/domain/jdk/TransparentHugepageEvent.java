@@ -48,6 +48,17 @@ public class TransparentHugepageEvent implements LogEvent, ThrowAwayEvent {
     private static final String REGEX = "^(/sys/kernel/mm/transparent_hugepage/|[\\[]{0,1***REMOVED***always\\]{0,1***REMOVED*** ).+$";
 
     /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
+
+    /**
      * The log entry for the event.
      */
     private String logEntry;
@@ -68,16 +79,5 @@ public class TransparentHugepageEvent implements LogEvent, ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

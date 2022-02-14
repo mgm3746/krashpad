@@ -79,7 +79,18 @@ public class JvmOptions {
     private ArrayList<String> addOpens = new ArrayList<String>();
 
     /**
-     * JVM options java instrumentation.
+     * JVM option to load a native agent by library name.
+     * 
+     * For example:
+     * 
+     * -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n
+     * 
+     * -agentlib:am_sun_16=/opt/jbossapps/tgkcpmj02/itcam/runtime/jboss7.tagp3aps3.tgkcpmj02/dc.env.properties
+     */
+    private ArrayList<String> agentlib = new ArrayList<String>();
+
+    /**
+     * JVM option to load a native agent by full path.
      * 
      * For example:
      * 
@@ -569,13 +580,6 @@ public class JvmOptions {
      * -javaagent:/path/to/appdynamics/javaagent.jar
      */
     private ArrayList<String> javaagent = new ArrayList<String>();
-
-    /**
-     * JPDA socket transport used for debugging. For example:
-     * 
-     * -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n
-     */
-    private String jpdaSocketTransport;
 
     /**
      * The option for setting the virtual (reserved) size of the compressed class space (a single area). Only has
@@ -1601,9 +1605,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^--add-opens=.+$")) {
                     addOpens.add(option);
                     key = option;
-                ***REMOVED*** else if (option.matches("^-agentlib:jdwp=transport=dt_socket.+$")) {
-                    jpdaSocketTransport = option;
-                    key = "agentlib:jdwp=transport";
+                ***REMOVED*** else if (option.matches("^-agentlib:.+$")) {
+                    agentlib.add(option);
+                    key = "agentlib";
                 ***REMOVED*** else if (option.matches("^-agentpath:.+$")) {
                     agentpath.add(option);
                     key = "agentpath";
@@ -2064,8 +2068,17 @@ public class JvmOptions {
      */
     public void doAnalysis(List<Analysis> analysis, JavaSpecification javaSpecification) {
         // Check for remote debugging enabled
-        if (jpdaSocketTransport != null) {
-            analysis.add(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED);
+        if (!agentlib.isEmpty()) {
+            Iterator<String> iterator = agentlib.iterator();
+            Pattern pattern = Pattern.compile("^-agentlib:jdwp=transport=dt_socket.+$");
+            while (iterator.hasNext()) {
+                String agentlib = iterator.next();
+                Matcher matcher = pattern.matcher(agentlib);
+                if (matcher.find()) {
+                    analysis.add(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         if (!undefined.isEmpty()) {
             analysis.add(Analysis.INFO_OPT_UNDEFINED);
@@ -2305,7 +2318,7 @@ public class JvmOptions {
             analysis.add(Analysis.INFO_OPT_JMX_ENABLED);
         ***REMOVED***
         // Check if native library being used.
-        if (!agentpath.isEmpty()) {
+        if (!agentlib.isEmpty() || !agentpath.isEmpty()) {
             analysis.add(Analysis.INFO_OPT_NATIVE);
         ***REMOVED***
         // Check for young space >= old space
@@ -2544,6 +2557,10 @@ public class JvmOptions {
 
     public ArrayList<String> getAddOpens() {
         return addOpens;
+    ***REMOVED***
+
+    public ArrayList<String> getAgentlib() {
+        return agentlib;
     ***REMOVED***
 
     public ArrayList<String> getAgentpath() {
@@ -2793,10 +2810,6 @@ public class JvmOptions {
 
     public ArrayList<String> getJavaagent() {
         return javaagent;
-    ***REMOVED***
-
-    public String getJpdaSocketTransport() {
-        return jpdaSocketTransport;
     ***REMOVED***
 
     public String getLargePageSizeInBytes() {

@@ -26,11 +26,26 @@ import org.junit.jupiter.api.Test;
 class TestExceptionEvent {
 
     @Test
+    void testHeader() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT,
+                JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "Event: 101.811 Thread 0x00007ff0ec698000 Exception "
                 + "<a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ef71fd30) thrown at "
                 + "[/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/"
                 + "vm/runtime/sharedRuntime.cpp, line 609]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT,
+                JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMeta() {
+        String logLine = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=0> (0x000000079d702b90) "
+                + "thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.265";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT,
                 JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.");
     ***REMOVED***
@@ -43,20 +58,5 @@ class TestExceptionEvent {
                 + "vm/runtime/sharedRuntime.cpp, line 609]";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ExceptionEvent,
                 JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT,
-                JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMeta() {
-        String logLine = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=0> (0x000000079d702b90) "
-                + "thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.265";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT,
-                JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

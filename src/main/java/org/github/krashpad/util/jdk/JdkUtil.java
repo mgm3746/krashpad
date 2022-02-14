@@ -93,12 +93,12 @@ import org.github.krashpad.domain.jdk.TransparentHugepageEvent;
 import org.github.krashpad.domain.jdk.UidEvent;
 import org.github.krashpad.domain.jdk.UmaskEvent;
 import org.github.krashpad.domain.jdk.UnameEvent;
+import org.github.krashpad.domain.jdk.VirtualizationInfoEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
 import org.github.krashpad.domain.jdk.VmMutexEvent;
 import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.domain.jdk.VmStateEvent;
-import org.github.krashpad.domain.jdk.VirtualizationInfoEvent;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.OsVersion;
 
@@ -129,11 +129,11 @@ public class JdkUtil {
         //
         KAFKA,
         //
+        RHSSO,
+        //
         TOMCAT,
         //
         TOMCAT_SHUTDOWN,
-        //
-        RHSSO,
         //
         UNKNOWN,
         /**
@@ -1080,6 +1080,19 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
+     * @param version
+     *            The JDK version.
+     * @return The Java specification as a release number that can be used for comparing release order.
+     */
+    public static final int getJavaSpecificationNumber(JavaSpecification version) {
+        int javaSpecificationNumber = Integer.MIN_VALUE;
+        if (version != JavaSpecification.UNKNOWN) {
+            javaSpecificationNumber = Integer.parseInt(version.toString().substring(3));
+        ***REMOVED***
+        return javaSpecificationNumber;
+    ***REMOVED***
+
+    /**
      * @param jdk8ReleaseString
      *            The JDK8 release string (e.g. 1.8.0_222-b10).
      * @return The JDK update number (e.g. 222).
@@ -1141,19 +1154,6 @@ public class JdkUtil {
             ***REMOVED***
         ***REMOVED***
         return number;
-    ***REMOVED***
-
-    /**
-     * @param version
-     *            The JDK version.
-     * @return The Java specification as a release number that can be used for comparing release order.
-     */
-    public static final int getJavaSpecificationNumber(JavaSpecification version) {
-        int javaSpecificationNumber = Integer.MIN_VALUE;
-        if (version != JavaSpecification.UNKNOWN) {
-            javaSpecificationNumber = Integer.parseInt(version.toString().substring(3));
-        ***REMOVED***
-        return javaSpecificationNumber;
     ***REMOVED***
 
     /**

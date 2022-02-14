@@ -27,22 +27,30 @@ import org.junit.jupiter.api.Test;
 class TestInstructionsEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "0x00007fcbd05a3b51:   5d c3 0f 1f 44 00 00 48 8d 35 01 db 4c 00 bf 03";
+    void testBlocksOf8() {
+        String logLine = "0x00003fff7a9ddb60:   2fa40000 7d491b96 79470020 409e0044";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
                 JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = "0x00007fcbd05a3b51:   5d c3 0f 1f 44 00 00 48 8d 35 01 db 4c 00 bf 03";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof InstructionsEvent,
-                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not parsed.");
+    void testError() {
+        String logLine = "[error occurred during error reporting (printing registers, top of stack, "
+                + "instructions near pc), id 0xb]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testHeader() {
         String logLine = "Instructions: (pc=0x00007fcbd05a3b71)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testIdentity() {
+        String logLine = "0x00007fcbd05a3b51:   5d c3 0f 1f 44 00 00 48 8d 35 01 db 4c 00 bf 03";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
                 JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
     ***REMOVED***
@@ -55,17 +63,10 @@ class TestInstructionsEvent {
     ***REMOVED***
 
     @Test
-    void testSpaceAtEnd() {
-        String logLine = "0x00007fcbd05a3b81:   75 0f c1 f8 03 5d c3 0f 1f 84 00 00 00 00 00 75 ";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
-                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testBlocksOf8() {
-        String logLine = "0x00003fff7a9ddb60:   2fa40000 7d491b96 79470020 409e0044";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
-                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
+    void testParseLogLine() {
+        String logLine = "0x00007fcbd05a3b51:   5d c3 0f 1f 44 00 00 48 8d 35 01 db 4c 00 bf 03";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof InstructionsEvent,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not parsed.");
     ***REMOVED***
 
     @Test
@@ -76,9 +77,8 @@ class TestInstructionsEvent {
     ***REMOVED***
 
     @Test
-    void testError() {
-        String logLine = "[error occurred during error reporting (printing registers, top of stack, "
-                + "instructions near pc), id 0xb]";
+    void testSpaceAtEnd() {
+        String logLine = "0x00007fcbd05a3b81:   75 0f c1 f8 03 5d c3 0f 1f 84 00 00 00 00 00 75 ";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
                 JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not identified.");
     ***REMOVED***

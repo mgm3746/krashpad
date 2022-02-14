@@ -75,8 +75,22 @@ class TestVirtualizationInfoEvent {
     ***REMOVED***
 
     @Test
+    void testVmWareGuestMem() {
+        String logLine = "guest.mem.reserved = 0";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
+                JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testVmWareHostCpu() {
         String logLine = "host.cpu.processorMHz = 2095";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
+                JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testVmWareOvhdMem() {
+        String logLine = "ovhd.mem.swapped = 0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     ***REMOVED***
@@ -87,24 +101,10 @@ class TestVirtualizationInfoEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     ***REMOVED***
-    
+
     @Test
     void testVmWareVmNuma() {
         String logLine = "vm.numa.local = 66932356";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testVmWareGuestMem() {
-        String logLine = "guest.mem.reserved = 0";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testVmWareOvhdMem() {
-        String logLine = "ovhd.mem.swapped = 0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     ***REMOVED***

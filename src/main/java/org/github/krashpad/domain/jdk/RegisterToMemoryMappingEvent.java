@@ -58,19 +58,30 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class RegisterToMemoryMappingEvent implements LogEvent, ThrowAwayEvent {
 
     /**
-     * Regular expression for the header.
-     */
-    private static final String REGEX_HEADER = "***REMOVED***";
-
-    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|" + JdkRegEx.REGISTER
+    private static final String REGEX = "^(" + RegisterToMemoryMappingEvent.REGEX_HEADER + "|" + JdkRegEx.REGISTER
             + "|java\\..+|Adapter for signature:.+|\\[[BCIL]([a-z]{1,***REMOVED***\\..+)?|BufferBlob.+|\\[CodeBlob.+|"
             + "Framesize.+| - (klass|length):.+|\\{" + JdkRegEx.ADDRESS
             + "\\***REMOVED*** - klass:.+|([R|r][ ]{0,1***REMOVED***\\d{1,2***REMOVED***[ ]{0,1***REMOVED***|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
             + "\\[error occurred during error reporting \\(printing register info\\).+|invoke return entry points.+|"
             + "method entry point.+|(i)?return.+|StubRoutines.+)[ ]{0,***REMOVED***$";
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "***REMOVED***";
+
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -93,16 +104,5 @@ public class RegisterToMemoryMappingEvent implements LogEvent, ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

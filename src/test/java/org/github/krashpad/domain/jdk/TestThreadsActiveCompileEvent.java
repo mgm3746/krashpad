@@ -26,6 +26,13 @@ import org.junit.jupiter.api.Test;
 class TestThreadsActiveCompileEvent {
 
     @Test
+    void testHeader() {
+        String logLine = "Threads with active compile tasks:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE,
+                JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "C2 CompilerThread0606385663 219105 %     4       com.example.SomeClass::toMethod @ 56 "
                 + "(111 bytes)";
@@ -39,12 +46,5 @@ class TestThreadsActiveCompileEvent {
                 + "(111 bytes)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ThreadsActiveCompileEvent,
                 JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
-        String logLine = "Threads with active compile tasks:";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE,
-                JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

@@ -33,13 +33,6 @@ class TestStatisticsEvent {
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = "Internal statistics:";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof StatisticsEvent,
-                JdkUtil.LogEventType.STATISTICS.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
     void testNumAllocsFailedLimit() {
         String logLine = "num_allocs_failed_limit: 0.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
@@ -61,43 +54,8 @@ class TestStatisticsEvent {
     ***REMOVED***
 
     @Test
-    void testNumVsnodesBirths() {
-        String logLine = "num_vsnodes_births: 2.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
-                JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testNumVsnodesDeaths() {
-        String logLine = "num_vsnodes_deaths: 0.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
-                JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testNumSpaceCommitted() {
-        String logLine = "num_space_committed: 5.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
-                JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testNumSpaceUncommitted() {
-        String logLine = "num_space_uncommitted: 0.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
-                JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testNumChunksReturnedToFreelist() {
-        String logLine = "num_chunks_returned_to_freelist: 0.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
-                JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testNumChunksTakenFromFreelist() {
-        String logLine = "num_chunks_taken_from_freelist: 5.";
+    void testNumChunkEnlarged() {
+        String logLine = "num_chunks_enlarged: 0.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
                 JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
     ***REMOVED***
@@ -117,8 +75,22 @@ class TestStatisticsEvent {
     ***REMOVED***
 
     @Test
-    void testNumChunkEnlarged() {
-        String logLine = "num_chunks_enlarged: 0.";
+    void testNumChunksReturnedToFreelist() {
+        String logLine = "num_chunks_returned_to_freelist: 0.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
+                JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNumChunksTakenFromFreelist() {
+        String logLine = "num_chunks_taken_from_freelist: 5.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
+                JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNumInconsistentStats() {
+        String logLine = "num_inconsistent_stats: 0.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
                 JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
     ***REMOVED***
@@ -131,9 +103,37 @@ class TestStatisticsEvent {
     ***REMOVED***
 
     @Test
-    void testNumInconsistentStats() {
-        String logLine = "num_inconsistent_stats: 0.";
+    void testNumSpaceCommitted() {
+        String logLine = "num_space_committed: 5.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
                 JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNumSpaceUncommitted() {
+        String logLine = "num_space_uncommitted: 0.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
+                JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNumVsnodesBirths() {
+        String logLine = "num_vsnodes_births: 2.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
+                JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNumVsnodesDeaths() {
+        String logLine = "num_vsnodes_deaths: 0.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STATISTICS,
+                JdkUtil.LogEventType.STATISTICS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParseLogLine() {
+        String logLine = "Internal statistics:";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof StatisticsEvent,
+                JdkUtil.LogEventType.STATISTICS.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

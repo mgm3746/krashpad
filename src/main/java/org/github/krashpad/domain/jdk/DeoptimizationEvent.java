@@ -42,16 +42,27 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class DeoptimizationEvent implements LogEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + DeoptimizationEvent.REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
+            + " Thread " + JdkRegEx.ADDRESS
+            + " Uncommon trap|\\[error occurred during error reporting \\(printing ring buffers\\), id 0x).*$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "Deoptimization events \\(\\d{1,***REMOVED*** events\\):";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS
-            + " Uncommon trap|\\[error occurred during error reporting \\(printing ring buffers\\), id 0x).*$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -74,16 +85,5 @@ public class DeoptimizationEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

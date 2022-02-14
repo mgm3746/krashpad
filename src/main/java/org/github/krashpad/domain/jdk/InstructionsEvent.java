@@ -44,19 +44,30 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class InstructionsEvent implements LogEvent, ThrowAwayEvent {
 
     /**
-     * Regular expression for the header.
-     */
-    private static final String REGEX_HEADER = "Instructions: \\(pc=" + JdkRegEx.ADDRESS + "\\)";
-
-    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|" + JdkRegEx.ADDRESS
+    private static final String REGEX = "^(" + InstructionsEvent.REGEX_HEADER + "|" + JdkRegEx.ADDRESS
             + ":(   [0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED*** "
             + "[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED*** "
             + "[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED*** "
             + "[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***)?|\\[error occurred during error "
             + "reporting \\(printing registers, top of stack, instructions near pc\\), id 0x[a-z0-9]\\])[ ]{0,***REMOVED***$";
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String REGEX_HEADER = "Instructions: \\(pc=" + JdkRegEx.ADDRESS + "\\)";
+
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -79,16 +90,5 @@ public class InstructionsEvent implements LogEvent, ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.INSTRUCTIONS.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

@@ -32,6 +32,17 @@ import org.junit.jupiter.api.Test;
 class TestUnameEvent {
 
     @Test
+    void testI686Pc() {
+        String logLine = "uname:SunOS 5.11 11.3 i86pc  (T2 libthread)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
+                JdkUtil.LogEventType.UNAME.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(Arch.I86PC, ((UnameEvent) event).getArch(), "Arch not correct.");
+        assertEquals(OsType.SOLARIS, ((UnameEvent) event).getOsType(), "Version not correct.");
+        assertEquals(OsVendor.ORACLE, ((UnameEvent) event).getOsVendor(), "Vendor not correct.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
@@ -39,20 +50,21 @@ class TestUnameEvent {
     ***REMOVED***
 
     @Test
+    void testJdk17() {
+        String logLine = "uname: Linux 4.18.0-348.2.1.el8_5.x86_64 ***REMOVED***1 SMP Mon Nov 8 13:30:15 EST 2021 x86_64";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
+                JdkUtil.LogEventType.UNAME.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(Arch.X86_64, ((UnameEvent) event).getArch(), "Arch not correct.");
+        assertEquals(OsType.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
+        assertEquals(OsVendor.REDHAT, ((UnameEvent) event).getOsVendor(), "Vendor not correct.");
+    ***REMOVED***
+
+    @Test
     void testParseLogLine() {
         String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof UnameEvent,
                 JdkUtil.LogEventType.OS.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testSolaris() {
-        String logLine = "uname:SunOS 5.11 11.4.23.69.3 sun4v";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
-                JdkUtil.LogEventType.UNAME.toString() + " not identified.");
-        LogEvent event = JdkUtil.parseLogLine(logLine, null);
-        assertEquals(Arch.SPARC, ((UnameEvent) event).getArch(), "Arch not correct.");
-        assertEquals(OsType.SOLARIS, ((UnameEvent) event).getOsType(), "OS type not correct.");
     ***REMOVED***
 
     @Test
@@ -104,14 +116,13 @@ class TestUnameEvent {
     ***REMOVED***
 
     @Test
-    void testI686Pc() {
-        String logLine = "uname:SunOS 5.11 11.3 i86pc  (T2 libthread)";
+    void testSolaris() {
+        String logLine = "uname:SunOS 5.11 11.4.23.69.3 sun4v";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
                 JdkUtil.LogEventType.UNAME.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
-        assertEquals(Arch.I86PC, ((UnameEvent) event).getArch(), "Arch not correct.");
-        assertEquals(OsType.SOLARIS, ((UnameEvent) event).getOsType(), "Version not correct.");
-        assertEquals(OsVendor.ORACLE, ((UnameEvent) event).getOsVendor(), "Vendor not correct.");
+        assertEquals(Arch.SPARC, ((UnameEvent) event).getArch(), "Arch not correct.");
+        assertEquals(OsType.SOLARIS, ((UnameEvent) event).getOsType(), "OS type not correct.");
     ***REMOVED***
 
     @Test
@@ -119,16 +130,5 @@ class TestUnameEvent {
         String logLine = "  (T2 libthread)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
                 JdkUtil.LogEventType.UNAME.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testJdk17() {
-        String logLine = "uname: Linux 4.18.0-348.2.1.el8_5.x86_64 ***REMOVED***1 SMP Mon Nov 8 13:30:15 EST 2021 x86_64";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
-                JdkUtil.LogEventType.UNAME.toString() + " not identified.");
-        LogEvent event = JdkUtil.parseLogLine(logLine, null);
-        assertEquals(Arch.X86_64, ((UnameEvent) event).getArch(), "Arch not correct.");
-        assertEquals(OsType.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
-        assertEquals(OsVendor.REDHAT, ((UnameEvent) event).getOsVendor(), "Vendor not correct.");
     ***REMOVED***
 ***REMOVED***

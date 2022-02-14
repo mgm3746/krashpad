@@ -64,6 +64,37 @@ public class OptionsParser {
     ***REMOVED***
 
     /**
+     * @return version string.
+     */
+    static String getLatestVersion() {
+        String url = "https://github.com/mgm3746/krashpad/releases/latest";
+        try {
+            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+            httpClient = HttpClients.custom()
+                    .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+                    .build();
+            HttpGet request = new HttpGet(url);
+            request.addHeader("Accept", "application/json");
+            request.addHeader("content-type", "application/json");
+            HttpResponse result = httpClient.execute(request);
+            String json = EntityUtils.toString(result.getEntity(), "UTF-8");
+            return new JSONObject(json).getString("tag_name");
+        ***REMOVED***
+
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return "Unable to retrieve";
+        ***REMOVED***
+    ***REMOVED***
+
+    /**
+     * @return version string.
+     */
+    static String getVersion() {
+        return ResourceBundle.getBundle("META-INF/maven/krashpad/krashpad/pom").getString("version");
+    ***REMOVED***
+
+    /**
      * @param args
      *            The command line options.
      * @return Create <code>CommandLineParser</code> from the command line options.
@@ -119,37 +150,6 @@ public class OptionsParser {
         File logFile = new File(logFileName);
         if (!logFile.exists()) {
             throw new ParseException("Invalid log file: '" + logFileName + "'");
-        ***REMOVED***
-    ***REMOVED***
-
-    /**
-     * @return version string.
-     */
-    static String getVersion() {
-        return ResourceBundle.getBundle("META-INF/maven/krashpad/krashpad/pom").getString("version");
-    ***REMOVED***
-
-    /**
-     * @return version string.
-     */
-    static String getLatestVersion() {
-        String url = "https://github.com/mgm3746/krashpad/releases/latest";
-        try {
-            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-            httpClient = HttpClients.custom()
-                    .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
-                    .build();
-            HttpGet request = new HttpGet(url);
-            request.addHeader("Accept", "application/json");
-            request.addHeader("content-type", "application/json");
-            HttpResponse result = httpClient.execute(request);
-            String json = EntityUtils.toString(result.getEntity(), "UTF-8");
-            return new JSONObject(json).getString("tag_name");
-        ***REMOVED***
-
-        catch (Exception ex) {
-            ex.printStackTrace();
-            return "Unable to retrieve";
         ***REMOVED***
     ***REMOVED***
 

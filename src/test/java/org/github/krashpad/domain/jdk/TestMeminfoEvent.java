@@ -26,22 +26,15 @@ import org.junit.jupiter.api.Test;
 class TestMeminfoEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "MemTotal:       65305448 kB";
+    void testActive() {
+        String logLine = "Active:         27699800 kB";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = "MemTotal:       65305448 kB";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof MeminfoEvent,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
-        String logLine = "***REMOVED***";
+    void testAnonPages() {
+        String logLine = "AnonPages:      24234268 kB";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***
@@ -61,36 +54,22 @@ class TestMeminfoEvent {
     ***REMOVED***
 
     @Test
-    void testSwapCached() {
-        String logLine = "SwapCached:            0 kB";
+    void testCommitLimit() {
+        String logLine = "CommitLimit:    13329920 kB";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testActive() {
-        String logLine = "Active:         27699800 kB";
+    void testCommitLimitAs() {
+        String logLine = "Committed_AS:   13301540 kB";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testInactive() {
-        String logLine = "Inactive:        1601588 kB";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testUnevictable() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMlocked() {
-        String logLine = "***REMOVED***";
+    void testDirectMap() {
+        String logLine = "DirectMap4k:        8192 kB";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***
@@ -103,15 +82,57 @@ class TestMeminfoEvent {
     ***REMOVED***
 
     @Test
-    void testWriteback() {
+    void testFileHugePages() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testAnonPages() {
-        String logLine = "AnonPages:      24234268 kB";
+    void testFilePmdMapped() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testHeader() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testHugePages() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testIdentity() {
+        String logLine = "MemTotal:       65305448 kB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testInactive() {
+        String logLine = "Inactive:        1601588 kB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testKernelStack() {
+        String logLine = "KernelStack:       67264 k";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testKReclaimable() {
+        String logLine = "KReclaimable:     241604 kB";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***
@@ -119,6 +140,48 @@ class TestMeminfoEvent {
     @Test
     void testMapped() {
         String logLine = "Mapped:           378036 kB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMemAvailable() {
+        String logLine = "MemAvailable:    9627712 kB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMlocked() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNfs() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testPageTables() {
+        String logLine = "PageTables:        72112 k";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParseLogLine() {
+        String logLine = "MemTotal:       65305448 kB";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof MeminfoEvent,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testPerCpu() {
+        String logLine = "Percpu:             3584 kB";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***
@@ -152,21 +215,14 @@ class TestMeminfoEvent {
     ***REMOVED***
 
     @Test
-    void testKernelStack() {
-        String logLine = "KernelStack:       67264 k";
+    void testSwapCached() {
+        String logLine = "SwapCached:            0 kB";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testPageTables() {
-        String logLine = "PageTables:        72112 k";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testNfs() {
+    void testUnevictable() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
@@ -180,64 +236,8 @@ class TestMeminfoEvent {
     ***REMOVED***
 
     @Test
-    void testHugePages() {
+    void testWriteback() {
         String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testDirectMap() {
-        String logLine = "DirectMap4k:        8192 kB";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMemAvailable() {
-        String logLine = "MemAvailable:    9627712 kB";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPerCpu() {
-        String logLine = "Percpu:             3584 kB";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testKReclaimable() {
-        String logLine = "KReclaimable:     241604 kB";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testFileHugePages() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testFilePmdMapped() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCommitLimit() {
-        String logLine = "CommitLimit:    13329920 kB";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
-                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCommitLimitAs() {
-        String logLine = "Committed_AS:   13301540 kB";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     ***REMOVED***

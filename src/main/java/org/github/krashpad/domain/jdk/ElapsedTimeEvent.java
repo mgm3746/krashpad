@@ -60,13 +60,24 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class ElapsedTimeEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(ElapsedTimeEvent.REGEX);
+
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^elapsed time: (\\d{1,10***REMOVED***(\\.\\d{6***REMOVED***)? seconds)( \\((\\d{1,4***REMOVED***d \\d{1,2***REMOVED***h "
             + "\\d{1,2***REMOVED***m \\d{1,2***REMOVED***s)\\))?$";
 
-    private static Pattern pattern = Pattern.compile(REGEX);
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -83,14 +94,6 @@ public class ElapsedTimeEvent implements LogEvent {
         this.logEntry = logEntry;
     ***REMOVED***
 
-    public String getLogEntry() {
-        return logEntry;
-    ***REMOVED***
-
-    public String getName() {
-        return JdkUtil.LogEventType.ELAPSED_TIME.toString();
-    ***REMOVED***
-
     public String getElapsedTime() {
         String time = null;
         Matcher matcher = pattern.matcher(logEntry);
@@ -104,14 +107,11 @@ public class ElapsedTimeEvent implements LogEvent {
         return time;
     ***REMOVED***
 
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    public String getLogEntry() {
+        return logEntry;
+    ***REMOVED***
+
+    public String getName() {
+        return JdkUtil.LogEventType.ELAPSED_TIME.toString();
     ***REMOVED***
 ***REMOVED***

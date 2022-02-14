@@ -52,20 +52,32 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class OsEvent implements LogEvent {
 
+    public static final Pattern PATTERN = Pattern.compile(OsEvent.REGEX);
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + OsEvent.REGEX_HEADER
+            + "|(CentOS|Oracle|Red Hat Enterprise) Linux.+|Windows|"
+            + "[ ]{0,***REMOVED***(Assembled|Copyright|ID|NAME|PATCHLEVEL|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?|"
+            + "***REMOVED*** Please check \\/etc\\/os-release|***REMOVED*** This file is deprecated|"
+            + "\\[error occurred during error reporting \\(printing OS information\\))(.+))$";
+
     /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "OS:((PRETTY_NAME=\")?(.+)[\"]{0,1***REMOVED***)?";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|(CentOS|Oracle|Red Hat Enterprise) Linux.+|Windows|"
-            + "[ ]{0,***REMOVED***(Assembled|Copyright|ID|NAME|PATCHLEVEL|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?|"
-            + "***REMOVED*** Please check \\/etc\\/os-release|***REMOVED*** This file is deprecated|"
-            + "\\[error occurred during error reporting \\(printing OS information\\))(.+))$";
-
-    public static final Pattern PATTERN = Pattern.compile(REGEX);
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -88,17 +100,6 @@ public class OsEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.OS.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 
     /**

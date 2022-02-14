@@ -26,50 +26,8 @@ import org.junit.jupiter.api.Test;
 class TestEnvironmentVariablesEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "PATH=/path/to/bin";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
-                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParseLogLine() {
-        String logLine = "PATH=/path/to/bin";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof EnvironmentVariablesEvent,
-                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
-                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testLdLibraryPath() {
-        String logLine = "LD_LIBRARY_PATH=:/path/to/lib";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
-                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testShell() {
-        String logLine = "SHELL=/bin/ksh";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
-                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testJavaHome() {
-        String logLine = "JAVA_HOME=/etc/alternatives/jre_1.8.0";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
-                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testJreHome() {
-        String logLine = "JRE_HOME=/usr/java/jdk1.8.0_241-amd64/jre";
+    void testArch() {
+        String logLine = "ARCH=x86_64";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     ***REMOVED***
@@ -77,13 +35,6 @@ class TestEnvironmentVariablesEvent {
     @Test
     void testClasspath() {
         String logLine = "CLASSPATH=/usr/java/jdk1.8.0_241-amd64/lib/tools.jar";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
-                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testUsername() {
-        String logLine = "USERNAME=bob";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     ***REMOVED***
@@ -103,27 +54,6 @@ class TestEnvironmentVariablesEvent {
     ***REMOVED***
 
     @Test
-    void testLang() {
-        String logLine = "LANG=en_US.UTF-8";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
-                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testOs() {
-        String logLine = "OS=Windows_NT";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
-                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testProcessorIdentifier() {
-        String logLine = "PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 62 Stepping 4, GenuineIntel";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
-                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
     void testDyldLibraryPath() {
         String logLine = "DYLD_LIBRARY_PATH=/opt/tibco/ftl5.4.2-x86_64/lib";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
@@ -131,15 +61,8 @@ class TestEnvironmentVariablesEvent {
     ***REMOVED***
 
     @Test
-    void testLdPreload() {
-        String logLine = "LD_PRELOAD=/home/jboss/libc_hooks3.so";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
-                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testJavaOptions() {
-        String logLine = "_JAVA_OPTIONS=-XX:OnOutOfMemoryError='/bin/kill -ABRT %p'";
+    void testHeader() {
+        String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     ***REMOVED***
@@ -152,8 +75,50 @@ class TestEnvironmentVariablesEvent {
     ***REMOVED***
 
     @Test
-    void testOsType() {
-        String logLine = "OSTYPE=linux";
+    void testIdentity() {
+        String logLine = "PATH=/path/to/bin";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJavaHome() {
+        String logLine = "JAVA_HOME=/etc/alternatives/jre_1.8.0";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJavaOptions() {
+        String logLine = "_JAVA_OPTIONS=-XX:OnOutOfMemoryError='/bin/kill -ABRT %p'";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJreHome() {
+        String logLine = "JRE_HOME=/usr/java/jdk1.8.0_241-amd64/jre";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testLang() {
+        String logLine = "LANG=en_US.UTF-8";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testLdLibraryPath() {
+        String logLine = "LD_LIBRARY_PATH=:/path/to/lib";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testLdPreload() {
+        String logLine = "LD_PRELOAD=/home/jboss/libc_hooks3.so";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     ***REMOVED***
@@ -166,8 +131,43 @@ class TestEnvironmentVariablesEvent {
     ***REMOVED***
 
     @Test
-    void testArch() {
-        String logLine = "ARCH=x86_64";
+    void testOs() {
+        String logLine = "OS=Windows_NT";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOsType() {
+        String logLine = "OSTYPE=linux";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParseLogLine() {
+        String logLine = "PATH=/path/to/bin";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof EnvironmentVariablesEvent,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testProcessorIdentifier() {
+        String logLine = "PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 62 Stepping 4, GenuineIntel";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testShell() {
+        String logLine = "SHELL=/bin/ksh";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testUsername() {
+        String logLine = "USERNAME=bob";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     ***REMOVED***

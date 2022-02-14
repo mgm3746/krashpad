@@ -37,22 +37,19 @@ class TestVmOperationEvent {
     ***REMOVED***
 
     @Test
+    void testIsNotThrowaway() {
+        String logLine = "VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread "
+                + "0x0000000001b2a";
+        assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof ThrowAwayEvent,
+                "ThrowAwayEvent incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testParseLogLine() {
         String logLine = "VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread "
                 + "0x0000000001b2a";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testVmOperationPrintThreads() {
-        String logLine = "VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread "
-                + "0x0000000001b2a";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
-                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
-        VmOperationEvent event = new VmOperationEvent(logLine);
-        assertEquals("PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a", event.getVmOperation(),
-                "VM operation not correct.");
     ***REMOVED***
 
     @Test
@@ -67,10 +64,13 @@ class TestVmOperationEvent {
     ***REMOVED***
 
     @Test
-    void testIsNotThrowaway() {
+    void testVmOperationPrintThreads() {
         String logLine = "VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread "
                 + "0x0000000001b2a";
-        assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof ThrowAwayEvent,
-                "ThrowAwayEvent incorrectly identified.");
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperationEvent event = new VmOperationEvent(logLine);
+        assertEquals("PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a", event.getVmOperation(),
+                "VM operation not correct.");
     ***REMOVED***
 ***REMOVED***

@@ -26,6 +26,13 @@ import org.junit.jupiter.api.Test;
 class TestHeadingEvent {
 
     @Test
+    void testDashes70() {
+        String logLine = "----------------------------------------------------------------------";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
+                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
@@ -37,13 +44,6 @@ class TestHeadingEvent {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof HeadingEvent,
                 JdkUtil.LogEventType.HEADING.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testSystem() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
-                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
     ***REMOVED***
 
     @Test
@@ -61,8 +61,8 @@ class TestHeadingEvent {
     ***REMOVED***
 
     @Test
-    void testDashes70() {
-        String logLine = "----------------------------------------------------------------------";
+    void testSystem() {
+        String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
                 JdkUtil.LogEventType.HEADING.toString() + " not identified.");
     ***REMOVED***

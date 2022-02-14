@@ -33,16 +33,16 @@ class TestCompressedClassSpaceEvent {
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = "Compressed class space size: 1073741824 Address: 0x00000007c0000000";
+    void testJdk17() {
+        String logLine = "Compressed class space mapped at: 0x0000000800c00000-0x0000000840c00000, reserved size: "
+                + "1073741824";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompressedClassSpaceEvent,
                 JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString() + " not parsed.");
     ***REMOVED***
 
     @Test
-    void testJdk17() {
-        String logLine = "Compressed class space mapped at: 0x0000000800c00000-0x0000000840c00000, reserved size: "
-                + "1073741824";
+    void testParseLogLine() {
+        String logLine = "Compressed class space size: 1073741824 Address: 0x00000007c0000000";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompressedClassSpaceEvent,
                 JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString() + " not parsed.");
     ***REMOVED***

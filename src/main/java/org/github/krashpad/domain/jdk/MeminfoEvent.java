@@ -83,17 +83,28 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class MeminfoEvent implements LogEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + MeminfoEvent.REGEX_HEADER
+            + "|Active|Anon|Bounce|Buffers|Cached|Cma|Commit|Direct|Dirty|FileHugePages|FilePmdMapped|Hardware|Huge|"
+            + "Inactive|Kernel|Mapped|MemAvailable|MemFree|MemTotal|Mlocked|NFS|Page|Percpu|[KS]Reclaimable|Shmem|Slab|"
+            + "SUnreclaim|SwapCached|SwapFree|SwapTotal|Unevictable|Vmalloc|Write).*$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "***REMOVED***";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "|Active|Anon|Bounce|Buffers|Cached|Cma|Commit|Direct|Dirty|FileHugePages|FilePmdMapped|Hardware|Huge|"
-            + "Inactive|Kernel|Mapped|MemAvailable|MemFree|MemTotal|Mlocked|NFS|Page|Percpu|[KS]Reclaimable|Shmem|Slab|"
-            + "SUnreclaim|SwapCached|SwapFree|SwapTotal|Unevictable|Vmalloc|Write).*$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -116,16 +127,5 @@ public class MeminfoEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.MEMINFO.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

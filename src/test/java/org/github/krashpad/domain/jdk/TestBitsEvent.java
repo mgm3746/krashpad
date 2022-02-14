@@ -26,17 +26,17 @@ import org.junit.jupiter.api.Test;
 class TestBitsEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = " Bits: [0x00007f677d83f000, 0x00007f6900a58c00)";
+    void testBeginBits() {
+        String logLine = " Begin Bits: [0x00007f45d8c22000, 0x00007f45d9422000)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.BITS,
                 JdkUtil.LogEventType.BITS.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = " Bits: [0x00007f677d83f000, 0x00007f6900a58c00)";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof BitsEvent,
-                JdkUtil.LogEventType.BITS.toString() + " not parsed.");
+    void testEndBits() {
+        String logLine = " End Bits:   [0x00007f45d9422000, 0x00007f45d9c22000)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.BITS,
+                JdkUtil.LogEventType.BITS.toString() + " not identified.");
     ***REMOVED***
 
     @Test
@@ -61,8 +61,8 @@ class TestBitsEvent {
     ***REMOVED***
 
     @Test
-    void testPrevBits() {
-        String logLine = " Prev Bits: [0x00003fff44000000, 0x00003fff4c000000)";
+    void testIdentity() {
+        String logLine = " Bits: [0x00007f677d83f000, 0x00007f6900a58c00)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.BITS,
                 JdkUtil.LogEventType.BITS.toString() + " not identified.");
     ***REMOVED***
@@ -75,15 +75,15 @@ class TestBitsEvent {
     ***REMOVED***
 
     @Test
-    void testBeginBits() {
-        String logLine = " Begin Bits: [0x00007f45d8c22000, 0x00007f45d9422000)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.BITS,
-                JdkUtil.LogEventType.BITS.toString() + " not identified.");
+    void testParseLogLine() {
+        String logLine = " Bits: [0x00007f677d83f000, 0x00007f6900a58c00)";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof BitsEvent,
+                JdkUtil.LogEventType.BITS.toString() + " not parsed.");
     ***REMOVED***
 
     @Test
-    void testEndBits() {
-        String logLine = " End Bits:   [0x00007f45d9422000, 0x00007f45d9c22000)";
+    void testPrevBits() {
+        String logLine = " Prev Bits: [0x00003fff44000000, 0x00003fff4c000000)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.BITS,
                 JdkUtil.LogEventType.BITS.toString() + " not identified.");
     ***REMOVED***

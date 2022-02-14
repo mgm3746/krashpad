@@ -26,22 +26,15 @@ import org.junit.jupiter.api.Test;
 class TestTransparentHugepageEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "/sys/kernel/mm/transparent_hugepage/enabled:";
+    void testAlwaysBrackets() {
+        String logLine = "[always] madvise never";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = "/sys/kernel/mm/transparent_hugepage/enabled:";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TransparentHugepageEvent,
-                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testAlwaysBrackets() {
-        String logLine = "[always] madvise never";
+    void testAlwaysNoBrackets() {
+        String logLine = "always defer defer+madvise [madvise] never";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
     ***REMOVED***
@@ -54,9 +47,16 @@ class TestTransparentHugepageEvent {
     ***REMOVED***
 
     @Test
-    void testAlwaysNoBrackets() {
-        String logLine = "always defer defer+madvise [madvise] never";
+    void testIdentity() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/enabled:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParseLogLine() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/enabled:";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TransparentHugepageEvent,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

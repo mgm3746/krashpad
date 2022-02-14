@@ -26,12 +26,6 @@ import java.math.RoundingMode;
 public class JdkMath {
 
     /**
-     * Make default constructor private so the class cannot be instantiated.
-     */
-    private JdkMath() {
-    ***REMOVED***
-
-    /**
      * Calculate percent.
      * 
      * @param part
@@ -57,5 +51,11 @@ public class JdkMath {
             percent = calc.intValue();
         ***REMOVED***
         return percent;
+    ***REMOVED***
+
+    /**
+     * Make default constructor private so the class cannot be instantiated.
+     */
+    private JdkMath() {
     ***REMOVED***
 ***REMOVED***

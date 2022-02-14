@@ -26,6 +26,13 @@ import org.junit.jupiter.api.Test;
 class TestExceptionCountsEvent {
 
     @Test
+    void testHeader() {
+        String logLine = "OutOfMemory and StackOverflow Exception counts:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS,
+                JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "StackOverflowErrors=54";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS,
@@ -33,15 +40,8 @@ class TestExceptionCountsEvent {
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = "StackOverflowErrors=54";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ExceptionCountsEvent,
-                JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
-        String logLine = "OutOfMemory and StackOverflow Exception counts:";
+    void testLinkageErrors() {
+        String logLine = "LinkageErrors=5276";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS,
                 JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.");
     ***REMOVED***
@@ -54,9 +54,9 @@ class TestExceptionCountsEvent {
     ***REMOVED***
 
     @Test
-    void testLinkageErrors() {
-        String logLine = "LinkageErrors=5276";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS,
-                JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.");
+    void testParseLogLine() {
+        String logLine = "StackOverflowErrors=54";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ExceptionCountsEvent,
+                JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

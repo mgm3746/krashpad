@@ -40,12 +40,23 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class TimeEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(TimeEvent.REGEX);
+
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^time: (.+)$";
 
-    private static Pattern pattern = Pattern.compile(REGEX);
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -77,16 +88,5 @@ public class TimeEvent implements LogEvent {
             time = matcher.group(1);
         ***REMOVED***
         return time;
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

@@ -27,6 +27,15 @@ import org.junit.jupiter.api.Test;
 class TestElapsedTimeEvent {
 
     @Test
+    void testElapsedTime() {
+        String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
+                JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
+        ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
+        assertEquals("9d 21h 33m 5s", event.getElapsedTime(), "Elapsed time not correct.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
@@ -41,12 +50,12 @@ class TestElapsedTimeEvent {
     ***REMOVED***
 
     @Test
-    void testElapsedTime() {
-        String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
+    void testSecondsOnly() {
+        String logLine = "elapsed time: 228058 seconds";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
                 JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
         ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
-        assertEquals("9d 21h 33m 5s", event.getElapsedTime(), "Elapsed time not correct.");
+        assertEquals("228058 seconds", event.getElapsedTime(), "Elapsed time not correct.");
     ***REMOVED***
 
     @Test
@@ -56,14 +65,5 @@ class TestElapsedTimeEvent {
                 JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
         ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
         assertEquals("0d 0h 0m 0s", event.getElapsedTime(), "Elapsed time not correct.");
-    ***REMOVED***
-
-    @Test
-    void testSecondsOnly() {
-        String logLine = "elapsed time: 228058 seconds";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
-                JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
-        ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
-        assertEquals("228058 seconds", event.getElapsedTime(), "Elapsed time not correct.");
     ***REMOVED***
 ***REMOVED***

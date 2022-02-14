@@ -33,16 +33,16 @@ class TestMaxMapCountEvent {
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof MaxMapCountEvent,
-                JdkUtil.LogEventType.MAX_MAP_COUNT.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
     void testJdk17() {
         String logLine = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 65530";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MAX_MAP_COUNT,
                 JdkUtil.LogEventType.MAX_MAP_COUNT.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParseLogLine() {
+        String logLine = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof MaxMapCountEvent,
+                JdkUtil.LogEventType.MAX_MAP_COUNT.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

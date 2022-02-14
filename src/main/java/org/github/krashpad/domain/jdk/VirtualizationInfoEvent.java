@@ -50,17 +50,28 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class VirtualizationInfoEvent implements LogEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + VirtualizationInfoEvent.REGEX_HEADER
+            + "|guest\\.mem\\.|host\\.cpu\\.|ovhd\\.mem\\.|Steal ticks|vm\\.cpu\\.|vm\\.numa\\.|"
+            + "vSphere host information:|vSphere resource information available now:|"
+            + "vSphere resource information collected at VM startup:).*$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "(HyperV|KVM|VMWare) virtualization detected";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "|guest\\.mem\\.|host\\.cpu\\.|ovhd\\.mem\\.|Steal ticks|vm\\.cpu\\.|vm\\.numa\\.|"
-            + "vSphere host information:|vSphere resource information available now:|"
-            + "vSphere resource information collected at VM startup:).*$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -83,16 +94,5 @@ public class VirtualizationInfoEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

@@ -44,18 +44,29 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class ProcessMemoryEvent implements LogEvent {
 
+    public static final Pattern PATTERN = Pattern.compile(ProcessMemoryEvent.REGEX);
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + ProcessMemoryEvent.REGEX_HEADER
+            + "|C-Heap outstanding allocations:|Resident Set Size:|Swapped out:|Virtual Size:).*$";
+
     /**
      * Regular expression for the header.
      */
     public static final String REGEX_HEADER = "^Process Memory:$";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "|C-Heap outstanding allocations:|Resident Set Size:|Swapped out:|Virtual Size:).*$";
-
-    public static final Pattern PATTERN = Pattern.compile(REGEX);
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -78,17 +89,6 @@ public class ProcessMemoryEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.PROCESS_MEMORY.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 
     /**

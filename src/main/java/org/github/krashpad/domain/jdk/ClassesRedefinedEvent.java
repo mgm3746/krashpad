@@ -44,15 +44,26 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class ClassesRedefinedEvent implements LogEvent, ThrowAwayEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + ClassesRedefinedEvent.REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
+            + " Thread " + JdkRegEx.ADDRESS + " redefined class).*$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "Classes redefined \\(\\d{1,***REMOVED*** events\\):";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " redefined class).*$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -75,16 +86,5 @@ public class ClassesRedefinedEvent implements LogEvent, ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.CLASSES_REDEFINED.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

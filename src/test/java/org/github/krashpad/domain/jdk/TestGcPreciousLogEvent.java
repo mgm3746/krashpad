@@ -26,48 +26,6 @@ import org.junit.jupiter.api.Test;
 class TestGcPreciousLogEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "GC Precious Log:";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GC_PRECIOUS_LOG,
-                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParseLogLine() {
-        String logLine = "GC Precious Log:";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
-                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testCpus() {
-        String logLine = " CPUs: 12 total, 12 available";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
-                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testMemory() {
-        String logLine = " Memory: 31907M";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
-                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testLargePageSupport() {
-        String logLine = " Large Page Support: Disabled";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
-                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testNumaSupport() {
-        String logLine = " NUMA Support: Disabled";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
-                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
     void testCompressedOops() {
         String logLine = " Compressed Oops: Enabled (Zero based)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
@@ -75,15 +33,22 @@ class TestGcPreciousLogEvent {
     ***REMOVED***
 
     @Test
-    void testHeapRegionSize() {
-        String logLine = " Heap Region Size: 4M";
+    void testConcurrentRefinementWorkers() {
+        String logLine = " Concurrent Refinement Workers: 10";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     ***REMOVED***
 
     @Test
-    void testHeapMinCapacity() {
-        String logLine = " Heap Min Capacity: 8M";
+    void testConcurrentWorkers() {
+        String logLine = " Concurrent Workers: 3";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testCpus() {
+        String logLine = " CPUs: 12 total, 12 available";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     ***REMOVED***
@@ -103,8 +68,43 @@ class TestGcPreciousLogEvent {
     ***REMOVED***
 
     @Test
-    void testPreTouch() {
-        String logLine = " Pre-touch: Disabled";
+    void testHeapMinCapacity() {
+        String logLine = " Heap Min Capacity: 8M";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testHeapRegionSize() {
+        String logLine = " Heap Region Size: 4M";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testIdentity() {
+        String logLine = "GC Precious Log:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GC_PRECIOUS_LOG,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testLargePageSupport() {
+        String logLine = " Large Page Support: Disabled";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testMemory() {
+        String logLine = " Memory: 31907M";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testNumaSupport() {
+        String logLine = " NUMA Support: Disabled";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     ***REMOVED***
@@ -117,15 +117,8 @@ class TestGcPreciousLogEvent {
     ***REMOVED***
 
     @Test
-    void testConcurrentWorkers() {
-        String logLine = " Concurrent Workers: 3";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
-                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testConcurrentRefinementWorkers() {
-        String logLine = " Concurrent Refinement Workers: 10";
+    void testParseLogLine() {
+        String logLine = "GC Precious Log:";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     ***REMOVED***
@@ -133,6 +126,13 @@ class TestGcPreciousLogEvent {
     @Test
     void testPeriodicGc() {
         String logLine = " Periodic GC: Disabled";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testPreTouch() {
+        String logLine = " Pre-touch: Disabled";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLogEvent,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     ***REMOVED***

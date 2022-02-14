@@ -71,20 +71,31 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class DynamicLibraryEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(DynamicLibraryEvent.REGEX);
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + DynamicLibraryEvent.REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|"
+            + JdkRegEx.ADDRESS + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS
+            + " " + JdkRegEx.INODE + ")?[ ]{1,***REMOVED***((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA
+            + "))?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,***REMOVED***)$";
+
     /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "***REMOVED***";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS
-            + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE
-            + ")?[ ]{1,***REMOVED***((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA
-            + "))?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,***REMOVED***)$";
-
-    private static Pattern pattern = Pattern.compile(REGEX);
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -99,25 +110,6 @@ public class DynamicLibraryEvent implements LogEvent {
      */
     public DynamicLibraryEvent(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
-
-    public String getLogEntry() {
-        return logEntry;
-    ***REMOVED***
-
-    public String getName() {
-        return JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 
     /**
@@ -153,5 +145,13 @@ public class DynamicLibraryEvent implements LogEvent {
             filePath = matcher.group(filePathIndex);
         ***REMOVED***
         return filePath;
+    ***REMOVED***
+
+    public String getLogEntry() {
+        return logEntry;
+    ***REMOVED***
+
+    public String getName() {
+        return JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString();
     ***REMOVED***
 ***REMOVED***

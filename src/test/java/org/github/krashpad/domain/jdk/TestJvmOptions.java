@@ -55,6 +55,14 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testAgentLib() {
+        String jvmArgs = "-Xms1g -agentlib:am_sun_16=/path/to/my.properties -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-agentlib:am_sun_16=/path/to/my.properties", jvmOptions.getAgentlib().get(0),
+                "JDPA socket transport (debugging) not correct.");
+    ***REMOVED***
+
+    @Test
     void testCMSScavengeBeforeRemark() {
         String jvmArgs = "-Xms1g -XX:+CMSScavengeBeforeRemark -Xmx1g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
@@ -81,15 +89,6 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
-    void testDebugging() {
-        String jvmArgs = "-XX:OnOutOfMemoryError=/bin/kill "
-                + "-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n";
-        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n",
-                jvmOptions.getJpdaSocketTransport(), "JDPA socket transport (debugging) not correct.");
-    ***REMOVED***
-
-    @Test
     void testDisableAttachMechanism() {
         String jvmArgs = "-XX:+DisableAttachMechanism";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
@@ -100,10 +99,10 @@ class TestJvmOptions {
     @Test
     void testDuplicateAddExports() {
         String jvmArgs = "-Xms1g --add-exports=java.base/sun.nio.ch=ALL-UNNAMED "
-                + "--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED "
-                + "--add-exports=jdk.unsupported/sun.reflect=ALL-UNNAMED -Xmx2g";
+                + "--add-exports=java.base/sun.nio.ch=ALL-UNNAMED -Xmx2g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertNull(jvmOptions.getDuplicates(), "Duplicates not correct.");
+        assertEquals("--add-exports=java.base/sun.nio.ch=ALL-UNNAMED --add-exports=java.base/sun.nio.ch=ALL-UNNAMED",
+                jvmOptions.getDuplicates(), "Duplicates not correct.");
     ***REMOVED***
 
     @Test
@@ -293,6 +292,15 @@ class TestJvmOptions {
         String jvmArgs = "-XX:MaxNewSize=512m";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals("-XX:MaxNewSize=512m", jvmOptions.getMaxNewSize(), "MaxNewSize not correct.");
+    ***REMOVED***
+
+    @Test
+    void testMultipleAddExports() {
+        String jvmArgs = "-Xms1g --add-exports=java.base/sun.nio.ch=ALL-UNNAMED "
+                + "--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED "
+                + "--add-exports=jdk.unsupported/sun.reflect=ALL-UNNAMED -Xmx2g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertNull(jvmOptions.getDuplicates(), "Duplicates not correct.");
     ***REMOVED***
 
     @Test

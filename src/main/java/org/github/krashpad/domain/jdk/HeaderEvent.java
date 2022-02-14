@@ -85,6 +85,17 @@ public class HeaderEvent implements LogEvent {
             + "frame\\), id 0x[a-z0-9]\\])(.*)?$";
 
     /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
+
+    /**
      * The log entry for the event.
      */
     private String logEntry;
@@ -108,17 +119,6 @@ public class HeaderEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
-    ***REMOVED***
-
-    /**
      * @return The <code>OsType</code>.
      */
     public OsType getOsType() {
@@ -134,32 +134,10 @@ public class HeaderEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return True if the event is SIGSEGV, false otherwise.
+     * @return True if the event is an error, false otherwise.
      */
-    public boolean isSignalNumber() {
-        return logEntry.matches(
-                "^***REMOVED***  (" + SignalNumber.SIGBUS + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ").+$");
-    ***REMOVED***
-
-    /**
-     * @return True if the event is a problematic frame, false otherwise.
-     */
-    public boolean isProblematicFrame() {
-        return logEntry.matches("^***REMOVED*** (C  |J |v  |V  ).+$");
-    ***REMOVED***
-
-    /**
-     * @return True if the event is a VM frame, false otherwise.
-     */
-    public boolean isVmFrame() {
-        return logEntry.matches("^***REMOVED*** (V  ).+$");
-    ***REMOVED***
-
-    /**
-     * @return True if the event is an itnernal error, false otherwise.
-     */
-    public boolean isInternalError() {
-        return logEntry.matches("^***REMOVED***  Internal Error.+$");
+    public boolean isError() {
+        return logEntry.matches("^***REMOVED***  Error:.+$");
     ***REMOVED***
 
     /**
@@ -177,17 +155,10 @@ public class HeaderEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return True if the event involves something out of, false otherwise.
+     * @return True if the event is an itnernal error, false otherwise.
      */
-    public boolean isOutOf() {
-        return logEntry.matches("^***REMOVED***.+Out of.+$");
-    ***REMOVED***
-
-    /**
-     * @return True if the event is an error, false otherwise.
-     */
-    public boolean isError() {
-        return logEntry.matches("^***REMOVED***  Error:.+$");
+    public boolean isInternalError() {
+        return logEntry.matches("^***REMOVED***  Internal Error.+$");
     ***REMOVED***
 
     /**
@@ -213,5 +184,34 @@ public class HeaderEvent implements LogEvent {
      */
     public boolean isJreVersion() {
         return logEntry.matches("^***REMOVED*** JRE version:.+$");
+    ***REMOVED***
+
+    /**
+     * @return True if the event involves something out of, false otherwise.
+     */
+    public boolean isOutOf() {
+        return logEntry.matches("^***REMOVED***.+Out of.+$");
+    ***REMOVED***
+
+    /**
+     * @return True if the event is a problematic frame, false otherwise.
+     */
+    public boolean isProblematicFrame() {
+        return logEntry.matches("^***REMOVED*** (C  |J |v  |V  ).+$");
+    ***REMOVED***
+
+    /**
+     * @return True if the event is SIGSEGV, false otherwise.
+     */
+    public boolean isSignalNumber() {
+        return logEntry.matches(
+                "^***REMOVED***  (" + SignalNumber.SIGBUS + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ").+$");
+    ***REMOVED***
+
+    /**
+     * @return True if the event is a VM frame, false otherwise.
+     */
+    public boolean isVmFrame() {
+        return logEntry.matches("^***REMOVED*** (V  ).+$");
     ***REMOVED***
 ***REMOVED***

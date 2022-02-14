@@ -41,12 +41,23 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class CurrentThreadEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(CurrentThreadEvent.REGEX);
+
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^Current thread( \\(" + JdkRegEx.ADDRESS + "\\):)?[ ]{1,2***REMOVED***(.+)$";
 
-    private static Pattern pattern = Pattern.compile(REGEX);
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -63,25 +74,6 @@ public class CurrentThreadEvent implements LogEvent {
         this.logEntry = logEntry;
     ***REMOVED***
 
-    public String getLogEntry() {
-        return logEntry;
-    ***REMOVED***
-
-    public String getName() {
-        return JdkUtil.LogEventType.CURRENT_THREAD.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
-    ***REMOVED***
-
     /**
      * @return The thread running when the JVM crashed.
      */
@@ -92,5 +84,13 @@ public class CurrentThreadEvent implements LogEvent {
             currentThread = matcher.group(7);
         ***REMOVED***
         return currentThread;
+    ***REMOVED***
+
+    public String getLogEntry() {
+        return logEntry;
+    ***REMOVED***
+
+    public String getName() {
+        return JdkUtil.LogEventType.CURRENT_THREAD.toString();
     ***REMOVED***
 ***REMOVED***

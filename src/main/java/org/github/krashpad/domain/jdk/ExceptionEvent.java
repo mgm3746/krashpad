@@ -46,6 +46,17 @@ public class ExceptionEvent implements LogEvent {
             + JdkRegEx.ADDRESS + " Exception|<meta name).+$";
 
     /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
+
+    /**
      * The log entry for the event.
      */
     private String logEntry;
@@ -66,16 +77,5 @@ public class ExceptionEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.EXCEPTION_EVENT.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

@@ -26,39 +26,17 @@ import org.junit.jupiter.api.Test;
 class TestThreadEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "  0x00007f19aa5128e0 JavaThread \"Thread-8\" daemon [_thread_blocked, id=18881, "
-                + "stack(0x00007f199cf04000,0x00007f199d005000)]";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
-                JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParseLogLine() {
-        String logLine = "  0x00007f19aa5128e0 JavaThread \"Thread-8\" daemon [_thread_blocked, id=18881, "
-                + "stack(0x00007f199cf04000,0x00007f199d005000)]";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ThreadEvent,
-                JdkUtil.LogEventType.THREAD.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testJavaThreadHeader() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
-                JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testOtherThreadHeader() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
-                JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
     void test32Bit() {
         String logLine = "  0x08f59000 JavaThread \"Service Thread\" daemon [_thread_blocked, id=29308, "
                 + "stack(0xd6b0d000,0xd6b5e000)]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
+                JdkUtil.LogEventType.THREAD.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testConcurrentGcThread() {
+        String logLine = "  0x00007ffff0087000 ConcurrentGCThread \"G1 Main Marker\" [stack: 0x00007fffba4b0000,"
+                + "0x00007fffba5b0000] [id=24734]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
     ***REMOVED***
@@ -80,6 +58,14 @@ class TestThreadEvent {
     ***REMOVED***
 
     @Test
+    void testError() {
+        String logLine = "[error occurred during error reporting (printing all threads), id 0xb, SIGSEGV (0xb) at "
+                + "pc=0x00007fc88aaa9a74]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
+                JdkUtil.LogEventType.THREAD.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testGcTaskThread() {
         String logLine = "=>0x00007fcbc8056000 (exited) GCTaskThread [stack: 0x00007fcbcc578000,0x00007fcbcc678000] "
                 + "[id=52418]";
@@ -88,18 +74,32 @@ class TestThreadEvent {
     ***REMOVED***
 
     @Test
-    void testConcurrentGcThread() {
-        String logLine = "  0x00007ffff0087000 ConcurrentGCThread \"G1 Main Marker\" [stack: 0x00007fffba4b0000,"
-                + "0x00007fffba5b0000] [id=24734]";
+    void testIdentity() {
+        String logLine = "  0x00007f19aa5128e0 JavaThread \"Thread-8\" daemon [_thread_blocked, id=18881, "
+                + "stack(0x00007f199cf04000,0x00007f199d005000)]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testError() {
-        String logLine = "[error occurred during error reporting (printing all threads), id 0xb, SIGSEGV (0xb) at "
-                + "pc=0x00007fc88aaa9a74]";
+    void testJavaThreadHeader() {
+        String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOtherThreadHeader() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
+                JdkUtil.LogEventType.THREAD.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParseLogLine() {
+        String logLine = "  0x00007f19aa5128e0 JavaThread \"Thread-8\" daemon [_thread_blocked, id=18881, "
+                + "stack(0x00007f199cf04000,0x00007f199d005000)]";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ThreadEvent,
+                JdkUtil.LogEventType.THREAD.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

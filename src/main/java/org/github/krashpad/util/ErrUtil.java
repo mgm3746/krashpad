@@ -32,52 +32,15 @@ import org.github.krashpad.util.jdk.JdkRegEx;
 public class ErrUtil {
 
     /**
-     * Make default constructor private so the class cannot be instantiated.
-     */
-    private ErrUtil() {
-
-    ***REMOVED***
-
-    /**
-     * Check if the <code>TagHtmlEvent</code> is a start tag.
-     * 
-     * @param htmlTag
-     *            The html tag.
-     * @return true if a start tag, false otherwise.
-     */
-    public static final boolean isHtmlEventStartTag(String htmlTag) {
-        return htmlTag.matches("^<[^/].+$");
-    ***REMOVED***
-
-    /**
-     * Retrieve the value for a given property file and key.
-     * 
-     * @param propertyFile
-     *            The property file.
-     * @param key
-     *            The property key.
-     * @return The value for the given property file and key.
-     */
-    public static final String getPropertyValue(String propertyFile, String key) {
-        ResourceBundle rb = ResourceBundle.getBundle("META-INF." + propertyFile);
-        return rb.getString(key);
-    ***REMOVED***
-
-    /**
-     * Calculate the number of milliseconds between two dates.
-     * 
      * @param start
-     *            Start <code>Date</code>.
+     *            Start date.
      * @param end
-     *            End <code>Date</code>.
-     * @return The interval between two dates in milliseconds.
+     *            End date.
+     * @return The number of days between 2 dates.
      */
-    public static final long millisDiff(Date start, Date end) {
-        long millisDiff = 0;
-        if (start != null && end != null) {
-            millisDiff = end.getTime() - start.getTime();
-        ***REMOVED***
-        return millisDiff;
+    public static final int dayDiff(Date start, Date end) {
+        long millisDiff = millisDiff(start, end);
+        return daysInMilliSeconds(millisDiff);
     ***REMOVED***
 
     /**
@@ -92,16 +55,24 @@ public class ErrUtil {
         return days.divideToIntegralValue(new BigDecimal(1000 * 60 * 60 * 24)).intValue();
     ***REMOVED***
 
-    /**
-     * @param start
-     *            Start date.
-     * @param end
-     *            End date.
-     * @return The number of days between 2 dates.
-     */
-    public static final int dayDiff(Date start, Date end) {
-        long millisDiff = millisDiff(start, end);
-        return daysInMilliSeconds(millisDiff);
+    public static final Date getDate(String buildDate) {
+        String MMM = null;
+        String d = null;
+        String yyyy = null;
+        String HH = null;
+        String mm = null;
+        String ss = null;
+        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATE_TIME);
+        Matcher matcher = pattern.matcher(buildDate);
+        if (matcher.find()) {
+            MMM = matcher.group(1);
+            d = matcher.group(2);
+            yyyy = matcher.group(3);
+            HH = matcher.group(4);
+            mm = matcher.group(5);
+            ss = matcher.group(6);
+        ***REMOVED***
+        return getDate(MMM, d, yyyy, HH, mm, ss);
     ***REMOVED***
 
     /**
@@ -177,23 +148,52 @@ public class ErrUtil {
         return calendar.getTime();
     ***REMOVED***
 
-    public static final Date getDate(String buildDate) {
-        String MMM = null;
-        String d = null;
-        String yyyy = null;
-        String HH = null;
-        String mm = null;
-        String ss = null;
-        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATE_TIME);
-        Matcher matcher = pattern.matcher(buildDate);
-        if (matcher.find()) {
-            MMM = matcher.group(1);
-            d = matcher.group(2);
-            yyyy = matcher.group(3);
-            HH = matcher.group(4);
-            mm = matcher.group(5);
-            ss = matcher.group(6);
+    /**
+     * Retrieve the value for a given property file and key.
+     * 
+     * @param propertyFile
+     *            The property file.
+     * @param key
+     *            The property key.
+     * @return The value for the given property file and key.
+     */
+    public static final String getPropertyValue(String propertyFile, String key) {
+        ResourceBundle rb = ResourceBundle.getBundle("META-INF." + propertyFile);
+        return rb.getString(key);
+    ***REMOVED***
+
+    /**
+     * Check if the <code>TagHtmlEvent</code> is a start tag.
+     * 
+     * @param htmlTag
+     *            The html tag.
+     * @return true if a start tag, false otherwise.
+     */
+    public static final boolean isHtmlEventStartTag(String htmlTag) {
+        return htmlTag.matches("^<[^/].+$");
+    ***REMOVED***
+
+    /**
+     * Calculate the number of milliseconds between two dates.
+     * 
+     * @param start
+     *            Start <code>Date</code>.
+     * @param end
+     *            End <code>Date</code>.
+     * @return The interval between two dates in milliseconds.
+     */
+    public static final long millisDiff(Date start, Date end) {
+        long millisDiff = 0;
+        if (start != null && end != null) {
+            millisDiff = end.getTime() - start.getTime();
         ***REMOVED***
-        return getDate(MMM, d, yyyy, HH, mm, ss);
+        return millisDiff;
+    ***REMOVED***
+
+    /**
+     * Make default constructor private so the class cannot be instantiated.
+     */
+    private ErrUtil() {
+
     ***REMOVED***
 ***REMOVED***

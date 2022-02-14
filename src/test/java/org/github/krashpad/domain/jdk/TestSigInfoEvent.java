@@ -29,6 +29,15 @@ import org.junit.jupiter.api.Test;
 class TestSigInfoEvent {
 
     @Test
+    void testExceptionAccessViolation() {
+        String logLine = "siginfo: ExceptionCode=0xc0000005, reading address 0x0000000000000048";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
+        SigInfoEvent event = new SigInfoEvent(logLine);
+        assertEquals(SignalNumber.EXCEPTION_ACCESS_VIOLATION, event.getSignalNumber(), "Signal number not correct.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
@@ -43,23 +52,23 @@ class TestSigInfoEvent {
     ***REMOVED***
 
     @Test
-    void testSigsegvSegvMaperr() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
-                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
-        SigInfoEvent event = new SigInfoEvent(logLine);
-        assertEquals(SignalNumber.SIGSEGV, event.getSignalNumber(), "Signal number not correct.");
-        assertEquals(SignalCode.SEGV_MAPERR, event.getSignalCode(), "Signal code not correct.");
-        assertEquals("0x0000000000000008", event.getSignalAddress(), "Signal address not correct.");
-    ***REMOVED***
-
-    @Test
-    void testExceptionAccessViolation() {
-        String logLine = "siginfo: ExceptionCode=0xc0000005, reading address 0x0000000000000048";
+    void testSignalCodeExceptionAccessViolation() {
+        String logLine = "siginfo: EXCEPTION_ACCESS_VIOLATION (0xc0000005), reading address 0xffffffffffffffff";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
                 JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
         SigInfoEvent event = new SigInfoEvent(logLine);
         assertEquals(SignalNumber.EXCEPTION_ACCESS_VIOLATION, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.UNKNOWN, event.getSignalCode(), "Signal code not correct.");
+    ***REMOVED***
+
+    @Test
+    void testSignalCodeIllIllOpn() {
+        String logLine = "siginfo: si_signo: 4 (SIGILL), si_code: 2 (ILL_ILLOPN), si_addr: 0x00007f682098912c";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
+        SigInfoEvent event = new SigInfoEvent(logLine);
+        assertEquals(SignalNumber.SIGILL, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.ILL_ILLOPN, event.getSignalCode(), "Signal code not correct.");
     ***REMOVED***
 
     @Test
@@ -83,22 +92,13 @@ class TestSigInfoEvent {
     ***REMOVED***
 
     @Test
-    void testSignalCodeIllIllOpn() {
-        String logLine = "siginfo: si_signo: 4 (SIGILL), si_code: 2 (ILL_ILLOPN), si_addr: 0x00007f682098912c";
+    void testSigsegvSegvMaperr() {
+        String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
                 JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
         SigInfoEvent event = new SigInfoEvent(logLine);
-        assertEquals(SignalNumber.SIGILL, event.getSignalNumber(), "Signal number not correct.");
-        assertEquals(SignalCode.ILL_ILLOPN, event.getSignalCode(), "Signal code not correct.");
-    ***REMOVED***
-
-    @Test
-    void testSignalCodeExceptionAccessViolation() {
-        String logLine = "siginfo: EXCEPTION_ACCESS_VIOLATION (0xc0000005), reading address 0xffffffffffffffff";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
-                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
-        SigInfoEvent event = new SigInfoEvent(logLine);
-        assertEquals(SignalNumber.EXCEPTION_ACCESS_VIOLATION, event.getSignalNumber(), "Signal number not correct.");
-        assertEquals(SignalCode.UNKNOWN, event.getSignalCode(), "Signal code not correct.");
+        assertEquals(SignalNumber.SIGSEGV, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.SEGV_MAPERR, event.getSignalCode(), "Signal code not correct.");
+        assertEquals("0x0000000000000008", event.getSignalAddress(), "Signal address not correct.");
     ***REMOVED***
 ***REMOVED***

@@ -34,16 +34,16 @@ class TestOperationEvent {
     ***REMOVED***
 
     @Test
-    void testParseLogLine() {
-        String logLine = "VM Operations (0 events):";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof OperationEvent,
-                JdkUtil.LogEventType.OPERATION.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
     void testNoEvents() {
         String logLine = "No Events";
         assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OPERATION,
                 JdkUtil.LogEventType.OPERATION.toString() + " incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testParseLogLine() {
+        String logLine = "VM Operations (0 events):";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof OperationEvent,
+                JdkUtil.LogEventType.OPERATION.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

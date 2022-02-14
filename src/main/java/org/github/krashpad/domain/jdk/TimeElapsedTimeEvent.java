@@ -40,13 +40,24 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class TimeElapsedTimeEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(TimeElapsedTimeEvent.REGEX);
+
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^Time: (.+) elapsed time: (\\d{1,10***REMOVED***(\\.\\d{6***REMOVED***)? seconds) \\((\\d{1,4***REMOVED***d "
             + "\\d{1,2***REMOVED***h \\d{1,2***REMOVED***m \\d{1,2***REMOVED***s)\\)$";
 
-    private static Pattern pattern = Pattern.compile(REGEX);
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -63,6 +74,17 @@ public class TimeElapsedTimeEvent implements LogEvent {
         this.logEntry = logEntry;
     ***REMOVED***
 
+    public String getElapsedTime() {
+        String time = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(4) != null) {
+                time = matcher.group(4);
+            ***REMOVED***
+        ***REMOVED***
+        return time;
+    ***REMOVED***
+
     public String getLogEntry() {
         return logEntry;
     ***REMOVED***
@@ -71,33 +93,11 @@ public class TimeElapsedTimeEvent implements LogEvent {
         return JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString();
     ***REMOVED***
 
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
-    ***REMOVED***
-
     public String getTime() {
         String time = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             time = matcher.group(1);
-        ***REMOVED***
-        return time;
-    ***REMOVED***
-
-    public String getElapsedTime() {
-        String time = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            if (matcher.group(4) != null) {
-                time = matcher.group(4);
-            ***REMOVED***
         ***REMOVED***
         return time;
     ***REMOVED***

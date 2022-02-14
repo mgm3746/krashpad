@@ -26,29 +26,8 @@ import org.junit.jupiter.api.Test;
 class TestThreadsClassSmrInfoEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "_java_thread_list=0x00000000020a0100, length=58, elements={";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
-                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParseLogLine() {
-        String logLine = "_java_thread_list=0x00000000020a0100, length=58, elements={";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ThreadsClassSmrInfoEvent,
-                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
-        String logLine = "Threads class SMR info:";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
-                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testAdress4() {
-        String logLine = "0x00007ffff0017800, 0x00007ffff0450000, 0x00007ffff0452000, 0x00007ffff0460000,";
+    void testAdress1() {
+        String logLine = "0x00007f66f00a8800";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
                 JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
     ***REMOVED***
@@ -61,15 +40,15 @@ class TestThreadsClassSmrInfoEvent {
     ***REMOVED***
 
     @Test
-    void testAdress1() {
-        String logLine = "0x00007f66f00a8800";
+    void testAdress3() {
+        String logLine = "0x00007fdbb0001800, 0x00007fdb0c001800, 0x00007fdbf00b1800";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
                 JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testAdress3() {
-        String logLine = "0x00007fdbb0001800, 0x00007fdb0c001800, 0x00007fdbf00b1800";
+    void testAdress4() {
+        String logLine = "0x00007ffff0017800, 0x00007ffff0450000, 0x00007ffff0452000, 0x00007ffff0460000,";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
                 JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
     ***REMOVED***
@@ -79,5 +58,26 @@ class TestThreadsClassSmrInfoEvent {
         String logLine = "0x00007f99b80117c0, 0x00007f98f8024750, 0x00007f995001c480, 0x00007f99b0003e20";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
                 JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testHeader() {
+        String logLine = "Threads class SMR info:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
+                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testIdentity() {
+        String logLine = "_java_thread_list=0x00000000020a0100, length=58, elements={";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
+                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParseLogLine() {
+        String logLine = "_java_thread_list=0x00000000020a0100, length=58, elements={";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ThreadsClassSmrInfoEvent,
+                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

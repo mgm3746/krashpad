@@ -51,16 +51,27 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class SignalHandlersEvent implements LogEvent, ThrowAwayEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + SignalHandlersEvent.REGEX_HEADER
+            + "|[ ]{0,5***REMOVED***(SIG39|SIG40|SIGSEGV|SIGBUS|SIGFPE|SIGPIPE|SIGXFSZ|SIGILL|SIGUSR1|SIGUSR2|SIGHUP|SIGINT|"
+            + "SIGTERM|SIGTRAP|SIGQUIT)).*$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "***REMOVED***";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "|[ ]{0,5***REMOVED***(SIG39|SIG40|SIGSEGV|SIGBUS|SIGFPE|SIGPIPE|SIGXFSZ|SIGILL|SIGUSR1|SIGUSR2|SIGHUP|SIGINT|"
-            + "SIGTERM|SIGTRAP|SIGQUIT)).*$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -83,16 +94,5 @@ public class SignalHandlersEvent implements LogEvent, ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.SIGNAL_HANDLERS.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

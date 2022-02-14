@@ -33,6 +33,17 @@ public class EndBraceEvent implements ThrowAwayEvent {
     private static final String REGEX = "^***REMOVED***$";
 
     /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
+
+    /**
      * The log entry for the event. Can be used for debugging purposes.
      */
     private String logEntry;
@@ -53,16 +64,5 @@ public class EndBraceEvent implements ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.END_BRACE.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

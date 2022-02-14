@@ -26,6 +26,13 @@ import org.junit.jupiter.api.Test;
 class TestProcessMemoryEvent {
 
     @Test
+    void testCHeapOutstandingAllocations() {
+        String logLine = "C-Heap outstanding allocations: 323983K (may have wrapped)";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ProcessMemoryEvent,
+                JdkUtil.LogEventType.PROCESS_MEMORY.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "Process Memory:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.PROCESS_MEMORY,
@@ -35,13 +42,6 @@ class TestProcessMemoryEvent {
     @Test
     void testParseLogLine() {
         String logLine = "Process Memory:";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ProcessMemoryEvent,
-                JdkUtil.LogEventType.PROCESS_MEMORY.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testVirtualSize() {
-        String logLine = "Virtual Size: 11384200K (peak: 19821176K)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ProcessMemoryEvent,
                 JdkUtil.LogEventType.PROCESS_MEMORY.toString() + " not parsed.");
     ***REMOVED***
@@ -61,8 +61,8 @@ class TestProcessMemoryEvent {
     ***REMOVED***
 
     @Test
-    void testCHeapOutstandingAllocations() {
-        String logLine = "C-Heap outstanding allocations: 323983K (may have wrapped)";
+    void testVirtualSize() {
+        String logLine = "Virtual Size: 11384200K (peak: 19821176K)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ProcessMemoryEvent,
                 JdkUtil.LogEventType.PROCESS_MEMORY.toString() + " not parsed.");
     ***REMOVED***

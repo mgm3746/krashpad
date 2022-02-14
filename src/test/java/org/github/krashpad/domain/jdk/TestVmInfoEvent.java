@@ -263,17 +263,6 @@ class TestVmInfoEvent {
     ***REMOVED***
 
     @Test
-    void testZuluX86_64() {
-        String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE "
-                + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
-                + "4.4.7 20120313";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
-                JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
-        LogEvent event = JdkUtil.parseLogLine(logLine, null);
-        assertEquals(Arch.X86_64, ((VmInfoEvent) event).getArch(), "Arch not correct.");
-    ***REMOVED***
-
-    @Test
     void testZuluWindows() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.292-b10) for windows-amd64 JRE "
                 + "(Zulu 8.54.0.22-SA-win64) (1.8.0_292-b10), built on Apr  6 2021 15:10:49 by \"tester\" "
@@ -282,6 +271,17 @@ class TestVmInfoEvent {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.TESTER, ((VmInfoEvent) event).getBuiltBy(), "JDK builder not correct.");
+        assertEquals(Arch.X86_64, ((VmInfoEvent) event).getArch(), "Arch not correct.");
+    ***REMOVED***
+
+    @Test
+    void testZuluX86_64() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE "
+                + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
+                + "4.4.7 20120313";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
+                JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.X86_64, ((VmInfoEvent) event).getArch(), "Arch not correct.");
     ***REMOVED***
 ***REMOVED***

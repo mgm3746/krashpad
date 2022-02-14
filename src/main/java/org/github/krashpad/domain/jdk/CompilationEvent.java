@@ -47,6 +47,17 @@ public class CompilationEvent implements LogEvent {
             + JdkRegEx.ADDRESS + " (nmethod|\\d{1,8***REMOVED***)).+$";
 
     /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
+
+    /**
      * The log entry for the event.
      */
     private String logEntry;
@@ -67,16 +78,5 @@ public class CompilationEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.COMPILATION.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

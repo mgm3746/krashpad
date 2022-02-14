@@ -26,64 +26,8 @@ import org.junit.jupiter.api.Test;
 class TestMemoryEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
-                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParseLogLine() {
-        String logLine = "Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof MemoryEvent,
-                JdkUtil.LogEventType.MEMORY.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testMemory() {
-        String logLine = "Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
-                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMemoryWindows() {
-        String logLine = "Memory: 4k page, system-wide physical 16383M (5994M free)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
-                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMemory9Digits() {
-        String logLine = "Memory: 4k page, physical 263868708k(8753840k free), swap 2097148k(36k free)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
-                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMemory64kPage() {
-        String logLine = "Memory: 64k page, physical 254200832k(247780928k free), swap 4194240k(4069376k free)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
-                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testNoSwapInfo() {
-        String logLine = "Memory: 8k page, physical 267386880k(88275744k free)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
-                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testTotalPageFile() {
-        String logLine = "TotalPageFile size 20479M (AvailPageFile size 7532M)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
-                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCurrentProcessWorkingSet() {
-        String logLine = "current process WorkingSet (physical memory assigned to process): 11M, peak: 11M";
+    void test10Digits() {
+        String logLine = "Memory: 4k page, physical 1584737836k(118786168k free), swap 33554428k(33554428k free)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
                 JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
     ***REMOVED***
@@ -96,8 +40,64 @@ class TestMemoryEvent {
     ***REMOVED***
 
     @Test
-    void test10Digits() {
-        String logLine = "Memory: 4k page, physical 1584737836k(118786168k free), swap 33554428k(33554428k free)";
+    void testCurrentProcessWorkingSet() {
+        String logLine = "current process WorkingSet (physical memory assigned to process): 11M, peak: 11M";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
+                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testIdentity() {
+        String logLine = "Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
+                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMemory() {
+        String logLine = "Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
+                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMemory64kPage() {
+        String logLine = "Memory: 64k page, physical 254200832k(247780928k free), swap 4194240k(4069376k free)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
+                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMemory9Digits() {
+        String logLine = "Memory: 4k page, physical 263868708k(8753840k free), swap 2097148k(36k free)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
+                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMemoryWindows() {
+        String logLine = "Memory: 4k page, system-wide physical 16383M (5994M free)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
+                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNoSwapInfo() {
+        String logLine = "Memory: 8k page, physical 267386880k(88275744k free)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
+                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParseLogLine() {
+        String logLine = "Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof MemoryEvent,
+                JdkUtil.LogEventType.MEMORY.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testTotalPageFile() {
+        String logLine = "TotalPageFile size 20479M (AvailPageFile size 7532M)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
                 JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
     ***REMOVED***

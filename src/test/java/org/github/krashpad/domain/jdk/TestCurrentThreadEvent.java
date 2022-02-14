@@ -28,22 +28,6 @@ import org.junit.jupiter.api.Test;
 class TestCurrentThreadEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "Current thread (0x00007f127434f800):  JavaThread \"ajp-/hostname:8109-16\" daemon "
-                + "[_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_THREAD,
-                JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParseLogLine() {
-        String logLine = "Current thread (0x00007f127434f800):  JavaThread \"ajp-/hostname:8109-16\" daemon "
-                + "[_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CurrentThreadEvent,
-                JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
     void test32BitAddress() {
         String logLine = "Current thread (0x08ec6400):  JavaThread \"main\" [_thread_blocked, id=29301, "
                 + "stack(0xffc15000,0xffc65000)]";
@@ -70,5 +54,21 @@ class TestCurrentThreadEvent {
         CurrentThreadEvent event = new CurrentThreadEvent(logLine);
         assertEquals("VMThread \"VM Thread\" [stack: 0x0000008e27a00000,0x0000008e27b00000] [id=19320]",
                 ((CurrentThreadEvent) event).getCurrentThread(), "Current thread not correct.");
+    ***REMOVED***
+
+    @Test
+    void testIdentity() {
+        String logLine = "Current thread (0x00007f127434f800):  JavaThread \"ajp-/hostname:8109-16\" daemon "
+                + "[_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_THREAD,
+                JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParseLogLine() {
+        String logLine = "Current thread (0x00007f127434f800):  JavaThread \"ajp-/hostname:8109-16\" daemon "
+                + "[_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CurrentThreadEvent,
+                JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

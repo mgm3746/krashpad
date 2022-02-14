@@ -84,20 +84,31 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class NativeMemoryTrackingEvent implements LogEvent {
 
+    public static final Pattern PATTERN = Pattern.compile(NativeMemoryTrackingEvent.REGEX);
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + NativeMemoryTrackingEvent.REGEX_HEADER
+            + "|[-]{0,1***REMOVED***[ ]{0,***REMOVED***(\\(arena=|Arena Chunk|\\(classes|Class|Code|Compiler|GC|Internal \\(|Java Heap|"
+            + "Native Memory Tracking|\\(malloc|\\(mmap:|\\(stack|Symbol|\\(thread|Thread \\(|Total: reserved|"
+            + "\\(tracking|Unknown)).*$";
+
     /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "Native Memory Tracking:";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "|[-]{0,1***REMOVED***[ ]{0,***REMOVED***(\\(arena=|Arena Chunk|\\(classes|Class|Code|Compiler|GC|Internal \\(|Java Heap|"
-            + "Native Memory Tracking|\\(malloc|\\(mmap:|\\(stack|Symbol|\\(thread|Thread \\(|Total: reserved|"
-            + "\\(tracking|Unknown)).*$";
-
-    public static final Pattern PATTERN = Pattern.compile(REGEX);
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -120,17 +131,6 @@ public class NativeMemoryTrackingEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 
     /**

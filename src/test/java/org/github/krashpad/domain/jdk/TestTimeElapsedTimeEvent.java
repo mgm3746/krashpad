@@ -27,6 +27,15 @@ import org.junit.jupiter.api.Test;
 class TestTimeElapsedTimeEvent {
 
     @Test
+    void testElapsedTime() {
+        String logLine = "Time: Tue May  5 18:32:04 2020 CEST elapsed time: 956 seconds (0d 0h 15m 56s)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME_ELAPSED_TIME,
+                JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString() + " not identified.");
+        TimeElapsedTimeEvent event = new TimeElapsedTimeEvent(logLine);
+        assertEquals("0d 0h 15m 56s", event.getElapsedTime(), "Elapsed time not correct.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "Time: Tue May  5 18:32:04 2020 CEST elapsed time: 956 seconds (0d 0h 15m 56s)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME_ELAPSED_TIME,
@@ -47,14 +56,5 @@ class TestTimeElapsedTimeEvent {
                 JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString() + " not identified.");
         TimeElapsedTimeEvent event = new TimeElapsedTimeEvent(logLine);
         assertEquals("Tue May  5 18:32:04 2020 CEST", event.getTime(), "Time not correct.");
-    ***REMOVED***
-
-    @Test
-    void testElapsedTime() {
-        String logLine = "Time: Tue May  5 18:32:04 2020 CEST elapsed time: 956 seconds (0d 0h 15m 56s)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME_ELAPSED_TIME,
-                JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString() + " not identified.");
-        TimeElapsedTimeEvent event = new TimeElapsedTimeEvent(logLine);
-        assertEquals("0d 0h 15m 56s", event.getElapsedTime(), "Elapsed time not correct.");
     ***REMOVED***
 ***REMOVED***

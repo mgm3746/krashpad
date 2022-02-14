@@ -26,6 +26,20 @@ import org.junit.jupiter.api.Test;
 class TestLoggingEvent {
 
     @Test
+    void testConfiguration() {
+        String logLine = " ***REMOVED***0: stdout all=warning uptime,level,tags";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING,
+                JdkUtil.LogEventType.LOGGING.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testHeader() {
+        String logLine = "Logging:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING,
+                JdkUtil.LogEventType.LOGGING.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "Log output configuration:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING,
@@ -37,19 +51,5 @@ class TestLoggingEvent {
         String logLine = "Log output configuration:";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof LoggingEvent,
                 JdkUtil.LogEventType.LOGGING.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
-        String logLine = "Logging:";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING,
-                JdkUtil.LogEventType.LOGGING.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testConfiguration() {
-        String logLine = " ***REMOVED***0: stdout all=warning uptime,level,tags";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOGGING,
-                JdkUtil.LogEventType.LOGGING.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

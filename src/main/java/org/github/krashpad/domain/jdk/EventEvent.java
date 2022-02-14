@@ -41,16 +41,28 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class EventEvent implements LogEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + EventEvent.REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
+            + " (Concurrent|Executing( coalesced safepoint)? VM operation|Loaded shared library|loading class|Pause|"
+            + "Protecting memory|Thread))" + ".*$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "Events \\(\\d{1,***REMOVED*** events\\):";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
-            + " (Concurrent|Executing( coalesced safepoint)? VM operation|Loaded shared library|loading class|Pause|"
-            + "Protecting memory|Thread))" + ".*$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
+
     /**
      * The log entry for the event.
      */
@@ -72,16 +84,5 @@ public class EventEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.EVENT.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

@@ -48,18 +48,29 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class VmArgumentsEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(VmArgumentsEvent.REGEX);
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + VmArgumentsEvent.REGEX_HEADER
+            + "|jvm_args: |java_command: |java_class_path \\(initial\\): |Launcher Type: )(.*)$";
+
     /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "***REMOVED***";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER
-            + "|jvm_args: |java_command: |java_class_path \\(initial\\): |Launcher Type: )(.*)$";
-
-    private static Pattern pattern = Pattern.compile(REGEX);
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -85,17 +96,6 @@ public class VmArgumentsEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
-    ***REMOVED***
-
-    /**
      * @return The value of the VM argument.
      */
     public String getValue() {
@@ -115,16 +115,16 @@ public class VmArgumentsEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return True if the event is jvm_args, false otherwise.
-     */
-    public boolean isJvmArgs() {
-        return logEntry.matches("^jvm_args: .+$");
-    ***REMOVED***
-
-    /**
      * @return True if the event is java_command, false otherwise.
      */
     public boolean isJavaCommand() {
         return logEntry.matches("^java_command: .+$");
+    ***REMOVED***
+
+    /**
+     * @return True if the event is jvm_args, false otherwise.
+     */
+    public boolean isJvmArgs() {
+        return logEntry.matches("^jvm_args: .+$");
     ***REMOVED***
 ***REMOVED***

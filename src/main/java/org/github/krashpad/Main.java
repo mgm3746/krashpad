@@ -64,12 +64,12 @@ import org.json.JSONObject;
  */
 public class Main {
 
+    private static Options options;
+
     /**
      * The maximum number of rejected log lines to track. A throttle to limit memory consumption.
      */
     public static final int REJECT_LIMIT = 1000;
-
-    private static Options options;
 
     static {
         // Declare command line options
@@ -80,165 +80,6 @@ public class Main {
                 "latest version");
         options.addOption(Constants.OPTION_OUTPUT_SHORT, Constants.OPTION_OUTPUT_LONG, true,
                 "output file name (default " + Constants.OUTPUT_FILE_NAME + ")");
-    ***REMOVED***
-
-    /**
-     * @param args
-     *            The argument list includes one or more scope options followed by the name of the vm log file to
-     *            inspect.
-     */
-    public static void main(String[] args) {
-
-        CommandLine cmd = null;
-
-        try {
-            cmd = parseOptions(args);
-        ***REMOVED*** catch (ParseException pe) {
-            System.out.println(pe.getMessage());
-            usage(options);
-        ***REMOVED***
-
-        if (cmd != null) {
-            if (cmd.hasOption(Constants.OPTION_HELP_LONG)) {
-                usage(options);
-            ***REMOVED*** else {
-
-                String logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
-                File logFile = new File(logFileName);
-                Manager manager = new Manager();
-                FatalErrorLog fel = manager.parse(logFile);
-
-                String outputFileName;
-                if (cmd.hasOption(Constants.OPTION_OUTPUT_LONG)) {
-                    outputFileName = cmd.getOptionValue(Constants.OPTION_OUTPUT_SHORT);
-                ***REMOVED*** else {
-                    outputFileName = Constants.OUTPUT_FILE_NAME;
-                ***REMOVED***
-                boolean version = cmd.hasOption(Constants.OPTION_VERSION_LONG);
-                boolean latestVersion = cmd.hasOption(Constants.OPTION_LATEST_VERSION_LONG);
-
-                createReport(fel, outputFileName, version, latestVersion, logFile.getName());
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
-
-    /**
-     * Parse command line options.
-     * 
-     * @return
-     */
-    private static final CommandLine parseOptions(String[] args) throws ParseException {
-        CommandLineParser parser = new BasicParser();
-        CommandLine cmd = null;
-        // Allow user to just specify help or version.
-        if (args.length == 1 && (args[0].equals("-" + Constants.OPTION_HELP_SHORT)
-                || args[0].equals("--" + Constants.OPTION_HELP_LONG))) {
-            usage(options);
-        ***REMOVED*** else if (args.length == 1 && (args[0].equals("-" + Constants.OPTION_VERSION_SHORT)
-                || args[0].equals("--" + Constants.OPTION_VERSION_LONG))) {
-            System.out.println("Running krashpad version: " + getVersion());
-        ***REMOVED*** else if (args.length == 1 && (args[0].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
-                || args[0].equals("--" + Constants.OPTION_LATEST_VERSION_LONG))) {
-            System.out.println("Latest krashpad version/tag: " + getLatestVersion());
-        ***REMOVED*** else if (args.length == 2 && (((args[0].equals("-" + Constants.OPTION_VERSION_SHORT)
-                || args[0].equals("--" + Constants.OPTION_VERSION_LONG))
-                && (args[1].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
-                        || args[1].equals("--" + Constants.OPTION_LATEST_VERSION_LONG)))
-                || ((args[1].equals("-" + Constants.OPTION_VERSION_SHORT)
-                        || args[1].equals("--" + Constants.OPTION_VERSION_LONG))
-                        && (args[0].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
-                                || args[0].equals("--" + Constants.OPTION_LATEST_VERSION_LONG))))) {
-            System.out.println("Running krashpad version: " + getVersion());
-            System.out.println("Latest krashpad version/tag: " + getLatestVersion());
-        ***REMOVED*** else {
-            cmd = parser.parse(options, args);
-            validateOptions(cmd);
-        ***REMOVED***
-        return cmd;
-    ***REMOVED***
-
-    /**
-     * Output usage help.
-     * 
-     * @param options
-     */
-    private static void usage(Options options) {
-        // Use the built in formatter class
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("krashpad [OPTION]... [FILE]", options);
-    ***REMOVED***
-
-    /**
-     * Validate command line options.
-     * 
-     * @param cmd
-     *            The command line options.
-     * 
-     * @throws ParseException
-     *             Command line options not valid.
-     */
-    public static void validateOptions(CommandLine cmd) throws ParseException {
-        // Ensure log file specified.
-        if (cmd.getArgList().isEmpty()) {
-            throw new ParseException("Missing log file");
-        ***REMOVED***
-        String logFileName = null;
-        if (!cmd.getArgList().isEmpty()) {
-            logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
-        ***REMOVED***
-        // Ensure vm log file exists.
-        if (logFileName == null) {
-            throw new ParseException("Missing log file not");
-        ***REMOVED***
-        File logFile = new File(logFileName);
-        if (!logFile.exists()) {
-            throw new ParseException("Invalid log file: '" + logFileName + "'");
-        ***REMOVED***
-        // threshold
-        if (cmd.hasOption(Constants.OPTION_THRESHOLD_LONG)) {
-            String thresholdRegEx = "^\\d{1,3***REMOVED***$";
-            String thresholdOptionValue = cmd.getOptionValue(Constants.OPTION_THRESHOLD_SHORT);
-            Pattern pattern = Pattern.compile(thresholdRegEx);
-            Matcher matcher = pattern.matcher(thresholdOptionValue);
-            if (!matcher.find()) {
-                throw new ParseException("Invalid threshold: '" + thresholdOptionValue + "'");
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
-
-    /**
-     * @return version string.
-     */
-    private static String getVersion() {
-        ResourceBundle rb = ResourceBundle.getBundle("META-INF/maven/krashpad/krashpad/pom");
-        return rb.getString("version");
-    ***REMOVED***
-
-    /**
-     * @return version string.
-     */
-    private static String getLatestVersion() {
-        String url = "https://github.com/mgm3746/krashpad/releases/latest";
-        String name = null;
-        try {
-            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-            httpClient = HttpClients.custom()
-                    .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
-                    .build();
-            HttpGet request = new HttpGet(url);
-            request.addHeader("Accept", "application/json");
-            request.addHeader("content-type", "application/json");
-            HttpResponse result = httpClient.execute(request);
-            String json = EntityUtils.toString(result.getEntity(), "UTF-8");
-            JSONObject jsonObj = new JSONObject(json);
-            name = jsonObj.getString("tag_name");
-        ***REMOVED***
-
-        catch (Exception ex) {
-            name = "Unable to retrieve";
-            ex.printStackTrace();
-        ***REMOVED***
-        return name;
     ***REMOVED***
 
     /**
@@ -734,11 +575,21 @@ public class Main {
                         ***REMOVED***
                         printWriter.write(".");
                     ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_NATIVE)) {
-                        Iterator<String> iterator = fel.getJvmOptions().getAgentpath().iterator();
-                        while (iterator.hasNext()) {
-                            String option = iterator.next();
-                            printWriter.write(" ");
-                            printWriter.write(option);
+                        if (!fel.getJvmOptions().getAgentlib().isEmpty()) {
+                            Iterator<String> iterator = fel.getJvmOptions().getAgentlib().iterator();
+                            while (iterator.hasNext()) {
+                                String option = iterator.next();
+                                printWriter.write(" ");
+                                printWriter.write(option);
+                            ***REMOVED***
+                        ***REMOVED***
+                        if (!fel.getJvmOptions().getAgentpath().isEmpty()) {
+                            Iterator<String> iterator = fel.getJvmOptions().getAgentpath().iterator();
+                            while (iterator.hasNext()) {
+                                String option = iterator.next();
+                                printWriter.write(" ");
+                                printWriter.write(option);
+                            ***REMOVED***
                         ***REMOVED***
                         printWriter.write(".");
                     ***REMOVED***
@@ -748,22 +599,22 @@ public class Main {
             ***REMOVED***
 
             // Unidentified log lines
-            //if (!fel.getAnalysis().contains(Analysis.ERROR_JDK_VERSION_UNSUPPORTED)) {
-                List<String> unidentifiedLogLines = fel.getUnidentifiedLogLines();
-                if (!unidentifiedLogLines.isEmpty()) {
-                    printWriter.write(
-                            unidentifiedLogLines.size() + " UNIDENTIFIED LOG LINE(S):" + Constants.LINE_SEPARATOR);
-                    printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+            // if (!fel.getAnalysis().contains(Analysis.ERROR_JDK_VERSION_UNSUPPORTED)) {
+            List<String> unidentifiedLogLines = fel.getUnidentifiedLogLines();
+            if (!unidentifiedLogLines.isEmpty()) {
+                printWriter
+                        .write(unidentifiedLogLines.size() + " UNIDENTIFIED LOG LINE(S):" + Constants.LINE_SEPARATOR);
+                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
 
-                    Iterator<String> iterator = unidentifiedLogLines.iterator();
-                    while (iterator.hasNext()) {
-                        String unidentifiedLogLine = iterator.next();
-                        printWriter.write(unidentifiedLogLine);
-                        printWriter.write(Constants.LINE_SEPARATOR);
-                    ***REMOVED***
-                    printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+                Iterator<String> iterator = unidentifiedLogLines.iterator();
+                while (iterator.hasNext()) {
+                    String unidentifiedLogLine = iterator.next();
+                    printWriter.write(unidentifiedLogLine);
+                    printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
-    //        ***REMOVED***
+                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            // ***REMOVED***
         ***REMOVED*** catch (FileNotFoundException e) {
             e.printStackTrace();
         ***REMOVED*** catch (IOException e) {
@@ -783,6 +634,165 @@ public class Main {
                 ***REMOVED*** catch (IOException e) {
                     e.printStackTrace();
                 ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+    ***REMOVED***
+
+    /**
+     * @return version string.
+     */
+    private static String getLatestVersion() {
+        String url = "https://github.com/mgm3746/krashpad/releases/latest";
+        String name = null;
+        try {
+            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+            httpClient = HttpClients.custom()
+                    .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+                    .build();
+            HttpGet request = new HttpGet(url);
+            request.addHeader("Accept", "application/json");
+            request.addHeader("content-type", "application/json");
+            HttpResponse result = httpClient.execute(request);
+            String json = EntityUtils.toString(result.getEntity(), "UTF-8");
+            JSONObject jsonObj = new JSONObject(json);
+            name = jsonObj.getString("tag_name");
+        ***REMOVED***
+
+        catch (Exception ex) {
+            name = "Unable to retrieve";
+            ex.printStackTrace();
+        ***REMOVED***
+        return name;
+    ***REMOVED***
+
+    /**
+     * @return version string.
+     */
+    private static String getVersion() {
+        ResourceBundle rb = ResourceBundle.getBundle("META-INF/maven/krashpad/krashpad/pom");
+        return rb.getString("version");
+    ***REMOVED***
+
+    /**
+     * @param args
+     *            The argument list includes one or more scope options followed by the name of the vm log file to
+     *            inspect.
+     */
+    public static void main(String[] args) {
+
+        CommandLine cmd = null;
+
+        try {
+            cmd = parseOptions(args);
+        ***REMOVED*** catch (ParseException pe) {
+            System.out.println(pe.getMessage());
+            usage(options);
+        ***REMOVED***
+
+        if (cmd != null) {
+            if (cmd.hasOption(Constants.OPTION_HELP_LONG)) {
+                usage(options);
+            ***REMOVED*** else {
+
+                String logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
+                File logFile = new File(logFileName);
+                Manager manager = new Manager();
+                FatalErrorLog fel = manager.parse(logFile);
+
+                String outputFileName;
+                if (cmd.hasOption(Constants.OPTION_OUTPUT_LONG)) {
+                    outputFileName = cmd.getOptionValue(Constants.OPTION_OUTPUT_SHORT);
+                ***REMOVED*** else {
+                    outputFileName = Constants.OUTPUT_FILE_NAME;
+                ***REMOVED***
+                boolean version = cmd.hasOption(Constants.OPTION_VERSION_LONG);
+                boolean latestVersion = cmd.hasOption(Constants.OPTION_LATEST_VERSION_LONG);
+
+                createReport(fel, outputFileName, version, latestVersion, logFile.getName());
+            ***REMOVED***
+        ***REMOVED***
+    ***REMOVED***
+
+    /**
+     * Parse command line options.
+     * 
+     * @return
+     */
+    private static final CommandLine parseOptions(String[] args) throws ParseException {
+        CommandLineParser parser = new BasicParser();
+        CommandLine cmd = null;
+        // Allow user to just specify help or version.
+        if (args.length == 1 && (args[0].equals("-" + Constants.OPTION_HELP_SHORT)
+                || args[0].equals("--" + Constants.OPTION_HELP_LONG))) {
+            usage(options);
+        ***REMOVED*** else if (args.length == 1 && (args[0].equals("-" + Constants.OPTION_VERSION_SHORT)
+                || args[0].equals("--" + Constants.OPTION_VERSION_LONG))) {
+            System.out.println("Running krashpad version: " + getVersion());
+        ***REMOVED*** else if (args.length == 1 && (args[0].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
+                || args[0].equals("--" + Constants.OPTION_LATEST_VERSION_LONG))) {
+            System.out.println("Latest krashpad version/tag: " + getLatestVersion());
+        ***REMOVED*** else if (args.length == 2 && (((args[0].equals("-" + Constants.OPTION_VERSION_SHORT)
+                || args[0].equals("--" + Constants.OPTION_VERSION_LONG))
+                && (args[1].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
+                        || args[1].equals("--" + Constants.OPTION_LATEST_VERSION_LONG)))
+                || ((args[1].equals("-" + Constants.OPTION_VERSION_SHORT)
+                        || args[1].equals("--" + Constants.OPTION_VERSION_LONG))
+                        && (args[0].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
+                                || args[0].equals("--" + Constants.OPTION_LATEST_VERSION_LONG))))) {
+            System.out.println("Running krashpad version: " + getVersion());
+            System.out.println("Latest krashpad version/tag: " + getLatestVersion());
+        ***REMOVED*** else {
+            cmd = parser.parse(options, args);
+            validateOptions(cmd);
+        ***REMOVED***
+        return cmd;
+    ***REMOVED***
+
+    /**
+     * Output usage help.
+     * 
+     * @param options
+     */
+    private static void usage(Options options) {
+        // Use the built in formatter class
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("krashpad [OPTION]... [FILE]", options);
+    ***REMOVED***
+
+    /**
+     * Validate command line options.
+     * 
+     * @param cmd
+     *            The command line options.
+     * 
+     * @throws ParseException
+     *             Command line options not valid.
+     */
+    public static void validateOptions(CommandLine cmd) throws ParseException {
+        // Ensure log file specified.
+        if (cmd.getArgList().isEmpty()) {
+            throw new ParseException("Missing log file");
+        ***REMOVED***
+        String logFileName = null;
+        if (!cmd.getArgList().isEmpty()) {
+            logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
+        ***REMOVED***
+        // Ensure vm log file exists.
+        if (logFileName == null) {
+            throw new ParseException("Missing log file not");
+        ***REMOVED***
+        File logFile = new File(logFileName);
+        if (!logFile.exists()) {
+            throw new ParseException("Invalid log file: '" + logFileName + "'");
+        ***REMOVED***
+        // threshold
+        if (cmd.hasOption(Constants.OPTION_THRESHOLD_LONG)) {
+            String thresholdRegEx = "^\\d{1,3***REMOVED***$";
+            String thresholdOptionValue = cmd.getOptionValue(Constants.OPTION_THRESHOLD_SHORT);
+            Pattern pattern = Pattern.compile(thresholdRegEx);
+            Matcher matcher = pattern.matcher(thresholdOptionValue);
+            if (!matcher.find()) {
+                throw new ParseException("Invalid threshold: '" + thresholdOptionValue + "'");
             ***REMOVED***
         ***REMOVED***
     ***REMOVED***

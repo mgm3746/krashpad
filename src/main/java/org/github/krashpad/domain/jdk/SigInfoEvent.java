@@ -64,6 +64,8 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  */
 public class SigInfoEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(SigInfoEvent.REGEX);
+
     /**
      * Regular expression defining the logging.
      */
@@ -76,7 +78,16 @@ public class SigInfoEvent implements LogEvent {
             + "|sent from pid: \\d{1,***REMOVED*** \\(uid: \\d{1,***REMOVED***\\)))|(ExceptionCode=|EXCEPTION_ACCESS_VIOLATION \\()"
             + JdkRegEx.ADDRESS + "[\\)]{0,1***REMOVED***, reading address " + JdkRegEx.ADDRESS + ")$";
 
-    private static Pattern pattern = Pattern.compile(REGEX);
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -102,40 +113,17 @@ public class SigInfoEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
+     * @return Signal address.
      */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
-    ***REMOVED***
-
-    /**
-     * @return Signal number.
-     */
-    public SignalNumber getSignalNumber() {
-        SignalNumber number = SignalNumber.UNKNOWN;
+    public String getSignalAddress() {
+        String address = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            // Linux
-            if (matcher.group(3) != null) {
-                if (matcher.group(3).matches(SignalNumber.SIGBUS.toString())) {
-                    number = SignalNumber.SIGBUS;
-                ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGILL.toString())) {
-                    number = SignalNumber.SIGILL;
-                ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {
-                    number = SignalNumber.SIGSEGV;
-                ***REMOVED***
-            ***REMOVED*** else if (matcher.group(12) != null) {
-                // Windows
-                if (matcher.group(12).matches("0xc0000005")) {
-                    number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
-                ***REMOVED***
+            if (matcher.group(6) != null) {
+                address = matcher.group(6);
             ***REMOVED***
         ***REMOVED***
-        return number;
+        return address;
     ***REMOVED***
 
     /**
@@ -170,16 +158,28 @@ public class SigInfoEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return Signal address.
+     * @return Signal number.
      */
-    public String getSignalAddress() {
-        String address = null;
+    public SignalNumber getSignalNumber() {
+        SignalNumber number = SignalNumber.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(6) != null) {
-                address = matcher.group(6);
+            // Linux
+            if (matcher.group(3) != null) {
+                if (matcher.group(3).matches(SignalNumber.SIGBUS.toString())) {
+                    number = SignalNumber.SIGBUS;
+                ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGILL.toString())) {
+                    number = SignalNumber.SIGILL;
+                ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {
+                    number = SignalNumber.SIGSEGV;
+                ***REMOVED***
+            ***REMOVED*** else if (matcher.group(12) != null) {
+                // Windows
+                if (matcher.group(12).matches("0xc0000005")) {
+                    number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        return address;
+        return number;
     ***REMOVED***
 ***REMOVED***

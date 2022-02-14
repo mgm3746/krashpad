@@ -26,9 +26,24 @@ import org.junit.jupiter.api.Test;
 class TestSignalHandlersEvent {
 
     @Test
+    void testHeader() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "SIGSEGV: [libjvm.so+0xb73090], sa_mask[0]=11111111011111111101111111111110, "
                 + "sa_flags=SA_RESTART|SA_SIGINFO";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdk17() {
+        String logLine = "   SIGSEGV: crash_handler in libjvm.so, mask=11100100010111111101111111111110, "
+                + "flags=SA_RESTART|SA_SIGINFO";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
                 JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
     ***REMOVED***
@@ -42,8 +57,17 @@ class TestSignalHandlersEvent {
     ***REMOVED***
 
     @Test
-    void testHeader() {
-        String logLine = "***REMOVED***";
+    void testSig39() {
+        String logLine = "SIG39: [libjvm.so+0xa9e080], sa_mask[0]=00000000000000000000000000000000, "
+                + "sa_flags=SA_SIGINFO";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testSig40() {
+        String logLine = "SIG40: [libjvm.so+0xa9e030], sa_mask[0]=11111111011111111111110111111111, "
+                + "sa_flags=SA_RESTART|SA_SIGINFO";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
                 JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
     ***REMOVED***
@@ -65,16 +89,8 @@ class TestSignalHandlersEvent {
     ***REMOVED***
 
     @Test
-    void testSigpipe() {
-        String logLine = "SIGPIPE: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
-                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testSigxfsz() {
-        String logLine = "SIGXFSZ: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, "
-                + "sa_flags=SA_RESTART|SA_SIGINFO";
+    void testSighup() {
+        String logLine = "SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
                 JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
     ***REMOVED***
@@ -82,6 +98,44 @@ class TestSignalHandlersEvent {
     @Test
     void testSigill() {
         String logLine = "SIGILL: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, "
+                + "sa_flags=SA_RESTART|SA_SIGINFO";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testSigint() {
+        String logLine = "SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testSigpipe() {
+        String logLine = "SIGPIPE: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testSigquit() {
+        String logLine = "SIGQUIT: [libjvm.so+0x964430], sa_mask[0]=11111111011111111101111111111110, "
+                + "sa_flags=SA_RESTART|SA_SIGINFO";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testSigterm() {
+        String logLine = "SIGTERM: [libjvm.so+0x964430], sa_mask[0]=11111111011111111101111111111110, "
+                + "sa_flags=SA_RESTART|SA_SIGINFO";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testSigtrap() {
+        String logLine = "SIGTRAP: [libjvm.so+0x840670], sa_mask[0]=11111111011111111101111111111110, "
                 + "sa_flags=SA_RESTART|SA_SIGINFO";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
                 JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
@@ -103,63 +157,9 @@ class TestSignalHandlersEvent {
     ***REMOVED***
 
     @Test
-    void testSighup() {
-        String logLine = "SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
-                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testSigint() {
-        String logLine = "SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
-                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testSigterm() {
-        String logLine = "SIGTERM: [libjvm.so+0x964430], sa_mask[0]=11111111011111111101111111111110, "
+    void testSigxfsz() {
+        String logLine = "SIGXFSZ: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, "
                 + "sa_flags=SA_RESTART|SA_SIGINFO";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
-                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testSigquit() {
-        String logLine = "SIGQUIT: [libjvm.so+0x964430], sa_mask[0]=11111111011111111101111111111110, "
-                + "sa_flags=SA_RESTART|SA_SIGINFO";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
-                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testSigtrap() {
-        String logLine = "SIGTRAP: [libjvm.so+0x840670], sa_mask[0]=11111111011111111101111111111110, "
-                + "sa_flags=SA_RESTART|SA_SIGINFO";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
-                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testSig39() {
-        String logLine = "SIG39: [libjvm.so+0xa9e080], sa_mask[0]=00000000000000000000000000000000, "
-                + "sa_flags=SA_SIGINFO";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
-                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testSig40() {
-        String logLine = "SIG40: [libjvm.so+0xa9e030], sa_mask[0]=11111111011111111111110111111111, "
-                + "sa_flags=SA_RESTART|SA_SIGINFO";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
-                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testJdk17() {
-        String logLine = "   SIGSEGV: crash_handler in libjvm.so, mask=11100100010111111101111111111110, "
-                + "flags=SA_RESTART|SA_SIGINFO";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
                 JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
     ***REMOVED***

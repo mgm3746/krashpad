@@ -40,14 +40,25 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class ThreadsActiveCompileEvent implements LogEvent, ThrowAwayEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + ThreadsActiveCompileEvent.REGEX_HEADER + "|C2 CompilerThread).*$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "Threads with active compile tasks:";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|C2 CompilerThread).*$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -70,17 +81,6 @@ public class ThreadsActiveCompileEvent implements LogEvent, ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 
     /**

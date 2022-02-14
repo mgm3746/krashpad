@@ -44,17 +44,28 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class ThreadsClassSmrInfoEvent implements LogEvent, ThrowAwayEvent {
 
     /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + ThreadsClassSmrInfoEvent.REGEX_HEADER + "|" + JdkRegEx.ADDRESS + ", "
+            + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "(,)?|" + JdkRegEx.ADDRESS + ", "
+            + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "|"
+            + JdkRegEx.ADDRESS + "|_java_thread_list=.*)$";
+
+    /**
      * Regular expression for the header.
      */
     private static final String REGEX_HEADER = "Threads class SMR info:";
 
     /**
-     * Regular expression defining the logging.
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
      */
-    private static final String REGEX = "^(" + REGEX_HEADER + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", "
-            + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "(,)?|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", "
-            + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS
-            + "|_java_thread_list=.*)$";
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -77,16 +88,5 @@ public class ThreadsClassSmrInfoEvent implements LogEvent, ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

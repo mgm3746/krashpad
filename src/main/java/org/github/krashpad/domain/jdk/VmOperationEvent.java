@@ -41,12 +41,23 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class VmOperationEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(VmOperationEvent.REGEX);
+
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^VM_Operation \\(" + JdkRegEx.ADDRESS + "\\): (.+)$";
 
-    private static Pattern pattern = Pattern.compile(REGEX);
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -81,16 +92,5 @@ public class VmOperationEvent implements LogEvent {
             vmOperation = matcher.group(6);
         ***REMOVED***
         return vmOperation;
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 ***REMOVED***

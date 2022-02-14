@@ -62,6 +62,8 @@ import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
  */
 public class VmInfoEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(VmInfoEvent.REGEX);
+
     /**
      * Regular expression defining the logging.
      */
@@ -69,7 +71,16 @@ public class VmInfoEvent implements LogEvent {
             + "(linux|windows|solaris)-(amd64|ppc64|ppc64le|sparc|x86) JRE (\\(Zulu.+\\) )?\\(" + JdkRegEx.BUILD_STRING
             + "\\).+ built on " + JdkRegEx.BUILD_DATE_TIME + ".+$";
 
-    private static Pattern pattern = Pattern.compile(REGEX);
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -84,62 +95,6 @@ public class VmInfoEvent implements LogEvent {
      */
     public VmInfoEvent(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
-
-    public String getLogEntry() {
-        return logEntry;
-    ***REMOVED***
-
-    public String getName() {
-        return JdkUtil.LogEventType.VM_INFO.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
-    ***REMOVED***
-
-    /**
-     * @return The JDK version.
-     */
-    public JavaSpecification getJavaSpecification() {
-        JavaSpecification version = JavaSpecification.UNKNOWN;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            int indexJdkVersion = 7;
-            if (matcher.group(indexJdkVersion).equals("17")) {
-                version = JavaSpecification.JDK17;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("12")) {
-                version = JavaSpecification.JDK12;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("11")) {
-                version = JavaSpecification.JDK11;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.8.0")) {
-                version = JavaSpecification.JDK8;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.7.0")) {
-                version = JavaSpecification.JDK7;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.6.0")) {
-                version = JavaSpecification.JDK6;
-            ***REMOVED***
-        ***REMOVED***
-        return version;
-    ***REMOVED***
-
-    /**
-     * @return The Java release string.
-     */
-    public String getJdkReleaseString() {
-        String release = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            release = matcher.group(6);
-        ***REMOVED***
-        return release;
     ***REMOVED***
 
     /**
@@ -208,5 +163,50 @@ public class VmInfoEvent implements LogEvent {
             builtBy = BuiltBy.ZULU_RE;
         ***REMOVED***
         return builtBy;
+    ***REMOVED***
+
+    /**
+     * @return The JDK version.
+     */
+    public JavaSpecification getJavaSpecification() {
+        JavaSpecification version = JavaSpecification.UNKNOWN;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            int indexJdkVersion = 7;
+            if (matcher.group(indexJdkVersion).equals("17")) {
+                version = JavaSpecification.JDK17;
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("12")) {
+                version = JavaSpecification.JDK12;
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("11")) {
+                version = JavaSpecification.JDK11;
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.8.0")) {
+                version = JavaSpecification.JDK8;
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.7.0")) {
+                version = JavaSpecification.JDK7;
+            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.6.0")) {
+                version = JavaSpecification.JDK6;
+            ***REMOVED***
+        ***REMOVED***
+        return version;
+    ***REMOVED***
+
+    /**
+     * @return The Java release string.
+     */
+    public String getJdkReleaseString() {
+        String release = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            release = matcher.group(6);
+        ***REMOVED***
+        return release;
+    ***REMOVED***
+
+    public String getLogEntry() {
+        return logEntry;
+    ***REMOVED***
+
+    public String getName() {
+        return JdkUtil.LogEventType.VM_INFO.toString();
     ***REMOVED***
 ***REMOVED***

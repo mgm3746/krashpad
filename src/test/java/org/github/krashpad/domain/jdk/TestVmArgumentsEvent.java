@@ -26,20 +26,6 @@ import org.junit.jupiter.api.Test;
 class TestVmArgumentsEvent {
 
     @Test
-    void testIdentity() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
-                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParseLogLine() {
-        String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmArgumentsEvent,
-                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
     void testHeader() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
@@ -47,8 +33,15 @@ class TestVmArgumentsEvent {
     ***REMOVED***
 
     @Test
-    void testJvmArgs() {
-        String logLine = "jvm_args: -D[Standalone] -verbose:gc -Xloggc:/path/to/gc.log";
+    void testIdentity() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJavaClassPath() {
+        String logLine = "java_class_path (initial): /path/to/jboss-modules.jar";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
     ***REMOVED***
@@ -63,9 +56,16 @@ class TestVmArgumentsEvent {
     ***REMOVED***
 
     @Test
-    void testJavaClassPath() {
-        String logLine = "java_class_path (initial): /path/to/jboss-modules.jar";
+    void testJvmArgs() {
+        String logLine = "jvm_args: -D[Standalone] -verbose:gc -Xloggc:/path/to/gc.log";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testParseLogLine() {
+        String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmArgumentsEvent,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

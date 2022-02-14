@@ -26,6 +26,21 @@ import org.junit.jupiter.api.Test;
 class TestStackSlotToMemoryMappingEvent {
 
     @Test
+    void testError() {
+        String logLine = "[error occurred during error reporting (inspecting top of stack), id 0xb, SIGSEGV (0xb) at "
+                + "pc=0x00007f68376aea9e]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testHeader() {
+        String logLine = "Stack slot to memory mapping:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "stack at sp + 5 slots: 0x0 is NULL";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
@@ -37,20 +52,5 @@ class TestStackSlotToMemoryMappingEvent {
         String logLine = "stack at sp + 5 slots: 0x0 is NULL";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof StackSlotToMemoryMappingEvent,
                 JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not parsed.");
-    ***REMOVED***
-
-    @Test
-    void testHeader() {
-        String logLine = "Stack slot to memory mapping:";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
-                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testError() {
-        String logLine = "[error occurred during error reporting (inspecting top of stack), id 0xb, SIGSEGV (0xb) at "
-                + "pc=0x00007f68376aea9e]";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
-                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 ***REMOVED***

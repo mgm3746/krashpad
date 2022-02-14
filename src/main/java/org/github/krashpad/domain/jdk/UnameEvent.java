@@ -73,13 +73,24 @@ import org.github.krashpad.util.jdk.JdkUtil.Arch;
  */
 public class UnameEvent implements LogEvent {
 
+    private static Pattern pattern = Pattern.compile(UnameEvent.REGEX);
+
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(uname:[ ]{0,1***REMOVED***((Linux|SunOS) .+(i86pc|sun4v|ppc64(le)?|x86_64).*)|"
             + "  \\(T2 libthread\\))$";
 
-    private static Pattern pattern = Pattern.compile(REGEX);
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
+    ***REMOVED***
 
     /**
      * The log entry for the event.
@@ -96,23 +107,35 @@ public class UnameEvent implements LogEvent {
         this.logEntry = logEntry;
     ***REMOVED***
 
+    /**
+     * @return The chip architecture.
+     */
+    public Arch getArch() {
+        Arch arch = Arch.UNKNOWN;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            int indexArch = 4;
+            if (matcher.group(indexArch).equals("x86_64")) {
+                arch = Arch.X86_64;
+            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64")) {
+                arch = Arch.PPC64;
+            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64le")) {
+                arch = Arch.PPC64LE;
+            ***REMOVED*** else if (matcher.group(indexArch).equals("sun4v")) {
+                arch = Arch.SPARC;
+            ***REMOVED*** else if (matcher.group(indexArch).equals("i86pc")) {
+                arch = Arch.I86PC;
+            ***REMOVED***
+        ***REMOVED***
+        return arch;
+    ***REMOVED***
+
     public String getLogEntry() {
         return logEntry;
     ***REMOVED***
 
     public String getName() {
         return JdkUtil.LogEventType.UNAME.toString();
-    ***REMOVED***
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
     ***REMOVED***
 
     /**
@@ -166,28 +189,5 @@ public class UnameEvent implements LogEvent {
             uname = matcher.group(2);
         ***REMOVED***
         return uname;
-    ***REMOVED***
-
-    /**
-     * @return The chip architecture.
-     */
-    public Arch getArch() {
-        Arch arch = Arch.UNKNOWN;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            int indexArch = 4;
-            if (matcher.group(indexArch).equals("x86_64")) {
-                arch = Arch.X86_64;
-            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64")) {
-                arch = Arch.PPC64;
-            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64le")) {
-                arch = Arch.PPC64LE;
-            ***REMOVED*** else if (matcher.group(indexArch).equals("sun4v")) {
-                arch = Arch.SPARC;
-            ***REMOVED*** else if (matcher.group(indexArch).equals("i86pc")) {
-                arch = Arch.I86PC;
-            ***REMOVED***
-        ***REMOVED***
-        return arch;
     ***REMOVED***
 ***REMOVED***
