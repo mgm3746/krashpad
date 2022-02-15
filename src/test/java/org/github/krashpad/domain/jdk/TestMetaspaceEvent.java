@@ -42,6 +42,14 @@ class TestMetaspaceEvent {
     ***REMOVED***
 
     @Test
+    void testCapacity5Spaces() {
+        String logLine = "  251.04 MB capacity,   241.20 MB ( 96%) used,     8.88 MB (  4%) free+waste,   988.88 KB "
+                + "( <1%) overhead.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testCdsOn() {
         String logLine = "CDS: on";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
