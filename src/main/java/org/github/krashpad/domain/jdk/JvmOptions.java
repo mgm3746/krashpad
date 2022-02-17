@@ -998,6 +998,15 @@ public class JvmOptions {
     private String printGcApplicationStoppedTime;
 
     /**
+     * Option to enable/disable printing trigger information. Deprecated in JDK9, removed in JDK11. For example:
+     * 
+     * <pre>
+     * -XX:+PrintGCCause
+     * </pre>
+     */
+    private String printGcCause;
+
+    /**
      * Option to enable/disable gc logging datestamps. Deprecated in JDK9. For example:
      * 
      * <pre>
@@ -1899,6 +1908,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCApplicationStoppedTime$")) {
                     printGcApplicationStoppedTime = option;
                     key = "PrintGCApplicationStoppedTime";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCCause$")) {
+                    printGcCause = option;
+                    key = "PrintGCCause";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PrintGCDateStamps$")) {
                     printGcDateStamps = option;
                     key = "PrintGCDateStamps";
@@ -2204,6 +2216,14 @@ public class JvmOptions {
         // Check for -XX:-UseBiasedLocking.
         if (JdkUtil.isOptionDisabled(useBiasedLocking) && useShenandoahGc == null) {
             analysis.add(Analysis.WARN_OPT_BIASED_LOCKING_DISABLED);
+        ***REMOVED***
+        // PrintGCCause checks
+        if (printGcCause != null) {
+            if (JdkUtil.isOptionDisabled(printGcCause)) {
+                analysis.add(Analysis.WARN_OPT_JDK8_PRINT_GC_CAUSE_DISABLED);
+            ***REMOVED*** else {
+                analysis.add(Analysis.INFO_OPT_JDK8_PRINT_GC_CAUSE);
+            ***REMOVED***
         ***REMOVED***
         // Check for -XX:+PrintHeapAtGC.
         if (printHeapAtGc != null) {

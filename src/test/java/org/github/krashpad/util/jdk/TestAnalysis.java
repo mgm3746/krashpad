@@ -894,7 +894,7 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED),
                 Analysis.WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED + " analysis not identified.");
     ***REMOVED***
-
+    
     @Test
     void testHeapDumpOnOutOfMemoryErrorMissing() {
         FatalErrorLog fel = new FatalErrorLog();
@@ -905,7 +905,7 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_DUMP_ON_OOME_MISSING),
                 Analysis.INFO_OPT_HEAP_DUMP_ON_OOME_MISSING + " analysis not identified.");
     ***REMOVED***
-
+    
     @Test
     void testHeapDumpOnOutOfMemoryErrorPathIsDirectory() {
         FatalErrorLog fel = new FatalErrorLog();
@@ -2000,6 +2000,28 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_GC_APPLICATION_CONCURRENT_TIME),
                 Analysis.INFO_OPT_PRINT_GC_APPLICATION_CONCURRENT_TIME + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testPrintGcCause() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:+PrintGCCause -XX:-HeapDumpOnOutOfMemoryError";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_GC_CAUSE),
+                Analysis.INFO_OPT_JDK8_PRINT_GC_CAUSE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testPrintGcCauseDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:-PrintGCCause -XX:-HeapDumpOnOutOfMemoryError";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_PRINT_GC_CAUSE_DISABLED),
+                Analysis.WARN_OPT_JDK8_PRINT_GC_CAUSE_DISABLED + " analysis not identified.");
     ***REMOVED***
 
     /**

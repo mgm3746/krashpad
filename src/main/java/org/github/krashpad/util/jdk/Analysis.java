@@ -471,6 +471,11 @@ public enum Analysis {
     INFO_OPT_JDK8_PRINT_FLS_STATISTICS("info.opt.jdk8.print.fls.statistics"),
 
     /**
+     * Property key for -XX:+PrintGCCause.
+     */
+    INFO_OPT_JDK8_PRINT_GC_CAUSE("info.opt.jdk8.print.gc.cause"),
+
+    /**
      * Property key for missing -XX:+PrintGCDetails to output details at gc needed for analysis.
      */
     INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING("info.opt.jdk8.print.gc.details.missing"),
@@ -1024,6 +1029,11 @@ public enum Analysis {
      * (&lt; 5M).
      */
     WARN_OPT_JDK8_GC_LOG_FILE_SIZE_SMALL("warn.opt.jdk8.gc.log.file.size.small"),
+
+    /**
+     * Property key for -XX:-PrintGCCause.
+     */
+    WARN_OPT_JDK8_PRINT_GC_CAUSE_DISABLED("warn.opt.jdk8.print.gc.cause.disabled"),
 
     /**
      * Property key for gc details option disabled.
