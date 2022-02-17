@@ -1771,6 +1771,28 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testOracleJdbcDriver() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "C  [libocijdbc12.so+0x95d5]  Java_oracle_jdbc_driver_T2CConnection_t2cDescribeTable+0x65";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String logline = "7fc3f8f88000-7fc3f9199000 r--p 00000000 fd:00 1052364                    "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.302.b08-0.el8_4.x86_64/jre/lib/amd64/server/libjvm.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
+        fel.getDynamicLibraryEvents().add(event);
+        String os = "***REMOVED***";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.302-b08) for linux-amd64 JRE (1.8.0_302-b08), built on "
+                + "Jul 16 2021 14:54:40 by \"mockbuild\" with gcc 8.4.1 20200928 (Red Hat 8.4.1-1)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_DRIVER),
+                Analysis.ERROR_ORACLE_JDBC_DRIVER + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testOutOfMemoryErrorThrownCompressedClassSpace() {
         String logLine = "OutOfMemoryError class_metaspace_errors=7";
         ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);

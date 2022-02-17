@@ -176,11 +176,11 @@ public enum Analysis {
      * Property key for insufficient physical memory when doing a JBoss version check (e.g. standalone.sh --version).
      */
     ERROR_OOME_JBOSS_VERSION("error.oome.jboss.version"),
+
     /**
      * Property key for insufficient physical memory due to the JVM process.
      */
     ERROR_OOME_JVM("error.oome.jvm"),
-
     /**
      * Property key for failing to allocate memory due to a resource limit (rlimit).
      */
@@ -259,6 +259,11 @@ public enum Analysis {
      * Property key for remote debugging enabled.
      */
     ERROR_OPT_REMOTE_DEBUGGING_ENABLED("error.opt.remote.debugging.enabled"),
+
+    /**
+     * Property key for crash in Oracle JDBC driver.
+     */
+    ERROR_ORACLE_JDBC_DRIVER("error.oracle.jdbc.driver"),
 
     /**
      * Property key for error calling pthread_getcpuclockid

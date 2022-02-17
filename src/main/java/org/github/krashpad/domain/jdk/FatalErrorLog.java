@@ -884,6 +884,10 @@ public class FatalErrorLog {
         if (getStackFrameTop() != null && getStackFrameTop().matches("^J.+java\\.util\\.HashMap.+$")) {
             analysis.add(Analysis.ERROR_HASHMAP);
         ***REMOVED***
+        // Crash in Oracle JDBC driver
+        if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
+            analysis.add(Analysis.ERROR_ORACLE_JDBC_DRIVER);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
