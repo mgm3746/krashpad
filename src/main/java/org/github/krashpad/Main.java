@@ -122,10 +122,11 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("OS:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            if (fel.getOsString() != null) {
+            // Account for generic OS strings
+            if (fel.getOsString() != null && !fel.getOsString().equals("Linux")) {
                 printWriter.write("Version: " + fel.getOsString() + Constants.LINE_SEPARATOR);
             ***REMOVED*** else {
-                printWriter.write("Version: " + fel.getOsType() + Constants.LINE_SEPARATOR);
+                printWriter.write("Version: " + fel.getOsVersion() + Constants.LINE_SEPARATOR);
             ***REMOVED***
             printWriter.write("ARCH: " + fel.getArch() + Constants.LINE_SEPARATOR);
             if (fel.getCpusLogical() > Integer.MIN_VALUE) {

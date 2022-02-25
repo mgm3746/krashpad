@@ -348,6 +348,7 @@ class TestFatalErrorLog {
         String uname = "uname:Linux 3.10.0-514.6.1.el7.x86_64 ***REMOVED***1 SMP Sat Dec 10 11:15:38 EST 2016 x86_6";
         UnameEvent unameEvent = new UnameEvent(uname);
         fel.setUnameEvent(unameEvent);
+        assertEquals("Linux", fel.getOsString(), "OS string not correct.");
         assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
     ***REMOVED***
 
