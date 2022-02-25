@@ -2631,7 +2631,8 @@ public class FatalErrorLog {
                     break;
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (unameEvent != null) {
+        ***REMOVED***
+        if (osVersion == OsVersion.UNKNOWN && unameEvent != null) {
             osVersion = unameEvent.getOsVersion();
         ***REMOVED***
         return osVersion;

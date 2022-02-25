@@ -340,6 +340,18 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testJdk8Rhel7GenericOs() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS: Linux";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String uname = "uname:Linux 3.10.0-514.6.1.el7.x86_64 ***REMOVED***1 SMP Sat Dec 10 11:15:38 EST 2016 x86_6";
+        UnameEvent unameEvent = new UnameEvent(uname);
+        fel.setUnameEvent(unameEvent);
+        assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
+    ***REMOVED***
+
+    @Test
     void testJdkRedHatBuildUnknown() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset6.txt");
         Manager manager = new Manager();

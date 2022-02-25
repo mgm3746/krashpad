@@ -600,7 +600,7 @@ public class JdkUtil {
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.131-2.b11.el7_3.x86_64",
                 new Release("Apr 13 2017 00:00:00", 12, "1.8.0_131-b11"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.121-0.b13.el7_3.x86_64",
-                new Release("Jan 17 2017 00:00:00", 11, "1.8.0_121-b13"));
+                new Release("Jan 16 2017 09:14:03", 11, "1.8.0_121-b13"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.111-2.b15.el7_3.x86_64",
                 new Release("Nov 8 2016 00:00:00", 10, "1.8.0_111-b15"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.111-1.b15.el7_2.x86_64",
