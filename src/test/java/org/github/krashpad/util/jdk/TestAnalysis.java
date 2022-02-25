@@ -894,7 +894,7 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED),
                 Analysis.WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED + " analysis not identified.");
     ***REMOVED***
-    
+
     @Test
     void testHeapDumpOnOutOfMemoryErrorMissing() {
         FatalErrorLog fel = new FatalErrorLog();
@@ -905,7 +905,7 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_DUMP_ON_OOME_MISSING),
                 Analysis.INFO_OPT_HEAP_DUMP_ON_OOME_MISSING + " analysis not identified.");
     ***REMOVED***
-    
+
     @Test
     void testHeapDumpOnOutOfMemoryErrorPathIsDirectory() {
         FatalErrorLog fel = new FatalErrorLog();
@@ -1379,9 +1379,9 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
-        assertEquals(459, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
+        assertEquals(557, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
                 "Release days diff not correct.");
-        assertEquals(6, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
+        assertEquals(7, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
                 "Release ***REMOVED*** diff not correct.");
     ***REMOVED***
 
