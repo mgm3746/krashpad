@@ -1252,6 +1252,29 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testJfrClassTransformed() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "V  [libjvm.so+0x6b67f7]  JfrEventClassTransformer::on_klass_creation(InstanceKlass*&, "
+                + "ClassFileParser&, Thread*)+0xa17";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String logline = "7f55dbe9a000-7f55dcc26000 r-xp 00000000 08:05 34105880                   "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-1.el7.x86_64/jre/lib/amd64/server/libjvm.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
+        fel.getDynamicLibraryEvents().add(event);
+        String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), "
+                + "built on Jul 12 2020 18:53:50 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED),
+                Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testJfrPdGetTopFrame() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();

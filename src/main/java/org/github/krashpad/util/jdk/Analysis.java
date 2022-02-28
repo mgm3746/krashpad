@@ -91,6 +91,11 @@ public enum Analysis {
     ERROR_JDK8_DEFLATER_CONTENTION("error.jdk8.deflater.contention"),
 
     /**
+     * Property key for a crash in JDK8 when a JFR class is transformed.
+     */
+    ERROR_JDK8_JFR_CLASS_TRANSFORMED("error.jdk8.jfr.class.transformed"),
+
+    /**
      * Property key for a crash on RHEL7 where a power8 rpm is deployed on power9. Power8 support is through the
      * rhel-7-for-power-le-rpms repo (least release 7.9). Power9 support is through the rhel-7-for-power-9-rpms repo
      * (last release 7.6).

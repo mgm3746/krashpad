@@ -891,6 +891,20 @@ public class FatalErrorLog {
         if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_DRIVER);
         ***REMOVED***
+        // Check for JDK8 JFR class transformed
+        if (getJavaSpecification() == JavaSpecification.JDK8
+                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) >= 262
+                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 282 && getStackFrameTop() != null
+                && getStackFrameTop().matches("^V.+JfrEventClassTransformer::on_klass_creation.+$")) {
+            analysis.add(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED);
+            // Don't double report
+            if (analysis.contains(Analysis.ERROR_LIBJVM_SO)) {
+                analysis.remove(Analysis.ERROR_LIBJVM_SO);
+            ***REMOVED***
+            if (analysis.contains(Analysis.ERROR_JVM_DLL)) {
+                analysis.remove(Analysis.ERROR_JVM_DLL);
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
