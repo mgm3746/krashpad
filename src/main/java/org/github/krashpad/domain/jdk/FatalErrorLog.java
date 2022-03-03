@@ -2355,8 +2355,11 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return An estimate of how much physical memory is available without swapping in
-     *         <code>Constants.PRECISION_REPORTING</code> units.
+     * Available memory is an estimate of how much physical memory is available without swapping. It does not include
+     * the memory used by the JVM process, as it is before the JVM process exits and its memory is freed.
+     * 
+     * @return The total available physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code>
+     *         units.
      */
     public long getOsMemAvailable() {
         long memAvailable = Long.MIN_VALUE;
@@ -2378,9 +2381,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * Free memory as reported by the OS. Note that free memory does not include Buffers or Cached memory, which can be
-     * reclaimed at any time. Therefore, low free memory does not necessarily indicate swapping or out of memory is
-     * imminent.
+     * Free memory as reported by the OS. Free memory does not include Buffers or Cached memory, which can be reclaimed
+     * at any time. Therefore, low free memory does not necessarily indicate swapping or out of memory is imminent.
      * 
      * @return The total free physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code> units.
      */

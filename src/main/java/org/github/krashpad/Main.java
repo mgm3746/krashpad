@@ -381,18 +381,6 @@ public class Main {
                         ***REMOVED*** else {
                             printWriter.write("OS Memory");
                         ***REMOVED***
-                        if (fel.getOsMemAvailable() >= 0) {
-                            // Memory Available n/a RHEL6
-                            long percentMemoryAvailable = JdkMath.calcPercent(fel.getJvmMemoryMax(),
-                                    fel.getOsMemAvailable());
-                            printWriter.write(", ");
-                            // provide rounding indicator
-                            if (percentMemoryAvailable == 0 || (percentMemoryAvailable == 100
-                                    && fel.getJvmMemoryMax() != fel.getOsMemAvailable())) {
-                                printWriter.write("~");
-                            ***REMOVED***
-                            printWriter.write(percentMemoryAvailable + "% OS Memory Available");
-                        ***REMOVED***
                         printWriter.write(")");
                     ***REMOVED***
                     printWriter.write(Constants.LINE_SEPARATOR);
