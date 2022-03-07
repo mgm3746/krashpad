@@ -14,10 +14,13 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.ErrUtil;
+import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
@@ -81,12 +84,32 @@ public class TimeEvent implements LogEvent {
         return JdkUtil.LogEventType.TIME.toString();
     ***REMOVED***
 
-    public String getTime() {
+    public String getTimeString() {
         String time = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             time = matcher.group(1);
         ***REMOVED***
         return time;
+    ***REMOVED***
+
+    public static final Date getDate(String buildDate) {
+        String MMM = null;
+        String d = null;
+        String yyyy = null;
+        String HH = null;
+        String mm = null;
+        String ss = null;
+        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATE_TIME);
+        Matcher matcher = pattern.matcher(buildDate);
+        if (matcher.find()) {
+            MMM = matcher.group(1);
+            d = matcher.group(2);
+            yyyy = matcher.group(3);
+            HH = matcher.group(4);
+            mm = matcher.group(5);
+            ss = matcher.group(6);
+        ***REMOVED***
+        return ErrUtil.getDate(MMM, d, yyyy, HH, mm, ss);
     ***REMOVED***
 ***REMOVED***

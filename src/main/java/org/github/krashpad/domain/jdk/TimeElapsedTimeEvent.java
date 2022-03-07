@@ -93,7 +93,7 @@ public class TimeElapsedTimeEvent implements LogEvent {
         return JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString();
     ***REMOVED***
 
-    public String getTime() {
+    public String getTimeString() {
         String time = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {

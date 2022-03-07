@@ -121,7 +121,7 @@ class TestFatalErrorLog {
         String logLine = "Time: Sun Nov 14 14:25:00 2021 UTC elapsed time: 5697278.196357 seconds (65d 22h 34m 38s)";
         TimeElapsedTimeEvent event = new TimeElapsedTimeEvent(logLine);
         fel.setTimeElapsedTimeEvent(event);
-        assertEquals("Sun Nov 14 14:25:00 2021 UTC", fel.getCrashTime(), "Crash time not correct.");
+        assertEquals("Sun Nov 14 14:25:00 2021 UTC", fel.getCrashTimeString(), "Crash time not correct.");
         assertEquals("65d 22h 34m 38s", fel.getElapsedTime(), "Elapsed time not correct.");
     ***REMOVED***
 
@@ -134,7 +134,7 @@ class TestFatalErrorLog {
         fel.setTimezoneEvent(timezoneEvent);
         ElapsedTimeEvent elapsedTimeEvent = new ElapsedTimeEvent("elapsed time: 644647 seconds (7d 11h 4m 7s)");
         fel.setElapsedTimeEvent(elapsedTimeEvent);
-        assertEquals("Tue Nov 23 09:21:06 2021 CET", fel.getCrashTime(), "Crash time not correct.");
+        assertEquals("Tue Nov 23 09:21:06 2021 CET", fel.getCrashTimeString(), "Crash time not correct.");
         assertEquals("7d 11h 4m 7s", fel.getElapsedTime(), "Elapsed time not correct.");
     ***REMOVED***
 
@@ -194,7 +194,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset32.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertEquals("Tue May  5 18:32:04 2020 CEST", fel.getCrashTime(), "Crash time not correct.");
+        assertEquals("Tue May  5 18:32:04 2020 CEST", fel.getCrashTimeString(), "Crash time not correct.");
         assertEquals("0d 0h 15m 56s", fel.getElapsedTime(), "Elapsed time not correct.");
         long physicalMemory = JdkUtil.convertSize(32780544, 'K', Constants.PRECISION_REPORTING);
         assertEquals(physicalMemory, fel.getContainerMemTotal(), "Physical memory not correct.");
@@ -646,7 +646,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
                 Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
-        assertEquals("Thu May  7 17:24:12 2020 UTC", fel.getCrashTime(), "Time of crash not correct.");
+        assertEquals("Thu May  7 17:24:12 2020 UTC", fel.getCrashTimeString(), "Time of crash not correct.");
         assertEquals("1d 7h 30m 19s", fel.getElapsedTime(), "JVM run time not correct.");
     ***REMOVED***
 

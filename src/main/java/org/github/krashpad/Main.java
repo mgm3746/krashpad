@@ -223,8 +223,8 @@ public class Main {
             if (fel.getVmStateEvent() != null) {
                 printWriter.write("VM State: " + fel.getVmState() + Constants.LINE_SEPARATOR);
             ***REMOVED***
-            if (!fel.getCrashTime().equals("")) {
-                printWriter.write("Crash Date: " + fel.getCrashTime() + Constants.LINE_SEPARATOR);
+            if (!fel.getCrashTimeString().equals("")) {
+                printWriter.write("Crash Date: " + fel.getCrashTimeString() + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getElapsedTime() != null) {
                 printWriter.write("Run Time: " + fel.getElapsedTime() + Constants.LINE_SEPARATOR);

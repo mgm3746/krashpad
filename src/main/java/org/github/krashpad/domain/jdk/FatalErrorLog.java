@@ -321,6 +321,15 @@ public class FatalErrorLog {
      * Do data analysis.
      */
     private void doDataAnalysis() {
+        // Check for ancient fatal error log
+        if (ErrUtil.dayDiff(getCrashDate(), new Date()) > 30) {
+            analysis.add(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT);
+        ***REMOVED***
+        // Check for ancient JDK
+        if (ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this), JdkUtil.getLatestJdkReleaseDate(this)) > 365
+                || ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this), new Date()) > 365) {
+            analysis.add(Analysis.INFO_JDK_ANCIENT);
+        ***REMOVED***
         // Check for unknown JDK version
         if (getJavaSpecification() == JavaSpecification.UNKNOWN) {
             analysis.add(Analysis.ERROR_JDK_VERSION_UNKNOWN);
@@ -388,11 +397,6 @@ public class FatalErrorLog {
         ***REMOVED***
         if (getJavaSpecification() != JavaSpecification.UNKNOWN && !isJdkLts()) {
             analysis.add(Analysis.WARN_JDK_NOT_LTS);
-        ***REMOVED***
-        // Check for ancient JDK
-        if (ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this), JdkUtil.getLatestJdkReleaseDate(this)) > 365
-                || ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this), new Date()) > 365) {
-            analysis.add(Analysis.INFO_JDK_ANCIENT);
         ***REMOVED***
         // Check for crash in JNA
         if (isJnaCrash()) {
@@ -1380,18 +1384,55 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The time of the crash.
+     * The crash <code>Date</code> from a given crash date/time string (e.g. Tue Mar 1 09:13:16 2022 UTC).
+     * 
+     * Note: Timezone is ignored.
+     * 
+     * @return The <code>Date</code> of the crash or null if unknown.
      */
-    public String getCrashTime() {
+    public Date getCrashDate() {
+        Date crashDate = null;
+        if (getCrashTimeString() != null) {
+            String MMM = null;
+            String d = null;
+            String yyyy = null;
+            String HH = null;
+            String mm = null;
+            String ss = null;
+            Pattern pattern = Pattern.compile(JdkRegEx.CRASH_DATE_TIME);
+            Matcher matcher = pattern.matcher(getCrashTimeString());
+            if (matcher.find()) {
+                MMM = matcher.group(2);
+                d = matcher.group(3);
+                HH = matcher.group(4);
+                mm = matcher.group(5);
+                ss = matcher.group(6);
+                yyyy = matcher.group(7);
+            ***REMOVED***
+            crashDate = ErrUtil.getDate(MMM, d, yyyy, HH, mm, ss);
+        ***REMOVED***
+        return crashDate;
+    ***REMOVED***
+
+    /**
+     * The crash date/time string.
+     * 
+     * For example:
+     * 
+     * Tue Mar 1 09:13:16 2022 UTC
+     * 
+     * @return The date/time string of the crash.
+     */
+    public String getCrashTimeString() {
         StringBuilder crashTime = new StringBuilder();
         if (timeEvent != null) {
-            crashTime.append(timeEvent.getTime());
+            crashTime.append(timeEvent.getTimeString());
             if (timezoneEvent != null) {
                 crashTime.append(" ");
                 crashTime.append(timezoneEvent.getTimezone());
             ***REMOVED***
         ***REMOVED*** else if (timeElapsedTimeEvent != null) {
-            crashTime.append(timeElapsedTimeEvent.getTime());
+            crashTime.append(timeElapsedTimeEvent.getTimeString());
         ***REMOVED***
         return crashTime.toString();
     ***REMOVED***

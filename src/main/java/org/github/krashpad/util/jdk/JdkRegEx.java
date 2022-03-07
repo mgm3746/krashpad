@@ -77,8 +77,8 @@ public class JdkRegEx {
 
     /**
      * <p>
-     * Regular expression for valid JDK build date/time in MMM d yyyy HH:mm:ss format (see <code>SimpleDateFormat</code>
-     * for date and time pattern definitions).
+     * Regular expression for JDK build date/time in MMM d yyyy HH:mm:ss format (see <code>SimpleDateFormat</code> for
+     * date and time pattern definitions).
      * </p>
      * 
      * For example:
@@ -88,6 +88,33 @@ public class JdkRegEx {
      * </pre>
      */
     public static final String BUILD_DATE_TIME = "([a-zA-Z]{3***REMOVED***)[ ]{1,2***REMOVED***(\\d{1,2***REMOVED***) (\\d{4***REMOVED***) (\\d{2***REMOVED***):(\\d{2***REMOVED***):(\\d{2***REMOVED***)";
+
+    /**
+     * <p>
+     * Regular expression for crash date/time in MMM d HH:mm:ss yyyy format (see <code>SimpleDateFormat</code> for date
+     * and time pattern definitions).
+     * </p>
+     * 
+     * For example:
+     * 
+     * <p>
+     * 1) Without timezone:
+     * </p>
+     *
+     * <pre>
+     * Tue Aug 18 14:10:59 2020
+     * </pre>
+     * 
+     * <p>
+     * 2) With timezone:
+     * </p>
+     *
+     * <pre>
+     * Tue Mar  1 09:13:16 2022 UTC
+     * </pre>
+     */
+    public static final String CRASH_DATE_TIME = "([a-zA-Z]{3***REMOVED***) ([a-zA-Z]{3***REMOVED***)[ ]{1,2***REMOVED***(\\d{1,2***REMOVED***) "
+            + "(\\d{2***REMOVED***):(\\d{2***REMOVED***):(\\d{2***REMOVED***) (\\d{4***REMOVED***).*";
 
     /**
      * <p>

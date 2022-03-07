@@ -813,6 +813,11 @@ public enum Analysis {
     WARN_DEBUG_SYMBOLS("warn.jdk.debug.symbols"),
 
     /**
+     * Property key for a fatal error log that is more than 30 days old.
+     */
+    WARN_FATAL_ERROR_LOG_ANCIENT("warn.fatal.error.log.ancient"),
+
+    /**
      * Property key for a JDK that is not the latest JDK release.
      */
     WARN_JDK_NOT_LATEST("warn.jdk.not.latest"),

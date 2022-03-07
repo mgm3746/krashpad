@@ -31,6 +31,7 @@ import org.github.krashpad.domain.jdk.HeaderEvent;
 import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
+import org.github.krashpad.domain.jdk.TimeEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
 import org.github.krashpad.service.Manager;
@@ -788,6 +789,17 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS),
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testFatalErrorLogAncient() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String time = "time: Tue Aug 18 14:10:59 2020";
+        TimeEvent timeEven = new TimeEvent(time);
+        fel.setTimeEvent(timeEven);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT),
+                Analysis.WARN_FATAL_ERROR_LOG_ANCIENT + " analysis not identified.");
     ***REMOVED***
 
     @Test

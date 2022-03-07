@@ -46,6 +46,15 @@ class TestTimeEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME,
                 JdkUtil.LogEventType.TIME.toString() + " not identified.");
         TimeEvent event = new TimeEvent(logLine);
-        assertEquals("Tue Aug 18 14:10:59 2020", event.getTime(), "Time not correct.");
+        assertEquals("Tue Aug 18 14:10:59 2020", event.getTimeString(), "Time not correct.");
+    ***REMOVED***
+
+    @Test
+    void testTimeZone() {
+        String logLine = "time: Tue Aug 18 14:10:59 2020";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME,
+                JdkUtil.LogEventType.TIME.toString() + " not identified.");
+        TimeEvent event = new TimeEvent(logLine);
+        assertEquals("Tue Aug 18 14:10:59 2020", event.getTimeString(), "Time not correct.");
     ***REMOVED***
 ***REMOVED***

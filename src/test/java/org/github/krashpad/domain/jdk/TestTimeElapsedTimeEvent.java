@@ -55,6 +55,6 @@ class TestTimeElapsedTimeEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME_ELAPSED_TIME,
                 JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString() + " not identified.");
         TimeElapsedTimeEvent event = new TimeElapsedTimeEvent(logLine);
-        assertEquals("Tue May  5 18:32:04 2020 CEST", event.getTime(), "Time not correct.");
+        assertEquals("Tue May  5 18:32:04 2020 CEST", event.getTimeString(), "Time not correct.");
     ***REMOVED***
 ***REMOVED***

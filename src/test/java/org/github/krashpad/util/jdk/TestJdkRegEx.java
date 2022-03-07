@@ -289,4 +289,16 @@ class TestJdkRegEx {
         String timestamp = "11234";
         assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps have 3 decimal places.");
     ***REMOVED***
+
+    @Test
+    void testCrashDatewithTimeZone() {
+        String time = "Tue Mar  1 09:13:16 2022 UTC";
+        assertTrue(time.matches(JdkRegEx.CRASH_DATE_TIME), "'" + time + "' is a valid crash time.");
+    ***REMOVED***
+
+    @Test
+    void testCrashDate() {
+        String time = "Tue Aug 18 14:10:59 2020";
+        assertTrue(time.matches(JdkRegEx.CRASH_DATE_TIME), "'" + time + "' is a valid crash time.");
+    ***REMOVED***
 ***REMOVED***
