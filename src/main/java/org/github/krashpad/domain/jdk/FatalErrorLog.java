@@ -1392,7 +1392,7 @@ public class FatalErrorLog {
      */
     public Date getCrashDate() {
         Date crashDate = null;
-        if (getCrashTimeString() != null) {
+        if (getCrashTimeString() != null && getCrashTimeString().length() > 0) {
             String MMM = null;
             String d = null;
             String yyyy = null;
