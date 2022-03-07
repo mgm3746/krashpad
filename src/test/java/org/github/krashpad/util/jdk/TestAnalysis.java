@@ -420,6 +420,17 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testCompilerThreadC2BeautifyLoops() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset72.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD),
+                Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS),
+                Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testCompilerThreads() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:CICompilerCount=2 -Xms2048M";

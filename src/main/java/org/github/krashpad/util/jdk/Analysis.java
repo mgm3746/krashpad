@@ -46,6 +46,11 @@ public enum Analysis {
     ERROR_COMPILER_THREAD("error.compiler.thread"),
 
     /**
+     * Property key for a crash in C2 CompilerThread: "guarantee(n != NULL) failed: No Node."
+     */
+    ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS("error.compiler.thread.c2.beautify.loops"),
+
+    /**
      * Property key for a crash due to multiple threads access DirectByteBuffer at the same time.
      */
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),

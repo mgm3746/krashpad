@@ -909,6 +909,14 @@ public class FatalErrorLog {
                 analysis.remove(Analysis.ERROR_JVM_DLL);
             ***REMOVED***
         ***REMOVED***
+        //
+        if (getCurrentThread() != null && getCurrentThread().matches("^.+C2 CompilerThread\\d{1,***REMOVED***.+$")
+                && isInHeader("guarantee\\(n != NULL\\) failed: No Node.")
+                && isInStack("IdealLoopTree::beautify_loops")) {
+            analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS);
+            // Don't double report
+            analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
