@@ -6,7 +6,7 @@
 	<groupId>krashpad</groupId>
 	<artifactId>krashpad</artifactId>
 	<name>krashpad</name>
-	<version>1.0.1</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<description>Java fatal error log analyzer tool.</description>
 	<url>https://github.com/mgm3746/krashpad</url>
 	<developers>
