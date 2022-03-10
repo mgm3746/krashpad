@@ -113,6 +113,11 @@ public enum Analysis {
     ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK("error.jdk8.shenandoah.mark.loop.work"),
 
     /**
+     * Property key for Shenadoah MetadataOnStackMark bug fixed in OpenJDK8 u312.
+     */
+    ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK("error.jdk8.shenandoah.metadata.on.stack.mark"),
+
+    /**
      * Property key for ShenadoahRootUpdater bug fixed in OpenJDK8 u282.
      */
     ERROR_JDK8_SHENANDOAH_ROOT_UPDATER("error.jdk8.shenandoah.root.updater"),

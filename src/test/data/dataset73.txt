@@ -1,0 +1,18 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00007f38b9487b4a, pid=1, tid=0x00007f389b52d700
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_262-b10) (build 1.8.0_262-b10)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.262-b10 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Problematic frame:
+***REMOVED*** V  [libjvm.so+0x8b4b4a]  MetadataOnStackMark::~MetadataOnStackMark()+0xba
+***REMOVED***
+***REMOVED*** Core dump written. Default location: /usr/local/tomcat/core or core.1
+***REMOVED***
+***REMOVED*** An error report file with more information is saved as:
+***REMOVED*** /tmp/hs_err_pid1.log
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
+***REMOVED***

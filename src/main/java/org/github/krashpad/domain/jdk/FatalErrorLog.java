@@ -541,12 +541,29 @@ public class FatalErrorLog {
                 analysis.add(Analysis.WARN_SWAP_DISABLED_CMS);
             ***REMOVED***
         ***REMOVED***
-        // Check for ShenadoahRootUpdater bug fixed in OpenJDK8 u282.
+        // libjvm.so/jvm.dll
         if (getJavaSpecification() == JavaSpecification.JDK8 && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) > 0
                 && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 282 && getStackFrameTop() != null
                 && getStackFrameTop()
                         .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ShenandoahUpdateRefsClosure::do_oop.+$")) {
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER);
+        ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK8
+                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) > 0
+                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 312 && getStackFrameTop() != null
+                && getStackFrameTop()
+                        .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  MetadataOnStackMark::~MetadataOnStackMark.+$")) {
+            analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK);
+        ***REMOVED*** else if (getCurrentThread() != null && getCurrentThread().matches("^.+CompilerThread\\d{1,***REMOVED***.+$")) {
+            analysis.add(Analysis.ERROR_COMPILER_THREAD);
+        ***REMOVED*** else if (getStackFrameTop() != null
+                && getStackFrameTop().matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  (ModuleEntry::purge_reads|"
+                        + "ModuleEntryTable::purge_all_module_reads).+$")) {
+            analysis.add(Analysis.ERROR_MODULE_ENTRY_PURGE_READS);
+        ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK8
+                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) >= 262
+                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 282 && getStackFrameTop() != null
+                && getStackFrameTop().matches("^V.+JfrEventClassTransformer::on_klass_creation.+$")) {
+            analysis.add(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED);
         ***REMOVED*** else if (getStackFrameTop() != null
                 && !isError("There is insufficient memory for the Java Runtime Environment to continue")) {
             // Other libjvm.so/jvm.dll analysis
@@ -691,17 +708,6 @@ public class FatalErrorLog {
                 break;
             default:
                 break;
-            ***REMOVED***
-        ***REMOVED***
-        // CompilerThread
-        if (getCurrentThread() != null && getCurrentThread().matches("^.+CompilerThread\\d{1,***REMOVED***.+$")) {
-            analysis.add(Analysis.ERROR_COMPILER_THREAD);
-            // Don't double report
-            if (analysis.contains(Analysis.ERROR_LIBJVM_SO)) {
-                analysis.remove(Analysis.ERROR_LIBJVM_SO);
-            ***REMOVED***
-            if (analysis.contains(Analysis.ERROR_JVM_DLL)) {
-                analysis.remove(Analysis.ERROR_JVM_DLL);
             ***REMOVED***
         ***REMOVED***
         // Check if summarized remembered set processing information being output
@@ -855,20 +861,6 @@ public class FatalErrorLog {
         if (getJavaThreadCount() > 1000) {
             analysis.add(Analysis.INFO_THREADS_MANY);
         ***REMOVED***
-
-        // Check for ModuleEntry::purge_reads() bug.
-        if (getStackFrameTop() != null
-                && getStackFrameTop().matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  (ModuleEntry::purge_reads|"
-                        + "ModuleEntryTable::purge_all_module_reads).+$")) {
-            analysis.add(Analysis.ERROR_MODULE_ENTRY_PURGE_READS);
-            // Don't double report
-            if (analysis.contains(Analysis.ERROR_LIBJVM_SO)) {
-                analysis.remove(Analysis.ERROR_LIBJVM_SO);
-            ***REMOVED***
-            if (analysis.contains(Analysis.ERROR_JVM_DLL)) {
-                analysis.remove(Analysis.ERROR_JVM_DLL);
-            ***REMOVED***
-        ***REMOVED***
         // Check environments
         if (isVMWareEnvironment()) {
             analysis.add(Analysis.INFO_VMWARE);
@@ -894,20 +886,6 @@ public class FatalErrorLog {
         // Crash in Oracle JDBC driver
         if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_DRIVER);
-        ***REMOVED***
-        // Check for JDK8 JFR class transformed
-        if (getJavaSpecification() == JavaSpecification.JDK8
-                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) >= 262
-                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 282 && getStackFrameTop() != null
-                && getStackFrameTop().matches("^V.+JfrEventClassTransformer::on_klass_creation.+$")) {
-            analysis.add(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED);
-            // Don't double report
-            if (analysis.contains(Analysis.ERROR_LIBJVM_SO)) {
-                analysis.remove(Analysis.ERROR_LIBJVM_SO);
-            ***REMOVED***
-            if (analysis.contains(Analysis.ERROR_JVM_DLL)) {
-                analysis.remove(Analysis.ERROR_JVM_DLL);
-            ***REMOVED***
         ***REMOVED***
         //
         if (getCurrentThread() != null && getCurrentThread().matches("^.+C2 CompilerThread\\d{1,***REMOVED***.+$")

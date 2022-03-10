@@ -1476,6 +1476,15 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testMetadataOnStackMark() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset73.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK),
+                Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testMetaspaceEq32g() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -Xmx32g";
