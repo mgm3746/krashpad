@@ -1401,7 +1401,8 @@ public class JdkUtil {
             logEventType = LogEventType.GC_PRECIOUS_LOG;
         ***REMOVED*** else if (GlobalFlagsEvent.match(logLine)) {
             logEventType = LogEventType.GLOBAL_FLAGS;
-        ***REMOVED*** else if (HeaderEvent.match(logLine) && (priorEvent == null || priorEvent instanceof HeaderEvent)) {
+        ***REMOVED*** else if (HeaderEvent.match(logLine)
+                && (priorEvent == null || priorEvent instanceof UnknownEvent || priorEvent instanceof HeaderEvent)) {
             logEventType = LogEventType.HEADER;
         ***REMOVED*** else if (HeadingEvent.match(logLine)) {
             logEventType = LogEventType.HEADING;
