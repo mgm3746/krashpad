@@ -824,7 +824,7 @@ public class JdkUtil {
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.12.0.7-0.el7_9.x86_64",
                 new Release("Jul 14 2021 00:06:01", 13, "11.0.12+7-LTS)"));
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.11.0.9-1.el7_9.x86_64",
-                new Release("Apr 13 2021 00:00:00", 12, "11.0.11+9-LTS"));
+                new Release("Apr 13 2021 02:52:48", 12, "11.0.11+9-LTS"));
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.10.0.9-0.el7_9.x86_64",
                 new Release("Jan 14 2021 23:18:04", 11, "11.0.10+9-LTS"));
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.9.11-2.el7_9.x86_64",
