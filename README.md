@@ -3,10 +3,13 @@ A command line tool to parse Java fatal error logs.
 
 ***REMOVED******REMOVED*** Supports
 
-  * OpenJDK
-  * AdoptOpenJDK
-  * Oracle JDK
-  * JDK 1.8 and higher
+OpenJDK derivatives:
+* Adoptium/AdoptOpenJDK
+* Azul
+* Microsoft Build of OpenJDK
+* Oracle JDK
+* Red Hat build of OpenJDK
+* etc.
   
 ***REMOVED******REMOVED*** Building
 
