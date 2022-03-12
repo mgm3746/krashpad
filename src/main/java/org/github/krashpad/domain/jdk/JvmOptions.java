@@ -1491,7 +1491,10 @@ public class JvmOptions {
     private String useParallelGc;
 
     /**
-     * Option to enable/disable the parallel multi-threaded old garbage collector. For example:
+     * Option to enable/disable the parallel multi-threaded old garbage collector. Redundant in JDK7/8/11, deprecated in
+     * JDK15, and removed in JDK16.
+     * 
+     * For example:
      * 
      * -XX:+UseParallelOldGC
      */
@@ -1499,7 +1502,7 @@ public class JvmOptions {
 
     /**
      * The option to enable/disable the CMS young collector. The use case for this option is to -disable the CMS young
-     * (parallel) collector with XX:-UseParNewGC to force using the serial new collector.
+     * (parallel) collector with -XX:-UseParNewGC to force using the serial new collector.
      * 
      * Deprecated in JDK8 and removed in JDK9 (i.e. you can only use the CMS young collector in combination with the CMS
      * old collector in JDK9+).
@@ -1550,6 +1553,13 @@ public class JvmOptions {
      * Windows. Deprecated in JDK8 and removed in JDK11.
      */
     private String useVmInterruptibleIo;
+
+    /**
+     * Option to enable/disable the Z garbage collector (ZGC). For example:
+     * 
+     * -XX:+UseZGC
+     */
+    private String useZGc;
 
     /**
      * Option to enable logging (to standard out) class loading information.
@@ -2058,6 +2068,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseVMInterruptibleIO$")) {
                     useVmInterruptibleIo = option;
                     key = "UseVMInterruptibleIO";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseZGC$")) {
+                    useZGc = option;
+                    key = "UseZGC";
                 ***REMOVED*** else {
                     undefined.add(option);
                     key = "undefined";
@@ -2387,19 +2400,25 @@ public class JvmOptions {
                 && !JdkUtil.isOptionEnabled(useCmsInitiatingOccupancyOnly)) {
             analysis.add(Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING);
         ***REMOVED***
-        // Check if PAR_NEW collector disabled
-        if (JdkUtil.isOptionDisabled(useParNewGc)) {
-            if (JdkUtil.isOptionEnabled(useConcMarkSweepGc)) {
+        // Check if CMS collector disabled or enabled (redundant)
+        if (JdkUtil.isOptionEnabled(useConcMarkSweepGc)) {
+            if (JdkUtil.isOptionDisabled(useParNewGc)) {
                 analysis.add(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED);
-            ***REMOVED*** else if (JdkUtil.isOptionDisabled(useConcMarkSweepGc)) {
-                analysis.add(Analysis.INFO_OPT_CMS_DISABLED);
-            ***REMOVED*** else {
-                analysis.add(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED);
+            ***REMOVED*** else if (JdkUtil.isOptionEnabled(useParNewGc)) {
+                analysis.add(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_REDUNDANT);
             ***REMOVED***
-        ***REMOVED***
-        // Check if CMS disabled
-        if (!analysis.contains(Analysis.INFO_OPT_CMS_DISABLED) && JdkUtil.isOptionDisabled(useConcMarkSweepGc)) {
+        ***REMOVED*** else if (JdkUtil.isOptionDisabled(useConcMarkSweepGc)) {
             analysis.add(Analysis.INFO_OPT_CMS_DISABLED);
+        ***REMOVED*** else if (useParNewGc != null) {
+            analysis.add(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT);
+        ***REMOVED***
+        // Check if PARALLEL_OLD collector disabled or enabled (redundant)
+        if (JdkUtil.isOptionEnabled(useParallelGc)) {
+            if (JdkUtil.isOptionDisabled(useParallelOldGc)) {
+                analysis.add(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED);
+            ***REMOVED*** else if (JdkUtil.isOptionEnabled(useParallelOldGc)) {
+                analysis.add(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT);
+            ***REMOVED***
         ***REMOVED***
         // Check to see if explicit gc is disabled
         if (JdkUtil.isOptionEnabled(disableExplicitGc)
@@ -2796,6 +2815,9 @@ public class JvmOptions {
         ***REMOVED***
         if (JdkUtil.isOptionEnabled(useShenandoahGc)) {
             garbageCollectors.add(GarbageCollector.SHENANDOAH);
+        ***REMOVED***
+        if (JdkUtil.isOptionEnabled(useZGc)) {
+            garbageCollectors.add(GarbageCollector.ZGC);
         ***REMOVED***
         return garbageCollectors;
     ***REMOVED***

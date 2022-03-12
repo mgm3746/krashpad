@@ -196,6 +196,7 @@ public enum Analysis {
      * Property key for insufficient physical memory due to the JVM process.
      */
     ERROR_OOME_JVM("error.oome.jvm"),
+
     /**
      * Property key for failing to allocate memory due to a resource limit (rlimit).
      */
@@ -217,7 +218,6 @@ public enum Analysis {
      * Property key for generic insufficient physical memory with oops enabled.
      */
     ERROR_OOME_OOPS("error.oome.oops"),
-
     /**
      * Property key for the JVM failing to start due to insufficient physical memory.
      */
@@ -450,14 +450,24 @@ public enum Analysis {
     INFO_OPT_INSTRUMENTATION("info.opt.instrumentation"),
 
     /**
+     * Property key for redundant option -XX:+UseParallelOldGC.
+     */
+    INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT("info.opt.jdk11.parallel.old.redundant"),
+
+    /**
      * Property key for missing gc* to output details at gc needed for analysis.
      */
     INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING("info.opt.jdk11.print.gc.details.missing"),
 
     /**
-     * Property key for the PAR_NEW collector disabled without the CMS collector being used.
+     * Property key for the PAR_NEW collector enabled/disabled without the CMS collector being used.
      */
-    INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED("info.opt.jdk8.cms.par.new.disabled"),
+    INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT("info.opt.jdk8.cms.par.new.cruft"),
+
+    /**
+     * Property key for redundant option -XX:-UseParNewGC.
+     */
+    INFO_OPT_JDK8_CMS_PAR_NEW_REDUNDANT("info.opt.jdk8.cms.par.new.redundant"),
 
     /**
      * Property key for GC log file rotation disabled (-XX:-UseGCLogFileRotation).
@@ -1026,6 +1036,11 @@ public enum Analysis {
      * Property key for specifying the gc log file size that triggers rotation (filesize=N[K|M|G]) is small (&lt; 5M).
      */
     WARN_OPT_JDK11_GC_LOG_FILE_SIZE_SMALL("warn.opt.jdk11.gc.log.file.size.small"),
+
+    /**
+     * Property key for the multi-threaded parallel old collector (default) disabled with -XX:-UseParallelOldGC.
+     */
+    WARN_OPT_JDK11_PARALLEL_OLD_DISABLED("warn.opt.jdk11.parallel.old.disabled"),
 
     /**
      * Property key for PAR_NEW collector disabled, resulting in the SERIAL collector being used in combination with the

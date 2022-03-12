@@ -250,20 +250,20 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
                 Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
                 Analysis.INFO_OPT_CMS_DISABLED + " analysis not identified.");
         // JDK 11
-        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC " + "-XX:CMSInitiatingOccupancyFraction=70";
+        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70";
         event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().clear();
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
                 Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
                 Analysis.INFO_OPT_CMS_DISABLED + " analysis not identified.");
     ***REMOVED***
@@ -377,7 +377,7 @@ class TestAnalysis {
      * Test if PAR_NEW collector disabled with -XX:-UseParNewGC without -XX:+UseConcMarkSweepGC.
      */
     @Test
-    void testCmsParNewDisabled() {
+    void testCmsParNewCruft() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParNewGC";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
@@ -385,10 +385,32 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
                 Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
                 Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis not identified.");
+        fel = new FatalErrorLog();
+        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseParNewGC";
+        event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
+                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis not identified.");
+        fel = new FatalErrorLog();
+        jvm_args = "jvm_args: -Xss128k -Xmx2048M";
+        event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
+                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
     ***REMOVED***
 
     /**
@@ -1943,6 +1965,20 @@ class TestAnalysis {
                 GarbageCollector.PARALLEL_OLD + " collector not identified.");
     ***REMOVED***
 
+    /**
+     * Test if PARALLEL_OLD collector disabled with -XX:-UseParallelOldGC.
+     */
+    @Test
+    void testParallelOldDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseParallelGC -XX:-UseParallelOldGC";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED),
+                Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
+    ***REMOVED***
+
     @Test
     void testPerfDataDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
@@ -2555,9 +2591,6 @@ class TestAnalysis {
                 Analysis.INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
-    /**
-     * Test if explicit not GC handled concurrently.
-     */
     @Test
     void testUseMembar() {
         FatalErrorLog fel = new FatalErrorLog();
@@ -2567,6 +2600,28 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_USE_MEMBAR),
                 Analysis.WARN_OPT_USE_MEMBAR + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testUseParallelOldGcDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseParallelGC -XX:-UseParallelOldGC ";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED),
+                Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testUseParallelOldGcRedundant() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseParallelGC -XX:+UseParallelOldGC ";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT),
+                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT + " analysis not identified.");
     ***REMOVED***
 
     /**
@@ -2582,10 +2637,25 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
                 Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
                 Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testUseParNewGcRedundant() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:+UseParNewGC";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_REDUNDANT),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_REDUNDANT + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
+                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -2633,5 +2703,22 @@ class TestAnalysis {
     void testWarnNotLatestJdkValue() {
         assertEquals("JDK is not the latest version. Latest version is ", Analysis.WARN_JDK_NOT_LATEST.getValue(),
                 Analysis.WARN_JDK_NOT_LATEST + "value not correct.");
+    ***REMOVED***
+
+    @Test
+    void testZGc() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String zHeap = " ZHeap           used 4M, capacity 500M, max capacity 7978M";
+        HeapEvent heapEvent = new HeapEvent(zHeap);
+        fel.getHeapEvents().add(heapEvent);
+        assertTrue(fel.getGarbageCollectors().contains(JdkUtil.GarbageCollector.ZGC),
+                JdkUtil.GarbageCollector.ZGC + " collector not identified.");
+        fel.getHeapEvents().clear();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UseZGC -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getGarbageCollectors().contains(JdkUtil.GarbageCollector.ZGC),
+                JdkUtil.GarbageCollector.ZGC + " collector not identified.");
     ***REMOVED***
 ***REMOVED***

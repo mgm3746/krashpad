@@ -1553,6 +1553,9 @@ public class FatalErrorLog {
                 ***REMOVED*** else if (event.getLogEntry().matches("^[ ]{0,***REMOVED***concurrent mark-sweep.+$")
                         && !garbageCollectors.contains(GarbageCollector.CMS)) {
                     garbageCollectors.add(GarbageCollector.CMS);
+                ***REMOVED*** else if (event.getLogEntry().matches("^[ ]{0,***REMOVED***ZHeap.+$")
+                        && !garbageCollectors.contains(GarbageCollector.ZGC)) {
+                    garbageCollectors.add(GarbageCollector.ZGC);
                 ***REMOVED*** else if (event.getLogEntry().matches("^[ ]{0,***REMOVED***def new.+$")
                         && !garbageCollectors.contains(GarbageCollector.SERIAL)) {
                     garbageCollectors.add(GarbageCollector.SERIAL);

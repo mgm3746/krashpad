@@ -204,13 +204,13 @@ public class JdkUtil {
     /**
      * Defined garbage collectors
      * 
-     * Default collectors JDK8: PARALLEL_SCAVENGE, PARALLEL_OLD
+     * Default collector JDK8: PARALLEL_SCAVENGE, PARALLEL_OLD
      * 
-     * Default collectors JDK8: G1
+     * Default collector1 JDK11: G1
      */
     public enum GarbageCollector {
         //
-        CMS, G1, PAR_NEW, PARALLEL_OLD, PARALLEL_SCAVENGE, SERIAL, SERIAL_OLD, SHENANDOAH, UNKNOWN
+        CMS, G1, PAR_NEW, PARALLEL_OLD, PARALLEL_SCAVENGE, SERIAL, SERIAL_OLD, SHENANDOAH, ZGC, UNKNOWN
     ***REMOVED***
 
     /**
