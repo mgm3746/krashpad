@@ -450,6 +450,11 @@ public enum Analysis {
     INFO_OPT_INSTRUMENTATION("info.opt.instrumentation"),
 
     /**
+     * Property key for the PARALLEL_OLD collector enabled/disabled without the parallel collector being used.
+     */
+    INFO_OPT_JDK11_PARALLEL_OLD_CRUFT("info.opt.jdk11.parallel.old.cruft"),
+
+    /**
      * Property key for redundant option -XX:+UseParallelOldGC.
      */
     INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT("info.opt.jdk11.parallel.old.redundant"),

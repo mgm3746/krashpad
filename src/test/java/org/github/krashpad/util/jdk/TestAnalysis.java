@@ -1979,6 +1979,22 @@ class TestAnalysis {
                 Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
     ***REMOVED***
 
+    /**
+     * Test if PARALLEL_OLD collector disabled with -XX:-UseParallelOldGC.
+     */
+    @Test
+    void testParallelOldfCruft() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParallelGC -XX:+UseParallelOldGC";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT),
+                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED),
+                Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis incorrectly identified.");
+    ***REMOVED***
+
     @Test
     void testPerfDataDisabled() {
         FatalErrorLog fel = new FatalErrorLog();

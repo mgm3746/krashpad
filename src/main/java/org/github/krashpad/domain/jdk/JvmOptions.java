@@ -2419,6 +2419,16 @@ public class JvmOptions {
             ***REMOVED*** else if (JdkUtil.isOptionEnabled(useParallelOldGc)) {
                 analysis.add(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT);
             ***REMOVED***
+        ***REMOVED*** else if (useParallelOldGc != null) {
+            analysis.add(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT);
+        ***REMOVED***
+
+        if (JdkUtil.isOptionEnabled(useParallelGc)) {
+            if (JdkUtil.isOptionDisabled(useParallelOldGc)) {
+                analysis.add(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED);
+            ***REMOVED*** else if (JdkUtil.isOptionEnabled(useParallelOldGc)) {
+                analysis.add(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT);
+            ***REMOVED***
         ***REMOVED***
         // Check to see if explicit gc is disabled
         if (JdkUtil.isOptionEnabled(disableExplicitGc)
