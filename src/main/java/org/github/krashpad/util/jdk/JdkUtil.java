@@ -173,6 +173,13 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
+     * Defined collector families.
+     */
+    public enum CollectorFamily {
+        CMS, G1, PARALLEL, SERIAL, SHENANDOAH, UNKNOWN, Z
+    ***REMOVED***
+
+    /**
      * Compressed ordinary object pointer (oop) modes used by the JVM to encode 64-bit addresses as 32-bit pointers to
      * save heap space for heaps &lt; 32G.
      * 
@@ -210,8 +217,8 @@ public class JdkUtil {
      */
     public enum GarbageCollector {
         //
-        CMS, G1, PAR_NEW, PARALLEL_OLD, PARALLEL_SCAVENGE, SERIAL, SERIAL_OLD, SHENANDOAH, ZGC, UNKNOWN
-    ***REMOVED***
+        CMS, G1, PAR_NEW, PARALLEL_OLD, PARALLEL_SCAVENGE, SERIAL, SERIAL_OLD, SHENANDOAH, UNKNOWN, ZGC
+    ***REMOVED***;
 
     /**
      * Defined Java specifications.

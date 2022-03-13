@@ -1572,7 +1572,8 @@ public class FatalErrorLog {
         ***REMOVED***
         // Assign JDK defaults JVM collector options
         if (garbageCollectors.isEmpty()) {
-            if (getJavaSpecification() == JavaSpecification.JDK11) {
+            if (getJavaSpecification() == JavaSpecification.JDK11
+                    || getJavaSpecification() == JavaSpecification.JDK17) {
                 garbageCollectors.add(GarbageCollector.G1);
             ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK8) {
                 garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);

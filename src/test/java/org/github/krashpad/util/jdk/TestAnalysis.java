@@ -240,12 +240,15 @@ class TestAnalysis {
      * Test if CMS collector disabled with -XX:-UseConcMarkSweepGC -XX:-UseParNewGC.
      */
     @Test
-    void testCmsDisabled() {
+    void testCmsDisabledJdk11() {
         FatalErrorLog fel = new FatalErrorLog();
-        // JDK 8/11
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParNewGC -XX:-UseConcMarkSweepGC "
-                + "-XX:CMSInitiatingOccupancyFraction=70";
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.13+8-LTS) for linux-amd64 JRE (11.0.13+8-LTS), built "
+                + "on Oct 13 2021 11:20:31 by \"mockbuild\" with gcc 8.4.1 20200928 (Red Hat 8.4.1-1)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().clear();
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
@@ -254,10 +257,17 @@ class TestAnalysis {
                 Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
                 Analysis.INFO_OPT_CMS_DISABLED + " analysis not identified.");
-        // JDK 11
-        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70";
-        event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().clear();
+    ***REMOVED***
+
+    /**
+     * Test if CMS collector disabled with -XX:-UseConcMarkSweepGC -XX:-UseParNewGC.
+     */
+    @Test
+    void testCmsDisabledJdkUnknown() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParNewGC -XX:-UseConcMarkSweepGC "
+                + "-XX:CMSInitiatingOccupancyFraction=70";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
@@ -374,10 +384,32 @@ class TestAnalysis {
     ***REMOVED***
 
     /**
-     * Test if PAR_NEW collector disabled with -XX:-UseParNewGC without -XX:+UseConcMarkSweepGC.
+     * Test if PAR_NEW collector is enabled/disabled when the CMS collector is not used.
      */
     @Test
-    void testCmsParNewCruft() {
+    void testCmsParNewCruftJdk8() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.275-b01) for linux-amd64 JRE (1.8.0_275-b01), "
+                + "built on Nov  6 2020 02:01:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseParNewGC";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
+                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
+                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
+                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis not identified.");
+    ***REMOVED***
+
+    /**
+     * Test if PAR_NEW collector is enabled/disabled when the CMS collector is not used.
+     */
+    @Test
+    void testCmsParNewCruftJdkUnknown() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParNewGC";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
@@ -389,20 +421,16 @@ class TestAnalysis {
                 Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
                 Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis not identified.");
-        fel = new FatalErrorLog();
-        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseParNewGC";
-        event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
-                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis not identified.");
-        fel = new FatalErrorLog();
-        jvm_args = "jvm_args: -Xss128k -Xmx2048M";
-        event = new VmArgumentsEvent(jvm_args);
+    ***REMOVED***
+
+    /**
+     * Test if PAR_NEW collector is enabled/disabled when the CMS collector is not used.
+     */
+    @Test
+    void testCmsParNewCruftNone() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
@@ -642,6 +670,47 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_D64_REDUNDANT),
                 Analysis.INFO_OPT_D64_REDUNDANT + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testDefaultCollectorJdk11() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.13+8-LTS) for linux-amd64 JRE (11.0.13+8-LTS), built "
+                + "on Oct 13 2021 11:20:31 by \"mockbuild\" with gcc 8.4.1 20200928 (Red Hat 8.4.1-1)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
+                GarbageCollector.UNKNOWN + " incorrectly identified.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.G1),
+                GarbageCollector.G1 + " collector not identified.");
+    ***REMOVED***
+
+    @Test
+    void testDefaultCollectorJdk17() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.1+12-LTS) for linux-amd64 JRE (17.0.1+12-LTS), built "
+                + "on Oct 28 2021 01:59:13 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-3)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
+                GarbageCollector.UNKNOWN + " incorrectly identified.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.G1),
+                GarbageCollector.G1 + " collector not identified.");
+    ***REMOVED***
+
+    @Test
+    void testDefaultCollectorJdk8() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.275-b01) for linux-amd64 JRE (1.8.0_275-b01), "
+                + "built on Nov  6 2020 02:01:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
+                GarbageCollector.UNKNOWN + " incorrectly identified.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.PARALLEL_SCAVENGE),
+                GarbageCollector.PARALLEL_SCAVENGE + " collector not identified.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.PARALLEL_OLD),
+                GarbageCollector.PARALLEL_OLD + " collector not identified.");
     ***REMOVED***
 
     /**
@@ -1980,10 +2049,72 @@ class TestAnalysis {
     ***REMOVED***
 
     /**
-     * Test if PARALLEL_OLD collector disabled with -XX:-UseParallelOldGC.
+     * Test if PARALLEL_OLD collector disabled when using default collector on JDK8.
      */
     @Test
-    void testParallelOldfCruft() {
+    void testParallelOldDisabledJdk8() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.275-b01) for linux-amd64 JRE (1.8.0_275-b01), "
+                + "built on Nov  6 2020 02:01:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParallelOldGC";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED),
+                Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
+    ***REMOVED***
+
+    /**
+     * Test if PARALLEL_OLD collector is enabled/disabled when the parallel collector is not used. G1 is the default
+     * collector on JDK11.
+     */
+    @Test
+    void testParallelOldfCruftJdk11() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.13+8-LTS) for linux-amd64 JRE (11.0.13+8-LTS), built "
+                + "on Oct 13 2021 11:20:31 by \"mockbuild\" with gcc 8.4.1 20200928 (Red Hat 8.4.1-1)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseParallelOldGC";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT),
+                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT),
+                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT + " analysis incorrectly identified.");
+
+    ***REMOVED***
+
+    /**
+     * Test if PARALLEL_OLD collector is enabled/disabled when the parallel collector is not used. Parallel is the
+     * default collector in JDK8.
+     */
+    @Test
+    void testParallelOldfCruftJdk8() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.275-b01) for linux-amd64 JRE (1.8.0_275-b01), "
+                + "built on Nov  6 2020 02:01:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseParallelOldGC";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT),
+                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT),
+                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT + " analysis not identified.");
+
+    ***REMOVED***
+
+    /**
+     * Test PARALLEL_OLD collector is enabled/disabled when the parallel collector is not used.
+     */
+    @Test
+    void testParallelOldfCruftJdkUnknown() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParallelGC -XX:+UseParallelOldGC";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
@@ -1991,6 +2122,22 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT),
                 Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED),
+                Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    /**
+     * Test if PARALLEL_OLD collector is enabled/disabled when the parallel collector is not used false positive.
+     */
+    @Test
+    void testParallelOldfCruftNone() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT),
+                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT + " analysis incorrectly identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED),
                 Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***

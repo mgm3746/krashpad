@@ -1387,7 +1387,9 @@ public class JvmOptions {
     private String useCompressedOops;
 
     /**
-     * Option to enable/disable the CMS old collector. For example:
+     * Option to enable/disable the CMS old collector. Deprecated in JDK9 and removed in JDK14.
+     * 
+     * For example:
      * 
      * -XX:+UseConcMarkSweepGC
      */
@@ -1433,7 +1435,9 @@ public class JvmOptions {
     private String useFastUnorderedTimeStamps;
 
     /**
-     * The option to enable/disable the G1 collector. For example:
+     * The option to enable/disable the G1 collector. G1 was made the default collector in JDK9.
+     * 
+     * For example:
      * 
      * <pre>
      * -XX:+UseG1GC
@@ -1484,7 +1488,10 @@ public class JvmOptions {
     private String useNUMA;
 
     /**
-     * Option to enable/disable the parallel scavenge young garbage collector. For example:
+     * Option to enable/disable the parallel scavenge young garbage collector. The parallel collector was made the
+     * default collector in JDK7u4.
+     * 
+     * For example:
      * 
      * -XX:+UseParallelGC
      */
@@ -2400,7 +2407,7 @@ public class JvmOptions {
                 && !JdkUtil.isOptionEnabled(useCmsInitiatingOccupancyOnly)) {
             analysis.add(Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING);
         ***REMOVED***
-        // Check if CMS collector disabled or enabled (redundant)
+        // Check PAR_NEW disabled, redundant, or cruft
         if (JdkUtil.isOptionEnabled(useConcMarkSweepGc)) {
             if (JdkUtil.isOptionDisabled(useParNewGc)) {
                 analysis.add(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED);
@@ -2412,7 +2419,7 @@ public class JvmOptions {
         ***REMOVED*** else if (useParNewGc != null) {
             analysis.add(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT);
         ***REMOVED***
-        // Check if PARALLEL_OLD collector disabled or enabled (redundant)
+        // Check PARALLEL_OLD disabled, redundant, or cruft
         if (JdkUtil.isOptionEnabled(useParallelGc)) {
             if (JdkUtil.isOptionDisabled(useParallelOldGc)) {
                 analysis.add(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED);
@@ -2420,14 +2427,17 @@ public class JvmOptions {
                 analysis.add(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT);
             ***REMOVED***
         ***REMOVED*** else if (useParallelOldGc != null) {
-            analysis.add(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT);
-        ***REMOVED***
-
-        if (JdkUtil.isOptionEnabled(useParallelGc)) {
-            if (JdkUtil.isOptionDisabled(useParallelOldGc)) {
-                analysis.add(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED);
-            ***REMOVED*** else if (JdkUtil.isOptionEnabled(useParallelOldGc)) {
-                analysis.add(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT);
+            boolean isParallelCollector = useParallelGc == null && useDefaultCollector() && javaSpecification != null
+                    && JdkUtil.getJavaSpecificationNumber(javaSpecification) >= 7
+                    && JdkUtil.getJavaSpecificationNumber(javaSpecification) <= 8;
+            if (!isParallelCollector) {
+                analysis.add(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT);
+            ***REMOVED*** else {
+                if (JdkUtil.isOptionDisabled(useParallelOldGc)) {
+                    analysis.add(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED);
+                ***REMOVED*** else if (JdkUtil.isOptionEnabled(useParallelOldGc)) {
+                    analysis.add(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT);
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         // Check to see if explicit gc is disabled
@@ -3318,5 +3328,17 @@ public class JvmOptions {
 
     public boolean isxInt() {
         return xInt;
+    ***REMOVED***
+
+    /**
+     * @return true if JVM options result in using the default garbage collector, false otherwise.
+     */
+    private final boolean useDefaultCollector() {
+        boolean useDefaultCollector = false;
+        if (useSerialGc == null && useConcMarkSweepGc == null && useParallelGc == null && useG1Gc == null
+                && useShenandoahGc == null && useZGc == null) {
+            useDefaultCollector = true;
+        ***REMOVED***
+        return useDefaultCollector;
     ***REMOVED***
 ***REMOVED***
