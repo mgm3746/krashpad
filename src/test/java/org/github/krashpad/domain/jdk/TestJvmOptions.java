@@ -97,6 +97,14 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testDisableJvmSignalHandling() {
+        String jvmArgs = "-Xms1g -Xrs -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertTrue(jvmOptions.isRs(), "rs not correct.");
+        assertEquals(0, jvmOptions.getUndefined().size(), "Undefined options not correct.");
+    ***REMOVED***
+
+    @Test
     void testDuplicateAddExports() {
         String jvmArgs = "-Xms1g --add-exports=java.base/sun.nio.ch=ALL-UNNAMED "
                 + "--add-exports=java.base/sun.nio.ch=ALL-UNNAMED -Xmx2g";
