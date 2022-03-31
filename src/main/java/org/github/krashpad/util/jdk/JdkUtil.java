@@ -1461,7 +1461,8 @@ public class JdkUtil {
             logEventType = LogEventType.PROCESS_MEMORY;
         ***REMOVED*** else if (RegisterEvent.match(logLine)) {
             logEventType = LogEventType.REGISTER;
-        ***REMOVED*** else if (RegisterToMemoryMappingEvent.match(logLine)) {
+        ***REMOVED*** else if (RegisterToMemoryMappingEvent.match(logLine)
+                || (logLine.matches(JdkRegEx.MEMORY_MAPPING) && priorEvent instanceof RegisterToMemoryMappingEvent)) {
             logEventType = LogEventType.REGISTER_TO_MEMORY_MAPPING;
         ***REMOVED*** else if (RlimitEvent.match(logLine)) {
             logEventType = LogEventType.RLIMIT;
@@ -1471,7 +1472,8 @@ public class JdkUtil {
             logEventType = LogEventType.SIGNAL_HANDLERS;
         ***REMOVED*** else if (StackEvent.match(logLine)) {
             logEventType = LogEventType.STACK;
-        ***REMOVED*** else if (StackSlotToMemoryMappingEvent.match(logLine)) {
+        ***REMOVED*** else if (StackSlotToMemoryMappingEvent.match(logLine)
+                || (logLine.matches(JdkRegEx.MEMORY_MAPPING) && priorEvent instanceof StackSlotToMemoryMappingEvent)) {
             logEventType = LogEventType.STACK_SLOT_TO_MEMORY_MAPPING;
         ***REMOVED*** else if (ThreadEvent.match(logLine)) {
             logEventType = LogEventType.THREAD;

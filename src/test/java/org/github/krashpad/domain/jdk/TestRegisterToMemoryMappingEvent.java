@@ -175,6 +175,14 @@ class TestRegisterToMemoryMappingEvent {
     ***REMOVED***
 
     @Test
+    void testObject() {
+        RegisterToMemoryMappingEvent priorEvent = new RegisterToMemoryMappingEvent(null);
+        String logLine = "org.xnio.nio.WorkerThread {0x0000000800c89d28***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testParseLogLine() {
         String logLine = "RAX=0x0000000000000001 is an unknown value";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof RegisterToMemoryMappingEvent,

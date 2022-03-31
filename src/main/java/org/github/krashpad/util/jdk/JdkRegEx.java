@@ -91,6 +91,27 @@ public class JdkRegEx {
 
     /**
      * <p>
+     * Regular expression for a JDK release string.
+     * </p>
+     * 
+     * For example:
+     * 
+     * <pre>
+     * 1.7.0_85-b15
+     * 1.8.0_131-b11
+     * 11.0.9+11-LTS
+     * 12.0.1+12
+     * </pre>
+     */
+    public static final String BUILD_STRING = "((1.6.0|1.7.0|1.8.0|9|10|11|12|13|14|15|16|17)[^\\)]{1,***REMOVED***)";
+
+    /**
+     * Byte units identifier.
+     */
+    public static final String BYTES = "bB";
+
+    /**
+     * <p>
      * Regular expression for crash date/time in MMM d HH:mm:ss yyyy format (see <code>SimpleDateFormat</code> for date
      * and time pattern definitions).
      * </p>
@@ -115,27 +136,6 @@ public class JdkRegEx {
      */
     public static final String CRASH_DATE_TIME = "([a-zA-Z]{3***REMOVED***) ([a-zA-Z]{3***REMOVED***)[ ]{1,2***REMOVED***(\\d{1,2***REMOVED***) "
             + "(\\d{2***REMOVED***):(\\d{2***REMOVED***):(\\d{2***REMOVED***) (\\d{4***REMOVED***).*";
-
-    /**
-     * <p>
-     * Regular expression for a JDK release string.
-     * </p>
-     * 
-     * For example:
-     * 
-     * <pre>
-     * 1.7.0_85-b15
-     * 1.8.0_131-b11
-     * 11.0.9+11-LTS
-     * 12.0.1+12
-     * </pre>
-     */
-    public static final String BUILD_STRING = "((1.6.0|1.7.0|1.8.0|9|10|11|12|13|14|15|16|17)[^\\)]{1,***REMOVED***)";
-
-    /**
-     * Byte units identifier.
-     */
-    public static final String BYTES = "bB";
 
     /**
      * Major ID and minor ID of the device where the file is located in hexadecimal.
@@ -268,6 +268,17 @@ public class JdkRegEx {
      * Megabyte units identifier.
      */
     public static final String MEGABYTES = "mM";
+
+    /**
+     * Object memory mapping.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * org.xnio.nio.WorkerThread {0x0000000800c89d28***REMOVED***
+     * </pre>
+     */
+    public static final String MEMORY_MAPPING = "^[a-zA-z\\.]+ \\{" + ADDRESS + "\\***REMOVED***$";
 
     /**
      * Memory region

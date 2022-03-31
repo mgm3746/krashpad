@@ -48,6 +48,14 @@ class TestStackSlotToMemoryMappingEvent {
     ***REMOVED***
 
     @Test
+    void testObject() {
+        StackSlotToMemoryMappingEvent priorEvent = new StackSlotToMemoryMappingEvent(null);
+        String logLine = "org.xnio.nio.WorkerThread {0x0000000800c89d28***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testParseLogLine() {
         String logLine = "stack at sp + 5 slots: 0x0 is NULL";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof StackSlotToMemoryMappingEvent,
