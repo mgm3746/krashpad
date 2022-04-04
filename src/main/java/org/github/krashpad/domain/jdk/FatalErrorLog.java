@@ -125,6 +125,11 @@ public class FatalErrorLog {
     private List<ExceptionCountsEvent> exceptionCountsEvents;
 
     /**
+     * GC heap history information.
+     */
+    private List<GcHeapHistoryEvent> gcHeapHistoryEvents;
+
+    /**
      * GC precious log information.
      */
     private List<GcPreciousLogEvent> gcPreciousLogEvents;
@@ -283,6 +288,7 @@ public class FatalErrorLog {
         environmentVariablesEvents = new ArrayList<EnvironmentVariablesEvent>();
         eventEvents = new ArrayList<EventEvent>();
         exceptionCountsEvents = new ArrayList<ExceptionCountsEvent>();
+        gcHeapHistoryEvents = new ArrayList<GcHeapHistoryEvent>();
         gcPreciousLogEvents = new ArrayList<GcPreciousLogEvent>();
         globalFlagsEvents = new ArrayList<GlobalFlagsEvent>();
         headerEvents = new ArrayList<HeaderEvent>();
@@ -1586,6 +1592,10 @@ public class FatalErrorLog {
         return garbageCollectors;
     ***REMOVED***
 
+    public List<GcHeapHistoryEvent> getGcHeapHistoryEvents() {
+        return gcHeapHistoryEvents;
+    ***REMOVED***
+
     public List<GcPreciousLogEvent> getGcPreciousLogEvents() {
         return gcPreciousLogEvents;
     ***REMOVED***
@@ -1610,17 +1620,14 @@ public class FatalErrorLog {
         if (!heapEvents.isEmpty()) {
             heapAllocation = 0;
             Iterator<HeapEvent> iterator = heapEvents.iterator();
-            boolean heapAtCrash = false;
             char fromUnits;
             long value;
             Pattern pattern = null;
             Matcher matcher = null;
             while (iterator.hasNext()) {
                 HeapEvent event = iterator.next();
-                if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_AT_CRASH_HEADER)) {
-                    heapAtCrash = true;
-                ***REMOVED*** else if (heapAtCrash && event.isYoungGen()) {
-                    pattern = Pattern.compile(HeapEvent.REGEX_YOUNG_GEN);
+                if (event.isYoungGen()) {
+                    pattern = Pattern.compile(JdkRegEx.YOUNG_GEN_SIZE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         value = Long.parseLong(matcher.group(3));
@@ -1631,8 +1638,8 @@ public class FatalErrorLog {
                         ***REMOVED***
                         heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     ***REMOVED***
-                ***REMOVED*** else if (heapAtCrash && event.isOldGen()) {
-                    pattern = Pattern.compile(HeapEvent.REGEX_OLD_GEN);
+                ***REMOVED*** else if (event.isOldGen()) {
+                    pattern = Pattern.compile(JdkRegEx.OLD_GEN_SIZE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         value = Long.parseLong(matcher.group(2));
@@ -1643,8 +1650,8 @@ public class FatalErrorLog {
                         ***REMOVED***
                         heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     ***REMOVED***
-                ***REMOVED*** else if (heapAtCrash && event.isShenandoah()) {
-                    pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
+                ***REMOVED*** else if (event.isShenandoah()) {
+                    pattern = Pattern.compile(JdkRegEx.SHENANDOAH_SIZE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         value = Long.parseLong(matcher.group(9));
@@ -1655,8 +1662,8 @@ public class FatalErrorLog {
                         ***REMOVED***
                         heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     ***REMOVED***
-                ***REMOVED*** else if (heapAtCrash && event.isG1()) {
-                    pattern = Pattern.compile(HeapEvent.REGEX_G1);
+                ***REMOVED*** else if (event.isG1()) {
+                    pattern = Pattern.compile(JdkRegEx.G1_SIZE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         value = Long.parseLong(matcher.group(1));
@@ -1667,11 +1674,8 @@ public class FatalErrorLog {
                         ***REMOVED***
                         heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     ***REMOVED***
-                ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
-                    heapAtCrash = false;
                 ***REMOVED***
             ***REMOVED***
-
         ***REMOVED***
         return heapAllocation;
     ***REMOVED***
@@ -1786,17 +1790,14 @@ public class FatalErrorLog {
         if (!heapEvents.isEmpty()) {
             heapUsed = 0;
             Iterator<HeapEvent> iterator = heapEvents.iterator();
-            boolean heapAtCrash = false;
             char fromUnits;
             long value;
             Pattern pattern = null;
             Matcher matcher = null;
             while (iterator.hasNext()) {
                 HeapEvent event = iterator.next();
-                if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_AT_CRASH_HEADER)) {
-                    heapAtCrash = true;
-                ***REMOVED*** else if (heapAtCrash && event.isYoungGen()) {
-                    pattern = Pattern.compile(HeapEvent.REGEX_YOUNG_GEN);
+                if (event.isYoungGen()) {
+                    pattern = Pattern.compile(JdkRegEx.YOUNG_GEN_SIZE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         value = Long.parseLong(matcher.group(6));
@@ -1807,8 +1808,8 @@ public class FatalErrorLog {
                         ***REMOVED***
                         heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     ***REMOVED***
-                ***REMOVED*** else if (heapAtCrash && event.isOldGen()) {
-                    pattern = Pattern.compile(HeapEvent.REGEX_OLD_GEN);
+                ***REMOVED*** else if (event.isOldGen()) {
+                    pattern = Pattern.compile(JdkRegEx.OLD_GEN_SIZE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         value = Long.parseLong(matcher.group(5));
@@ -1819,8 +1820,8 @@ public class FatalErrorLog {
                         ***REMOVED***
                         heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     ***REMOVED***
-                ***REMOVED*** else if (heapAtCrash && event.isShenandoah()) {
-                    pattern = Pattern.compile(HeapEvent.REGEX_SHENANDOAH);
+                ***REMOVED*** else if (event.isShenandoah()) {
+                    pattern = Pattern.compile(JdkRegEx.SHENANDOAH_SIZE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         value = Long.parseLong(matcher.group(12));
@@ -1831,20 +1832,18 @@ public class FatalErrorLog {
                         ***REMOVED***
                         heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     ***REMOVED***
-                ***REMOVED*** else if (heapAtCrash && event.isG1()) {
-                    pattern = Pattern.compile(HeapEvent.REGEX_G1);
+                ***REMOVED*** else if (event.isG1()) {
+                    pattern = Pattern.compile(JdkRegEx.G1);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        value = Long.parseLong(matcher.group(4));
-                        if (matcher.group(6) != null) {
-                            fromUnits = matcher.group(6).charAt(0);
+                        value = Long.parseLong(matcher.group(5));
+                        if (matcher.group(7) != null) {
+                            fromUnits = matcher.group(7).charAt(0);
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
                         heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                     ***REMOVED***
-                ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
-                    heapAtCrash = false;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -2209,17 +2208,14 @@ public class FatalErrorLog {
         long metaspaceAllocation = Long.MIN_VALUE;
         if (!heapEvents.isEmpty()) {
             Iterator<HeapEvent> iterator = heapEvents.iterator();
-            boolean heapAtCrash = false;
             char fromUnits;
             long value;
             Pattern pattern = null;
             Matcher matcher = null;
             while (iterator.hasNext()) {
                 HeapEvent event = iterator.next();
-                if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_AT_CRASH_HEADER)) {
-                    heapAtCrash = true;
-                ***REMOVED*** else if (heapAtCrash && event.isMetaspace()) {
-                    pattern = Pattern.compile(HeapEvent.REGEX_METASPACE);
+                if (event.isMetaspace()) {
+                    pattern = Pattern.compile(JdkRegEx.METASPACE_SIZE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         value = Long.parseLong(matcher.group(8));
@@ -2231,8 +2227,6 @@ public class FatalErrorLog {
                         metaspaceAllocation = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                         break;
                     ***REMOVED***
-                ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
-                    heapAtCrash = false;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -2266,17 +2260,14 @@ public class FatalErrorLog {
         if (metaspaceMaxSize == Long.MIN_VALUE) {
             if (!heapEvents.isEmpty()) {
                 Iterator<HeapEvent> iterator = heapEvents.iterator();
-                boolean heapAtCrash = false;
                 char fromUnits;
                 long value;
                 Pattern pattern = null;
                 Matcher matcher = null;
                 while (iterator.hasNext()) {
                     HeapEvent event = iterator.next();
-                    if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_AT_CRASH_HEADER)) {
-                        heapAtCrash = true;
-                    ***REMOVED*** else if (heapAtCrash && event.isMetaspace()) {
-                        pattern = Pattern.compile(HeapEvent.REGEX_METASPACE);
+                    if (event.isMetaspace()) {
+                        pattern = Pattern.compile(JdkRegEx.METASPACE_SIZE);
                         matcher = pattern.matcher(event.getLogEntry());
                         if (matcher.find()) {
                             value = Long.parseLong(matcher.group(11));
@@ -2288,8 +2279,6 @@ public class FatalErrorLog {
                             metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                             break;
                         ***REMOVED***
-                    ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
-                        heapAtCrash = false;
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -2304,17 +2293,14 @@ public class FatalErrorLog {
         long metaspaceUsed = Long.MIN_VALUE;
         if (!heapEvents.isEmpty()) {
             Iterator<HeapEvent> iterator = heapEvents.iterator();
-            boolean heapAtCrash = false;
             char fromUnits;
             long value;
             Pattern pattern = null;
             Matcher matcher = null;
             while (iterator.hasNext()) {
                 HeapEvent event = iterator.next();
-                if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_AT_CRASH_HEADER)) {
-                    heapAtCrash = true;
-                ***REMOVED*** else if (heapAtCrash && event.isMetaspace()) {
-                    pattern = Pattern.compile(HeapEvent.REGEX_METASPACE);
+                if (event.isMetaspace()) {
+                    pattern = Pattern.compile(JdkRegEx.METASPACE_SIZE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         value = Long.parseLong(matcher.group(1));
@@ -2326,8 +2312,6 @@ public class FatalErrorLog {
                         metaspaceUsed = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
                         break;
                     ***REMOVED***
-                ***REMOVED*** else if (event.getLogEntry().matches(HeapEvent.REGEX_HEAP_HISTORY_HEADER)) {
-                    heapAtCrash = false;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***

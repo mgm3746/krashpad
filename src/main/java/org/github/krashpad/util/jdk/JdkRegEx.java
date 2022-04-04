@@ -203,6 +203,26 @@ public class JdkRegEx {
     public static final String FILE_OFFSET = "([0-9a-f]{8***REMOVED***)";
 
     /**
+     * Regular expression for G1 gc data.
+     * 
+     * <pre>
+     *  garbage-first heap   total 33554432K, used 22395212K [0x00007f56fc000000, 0x00007f5efc000000)
+     *   region size 16384K, 182 young (2981888K), 19 survivors (311296K)
+     * </pre>
+     */
+    public static final String G1 = "(" + JdkRegEx.G1_SIZE + "|  region size.+)";
+
+    /**
+     * Regular expression for G1 heap size data.
+     * 
+     * <pre>
+     *  garbage-first heap   total 33554432K, used 22395212K [0x00007f56fc000000, 0x00007f5efc000000)
+     * </pre>
+     */
+    public static final String G1_SIZE = " garbage-first heap   total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE
+            + ".+";
+
+    /**
      * Gigabyte units identifier.
      */
     public static final String GIGABYTES = "gG";
@@ -288,9 +308,90 @@ public class JdkRegEx {
     public static final String MEMORY_REGION = "([0-9a-f]{8,16***REMOVED***-[0-9a-f]{8,16***REMOVED***)";
 
     /**
+     * Regular expression for a metaspace event.
+     * 
+     * <pre>
+     * Metaspace used 19510K, capacity 21116K, committed 21248K, reserved 1069056K
+     *  class space    used 32477K, capacity 37071K, committed 40576K, reserved 1048576K
+     * </pre>
+     */
+    public static final String METASPACE = "(" + JdkRegEx.METASPACE_SIZE + "|  class space.+)";
+
+    /**
+     * Regular expression for a metaspace event.
+     * 
+     * <pre>
+     * Metaspace used 19510K, capacity 21116K, committed 21248K, reserved 1069056K
+     * </pre>
+     */
+    public static final String METASPACE_SIZE = " Metaspace[ ]{1,7***REMOVED***used " + JdkRegEx.SIZE + ", (capacity "
+            + JdkRegEx.SIZE + ", )?committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE;
+
+    /**
      * A null pointer address.
      */
     public static final String NULL_POINTER = "0x([0]{8***REMOVED***|[0]{16***REMOVED***)";
+
+    /**
+     * Regular expression for a old generation gc data.
+     * 
+     * 1) <code>GarbageCollection.PARALLEL_OLD</code>:
+     * 
+     * <pre>
+     * ParOldGen       total 341504K, used 94378K [0x00000005cd600000, 0x00000005e2380000, 0x0000000719d00000)
+     *  object space 341504K, 27% used [0x00000005cd600000,0x00000005d322aa70,0x00000005e2380000)
+     * </pre>
+     * 
+     * 2) <code>GarbageCollection.SERIAL_OLD</code> when in combination with
+     * <code>GarbageCollection.PARALLEL_SCAVENGE</code>:
+     * 
+     * ParOldGen total 699392K, used 91187K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+     * 
+     * 3) <code>GarbageCollection.SERIAL_OLD</code> when in combination with <code>GarbageCollection.SERIAL</code>:
+     * 
+     * <pre>
+     *   tenured generation   total 2165440K, used 937560K [0x000000073bd50000, 0x00000007c0000000, 0x00000007c0000000)
+     *     the space 2165440K,  43% used [0x000000073bd50000, 0x00000007750e6118, 0x00000007750e6200, 
+     *     0x00000007c0000000)
+     * </pre>
+     * 
+     * 4) <code>GarbageCollection.CMS</code>:
+     * 
+     * concurrent mark-sweep generation total 21676032K, used 6923299K [0x0000000295000000, 0x00000007c0000000,
+     * 0x00000007c0000000)
+     */
+    public static final String OLD_GEN = "(" + JdkRegEx.OLD_GEN_SIZE + "|  (object| the) space.+)";
+
+    /**
+     * Regular expression for a old generation heap size data.
+     * 
+     * 1) <code>GarbageCollection.PARALLEL_OLD</code>:
+     * 
+     * <pre>
+     * ParOldGen       total 341504K, used 94378K [0x00000005cd600000, 0x00000005e2380000, 0x0000000719d00000)
+     *  object space 341504K, 27% used [0x00000005cd600000,0x00000005d322aa70,0x00000005e2380000)
+     * </pre>
+     * 
+     * 2) <code>GarbageCollection.SERIAL_OLD</code> when in combination with
+     * <code>GarbageCollection.PARALLEL_SCAVENGE</code>:
+     * 
+     * ParOldGen total 699392K, used 91187K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+     * 
+     * 3) <code>GarbageCollection.SERIAL_OLD</code> when in combination with <code>GarbageCollection.SERIAL</code>:
+     * 
+     * <pre>
+     *   tenured generation   total 2165440K, used 937560K [0x000000073bd50000, 0x00000007c0000000, 0x00000007c0000000)
+     * </pre>
+     * 
+     * 4) <code>GarbageCollection.CMS</code>:
+     * 
+     * <pre>
+     * concurrent mark-sweep generation total 21676032K, used 6923299K [0x0000000295000000, 0x00000007c0000000, 
+     * 0x00000007c0000000)
+     * </pre>
+     */
+    public static final String OLD_GEN_SIZE = " (concurrent mark-sweep generation|PSOldGen|ParOldGen|"
+            + "tenured generation)[ ]{1,7***REMOVED***total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE + ".+";
 
     /**
      * Units for JVM options that take a byte number.
@@ -404,7 +505,6 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK8_LIBJVM_PATH = "\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK8_DIR
             + "\\/jre\\/lib\\/(amd64|ppc64(le)?)\\/server\\/libjvm\\.so";
-
     /**
      * RHSSO thread used for <code>Application</code> identification.
      * 
@@ -414,6 +514,43 @@ public class JdkRegEx {
      * stack(0x00007f5abb897000,0x00007f5abb998000)]
      */
     public static final String RHSSO_THREAD = "^.+\"Brute Force Protector\".+$";
+
+    /**
+     * Regular expression for Shenandoah gc data.
+     * 
+     * <pre>
+     * Shenandoah Heap
+     *  5734M total, 5734M committed, 3099M used
+     *  2867 x 2048K regions
+     * Status: marking, not cancelled
+     * Reserved region:
+     *  - [0x000000067a200000, 0x00000007e0800000)
+     * Collection set:
+     *  - map (vanilla): 0x00007f2e5435b3d1
+     *  - map (biased):  0x00007f2e54358000
+     * </pre>
+     * 
+     * <pre>
+     * 3456M max, 3456M soft max, 3200M committed, 2325M used
+     * </pre>
+     */
+    public static final String SHENANDOAH = "(Shenandoah Heap|" + JdkRegEx.SHENANDOAH_SIZE + "| \\d{1,5***REMOVED*** x "
+            + JdkRegEx.SIZE + " regions|Status:.+|Reserved region:| - \\[.+|Collection set:| - map.+)";
+
+    /**
+     * Regular expression for Shenandoah heap size data.
+     * 
+     * <pre>
+     *  5734M total, 5734M committed, 3099M used
+     * </pre>
+     * 
+     * <pre>
+     * 3456M max, 3456M soft max, 3200M committed, 2325M used
+     * </pre>
+     */
+    public static final String SHENANDOAH_SIZE = " " + JdkRegEx.SIZE + " (total|max)(, " + JdkRegEx.SIZE
+            + " soft max)?, " + JdkRegEx.SIZE + " committed, " + JdkRegEx.SIZE + " used";
+
     /**
      * The size of memory in bytes (B), kilobytes (K), megabytes (M), or gigabytes (G) to a whole number or to one
      * decimal place.
@@ -495,4 +632,39 @@ public class JdkRegEx {
      * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jboss-eap-7.2/jboss-modules.jar
      */
     public static final String WILDFLY_JAR = "^.+jboss-modules\\.jar.*$";
+
+    /**
+     * Regular expression for a young generation gc data.
+     * 
+     * 1) <code>GarbageCollection.PARALLEL_SCAVENGE</code>:
+     * 
+     * PSYoungGen total 153088K, used 116252K [0x00000000eab00000, 0x00000000f5580000, 0x0000000100000000)
+     * 
+     * 2) <code>GarbageCollection.SERIAL</code>:
+     * 
+     * def new generation total 629440K, used 511995K [0x00000006c0000000, 0x00000006eaaf0000, 0x0000000715550000)
+     * 
+     * 3) <code>GarbageCollection.PAR_NEW</code>:
+     * 
+     * par new generation total 766784K, used 37193K [0x0000000261000000, 0x0000000295000000, 0x0000000295000000)
+     */
+    public static final String YOUNG_GEN = "(" + JdkRegEx.YOUNG_GEN_SIZE + "|  (eden|from|to).+)";
+
+    /**
+     * Regular expression for a young generation heap size data.
+     * 
+     * 1) <code>GarbageCollection.PARALLEL_SCAVENGE</code>:
+     * 
+     * PSYoungGen total 153088K, used 116252K [0x00000000eab00000, 0x00000000f5580000, 0x0000000100000000)
+     * 
+     * 2) <code>GarbageCollection.SERIAL</code>:
+     * 
+     * def new generation total 629440K, used 511995K [0x00000006c0000000, 0x00000006eaaf0000, 0x0000000715550000)
+     * 
+     * 3) <code>GarbageCollection.PAR_NEW</code>:
+     * 
+     * par new generation total 766784K, used 37193K [0x0000000261000000, 0x0000000295000000, 0x0000000295000000)
+     */
+    public static final String YOUNG_GEN_SIZE = " ((def|par) new generation|PSYoungGen)[ ]{1,6***REMOVED***total " + JdkRegEx.SIZE
+            + ", used " + JdkRegEx.SIZE + ".+";
 ***REMOVED***

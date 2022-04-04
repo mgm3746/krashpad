@@ -39,13 +39,13 @@ import org.github.krashpad.domain.jdk.CurrentThreadEvent;
 import org.github.krashpad.domain.jdk.DeoptimizationEvent;
 import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
 import org.github.krashpad.domain.jdk.ElapsedTimeEvent;
-import org.github.krashpad.domain.jdk.EndBraceEvent;
 import org.github.krashpad.domain.jdk.EndEvent;
 import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
 import org.github.krashpad.domain.jdk.EventEvent;
 import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
 import org.github.krashpad.domain.jdk.ExceptionEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
+import org.github.krashpad.domain.jdk.GcHeapHistoryEvent;
 import org.github.krashpad.domain.jdk.GcPreciousLogEvent;
 import org.github.krashpad.domain.jdk.GlobalFlagsEvent;
 import org.github.krashpad.domain.jdk.HeaderEvent;
@@ -245,13 +245,13 @@ public class JdkUtil {
         //
         COMPRESSED_CLASS_SPACE, CONTAINER_INFO, CPU, CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD,
         //
-        DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END, END_BRACE, ENVIRONMENT_VARIABLES, EVENT,
+        DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT,
         //
-        EXCEPTION_COUNTS, EXCEPTION_EVENT, GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER, HEADING, HEAP, HEAP_ADDRESS,
+        EXCEPTION_COUNTS, EXCEPTION_EVENT, GC_HEAP_HISTORY, GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER, HEADING, HEAP,
         //
-        HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO, MEMORY,
+        HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO,
         //
-        METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NO_EVENTS, NUMBER, OPERATION, OS, OS_UPTIME, PID_MAX,
+        MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NO_EVENTS, NUMBER, OPERATION, OS, OS_UPTIME, PID_MAX,
         //
         POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK,
         //
@@ -1396,14 +1396,15 @@ public class JdkUtil {
             logEventType = LogEventType.ELAPSED_TIME;
         ***REMOVED*** else if (EndEvent.match(logLine)) {
             logEventType = LogEventType.END;
-        ***REMOVED*** else if (EndBraceEvent.match(logLine)) {
-            logEventType = LogEventType.END_BRACE;
         ***REMOVED*** else if (EnvironmentVariablesEvent.match(logLine)) {
             logEventType = LogEventType.ENVIRONMENT_VARIABLES;
         ***REMOVED*** else if (ExceptionCountsEvent.match(logLine)) {
             logEventType = LogEventType.EXCEPTION_COUNTS;
         ***REMOVED*** else if (ExceptionEvent.match(logLine)) {
             logEventType = LogEventType.EXCEPTION_EVENT;
+        ***REMOVED*** else if (GcHeapHistoryEvent.match(logLine)
+                && (logLine.matches(GcHeapHistoryEvent.REGEX_HEADER) || priorEvent instanceof GcHeapHistoryEvent)) {
+            logEventType = LogEventType.GC_HEAP_HISTORY;
         ***REMOVED*** else if (GcPreciousLogEvent.match(logLine)) {
             logEventType = LogEventType.GC_PRECIOUS_LOG;
         ***REMOVED*** else if (GlobalFlagsEvent.match(logLine)) {
@@ -1413,7 +1414,8 @@ public class JdkUtil {
             logEventType = LogEventType.HEADER;
         ***REMOVED*** else if (HeadingEvent.match(logLine)) {
             logEventType = LogEventType.HEADING;
-        ***REMOVED*** else if (HeapEvent.match(logLine)) {
+        ***REMOVED*** else if (HeapEvent.match(logLine)
+                && (logLine.matches(HeapEvent.REGEX_HEADER) || priorEvent instanceof HeapEvent)) {
             logEventType = LogEventType.HEAP;
         ***REMOVED*** else if (HeapAddressEvent.match(logLine)) {
             logEventType = LogEventType.HEAP_ADDRESS;
@@ -1479,7 +1481,8 @@ public class JdkUtil {
             logEventType = LogEventType.THREAD;
         ***REMOVED*** else if (ThreadsActiveCompileEvent.match(logLine)) {
             logEventType = LogEventType.THREADS_ACTIVE_COMPILE;
-        ***REMOVED*** else if (ThreadsClassSmrInfoEvent.match(logLine)) {
+        ***REMOVED*** else if (ThreadsClassSmrInfoEvent.match(logLine) && (logLine.matches(ThreadsClassSmrInfoEvent.REGEX_HEADER)
+                || priorEvent instanceof ThreadsClassSmrInfoEvent)) {
             logEventType = LogEventType.THREADS_CLASS_SMR_INFO;
         ***REMOVED*** else if (ThreadsMaxEvent.match(logLine)) {
             logEventType = LogEventType.THREADS_MAX;
@@ -1629,9 +1632,6 @@ public class JdkUtil {
         case END:
             event = new EndEvent(logLine);
             break;
-        case END_BRACE:
-            event = new EndBraceEvent(logLine);
-            break;
         case ENVIRONMENT_VARIABLES:
             event = new EnvironmentVariablesEvent(logLine);
             break;
@@ -1640,6 +1640,9 @@ public class JdkUtil {
             break;
         case EXCEPTION_EVENT:
             event = new ExceptionEvent(logLine);
+            break;
+        case GC_HEAP_HISTORY:
+            event = new GcHeapHistoryEvent(logLine);
             break;
         case GC_PRECIOUS_LOG:
             event = new GcPreciousLogEvent(logLine);

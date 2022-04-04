@@ -1,0 +1,13 @@
+***REMOVED***
+Shenandoah Heap
+ 5734M total, 5734M committed, 3099M used
+ 2867 x 2048K regions
+Status: marking, not cancelled
+Reserved region:
+ - [0x000000067a200000, 0x00000007e0800000)
+Collection set:
+ - map (vanilla): 0x00007f2e5435b3d1
+ - map (biased):  0x00007f2e54358000
+
+ Metaspace       used 264944K, capacity 285249K, committed 306048K, reserved 1314816K
+  class space    used 32477K, capacity 37071K, committed 40576K, reserved 1048576K

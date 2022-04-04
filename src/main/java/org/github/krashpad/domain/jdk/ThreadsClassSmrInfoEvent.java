@@ -49,12 +49,12 @@ public class ThreadsClassSmrInfoEvent implements LogEvent, ThrowAwayEvent {
     private static final String REGEX = "^(" + ThreadsClassSmrInfoEvent.REGEX_HEADER + "|" + JdkRegEx.ADDRESS + ", "
             + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "(,)?|" + JdkRegEx.ADDRESS + ", "
             + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "|"
-            + JdkRegEx.ADDRESS + "|_java_thread_list=.*)$";
+            + JdkRegEx.ADDRESS + "|_java_thread_list=.*|***REMOVED***)$";
 
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "Threads class SMR info:";
+    public static final String REGEX_HEADER = "Threads class SMR info:";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

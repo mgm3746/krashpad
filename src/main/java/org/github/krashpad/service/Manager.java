@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.github.krashpad.Main;
+import org.github.krashpad.domain.BlankLineEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.domain.UnknownEvent;
@@ -38,6 +39,7 @@ import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
 import org.github.krashpad.domain.jdk.EventEvent;
 import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
+import org.github.krashpad.domain.jdk.GcHeapHistoryEvent;
 import org.github.krashpad.domain.jdk.GcPreciousLogEvent;
 import org.github.krashpad.domain.jdk.GlobalFlagsEvent;
 import org.github.krashpad.domain.jdk.HeaderEvent;
@@ -134,6 +136,8 @@ public class Manager {
                         fatalErrorLog.getEventEvents().add((EventEvent) event);
                     ***REMOVED*** else if (event instanceof ExceptionCountsEvent) {
                         fatalErrorLog.getExceptionCountsEvents().add((ExceptionCountsEvent) event);
+                    ***REMOVED*** else if (event instanceof GcHeapHistoryEvent) {
+                        fatalErrorLog.getGcHeapHistoryEvents().add((GcHeapHistoryEvent) event);
                     ***REMOVED*** else if (event instanceof GcPreciousLogEvent) {
                         fatalErrorLog.getGcPreciousLogEvents().add((GcPreciousLogEvent) event);
                     ***REMOVED*** else if (event instanceof GlobalFlagsEvent) {
@@ -218,7 +222,10 @@ public class Manager {
                     ***REMOVED*** else if (event instanceof VmStateEvent) {
                         fatalErrorLog.setVmStateEvent((VmStateEvent) event);
                     ***REMOVED***
-                    priorEvent = event;
+                    if (!(event instanceof BlankLineEvent)) {
+                        // throw away blank lines
+                        priorEvent = event;
+                    ***REMOVED***
                     logLine = bufferedReader.readLine();
                 ***REMOVED***
             ***REMOVED*** catch (FileNotFoundException e) {
