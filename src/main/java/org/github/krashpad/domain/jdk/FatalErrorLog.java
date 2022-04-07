@@ -801,7 +801,7 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Test crash in Java compiled code
-        if (getStackFrameTop() != null && getStackFrameTop().matches("^J \\d{1,***REMOVED*** C[12].+$")) {
+        if (getStackFrameTop() != null && getStackFrameTop().matches("^J \\d{1,***REMOVED***[%]{0,1***REMOVED*** C[12].+$")) {
             analysis.add(Analysis.ERROR_COMPILED_JAVA_CODE);
         ***REMOVED***
         // Check for possible JFFI usage

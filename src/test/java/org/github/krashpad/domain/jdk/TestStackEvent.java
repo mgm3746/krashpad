@@ -95,6 +95,14 @@ class TestStackEvent {
     ***REMOVED***
 
     @Test
+    void testJavaCompiledCodeWithPercent() {
+        String logLine = "J 7595%  org.eclipse.swt.internal.gtk.GTK.gtk_main_do_event(J)V (0 bytes) @ "
+                + "0x00007fcd7c4b2f91 [0x00007fcd7c4b2f40+0x0000000000000051]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK,
+                JdkUtil.LogEventType.STACK.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testJavaFrames() {
         String logLine = "Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK,

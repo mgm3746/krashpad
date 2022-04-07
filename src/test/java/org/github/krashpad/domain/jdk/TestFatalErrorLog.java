@@ -905,6 +905,18 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testCompiledFrameWithPercent() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack = "J 7241% C2 com.example.MyClass.match(Ljava/util/List;Ljava/util/List;Ljava/util/Comparator;"
+                + "Ljava/util/Comparator;Ljava/util/Comparator;Lcom/example/IMatch;Ljava/lang/Object;)V (534 bytes) "
+                + "@ 0x00002b7c5142e69c [0x00002b7c5142e340+0x35c]";
+        StackEvent stackEvent = new StackEvent(stack);
+        fel.getStackEvents().add(stackEvent);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+                Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testWindows() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset49.txt");
         Manager manager = new Manager();
