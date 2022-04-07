@@ -82,6 +82,13 @@ class TestRegisterToMemoryMappingEvent {
     ***REMOVED***
 
     @Test
+    void testFullyQualifiedClassname() {
+        String logLine = "com.example.MyClass";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testHeader() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,

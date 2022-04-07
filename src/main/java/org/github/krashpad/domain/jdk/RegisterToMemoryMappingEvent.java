@@ -65,7 +65,7 @@ public class RegisterToMemoryMappingEvent implements LogEvent, ThrowAwayEvent {
             + "Framesize.+| - (klass|length):.+|\\{" + JdkRegEx.ADDRESS
             + "\\***REMOVED*** - klass:.+|([R|r][ ]{0,1***REMOVED***\\d{1,2***REMOVED***[ ]{0,1***REMOVED***|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
             + "\\[error occurred during error reporting \\(printing register info\\).+|invoke return entry points.+|"
-            + "method entry point.+|(i)?return.+|StubRoutines.+)[ ]{0,***REMOVED***$";
+            + "method entry point.+|(i)?return.+|StubRoutines.+|([a-zA-Z]\\.{0,1***REMOVED***){1,***REMOVED***)[ ]{0,***REMOVED***$";
 
     /**
      * Regular expression for the header.
