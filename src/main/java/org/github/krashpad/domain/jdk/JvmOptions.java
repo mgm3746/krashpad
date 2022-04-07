@@ -487,6 +487,16 @@ public class JvmOptions {
     private String g1MixedGCLiveThresholdPercent;
 
     /**
+     * The option for setting the percentage of heap space you're explicitly reserving for the to-survivor space for
+     * promotion from eden. For example:
+     * 
+     * <pre>
+     * -XX:G1ReservePercent=10
+     * </pre>
+     */
+    private String g1ReservePercent;
+
+    /**
      * Option to enable/disable output of summarized remembered set processing info. For example:
      * 
      * <pre>
@@ -1802,6 +1812,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:G1MaxNewSizePercent=\\d{1,3***REMOVED***$")) {
                     g1MaxNewSizePercent = option;
                     key = "G1MaxNewSizePercent";
+                ***REMOVED*** else if (option.matches("^-XX:G1ReservePercent=\\d{1,3***REMOVED***$")) {
+                    g1ReservePercent = option;
+                    key = "G1ReservePercent";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]G1SummarizeRSetStats$")) {
                     g1SummarizeRSetStats = option;
                     key = "G1SummarizeRSetStats";
@@ -2805,6 +2818,10 @@ public class JvmOptions {
 
     public String getG1MixedGCLiveThresholdPercent() {
         return g1MixedGCLiveThresholdPercent;
+    ***REMOVED***
+
+    public String getG1ReservePercent() {
+        return g1ReservePercent;
     ***REMOVED***
 
     public String getG1SummarizeRSetStats() {

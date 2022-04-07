@@ -129,6 +129,13 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testG1ReservePercent() {
+        String jvmArgs = "-Xms1g -XX:G1ReservePercent=10 -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:G1ReservePercent=10", jvmOptions.getG1ReservePercent(), "G1ReservePercent not correct.");
+    ***REMOVED***
+
+    @Test
     void testGarbageCollectorG1() {
         String jvmArgs = "-Xmx1500m -Xms1000m -XX:+UseG1GC";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
@@ -267,7 +274,8 @@ class TestJvmOptions {
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals("-Xmaxjitcodesize4096K", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
     ***REMOVED***
-
+    
+    
     @Test
     void testMaxjitcodesizeBigM() {
         String jvmArgs = "-Xms1g -Xmaxjitcodesize1024M -Xmx1g";
