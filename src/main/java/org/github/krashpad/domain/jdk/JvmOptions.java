@@ -532,6 +532,15 @@ public class JvmOptions {
     private String guaranteedSafepointInterval;
 
     /**
+     * The option for setting the Java heap base memory address (where the heap allocation begins). For example:
+     * 
+     * <pre>
+     * -XX:HeapBaseMinAddress=12g
+     * </pre>
+     */
+    private String heapBaseMinAddress;
+
+    /**
      * The option to write out a heap dump when OutOfMemoryError. For example:
      * 
      * <pre>
@@ -1808,6 +1817,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:GuaranteedSafepointInterval=\\d{1,10***REMOVED***$")) {
                     guaranteedSafepointInterval = option;
                     key = "GuaranteedSafepointInterval";
+                ***REMOVED*** else if (option.matches("^-XX:HeapBaseMinAddress=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
+                    heapBaseMinAddress = option;
+                    key = "HeapBaseMinAddress";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]HeapDumpOnOutOfMemoryError$")) {
                     heapDumpOnOutOfMemoryError = option;
                     key = "HeapDumpOnOutOfMemoryError";
@@ -2852,6 +2864,10 @@ public class JvmOptions {
 
     public String getGuaranteedSafepointInterval() {
         return guaranteedSafepointInterval;
+    ***REMOVED***
+
+    public String getHeapBaseMinAddress() {
+        return heapBaseMinAddress;
     ***REMOVED***
 
     public String getHeapDumpOnOutOfMemoryError() {

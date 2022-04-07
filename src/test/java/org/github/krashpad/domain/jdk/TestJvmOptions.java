@@ -240,6 +240,14 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testHeapBaseMinAddress() {
+        String jvmArgs = "-Xms1g -XX:HeapBaseMinAddress=12g -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:HeapBaseMinAddress=12g", jvmOptions.getHeapBaseMinAddress(),
+                "HeapBaseMinAddress not correct.");
+    ***REMOVED***
+
+    @Test
     void testMaxInlinLevel() {
         String jvmArgs = "-Xms1g -XX:MaxInlineLevel=15 -Xmx1g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
