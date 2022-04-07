@@ -60,7 +60,7 @@ public class VirtualizationInfoEvent implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "(HyperV|KVM|VMWare) virtualization detected";
+    private static final String REGEX_HEADER = "(Hyper[-]{0,1***REMOVED***V|KVM|VMWare) virtualization detected";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

@@ -166,6 +166,13 @@ class TestEnvironmentVariablesEvent {
     ***REMOVED***
 
     @Test
+    void testTz() {
+        String logLine = "TZ=Asia/Hong_Kong";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testUsername() {
         String logLine = "USERNAME=bob";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,

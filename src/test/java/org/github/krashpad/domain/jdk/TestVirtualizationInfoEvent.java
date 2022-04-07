@@ -26,6 +26,12 @@ import org.junit.jupiter.api.Test;
 class TestVirtualizationInfoEvent {
 
     @Test
+    void testHyperDashV() {
+        String logLine = "Hyper-V virtualization detected";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
+                JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
+    ***REMOVED***
+    @Test
     void testHyperV() {
         String logLine = "HyperV virtualization detected";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,

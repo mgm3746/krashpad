@@ -47,11 +47,11 @@ public class InstructionsEvent implements LogEvent, ThrowAwayEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + InstructionsEvent.REGEX_HEADER + "|" + JdkRegEx.ADDRESS
-            + ":(   [0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED*** "
-            + "[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED*** "
-            + "[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED*** "
-            + "[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f]{2***REMOVED***)?|\\[error occurred during error "
-            + "reporting \\(printing registers, top of stack, instructions near pc\\), id 0x[a-z0-9]\\])[ ]{0,***REMOVED***$";
+            + ":(   [0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED*** "
+            + "[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED*** "
+            + "[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED*** "
+            + "[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***)?|\\[error occurred during "
+            + "error reporting \\(printing registers, top of stack, instructions near pc\\), id 0x[a-z0-9]\\])[ ]{0,***REMOVED***$";
 
     /**
      * Regular expression for the header.

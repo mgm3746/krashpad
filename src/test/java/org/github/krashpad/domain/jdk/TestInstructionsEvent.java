@@ -70,6 +70,13 @@ class TestInstructionsEvent {
     ***REMOVED***
 
     @Test
+    void testQuestionMarks() {
+        String logLine = "0x00007f1126127434:   ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ??";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof InstructionsEvent,
+                JdkUtil.LogEventType.INSTRUCTIONS.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
     void testSingleAddress() {
         String logLine = "0x000000002fffffe0:   ";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.INSTRUCTIONS,
