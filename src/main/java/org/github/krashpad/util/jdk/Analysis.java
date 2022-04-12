@@ -718,6 +718,11 @@ public enum Analysis {
     INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH("info.rh.opt.experimental.shenandoah"),
 
     /**
+     * Property key for JVM crash during shutdown safepoint.
+     */
+    INFO_SHUTDOWN("info.shutdown"),
+
+    /**
      * Property key for BUS_ADDRERR.
      */
     INFO_SIGCODE_BUS_ADDERR("info.sigcode.bus.adrerr"),

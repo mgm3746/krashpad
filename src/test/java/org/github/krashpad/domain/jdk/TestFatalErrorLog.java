@@ -82,6 +82,19 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testCompiledFrameWithPercent() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack = "J 7241% C2 com.example.MyClass.match(Ljava/util/List;Ljava/util/List;Ljava/util/Comparator;"
+                + "Ljava/util/Comparator;Ljava/util/Comparator;Lcom/example/IMatch;Ljava/lang/Object;)V (534 bytes) "
+                + "@ 0x00002b7c5142e69c [0x00002b7c5142e340+0x35c]";
+        StackEvent stackEvent = new StackEvent(stack);
+        fel.getStackEvents().add(stackEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+                Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testCompressedOopMode() {
         FatalErrorLog fel = new FatalErrorLog();
         // BIT32
@@ -102,6 +115,17 @@ class TestFatalErrorLog {
         fel.setHeapAddressEvent(heapAddressEvent);
         assertEquals(CompressedOopMode.NON_ZERO, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
         assertEquals(8548, fel.getHeapMaxSize(), "Heap max size not correct.");
+    ***REMOVED***
+
+    @Test
+    void testCrashShutdown() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "Event: 5353.018 Executing VM operation: Exit";
+        EventEvent event = new EventEvent(logLine);
+        fel.getEventEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SHUTDOWN),
+                Analysis.INFO_SHUTDOWN + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -902,18 +926,6 @@ class TestFatalErrorLog {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         assertEquals(JavaVendor.UNKNOWN, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
-
-    @Test
-    void testCompiledFrameWithPercent() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String stack = "J 7241% C2 com.example.MyClass.match(Ljava/util/List;Ljava/util/List;Ljava/util/Comparator;"
-                + "Ljava/util/Comparator;Ljava/util/Comparator;Lcom/example/IMatch;Ljava/lang/Object;)V (534 bytes) "
-                + "@ 0x00002b7c5142e69c [0x00002b7c5142e340+0x35c]";
-        StackEvent stackEvent = new StackEvent(stack);
-        fel.getStackEvents().add(stackEvent);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
-                Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
     ***REMOVED***
 
     @Test

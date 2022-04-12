@@ -801,7 +801,7 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Test crash in Java compiled code
-        if (getStackFrameTop() != null && getStackFrameTop().matches("^J \\d{1,***REMOVED***[%]{0,1***REMOVED*** C[12].+$")) {
+        if (getStackFrameTop() != null && getStackFrameTop().matches("^J \\d{1,***REMOVED***%{0,1***REMOVED*** C[12].+$")) {
             analysis.add(Analysis.ERROR_COMPILED_JAVA_CODE);
         ***REMOVED***
         // Check for possible JFFI usage
@@ -893,13 +893,20 @@ public class FatalErrorLog {
         if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_DRIVER);
         ***REMOVED***
-        //
+        // Crash in CompilerThread
         if (getCurrentThread() != null && getCurrentThread().matches("^.+C2 CompilerThread\\d{1,***REMOVED***.+$")
                 && isInHeader("guarantee\\(n != NULL\\) failed: No Node.")
                 && isInStack("IdealLoopTree::beautify_loops")) {
             analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS);
             // Don't double report
             analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+        ***REMOVED***
+        // Crash during shutdown
+        if (getEventEvents().size() > 0) {
+            EventEvent lastEventEvent = getEventEvents().get(getEventEvents().size() - 1);
+            if (lastEventEvent.getLogEntry().matches("^.+Executing VM operation: Exit$")) {
+                analysis.add(Analysis.INFO_SHUTDOWN);
+            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
 
