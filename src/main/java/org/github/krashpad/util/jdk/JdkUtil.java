@@ -164,7 +164,8 @@ public class JdkUtil {
         // Oracle: "mach5one" is the name of their build/test system? Replace by "java_re"?
         MACH5ONE,
         // Red Hat, CentOS
-        MOCKBUILD, // Azul
+        MOCKBUILD,
+        // Azul
         TESTER, UNKNOWN,
         // Microsoft
         VSTS,
@@ -970,7 +971,7 @@ public class JdkUtil {
         JDK11_WINDOWS_ZIPS.put("LATEST", new Release("Jan 18 2022 00:00:00", 18, "11.0.14+9-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.14+9-LTS", new Release("Jan 18 2022 00:00:00", 18, "11.0.14+9-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.13+8-LTS", new Release("Oct 14 2021 00:00:00", 17, "11.0.13+8-LTS"));
-        JDK11_WINDOWS_ZIPS.put("11.0.12+7-LTS", new Release("Jul 15 2021 00:00:00", 16, "11.0.12+7-LTS"));
+        JDK11_WINDOWS_ZIPS.put("11.0.12+7-LTS", new Release("Jul 15 2021 16:55:31", 16, "11.0.12+7-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.11+9-LTS", new Release("Apr 12 2021 00:00:00", 15, "11.0.11+9-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.10+9-LTS", new Release("Jan 16 2021 19:49:44", 14, "11.0.10+9-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.9.1+1-LTS", new Release("Nov 10 2020 12:16:00", 13, "11.0.9.1+1-LTS"));

@@ -3447,12 +3447,11 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return true if the fatal error log was created by a JDK build string (ignore empty string) used by Red Hat,
-     *         false otherwise.
+     * @return true if the fatal error log was created by a JDK build string used by Red Hat, false otherwise.
      */
     public boolean isRhBuildString() {
-        return vmInfoEvent != null
-                && (vmInfoEvent.getBuiltBy() == BuiltBy.BUILD || vmInfoEvent.getBuiltBy() == BuiltBy.MOCKBUILD);
+        return vmInfoEvent != null && (vmInfoEvent.getBuiltBy() == BuiltBy.BUILD
+                || vmInfoEvent.getBuiltBy() == BuiltBy.EMPTY || vmInfoEvent.getBuiltBy() == BuiltBy.MOCKBUILD);
     ***REMOVED***
 
     /**
