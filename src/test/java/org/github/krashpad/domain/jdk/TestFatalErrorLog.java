@@ -360,7 +360,7 @@ class TestFatalErrorLog {
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_POSSIBLE),
-                Analysis.INFO_RH_BUILD_RPM_BASED + " analysis incorrectly identified.");
+                Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test

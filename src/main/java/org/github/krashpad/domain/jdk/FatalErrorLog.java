@@ -389,7 +389,7 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             ***REMOVED***
         ***REMOVED*** else {
-            if (isRhBuildString()) {
+            if (isRhBuildString() && isRhVersion()) {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
             ***REMOVED*** else if (isAdoptOpenJdkBuildString()) {
                 analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
