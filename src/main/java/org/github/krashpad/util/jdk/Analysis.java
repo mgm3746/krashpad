@@ -843,9 +843,14 @@ public enum Analysis {
     WARN_FATAL_ERROR_LOG_ANCIENT("warn.fatal.error.log.ancient"),
 
     /**
-     * Property key for heap + metaspace &gt; physical memory.
+     * Property key for heap + metaspace &gt; physical memory (no swap).
      */
-    WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY("warn.heap.plus.metaspace.gt.physical.memory"),
+    WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP("warn.heap.plus.metaspace.gt.physical.memory.noswap"),
+
+    /**
+     * Property key for heap + metaspace &gt; physical memory (including swap).
+     */
+    WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP("warn.heap.plus.metaspace.gt.physical.memory.swap"),
 
     /**
      * Property key for a JDK that is not the latest JDK release.

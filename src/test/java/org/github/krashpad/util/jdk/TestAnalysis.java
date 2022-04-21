@@ -900,6 +900,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM),
                 Analysis.ERROR_OOME_JVM + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP),
+                Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1138,8 +1140,8 @@ class TestAnalysis {
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
                 "Jvm memory not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY),
-                Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP),
+                Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***

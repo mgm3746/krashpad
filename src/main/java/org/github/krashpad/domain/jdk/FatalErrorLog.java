@@ -434,9 +434,11 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for insufficient physical memory
-        if (getJvmMemTotal() > 0 && getJvmMemoryMax() > Long.MIN_VALUE) {
-            if (getJvmMemoryMax() > getJvmMemTotal()) {
-                analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY);
+        if (getJvmMemTotal() > 0 && getJvmMemoryMax() > Long.MIN_VALUE && getJvmMemoryMax() > getJvmMemTotal()) {
+            if (getOsSwap() == 0 || getJvmSwap() == 0) {
+                analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP);
+            ***REMOVED*** else {
+                analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP);
             ***REMOVED***
         ***REMOVED***
         // OOME, swap
