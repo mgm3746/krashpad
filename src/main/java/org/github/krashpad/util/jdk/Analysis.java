@@ -76,11 +76,6 @@ public enum Analysis {
     ERROR_HASHMAP("error.hashmap"),
 
     /**
-     * Property key for heap + metaspace &gt; physical memory.
-     */
-    ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY("error.heap.plus.metaspace.gt.physical.memory"),
-
-    /**
      * Property key for an unknown JDK version.
      */
     ERROR_JDK_VERSION_UNKNOWN("error.jdk.version.unknown"),
@@ -218,11 +213,11 @@ public enum Analysis {
      * Property key for generic insufficient physical memory with oops enabled.
      */
     ERROR_OOME_OOPS("error.oome.oops"),
+
     /**
      * Property key for the JVM failing to start due to insufficient physical memory.
      */
     ERROR_OOME_STARTUP("error.oome.startup"),
-
     /**
      * Property key for the JVM failing to start due to insufficient physical memory when JVM memory &lt; 50% memory.
      */
@@ -846,6 +841,11 @@ public enum Analysis {
      * Property key for a fatal error log that is more than 30 days old.
      */
     WARN_FATAL_ERROR_LOG_ANCIENT("warn.fatal.error.log.ancient"),
+
+    /**
+     * Property key for heap + metaspace &gt; physical memory.
+     */
+    WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY("warn.heap.plus.metaspace.gt.physical.memory"),
 
     /**
      * Property key for a JDK that is not the latest JDK release.

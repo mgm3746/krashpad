@@ -164,22 +164,22 @@ public class Main {
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                 if (fel.getJvmMemoryMax() > 0) {
                     printWriter.write(
-                            "Memory: " + fel.getContainerMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
-                                    + " (" + JdkMath.calcPercent(fel.getContainerMemTotal(), fel.getOsMemTotal())
+                            "Memory: " + fel.getJvmMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getJvmMemTotal(), fel.getOsMemTotal())
                                     + "% OS Memory)" + Constants.LINE_SEPARATOR);
-                    printWriter.write("Memory Free: " + fel.getContainerMemFree()
+                    printWriter.write("Memory Free: " + fel.getJvmMemFree()
                             + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getContainerMemFree(), fel.getContainerMemTotal()) + "%)"
+                            + JdkMath.calcPercent(fel.getJvmMemFree(), fel.getJvmMemTotal()) + "%)"
                             + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getOsSwap() > 0) {
                     printWriter
-                            .write("Swap: " + fel.getContainerSwap() + Character.toString(Constants.PRECISION_REPORTING)
-                                    + " (" + JdkMath.calcPercent(fel.getContainerSwap(), fel.getOsSwap()) + "% OS Swap)"
+                            .write("Swap: " + fel.getJvmSwap() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getJvmSwap(), fel.getOsSwap()) + "% OS Swap)"
                                     + Constants.LINE_SEPARATOR);
-                    printWriter.write("Swap Free: " + fel.getContainerSwapFree()
+                    printWriter.write("Swap Free: " + fel.getJvmSwapFree()
                             + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getContainerSwapFree(), fel.getContainerSwap()) + "%)"
+                            + JdkMath.calcPercent(fel.getJvmSwapFree(), fel.getJvmSwap()) + "%)"
                             + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
@@ -309,7 +309,7 @@ public class Main {
                 if (fel.getJvmMemoryInitial() > 0) {
                     long percentMemory;
                     if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
-                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getContainerMemTotal());
+                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getJvmMemTotal());
                     ***REMOVED*** else {
                         percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getOsMemTotal());
                     ***REMOVED***
@@ -320,7 +320,7 @@ public class Main {
                         // provide rounding indicator
                         if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
                             if (percentMemory == 0 || (percentMemory == 100
-                                    && fel.getJvmMemoryInitial() != fel.getContainerMemTotal())) {
+                                    && fel.getJvmMemoryInitial() != fel.getJvmMemTotal())) {
                                 printWriter.write("~");
                             ***REMOVED***
                         ***REMOVED*** else {
@@ -355,7 +355,7 @@ public class Main {
                 if (fel.getJvmMemoryMax() > 0) {
                     long percentMemory;
                     if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
-                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getContainerMemTotal());
+                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal());
                     ***REMOVED*** else {
                         percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getOsMemTotal());
                     ***REMOVED***
@@ -366,7 +366,7 @@ public class Main {
                         // provide rounding indicator
                         if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
                             if (percentMemory == 0
-                                    || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getContainerMemTotal())) {
+                                    || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getJvmMemTotal())) {
                                 printWriter.write("~");
                             ***REMOVED***
                         ***REMOVED*** else {

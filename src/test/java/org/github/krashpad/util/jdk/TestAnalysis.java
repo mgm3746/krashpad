@@ -894,6 +894,15 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testFailedToMapBytesNoSwap() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset75.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM),
+                Analysis.ERROR_OOME_JVM + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testFatalErrorLogAncient() {
         FatalErrorLog fel = new FatalErrorLog();
         String time = "time: Tue Aug 18 14:10:59 2020";
@@ -1096,13 +1105,13 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.isRhBuildOpenJdk(), "RH build of OpenJDK incorrectly identified.");
         long physicalMemory = JdkUtil.convertSize(15995796, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(physicalMemory, fel.getContainerMemTotal(), "Physical memory not correct.");
+        assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(241892, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(physicalMemoryFree, fel.getContainerMemFree(), "Physical memory free not correct.");
+        assertEquals(physicalMemoryFree, fel.getJvmMemFree(), "Physical memory free not correct.");
         long swap = JdkUtil.convertSize(10592252, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(swap, fel.getContainerSwap(), "Swap not correct.");
+        assertEquals(swap, fel.getJvmSwap(), "Swap not correct.");
         long swapFree = JdkUtil.convertSize(4, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(swapFree, fel.getContainerSwapFree(), "Swap free not correct.");
+        assertEquals(swapFree, fel.getJvmSwapFree(), "Swap free not correct.");
         long heapInitial = JdkUtil.convertSize(2048, 'M', Constants.PRECISION_REPORTING);
         assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(8192, 'M', Constants.PRECISION_REPORTING);
@@ -1129,8 +1138,8 @@ class TestAnalysis {
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
                 "Jvm memory not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY),
-                Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY),
+                Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
@@ -1796,7 +1805,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isError("Out of Memory Error"), "Out Of Memory Error not identified.");
         long physicalMemory = JdkUtil.convertSize(24609684, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(physicalMemory, fel.getContainerMemTotal(), "Physical memory not correct.");
+        assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
         long heapInitial = JdkUtil.convertSize(1303, 'M', Constants.PRECISION_REPORTING);
         assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(16000, 'M', Constants.PRECISION_REPORTING);

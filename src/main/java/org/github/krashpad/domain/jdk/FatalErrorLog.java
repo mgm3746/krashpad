@@ -434,16 +434,15 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for insufficient physical memory
-        if (getContainerMemTotal() > 0 && getJvmMemoryMax() > Long.MIN_VALUE) {
-            if (getJvmMemoryMax() > getContainerMemTotal()) {
-                analysis.add(Analysis.ERROR_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY);
+        if (getJvmMemTotal() > 0 && getJvmMemoryMax() > Long.MIN_VALUE) {
+            if (getJvmMemoryMax() > getJvmMemTotal()) {
+                analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY);
             ***REMOVED***
         ***REMOVED***
         // OOME, swap
         if (isError("There is insufficient memory for the Java Runtime Environment to continue.")) {
             if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
-                if (getJvmMemoryInitial() > (Math.max(getContainerMemFree(), getOsMemAvailable())
-                        + getContainerSwapFree())) {
+                if (getJvmMemoryInitial() > (Math.max(getJvmMemFree(), getOsMemAvailable()) + getJvmSwapFree())) {
                     if (getApplication() == Application.TOMCAT_SHUTDOWN) {
                         analysis.add(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN);
                     ***REMOVED*** else if (getApplication() == Application.JBOSS_VERSION) {
@@ -488,12 +487,12 @@ public class FatalErrorLog {
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
-                if ((allocation >= 0 && getContainerMemFree() >= 0 && getContainerSwapFree() >= 0
-                        && allocation < (getContainerMemFree() + getContainerSwapFree()))
-                        || (getContainerMemFree() >= 0 && getContainerMemTotal() > 0
-                                && JdkMath.calcPercent(getContainerMemFree(), getContainerMemTotal()) >= 50)
-                        || (getJvmMemoryMax() >= 0 && getContainerMemTotal() > 0
-                                && JdkMath.calcPercent(getJvmMemoryMax(), getContainerMemTotal()) < 50)) {
+                if ((allocation >= 0 && getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
+                        && allocation < (getJvmMemFree() + getJvmSwapFree()))
+                        || (getJvmMemFree() >= 0 && getJvmMemTotal() > 0
+                                && JdkMath.calcPercent(getJvmMemFree(), getJvmMemTotal()) >= 50)
+                        || (getJvmMemoryMax() >= 0 && getJvmMemTotal() > 0
+                                && JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) < 50)) {
                     // allocation < available memory or free memory >= 50%
                     if (getCommitLimit() > 0 && getCommittedAs() > 0
                             && (getJvmMemoryMax() > (getCommitLimit() - getCommittedAs()))) {
@@ -508,8 +507,8 @@ public class FatalErrorLog {
                     ***REMOVED***
                 ***REMOVED*** else {
                     // low memory
-                    if (getJvmMemoryMax() > 0 && getContainerMemTotal() > 0) {
-                        if (JdkMath.calcPercent(getJvmMemoryMax(), getContainerMemTotal()) >= 95) {
+                    if (getJvmMemoryMax() > 0 && getJvmMemTotal() > 0) {
+                        if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) >= 95) {
                             analysis.add(Analysis.ERROR_OOME_JVM);
                         ***REMOVED*** else {
                             analysis.add(Analysis.ERROR_OOME_EXTERNAL);
@@ -528,9 +527,9 @@ public class FatalErrorLog {
             if (getGarbageCollectors().contains(GarbageCollector.G1)) {
                 analysis.add(Analysis.WARN_OOM_G1);
             ***REMOVED***
-        ***REMOVED*** else if (getContainerSwap() > 0) {
+        ***REMOVED*** else if (getJvmSwap() > 0) {
             // Check for excessive swap usage
-            int swapUsedPercent = 100 - JdkMath.calcPercent(getContainerSwapFree(), getContainerSwap());
+            int swapUsedPercent = 100 - JdkMath.calcPercent(getJvmSwapFree(), getJvmSwap());
             if (swapUsedPercent > 5 && swapUsedPercent < 20) {
                 analysis.add(Analysis.INFO_SWAPPING);
             ***REMOVED*** else if (swapUsedPercent >= 20) {
@@ -538,12 +537,12 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for swap disabled
-        if (getContainerSwap() == 0) {
+        if (getJvmSwap() == 0) {
             analysis.add(Analysis.INFO_SWAP_DISABLED);
             // Check if collector is appropriate for no-swap (e.g. container) use cases
-            if (getGarbageCollectors().contains(GarbageCollector.G1) && getContainerSwap() == 0) {
+            if (getGarbageCollectors().contains(GarbageCollector.G1) && getJvmSwap() == 0) {
                 analysis.add(Analysis.WARN_SWAP_DISABLED_G1);
-            ***REMOVED*** else if (getGarbageCollectors().contains(GarbageCollector.CMS) && getContainerSwap() == 0) {
+            ***REMOVED*** else if (getGarbageCollectors().contains(GarbageCollector.CMS) && getJvmSwap() == 0) {
                 analysis.add(Analysis.WARN_SWAP_DISABLED_CMS);
             ***REMOVED***
         ***REMOVED***
@@ -690,7 +689,7 @@ public class FatalErrorLog {
         if (!getContainerInfoEvents().isEmpty()) {
             analysis.add(Analysis.INFO_CGROUP);
         ***REMOVED***
-        if (getContainerMemTotal() > 0 && getOsMemTotal() > 0 && getContainerMemTotal() != getOsMemTotal()) {
+        if (getJvmMemTotal() > 0 && getOsMemTotal() > 0 && getJvmMemTotal() != getOsMemTotal()) {
             analysis.add(Analysis.INFO_MEMORY_JVM_NE_SYSTEM);
             if (haveCgroupMemoryLimit()) {
                 analysis.add(Analysis.INFO_CGROUP_MEMORY_LIMIT);
@@ -1232,101 +1231,6 @@ public class FatalErrorLog {
 
     public List<ContainerInfoEvent> getContainerInfoEvents() {
         return containerInfoEvents;
-    ***REMOVED***
-
-    /**
-     * Free memory as reported by the JVM <code>MemoryEvent</code>.
-     * 
-     * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
-     * low free memory does not necessarily indicate swapping or out of memory is imminent.
-     * 
-     * @return The total free physical memory as reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
-     *         units.
-     */
-    public long getContainerMemFree() {
-        long physicalMemoryFree = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)),
-                                matcher.group(9).charAt(0), Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return physicalMemoryFree;
-    ***REMOVED***
-
-    /**
-     * @return The total available physical memory reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
-     *         units.
-     */
-    public long getContainerMemTotal() {
-        long physicalMemory = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(4)),
-                                matcher.group(6).charAt(0), Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return physicalMemory;
-    ***REMOVED***
-
-    /**
-     * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getContainerSwap() {
-        long swap = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        if (matcher.group(11) != null && matcher.group(13) != null) {
-                            swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
-                                    Constants.PRECISION_REPORTING);
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return swap;
-    ***REMOVED***
-
-    /**
-     * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getContainerSwapFree() {
-        long swapFree = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
-            while (iterator.hasNext()) {
-                MemoryEvent event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        if (matcher.group(14) != null && matcher.group(16) != null) {
-                            swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)),
-                                    matcher.group(16).charAt(0), Constants.PRECISION_REPORTING);
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return swapFree;
     ***REMOVED***
 
     /**
@@ -2078,6 +1982,33 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * Free memory as reported by the JVM <code>MemoryEvent</code>.
+     * 
+     * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
+     * low free memory does not necessarily indicate swapping or out of memory is imminent.
+     * 
+     * @return The total free physical memory as reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
+     *         units.
+     */
+    public long getJvmMemFree() {
+        long physicalMemoryFree = Long.MIN_VALUE;
+        if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)),
+                                matcher.group(9).charAt(0), Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return physicalMemoryFree;
+    ***REMOVED***
+
+    /**
      * @return Estimated JVM initial memory in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmMemoryInitial() {
@@ -2153,8 +2084,75 @@ public class FatalErrorLog {
         return jvmMemoryMax;
     ***REMOVED***
 
+    /**
+     * @return The total physical memory reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getJvmMemTotal() {
+        long physicalMemory = Long.MIN_VALUE;
+        if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(4)),
+                                matcher.group(6).charAt(0), Constants.PRECISION_REPORTING);
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return physicalMemory;
+    ***REMOVED***
+
     public JvmOptions getJvmOptions() {
         return jvmOptions;
+    ***REMOVED***
+
+    /**
+     * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getJvmSwap() {
+        long swap = Long.MIN_VALUE;
+        if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        if (matcher.group(11) != null && matcher.group(13) != null) {
+                            swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
+                                    Constants.PRECISION_REPORTING);
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return swap;
+    ***REMOVED***
+
+    /**
+     * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getJvmSwapFree() {
+        long swapFree = Long.MIN_VALUE;
+        if (!memoryEvents.isEmpty()) {
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                if (event.isHeader()) {
+                    Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        if (matcher.group(14) != null && matcher.group(16) != null) {
+                            swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)),
+                                    matcher.group(16).charAt(0), Constants.PRECISION_REPORTING);
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return swapFree;
     ***REMOVED***
 
     /**
@@ -3320,7 +3318,7 @@ public class FatalErrorLog {
      */
     public boolean isContainer() {
         boolean isContainer = false;
-        if (!containerInfoEvents.isEmpty() || getContainerSwap() == 0) {
+        if (!containerInfoEvents.isEmpty() || getJvmSwap() == 0) {
             isContainer = true;
         ***REMOVED***
         return isContainer;
