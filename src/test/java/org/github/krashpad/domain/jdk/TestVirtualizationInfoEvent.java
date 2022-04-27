@@ -31,6 +31,7 @@ class TestVirtualizationInfoEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     ***REMOVED***
+
     @Test
     void testHyperV() {
         String logLine = "HyperV virtualization detected";

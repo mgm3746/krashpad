@@ -63,7 +63,7 @@ public class RegisterEvent implements LogEvent, ThrowAwayEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + RegisterEvent.REGEX_HEADER + "|" + JdkRegEx.REGISTER + "[, ] "
-            + JdkRegEx.REGISTER + "([, ])?( " + JdkRegEx.REGISTER + ")?(, " + JdkRegEx.REGISTER + ")?|  TRAPNO="
+            + JdkRegEx.REGISTER + "([, ])?( " + JdkRegEx.REGISTER + ")?(, " + JdkRegEx.REGISTER + ")?|[ ]{1,***REMOVED***TRAPNO="
             + JdkRegEx.ADDRESS + ")[ ]{0,***REMOVED***$";
 
     /**

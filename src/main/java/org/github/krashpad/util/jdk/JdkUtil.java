@@ -16,6 +16,7 @@ package org.github.krashpad.util.jdk;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -530,7 +531,9 @@ public class JdkUtil {
 
         // RHEL7 amd64 OpenJDK8 rpm
         JDK8_RHEL7_X86_64_RPMS = new HashMap<String, Release>();
-        JDK8_RHEL7_X86_64_RPMS.put("LATEST", new Release("Jan 21 2022 06:01:57", 32, "1.8.0_322-b06"));
+        JDK8_RHEL7_X86_64_RPMS.put("LATEST", new Release("Apr 19 2022 00:14:41", 33, "1.8.0_332-b09"));
+        JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.332.b09-1.el7_9.x86_64",
+                new Release("Apr 19 2022 00:14:41", 33, "1.8.0_332-b09"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.x86_64",
                 new Release("Jan 21 2022 06:01:57", 32, "1.8.0_322-b06"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64",
@@ -1543,6 +1546,33 @@ public class JdkUtil {
             logEventType = LogEventType.VIRTUALIZATION_INFO;
         ***REMOVED***
         return logEventType;
+    ***REMOVED***
+
+    /**
+     * Determine if a build date is a known date/time or an estimate. Estimate have 0 for hh:mm:ss.
+     * 
+     * The following build date/time is a known date/time:
+     * 
+     * Apr 19 2022 00:14:41
+     * 
+     * The following build date/time is an estimate:
+     * 
+     * Apr 19 2022 00:00:00
+     * 
+     * @param buildDate
+     *            The JDK build date/time, or an estimate if unknown.
+     * 
+     * @return true if the JDK build date is known, false otherwise.
+     */
+    public static final boolean isBuildDateKnown(Date buildDate) {
+        boolean isBuildDateKnown = false;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(buildDate);
+        if (!(calendar.get(Calendar.HOUR) == 0 && calendar.get(Calendar.MINUTE) == 0
+                && calendar.get(Calendar.SECOND) == 0)) {
+            isBuildDateKnown = true;
+        ***REMOVED***
+        return isBuildDateKnown;
     ***REMOVED***
 
     /**

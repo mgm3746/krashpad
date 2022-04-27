@@ -163,24 +163,23 @@ public class Main {
                 printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                 if (fel.getJvmMemoryMax() > 0) {
-                    printWriter.write(
-                            "Memory: " + fel.getJvmMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
+                    printWriter
+                            .write("Memory: " + fel.getJvmMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
                                     + " (" + JdkMath.calcPercent(fel.getJvmMemTotal(), fel.getOsMemTotal())
                                     + "% OS Memory)" + Constants.LINE_SEPARATOR);
-                    printWriter.write("Memory Free: " + fel.getJvmMemFree()
-                            + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getJvmMemFree(), fel.getJvmMemTotal()) + "%)"
-                            + Constants.LINE_SEPARATOR);
+                    printWriter.write(
+                            "Memory Free: " + fel.getJvmMemFree() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getJvmMemFree(), fel.getJvmMemTotal()) + "%)"
+                                    + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getOsSwap() > 0) {
-                    printWriter
-                            .write("Swap: " + fel.getJvmSwap() + Character.toString(Constants.PRECISION_REPORTING)
-                                    + " (" + JdkMath.calcPercent(fel.getJvmSwap(), fel.getOsSwap()) + "% OS Swap)"
-                                    + Constants.LINE_SEPARATOR);
-                    printWriter.write("Swap Free: " + fel.getJvmSwapFree()
-                            + Character.toString(Constants.PRECISION_REPORTING) + " ("
-                            + JdkMath.calcPercent(fel.getJvmSwapFree(), fel.getJvmSwap()) + "%)"
+                    printWriter.write("Swap: " + fel.getJvmSwap() + Character.toString(Constants.PRECISION_REPORTING)
+                            + " (" + JdkMath.calcPercent(fel.getJvmSwap(), fel.getOsSwap()) + "% OS Swap)"
                             + Constants.LINE_SEPARATOR);
+                    printWriter.write(
+                            "Swap Free: " + fel.getJvmSwapFree() + Character.toString(Constants.PRECISION_REPORTING)
+                                    + " (" + JdkMath.calcPercent(fel.getJvmSwapFree(), fel.getJvmSwap()) + "%)"
+                                    + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
             if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)
@@ -319,8 +318,8 @@ public class Main {
                         printWriter.write(" (");
                         // provide rounding indicator
                         if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
-                            if (percentMemory == 0 || (percentMemory == 100
-                                    && fel.getJvmMemoryInitial() != fel.getJvmMemTotal())) {
+                            if (percentMemory == 0
+                                    || (percentMemory == 100 && fel.getJvmMemoryInitial() != fel.getJvmMemTotal())) {
                                 printWriter.write("~");
                             ***REMOVED***
                         ***REMOVED*** else {

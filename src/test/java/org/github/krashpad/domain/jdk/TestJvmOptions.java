@@ -274,8 +274,7 @@ class TestJvmOptions {
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals("-Xmaxjitcodesize4096K", jvmOptions.getMaxjitcodesize(), "maxjitcodesize not correct.");
     ***REMOVED***
-    
-    
+
     @Test
     void testMaxjitcodesizeBigM() {
         String jvmArgs = "-Xms1g -Xmaxjitcodesize1024M -Xmx1g";

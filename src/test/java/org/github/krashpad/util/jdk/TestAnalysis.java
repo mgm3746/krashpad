@@ -104,6 +104,31 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testBuildDateIsNotRedHat() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7f72e3ca8000-7f72e4a45000 r-xp 00000000 103:02 45812172                  "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.322-b06) for linux-amd64 JRE (1.8.0_322-b06), built on "
+                + "Jan 27 2022 17:54:59 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
+        fel.setVmInfoEvent(vmEvent);
+        String os = "OS:CentOS Linux release 7.9.2009 (Core)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        fel.doAnalysis();
+        assertTrue(fel.isRhBuildString(), "Red Hat build string not identified.");
+        assertTrue(fel.isRhVersion(), "Red Hat version not identified.");
+        assertEquals(ErrUtil.getDate("Jan 27 2022 17:54:59"), fel.getJdkBuildDate(), "Build date not correct.");
+        assertFalse(fel.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_POSSIBLE),
+                Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
+                Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testBytecodeBackgroundCompilationDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xbatch -Xms2048M";
