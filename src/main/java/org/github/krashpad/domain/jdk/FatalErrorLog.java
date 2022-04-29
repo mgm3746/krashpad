@@ -1696,6 +1696,18 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return The heap starting address in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getHeapStartingAddress() {
+        long heapStartingAddress = Long.MIN_VALUE;
+        if (heapAddressEvent != null) {
+            heapStartingAddress = JdkUtil.convertSize(heapAddressEvent.getStartingAddress(), 'B',
+                    Constants.PRECISION_REPORTING);
+        ***REMOVED***
+        return heapStartingAddress;
+    ***REMOVED***
+
+    /**
      * @return The total heap used in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapUsed() {

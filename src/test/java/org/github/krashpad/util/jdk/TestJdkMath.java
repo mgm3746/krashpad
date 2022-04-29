@@ -30,4 +30,12 @@ class TestJdkMath {
         long whole = 100;
         assertEquals(44, JdkMath.calcPercent(part, whole), "Percent not correctly.");
     ***REMOVED***
+
+    @Test
+    void testConvertHexToDecimal() {
+        assertEquals(25994199040L, JdkMath.convertHexToDecimal("0x000000060d600000"));
+        assertEquals(25994199040L, JdkMath.convertHexToDecimal("000000060d600000"));
+        assertEquals(25994199040L, JdkMath.convertHexToDecimal("60d600000"));
+        assertEquals(Long.MIN_VALUE, JdkMath.convertHexToDecimal(null));
+    ***REMOVED***
 ***REMOVED***

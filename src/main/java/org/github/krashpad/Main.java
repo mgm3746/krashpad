@@ -271,6 +271,10 @@ public class Main {
                 ***REMOVED***
                 printWriter.write(Constants.LINE_SEPARATOR);
             ***REMOVED***
+            if (fel.getHeapStartingAddress() > 0) {
+                printWriter.write("Heap Starting Address: " + fel.getHeapStartingAddress()
+                        + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
+            ***REMOVED***
             printWriter.write("Compressed oops mode: " + fel.getCompressedOopMode() + Constants.LINE_SEPARATOR);
             if (fel.getMetaspaceMaxSize() > 0) {
                 printWriter.write("Metaspace Max: " + fel.getMetaspaceMaxSize()
@@ -547,7 +551,7 @@ public class Main {
                     Analysis a = iteratorAnalysis.next();
                     printWriter.write("*");
                     printWriter.write(a.getValue());
-                    if (a.equals(Analysis.INFO_OPT_UNDEFINED)) {
+                    if (a.equals(Analysis.INFO_OPT_UNKNOWN)) {
                         Iterator<String> iterator = fel.getJvmOptions().getUndefined().iterator();
                         while (iterator.hasNext()) {
                             String option = iterator.next();

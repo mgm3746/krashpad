@@ -102,6 +102,8 @@ class TestFatalErrorLog {
         HeapAddressEvent heapAddressEvent = new HeapAddressEvent(heapAddress);
         fel.setHeapAddressEvent(heapAddressEvent);
         assertEquals(CompressedOopMode.BIT32, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
+        assertEquals(3072, fel.getHeapStartingAddress(), "Heap starting address not correct.");
+        assertEquals(1024, fel.getHeapMaxSize(), "Heap size not correct.");
         // ZERO
         heapAddress = "heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: "
                 + "Zero based, Oop shift amount: 3";

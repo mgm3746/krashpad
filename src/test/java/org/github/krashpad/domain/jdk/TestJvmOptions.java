@@ -318,6 +318,14 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testMinHeapDeltaBytes() {
+        String jvmArgs = "-Xmx1g -XX:MinHeapDeltaBytes=123456";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:MinHeapDeltaBytes=123456", jvmOptions.getMinHeapDeltaBytes(),
+                "MinHeapDeltaBytes not correct.");
+    ***REMOVED***
+
+    @Test
     void testMultipleAddExports() {
         String jvmArgs = "-Xms1g --add-exports=java.base/sun.nio.ch=ALL-UNNAMED "
                 + "--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED "

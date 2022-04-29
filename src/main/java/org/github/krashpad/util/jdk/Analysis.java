@@ -579,6 +579,12 @@ public enum Analysis {
     INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE("info.opt.metaspace.class.metadata.and.comp.class.space"),
 
     /**
+     * Property key for setting the minimum amount to resize the heap space in bytes with -XX:MinHeapDeltaBytes=N.
+     * 
+     */
+    INFO_OPT_MIN_HEAP_DELTA_BYTES("info.opt.min.heap.delta.bytes"),
+
+    /**
      * Property key for no JVM options.
      */
     INFO_OPT_MISSING("info.opt.missing"),
@@ -665,7 +671,7 @@ public enum Analysis {
     /**
      * Property key for undefined JVM option(s).
      */
-    INFO_OPT_UNDEFINED("info.opt.undefined"),
+    INFO_OPT_UNKNOWN("info.opt.unknown"),
 
     /**
      * Property key for class loading logging (sent to standard out) enabled with -verbose:class.

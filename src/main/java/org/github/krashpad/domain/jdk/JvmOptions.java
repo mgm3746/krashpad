@@ -532,6 +532,10 @@ public class JvmOptions {
      */
     private String gcTimeRatio;
 
+    public String getMinHeapDeltaBytes() {
+        return minHeapDeltaBytes;
+    ***REMOVED***
+
     /**
      * Diagnostic option (-XX:+UnlockDiagnosticVMOptions) to set a minimal safepoint interval (ms). For example:
      * 
@@ -796,6 +800,15 @@ public class JvmOptions {
      * </pre>
      */
     private String metaspaceSize;
+
+    /**
+     * The minimum amount to resize the heap space in bytes. For example:
+     * 
+     * <pre>
+     * --XX:MinHeapDeltaBytes=123456
+     * </pre>
+     */
+    private String minHeapDeltaBytes;
 
     /**
      * The minimum percentage of free space to avoid expanding the heap size. For example:
@@ -1890,9 +1903,13 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:MaxTenuringThreshold=\\d{1,***REMOVED***$")) {
                     maxTenuringThreshold = option;
                     key = "MaxTenuringThreshold";
+                ***REMOVED*** else if (option.matches("^-XX:MinHeapDeltaBytes=\\d{1,***REMOVED***$")) {
+                    minHeapDeltaBytes = option;
+                    key = "MinHeapDeltaBytes";
                 ***REMOVED*** else if (option.matches("^-XX:MinHeapFreeRatio=\\d{1,3***REMOVED***$")) {
                     minHeapFreeRatio = option;
                     key = "MinHeapFreeRatio";
+
                 ***REMOVED*** else if (option.matches("^-XX:NativeMemoryTracking=.+$")) {
                     nativeMemoryTracking = option;
                     key = "NativeMemoryTracking";
@@ -2138,7 +2155,7 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED***
         if (!undefined.isEmpty()) {
-            analysis.add(Analysis.INFO_OPT_UNDEFINED);
+            analysis.add(Analysis.INFO_OPT_UNKNOWN);
         ***REMOVED***
         // Check if initial or max metaspace size being set
         if (metaspaceSize != null || maxMetaspaceSize != null) {
@@ -2624,6 +2641,10 @@ public class JvmOptions {
         ***REMOVED***
         if (ciCompilerCount != null) {
             analysis.add(Analysis.INFO_OPT_CI_COMPILER_COUNT);
+        ***REMOVED***
+        // Check for -XX:MinHeapDeltaBytes=N
+        if (minHeapDeltaBytes != null) {
+            analysis.add(Analysis.INFO_OPT_MIN_HEAP_DELTA_BYTES);
         ***REMOVED***
     ***REMOVED***
 

@@ -54,6 +54,41 @@ public class JdkMath {
     ***REMOVED***
 
     /**
+     * Convert a hexadecimal number to a decimal number.
+     * 
+     * For example:
+     * 
+     * 0x000000060d600000 = 25994199040
+     * 
+     * @param hex
+     *            The hexadecimal number with or without a lead "0x".
+     * 
+     * @return The hexadecimal number converted to a decimal number.
+     */
+    public static long convertHexToDecimal(String hex) {
+        long decimal = Long.MIN_VALUE;
+        if (hex != null) {
+            decimal = 0;
+            int power = 0;
+            int pos = 0;
+            while (pos < hex.length()) {
+                Character place = hex.charAt(hex.length() - pos - 1);
+                if (!place.equals('x')) {
+                    if (!place.equals('0')) {
+                        int digit = Integer.parseInt(place.toString(), 16);
+                        decimal = decimal + digit * (long) Math.pow(16, power);
+                    ***REMOVED***
+                    pos++;
+                    power++;
+                ***REMOVED*** else {
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return decimal;
+    ***REMOVED***
+
+    /**
      * Make default constructor private so the class cannot be instantiated.
      */
     private JdkMath() {

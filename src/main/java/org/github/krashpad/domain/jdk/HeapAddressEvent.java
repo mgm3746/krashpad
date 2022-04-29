@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.Constants;
+import org.github.krashpad.util.jdk.JdkMath;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.CompressedOopMode;
@@ -108,5 +109,18 @@ public class HeapAddressEvent implements LogEvent {
             initialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), 'M', Constants.PRECISION_REPORTING);
         ***REMOVED***
         return initialSize;
+    ***REMOVED***
+
+    /**
+     * @return The address the heap starts at in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public final Long getStartingAddress() {
+        long startingAddress = Long.MIN_VALUE;
+        Pattern pattern = Pattern.compile(REGEX);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            return JdkMath.convertHexToDecimal(matcher.group(1));
+        ***REMOVED***
+        return startingAddress;
     ***REMOVED***
 ***REMOVED***

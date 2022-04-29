@@ -17,6 +17,7 @@ package org.github.krashpad.domain.jdk;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.CompressedOopMode;
 import org.junit.jupiter.api.Test;
@@ -52,5 +53,8 @@ class TestHeapAddressEvent {
                 + "shift amount: 3";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof HeapAddressEvent,
                 JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not parsed.");
+        HeapAddressEvent heapAddressEvent = new HeapAddressEvent(logLine);
+        assertEquals(16106127360L, heapAddressEvent.getStartingAddress(), "Heap starting address not correct.");
+        assertEquals(16384L, heapAddressEvent.getSize(), "Heap size not correct.");
     ***REMOVED***
 ***REMOVED***
