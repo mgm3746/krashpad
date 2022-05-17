@@ -56,6 +56,12 @@ class TestJdkUtil {
     ***REMOVED***
 
     @Test
+    void testJdk11UpdateNumber() {
+        String jdk11ReleaseString = "11.0.9+11-LTS";
+        assertEquals(9, JdkUtil.getJdk11UpdateNumber(jdk11ReleaseString), "JDK11 update number not correct.");
+    ***REMOVED***
+
+    @Test
     void testJdk8UpdateNumber() {
         String jdk8ReleaseString = "1.8.0_222-b10";
         assertEquals(222, JdkUtil.getJdk8UpdateNumber(jdk8ReleaseString), "JDK8 update number not correct.");

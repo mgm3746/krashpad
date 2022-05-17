@@ -178,6 +178,16 @@ public class JvmOptions {
     private String ciCompilerCount;
 
     /**
+     * The option to set the classpath. For example:
+     * 
+     * <pre>
+     * -classpath /path/to/tomcat/bin/bootstrap.jar:/path/to/tomcat/bin/tomcat-juli.jar:/path/to/java/ant.jar:
+     * /path/to/java/ant-launcher.jar:/path/to/java/lib/tools.jar
+     * </pre>
+     */
+    private String classpath;
+
+    /**
      * The option to enable/disable class unloading during gc. For example:
      * 
      * <pre>
@@ -532,10 +542,6 @@ public class JvmOptions {
      */
     private String gcTimeRatio;
 
-    public String getMinHeapDeltaBytes() {
-        return minHeapDeltaBytes;
-    ***REMOVED***
-
     /**
      * Diagnostic option (-XX:+UnlockDiagnosticVMOptions) to set a minimal safepoint interval (ms). For example:
      * 
@@ -865,6 +871,15 @@ public class JvmOptions {
      * </pre>
      */
     private boolean noclassgc = false;
+
+    /**
+     * Option to disable class verification on JVM startup. For example:
+     * 
+     * <pre>
+     * -noverify
+     * </pre>
+     */
+    private boolean noverify = false;
 
     /**
      * Option to specify the number of gc log files to keep when rotation is enabled. For example:
@@ -1649,8 +1664,9 @@ public class JvmOptions {
             // (?<!^) match whatever follows, but not the start of the string
             // (?= -) match "space dash" followed by jvm option starting patterns, but don't include the empty leading
             // substring in the result
-            String[] opts = jvmArgs
-                    .split("(?<!^)(?= -(-add|agentlib|agentpath|client|d(32|64)|javaagent|server|verbose|D|X))");
+            String[] opts = jvmArgs.split(
+                    "(?<!^)(?= -(-add|agentlib|agentpath|classpath|client|d(32|64)|javaagent|noverify|server|verbose|D|"
+                            + "X))");
             String key = null;
             for (int i = 0; i < opts.length; i++) {
                 String option = opts[i].trim();
@@ -1669,6 +1685,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-agentpath:.+$")) {
                     agentpath.add(option);
                     key = "agentpath";
+                ***REMOVED*** else if (option.matches("^-classpath.+$")) {
+                    classpath = option;
+                    key = "classpath";
                 ***REMOVED*** else if (option.matches("^-client$")) {
                     client = true;
                     key = "client";
@@ -1681,6 +1700,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-javaagent:.+$")) {
                     javaagent.add(option);
                     key = option;
+                ***REMOVED*** else if (option.matches("^-noverify$")) {
+                    noverify = true;
+                    key = "noverify";
                 ***REMOVED*** else if (option.matches("^-server$")) {
                     server = true;
                     key = "server";
@@ -1909,7 +1931,6 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:MinHeapFreeRatio=\\d{1,3***REMOVED***$")) {
                     minHeapFreeRatio = option;
                     key = "MinHeapFreeRatio";
-
                 ***REMOVED*** else if (option.matches("^-XX:NativeMemoryTracking=.+$")) {
                     nativeMemoryTracking = option;
                     key = "NativeMemoryTracking";
@@ -2155,7 +2176,7 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED***
         if (!undefined.isEmpty()) {
-            analysis.add(Analysis.INFO_OPT_UNKNOWN);
+            analysis.add(Analysis.INFO_OPT_UNDEFINED);
         ***REMOVED***
         // Check if initial or max metaspace size being set
         if (metaspaceSize != null || maxMetaspaceSize != null) {
@@ -2700,6 +2721,10 @@ public class JvmOptions {
         return ciCompilerCount;
     ***REMOVED***
 
+    public String getClasspath() {
+        return classpath;
+    ***REMOVED***
+
     public String getClassUnloading() {
         return classUnloading;
     ***REMOVED***
@@ -2998,6 +3023,10 @@ public class JvmOptions {
 
     public String getMetaspaceSize() {
         return metaspaceSize;
+    ***REMOVED***
+
+    public String getMinHeapDeltaBytes() {
+        return minHeapDeltaBytes;
     ***REMOVED***
 
     public String getMinHeapFreeRatio() {
@@ -3362,6 +3391,10 @@ public class JvmOptions {
 
     public boolean isNoclassgc() {
         return noclassgc;
+    ***REMOVED***
+
+    public boolean isNoverify() {
+        return noverify;
     ***REMOVED***
 
     public boolean isRs() {

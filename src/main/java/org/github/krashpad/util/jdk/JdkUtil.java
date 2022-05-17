@@ -1175,6 +1175,22 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
+     * @param jdk11ReleaseString
+     *            The JDK11 release string (e.g. 11.0.9+11-LTS).
+     * @return The JDK update number (e.g. 9).
+     */
+    public static final int getJdk11UpdateNumber(String jdk11ReleaseString) {
+        int jdk11UpdateNumber = Integer.MIN_VALUE;
+        String regEx = "11.0.(\\d{1,***REMOVED***).+";
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(jdk11ReleaseString);
+        if (matcher.find()) {
+            jdk11UpdateNumber = Integer.parseInt(matcher.group(1));
+        ***REMOVED***
+        return jdk11UpdateNumber;
+    ***REMOVED***
+
+    /**
      * @param jdk8ReleaseString
      *            The JDK8 release string (e.g. 1.8.0_222-b10).
      * @return The JDK update number (e.g. 222).

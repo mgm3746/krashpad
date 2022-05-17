@@ -861,7 +861,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_JVM_USER_NE_USERNAME);
         ***REMOVED***
         // Check for no jvm options
-        if (getJvmOptions() == null) {
+        if (getJvmOptions() == null || getJvmOptions().getOptions().size() == 0) {
             analysis.add(Analysis.INFO_OPT_MISSING);
         ***REMOVED***
         // Check for many threads
@@ -895,12 +895,23 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_DRIVER);
         ***REMOVED***
         // Crash in CompilerThread
-        if (getCurrentThread() != null && getCurrentThread().matches("^.+C2 CompilerThread\\d{1,***REMOVED***.+$")
-                && isInHeader("guarantee\\(n != NULL\\) failed: No Node.")
-                && isInStack("IdealLoopTree::beautify_loops")) {
-            analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS);
-            // Don't double report
-            analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+        if (getCurrentThread() != null && getCurrentThread().matches("^.+C2 CompilerThread\\d{1,***REMOVED***.+$")) {
+            if (isInHeader("guarantee\\(n != NULL\\) failed: No Node.") && isInStack("IdealLoopTree::beautify_loops")) {
+                analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS);
+                // Don't double report
+                analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+            ***REMOVED*** else if (getStackFrameTop() != null
+                    && getStackFrameTop().matches("^.*MinINode::Ideal\\(PhaseGVN\\*, bool\\).*$")
+                    && (getJavaSpecification() == JavaSpecification.JDK8
+                            && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) > 0
+                            && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 275
+                            || getJavaSpecification() == JavaSpecification.JDK11
+                                    && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) > 0
+                                    && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 9)) {
+                analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL);
+                // Don't double report
+                analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+            ***REMOVED***
         ***REMOVED***
         // Crash during shutdown
         if (getEventEvents().size() > 0) {

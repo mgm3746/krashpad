@@ -551,7 +551,7 @@ public class Main {
                     Analysis a = iteratorAnalysis.next();
                     printWriter.write("*");
                     printWriter.write(a.getValue());
-                    if (a.equals(Analysis.INFO_OPT_UNKNOWN)) {
+                    if (a.equals(Analysis.INFO_OPT_UNDEFINED)) {
                         Iterator<String> iterator = fel.getJvmOptions().getUndefined().iterator();
                         while (iterator.hasNext()) {
                             String option = iterator.next();

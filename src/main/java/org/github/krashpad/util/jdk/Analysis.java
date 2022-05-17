@@ -51,6 +51,11 @@ public enum Analysis {
     ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS("error.compiler.thread.c2.beautify.loops"),
 
     /**
+     * Property key for a crash in MinINode::Ideal(PhaseGVN*, bool).
+     */
+    ERROR_COMPILER_THREAD_C2_MININODE_IDEAL("error.compiler.thread.c2.mininode.ideal"),
+
+    /**
      * Property key for a crash due to multiple threads access DirectByteBuffer at the same time.
      */
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),
@@ -671,7 +676,7 @@ public enum Analysis {
     /**
      * Property key for undefined JVM option(s).
      */
-    INFO_OPT_UNKNOWN("info.opt.unknown"),
+    INFO_OPT_UNDEFINED("info.opt.undefined"),
 
     /**
      * Property key for class loading logging (sent to standard out) enabled with -verbose:class.

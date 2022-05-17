@@ -366,6 +366,35 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testUnknownOptions() {
+        String jvmArgs = "-Xms1g -XX:+ParallelRefProcEnabled -XX:+UseTLAB -XX:-UseGCOverheadLimit "
+                + "-XX:-UseSplitVerifier -XX:CMSIncrementalSafetyFactor=20 -XX:Tier2CompileThreshold=2000 "
+                + "-XX:Tier3CompileThreshold=2000 -XX:Tier4CompileThreshold=15000 -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals(0, jvmOptions.getUndefined().size(), "Unknown options found.");
+    ***REMOVED***
+
+    @Test
+    void testServerNoverify() {
+        String jvmArgs = "-Xmx1g -server -noverify";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertTrue(jvmOptions.isServer(), "server not correct.");
+        assertTrue(jvmOptions.isNoverify(), "noverify not correct.");
+    ***REMOVED***
+
+    @Test
+    void testClasspath() {
+        String jvmArgs = "-Xmx1g -classpath /path/to/tomcat/bin/bootstrap.jar:/path/to/tomcat/bin/tomcat-juli.jar:"
+                + "/path/to/java/ant.jar:/path/to/java/ant-launcher.jar:/path/to/java/lib/tools.jar -Xss512k";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals(0, jvmOptions.getUndefined().size(), "Unknown options found.");
+        assertEquals(
+                "-classpath /path/to/tomcat/bin/bootstrap.jar:/path/to/tomcat/bin/tomcat-juli.jar:"
+                        + "/path/to/java/ant.jar:/path/to/java/ant-launcher.jar:/path/to/java/lib/tools.jar",
+                jvmOptions.getClasspath(), "classpath not correct.");
+    ***REMOVED***
+
+    @Test
     void testSystemProperties() {
         String jvmArgs = "-Xmx1500m -Xms1000m -Dcatalina.base=/path/to/tomcat -Xss512k";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
