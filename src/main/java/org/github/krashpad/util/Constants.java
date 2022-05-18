@@ -59,7 +59,7 @@ public class Constants {
      */
     public enum OsVersion {
         //
-        CENTOS6, CENTOS7, CENTOS8, RHEL6, RHEL7, RHEL8, UNKNOWN
+        CENTOS6, CENTOS7, CENTOS8, RHEL6, RHEL7, RHEL8, RHEL9, UNKNOWN
     ***REMOVED***
 
     /**

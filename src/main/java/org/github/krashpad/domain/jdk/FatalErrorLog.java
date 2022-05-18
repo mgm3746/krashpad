@@ -3500,7 +3500,12 @@ public class FatalErrorLog {
                                     && JdkUtil.isBuildDateKnown(
                                             JdkUtil.JDK8_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK8_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate()) == 0);
+                                            JdkUtil.JDK8_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate()) == 0)
+                            || (JdkUtil.JDK8_RHEL9_X86_64_RPMS.containsKey(releaseString)
+                                    && JdkUtil.isBuildDateKnown(
+                                            JdkUtil.JDK8_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate())
+                                    && getJdkBuildDate().compareTo(
+                                            JdkUtil.JDK8_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate()) == 0);
                     break;
                 case JDK11:
                     isRhBuildDate = (JdkUtil.JDK11_RHEL_ZIPS.containsKey(releaseString)
@@ -3516,7 +3521,12 @@ public class FatalErrorLog {
                                     && JdkUtil.isBuildDateKnown(
                                             JdkUtil.JDK11_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK11_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate()) == 0);
+                                            JdkUtil.JDK11_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate()) == 0)
+                            || (JdkUtil.JDK11_RHEL9_X86_64_RPMS.containsKey(releaseString)
+                                    && JdkUtil.isBuildDateKnown(
+                                            JdkUtil.JDK11_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate())
+                                    && getJdkBuildDate().compareTo(
+                                            JdkUtil.JDK11_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate()) == 0);
                     break;
                 case JDK17:
                     isRhBuildDate = (JdkUtil.JDK17_RHEL_ZIPS.containsKey(releaseString)
@@ -3527,7 +3537,12 @@ public class FatalErrorLog {
                                     && JdkUtil.isBuildDateKnown(
                                             JdkUtil.JDK17_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK17_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate()) == 0);
+                                            JdkUtil.JDK17_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate()) == 0)
+                            || (JdkUtil.JDK17_RHEL9_X86_64_RPMS.containsKey(releaseString)
+                                    && JdkUtil.isBuildDateKnown(
+                                            JdkUtil.JDK17_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate())
+                                    && getJdkBuildDate().compareTo(
+                                            JdkUtil.JDK17_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate()) == 0);
                     break;
                 case JDK6:
                 case JDK7:
@@ -3727,6 +3742,20 @@ public class FatalErrorLog {
                     ***REMOVED***
                 ***REMOVED***
                 break;
+            case RHEL9:
+                if (getArch() == Arch.X86_64) {
+                    iterator = JdkUtil.JDK8_RHEL9_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+                break;
             case UNKNOWN:
             default:
                 break;
@@ -3759,6 +3788,18 @@ public class FatalErrorLog {
                     ***REMOVED***
                 ***REMOVED***
                 break;
+            case RHEL9:
+                iterator = JdkUtil.JDK11_RHEL9_X86_64_RPMS.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Entry<String, Release> entry = iterator.next();
+                    Release release = entry.getValue();
+                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                        isRhelRpm = true;
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+                break;
             case CENTOS6:
             case RHEL6:
             case UNKNOWN:
@@ -3770,6 +3811,18 @@ public class FatalErrorLog {
             case CENTOS8:
             case RHEL8:
                 iterator = JdkUtil.JDK17_RHEL8_X86_64_RPMS.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Entry<String, Release> entry = iterator.next();
+                    Release release = entry.getValue();
+                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                        isRhelRpm = true;
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+                break;
+            case RHEL9:
+                iterator = JdkUtil.JDK17_RHEL9_X86_64_RPMS.entrySet().iterator();
                 while (iterator.hasNext()) {
                     Entry<String, Release> entry = iterator.next();
                     Release release = entry.getValue();
@@ -3836,6 +3889,13 @@ public class FatalErrorLog {
                                         JdkUtil.JDK_RHEL8_PPC64LE_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED***
                     break;
+                case RHEL9:
+                    if (getArch() == Arch.X86_64) {
+                        isRhelRpmInstall = JdkUtil.JDK8_RHEL9_X86_64_RPMS.containsKey(rpmDirectory)
+                                && getJdkBuildDate() != null && getJdkBuildDate().compareTo(
+                                        JdkUtil.JDK8_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    ***REMOVED***
+                    break;
                 case UNKNOWN:
                 default:
                     break;
@@ -3854,6 +3914,11 @@ public class FatalErrorLog {
                             && getJdkBuildDate() != null && getJdkBuildDate()
                                     .compareTo(JdkUtil.JDK11_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     break;
+                case RHEL9:
+                    isRhelRpmInstall = JdkUtil.JDK11_RHEL9_X86_64_RPMS.containsKey(rpmDirectory)
+                            && getJdkBuildDate() != null && getJdkBuildDate()
+                                    .compareTo(JdkUtil.JDK11_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
                 case CENTOS6:
                 case RHEL6:
                 case UNKNOWN:
@@ -3867,6 +3932,11 @@ public class FatalErrorLog {
                     isRhelRpmInstall = JdkUtil.JDK17_RHEL8_X86_64_RPMS.containsKey(rpmDirectory)
                             && getJdkBuildDate() != null && getJdkBuildDate()
                                     .compareTo(JdkUtil.JDK17_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case RHEL9:
+                    isRhelRpmInstall = JdkUtil.JDK17_RHEL9_X86_64_RPMS.containsKey(rpmDirectory)
+                            && getJdkBuildDate() != null && getJdkBuildDate()
+                                    .compareTo(JdkUtil.JDK17_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     break;
                 case CENTOS6:
                 case RHEL6:
@@ -3892,16 +3962,19 @@ public class FatalErrorLog {
                 isRhVersion = JdkUtil.JDK8_RHEL_ZIPS.containsKey(getJdkReleaseString())
                         || JdkUtil.JDK8_RHEL6_X86_64_RPMS.containsKey(getJdkReleaseString())
                         || JdkUtil.JDK8_RHEL7_X86_64_RPMS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK8_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString());
+                        || JdkUtil.JDK8_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK8_RHEL9_X86_64_RPMS.containsKey(getJdkReleaseString());
                 break;
             case JDK11:
                 isRhVersion = JdkUtil.JDK11_RHEL_ZIPS.containsKey(getJdkReleaseString())
                         || JdkUtil.JDK11_RHEL7_X86_64_RPMS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK11_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString());
+                        || JdkUtil.JDK11_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK11_RHEL9_X86_64_RPMS.containsKey(getJdkReleaseString());
                 break;
             case JDK17:
                 isRhVersion = JdkUtil.JDK17_RHEL_ZIPS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK17_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString());
+                        || JdkUtil.JDK17_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString())
+                        || JdkUtil.JDK17_RHEL9_X86_64_RPMS.containsKey(getJdkReleaseString());
                 break;
             case JDK6:
             case JDK7:
@@ -4007,6 +4080,13 @@ public class FatalErrorLog {
                                         JdkUtil.JDK_RHEL8_PPC64LE_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED***
                     break;
+                case RHEL9:
+                    if (getArch() == Arch.X86_64) {
+                        isRhelRpmInstall = JdkUtil.JDK8_RHEL9_X86_64_RPMS.containsKey(rpmDirectory)
+                                && getJdkBuildDate() != null && getJdkBuildDate().compareTo(
+                                        JdkUtil.JDK8_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    ***REMOVED***
+                    break;
                 case UNKNOWN:
                 default:
                     break;
@@ -4025,6 +4105,11 @@ public class FatalErrorLog {
                             && getJdkBuildDate() != null && getJdkBuildDate()
                                     .compareTo(JdkUtil.JDK11_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     break;
+                case RHEL9:
+                    isRhelRpmInstall = JdkUtil.JDK11_RHEL9_X86_64_RPMS.containsKey(rpmDirectory)
+                            && getJdkBuildDate() != null && getJdkBuildDate()
+                                    .compareTo(JdkUtil.JDK11_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
                 case CENTOS6:
                 case RHEL6:
                 case UNKNOWN:
@@ -4038,6 +4123,11 @@ public class FatalErrorLog {
                     isRhelRpmInstall = JdkUtil.JDK17_RHEL8_X86_64_RPMS.containsKey(rpmDirectory)
                             && getJdkBuildDate() != null && getJdkBuildDate()
                                     .compareTo(JdkUtil.JDK17_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case RHEL9:
+                    isRhelRpmInstall = JdkUtil.JDK17_RHEL9_X86_64_RPMS.containsKey(rpmDirectory)
+                            && getJdkBuildDate() != null && getJdkBuildDate()
+                                    .compareTo(JdkUtil.JDK17_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     break;
                 case CENTOS6:
                 case RHEL6:

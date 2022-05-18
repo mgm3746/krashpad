@@ -234,6 +234,15 @@ public class JvmOptions {
     private String cmsIncrementalMode;
 
     /**
+     * The option for setting starting the concurrent collection NN% sooner than the calculated time. For example:
+     * 
+     * <pre>
+     * -XX:CMSIncrementalSafetyFactor=20
+     * </pre>
+     */
+    private String cmsIncrementalSafetyFactor;
+
+    /**
      * The option for setting CMS initiating occupancy fraction, the tenured generation occupancy percentage that
      * triggers a concurrent collection. For example:
      * 
@@ -292,7 +301,8 @@ public class JvmOptions {
 
     /**
      * The option for setting the number of method executions before a method is compiled from bytecode to native code
-     * by the Just in Time (JIT) compiler with "standard compilation" (when tiered compilation is disabled).
+     * by the Just in Time (JIT) compiler with "standard compilation" (when tiered compilation is disabled). Ignored
+     * when tiered compilation is enabled.
      * 
      * Default is 10,000. Setting -XX:CompileThreshold=1 forces compiling at first execution.
      * 
@@ -943,6 +953,17 @@ public class JvmOptions {
     private String parallelGcThreads;
 
     /**
+     * Option to enable/disable multi-threaded reference processing.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:+ParallelRefProcEnabled
+     * </pre>
+     */
+    private String parallelRefProcEnabled;
+
+    /**
      * Option to enable/disable the JVM outputting statistics to the hsperfdata file. For example:
      * 
      * <pre>
@@ -1002,7 +1023,7 @@ public class JvmOptions {
      * The option to enable/disable outputting every JVM option and value to standard out on JVM startup. For example:
      * 
      * <pre>
-     * -XX:+PrintFlagsFinal
+     * -XX:+PrintFlagsFinalparallelRefProcEnabled
      * </pre>
      */
     private String printFlagsFinal;
@@ -1291,6 +1312,47 @@ public class JvmOptions {
     private String threadStackSize;
 
     /**
+     * The option for setting the number of method executions before a method is compiled with the C1 (client) compiler
+     * with invocation and backedge counters.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:Tier2CompileThreshold=2000
+     * </pre>
+     * 
+     * @return the option if it exists, null otherwise.
+     */
+    private String tier2CompileThreshold;
+
+    /**
+     * The option for setting the number of method executions before a method is compiled with the C1 (client) compiler
+     * with full profiling.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:Tier3CompileThreshold=2000
+     * </pre>
+     * 
+     * @return the option if it exists, null otherwise.
+     */
+    private String tier3CompileThreshold;
+
+    /**
+     * The option for setting the number of method executions before a method is compiled with the C2 (server) compiler.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:Tier4CompileThreshold=15000
+     * </pre>
+     * 
+     * @return the option if it exists, null otherwise.
+     */
+    private String tier4CompileThreshold;
+
+    /**
      * Option to enable/disable tiered compilation.
      * 
      * The JVM contains 2 Just in Time (JIT) compilers:
@@ -1500,6 +1562,18 @@ public class JvmOptions {
     private String useGcLogFileRotation;
 
     /**
+     * Option to enable/disable "OutOfMemoryError: GC overhead limit exceeded" when 98% of the total time is spent in
+     * garbage collection and less than 2% of the heap is recovered. This feature is a throttle to prevent applications
+     * from running for an extended period of time while making little or no progress because the heap is too small.
+     * Enabled by default.
+     * 
+     * For example:
+     * 
+     * -XX:-UseGCOverheadLimit
+     */
+    private String useGcOverheadLimit;
+
+    /**
      * Linux option equivalent to -XX:+UseLargePages to enable/disable the preallocation of all large pages on JVM
      * startup, preventing the JVM from growing/shrinking large pages memory areas. For example:
      * 
@@ -1593,6 +1667,16 @@ public class JvmOptions {
     private String useShenandoahGc;
 
     /**
+     * The option to enable/disable using a new type checker introduced in JDK5 with StackMapTable attributes. Mandatory
+     * in JDK8+. Ignored in JDK8 and unrecognized in JDK11+.
+     * 
+     * <pre>
+     * -XX:-UseSplitVerifier
+     * </pre>
+     */
+    private String useSplitVerifier;
+
+    /**
      * The option to enable/disable string deduplication to minimize string footprint. The performance impact is minimal
      * (some cpu cycles to run the concurrent deduplication process.
      * 
@@ -1601,6 +1685,17 @@ public class JvmOptions {
      * </pre>
      */
     private String useStringDeduplication;
+
+    /**
+     * Option to enable/disable a thread-local allocation buffer. Using thread-local object allocation blocks improve
+     * concurrency by reducing contention on the shared heap lock, allowing for more scalable allocation for heavily
+     * threaded applications, increasing allocation performance. Enabled by default on multiprocessor systems.
+     * 
+     * <pre>
+     * -XX:+UseTLAB
+     * </pre>
+     */
+    private String useTlab;
 
     /**
      * Option to enable/disable making Solaris interruptible blocking I/O noninterruptible as they are on Linux and
@@ -1781,6 +1876,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]CMSIncrementalMode$")) {
                     cmsIncrementalMode = option;
                     key = "CMSIncrementalMode";
+                ***REMOVED*** else if (option.matches("^-XX:CMSIncrementalSafetyFactor=\\d{1,3***REMOVED***$")) {
+                    cmsIncrementalSafetyFactor = option;
+                    key = "CMSIncrementalSafetyFactor";
                 ***REMOVED*** else if (option.matches("^-XX:CMSInitiatingOccupancyFraction=\\d{1,3***REMOVED***$")) {
                     cmsInitiatingOccupancyFraction = option;
                     key = "CMSInitiatingOccupancyFraction";
@@ -1955,6 +2053,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:ParallelGCThreads=\\d{1,3***REMOVED***$")) {
                     parallelGcThreads = option;
                     key = "ParallelGCThreads";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]ParallelRefProcEnabled$")) {
+                    parallelRefProcEnabled = option;
+                    key = "ParallelRefProcEnabled";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]PerfDisableSharedMem$")) {
                     perfDisableSharedMem = option;
                     key = "PerfDisableSharedMem";
@@ -2036,6 +2137,15 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:TargetSurvivorRatio=\\d{1,3***REMOVED***$")) {
                     targetSurvivorRatio = option;
                     key = "TargetSurvivorRatio";
+                ***REMOVED*** else if (option.matches("^-XX:Tier2CompileThreshold=\\d{1,***REMOVED***$")) {
+                    tier2CompileThreshold = option;
+                    key = "Tier2CompileThreshold";
+                ***REMOVED*** else if (option.matches("^-XX:Tier3CompileThreshold=\\d{1,***REMOVED***$")) {
+                    tier3CompileThreshold = option;
+                    key = "Tier3CompileThreshold";
+                ***REMOVED*** else if (option.matches("^-XX:Tier4CompileThreshold=\\d{1,***REMOVED***$")) {
+                    tier4CompileThreshold = option;
+                    key = "Tier4CompileThreshold";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]TieredCompilation$")) {
                     tieredCompilation = option;
                     key = "TieredCompilation";
@@ -2102,6 +2212,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseGCLogFileRotation$")) {
                     useGcLogFileRotation = option;
                     key = "UseGCLogFileRotation";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseGCOverheadLimit$")) {
+                    useGcOverheadLimit = option;
+                    key = "UseGCOverheadLimit";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseHugeTLBFS$")) {
                     useHugeTLBFS = option;
                     key = "UseHugeTLBFS";
@@ -2132,9 +2245,15 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseShenandoahGC$")) {
                     useShenandoahGc = option;
                     key = "UseShenandoahGC";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseSplitVerifier$")) {
+                    useSplitVerifier = option;
+                    key = "UseSplitVerifier";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseStringDeduplication$")) {
                     useStringDeduplication = option;
                     key = "UseStringDeduplication";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseTLAB$")) {
+                    useTlab = option;
+                    key = "UseTLAB";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseVMInterruptibleIO$")) {
                     useVmInterruptibleIo = option;
                     key = "UseVMInterruptibleIO";
@@ -2737,6 +2856,10 @@ public class JvmOptions {
         return cmsIncrementalMode;
     ***REMOVED***
 
+    public String getCmsIncrementalSafetyFactor() {
+        return cmsIncrementalSafetyFactor;
+    ***REMOVED***
+
     public String getCmsInitiatingOccupancyFraction() {
         return cmsInitiatingOccupancyFraction;
     ***REMOVED***
@@ -3073,6 +3196,10 @@ public class JvmOptions {
         return parallelGcThreads;
     ***REMOVED***
 
+    public String getParallelRefProcEnabled() {
+        return parallelRefProcEnabled;
+    ***REMOVED***
+
     public String getPerfDisableSharedMem() {
         return perfDisableSharedMem;
     ***REMOVED***
@@ -3237,6 +3364,18 @@ public class JvmOptions {
         return threadStackSize;
     ***REMOVED***
 
+    public String getTier2CompileThreshold() {
+        return tier2CompileThreshold;
+    ***REMOVED***
+
+    public String getTier3CompileThreshold() {
+        return tier3CompileThreshold;
+    ***REMOVED***
+
+    public String getTier4CompileThreshold() {
+        return tier4CompileThreshold;
+    ***REMOVED***
+
     public String getTieredCompilation() {
         return tieredCompilation;
     ***REMOVED***
@@ -3321,6 +3460,10 @@ public class JvmOptions {
         return useGcLogFileRotation;
     ***REMOVED***
 
+    public String getUseGcOverheadLimit() {
+        return useGcOverheadLimit;
+    ***REMOVED***
+
     public String getUseHugeTLBFS() {
         return useHugeTLBFS;
     ***REMOVED***
@@ -3361,8 +3504,16 @@ public class JvmOptions {
         return useShenandoahGc;
     ***REMOVED***
 
+    public String getUseSplitVerifier() {
+        return useSplitVerifier;
+    ***REMOVED***
+
     public String getUseStringDeduplication() {
         return useStringDeduplication;
+    ***REMOVED***
+
+    public String getUseTlab() {
+        return useTlab;
     ***REMOVED***
 
     public String getUseVmInterruptibleIo() {
