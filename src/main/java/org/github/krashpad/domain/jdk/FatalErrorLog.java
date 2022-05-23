@@ -1937,6 +1937,15 @@ public class FatalErrorLog {
         String release = "UNKNOWN";
         if (vmInfoEvent != null) {
             release = vmInfoEvent.getJdkReleaseString();
+            if (vmInfoEvent.getOs() == OsType.WINDOWS && vmInfoEvent.getJavaSpecification() == JavaSpecification.JDK8
+                    && release.equals("1.8.0_332-b09")) {
+                // TODO: Better solution than this hack to account for 2 windows builds based on the same upstream tag?
+                if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 19 2022 13:36:53"))) {
+                    release = "1.8.0_332-b09-1";
+                ***REMOVED*** else if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 21:29:19"))) {
+                    release = "1.8.0_332-b09-2";
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED*** else if (!headerEvents.isEmpty()) {
             // Check header
             Iterator<HeaderEvent> iterator = headerEvents.iterator();

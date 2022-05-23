@@ -22,6 +22,7 @@ import java.io.File;
 
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
+import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.Constants.Device;
 import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.Constants.OsVendor;
@@ -251,6 +252,16 @@ class TestFatalErrorLog {
         assertEquals(255838, fel.getThreadsMax(), "threads-max not correct.");
         assertEquals(32768, fel.getPidMax(), "pid_max not correct.");
         assertEquals(65530, fel.getMaxMapCount(), "max_map_count not correct.");
+    ***REMOVED***
+
+    @Test
+    void testGraal() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.15+10-jvmci-22.1-b06) for linux-amd64 JRE "
+                + "(11.0.15+10-jvmci-22.1-b06), built on Apr 20 2022 15:31:40 by \"buildslave\" with gcc 7.3.0";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        assertFalse(fel.isRhBuildString(), "RH build string identified.");
     ***REMOVED***
 
     @Test
@@ -606,11 +617,10 @@ class TestFatalErrorLog {
     @Test
     void testRhBuildStringMockbuild() {
         FatalErrorLog fel = new FatalErrorLog();
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.181-b13) for linux-ppc64 JRE (1.8.0_181-b13), "
-                + "built on Jul 16 2018 11:33:43 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-28";
+        String vmInfo = "";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
-        assertTrue(fel.isRhBuildString(), "RH build string identified.");
+        assertFalse(fel.isRhBuildString(), "RH build string identified.");
     ***REMOVED***
 
     @Test
@@ -623,7 +633,7 @@ class TestFatalErrorLog {
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
-        assertEquals("11.0.7+10-LTS", fel.getJdkReleaseString(), "Jdk release not correct.");
+        assertEquals("11.0.7+10-LTS", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
     ***REMOVED***
 
@@ -637,7 +647,7 @@ class TestFatalErrorLog {
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
-        assertEquals("1.8.0_131-b12", fel.getJdkReleaseString(), "Jdk release not correct.");
+        assertEquals("1.8.0_131-b12", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
     ***REMOVED***
 
@@ -651,7 +661,7 @@ class TestFatalErrorLog {
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
-        assertEquals("11.0.8+10-LTS", fel.getJdkReleaseString(), "Jdk release not correct.");
+        assertEquals("11.0.8+10-LTS", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
     ***REMOVED***
 
@@ -784,7 +794,7 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(Arch.SPARC, fel.getArch(), "Arch not correct.");
-        assertEquals("1.8.0_251-b08", fel.getJdkReleaseString(), "Jdk release not correct.");
+        assertEquals("1.8.0_251-b08", fel.getJdkReleaseString(), "JDK release not correct.");
         // No vm_info, so not possible to determine vendor
         assertEquals(JavaVendor.UNKNOWN, fel.getJavaVendor(), "Java vendor not correct.");
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
@@ -890,6 +900,31 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testWindows332Releases() {
+        FatalErrorLog fel332_1 = new FatalErrorLog();
+        FatalErrorLog fel332_2 = new FatalErrorLog();
+        // 2 release w/ same build string
+        String vmInfo332_1 = "vm_info: OpenJDK 64-Bit Server VM (25.332-b09) for windows-amd64 JRE (1.8.0_332-b09), "
+                + "built on Apr 19 2022 13:36:53 by \"build\" with MS VC++ 10.0 (VS2010)";
+        String vmInfo332_2 = "vm_info: OpenJDK 64-Bit Server VM (25.332-b09) for windows-amd64 JRE (1.8.0_332-b09), "
+                + "built on Apr 27 2022 21:29:19 by \"build\" with MS VC++ 10.0 (VS2010)";
+        VmInfoEvent vmInfoEvent332_1 = new VmInfoEvent(vmInfo332_1);
+        VmInfoEvent vmInfoEvent332_2 = new VmInfoEvent(vmInfo332_2);
+        fel332_1.setVmInfoEvent(vmInfoEvent332_1);
+        fel332_2.setVmInfoEvent(vmInfoEvent332_2);
+        String os = "OS: Windows Server 2012 , 64 Bit Build 9200 (6.2.9200.16384)";
+        OsEvent osEvent = new OsEvent(os);
+        fel332_1.getOsEvents().add(osEvent);
+        fel332_2.getOsEvents().add(osEvent);
+        assertEquals("1.8.0_332-b09-1", fel332_1.getJdkReleaseString(), "JDK release not correct.");
+        assertEquals("1.8.0_332-b09-2", fel332_2.getJdkReleaseString(), "JDK release not correct.");
+        assertEquals(ErrUtil.getDate("Apr 19 2022 13:36:53"), fel332_1.getJdkBuildDate(), "Build date not correct.");
+        assertEquals(ErrUtil.getDate("Apr 27 2022 21:29:19"), fel332_2.getJdkBuildDate(), "Build date not correct.");
+        assertTrue(fel332_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+        assertTrue(fel332_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testVendorAzul() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE "
@@ -956,7 +991,7 @@ class TestFatalErrorLog {
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_WINDOWS_ZIP),
                 Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis incorrectly identified.");
         assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
-        assertEquals("1.8.0_25-b18", fel.getJdkReleaseString(), "Jdk release not correct.");
+        assertEquals("1.8.0_25-b18", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "Java vendor not correct.");
     ***REMOVED***
 
@@ -971,7 +1006,7 @@ class TestFatalErrorLog {
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_WINDOWS_ZIP),
                 Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis not identified.");
         assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
-        assertEquals("11.0.7+10-LTS", fel.getJdkReleaseString(), "Jdk release not correct.");
+        assertEquals("11.0.7+10-LTS", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
     ***REMOVED***
 ***REMOVED***

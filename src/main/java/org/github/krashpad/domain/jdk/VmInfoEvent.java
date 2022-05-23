@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -55,6 +56,10 @@ import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
  * 
  * <pre>
  * vm_info: OpenJDK 64-Bit Server VM (11.0.10+9) for linux-amd64 JRE (11.0.10+9), built on Jan 22 2021 19:24:16 by "vsts" with gcc 7.3.0
+ * </pre>
+ * 
+ * <pre>
+ * vm_info: OpenJDK 64-Bit Server VM (25.332-b09) for windows-amd64 JRE (1.8.0_332-b09), built on Apr 27 2022 21:29:19 by \"build\" with MS VC++ 10.0 (VS2010)
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -138,6 +143,8 @@ public class VmInfoEvent implements LogEvent {
         BuiltBy builtBy = BuiltBy.UNKNOWN;
         if (logEntry.matches(".+\"build\".+")) {
             builtBy = BuiltBy.BUILD;
+        ***REMOVED*** else if (logEntry.matches(".+\"buildslave\".+")) {
+            builtBy = BuiltBy.BUILDSLAVE;
         ***REMOVED*** else if (logEntry.matches(".+\"\".+")) {
             builtBy = BuiltBy.EMPTY;
         ***REMOVED*** else if (logEntry.matches(".+\"jenkins\".+")) {
@@ -208,5 +215,24 @@ public class VmInfoEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.VM_INFO.toString();
+    ***REMOVED***
+
+    /**
+     * @return The OS type.
+     */
+    public OsType getOs() {
+        OsType osType = OsType.UNKNOWN;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            int indexOs = 3;
+            if (matcher.group(indexOs).equals("linux")) {
+                osType = OsType.LINUX;
+            ***REMOVED*** else if (matcher.group(indexOs).equals("windows")) {
+                osType = OsType.WINDOWS;
+            ***REMOVED*** else if (matcher.group(indexOs).equals("solaris")) {
+                osType = OsType.SOLARIS;
+            ***REMOVED***
+        ***REMOVED***
+        return osType;
     ***REMOVED***
 ***REMOVED***

@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Arch;
 import org.github.krashpad.util.jdk.JdkUtil.BuiltBy;
@@ -41,6 +42,7 @@ class TestVmInfoEvent {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.PPC64, ((VmInfoEvent) event).getArch(), "Arch not correct.");
+        assertEquals(OsType.LINUX, ((VmInfoEvent) event).getOs(), "OS not correct.");
     ***REMOVED***
 
     @Test
@@ -238,6 +240,7 @@ class TestVmInfoEvent {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.JAVA_RE, ((VmInfoEvent) event).getBuiltBy(), "JDK builder not correct.");
+        assertEquals(OsType.SOLARIS, ((VmInfoEvent) event).getOs(), "OS not correct.");
     ***REMOVED***
 
     @Test
