@@ -900,28 +900,84 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
-    void testWindows332Releases() {
-        FatalErrorLog fel332_1 = new FatalErrorLog();
-        FatalErrorLog fel332_2 = new FatalErrorLog();
+    void testWindowsJdk8u332Releases() {
+        FatalErrorLog felJdk8u332_1 = new FatalErrorLog();
+        FatalErrorLog felJdk8u332_2 = new FatalErrorLog();
         // 2 release w/ same build string
         String vmInfo332_1 = "vm_info: OpenJDK 64-Bit Server VM (25.332-b09) for windows-amd64 JRE (1.8.0_332-b09), "
                 + "built on Apr 19 2022 13:36:53 by \"build\" with MS VC++ 10.0 (VS2010)";
         String vmInfo332_2 = "vm_info: OpenJDK 64-Bit Server VM (25.332-b09) for windows-amd64 JRE (1.8.0_332-b09), "
                 + "built on Apr 27 2022 21:29:19 by \"build\" with MS VC++ 10.0 (VS2010)";
-        VmInfoEvent vmInfoEvent332_1 = new VmInfoEvent(vmInfo332_1);
-        VmInfoEvent vmInfoEvent332_2 = new VmInfoEvent(vmInfo332_2);
-        fel332_1.setVmInfoEvent(vmInfoEvent332_1);
-        fel332_2.setVmInfoEvent(vmInfoEvent332_2);
+        VmInfoEvent vmInfoEventJdk8u332_1 = new VmInfoEvent(vmInfo332_1);
+        VmInfoEvent vmInfoEventJdk8u332_2 = new VmInfoEvent(vmInfo332_2);
+        felJdk8u332_1.setVmInfoEvent(vmInfoEventJdk8u332_1);
+        felJdk8u332_2.setVmInfoEvent(vmInfoEventJdk8u332_2);
         String os = "OS: Windows Server 2012 , 64 Bit Build 9200 (6.2.9200.16384)";
         OsEvent osEvent = new OsEvent(os);
-        fel332_1.getOsEvents().add(osEvent);
-        fel332_2.getOsEvents().add(osEvent);
-        assertEquals("1.8.0_332-b09-1", fel332_1.getJdkReleaseString(), "JDK release not correct.");
-        assertEquals("1.8.0_332-b09-2", fel332_2.getJdkReleaseString(), "JDK release not correct.");
-        assertEquals(ErrUtil.getDate("Apr 19 2022 13:36:53"), fel332_1.getJdkBuildDate(), "Build date not correct.");
-        assertEquals(ErrUtil.getDate("Apr 27 2022 21:29:19"), fel332_2.getJdkBuildDate(), "Build date not correct.");
-        assertTrue(fel332_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
-        assertTrue(fel332_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+        felJdk8u332_1.getOsEvents().add(osEvent);
+        felJdk8u332_2.getOsEvents().add(osEvent);
+        assertEquals("1.8.0_332-b09-1", felJdk8u332_1.getJdkReleaseString(), "JDK release not correct.");
+        assertEquals("1.8.0_332-b09-2", felJdk8u332_2.getJdkReleaseString(), "JDK release not correct.");
+        assertEquals(ErrUtil.getDate("Apr 19 2022 13:36:53"), felJdk8u332_1.getJdkBuildDate(),
+                "Build date not correct.");
+        assertEquals(ErrUtil.getDate("Apr 27 2022 21:29:19"), felJdk8u332_2.getJdkBuildDate(),
+                "Build date not correct.");
+        assertTrue(felJdk8u332_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+        assertTrue(felJdk8u332_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testWindowsJdk11u15Releases() {
+        FatalErrorLog felJdk11u15_1 = new FatalErrorLog();
+        FatalErrorLog felJdk11u15_2 = new FatalErrorLog();
+        // 2 release w/ same build string
+        String vmInfo15_1 = "vm_info: OpenJDK 64-Bit Server VM (11.0.15+9-LTS) for windows-amd64 JRE (11.0.15+9-LTS), "
+                + "built on Apr 17 2022 13:56:34 by \"\" with unknown MS VC++:1916";
+        String vmInfo15_2 = "vm_info: OpenJDK 64-Bit Server VM (11.0.15+9-LTS) for windows-amd64 JRE (11.0.15+9-LTS), "
+                + "built on Apr 27 2022 19:12:18 by \"\" with unknown MS VC++:1916";
+        VmInfoEvent vmInfoEvent15_1 = new VmInfoEvent(vmInfo15_1);
+        VmInfoEvent vmInfoEvent15_2 = new VmInfoEvent(vmInfo15_2);
+        felJdk11u15_1.setVmInfoEvent(vmInfoEvent15_1);
+        felJdk11u15_2.setVmInfoEvent(vmInfoEvent15_2);
+        String os = "OS: Windows Server 2012 , 64 Bit Build 9200 (6.2.9200.16384)";
+        OsEvent osEvent = new OsEvent(os);
+        felJdk11u15_1.getOsEvents().add(osEvent);
+        felJdk11u15_2.getOsEvents().add(osEvent);
+        assertEquals("11.0.15+9-LTS-1", felJdk11u15_1.getJdkReleaseString(), "JDK release not correct.");
+        assertEquals("11.0.15+9-LTS-2", felJdk11u15_2.getJdkReleaseString(), "JDK release not correct.");
+        assertEquals(ErrUtil.getDate("Apr 17 2022 13:56:34"), felJdk11u15_1.getJdkBuildDate(),
+                "Build date not correct.");
+        assertEquals(ErrUtil.getDate("Apr 27 2022 19:12:18"), felJdk11u15_2.getJdkBuildDate(),
+                "Build date not correct.");
+        assertTrue(felJdk11u15_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+        assertTrue(felJdk11u15_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testWindowsJdk17u3Releases() {
+        FatalErrorLog felJdk17u3_1 = new FatalErrorLog();
+        FatalErrorLog felJdk17u3_2 = new FatalErrorLog();
+        // 2 release w/ same build string
+        String vmInfo15_1 = "vm_info: OpenJDK 64-Bit Server VM (17.0.3+6-LTS) for windows-amd64 JRE (17.0.3+6-LTS), "
+                + "built on Apr 17 2022 12:11:44 by \"\" with MS VC++ 16.10 / 16.11 (VS2019)";
+        String vmInfo15_2 = "vm_info: OpenJDK 64-Bit Server VM (17.0.3+6-LTS) for windows-amd64 JRE (17.0.3+6-LTS), "
+                + "built on Apr 27 2022 11:51:42 by \"\" with MS VC++ 16.10 / 16.11 (VS2019)";
+        VmInfoEvent vmInfoEvent15_1 = new VmInfoEvent(vmInfo15_1);
+        VmInfoEvent vmInfoEvent15_2 = new VmInfoEvent(vmInfo15_2);
+        felJdk17u3_1.setVmInfoEvent(vmInfoEvent15_1);
+        felJdk17u3_2.setVmInfoEvent(vmInfoEvent15_2);
+        String os = "OS: Windows Server 2012 , 64 Bit Build 9200 (6.2.9200.16384)";
+        OsEvent osEvent = new OsEvent(os);
+        felJdk17u3_1.getOsEvents().add(osEvent);
+        felJdk17u3_2.getOsEvents().add(osEvent);
+        assertEquals("17.0.3+6-LTS-1", felJdk17u3_1.getJdkReleaseString(), "JDK release not correct.");
+        assertEquals("17.0.3+6-LTS-2", felJdk17u3_2.getJdkReleaseString(), "JDK release not correct.");
+        assertEquals(ErrUtil.getDate("Apr 17 2022 12:11:44"), felJdk17u3_1.getJdkBuildDate(),
+                "Build date not correct.");
+        assertEquals(ErrUtil.getDate("Apr 27 2022 11:51:42"), felJdk17u3_2.getJdkBuildDate(),
+                "Build date not correct.");
+        assertTrue(felJdk17u3_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+        assertTrue(felJdk17u3_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
     ***REMOVED***
 
     @Test
