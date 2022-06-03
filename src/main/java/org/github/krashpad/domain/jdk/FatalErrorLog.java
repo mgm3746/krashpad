@@ -393,7 +393,7 @@ public class FatalErrorLog {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
             ***REMOVED*** else if (isAdoptOpenJdkBuildString()) {
                 analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
-            ***REMOVED*** else if (vmInfoEvent != null) {
+            ***REMOVED*** else if (vmInfoEvent != null || getJavaVendor() == JavaVendor.NOT_RED_HAT) {
                 analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
             ***REMOVED***
         ***REMOVED***
@@ -1911,6 +1911,8 @@ public class FatalErrorLog {
                 if (he.isJreVersion()) {
                     if (he.getLogEntry().matches("^.+AdoptOpenJDK.+$")) {
                         vendor = JavaVendor.ADOPTOPENJDK;
+                    ***REMOVED*** else if (getOsType() != OsType.UNKNOWN && !isRhVersion()) {
+                        vendor = JavaVendor.NOT_RED_HAT;
                     ***REMOVED***
                     break;
                 ***REMOVED***

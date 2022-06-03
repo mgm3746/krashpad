@@ -237,7 +237,7 @@ public class JdkUtil {
      * Defined Java vendors.
      */
     public enum JavaVendor {
-        ADOPTOPENJDK, AZUL, MICROSOFT, ORACLE, RED_HAT, UNKNOWN
+        ADOPTOPENJDK, AZUL, MICROSOFT, ORACLE, RED_HAT, NOT_RED_HAT, UNKNOWN
     ***REMOVED***
 
     /**

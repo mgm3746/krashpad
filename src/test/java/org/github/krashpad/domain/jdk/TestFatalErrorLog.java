@@ -61,7 +61,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(Arch.SPARC, fel.getArch(), "Arch not correct.");
         // No vm_info, so not possible to determine vendor
-        assertEquals(JavaVendor.UNKNOWN, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***
@@ -291,6 +291,21 @@ class TestFatalErrorLog {
         fel.getHeaderEvents().add(he);
         assertEquals(JavaSpecification.JDK7, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals("1.7.0_85-b15", fel.getJdkReleaseString(), "Java release not correct.");
+    ***REMOVED***
+
+    @Test
+    void testHeaderNotRhVersion() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String headerLine1 = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_301-b09) (build 1.8.0_301-b09)";
+        HeaderEvent he1 = new HeaderEvent(headerLine1);
+        fel.getHeaderEvents().add(he1);
+        String headerLine2 = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.301-b09 mixed mode linux-amd64 "
+                + "compressed oops)";
+        HeaderEvent he2 = new HeaderEvent(headerLine2);
+        fel.getHeaderEvents().add(he2);
+        assertEquals(OsType.LINUX, fel.getOsType(), "OS type not correct.");
+        assertEquals("1.8.0_301-b09", fel.getJdkReleaseString(), "Java release not correct.");
+        assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
     ***REMOVED***
 
     @Test
@@ -796,7 +811,7 @@ class TestFatalErrorLog {
         assertEquals(Arch.SPARC, fel.getArch(), "Arch not correct.");
         assertEquals("1.8.0_251-b08", fel.getJdkReleaseString(), "JDK release not correct.");
         // No vm_info, so not possible to determine vendor
-        assertEquals(JavaVendor.UNKNOWN, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***
@@ -900,30 +915,59 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
-    void testWindowsJdk8u332Releases() {
-        FatalErrorLog felJdk8u332_1 = new FatalErrorLog();
-        FatalErrorLog felJdk8u332_2 = new FatalErrorLog();
-        // 2 release w/ same build string
-        String vmInfo332_1 = "vm_info: OpenJDK 64-Bit Server VM (25.332-b09) for windows-amd64 JRE (1.8.0_332-b09), "
-                + "built on Apr 19 2022 13:36:53 by \"build\" with MS VC++ 10.0 (VS2010)";
-        String vmInfo332_2 = "vm_info: OpenJDK 64-Bit Server VM (25.332-b09) for windows-amd64 JRE (1.8.0_332-b09), "
-                + "built on Apr 27 2022 21:29:19 by \"build\" with MS VC++ 10.0 (VS2010)";
-        VmInfoEvent vmInfoEventJdk8u332_1 = new VmInfoEvent(vmInfo332_1);
-        VmInfoEvent vmInfoEventJdk8u332_2 = new VmInfoEvent(vmInfo332_2);
-        felJdk8u332_1.setVmInfoEvent(vmInfoEventJdk8u332_1);
-        felJdk8u332_2.setVmInfoEvent(vmInfoEventJdk8u332_2);
-        String os = "OS: Windows Server 2012 , 64 Bit Build 9200 (6.2.9200.16384)";
-        OsEvent osEvent = new OsEvent(os);
-        felJdk8u332_1.getOsEvents().add(osEvent);
-        felJdk8u332_2.getOsEvents().add(osEvent);
-        assertEquals("1.8.0_332-b09-1", felJdk8u332_1.getJdkReleaseString(), "JDK release not correct.");
-        assertEquals("1.8.0_332-b09-2", felJdk8u332_2.getJdkReleaseString(), "JDK release not correct.");
-        assertEquals(ErrUtil.getDate("Apr 19 2022 13:36:53"), felJdk8u332_1.getJdkBuildDate(),
-                "Build date not correct.");
-        assertEquals(ErrUtil.getDate("Apr 27 2022 21:29:19"), felJdk8u332_2.getJdkBuildDate(),
-                "Build date not correct.");
-        assertTrue(felJdk8u332_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
-        assertTrue(felJdk8u332_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+    void testVendorAzul() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE "
+                + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
+                + "4.4.7 20120313";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        assertEquals(JavaVendor.AZUL, fel.getJavaVendor(), "JDK vendor not correct.");
+    ***REMOVED***
+
+    @Test
+    void testVendorMicrosoft() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.10+9) for linux-amd64 JRE (11.0.10+9), "
+                + "built on Jan 22 2021 19:24:16 by \"vsts\" with gcc 7.3.0";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        assertEquals(JavaVendor.MICROSOFT, fel.getJavaVendor(), "JDK vendor not correct.");
+    ***REMOVED***
+
+    @Test
+    void testVendorOracle() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.25-b02) for windows-amd64 JRE (1.8.0_25-b18), "
+                + "built on Oct  7 2014 14:25:37 by \"java_re\" with MS VC++ 10.0 (VS2010)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "JDK vendor not correct.");
+    ***REMOVED***
+
+    @Test
+    void testVendorUnknown() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.242-b08) for linux-amd64 JRE (1.8.0_242-b08), built on "
+                + "Jan 17 2020 09:36:23 by \"bob\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        assertEquals(JavaVendor.UNKNOWN, fel.getJavaVendor(), "JDK vendor not correct.");
+    ***REMOVED***
+
+    @Test
+    void testWindows() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset49.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        long physicalMemory = JdkUtil.convertSize(16776740, 'K', Constants.PRECISION_REPORTING);
+        assertEquals(physicalMemory, fel.getOsMemTotal(), "System physical memory not correct.");
+        long physicalMemoryFree = JdkUtil.convertSize(674168, 'K', Constants.PRECISION_REPORTING);
+        assertEquals(physicalMemoryFree, fel.getOsMemFree(), "System physical memory free not correct.");
+        long swap = JdkUtil.convertSize(20970784, 'K', Constants.PRECISION_REPORTING);
+        assertEquals(swap, fel.getOsSwap(), "System swap not correct.");
+        long swapFree = JdkUtil.convertSize(5252, 'K', Constants.PRECISION_REPORTING);
+        assertEquals(swapFree, fel.getOsSwapFree(), "System swap free not correct.");
     ***REMOVED***
 
     @Test
@@ -981,59 +1025,30 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
-    void testVendorAzul() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE "
-                + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
-                + "4.4.7 20120313";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
-        assertEquals(JavaVendor.AZUL, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
-
-    @Test
-    void testVendorMicrosoft() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.10+9) for linux-amd64 JRE (11.0.10+9), "
-                + "built on Jan 22 2021 19:24:16 by \"vsts\" with gcc 7.3.0";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
-        assertEquals(JavaVendor.MICROSOFT, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
-
-    @Test
-    void testVendorOracle() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String vmInfo = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.25-b02) for windows-amd64 JRE (1.8.0_25-b18), "
-                + "built on Oct  7 2014 14:25:37 by \"java_re\" with MS VC++ 10.0 (VS2010)";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
-        assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
-
-    @Test
-    void testVendorUnknown() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.242-b08) for linux-amd64 JRE (1.8.0_242-b08), built on "
-                + "Jan 17 2020 09:36:23 by \"bob\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
-        assertEquals(JavaVendor.UNKNOWN, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
-
-    @Test
-    void testWindows() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset49.txt");
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(testFile);
-        long physicalMemory = JdkUtil.convertSize(16776740, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(physicalMemory, fel.getOsMemTotal(), "System physical memory not correct.");
-        long physicalMemoryFree = JdkUtil.convertSize(674168, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(physicalMemoryFree, fel.getOsMemFree(), "System physical memory free not correct.");
-        long swap = JdkUtil.convertSize(20970784, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(swap, fel.getOsSwap(), "System swap not correct.");
-        long swapFree = JdkUtil.convertSize(5252, 'K', Constants.PRECISION_REPORTING);
-        assertEquals(swapFree, fel.getOsSwapFree(), "System swap free not correct.");
+    void testWindowsJdk8u332Releases() {
+        FatalErrorLog felJdk8u332_1 = new FatalErrorLog();
+        FatalErrorLog felJdk8u332_2 = new FatalErrorLog();
+        // 2 release w/ same build string
+        String vmInfo332_1 = "vm_info: OpenJDK 64-Bit Server VM (25.332-b09) for windows-amd64 JRE (1.8.0_332-b09), "
+                + "built on Apr 19 2022 13:36:53 by \"build\" with MS VC++ 10.0 (VS2010)";
+        String vmInfo332_2 = "vm_info: OpenJDK 64-Bit Server VM (25.332-b09) for windows-amd64 JRE (1.8.0_332-b09), "
+                + "built on Apr 27 2022 21:29:19 by \"build\" with MS VC++ 10.0 (VS2010)";
+        VmInfoEvent vmInfoEventJdk8u332_1 = new VmInfoEvent(vmInfo332_1);
+        VmInfoEvent vmInfoEventJdk8u332_2 = new VmInfoEvent(vmInfo332_2);
+        felJdk8u332_1.setVmInfoEvent(vmInfoEventJdk8u332_1);
+        felJdk8u332_2.setVmInfoEvent(vmInfoEventJdk8u332_2);
+        String os = "OS: Windows Server 2012 , 64 Bit Build 9200 (6.2.9200.16384)";
+        OsEvent osEvent = new OsEvent(os);
+        felJdk8u332_1.getOsEvents().add(osEvent);
+        felJdk8u332_2.getOsEvents().add(osEvent);
+        assertEquals("1.8.0_332-b09-1", felJdk8u332_1.getJdkReleaseString(), "JDK release not correct.");
+        assertEquals("1.8.0_332-b09-2", felJdk8u332_2.getJdkReleaseString(), "JDK release not correct.");
+        assertEquals(ErrUtil.getDate("Apr 19 2022 13:36:53"), felJdk8u332_1.getJdkBuildDate(),
+                "Build date not correct.");
+        assertEquals(ErrUtil.getDate("Apr 27 2022 21:29:19"), felJdk8u332_2.getJdkBuildDate(),
+                "Build date not correct.");
+        assertTrue(felJdk8u332_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+        assertTrue(felJdk8u332_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
     ***REMOVED***
 
     @Test
