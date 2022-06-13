@@ -255,6 +255,18 @@ class TestVmInfoEvent {
     ***REMOVED***
 
     @Test
+    void testWindowsUnknownJdk8() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.292-b10) for windows-amd64 JRE (1.8.0_292-b10), "
+                + "built on May  1 2021 22:47:32 by \"build\" with MS VC++ 10.0 (VS2010)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
+                JdkUtil.LogEventType.VM_INFO.toString() + " not parsed.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(Arch.X86_64, ((VmInfoEvent) event).getArch(), "Arch not correct.");
+        assertEquals(JavaSpecification.JDK8, ((VmInfoEvent) event).getJavaSpecification(), "Version not correct.");
+        assertEquals(OsType.WINDOWS, ((VmInfoEvent) event).getOs(), "OS not correct.");
+    ***REMOVED***
+
+    @Test
     void testX86() {
         String logLine = "vm_info: OpenJDK Server VM (25.252-b09) for linux-x86 JRE (1.8.0_252-b09), built on "
                 + "Apr 14 2020 14:55:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
