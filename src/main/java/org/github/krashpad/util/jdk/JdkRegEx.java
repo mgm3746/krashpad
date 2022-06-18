@@ -232,7 +232,7 @@ public class JdkRegEx {
      * 
      * For example: 134326056
      */
-    public static final String INODE = "([0-9]{1,10***REMOVED***)";
+    public static final String INODE = "([0-9]{1,***REMOVED***)";
 
     /**
      * Regular expression for java.nio.ByteBuffer class.

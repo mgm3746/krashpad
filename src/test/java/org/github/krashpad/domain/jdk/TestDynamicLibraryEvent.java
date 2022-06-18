@@ -90,6 +90,18 @@ class TestDynamicLibraryEvent {
     ***REMOVED***
 
     @Test
+    void testInode19digit() {
+        String logLine = "7f8e356ea000-7f8e363e5000 r-xp 00000000 00:28 9605293506115416793        "
+                + "/path/to/java-1.8.0-openjdk-1.8.0.252.b09-2.el7_8.x86_64/jre/lib/amd64/server/libjvm.so";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        assertEquals("/path/to/java-1.8.0-openjdk-1.8.0.252.b09-2.el7_8.x86_64/jre/lib/amd64/server/libjvm.so",
+                event.getFilePath(), "File path not correct.");
+        assertEquals(Device.NFS, event.getDevice(), "Device not correct.");
+    ***REMOVED***
+
+    @Test
     void testFilePathAmd64() {
         String logLine = "7f908ba68000-7f908c80e000 r-xp 00000000 fd:0a 140891                     "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so";
