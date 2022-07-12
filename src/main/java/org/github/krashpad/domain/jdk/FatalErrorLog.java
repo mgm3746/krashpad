@@ -834,7 +834,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE);
         ***REMOVED***
         // Check for JDK8 Deflator contention
-        if ((getArch().equals(Arch.PPC64) || getArch().equals(Arch.PPC64LE))
+        if ((getArch().equals(Arch.PPC64) || getArch().equals(Arch.PPC64LE)) && getStackFrameTop() != null
                 && getStackFrameTop().matches("^V.+JavaThread::pd_get_top_frame_for_profiling.+$")) {
             analysis.add(Analysis.ERROR_JFR_PD_GET_TOP_FRAME);
         ***REMOVED***
@@ -2747,11 +2747,11 @@ public class FatalErrorLog {
         String rhelVersion = null;
         String osString = getOsString();
         if (osString != null) {
-            String regex = "^.*Red Hat Enterprise Linux release (\\d\\.\\d{1,2***REMOVED***).*$";
+            String regex = "^.*Red Hat Enterprise Linux (Server )?release (\\d\\.\\d{1,2***REMOVED***).*$";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(osString);
             if (matcher.find()) {
-                rhelVersion = matcher.group(1);
+                rhelVersion = matcher.group(2);
             ***REMOVED***
         ***REMOVED***
         return rhelVersion;

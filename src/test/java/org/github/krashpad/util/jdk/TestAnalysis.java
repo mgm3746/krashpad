@@ -2490,6 +2490,27 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testRhelJdkRpmMismatchRhel7() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux Server release 7.6 (Maipo)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String library = "3fff7c2d0000-3fff7cf40000 r-xp 00000000 fd:08 138908                     "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.275.b01-0.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(library);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.275-b01) for linux-ppc64le JRE (1.8.0_275-b01), built "
+                + "on Nov  6 2020 06:43:55 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("7.6", fel.getRhelVersion(), "RHEL version not correct.");
+        assertEquals("7.9", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testRpmPpc64le() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset15.txt");
         Manager manager = new Manager();
