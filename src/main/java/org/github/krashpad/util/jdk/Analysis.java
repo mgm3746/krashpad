@@ -1176,6 +1176,11 @@ public enum Analysis {
     WARN_RHEL6("warn.rhel6"),
 
     /**
+     * Property key for RHEL7 Power9 Extended Life Phase.
+     */
+    WARN_RHEL7_POWER9("warn.rhel7.power9"),
+
+    /**
      * Property key for using the CMS collector when swap is disabled.
      */
     WARN_SWAP_DISABLED_CMS("warn.swap.disabled.cms"),

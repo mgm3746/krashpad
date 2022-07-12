@@ -2490,7 +2490,7 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
-    void testRhelJdkRpmMismatchRhel7() {
+    void testRhelJdkRpmMismatchRhel7Power9() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.6 (Maipo)";
         OsEvent osEvent = new OsEvent(os);
@@ -2508,6 +2508,8 @@ class TestAnalysis {
         assertEquals("7.9", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_RHEL7_POWER9),
+                Analysis.WARN_RHEL7_POWER9 + " analysis not identified.");
     ***REMOVED***
 
     @Test

@@ -378,6 +378,10 @@ public class FatalErrorLog {
                 if (getOsVersion() == OsVersion.RHEL6) {
                     analysis.add(Analysis.WARN_RHEL6);
                 ***REMOVED***
+                // Check for RHEL7 Power9
+                if (getOsVersion() == OsVersion.RHEL7 && (getArch() == Arch.PPC64 || getArch() == Arch.PPC64LE)) {
+                    analysis.add(Analysis.WARN_RHEL7_POWER9);
+                ***REMOVED***
                 // Check for unnecessary use of -XX:+UnlockExperimentalVMOptions with Shenandoah on RH build.
                 if (getJvmOptions() != null) {
                     if (JdkUtil.isOptionEnabled(getJvmOptions().getUseShenandoahGc())
