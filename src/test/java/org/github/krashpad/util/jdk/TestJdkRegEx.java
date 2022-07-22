@@ -53,6 +53,18 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testCrashDate() {
+        String time = "Tue Aug 18 14:10:59 2020";
+        assertTrue(time.matches(JdkRegEx.CRASH_DATE_TIME), "'" + time + "' is a valid crash time.");
+    ***REMOVED***
+
+    @Test
+    void testCrashDatewithTimeZone() {
+        String time = "Tue Mar  1 09:13:16 2022 UTC";
+        assertTrue(time.matches(JdkRegEx.CRASH_DATE_TIME), "'" + time + "' is a valid crash time.");
+    ***REMOVED***
+
+    @Test
     void testDeviceIds() {
         String s = "fd:0d";
         assertTrue(s.matches(JdkRegEx.DEVICE_IDS), "Device ids not identified.");
@@ -208,7 +220,7 @@ class TestJdkRegEx {
 
     @Test
     void testRhel8Amd64RpmOpenjdk11Dir() {
-        String dir = "java-11-openjdk-11.0.8.10-0.el8_2.x86_64";
+        String dir = "java-11-openjdk-11.0.10.0.9-8.el8.x86_64";
         assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK11_DIR), "Red Hat RPM OpenJDK directory not identified.");
     ***REMOVED***
 
@@ -222,6 +234,12 @@ class TestJdkRegEx {
     void testRhel8Amd64RpmOpenjdk11LibjvmFilePath() {
         String path = "/usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64/lib/server/libjvm.so";
         assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK11_LIBJVM_PATH), "Red Hat RPM file path not identified.");
+    ***REMOVED***
+
+    @Test
+    void testRhel8Dot2Amd64RpmOpenjdk11Dir() {
+        String dir = "java-11-openjdk-11.0.8.10-0.el8_2.x86_64";
+        assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK11_DIR), "Red Hat RPM OpenJDK directory not identified.");
     ***REMOVED***
 
     @Test
@@ -288,17 +306,5 @@ class TestJdkRegEx {
     void testTimestampWithNoDecimal() {
         String timestamp = "11234";
         assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps have 3 decimal places.");
-    ***REMOVED***
-
-    @Test
-    void testCrashDatewithTimeZone() {
-        String time = "Tue Mar  1 09:13:16 2022 UTC";
-        assertTrue(time.matches(JdkRegEx.CRASH_DATE_TIME), "'" + time + "' is a valid crash time.");
-    ***REMOVED***
-
-    @Test
-    void testCrashDate() {
-        String time = "Tue Aug 18 14:10:59 2020";
-        assertTrue(time.matches(JdkRegEx.CRASH_DATE_TIME), "'" + time + "' is a valid crash time.");
     ***REMOVED***
 ***REMOVED***
