@@ -42,7 +42,7 @@ public class ThreadsActiveCompileEvent implements LogEvent, ThrowAwayEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + ThreadsActiveCompileEvent.REGEX_HEADER + "|C2 CompilerThread).*$";
+    private static final String REGEX = "^(" + ThreadsActiveCompileEvent.REGEX_HEADER + "|C[12] CompilerThread).*$";
 
     /**
      * Regular expression for the header.
