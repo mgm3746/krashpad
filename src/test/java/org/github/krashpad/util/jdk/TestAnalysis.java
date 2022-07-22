@@ -1111,6 +1111,18 @@ class TestAnalysis {
                 Analysis.INFO_OPT_HEAP_MAX_MISSING + " analysis not identified.");
     ***REMOVED***
 
+    @Test
+    void testIbmToolkit() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7fff46c40000-7fff46c80000 r--s 00520000 fd:0a 67109322                   "
+                + "/path/to/jt400.jar";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_IBM_TOOLKIT),
+                Analysis.INFO_IBM_TOOLKIT + " analysis not identified.");
+    ***REMOVED***
+
     /**
      * Test if explicit not GC handled concurrently.
      */
@@ -1180,6 +1192,17 @@ class TestAnalysis {
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testItext() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7fff467a0000-7fff467c0000 r--s 00220000 fd:0a 67109364                   "
+                + "/path/to/itextpdf-5.5.13.1.jar";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_ITEXT), Analysis.INFO_ITEXT + " analysis not identified.");
     ***REMOVED***
 
     @Test

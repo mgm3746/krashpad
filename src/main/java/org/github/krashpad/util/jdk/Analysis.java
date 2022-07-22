@@ -326,6 +326,16 @@ public enum Analysis {
     INFO_HYPERV("info.hyperv"),
 
     /**
+     * Property key for IBM Toolkit for Java library detected.
+     */
+    INFO_IBM_TOOLKIT("info.ibm.toolkit"),
+
+    /**
+     * Property key for iText library detected.
+     */
+    INFO_ITEXT("info.itext"),
+
+    /**
      * Property key for a JDK that is more than 1 year older than the latest release.
      */
     INFO_JDK_ANCIENT("info.jdk.ancient"),

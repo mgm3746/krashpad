@@ -924,6 +924,28 @@ public class FatalErrorLog {
                 analysis.add(Analysis.INFO_SHUTDOWN);
             ***REMOVED***
         ***REMOVED***
+        // iText
+        if (!dynamicLibraryEvents.isEmpty()) {
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getLogEntry() != null && event.getLogEntry().matches("^.+itext.*\\.jar$")) {
+                    analysis.add(Analysis.INFO_ITEXT);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        // IBM Toolkit
+        if (!dynamicLibraryEvents.isEmpty()) {
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getLogEntry() != null && event.getLogEntry().matches("^.+jt400\\.jar$")) {
+                    analysis.add(Analysis.INFO_IBM_TOOLKIT);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
