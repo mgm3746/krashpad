@@ -558,6 +558,10 @@ public class Main {
                             printWriter.write(" ");
                             printWriter.write(option);
                         ***REMOVED***
+                        printWriter.write(". Please submit an issue so we can investigate: "
+                                + "https://github.com/mgm3746/krashpad/issues. "
+                                + "If attaching a fatal error log, be sure to review it and remove any sensitive "
+                                + "information.");
                     ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_INSTRUMENTATION)) {
                         Iterator<String> iterator = fel.getJvmOptions().getJavaagent().iterator();
                         while (iterator.hasNext()) {
@@ -591,7 +595,6 @@ public class Main {
             ***REMOVED***
 
             // Unidentified log lines
-            // if (!fel.getAnalysis().contains(Analysis.ERROR_JDK_VERSION_UNSUPPORTED)) {
             List<String> unidentifiedLogLines = fel.getUnidentifiedLogLines();
             if (!unidentifiedLogLines.isEmpty()) {
                 printWriter

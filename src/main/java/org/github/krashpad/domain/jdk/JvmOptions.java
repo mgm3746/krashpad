@@ -589,6 +589,15 @@ public class JvmOptions {
     private String heapDumpPath;
 
     /**
+     * Option to enable/disable checking for unrecognized options passed to the JVM. For example:
+     * 
+     * <pre>
+     * -XX:+IgnoreUnrecognizedVMOptions
+     * </pre>
+     */
+    private String ignoreUnrecognizedVmOptions;
+
+    /**
      * Initial heap space size. Specified with the <code>-Xms</code> or <code>-XX:InitialHeapSize</code> option. For
      * example:
      * 
@@ -2164,6 +2173,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UnlockExperimentalVMOptions$")) {
                     unlockExperimentalVmOptions = option;
                     key = "UnlockExperimentalVMOptions";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]IgnoreUnrecognizedVMOptions$")) {
+                    ignoreUnrecognizedVmOptions = option;
+                    key = "IgnoreUnrecognizedVMOptions";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UnsyncloadClass$")) {
                     unsyncloadClass = option;
                     key = "UnsyncloadClass";
@@ -3062,6 +3074,10 @@ public class JvmOptions {
 
     public String getHeapDumpPath() {
         return heapDumpPath;
+    ***REMOVED***
+
+    public String getIgnoreUnrecognizedVmOptions() {
+        return ignoreUnrecognizedVmOptions;
     ***REMOVED***
 
     public String getInitialHeapSize() {
