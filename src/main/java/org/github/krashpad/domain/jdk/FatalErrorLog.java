@@ -2042,7 +2042,10 @@ public class FatalErrorLog {
                     jdkRhelVersion = matcher.group(3) + "." + matcher.group(5);
                 ***REMOVED*** else if (matcher.group(8) != null) {
                     // JDK11
-                    jdkRhelVersion = matcher.group(10) + "." + matcher.group(11);
+                    jdkRhelVersion = matcher.group(10) + "." + matcher.group(12);
+                ***REMOVED*** else if (matcher.group(13) != null) {
+                    // JDK17
+                    jdkRhelVersion = matcher.group(15) + "." + matcher.group(16);
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***

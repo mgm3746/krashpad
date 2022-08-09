@@ -134,12 +134,12 @@ public class MetaspaceEvent implements LogEvent {
     private static final String REGEX = "^(" + MetaspaceEvent.REGEX_HEADER
             + "|[ ]{1,***REMOVED***Both:|CDS:|[ ]{1,***REMOVED***Class( space)?:|Chunk freelists:| - commit_granule_(bytes|words):|"
             + "CompressedClassSpaceSize:| - enlarge_chunks_in_place:|"
-            + "(Current|Initial) GC threshold|MaxMetaspaceSize:|MetaspaceReclaimPolicy:| - handle_deallocations:|"
-            + " - new_chunks_are_fully_committed:|[ ]{1,***REMOVED***Non-[c|C]lass( space)?:|Usage:| - uncommit_free_chunks:|"
-            + " - use_allocation_guard:| - virtual_space_node_default_size:|Virtual space:|" + JdkRegEx.SIZE2 + "|[ ]+"
-            + JdkRegEx.SIZE2 + " reserved,[ ]+" + JdkRegEx.SIZE2 + " \\([>]{0,1***REMOVED***" + JdkRegEx.PERCENT
-            + "\\) committed|  " + JdkRegEx.SIZE2 + " capacity,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***"
-            + JdkRegEx.PERCENT + "\\) used,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***" + JdkRegEx.PERCENT
+            + "(Current|Initial) GC threshold|MaxMetaspaceSize:|MetaspaceReclaimPolicy:|No class space|"
+            + " - handle_deallocations:| - new_chunks_are_fully_committed:|[ ]{1,***REMOVED***Non-[c|C]lass( space)?:|Usage:|"
+            + " - uncommit_free_chunks:| - use_allocation_guard:| - virtual_space_node_default_size:|Virtual space:|"
+            + JdkRegEx.SIZE2 + "|[ ]+" + JdkRegEx.SIZE2 + " reserved,[ ]+" + JdkRegEx.SIZE2 + " \\([>]{0,1***REMOVED***"
+            + JdkRegEx.PERCENT + "\\) committed|  " + JdkRegEx.SIZE2 + " capacity,[ ]+" + JdkRegEx.SIZE2
+            + " \\([ ]{0,2***REMOVED***" + JdkRegEx.PERCENT + "\\) used,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***" + JdkRegEx.PERCENT
             + "\\) free\\+waste,[ ]+" + JdkRegEx.SIZE2 + " \\( <" + JdkRegEx.PERCENT + "\\) overhead\\.)" + ".*$";
 
     /**

@@ -2498,6 +2498,27 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testRhelJdkRpmMismatchJdk17() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux release 8.5 (Ootpa)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String library = "7f7b5e35f000-7f7b5f5d6000 r-xp 00000000 fd:01 67638415                   "
+                + "/usr/lib/jvm/java-17-openjdk-17.0.4.0.8-2.el8_6.x86_64/lib/server/libjvm.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(library);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), built on "
+                + "Jul 20 2022 13:03:41 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("8.5", fel.getRhelVersion(), "RHEL version not correct.");
+        assertEquals("8.6", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testRhelJdkRpmMismatchJdk8() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset69.txt");
         Manager manager = new Manager();
