@@ -702,6 +702,15 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testRhReleaseStringTruncatedLogfile() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset77.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
+                Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testRhShenandoahNotExperimental() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";

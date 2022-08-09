@@ -4012,21 +4012,21 @@ public class FatalErrorLog {
             switch (getJavaSpecification()) {
             case JDK8:
                 isRhVersion = JdkUtil.JDK8_RHEL_ZIPS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK8_RHEL6_X86_64_RPMS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK8_RHEL7_X86_64_RPMS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK8_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK8_RHEL9_X86_64_RPMS.containsKey(getJdkReleaseString());
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), JdkUtil.JDK8_RHEL6_X86_64_RPMS)
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), JdkUtil.JDK8_RHEL7_X86_64_RPMS)
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), JdkUtil.JDK8_RHEL8_X86_64_RPMS)
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), JdkUtil.JDK8_RHEL9_X86_64_RPMS);
                 break;
             case JDK11:
                 isRhVersion = JdkUtil.JDK11_RHEL_ZIPS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK11_RHEL7_X86_64_RPMS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK11_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK11_RHEL9_X86_64_RPMS.containsKey(getJdkReleaseString());
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), JdkUtil.JDK11_RHEL7_X86_64_RPMS)
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), JdkUtil.JDK11_RHEL8_X86_64_RPMS)
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), JdkUtil.JDK11_RHEL9_X86_64_RPMS);
                 break;
             case JDK17:
                 isRhVersion = JdkUtil.JDK17_RHEL_ZIPS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK17_RHEL8_X86_64_RPMS.containsKey(getJdkReleaseString())
-                        || JdkUtil.JDK17_RHEL9_X86_64_RPMS.containsKey(getJdkReleaseString());
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), JdkUtil.JDK17_RHEL8_X86_64_RPMS)
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), JdkUtil.JDK17_RHEL9_X86_64_RPMS);
                 break;
             case JDK6:
             case JDK7:

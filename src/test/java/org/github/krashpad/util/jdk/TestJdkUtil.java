@@ -56,6 +56,15 @@ class TestJdkUtil {
     ***REMOVED***
 
     @Test
+    void testIsReleaseStringInReleases() {
+        String jdkReleaseString = "11.0.15+10-LTS";
+        assertTrue(JdkUtil.isReleaseStringInReleases(jdkReleaseString, JdkUtil.JDK11_RHEL8_X86_64_RPMS),
+                jdkReleaseString + " not identified as a known release string.");
+        assertFalse(JdkUtil.isReleaseStringInReleases(jdkReleaseString, JdkUtil.JDK8_RHEL8_X86_64_RPMS),
+                jdkReleaseString + " incorrectly identified as a known release string.");
+    ***REMOVED***
+
+    @Test
     void testJdk11UpdateNumber() {
         String jdk11ReleaseString = "11.0.9+11-LTS";
         assertEquals(9, JdkUtil.getJdk11UpdateNumber(jdk11ReleaseString), "JDK11 update number not correct.");

@@ -1,0 +1,101 @@
+component=JVM cluster=plan-apollo-2, fatal error:
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00007f4b14b60eb4, pid=3304760, tid=3305042
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment 18.9 (11.0.15+10) (build 11.0.15+10-LTS)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM 18.9 (11.0.15+10-LTS, mixed mode, tiered, g1 gc, linux-amd64)
+***REMOVED*** Problematic frame:
+***REMOVED*** C  [libpthread.so.0+0xfeb4]  pthread_getcpuclockid+0x4
+***REMOVED***
+***REMOVED*** Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /nix/store/vwyaa1fb0d9l4v5hysra8sydwpgix3ip-user-environment/core.3304760)
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-11-openjdk
+***REMOVED***
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Xmx1200G -Xms1200G -XX:MaxDirectMemorySize=30G -XX:ReservedCodeCacheSize=2G -XX:+UseCodeCacheFlushing -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -XX:AutoBoxCacheMax=8192 -Xss2M -XX:MetaspaceSize=512M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=1 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:MaxGCPauseMillis=3000 -verbose:gc -XX:-PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:+PrintTenuringDistribution -XX:G1ReservePercent=20 -XX:SurvivorRatio=1 -XX:+UseGCOverheadLimit -XX:SoftRefLRUPolicyMSPerMB=10 -XX:-HeapDumpOnOutOfMemoryError -Djruby.compile.invokedynamic=false -Djdk.nio.maxCachedBufferSize=2097152 -XX:+IgnoreUnrecognizedVMOptions -XX:MarkStackSize=2147483646 -XX:MarkStackSizeMax=2147483646 -Dzk.session.timeout=300000 -Xlog:gc*,safepoint:file=/opt/ugluk/plan-apollo-2_fresh-pike-1/shared/logs/gc_activity_2022-07-25_19-24-50_3304760.log:time,level,tags:filecount=0 -XX:ErrorFile='/opt/ugluk/plan-apollo-2_fresh-pike-1/shared/logs/java_error%p.log' -Dcom.sun.management.jmxremote.port=10509 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -XX:+UseNUMA -Dlog4j2.formatMsgNoLookups=true -XX:+PrintSafepointStatistics -XX:PrintSafepointStatisticsCount=1 -XX:+PrintGCApplicationStoppedTime -XX:ErrorFile=/opt/ugluk/plan-apollo-2_fresh-pike-1/shared/logs/jvm_crash_%p.log -XX:OnOutOfMemoryError='/nix/store/4lnglgdzip5fx7zyly93rq5xn9p1a022-frankenjar-9.1-master.29221' oom 'plan-apollo-2' '/opt/ugluk/plan-apollo-2_fresh-pike-1/shared/logs' '/opt/ugluk/plan-apollo-2_fresh-pike-1/shared/tmp' %p -XX:OnError='/nix/store/4lnglgdzip5fx7zyly93rq5xn9p1a022-frankenjar-9.1-master.29221' crash 'plan-apollo-2' '/opt/ugluk/plan-apollo-2_fresh-pike-1/shared/logs' '/opt/ugluk/plan-apollo-2_fresh-pike-1/shared/tmp' %p -Dloader.main=fi.relex.main.Main -Djava.io.tmpdir=/opt/ugluk/plan-apollo-2_fresh-pike-1/shared/tmp /nix/store/4lnglgdzip5fx7zyly93rq5xn9p1a022-frankenjar-9.1-master.29221 --conf /nix/store/1xbvjy07mb5nxgincn960c97plkqi1qp-1hxa09xp28iy2fbxy4zdn0c3d8cd0837-config.json --rb-conf /opt/ugluk/plan-apollo-2_fresh-pike-1/software/config.rb --env production server
+
+Host: AMD EPYC 7H12 64-Core Processor, 256 cores, 2003G, Red Hat Enterprise Linux release 8.5 (Ootpa)
+Time: Tue Jul 26 11:48:03 2022 EEST elapsed time: 48192.839374 seconds (0d 13h 23m 12s)
+
+***REMOVED***
+
+Current thread (0x00007e0f0d4ed800):  VMThread "VM Thread" [stack: 0x00007e0f328b0000,0x00007e0f329b0000] [id=3305042]
+
+Stack: [0x00007e0f328b0000,0x00007e0f329b0000],  sp=0x00007e0f329ae758,  free space=1017k
+Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [libpthread.so.0+0xfeb4]  pthread_getcpuclockid+0x4
+V  [libjvm.so+0xe63315]  Thread::print_on(outputStream*, bool) const+0x55
+V  [libjvm.so+0xe6354b]  NamedThread::print_on(outputStream*) const+0x3b
+V  [libjvm.so+0x7a79a7]  G1ConcurrentRefine::print_threads_on(outputStream*) const+0x37
+V  [libjvm.so+0x786cb6]  G1Collected***REMOVED***:print_gc_threads_on(outputStream*) const+0x56
+V  [libjvm.so+0xe68304]  Threads::print_on(outputStream*, bool, bool, bool, bool)+0x4f4
+V  [libjvm.so+0xed37eb]  VM_Operation::evaluate()+0xeb
+V  [libjvm.so+0xed9c5e]  VMThread::evaluate_operation(VM_Operation*) [clone .constprop.71]+0x11e
+V  [libjvm.so+0xeda358]  VMThread::loop()+0x5b8
+V  [libjvm.so+0xeda686]  VMThread::run()+0x86
+V  [libjvm.so+0xe6940c]  Thread::call_run()+0x15c
+V  [libjvm.so+0xc1f896]  thread_native_entry(Thread*)+0xf6
+
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x00007e0f333b39d0
+
+***REMOVED***
+
+RAX=0x00007f4b14b60eb0: pthread_getcpuclockid+0x0000000000000000 in /lib64/libpthread.so.0 at 0x00007f4b14b51000
+RBX=0x00007e0f0d429000 points into unknown readable memory: 0x00007f4b142d8370 | 70 83 2d 14 4b 7f 00 00
+RCX=0x0000000000000008 is an unknown value
+RDX=0x0000000000000020 is an unknown value
+RSP=0x00007e0f329ae758 points into unknown readable memory: 0x00007f4b13a987f5 | f5 87 a9 13 4b 7f 00 00
+RBP=0x00007e0f329ae790 points into unknown readable memory: 0x00007e0f329ae7d0 | d0 e7 9a 32 0f 7e 00 00
+RSI=0x00007e0f329ae76c points into unknown readable memory: 02 7e 00 00
+RDI=0x00007e0f333b3700 is an unknown value
+R8 =0x00000000000007d0 is an unknown value
+R9 =0x00007e0f329adc87 points into unknown readable memory: 00
+R10=0x0 is NULL
+R11=0x0 is NULL
+R12=0x00007e0e6d9fccf0 is pointing into the stack for thread: 0x00007e0ee8001000
+R13=0x0 is NULL
+R14=0x00007e0f0d492640 points into unknown readable memory: 0x0000000000000000 | 00 00 00 00 00 00 00 00
+R15=0x00007e0654003288 points into unknown readable memory: 0x0000000000000000 | 00 00 00 00 00 00 00 00
+
+
+***REMOVED***
+RAX=0x00007f4b14b60eb0, RBX=0x00007e0f0d429000, RCX=0x0000000000000008, RDX=0x0000000000000020
+RSP=0x00007e0f329ae758, RBP=0x00007e0f329ae790, RSI=0x00007e0f329ae76c, RDI=0x00007e0f333b3700
+R8 =0x00000000000007d0, R9 =0x00007e0f329adc87, R10=0x0000000000000000, R11=0x0000000000000000
+R12=0x00007e0e6d9fccf0, R13=0x0000000000000000, R14=0x00007e0f0d492640, R15=0x00007e0654003288
+RIP=0x00007f4b14b60eb4, EFLAGS=0x0000000000010202, CSGSFS=0x002b000000000033, ERR=0x0000000000000004
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x00007e0f329ae758)
+0x00007e0f329ae758:   00007f4b13a987f5 00007e02de3f1938
+0x00007e0f329ae768:   00007e02de3f18e0 6e6f7268636e7953
+0x00007e0f329ae778:   00007e1340033e20 00007e0f329ae7a0
+0x00007e0f329ae788:   395dc2a531f39f00 00007e0f329ae7d0 
+
+Instructions: (pc=0x00007f4b14b60eb4)
+0x00007f4b14b60db4:   48 8d 3d 85 4e 00 00 e8 70 65 ff ff 49 89 e4 48
+0x00007f4b14b60dc4:   89 da 48 8d 35 63 00 00 00 4c 89 e7 e8 8b 14 00
+0x00007f4b14b60dd4:   00 ff d5 31 f6 4c 89 e7 e8 af 14 00 00 45 31 d2
+0x00007f4b14b60de4:   ba ff ff ff 7f 48 89 df be 81 00 00 00 b8 ca 00
+0x00007f4b14b60df4:   00 00 c7 03 02 00 00 00 0f 05 48 3d 00 f0 ff ff
+0x00007f4b14b60e04:   0f 86 46 ff ff ff 83 f8 ea 0f 84 3d ff ff ff 83
+0x00007f4b14b60e14:   f8 f2 0f 84 34 ff ff ff eb 96 e8 ad 65 ff ff 66
+0x00007f4b14b60e24:   66 2e 0f 1f 84 00 00 00 00 00 66 90 f3 0f 1e fa
+0x00007f4b14b60e34:   c7 07 00 00 00 00 45 31 d2 ba ff ff ff 7f be 81
+0x00007f4b14b60e44:   00 00 00 b8 ca 00 00 00 0f 05 48 3d 00 f0 ff ff
+0x00007f4b14b60e54:   77 0a c3 66 0f 1f 84 00 00 00 00 00 83 f8 ea 74
+0x00007f4b14b60e64:   f1 83 f8 f2 74 ec 50 48 8d 3d ce 4d 00 00 e8 b9
+0x00007f4b14b60e74:   64 ff ff 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa
+0x00007f4b14b60e84:   8b 07 a8 02 74 06 31 c0 c3 0f 1f 00 e9 8b fe ff
+0x00007f4b14b60e94:   ff 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa
+0x00007f4b14b60ea4:   48 8b 0d 15 ad 20 00 e9 e0 65 ff ff f3 0f 1e fa
+0x00007f4b14b60eb4:   8b 87 d0 02 00 00 85 c0 7e 12 f7 d0 8d 04 c5 06
+0x00007f4b14b60ec4:   00 00 00 89 06 31 c0 c3 0f 1f 40 00 b8 03 00 00
+0x00007f4b14b60ed4:   00 c3 66 2e 0f 1f 84 00 00 00 00 00 f3 0f 1e fa
+0x00007f4b14b60ee4:   41 57 48 8d 3d 33 57 00 00 41 56 41 55 41 54 55
