@@ -155,6 +155,11 @@ public class FatalErrorLog {
     private List<HeapEvent> heapEvents;
 
     /**
+     * Host information.
+     */
+    private HostEvent hostEvent;
+
+    /**
      * JVM options convenience field
      */
     private JvmOptions jvmOptions;
@@ -1812,6 +1817,10 @@ public class FatalErrorLog {
         return heapUsed;
     ***REMOVED***
 
+    public HostEvent getHostEvent() {
+        return hostEvent;
+    ***REMOVED***
+
     /**
      * @return The Java command used to start the JVM, or null if none exists.
      */
@@ -2579,6 +2588,8 @@ public class FatalErrorLog {
                     break;
                 ***REMOVED***
             ***REMOVED***
+        ***REMOVED*** else if (hostEvent != null && hostEvent.getOsString() != null) {
+            osString = hostEvent.getOsString();
         ***REMOVED***
         return osString;
     ***REMOVED***
@@ -4267,6 +4278,10 @@ public class FatalErrorLog {
 
     public void setHeapAddressEvent(HeapAddressEvent heapAddressEvent) {
         this.heapAddressEvent = heapAddressEvent;
+    ***REMOVED***
+
+    public void setHostEvent(HostEvent hostEvent) {
+        this.hostEvent = hostEvent;
     ***REMOVED***
 
     public void setMaxMapCountEvent(MaxMapCountEvent maxMapCountEvent) {

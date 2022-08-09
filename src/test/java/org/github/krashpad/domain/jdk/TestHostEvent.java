@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -31,6 +32,15 @@ class TestHostEvent {
                 + "release 7.4 (Maipo)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HOST,
                 JdkUtil.LogEventType.HOST.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOsString() {
+        String logLine = "Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation "
+                + "release 7.4 (Maipo)";
+        HostEvent event = new HostEvent(logLine);
+        assertEquals("Red Hat Enterprise Linux Workstation release 7.4 (Maipo)", event.getOsString(),
+                "OS string not correct.");
     ***REMOVED***
 
     @Test

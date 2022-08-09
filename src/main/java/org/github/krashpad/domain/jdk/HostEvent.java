@@ -14,6 +14,9 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
@@ -40,7 +43,7 @@ public class HostEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^Host: .+$";
+    private static final String REGEX = "^Host: .+,.+,.+,(.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -75,4 +78,19 @@ public class HostEvent implements LogEvent {
     public String getName() {
         return JdkUtil.LogEventType.HOST.toString();
     ***REMOVED***
+
+    public String getOsString() {
+        String osString = null;
+        if (logEntry != null) {
+            Pattern pattern = Pattern.compile(REGEX);
+            Matcher matcher = pattern.matcher(logEntry);
+            if (matcher.find()) {
+                if (matcher.group(1) != null) {
+                    osString = matcher.group(1).trim();
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return osString;
+    ***REMOVED***
+
 ***REMOVED***
