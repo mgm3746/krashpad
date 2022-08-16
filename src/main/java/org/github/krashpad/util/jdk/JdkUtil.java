@@ -855,7 +855,8 @@ public class JdkUtil {
         // RHEL amd64 OpenJDK8 zip
         JDK8_RHEL_ZIPS = new HashMap<String, Release>();
         // First RHEL zip was 1.8.0_222.
-        JDK8_RHEL_ZIPS.put("LATEST", new Release("Jul 19 2022 17:11:55", 15, "1.8.0_342-b07"));
+        JDK8_RHEL_ZIPS.put("LATEST", new Release("Aug 4 2022 05:08:02", 16, "1.8.0_345-b01"));
+        JDK8_RHEL_ZIPS.put("1.8.0_345-b01", new Release("Aug 4 2022 05:08:02", 16, "1.8.0_345-b01"));
         JDK8_RHEL_ZIPS.put("1.8.0_342-b07", new Release("Jul 19 2022 17:11:55", 15, "1.8.0_342-b07"));
         JDK8_RHEL_ZIPS.put("1.8.0_332-b09", new Release("Apr 20 2022 01:14:17", 14, "1.8.0_332-b09"));
         JDK8_RHEL_ZIPS.put("1.8.0_322-b06", new Release("Jan 25 2022 16:48:34", 13, "1.8.0_322-b06"));
@@ -875,8 +876,9 @@ public class JdkUtil {
         // Windows amd64 OpenJDK8 zip
         JDK8_WINDOWS_ZIPS = new HashMap<String, Release>();
         // First RH Windows release was 1.8.0_191-1-redhat-b12. There was no RH Windows release for u202.
-        JDK8_WINDOWS_ZIPS.put("LATEST", new Release("Jul 19 2022 00:00:00", 19, "1.8.0_342-b07"));
-        JDK8_RHEL_ZIPS.put("1.8.0_342-b07", new Release("Jul 19 2022 00:00:00", 20, "1.8.0_342-b07"));
+        JDK8_WINDOWS_ZIPS.put("LATEST", new Release("Aug 4 2022 00:00:00", 21, "1.8.0_345-b01"));
+        JDK8_WINDOWS_ZIPS.put("1.8.0_345-b01", new Release("Aug 4 2022 00:00:00", 21, "1.8.0_345-b01"));
+        JDK8_WINDOWS_ZIPS.put("1.8.0_342-b07", new Release("Jul 19 2022 00:00:00", 20, "1.8.0_342-b07"));
         // 2 builds w/ the same release string
         JDK8_WINDOWS_ZIPS.put("1.8.0_332-b09-2", new Release("Apr 27 2022 21:29:19", 19, "1.8.0_332-b09"));
         JDK8_WINDOWS_ZIPS.put("1.8.0_332-b09-1", new Release("Apr 19 2022 13:36:53", 18, "1.8.0_332-b09"));
