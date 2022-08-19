@@ -882,6 +882,16 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testErrorJdk8LibcCfree() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset78.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_LIBC_CFREE),
+                Analysis.ERROR_JDK8_LIBC_CFREE + " analysis not identified.");
+
+    ***REMOVED***
+
+    @Test
     void testErrorStubroutinesHeaderOnly() {
         FatalErrorLog fel = new FatalErrorLog();
         String logLine = "***REMOVED*** v  ~StubRoutines::jbyte_disjoint_arraycopy";
@@ -2483,14 +2493,14 @@ class TestAnalysis {
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
         fel.doAnalysis();
-        assertFalse(fel.isRhBuildOpenJdk(), "Red Hat build of OpenJDK incorrectly identified.");
+        assertTrue(fel.isRhBuildOpenJdk(), "Red Hat build of OpenJDK not identified.");
         assertTrue(fel.isRhBuildString(), "Red Hat build string not identified.");
         assertTrue(fel.isRhVersion(), "Red Hat version not identified.");
         assertEquals(ErrUtil.getDate("Jan 13 2016 21:08:08"), fel.getJdkBuildDate(), "Build date not correct.");
-        assertFalse(fel.isRhBuildDate(), "Red Hat build date incorrectly identified.");
-        assertTrue(fel.isRhBuildDateUnknown(), "Red Hat build of OpenJDK date unknown not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_POSSIBLE),
-                Analysis.INFO_RH_BUILD_POSSIBLE + " analysis not identified.");
+        assertTrue(fel.isRhBuildDate(), "Red Hat build date not identified.");
+        assertFalse(fel.isRhBuildDateUnknown(), "Red Hat build of OpenJDK date unknown incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_POSSIBLE),
+                Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
     ***REMOVED***

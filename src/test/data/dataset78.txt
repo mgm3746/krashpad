@@ -1,0 +1,418 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00000034e5e7b93c, pid=9900, tid=140546997737216
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_71-b15) (build 1.8.0_71-b15)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.71-b15 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Problematic frame:
+***REMOVED*** C  [libc.so.6+0x7b93c]  cfree+0x1c
+***REMOVED***
+***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x00007fd41d508800):  ConcurrentGCThread [stack: 0x00007fd3a5cfd000,0x00007fd3a5dfe000] [id=9965]
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x00007fd30532eff8
+
+***REMOVED***
+RAX=0x0000000000000000, RBX=0x00000000042905b0, RCX=0x0000000000000001, RDX=0x00007fd30532f000
+RSP=0x00007fd3a5dfc918, RBP=0x00000000ffffffff, RSI=0x00007fd30532f000, RDI=0x00007fd30532f000
+R8 =0x00000000ffffffff, R9 =0x0000000000000000, R10=0x0000000000000022, R11=0x0000000000000246
+R12=0x0000000000000000, R13=0x000000000000001c, R14=0x00007fd41cb8cbe0, R15=0x00007fd3a5dfc9f0
+RIP=0x00000034e5e7b93c, EFLAGS=0x0000000000010206, CSGSFS=0x0000000000000033, ERR=0x0000000000000004
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x00007fd3a5dfc918)
+0x00007fd3a5dfc918:   00000034e5e74549 00000000042905b0
+0x00007fd3a5dfc928:   00000034e5e7249a 000000000000001c
+0x00007fd3a5dfc938:   00000000042905b0 00007fd3a5dfc9f0
+0x00007fd3a5dfc948:   00000034e5e7174d 00007fd400000039
+0x00007fd3a5dfc958:   00000000042905b0 000000000000001c
+0x00007fd3a5dfc968:   0000000000000001 000000000000001c
+0x00007fd3a5dfc978:   00007fd41cb8cbe0 00007fd3a5dfcb80
+0x00007fd3a5dfc988:   00000034e5e67a4d 0000007a00000007
+0x00007fd3a5dfc998:   00007fd41c005af0 00007fd3a5dfc9e0
+0x00007fd3a5dfc9a8:   000000000000001c 00007fd3a5dfc9f0
+0x00007fd3a5dfc9b8:   00007fd42242e28c 00007fd41c005af0
+0x00007fd3a5dfc9c8:   00007fd41c005af0 00007fd3a5dfc9f0
+0x00007fd3a5dfc9d8:   00007fd41cbcdbc8 00007fd3a5dfca40
+0x00007fd3a5dfc9e8:   00007fd42242f2e9 2d38302d32323032
+0x00007fd3a5dfc9f8:   35343a3531543031 2b3135382e37353a
+0x00007fd3a5dfca08:   00007f0030303230 00007fd41d508800
+0x00007fd3a5dfca18:   00007fd3a5dfca40 00007fd422a828f0
+0x00007fd3a5dfca28:   00007fd41d508800 00007fd422a828f0
+0x00007fd3a5dfca38:   00007fd41d508a50 00007fd3a5dfcbc0
+0x00007fd3a5dfca48:   00007fd42204d1f0 0000000000000000
+0x00007fd3a5dfca58:   00007fd422a8b6b0 410418e8e5b1ba08
+0x00007fd3a5dfca68:   0000000000000000 00000034e620a8f7
+0x00007fd3a5dfca78:   00007fd41d508800 00000000000003d8
+0x00007fd3a5dfca88:   00007fd41d508a50 00007fd41d508aa0
+0x00007fd3a5dfca98:   00007fd41d508e78 41041875fdd59732
+0x00007fd3a5dfcaa8:   4064a625670135ad 410418770c2c7c1b
+0x00007fd3a5dfcab8:   4038a150275e5d01 00007fd41cbbbc70
+0x00007fd3a5dfcac8:   00007fd3a5dfcb40 00007fd41d508a90
+0x00007fd3a5dfcad8:   00007fd41cbbc440 410418e8aef588c7
+0x00007fd3a5dfcae8:   405ddc265f0f5a10 00007fd422a0f2d0
+0x00007fd3a5dfcaf8:   00007fd41d508800 00007fd400000005
+0x00007fd3a5dfcb08:   00000182880101c4 00007fd41f303b70 
+
+Instructions: (pc=0x00000034e5e7b93c)
+0x00000034e5e7b91c:   00 00 00 00 48 8b 05 49 26 31 00 48 8b 00 48 85
+0x00000034e5e7b92c:   c0 0f 85 bf 00 00 00 48 85 ff 0f 84 b4 00 00 00
+0x00000034e5e7b93c:   48 8b 47 f8 48 8d 77 f0 a8 02 75 28 a8 04 48 8d
+0x00000034e5e7b94c:   3d 2f 45 31 00 74 0c 48 89 f0 48 25 00 00 00 fc 
+
+***REMOVED***
+
+RAX=0x0000000000000000 is an unknown value
+RBX=0x00000000042905b0 is an unknown value
+RCX=0x0000000000000001 is an unknown value
+RDX=0x00007fd30532f000 is an unknown value
+RSP=0x00007fd3a5dfc918 is an unknown value
+RBP=0x00000000ffffffff is an unknown value
+RSI=0x00007fd30532f000 is an unknown value
+RDI=0x00007fd30532f000 is an unknown value
+R8 =0x00000000ffffffff is an unknown value
+R9 =0x0000000000000000 is an unknown value
+R10=0x0000000000000022 is an unknown value
+R11=0x0000000000000246 is an unknown value
+R12=0x0000000000000000 is an unknown value
+R13=0x000000000000001c is an unknown value
+R14=0x00007fd41cb8cbe0 is an unknown value
+R15=0x00007fd3a5dfc9f0 is an unknown value
+
+
+Stack: [0x00007fd3a5cfd000,0x00007fd3a5dfe000],  sp=0x00007fd3a5dfc918,  free space=1022k
+***REMOVED***
+C  [libc.so.6+0x7b93c]  cfree+0x1c
+
+
+***REMOVED***
+
+***REMOVED***
+  0x00007fd41c043000 JavaThread "main" [_thread_in_native, id=9917, stack(0x00007fd421a88000,0x00007fd421b89000)]
+
+***REMOVED***
+  0x00007fd41f303000 VMThread [stack: 0x00007fd3a4e2b000,0x00007fd3a4f2c000] [id=9970]
+  0x00007fd41f6f4800 WatcherThread [stack: 0x00007fd385bec000,0x00007fd385ced000] [id=10019]
+
+=>0x00007fd41d508800 (exited) ConcurrentGCThread [stack: 0x00007fd3a5cfd000,0x00007fd3a5dfe000] [id=9965]
+
+VM state:at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00007fd41c04fc30] Safepoint_lock - owner thread: 0x00007fd41f303000
+[0x00007fd41c04fcb0] Threads_lock - owner thread: 0x00007fd41f303000
+
+***REMOVED***
+ garbage-first heap   total 4194304K, used 2731873K [0x00000006c0000000, 0x00000006c0204000, 0x00000007c0000000)
+  region size 2048K, 16 young (32768K), 11 survivors (22528K)
+ Metaspace       used 914730K, capacity 961757K, committed 962308K, reserved 1861632K
+  class space    used 142110K, capacity 149182K, committed 149308K, reserved 1048576K
+
+Heap Regions: (Y=young(eden), SU=young(survivor), HS=humongous(starts), HC=humongous(continues), CS=collection set, F=free, TS=gc time stamp, PTAMS=previous top-at-mark-start, NTAMS=next top-at-mark-start)
+***REMOVED***
+
+Card table byte_map: [0x00007fd3a65fe000,0x00007fd3a6dfe000] byte_map_base: 0x00007fd3a2ffe000
+
+Marking Bits (Prev, Next): (CMBitMap*) 0x00007fd41d4079d8, (CMBitMap*) 0x00007fd41d407a30
+ Prev Bits: [0x00007fd39c000000, 0x00007fd3a0000000)
+ Next Bits: [0x00007fd394000000, 0x00007fd398000000)
+
+Polling page: 0x00007fd422bba000
+
+CodeCache: size=245760Kb used=232435Kb max_used=240296Kb free=13324Kb
+ bounds [0x00007fd3e5000000, 0x00007fd3f4000000, 0x00007fd3f4000000]
+ total_blobs=44034 nmethods=42727 adapters=1206
+***REMOVED***
+
+Compilation events (10 events):
+Event: 164636.976 Thread 0x00007fd41f3c4000 9815877   !   4       com.dynatrace.agent.introspection.servlet.ServletIntrospectionUtil::captureRemoteAddress (89 bytes)
+
+GC Heap History (10 events):
+Event: 164620.747 GC heap before
+{Heap before GC invocations=42513 (full 0):
+ garbage-first heap   total 4194304K, used 3513193K [0x00000006c0000000, 0x00000006c0204000, 0x00000007c0000000)
+  region size 2048K, 395 young (808960K), 9 survivors (18432K)
+ Metaspace       used 914730K, capacity 961757K, committed 962308K, reserved 1861632K
+  class space    used 142110K, capacity 149182K, committed 149308K, reserved 1048576K
+Event: 164620.810 GC heap after
+Heap after GC invocations=42514 (full 0):
+ garbage-first heap   total 4194304K, used 2726761K [0x00000006c0000000, 0x00000006c0204000, 0x00000007c0000000)
+  region size 2048K, 11 young (22528K), 11 survivors (22528K)
+ Metaspace       used 914730K, capacity 961757K, committed 962308K, reserved 1861632K
+  class space    used 142110K, capacity 149182K, committed 149308K, reserved 1048576K
+***REMOVED***
+Event: 164625.716 GC heap before
+{Heap before GC invocations=42515 (full 0):
+ garbage-first heap   total 4194304K, used 3510121K [0x00000006c0000000, 0x00000006c0204000, 0x00000007c0000000)
+  region size 2048K, 393 young (804864K), 11 survivors (22528K)
+ Metaspace       used 914730K, capacity 961757K, committed 962308K, reserved 1861632K
+  class space    used 142110K, capacity 149182K, committed 149308K, reserved 1048576K
+Event: 164625.792 GC heap after
+Heap after GC invocations=42516 (full 0):
+ garbage-first heap   total 4194304K, used 2730857K [0x00000006c0000000, 0x00000006c0204000, 0x00000007c0000000)
+  region size 2048K, 13 young (26624K), 13 survivors (26624K)
+ Metaspace       used 914730K, capacity 961757K, committed 962308K, reserved 1861632K
+  class space    used 142110K, capacity 149182K, committed 149308K, reserved 1048576K
+***REMOVED***
+Event: 164627.910 GC heap before
+{Heap before GC invocations=42516 (full 0):
+ garbage-first heap   total 4194304K, used 2913129K [0x00000006c0000000, 0x00000006c0204000, 0x00000007c0000000)
+  region size 2048K, 102 young (208896K), 13 survivors (26624K)
+ Metaspace       used 914730K, capacity 961757K, committed 962308K, reserved 1861632K
+  class space    used 142110K, capacity 149182K, committed 149308K, reserved 1048576K
+Event: 164627.973 GC heap after
+Heap after GC invocations=42517 (full 0):
+ garbage-first heap   total 4194304K, used 2723681K [0x00000006c0000000, 0x00000006c0204000, 0x00000007c0000000)
+  region size 2048K, 11 young (22528K), 11 survivors (22528K)
+ Metaspace       used 914730K, capacity 961757K, committed 962308K, reserved 1861632K
+  class space    used 142110K, capacity 149182K, committed 149308K, reserved 1048576K
+***REMOVED***
+Event: 164632.986 GC heap before
+{Heap before GC invocations=42517 (full 0):
+ garbage-first heap   total 4194304K, used 3506017K [0x00000006c0000000, 0x00000006c0204000, 0x00000007c0000000)
+  region size 2048K, 393 young (804864K), 11 survivors (22528K)
+ Metaspace       used 914730K, capacity 961757K, committed 962308K, reserved 1861632K
+  class space    used 142110K, capacity 149182K, committed 149308K, reserved 1048576K
+Event: 164633.070 GC heap after
+Heap after GC invocations=42518 (full 0):
+ garbage-first heap   total 4194304K, used 2728801K [0x00000006c0000000, 0x00000006c0204000, 0x00000007c0000000)
+  region size 2048K, 13 young (26624K), 13 survivors (26624K)
+ Metaspace       used 914730K, capacity 961757K, committed 962308K, reserved 1861632K
+  class space    used 142110K, capacity 149182K, committed 149308K, reserved 1048576K
+***REMOVED***
+Event: 164636.987 GC heap before
+{Heap before GC invocations=42518 (full 0):
+ garbage-first heap   total 4194304K, used 3502945K [0x00000006c0000000, 0x00000006c0204000, 0x00000007c0000000)
+  region size 2048K, 391 young (800768K), 13 survivors (26624K)
+ Metaspace       used 914730K, capacity 961757K, committed 962308K, reserved 1861632K
+  class space    used 142110K, capacity 149182K, committed 149308K, reserved 1048576K
+Event: 164637.085 GC heap after
+Heap after GC invocations=42519 (full 0):
+ garbage-first heap   total 4194304K, used 2723681K [0x00000006c0000000, 0x00000006c0204000, 0x00000007c0000000)
+  region size 2048K, 11 young (22528K), 11 survivors (22528K)
+ Metaspace       used 914730K, capacity 961757K, committed 962308K, reserved 1861632K
+  class space    used 142110K, capacity 149182K, committed 149308K, reserved 1048576K
+***REMOVED***
+
+Deoptimization events (10 events):
+
+Internal exceptions (10 events):
+
+Events (10 events):
+Event: 164636.868 loading class javax/persistence/Persistence done
+Event: 164636.868 loading class javax/persistence/Persistence
+Event: 164636.868 loading class javax/persistence/Persistence done
+Event: 164636.868 loading class javax/persistence/Persistence
+Event: 164636.868 loading class javax/persistence/Persistence done
+Event: 164636.870 loading class com/sun/org/glassfish/hk2/osgiresourcelocator/ServiceLoader
+Event: 164636.870 loading class com/sun/org/glassfish/hk2/osgiresourcelocator/ServiceLoader done
+Event: 164636.984 Executing VM operation: G1IncCollectionPause
+Event: 164637.086 Executing VM operation: G1IncCollectionPause done
+Event: 164637.097 Executing VM operation: GetThreadListStackTraces
+
+
+***REMOVED***
+7fd421b89000-7fd4227ab000 r-xp 00000000 fd:01 264289                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.71-1.b15.el6_7.x86_64/jre/lib/amd64/server/libjvm.so
+
+***REMOVED***
+jvm_args: -Dhttp.proxyHost=proxya -Dhttp.proxyPort=8080 -Dhttps.proxyHost=proxyb -Dhttps.proxyPort=8080 -Dhttp.nonProxyHosts='192*|172*|localhost|' -Djavax.net.ssl.trustStore=/path/to/cacerts -Djavax.net.ssl.trustStorePassword=password -Dehcache.disk.store.dir=/path/to/ehcache -Dnet.sf.ehcache.skipUpdateCheck=true -Dhttps.protocols=TLSv1,TLSv1.2 -Duser.timezone=UTC -Djava.security.properties=/path/to/java.security.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.util.logging.config.file=/path/to/logging.properties -XX:+UseG1GC -Xloggc:/path/to/gc.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=20 -XX:GCLogFileSize=10m -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:-PrintCommandLineFlags -XX:+PrintGCCause -XX:+PrintAdaptiveSizePolicy -XX:+PrintTenuringDistribution -XX:+PrintFlagsFinal -XX:ConcGCThreads=4 -XX:ParallelGCThreads=8 -XX:G1ReservePercent=15 -Xms4g -Xmx4g -XX:MaxPermSize=1024m -Dspring.profiles.active=profile1,profile2 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9004 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcatalina.base=/path/to/tomcat -Dcatalina.home=/path/to/tomcat -Djava.endorsed.dirs= -Djava.io.tmpdir=/path/to/temp -agentpath:/path/to/liboneagentloader.so=loglevelcon=none,datastorage=/path/to/datastorage,logdir=/path/to/logs/agentlog 
+***REMOVED***
+java_class_path (initial): /path/to/tomcat/libapps/mysql-connector-java-5.1.48.jar:/path/to/ojdbc6.jar:/path/to/tomcat/bin/bootstrap.jar
+***REMOVED***
+
+***REMOVED***
+PATH=/usr/lib64/qt-3.3/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+SHELL=/bin/sh
+
+***REMOVED***
+SIGSEGV: [libjvm.so+0xa27e70], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xa27e70], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0x8973e0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0x8973e0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: SIG_IGN, sa_mask[0]=00000000000000000000000010000000, sa_flags=SA_RESTART
+SIGILL: [libjvm.so+0x8973e0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+***REMOVED***
+SIGUSR2: [libjvm.so+0x8988c0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: [libjvm.so+0x899fb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGTERM: [libjvm.so+0x899fb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0x899fb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux Server release 6.7 (Santiago)
+
+uname:Linux 2.6.32-573.18.1.el6.x86_64 ***REMOVED***1 SMP Wed Jan 6 11:20:49 EST 2016 x86_64
+libc:glibc 2.12 NPTL 2.12 
+rlimit: STACK 10240k, CORE 0k, NPROC 2048, NOFILE 16384, AS infinity
+load average:3.06 3.28 3.42
+
+***REMOVED***
+MemTotal:       12326844 kB
+MemFree:          430892 kB
+Buffers:           46800 kB
+Cached:          2032760 kB
+SwapCached:        17876 kB
+Active:          8714408 kB
+Inactive:        2315504 kB
+Active(anon):    7627456 kB
+Inactive(anon):  1333672 kB
+Active(file):    1086952 kB
+Inactive(file):   981832 kB
+Unevictable:        7596 kB
+Mlocked:            7596 kB
+SwapTotal:       2097148 kB
+SwapFree:        1733372 kB
+Dirty:             21060 kB
+***REMOVED***
+AnonPages:       8943960 kB
+Mapped:           132560 kB
+Shmem:              6272 kB
+Slab:             588520 kB
+SReclaimable:     518856 kB
+SUnreclaim:        69664 kB
+KernelStack:       26512 kB
+PageTables:        38368 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+CommitLimit:     8260568 kB
+Committed_AS:   11255900 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       86324 kB
+VmallocChunk:   34359552460 kB
+***REMOVED***
+AnonHugePages:   7006208 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+Hugepagesize:       2048 kB
+DirectMap4k:        8176 kB
+DirectMap2M:    12574720 kB
+
+
+CPU:total 4 (1 cores per cpu, 1 threads per core) family 6 model 42 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, tsc
+
+***REMOVED***
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 42
+model name	: Intel Xeon E312xx (Sandy Bridge)
+stepping	: 1
+microcode	: 1
+cpu MHz		: 2497.106
+cache size	: 4096 KB
+physical id	: 0
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc unfair_spinlock pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm xsaveopt
+bogomips	: 4994.21
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 42
+model name	: Intel Xeon E312xx (Sandy Bridge)
+stepping	: 1
+microcode	: 1
+cpu MHz		: 2497.106
+cache size	: 4096 KB
+physical id	: 1
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc unfair_spinlock pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm xsaveopt
+bogomips	: 4994.21
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 42
+model name	: Intel Xeon E312xx (Sandy Bridge)
+stepping	: 1
+microcode	: 1
+cpu MHz		: 2497.106
+cache size	: 4096 KB
+physical id	: 2
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc unfair_spinlock pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm xsaveopt
+bogomips	: 4994.21
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 42
+model name	: Intel Xeon E312xx (Sandy Bridge)
+stepping	: 1
+microcode	: 1
+cpu MHz		: 2497.106
+cache size	: 4096 KB
+physical id	: 3
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc unfair_spinlock pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx hypervisor lahf_lm xsaveopt
+bogomips	: 4994.21
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+
+
+Memory: 4k page, physical 12326844k(430892k free), swap 2097148k(1733372k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.71-b15) for linux-amd64 JRE (1.8.0_71-b15), built on Jan 13 2016 21:08:08 by "mockbuild" with gcc 4.4.7 20120313 (Red Hat 4.4.7-16)
+
+time: Wed Aug 10 15:45:58 2022
+elapsed time: 164637 seconds (1d 21h 43m 57s)

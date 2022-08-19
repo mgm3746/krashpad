@@ -952,6 +952,22 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
 
+        // ERROR_JDK8_LIBC_CFREE
+        if (getJavaSpecification() == JavaSpecification.JDK8
+                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 262) {
+            if (!headerEvents.isEmpty()) {
+                Iterator<HeaderEvent> iterator = headerEvents.iterator();
+                while (iterator.hasNext()) {
+                    HeaderEvent event = iterator.next();
+                    if (event.isProblematicFrame() && event.getLogEntry().matches("^.+libc.+cfree\\+0x1c$")
+                            && getJvmOptions().getUseGcLogFileRotation() != null) {
+                        analysis.add(Analysis.ERROR_JDK8_LIBC_CFREE);
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+
         // VM operations
         if (vmOperationEvent != null) {
             if (vmOperationEvent.getVmOperation().equals("BulkRevokeBias")) {

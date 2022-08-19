@@ -101,6 +101,12 @@ public enum Analysis {
     ERROR_JDK8_JFR_CLASS_TRANSFORMED("error.jdk8.jfr.class.transformed"),
 
     /**
+     * Property key for a crash in JDK8 in libc cfree+0x1c fixed in OpenJDK8 u262.
+     * 
+     */
+    ERROR_JDK8_LIBC_CFREE("error.jdk8.libc.cfree"),
+
+    /**
      * Property key for a crash on RHEL7 where a power8 rpm is deployed on power9. Power8 support is through the
      * rhel-7-for-power-le-rpms repo (least release 7.9). Power9 support is through the rhel-7-for-power-9-rpms repo
      * (last release 7.6).
@@ -218,11 +224,11 @@ public enum Analysis {
      * Property key for generic insufficient physical memory with oops enabled.
      */
     ERROR_OOME_OOPS("error.oome.oops"),
-
     /**
      * Property key for the JVM failing to start due to insufficient physical memory.
      */
     ERROR_OOME_STARTUP("error.oome.startup"),
+
     /**
      * Property key for the JVM failing to start due to insufficient physical memory when JVM memory &lt; 50% memory.
      */
@@ -844,6 +850,13 @@ public enum Analysis {
     INFO_TRUNCATED("info.truncated"),
 
     /**
+     * Property key for a crash happening during a bulk operation when the compiler has to recompile previously compiled
+     * code due to the compiled code no longer being valid (e.g. a dynamic object has changed) or with tiered
+     * compilation when client compiled code is replaced with server compiled code.
+     */
+    INFO_VM_OPERATION_BULK_REVOKE_BIAS("info.vm.operation.bulk.revoke.bias"),
+
+    /**
      * Property key for a crash happening during a concurrent GC stop-the-world operation (e.g. remark, cleanup).
      */
     INFO_VM_OPERATION_CONCURRENT_GC("info.vm.operation.concurrent.gc"),
@@ -852,13 +865,6 @@ public enum Analysis {
      * Property key for a crash happening during a heap dump operation.
      */
     INFO_VM_OPERATION_HEAP_DUMP("info.vm.operation.heap.dump"),
-
-    /**
-     * Property key for a crash happening during a bulk operation when the compiler has to recompile previously compiled
-     * code due to the compiled code no longer being valid (e.g. a dynamic object has changed) or with tiered
-     * compilation when client compiled code is replaced with server compiled code.
-     */
-    INFO_VM_OPERATION_BULK_REVOKE_BIAS("info.vm.operation.bulk.revoke.bias"),
 
     /**
      * Property key for a crash happening during a thread dump operation.
