@@ -844,6 +844,21 @@ public enum Analysis {
     INFO_TRUNCATED("info.truncated"),
 
     /**
+     * Property key for a crash happening during a concurrent GC stop-the-world operation (e.g. remark, cleanup).
+     */
+    INFO_VM_OPERATION_CONCURRENT_GC("info.vm.operation.concurrent.gc"),
+
+    /**
+     * Property key for a crash happening during a heap dump operation.
+     */
+    INFO_VM_OPERATION_HEAP_DUMP("info.vm.operation.heap.dump"),
+
+    /**
+     * Property key for a crash happening during a thread dump operation.
+     */
+    INFO_VM_OPERATION_THREAD_DUMP("info.vm.operation.thread.dump"),
+
+    /**
      * Property key for VMWare environment.
      */
     INFO_VMWARE("info.vmware"),

@@ -161,7 +161,7 @@ class TestMetaspaceEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
-    
+
     @Test
     void testNoClassSpace() {
         String logLine = "No class space";

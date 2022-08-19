@@ -534,7 +534,7 @@ public class FatalErrorLog {
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
-            // G1 collector is not good when memory is tight
+            // G1 collector is not good when memory is tightINFO_VM_OPERATION_HEAP_DUMP
             if (getGarbageCollectors().contains(GarbageCollector.G1)) {
                 analysis.add(Analysis.WARN_OOM_G1);
             ***REMOVED***
@@ -949,6 +949,17 @@ public class FatalErrorLog {
                     analysis.add(Analysis.INFO_IBM_TOOLKIT);
                     break;
                 ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+
+        // VM operations
+        if (vmOperationEvent != null) {
+            if (vmOperationEvent.getVmOperation().equals("CGC_Operation")) {
+                analysis.add(Analysis.INFO_VM_OPERATION_CONCURRENT_GC);
+            ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("HeapDumper")) {
+                analysis.add(Analysis.INFO_VM_OPERATION_HEAP_DUMP);
+            ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("PrintThreads")) {
+                analysis.add(Analysis.INFO_VM_OPERATION_THREAD_DUMP);
             ***REMOVED***
         ***REMOVED***
     ***REMOVED***

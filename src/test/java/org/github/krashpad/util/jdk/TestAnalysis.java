@@ -34,6 +34,7 @@ import org.github.krashpad.domain.jdk.StackEvent;
 import org.github.krashpad.domain.jdk.TimeEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
+import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.ErrUtil;
@@ -226,6 +227,30 @@ class TestAnalysis {
                 Analysis.WARN_OPT_CONTAINER_PERF_DATA_DISK + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_PERF_DATA_DISABLED),
                 Analysis.INFO_OPT_PERF_DATA_DISABLED + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testVmOperationHeapDump() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmOperation = "VM_Operation (0x0000000054ede490): HeapDumper, mode: safepoint, requested by thread "
+                + "0x000000004d180000";
+        VmOperationEvent event = new VmOperationEvent(vmOperation);
+        fel.setVmOperationEvent(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_HEAP_DUMP),
+                Analysis.INFO_VM_OPERATION_HEAP_DUMP + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testVmOperationConcurrentGc() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmOperation = "VM_Operation (0x0000008e276ff410): CGC_Operation, mode: safepoint, requested by thread "
+                + "0x000001d9d3e12800";
+        VmOperationEvent event = new VmOperationEvent(vmOperation);
+        fel.setVmOperationEvent(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_CONCURRENT_GC),
+                Analysis.INFO_VM_OPERATION_CONCURRENT_GC + " analysis not identified.");
     ***REMOVED***
 
     @Test

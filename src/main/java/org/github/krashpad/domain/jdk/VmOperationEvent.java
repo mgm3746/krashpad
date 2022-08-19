@@ -46,7 +46,8 @@ public class VmOperationEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^VM_Operation \\(" + JdkRegEx.ADDRESS + "\\): (.+)$";
+    private static final String REGEX = "^VM_Operation \\(" + JdkRegEx.ADDRESS
+            + "\\): ((CGC_Operation|HeapDumper|PrintThreads).+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -83,13 +84,29 @@ public class VmOperationEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return The VM operation.
+     * @return The VM operation string. For example:
+     * 
+     *         PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a000
+     */
+    public String getVmOperationString() {
+        String vmOperation = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            vmOperation = matcher.group(6);
+        ***REMOVED***
+        return vmOperation;
+    ***REMOVED***
+
+    /**
+     * @return The VM operation. For example:
+     * 
+     *         PrintThreads
      */
     public String getVmOperation() {
         String vmOperation = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            vmOperation = matcher.group(6);
+            vmOperation = matcher.group(7);
         ***REMOVED***
         return vmOperation;
     ***REMOVED***

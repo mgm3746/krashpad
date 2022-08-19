@@ -408,7 +408,7 @@ public class Main {
             if (fel.getCurrentThread() != null && fel.getCurrentThread().matches("^VMThread.+$")
                     && fel.getVmOperationEvent() != null) {
                 printWriter.write(
-                        "VM operation: " + fel.getVmOperationEvent().getVmOperation() + Constants.LINE_SEPARATOR);
+                        "VM operation: " + fel.getVmOperationEvent().getVmOperationString() + Constants.LINE_SEPARATOR);
             ***REMOVED***
             printWriter.write("***REMOVED*** Java threads: " + fel.getJavaThreadCount() + Constants.LINE_SEPARATOR);
 

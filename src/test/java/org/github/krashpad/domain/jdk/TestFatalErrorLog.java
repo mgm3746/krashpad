@@ -22,11 +22,11 @@ import java.io.File;
 
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
-import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.Constants.Device;
 import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
+import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
@@ -252,6 +252,8 @@ class TestFatalErrorLog {
         assertEquals(255838, fel.getThreadsMax(), "threads-max not correct.");
         assertEquals(32768, fel.getPidMax(), "pid_max not correct.");
         assertEquals(65530, fel.getMaxMapCount(), "max_map_count not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_THREAD_DUMP),
+                Analysis.INFO_VM_OPERATION_THREAD_DUMP + " analysis not identified.");
     ***REMOVED***
 
     @Test

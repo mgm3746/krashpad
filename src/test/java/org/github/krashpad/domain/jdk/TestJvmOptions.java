@@ -99,7 +99,7 @@ class TestJvmOptions {
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertEquals("-XX:CompileThreshold=5000", jvmOptions.getCompileThreshold(), "CompileThreshold not correct.");
     ***REMOVED***
-    
+
     @Test
     void testDisableAttachMechanism() {
         String jvmArgs = "-XX:+DisableAttachMechanism";
