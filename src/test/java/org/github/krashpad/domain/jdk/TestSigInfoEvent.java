@@ -38,6 +38,15 @@ class TestSigInfoEvent {
     ***REMOVED***
 
     @Test
+    void testExceptionCodeWritingAddress() {
+        String logLine = "siginfo: ExceptionCode=0xc0000005, writing address 0x0000000000000024";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
+        SigInfoEvent event = new SigInfoEvent(logLine);
+        assertEquals(SignalNumber.EXCEPTION_ACCESS_VIOLATION, event.getSignalNumber(), "Signal number not correct.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,

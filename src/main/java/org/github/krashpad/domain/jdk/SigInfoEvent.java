@@ -76,7 +76,7 @@ public class SigInfoEvent implements LogEvent {
             + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|" + SignalCode.SI_USER + ")\\), (si_addr: "
             + JdkRegEx.ADDRESS
             + "|sent from pid: \\d{1,***REMOVED*** \\(uid: \\d{1,***REMOVED***\\)))|(ExceptionCode=|EXCEPTION_ACCESS_VIOLATION \\()"
-            + JdkRegEx.ADDRESS + "[\\)]{0,1***REMOVED***, reading address " + JdkRegEx.ADDRESS + ")$";
+            + JdkRegEx.ADDRESS + "[\\)]{0,1***REMOVED***, (reading|writing) address " + JdkRegEx.ADDRESS + ")$";
 
     static {
         PATTERN = Pattern.compile(SigInfoEvent.REGEX);
@@ -177,9 +177,9 @@ public class SigInfoEvent implements LogEvent {
                 ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {
                     number = SignalNumber.SIGSEGV;
                 ***REMOVED***
-            ***REMOVED*** else if (matcher.group(12) != null) {
+            ***REMOVED*** else if (matcher.group(13) != null) {
                 // Windows
-                if (matcher.group(12).matches("0xc0000005")) {
+                if (matcher.group(13).matches("0xc0000005")) {
                     number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
                 ***REMOVED***
             ***REMOVED***
