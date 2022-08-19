@@ -30,6 +30,7 @@ import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.HeaderEvent;
 import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
+import org.github.krashpad.domain.jdk.SigInfoEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
 import org.github.krashpad.domain.jdk.TimeEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
@@ -963,6 +964,20 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testFpe() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String siginfo = "siginfo: si_signo: 8 (SIGFPE), si_code: 1 (FPE_INTDIV), si_addr: 0x00007fdfe95e789f";
+        SigInfoEvent event = new SigInfoEvent(siginfo);
+        fel.setSigInfoEvent(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGNO_SIGFPE),
+                Analysis.INFO_SIGNO_SIGFPE + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGCODE_FPE_INTDIV),
+                Analysis.INFO_SIGCODE_FPE_INTDIV + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_FPE), Analysis.ERROR_FPE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testFreetypeFontScalerGetGlyphImageNative() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset54.txt");
         Manager manager = new Manager();
@@ -1868,7 +1883,6 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
     ***REMOVED***
 
-    @Test
     void testOomeJavaHeap() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset36.txt");
         Manager manager = new Manager();

@@ -278,6 +278,8 @@ public class JdkUtil {
      * 
      * BUS_OBJERR: Hardware issue.
      * 
+     * FPE_INTDIV: Floating point error (division by 0, modulo by 0, integer overflow).
+     * 
      * SEGV_ACCERR: The access is not allowed. For example: (1) Attempting to write to read-only memory. (2) Attempting
      * to write to protected (OS) memory. (3) Attempting to access an array at an index greater than the array size (out
      * of bounds).
@@ -290,7 +292,9 @@ public class JdkUtil {
      */
     public enum SignalCode {
         //
-        BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, ILL_ILLOPN, SEGV_ACCERR, SEGV_MAPERR, SI_KERNEL, SI_USER, UNKNOWN
+        BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, FPE_INTDIV, ILL_ILLOPN, SEGV_ACCERR, SEGV_MAPERR, SI_KERNEL, SI_USER,
+        //
+        UNKNOWN
     ***REMOVED***
 
     /**
@@ -298,13 +302,15 @@ public class JdkUtil {
      * 
      * SIGBUS: Invalid memory address.
      * 
+     * SIGFPE: Floating point error (division by 0, modulo by 0, integer overflow).
+     * 
      * SIGILL: Illegal instruction at the processor.
      * 
      * SIGSEGV, EXCEPTION_ACCESS_VIOLATION: Segmentation fault. Accessing valid memory in an invalid way.
      */
     public enum SignalNumber {
         //
-        EXCEPTION_ACCESS_VIOLATION, SIGBUS, SIGILL, SIGSEGV, UNKNOWN
+        EXCEPTION_ACCESS_VIOLATION, SIGBUS, SIGFPE, SIGILL, SIGSEGV, UNKNOWN
     ***REMOVED***
 
     /**
@@ -1006,7 +1012,7 @@ public class JdkUtil {
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.12.0.7-0.el8_1.x86_64",
                 new Release("Jul 14 2021 00:00:00", 12, "11.0.12+7-LTS"));
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.11.0.9-2.el8_4.x86_64",
-                new Release("Apr 15 2021 00:00:00", 11, "11.0.11+9-LTS"));
+                new Release("Apr 15 2021 01:22:52", 11, "11.0.11+9-LTS"));
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.11.0.9-0.el8_3.x86_64",
                 new Release("Apr 15 2021 01:33:28", 11, "11.0.11+9-LTS"));
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.11.0.9-0.el8_2.x86_64",

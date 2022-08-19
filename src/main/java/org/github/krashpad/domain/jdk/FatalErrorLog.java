@@ -597,6 +597,9 @@ public class FatalErrorLog {
         case SIGBUS:
             analysis.add(Analysis.INFO_SIGNO_SIGBUS);
             break;
+        case SIGFPE:
+            analysis.add(Analysis.INFO_SIGNO_SIGFPE);
+            break;
         case SIGILL:
             analysis.add(Analysis.INFO_SIGNO_SIGILL);
             break;
@@ -622,6 +625,9 @@ public class FatalErrorLog {
         case BUS_OBJERR:
             analysis.add(Analysis.INFO_SIGCODE_BUS_OBJERR);
             break;
+        case FPE_INTDIV:
+            analysis.add(Analysis.INFO_SIGCODE_FPE_INTDIV);
+            break;
         case ILL_ILLOPN:
             analysis.add(Analysis.INFO_SIGCODE_ILL_ILLOPN);
             break;
@@ -640,6 +646,10 @@ public class FatalErrorLog {
         case UNKNOWN:
         default:
             break;
+        ***REMOVED***
+        // Floating point error
+        if (getSignalNumber().equals(SignalNumber.SIGFPE) || getSignalCode().equals(SignalCode.FPE_INTDIV)) {
+            analysis.add(Analysis.ERROR_FPE);
         ***REMOVED***
         // pthread_getcpuclockid
         if (getStackFrameTop() != null
@@ -697,9 +707,6 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_LIBAIO_CONTEXT_DONE);
         ***REMOVED***
         // container
-        if (!getContainerInfoEvents().isEmpty()) {
-            analysis.add(Analysis.INFO_CGROUP);
-        ***REMOVED***
         if (getJvmMemTotal() > 0 && getOsMemTotal() > 0 && getJvmMemTotal() != getOsMemTotal()) {
             analysis.add(Analysis.INFO_MEMORY_JVM_NE_SYSTEM);
             if (haveCgroupMemoryLimit()) {

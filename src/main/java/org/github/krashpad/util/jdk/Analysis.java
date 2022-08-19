@@ -66,6 +66,11 @@ public enum Analysis {
     ERROR_EXPLICIT_GC_DISABLED_EAP7("error.explicit.gc.disabled.eap7"),
 
     /**
+     * Property key for floating point error.
+     */
+    ERROR_FPE("error.fpe"),
+
+    /**
      * Property key for a crash due to a temporary font file being removed from java.io.tmpdir.
      */
     ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE("error.freetype.font.scaler.get.glyph.image.native"),
@@ -765,6 +770,11 @@ public enum Analysis {
     INFO_SIGCODE_BUS_OBJERR("info.sigcode.bus.objerr"),
 
     /**
+     * Property key for FPE_INTDIV.
+     */
+    INFO_SIGCODE_FPE_INTDIV("info.sigcode.fpe.intdiv"),
+
+    /**
      * Property key for ILL_ILLOPN
      */
     INFO_SIGCODE_ILL_ILLOPN("info.sigcode.ill.illopn"),
@@ -798,6 +808,11 @@ public enum Analysis {
      * Property key for SIGBUS crash.
      */
     INFO_SIGNO_SIGBUS("info.signo.sigbus"),
+
+    /**
+     * Property key for SIGFPE crash.
+     */
+    INFO_SIGNO_SIGFPE("info.signo.sigfpe"),
 
     /**
      * Property key for SIGILL crash.

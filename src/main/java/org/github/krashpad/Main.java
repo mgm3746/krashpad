@@ -157,7 +157,6 @@ public class Main {
                                     + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
-
             if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 printWriter.write("Container:" + Constants.LINE_SEPARATOR);

@@ -70,11 +70,11 @@ public class SigInfoEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^siginfo: ((si_signo: \\d{1,2***REMOVED*** \\((" + SignalNumber.EXCEPTION_ACCESS_VIOLATION
-            + "|" + SignalNumber.SIGBUS + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV
-            + ")\\), si_code: \\d{1,3***REMOVED*** \\((" + SignalCode.BUS_ADRALN + "|" + SignalCode.BUS_ADRERR + "|"
-            + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|" + SignalCode.SEGV_ACCERR + "|"
-            + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|" + SignalCode.SI_USER + ")\\), (si_addr: "
-            + JdkRegEx.ADDRESS
+            + "|" + SignalNumber.SIGBUS + "|" + SignalNumber.SIGFPE + "|" + SignalNumber.SIGILL + "|"
+            + SignalNumber.SIGSEGV + ")\\), si_code: \\d{1,3***REMOVED*** \\((" + SignalCode.BUS_ADRALN + "|"
+            + SignalCode.BUS_ADRERR + "|" + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|"
+            + SignalCode.SEGV_ACCERR + "|" + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|"
+            + SignalCode.SI_USER + "|" + SignalCode.FPE_INTDIV + ")\\), (si_addr: " + JdkRegEx.ADDRESS
             + "|sent from pid: \\d{1,***REMOVED*** \\(uid: \\d{1,***REMOVED***\\)))|(ExceptionCode=|EXCEPTION_ACCESS_VIOLATION \\()"
             + JdkRegEx.ADDRESS + "[\\)]{0,1***REMOVED***, (reading|writing) address " + JdkRegEx.ADDRESS + ")$";
 
@@ -145,6 +145,8 @@ public class SigInfoEvent implements LogEvent {
                     code = SignalCode.BUS_ADRERR;
                 ***REMOVED*** else if (matcher.group(4).matches(SignalCode.BUS_OBJERR.toString())) {
                     code = SignalCode.BUS_OBJERR;
+                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.FPE_INTDIV.toString())) {
+                    code = SignalCode.FPE_INTDIV;
                 ***REMOVED*** else if (matcher.group(4).matches(SignalCode.ILL_ILLOPN.toString())) {
                     code = SignalCode.ILL_ILLOPN;
                 ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SEGV_ACCERR.toString())) {
@@ -172,6 +174,8 @@ public class SigInfoEvent implements LogEvent {
             if (matcher.group(3) != null) {
                 if (matcher.group(3).matches(SignalNumber.SIGBUS.toString())) {
                     number = SignalNumber.SIGBUS;
+                ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGFPE.toString())) {
+                    number = SignalNumber.SIGFPE;
                 ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGILL.toString())) {
                     number = SignalNumber.SIGILL;
                 ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {

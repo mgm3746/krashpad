@@ -71,6 +71,16 @@ class TestSigInfoEvent {
     ***REMOVED***
 
     @Test
+    void testSignalCodeFpeIntdiv() {
+        String logLine = "siginfo: si_signo: 8 (SIGFPE), si_code: 1 (FPE_INTDIV), si_addr: 0x00007fdfe95e789f";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
+        SigInfoEvent event = new SigInfoEvent(logLine);
+        assertEquals(SignalNumber.SIGFPE, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.FPE_INTDIV, event.getSignalCode(), "Signal code not correct.");
+    ***REMOVED***
+
+    @Test
     void testSignalCodeIllIllOpn() {
         String logLine = "siginfo: si_signo: 4 (SIGILL), si_code: 2 (ILL_ILLOPN), si_addr: 0x00007f682098912c";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
