@@ -854,6 +854,13 @@ public enum Analysis {
     INFO_VM_OPERATION_HEAP_DUMP("info.vm.operation.heap.dump"),
 
     /**
+     * Property key for a crash happening during a bulk operation when the compiler has to recompile previously compiled
+     * code due to the compiled code no longer being valid (e.g. a dynamic object has changed) or with tiered
+     * compilation when client compiled code is replaced with server compiled code.
+     */
+    INFO_VM_OPERATION_BULK_REVOKE_BIAS("info.vm.operation.bulk.revoke.bias"),
+
+    /**
      * Property key for a crash happening during a thread dump operation.
      */
     INFO_VM_OPERATION_THREAD_DUMP("info.vm.operation.thread.dump"),

@@ -64,6 +64,8 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS),
+                Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS + " analysis not identified.");
     ***REMOVED***
 
     @Test

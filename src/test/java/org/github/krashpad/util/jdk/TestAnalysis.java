@@ -230,30 +230,6 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
-    void testVmOperationHeapDump() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String vmOperation = "VM_Operation (0x0000000054ede490): HeapDumper, mode: safepoint, requested by thread "
-                + "0x000000004d180000";
-        VmOperationEvent event = new VmOperationEvent(vmOperation);
-        fel.setVmOperationEvent(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_HEAP_DUMP),
-                Analysis.INFO_VM_OPERATION_HEAP_DUMP + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testVmOperationConcurrentGc() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String vmOperation = "VM_Operation (0x0000008e276ff410): CGC_Operation, mode: safepoint, requested by thread "
-                + "0x000001d9d3e12800";
-        VmOperationEvent event = new VmOperationEvent(vmOperation);
-        fel.setVmOperationEvent(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_CONCURRENT_GC),
-                Analysis.INFO_VM_OPERATION_CONCURRENT_GC + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
     void testCmsClassUnloadingDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:-CMSClassUnloadingEnabled";
@@ -2493,6 +2469,33 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testRhel6() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7fd421b89000-7fd4227ab000 r-xp 00000000 fd:01 264289                     "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.71-1.b15.el6_7.x86_64/jre/lib/amd64/server/libjvm.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.71-b15) for linux-amd64 JRE (1.8.0_71-b15), built on "
+                + "Jan 13 2016 21:08:08 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-16)";
+        VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
+        fel.setVmInfoEvent(vmEvent);
+        String os = "OS:Red Hat Enterprise Linux Server release 6.7 (Santiago)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        fel.doAnalysis();
+        assertFalse(fel.isRhBuildOpenJdk(), "Red Hat build of OpenJDK incorrectly identified.");
+        assertTrue(fel.isRhBuildString(), "Red Hat build string not identified.");
+        assertTrue(fel.isRhVersion(), "Red Hat version not identified.");
+        assertEquals(ErrUtil.getDate("Jan 13 2016 21:08:08"), fel.getJdkBuildDate(), "Build date not correct.");
+        assertFalse(fel.isRhBuildDate(), "Red Hat build date incorrectly identified.");
+        assertTrue(fel.isRhBuildDateUnknown(), "Red Hat build of OpenJDK date unknown not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_POSSIBLE),
+                Analysis.INFO_RH_BUILD_POSSIBLE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
+                Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testRhel7WorkstationrRpm() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset19.txt");
         Manager manager = new Manager();
@@ -3010,6 +3013,30 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_JDK_ANCIENT),
                 Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testVmOperationConcurrentGc() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmOperation = "VM_Operation (0x0000008e276ff410): CGC_Operation, mode: safepoint, requested by thread "
+                + "0x000001d9d3e12800";
+        VmOperationEvent event = new VmOperationEvent(vmOperation);
+        fel.setVmOperationEvent(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_CONCURRENT_GC),
+                Analysis.INFO_VM_OPERATION_CONCURRENT_GC + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testVmOperationHeapDump() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmOperation = "VM_Operation (0x0000000054ede490): HeapDumper, mode: safepoint, requested by thread "
+                + "0x000000004d180000";
+        VmOperationEvent event = new VmOperationEvent(vmOperation);
+        fel.setVmOperationEvent(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_HEAP_DUMP),
+                Analysis.INFO_VM_OPERATION_HEAP_DUMP + " analysis not identified.");
     ***REMOVED***
 
     @Test

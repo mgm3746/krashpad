@@ -398,7 +398,7 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             ***REMOVED***
         ***REMOVED*** else {
-            if (isRhBuildString() && isRhVersion() && isRhBuildDate()) {
+            if (isRhBuildString() && isRhVersion() && (isRhBuildDate() || isRhBuildDateUnknown())) {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
             ***REMOVED*** else if (isAdoptOpenJdkBuildString()) {
                 analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
@@ -954,7 +954,9 @@ public class FatalErrorLog {
 
         // VM operations
         if (vmOperationEvent != null) {
-            if (vmOperationEvent.getVmOperation().equals("CGC_Operation")) {
+            if (vmOperationEvent.getVmOperation().equals("BulkRevokeBias")) {
+                analysis.add(Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS);
+            ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("CGC_Operation")) {
                 analysis.add(Analysis.INFO_VM_OPERATION_CONCURRENT_GC);
             ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("HeapDumper")) {
                 analysis.add(Analysis.INFO_VM_OPERATION_HEAP_DUMP);
@@ -3546,6 +3548,7 @@ public class FatalErrorLog {
         boolean isRhBuildDate = false;
         if (getJdkBuildDate() != null) {
             String releaseString = getJdkReleaseString();
+            String rpmDirectory = getRpmDirectory();
             if (getOsType() == OsType.LINUX) {
                 switch (getJavaSpecification()) {
                 case JDK8:
@@ -3553,73 +3556,73 @@ public class FatalErrorLog {
                             && JdkUtil.isBuildDateKnown(JdkUtil.JDK8_RHEL_ZIPS.get(releaseString).getBuildDate())
                             && getJdkBuildDate()
                                     .compareTo(JdkUtil.JDK8_RHEL_ZIPS.get(releaseString).getBuildDate()) == 0)
-                            || (JdkUtil.JDK8_RHEL6_X86_64_RPMS.containsKey(releaseString)
+                            || (JdkUtil.JDK8_RHEL6_X86_64_RPMS.containsKey(rpmDirectory)
                                     && JdkUtil.isBuildDateKnown(
-                                            JdkUtil.JDK8_RHEL6_X86_64_RPMS.get(releaseString).getBuildDate())
+                                            JdkUtil.JDK8_RHEL6_X86_64_RPMS.get(rpmDirectory).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK8_RHEL6_X86_64_RPMS.get(releaseString).getBuildDate()) == 0)
-                            || (JdkUtil.JDK8_RHEL7_X86_64_RPMS.containsKey(releaseString)
+                                            JdkUtil.JDK8_RHEL6_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0)
+                            || (JdkUtil.JDK8_RHEL7_X86_64_RPMS.containsKey(rpmDirectory)
                                     && JdkUtil.isBuildDateKnown(
-                                            JdkUtil.JDK8_RHEL7_X86_64_RPMS.get(releaseString).getBuildDate())
+                                            JdkUtil.JDK8_RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK8_RHEL7_X86_64_RPMS.get(releaseString).getBuildDate()) == 0)
-                            || (JdkUtil.JDK8_RHEL7_PPC64_RPMS.containsKey(releaseString)
+                                            JdkUtil.JDK8_RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0)
+                            || (JdkUtil.JDK8_RHEL7_PPC64_RPMS.containsKey(rpmDirectory)
                                     && JdkUtil.isBuildDateKnown(
-                                            JdkUtil.JDK8_RHEL7_PPC64_RPMS.get(releaseString).getBuildDate())
+                                            JdkUtil.JDK8_RHEL7_PPC64_RPMS.get(rpmDirectory).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK8_RHEL7_PPC64_RPMS.get(releaseString).getBuildDate()) == 0)
-                            || (JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.containsKey(releaseString)
+                                            JdkUtil.JDK8_RHEL7_PPC64_RPMS.get(rpmDirectory).getBuildDate()) == 0)
+                            || (JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.containsKey(rpmDirectory)
                                     && JdkUtil.isBuildDateKnown(
-                                            JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.get(releaseString).getBuildDate())
+                                            JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.get(rpmDirectory).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.get(releaseString).getBuildDate()) == 0)
-                            || (JdkUtil.JDK8_RHEL8_X86_64_RPMS.containsKey(releaseString)
+                                            JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.get(rpmDirectory).getBuildDate()) == 0)
+                            || (JdkUtil.JDK8_RHEL8_X86_64_RPMS.containsKey(rpmDirectory)
                                     && JdkUtil.isBuildDateKnown(
-                                            JdkUtil.JDK8_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate())
+                                            JdkUtil.JDK8_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK8_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate()) == 0)
-                            || (JdkUtil.JDK8_RHEL9_X86_64_RPMS.containsKey(releaseString)
+                                            JdkUtil.JDK8_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0)
+                            || (JdkUtil.JDK8_RHEL9_X86_64_RPMS.containsKey(rpmDirectory)
                                     && JdkUtil.isBuildDateKnown(
-                                            JdkUtil.JDK8_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate())
+                                            JdkUtil.JDK8_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK8_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate()) == 0);
+                                            JdkUtil.JDK8_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0);
                     break;
                 case JDK11:
                     isRhBuildDate = (JdkUtil.JDK11_RHEL_ZIPS.containsKey(releaseString)
                             && JdkUtil.isBuildDateKnown(JdkUtil.JDK11_RHEL_ZIPS.get(releaseString).getBuildDate())
                             && getJdkBuildDate()
                                     .compareTo(JdkUtil.JDK11_RHEL_ZIPS.get(releaseString).getBuildDate()) == 0)
-                            || (JdkUtil.JDK11_RHEL7_X86_64_RPMS.containsKey(releaseString)
+                            || (JdkUtil.JDK11_RHEL7_X86_64_RPMS.containsKey(rpmDirectory)
                                     && JdkUtil.isBuildDateKnown(
-                                            JdkUtil.JDK11_RHEL7_X86_64_RPMS.get(releaseString).getBuildDate())
+                                            JdkUtil.JDK11_RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK11_RHEL7_X86_64_RPMS.get(releaseString).getBuildDate()) == 0)
-                            || (JdkUtil.JDK11_RHEL8_X86_64_RPMS.containsKey(releaseString)
+                                            JdkUtil.JDK11_RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0)
+                            || (JdkUtil.JDK11_RHEL8_X86_64_RPMS.containsKey(rpmDirectory)
                                     && JdkUtil.isBuildDateKnown(
-                                            JdkUtil.JDK11_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate())
+                                            JdkUtil.JDK11_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK11_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate()) == 0)
-                            || (JdkUtil.JDK11_RHEL9_X86_64_RPMS.containsKey(releaseString)
+                                            JdkUtil.JDK11_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0)
+                            || (JdkUtil.JDK11_RHEL9_X86_64_RPMS.containsKey(rpmDirectory)
                                     && JdkUtil.isBuildDateKnown(
-                                            JdkUtil.JDK11_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate())
+                                            JdkUtil.JDK11_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK11_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate()) == 0);
+                                            JdkUtil.JDK11_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0);
                     break;
                 case JDK17:
                     isRhBuildDate = (JdkUtil.JDK17_RHEL_ZIPS.containsKey(releaseString)
                             && JdkUtil.isBuildDateKnown(JdkUtil.JDK17_RHEL_ZIPS.get(releaseString).getBuildDate())
                             && getJdkBuildDate()
                                     .compareTo(JdkUtil.JDK17_RHEL_ZIPS.get(releaseString).getBuildDate()) == 0)
-                            || (JdkUtil.JDK17_RHEL8_X86_64_RPMS.containsKey(releaseString)
+                            || (JdkUtil.JDK17_RHEL8_X86_64_RPMS.containsKey(rpmDirectory)
                                     && JdkUtil.isBuildDateKnown(
-                                            JdkUtil.JDK17_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate())
+                                            JdkUtil.JDK17_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK17_RHEL8_X86_64_RPMS.get(releaseString).getBuildDate()) == 0)
-                            || (JdkUtil.JDK17_RHEL9_X86_64_RPMS.containsKey(releaseString)
+                                            JdkUtil.JDK17_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0)
+                            || (JdkUtil.JDK17_RHEL9_X86_64_RPMS.containsKey(rpmDirectory)
                                     && JdkUtil.isBuildDateKnown(
-                                            JdkUtil.JDK17_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate())
+                                            JdkUtil.JDK17_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate())
                                     && getJdkBuildDate().compareTo(
-                                            JdkUtil.JDK17_RHEL9_X86_64_RPMS.get(releaseString).getBuildDate()) == 0);
+                                            JdkUtil.JDK17_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0);
                     break;
                 case JDK6:
                 case JDK7:
@@ -3656,6 +3659,81 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return isRhBuildDate;
+    ***REMOVED***
+
+    /**
+     * @return true if the Red Hat build date/time for the JDK version is unknown (ends in "00:00:00"), false otherwise.
+     */
+    public boolean isRhBuildDateUnknown() {
+        boolean isRhBuildDateUnknown = false;
+        if (getJdkBuildDate() != null) {
+            String releaseString = getJdkReleaseString();
+            String rpmDirectory = getRpmDirectory();
+            if (getOsType() == OsType.LINUX) {
+                switch (getJavaSpecification()) {
+                case JDK8:
+                    isRhBuildDateUnknown = (JdkUtil.JDK8_RHEL_ZIPS.containsKey(releaseString)
+                            && !JdkUtil.isBuildDateKnown(JdkUtil.JDK8_RHEL_ZIPS.get(releaseString).getBuildDate()))
+                            || (JdkUtil.JDK8_RHEL6_X86_64_RPMS.containsKey(rpmDirectory) && !JdkUtil
+                                    .isBuildDateKnown(JdkUtil.JDK8_RHEL6_X86_64_RPMS.get(rpmDirectory).getBuildDate()))
+                            || (JdkUtil.JDK8_RHEL7_X86_64_RPMS.containsKey(rpmDirectory) && !JdkUtil
+                                    .isBuildDateKnown(JdkUtil.JDK8_RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate()))
+                            || (JdkUtil.JDK8_RHEL7_PPC64_RPMS.containsKey(rpmDirectory) && !JdkUtil
+                                    .isBuildDateKnown(JdkUtil.JDK8_RHEL7_PPC64_RPMS.get(rpmDirectory).getBuildDate()))
+                            || (JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.containsKey(rpmDirectory) && !JdkUtil
+                                    .isBuildDateKnown(JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.get(rpmDirectory).getBuildDate()))
+                            || (JdkUtil.JDK8_RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && !JdkUtil
+                                    .isBuildDateKnown(JdkUtil.JDK8_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()))
+                            || (JdkUtil.JDK8_RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && !JdkUtil
+                                    .isBuildDateKnown(JdkUtil.JDK8_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()));
+                    break;
+                case JDK11:
+                    isRhBuildDateUnknown = (JdkUtil.JDK11_RHEL_ZIPS.containsKey(releaseString)
+                            && !JdkUtil.isBuildDateKnown(JdkUtil.JDK11_RHEL_ZIPS.get(releaseString).getBuildDate()))
+                            || (JdkUtil.JDK11_RHEL7_X86_64_RPMS.containsKey(rpmDirectory) && !JdkUtil
+                                    .isBuildDateKnown(JdkUtil.JDK11_RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate()))
+                            || (JdkUtil.JDK11_RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && !JdkUtil
+                                    .isBuildDateKnown(JdkUtil.JDK11_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()))
+                            || (JdkUtil.JDK11_RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && !JdkUtil.isBuildDateKnown(
+                                    JdkUtil.JDK11_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()));
+                    break;
+                case JDK17:
+                    isRhBuildDateUnknown = (JdkUtil.JDK17_RHEL_ZIPS.containsKey(releaseString)
+                            && !JdkUtil.isBuildDateKnown(JdkUtil.JDK17_RHEL_ZIPS.get(releaseString).getBuildDate()))
+                            || (JdkUtil.JDK17_RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && !JdkUtil
+                                    .isBuildDateKnown(JdkUtil.JDK17_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()))
+                            || (JdkUtil.JDK17_RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && !JdkUtil.isBuildDateKnown(
+                                    JdkUtil.JDK17_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()));
+                    break;
+                case JDK6:
+                case JDK7:
+                case UNKNOWN:
+                default:
+                    break;
+                ***REMOVED***
+            ***REMOVED*** else if (getOsType() == OsType.WINDOWS) {
+                switch (getJavaSpecification()) {
+                case JDK8:
+                    isRhBuildDateUnknown = JdkUtil.JDK8_WINDOWS_ZIPS.containsKey(releaseString)
+                            && !JdkUtil.isBuildDateKnown(JdkUtil.JDK8_WINDOWS_ZIPS.get(releaseString).getBuildDate());
+                    break;
+                case JDK11:
+                    isRhBuildDateUnknown = JdkUtil.JDK11_WINDOWS_ZIPS.containsKey(releaseString)
+                            && !JdkUtil.isBuildDateKnown(JdkUtil.JDK11_WINDOWS_ZIPS.get(releaseString).getBuildDate());
+                    break;
+                case JDK17:
+                    isRhBuildDateUnknown = JdkUtil.JDK17_WINDOWS_ZIPS.containsKey(releaseString)
+                            && !JdkUtil.isBuildDateKnown(JdkUtil.JDK17_WINDOWS_ZIPS.get(releaseString).getBuildDate());
+                    break;
+                case JDK6:
+                case JDK7:
+                case UNKNOWN:
+                default:
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return isRhBuildDateUnknown;
     ***REMOVED***
 
     /**
