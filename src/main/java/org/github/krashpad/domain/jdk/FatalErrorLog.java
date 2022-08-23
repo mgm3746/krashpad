@@ -498,7 +498,17 @@ public class FatalErrorLog {
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
-                if ((allocation >= 0 && getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
+                if (allocation >= 0 && getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
+                        && allocation > (getJvmMemFree() + getJvmSwapFree())) {
+                    // Not enough physical memory
+                    if (getJvmMemoryMax() > 0 && getJvmMemTotal() > 0) {
+                        if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) >= 95) {
+                            analysis.add(Analysis.ERROR_OOME_JVM);
+                        ***REMOVED*** else {
+                            analysis.add(Analysis.ERROR_OOME_EXTERNAL);
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED*** else if ((allocation >= 0 && getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
                         && allocation < (getJvmMemFree() + getJvmSwapFree()))
                         || (getJvmMemFree() >= 0 && getJvmMemTotal() > 0
                                 && JdkMath.calcPercent(getJvmMemFree(), getJvmMemTotal()) >= 50)
@@ -517,20 +527,11 @@ public class FatalErrorLog {
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else {
-                    // low memory
-                    if (getJvmMemoryMax() > 0 && getJvmMemTotal() > 0) {
-                        if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) >= 95) {
-                            analysis.add(Analysis.ERROR_OOME_JVM);
-                        ***REMOVED*** else {
-                            analysis.add(Analysis.ERROR_OOME_EXTERNAL);
-                        ***REMOVED***
+                    if (!(isTruncated() || isInHeader("Java Heap may be blocking the growth of the native heap")
+                            || isInHeader("compressed oops"))) {
+                        analysis.add(Analysis.ERROR_OOME);
                     ***REMOVED*** else {
-                        if (!(isTruncated() || isInHeader("Java Heap may be blocking the growth of the native heap")
-                                || isInHeader("compressed oops"))) {
-                            analysis.add(Analysis.ERROR_OOME);
-                        ***REMOVED*** else {
-                            analysis.add(Analysis.ERROR_OOME_OOPS);
-                        ***REMOVED***
+                        analysis.add(Analysis.ERROR_OOME_OOPS);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -707,6 +708,9 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_LIBAIO_CONTEXT_DONE);
         ***REMOVED***
         // container
+        if (!getContainerInfoEvents().isEmpty() && getJvmSwap() == 0) {
+            analysis.add(Analysis.INFO_CGROUP);
+        ***REMOVED***
         if (getJvmMemTotal() > 0 && getOsMemTotal() > 0 && getJvmMemTotal() != getOsMemTotal()) {
             analysis.add(Analysis.INFO_MEMORY_JVM_NE_SYSTEM);
             if (haveCgroupMemoryLimit()) {

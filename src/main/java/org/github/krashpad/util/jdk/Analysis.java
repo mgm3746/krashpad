@@ -194,8 +194,7 @@ public enum Analysis {
     ERROR_OOME_AMQ_CLI("error.oome.amq.cli"),
 
     /**
-     * info.dbcp2=Apache Commons Pool 2: https://commons.apache.org/proper/commons-dbcp/. Property key for insufficient
-     * physical memory due to an external process.
+     * Property key for insufficient physical memory due to an external process.
      */
     ERROR_OOME_EXTERNAL("error.oome.external"),
 

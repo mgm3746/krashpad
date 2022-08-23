@@ -738,17 +738,6 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
-    void testRemoteDebuggingEnabledRunjdwp() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xmx2g -Xrunjdwp:transport=dt_socket,server=y,address=8787,suspend=n -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED),
-                Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
     void testDefaultCollectorJdk11() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.13+8-LTS) for linux-amd64 JRE (11.0.13+8-LTS), built "
@@ -890,7 +879,7 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7),
                 Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7 + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED),
-                Analysis.WARN_OPT_EXPLICIT_GC_DISABLED + " analysis not identified.");
+                Analysis.WARN_OPT_EXPLICIT_GC_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
     /**
@@ -1904,6 +1893,15 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testOom() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset79.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL),
+                Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testOomAmqCli() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset67.txt");
         Manager manager = new Manager();
@@ -2528,6 +2526,17 @@ class TestAnalysis {
                 Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_VMWARE),
                 Analysis.INFO_VMWARE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testRemoteDebuggingEnabledRunjdwp() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx2g -Xrunjdwp:transport=dt_socket,server=y,address=8787,suspend=n -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED),
+                Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
     ***REMOVED***
 
     @Test
