@@ -33,6 +33,13 @@ class TestProcessMemoryEvent {
     ***REMOVED***
 
     @Test
+    void testGlibcMallocTunables() {
+        String logLine = "glibc malloc tunables: MALLOC_ARENA_MAX=1";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ProcessMemoryEvent,
+                JdkUtil.LogEventType.PROCESS_MEMORY.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
     void testIdentity() {
         String logLine = "Process Memory:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.PROCESS_MEMORY,

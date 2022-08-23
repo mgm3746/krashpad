@@ -50,7 +50,8 @@ public class ProcessMemoryEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + ProcessMemoryEvent.REGEX_HEADER
-            + "|C-Heap outstanding allocations:|Resident Set Size:|Swapped out:|Virtual Size:).*$";
+            + "|glibc malloc tunables|C-Heap outstanding allocations:|Resident Set Size:|Swapped out:|"
+            + "Virtual Size:).*$";
 
     /**
      * Regular expression for the header.
