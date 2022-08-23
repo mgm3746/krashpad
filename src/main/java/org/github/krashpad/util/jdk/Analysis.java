@@ -432,6 +432,11 @@ public enum Analysis {
     INFO_OPT_D64_REDUNDANT("info.opt.d64.redundant"),
 
     /**
+     * Property key for enable debugging using the Java Virtual Machine Debug Interface (JVMDI) with -Xdebug.
+     */
+    INFO_OPT_DEBUG("info.opt.debug"),
+
+    /**
      * Property key for -XX:+UnlockDiagnosticVMOptions.
      */
     INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED("info.opt.diagnostic.vm.options.enabled"),

@@ -344,6 +344,16 @@ public class JvmOptions {
     private boolean d64 = false;
 
     /**
+     * Option to enable debugging using the Java Virtual Machine Debug Interface (JVMDI). JVMDI has been removed, so
+     * this option does nothing. For example:
+     * 
+     * <pre>
+     * -Xdebug
+     * </pre>
+     */
+    private boolean debug = false;
+
+    /**
      * The option to enable/disable the compiler generating metadata for code not at safe points to improve the accuracy
      * of Java Flight Recorder (JFR) Method Profiler.
      * 
@@ -1202,6 +1212,15 @@ public class JvmOptions {
     private boolean rs = false;
 
     /**
+     * JVM option to load the Java Debug Wire Protocol (JDWP) library. Equivalent to -agentlib:jdwp.
+     * 
+     * For example:
+     * 
+     * -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n
+     */
+    private ArrayList<String> runjdwp = new ArrayList<String>();
+
+    /**
      * Option to enable the server JIT compiler, a separate Java binary, optimized for overall performance. The only JIT
      * compiler available on 64-bit. For example:
      * 
@@ -1825,6 +1844,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-Xcomp$")) {
                     comp = true;
                     key = "comp";
+                ***REMOVED*** else if (option.matches("^-Xdebug$")) {
+                    debug = true;
+                    key = "debug";
                 ***REMOVED*** else if (option.matches("^-Xint$")) {
                     xInt = true;
                     key = "int";
@@ -2134,6 +2156,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:ReservedCodeCacheSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     reservedCodeCacheSize = option;
                     key = "ReservedCodeCacheSize";
+                ***REMOVED*** else if (option.matches("^-Xrunjdwp:.+$")) {
+                    runjdwp.add(option);
+                    key = "runjdwp";
                 ***REMOVED*** else if (option.matches("^-XX:ShenandoahGCHeuristics=(adaptive|aggressive|compact|static)$")) {
                     shenandoahGcHeuristics = option;
                     key = "ShenandoahGCHeuristics";
@@ -2300,6 +2325,18 @@ public class JvmOptions {
             while (iterator.hasNext()) {
                 String agentlib = iterator.next();
                 Matcher matcher = pattern.matcher(agentlib);
+                if (matcher.find()) {
+                    analysis.add(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        if (!analysis.contains(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED) && !runjdwp.isEmpty()) {
+            Iterator<String> iterator = runjdwp.iterator();
+            Pattern pattern = Pattern.compile("^-Xrunjdwp:transport=dt_socket.+$");
+            while (iterator.hasNext()) {
+                String runjdwp = iterator.next();
+                Matcher matcher = pattern.matcher(runjdwp);
                 if (matcher.find()) {
                     analysis.add(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED);
                     break;
@@ -2798,6 +2835,10 @@ public class JvmOptions {
         if (minHeapDeltaBytes != null) {
             analysis.add(Analysis.INFO_OPT_MIN_HEAP_DELTA_BYTES);
         ***REMOVED***
+        // Check for -Xdebug
+        if (debug) {
+            analysis.add(Analysis.INFO_OPT_DEBUG);
+        ***REMOVED***
     ***REMOVED***
 
     public String getAdaptiveSizePolicyWeight() {
@@ -2818,6 +2859,10 @@ public class JvmOptions {
 
     public ArrayList<String> getAgentlib() {
         return agentlib;
+    ***REMOVED***
+
+    public ArrayList<String> getRunjdwp() {
+        return runjdwp;
     ***REMOVED***
 
     public ArrayList<String> getAgentpath() {
@@ -3554,6 +3599,10 @@ public class JvmOptions {
 
     public boolean isD64() {
         return d64;
+    ***REMOVED***
+
+    public boolean isDebug() {
+        return debug;
     ***REMOVED***
 
     public boolean isNoclassgc() {
