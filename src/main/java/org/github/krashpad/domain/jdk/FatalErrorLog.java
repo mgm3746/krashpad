@@ -987,6 +987,16 @@ public class FatalErrorLog {
                 analysis.add(Analysis.INFO_VM_OPERATION_THREAD_DUMP);
             ***REMOVED***
         ***REMOVED***
+        // DBCP2
+        String orgApacheCommonsDbcp2 = "org[\\.\\/]apache[\\.\\/]commons[\\.\\/]dbcp2[\\.\\/]";
+        if (isInStack(orgApacheCommonsDbcp2)) {
+            analysis.add(Analysis.INFO_DBCP2);
+        ***REMOVED***
+        // PostgreSQL connection
+        String postgreSqlConnection = "org[\\.\\/]postgresql[\\.\\/]Driver[\\.\\/]connect\\(";
+        if (isInStack(postgreSqlConnection)) {
+            analysis.add(Analysis.INFO_POSTGRESQL_CONNECTION);
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {

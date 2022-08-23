@@ -194,7 +194,8 @@ public enum Analysis {
     ERROR_OOME_AMQ_CLI("error.oome.amq.cli"),
 
     /**
-     * Property key for insufficient physical memory due to an external process.
+     * info.dbcp2=Apache Commons Pool 2: https://commons.apache.org/proper/commons-dbcp/. Property key for insufficient
+     * physical memory due to an external process.
      */
     ERROR_OOME_EXTERNAL("error.oome.external"),
 
@@ -330,6 +331,11 @@ public enum Analysis {
      * Property key for cgroup memory limit.
      */
     INFO_CGROUP_MEMORY_LIMIT("info.cgroup.memory.limit"),
+
+    /**
+     * Property key for Apache Commons Database Database Connection Pool 2.
+     */
+    INFO_DBCP2("info.dbcp2"),
 
     /**
      * Property key for HyperV (Viridian) environment. Previously referred to as Windows Server Virtualization.
@@ -703,6 +709,11 @@ public enum Analysis {
      * Property key for class loading logging (sent to standard out) enabled with -verbose:class.
      */
     INFO_OPT_VERBOSE_CLASS("info.opt.verbose.class"),
+
+    /**
+     * Property key for PostgreSQL connection.
+     */
+    INFO_POSTGRESQL_CONNECTION("info.postgresql.connection"),
 
     /**
      * Property key for Red Hat build of OpenJDK on CentOS.
