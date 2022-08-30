@@ -1306,7 +1306,7 @@ public class JdkUtil {
     /**
      * @param jdk11ReleaseString
      *            The JDK11 release string (e.g. 11.0.9+11-LTS).
-     * @return The JDK update number (e.g. 9).
+     * @return The JDK11 update number (e.g. 9).
      */
     public static final int getJdk11UpdateNumber(String jdk11ReleaseString) {
         int jdk11UpdateNumber = Integer.MIN_VALUE;
@@ -1318,11 +1318,27 @@ public class JdkUtil {
         ***REMOVED***
         return jdk11UpdateNumber;
     ***REMOVED***
+    
+    /**
+     * @param jdk17ReleaseString
+     *            The JDK17 release string (e.g. 17.0.4+8-LTS).
+     * @return The JDK update number (e.g. 4).
+     */
+    public static final int getJdk17UpdateNumber(String jdk17ReleaseString) {
+        int jdk17UpdateNumber = Integer.MIN_VALUE;
+        String regEx = "17.0.(\\d{1,***REMOVED***).+";
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(jdk17ReleaseString);
+        if (matcher.find()) {
+            jdk17UpdateNumber = Integer.parseInt(matcher.group(1));
+        ***REMOVED***
+        return jdk17UpdateNumber;
+    ***REMOVED***
 
     /**
      * @param jdk8ReleaseString
      *            The JDK8 release string (e.g. 1.8.0_222-b10).
-     * @return The JDK update number (e.g. 222).
+     * @return The JDK8 update number (e.g. 222).
      */
     public static final int getJdk8UpdateNumber(String jdk8ReleaseString) {
         int jdk8UpdateNumber = Integer.MIN_VALUE;

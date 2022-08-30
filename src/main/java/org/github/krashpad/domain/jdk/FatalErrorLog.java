@@ -914,7 +914,7 @@ public class FatalErrorLog {
         if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_DRIVER);
         ***REMOVED***
-        // Crash in CompilerThread
+        // Specific CompilerThread crashes
         if (getCurrentThread() != null && getCurrentThread().matches("^.+C2 CompilerThread\\d{1,***REMOVED***.+$")) {
             if (isInHeader("guarantee\\(n != NULL\\) failed: No Node.") && isInStack("IdealLoopTree::beautify_loops")) {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS);
@@ -931,6 +931,23 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+            ***REMOVED*** else if (getCurrentCompileTaskEvents().size() > 0) {
+                Iterator<CurrentCompileTaskEvent> iterator = getCurrentCompileTaskEvents().iterator();
+                while (iterator.hasNext()) {
+                    CurrentCompileTaskEvent event = iterator.next();
+                    if (event.getLogEntry() != null && event.getLogEntry()
+                            .matches("^.+sun\\.security\\.ssl\\.SSLEngineInputRecord::decodeInputRecord.+")) {
+                        if ((getJavaSpecification() == JavaSpecification.JDK11
+                                && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) == 16)
+                                || (getJavaSpecification() == JavaSpecification.JDK17
+                                        && JdkUtil.getJdk17UpdateNumber(getJdkReleaseString()) == 4)) {
+                            analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_SSL_DECODE);
+                            // Don't double report
+                            analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+                        ***REMOVED***
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         // Crash during shutdown

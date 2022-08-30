@@ -56,6 +56,11 @@ public enum Analysis {
     ERROR_COMPILER_THREAD_C2_MININODE_IDEAL("error.compiler.thread.c2.mininode.ideal"),
 
     /**
+     * Property key for a crash in MinINode::Ideal(PhaseGVN*, bool).
+     */
+    ERROR_COMPILER_THREAD_C2_SSL_DECODE("error.compiler.thread.c2.ssl.decode"),
+
+    /**
      * Property key for a crash due to multiple threads access DirectByteBuffer at the same time.
      */
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),

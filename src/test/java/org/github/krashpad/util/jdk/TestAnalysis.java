@@ -23,6 +23,8 @@ import java.io.File;
 
 import org.github.krashpad.domain.jdk.ContainerInfoEvent;
 import org.github.krashpad.domain.jdk.CpuInfoEvent;
+import org.github.krashpad.domain.jdk.CurrentCompileTaskEvent;
+import org.github.krashpad.domain.jdk.CurrentThreadEvent;
 import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
 import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
 import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
@@ -65,13 +67,7 @@ class TestAnalysis {
 
     @Test
     void testAttachMechanismDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:+DisableAttachMechanism";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_DISABLE_ATTACH_MECHANISM),
-                Analysis.WARN_OPT_DISABLE_ATTACH_MECHANISM + " analysis not identified.");
+
     ***REMOVED***
 
     @Test
@@ -2745,6 +2741,31 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGCODE_SI_KERNEL),
                 Analysis.INFO_SIGCODE_SI_KERNEL + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testSslDecode() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header = "***REMOVED***  Out of Memory Error (arena.cpp:197), pid=2907, tid=2927";
+        HeaderEvent headerEvent = new HeaderEvent(header);
+        fel.getHeaderEvents().add(headerEvent);
+        String currentThread = "Current thread (0x00007f5134b1b000):  JavaThread \"C2 CompilerThread0\" daemon "
+                + "[_thread_in_native, id=2927, stack(0x00007f5138229000,0x00007f513832a000)]";
+        CurrentThreadEvent currentThreadEvent = new CurrentThreadEvent(currentThread);
+        fel.setCurrentThreadEvent(currentThreadEvent);
+        String currentCompileTask = "C2:299829840 17165   !   4       "
+                + "sun.security.ssl.SSLEngineInputRecord::decodeInputRecord (812 bytes)";
+        CurrentCompileTaskEvent currentCompileTaskEvent = new CurrentCompileTaskEvent(currentCompileTask);
+        fel.getCurrentCompileTaskEvents().add(currentCompileTaskEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.16+8-LTS) for linux-amd64 JRE (11.0.16+8-LTS), "
+                + "built on Jul 18 2022 19:50:20 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD_C2_SSL_DECODE),
+                Analysis.ERROR_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD),
+                Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
