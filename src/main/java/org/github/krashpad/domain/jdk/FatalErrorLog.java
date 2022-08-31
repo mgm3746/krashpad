@@ -886,7 +886,11 @@ public class FatalErrorLog {
         ***REMOVED***
         // Check for many threads
         if (getJavaThreadCount() > 1000) {
-            analysis.add(Analysis.INFO_THREADS_MANY);
+            if (getJavaThreadCount() > 5000) {
+                analysis.add(Analysis.WARN_THREADS_MANY);
+            ***REMOVED*** else {
+                analysis.add(Analysis.INFO_THREADS_MANY);
+            ***REMOVED***
         ***REMOVED***
         // Check environments
         if (isVMWareEnvironment()) {

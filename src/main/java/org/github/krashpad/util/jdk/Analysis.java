@@ -1279,6 +1279,11 @@ public enum Analysis {
     WARN_THREAD_STACK_SIZE_TINY("warn.thread.stack.size.tiny"),
 
     /**
+     * Property key for many threads (&gt;5,000).
+     */
+    WARN_THREADS_MANY("warn.threads.many"),
+
+    /**
      * Property key for unidentified line(s) needing reporting.
      */
     WARN_UNIDENTIFIED_LOG_LINE("warn.unidentified.log.line");
