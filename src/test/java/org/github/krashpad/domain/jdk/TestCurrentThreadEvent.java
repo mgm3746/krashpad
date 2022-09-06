@@ -54,6 +54,19 @@ class TestCurrentThreadEvent {
         CurrentThreadEvent event = new CurrentThreadEvent(logLine);
         assertEquals("VMThread \"VM Thread\" [stack: 0x0000008e27a00000,0x0000008e27b00000] [id=19320]",
                 ((CurrentThreadEvent) event).getCurrentThread(), "Current thread not correct.");
+        assertTrue(event.isVmThread(), "VMThread not identified");
+    ***REMOVED***
+
+    @Test
+    void testCurrentThreadCompilerThread() {
+        String logLine = "Current thread (0x00005630bc167000):  JavaThread \"C2 CompilerThread1\" daemon "
+                + "[_thread_in_native, id=1956021, stack(0x00007f1572d1f000,0x00007f1572e20000)]";
+        CurrentThreadEvent event = new CurrentThreadEvent(logLine);
+        assertEquals(
+                "JavaThread \"C2 CompilerThread1\" daemon [_thread_in_native, id=1956021, "
+                        + "stack(0x00007f1572d1f000,0x00007f1572e20000)]",
+                ((CurrentThreadEvent) event).getCurrentThread(), "Current thread not correct.");
+        assertTrue(event.isCompilerThread(), "CompilerThread not identified");
     ***REMOVED***
 
     @Test

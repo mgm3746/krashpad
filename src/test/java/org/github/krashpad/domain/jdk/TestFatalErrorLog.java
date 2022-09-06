@@ -179,8 +179,9 @@ class TestFatalErrorLog {
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_CENTOS),
-                Analysis.INFO_RH_BUILD_CENTOS + " analysis not identified.");
+        // It's a CentOS build, not a RH build.
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_CENTOS),
+                Analysis.INFO_RH_BUILD_CENTOS + " analysis incorrectly identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_STACK_NO_VM_CODE),
                 Analysis.INFO_STACK_NO_VM_CODE + " analysis incorrectly identified.");
     ***REMOVED***

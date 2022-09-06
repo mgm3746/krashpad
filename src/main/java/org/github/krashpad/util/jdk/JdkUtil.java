@@ -1318,7 +1318,7 @@ public class JdkUtil {
         ***REMOVED***
         return jdk11UpdateNumber;
     ***REMOVED***
-    
+
     /**
      * @param jdk17ReleaseString
      *            The JDK17 release string (e.g. 17.0.4+8-LTS).

@@ -56,11 +56,6 @@ public enum Analysis {
     ERROR_COMPILER_THREAD_C2_MININODE_IDEAL("error.compiler.thread.c2.mininode.ideal"),
 
     /**
-     * Property key for a crash in MinINode::Ideal(PhaseGVN*, bool).
-     */
-    ERROR_COMPILER_THREAD_C2_SSL_DECODE("error.compiler.thread.c2.ssl.decode"),
-
-    /**
      * Property key for a crash due to multiple threads access DirectByteBuffer at the same time.
      */
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),
@@ -197,6 +192,12 @@ public enum Analysis {
      * Property key for the AMQ CLI failing to execute due to insufficient physical memory.
      */
     ERROR_OOME_AMQ_CLI("error.oome.amq.cli"),
+
+    /**
+     * Property key for VM crash in CompilerThread in sun.security.ssl.SSLEngineInputRecord::decodeInputRecord compile
+     * task due to insufficient physical memory..
+     */
+    ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE("error.oome.compiler.thread.c2.ssl.decode"),
 
     /**
      * Property key for insufficient physical memory due to an external process.

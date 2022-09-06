@@ -665,7 +665,8 @@ public class FatalErrorLog {
         if (haveStackOverFlowError()) {
             analysis.add(Analysis.ERROR_STACKOVERFLOW);
         ***REMOVED*** else {
-            if (getStackFreeSpace() > getThreadStackSize()) {
+            if (getStackFreeSpace() > getThreadStackSize() && currentThreadEvent != null
+                    && !currentThreadEvent.isCompilerThread() && !currentThreadEvent.isVmThread()) {
                 analysis.add(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE);
             ***REMOVED***
         ***REMOVED***
@@ -945,9 +946,11 @@ public class FatalErrorLog {
                                 && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) == 16)
                                 || (getJavaSpecification() == JavaSpecification.JDK17
                                         && JdkUtil.getJdk17UpdateNumber(getJdkReleaseString()) == 4)) {
-                            analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_SSL_DECODE);
+                            analysis.add(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE);
                             // Don't double report
                             analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+                            analysis.remove(Analysis.ERROR_OOME_EXTERNAL);
+                            analysis.remove(Analysis.ERROR_OOME_JVM);
                         ***REMOVED***
                         break;
                     ***REMOVED***
@@ -3104,6 +3107,9 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * Thread stack size for threads other than VMThread (VMThreadStackSize) and CompilerThread
+     * (CompilerThreadStackSize).
+     * 
      * @return The stack size reserved (kilobytes).
      */
     public long getThreadStackSize() {

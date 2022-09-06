@@ -97,4 +97,18 @@ public class CurrentThreadEvent implements LogEvent {
     public String getName() {
         return JdkUtil.LogEventType.CURRENT_THREAD.toString();
     ***REMOVED***
+
+    /**
+     * @return True if the current thread is a CompilerThread, false otherwise.
+     */
+    public boolean isCompilerThread() {
+        return logEntry.matches("^.+C[12] CompilerThread\\d{1,***REMOVED***.+$");
+    ***REMOVED***
+
+    /**
+     * @return True if the current thread is a VMThread, false otherwise.
+     */
+    public boolean isVmThread() {
+        return logEntry.matches("^.+VMThread.+$");
+    ***REMOVED***
 ***REMOVED***

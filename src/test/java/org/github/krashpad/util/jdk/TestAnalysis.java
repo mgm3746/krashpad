@@ -31,6 +31,7 @@ import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.HeaderEvent;
 import org.github.krashpad.domain.jdk.HeapEvent;
+import org.github.krashpad.domain.jdk.MemoryEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.SigInfoEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
@@ -1889,21 +1890,23 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
-    void testOom() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset79.txt");
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL),
-                Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
     void testOomAmqCli() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset67.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_AMQ_CLI),
                 Analysis.ERROR_OOME_AMQ_CLI + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOomCompilerThreadC2SslDecode() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset79.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE),
+                Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL),
+                Analysis.ERROR_OOME_EXTERNAL + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -2746,9 +2749,15 @@ class TestAnalysis {
     @Test
     void testSslDecode() {
         FatalErrorLog fel = new FatalErrorLog();
-        String header = "***REMOVED***  Out of Memory Error (arena.cpp:197), pid=2907, tid=2927";
-        HeaderEvent headerEvent = new HeaderEvent(header);
-        fel.getHeaderEvents().add(headerEvent);
+        String header1 = "***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.";
+        HeaderEvent headerEvent1 = new HeaderEvent(header1);
+        fel.getHeaderEvents().add(headerEvent1);
+        String header2 = "***REMOVED*** Native memory allocation (malloc) failed to allocate 4294967312 bytes for Chunk::new";
+        HeaderEvent headerEvent2 = new HeaderEvent(header2);
+        fel.getHeaderEvents().add(headerEvent2);
+        String header3 = "***REMOVED***  Out of Memory Error (arena.cpp:197), pid=2907, tid=2927";
+        HeaderEvent headerEvent3 = new HeaderEvent(header3);
+        fel.getHeaderEvents().add(headerEvent3);
         String currentThread = "Current thread (0x00007f5134b1b000):  JavaThread \"C2 CompilerThread0\" daemon "
                 + "[_thread_in_native, id=2927, stack(0x00007f5138229000,0x00007f513832a000)]";
         CurrentThreadEvent currentThreadEvent = new CurrentThreadEvent(currentThread);
@@ -2761,11 +2770,19 @@ class TestAnalysis {
                 + "built on Jul 18 2022 19:50:20 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
+        String memory = "Memory: 4k page, physical 65686152k(438884k free), swap 2097148k(0k free)";
+        MemoryEvent memoryEvent = new MemoryEvent(memory);
+        fel.getMemoryEvents().add(memoryEvent);
+        String jvmArgs = "-Xms3g -Xmx3g -XX:ThreadStackSize=640";
+        VmArgumentsEvent vmArgumentsEvent = new VmArgumentsEvent(jvmArgs);
+        fel.getVmArgumentsEvents().add(vmArgumentsEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD_C2_SSL_DECODE),
-                Analysis.ERROR_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE),
+                Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD),
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL),
+                Analysis.ERROR_OOME_EXTERNAL + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
