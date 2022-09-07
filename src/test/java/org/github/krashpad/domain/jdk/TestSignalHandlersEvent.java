@@ -26,6 +26,21 @@ import org.junit.jupiter.api.Test;
 class TestSignalHandlersEvent {
 
     @Test
+    void testExpected() {
+        String logLine = "  *** Expected: javaSignalHandler in libjvm.so, mask=11100100110111111111111111111110, "
+                + "flags=SA_RESTART|SA_SIGINFO";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testHandlerWasModified() {
+        String logLine = "  *** Handler was modified!";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testHeader() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,

@@ -59,4 +59,11 @@ class TestExceptionEvent {
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ExceptionEvent,
                 JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not parsed.");
     ***REMOVED***
+
+    @Test
+    void testThrown() {
+        String logLine = "thrown [src/hotspot/share/prims/jni.cpp, line 516]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_EVENT,
+                JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.");
+    ***REMOVED***
 ***REMOVED***

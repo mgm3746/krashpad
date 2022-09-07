@@ -75,6 +75,13 @@ class TestContainerInfoEvent {
     ***REMOVED***
 
     @Test
+    void testCurrentNumberOfTasks() {
+        String logLine = "current number of tasks: 39";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testHeader() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
@@ -84,6 +91,13 @@ class TestContainerInfoEvent {
     @Test
     void testIdentity() {
         String logLine = "***REMOVED***";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMaximumNumberOfTasks() {
+        String logLine = "maximum number of tasks: 75254";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     ***REMOVED***

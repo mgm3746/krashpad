@@ -2080,6 +2080,35 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testOracleJdbcDriverNotTopFrame() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "V  [libjvm.so+0x290d84]  AccessInternal::PostRuntimeDispatch<G1BarrierSet::AccessBarrier"
+                + "<548964ul, G1BarrierSet>, (AccessInternal::BarrierType)2, 548964ul>::oop_access_barrier(void*)+0x4";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String stack2 = "C  [libocijdbc11.so+0x458c]  Java_oracle_jdbc_driver_T2CConnection_t2cSetSessionTimeZone+0x5";
+        StackEvent stackEvent2 = new StackEvent(stack2);
+        fel.getStackEvents().add(stackEvent2);
+        String logline = "7f6e73a91000-7f6e74d08000 r-xp 00000000 fd:00 8632767                    "
+                + "/usr/lib/jvm/java-17-openjdk-17.0.4.0.8-2.el8_6.x86_64/lib/server/libjvm.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
+        fel.getDynamicLibraryEvents().add(event);
+        String os1 = "OS:";
+        OsEvent osEvent1 = new OsEvent(os1);
+        fel.getOsEvents().add(osEvent1);
+        String os2 = "Red Hat Enterprise Linux release 8.6 (Ootpa)";
+        OsEvent osEvent2 = new OsEvent(os2);
+        fel.getOsEvents().add(osEvent2);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), "
+                + "built on Jul 20 2022 13:03:41 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_DRIVER),
+                Analysis.ERROR_ORACLE_JDBC_DRIVER + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testOutOfMemoryErrorThrownCompressedClassSpace() {
         String logLine = "OutOfMemoryError class_metaspace_errors=7";
         ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);

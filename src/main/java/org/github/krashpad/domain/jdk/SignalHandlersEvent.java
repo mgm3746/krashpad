@@ -54,8 +54,8 @@ public class SignalHandlersEvent implements LogEvent, ThrowAwayEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + SignalHandlersEvent.REGEX_HEADER
-            + "|[ ]{0,5***REMOVED***(SIG39|SIG40|SIGSEGV|SIGBUS|SIGFPE|SIGPIPE|SIGXFSZ|SIGILL|SIGUSR1|SIGUSR2|SIGHUP|SIGINT|"
-            + "SIGTERM|SIGTRAP|SIGQUIT)).*$";
+            + "|[ ]{0,5***REMOVED***(\\*\\*\\* Expected: |\\*\\*\\* Handler was modified!|SIG39|SIG40|SIGSEGV|SIGBUS|SIGFPE|"
+            + "SIGPIPE|SIGXFSZ|SIGILL|SIGUSR1|SIGUSR2|SIGHUP|SIGINT|SIGTERM|SIGTRAP|SIGQUIT)).*$";
 
     /**
      * Regular expression for the header.
