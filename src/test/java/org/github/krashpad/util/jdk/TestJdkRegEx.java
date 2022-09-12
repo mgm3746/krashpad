@@ -201,6 +201,12 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testRhel7Amd64RpmOpenjdk8u342Dir() {
+        String dir = "java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64";
+        assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR), "Red Hat RPM OpenJDK directory not identified.");
+    ***REMOVED***
+
+    @Test
     void testRhel7Ppc64leRpmOpenjdk8Dir() {
         String dir = "java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le";
         assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK8_DIR), "Red Hat RPM OpenJDK directory not identified.");

@@ -615,26 +615,6 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
-    void testRel8Jdk17() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset70.txt");
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(testFile);
-        assertEquals("Red Hat Enterprise Linux release 8.5 (Ootpa)", fel.getOsString(), "OS string not correct.");
-        assertEquals(OsVendor.REDHAT, fel.getOsVendor(), "OS vendor not correct.");
-        assertEquals(OsVersion.RHEL8, fel.getOsVersion(), "OS version not correct.");
-        assertTrue(fel.isJdkLts(), "LTS release not identified.");
-        assertTrue(fel.isRhRpm(), "Red Hat rpm not identified.");
-        assertTrue(fel.isRhRpmInstall(), "Red Hat rpm install not identified.");
-        assertTrue(fel.isRhel(), "RHEL not identified.");
-        assertFalse(fel.isWindows(), "Windows incorrectly identified.");
-        assertEquals(254790, fel.getThreadsMax(), "threads-max not correct.");
-        assertEquals(4194304, fel.getPidMax(), "pid_max not correct.");
-        assertEquals(65530, fel.getMaxMapCount(), "max_map_count not correct.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
-                Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
     void testRhBuildStringMockbuild() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "";
@@ -686,6 +666,26 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testRhel8Jdk17() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset70.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals("Red Hat Enterprise Linux release 8.5 (Ootpa)", fel.getOsString(), "OS string not correct.");
+        assertEquals(OsVendor.REDHAT, fel.getOsVendor(), "OS vendor not correct.");
+        assertEquals(OsVersion.RHEL8, fel.getOsVersion(), "OS version not correct.");
+        assertTrue(fel.isJdkLts(), "LTS release not identified.");
+        assertTrue(fel.isRhRpm(), "Red Hat rpm not identified.");
+        assertTrue(fel.isRhRpmInstall(), "Red Hat rpm install not identified.");
+        assertTrue(fel.isRhel(), "RHEL not identified.");
+        assertFalse(fel.isWindows(), "Windows incorrectly identified.");
+        assertEquals(254790, fel.getThreadsMax(), "threads-max not correct.");
+        assertEquals(4194304, fel.getPidMax(), "pid_max not correct.");
+        assertEquals(65530, fel.getMaxMapCount(), "max_map_count not correct.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+                Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testRhel8Ppc64le() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();
@@ -713,6 +713,26 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testRhRpmInstall() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String dynamicLibrary = "7f7eec43f000-7f7eed1dc000 r-xp 00000000 fd:00 37590                      "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.342-b07) for linux-amd64 JRE (1.8.0_342-b07), built on "
+                + "Jul 18 2022 23:53:30 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64", fel.getRpmDirectory(),
+                "Rpm directory not correct.");
+        assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
     ***REMOVED***
 
     @Test

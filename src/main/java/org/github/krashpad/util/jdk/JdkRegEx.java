@@ -501,6 +501,8 @@ public class JdkRegEx {
      * 
      * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64/jre/lib/amd64/server/libjvm.so
      * 
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so
+     * 
      * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.ppc64/jre/lib/ppc64/server/libjvm.so
      * 
      * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so
