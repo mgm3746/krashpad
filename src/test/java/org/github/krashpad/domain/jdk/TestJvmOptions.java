@@ -101,6 +101,14 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testCrashOnOutOfMemoryError() {
+        String jvmArgs = "-Xms1g -XX:+CrashOnOutOfMemoryError -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:+CrashOnOutOfMemoryError", jvmOptions.getCrashOnOutOfMemoryError(),
+                "CrashOnOutOfMemoryError not correct.");
+    ***REMOVED***
+
+    @Test
     void testDisableAttachMechanism() {
         String jvmArgs = "-XX:+DisableAttachMechanism";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);

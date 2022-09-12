@@ -335,6 +335,16 @@ public class JvmOptions {
     private String concGcThreads;
 
     /**
+     * Option to enable/disable the jvm process exiting (and producing a fatal error log and core as applicable) when
+     * out of memory occurs.
+     * 
+     * <pre>
+     *-XX:+CrashOnOutOfMemoryError
+     * </pre>
+     */
+    private String crashOnOutOfMemoryError;
+
+    /**
      * The option for specifying 64-bit. Removed in JDK11.
      * 
      * <pre>
@@ -1934,6 +1944,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:ConcGCThreads=\\d{1,3***REMOVED***$")) {
                     concGcThreads = option;
                     key = "ConcGCThreads";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]CrashOnOutOfMemoryError$")) {
+                    crashOnOutOfMemoryError = option;
+                    key = "CrashOnOutOfMemoryError";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]DebugNonSafepoints$")) {
                     debugNonSafepoints = option;
                     key = "DebugNonSafepoints";
@@ -2861,10 +2874,6 @@ public class JvmOptions {
         return agentlib;
     ***REMOVED***
 
-    public ArrayList<String> getRunjdwp() {
-        return runjdwp;
-    ***REMOVED***
-
     public ArrayList<String> getAgentpath() {
         return agentpath;
     ***REMOVED***
@@ -2947,6 +2956,10 @@ public class JvmOptions {
 
     public String getConcGcThreads() {
         return concGcThreads;
+    ***REMOVED***
+
+    public String getCrashOnOutOfMemoryError() {
+        return crashOnOutOfMemoryError;
     ***REMOVED***
 
     public String getDebugNonSafepoints() {
@@ -3351,6 +3364,10 @@ public class JvmOptions {
 
     public String getReservedCodeCacheSize() {
         return reservedCodeCacheSize;
+    ***REMOVED***
+
+    public ArrayList<String> getRunjdwp() {
+        return runjdwp;
     ***REMOVED***
 
     public String getShenandoahGcHeuristics() {
