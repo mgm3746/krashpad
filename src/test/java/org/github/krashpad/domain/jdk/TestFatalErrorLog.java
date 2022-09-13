@@ -563,6 +563,23 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testMemoryWindows() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset80.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        long physicalMemory = JdkUtil.convertSize(16383, 'M', Constants.PRECISION_REPORTING);
+        assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
+        long physicalMemoryFree = JdkUtil.convertSize(203, 'M', Constants.PRECISION_REPORTING);
+        assertEquals(physicalMemoryFree, fel.getJvmMemFree(), "Physical memory free not correct.");
+        long availPageFile = JdkUtil.convertSize(1, 'M', Constants.PRECISION_REPORTING);
+        assertEquals(availPageFile, fel.getAvailPageFile(), "AvailPageFile not correct.");
+        long commitCharge = JdkUtil.convertSize(3288, 'M', Constants.PRECISION_REPORTING);
+        assertEquals(commitCharge, fel.getCommitCharge(), "Commit charge not correct.");
+        long memBalloonedNow = JdkUtil.convertSize(0, 'K', Constants.PRECISION_REPORTING);
+        assertEquals(memBalloonedNow, fel.getMemBalloonedNow(), "Memory ballooned now not correct.");
+    ***REMOVED***
+
+    @Test
     void testNoCompressedOops() {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine = "***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.302-b08 mixed mode linux-amd64 )";

@@ -498,14 +498,25 @@ public class FatalErrorLog {
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
-                if (allocation >= 0 && getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
-                        && allocation > (getJvmMemFree() + getJvmSwapFree())) {
+                if (allocation >= 0 && (getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
+                        && allocation >= (getJvmMemFree() + getJvmSwapFree())
+                        || (getAvailPageFile() > 0 && allocation >= getAvailPageFile()))) {
                     // Not enough physical memory
                     if (getJvmMemoryMax() > 0 && getJvmMemTotal() > 0) {
                         if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) >= 95) {
                             analysis.add(Analysis.ERROR_OOME_JVM);
                         ***REMOVED*** else {
-                            analysis.add(Analysis.ERROR_OOME_EXTERNAL);
+                            if (getCommitCharge() > 0
+                                    && JdkMath.calcPercent(getCommitCharge(), getJvmMemTotal()) < 95) {
+                                // Windows has a good process size approximation
+                                if (getMemBalloonedNow() > 0) {
+                                    analysis.add(Analysis.ERROR_OOME_EXTERNAL_OR_HYPERVISOR);
+                                ***REMOVED*** else {
+                                    analysis.add(Analysis.ERROR_OOME_EXTERNAL);
+                                ***REMOVED***
+                            ***REMOVED*** else {
+                                analysis.add(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL);
+                            ***REMOVED***
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if ((allocation >= 0 && getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
@@ -949,7 +960,7 @@ public class FatalErrorLog {
                             analysis.add(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE);
                             // Don't double report
                             analysis.remove(Analysis.ERROR_COMPILER_THREAD);
-                            analysis.remove(Analysis.ERROR_OOME_EXTERNAL);
+                            analysis.remove(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL);
                             analysis.remove(Analysis.ERROR_OOME_JVM);
                         ***REMOVED***
                         break;
@@ -1121,6 +1132,31 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * On Windows, the maximum amount of memory the current process can commit.
+     * 
+     * @return The maximum amount of memory the current process can commit, in
+     *         <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getAvailPageFile() {
+        long availPageFile = Long.MIN_VALUE;
+        if (!memoryEvents.isEmpty()) {
+            String regexTotalPageFile = "TotalPageFile size \\d{1,***REMOVED***M \\(AvailPageFile size (\\d{1,***REMOVED***)M\\)";
+            Pattern pattern = Pattern.compile(regexTotalPageFile);
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    availPageFile = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return availPageFile;
+    ***REMOVED***
+
+    /**
      * @return The max code cache size in <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getCodeCacheSize() {
@@ -1166,6 +1202,38 @@ public class FatalErrorLog {
 
     public CommandLineEvent getCommandLineEvent() {
         return commandLineEvent;
+    ***REMOVED***
+
+    /**
+     * On Windows, the memory the process has asked for that cannot be shared with other processes. A good approximation
+     * of the process size.
+     * 
+     * Can be physical memory, memory paged to disk, or memory in the standby page list (no longer in use, but not yet
+     * paged to disk).
+     * 
+     * Excludes memory mapped files (shared DLLs), but does not necessarily exclude the memory allocated by those files.
+     * 
+     * @return the memory the process has asked for that cannot be shared with other processes, in
+     *         <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getCommitCharge() {
+        long commitCharge = Long.MIN_VALUE;
+        if (!memoryEvents.isEmpty()) {
+            String regexTotalPageFile = "current process commit charge \\(\"private bytes\"\\): (\\d{1,***REMOVED***)M, peak: "
+                    + "\\d{1,***REMOVED***M";
+            Pattern pattern = Pattern.compile(regexTotalPageFile);
+            Iterator<MemoryEvent> iterator = memoryEvents.iterator();
+            while (iterator.hasNext()) {
+                MemoryEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    commitCharge = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return commitCharge;
     ***REMOVED***
 
     /**
@@ -2359,6 +2427,38 @@ public class FatalErrorLog {
 
     public MaxMapCountEvent getMaxMapCountEvent() {
         return maxMapCountEvent;
+    ***REMOVED***
+
+    /**
+     * Memory ballooned now. For example:
+     * 
+     * vSphere resource information available now:
+     * 
+     * guest.mem.ballooned = 2048
+     * 
+     * @return The total amount of ballooned memory in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getMemBalloonedNow() {
+        long memBallooned = Long.MIN_VALUE;
+        if (!virtualizationInfoEvents.isEmpty()) {
+            String regexGuestMemBallooned = "guest.mem.ballooned = (\\d{1,***REMOVED***)";
+            Pattern pattern = Pattern.compile(regexGuestMemBallooned);
+            Iterator<VirtualizationInfoEvent> iterator = virtualizationInfoEvents.iterator();
+            // Get information now, not at startup
+            boolean now = false;
+            while (iterator.hasNext()) {
+                VirtualizationInfoEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (now && matcher.find()) {
+                    memBallooned = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            Constants.PRECISION_REPORTING);
+                    break;
+                ***REMOVED*** else if (event.getLogEntry().equals("vSphere resource information available now:")) {
+                    now = true;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return memBallooned;
     ***REMOVED***
 
     public List<MeminfoEvent> getMeminfoEvents() {

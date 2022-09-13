@@ -205,6 +205,11 @@ public enum Analysis {
     ERROR_OOME_EXTERNAL("error.oome.external"),
 
     /**
+     * Property key for insufficient physical memory due to an external process or hypervisor ballooning.
+     */
+    ERROR_OOME_EXTERNAL_OR_HYPERVISOR("error.oome.external.or.hypervisor"),
+
+    /**
      * Property key for insufficient physical memory when doing a JBoss version check (e.g. standalone.sh --version).
      */
     ERROR_OOME_JBOSS_VERSION("error.oome.jboss.version"),
@@ -230,6 +235,12 @@ public enum Analysis {
      * committed to other processes is inaccessible.
      */
     ERROR_OOME_LIMIT_OVERCOMMIT("error.oome.limit.overcommit"),
+
+    /**
+     * Property key for insufficient physical memory due to JVM native memory, an external process, or hypervisor
+     * ballooning.
+     */
+    ERROR_OOME_NATIVE_OR_EXTERNAL("error.oome.native.or.external"),
 
     /**
      * Property key for generic insufficient physical memory with oops enabled.

@@ -1905,8 +1905,19 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE),
                 Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL),
-                Analysis.ERROR_OOME_EXTERNAL + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+                Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testOomCompilerThreadWindows() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset80.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD),
+                Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL),
+                Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1954,8 +1965,8 @@ class TestAnalysis {
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
                 "Jvm memory max not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL),
-                Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+                Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
@@ -2810,8 +2821,8 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD),
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL),
-                Analysis.ERROR_OOME_EXTERNAL + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+                Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -2982,8 +2993,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset48.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL),
-                Analysis.ERROR_OOME_EXTERNAL + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+                Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_TRUNCATED),
