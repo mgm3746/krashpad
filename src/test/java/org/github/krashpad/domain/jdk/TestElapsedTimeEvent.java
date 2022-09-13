@@ -56,6 +56,7 @@ class TestElapsedTimeEvent {
                 JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
         ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
         assertEquals("228058 seconds", event.getElapsedTime(), "Elapsed time not correct.");
+        assertEquals(228058000L, event.getUptime(), "Uptime not correct.");
     ***REMOVED***
 
     @Test
@@ -65,5 +66,6 @@ class TestElapsedTimeEvent {
                 JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
         ElapsedTimeEvent event = new ElapsedTimeEvent(logLine);
         assertEquals("0d 0h 0m 0s", event.getElapsedTime(), "Elapsed time not correct.");
+        assertEquals(606L, event.getUptime(), "Uptime not correct.");
     ***REMOVED***
 ***REMOVED***

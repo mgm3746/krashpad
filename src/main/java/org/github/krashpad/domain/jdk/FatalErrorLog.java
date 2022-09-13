@@ -929,6 +929,12 @@ public class FatalErrorLog {
         // Crash in Oracle JDBC driver
         if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_DRIVER);
+        ***REMOVED*** else if (getEventTimestamp("^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$") > 0
+                && getUptime() > 0 && getUptime() - getEventTimestamp(
+                        "^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$") <= 1000) {
+            analysis.add(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING);
+        ***REMOVED*** else if (getStackFrame(2) != null && getStackFrame(2).matches("^C  \\[libocijdbc.+$")) {
+            analysis.add(Analysis.WARN_ORACLE_JDBC_OCI_DRIVER);
         ***REMOVED***
         // Specific CompilerThread crashes
         if (getCurrentThread() != null && getCurrentThread().matches("^.+C2 CompilerThread\\d{1,***REMOVED***.+$")) {
@@ -1584,7 +1590,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The duration of the JVM run.
+     * @return The duration of the JVM run in seconds.
      */
     public String getElapsedTime() {
         String elapsedTime = null;
@@ -1623,6 +1629,28 @@ public class FatalErrorLog {
 
     public List<EventEvent> getEventEvents() {
         return eventEvents;
+    ***REMOVED***
+
+    /**
+     * @return the timestamp of the first <code>EventEvent</code> that matches the regex in milliseconds, or
+     *         Long.MIN_VALUE if no event matches.
+     */
+    public long getEventTimestamp(String regex) {
+        long timestamp = Long.MIN_VALUE;
+        if (!eventEvents.isEmpty()) {
+            Pattern pattern = Pattern.compile(regex);
+            Iterator<EventEvent> iterator = eventEvents.iterator();
+            while (iterator.hasNext()) {
+                EventEvent event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    BigDecimal millis = new BigDecimal(matcher.group(1)).movePointRight(3);
+                    timestamp = millis.longValue();
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return timestamp;
     ***REMOVED***
 
     public List<ExceptionCountsEvent> getExceptionCountsEvents() {
@@ -3274,6 +3302,19 @@ public class FatalErrorLog {
 
     public List<String> getUnidentifiedLogLines() {
         return unidentifiedLogLines;
+    ***REMOVED***
+
+    /**
+     * @return The duration of the JVM run in milliseconds.
+     */
+    public Long getUptime() {
+        long uptime = Long.MIN_VALUE;
+        if (timeElapsedTimeEvent != null && timeElapsedTimeEvent.getUptime() > 0) {
+            uptime = timeElapsedTimeEvent.getUptime();
+        ***REMOVED*** else if (elapsedTimeEvent != null && elapsedTimeEvent.getUptime() > 0) {
+            uptime = elapsedTimeEvent.getUptime();
+        ***REMOVED***
+        return uptime;
     ***REMOVED***
 
     /**

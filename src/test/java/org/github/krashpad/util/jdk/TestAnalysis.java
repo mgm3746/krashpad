@@ -27,6 +27,7 @@ import org.github.krashpad.domain.jdk.CurrentCompileTaskEvent;
 import org.github.krashpad.domain.jdk.CurrentThreadEvent;
 import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
 import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
+import org.github.krashpad.domain.jdk.EventEvent;
 import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.HeaderEvent;
@@ -35,6 +36,7 @@ import org.github.krashpad.domain.jdk.MemoryEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.SigInfoEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
+import org.github.krashpad.domain.jdk.TimeElapsedTimeEvent;
 import org.github.krashpad.domain.jdk.TimeEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
@@ -2069,28 +2071,6 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
-    void testOracleJdbcDriver() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String stack1 = "C  [libocijdbc12.so+0x95d5]  Java_oracle_jdbc_driver_T2CConnection_t2cDescribeTable+0x65";
-        StackEvent stackEvent1 = new StackEvent(stack1);
-        fel.getStackEvents().add(stackEvent1);
-        String logline = "7fc3f8f88000-7fc3f9199000 r--p 00000000 fd:00 1052364                    "
-                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.302.b08-0.el8_4.x86_64/jre/lib/amd64/server/libjvm.so";
-        DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
-        fel.getDynamicLibraryEvents().add(event);
-        String os = "***REMOVED***";
-        OsEvent osEvent = new OsEvent(os);
-        fel.getOsEvents().add(osEvent);
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.302-b08) for linux-amd64 JRE (1.8.0_302-b08), built on "
-                + "Jul 16 2021 14:54:40 by \"mockbuild\" with gcc 8.4.1 20200928 (Red Hat 8.4.1-1)";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_DRIVER),
-                Analysis.ERROR_ORACLE_JDBC_DRIVER + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
     void testOracleJdbcDriverNotTopFrame() {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "V  [libjvm.so+0x290d84]  AccessInternal::PostRuntimeDispatch<G1BarrierSet::AccessBarrier"
@@ -2117,6 +2097,56 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_DRIVER),
                 Analysis.ERROR_ORACLE_JDBC_DRIVER + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_DRIVER),
+                Analysis.WARN_ORACLE_JDBC_OCI_DRIVER + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOracleJdbcOciDriverWarning() {
+        FatalErrorLog fel = new FatalErrorLog();
+        StackEvent event1 = new StackEvent(
+                "Stack: [0x00007f069a811000,0x00007f069a912000],  sp=0x00007f069a90d248,  free space=1008k");
+        StackEvent event2 = new StackEvent(
+                "Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, "
+                        + "C=native code)");
+        StackEvent event3 = new StackEvent(
+                "V  [libjvm.so+0x5b3c94]  AccessInternal::PostRuntimeDispatch<G1BarrierSet::AccessBarrier<1097844ul, "
+                        + "G1BarrierSet>, (AccessInternal::BarrierType)2, 1097844ul>::oop_access_barrier(void*)+0x4");
+        StackEvent event4 = new StackEvent(
+                "C  [libocijdbc11.so+0x458c]  Java_oracle_jdbc_driver_T2CConnection_t2cSetSessionTimeZone+0x5a");
+        fel.getStackEvents().add(event1);
+        fel.getStackEvents().add(event2);
+        fel.getStackEvents().add(event3);
+        fel.getStackEvents().add(event4);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_DRIVER),
+                Analysis.ERROR_ORACLE_JDBC_DRIVER + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
+                Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_DRIVER),
+                Analysis.WARN_ORACLE_JDBC_OCI_DRIVER + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOracleJdbcOciDriverError() {
+        FatalErrorLog fel = new FatalErrorLog();
+        EventEvent eventEvent = new EventEvent(
+                "Event: 86.139 Loaded shared library /ora01/app/oracle/product/11.2.0/client_1/lib/libocijdbc11.so");
+        fel.getEventEvents().add(eventEvent);
+        TimeElapsedTimeEvent timeElapsedTimeEvent = new TimeElapsedTimeEvent(
+                "Time: Mon Sep 12 13:46:23 2022 EDT elapsed time: 86.182142 seconds (0d 0h 1m 26s)");
+        fel.setTimeElapsedTimeEvent(timeElapsedTimeEvent);
+        assertEquals(86139L,
+                fel.getEventTimestamp("^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$"),
+                "OCI driver load timestamp not correct.");
+        assertEquals(86182L, fel.getUptime(), "Uptime not correct.");
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_DRIVER),
+                Analysis.ERROR_ORACLE_JDBC_DRIVER + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
+                Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_DRIVER),
+                Analysis.WARN_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test

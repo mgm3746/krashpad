@@ -14,6 +14,8 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +47,7 @@ public class TimeElapsedTimeEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^Time: (.+) elapsed time: (\\d{1,10***REMOVED***(\\.\\d{6***REMOVED***)? seconds) \\((\\d{1,4***REMOVED***d "
+    private static final String REGEX = "^Time: (.+) elapsed time: (\\d{1,10***REMOVED***(\\.\\d{6***REMOVED***)?) seconds \\((\\d{1,4***REMOVED***d "
             + "\\d{1,2***REMOVED***h \\d{1,2***REMOVED***m \\d{1,2***REMOVED***s)\\)$";
 
     /**
@@ -74,6 +76,9 @@ public class TimeElapsedTimeEvent implements LogEvent {
         this.logEntry = logEntry;
     ***REMOVED***
 
+    /**
+     * @return The elapsed time in ***REMOVED***d ***REMOVED***h ***REMOVED***m ***REMOVED***s format.
+     */
     public String getElapsedTime() {
         String time = null;
         Matcher matcher = pattern.matcher(logEntry);
@@ -85,6 +90,22 @@ public class TimeElapsedTimeEvent implements LogEvent {
         return time;
     ***REMOVED***
 
+    /**
+     * @return The uptime in milliseconds.
+     */
+    public Long getUptime() {
+        Long uptime = Long.MIN_VALUE;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(2) != null) {
+                BigDecimal millis = new BigDecimal(matcher.group(2)).movePointRight(3);
+                millis.setScale(0, RoundingMode.HALF_EVEN);
+                uptime = millis.longValue();
+            ***REMOVED***
+        ***REMOVED***
+        return uptime;
+    ***REMOVED***
+
     public String getLogEntry() {
         return logEntry;
     ***REMOVED***
@@ -93,6 +114,9 @@ public class TimeElapsedTimeEvent implements LogEvent {
         return JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString();
     ***REMOVED***
 
+    /**
+     * @return The date/time of the crash.
+     */
     public String getTimeString() {
         String time = null;
         Matcher matcher = pattern.matcher(logEntry);

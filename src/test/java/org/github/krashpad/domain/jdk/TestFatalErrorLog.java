@@ -921,6 +921,15 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testUptime() {
+        FatalErrorLog fel = new FatalErrorLog();
+        TimeElapsedTimeEvent event = new TimeElapsedTimeEvent(
+                "Time: Tue May  5 18:32:04 2020 CEST elapsed time: 956 seconds (0d 0h 15m 56s)");
+        fel.setTimeElapsedTimeEvent(event);
+        assertEquals(956000L, fel.getUptime(), "Uptime not correct.");
+    ***REMOVED***
+
+    @Test
     void testUsername() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset40.txt");
         Manager manager = new Manager();

@@ -14,6 +14,8 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,7 +67,7 @@ public class ElapsedTimeEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^elapsed time: (\\d{1,10***REMOVED***(\\.\\d{6***REMOVED***)? seconds)( \\((\\d{1,4***REMOVED***d \\d{1,2***REMOVED***h "
+    private static final String REGEX = "^elapsed time: ((\\d{1,10***REMOVED***(\\.\\d{6***REMOVED***)?) seconds)( \\((\\d{1,4***REMOVED***d \\d{1,2***REMOVED***h "
             + "\\d{1,2***REMOVED***m \\d{1,2***REMOVED***s)\\))?$";
 
     /**
@@ -94,12 +96,15 @@ public class ElapsedTimeEvent implements LogEvent {
         this.logEntry = logEntry;
     ***REMOVED***
 
+    /**
+     * @return The elapsed time in ***REMOVED***d ***REMOVED***h ***REMOVED***m ***REMOVED***s format if available, otherwise as seconds.
+     */
     public String getElapsedTime() {
         String time = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(4) != null) {
-                time = matcher.group(4);
+            if (matcher.group(5) != null) {
+                time = matcher.group(5);
             ***REMOVED*** else {
                 time = matcher.group(1);
             ***REMOVED***
@@ -113,5 +118,21 @@ public class ElapsedTimeEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.ELAPSED_TIME.toString();
+    ***REMOVED***
+
+    /**
+     * @return The uptime in milliseconds.
+     */
+    public Long getUptime() {
+        Long uptime = Long.MIN_VALUE;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(2) != null) {
+                BigDecimal millis = new BigDecimal(matcher.group(2)).movePointRight(3);
+                millis.setScale(0, RoundingMode.HALF_EVEN);
+                uptime = millis.longValue();
+            ***REMOVED***
+        ***REMOVED***
+        return uptime;
     ***REMOVED***
 ***REMOVED***

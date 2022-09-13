@@ -309,6 +309,11 @@ public enum Analysis {
     ERROR_ORACLE_JDBC_DRIVER("error.oracle.jdbc.driver"),
 
     /**
+     * Property key for a crash after loading Oracle JDBC OCI (native) driver.
+     */
+    ERROR_ORACLE_JDBC_OCI_LOADING("error.oracle.jdbc.oci.loading"),
+
+    /**
      * Property key for error calling pthread_getcpuclockid
      */
     ERROR_PTHREAD_GETCPUCLOCKID("error.pthread.getcpuclockid"),
@@ -1254,6 +1259,11 @@ public enum Analysis {
      * Property key for class verification on loading disabled with -Xverify:none.
      */
     WARN_OPT_VERIFY_NONE("warn.opt.verify.none"),
+
+    /**
+     * Property key for crash when connecting to Oracle database using the JDBC OCI (native) driver.
+     */
+    WARN_ORACLE_JDBC_OCI_DRIVER("warn.oracle.jdbc.oci.driver"),
 
     /**
      * Property key for a JDK that is deployed on RHEL6.
