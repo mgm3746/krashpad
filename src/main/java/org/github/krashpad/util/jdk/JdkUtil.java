@@ -739,9 +739,9 @@ public class JdkUtil {
                 new Release("Apr 19 2021 00:00:00", 32, "1.8.0_292-b10"));
         JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.ppc64le",
                 new Release("Jan 17 2021 16:29:12", 31, "1.8.0_282-b08"));
-        JDK8_RHEL8_PPC64LE_RPMS.put(" java-1.8.0-openjdk-1.8.0.282.b08-1.el8_2.ppc64le",
+        JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.282.b08-1.el8_2.ppc64le",
                 new Release("Jan 17 2021 00:00:00", 31, "1.8.0_282-b08"));
-        JDK8_RHEL8_PPC64LE_RPMS.put(" java-1.8.0-openjdk-1.8.0.282.b08-1.el8_1.ppc64le",
+        JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.282.b08-1.el8_1.ppc64le",
                 new Release("Jan 17 2021 00:00:00", 31, "1.8.0_282-b08"));
 
         // RHEL8 amd64 OpenJDK8 rpm
