@@ -304,9 +304,9 @@ public enum Analysis {
     ERROR_OPT_REMOTE_DEBUGGING_ENABLED("error.opt.remote.debugging.enabled"),
 
     /**
-     * Property key for crash in Oracle JDBC driver.
+     * Property key for crash in Oracle JDBC OCI (native) driver code.
      */
-    ERROR_ORACLE_JDBC_DRIVER("error.oracle.jdbc.driver"),
+    ERROR_ORACLE_JDBC_OCI_DRIVER("error.oracle.jdbc.oci.driver"),
 
     /**
      * Property key for a crash after loading Oracle JDBC OCI (native) driver.
@@ -1263,7 +1263,7 @@ public enum Analysis {
     /**
      * Property key for crash when connecting to Oracle database using the JDBC OCI (native) driver.
      */
-    WARN_ORACLE_JDBC_OCI_DRIVER("warn.oracle.jdbc.oci.driver"),
+    WARN_ORACLE_JDBC_OCI_CONNECION("warn.oracle.jdbc.oci.connection"),
 
     /**
      * Property key for a JDK that is deployed on RHEL6.

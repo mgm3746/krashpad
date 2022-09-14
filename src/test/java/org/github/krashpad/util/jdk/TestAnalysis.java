@@ -2095,10 +2095,10 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_DRIVER),
-                Analysis.ERROR_ORACLE_JDBC_DRIVER + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_DRIVER),
-                Analysis.WARN_ORACLE_JDBC_OCI_DRIVER + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
+                Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
+                Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2119,12 +2119,12 @@ class TestAnalysis {
         fel.getStackEvents().add(event3);
         fel.getStackEvents().add(event4);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_DRIVER),
-                Analysis.ERROR_ORACLE_JDBC_DRIVER + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
+                Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
                 Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_DRIVER),
-                Analysis.WARN_ORACLE_JDBC_OCI_DRIVER + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
+                Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2141,12 +2141,12 @@ class TestAnalysis {
                 "OCI driver load timestamp not correct.");
         assertEquals(86182L, fel.getUptime(), "Uptime not correct.");
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_DRIVER),
-                Analysis.ERROR_ORACLE_JDBC_DRIVER + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
+                Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
                 Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_DRIVER),
-                Analysis.WARN_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
+                Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test

@@ -332,6 +332,18 @@ public class FatalErrorLog {
      * Do data analysis.
      */
     private void doDataAnalysis() {
+        // Crashes related to Oracle JDBC OCI (native) driver
+        if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
+            analysis.add(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER);
+        ***REMOVED***
+        if (getEventTimestamp("^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$") > 0
+                && getUptime() > 0 && getUptime() - getEventTimestamp(
+                        "^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$") <= 1000) {
+            analysis.add(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING);
+        ***REMOVED***
+        if (getStackFrame(2) != null && getStackFrame(2).matches("^C  \\[libocijdbc.+$")) {
+            analysis.add(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION);
+        ***REMOVED***
         // Check for ancient fatal error log
         if (ErrUtil.dayDiff(getCrashDate(), new Date()) > 30) {
             analysis.add(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT);
@@ -925,16 +937,6 @@ public class FatalErrorLog {
         // Crash in HashMap
         if (getStackFrameTop() != null && getStackFrameTop().matches("^J.+java\\.util\\.HashMap.+$")) {
             analysis.add(Analysis.ERROR_HASHMAP);
-        ***REMOVED***
-        // Crash in Oracle JDBC driver
-        if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
-            analysis.add(Analysis.ERROR_ORACLE_JDBC_DRIVER);
-        ***REMOVED*** else if (getEventTimestamp("^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$") > 0
-                && getUptime() > 0 && getUptime() - getEventTimestamp(
-                        "^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$") <= 1000) {
-            analysis.add(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING);
-        ***REMOVED*** else if (getStackFrame(2) != null && getStackFrame(2).matches("^C  \\[libocijdbc.+$")) {
-            analysis.add(Analysis.WARN_ORACLE_JDBC_OCI_DRIVER);
         ***REMOVED***
         // Specific CompilerThread crashes
         if (getCurrentThread() != null && getCurrentThread().matches("^.+C2 CompilerThread\\d{1,***REMOVED***.+$")) {
