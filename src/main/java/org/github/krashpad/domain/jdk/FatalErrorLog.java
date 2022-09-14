@@ -4092,7 +4092,7 @@ public class FatalErrorLog {
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
-                    iterator = JdkUtil.JDK_RHEL8_PPC64LE_RPMS.entrySet().iterator();
+                    iterator = JdkUtil.JDK8_RHEL8_PPC64LE_RPMS.entrySet().iterator();
                     while (iterator.hasNext()) {
                         Entry<String, Release> entry = iterator.next();
                         Release release = entry.getValue();
@@ -4246,9 +4246,9 @@ public class FatalErrorLog {
                                 && getJdkBuildDate() != null && getJdkBuildDate().compareTo(
                                         JdkUtil.JDK8_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
-                        isRhelRpmInstall = JdkUtil.JDK_RHEL8_PPC64LE_RPMS.containsKey(rpmDirectory)
+                        isRhelRpmInstall = JdkUtil.JDK8_RHEL8_PPC64LE_RPMS.containsKey(rpmDirectory)
                                 && getJdkBuildDate() != null && getJdkBuildDate().compareTo(
-                                        JdkUtil.JDK_RHEL8_PPC64LE_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                                        JdkUtil.JDK8_RHEL8_PPC64LE_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED***
                     break;
                 case RHEL9:
@@ -4437,9 +4437,9 @@ public class FatalErrorLog {
                                 && getJdkBuildDate() != null && getJdkBuildDate().compareTo(
                                         JdkUtil.JDK8_RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
-                        isRhelRpmInstall = JdkUtil.JDK_RHEL8_PPC64LE_RPMS.containsKey(rpmDirectory)
+                        isRhelRpmInstall = JdkUtil.JDK8_RHEL8_PPC64LE_RPMS.containsKey(rpmDirectory)
                                 && getJdkBuildDate() != null && getJdkBuildDate().compareTo(
-                                        JdkUtil.JDK_RHEL8_PPC64LE_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                                        JdkUtil.JDK8_RHEL8_PPC64LE_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED***
                     break;
                 case RHEL9:
