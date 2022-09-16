@@ -40,6 +40,17 @@ class TestVmOperationEvent {
     ***REMOVED***
 
     @Test
+    void testG1CollectFull() {
+        String logLine = "VM_Operation (0x00007f2764076d80): G1CollectFull, mode: safepoint, requested by thread "
+                + "0x00007f29ec6cf800";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperationEvent event = new VmOperationEvent(logLine);
+        assertEquals("G1CollectFull, mode: safepoint, requested by thread 0x00007f29ec6cf800",
+                event.getVmOperationString(), "VM operation not correct.");
+    ***REMOVED***
+
+    @Test
     void testHeapDumper() {
         String logLine = "VM_Operation (0x0000000054ede490): HeapDumper, mode: safepoint, requested by thread "
                 + "0x000000004d180000";
