@@ -767,6 +767,17 @@ public class FatalErrorLog {
                 && JdkUtil.getNumberOptionValue(jvmOptions.getG1SummarizeRSetStatsPeriod()) > 0) {
             analysis.add(Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT);
         ***REMOVED***
+        // Check OnOutOfMemoryError
+        if (jvmOptions != null && jvmOptions.getOnOutOfMemoryError() != null) {
+            if (jvmOptions.getOnOutOfMemoryError().matches("^.+kill -9.+$")
+                    && (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) > 8
+                            || (getJavaSpecification() == JavaSpecification.JDK8
+                                    && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) >= 92))) {
+                analysis.add(Analysis.INFO_OPT_ON_OOME_KILL);
+            ***REMOVED*** else {
+                analysis.add(Analysis.INFO_OPT_ON_OOME);
+            ***REMOVED***
+        ***REMOVED***
         // Check for CMS incremental mode with > 2 cpu
         if (getCpusLogical() > 2 && jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUseConcMarkSweepGc())
                 && JdkUtil.isOptionEnabled(jvmOptions.getCmsIncrementalMode())) {

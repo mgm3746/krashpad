@@ -1892,6 +1892,54 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testOnOutOfMemoryError() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:OnOutOfMemoryError=\"/usr/bin/restart_tomcat\" -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME_KILL),
+                Analysis.INFO_OPT_ON_OOME_KILL + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME),
+                Analysis.INFO_OPT_ON_OOME + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOnOutOfMemoryErrorKill() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:OnOutOfMemoryError=\"kill -9 %p\" -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        // JDK unknown
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME),
+                Analysis.INFO_OPT_ON_OOME + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME_KILL),
+                Analysis.INFO_OPT_ON_OOME_KILL + " analysis incorrectly identified.");
+        // JDK8 update 91
+        fel.getAnalysis().clear();
+        String header = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_91-b14) (build 1.8.0_91-b14)";
+        HeaderEvent headerEvent = new HeaderEvent(header);
+        fel.getHeaderEvents().add(headerEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME),
+                Analysis.INFO_OPT_ON_OOME + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME_KILL),
+                Analysis.INFO_OPT_ON_OOME_KILL + " analysis incorrectly identified.");
+        // JDK8 update 101
+        fel.getAnalysis().clear();
+        fel.getHeaderEvents().clear();
+        header = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_101-b13) (build 1.8.0_101-b13)";
+        headerEvent = new HeaderEvent(header);
+        fel.getHeaderEvents().add(headerEvent);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME),
+                Analysis.INFO_OPT_ON_OOME + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME_KILL),
+                Analysis.INFO_OPT_ON_OOME_KILL + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testOomAmqCli() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset67.txt");
         Manager manager = new Manager();
@@ -2102,6 +2150,28 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testOracleJdbcOciDriverError() {
+        FatalErrorLog fel = new FatalErrorLog();
+        EventEvent eventEvent = new EventEvent(
+                "Event: 86.139 Loaded shared library /ora01/app/oracle/product/11.2.0/client_1/lib/libocijdbc11.so");
+        fel.getEventEvents().add(eventEvent);
+        TimeElapsedTimeEvent timeElapsedTimeEvent = new TimeElapsedTimeEvent(
+                "Time: Mon Sep 12 13:46:23 2022 EDT elapsed time: 86.182142 seconds (0d 0h 1m 26s)");
+        fel.setTimeElapsedTimeEvent(timeElapsedTimeEvent);
+        assertEquals(86139L,
+                fel.getEventTimestamp("^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$"),
+                "OCI driver load timestamp not correct.");
+        assertEquals(86182L, fel.getUptime(), "Uptime not correct.");
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
+                Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
+                Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
+                Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testOracleJdbcOciDriverWarning() {
         FatalErrorLog fel = new FatalErrorLog();
         StackEvent event1 = new StackEvent(
@@ -2125,28 +2195,6 @@ class TestAnalysis {
                 Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
                 Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testOracleJdbcOciDriverError() {
-        FatalErrorLog fel = new FatalErrorLog();
-        EventEvent eventEvent = new EventEvent(
-                "Event: 86.139 Loaded shared library /ora01/app/oracle/product/11.2.0/client_1/lib/libocijdbc11.so");
-        fel.getEventEvents().add(eventEvent);
-        TimeElapsedTimeEvent timeElapsedTimeEvent = new TimeElapsedTimeEvent(
-                "Time: Mon Sep 12 13:46:23 2022 EDT elapsed time: 86.182142 seconds (0d 0h 1m 26s)");
-        fel.setTimeElapsedTimeEvent(timeElapsedTimeEvent);
-        assertEquals(86139L,
-                fel.getEventTimestamp("^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$"),
-                "OCI driver load timestamp not correct.");
-        assertEquals(86182L, fel.getUptime(), "Uptime not correct.");
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
-                Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
-                Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
-                Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test

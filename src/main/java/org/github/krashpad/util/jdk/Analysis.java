@@ -658,6 +658,18 @@ public enum Analysis {
     INFO_OPT_NEW_RATIO_INVERTED("info.opt.new.ratio.inverted"),
 
     /**
+     * Property key for -XX:OnOutOfMemoryError is being used to execute a command or script when the first
+     * OnOutOfMemoryError happens.
+     */
+    INFO_OPT_ON_OOME("info.opt.on.oome"),
+
+    /**
+     * Property key for -XX:OnOutOfMemoryError is being used to execute shut down the JVM when the first
+     * OnOutOfMemoryError happens.
+     */
+    INFO_OPT_ON_OOME_KILL("info.opt.on.oome.kill"),
+
+    /**
      * Property key for explicitly setting the number of parallel garbage collector threads (-XX:ParallelGCThreads=N).
      */
     INFO_OPT_PARALLEL_GC_THREADS("info.opt.parallel.gc.threads"),

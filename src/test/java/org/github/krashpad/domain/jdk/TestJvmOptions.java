@@ -394,6 +394,14 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testOnOutOfMemoryScript() {
+        String jvmArgs = "-Xms1g -XX:OnOutOfMemoryError=\"/usr/bin/restart_tomcat\" -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:OnOutOfMemoryError=\"/usr/bin/restart_tomcat\"", jvmOptions.getOnOutOfMemoryError(),
+                "OnOutOfMemoryError not correct.");
+    ***REMOVED***
+
+    @Test
     void testResizePlab() {
         String jvmArgs = "-Xms1g -XX:-ResizePLAB -Xmx1g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);

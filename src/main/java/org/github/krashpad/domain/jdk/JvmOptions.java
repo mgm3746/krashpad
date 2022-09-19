@@ -968,7 +968,7 @@ public class JvmOptions {
     private String onError;
 
     /**
-     * The option to run a command or script when OutOfMemoryError happens. For example:
+     * The option to run a command or script when the first OutOfMemoryError happens. For example:
      * 
      * <pre>
      * -XX:OnOutOfMemoryError="pmap %p"
