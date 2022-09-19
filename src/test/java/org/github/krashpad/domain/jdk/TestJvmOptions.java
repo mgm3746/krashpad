@@ -394,6 +394,13 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testResizePlab() {
+        String jvmArgs = "-Xms1g -XX:-ResizePLAB -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:-ResizePLAB", jvmOptions.getResizePlab(), "ResizePLAB not correct.");
+    ***REMOVED***
+
+    @Test
     void testServerNoverify() {
         String jvmArgs = "-Xmx1g -server -noverify";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);

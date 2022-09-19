@@ -442,6 +442,25 @@ public class JvmOptions {
     private String exitOnOutOfMemoryError;
 
     /**
+     * Option to enable/disable dynamic resizing of the Promotion Local Allocation Buffers (PLABs). Each GC thread has
+     * two PLABs, one for the survivor space and one for the old space.
+     * 
+     * Can cause performance issues with the G1 collector for some loads; therefore, is sometimes disabled to decrease
+     * G1 GC pause time.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:-ResizePLAB
+     * </pre>
+     */
+    private String resizePlab;
+
+    public String getResizePlab() {
+        return resizePlab;
+    ***REMOVED***
+
+    /**
      * The option to enable/disable explicit garbage collection to be handled concurrently by the CMS and G1 collectors.
      * For example:
      * 
@@ -2169,6 +2188,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:ReservedCodeCacheSize=" + JdkRegEx.OPTION_SIZE_BYTES + "$")) {
                     reservedCodeCacheSize = option;
                     key = "ReservedCodeCacheSize";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]ResizePLAB$")) {
+                    resizePlab = option;
+                    key = "ResizePLAB";
                 ***REMOVED*** else if (option.matches("^-Xrunjdwp:.+$")) {
                     runjdwp.add(option);
                     key = "runjdwp";
