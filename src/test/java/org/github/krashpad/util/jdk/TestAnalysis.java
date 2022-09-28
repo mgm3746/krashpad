@@ -32,6 +32,7 @@ import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.HeaderEvent;
 import org.github.krashpad.domain.jdk.HeapEvent;
+import org.github.krashpad.domain.jdk.LdPreloadFileEvent;
 import org.github.krashpad.domain.jdk.MemoryEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.SigInfoEvent;
@@ -1638,10 +1639,21 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
-        assertEquals(736, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
+        assertEquals(752, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
                 "Release days diff not correct.");
-        assertEquals(9, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
+        assertEquals(10, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
                 "Release ***REMOVED*** diff not correct.");
+    ***REMOVED***
+
+    @Test
+    void testLdPreloadFile() {
+        String logLine = "/etc/ld.so.preload:";
+        LdPreloadFileEvent event = new LdPreloadFileEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getLdPreloadFileEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_LD_SO_PRELOAD),
+                Analysis.INFO_LD_SO_PRELOAD + " analysis not identified.");
     ***REMOVED***
 
     @Test

@@ -46,6 +46,7 @@ import org.github.krashpad.domain.jdk.HeaderEvent;
 import org.github.krashpad.domain.jdk.HeapAddressEvent;
 import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.HostEvent;
+import org.github.krashpad.domain.jdk.LdPreloadFileEvent;
 import org.github.krashpad.domain.jdk.MaxMapCountEvent;
 import org.github.krashpad.domain.jdk.MeminfoEvent;
 import org.github.krashpad.domain.jdk.MemoryEvent;
@@ -149,6 +150,8 @@ public class Manager {
                         fatalErrorLog.setHeapAddressEvent((HeapAddressEvent) event);
                     ***REMOVED*** else if (event instanceof HeapEvent) {
                         fatalErrorLog.getHeapEvents().add((HeapEvent) event);
+                    ***REMOVED*** else if (event instanceof LdPreloadFileEvent) {
+                        fatalErrorLog.getLdPreloadFileEvents().add((LdPreloadFileEvent) event);
                     ***REMOVED*** else if (event instanceof HostEvent) {
                         fatalErrorLog.setHostEvent((HostEvent) event);
                     ***REMOVED*** else if (event instanceof MaxMapCountEvent) {

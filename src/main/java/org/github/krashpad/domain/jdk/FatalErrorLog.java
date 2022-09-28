@@ -165,6 +165,11 @@ public class FatalErrorLog {
     private JvmOptions jvmOptions;
 
     /**
+     * Preloaded library information.
+     */
+    private List<LdPreloadFileEvent> ldPreloadFileEvents;
+
+    /**
      * max_map_count information.
      */
     private MaxMapCountEvent maxMapCountEvent;
@@ -298,12 +303,13 @@ public class FatalErrorLog {
         globalFlagsEvents = new ArrayList<GlobalFlagsEvent>();
         headerEvents = new ArrayList<HeaderEvent>();
         heapEvents = new ArrayList<HeapEvent>();
-        statisticsEvents = new ArrayList<StatisticsEvent>();
+        ldPreloadFileEvents = new ArrayList<LdPreloadFileEvent>();
         meminfoEvents = new ArrayList<MeminfoEvent>();
         memoryEvents = new ArrayList<MemoryEvent>();
         nativeMemoryTrackingEvents = new ArrayList<NativeMemoryTrackingEvent>();
         osEvents = new ArrayList<OsEvent>();
         stackEvents = new ArrayList<StackEvent>();
+        statisticsEvents = new ArrayList<StatisticsEvent>();
         threadEvents = new ArrayList<ThreadEvent>();
         unidentifiedLogLines = new ArrayList<String>();
         vmArgumentsEvents = new ArrayList<VmArgumentsEvent>();
@@ -1039,6 +1045,8 @@ public class FatalErrorLog {
                 analysis.add(Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS);
             ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("CGC_Operation")) {
                 analysis.add(Analysis.INFO_VM_OPERATION_CONCURRENT_GC);
+            ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("GetThreadListStackTraces")) {
+                analysis.add(Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI);
             ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("HeapDumper")) {
                 analysis.add(Analysis.INFO_VM_OPERATION_HEAP_DUMP);
             ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("PrintThreads")) {
@@ -1054,6 +1062,10 @@ public class FatalErrorLog {
         String postgreSqlConnection = "org[\\.\\/]postgresql[\\.\\/]Driver[\\.\\/]connect\\(";
         if (isInStack(postgreSqlConnection)) {
             analysis.add(Analysis.INFO_POSTGRESQL_CONNECTION);
+        ***REMOVED***
+        // ld.so.preload
+        if (getLdPreloadFileEvents().size() > 0) {
+            analysis.add(Analysis.INFO_LD_SO_PRELOAD);
         ***REMOVED***
     ***REMOVED***
 
@@ -2453,6 +2465,10 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return jvmUser;
+    ***REMOVED***
+
+    public List<LdPreloadFileEvent> getLdPreloadFileEvents() {
+        return ldPreloadFileEvents;
     ***REMOVED***
 
     /**

@@ -359,6 +359,11 @@ public enum Analysis {
     INFO_DBCP2("info.dbcp2"),
 
     /**
+     * Property key for /etc/ld.so.preload being used to preload libraries.
+     */
+    INFO_LD_SO_PRELOAD("info.ld.so.preload"),
+
+    /**
      * Property key for HyperV (Viridian) environment. Previously referred to as Windows Server Virtualization.
      */
     INFO_HYPERV("info.hyperv"),
@@ -1320,7 +1325,13 @@ public enum Analysis {
     /**
      * Property key for unidentified line(s) needing reporting.
      */
-    WARN_UNIDENTIFIED_LOG_LINE("warn.unidentified.log.line");
+    WARN_UNIDENTIFIED_LOG_LINE("warn.unidentified.log.line"),
+
+    /**
+     * Property key for a crash happening during a thread dump operation initiated by an external tool calling the JVM
+     * tool interface (JVM TI).
+     */
+    WARN_VM_OPERATION_THREAD_DUMP_JVMTI("warn.vm.operation.thread.dump.jvmti");
 
     private String key;
 

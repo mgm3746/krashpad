@@ -51,6 +51,17 @@ class TestVmOperationEvent {
     ***REMOVED***
 
     @Test
+    void testGetThreadListStackTraces() {
+        String logLine = "VM_Operation (0x00007efff5d6d830): GetThreadListStackTraces, mode: safepoint, requested by "
+                + "thread 0x000055b2423e2800";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperationEvent event = new VmOperationEvent(logLine);
+        assertEquals("GetThreadListStackTraces, mode: safepoint, requested by thread 0x000055b2423e2800",
+                event.getVmOperationString(), "VM operation not correct.");
+    ***REMOVED***
+
+    @Test
     void testHeapDumper() {
         String logLine = "VM_Operation (0x0000000054ede490): HeapDumper, mode: safepoint, requested by thread "
                 + "0x000000004d180000";

@@ -58,6 +58,7 @@ import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.HeapRegionsEvent;
 import org.github.krashpad.domain.jdk.HostEvent;
 import org.github.krashpad.domain.jdk.InstructionsEvent;
+import org.github.krashpad.domain.jdk.LdPreloadFileEvent;
 import org.github.krashpad.domain.jdk.LibcEvent;
 import org.github.krashpad.domain.jdk.LoadAverageEvent;
 import org.github.krashpad.domain.jdk.LoggingEvent;
@@ -255,17 +256,17 @@ public class JdkUtil {
         //
         EXCEPTION_COUNTS, EXCEPTION_EVENT, GC_HEAP_HISTORY, GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER, HEADING, HEAP,
         //
-        HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO,
+        HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING,
         //
-        MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NO_EVENTS, NUMBER, OPERATION, OS, OS_UPTIME, PID_MAX,
+        MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NO_EVENTS, NUMBER, OPERATION,
         //
-        POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK,
+        OS, OS_UPTIME, PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO,
         //
-        STACK_SLOT_TO_MEMORY_MAPPING, STATISTICS, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX,
+        SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, STATISTICS, THREAD, THREADS_ACTIVE_COMPILE,
         //
-        TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN,
+        THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE,
         //
-        VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
+        UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
     ***REMOVED***
 
     /**
@@ -1658,6 +1659,8 @@ public class JdkUtil {
             logEventType = LogEventType.INSTRUCTIONS;
         ***REMOVED*** else if (StatisticsEvent.match(logLine)) {
             logEventType = LogEventType.STATISTICS;
+        ***REMOVED*** else if (LdPreloadFileEvent.match(logLine)) {
+            logEventType = LogEventType.LD_PRELOAD_FILE;
         ***REMOVED*** else if (LibcEvent.match(logLine)) {
             logEventType = LogEventType.LIBC;
         ***REMOVED*** else if (LoadAverageEvent.match(logLine)) {
@@ -1950,8 +1953,8 @@ public class JdkUtil {
         case INSTRUCTIONS:
             event = new InstructionsEvent(logLine);
             break;
-        case STATISTICS:
-            event = new StatisticsEvent(logLine);
+        case LD_PRELOAD_FILE:
+            event = new LdPreloadFileEvent(logLine);
             break;
         case LIBC:
             event = new LibcEvent(logLine);
@@ -2024,6 +2027,9 @@ public class JdkUtil {
             break;
         case STACK_SLOT_TO_MEMORY_MAPPING:
             event = new StackSlotToMemoryMappingEvent(logLine);
+            break;
+        case STATISTICS:
+            event = new StatisticsEvent(logLine);
             break;
         case THREAD:
             event = new ThreadEvent(logLine);

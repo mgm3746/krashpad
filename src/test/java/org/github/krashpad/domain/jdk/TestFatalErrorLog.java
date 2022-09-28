@@ -890,6 +890,18 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testThreadDumpJvmti() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmOperation = "VM_Operation (0x00007efff5d6d830): GetThreadListStackTraces, mode: safepoint, requested "
+                + "by thread 0x000055b2423e2800";
+        VmOperationEvent vmOperationEvent = new VmOperationEvent(vmOperation);
+        fel.setVmOperationEvent(vmOperationEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI),
+                Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testThreadStackSize() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvmArgs = "jvm_args: -Xmx37400M -Xms37400M -XX:ThreadStackSize=256";
