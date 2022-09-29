@@ -71,7 +71,7 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
-    void testFile() {
+    void testFileLinux() {
         String s = "/usr/lib64/libaio.so.1.0.1";
         assertTrue(s.matches(JdkRegEx.FILE), "Inode not identified.");
     ***REMOVED***
@@ -80,6 +80,12 @@ class TestJdkRegEx {
     void testFileOffset() {
         String s = "0001a000";
         assertTrue(s.matches(JdkRegEx.FILE_OFFSET), "File offset not identified.");
+    ***REMOVED***
+
+    @Test
+    void testFileWindows() {
+        String file = "E:\\path\\java\\bin\\server\\jvm.dll";
+        assertTrue(file.matches(JdkRegEx.FILE), "File not recognized.");
     ***REMOVED***
 
     @Test
@@ -129,9 +135,39 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
-    void testMemoryRegion() {
+    void testMemoryRegionLinux() {
         String s = "7f0f159f8000-7f0f159f9000";
         assertTrue(s.matches(JdkRegEx.MEMORY_REGION), "Memory region not identified.");
+    ***REMOVED***
+
+    @Test
+    void testMemoryRegionWindows() {
+        String s = "0x0000000052380000 - 0x0000000052bda000";
+        assertTrue(s.matches(JdkRegEx.MEMORY_REGION), "Memory region not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNativeLibrary() {
+        assertTrue("jvm.so".matches(JdkRegEx.NATIVE_LIBRARY), "jvm.so not identified as native library.");
+        assertTrue("my_app.so".matches(JdkRegEx.NATIVE_LIBRARY), "my_app.so not identified as native library.");
+        assertTrue("my.app.so".matches(JdkRegEx.NATIVE_LIBRARY), "my.app.so not identified as native library.");
+        assertTrue("my-app.so".matches(JdkRegEx.NATIVE_LIBRARY), "my-app.so not identified as native library.");
+        assertTrue("jvm.dll".matches(JdkRegEx.NATIVE_LIBRARY), "jvm.dll not identified as native library.");
+        assertTrue("my44.dll".matches(JdkRegEx.NATIVE_LIBRARY), "my44.dll not identified as native library.");
+        assertTrue("PSAPI.DLL".matches(JdkRegEx.NATIVE_LIBRARY), "PSAPI.DLL not identified as native library.");
+        assertFalse("app.jar".matches(JdkRegEx.NATIVE_LIBRARY), "app.jar incorreclty identified as native library.");
+        assertFalse("app.dll.jar".matches(JdkRegEx.NATIVE_LIBRARY),
+                "app.jar incorreclty identified as native library.");
+    ***REMOVED***
+
+    @Test
+    void testNativeLibraryDynatrace() {
+        assertTrue("liboneagentjava.so".matches(JdkRegEx.NATIVE_LIBRARY),
+                "liboneagentjava.so not identified as Dynatrace native library.");
+        assertTrue("liboneagentloader.so".matches(JdkRegEx.NATIVE_LIBRARY),
+                "liboneagentloader.so not identified as Dynatrace native library.");
+        assertTrue("liboneagentproc.so".matches(JdkRegEx.NATIVE_LIBRARY),
+                "liboneagentproc.so not identified as Dynatrace native library.");
     ***REMOVED***
 
     @Test

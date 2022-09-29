@@ -899,6 +899,38 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testDynatraceCrash() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack = "C  [liboneagentproc.so+0x17993]";
+        StackEvent stackEvent = new StackEvent(stack);
+        fel.getStackEvents().add(stackEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_DYNATRACE),
+                Analysis.ERROR_DYNATRACE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testDynatraceDetected() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7effff525000-7effff526000 rw-p 000ce000 fd:02 4238968                    "
+                + "/usr/lib64/liboneagentproc.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_DYNATRACE),
+                Analysis.INFO_DYNATRACE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testDynatraceInStack() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_DYNATRACE),
+                Analysis.WARN_DYNATRACE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testEliminateLocks() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:+EliminateLocks";
@@ -3091,6 +3123,17 @@ class TestAnalysis {
                 Analysis.INFO_TRUNCATED + " analysis not identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_OOPS),
                 Analysis.ERROR_OOME_OOPS + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testUnidentifiedNativeLibrariesWindows() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset71.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(31, fel.getNativeLibraries().size(), "Number of native libraries not correct.");
+        assertEquals(1, fel.getUnknownNativeLibraries().size(), "Number of unidentified native libraries not correct.");
+        assertEquals("C:\\Program Files\\Cylance\\Desktop\\CyMemDef64.dll", fel.getUnknownNativeLibraries().get(0),
+                "Unidentified native library not correct.");
     ***REMOVED***
 
     @Test

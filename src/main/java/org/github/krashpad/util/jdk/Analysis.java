@@ -61,6 +61,11 @@ public enum Analysis {
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),
 
     /**
+     * Property key for crash in Dynatrace code.
+     */
+    ERROR_DYNATRACE("error.dynatrace"),
+
+    /**
      * Property key for explicit gc disabled running JBoss EAP7.
      */
     ERROR_EXPLICIT_GC_DISABLED_EAP7("error.explicit.gc.disabled.eap7"),
@@ -246,6 +251,7 @@ public enum Analysis {
      * Property key for generic insufficient physical memory with oops enabled.
      */
     ERROR_OOME_OOPS("error.oome.oops"),
+
     /**
      * Property key for the JVM failing to start due to insufficient physical memory.
      */
@@ -359,9 +365,9 @@ public enum Analysis {
     INFO_DBCP2("info.dbcp2"),
 
     /**
-     * Property key for /etc/ld.so.preload being used to preload libraries.
+     * Property key for Dynatrace detected.
      */
-    INFO_LD_SO_PRELOAD("info.ld.so.preload"),
+    INFO_DYNATRACE("info.dynatrace"),
 
     /**
      * Property key for HyperV (Viridian) environment. Previously referred to as Windows Server Virtualization.
@@ -404,11 +410,21 @@ public enum Analysis {
     INFO_JVM_USER_NE_USERNAME("info.jvm.user.ne.username"),
 
     /**
+     * Property key for /etc/ld.so.preload being used to preload libraries.
+     */
+    INFO_LD_SO_PRELOAD("info.ld.so.preload"),
+
+    /**
      * Property key for JVM memory not equal to system memory.
      * 
      * TODO: Remove this? It's basically a duplicate of INFO_CGROUP_MEMORY_LIMIT?
      */
     INFO_MEMORY_JVM_NE_SYSTEM("info.memory.jvm.ne.system"),
+
+    /**
+     * Property key for unknown native libraries detected.
+     */
+    INFO_NATIVE_LIBRARIES_UNKNOWN("info.native.libraries.unknown"),
 
     /**
      * Property key for setting the number of compiler threads (-XX:CICompilerCount=N).
@@ -954,6 +970,11 @@ public enum Analysis {
      * Property key for no evidence the JDK debug symbols are installed.
      */
     WARN_DEBUG_SYMBOLS("warn.jdk.debug.symbols"),
+
+    /**
+     * Property key for Dynatrace code in stack.
+     */
+    WARN_DYNATRACE("warn.dynatrace"),
 
     /**
      * Property key for a fatal error log that is more than 30 days old.

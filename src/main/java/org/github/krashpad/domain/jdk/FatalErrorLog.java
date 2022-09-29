@@ -922,7 +922,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_JVM_USER_NE_USERNAME);
         ***REMOVED***
         // Check for no jvm options
-        if (getJvmOptions() == null || getJvmOptions().getOptions().size() == 0) {
+        if (getJvmOptions() == null || getJvmOptions().getOptions().isEmpty()) {
             analysis.add(Analysis.INFO_OPT_MISSING);
         ***REMOVED***
         // Check for many threads
@@ -972,7 +972,7 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
-            ***REMOVED*** else if (getCurrentCompileTaskEvents().size() > 0) {
+            ***REMOVED*** else if (!getCurrentCompileTaskEvents().isEmpty()) {
                 Iterator<CurrentCompileTaskEvent> iterator = getCurrentCompileTaskEvents().iterator();
                 while (iterator.hasNext()) {
                     CurrentCompileTaskEvent event = iterator.next();
@@ -994,7 +994,7 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Crash during shutdown
-        if (getEventEvents().size() > 0) {
+        if (!getEventEvents().isEmpty()) {
             EventEvent lastEventEvent = getEventEvents().get(getEventEvents().size() - 1);
             if (lastEventEvent.getLogEntry().matches("^.+Executing VM operation: Exit$")) {
                 analysis.add(Analysis.INFO_SHUTDOWN);
@@ -1064,8 +1064,36 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_POSTGRESQL_CONNECTION);
         ***REMOVED***
         // ld.so.preload
-        if (getLdPreloadFileEvents().size() > 0) {
+        if (!getLdPreloadFileEvents().isEmpty()) {
             analysis.add(Analysis.INFO_LD_SO_PRELOAD);
+        ***REMOVED***
+        // Unknown native libraries
+        if (!getUnknownNativeLibraries().isEmpty()) {
+            analysis.add(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN);
+        ***REMOVED***
+
+        if (getStackFrameTop() != null
+                && getStackFrameTop().matches("^.*" + JdkRegEx.NATIVE_LIBRARY_DYNATRACE + ".*$")) {
+            // Crash in Dynatrace
+            analysis.add(Analysis.ERROR_DYNATRACE);
+        ***REMOVED*** else if (isInStack(JdkRegEx.NATIVE_LIBRARY_DYNATRACE)) {
+            // Dynatrace in stack
+            analysis.add(Analysis.WARN_DYNATRACE);
+        ***REMOVED*** else if (!getUnknownNativeLibraries().isEmpty()) {
+            // Dynatrace detected
+            Iterator<String> iterator = getUnknownNativeLibraries().iterator();
+            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Matcher matcher;
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                matcher = pattern.matcher(nativeLibraryPath);
+                if (matcher.find()) {
+                    String nativeLibrary = matcher.group(3);
+                    if (nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_DYNATRACE))
+                        analysis.add(Analysis.INFO_DYNATRACE);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
 
@@ -2665,6 +2693,25 @@ public class FatalErrorLog {
         return narrowKlassEvent;
     ***REMOVED***
 
+    /**
+     * @return Native libraries list (unique entries).
+     */
+    public List<String> getNativeLibraries() {
+        List<String> nativeLibraries = new ArrayList<String>();
+        if (!dynamicLibraryEvents.isEmpty()) {
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.isNativeLibrary()) {
+                    if (!nativeLibraries.contains(event.getFilePath())) {
+                        nativeLibraries.add(event.getFilePath());
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return nativeLibraries;
+    ***REMOVED***
+
     public List<NativeMemoryTrackingEvent> getNativeMemoryTrackingEvents() {
         return nativeMemoryTrackingEvents;
     ***REMOVED***
@@ -3331,6 +3378,33 @@ public class FatalErrorLog {
 
     public List<String> getUnidentifiedLogLines() {
         return unidentifiedLogLines;
+    ***REMOVED***
+
+    /**
+     * @return Unknown native libraries (not OS, not Java).
+     */
+    public List<String> getUnknownNativeLibraries() {
+        List<String> unidentifiedNativeLibraries = new ArrayList<String>();
+        List<String> nativeLibraries = getNativeLibraries();
+        if (!nativeLibraries.isEmpty()) {
+            Iterator<String> iterator = nativeLibraries.iterator();
+            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Matcher matcher;
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                matcher = pattern.matcher(nativeLibraryPath);
+                if (matcher.find()) {
+                    String nativeLibrary = matcher.group(3);
+                    if (!ErrUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibrary)
+                            && !ErrUtil.NATIVE_LIBRARIES_JAVA_WINDOWS.contains(nativeLibrary)
+                            && !ErrUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibrary)
+                            && !ErrUtil.NATIVE_LIBRARIES_JAVA_LINUX.contains(nativeLibrary)) {
+                        unidentifiedNativeLibraries.add(nativeLibraryPath);
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return unidentifiedNativeLibraries;
     ***REMOVED***
 
     /**

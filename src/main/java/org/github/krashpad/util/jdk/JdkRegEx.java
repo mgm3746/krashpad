@@ -191,9 +191,25 @@ public class JdkRegEx {
     /**
      * Memory map file path.
      * 
-     * For example: /usr/lib64/libaio.so.1.0.1
+     * For example:
+     * 
+     * <p>
+     * 1) Linux/Unix:
+     * </p>
+     * 
+     * <pre>
+     * /usr/lib64/libaio.so.1.0.1
+     * </pre>
+     * 
+     * <p>
+     * 2) Windows:
+     * </p>
+     * 
+     * <pre>
+     * E:\path\java\bin\server\jvm.dll
+     * </pre>
      */
-    public static final String FILE = "(.*/)*(.+)";
+    public static final String FILE = "([A-Z]:)?(.*[/\\\\])*(.+)";
 
     /**
      * File offset
@@ -303,9 +319,13 @@ public class JdkRegEx {
     /**
      * Memory region
      * 
-     * For example: 7f95caa94000-7f95caaa3000
+     * For example:
+     * 
+     * 7f95caa94000-7f95caaa3000 (Linux)
+     * 
+     * 0x00000000742b0000 - 0x0000000074b70000 (Windows)
      */
-    public static final String MEMORY_REGION = "([0-9a-f]{8,16***REMOVED***-[0-9a-f]{8,16***REMOVED***)";
+    public static final String MEMORY_REGION = "((0x)?[0-9a-f]{8,16***REMOVED***[ ]{0,1***REMOVED***-[ ]{0,1***REMOVED***(0x)?[0-9a-f]{8,16***REMOVED***)";
 
     /**
      * Regular expression for a metaspace event.
@@ -326,6 +346,20 @@ public class JdkRegEx {
      */
     public static final String METASPACE_SIZE = " Metaspace[ ]{1,7***REMOVED***used " + JdkRegEx.SIZE + ", (capacity "
             + JdkRegEx.SIZE + ", )?committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE;
+
+    /**
+     * Native library.
+     * 
+     * For example libjvm.so, jvm.dll
+     */
+    public static final String NATIVE_LIBRARY = "[a-zA-Z\\d-_\\.]{1,***REMOVED***\\.(DLL|dll|so)";
+
+    /**
+     * Dynatrace native library.
+     * 
+     * For example liboneagentjava.so, liboneagentloader.so, liboneagentproc.so
+     */
+    public static final String NATIVE_LIBRARY_DYNATRACE = "liboneagent(java|loader|proc)\\.(DLL|dll|so)";
 
     /**
      * A null pointer address.
@@ -491,7 +525,6 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK8_DIR = "(java\\-1\\.8\\.0\\-openjdk\\-1\\.8\\.0\\..+\\.el([678])"
             + "(_(\\d{1,2***REMOVED***))?\\.(ppc64(le)?|x86_64))";
-
     /**
      * Red Hat OpenJDK 8 rpm file path.
      * 
@@ -509,6 +542,7 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK8_LIBJVM_PATH = "\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK8_DIR
             + "\\/jre\\/lib\\/(amd64|ppc64(le)?)\\/server\\/libjvm\\.so";
+
     /**
      * RHSSO thread used for <code>Application</code> identification.
      * 

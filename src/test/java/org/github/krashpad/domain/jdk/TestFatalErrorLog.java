@@ -368,6 +368,7 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(37, fel.getJavaThreadCount(), "Java thread count not correct.");
+        assertEquals(34, fel.getNativeLibraries().size(), "Native library count not correct.");
     ***REMOVED***
 
     @Test

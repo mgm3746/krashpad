@@ -15,8 +15,10 @@
 package org.github.krashpad.util;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +32,157 @@ import org.github.krashpad.util.jdk.JdkRegEx;
  * 
  */
 public class ErrUtil {
+
+    /**
+     * Java linux native libraries.
+     */
+    public static final List<String> NATIVE_LIBRARIES_JAVA_LINUX;
+
+    /**
+     * Java windows native libaries.
+     */
+    public static final List<String> NATIVE_LIBRARIES_JAVA_WINDOWS;
+
+    /**
+     * Linux native libraries
+     */
+    public static final List<String> NATIVE_LIBRARIES_LINUX;
+
+    /**
+     * Windows native libraries
+     */
+    public static final List<String> NATIVE_LIBRARIES_WINDOWS;
+
+    static {
+        NATIVE_LIBRARIES_JAVA_LINUX = new ArrayList<String>();
+        NATIVE_LIBRARIES_JAVA_LINUX.add("i965_dri.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libextnet.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libjava.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libjimage.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libjli.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libjvm.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libmanagement.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libmanagement_ext.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libnet.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libnio.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libsunec.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libverify.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libzip.so");
+
+        NATIVE_LIBRARIES_JAVA_WINDOWS = new ArrayList<String>();
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("attach.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("awt.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("dt_shmem.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("dt_socket.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("fontmanager.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("freetype.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("hprof.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("instrument.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("j2pcsc.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("j2pkcs11.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("JAWTAccessBridge-64.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("JavaAccessBridge-64.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("jaas_nt.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("java.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("java_crw_demo.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("jawt.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("jdwp.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("jli.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("jpeg.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("jsdt.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("jsound.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("jsoundds.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("jvm.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("lcms.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("management.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("mlib_image.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("msvcr100.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("net.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("nio.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("npt.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("sawindbg.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("spashscreen.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("sunec.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("sunmscapi.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("ucrtbase.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("unpack.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("vcruntime140.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("verify.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("WindowsAccessBridge-64.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("w2k_lsa_auth.dll");
+        NATIVE_LIBRARIES_JAVA_WINDOWS.add("zip.dll");
+
+        NATIVE_LIBRARIES_LINUX = new ArrayList<String>();
+        NATIVE_LIBRARIES_LINUX.add("im-ibus.so");
+        NATIVE_LIBRARIES_LINUX.add("ld-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add("ld-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("ld-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libc-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add("libc-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("libc-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libdconfsettings.so");
+        NATIVE_LIBRARIES_LINUX.add("libdl-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add("libdl-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("libdl-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libfreeblpriv3.so");
+        NATIVE_LIBRARIES_LINUX.add("libm-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add("libm-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("libm-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libgvfscommon.so");
+        NATIVE_LIBRARIES_LINUX.add("libgvfsdbus.so");
+        NATIVE_LIBRARIES_LINUX.add("libnspr4.so");
+        NATIVE_LIBRARIES_LINUX.add("libnss3.so");
+        NATIVE_LIBRARIES_LINUX.add("libnssutil3.so");
+        NATIVE_LIBRARIES_LINUX.add("libnss_dns-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("libnss_dns-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libnss_files-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add("libnss_files-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("libnss_files-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libnsl-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("libplc4.so");
+        NATIVE_LIBRARIES_LINUX.add("libplds4.so");
+        NATIVE_LIBRARIES_LINUX.add("libpixbufloader-bmp.so");
+        NATIVE_LIBRARIES_LINUX.add("libpixbufloader-gif.so");
+        NATIVE_LIBRARIES_LINUX.add("libpixbufloader-svg.so");
+        NATIVE_LIBRARIES_LINUX.add("libpthread-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add("libpthread-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("libpthread-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libresolv-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("libresolv-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("librt-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add("librt-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("librt-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libsmime3.so");
+        NATIVE_LIBRARIES_LINUX.add("libssl3.so");
+        NATIVE_LIBRARIES_LINUX.add("libutil-2.28.so");
+
+        NATIVE_LIBRARIES_WINDOWS = new ArrayList<String>();
+        NATIVE_LIBRARIES_WINDOWS.add("ADVAPI32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("bcryptPrimitives.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("COMCTL32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("cfgmgr32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("combase.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("DBGHELP.DLL");
+        NATIVE_LIBRARIES_WINDOWS.add("dbgcore.DLL");
+        NATIVE_LIBRARIES_WINDOWS.add("GDI32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("gdi32full.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("KERNEL32.DLL");
+        NATIVE_LIBRARIES_WINDOWS.add("KERNELBASE.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("msvcp_win.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("msvcrt.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("ntdll.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("PSAPI.DLL");
+        NATIVE_LIBRARIES_WINDOWS.add("RPCRT4.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("sechost.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("USER32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("ucrtbase.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("VERSION.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("WINMMBASE.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("WINMM.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("WSOCK32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("WS2_32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("win32u.dll");
+    ***REMOVED***
 
     /**
      * @param start

@@ -78,7 +78,7 @@ public class DynamicLibraryEvent implements LogEvent {
      */
     private static final String REGEX = "^(" + DynamicLibraryEvent.REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|"
             + JdkRegEx.ADDRESS + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS
-            + " " + JdkRegEx.INODE + ")?[ ]{1,***REMOVED***((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA
+            + " " + JdkRegEx.INODE + ")?[\\s]{1,***REMOVED***((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA
             + "))?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,***REMOVED***)$";
 
     /**
@@ -119,16 +119,18 @@ public class DynamicLibraryEvent implements LogEvent {
         Device device = Device.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int deviceIdIndex = 12;
+            int deviceIdIndex = 14;
             String deviceId = matcher.group(deviceIdIndex);
-            if (deviceId.matches("fd:[a-z0-9]{2***REMOVED***")) {
-                device = Device.FIXED_DISK;
-            ***REMOVED*** else if (deviceId.matches("103:0[03]")) {
-                device = Device.AWS_BLOCK_STORAGE;
-            ***REMOVED*** else if (deviceId.matches("00:[a-z0-9]{2***REMOVED***")) {
-                device = Device.NFS;
-            ***REMOVED*** else if (deviceId.matches("08:[0-9]{2***REMOVED***")) {
-                device = Device.SCSI_DISK;
+            if (deviceId != null) {
+                if (deviceId.matches("fd:[a-z0-9]{2***REMOVED***")) {
+                    device = Device.FIXED_DISK;
+                ***REMOVED*** else if (deviceId.matches("103:0[03]")) {
+                    device = Device.AWS_BLOCK_STORAGE;
+                ***REMOVED*** else if (deviceId.matches("00:[a-z0-9]{2***REMOVED***")) {
+                    device = Device.NFS;
+                ***REMOVED*** else if (deviceId.matches("08:[0-9]{2***REMOVED***")) {
+                    device = Device.SCSI_DISK;
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         return device;
@@ -141,7 +143,7 @@ public class DynamicLibraryEvent implements LogEvent {
         String filePath = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int filePathIndex = 14;
+            int filePathIndex = 16;
             filePath = matcher.group(filePathIndex);
         ***REMOVED***
         return filePath;
@@ -153,5 +155,12 @@ public class DynamicLibraryEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString();
+    ***REMOVED***
+
+    /**
+     * @return True if a native library, false otherwise.
+     */
+    public boolean isNativeLibrary() {
+        return logEntry.matches(".+" + JdkRegEx.NATIVE_LIBRARY + "$");
     ***REMOVED***
 ***REMOVED***

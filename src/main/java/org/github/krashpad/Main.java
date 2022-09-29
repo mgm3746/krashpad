@@ -587,6 +587,18 @@ public class Main {
                             ***REMOVED***
                         ***REMOVED***
                         printWriter.write(".");
+                    ***REMOVED*** else if (a.equals(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN)) {
+                        Iterator<String> iterator = fel.getUnknownNativeLibraries().iterator();
+                        boolean punctuate = false;
+                        while (iterator.hasNext()) {
+                            String library = iterator.next();
+                            if (punctuate) {
+                                printWriter.write(", ");
+                            ***REMOVED***
+                            printWriter.write(library);
+                            punctuate = true;
+                        ***REMOVED***
+                        printWriter.write(".");
                     ***REMOVED***
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***

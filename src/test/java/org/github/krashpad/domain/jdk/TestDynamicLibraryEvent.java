@@ -15,6 +15,7 @@
 package org.github.krashpad.domain.jdk;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.Constants.Device;
@@ -37,6 +38,7 @@ class TestDynamicLibraryEvent {
         assertEquals("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so",
                 event.getFilePath(), "File path not correct.");
         assertEquals(Device.AWS_BLOCK_STORAGE, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
@@ -49,6 +51,7 @@ class TestDynamicLibraryEvent {
         assertEquals("/data/jdk1.8.0_171/jre/lib/amd64/server/libjvm.so", event.getFilePath(),
                 "File path not correct.");
         assertEquals(Device.AWS_BLOCK_STORAGE, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
@@ -61,6 +64,7 @@ class TestDynamicLibraryEvent {
         assertEquals("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so",
                 event.getFilePath(), "File path not correct.");
         assertEquals(Device.AWS_BLOCK_STORAGE, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
@@ -87,18 +91,29 @@ class TestDynamicLibraryEvent {
         assertEquals("/path/to/jre/jre1.8.0_121/lib/amd64/server/libjvm.so", event.getFilePath(),
                 "File path not correct.");
         assertEquals(Device.UNKNOWN, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
-    void testInode19digit() {
-        String logLine = "7f8e356ea000-7f8e363e5000 r-xp 00000000 00:28 9605293506115416793        "
-                + "/path/to/java-1.8.0-openjdk-1.8.0.252.b09-2.el7_8.x86_64/jre/lib/amd64/server/libjvm.so";
+    void testDll() {
+        String logLine = "0x0000000052380000 - 0x0000000052bda000         E:\\path\\java\\bin\\server\\jvm.dll";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
         DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
-        assertEquals("/path/to/java-1.8.0-openjdk-1.8.0.252.b09-2.el7_8.x86_64/jre/lib/amd64/server/libjvm.so",
-                event.getFilePath(), "File path not correct.");
-        assertEquals(Device.NFS, event.getDevice(), "Device not correct.");
+        assertEquals("E:\\path\\java\\bin\\server\\jvm.dll", event.getFilePath(), "File path not correct.");
+        assertEquals(Device.UNKNOWN, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
+    ***REMOVED***
+
+    @Test
+    void testDllTabPreceedingPath() {
+        String logLine = "0x00007ffd61b50000 - 0x00007ffd61d3d000\tC:\\Windows\\SYSTEM32\\ntdll.dll";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        assertEquals("C:\\Windows\\SYSTEM32\\ntdll.dll", event.getFilePath(), "File path not correct.");
+        assertEquals(Device.UNKNOWN, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
@@ -111,6 +126,7 @@ class TestDynamicLibraryEvent {
         assertEquals("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so",
                 event.getFilePath(), "File path not correct.");
         assertEquals(Device.FIXED_DISK, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
@@ -123,6 +139,7 @@ class TestDynamicLibraryEvent {
         assertEquals("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so",
                 event.getFilePath(), "File path not correct.");
         assertEquals(Device.FIXED_DISK, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
@@ -130,6 +147,19 @@ class TestDynamicLibraryEvent {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testInode19digit() {
+        String logLine = "7f8e356ea000-7f8e363e5000 r-xp 00000000 00:28 9605293506115416793        "
+                + "/path/to/java-1.8.0-openjdk-1.8.0.252.b09-2.el7_8.x86_64/jre/lib/amd64/server/libjvm.so";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        assertEquals("/path/to/java-1.8.0-openjdk-1.8.0.252.b09-2.el7_8.x86_64/jre/lib/amd64/server/libjvm.so",
+                event.getFilePath(), "File path not correct.");
+        assertEquals(Device.NFS, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
@@ -142,6 +172,7 @@ class TestDynamicLibraryEvent {
         assertEquals("/usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so", event.getFilePath(),
                 "File path not correct.");
         assertEquals(Device.FIXED_DISK, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
@@ -184,6 +215,7 @@ class TestDynamicLibraryEvent {
         assertEquals("/tools/java/jdk1.8.0_201/jre/lib/amd64/server/libjvm.so", event.getFilePath(),
                 "File path not correct.");
         assertEquals(Device.NFS, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
@@ -203,6 +235,7 @@ class TestDynamicLibraryEvent {
         assertEquals("/apps/java/jdk1.8.0_181/jre/lib/amd64/server/libjvm.so", event.getFilePath(),
                 "File path not correct.");
         assertEquals(Device.SCSI_DISK, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
@@ -214,6 +247,7 @@ class TestDynamicLibraryEvent {
         DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
         assertEquals("/apps/java/jdk1.8.0_251_no_compiler/jre/lib/sparcv9/server/libjvm.so", event.getFilePath(),
                 "File path not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
     ***REMOVED***
 
     @Test
@@ -225,5 +259,16 @@ class TestDynamicLibraryEvent {
                 + "Prevention\\Ips;C:\\Program Files\\Java\\java-11-openjdk-11.0.7-1\\bin\\serve";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testVdso() {
+        String logLine = "7ffc79d4f000-7ffc79d50000 r-xp 00000000 00:00 0                          [vdso]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        assertEquals("[vdso]", event.getFilePath(), "File path not correct.");
+        assertEquals(Device.NFS, event.getDevice(), "Device not correct.");
+        assertFalse(event.isNativeLibrary(), "Native library incorrectly identified.");
     ***REMOVED***
 ***REMOVED***
