@@ -944,11 +944,14 @@ public class FatalErrorLog {
             analysis.add(Analysis.WARN_MMAP_DELETED);
         ***REMOVED***
         // Check for RHEL/JDK rpm version mismatch
-        if (isRhRpmInstall() && getRhelVersion() != null && getJdkRhelVersion() != null
-                && !getRhelVersion().matches(getJdkRhelVersion())) {
-            analysis.add(0, Analysis.ERROR_RHEL_JDK_RPM_MISMATCH);
-            if (analysis.contains(Analysis.WARN_JDK_NOT_LATEST)) {
-                analysis.remove(Analysis.WARN_JDK_NOT_LATEST);
+        if (isRhRpmInstall() && getRhelVersion() != null && getJdkRhelVersion() != null) {
+            if ((getJdkRhelVersion().indexOf('.') != -1 && !getRhelVersion().matches(getJdkRhelVersion()))
+                    || (getJdkRhelVersion().indexOf('.') == -1
+                            && !getRhelVersion().startsWith((getJdkRhelVersion())))) {
+                analysis.add(0, Analysis.ERROR_RHEL_JDK_RPM_MISMATCH);
+                if (analysis.contains(Analysis.WARN_JDK_NOT_LATEST)) {
+                    analysis.remove(Analysis.WARN_JDK_NOT_LATEST);
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         // Crash in HashMap
@@ -1089,9 +1092,10 @@ public class FatalErrorLog {
                 matcher = pattern.matcher(nativeLibraryPath);
                 if (matcher.find()) {
                     String nativeLibrary = matcher.group(3);
-                    if (nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_DYNATRACE))
+                    if (nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_DYNATRACE)) {
                         analysis.add(Analysis.INFO_DYNATRACE);
-                    break;
+                        break;
+                    ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -2262,13 +2266,22 @@ public class FatalErrorLog {
             if (matcher.find()) {
                 if (matcher.group(2) != null) {
                     // JDK8
-                    jdkRhelVersion = matcher.group(3) + "." + matcher.group(5);
+                    jdkRhelVersion = matcher.group(3);
+                    if (matcher.group(5) != null) {
+                        jdkRhelVersion = jdkRhelVersion + "." + matcher.group(5);
+                    ***REMOVED***
                 ***REMOVED*** else if (matcher.group(8) != null) {
                     // JDK11
-                    jdkRhelVersion = matcher.group(10) + "." + matcher.group(12);
+                    jdkRhelVersion = matcher.group(10);
+                    if (matcher.group(12) != null) {
+                        jdkRhelVersion = jdkRhelVersion + "." + matcher.group(12);
+                    ***REMOVED***
                 ***REMOVED*** else if (matcher.group(13) != null) {
                     // JDK17
-                    jdkRhelVersion = matcher.group(15) + "." + matcher.group(16);
+                    jdkRhelVersion = matcher.group(15);
+                    if (matcher.group(16) != null) {
+                        jdkRhelVersion = jdkRhelVersion + "." + matcher.group(16);
+                    ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***

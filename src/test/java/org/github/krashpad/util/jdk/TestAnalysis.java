@@ -912,7 +912,7 @@ class TestAnalysis {
     @Test
     void testDynatraceDetected() {
         FatalErrorLog fel = new FatalErrorLog();
-        String dynamicLibrary = "7effff525000-7effff526000 rw-p 000ce000 fd:02 4238968                    "
+        String dynamicLibrary = "7effff525000-7effff526000 rw-p 000ce000 fd:02 4238968 "
                 + "/usr/lib64/liboneagentproc.so";
         DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(event);
@@ -2791,6 +2791,27 @@ class TestAnalysis {
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testRhelJdkRpmMismatchNot() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux Server release 7.1 (Maipo)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String library = "7fcb5ea06000-7fcb5f6ee000 r-xp 00000000 fd:01 121728675                  "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b03-1.el7.x86_64/jre/lib/amd64/server/libjvm.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(library);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.222-b03) for linux-amd64 JRE (1.8.0_222-ea-b03), built "
+                + "on May 22 2019 13:05:27 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("7.1", fel.getRhelVersion(), "RHEL version not correct.");
+        assertEquals("7", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test

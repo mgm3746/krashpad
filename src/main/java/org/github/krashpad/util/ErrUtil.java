@@ -56,11 +56,17 @@ public class ErrUtil {
     static {
         NATIVE_LIBRARIES_JAVA_LINUX = new ArrayList<String>();
         NATIVE_LIBRARIES_JAVA_LINUX.add("i965_dri.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libawt.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libawt_headless.so");
         NATIVE_LIBRARIES_JAVA_LINUX.add("libextnet.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libfontmanager.so");
         NATIVE_LIBRARIES_JAVA_LINUX.add("libjava.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libjavajpeg.so");
         NATIVE_LIBRARIES_JAVA_LINUX.add("libjimage.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("libinstrument.so");
         NATIVE_LIBRARIES_JAVA_LINUX.add("libjli.so");
         NATIVE_LIBRARIES_JAVA_LINUX.add("libjvm.so");
+        NATIVE_LIBRARIES_JAVA_LINUX.add("liblcms.so");
         NATIVE_LIBRARIES_JAVA_LINUX.add("libmanagement.so");
         NATIVE_LIBRARIES_JAVA_LINUX.add("libmanagement_ext.so");
         NATIVE_LIBRARIES_JAVA_LINUX.add("libnet.so");
@@ -124,6 +130,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libdl-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libdl-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libdl-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libdw-0.160.so");
+        NATIVE_LIBRARIES_LINUX.add("libelf-0.160.so");
         NATIVE_LIBRARIES_LINUX.add("libfreeblpriv3.so");
         NATIVE_LIBRARIES_LINUX.add("libm-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libm-2.17.so");
