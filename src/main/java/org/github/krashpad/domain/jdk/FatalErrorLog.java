@@ -3409,9 +3409,9 @@ public class FatalErrorLog {
                 if (matcher.find()) {
                     String nativeLibrary = matcher.group(3);
                     if (!ErrUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_JAVA_WINDOWS.contains(nativeLibrary)
+                            && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibrary)
                             && !ErrUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_JAVA_LINUX.contains(nativeLibrary)) {
+                            && !ErrUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)) {
                         unidentifiedNativeLibraries.add(nativeLibraryPath);
                     ***REMOVED***
                 ***REMOVED***
