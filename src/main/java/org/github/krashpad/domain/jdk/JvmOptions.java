@@ -160,7 +160,7 @@ public class JvmOptions {
     private boolean batch = false;
 
     /**
-     * JVM options for bootstrap classes and resources.
+     * JVM options for bootstrap classes and resources. Multiple options are cumulative, not overriding.
      * 
      * For example:
      * 
@@ -440,25 +440,6 @@ public class JvmOptions {
      * </pre>
      */
     private String exitOnOutOfMemoryError;
-
-    /**
-     * Option to enable/disable dynamic resizing of the Promotion Local Allocation Buffers (PLABs). Each GC thread has
-     * two PLABs, one for the survivor space and one for the old space.
-     * 
-     * Can cause performance issues with the G1 collector for some loads; therefore, is sometimes disabled to decrease
-     * G1 GC pause time.
-     * 
-     * For example:
-     * 
-     * <pre>
-     * -XX:-ResizePLAB
-     * </pre>
-     */
-    private String resizePlab;
-
-    public String getResizePlab() {
-        return resizePlab;
-    ***REMOVED***
 
     /**
      * The option to enable/disable explicit garbage collection to be handled concurrently by the CMS and G1 collectors.
@@ -1230,6 +1211,21 @@ public class JvmOptions {
      * </pre>
      */
     private String reservedCodeCacheSize;
+
+    /**
+     * Option to enable/disable dynamic resizing of the Promotion Local Allocation Buffers (PLABs). Each GC thread has
+     * two PLABs, one for the survivor space and one for the old space.
+     * 
+     * Can cause performance issues with the G1 collector for some loads; therefore, is sometimes disabled to decrease
+     * G1 GC pause time.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -XX:-ResizePLAB
+     * </pre>
+     */
+    private String resizePlab;
 
     /**
      * Option to disable JVM signal handling. For example:
@@ -3014,7 +3010,7 @@ public class JvmOptions {
             while (iteratorOptions.hasNext()) {
                 Entry<String, ArrayList<String>> option = iteratorOptions.next();
                 if (!option.getKey().equals("D") && !option.getKey().equals("undefined")
-                        && option.getValue().size() > 1) {
+                        && !option.getKey().equals("Xbootclasspath") && option.getValue().size() > 1) {
                     ArrayList<String> opt = option.getValue();
                     Iterator<String> iteratorOption = opt.iterator();
                     while (iteratorOption.hasNext()) {
@@ -3386,6 +3382,10 @@ public class JvmOptions {
 
     public String getReservedCodeCacheSize() {
         return reservedCodeCacheSize;
+    ***REMOVED***
+
+    public String getResizePlab() {
+        return resizePlab;
     ***REMOVED***
 
     public ArrayList<String> getRunjdwp() {

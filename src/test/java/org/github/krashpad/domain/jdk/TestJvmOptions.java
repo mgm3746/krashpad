@@ -134,6 +134,13 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testDuplicateBootclasspath() {
+        String jvmArgs = "-Xms1g -Xbootclasspath/p:/path/to/jar1 -Xbootclasspath/p:/path/to/jar2 -Xmx2g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertNull(jvmOptions.getDuplicates(), "Duplicates not correct.");
+    ***REMOVED***
+
+    @Test
     void testDuplicateXms() {
         String jvmArgs = "-Xms1g -Xms2g -Xmaxjitcodesize1G -Xmx2g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
