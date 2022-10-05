@@ -33,6 +33,7 @@ import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.HeaderEvent;
 import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.LdPreloadFileEvent;
+import org.github.krashpad.domain.jdk.MeminfoEvent;
 import org.github.krashpad.domain.jdk.MemoryEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.SigInfoEvent;
@@ -223,6 +224,8 @@ class TestAnalysis {
         fel.getVmArgumentsEvents().add(event);
         ContainerInfoEvent containerInfoEvent = new ContainerInfoEvent("TEST");
         fel.getContainerInfoEvents().add(containerInfoEvent);
+        MeminfoEvent meminfoEvent = new MeminfoEvent("SwapTotal:       4194300 kB");
+        fel.getMeminfoEvents().add(meminfoEvent);
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CONTAINER_PERF_DATA_DISK),
                 Analysis.WARN_OPT_CONTAINER_PERF_DATA_DISK + " analysis not identified.");

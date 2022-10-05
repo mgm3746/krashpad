@@ -3743,7 +3743,7 @@ public class FatalErrorLog {
      */
     public boolean isContainer() {
         boolean isContainer = false;
-        if (!containerInfoEvents.isEmpty() || getJvmSwap() == 0) {
+        if (!containerInfoEvents.isEmpty() && (getOsSwap() == 0 || getJvmSwap() == 0)) {
             isContainer = true;
         ***REMOVED***
         return isContainer;
