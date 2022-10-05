@@ -569,7 +569,7 @@ public class Main {
                             printWriter.write(option);
                         ***REMOVED***
                         printWriter.write(".");
-                    ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_NATIVE)) {
+                    ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_NATIVE_AGENT)) {
                         if (!fel.getJvmOptions().getAgentlib().isEmpty()) {
                             Iterator<String> iterator = fel.getJvmOptions().getAgentlib().iterator();
                             while (iterator.hasNext()) {

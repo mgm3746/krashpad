@@ -669,9 +669,9 @@ public enum Analysis {
     INFO_OPT_MISSING("info.opt.missing"),
 
     /**
-     * Property key for native library.
+     * Property key for native agent library.
      */
-    INFO_OPT_NATIVE("info.opt.native"),
+    INFO_OPT_NATIVE_AGENT("info.opt.native.agent"),
 
     /**
      * Property key for young space &gt;= old space.

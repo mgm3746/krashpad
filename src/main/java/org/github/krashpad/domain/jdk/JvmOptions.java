@@ -2621,7 +2621,7 @@ public class JvmOptions {
         ***REMOVED***
         // Check if native library being used.
         if (!agentlib.isEmpty() || !agentpath.isEmpty()) {
-            analysis.add(Analysis.INFO_OPT_NATIVE);
+            analysis.add(Analysis.INFO_OPT_NATIVE_AGENT);
         ***REMOVED***
         // Check for young space >= old space
         if (newSize != null && maxHeapSize != null

@@ -1868,8 +1868,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_NATIVE),
-                Analysis.INFO_OPT_NATIVE + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_NATIVE_AGENT),
+                Analysis.INFO_OPT_NATIVE_AGENT + " analysis not identified.");
     ***REMOVED***
 
     /**
