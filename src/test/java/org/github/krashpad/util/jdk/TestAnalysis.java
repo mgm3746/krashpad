@@ -224,7 +224,7 @@ class TestAnalysis {
         fel.getVmArgumentsEvents().add(event);
         ContainerInfoEvent containerInfoEvent = new ContainerInfoEvent("TEST");
         fel.getContainerInfoEvents().add(containerInfoEvent);
-        MeminfoEvent meminfoEvent = new MeminfoEvent("SwapTotal:       4194300 kB");
+        MeminfoEvent meminfoEvent = new MeminfoEvent("SwapTotal:       0 kB");
         fel.getMeminfoEvents().add(meminfoEvent);
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CONTAINER_PERF_DATA_DISK),
@@ -1090,6 +1090,20 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT),
                 Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testGcLoggingToStdout() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+PrintGC -XX:+PrintGCCause -XX:+PrintGCDateStamps -XX:+PrintGCDetails "
+                + "-XX:+PrintGCTimeStamps";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
+                Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_GC_LOG_STDOUT),
+                Analysis.INFO_GC_LOG_STDOUT + " analysis not identified.");
     ***REMOVED***
 
     @Test

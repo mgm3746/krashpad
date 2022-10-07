@@ -2820,6 +2820,10 @@ public class JvmOptions {
         if (logGc != null && useGcLogFileRotation == null) {
             analysis.add(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED);
         ***REMOVED***
+        // Check if gc logging is being sent to stdout
+        if (isGcLoggingToStdout()) {
+            analysis.add(Analysis.INFO_GC_LOG_STDOUT);
+        ***REMOVED***
         // Check for JDK8 gc log file overwrite
         if ((useGcLogFileRotation == null || JdkUtil.isOptionDisabled(useGcLogFileRotation)) && logGc != null
                 && !logGc.contains("%") && !analysis.contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE)) {
@@ -3642,6 +3646,22 @@ public class JvmOptions {
 
     public boolean isDebug() {
         return debug;
+    ***REMOVED***
+
+    /**
+     * @return True if the GC logging is sent to stdout, false otherwise.
+     */
+    public boolean isGcLoggingToStdout() {
+        boolean isGcLoggingStdout = false;
+        boolean isGcLoggingEnabled = false;
+        if (printGc != null || printGcDetails != null || printGcTimeStamps != null || printGcDateStamps != null
+                || printGcApplicationStoppedTime != null) {
+            isGcLoggingEnabled = true;
+        ***REMOVED***
+        if (isGcLoggingEnabled && logGc == null) {
+            isGcLoggingStdout = true;
+        ***REMOVED***
+        return isGcLoggingStdout;
     ***REMOVED***
 
     public boolean isNoclassgc() {
