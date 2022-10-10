@@ -44,7 +44,7 @@ mvn javadoc:javadoc
 
 Run it:
 ```
-java -jar krashpad.jar /path/to/hs_err_pid12345
+java -jar krashpad-LATEST.jar /path/to/hs_err_pid12345
 ```
 
 ***REMOVED******REMOVED*** Usage
