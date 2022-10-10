@@ -58,7 +58,6 @@ usage: krashpad [OPTION]... [FILE]
 
 Notes:
   1. The custom output file name option only applies when running as a jar. It is useful when analyzing multiple fatal error logs.
-  1. Version information is included in the report by using the version and/or latest version options.
   
 ***REMOVED******REMOVED*** Report
   
