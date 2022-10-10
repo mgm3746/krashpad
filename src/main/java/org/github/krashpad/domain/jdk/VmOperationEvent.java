@@ -30,7 +30,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * VM_Operation information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a000
@@ -84,20 +84,6 @@ public class VmOperationEvent implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return The VM operation string. For example:
-     * 
-     *         PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a000
-     */
-    public String getVmOperationString() {
-        String vmOperation = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            vmOperation = matcher.group(6);
-        ***REMOVED***
-        return vmOperation;
-    ***REMOVED***
-
-    /**
      * @return The VM operation. For example:
      * 
      *         PrintThreads
@@ -107,6 +93,20 @@ public class VmOperationEvent implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             vmOperation = matcher.group(7);
+        ***REMOVED***
+        return vmOperation;
+    ***REMOVED***
+
+    /**
+     * @return The VM operation string. For example:
+     * 
+     *         PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a000
+     */
+    public String getVmOperationString() {
+        String vmOperation = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            vmOperation = matcher.group(6);
         ***REMOVED***
         return vmOperation;
     ***REMOVED***

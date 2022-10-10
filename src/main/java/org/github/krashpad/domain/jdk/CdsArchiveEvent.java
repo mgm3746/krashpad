@@ -30,7 +30,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Reference: <a href="https://openjdk.java.net/jeps/350">JEP 350: Dynamic CDS Archives</a>
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * CDS archive(s) mapped at: [0x0000000800000000-0x0000000800be2000-0x0000000800be2000), size 12460032, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.

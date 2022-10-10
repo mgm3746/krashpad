@@ -26,7 +26,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Resource limit (rlimit) information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity

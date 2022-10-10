@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * VM events leading up to the crash.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * ***REMOVED***

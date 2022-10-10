@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Marking bits and Mod Union Table information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Marking Bits: (CMSBitMap*) 0x00007fcbc8249ce8

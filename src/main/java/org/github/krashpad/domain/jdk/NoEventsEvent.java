@@ -26,7 +26,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Displayed when an even colletion has no events.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * No events

@@ -31,7 +31,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Combined <code>TimeEvent</code> and <code>ElapsedTimeEvent</code> in JDK11+.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Time: Tue May  5 18:32:04 2020 CEST elapsed time: 956 seconds (0d 0h 15m 56s)
@@ -90,22 +90,6 @@ public class TimeElapsedTimeEvent implements LogEvent {
         return time;
     ***REMOVED***
 
-    /**
-     * @return The uptime in milliseconds.
-     */
-    public Long getUptime() {
-        Long uptime = Long.MIN_VALUE;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            if (matcher.group(2) != null) {
-                BigDecimal millis = new BigDecimal(matcher.group(2)).movePointRight(3);
-                millis.setScale(0, RoundingMode.HALF_EVEN);
-                uptime = millis.longValue();
-            ***REMOVED***
-        ***REMOVED***
-        return uptime;
-    ***REMOVED***
-
     public String getLogEntry() {
         return logEntry;
     ***REMOVED***
@@ -124,5 +108,21 @@ public class TimeElapsedTimeEvent implements LogEvent {
             time = matcher.group(1);
         ***REMOVED***
         return time;
+    ***REMOVED***
+
+    /**
+     * @return The uptime in milliseconds.
+     */
+    public Long getUptime() {
+        Long uptime = Long.MIN_VALUE;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(2) != null) {
+                BigDecimal millis = new BigDecimal(matcher.group(2)).movePointRight(3);
+                millis.setScale(0, RoundingMode.HALF_EVEN);
+                uptime = millis.longValue();
+            ***REMOVED***
+        ***REMOVED***
+        return uptime;
     ***REMOVED***
 ***REMOVED***

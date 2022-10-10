@@ -28,7 +28,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Marking bits and Mod Union Table information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Classes redefined (0 events):

@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Heap and metaspace information at time of crash.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <p>
  * 1) PARALLEL_SCAVENGE + PARALLEL_OLD:

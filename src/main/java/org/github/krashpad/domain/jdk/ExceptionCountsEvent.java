@@ -26,7 +26,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * OutOfMemoryError and StackOverflowError exception counts information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * OutOfMemory and StackOverflow Exception counts:

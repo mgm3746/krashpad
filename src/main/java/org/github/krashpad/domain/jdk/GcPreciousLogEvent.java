@@ -30,7 +30,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <a href="https://bugs.openjdk.java.net/browse/JDK-8246272">JDK-8246135</a>
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * GC Precious Log:

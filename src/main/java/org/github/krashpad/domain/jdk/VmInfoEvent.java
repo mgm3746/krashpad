@@ -36,7 +36,7 @@ import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
  * JVM environment information unique to the JDK build. A version string embedded in libjvm.so/jvm.dll.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * vm_info: Java HotSpot(TM) 64-Bit Server VM (25.192-b12) for linux-amd64 JRE (1.8.0_192-b12), built on Oct  6 2018 06:46:09 by "java_re" with gcc 7.3.0

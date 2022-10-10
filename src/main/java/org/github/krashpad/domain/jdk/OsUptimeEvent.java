@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * OS uptime information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * OS uptime: 3 days 8:33 hours

@@ -28,7 +28,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Threads class SMR information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Threads class SMR info:

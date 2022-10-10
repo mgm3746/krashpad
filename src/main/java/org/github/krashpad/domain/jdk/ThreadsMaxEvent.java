@@ -30,7 +30,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Max threads information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <p>
  * 1) Split across 2 lines:

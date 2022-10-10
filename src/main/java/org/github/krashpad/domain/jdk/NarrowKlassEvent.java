@@ -26,7 +26,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Narrow klass information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Narrow klass base: 0x0000000000000000, Narrow klass shift: 3

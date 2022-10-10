@@ -30,7 +30,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * The thread that was running when the JVM crashed.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Current thread (0x00007f127434f800):  JavaThread "ajp-/hostname:8109-16" daemon [_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]

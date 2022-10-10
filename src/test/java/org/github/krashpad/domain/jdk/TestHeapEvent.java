@@ -182,15 +182,6 @@ class TestHeapEvent {
     ***REMOVED***
 
     @Test
-    void testShenandoahTotal() {
-        HeapEvent priorEvent = new HeapEvent(null);
-        String logLine = " 5734M total, 5734M committed, 3795M used";
-        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
-                JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-        assertTrue(logLine.matches(JdkRegEx.SHENANDOAH), "Shenandoah heap event not recognized.");
-    ***REMOVED***
-
-    @Test
     void testShenandoah() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset74.txt");
         Manager manager = new Manager();
@@ -266,6 +257,15 @@ class TestHeapEvent {
         String logLine = "Status: has forwarded objects, updating refs, degenerated gc, not cancelled";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testShenandoahTotal() {
+        HeapEvent priorEvent = new HeapEvent(null);
+        String logLine = " 5734M total, 5734M committed, 3795M used";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
+                JdkUtil.LogEventType.HEAP.toString() + " not identified.");
+        assertTrue(logLine.matches(JdkRegEx.SHENANDOAH), "Shenandoah heap event not recognized.");
     ***REMOVED***
 
     @Test

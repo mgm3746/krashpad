@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Threads with active compile tasks information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Threads with active compile tasks:

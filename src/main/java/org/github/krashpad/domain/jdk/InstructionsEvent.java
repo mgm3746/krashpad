@@ -28,7 +28,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Instructions information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Instructions: (pc=0x00007fcbd05a3b71)

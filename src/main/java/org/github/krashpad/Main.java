@@ -84,6 +84,24 @@ public class Main {
                 "output file name (default " + Constants.OUTPUT_FILE_NAME + ")");
     ***REMOVED***
 
+    public static void createReport(CommandLine cmd) throws IOException {
+        String logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
+        File logFile = new File(logFileName);
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(logFile);
+
+        String outputFileName;
+        if (cmd.hasOption(Constants.OPTION_OUTPUT_LONG)) {
+            outputFileName = cmd.getOptionValue(Constants.OPTION_OUTPUT_SHORT);
+        ***REMOVED*** else {
+            outputFileName = Constants.OUTPUT_FILE_NAME;
+        ***REMOVED***
+        boolean reportConsole = cmd.hasOption(OPTION_REPORT_CONSOLE_LONG);
+        boolean version = cmd.hasOption(Constants.OPTION_VERSION_LONG);
+        boolean latestVersion = cmd.hasOption(Constants.OPTION_LATEST_VERSION_LONG);
+        createReport(fel, reportConsole, outputFileName, version, latestVersion, logFile.getName());
+    ***REMOVED***
+
     /**
      * Create VM Log Analysis report.
      * 
@@ -715,24 +733,6 @@ public class Main {
             System.out.println(pe.getMessage());
             usage();
         ***REMOVED***
-    ***REMOVED***
-
-    public static void createReport(CommandLine cmd) throws IOException {
-        String logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
-        File logFile = new File(logFileName);
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(logFile);
-
-        String outputFileName;
-        if (cmd.hasOption(Constants.OPTION_OUTPUT_LONG)) {
-            outputFileName = cmd.getOptionValue(Constants.OPTION_OUTPUT_SHORT);
-        ***REMOVED*** else {
-            outputFileName = Constants.OUTPUT_FILE_NAME;
-        ***REMOVED***
-        boolean reportConsole = cmd.hasOption(OPTION_REPORT_CONSOLE_LONG);
-        boolean version = cmd.hasOption(Constants.OPTION_VERSION_LONG);
-        boolean latestVersion = cmd.hasOption(Constants.OPTION_LATEST_VERSION_LONG);
-        createReport(fel, reportConsole, outputFileName, version, latestVersion, logFile.getName());
     ***REMOVED***
 
     /**

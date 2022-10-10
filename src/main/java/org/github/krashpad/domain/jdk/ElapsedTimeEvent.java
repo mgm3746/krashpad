@@ -31,7 +31,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * How long the JVM was running before it crashed.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <p>
  * 1) Whole number of seconds:

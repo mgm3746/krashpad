@@ -26,7 +26,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Command line information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Command Line: -Xmx2048m -Xmx12G -Xms1G

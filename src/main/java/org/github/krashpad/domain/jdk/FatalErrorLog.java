@@ -1494,7 +1494,7 @@ public class FatalErrorLog {
      * @return The CPU architecture.
      */
     public CpuArch getCpuArch() {
-        CpuArch cpuArch = CpuArch.UNKNOWN;
+        CpuArch cpuArch = CpuArch.UNIDENTIFIED;
         if (!cpuInfoEvents.isEmpty()) {
             Iterator<CpuInfoEvent> iterator = cpuInfoEvents.iterator();
             while (iterator.hasNext()) {
@@ -1701,6 +1701,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @param regex
+     *            The event regex.
      * @return the timestamp of the first <code>EventEvent</code> that matches the regex in milliseconds, or
      *         Long.MIN_VALUE if no event matches.
      */

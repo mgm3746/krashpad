@@ -33,7 +33,7 @@ import org.github.krashpad.util.jdk.JdkUtil.CompressedOopMode;
  * Head address information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: Zero based, Oop shift amount: 3

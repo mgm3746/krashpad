@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * libc information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * libc:glibc 2.12 NPTL 2.12

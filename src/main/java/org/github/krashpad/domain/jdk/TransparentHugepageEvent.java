@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Transparent hugepage information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * /sys/kernel/mm/transparent_hugepage/enabled:

@@ -32,7 +32,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Time when the JVM crashed in JDK8.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * time: Tue Aug 18 14:10:59 2020
@@ -49,6 +49,26 @@ public class TimeEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^time: (.+)$";
+
+    public static final Date getDate(String buildDate) {
+        String MMM = null;
+        String d = null;
+        String yyyy = null;
+        String HH = null;
+        String mm = null;
+        String ss = null;
+        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATE_TIME);
+        Matcher matcher = pattern.matcher(buildDate);
+        if (matcher.find()) {
+            MMM = matcher.group(1);
+            d = matcher.group(2);
+            yyyy = matcher.group(3);
+            HH = matcher.group(4);
+            mm = matcher.group(5);
+            ss = matcher.group(6);
+        ***REMOVED***
+        return ErrUtil.getDate(MMM, d, yyyy, HH, mm, ss);
+    ***REMOVED***
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -91,25 +111,5 @@ public class TimeEvent implements LogEvent {
             time = matcher.group(1);
         ***REMOVED***
         return time;
-    ***REMOVED***
-
-    public static final Date getDate(String buildDate) {
-        String MMM = null;
-        String d = null;
-        String yyyy = null;
-        String HH = null;
-        String mm = null;
-        String ss = null;
-        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATE_TIME);
-        Matcher matcher = pattern.matcher(buildDate);
-        if (matcher.find()) {
-            MMM = matcher.group(1);
-            d = matcher.group(2);
-            yyyy = matcher.group(3);
-            HH = matcher.group(4);
-            mm = matcher.group(5);
-            ss = matcher.group(6);
-        ***REMOVED***
-        return ErrUtil.getDate(MMM, d, yyyy, HH, mm, ss);
     ***REMOVED***
 ***REMOVED***

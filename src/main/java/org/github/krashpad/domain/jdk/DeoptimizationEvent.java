@@ -29,7 +29,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * replaced with server compiled code.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Deoptimization events (250 events):

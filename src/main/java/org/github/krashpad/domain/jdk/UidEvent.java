@@ -26,7 +26,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * uid information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * uid  : 22408 euid : 22408 gid  : 7001 egid : 7001

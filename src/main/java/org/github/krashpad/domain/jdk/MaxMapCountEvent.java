@@ -30,7 +30,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Max map count information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * /proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):

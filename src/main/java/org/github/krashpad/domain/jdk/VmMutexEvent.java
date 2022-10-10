@@ -28,7 +28,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * VM mutex/monitor information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])

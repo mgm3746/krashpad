@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Thread information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * 0x00007f19aa5128e0 JavaThread "Thread-8" daemon [_thread_blocked, id=18881, stack(0x00007f199cf04000,0x00007f199d005000)]

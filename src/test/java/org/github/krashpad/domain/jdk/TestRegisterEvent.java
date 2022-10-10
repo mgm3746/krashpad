@@ -136,15 +136,15 @@ class TestRegisterEvent {
     ***REMOVED***
 
     @Test
-    void testTrapno2LeadingSpaces() {
-        String logLine = "  TRAPNO=0x000000000000000e";
+    void testTrapno1LeadingSpace() {
+        String logLine = " TRAPNO=0x000000000000000e";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testTrapno1LeadingSpace() {
-        String logLine = " TRAPNO=0x000000000000000e";
+    void testTrapno2LeadingSpaces() {
+        String logLine = "  TRAPNO=0x000000000000000e";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
     ***REMOVED***

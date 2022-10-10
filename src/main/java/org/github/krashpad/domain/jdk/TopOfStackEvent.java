@@ -28,7 +28,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Top of stack information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Top of Stack: (sp=0x00007fcbcc676c50)

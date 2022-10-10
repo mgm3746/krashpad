@@ -29,7 +29,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Host information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation release 7.4 (Maipo)

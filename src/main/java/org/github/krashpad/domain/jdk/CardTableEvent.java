@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Card table information.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * Card table byte_map: [0x00007f69332bf000,0x00007f6964000000] byte_map_base: 0x00007f297e79f000

@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * CPU information
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * CPU:total 160 (initial active 160) ppc64 fsqrt isel lxarxeh cmpb popcntb popcntw fcfids vand aes vpmsumb mfdscr vsx sha

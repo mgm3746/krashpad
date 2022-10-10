@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Compilation information when methods are compiled from Java byte code to native code.
  * </p>
  * 
- * <h3>Example Logging</h3>
+ * <h2>Example Logging</h2>
  * 
  * <pre>
  * ***REMOVED***
