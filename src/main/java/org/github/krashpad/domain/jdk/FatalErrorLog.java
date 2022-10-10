@@ -2013,7 +2013,11 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        if (heapUsed == Long.MIN_VALUE) {
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        ***REMOVED*** else {
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isOldGen()) {
                     pattern = Pattern.compile(JdkRegEx.OLD_GEN_SIZE);
@@ -2025,7 +2029,11 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        if (heapUsed == Long.MIN_VALUE) {
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        ***REMOVED*** else {
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isShenandoah()) {
                     pattern = Pattern.compile(JdkRegEx.SHENANDOAH_SIZE);
@@ -2037,7 +2045,11 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        if (heapUsed == Long.MIN_VALUE) {
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        ***REMOVED*** else {
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isG1()) {
                     pattern = Pattern.compile(JdkRegEx.G1);
@@ -2049,7 +2061,11 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        if (heapUsed == Long.MIN_VALUE) {
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        ***REMOVED*** else {
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***

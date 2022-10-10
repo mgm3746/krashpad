@@ -27,8 +27,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
@@ -84,9 +82,7 @@ public class Main {
             outputFileName = Constants.OUTPUT_FILE_NAME;
         ***REMOVED***
         boolean reportConsole = cmd.hasOption(OPTION_REPORT_CONSOLE_LONG);
-        boolean version = cmd.hasOption(Constants.OPTION_VERSION_LONG);
-        boolean latestVersion = cmd.hasOption(Constants.OPTION_LATEST_VERSION_LONG);
-        createReport(fel, reportConsole, outputFileName, version, latestVersion, logFile.getName());
+        createReport(fel, reportConsole, outputFileName, logFile.getName());
     ***REMOVED***
 
     /**
@@ -98,15 +94,11 @@ public class Main {
      *            Whether print the report to the console or to a file.
      * @param reportFileName
      *            Report file name.
-     * @param version
-     *            krashpad version.
-     * @param latestVersion
-     *            krashpad version.
      * @param logFileName
      *            The fatal error log that was parsed.
      */
-    private static void createReport(FatalErrorLog fel, boolean reportConsole, String reportFileName, boolean version,
-            boolean latestVersion, String logFileName) {
+    private static void createReport(FatalErrorLog fel, boolean reportConsole, String reportFileName,
+            String logFileName) {
         File reportFile = new File(reportFileName);
         FileWriter fileWriter = null;
         PrintWriter printWriter = null;
@@ -708,16 +700,6 @@ public class Main {
         File logFile = new File(logFileName);
         if (!logFile.exists()) {
             throw new ParseException("Invalid log file: '" + logFileName + "'");
-        ***REMOVED***
-        // threshold
-        if (cmd.hasOption(Constants.OPTION_THRESHOLD_LONG)) {
-            String thresholdRegEx = "^\\d{1,3***REMOVED***$";
-            String thresholdOptionValue = cmd.getOptionValue(Constants.OPTION_THRESHOLD_SHORT);
-            Pattern pattern = Pattern.compile(thresholdRegEx);
-            Matcher matcher = pattern.matcher(thresholdOptionValue);
-            if (!matcher.find()) {
-                throw new ParseException("Invalid threshold: '" + thresholdOptionValue + "'");
-            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
 ***REMOVED***

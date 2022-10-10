@@ -17,12 +17,8 @@ package org.github.krashpad;
 
 import static org.github.krashpad.util.Constants.OPTION_HELP_LONG;
 import static org.github.krashpad.util.Constants.OPTION_HELP_SHORT;
-import static org.github.krashpad.util.Constants.OPTION_LATEST_VERSION_LONG;
-import static org.github.krashpad.util.Constants.OPTION_LATEST_VERSION_SHORT;
 import static org.github.krashpad.util.Constants.OPTION_OUTPUT_LONG;
 import static org.github.krashpad.util.Constants.OPTION_OUTPUT_SHORT;
-import static org.github.krashpad.util.Constants.OPTION_VERSION_LONG;
-import static org.github.krashpad.util.Constants.OPTION_VERSION_SHORT;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -56,8 +52,6 @@ class TestMain {
                 "--help", //
                 "--output", //
                 "12345678.txt", //
-                "--version", //
-                "--latest", //
                 // Instead of a file, use a location sure to exist.
                 temporaryFolder.getAbsolutePath() //
         ***REMOVED***;
@@ -65,9 +59,6 @@ class TestMain {
         assertNotNull(cmd);
         assertHasOption(cmd, OPTION_HELP_LONG);
         assertHasOption(cmd, OPTION_OUTPUT_LONG);
-        assertHasOption(cmd, OPTION_VERSION_LONG);
-        assertHasOption(cmd, OPTION_LATEST_VERSION_LONG);
-
     ***REMOVED***
 
     @Test
@@ -86,8 +77,6 @@ class TestMain {
                 "-h", //
                 "-o", //
                 "12345678.txt", //
-                "-v", //
-                "-l", //
                 // Instead of a file, use a location sure to exist.
                 temporaryFolder.getAbsolutePath() //
         ***REMOVED***;
@@ -95,7 +84,5 @@ class TestMain {
         assertNotNull(cmd);
         assertHasOption(cmd, OPTION_HELP_SHORT);
         assertHasOption(cmd, OPTION_OUTPUT_SHORT);
-        assertHasOption(cmd, OPTION_VERSION_SHORT);
-        assertHasOption(cmd, OPTION_LATEST_VERSION_SHORT);
     ***REMOVED***
 ***REMOVED***
