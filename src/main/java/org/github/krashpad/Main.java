@@ -27,7 +27,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -652,14 +651,6 @@ public class Main {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-    ***REMOVED***
-
-    /**
-     * @return version string.
-     */
-    private static String getVersion() {
-        ResourceBundle rb = ResourceBundle.getBundle("META-INF/maven/krashpad/krashpad/pom");
-        return rb.getString("version");
     ***REMOVED***
 
     /**
