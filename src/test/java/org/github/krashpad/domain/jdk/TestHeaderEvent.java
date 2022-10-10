@@ -100,6 +100,15 @@ class TestHeaderEvent {
     ***REMOVED***
 
     @Test
+    void testOomeHeap() {
+        String logLine = "***REMOVED***  fatal error: OutOfMemory encountered: Java heap space";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
+        HeaderEvent headerEvent = new HeaderEvent(logLine);
+        assertTrue(headerEvent.isError(), "Error not identified.");
+    ***REMOVED***
+
+    @Test
     void testOsTypeLinux() {
         String logLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
                 + "oops)";

@@ -416,7 +416,8 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             ***REMOVED***
         ***REMOVED*** else {
-            if (isRhBuildString() && isRhVersion() && (isRhBuildDate() || isRhBuildDateUnknown())) {
+            if ((vmInfoEvent == null || isRhBuildString()) && isRhVersion()
+                    && (isRhBuildDate() || isRhBuildDateUnknown())) {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
             ***REMOVED*** else if (isAdoptOpenJdkBuildString()) {
                 analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
@@ -466,6 +467,12 @@ public class FatalErrorLog {
                 analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP);
             ***REMOVED*** else {
                 analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP);
+            ***REMOVED***
+        ***REMOVED***
+        // CrashOnOOME
+        if (isCrashOnOome()) {
+            if (isError("OutOfMemory encountered: Java heap space")) {
+                analysis.add(Analysis.ERROR_CRASH_ON_OOME_HEAP);
             ***REMOVED***
         ***REMOVED***
         // OOME, swap
@@ -613,10 +620,12 @@ public class FatalErrorLog {
         ***REMOVED*** else if (getStackFrameTop() != null
                 && !isError("There is insufficient memory for the Java Runtime Environment to continue")) {
             // Other libjvm.so/jvm.dll analysis
-            if (getStackFrameTop().matches("^V  \\[libjvm\\.so.+\\](.+)?$")) {
-                analysis.add(Analysis.ERROR_LIBJVM_SO);
-            ***REMOVED*** else if (getStackFrameTop().matches("^V  \\[jvm\\.dll.+\\](.+)?$")) {
-                analysis.add(Analysis.ERROR_JVM_DLL);
+            if (!isCrashOnOome()) {
+                if (getStackFrameTop().matches("^V  \\[libjvm\\.so.+\\](.+)?$")) {
+                    analysis.add(Analysis.ERROR_LIBJVM_SO);
+                ***REMOVED*** else if (getStackFrameTop().matches("^V  \\[jvm\\.dll.+\\](.+)?$")) {
+                    analysis.add(Analysis.ERROR_JVM_DLL);
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         // Signal numbers
@@ -760,7 +769,7 @@ public class FatalErrorLog {
             case NFS:
                 analysis.add(Analysis.INFO_STORAGE_NFS);
                 break;
-            case UNKNOWN:
+            case UNIDENTIFIED:
                 analysis.add(Analysis.INFO_STORAGE_UNKNOWN);
                 break;
             default:
@@ -1074,7 +1083,6 @@ public class FatalErrorLog {
         if (!getUnknownNativeLibraries().isEmpty()) {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN);
         ***REMOVED***
-
         if (getStackFrameTop() != null
                 && getStackFrameTop().matches("^.*" + JdkRegEx.NATIVE_LIBRARY_DYNATRACE + ".*$")) {
             // Crash in Dynatrace
@@ -1598,7 +1606,11 @@ public class FatalErrorLog {
         if (currentThreadEvent != null) {
             currentThread = currentThreadEvent.getCurrentThread();
         ***REMOVED***
-        return currentThread;
+        if (currentThread == null) {
+            return Constants.PROPERTY_UNKNOWN;
+        ***REMOVED*** else {
+            return currentThread;
+        ***REMOVED***
     ***REMOVED***
 
     public List<DeoptimizationEvent> getDeoptimizationEvents() {
@@ -1982,7 +1994,6 @@ public class FatalErrorLog {
     public long getHeapUsed() {
         long heapUsed = Long.MIN_VALUE;
         if (!heapEvents.isEmpty()) {
-            heapUsed = 0;
             Iterator<HeapEvent> iterator = heapEvents.iterator();
             char fromUnits;
             long value;
@@ -2107,6 +2118,23 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        // Check dynamic library (rpm)
+        if (version == JavaSpecification.UNKNOWN && !dynamicLibraryEvents.isEmpty()) {
+            if (getRpmDirectory() != null) {
+                String regEx = "^java-.+-openjdk-(1.8.0|11|17).+-.+$";
+                Pattern pattern = Pattern.compile(regEx);
+                Matcher matcher = pattern.matcher(getRpmDirectory());
+                if (matcher.find()) {
+                    if (matcher.group(1).equals("1.8.0")) {
+                        version = JavaSpecification.JDK8;
+                    ***REMOVED*** else if (matcher.group(1).equals("11")) {
+                        version = JavaSpecification.JDK11;
+                    ***REMOVED*** else if (matcher.group(1).equals("17")) {
+                        version = JavaSpecification.JDK17;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
         return version;
     ***REMOVED***
 
@@ -2133,7 +2161,7 @@ public class FatalErrorLog {
      * @return <code>JavaVendor</code>
      */
     public JavaVendor getJavaVendor() {
-        JavaVendor vendor = JavaVendor.UNKNOWN;
+        JavaVendor vendor = JavaVendor.UNIDENTIFIED;
         if (isRhBuildOpenJdk()) {
             vendor = JavaVendor.RED_HAT;
         ***REMOVED*** else {
@@ -2148,7 +2176,7 @@ public class FatalErrorLog {
                     break;
                 case MOCKBUILD:
                     // Some other OpenJDK
-                    vendor = JavaVendor.UNKNOWN;
+                    vendor = JavaVendor.UNIDENTIFIED;
                     break;
                 case VSTS:
                     vendor = JavaVendor.MICROSOFT;
@@ -2165,7 +2193,7 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        if (vendor == JavaVendor.UNKNOWN) {
+        if (vendor == JavaVendor.UNIDENTIFIED && !headerEvents.isEmpty()) {
             // Check header
             Iterator<HeaderEvent> iterator = headerEvents.iterator();
             while (iterator.hasNext()) {
@@ -2173,7 +2201,7 @@ public class FatalErrorLog {
                 if (he.isJreVersion()) {
                     if (he.getLogEntry().matches("^.+AdoptOpenJDK.+$")) {
                         vendor = JavaVendor.ADOPTOPENJDK;
-                    ***REMOVED*** else if (getOsType() != OsType.UNKNOWN && !isRhVersion()) {
+                    ***REMOVED*** else if (getOsType() != OsType.UNIDENTIFIED && !isRhVersion()) {
                         vendor = JavaVendor.NOT_RED_HAT;
                     ***REMOVED***
                     break;
@@ -2198,34 +2226,36 @@ public class FatalErrorLog {
      * @return JDK release string, or UNKNOWN if it cannot be determined.
      */
     public String getJdkReleaseString() {
-        String release = "UNKNOWN";
+        String jdkReleaseString = null;
         if (vmInfoEvent != null) {
-            release = vmInfoEvent.getJdkReleaseString();
+            jdkReleaseString = vmInfoEvent.getJdkReleaseString();
             // TODO: Better solution than this hack to account for 2 windows builds based on the same upstream tag?
             if (vmInfoEvent.getOs() == OsType.WINDOWS) {
-                if (vmInfoEvent.getJavaSpecification() == JavaSpecification.JDK8 && release.equals("1.8.0_332-b09")) {
+                if (vmInfoEvent.getJavaSpecification() == JavaSpecification.JDK8
+                        && jdkReleaseString.equals("1.8.0_332-b09")) {
                     if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 19 2022 13:36:53"))) {
-                        release = "1.8.0_332-b09-1";
+                        jdkReleaseString = "1.8.0_332-b09-1";
                     ***REMOVED*** else if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 21:29:19"))) {
-                        release = "1.8.0_332-b09-2";
+                        jdkReleaseString = "1.8.0_332-b09-2";
                     ***REMOVED***
                 ***REMOVED*** else if (vmInfoEvent.getJavaSpecification() == JavaSpecification.JDK11
-                        && release.equals("11.0.15+9-LTS")) {
+                        && jdkReleaseString.equals("11.0.15+9-LTS")) {
                     if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 17 2022 13:56:34"))) {
-                        release = "11.0.15+9-LTS-1";
+                        jdkReleaseString = "11.0.15+9-LTS-1";
                     ***REMOVED*** else if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 19:12:18"))) {
-                        release = "11.0.15+9-LTS-2";
+                        jdkReleaseString = "11.0.15+9-LTS-2";
                     ***REMOVED***
                 ***REMOVED*** else if (vmInfoEvent.getJavaSpecification() == JavaSpecification.JDK17
-                        && release.equals("17.0.3+6-LTS")) {
+                        && jdkReleaseString.equals("17.0.3+6-LTS")) {
                     if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 17 2022 12:11:44"))) {
-                        release = "17.0.3+6-LTS-1";
+                        jdkReleaseString = "17.0.3+6-LTS-1";
                     ***REMOVED*** else if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 11:51:42"))) {
-                        release = "17.0.3+6-LTS-2";
+                        jdkReleaseString = "17.0.3+6-LTS-2";
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (!headerEvents.isEmpty()) {
+        ***REMOVED***
+        if (jdkReleaseString == null && !headerEvents.isEmpty()) {
             // Check header
             Iterator<HeaderEvent> iterator = headerEvents.iterator();
             while (iterator.hasNext()) {
@@ -2237,13 +2267,13 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(he.getLogEntry());
                     if (matcher.find()) {
                         if (matcher.group(4) != null) {
-                            release = matcher.group(4);
+                            jdkReleaseString = matcher.group(4);
                         ***REMOVED*** else if (matcher.group(1) != null) {
                             // Add leading "1."
                             if (matcher.group(1).matches("^[678].+$")) {
-                                release = "1." + matcher.group(1);
+                                jdkReleaseString = "1." + matcher.group(1);
                             ***REMOVED*** else {
-                                release = matcher.group(1);
+                                jdkReleaseString = matcher.group(1);
                             ***REMOVED***
                         ***REMOVED***
                     ***REMOVED***
@@ -2251,7 +2281,100 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        return release;
+        if (jdkReleaseString == null && !dynamicLibraryEvents.isEmpty()) {
+            // Check dynamic libraries (rpm)
+            if (getRpmDirectory() != null) {
+                Iterator<Entry<String, Release>> iterator;
+                if (getJavaSpecification() == JavaSpecification.JDK8) {
+                    switch (getOsVersion()) {
+                    case CENTOS6:
+                    case RHEL6:
+                        iterator = JdkUtil.JDK8_RHEL6_X86_64_RPMS.entrySet().iterator();
+                        while (iterator.hasNext()) {
+                            Entry<String, Release> entry = iterator.next();
+                            if (entry.getKey().equals(getRpmDirectory())) {
+                                Release release = entry.getValue();
+                                jdkReleaseString = release.getVersion();
+                            ***REMOVED***
+                        ***REMOVED***
+                        break;
+                    case CENTOS7:
+                    case RHEL7:
+                        if (getArch() == Arch.X86_64) {
+                            iterator = JdkUtil.JDK8_RHEL7_X86_64_RPMS.entrySet().iterator();
+                            while (iterator.hasNext()) {
+                                Entry<String, Release> entry = iterator.next();
+                                if (entry.getKey().equals(getRpmDirectory())) {
+                                    Release release = entry.getValue();
+                                    jdkReleaseString = release.getVersion();
+                                ***REMOVED***
+                            ***REMOVED***
+                        ***REMOVED*** else if (getArch() == Arch.PPC64) {
+                            iterator = JdkUtil.JDK8_RHEL7_PPC64_RPMS.entrySet().iterator();
+                            while (iterator.hasNext()) {
+                                Entry<String, Release> entry = iterator.next();
+                                if (entry.getKey().equals(getRpmDirectory())) {
+                                    Release release = entry.getValue();
+                                    jdkReleaseString = release.getVersion();
+                                ***REMOVED***
+                            ***REMOVED***
+                        ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
+                            iterator = JdkUtil.JDK8_RHEL7_PPC64LE_RPMS.entrySet().iterator();
+                            while (iterator.hasNext()) {
+                                Entry<String, Release> entry = iterator.next();
+                                if (entry.getKey().equals(getRpmDirectory())) {
+                                    Release release = entry.getValue();
+                                    jdkReleaseString = release.getVersion();
+                                ***REMOVED***
+                            ***REMOVED***
+                        ***REMOVED***
+                        break;
+                    case CENTOS8:
+                    case RHEL8:
+                        if (getArch() == Arch.X86_64) {
+                            iterator = JdkUtil.JDK8_RHEL8_X86_64_RPMS.entrySet().iterator();
+                            while (iterator.hasNext()) {
+                                Entry<String, Release> entry = iterator.next();
+                                if (entry.getKey().equals(getRpmDirectory())) {
+                                    Release release = entry.getValue();
+                                    jdkReleaseString = release.getVersion();
+                                ***REMOVED***
+                            ***REMOVED***
+                        ***REMOVED*** else if (getArch() == Arch.PPC64LE) {
+                            iterator = JdkUtil.JDK8_RHEL8_PPC64LE_RPMS.entrySet().iterator();
+                            while (iterator.hasNext()) {
+                                Entry<String, Release> entry = iterator.next();
+                                if (entry.getKey().equals(getRpmDirectory())) {
+                                    Release release = entry.getValue();
+                                    jdkReleaseString = release.getVersion();
+                                ***REMOVED***
+                            ***REMOVED***
+                        ***REMOVED***
+                        break;
+                    case RHEL9:
+                        if (getArch() == Arch.X86_64) {
+                            iterator = JdkUtil.JDK8_RHEL9_X86_64_RPMS.entrySet().iterator();
+                            while (iterator.hasNext()) {
+                                Entry<String, Release> entry = iterator.next();
+                                if (entry.getKey().equals(getRpmDirectory())) {
+                                    Release release = entry.getValue();
+                                    jdkReleaseString = release.getVersion();
+                                ***REMOVED***
+                            ***REMOVED***
+                        ***REMOVED***
+                        break;
+                    case UNIDENTIFIED:
+                    default:
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        if (jdkReleaseString == null) {
+            return Constants.PROPERTY_UNKNOWN;
+        ***REMOVED*** else {
+            return jdkReleaseString;
+        ***REMOVED***
     ***REMOVED***
 
     /**
@@ -2963,7 +3086,7 @@ public class FatalErrorLog {
      * @return <code>OsType</code>
      */
     public OsType getOsType() {
-        OsType osType = OsType.UNKNOWN;
+        OsType osType = OsType.UNIDENTIFIED;
         String osString = getOsString();
         if (osString != null) {
             if (osString.matches(".*Linux.*")) {
@@ -2991,7 +3114,7 @@ public class FatalErrorLog {
      * @return <code>OsVendor</code>
      */
     public OsVendor getOsVendor() {
-        OsVendor osVendor = OsVendor.UNKNOWN;
+        OsVendor osVendor = OsVendor.UNIDENTIFIED;
         if (!osEvents.isEmpty()) {
             Iterator<OsEvent> iterator = osEvents.iterator();
             while (iterator.hasNext()) {
@@ -3022,7 +3145,7 @@ public class FatalErrorLog {
      * @return <code>OsVersion</code>
      */
     public OsVersion getOsVersion() {
-        OsVersion osVersion = OsVersion.UNKNOWN;
+        OsVersion osVersion = OsVersion.UNIDENTIFIED;
         if (!osEvents.isEmpty()) {
             Iterator<OsEvent> iterator = osEvents.iterator();
             while (iterator.hasNext()) {
@@ -3050,7 +3173,7 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        if (osVersion == OsVersion.UNKNOWN && unameEvent != null) {
+        if (osVersion == OsVersion.UNIDENTIFIED && unameEvent != null) {
             osVersion = unameEvent.getOsVersion();
         ***REMOVED***
         return osVersion;
@@ -3100,6 +3223,8 @@ public class FatalErrorLog {
      *         java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64
      * 
      *         java-11-openjdk-11.0.7.10-4.el7_8.x86_64
+     * 
+     *         java-17-openjdk-17.0.4.1.1-2.el9_0.x86_64
      */
     public String getRpmDirectory() {
         String rpmDirectory = null;
@@ -3276,7 +3401,7 @@ public class FatalErrorLog {
      * @return The storage device where the JDK is installed.
      */
     public Device getStorageDevice() {
-        Device device = Device.UNKNOWN;
+        Device device = Device.UNIDENTIFIED;
         if (getOsType() == OsType.LINUX && !dynamicLibraryEvents.isEmpty()) {
             Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
             while (iterator.hasNext()) {
@@ -3750,9 +3875,20 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return true if the crash is due to -XX:+CrashOnOutOfMemoryError, false otherwise.
+     */
+    public boolean isCrashOnOome() {
+        boolean isCrashOnOome = false;
+        if (jvmOptions != null && JdkUtil.isOptionEnabled(jvmOptions.getCrashOnOutOfMemoryError())) {
+            isCrashOnOome = true;
+        ***REMOVED***
+        return isCrashOnOome;
+    ***REMOVED***
+
+    /**
      * @param error
      *            The string to search for.
-     * @return True if the crash error contains the string, false otherwise
+     * @return True if the crash error contains the string, false otherwise.
      */
     public boolean isError(String error) {
         boolean isError = false;
@@ -4053,6 +4189,8 @@ public class FatalErrorLog {
                     break;
                 ***REMOVED***
             ***REMOVED***
+        ***REMOVED*** else {
+            isRhBuildDateUnknown = true;
         ***REMOVED***
         return isRhBuildDateUnknown;
     ***REMOVED***
@@ -4232,7 +4370,7 @@ public class FatalErrorLog {
                     ***REMOVED***
                 ***REMOVED***
                 break;
-            case UNKNOWN:
+            case UNIDENTIFIED:
             default:
                 break;
             ***REMOVED***
@@ -4278,7 +4416,7 @@ public class FatalErrorLog {
                 break;
             case CENTOS6:
             case RHEL6:
-            case UNKNOWN:
+            case UNIDENTIFIED:
             default:
                 break;
             ***REMOVED***
@@ -4313,7 +4451,7 @@ public class FatalErrorLog {
             case RHEL6:
             case CENTOS7:
             case RHEL7:
-            case UNKNOWN:
+            case UNIDENTIFIED:
             default:
                 break;
             ***REMOVED***
@@ -4372,7 +4510,7 @@ public class FatalErrorLog {
                                         JdkUtil.JDK8_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED***
                     break;
-                case UNKNOWN:
+                case UNIDENTIFIED:
                 default:
                     break;
                 ***REMOVED***
@@ -4397,7 +4535,7 @@ public class FatalErrorLog {
                     break;
                 case CENTOS6:
                 case RHEL6:
-                case UNKNOWN:
+                case UNIDENTIFIED:
                 default:
                     break;
                 ***REMOVED***
@@ -4418,7 +4556,7 @@ public class FatalErrorLog {
                 case RHEL6:
                 case CENTOS7:
                 case RHEL7:
-                case UNKNOWN:
+                case UNIDENTIFIED:
                 default:
                     break;
                 ***REMOVED***
@@ -4563,7 +4701,7 @@ public class FatalErrorLog {
                                         JdkUtil.JDK8_RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     ***REMOVED***
                     break;
-                case UNKNOWN:
+                case UNIDENTIFIED:
                 default:
                     break;
                 ***REMOVED***
@@ -4588,7 +4726,7 @@ public class FatalErrorLog {
                     break;
                 case CENTOS6:
                 case RHEL6:
-                case UNKNOWN:
+                case UNIDENTIFIED:
                 default:
                     break;
                 ***REMOVED***
@@ -4609,7 +4747,7 @@ public class FatalErrorLog {
                 case RHEL6:
                 case CENTOS7:
                 case RHEL7:
-                case UNKNOWN:
+                case UNIDENTIFIED:
                 default:
                     break;
                 ***REMOVED***

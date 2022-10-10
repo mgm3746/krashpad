@@ -320,7 +320,7 @@ class TestFatalErrorLog {
                 + "oops)";
         HeaderEvent he = new HeaderEvent(headerLine);
         fel.getHeaderEvents().add(he);
-        assertEquals(OsVersion.UNKNOWN, fel.getOsVersion(), "OS version not correct.");
+        assertEquals(OsVersion.UNIDENTIFIED, fel.getOsVersion(), "OS version not correct.");
         assertEquals(OsType.LINUX, fel.getOsType(), "OS type not correct.");
     ***REMOVED***
 
@@ -472,6 +472,31 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testJvmVersionFromRpmPath() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String dynamicLibrary = "7efc12c7c000-7efc12ca7000 rw-p 00e4c000 fd:98 12596136                   "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        String uname = "uname:Linux 3.10.0-957.27.2.el7.x86_64 ***REMOVED***1 SMP Tue Jul 9 16:53:14 UTC 2019 x86_64";
+        UnameEvent unameEvent = new UnameEvent(uname);
+        fel.setUnameEvent(unameEvent);
+        fel.doAnalysis();
+        assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
+        assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
+        assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
+        assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64", fel.getRpmDirectory(),
+                "RPM directory not correct.");
+        assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
+        assertEquals(Constants.PROPERTY_UNKNOWN, fel.getCurrentThread(), "Current thread not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_POSSIBLE),
+                Analysis.INFO_RH_BUILD_POSSIBLE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testKafka() {
         String logLine = "java_command: kafka.Kafka /path/to/my.properties";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
@@ -605,7 +630,7 @@ class TestFatalErrorLog {
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
         assertEquals(OsType.LINUX, fel.getOsType(), "OS not correct.");
-        assertEquals(OsVersion.UNKNOWN, fel.getOsVersion(), "OS version not correct.");
+        assertEquals(OsVersion.UNIDENTIFIED, fel.getOsVersion(), "OS version not correct.");
     ***REMOVED***
 
     @Test
@@ -1025,7 +1050,7 @@ class TestFatalErrorLog {
                 + "Jan 17 2020 09:36:23 by \"bob\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
-        assertEquals(JavaVendor.UNKNOWN, fel.getJavaVendor(), "JDK vendor not correct.");
+        assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "JDK vendor not correct.");
     ***REMOVED***
 
     @Test

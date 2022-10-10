@@ -1307,6 +1307,15 @@ public class JvmOptions {
     private String shenandoahGcHeuristics;
 
     /**
+     * The number of milliseconds for a guaranteed GC cycle. For example:
+     * 
+     * <pre>
+     * -XX:ShenandoahGuaranteedGCInterval=20000
+     * </pre>
+     */
+    private String shenandoahGuaranteedGCInterval;
+
+    /**
      * The minimum percentage of free space at which heuristics triggers the GC unconditionally. For example:
      * 
      * <pre>
@@ -1314,6 +1323,16 @@ public class JvmOptions {
      * </pre>
      */
     private String shenandoahMinFreeThreshold;
+
+    /**
+     * The number of milliseconds before unused memory in the page cache is evicted (default 5 minutes). Setting below 1
+     * seconds can cause allocation stalls. For example:
+     * 
+     * <pre>
+     * -XX:ShenandoahUncommitDelay=5000
+     * </pre>
+     */
+    private String shenandoahUncommitDelay;
 
     /**
      * The option for setting the size of the eden space compared to ONE survivor space. For example:
@@ -2193,9 +2212,15 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:ShenandoahGCHeuristics=(adaptive|aggressive|compact|static)$")) {
                     shenandoahGcHeuristics = option;
                     key = "ShenandoahGCHeuristics";
+                ***REMOVED*** else if (option.matches("^-XX:ShenandoahGuaranteedGCInterval=\\d{1,***REMOVED***$")) {
+                    shenandoahGuaranteedGCInterval = option;
+                    key = "ShenandoahGuaranteedGCInterval";
                 ***REMOVED*** else if (option.matches("^-XX:ShenandoahMinFreeThreshold=\\d{1,3***REMOVED***$")) {
                     shenandoahMinFreeThreshold = option;
                     key = "ShenandoahMinFreeThreshold";
+                ***REMOVED*** else if (option.matches("^-XX:ShenandoahUncommitDelay=\\d{1,***REMOVED***$")) {
+                    shenandoahUncommitDelay = option;
+                    key = "ShenandoahUncommitDelay";
                 ***REMOVED*** else if (option.matches("^-XX:SurvivorRatio=\\d{1,***REMOVED***$")) {
                     survivorRatio = option;
                     key = "SurvivorRatio";
@@ -2519,19 +2544,31 @@ public class JvmOptions {
         if (printFLSStatistics != null) {
             analysis.add(Analysis.INFO_OPT_JDK8_PRINT_FLS_STATISTICS);
         ***REMOVED***
-        // Experimental VM options
+        // Check for experimental options
+        if (JdkUtil.isOptionEnabled(unlockExperimentalVmOptions)) {
+            analysis.add(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED);
+        ***REMOVED***
         if (JdkUtil.isOptionEnabled(useCGroupMemoryLimitForHeap)) {
-            analysis.add(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT);
-        ***REMOVED*** else if (JdkUtil.isOptionEnabled(useFastUnorderedTimeStamps)
+            if (maxHeapSize != null) {
+                analysis.add(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE);
+            ***REMOVED*** else {
+                analysis.add(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT);
+            ***REMOVED***
+        ***REMOVED***
+        if (JdkUtil.isOptionEnabled(useFastUnorderedTimeStamps)
                 && JdkUtil.isOptionEnabled(unlockExperimentalVmOptions)) {
             analysis.add(Analysis.WARN_OPT_FAST_UNORDERED_TIMESTAMPS);
-        ***REMOVED*** else if (g1MixedGCLiveThresholdPercent != null) {
-            analysis.add(Analysis.WARN_OPT_G1_MIXED_GC_LIVE_THRSHOLD_PRCNT);
-        ***REMOVED*** else if (JdkUtil.isOptionEnabled(unlockExperimentalVmOptions)) {
-            // Generic -XX:+UnlockExperimentalVMOptions.
-            analysis.add(Analysis.INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED);
         ***REMOVED***
-        // Check for -XX:+UnlockDiagnosticVMOptions.
+        if (g1MixedGCLiveThresholdPercent != null) {
+            analysis.add(Analysis.WARN_OPT_G1_MIXED_GC_LIVE_THRSHOLD_PRCNT);
+        ***REMOVED***
+        if (shenandoahGuaranteedGCInterval != null) {
+            analysis.add(Analysis.WARN_OPT_SHENANDOAH_GUARANTEED_GC_INTERVAL);
+        ***REMOVED***
+        if (shenandoahUncommitDelay != null) {
+            analysis.add(Analysis.WARN_OPT_SHENANDOAH_GUARANTEED_UNCOMMIT_DELAY);
+        ***REMOVED***
+        // Check for diagnostic options
         if (JdkUtil.isOptionEnabled(unlockDiagnosticVmOptions)) {
             analysis.add(Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED);
         ***REMOVED***
@@ -3400,8 +3437,16 @@ public class JvmOptions {
         return shenandoahGcHeuristics;
     ***REMOVED***
 
+    public String getShenandoahGuaranteedGCInterval() {
+        return shenandoahGuaranteedGCInterval;
+    ***REMOVED***
+
     public String getShenandoahMinFreeThreshold() {
         return shenandoahMinFreeThreshold;
+    ***REMOVED***
+
+    public String getShenandoahUncommitDelay() {
+        return shenandoahUncommitDelay;
     ***REMOVED***
 
     /**

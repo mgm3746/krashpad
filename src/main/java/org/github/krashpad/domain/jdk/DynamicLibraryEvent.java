@@ -116,7 +116,7 @@ public class DynamicLibraryEvent implements LogEvent {
      * @return Device.
      */
     public Device getDevice() {
-        Device device = Device.UNKNOWN;
+        Device device = Device.UNIDENTIFIED;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             int deviceIdIndex = 14;

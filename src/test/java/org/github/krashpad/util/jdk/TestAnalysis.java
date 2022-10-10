@@ -169,8 +169,41 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT),
                 Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
-                Analysis.INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE),
+                Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
+                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCGroupMemoryLimitOverrideMaxHeap() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:MaxHeapSize=2048m -XX:+UnlockExperimentalVMOptions "
+                + "-XX:+UseCGroupMemoryLimitForHeap";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE),
+                Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT),
+                Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
+                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCGroupMemoryLimitOverrideXmx() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE),
+                Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT),
+                Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
+                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -675,6 +708,26 @@ class TestAnalysis {
                 Analysis.INFO_MEMORY_JVM_NE_SYSTEM + " analysis not identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_CGROUP_MEMORY_LIMIT),
                 Analysis.INFO_CGROUP_MEMORY_LIMIT + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCrashOnOomeHeap() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError "
+                + "-XX:HeapDumpPath=/path/to/mydir";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String header = "***REMOVED***  fatal error: OutOfMemory encountered: Java heap space";
+        HeaderEvent headerEvent = new HeaderEvent(header);
+        fel.getHeaderEvents().add(headerEvent);
+        String stack = "V  [libjvm.so+0xb2caf6]  TypeArrayKlass::allocate_common(int, bool, Thread*)+0x796";
+        StackEvent stackEvent = new StackEvent(stack);
+        fel.getStackEvents().add(stackEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_CRASH_ON_OOME_HEAP),
+                Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+                Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -2918,12 +2971,38 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testShenandoahGuaranteedGCInterval() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+UnlockExperimentalVMOptions -XX:ShenandoahGuaranteedGCInterval=20000";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_SHENANDOAH_GUARANTEED_GC_INTERVAL),
+                Analysis.WARN_OPT_SHENANDOAH_GUARANTEED_GC_INTERVAL + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
+                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testShenandoahMarkLoopWork() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset44.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK),
                 Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testShenandoahUncommitDelay() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+UnlockExperimentalVMOptions -XX:ShenandoahUncommitDelay=5000";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_SHENANDOAH_GUARANTEED_UNCOMMIT_DELAY),
+                Analysis.WARN_OPT_SHENANDOAH_GUARANTEED_UNCOMMIT_DELAY + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
+                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3199,8 +3278,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
-                Analysis.INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
+                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3223,8 +3302,8 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_FAST_UNORDERED_TIMESTAMPS),
                 Analysis.WARN_OPT_FAST_UNORDERED_TIMESTAMPS + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
-                Analysis.INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
+                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
     ***REMOVED***
 
     @Test

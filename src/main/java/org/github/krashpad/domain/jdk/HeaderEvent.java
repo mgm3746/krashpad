@@ -122,7 +122,7 @@ public class HeaderEvent implements LogEvent {
      * @return The <code>OsType</code>.
      */
     public OsType getOsType() {
-        OsType osType = OsType.UNKNOWN;
+        OsType osType = OsType.UNIDENTIFIED;
         if (logEntry.matches(".+linux.+")) {
             osType = OsType.LINUX;
         ***REMOVED*** else if (logEntry.matches(".+solaris.+")) {
@@ -137,7 +137,7 @@ public class HeaderEvent implements LogEvent {
      * @return True if the event is an error, false otherwise.
      */
     public boolean isError() {
-        return logEntry.matches("^***REMOVED***  Error:.+$");
+        return logEntry.matches("^***REMOVED***  (Error|fatal error):.+$");
     ***REMOVED***
 
     /**

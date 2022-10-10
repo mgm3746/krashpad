@@ -142,7 +142,7 @@ public class UnameEvent implements LogEvent {
      * @return The OS type.
      */
     public OsType getOsType() {
-        OsType osType = OsType.UNKNOWN;
+        OsType osType = OsType.UNIDENTIFIED;
         if (getUname().matches("Linux.+")) {
             osType = OsType.LINUX;
         ***REMOVED*** else if (getUname().matches("SunOS.+")) {
@@ -155,7 +155,7 @@ public class UnameEvent implements LogEvent {
      * @return The OS vendor.
      */
     public OsVendor getOsVendor() {
-        OsVendor osVendor = OsVendor.UNKNOWN;
+        OsVendor osVendor = OsVendor.UNIDENTIFIED;
         if (getUname().matches("Linux.+\\.el(6|7|8_\\d)\\..+")) {
             osVendor = OsVendor.REDHAT;
         ***REMOVED*** else if (getUname().matches("SunOS.+")) {
@@ -168,7 +168,7 @@ public class UnameEvent implements LogEvent {
      * @return The OS version.
      */
     public OsVersion getOsVersion() {
-        OsVersion osVersion = OsVersion.UNKNOWN;
+        OsVersion osVersion = OsVersion.UNIDENTIFIED;
         if (getUname().matches("Linux.+\\.el6\\..+")) {
             osVersion = OsVersion.RHEL6;
         ***REMOVED*** else if (getUname().matches("Linux.+\\.el7\\..+")) {

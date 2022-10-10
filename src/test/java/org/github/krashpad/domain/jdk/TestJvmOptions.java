@@ -148,6 +148,13 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testDuplicateXmxMaxHeap() {
+        String jvmArgs = "-XX:MaxHeapSize=2048m -Xmx4096m";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:MaxHeapSize=2048m -Xmx4096m", jvmOptions.getDuplicates(), "Duplicates not correct.");
+    ***REMOVED***
+
+    @Test
     void testG1ConcRefinementThreads() {
         String jvmArgs = "-Xmx1500m -Xms1000m -XX:G1ConcRefinementThreads=4";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
@@ -421,6 +428,22 @@ class TestJvmOptions {
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
         assertTrue(jvmOptions.isServer(), "server not correct.");
         assertTrue(jvmOptions.isNoverify(), "noverify not correct.");
+    ***REMOVED***
+
+    @Test
+    void testShenandoahGuaranteedGCInterval() {
+        String jvmArgs = "-Xms1g -XX:ShenandoahGuaranteedGCInterval=20000 -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:ShenandoahGuaranteedGCInterval=20000", jvmOptions.getShenandoahGuaranteedGCInterval(),
+                "ShenandoahGuaranteedGCInterval not correct.");
+    ***REMOVED***
+
+    @Test
+    void testShenandoahUncommitDelay() {
+        String jvmArgs = "-Xms1g -XX:ShenandoahUncommitDelay=5000 -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:ShenandoahUncommitDelay=5000", jvmOptions.getShenandoahUncommitDelay(),
+                "ShenandoahUncommitDelay not correct.");
     ***REMOVED***
 
     @Test

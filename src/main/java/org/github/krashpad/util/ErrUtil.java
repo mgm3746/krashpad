@@ -69,14 +69,20 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libc-2.28.so");
         // dconf
         NATIVE_LIBRARIES_LINUX.add("libdconfsettings.so");
+        // glibc
+        NATIVE_LIBRARIES_LINUX.add("libcrypt-2.17.so");
         // glibc-devel
         NATIVE_LIBRARIES_LINUX.add("libdl-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libdl-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libdl-2.28.so");
         // elfutils-devel
         NATIVE_LIBRARIES_LINUX.add("libdw-0.160.so");
+        NATIVE_LIBRARIES_LINUX.add("libdw-0.176.so");
         // elfutils-libelf-devel
         NATIVE_LIBRARIES_LINUX.add("libelf-0.160.so");
+        NATIVE_LIBRARIES_LINUX.add("libelf-0.176.so");
+        // nss-softokn-freebl
+        NATIVE_LIBRARIES_LINUX.add("libfreebl3.so");
         // nss-softokn-freebl
         NATIVE_LIBRARIES_LINUX.add("libfreeblpriv3.so");
         // glibc-devel

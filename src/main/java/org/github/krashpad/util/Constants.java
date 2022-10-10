@@ -35,7 +35,7 @@ public class Constants {
      * Defined devices.
      */
     public enum Device {
-        AWS_BLOCK_STORAGE, FIXED_DISK, NFS, SCSI_DISK, UNKNOWN
+        AWS_BLOCK_STORAGE, FIXED_DISK, NFS, SCSI_DISK, UNIDENTIFIED
     ***REMOVED***
 
     /**
@@ -43,7 +43,7 @@ public class Constants {
      */
     public enum OsType {
         //
-        LINUX, SOLARIS, UNKNOWN, WINDOWS
+        LINUX, SOLARIS, UNIDENTIFIED, WINDOWS
     ***REMOVED***
 
     /**
@@ -51,7 +51,7 @@ public class Constants {
      */
     public enum OsVendor {
         //
-        CENTOS, IBM, MICROSOFT, ORACLE, REDHAT, UNKNOWN
+        CENTOS, IBM, MICROSOFT, ORACLE, REDHAT, UNIDENTIFIED
     ***REMOVED***
 
     /**
@@ -59,7 +59,7 @@ public class Constants {
      */
     public enum OsVersion {
         //
-        CENTOS6, CENTOS7, CENTOS8, RHEL6, RHEL7, RHEL8, RHEL9, UNKNOWN
+        CENTOS6, CENTOS7, CENTOS8, RHEL6, RHEL7, RHEL8, RHEL9, UNIDENTIFIED
     ***REMOVED***
 
     /**
@@ -159,6 +159,11 @@ public class Constants {
      * Precision for reporting bytes.
      */
     public static final char PRECISION_REPORTING = 'M';
+
+    /**
+     * Literal for reporting and unknown property.
+     */
+    public static final String PROPERTY_UNKNOWN = ("UNKNOWN");
 
     /**
      * Test data directory.

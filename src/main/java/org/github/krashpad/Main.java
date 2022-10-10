@@ -136,6 +136,8 @@ public class Main {
             if (fel.getOsMemTotal() > 0) {
                 printWriter.write("Memory: " + fel.getOsMemTotal() + Character.toString(Constants.PRECISION_REPORTING)
                         + Constants.LINE_SEPARATOR);
+            ***REMOVED***
+            if (fel.getOsMemFree() > 0) {
                 printWriter
                         .write("Memory Free: " + fel.getOsMemFree() + Character.toString(Constants.PRECISION_REPORTING)
                                 + " (" + JdkMath.calcPercent(fel.getOsMemFree(), fel.getOsMemTotal()) + "%)"
@@ -481,6 +483,13 @@ public class Main {
                     Analysis a = iteratorAnalysis.next();
                     printWriter.write("*");
                     printWriter.write(a.getValue());
+                    if (a.equals(Analysis.ERROR_CRASH_ON_OOME_HEAP)
+                            && JdkUtil.isOptionEnabled(fel.getJvmOptions().getHeapDumpOnOutOfMemoryError())
+                            && fel.getJvmOptions().getHeapDumpPath() != null) {
+                        printWriter.write(" Check the following location for a heap dump: ");
+                        printWriter.write(fel.getJvmOptions().getHeapDumpPath());
+                        printWriter.write(".");
+                    ***REMOVED***
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
 

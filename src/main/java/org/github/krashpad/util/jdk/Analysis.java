@@ -56,6 +56,12 @@ public enum Analysis {
     ERROR_COMPILER_THREAD_C2_MININODE_IDEAL("error.compiler.thread.c2.mininode.ideal"),
 
     /**
+     * Property key for a crash due to "java.lang.OutOfMemoryError: Java heap space" in combination with
+     * -XX:+CrashOnOutOfMemoryError.
+     */
+    ERROR_CRASH_ON_OOME_HEAP("error.crash.on.oome.heap"),
+
+    /**
      * Property key for a crash due to multiple threads access DirectByteBuffer at the same time.
      */
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),
@@ -494,11 +500,6 @@ public enum Analysis {
     INFO_OPT_ELIMINATE_LOCKS_ENABLED("info.opt.eliminate.locks.enabled"),
 
     /**
-     * Property key for experimental jvm options enabled with <code>-XX:+UnlockExperimentalVMOptions</code>.
-     */
-    INFO_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED("info.opt.experimental.vm.options.enabled"),
-
-    /**
      * Property key for summarized remembered set processing output.
      */
     INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT("info.opt.g1.summarize.rset.stats.output"),
@@ -667,7 +668,7 @@ public enum Analysis {
      * 
      */
     INFO_OPT_MIN_HEAP_DELTA_BYTES("info.opt.min.heap.delta.bytes"),
-    
+
     /**
      * Property key for no JVM options.
      */
@@ -1047,6 +1048,11 @@ public enum Analysis {
     WARN_OPT_CGROUP_MEMORY_LIMIT("warn.opt.cgroup.memory.limit"),
 
     /**
+     * Property key for -XX:+UseCGroupMemoryLimitForHeap in combination with -Xmx/-XX:MaxHeapSize.
+     */
+    WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE("warn.opt.cgroup.memory.limit.override"),
+
+    /**
      * Property key for class unloading disabled with -XX:-ClassUnloading.
      */
     WARN_OPT_CLASS_UNLOADING_DISABLED("warn.opt.class.unloading.disabled"),
@@ -1137,6 +1143,11 @@ public enum Analysis {
      * jcmd/jmap/jstack to communicate with the JVM being disabled.
      */
     WARN_OPT_DISABLE_ATTACH_MECHANISM("warn.opt.disable.attach.mechanism"),
+
+    /**
+     * Property key for experimental jvm options enabled with <code>-XX:+UnlockExperimentalVMOptions</code>.
+     */
+    WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED("warn.opt.experimental.vm.options.enabled"),
 
     /**
      * Property key for explicit garbage collection disabled.
@@ -1286,6 +1297,18 @@ public enum Analysis {
      * Property key for -Xrs disabling JVM signal handling.
      */
     WARN_OPT_RS("warn.opt.rs"),
+
+    /**
+     * Property key for setting the number of milliseconds for a guaranteed GC cycle with
+     * -XX:ShenandoahGuaranteedGCInterval=N.
+     */
+    WARN_OPT_SHENANDOAH_GUARANTEED_GC_INTERVAL("warn.opt.shenandoah.guaranteed.gc.interval"),
+
+    /**
+     * Property key for setting the number of milliseconds before unused memory in the page cache is evicted with
+     * -XX:ShenandoahUncommitDelay=N.
+     */
+    WARN_OPT_SHENANDOAH_GUARANTEED_UNCOMMIT_DELAY("warn.opt.shenandoah.uncommit.delay"),
 
     /**
      * Property key for disabling tenuring with -XX:MaxTenuringThreshold=0 or by setting it to a value greater than 15

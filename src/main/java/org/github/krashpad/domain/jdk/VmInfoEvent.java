@@ -198,15 +198,23 @@ public class VmInfoEvent implements LogEvent {
     ***REMOVED***
 
     /**
+     * The Java release string. For example:
+     * 
+     * <pre>
+     * 1.8.0_332-b09-1
+     * 11.0.15+9-LTS-1
+     * 17.0.3+6-LTS-2
+     * </pre>
+     * 
      * @return The Java release string.
      */
     public String getJdkReleaseString() {
-        String release = null;
+        String jdkReleaseString = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            release = matcher.group(6);
+            jdkReleaseString = matcher.group(6);
         ***REMOVED***
-        return release;
+        return jdkReleaseString;
     ***REMOVED***
 
     public String getLogEntry() {
@@ -221,7 +229,7 @@ public class VmInfoEvent implements LogEvent {
      * @return The OS type.
      */
     public OsType getOs() {
-        OsType osType = OsType.UNKNOWN;
+        OsType osType = OsType.UNIDENTIFIED;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             int indexOs = 3;
