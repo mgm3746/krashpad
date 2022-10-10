@@ -20,6 +20,8 @@ import static org.github.krashpad.util.Constants.OPTION_LATEST_VERSION_LONG;
 import static org.github.krashpad.util.Constants.OPTION_LATEST_VERSION_SHORT;
 import static org.github.krashpad.util.Constants.OPTION_OUTPUT_LONG;
 import static org.github.krashpad.util.Constants.OPTION_OUTPUT_SHORT;
+import static org.github.krashpad.util.Constants.OPTION_REPORT_CONSOLE_LONG;
+import static org.github.krashpad.util.Constants.OPTION_REPORT_CONSOLE_SHORT;
 import static org.github.krashpad.util.Constants.OPTION_THRESHOLD_LONG;
 import static org.github.krashpad.util.Constants.OPTION_THRESHOLD_SHORT;
 import static org.github.krashpad.util.Constants.OPTION_VERSION_LONG;
@@ -61,6 +63,8 @@ public class OptionsParser {
                 "threshold (0-100) for throughput bottleneck reporting");
         options.addOption(OPTION_OUTPUT_SHORT, OPTION_OUTPUT_LONG, true,
                 "output file name (default " + OUTPUT_FILE_NAME + ")");
+        options.addOption(OPTION_REPORT_CONSOLE_SHORT, OPTION_REPORT_CONSOLE_LONG, false,
+                "print report to stdout instead of file");
     ***REMOVED***
 
     /**
@@ -108,10 +112,10 @@ public class OptionsParser {
             return null;
         ***REMOVED*** else if (args.length == 1
                 && (args[0].equals("-" + OPTION_VERSION_SHORT) || args[0].equals("--" + OPTION_VERSION_LONG))) {
-            System.out.println("Running garbagecat version: " + getVersion());
+            System.out.println("Running krashpad version: " + getVersion());
         ***REMOVED*** else if (args.length == 1 && (args[0].equals("-" + OPTION_LATEST_VERSION_SHORT)
                 || args[0].equals("--" + OPTION_LATEST_VERSION_LONG))) {
-            System.out.println("Latest garbagecat version/tag: " + getLatestVersion());
+            System.out.println("Latest krashpad version/tag: " + getLatestVersion());
         ***REMOVED*** else if (args.length == 2
                 && (((args[0].equals("-" + OPTION_VERSION_SHORT) || args[0].equals("--" + OPTION_VERSION_LONG))
                         && (args[1].equals("-" + OPTION_LATEST_VERSION_SHORT)
@@ -119,8 +123,8 @@ public class OptionsParser {
                         || ((args[1].equals("-" + OPTION_VERSION_SHORT) || args[1].equals("--" + OPTION_VERSION_LONG))
                                 && (args[0].equals("-" + OPTION_LATEST_VERSION_SHORT)
                                         || args[0].equals("--" + OPTION_LATEST_VERSION_LONG))))) {
-            System.out.println("Running garbagecat version: " + getVersion());
-            System.out.println("Latest garbagecat version/tag: " + getLatestVersion());
+            System.out.println("Running krashpad version: " + getVersion());
+            System.out.println("Latest krashpad version/tag: " + getLatestVersion());
         ***REMOVED*** else {
             CommandLine cmd = parser.parse(options, args);
             validateOptions(cmd);

@@ -15,6 +15,10 @@
 
 package org.github.krashpad;
 
+import static org.github.krashpad.OptionsParser.parseOptions;
+import static org.github.krashpad.util.Constants.OPTION_HELP_LONG;
+import static org.github.krashpad.util.Constants.OPTION_REPORT_CONSOLE_LONG;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -27,9 +31,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -87,6 +89,8 @@ public class Main {
      * 
      * @param fel
      *            Fatal error log object.
+     * @param reportConsole
+     *            Whether print the report to the console or to a file.
      * @param reportFileName
      *            Report file name.
      * @param version
@@ -96,14 +100,18 @@ public class Main {
      * @param logFileName
      *            The fatal error log that was parsed.
      */
-    private static void createReport(FatalErrorLog fel, String reportFileName, boolean version, boolean latestVersion,
-            String logFileName) {
+    private static void createReport(FatalErrorLog fel, boolean reportConsole, String reportFileName, boolean version,
+            boolean latestVersion, String logFileName) {
         File reportFile = new File(reportFileName);
         FileWriter fileWriter = null;
         PrintWriter printWriter = null;
         try {
             fileWriter = new FileWriter(reportFile);
-            printWriter = new PrintWriter(fileWriter);
+            if (reportConsole) {
+                printWriter = new PrintWriter(System.out);
+            ***REMOVED*** else {
+                printWriter = new PrintWriter(fileWriter);
+            ***REMOVED***
 
             printWriter.write(logFileName + Constants.LINE_SEPARATOR);
 
@@ -690,84 +698,47 @@ public class Main {
 
     /**
      * @param args
-     *            The argument list includes one or more scope options followed by the name of the vm log file to
-     *            inspect.
+     *            The argument list includes one or more scope options followed by the name of the fatal error log file
+     *            to inspect.
+     * @throws IOException
+     *             if fatal error log file cannot be read.
      */
-    public static void main(String[] args) {
-
-        CommandLine cmd = null;
-
+    public static void main(String[] args) throws IOException {
         try {
-            cmd = parseOptions(args);
+            CommandLine cmd = parseOptions(args);
+            if (cmd == null || cmd.hasOption(OPTION_HELP_LONG) || cmd.hasOption(OPTION_HELP_LONG)) {
+                usage();
+            ***REMOVED*** else {
+                createReport(cmd);
+            ***REMOVED***
         ***REMOVED*** catch (ParseException pe) {
             System.out.println(pe.getMessage());
-            usage(options);
-        ***REMOVED***
-
-        if (cmd != null) {
-            if (cmd.hasOption(Constants.OPTION_HELP_LONG)) {
-                usage(options);
-            ***REMOVED*** else {
-                String logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
-                File logFile = new File(logFileName);
-                Manager manager = new Manager();
-                FatalErrorLog fel = manager.parse(logFile);
-
-                String outputFileName;
-                if (cmd.hasOption(Constants.OPTION_OUTPUT_LONG)) {
-                    outputFileName = cmd.getOptionValue(Constants.OPTION_OUTPUT_SHORT);
-                ***REMOVED*** else {
-                    outputFileName = Constants.OUTPUT_FILE_NAME;
-                ***REMOVED***
-                boolean version = cmd.hasOption(Constants.OPTION_VERSION_LONG);
-                boolean latestVersion = cmd.hasOption(Constants.OPTION_LATEST_VERSION_LONG);
-
-                createReport(fel, outputFileName, version, latestVersion, logFile.getName());
-            ***REMOVED***
+            usage();
         ***REMOVED***
     ***REMOVED***
 
-    /**
-     * Parse command line options.
-     * 
-     * @return
-     */
-    private static final CommandLine parseOptions(String[] args) throws ParseException {
-        CommandLineParser parser = new BasicParser();
-        CommandLine cmd = null;
-        // Allow user to just specify help or version.
-        if (args.length == 1 && (args[0].equals("-" + Constants.OPTION_HELP_SHORT)
-                || args[0].equals("--" + Constants.OPTION_HELP_LONG))) {
-            usage(options);
-        ***REMOVED*** else if (args.length == 1 && (args[0].equals("-" + Constants.OPTION_VERSION_SHORT)
-                || args[0].equals("--" + Constants.OPTION_VERSION_LONG))) {
-            System.out.println("Running krashpad version: " + getVersion());
-        ***REMOVED*** else if (args.length == 1 && (args[0].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
-                || args[0].equals("--" + Constants.OPTION_LATEST_VERSION_LONG))) {
-            System.out.println("Latest krashpad version/tag: " + getLatestVersion());
-        ***REMOVED*** else if (args.length == 2 && (((args[0].equals("-" + Constants.OPTION_VERSION_SHORT)
-                || args[0].equals("--" + Constants.OPTION_VERSION_LONG))
-                && (args[1].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
-                        || args[1].equals("--" + Constants.OPTION_LATEST_VERSION_LONG)))
-                || ((args[1].equals("-" + Constants.OPTION_VERSION_SHORT)
-                        || args[1].equals("--" + Constants.OPTION_VERSION_LONG))
-                        && (args[0].equals("-" + Constants.OPTION_LATEST_VERSION_SHORT)
-                                || args[0].equals("--" + Constants.OPTION_LATEST_VERSION_LONG))))) {
-            System.out.println("Running krashpad version: " + getVersion());
-            System.out.println("Latest krashpad version/tag: " + getLatestVersion());
+    public static void createReport(CommandLine cmd) throws IOException {
+        String logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
+        File logFile = new File(logFileName);
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(logFile);
+
+        String outputFileName;
+        if (cmd.hasOption(Constants.OPTION_OUTPUT_LONG)) {
+            outputFileName = cmd.getOptionValue(Constants.OPTION_OUTPUT_SHORT);
         ***REMOVED*** else {
-            cmd = parser.parse(options, args);
-            validateOptions(cmd);
+            outputFileName = Constants.OUTPUT_FILE_NAME;
         ***REMOVED***
-        return cmd;
+        boolean reportConsole = cmd.hasOption(OPTION_REPORT_CONSOLE_LONG);
+        boolean version = cmd.hasOption(Constants.OPTION_VERSION_LONG);
+        boolean latestVersion = cmd.hasOption(Constants.OPTION_LATEST_VERSION_LONG);
+        createReport(fel, reportConsole, outputFileName, version, latestVersion, logFile.getName());
     ***REMOVED***
 
     /**
      * Output usage help.
-     * 
-     * @param options
      */
-    private static void usage(Options options) {
+    private static void usage() {
         // Use the built in formatter class
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("krashpad [OPTION]... [FILE]", options);

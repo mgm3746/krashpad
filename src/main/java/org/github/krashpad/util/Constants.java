@@ -131,6 +131,16 @@ public class Constants {
     public static final String OPTION_OUTPUT_SHORT = "o";
 
     /**
+     * Report console command line long option.
+     */
+    public static final String OPTION_REPORT_CONSOLE_LONG = "console";
+
+    /**
+     * Report console command line short option.
+     */
+    public static final String OPTION_REPORT_CONSOLE_SHORT = "c";
+
+    /**
      * Threshold command line long option.
      */
     public static final String OPTION_THRESHOLD_LONG = "threshold";
