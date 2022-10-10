@@ -223,7 +223,7 @@ public class Main {
             ***REMOVED***
             List<GarbageCollector> garbageCollectors = fel.getGarbageCollectors();
             if (!garbageCollectors.isEmpty()) {
-                printWriter.write("Garbage Collector(s): ");
+                printWriter.write("Garbage Collectors: ");
                 Iterator<GarbageCollector> iteratorGarbageCollectors = garbageCollectors.iterator();
                 boolean punctuate = false;
                 while (iteratorGarbageCollectors.hasNext()) {
@@ -407,7 +407,7 @@ public class Main {
 
             if (!fel.getError().equals("")) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                printWriter.write("Error(s):" + Constants.LINE_SEPARATOR);
+                printWriter.write("Errors:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                 if (!fel.getExceptionCountsEvents().isEmpty()) {
                     Iterator<ExceptionCountsEvent> iteratorExceptionCounts = fel.getExceptionCountsEvents().iterator();
@@ -610,7 +610,7 @@ public class Main {
             List<String> unidentifiedLogLines = fel.getUnidentifiedLogLines();
             if (!unidentifiedLogLines.isEmpty()) {
                 printWriter
-                        .write(unidentifiedLogLines.size() + " UNIDENTIFIED LOG LINE(S):" + Constants.LINE_SEPARATOR);
+                        .write(unidentifiedLogLines.size() + " UNIDENTIFIED LOG LINES:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
 
                 Iterator<String> iterator = unidentifiedLogLines.iterator();

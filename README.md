@@ -166,7 +166,7 @@ MGM was here!
 ```
 
 Notes:
-  1. The report contains nine sections: (1) OS, (2) Container, (3) JVM, (4) Application, (5) Threads, (6) Error(s), (7) Stack, (8) ANALYSIS, and (9) UNIDENTIFIED LOG LINE(S).
+  1. The report contains nine sections: (1) OS, (2) Container, (3) JVM, (4) Application, (5) Threads, (6) Errors, (7) Stack, (8) ANALYSIS, and (9) UNIDENTIFIED LOG LINES.
   1. Some sections will only be displayed if relevant (e.g. *Container* if a container environment is identified).
   1. There is a limit of 1000 unidentified log lines that will be reported.
   1. Please report unidentified log lines by opening an issue: https://github.com/mgm3746/krashpad/issues. Attach the fatal error log after reviewing it and removing any sensitive information.
