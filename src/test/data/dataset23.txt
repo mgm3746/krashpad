@@ -526,3 +526,4 @@ vm_info: OpenJDK 64-Bit Server VM (25.222-b03) for linux-amd64 JRE (1.8.0_222-ea
 time: Tue Dec  1 14:30:22 2020
 timezone: KST
 elapsed time: 788 seconds (0d 0h 13m 8s)
+MGM was here!

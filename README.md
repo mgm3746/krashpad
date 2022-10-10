@@ -11,7 +11,23 @@ OpenJDK derivatives:
 * Red Hat build of OpenJDK
 * etc.
   
-***REMOVED******REMOVED*** Building
+***REMOVED******REMOVED*** Running
+
+***REMOVED******REMOVED******REMOVED*** docker/podman
+
+Fastest/easiest way to run the latest version. The image in github.io is built/updated with every commit to the `main` branch.
+
+Run the following in the directory where `hs_err_pid12345` exists:
+
+```
+$ docker run --pull=always -v "$PWD":/home/krashpad/files:z ghcr.io/mgm3746/krashpad:main -c /home/krashpad/files/hs_err_pid12345.log > hs_err_pid12345.log.pad
+```
+
+Name the analysis report after the log file with a ".pad" extension (or whatever convention you want to use).
+
+***REMOVED******REMOVED******REMOVED*** jar
+
+Check out the `main` branch and build it.
 
 Get source:
 ```
@@ -22,135 +38,44 @@ Build it:
 ```
 cd krashpad
 mvn clean (rebuilding)
-mvn assembly:assembly
+mvn package
 mvn javadoc:javadoc
+```
+
+Run it:
+```
+java -jar krashpad.jar /path/to/hs_err_pid12345
 ```
 
 ***REMOVED******REMOVED*** Usage
 
 ```
 usage: krashpad [OPTION]... [FILE]
+ -c,--console        print report to stdout instead of file
  -h,--help           help
- -l,--latest         latest version
  -o,--output <arg>   output file name (default report.txt)
- -v,--version        version
 ```
 
 Notes:
-  1. By default a report called report.txt is created in the directory where the krashpad tool is run. Specifying a custom name for the output file is useful when analyzing multiple fatal error logs.
+  1. The custom output file name option only applies when running as a jar. It is useful when analyzing multiple fatal error logs.
   1. Version information is included in the report by using the version and/or latest version options.
   
 ***REMOVED******REMOVED*** Report
-
-
-```
-hs_err_pid12345.log
-========================================
-Running krashpad version: 1.0.0
-========================================
-OS:
-----------------------------------------
-Version: Red Hat Enterprise Linux Server release 7.4 (Maipo)
-ARCH: X86_64
-CPUs (cpu x cpu cores x hyperthreading): 16
-Memory: 32174M
-Memory Free: 446M (1%)
-Swap: 16384M
-Swap Free: 13803M (84%)
-NPROC: 4096
-========================================
-Container:
-----------------------------------------
-Memory: 64276M (100%)
-Memory Free: 21449M (33%)
-Swap: 16000M (100%)
-Swap Free: 16000M (100%)
-NPROC: infinity
-========================================
-JVM:
-----------------------------------------
-Version: 1.8.0_131-b12
-Vendor: RED_HAT
-Application: JBOSS
-VM State: not at safepoint (not fully initialized)
-Crash Date: Tue Aug 18 12:34:56 2020
-Run Time: 0d 0h 0m 0s
-Garbage Collector(s): PARALLEL_SCAVENGE, PARALLEL_OLD
-Heap Max: 8044M
-Thread Stack Size: 1024K
-JVM Memory: >9068M (28% Available Memory)
-========================================
-Threads:
-----------------------------------------
-Current thread: JavaThread "Unknown thread" [_thread_in_vm, id=30608, stack(0x00007f177a33b000,0x00007f177a43c000)]
-***REMOVED*** Java threads: 0
-========================================
-Error(s):
-----------------------------------------
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Cannot create GC thread. Out of system resources.
-***REMOVED***  Out of Memory Error (gcTaskThread.cpp:48), pid=28987, tid=0x00007f1af4875740
-========================================
-Stack:
-----------------------------------------
-Stack: [0x00007fffef80c000,0x00007fffef90c000],  sp=0x00007fffef909b20,  free space=1014k
-***REMOVED***
-V  [libjvm.so+0xad33a5]  VMError::report_and_die()+0x2e5
-V  [libjvm.so+0x4e04c7]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0x67
-V  [libjvm.so+0x5c3a6f]  GCTaskThread::GCTaskThread(GCTaskManager*, unsigned int, unsigned int)+0x13f
-V  [libjvm.so+0x5c2c3d]  GCTaskManager::initialize()+0x36d
-V  [libjvm.so+0x93ad32]  ParallelScavenge***REMOVED***:initialize()+0x3a2
-V  [libjvm.so+0xa96fca]  Universe::initialize_heap()+0x16a
-V  [libjvm.so+0xa972b3]  universe_init()+0x33
-V  [libjvm.so+0x632110]  init_globals()+0x50
-...
-========================================
-ANALYSIS:
-----------------------------------------
-error
-----------------------------------------
-*It appears a thread limit is preventing the JVM from starting. Check if the max user processes (nproc) or kernal max number of threads (kernel.pid_max) is being reached. Reference: https://access.redhat.com/solutions/46410.
-----------------------------------------
-warn
-----------------------------------------
-*JDK is not the latest version. Latest version is 1.8.0_282-b08 (newer by 16 versions and 1314 days).
-----------------------------------------
-info
-----------------------------------------
-*Red Hat build of OpenJDK rpm install.
-*The JDK is very old. Has the application been running without issue in production for a long time? Has something changed recently (e.g. application upgrade, load, etc.) that might have triggered the issue?
-*Consider adding -XX:+HeapDumpOnOutOfMemoryError, a standard recommended option to generate a heap dump when the first thread throws OutOfMemoryError. It does not impact performance (until the heap is actually written out) and generally should always be used, as it provides critical information in case of a memory error.
-*GC log file rotation is not enabled. Consider enabling rotation (-XX:+UseGCLogFileRotation -XX:GCLogFileSize=N[K|M|G] -XX:NumberOfGCLogFiles=N) to protect disk space.
-*Consider adding -XX:+PrintGCDetails, a standard recommended gc logging option that outputs details needed for GC analysis (e.g. generation, metaspace, times data).
-========================================
-1 UNIDENTIFIED LOG LINE(S):
-----------------------------------------
-***REMOVED***
-========================================
-
-```
-
-Notes:
-  1. The report contains nine sections: (1) Version, (2) OS, (3) Container, (4) JVM, (5) Threads, (6) Error(s), (7) Stack, (8) Analysis, and (9) Unidentified log lines.
-  1. Some sections will only be displayed if relevant (e.g. *Version* if -v or -l options are used, *Container* if cgroups usage is identified, etc.).
-  1. There is a limit of 1000 unidentified log lines that will be reported.
-  1. Please report unidentified log lines by opening an issue: https://github.com/mgm3746/krashpad/issues. Attach the fatal error log after reviewing it and removing any sensitive information.
   
-***REMOVED******REMOVED*** Example
+The report below is based on the following fatal error log:
 
 https://github.com/mgm3746/krashpad/blob/main/src/test/data/dataset23.txt
 
 ```
-java -jar krashpad-1.0.0-SNAPSHOT.jar -v /path/to/hs_err_pid67890.log
+$ cd /path/to/krashpad/src/test/data/
+$ docker run --pull=always -v "$PWD":/home/krashpad/files:z ghcr.io/mgm3746/krashpad:main -o mgm.txt -c /home/krashpad/files/dataset23.txt > dataset23.txt.pad
 ```
 
 A file called report.txt is created in the directory where the krashpad tool is run with analysis identifying the issue:
 
 
 ```
-hs_err_pid67890.log
-========================================
-Running krashpad version: 1.0.0
+dataset23.txt
 ========================================
 OS:
 ----------------------------------------
@@ -159,34 +84,34 @@ ARCH: X86_64
 CPUs (cpu x cpu cores x hyperthreading): 6
 Memory: 25929M
 Memory Free: 1500M (6%)
+Memory Available: 18164M (70%)
 Swap: 7632M
-Swap Free: 7626M (100%)
-========================================
-Container:
-----------------------------------------
-Memory: 25929M (100%)
-Memory Free: 1500M (6%)
-Swap: 7632M (100%)
 Swap Free: 7626M (100%)
 ========================================
 JVM:
 ----------------------------------------
-Version: 1.8.0_222-ea-b03
+RPM: java-1.8.0-openjdk-1.8.0.222.b03-1.el7.x86_64
 Vendor: RED_HAT
-Application: UNKNOWN
 VM State: not at safepoint (normal execution)
-Crash Date: Tue Dec  1 14:30:22 2020 (KST)
+Crash Date: Tue Dec  1 14:30:22 2020 KST
 Run Time: 0d 0h 13m 8s
 Garbage Collector(s): PARALLEL_SCAVENGE, PARALLEL_OLD
 Heap Max: 1024M
 Heap Allocation: 972M (95% Heap Max)
-Heap Used: 513M (53% Heap Allocation)
+Heap Starting Address: 3072M
+Compressed oops mode: BIT32
 Metaspace Max: 256M
 Metaspace Allocation: 84M (33% Metaspace Max)
 Metaspace Used: 77M (92% Metaspace Allocation)
 Thread Stack Size: 1024K
 Thread Stack Memory: 136M
-JVM Memory: >2440M (9% Available Memory)
+Code Cache Max: 420M
+JVM Memory Max: >1836M (7% OS Memory)
+========================================
+Application:
+----------------------------------------
+ID: UNKNOWN
+JVM Args: -Dcall_P203 -Xms1024m -Xmx1024m -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -Xloggc:/path/to/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/  -XX:+UnlockDiagnosticVMOptions -XX:+LogVMOutput -XX:LogFile=/path/to/jvm.log 
 ========================================
 Threads:
 ----------------------------------------
@@ -220,21 +145,32 @@ error
 ----------------------------------------
 warn
 ----------------------------------------
-*JDK is not the latest version. Latest version is 1.8.0_282-b08 (newer by 7 versions and 606 days).
-*If this is a container environment, it is recommended to disable the writing of performance data to disk (/tmp/hsperfdata*) with -XX:+PerfDisableSharedMem. Disk IOPS (Input/output Operations Per Second) is shared among containers. Eliminating disk access will prevent one workload monopolizing disk from impacting all containers.
+*JDK is not the latest version. Latest version is 1.8.0_345-b01 (newer by 14 versions and 1169 days).
+*The fatal error log is very old (>30 days).
 *MaxMetaspaceSize is less than CompressedClassSpaceSize. MaxMetaspaceSize includes CompressedClassSpaceSize, so MaxMetaspaceSize should be larger than CompressedClassSpaceSize. If MaxMetaspaceSize is set smaller than CompressedClassSpaceSize, the JVM auto adjusts CompressedClassSpaceSize as follows: CompressedClassSpaceSize = MaxMetaspaceSize - (2 * InitialBootClassLoaderMetaspaceSize).
+*The gc log file has a static name and will be overwritten on JVM startup. Enable log file rotation and/or include process id or datestamp in the file name (e.g. -Xloggc:gc_%p_%t.log).
 ----------------------------------------
 info
 ----------------------------------------
 *Red Hat build of OpenJDK rpm install.
-*The JDK is very old. Has the application been running without issue in production for a long time? Has something changed recently (e.g. application upgrade, load, etc.) that might have triggered the issue?
-*The JVM is running in a cgroup environment. This can be an indication the JVM is running in a container environment.
-*Initial and/or max metaspace size is being set. This is generally not recommended. Reference: https://access.redhat.com/solutions/1489263.
+*The JDK is very old (>1 yr). Has the application been running without issue in production for a long time? Has something changed recently (e.g. application upgrade, load, etc.) that might have triggered the issue?
+*Initial and/or max metaspace size is set. This is generally not recommended. Reference: https://access.redhat.com/solutions/1489263.
+*Metaspace includes class metadata plus compressed class space.
 *The -XX:+PrintHeapAtGC option is causing additional heap information to be output in the gc log. The additional data is not typically used for gc analysis. If there is not a good use case for enabling this option, remove it to reduce gc logging overhead.
-*Diagnostic JVM options are enabled with -XX:+UnlockDiagnosticVMOptions. Diagnostic options add additional overhead and are intended for troubleshooting issues, not general production use. Remove diagnostic options after completing troubleshooting: (1) safepoint statistics -XX:+PrintSafepointStatistics -XX:PrintSafepointStatisticsCount=1, (2) logging vm output -XX:+LogVMOutput, (3) -XX:+UnsyncloadClass).
-*GC log file rotation is not enabled. Consider enabling rotation (-XX:+UseGCLogFileRotation -XX:GCLogFileSize=N[K|M|G] -XX:NumberOfGCLogFiles=N) to protect disk space.
+*Diagnostic JVM options are enabled with -XX:+UnlockDiagnosticVMOptions. Diagnostic options add additional overhead and are intended for troubleshooting issues, not general production use.
+*Consider enabling gc log file rotation with GC log file rotation (-XX:+UseGCLogFileRotation -XX:GCLogFileSize=N[K|M|G] -XX:NumberOfGCLogFiles=N) to protect disk space.
+========================================
+1 UNIDENTIFIED LOG LINE(S):
+----------------------------------------
+MGM was here!
 ========================================
 ```
+
+Notes:
+  1. The report contains nine sections: (1) OS, (2) Container, (3) JVM, (4) Application, (5) Threads, (6) Error(s), (7) Stack, (8) ANALYSIS, and (9) UNIDENTIFIED LOG LINE(S).
+  1. Some sections will only be displayed if relevant (e.g. *Container* if a container environment is identified).
+  1. There is a limit of 1000 unidentified log lines that will be reported.
+  1. Please report unidentified log lines by opening an issue: https://github.com/mgm3746/krashpad/issues. Attach the fatal error log after reviewing it and removing any sensitive information.
   
 ***REMOVED******REMOVED*** Copyright
 

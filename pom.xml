@@ -6,7 +6,7 @@
 	<groupId>krashpad</groupId>
 	<artifactId>krashpad</artifactId>
 	<name>krashpad</name>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>LATEST</version>
 	<description>Java fatal error log analyzer tool.</description>
 	<url>https://github.com/mgm3746/krashpad</url>
 	<developers>
@@ -111,17 +111,6 @@
 			<artifactId>commons-cli</artifactId>
 			<version>1.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.13</version>
-		</dependency>
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20170516</version>
-		</dependency>
-
 	</dependencies>
 	<reporting>
 		<plugins>

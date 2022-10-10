@@ -35,14 +35,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.StackEvent;
@@ -53,7 +45,6 @@ import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.JdkMath;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
-import org.json.JSONObject;
 
 /**
  * <p>
@@ -77,9 +68,6 @@ public class Main {
         // Declare command line options
         options = new Options();
         options.addOption(Constants.OPTION_HELP_SHORT, Constants.OPTION_HELP_LONG, false, "help");
-        options.addOption(Constants.OPTION_VERSION_SHORT, Constants.OPTION_VERSION_LONG, false, "version");
-        options.addOption(Constants.OPTION_LATEST_VERSION_SHORT, Constants.OPTION_LATEST_VERSION_LONG, false,
-                "latest version");
         options.addOption(Constants.OPTION_OUTPUT_SHORT, Constants.OPTION_OUTPUT_LONG, true,
                 "output file name (default " + Constants.OUTPUT_FILE_NAME + ")");
     ***REMOVED***
@@ -132,19 +120,6 @@ public class Main {
             ***REMOVED***
 
             printWriter.write(logFileName + Constants.LINE_SEPARATOR);
-
-            if (version || latestVersion) {
-                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-                if (version) {
-                    printWriter
-                            .write("Running krashpad version: " + getVersion() + System.getProperty("line.separator"));
-                ***REMOVED***
-                if (latestVersion) {
-                    printWriter.write("Latest krashpad version/tag: " + getLatestVersion()
-                            + System.getProperty("line.separator"));
-                ***REMOVED***
-            ***REMOVED***
-
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("OS:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
@@ -677,33 +652,6 @@ public class Main {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-    ***REMOVED***
-
-    /**
-     * @return version string.
-     */
-    private static String getLatestVersion() {
-        String url = "https://github.com/mgm3746/krashpad/releases/latest";
-        String name = null;
-        try {
-            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-            httpClient = HttpClients.custom()
-                    .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
-                    .build();
-            HttpGet request = new HttpGet(url);
-            request.addHeader("Accept", "application/json");
-            request.addHeader("content-type", "application/json");
-            HttpResponse result = httpClient.execute(request);
-            String json = EntityUtils.toString(result.getEntity(), "UTF-8");
-            JSONObject jsonObj = new JSONObject(json);
-            name = jsonObj.getString("tag_name");
-        ***REMOVED***
-
-        catch (Exception ex) {
-            name = "Unable to retrieve";
-            ex.printStackTrace();
-        ***REMOVED***
-        return name;
     ***REMOVED***
 
     /**
