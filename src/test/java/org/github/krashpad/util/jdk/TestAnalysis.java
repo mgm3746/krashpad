@@ -46,6 +46,7 @@ import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.ErrUtil;
+import org.github.krashpad.util.Constants.OsVersion;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
 import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
@@ -2804,6 +2805,23 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testRhel9OpenJdk8() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.345-b01) for linux-amd64 JRE (1.8.0_345-b01), built on "
+                + "Aug  4 2022 05:08:02 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
+        fel.setVmInfoEvent(vmEvent);
+        String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        fel.doAnalysis();
+        assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
+        assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL9_JDK8),
+                Analysis.ERROR_RHEL9_JDK8 + " analysis not identified.");
     ***REMOVED***
 
     @Test

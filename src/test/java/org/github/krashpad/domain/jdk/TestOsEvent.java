@@ -168,6 +168,14 @@ class TestOsEvent {
     ***REMOVED***
 
     @Test
+    void testRhel9() {
+        String logLine = "OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
+                JdkUtil.LogEventType.OS.toString() + " not identified.");
+
+    ***REMOVED***
+
+    @Test
     void testSupportUrl() {
         String logLine = "SUPPORT_URL=\"https://www.debian.org/support\"";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
@@ -191,7 +199,7 @@ class TestOsEvent {
 
     @Test
     void testVersionCodeName() {
-        String logLine = "VERSION_CODENAME=buster";
+        String logLine = "Red Hat Enterprise Linux release 9.0 (Plow)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
                 JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
@@ -209,7 +217,7 @@ class TestOsEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
                 JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
-
+    
     @Test
     void testWindows() {
         String logLine = "OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)";

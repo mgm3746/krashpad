@@ -336,6 +336,11 @@ public enum Analysis {
     ERROR_RHEL_JDK_RPM_MISMATCH("error.rhel.jdk.rpm.mismatch"),
 
     /**
+     * Property key RHEL9 + JDK8.
+     */
+    ERROR_RHEL9_JDK8("error.rhel9.jdk8"),
+
+    /**
      * Property key for stack free space greater than stack size.
      */
     ERROR_STACK_FREESPACE_GT_STACK_SIZE("error.stack.freespace.gt.stack.size"),

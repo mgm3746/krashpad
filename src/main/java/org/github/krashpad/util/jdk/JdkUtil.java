@@ -395,11 +395,6 @@ public class JdkUtil {
     public static final HashMap<String, Release> JDK8_RHEL8_X86_64_RPMS;
 
     /**
-     * OpenJDK8 RHEL9 amd64 rpm release information.
-     */
-    public static final HashMap<String, Release> JDK8_RHEL9_X86_64_RPMS;
-
-    /**
      * OpenJDK8 Windows release information.
      */
     public static final HashMap<String, Release> JDK8_WINDOWS_ZIPS;
@@ -868,18 +863,6 @@ public class JdkUtil {
                 new Release("May 2 2019 00:00:00", 2, "1.8.0_212-b04"));
         JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.201.b09-2.el8.x86_64",
                 new Release("Feb 7 2019 00:00:00", 1, "1.8.0_201-b09"));
-
-        // RHEL9 amd64 OpenJDK8 rpm
-        JDK8_RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        JDK8_RHEL9_X86_64_RPMS.put("LATEST", new Release("Aug 4 2022 00:00:00", 3, "1.8.0_345-b01"));
-        JDK8_RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.345.b01-2.el9.x86_64",
-                new Release("Aug 4 2022 00:00:00", 3, "1.8.0_345-b01"));
-        JDK8_RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.345.b01-1.el9_0.x86_64",
-                new Release("Aug 4 2022 00:00:00", 3, "1.8.0_345-b01"));
-        JDK8_RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.342.b07-1.el9_0.x86_64",
-                new Release("Jul 19 2022 00:00:00", 2, "1.8.0_342-b07"));
-        JDK8_RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.332.b09-1.el9_0.x86_64",
-                new Release("Apr 28 2022 00:00:00", 1, "1.8.0_332-b09"));
 
         // RHEL amd64 OpenJDK8 zip
         JDK8_RHEL_ZIPS = new HashMap<String, Release>();
