@@ -56,6 +56,11 @@ public enum Analysis {
     ERROR_COMPILER_THREAD_C2_MININODE_IDEAL("error.compiler.thread.c2.mininode.ideal"),
 
     /**
+     * Property key for a crash in a 3rd party or unknown library.
+     */
+    ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN("error.crash.native.library.unknown"),
+
+    /**
      * Property key for a crash due to "java.lang.OutOfMemoryError: Java heap space" in combination with
      * -XX:+CrashOnOutOfMemoryError.
      */

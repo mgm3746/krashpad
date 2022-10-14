@@ -1111,6 +1111,19 @@ public class FatalErrorLog {
         if (getOsVersion() == OsVersion.RHEL9 && getJavaSpecification() == JavaSpecification.JDK8) {
             analysis.add(Analysis.ERROR_RHEL9_JDK8);
         ***REMOVED***
+        // Crash in 3rd party or unknown library
+        if (getNativeLibraryInCrash() != null) {
+            if (!getUnknownNativeLibraries().isEmpty()) {
+                Iterator<String> iterator = getUnknownNativeLibraries().iterator();
+                while (iterator.hasNext()) {
+                    String unknownNativeLibary = iterator.next();
+                    if (unknownNativeLibary.contains(getNativeLibraryInCrash())) {
+                        analysis.add(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN);
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -2881,6 +2894,21 @@ public class FatalErrorLog {
             stackIndex++;
         ***REMOVED***
         return nextStackFrame;
+    ***REMOVED***
+
+    /**
+     * @return The native library the crash is happening in, or null if the crash does not happen in a native library.
+     */
+    public String getNativeLibraryInCrash() {
+        String nativeLibraryInCrash = null;
+        if (getStackFrameTop() != null) {
+            Pattern pattern = Pattern.compile("^C[ ]{1,2***REMOVED***\\[(.+\\.(so|dll)).*\\]$");
+            Matcher matcher = pattern.matcher(getStackFrameTop());
+            if (matcher.find()) {
+                nativeLibraryInCrash = matcher.group(1);
+            ***REMOVED***
+        ***REMOVED***
+        return nativeLibraryInCrash;
     ***REMOVED***
 
     public List<OsEvent> getOsEvents() {

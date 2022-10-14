@@ -217,7 +217,7 @@ class TestOsEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS,
                 JdkUtil.LogEventType.OS.toString() + " not identified.");
     ***REMOVED***
-    
+
     @Test
     void testWindows() {
         String logLine = "OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)";

@@ -482,9 +482,12 @@ public class Main {
                         printWriter.write(fel.getJvmOptions().getHeapDumpPath());
                         printWriter.write(".");
                     ***REMOVED***
+                    if (a.equals(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN)) {
+                        printWriter.write(fel.getNativeLibraryInCrash());
+                        printWriter.write(".");
+                    ***REMOVED***
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
-
                 if (fel.getJvmOptions() != null && fel.getJvmOptions().getDuplicates() != null) {
                     if (printHeader) {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
@@ -609,8 +612,7 @@ public class Main {
             // Unidentified log lines
             List<String> unidentifiedLogLines = fel.getUnidentifiedLogLines();
             if (!unidentifiedLogLines.isEmpty()) {
-                printWriter
-                        .write(unidentifiedLogLines.size() + " UNIDENTIFIED LOG LINES:" + Constants.LINE_SEPARATOR);
+                printWriter.write(unidentifiedLogLines.size() + " UNIDENTIFIED LOG LINES:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
 
                 Iterator<String> iterator = unidentifiedLogLines.iterator();

@@ -143,10 +143,12 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libawt.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libawt_headless.so");
-        // java-(1.8.0|11|17)-openjdk-headless
-        NATIVE_LIBRARIES_LINUX_JAVA.add("libfontmanager.so");
         // java-(11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libextnet.so");
+        // java-(1.8.0|11|17)-openjdk-headless
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libfontmanager.so");
+        // java-(1.8.0|11|17)-openjdk-headless
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libj2pkcs11.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjava.so");
         // java-(1.8.0|11|17)-openjdk-headless

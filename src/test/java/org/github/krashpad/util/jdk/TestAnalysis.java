@@ -45,8 +45,8 @@ import org.github.krashpad.domain.jdk.VmInfoEvent;
 import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
-import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.Constants.OsVersion;
+import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
 import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
@@ -709,6 +709,21 @@ class TestAnalysis {
                 Analysis.INFO_MEMORY_JVM_NE_SYSTEM + " analysis not identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_CGROUP_MEMORY_LIMIT),
                 Analysis.INFO_CGROUP_MEMORY_LIMIT + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCrash3rdPartyLibrary() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "C  [my-library_123.so+0x22c30d]";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String dynamicLibrary = "7f4d6fd25000-7f4d70359000 r-xp 00000000 fd:04 402192                     "
+                + "/path/to/my-library_123.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN),
+                Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN + " analysis not identified.");
     ***REMOVED***
 
     @Test
