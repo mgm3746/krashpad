@@ -921,10 +921,11 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for G1ParScanThreadState::copy_to_survivor_space
-        if (getJavaSpecification() == JavaSpecification.JDK8 && getStackFrameTop() != null
+        if (getStackFrameTop() != null
                 && getStackFrameTop().matches("^V.+G1ParScanThreadState::copy_to_survivor_space.+$")) {
             analysis.add(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE);
-
+            // Don't double report
+            analysis.remove(Analysis.ERROR_LIBJVM_SO);
         ***REMOVED***
         // Check if JVM user ne USERNAME
         if (getJvmUser() != null && getUsername() != null && !getJvmUser().equals(getUsername())) {

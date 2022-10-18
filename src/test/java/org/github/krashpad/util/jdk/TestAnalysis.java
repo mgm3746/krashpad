@@ -1144,6 +1144,8 @@ class TestAnalysis {
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE),
                 Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+                Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
