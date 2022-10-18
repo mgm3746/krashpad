@@ -355,9 +355,18 @@ public class FatalErrorLog {
             analysis.add(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT);
         ***REMOVED***
         // Check for ancient JDK
-        if (ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this), JdkUtil.getLatestJdkReleaseDate(this)) > 365
-                || ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this), new Date()) > 365) {
-            analysis.add(Analysis.INFO_JDK_ANCIENT);
+        Date releaseDate = JdkUtil.getJdkReleaseDate(this);
+        if (releaseDate == null) {
+            Release approximateRelease = getFirstRelease(getJdkReleaseString());
+            if (approximateRelease != null) {
+                releaseDate = approximateRelease.getBuildDate();
+            ***REMOVED***
+        ***REMOVED***
+        if (releaseDate != null) {
+            if (ErrUtil.dayDiff(releaseDate, JdkUtil.getLatestJdkReleaseDate(this)) > 365
+                    || ErrUtil.dayDiff(releaseDate, new Date()) > 365) {
+                analysis.add(Analysis.INFO_JDK_ANCIENT);
+            ***REMOVED***
         ***REMOVED***
         // Check for unknown JDK version
         if (getJavaSpecification() == JavaSpecification.UNKNOWN) {
@@ -1746,6 +1755,57 @@ public class FatalErrorLog {
         return exceptionCountsEvents;
     ***REMOVED***
 
+    /**
+     * @return The first release that matches a Red Hat build string, or null if none found. Used to get a an
+     *         approximate release (e.g. to determine approximate JDK age).
+     */
+    public Release getFirstRelease(String releaseString) {
+        Release firstRelease = null;
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK8_RHEL6_X86_64_RPMS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK8_RHEL7_X86_64_RPMS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK8_RHEL8_X86_64_RPMS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK8_RHEL_ZIPS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK8_WINDOWS_ZIPS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK11_RHEL7_X86_64_RPMS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK11_RHEL8_X86_64_RPMS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK11_RHEL9_X86_64_RPMS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK11_RHEL_ZIPS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK11_WINDOWS_ZIPS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK17_RHEL8_X86_64_RPMS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK17_RHEL9_X86_64_RPMS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK17_RHEL_ZIPS);
+        ***REMOVED***
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK17_WINDOWS_ZIPS);
+        ***REMOVED***
+        return firstRelease;
+    ***REMOVED***
+
     public List<GarbageCollector> getGarbageCollectors() {
         // Check heap events
         List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
@@ -2872,6 +2932,21 @@ public class FatalErrorLog {
         return nativeLibraries;
     ***REMOVED***
 
+    /**
+     * @return The native library the crash is happening in, or null if the crash does not happen in a native library.
+     */
+    public String getNativeLibraryInCrash() {
+        String nativeLibraryInCrash = null;
+        if (getStackFrameTop() != null) {
+            Pattern pattern = Pattern.compile("^C[ ]{1,2***REMOVED***\\[(.+\\.(so|dll)).*\\]$");
+            Matcher matcher = pattern.matcher(getStackFrameTop());
+            if (matcher.find()) {
+                nativeLibraryInCrash = matcher.group(1);
+            ***REMOVED***
+        ***REMOVED***
+        return nativeLibraryInCrash;
+    ***REMOVED***
+
     public List<NativeMemoryTrackingEvent> getNativeMemoryTrackingEvents() {
         return nativeMemoryTrackingEvents;
     ***REMOVED***
@@ -2895,21 +2970,6 @@ public class FatalErrorLog {
             stackIndex++;
         ***REMOVED***
         return nextStackFrame;
-    ***REMOVED***
-
-    /**
-     * @return The native library the crash is happening in, or null if the crash does not happen in a native library.
-     */
-    public String getNativeLibraryInCrash() {
-        String nativeLibraryInCrash = null;
-        if (getStackFrameTop() != null) {
-            Pattern pattern = Pattern.compile("^C[ ]{1,2***REMOVED***\\[(.+\\.(so|dll)).*\\]$");
-            Matcher matcher = pattern.matcher(getStackFrameTop());
-            if (matcher.find()) {
-                nativeLibraryInCrash = matcher.group(1);
-            ***REMOVED***
-        ***REMOVED***
-        return nativeLibraryInCrash;
     ***REMOVED***
 
     public List<OsEvent> getOsEvents() {
@@ -3927,13 +3987,13 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @param error
-     *            The string to search for.
+     * @param errorRegEx
+     *            The error regex to search for.
      * @return True if the crash error contains the string, false otherwise.
      */
-    public boolean isError(String error) {
+    public boolean isError(String errorRegEx) {
         boolean isError = false;
-        Pattern pattern = Pattern.compile(error);
+        Pattern pattern = Pattern.compile(errorRegEx);
         Matcher matcher = pattern.matcher(getError());
         if (matcher.find()) {
             isError = true;
@@ -4894,97 +4954,5 @@ public class FatalErrorLog {
 
     public void setVmStateEvent(VmStateEvent vmStateEvent) {
         this.vmStateEvent = vmStateEvent;
-    ***REMOVED***
-
-    /**
-     * @return The max compressed class size reserved in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long th() {
-        // 1) Determine if compressed pointers are being used.
-        boolean usingCompressedPointers = true;
-
-        // 2) Default is to use compressed pointers based on heap size
-        BigDecimal thirtyTwoGigabytes = new BigDecimal("32").multiply(Constants.GIGABYTE);
-        long heapMaxSize = getHeapMaxSize();
-        if (heapMaxSize >= thirtyTwoGigabytes.longValue()) {
-            usingCompressedPointers = false;
-        ***REMOVED***
-
-        // 3) Check if the default behavior is being overridden
-        if (jvmOptions != null) {
-            if (JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())) {
-                usingCompressedPointers = false;
-            ***REMOVED*** else {
-                if (JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
-                    usingCompressedPointers = false;
-                ***REMOVED*** else {
-                    usingCompressedPointers = true;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED*** else if (!globalFlagsEvents.isEmpty()) {
-            Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
-            boolean useCompressedOops = true;
-            boolean useCompressedClassPointers = true;
-            while (iterator.hasNext()) {
-                GlobalFlagsEvent event = iterator.next();
-                String regExCompressedOopsDisabled = "^.+bool UseCompressedOops[ ]{1,***REMOVED***= false.+$";
-                String regExCompressedClassPointersDisabled = "^.+bool UseCompressedClassPointers[ ]{1,***REMOVED***= false.+$";
-                if (event.getLogEntry().matches(regExCompressedOopsDisabled)) {
-                    useCompressedOops = false;
-                ***REMOVED*** else if (event.getLogEntry().matches(regExCompressedClassPointersDisabled)) {
-                    useCompressedClassPointers = false;
-                ***REMOVED***
-            ***REMOVED***
-            if (!useCompressedOops) {
-                usingCompressedPointers = false;
-            ***REMOVED*** else {
-                if (!useCompressedClassPointers) {
-                    usingCompressedPointers = false;
-                ***REMOVED*** else {
-                    usingCompressedPointers = true;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-
-        long compressedClassSpaceSize = 0;
-
-        if (usingCompressedPointers) {
-            // Default is 1g
-            compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.PRECISION_REPORTING);
-            // 1st check [Global flags]
-            if (!globalFlagsEvents.isEmpty()) {
-                Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
-                while (iterator.hasNext()) {
-                    GlobalFlagsEvent event = iterator.next();
-                    String regExCompressedClassSpaceSize = "^.+uintx CompressedClassSpaceSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
-                    Pattern pattern = Pattern.compile(regExCompressedClassSpaceSize);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        compressedClassSpaceSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                                Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED*** else if (jvmOptions != null) {
-                if (JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())
-                        || JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
-                    compressedClassSpaceSize = 0;
-                ***REMOVED*** else if (jvmOptions.getCompressedClassSpaceSize() != null) {
-                    char fromUnits;
-                    long value;
-                    Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-                    Matcher matcher = pattern.matcher(jvmOptions.getCompressedClassSpaceSize());
-                    if (matcher.find()) {
-                        value = Long.parseLong(matcher.group(2));
-                        if (matcher.group(3) != null) {
-                            fromUnits = matcher.group(3).charAt(0);
-                        ***REMOVED*** else {
-                            fromUnits = 'B';
-                        ***REMOVED***
-                        compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return compressedClassSpaceSize;
     ***REMOVED***
 ***REMOVED***

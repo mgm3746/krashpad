@@ -16,6 +16,7 @@ package org.github.krashpad.domain.jdk;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -257,6 +258,24 @@ class TestFatalErrorLog {
         assertEquals(65530, fel.getMaxMapCount(), "max_map_count not correct.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_THREAD_DUMP),
                 Analysis.INFO_VM_OPERATION_THREAD_DUMP + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testGetRhReleaseFromBuildString() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String headerLine1 = "***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)";
+        HeaderEvent headerEvent1 = new HeaderEvent(headerLine1);
+        fel.getHeaderEvents().add(headerEvent1);
+        String headerLine2 = "***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.191-bl2 mixed mode linux-amdé4 compressed oops)";
+        HeaderEvent headerEvent2 = new HeaderEvent(headerLine2);
+        fel.getHeaderEvents().add(headerEvent2);
+        assertEquals("1.8.0_191-b12", fel.getJdkReleaseString(), "JDK release string not correct.");
+        fel.doAnalysis();
+        Release release = fel.getFirstRelease(fel.getJdkReleaseString());
+        assertNotNull(release, "Red Hat release not identified.");
+        assertEquals(ErrUtil.getDate("Oct 09 2018 00:00:00"), release.getBuildDate(), "Build date not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JDK_ANCIENT),
+                Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
     ***REMOVED***
 
     @Test

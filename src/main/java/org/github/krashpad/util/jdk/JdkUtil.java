@@ -1317,6 +1317,28 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
+     * @param jdkReleaseString
+     *            The JDK release string. For example: "11.0.15+10-LTS".
+     * @param releases
+     *            The JDK releases for a given OS and distribution method (e.g. zip, rpm).
+     * @return The first release that matches the build string, or null if none found.
+     */
+    public static final Release getFirstReleaseFromReleases(String jdkReleaseString,
+            HashMap<String, Release> releases) {
+        Release firstRelease = null;
+        Iterator<Entry<String, Release>> i = releases.entrySet().iterator();
+        while (i.hasNext()) {
+            Entry<String, Release> entry = i.next();
+            Release release = entry.getValue();
+            if (release.getVersion().equals(jdkReleaseString)) {
+                firstRelease = release;
+                break;
+            ***REMOVED***
+        ***REMOVED***
+        return firstRelease;
+    ***REMOVED***
+
+    /**
      * @param version
      *            The JDK version.
      * @return The Java specification as a release number that can be used for comparing release order.
@@ -1392,6 +1414,9 @@ public class JdkUtil {
                     release = releases.get(fatalErrorLog.getRpmDirectory());
                 ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
                     release = releases.get(fatalErrorLog.getJdkReleaseString());
+                ***REMOVED*** else if (fatalErrorLog.isRhVersion()) {
+                    // Approximate release
+                    release = fatalErrorLog.getFirstRelease(fatalErrorLog.getJdkReleaseString());
                 ***REMOVED***
                 if (release != null) {
                     date = release.getBuildDate();
