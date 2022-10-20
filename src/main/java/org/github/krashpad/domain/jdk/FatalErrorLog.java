@@ -1758,6 +1758,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @param releaseString
+     *            The JDK release string (e.g. 17.0.4.1+1-LTS).
      * @return The first release that matches a Red Hat build string, or null if none found. Used to get a an
      *         approximate release (e.g. to determine approximate JDK age).
      */
