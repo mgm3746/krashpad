@@ -19,7 +19,7 @@ RUN apt-get update && \
 RUN groupadd -g 30001 krashpad && \
   useradd --no-log-init -m -d /home/krashpad -u 30001 -g 30001 krashpad
 
-COPY --from=build /usr/src/app/target/krashpad-SNAPSHOT.jar /home/krashpad/krashpad.jar
+COPY --from=build /usr/src/app/target/krashpad-2.0.0-SNAPSHOT.jar /home/krashpad/krashpad.jar
 
 ***REMOVED*** Run everything as krashpad
 USER krashpad
