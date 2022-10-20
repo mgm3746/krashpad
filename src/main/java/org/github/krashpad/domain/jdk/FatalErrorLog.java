@@ -320,10 +320,6 @@ public class FatalErrorLog {
      * Do analysis.
      */
     public void doAnalysis() {
-        // Unidentified logging lines
-        if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) >= 8 && !getUnidentifiedLogLines().isEmpty()) {
-            analysis.add(0, Analysis.WARN_UNIDENTIFIED_LOG_LINE);
-        ***REMOVED***
         String jvmArgs = getJvmArgs();
         if (jvmArgs != null) {
             jvmOptions = new JvmOptions(jvmArgs);
@@ -331,6 +327,10 @@ public class FatalErrorLog {
         doDataAnalysis();
         if (jvmOptions != null) {
             jvmOptions.doAnalysis(analysis, getJavaSpecification());
+        ***REMOVED***
+        // Unidentified logging lines
+        if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) >= 8 && !getUnidentifiedLogLines().isEmpty()) {
+            analysis.add(0, Analysis.WARN_UNIDENTIFIED_LOG_LINE);
         ***REMOVED***
     ***REMOVED***
 
@@ -1023,7 +1023,9 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // iText
-        if (!dynamicLibraryEvents.isEmpty()) {
+        if (isInStack("com\\.itextpdf\\.text")) {
+            analysis.add(0, Analysis.WARN_ITEXT);
+        ***REMOVED*** else if (!dynamicLibraryEvents.isEmpty()) {
             Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
             while (iterator.hasNext()) {
                 DynamicLibraryEvent event = iterator.next();
@@ -1099,7 +1101,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_DYNATRACE);
         ***REMOVED*** else if (isInStack(JdkRegEx.NATIVE_LIBRARY_DYNATRACE)) {
             // Dynatrace in stack
-            analysis.add(Analysis.WARN_DYNATRACE);
+            analysis.add(0, Analysis.WARN_DYNATRACE);
         ***REMOVED*** else if (!getUnknownNativeLibraries().isEmpty()) {
             // Dynatrace detected
             Iterator<String> iterator = getUnknownNativeLibraries().iterator();

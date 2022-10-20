@@ -1008,6 +1008,11 @@ public enum Analysis {
     WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP("warn.heap.plus.metaspace.gt.physical.memory.swap"),
 
     /**
+     * Property key for iText code in stack.
+     */
+    WARN_ITEXT("warn.itext"),
+
+    /**
      * Property key for a JDK that is not the latest JDK release.
      */
     WARN_JDK_NOT_LATEST("warn.jdk.not.latest"),

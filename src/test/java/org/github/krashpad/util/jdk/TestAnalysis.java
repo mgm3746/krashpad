@@ -1376,6 +1376,18 @@ class TestAnalysis {
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_ITEXT), Analysis.INFO_ITEXT + " analysis not identified.");
+        String stack1 = "v  ~BufferBlob::StubRoutines (2)";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String stack2 = "J 42480 C2 com.itextpdf.text.pdf.RandomAccessFileOrArray.readFully([B)V (9 bytes) @ "
+                + "0x00007f8d2057c449 [0x00007f8d2057c2c0+0x189]";
+        StackEvent stackEvent2 = new StackEvent(stack2);
+        fel.getStackEvents().add(stackEvent2);
+        fel.getAnalysis().clear();
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_ITEXT), Analysis.WARN_ITEXT + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_ITEXT),
+                Analysis.INFO_ITEXT + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
