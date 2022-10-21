@@ -311,6 +311,17 @@ public enum Analysis {
     ERROR_OOME_TOMCAT_SHUTDOWN("error.oome.tomcat.shutdown"),
 
     /**
+     * Property key for the JVM ignoring the JVM option to use the G1 collector and using the parallel collector
+     * instead.
+     */
+    ERROR_OPT_G1_IGNORED_PARALLEL("error.opt.g1.ignored.parallel"),
+
+    /**
+     * Property key for the JVM ignoring the JVM option(s) GC collector(s) and using a different collector instead.
+     */
+    ERROR_OPT_GC_IGNORED("error.opt.gc.ignored"),
+
+    /**
      * Property key for limiting a multi-thread garbage collector to a single thread with -XX:ParallelGCThreads=1.
      */
     ERROR_OPT_PARALLEL_GC_THREADS_1("error.opt.parallel.gc.threads.1"),

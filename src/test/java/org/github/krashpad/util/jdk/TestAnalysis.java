@@ -1081,6 +1081,8 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_JVM + " analysis not identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP),
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+                Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -1161,6 +1163,34 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT),
                 Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testGarbageCollectorsJvmOptionsMismatch() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UseG1GC";
+        VmArgumentsEvent vmArgumentEvent = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(vmArgumentEvent);
+        // Test a combination not yet seen
+        HeapEvent heapEvent1 = new HeapEvent("Shenandoah Heap");
+        fel.getHeapEvents().add(heapEvent1);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OPT_GC_IGNORED),
+                Analysis.ERROR_OPT_GC_IGNORED + " analysis not identified.");
+        // Test real world
+        fel.getAnalysis().clear();
+        fel.getHeapEvents().clear();
+        HeapEvent heapEvent2 = new HeapEvent(
+                " PSYoungGen      total 611840K, used 524800K [0x00000000d5580000, 0x0000000100000000, "
+                        + "0x0000000100000000)");
+        fel.getHeapEvents().add(heapEvent2);
+        HeapEvent heapEvent3 = new HeapEvent(
+                " ParOldGen       total 1398272K, used 16K [0x0000000080000000, 0x00000000d5580000, "
+                        + "0x00000000d5580000)");
+        fel.getHeapEvents().add(heapEvent3);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OPT_G1_IGNORED_PARALLEL),
+                Analysis.ERROR_OPT_G1_IGNORED_PARALLEL + " analysis not identified.");
     ***REMOVED***
 
     @Test

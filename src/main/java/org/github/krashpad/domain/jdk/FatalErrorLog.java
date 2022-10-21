@@ -1136,6 +1136,18 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        // Check if JVM ignores collector(s) specified by JVM options
+        if (getGarbageCollectorsFromHeapEvents().size() > 0 && getGarbageCollectorsFromJvmOptions().size() > 0) {
+            if (!getGarbageCollectorsFromJvmOptions().equals(getGarbageCollectorsFromHeapEvents())) {
+                if (getGarbageCollectorsFromJvmOptions().contains(GarbageCollector.G1)
+                        && (getGarbageCollectorsFromHeapEvents().contains(GarbageCollector.PARALLEL_SCAVENGE)
+                                || getGarbageCollectorsFromHeapEvents().contains(GarbageCollector.PARALLEL_OLD))) {
+                    analysis.add(Analysis.ERROR_OPT_G1_IGNORED_PARALLEL);
+                ***REMOVED*** else {
+                    analysis.add(Analysis.ERROR_OPT_GC_IGNORED);
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -1811,7 +1823,44 @@ public class FatalErrorLog {
     ***REMOVED***
 
     public List<GarbageCollector> getGarbageCollectors() {
-        // Check heap events
+        if (getGarbageCollectorsFromHeapEvents().size() > 0) {
+            return getGarbageCollectorsFromHeapEvents();
+        ***REMOVED*** else if (getGarbageCollectorsFromJvmOptions().size() > 0) {
+            return getGarbageCollectorsFromJvmOptions();
+        ***REMOVED*** else {
+            return new ArrayList<GarbageCollector>();
+        ***REMOVED***
+    ***REMOVED***
+
+    /**
+     * @return The list of garbage collectors as determined by inspecting the <code>JvmOptions</code>.
+     */
+    public List<GarbageCollector> getGarbageCollectorsFromJvmOptions() {
+        List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
+        // Check JVM options if no heap events
+        if (jvmOptions != null && !jvmOptions.getGarbageCollectors().isEmpty()) {
+            garbageCollectors.addAll(jvmOptions.getGarbageCollectors());
+        ***REMOVED***
+        // Assign JDK defaults JVM collector options
+        if (garbageCollectors.isEmpty()) {
+            if (getJavaSpecification() == JavaSpecification.JDK11
+                    || getJavaSpecification() == JavaSpecification.JDK17) {
+                garbageCollectors.add(GarbageCollector.G1);
+            ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK8) {
+                garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
+                garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
+            ***REMOVED***
+        ***REMOVED***
+        if (garbageCollectors.isEmpty()) {
+            garbageCollectors.add(GarbageCollector.UNKNOWN);
+        ***REMOVED***
+        return garbageCollectors;
+    ***REMOVED***
+
+    /**
+     * @return The list of garbage collectors as determined by inspecting the <code>HeapEvent</code>s.
+     */
+    public List<GarbageCollector> getGarbageCollectorsFromHeapEvents() {
         List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
         if (!heapEvents.isEmpty()) {
             Iterator<HeapEvent> iterator = heapEvents.iterator();
@@ -1849,23 +1898,6 @@ public class FatalErrorLog {
                     garbageCollectors.add(GarbageCollector.SERIAL_OLD);
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED***
-        // Check JVM options if no heap events
-        if (garbageCollectors.isEmpty() && jvmOptions != null && !jvmOptions.getGarbageCollectors().isEmpty()) {
-            garbageCollectors.addAll(jvmOptions.getGarbageCollectors());
-        ***REMOVED***
-        // Assign JDK defaults JVM collector options
-        if (garbageCollectors.isEmpty()) {
-            if (getJavaSpecification() == JavaSpecification.JDK11
-                    || getJavaSpecification() == JavaSpecification.JDK17) {
-                garbageCollectors.add(GarbageCollector.G1);
-            ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK8) {
-                garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
-                garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
-            ***REMOVED***
-        ***REMOVED***
-        if (garbageCollectors.isEmpty()) {
-            garbageCollectors.add(GarbageCollector.UNKNOWN);
         ***REMOVED***
         return garbageCollectors;
     ***REMOVED***
