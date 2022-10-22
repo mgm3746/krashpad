@@ -342,6 +342,11 @@ public enum Analysis {
     ERROR_ORACLE_JDBC_OCI_LOADING("error.oracle.jdbc.oci.loading"),
 
     /**
+     * Property key for a crash in PSPromotionManager::copy_to_survivor_space&lt;false&gt;(oopDesc*).
+     */
+    ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE("error.ps_promotion_manager.copy_to_survivor_space"),
+
+    /**
      * Property key for error calling pthread_getcpuclockid
      */
     ERROR_PTHREAD_GETCPUCLOCKID("error.pthread.getcpuclockid"),

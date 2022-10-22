@@ -1148,6 +1148,14 @@ class TestAnalysis {
                 Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+        // Test header only
+        fel.getAnalysis().clear();
+        fel.getStackEvents().clear();
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE),
+                Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+                Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -2797,6 +2805,32 @@ class TestAnalysis {
         for (int i = 0; i < analysis.length; i++) {
             assertNotNull(analysis[i].getKey() + " not found.", analysis[i].getValue());
         ***REMOVED***
+    ***REMOVED***
+
+    @Test
+    void testPsPromotionManagerCopyToSurvivorSpace() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stackFrame1 = "V  [libjvm.so+0x9b43cc]  oopDesc* PSPromotionManager::copy_to_survivor_space<false>"
+                + "(oopDesc*)+0x70c";
+        StackEvent stackEvent = new StackEvent(stackFrame1);
+        fel.getStackEvents().add(stackEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE),
+                Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+                Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+        // Test header only
+        fel.getAnalysis().clear();
+        fel.getStackEvents().clear();
+        String header = "***REMOVED*** V  [libjvm.so+0x9b43cc]  oopDesc* PSPromotionManager::copy_to_survivor_space<false>"
+                + "(oopDesc*)+0x70c";
+        HeaderEvent headerEvent = new HeaderEvent(header);
+        fel.getHeaderEvents().add(headerEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE),
+                Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+                Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test

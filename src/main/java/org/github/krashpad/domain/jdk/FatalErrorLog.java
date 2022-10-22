@@ -936,6 +936,13 @@ public class FatalErrorLog {
             // Don't double report
             analysis.remove(Analysis.ERROR_LIBJVM_SO);
         ***REMOVED***
+        // Check for PSPromotionManager::copy_to_survivor_space
+        if (getStackFrameTop() != null
+                && getStackFrameTop().matches("^V.+PSPromotionManager::copy_to_survivor_space.+$")) {
+            analysis.add(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE);
+            // Don't double report
+            analysis.remove(Analysis.ERROR_LIBJVM_SO);
+        ***REMOVED***
         // Check if JVM user ne USERNAME
         if (getJvmUser() != null && getUsername() != null && !getJvmUser().equals(getUsername())) {
             analysis.add(Analysis.INFO_JVM_USER_NE_USERNAME);
