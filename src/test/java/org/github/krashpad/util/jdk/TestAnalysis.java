@@ -1809,9 +1809,9 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
-        assertEquals(752, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
+        assertEquals(825, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
                 "Release days diff not correct.");
-        assertEquals(10, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
+        assertEquals(11, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
                 "Release ***REMOVED*** diff not correct.");
     ***REMOVED***
 
