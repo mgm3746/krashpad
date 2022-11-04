@@ -26,6 +26,11 @@ import org.github.krashpad.util.ErrUtil;
 public enum Analysis {
 
     /**
+     * Property key for a crash in String.compareTo(Object) compiled with the AVX2 instruction set.
+     */
+    ERROR_AVX2_STRING_COMPARE_TO("error.avx2.string.compare.to"),
+
+    /**
      * Property key for a crash in BufferBlob::flush_icache_stub.
      */
     ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB("error.bufferblob.flush_icache_stub"),
@@ -395,6 +400,11 @@ public enum Analysis {
      * Property key for cgroup memory limit.
      */
     INFO_CGROUP_MEMORY_LIMIT("info.cgroup.memory.limit"),
+
+    /**
+     * Property key for a crash in Java code compiled with the AVX2 instruction set.
+     */
+    INFO_COMPILED_JAVA_CODE_AVX2("info.compiled.java.code.avx2"),
 
     /**
      * Property key for Apache Commons Database Database Connection Pool 2.

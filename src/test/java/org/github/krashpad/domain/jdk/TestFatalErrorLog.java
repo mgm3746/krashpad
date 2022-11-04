@@ -124,6 +124,23 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testCpuCapilityAvx2() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String cpu = "CPU:total 8 (2 cores per cpu, 1 threads per core) family 6 model 63 stepping 0, cmov, cx8, "
+                + "fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, erms, tsc, tscinvbit";
+        CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpu);
+        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        assertTrue(fel.hasCpuCapability("avx2"), "CPU avx2 capability not identified.");
+        // test when at end
+        fel.getCpuInfoEvents().clear();
+        cpu = "CPU:total 8 (2 cores per cpu, 1 threads per core) family 6 model 63 stepping 0, cmov, cx8, "
+                + "fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2";
+        cpuInfoEvent = new CpuInfoEvent(cpu);
+        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        assertTrue(fel.hasCpuCapability("avx2"), "CPU avx2 capability not identified.");
+    ***REMOVED***
+
+    @Test
     void testCrashShutdown() {
         FatalErrorLog fel = new FatalErrorLog();
         String logLine = "Event: 5353.018 Executing VM operation: Exit";

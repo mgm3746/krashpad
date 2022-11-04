@@ -480,6 +480,13 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testUseAvx() {
+        String jvmArgs = "-Xms1000m -XX:UseAVX=0 -Xmx1500m";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-XX:UseAVX=0", jvmOptions.getUseAvx(), "UseAVX not correct.");
+    ***REMOVED***
+
+    @Test
     void testUseCodeCacheFlushing() {
         String jvmArgs = "-Xmx1g -XX:+UseCodeCacheFlushing";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);

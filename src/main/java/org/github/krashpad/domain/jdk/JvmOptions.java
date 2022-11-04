@@ -1511,6 +1511,15 @@ public class JvmOptions {
     private String useAdaptiveSizePolicy;
 
     /**
+     * The compiler AVX instruction set level. For example:
+     * 
+     * <pre>
+     * -XX:UseAVX=0 (disabled)
+     * </pre>
+     */
+    private String useAvx;
+
+    /**
      * Option to enable/disable biased locking. For example:
      * 
      * <pre>
@@ -2050,6 +2059,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:HeapDumpPath=\\S+$")) {
                     heapDumpPath = option;
                     key = "HeapDumpPath";
+                ***REMOVED*** else if (option.matches("^-XX:[\\-+]IgnoreUnrecognizedVMOptions$")) {
+                    ignoreUnrecognizedVmOptions = option;
+                    key = "IgnoreUnrecognizedVMOptions";
                 ***REMOVED*** else if (option.matches("^-XX:InitiatingHeapOccupancyPercent=\\d{1,3***REMOVED***$")) {
                     initiatingHeapOccupancyPercent = option;
                     key = "InitiatingHeapOccupancyPercent";
@@ -2254,12 +2266,12 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UnlockExperimentalVMOptions$")) {
                     unlockExperimentalVmOptions = option;
                     key = "UnlockExperimentalVMOptions";
-                ***REMOVED*** else if (option.matches("^-XX:[\\-+]IgnoreUnrecognizedVMOptions$")) {
-                    ignoreUnrecognizedVmOptions = option;
-                    key = "IgnoreUnrecognizedVMOptions";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UnsyncloadClass$")) {
                     unsyncloadClass = option;
                     key = "UnsyncloadClass";
+                ***REMOVED*** else if (option.matches("^-XX:UseAVX=\\d{1,***REMOVED***$")) {
+                    useAvx = option;
+                    key = "UseAVX";
                 ***REMOVED*** else if (option.matches("^-XX:[\\-+]UseAdaptiveSizePolicy$")) {
                     useAdaptiveSizePolicy = option;
                     key = "UseAdaptiveSizePolicy";
@@ -3555,6 +3567,10 @@ public class JvmOptions {
 
     public String getUseAdaptiveSizePolicy() {
         return useAdaptiveSizePolicy;
+    ***REMOVED***
+
+    public String getUseAvx() {
+        return useAvx;
     ***REMOVED***
 
     public String getUseBiasedLocking() {

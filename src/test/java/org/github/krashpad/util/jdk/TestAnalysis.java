@@ -77,6 +77,100 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testAvx2StringCompareInHeader() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "***REMOVED*** Problematic frame:";
+        HeaderEvent headerEvent1 = new HeaderEvent(header1);
+        fel.getHeaderEvents().add(headerEvent1);
+        String header2 = "***REMOVED*** J 3917 C2 java.lang.String.compareTo(Ljava/lang/Object;)I (9 bytes) @ 0x00007f414557b275 "
+                + "[0x00007f414557b1a0+0xd5]";
+        HeaderEvent headerEvent2 = new HeaderEvent(header2);
+        fel.getHeaderEvents().add(headerEvent2);
+        String cpuInfo = "CPU:total 16 (initial active 16) (1 cores per cpu, 1 threads per core) family 6 model 85 "
+                + "stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, "
+                + "clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx";
+        CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpuInfo);
+        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+                Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+                Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+                Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testAvx2StringCompareToAvxDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack = "J 3917 C2 com.example.Object.someMethod() (9 bytes) @ 0x00007f414557b275 "
+                + "[0x00007f414557b1a0+0xd5]";
+        StackEvent stackEvent = new StackEvent(stack);
+        fel.getStackEvents().add(stackEvent);
+        String cpuInfo = "CPU:total 16 (initial active 16) (1 cores per cpu, 1 threads per core) family 6 model 85 "
+                + "stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, "
+                + "clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx";
+        CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpuInfo);
+        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        String jvm_args = "jvm_args: -Xms256m -XX:UseAVX=0 -Xmx2048m";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+                Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+                Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+                Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testAvx2StringCompareToInStackJvmOptions() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack = "J 3917 C2 java.lang.String.compareTo(Ljava/lang/Object;)I (9 bytes) @ 0x00007f414557b275 "
+                + "[0x00007f414557b1a0+0xd5]";
+        StackEvent stackEvent = new StackEvent(stack);
+        fel.getStackEvents().add(stackEvent);
+        String cpuInfo = "CPU:total 16 (initial active 16) (1 cores per cpu, 1 threads per core) family 6 model 85 "
+                + "stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, "
+                + "clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx";
+        CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpuInfo);
+        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        String jvm_args = "jvm_args: -Xms256m -Xmx2048m";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+                Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+                Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+                Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testAvx2StringCompareToInStackNoJvmOptions() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack = "J 3917 C2 java.lang.String.compareTo(Ljava/lang/Object;)I (9 bytes) @ 0x00007f414557b275 "
+                + "[0x00007f414557b1a0+0xd5]";
+        StackEvent stackEvent = new StackEvent(stack);
+        fel.getStackEvents().add(stackEvent);
+
+        String cpuInfo = "CPU:total 16 (initial active 16) (1 cores per cpu, 1 threads per core) family 6 model 85 "
+                + "stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, "
+                + "clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx";
+        CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpuInfo);
+        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+                Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+                Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+                Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testAws() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset34.txt");
         Manager manager = new Manager();

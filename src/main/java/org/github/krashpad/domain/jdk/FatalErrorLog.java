@@ -880,9 +880,25 @@ public class FatalErrorLog {
                 analysis.add(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS);
             ***REMOVED***
         ***REMOVED***
-        // Test crash in Java compiled code
+        if (getStackFrameTop() != null && getStackFrameTop()
+                .matches("J \\d{1,***REMOVED*** C2 java\\.lang\\.String\\.compareTo\\(Ljava/lang/Object;\\)I")) {
+            if (getCpuInfoEvents().size() > 0) {
+
+            ***REMOVED***
+        ***REMOVED***
+        // Crashes in Java compiled code
         if (getStackFrameTop() != null && getStackFrameTop().matches("^J \\d{1,***REMOVED***%{0,1***REMOVED*** C[12].+$")) {
-            analysis.add(Analysis.ERROR_COMPILED_JAVA_CODE);
+            if (getStackFrameTop().matches("^.+java\\.lang\\.String\\.compareTo\\(Ljava\\/lang/Object;\\)I.+$")
+                    && hasCpuCapability("avx2") && (getJvmOptions() == null || !(getJvmOptions().getUseAvx() != null
+                            && getJvmOptions().getUseAvx().equals("-XX:UseAVX=0")))) {
+                analysis.add(Analysis.ERROR_AVX2_STRING_COMPARE_TO);
+            ***REMOVED*** else {
+                analysis.add(Analysis.ERROR_COMPILED_JAVA_CODE);
+                if (hasCpuCapability("avx2") && (getJvmOptions() == null || (getJvmOptions().getUseAvx() != null
+                        && !getJvmOptions().getUseAvx().equals("-XX:UseAVX=0")))) {
+                    analysis.add(Analysis.INFO_COMPILED_JAVA_CODE_AVX2);
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         // Check for possible JFFI usage
         if (!dynamicLibraryEvents.isEmpty()) {
@@ -1612,6 +1628,7 @@ public class FatalErrorLog {
                         ***REMOVED***
                         cpuLogical = calc.intValue();
                     ***REMOVED***
+                    break;
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -1867,31 +1884,6 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The list of garbage collectors as determined by inspecting the <code>JvmOptions</code>.
-     */
-    public List<GarbageCollector> getGarbageCollectorsFromJvmOptions() {
-        List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
-        // Check JVM options if no heap events
-        if (jvmOptions != null && !jvmOptions.getGarbageCollectors().isEmpty()) {
-            garbageCollectors.addAll(jvmOptions.getGarbageCollectors());
-        ***REMOVED***
-        // Assign JDK defaults JVM collector options
-        if (garbageCollectors.isEmpty()) {
-            if (getJavaSpecification() == JavaSpecification.JDK11
-                    || getJavaSpecification() == JavaSpecification.JDK17) {
-                garbageCollectors.add(GarbageCollector.G1);
-            ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK8) {
-                garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
-                garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
-            ***REMOVED***
-        ***REMOVED***
-        if (garbageCollectors.isEmpty()) {
-            garbageCollectors.add(GarbageCollector.UNKNOWN);
-        ***REMOVED***
-        return garbageCollectors;
-    ***REMOVED***
-
-    /**
      * @return The list of garbage collectors as determined by inspecting the <code>HeapEvent</code>s.
      */
     public List<GarbageCollector> getGarbageCollectorsFromHeapEvents() {
@@ -1932,6 +1924,31 @@ public class FatalErrorLog {
                     garbageCollectors.add(GarbageCollector.SERIAL_OLD);
                 ***REMOVED***
             ***REMOVED***
+        ***REMOVED***
+        return garbageCollectors;
+    ***REMOVED***
+
+    /**
+     * @return The list of garbage collectors as determined by inspecting the <code>JvmOptions</code>.
+     */
+    public List<GarbageCollector> getGarbageCollectorsFromJvmOptions() {
+        List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
+        // Check JVM options if no heap events
+        if (jvmOptions != null && !jvmOptions.getGarbageCollectors().isEmpty()) {
+            garbageCollectors.addAll(jvmOptions.getGarbageCollectors());
+        ***REMOVED***
+        // Assign JDK defaults JVM collector options
+        if (garbageCollectors.isEmpty()) {
+            if (getJavaSpecification() == JavaSpecification.JDK11
+                    || getJavaSpecification() == JavaSpecification.JDK17) {
+                garbageCollectors.add(GarbageCollector.G1);
+            ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK8) {
+                garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
+                garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
+            ***REMOVED***
+        ***REMOVED***
+        if (garbageCollectors.isEmpty()) {
+            garbageCollectors.add(GarbageCollector.UNKNOWN);
         ***REMOVED***
         return garbageCollectors;
     ***REMOVED***
@@ -3775,6 +3792,24 @@ public class FatalErrorLog {
 
     public VmStateEvent getVmStateEvent() {
         return vmStateEvent;
+    ***REMOVED***
+
+    /**
+     * @return return True if the CPU has the specified capability (specified as a regex), false otherwise.
+     */
+    public boolean hasCpuCapability(String capability) {
+        boolean hasCpuCapability = false;
+        if (!cpuInfoEvents.isEmpty()) {
+            Iterator<CpuInfoEvent> iterator = cpuInfoEvents.iterator();
+            while (iterator.hasNext()) {
+                CpuInfoEvent event = iterator.next();
+                if (event.isCpuHeader()) {
+                    hasCpuCapability = event.getLogEntry().matches("^.*( " + capability + ",.+| " + capability + ")$");
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return hasCpuCapability;
     ***REMOVED***
 
     /**
