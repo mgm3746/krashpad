@@ -1102,6 +1102,7 @@ public class FatalErrorLog {
         if (!getUnknownNativeLibraries().isEmpty()) {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN);
         ***REMOVED***
+        // Dynatrace
         if (getStackFrameTop() != null
                 && getStackFrameTop().matches("^.*" + JdkRegEx.NATIVE_LIBRARY_DYNATRACE + ".*$")) {
             // Crash in Dynatrace
@@ -1121,6 +1122,32 @@ public class FatalErrorLog {
                     String nativeLibrary = matcher.group(3);
                     if (nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_DYNATRACE)) {
                         analysis.add(Analysis.INFO_DYNATRACE);
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        // Wily/DX APM
+        if ((getStackFrameTop() != null && getStackFrameTop().matches("^.*" + JdkRegEx.NATIVE_LIBRARY_WILY + ".*$"))
+                || (getStackFrameTopJava() != null
+                        && getStackFrameTopJava().matches("^.+ com\\.wily\\.introscope\\..+"))) {
+            // Crash in Wily
+            analysis.add(Analysis.ERROR_WILY);
+        ***REMOVED*** else if (isInStack(" com\\.wily\\.introscope\\.")) {
+            // Wily in stack
+            analysis.add(0, Analysis.WARN_WILY);
+        ***REMOVED*** else if (!getUnknownNativeLibraries().isEmpty()) {
+            // Wily detected
+            Iterator<String> iterator = getUnknownNativeLibraries().iterator();
+            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Matcher matcher;
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                matcher = pattern.matcher(nativeLibraryPath);
+                if (matcher.find()) {
+                    String nativeLibrary = matcher.group(3);
+                    if (nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_WILY)) {
+                        analysis.add(Analysis.INFO_WILY);
                         break;
                     ***REMOVED***
                 ***REMOVED***

@@ -3556,6 +3556,45 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testWilyCrash() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "C  0x0000000000000e76";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String stack2 = "J 16666  com.wily.introscope.agent.platform.linux.LinuxPlatformStatisticsBackEnd."
+                + "getAggregateCPUUsage(Ljava/lang/String;)[J (0 bytes) @ 0x00007f6dabd0e7fc [0x00007f6dabd0e740+0xbc]";
+        StackEvent stackEvent2 = new StackEvent(stack2);
+        fel.getStackEvents().add(stackEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_WILY), Analysis.ERROR_WILY + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testWilyDetected() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7f6d9a3b7000-7f6d9a4b6000 ---p 00003000 fd:08 98413                      "
+                + "/app/jbossas/wily10.7/core/ext/libIntroscopeLinuxIntelAmd64Stats.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_WILY), Analysis.INFO_WILY + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testWilyInStack() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "J  12345 com.example.MyClass";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String stack2 = "J 16666  com.wily.introscope.agent.platform.linux.LinuxPlatformStatisticsBackEnd."
+                + "getAggregateCPUUsage(Ljava/lang/String;)[J (0 bytes) @ 0x00007f6dabd0e7fc [0x00007f6dabd0e740+0xbc]";
+        StackEvent stackEvent2 = new StackEvent(stack2);
+        fel.getStackEvents().add(stackEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_WILY), Analysis.WARN_WILY + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testZGc() {
         FatalErrorLog fel = new FatalErrorLog();
         String zHeap = " ZHeap           used 4M, capacity 500M, max capacity 7978M";

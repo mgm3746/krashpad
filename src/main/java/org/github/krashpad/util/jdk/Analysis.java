@@ -377,6 +377,11 @@ public enum Analysis {
     ERROR_STUBROUTINES("error.stubroutines"),
 
     /**
+     * Property key for crash in Wily/DX APM code.
+     */
+    ERROR_WILY("error.wily"),
+
+    /**
      * Property key for AdoptOpenJDK build of OpenJDK.
      */
     INFO_ADOPTOPENJDK_POSSIBLE("info.adoptopenjdk.possible"),
@@ -994,6 +999,11 @@ public enum Analysis {
     INFO_VMWARE("info.vmware"),
 
     /**
+     * Property key for Wily/DX APM detected.
+     */
+    INFO_WILY("info.wily"),
+
+    /**
      * Property key for CMS collector running in incremental mode.
      */
     WARN_CMS_INCREMENTAL_MODE("warn.cms.incremental.mode"),
@@ -1411,7 +1421,12 @@ public enum Analysis {
      * Property key for a crash happening during a thread dump operation initiated by an external tool calling the JVM
      * tool interface (JVM TI).
      */
-    WARN_VM_OPERATION_THREAD_DUMP_JVMTI("warn.vm.operation.thread.dump.jvmti");
+    WARN_VM_OPERATION_THREAD_DUMP_JVMTI("warn.vm.operation.thread.dump.jvmti"),
+
+    /**
+     * Property key for Wily/DX APM code in stack.
+     */
+    WARN_WILY("warn.wily");
 
     private String key;
 

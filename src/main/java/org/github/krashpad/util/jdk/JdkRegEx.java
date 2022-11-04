@@ -362,6 +362,13 @@ public class JdkRegEx {
     public static final String NATIVE_LIBRARY_DYNATRACE = "liboneagent(java|loader|proc)\\.(DLL|dll|so)";
 
     /**
+     * Wily/DX APM native library.
+     * 
+     * For example libIntroscopeLinuxIntelAmd64Stats.so
+     */
+    public static final String NATIVE_LIBRARY_WILY = "libIntroscopeLinuxIntelAmd64Stats\\.so";
+
+    /**
      * A null pointer address.
      */
     public static final String NULL_POINTER = "0x([0]{8***REMOVED***|[0]{16***REMOVED***)";
