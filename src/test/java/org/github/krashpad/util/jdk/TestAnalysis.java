@@ -1693,7 +1693,7 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
-    void testJdk8ZipFileContention() {
+    void testJdk8ZipFileContentionGetEntry() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset23.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
@@ -1702,6 +1702,37 @@ class TestAnalysis {
                 + "0x00007fa287303dce [0x00007fa287303d00+0xce]";
         assertEquals(stackFrameTopCompiledJavaCode, fel.getStackFrameTopCompiledJavaCode(),
                 "Top compiled Java code (J) stack frame not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
+                Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdk8ZipFileContentionReadCen() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.342-b07) for linux-amd64 JRE (1.8.0_342-b07), built on "
+                + "Jul 18 2022 23:53:30 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        String stack = "C  [libzip.so+0x4c59]  readCEN+0x8e9";
+        StackEvent stackEvent = new StackEvent(stack);
+        fel.getStackEvents().add(stackEvent);
+        fel.doAnalysis();
+        assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
+                Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdk8ZipFileContentionReadCenHeaderOnly() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_342-b07) (build 1.8.0_342-b07)";
+        HeaderEvent headerEvent1 = new HeaderEvent(header1);
+        fel.getHeaderEvents().add(headerEvent1);
+        String header2 = "***REMOVED*** C  [libzip.so+0x4c59]  readCEN+0x8e9";
+        HeaderEvent headerEvent2 = new HeaderEvent(header2);
+        fel.getHeaderEvents().add(headerEvent2);
+        fel.doAnalysis();
+        assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
     ***REMOVED***

@@ -451,10 +451,13 @@ public class FatalErrorLog {
         ***REMOVED***
         // Check for JDK8 ZipFile contention
         if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) >= 6
-                && JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) <= 8
-                && getStackFrameTopCompiledJavaCode() != null
-                && getStackFrameTopCompiledJavaCode().matches("^.+java\\.util\\.zip\\.ZipFile\\.getEntry.+$")) {
-            analysis.add(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION);
+                && JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) <= 8) {
+            if ((getStackFrameTopCompiledJavaCode() != null && getStackFrameTopCompiledJavaCode()
+                    .matches("^.+java\\.util\\.zip\\.ZipFile\\.(getEntry|open).+$"))
+                    || (getStackFrameTop() != null
+                            && getStackFrameTop().matches("^C[ ]{1,***REMOVED***\\[libzip\\.so.*\\][ ]{1,***REMOVED***readCEN.*$"))) {
+                analysis.add(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION);
+            ***REMOVED***
         ***REMOVED***
         // Check for JDK8 Deflator contention
         if (getJavaSpecification() == JavaSpecification.JDK8 && getStackFrameTopCompiledJavaCode() != null
