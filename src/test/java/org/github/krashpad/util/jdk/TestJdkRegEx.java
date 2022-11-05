@@ -285,6 +285,18 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testRhel9Amd64RpmOpenjdk11LibjvmFilePath() {
+        String path = "/usr/lib/jvm/java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64/lib/server/libjvm.so";
+        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK11_LIBJVM_PATH), "Red Hat RPM file path not identified.");
+    ***REMOVED***
+
+    @Test
+    void testRhel9Amd64RpmOpenjdk17LibjvmFilePath() {
+        String path = "/usr/lib/jvm/java-17-openjdk-17.0.5.0.8-2.el9_0.x86_64/lib/server/libjvm.so";
+        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK17_LIBJVM_PATH), "Red Hat RPM file path not identified.");
+    ***REMOVED***
+
+    @Test
     void testSizeGb() {
         String address = "1.00 GB";
         assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");

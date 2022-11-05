@@ -47,7 +47,8 @@ public class HeapAddressEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^[h|H]eap address: " + JdkRegEx.ADDRESS + ", size: (\\d{1,***REMOVED***) MB.*$";
+    private static final String REGEX = "^([h|H]eap address: " + JdkRegEx.ADDRESS + ", size: (\\d{1,***REMOVED***) MB|"
+            + "\\[error occurred during error reporting \\(printing compressed oops mode\\), id 0x).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -105,8 +106,8 @@ public class HeapAddressEvent implements LogEvent {
         long initialSize = Long.MIN_VALUE;
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            initialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), 'M', Constants.PRECISION_REPORTING);
+        if (matcher.find() && matcher.group(1) != null) {
+            initialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(7)), 'M', Constants.PRECISION_REPORTING);
         ***REMOVED***
         return initialSize;
     ***REMOVED***
@@ -118,8 +119,8 @@ public class HeapAddressEvent implements LogEvent {
         long startingAddress = Long.MIN_VALUE;
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            return JdkMath.convertHexToDecimal(matcher.group(1));
+        if (matcher.find() && matcher.group(1) != null) {
+            return JdkMath.convertHexToDecimal(matcher.group(2));
         ***REMOVED***
         return startingAddress;
     ***REMOVED***

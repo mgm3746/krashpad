@@ -775,6 +775,36 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testRhel9Os() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
+    ***REMOVED***
+
+    @Test
+    void testRhel9RhBuildJdk17() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String dynamicLibrary = "7f76913c5000-7f7691649000 r--p 00000000 fd:01 1706624                    "
+                + "/usr/lib/jvm/java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64/lib/server/libjvm.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.17+8-LTS) for linux-amd64 JRE (11.0.17+8-LTS), built "
+                + "on Oct 15 2022 00:00:00 by \"mockbuild\" with gcc 11.2.1 20220127 (Red Hat 11.2.1-9)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64", fel.getRpmDirectory(), "Rpm directory not correct.");
+        assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+                Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testRhelJdkNotRedHatBuild() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset4.txt");
         Manager manager = new Manager();
@@ -983,6 +1013,18 @@ class TestFatalErrorLog {
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertEquals(0, fel.getThreadStackSize(), "Thread stack size not correct.");
+    ***REMOVED***
+
+    @Test
+    void testUbi9OnRhel7() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
+        OsEvent osEvent = new OsEvent(os);
+        fel.getOsEvents().add(osEvent);
+        String uname = "uname:Linux 3.10.0-870.el7.CSB.input.5.x86_64 ***REMOVED***1 SMP Mon Apr 16 16:59:47 UTC 2018 x86_64";
+        UnameEvent unameEvent = new UnameEvent(uname);
+        fel.setUnameEvent(unameEvent);
+        assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
     ***REMOVED***
 
     @Test

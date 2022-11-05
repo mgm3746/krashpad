@@ -485,9 +485,11 @@ public class JdkRegEx {
      * java-11-openjdk-11.0.10.0.9-0.el7_9.x86_64
      * 
      * java-11-openjdk-11.0.10.0.9-8.el8.x86_64
+     * 
+     * java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64
      */
     public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d{1,2***REMOVED***\\.\\d{1,2***REMOVED***"
-            + "(\\.\\d{1,2***REMOVED***)?-\\d\\.el([78])(_(\\d{1,2***REMOVED***))?\\.x86_64)";
+            + "(\\.\\d{1,2***REMOVED***)?-\\d\\.el([789])(_(\\d{1,2***REMOVED***))?\\.x86_64)";
 
     /**
      * Red Hat OpenJDK 11 rpm libjvm.so file path.
@@ -495,6 +497,8 @@ public class JdkRegEx {
      * For example:
      * 
      * /usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so
+     * 
+     * /usr/lib/jvm/java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64/lib/server/libjvm.so
      */
     public static final String RH_RPM_OPENJDK11_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK11_DIR
             + "\\/lib\\/server\\/libjvm\\.so$";
@@ -507,7 +511,7 @@ public class JdkRegEx {
      * java-17-openjdk-17.0.1.0.12-2.el8_5.x86_64
      */
     public static final String RH_RPM_OPENJDK17_DIR = "(java\\-17\\-openjdk\\-17\\.0\\.\\d{1,2***REMOVED***\\.\\d{1,2***REMOVED***"
-            + "(\\.\\d{1,2***REMOVED***)?-\\d\\.el([8])_(\\d{1,2***REMOVED***)\\.x86_64)";
+            + "(\\.\\d{1,2***REMOVED***)?-\\d\\.el([89])_(\\d{1,2***REMOVED***)\\.x86_64)";
 
     /**
      * Red Hat OpenJDK 17 rpm libjvm.so file path.

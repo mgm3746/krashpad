@@ -80,7 +80,7 @@ class TestEnvironmentVariablesEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     ***REMOVED***
-
+    
     @Test
     void testJavaHome() {
         String logLine = "JAVA_HOME=/etc/alternatives/jre_1.8.0";
@@ -161,6 +161,13 @@ class TestEnvironmentVariablesEvent {
     @Test
     void testShell() {
         String logLine = "SHELL=/bin/ksh";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testTerm() {
+        String logLine = "TERM=xterm";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     ***REMOVED***
