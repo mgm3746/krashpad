@@ -715,9 +715,12 @@ public class FatalErrorLog {
         if (haveStackOverFlowError()) {
             analysis.add(Analysis.ERROR_STACKOVERFLOW);
         ***REMOVED*** else {
-            if (getStackFreeSpace() > getThreadStackSize() && currentThreadEvent != null
-                    && !currentThreadEvent.isCompilerThread() && !currentThreadEvent.isVmThread()) {
-                analysis.add(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE);
+            if (getStackFreeSpace() > getThreadStackSize()) {
+                // Applies only to ThreadStackSize (not CompilerThreadStackSize, VMThreadStackSize, MarkStackSize)
+                if (currentThreadEvent != null && !currentThreadEvent.isCompilerThread()
+                        && !currentThreadEvent.isVmThread()) {
+                    analysis.add(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE);
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         // LinkageError
