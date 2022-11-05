@@ -3795,7 +3795,9 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return return True if the CPU has the specified capability (specified as a regex), false otherwise.
+     * @param capability
+     *            The cpu capability as a regex.
+     * @return True if the CPU has the specified capability (specified as a regex), false otherwise.
      */
     public boolean hasCpuCapability(String capability) {
         boolean hasCpuCapability = false;

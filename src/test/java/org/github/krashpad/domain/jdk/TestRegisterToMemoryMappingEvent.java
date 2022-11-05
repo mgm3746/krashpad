@@ -55,7 +55,21 @@ class TestRegisterToMemoryMappingEvent {
 
     @Test
     void testClass() {
+        String logLine = "com.example.MyClass";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testClassWithInnerClass2Packages() {
         String logLine = "java.util.LinkedList$Node";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testClassWithInnerClass3Packages() {
+        String logLine = "org.jboss.logmanager.CopyOnWriteWeakMap$Node";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
@@ -84,13 +98,6 @@ class TestRegisterToMemoryMappingEvent {
     @Test
     void testFramesize() {
         String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
-                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
-    ***REMOVED***
-
-    @Test
-    void testFullyQualifiedClassname() {
-        String logLine = "com.example.MyClass";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
