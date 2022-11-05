@@ -87,10 +87,10 @@ jobs:
       ***REMOVED*** repository is public to avoid leaking data.  If you would like to publish
       ***REMOVED*** transparency data even for private images, pass --force to cosign below.
       ***REMOVED*** https://github.com/sigstore/cosign
-      - name: Sign the published Docker image
-        if: ${{ github.event_name != 'pull_request' ***REMOVED******REMOVED***
-        env:
-          COSIGN_EXPERIMENTAL: "true"
-        ***REMOVED*** This step uses the identity token to provision an ephemeral certificate
-        ***REMOVED*** against the sigstore community Fulcio instance.
-        run: echo "${{ steps.meta.outputs.tags ***REMOVED******REMOVED***" | xargs -I {***REMOVED*** cosign sign {***REMOVED***@${{ steps.build-and-push.outputs.digest ***REMOVED******REMOVED***
+      ***REMOVED***- name: Sign the published Docker image
+      ***REMOVED***  if: ${{ github.event_name != 'pull_request' ***REMOVED******REMOVED***
+      ***REMOVED***  env:
+      ***REMOVED***    COSIGN_EXPERIMENTAL: "true"
+      ***REMOVED***  ***REMOVED*** This step uses the identity token to provision an ephemeral certificate
+      ***REMOVED***  ***REMOVED*** against the sigstore community Fulcio instance.
+      ***REMOVED***  run: echo "${{ steps.meta.outputs.tags ***REMOVED******REMOVED***" | xargs -I {***REMOVED*** cosign sign {***REMOVED***@${{ steps.build-and-push.outputs.digest ***REMOVED******REMOVED***
