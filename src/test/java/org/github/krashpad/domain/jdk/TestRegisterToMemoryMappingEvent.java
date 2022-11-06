@@ -62,15 +62,17 @@ class TestRegisterToMemoryMappingEvent {
 
     @Test
     void testClassWithInnerClass2Packages() {
+        RegisterToMemoryMappingEvent priorEvent = new RegisterToMemoryMappingEvent(null);
         String logLine = "java.util.LinkedList$Node";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testClassWithInnerClass3Packages() {
+        RegisterToMemoryMappingEvent priorEvent = new RegisterToMemoryMappingEvent(null);
         String logLine = "org.jboss.logmanager.CopyOnWriteWeakMap$Node";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     ***REMOVED***
 

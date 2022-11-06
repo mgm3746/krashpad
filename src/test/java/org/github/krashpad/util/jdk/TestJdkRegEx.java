@@ -53,6 +53,30 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testClass() {
+        String address = "com.example.MyClass";
+        assertTrue(address.matches(JdkRegEx.CLASS), "CLASS not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testClassInner() {
+        String address = "com.example.MyClass$MyInnerClass";
+        assertTrue(address.matches(JdkRegEx.CLASS), "CLASS not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testClassStartsWithNumber() {
+        String address = "com.example.1MyClass";
+        assertFalse(address.matches(JdkRegEx.CLASS), "CLASS incorrectly recognized.");
+    ***REMOVED***
+
+    @Test
+    void testClassStartsWithUnderscore() {
+        String address = "com.example._MyClass";
+        assertTrue(address.matches(JdkRegEx.CLASS), "CLASS not recognized.");
+    ***REMOVED***
+
+    @Test
     void testCrashDate() {
         String time = "Tue Aug 18 14:10:59 2020";
         assertTrue(time.matches(JdkRegEx.CRASH_DATE_TIME), "'" + time + "' is a valid crash time.");
@@ -295,19 +319,19 @@ class TestJdkRegEx {
         String path = "/usr/lib/jvm/java-17-openjdk-17.0.5.0.8-2.el9_0.x86_64/lib/server/libjvm.so";
         assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK17_LIBJVM_PATH), "Red Hat RPM file path not identified.");
     ***REMOVED***
-
+    
     @Test
     void testSizeGb() {
         String address = "1.00 GB";
         assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
     ***REMOVED***
-
+    
     @Test
     void testSizeK() {
         String size = "1234k";
         assertTrue(size.matches(JdkRegEx.SIZE), "Size not recognized.");
     ***REMOVED***
-
+    
     @Test
     void testSizeKb() {
         String address = "3.00 KB";

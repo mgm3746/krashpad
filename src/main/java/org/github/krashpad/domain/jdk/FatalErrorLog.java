@@ -716,9 +716,11 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_STACKOVERFLOW);
         ***REMOVED*** else {
             if (getStackFreeSpace() > getThreadStackSize()) {
-                // Applies only to ThreadStackSize (not CompilerThreadStackSize, VMThreadStackSize, MarkStackSize)
-                if (currentThreadEvent != null && !currentThreadEvent.isCompilerThread()
-                        && !currentThreadEvent.isVmThread()) {
+                // Applies only to ThreadStackSize (not CompilerThreadStackSize, VMThreadStackSize, MarkStackSize, or
+                // the JLI_Launch method in main.c that starts the JVM)
+                if (currentThreadEvent != null
+                        && !(currentThreadEvent.isCompilerThread() || currentThreadEvent.isVmThread())
+                        && stackEvents.size() > 0 && !isInStack("JLI_Launch")) {
                     analysis.add(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE);
                 ***REMOVED***
             ***REMOVED***

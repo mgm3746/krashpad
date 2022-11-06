@@ -1755,8 +1755,8 @@ public class JdkUtil {
             logEventType = LogEventType.PROCESS_MEMORY;
         ***REMOVED*** else if (RegisterEvent.match(logLine)) {
             logEventType = LogEventType.REGISTER;
-        ***REMOVED*** else if (RegisterToMemoryMappingEvent.match(logLine)
-                || (logLine.matches(JdkRegEx.MEMORY_MAPPING) && priorEvent instanceof RegisterToMemoryMappingEvent)) {
+        ***REMOVED*** else if (RegisterToMemoryMappingEvent.match(logLine) || (priorEvent instanceof RegisterToMemoryMappingEvent
+                && (logLine.matches(JdkRegEx.CLASS) || logLine.matches(JdkRegEx.MEMORY_MAPPING)))) {
             logEventType = LogEventType.REGISTER_TO_MEMORY_MAPPING;
         ***REMOVED*** else if (RlimitEvent.match(logLine)) {
             logEventType = LogEventType.RLIMIT;
@@ -1767,14 +1767,13 @@ public class JdkUtil {
         ***REMOVED*** else if (StackEvent.match(logLine)) {
             logEventType = LogEventType.STACK;
         ***REMOVED*** else if (StackSlotToMemoryMappingEvent.match(logLine)
-                || (logLine.matches(JdkRegEx.MEMORY_MAPPING) && priorEvent instanceof StackSlotToMemoryMappingEvent)) {
+                || (priorEvent instanceof StackSlotToMemoryMappingEvent) && logLine.matches(JdkRegEx.MEMORY_MAPPING)) {
             logEventType = LogEventType.STACK_SLOT_TO_MEMORY_MAPPING;
         ***REMOVED*** else if (ThreadEvent.match(logLine)) {
             logEventType = LogEventType.THREAD;
         ***REMOVED*** else if (ThreadsActiveCompileEvent.match(logLine)) {
             logEventType = LogEventType.THREADS_ACTIVE_COMPILE;
-        ***REMOVED*** else if (ThreadsClassSmrInfoEvent.match(logLine) && (logLine.matches(ThreadsClassSmrInfoEvent.REGEX_HEADER)
-                || priorEvent instanceof ThreadsClassSmrInfoEvent)) {
+        ***REMOVED*** else if (ThreadsClassSmrInfoEvent.match(logLine)) {
             logEventType = LogEventType.THREADS_CLASS_SMR_INFO;
         ***REMOVED*** else if (ThreadsMaxEvent.match(logLine)) {
             logEventType = LogEventType.THREADS_MAX;

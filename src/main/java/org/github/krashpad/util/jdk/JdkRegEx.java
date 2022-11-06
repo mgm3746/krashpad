@@ -111,6 +111,15 @@ public class JdkRegEx {
     public static final String BYTES = "bB";
 
     /**
+     * Regular expression for a Java class.
+     * 
+     * com.example.MyClass
+     * 
+     * com.example.MyClass$MyInnerClass
+     */
+    public static final String CLASS = "([a-z]{1,***REMOVED***\\.){1,***REMOVED***[a-zA-Z$_]{1***REMOVED***[a-zA-Z$_\\d]{1,***REMOVED***+";
+
+    /**
      * <p>
      * Regular expression for crash date/time in MMM d HH:mm:ss yyyy format (see <code>SimpleDateFormat</code> for date
      * and time pattern definitions).
@@ -252,6 +261,8 @@ public class JdkRegEx {
 
     /**
      * Regular expression for java.nio.ByteBuffer class.
+     * 
+     * 
      */
     public static final String JAVA_NIO_BYTEBUFFER = "java[\\.\\/]nio[\\.\\/]ByteBuffer";
 
@@ -314,7 +325,7 @@ public class JdkRegEx {
      * org.xnio.nio.WorkerThread {0x0000000800c89d28***REMOVED***
      * </pre>
      */
-    public static final String MEMORY_MAPPING = "^[a-zA-z\\.]+ \\{" + ADDRESS + "\\***REMOVED***$";
+    public static final String MEMORY_MAPPING = "^" + CLASS + " \\{" + ADDRESS + "\\***REMOVED***$";
 
     /**
      * Memory region

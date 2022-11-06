@@ -629,8 +629,9 @@ public class JvmOptions {
     private String initialHeapSize;
 
     /**
-     * The heap occupancy threshold that G1 marking starts (default 45%). Lower it to start marking earlier to avoid
-     * marking not finishing before heap fills up (analogous to CMS concurrent mode failure).
+     * The heap occupancy threshold to start a concurrent GC cycle (G1 marking) Default is 45%. Lower it to start
+     * marking earlier to avoid marking not finishing before heap fills up (analogous to CMS concurrent mode failure). A
+     * value of 0 results in constant GC cycles.
      * 
      * For example:
      * 

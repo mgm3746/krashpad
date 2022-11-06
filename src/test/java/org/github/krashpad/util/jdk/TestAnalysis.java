@@ -1816,6 +1816,27 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testJliLaunchStackSize() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss256k -XX:TargetSurvivorRatio=90 -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String stack1 = "Stack: [0x00007fff14ecc000,0x00007fff156ca000],  sp=0x00007fff156c50c0,  free space=8164k";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String stack2 = "C  [libjli.so+0x877f]  JLI_Launch+0x15bf";
+        StackEvent stackEvent2 = new StackEvent(stack2);
+        fel.getStackEvents().add(stackEvent2);
+        String currentThread = "Current thread (0x000055c487db2800):  JavaThread \"Unknown thread\" [_thread_in_vm, "
+                + "id=11, stack(0x00007fff14ecc000,0x00007fff156ca000)]";
+        CurrentThreadEvent currentThreadEvent = new CurrentThreadEvent(currentThread);
+        fel.setCurrentThreadEvent(currentThreadEvent);
+        fel.doAnalysis();
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE),
+                Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testJmx() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:+ManagementServer -Xms2048M";
