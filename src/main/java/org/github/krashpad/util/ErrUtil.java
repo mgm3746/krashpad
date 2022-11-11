@@ -85,6 +85,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libfreebl3.so");
         // nss-softokn-freebl
         NATIVE_LIBRARIES_LINUX.add("libfreeblpriv3.so");
+        // jss
+        NATIVE_LIBRARIES_LINUX.add("libjss4.so");
         // glibc-devel
         NATIVE_LIBRARIES_LINUX.add("libm-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libm-2.17.so");
@@ -131,10 +133,16 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("librt-2.28.so");
         // nss
         NATIVE_LIBRARIES_LINUX.add("libsmime3.so");
+        // nss-softokn
+        NATIVE_LIBRARIES_LINUX.add("libsoftokn3.so");
         // nss
         NATIVE_LIBRARIES_LINUX.add("libssl3.so");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libutil-2.28.so");
+        // p11-kit-trust
+        NATIVE_LIBRARIES_LINUX.add("p11-kit-trust.so");
+        // softhsm
+        NATIVE_LIBRARIES_LINUX.add("libsofthsm2.so");
 
         NATIVE_LIBRARIES_LINUX_JAVA = new ArrayList<String>();
         // java-(1.8.0|11|17)-openjdk
@@ -178,6 +186,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libnio.so");
         // java-(1.8.0|11)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libsunec.so");
+        // java-(1.8.0|11)-openjdk-headless
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libsystemconf.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libverify.so");
         // java-(1.8.0|11|17)-openjdk-headless
