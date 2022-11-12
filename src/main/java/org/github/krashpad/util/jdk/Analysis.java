@@ -175,6 +175,11 @@ public enum Analysis {
     ERROR_JNA_RH("error.jna.rh"),
 
     /**
+     * Property key for crash in Java Security Services (JSS) code.
+     */
+    ERROR_JSS("error.jss"),
+
+    /**
      * Property key for a crash in jvm.dll.
      */
     ERROR_JVM_DLL("error.jvm.dll"),
@@ -450,6 +455,11 @@ public enum Analysis {
      * Property key for possible Java Native Interface (JNA) usage.
      */
     INFO_JNA("info.jna"),
+
+    /**
+     * Property key for Java Security Services (JSS) library detected.
+     */
+    INFO_JSS("info.jss"),
 
     /**
      * Property key for crash on JVM startup.
@@ -817,6 +827,12 @@ public enum Analysis {
     INFO_OPT_VERBOSE_CLASS("info.opt.verbose.class"),
 
     /**
+     * Property key for Red Hat Certificate System, Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or
+     * upstream Dogtag Certificate System detected.
+     */
+    INFO_PKI_TOMCAT("info.pki_tomcat"),
+
+    /**
      * Property key for PostgreSQL connection.
      */
     INFO_POSTGRESQL_CONNECTION("info.postgresql.connection"),
@@ -1057,6 +1073,11 @@ public enum Analysis {
      * Property key for a JDK that is not a Long Term Support (LTS) version.
      */
     WARN_JDK_NOT_LTS("warn.jdk.not.lts"),
+
+    /**
+     * Property key for Java Security Services (JSS) code in stack.
+     */
+    WARN_JSS("warn.jss"),
 
     /**
      * Property key mmapped files in a deleted state.

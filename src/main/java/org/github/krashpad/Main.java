@@ -592,7 +592,7 @@ public class Main {
                         ***REMOVED***
                         printWriter.write(".");
                     ***REMOVED*** else if (a.equals(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN)) {
-                        Iterator<String> iterator = fel.getUnknownNativeLibraries().iterator();
+                        Iterator<String> iterator = fel.getNativeLibrariesUnknown().iterator();
                         boolean punctuate = false;
                         while (iterator.hasNext()) {
                             String library = iterator.next();

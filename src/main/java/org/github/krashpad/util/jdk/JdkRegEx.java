@@ -45,22 +45,7 @@ public class JdkRegEx {
     public static final String AREA = "(\\[(stack|vdso|vsyscall)\\])";
 
     /**
-     * ActiveMQ CLI main class used for <code>Application</code> identification.
-     * 
-     * For example:
-     * 
-     * <pre>
-     * org.apache.activemq.artemis.boot.Artemis queue stat --url tcp://mydomain:12345 --user myuser 
-     * --password mypassword --maxRows 1234
-     * 
-     * org.apache.activemq.artemis.boot.Artemis queue purge --name ExpiryQueue --url tcp://mydomain:12345 
-     * --user myuser --password mypassword
-     * </pre>
-     */
-    public static final String ARTEMIS_CLI_COMMAND = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!run).*$";
-
-    /**
-     * ActiveMQ main class used for <code>Application</code> identification.
+     * ActiveMQ main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
      * For example:
      * 
@@ -118,6 +103,43 @@ public class JdkRegEx {
      * com.example.MyClass$MyInnerClass
      */
     public static final String CLASS = "([a-z]{1,***REMOVED***\\.){1,***REMOVED***[a-zA-Z$_]{1***REMOVED***[a-zA-Z$_\\d]{1,***REMOVED***+";
+
+    /**
+     * ActiveMQ CLI main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * org.apache.activemq.artemis.boot.Artemis queue stat --url tcp://mydomain:12345 --user myuser 
+     * --password mypassword --maxRows 1234
+     * 
+     * org.apache.activemq.artemis.boot.Artemis queue purge --name ExpiryQueue --url tcp://mydomain:12345 
+     * --user myuser --password mypassword
+     * </pre>
+     */
+    public static final String COMMAND_ARTEMIS_CLI = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!run).*$";
+
+    /**
+     * JBoss version check string used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * org.jboss.as.standalone -Djboss.home.dir=C:\path\to -version
+     * </pre>
+     */
+    public static final String COMMAND_JBOSS_VERSION = "^.+org\\.jboss\\.as\\.standalone .*(-[vV]|[-]{1,2***REMOVED***version)$";
+
+    /**
+     * Kafka main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * kafka.Kafka / path / to / my.properties
+     * </pre>
+     */
+    public static final String COMMAND_KAFKA = "^.*kafka\\.Kafka.*$";
 
     /**
      * <p>
@@ -260,51 +282,57 @@ public class JdkRegEx {
     public static final String INODE = "([0-9]{1,***REMOVED***)";
 
     /**
-     * Regular expression for java.nio.ByteBuffer class.
-     * 
-     * 
-     */
-    public static final String JAVA_NIO_BYTEBUFFER = "java[\\.\\/]nio[\\.\\/]ByteBuffer";
-
-    /**
-     * JBoss EAP6 jar used for <code>Application</code> identification.
+     * JBoss EAP6 jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
      * For example:
      * 
      * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jbossweb-7.5.7.Final-redhat-1.jar
      */
-    public static final String JBOSS_EAP6_JAR = "^.+jbossweb.+\\.jar$";
+    public static final String JAR_JBOSS_EAP6 = "^.+jbossweb.+\\.jar$";
 
     /**
-     * JBoss EAP6 jar used for <code>Application</code> identification.
+     * JBoss EAP6 jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
      * For example:
      * 
      * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/undertow-core-2.0.22.Final-redhat-00001.jar
      */
-    public static final String JBOSS_EAP7_JAR = "^.+undertow-core.+\\.jar$";
+    public static final String JAR_JBOSS_EAP7 = "^.+undertow-core.+\\.jar$";
 
     /**
-     * JBoss version check string used for <code>Application</code> identification.
+     * Red Hat Certificate System (RHCS), Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or upstream Dogtag
+     * Certificate System jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
      * For example:
      * 
-     * <pre>
-     * org.jboss.as.standalone -Djboss.home.dir=C:\path\to -version
-     * </pre>
+     * 7f47d77d3000-7f47d77d5000 r--s 00003000 fd:00 135061429 /usr/share/java/pki/pki-tomcat.jar
      */
-    public static final String JBOSS_VERSION_COMMAND = "^.+org\\.jboss\\.as\\.standalone .*(-[vV]|[-]{1,2***REMOVED***version)$";
+    public static final String JAR_PKI_TOMCAT = "^.+pki-tomcat\\.jar$";
 
     /**
-     * Kafka main class used for <code>Application</code> identification.
+     * Tomcat jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
      * For example:
      * 
-     * <pre>
-     * kafka.Kafka / path / to / my.properties
-     * </pre>
+     * 7f0c4b92c000-7f0c4b93e000 r--s 00183000 fd:04 51406344 /path/to/WEB-INF/lib/catalina.jar
      */
-    public static final String KAFKA_COMMAND = "^.*kafka\\.Kafka.*$";
+    public static final String JAR_TOMCAT = "^.+catalina\\.jar$";
+
+    /**
+     * JBoss jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jboss-eap-7.2/jboss-modules.jar
+     */
+    public static final String JAR_WILDFLY = "^.+jboss-modules\\.jar.*$";
+
+    /**
+     * Regular expression for java.nio.ByteBuffer class.
+     * 
+     * 
+     */
+    public static final String JAVA_NIO_BYTEBUFFER = "java[\\.\\/]nio[\\.\\/]ByteBuffer";
 
     /**
      * Kilobyte units identifier.
@@ -371,6 +399,13 @@ public class JdkRegEx {
      * For example liboneagentjava.so, liboneagentloader.so, liboneagentproc.so
      */
     public static final String NATIVE_LIBRARY_DYNATRACE = "liboneagent(java|loader|proc)\\.(DLL|dll|so)";
+
+    /**
+     * JSS native library.
+     * 
+     * For example libjss4.so
+     */
+    public static final String NATIVE_LIBRARY_JSS = "libjss4\\.so";
 
     /**
      * Wily/DX APM native library.
@@ -513,7 +548,6 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK11_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK11_DIR
             + "\\/lib\\/server\\/libjvm\\.so$";
-
     /**
      * Red Hat OpenJDK 17 rpm directory.
      * 
@@ -547,6 +581,7 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK8_DIR = "(java\\-1\\.8\\.0\\-openjdk\\-1\\.8\\.0\\..+\\.el([678])"
             + "(_(\\d{1,2***REMOVED***))?\\.(ppc64(le)?|x86_64))";
+
     /**
      * Red Hat OpenJDK 8 rpm file path.
      * 
@@ -564,16 +599,6 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK8_LIBJVM_PATH = "\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK8_DIR
             + "\\/jre\\/lib\\/(amd64|ppc64(le)?)\\/server\\/libjvm\\.so";
-
-    /**
-     * RHSSO thread used for <code>Application</code> identification.
-     * 
-     * For example:
-     * 
-     * 0x00005587a9039000 JavaThread "Brute Force Protector" [_thread_blocked, id=6073,
-     * stack(0x00007f5abb897000,0x00007f5abb998000)]
-     */
-    public static final String RHSSO_THREAD = "^.+\"Brute Force Protector\".+$";
 
     /**
      * Regular expression for Shenandoah gc data.
@@ -635,6 +660,27 @@ public class JdkRegEx {
     public static final String SIZE2 = "(\\d{1,***REMOVED***([\\.,]\\d{2***REMOVED***)?) (KB|MB|GB)";
 
     /**
+     * Red Hat Certificate System (RHCS), Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or upstream Dogtag
+     * Certificate System thread used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * 0x00007f47f9449800 JavaThread "ACMEEngineConfigFileSource" [_thread_blocked, id=369917,
+     * stack(0x00007f47cc792000,0x00007f47cc893000)]
+     */
+    public static final String THREAD_PKI_TOMCAT = "^.+\"ACMEEngineConfigFileSource\".+$";
+
+    /**
+     * RHSSO thread used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * 0x00005587a9039000 JavaThread "Brute Force Protector" [_thread_blocked, id=6073,
+     * stack(0x00007f5abb897000,0x00007f5abb998000)]
+     */
+    public static final String THREAD_RHSSO = "^.+\"Brute Force Protector\".+$";
+
+    /**
      * Timestamp. Milliseconds since JVM started.
      * 
      * For example: 487.020
@@ -642,16 +688,7 @@ public class JdkRegEx {
     public static final String TIMESTAMP = "(\\d{0,12***REMOVED***[\\.\\,]\\d{3***REMOVED***)";
 
     /**
-     * Tomcat jar used for <code>Application</code> identification.
-     * 
-     * For example:
-     * 
-     * 7f0c4b92c000-7f0c4b93e000 r--s 00183000 fd:04 51406344 /path/to/WEB-INF/lib/catalina.jar
-     */
-    public static final String TOMCAT_JAR = "^.+catalina\\.jar$";
-
-    /**
-     * Tomcat start main class used for <code>Application</code> identification.
+     * Tomcat start main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
      * For example:
      * 
@@ -660,7 +697,7 @@ public class JdkRegEx {
     public static final String TOMCAT_START_COMMAND = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap start$";
 
     /**
-     * Tomcat stop main class used for <code>Application</code> identification.
+     * Tomcat stop main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
      * For example:
      * 
@@ -683,15 +720,6 @@ public class JdkRegEx {
      * </pre>
      */
     public static final String VERSION_STRING = "((6.0|7.0|8.0|9|10|11|12|13|14|15|16|17)[^\\)]{1,***REMOVED***)";
-
-    /**
-     * JBoss jar used for <code>Application</code> identification.
-     * 
-     * For example:
-     * 
-     * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/jboss-eap-7.2/jboss-modules.jar
-     */
-    public static final String WILDFLY_JAR = "^.+jboss-modules\\.jar.*$";
 
     /**
      * Regular expression for a young generation gc data.

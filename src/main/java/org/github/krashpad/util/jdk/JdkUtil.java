@@ -132,6 +132,9 @@ public class JdkUtil {
         JBOSS_VERSION,
         //
         KAFKA,
+        // Red Hat Certificate System, Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or upstream Dogtag
+        // Certificate System
+        PKI_TOMCAT,
         //
         RHSSO,
         //

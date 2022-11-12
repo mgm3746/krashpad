@@ -38,6 +38,7 @@ import org.github.krashpad.domain.jdk.MemoryEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.SigInfoEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
+import org.github.krashpad.domain.jdk.ThreadEvent;
 import org.github.krashpad.domain.jdk.TimeElapsedTimeEvent;
 import org.github.krashpad.domain.jdk.TimeEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
@@ -1906,6 +1907,45 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testJssCrash() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "C  [libc.so.6+0x36e5b]  __memcpy_sse2_unaligned_erms+0x1b";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String stack2 = "J 13417  org.mozilla.jss.nss.PR.Shutdown(Lorg/mozilla/jss/nss/PRFDProxy;I)I (0 bytes) "
+                + "@ 0x00007f47ea93da92 [0x00007f47ea93da40+0x52]";
+        StackEvent stackEvent2 = new StackEvent(stack2);
+        fel.getStackEvents().add(stackEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JSS), Analysis.ERROR_JSS + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJssDetected() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7f47d6b82000-7f47d6bc6000 r-xp 00000000 fd:00 201485134                  "
+                + "/usr/lib64/jss/libjss4.so";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JSS), Analysis.INFO_JSS + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJssInStack() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "J  12345 com.example.MyClass";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String stack2 = "J 13417  org.mozilla.jss.nss.PR.Shutdown(Lorg/mozilla/jss/nss/PRFDProxy;I)I (0 bytes) "
+                + "@ 0x00007f47ea93da92 [0x00007f47ea93da40+0x52]";
+        StackEvent stackEvent2 = new StackEvent(stack2);
+        fel.getStackEvents().add(stackEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_JSS), Analysis.WARN_JSS + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testJvmUserNeUsername() {
         FatalErrorLog fel = new FatalErrorLog();
         String username = "USERNAME=user1";
@@ -2764,6 +2804,58 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testPkiTomcatJar() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7f47d77d3000-7f47d77d5000 r--s 00003000 fd:00 135061429                  "
+                + "/usr/share/java/pki/pki-tomcat.jar";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getApplication() == JdkUtil.Application.PKI_TOMCAT,
+                JdkUtil.Application.PKI_TOMCAT + " application not identified.");
+        assertFalse(fel.getApplication() == JdkUtil.Application.TOMCAT,
+                JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_PKI_TOMCAT),
+                Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testPkiTomcatJvmArgs() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvmArgs = "jvm_args: -Dcom.redhat.fips=false -Dcatalina.base=/var/lib/pki/pki-tomcat "
+                + "-Dcatalina.home=/usr/share/tomcat -Djava.endorsed.dirs= "
+                + "-Djava.io.tmpdir=/var/lib/pki/pki-tomcat/temp "
+                + "-Djava.util.logging.config.file=/var/lib/pki/pki-tomcat/conf/logging.properties "
+                + "-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.security.manager "
+                + "-Djava.security.policy==/var/lib/pki/pki-tomcat/conf/catalina.policy";
+        VmArgumentsEvent vmArgumentsEvent = new VmArgumentsEvent(jvmArgs);
+        fel.getVmArgumentsEvents().add(vmArgumentsEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getApplication() == JdkUtil.Application.PKI_TOMCAT,
+                JdkUtil.Application.PKI_TOMCAT + " application not identified.");
+        assertFalse(fel.getApplication() == JdkUtil.Application.TOMCAT,
+                JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_PKI_TOMCAT),
+                Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testPkiTomcatThread() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String thread = "  0x00007f47f9449800 JavaThread \"ACMEEngineConfigFileSource\" [_thread_blocked, id=369917, "
+                + "stack(0x00007f47cc792000,0x00007f47cc893000)]";
+        ThreadEvent threadEvent = new ThreadEvent(thread);
+        fel.getThreadEvents().add(threadEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getApplication() == JdkUtil.Application.PKI_TOMCAT,
+                JdkUtil.Application.PKI_TOMCAT + " application not identified.");
+        assertFalse(fel.getApplication() == JdkUtil.Application.TOMCAT,
+                JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_PKI_TOMCAT),
+                Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testPrintAdaptiveSizePolicyDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: Xss128k -Xmx4g -XX:-PrintAdaptiveSizePolicy";
@@ -3505,8 +3597,8 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(31, fel.getNativeLibraries().size(), "Number of native libraries not correct.");
-        assertEquals(1, fel.getUnknownNativeLibraries().size(), "Number of unidentified native libraries not correct.");
-        assertEquals("C:\\Program Files\\Cylance\\Desktop\\CyMemDef64.dll", fel.getUnknownNativeLibraries().get(0),
+        assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Number of unidentified native libraries not correct.");
+        assertEquals("C:\\Program Files\\Cylance\\Desktop\\CyMemDef64.dll", fel.getNativeLibrariesUnknown().get(0),
                 "Unidentified native library not correct.");
     ***REMOVED***
 

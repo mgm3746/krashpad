@@ -1123,7 +1123,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_LD_SO_PRELOAD);
         ***REMOVED***
         // Unknown native libraries
-        if (!getUnknownNativeLibraries().isEmpty()) {
+        if (!getNativeLibrariesUnknown().isEmpty()) {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN);
         ***REMOVED***
         // Dynatrace
@@ -1134,9 +1134,9 @@ public class FatalErrorLog {
         ***REMOVED*** else if (isInStack(JdkRegEx.NATIVE_LIBRARY_DYNATRACE)) {
             // Dynatrace in stack
             analysis.add(0, Analysis.WARN_DYNATRACE);
-        ***REMOVED*** else if (!getUnknownNativeLibraries().isEmpty()) {
+        ***REMOVED*** else if (!getNativeLibrariesUnknown().isEmpty()) {
             // Dynatrace detected
-            Iterator<String> iterator = getUnknownNativeLibraries().iterator();
+            Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
             Pattern pattern = Pattern.compile(JdkRegEx.FILE);
             Matcher matcher;
             while (iterator.hasNext()) {
@@ -1160,9 +1160,9 @@ public class FatalErrorLog {
         ***REMOVED*** else if (isInStack(" com\\.wily\\.introscope\\.")) {
             // Wily in stack
             analysis.add(0, Analysis.WARN_WILY);
-        ***REMOVED*** else if (!getUnknownNativeLibraries().isEmpty()) {
+        ***REMOVED*** else if (!getNativeLibrariesUnknown().isEmpty()) {
             // Wily detected
-            Iterator<String> iterator = getUnknownNativeLibraries().iterator();
+            Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
             Pattern pattern = Pattern.compile(JdkRegEx.FILE);
             Matcher matcher;
             while (iterator.hasNext()) {
@@ -1183,8 +1183,8 @@ public class FatalErrorLog {
         ***REMOVED***
         // Crash in 3rd party or unknown library
         if (getNativeLibraryInCrash() != null) {
-            if (!getUnknownNativeLibraries().isEmpty()) {
-                Iterator<String> iterator = getUnknownNativeLibraries().iterator();
+            if (!getNativeLibrariesUnknown().isEmpty()) {
+                Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
                 while (iterator.hasNext()) {
                     String unknownNativeLibary = iterator.next();
                     if (unknownNativeLibary.contains(getNativeLibraryInCrash())) {
@@ -1206,6 +1206,35 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        // pki_tomcat
+        if (getApplication() == Application.PKI_TOMCAT) {
+            analysis.add(Analysis.INFO_PKI_TOMCAT);
+        ***REMOVED***
+        // JSS
+        if ((getStackFrameTop() != null && getStackFrameTop().matches("^.*" + JdkRegEx.NATIVE_LIBRARY_JSS + ".*$"))
+                || (getStackFrameTopJava() != null && getStackFrameTopJava().matches("^.+ org\\.mozilla\\.jss\\..+"))) {
+            // Crash in JSS
+            analysis.add(Analysis.ERROR_JSS);
+        ***REMOVED*** else if (isInStack(" org\\.mozilla\\.jss\\.")) {
+            // JSS in stack
+            analysis.add(0, Analysis.WARN_JSS);
+        ***REMOVED*** else if (!getNativeLibraries().isEmpty()) {
+            // JSS detected
+            Iterator<String> iterator = getNativeLibraries().iterator();
+            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Matcher matcher;
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                matcher = pattern.matcher(nativeLibraryPath);
+                if (matcher.find()) {
+                    String nativeLibrary = matcher.group(3);
+                    if (nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_JSS)) {
+                        analysis.add(Analysis.INFO_JSS);
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
 
     public List<Analysis> getAnalysis() {
@@ -1222,14 +1251,17 @@ public class FatalErrorLog {
             Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
             while (iterator.hasNext()) {
                 DynamicLibraryEvent event = iterator.next();
-                if (event.getLogEntry().matches(JdkRegEx.JBOSS_EAP6_JAR)) {
+                if (event.getLogEntry().matches(JdkRegEx.JAR_JBOSS_EAP6)) {
                     application = Application.JBOSS_EAP6;
                     break;
-                ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.JBOSS_EAP7_JAR)) {
+                ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.JAR_JBOSS_EAP7)) {
                     application = Application.JBOSS_EAP7;
                     break;
-                ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.TOMCAT_JAR)) {
+                ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.JAR_TOMCAT)) {
                     application = Application.TOMCAT;
+                    // Continue checking for known applications built on top of tomcat
+                ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.JAR_PKI_TOMCAT)) {
+                    application = Application.PKI_TOMCAT;
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1240,8 +1272,11 @@ public class FatalErrorLog {
                 Iterator<ThreadEvent> iterator = threadEvents.iterator();
                 while (iterator.hasNext()) {
                     ThreadEvent event = iterator.next();
-                    if (event.getLogEntry() != null && event.getLogEntry().matches(JdkRegEx.RHSSO_THREAD)) {
+                    if (event.getLogEntry() != null && event.getLogEntry().matches(JdkRegEx.THREAD_RHSSO)) {
                         application = Application.RHSSO;
+                        break;
+                    ***REMOVED*** else if (event.getLogEntry() != null && event.getLogEntry().matches(JdkRegEx.THREAD_PKI_TOMCAT)) {
+                        application = Application.PKI_TOMCAT;
                         break;
                     ***REMOVED***
                 ***REMOVED***
@@ -1257,15 +1292,21 @@ public class FatalErrorLog {
                     application = Application.TOMCAT_SHUTDOWN;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.ARTEMIS_COMMAND)) {
                     application = Application.AMQ;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.ARTEMIS_CLI_COMMAND)) {
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_ARTEMIS_CLI)) {
                     application = Application.AMQ_CLI;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.KAFKA_COMMAND)) {
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_KAFKA)) {
                     application = Application.KAFKA;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.JBOSS_VERSION_COMMAND)) {
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_JBOSS_VERSION)) {
                     application = Application.JBOSS_VERSION;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.WILDFLY_JAR)) {
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.JAR_WILDFLY)) {
                     application = Application.WILDFLY;
                 ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        // Check JVM arguments
+        if (application == Application.UNKNOWN) {
+            if (getJvmArgs() != null && getJvmArgs().matches("^.*-Dcatalina.base=/var/lib/pki/pki-tomcat.*$")) {
+                application = Application.PKI_TOMCAT;
             ***REMOVED***
         ***REMOVED***
         return application;
@@ -3028,6 +3069,33 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return Unknown native libraries (not OS, not Java).
+     */
+    public List<String> getNativeLibrariesUnknown() {
+        List<String> unidentifiedNativeLibraries = new ArrayList<String>();
+        List<String> nativeLibraries = getNativeLibraries();
+        if (!nativeLibraries.isEmpty()) {
+            Iterator<String> iterator = nativeLibraries.iterator();
+            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Matcher matcher;
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                matcher = pattern.matcher(nativeLibraryPath);
+                if (matcher.find()) {
+                    String nativeLibrary = matcher.group(3);
+                    if (!ErrUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibrary)
+                            && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibrary)
+                            && !ErrUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibrary)
+                            && !ErrUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)) {
+                        unidentifiedNativeLibraries.add(nativeLibraryPath);
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return unidentifiedNativeLibraries;
+    ***REMOVED***
+
+    /**
      * @return The native library the crash is happening in, or null if the crash does not happen in a native library.
      */
     public String getNativeLibraryInCrash() {
@@ -3712,33 +3780,6 @@ public class FatalErrorLog {
 
     public List<String> getUnidentifiedLogLines() {
         return unidentifiedLogLines;
-    ***REMOVED***
-
-    /**
-     * @return Unknown native libraries (not OS, not Java).
-     */
-    public List<String> getUnknownNativeLibraries() {
-        List<String> unidentifiedNativeLibraries = new ArrayList<String>();
-        List<String> nativeLibraries = getNativeLibraries();
-        if (!nativeLibraries.isEmpty()) {
-            Iterator<String> iterator = nativeLibraries.iterator();
-            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
-            Matcher matcher;
-            while (iterator.hasNext()) {
-                String nativeLibraryPath = iterator.next();
-                matcher = pattern.matcher(nativeLibraryPath);
-                if (matcher.find()) {
-                    String nativeLibrary = matcher.group(3);
-                    if (!ErrUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)) {
-                        unidentifiedNativeLibraries.add(nativeLibraryPath);
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return unidentifiedNativeLibraries;
     ***REMOVED***
 
     /**

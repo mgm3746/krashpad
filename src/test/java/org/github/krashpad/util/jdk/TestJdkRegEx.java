@@ -41,7 +41,7 @@ class TestJdkRegEx {
     void testAmq() {
         String javaCommand = "java_command: org.apache.activemq.artemis.boot.Artemis run";
         assertTrue(javaCommand.matches(JdkRegEx.ARTEMIS_COMMAND), "AMQ not recognized.");
-        assertFalse(javaCommand.matches(JdkRegEx.ARTEMIS_CLI_COMMAND), "AMQ CLI incorrectly recognized.");
+        assertFalse(javaCommand.matches(JdkRegEx.COMMAND_ARTEMIS_CLI), "AMQ CLI incorrectly recognized.");
     ***REMOVED***
 
     @Test
@@ -49,7 +49,7 @@ class TestJdkRegEx {
         String javaCommand = "java_command: org.apache.activemq.artemis.boot.Artemis queue purge --name ExpiryQueue "
                 + "--url tcp://mydomain:12345 --user myuser --password mypassword";
         assertFalse(javaCommand.matches(JdkRegEx.ARTEMIS_COMMAND), "AMQ incorrectly recognized.");
-        assertTrue(javaCommand.matches(JdkRegEx.ARTEMIS_CLI_COMMAND), "AMQ CLI not recognized.");
+        assertTrue(javaCommand.matches(JdkRegEx.COMMAND_ARTEMIS_CLI), "AMQ CLI not recognized.");
     ***REMOVED***
 
     @Test
@@ -122,28 +122,28 @@ class TestJdkRegEx {
     void testJBossVersionDoubleDashVersion() {
         String javaCommand = "java_command: C:\\path\\to\\jboss-modules.jar -mp "
                 + "C:\\path\\to\\modules org.jboss.as.standalone -Djboss.home.dir=C:\\path\\to --version";
-        assertTrue(javaCommand.matches(JdkRegEx.JBOSS_VERSION_COMMAND), "JBoss version check not recognized.");
+        assertTrue(javaCommand.matches(JdkRegEx.COMMAND_JBOSS_VERSION), "JBoss version check not recognized.");
     ***REMOVED***
 
     @Test
     void testJBossVersionLowercaseV() {
         String javaCommand = "java_command: C:\\path\\to\\jboss-modules.jar -mp "
                 + "C:\\path\\to\\modules org.jboss.as.standalone -Djboss.home.dir=C:\\path\\to -v";
-        assertTrue(javaCommand.matches(JdkRegEx.JBOSS_VERSION_COMMAND), "JBoss version check not recognized.");
+        assertTrue(javaCommand.matches(JdkRegEx.COMMAND_JBOSS_VERSION), "JBoss version check not recognized.");
     ***REMOVED***
 
     @Test
     void testJBossVersionSingleDashVersion() {
         String javaCommand = "java_command: C:\\path\\to\\jboss-modules.jar -mp "
                 + "C:\\path\\to\\modules org.jboss.as.standalone -Djboss.home.dir=C:\\path\\to -version";
-        assertTrue(javaCommand.matches(JdkRegEx.JBOSS_VERSION_COMMAND), "JBoss version check not recognized.");
+        assertTrue(javaCommand.matches(JdkRegEx.COMMAND_JBOSS_VERSION), "JBoss version check not recognized.");
     ***REMOVED***
 
     @Test
     void testJBossVersionUppercaseV() {
         String javaCommand = "java_command: C:\\path\\to\\jboss-modules.jar -mp "
                 + "C:\\path\\to\\modules org.jboss.as.standalone -Djboss.home.dir=C:\\path\\to -V";
-        assertTrue(javaCommand.matches(JdkRegEx.JBOSS_VERSION_COMMAND), "JBoss version check not recognized.");
+        assertTrue(javaCommand.matches(JdkRegEx.COMMAND_JBOSS_VERSION), "JBoss version check not recognized.");
     ***REMOVED***
 
     @Test
@@ -319,19 +319,19 @@ class TestJdkRegEx {
         String path = "/usr/lib/jvm/java-17-openjdk-17.0.5.0.8-2.el9_0.x86_64/lib/server/libjvm.so";
         assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK17_LIBJVM_PATH), "Red Hat RPM file path not identified.");
     ***REMOVED***
-    
+
     @Test
     void testSizeGb() {
         String address = "1.00 GB";
         assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
     ***REMOVED***
-    
+
     @Test
     void testSizeK() {
         String size = "1234k";
         assertTrue(size.matches(JdkRegEx.SIZE), "Size not recognized.");
     ***REMOVED***
-    
+
     @Test
     void testSizeKb() {
         String address = "3.00 KB";

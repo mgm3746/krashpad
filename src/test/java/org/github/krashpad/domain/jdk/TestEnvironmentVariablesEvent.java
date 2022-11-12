@@ -80,7 +80,7 @@ class TestEnvironmentVariablesEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     ***REMOVED***
-    
+
     @Test
     void testJavaHome() {
         String logLine = "JAVA_HOME=/etc/alternatives/jre_1.8.0";
