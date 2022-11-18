@@ -377,7 +377,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_JDK_VERSION_UNSUPPORTED);
         ***REMOVED***
         // Check for JVM failing to start
-        if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
+        if (isCrashOnStartup()) {
             analysis.add(Analysis.INFO_JVM_STARTUP_FAILS);
         ***REMOVED***
         // Check if JDK debugging symbols are installed
@@ -481,64 +481,89 @@ public class FatalErrorLog {
                 analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP);
             ***REMOVED***
         ***REMOVED***
-        // CrashOnOOME
-        if (isCrashOnOome()) {
-            if (isError("OutOfMemory encountered: Java heap space")) {
-                analysis.add(Analysis.ERROR_CRASH_ON_OOME_HEAP);
-            ***REMOVED***
+        // CrashOnOutOfMemoryError
+        if (jvmOptions != null && JdkUtil.isOptionEnabled(jvmOptions.getCrashOnOutOfMemoryError())
+                && isError("OutOfMemory encountered: Java heap space")) {
+            analysis.add(Analysis.ERROR_CRASH_ON_OOME_HEAP);
         ***REMOVED***
-        // OOME, swap
-        if (isError("There is insufficient memory for the Java Runtime Environment to continue.")) {
-            if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
-                if (getJvmMemoryInitial() > (Math.max(getJvmMemFree(), getOsMemAvailable()) + getJvmSwapFree())) {
-                    if (getApplication() == Application.TOMCAT_SHUTDOWN) {
-                        analysis.add(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN);
-                    ***REMOVED*** else if (getApplication() == Application.JBOSS_VERSION) {
-                        analysis.add(Analysis.ERROR_OOME_JBOSS_VERSION);
-                    ***REMOVED*** else if (getApplication() == Application.AMQ_CLI) {
-                        analysis.add(Analysis.ERROR_OOME_AMQ_CLI);
-                    ***REMOVED*** else {
-                        if (JdkMath.calcPercent(getJvmMemoryInitial(), getOsMemTotal()) < 50) {
-                            analysis.add(Analysis.ERROR_OOME_STARTUP_EXTERNAL);
+
+        // OOME
+        if (isMemoryAllocationFail()) {
+            if (isCrashOnStartup()) {
+                if (getApplication() == Application.TOMCAT_SHUTDOWN) {
+                    analysis.add(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN);
+                ***REMOVED*** else if (getApplication() == Application.JBOSS_VERSION) {
+                    analysis.add(Analysis.ERROR_OOME_JBOSS_VERSION);
+                ***REMOVED*** else if (getApplication() == Application.AMQ_CLI) {
+                    analysis.add(Analysis.ERROR_OOME_AMQ_CLI);
+                ***REMOVED*** else if (getCommitLimit() >= 0 && getCommittedAs() >= 0) {
+                    if (getMemoryAllocation() >= 0) {
+                        // Known allocation size
+                        if (getMemoryAllocation() > (getCommitLimit() - getCommittedAs())
+                                && getCommitLimit() >= getCommittedAs()) {
+                            // Strong evidence for vm.overcommit_memory=2, but possible resource limit
+                            analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP);
+                            if (jvmOptions == null || (jvmOptions.getInitialHeapSize() != null
+                                    && jvmOptions.getMaxHeapSize() != null
+                                    && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
+                                            jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
+                                                    JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
+                                analysis.add(Analysis.INFO_OPT_HEAP_MIN_EQUAL_MAX_OOME_STARTING);
+                            ***REMOVED***
                         ***REMOVED*** else {
-                            analysis.add(Analysis.ERROR_OOME_STARTUP);
+                            // Resource limit
+                            analysis.add(Analysis.ERROR_OOME_LIMIT_STARTUP);
+                        ***REMOVED***
+                    ***REMOVED*** else if (getJvmMemoryInitial() >= 0) {
+                        // Use JVM estimated initial process size
+                        if (getJvmMemoryInitial() > (getCommitLimit() - getCommittedAs())) {
+                            // Strong evidence for vm.overcommit_memory=2, but possible resource limit
+                            analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP);
+                            if (jvmOptions == null || (jvmOptions.getInitialHeapSize() != null
+                                    && jvmOptions.getMaxHeapSize() != null
+                                    && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
+                                            jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
+                                                    JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
+                                analysis.add(Analysis.INFO_OPT_HEAP_MIN_EQUAL_MAX_OOME_STARTING);
+                            ***REMOVED***
+                        ***REMOVED*** else {
+                            // Resource limit
+                            analysis.add(Analysis.ERROR_OOME_LIMIT_STARTUP);
                         ***REMOVED***
                     ***REMOVED***
-                ***REMOVED*** else if (getCommitLimit() > 0 && getCommittedAs() > 0
-                        && (getJvmMemoryInitial() > (getCommitLimit() - getCommittedAs()))) {
-                    analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT);
-                ***REMOVED*** else {
-                    if (isInHeader("Java Heap may be blocking the growth of the native heap")) {
-                        analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT_OOPS);
+                ***REMOVED*** else if (getJvmMemoryInitial() >= 0 && (getJvmMemFree() >= 0 || getOsMemAvailable() >= 0)
+                        && getJvmSwapFree() >= 0) {
+                    if (getJvmMemoryInitial() > (Math.max(getJvmMemFree(), getOsMemAvailable()) + getJvmSwapFree())) {
+                        // Insufficient physical memory for JVM estimated initial process size
+                        if (JdkMath.calcPercent(getJvmMemoryInitial(), getOsMemTotal()) < 50) {
+                            analysis.add(Analysis.ERROR_OOME_EXTERNAL_STARTUP);
+                        ***REMOVED*** else {
+                            analysis.add(Analysis.ERROR_OOME_JVM_STARTUP);
+                        ***REMOVED***
+                        if (jvmOptions == null
+                                || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
+                                        && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
+                                                jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
+                                                        JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
+                            analysis.add(Analysis.INFO_OPT_HEAP_MIN_EQUAL_MAX_OOME_STARTING);
+                        ***REMOVED***
                     ***REMOVED*** else {
-                        analysis.add(Analysis.ERROR_OOME_STARTUP_LIMIT);
+                        // Resource limit
+                        analysis.add(Analysis.ERROR_OOME_LIMIT_STARTUP);
                     ***REMOVED***
                 ***REMOVED***
                 // Don't double report the JVM failing to start
                 analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
             ***REMOVED*** else {
-                // Check for failed allocation size in header
-                long allocation = Long.MIN_VALUE;
-                if (!headerEvents.isEmpty()) {
-                    Iterator<HeaderEvent> iterator = headerEvents.iterator();
-                    String regex = "^.+failed to (allocate|map) (\\d{1,***REMOVED***) bytes.+$";
-                    while (iterator.hasNext()) {
-                        HeaderEvent he = iterator.next();
-                        if (he.getLogEntry().matches(regex)) {
-                            Pattern pattern = Pattern.compile(regex);
-                            Matcher matcher = pattern.matcher(he.getLogEntry());
-                            if (matcher.find()) {
-                                allocation = JdkUtil.convertSize(Long.parseLong(matcher.group(2)), 'B',
-                                        Constants.PRECISION_REPORTING);
-                                break;
-                            ***REMOVED***
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***
-                if (allocation >= 0 && (getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
-                        && allocation >= (getJvmMemFree() + getJvmSwapFree())
-                        || (getAvailPageFile() > 0 && allocation >= getAvailPageFile()))) {
-                    // Not enough physical memory
+                // Crash after startup
+                if (getMemoryAllocation() >= 0 && getCommitLimit() >= 0 && getCommittedAs() >= 0
+                        && getMemoryAllocation() > (getCommitLimit() - getCommittedAs())
+                        && getCommitLimit() >= getCommittedAs()) {
+                    // Allocation > available commit limit and CommitLimit >= Committed_AS
+                    analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT);
+                ***REMOVED*** else if (getMemoryAllocation() >= 0 && (getJvmMemFree() >= 0 || getJvmSwapFree() >= 0)
+                        && getMemoryAllocation() >= (getJvmMemFree() + getJvmSwapFree())) {
+                    // Allocation > available physical memory
                     if (getJvmMemoryMax() > 0 && getJvmMemTotal() > 0) {
                         if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) >= 95) {
                             analysis.add(Analysis.ERROR_OOME_JVM);
@@ -556,23 +581,16 @@ public class FatalErrorLog {
                             ***REMOVED***
                         ***REMOVED***
                     ***REMOVED***
-                ***REMOVED*** else if ((allocation >= 0 && getJvmMemFree() >= 0 && getJvmSwapFree() >= 0
-                        && allocation < (getJvmMemFree() + getJvmSwapFree()))
-                        || (getJvmMemFree() >= 0 && getJvmMemTotal() > 0
-                                && JdkMath.calcPercent(getJvmMemFree(), getJvmMemTotal()) >= 50)
+                ***REMOVED*** else if ((getJvmMemFree() >= 0 && getJvmMemTotal() > 0
+                        && JdkMath.calcPercent(getJvmMemFree(), getJvmMemTotal()) >= 50)
                         || (getJvmMemoryMax() >= 0 && getJvmMemTotal() > 0
                                 && JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) < 50)) {
-                    // allocation < available memory or free memory >= 50%
-                    if (getCommitLimit() > 0 && getCommittedAs() > 0
-                            && (getJvmMemoryMax() > (getCommitLimit() - getCommittedAs()))) {
-                        analysis.add(Analysis.ERROR_OOME_LIMIT_OVERCOMMIT);
+                    // Likely a limit when JVM memory < 1/2 total memory
+                    if (isInHeader("Java Heap may be blocking the growth of the native heap")
+                            || isInHeader("compressed oops")) {
+                        analysis.add(Analysis.ERROR_OOME_LIMIT_OOPS);
                     ***REMOVED*** else {
-                        if (isInHeader("Java Heap may be blocking the growth of the native heap")
-                                || isInHeader("compressed oops")) {
-                            analysis.add(Analysis.ERROR_OOME_LIMIT_OOPS);
-                        ***REMOVED*** else {
-                            analysis.add(Analysis.ERROR_OOME_LIMIT);
-                        ***REMOVED***
+                        analysis.add(Analysis.ERROR_OOME_LIMIT);
                     ***REMOVED***
                 ***REMOVED*** else {
                     if (!(isTruncated() || isInHeader("Java Heap may be blocking the growth of the native heap")
@@ -583,11 +601,13 @@ public class FatalErrorLog {
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
-            // G1 collector is not good when memory is tightINFO_VM_OPERATION_HEAP_DUMP
+            // G1 collector is not good when memory is tight
             if (getGarbageCollectors().contains(GarbageCollector.G1)) {
                 analysis.add(Analysis.WARN_OOM_G1);
             ***REMOVED***
-        ***REMOVED*** else if (getJvmSwap() > 0) {
+        ***REMOVED***
+        // swap
+        if (getJvmSwap() > 0) {
             // Check for excessive swap usage
             int swapUsedPercent = 100 - JdkMath.calcPercent(getJvmSwapFree(), getJvmSwap());
             if (swapUsedPercent > 5 && swapUsedPercent < 20) {
@@ -630,14 +650,13 @@ public class FatalErrorLog {
                 && getStackFrameTop().matches("^V.+JfrEventClassTransformer::on_klass_creation.+$")) {
             analysis.add(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED);
         ***REMOVED*** else if (getStackFrameTop() != null
-                && !isError("There is insufficient memory for the Java Runtime Environment to continue")) {
+                && !isError("There is insufficient memory for the Java Runtime Environment to continue")
+                && !isError("***REMOVED***  fatal error: OutOfMemory encountered: Java heap space")) {
             // Other libjvm.so/jvm.dll analysis
-            if (!isCrashOnOome()) {
-                if (getStackFrameTop().matches("^V  \\[libjvm\\.so.+\\](.+)?$")) {
-                    analysis.add(Analysis.ERROR_LIBJVM_SO);
-                ***REMOVED*** else if (getStackFrameTop().matches("^V  \\[jvm\\.dll.+\\](.+)?$")) {
-                    analysis.add(Analysis.ERROR_JVM_DLL);
-                ***REMOVED***
+            if (getStackFrameTop().matches("^V  \\[libjvm\\.so.+\\](.+)?$")) {
+                analysis.add(Analysis.ERROR_LIBJVM_SO);
+            ***REMOVED*** else if (getStackFrameTop().matches("^V  \\[jvm\\.dll.+\\](.+)?$")) {
+                analysis.add(Analysis.ERROR_JVM_DLL);
             ***REMOVED***
         ***REMOVED***
         // Signal numbers
@@ -1476,13 +1495,20 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * The amount of memory currently allocated on the system.
+     * The amount of userspace virtual memory currently allocated on the system.
      * 
      * The committed memory is a sum of all of the memory which has been allocated by processes, even if it has not been
      * "used" by them yet.
      * 
-     * @return The amount of memory currently allocated on the system in <code>Constants.PRECISION_REPORTING</code>
-     *         units.
+     * When vm.overcommit_memory=2, the cummulative VSS of all userspace processes is limited to overcomit_ratio percent
+     * of ram + swap.
+     * 
+     * RHEL5: allocatable memory=(swap size + (RAM size * overcommit ratio / 100))
+     * 
+     * RHEL6/7/8: allocatable memory=(swap size + ((RAM size - huge tlb size) * overcommit ratio / 100))
+     * 
+     * @return The amount of userspace virtual memory currently allocated on the system in
+     *         <code>Constants.PRECISION_REPORTING</code> units.
      */
     public long getCommittedAs() {
         long committedAs = Long.MIN_VALUE;
@@ -2906,6 +2932,31 @@ public class FatalErrorLog {
         return meminfoEvents;
     ***REMOVED***
 
+    /**
+     * @return the memory allocation (in bytes) causing the crash, or a negative number if the crash is not related to a
+     *         memory allocation.
+     */
+    public long getMemoryAllocation() {
+        long memoryAllocation = Long.MIN_VALUE;
+        if (!headerEvents.isEmpty()) {
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
+            String regex = "^.+failed to (allocate|map) (\\d{1,***REMOVED***) bytes.+$";
+            while (iterator.hasNext()) {
+                HeaderEvent he = iterator.next();
+                if (he.getLogEntry().matches(regex)) {
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(he.getLogEntry());
+                    if (matcher.find()) {
+                        memoryAllocation = JdkUtil.convertSize(Long.parseLong(matcher.group(2)), 'B',
+                                Constants.PRECISION_REPORTING);
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return memoryAllocation;
+    ***REMOVED***
+
     public List<MemoryEvent> getMemoryEvents() {
         return memoryEvents;
     ***REMOVED***
@@ -4132,14 +4183,14 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return true if the crash is due to -XX:+CrashOnOutOfMemoryError, false otherwise.
+     * @return true if the crash happens when the JVM starts, false otherwise.
      */
-    public boolean isCrashOnOome() {
-        boolean isCrashOnOome = false;
-        if (jvmOptions != null && JdkUtil.isOptionEnabled(jvmOptions.getCrashOnOutOfMemoryError())) {
-            isCrashOnOome = true;
+    public boolean isCrashOnStartup() {
+        boolean isCrashOnStartup = false;
+        if (getElapsedTime() != null && getElapsedTime().matches("0d 0h 0m 0s")) {
+            isCrashOnStartup = true;
         ***REMOVED***
-        return isCrashOnOome;
+        return isCrashOnStartup;
     ***REMOVED***
 
     /**
@@ -4253,6 +4304,17 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return isJnaCrash;
+    ***REMOVED***
+
+    /**
+     * @return true if the crash is due to a memory allocation failing, false otherwise.
+     */
+    public boolean isMemoryAllocationFail() {
+        boolean isMemoryAllocationFail = false;
+        if (isError("There is insufficient memory for the Java Runtime Environment to continue.")) {
+            isMemoryAllocationFail = true;
+        ***REMOVED***
+        return isMemoryAllocationFail;
     ***REMOVED***
 
     /**

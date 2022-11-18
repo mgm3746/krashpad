@@ -236,6 +236,11 @@ public enum Analysis {
     ERROR_OOME_EXTERNAL_OR_HYPERVISOR("error.oome.external.or.hypervisor"),
 
     /**
+     * Property key for the JVM failing to start due to insufficient physical memory when JVM memory &lt; 50% memory.
+     */
+    ERROR_OOME_EXTERNAL_STARTUP("error.oome.external.startup"),
+
+    /**
      * Property key for insufficient physical memory when doing a JBoss version check (e.g. standalone.sh --version).
      */
     ERROR_OOME_JBOSS_VERSION("error.oome.jboss.version"),
@@ -244,6 +249,11 @@ public enum Analysis {
      * Property key for insufficient physical memory due to the JVM process.
      */
     ERROR_OOME_JVM("error.oome.jvm"),
+
+    /**
+     * Property key for the JVM failing to start due to insufficient physical memory.
+     */
+    ERROR_OOME_JVM_STARTUP("error.oome.jvm.startup"),
 
     /**
      * Property key for failing to allocate memory due to a resource limit (rlimit).
@@ -257,10 +267,15 @@ public enum Analysis {
     ERROR_OOME_LIMIT_OOPS("error.oome.limit.oops"),
 
     /**
-     * Property key for failing to allocate memory due to a resource limit (rlimit) being reached or unused memory
-     * committed to other processes is inaccessible.
+     * Property key for the JVM failing to start due to a resource limit (rlimit) being reached or the native heap
+     * reaching the java heap base address.
      */
-    ERROR_OOME_LIMIT_OVERCOMMIT("error.oome.limit.overcommit"),
+    ERROR_OOME_LIMIT_OOPS_STARTUP("error.oome.limit.oops.startup"),
+
+    /**
+     * Property key for the JVM failing to start due to a resource limit (rlimit).
+     */
+    ERROR_OOME_LIMIT_STARTUP("error.oome.limit.startup"),
 
     /**
      * Property key for insufficient physical memory due to JVM native memory, an external process, or hypervisor
@@ -274,31 +289,16 @@ public enum Analysis {
     ERROR_OOME_OOPS("error.oome.oops"),
 
     /**
-     * Property key for the JVM failing to start due to insufficient physical memory.
+     * Property key for the JVM failing to allocate memory with strong evidence it is due to vm.overcommit_memory=2, but
+     * a resource limit cannot be ruled out.
      */
-    ERROR_OOME_STARTUP("error.oome.startup"),
+    ERROR_OOME_OVERCOMMIT_LIMIT("error.oome.overcommit.limit"),
 
     /**
-     * Property key for the JVM failing to start due to insufficient physical memory when JVM memory &lt; 50% memory.
+     * Property key for the JVM failing to start with strong evidence it is due to vm.overcommit_memory=2, but a
+     * resource limit cannot be ruled out.
      */
-    ERROR_OOME_STARTUP_EXTERNAL("error.oome.startup.external"),
-
-    /**
-     * Property key for the JVM failing to start due to a resource limit (rlimit).
-     */
-    ERROR_OOME_STARTUP_LIMIT("error.oome.startup.limit"),
-
-    /**
-     * Property key for the JVM failing to start due to a resource limit (rlimit) being reached or the native heap
-     * reaching the java heap base address.
-     */
-    ERROR_OOME_STARTUP_LIMIT_OOPS("error.oome.startup.limit.oops"),
-
-    /**
-     * Property key for the JVM failing to start due to a resource limit (rlimit) being reached or unused memory
-     * committed to other processes is inaccessible.
-     */
-    ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT("error.oome.startup.limit.overcommit"),
+    ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP("error.oome.overcommit.limit.startup"),
 
     /**
      * Property key for "OutOfMemoryError: Compressed class space" caught and thrown.
@@ -569,6 +569,11 @@ public enum Analysis {
      * Property key for the maximum heap size not being explicitly set.
      */
     INFO_OPT_HEAP_MAX_MISSING("info.opt.heap.max.missing"),
+
+    /**
+     * Property key for setting the initial heap size smaller to a smaller value than the maximum heap size.
+     */
+    INFO_OPT_HEAP_MIN_EQUAL_MAX_OOME_STARTING("info.opt.heap.min.equal.max.oome.starting"),
 
     /**
      * Property key for min heap not equal to max heap.

@@ -138,7 +138,7 @@ class TestHeaderEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        assertTrue(headerEvent.isOutOf(), "Out of not identified.");
+        assertTrue(headerEvent.isOutOf(), "Out of Memory Error not identified.");
     ***REMOVED***
 
     @Test

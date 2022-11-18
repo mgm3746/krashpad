@@ -2414,9 +2414,11 @@ class TestAnalysis {
         error.append("***REMOVED***  INVALID (0xe0000002) at pc=0x0000000000000000, pid=108047, tid=0x00007f67eb450700");
         assertEquals(error.toString(), fel.getError());
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
-                Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP),
-                Analysis.ERROR_OOME_STARTUP + " analysis not identified.");
+                Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM_STARTUP),
+                Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
+                Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2433,8 +2435,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP),
-                Analysis.ERROR_OOME_STARTUP + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM_STARTUP),
+                Analysis.ERROR_OOME_JVM_STARTUP + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2444,8 +2446,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_MISSING),
                 Analysis.INFO_OPT_MISSING + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_EXTERNAL),
-                Analysis.ERROR_OOME_STARTUP_EXTERNAL + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL_STARTUP),
+                Analysis.ERROR_OOME_EXTERNAL_STARTUP + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2453,8 +2455,23 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset66.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT),
-                Analysis.ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
+                Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM_STARTUP),
+                Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testOomStartupOvercommitLimit() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset81.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
+                Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM_STARTUP),
+                Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_MIN_EQUAL_MAX_OOME_STARTING),
+                Analysis.INFO_OPT_HEAP_MIN_EQUAL_MAX_OOME_STARTING + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2797,8 +2814,8 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isError("Out of Memory Error"), "Out Of Memory Error not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT),
-                Analysis.ERROR_OOME_STARTUP_LIMIT + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_STARTUP),
+                Analysis.ERROR_OOME_LIMIT_STARTUP + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***

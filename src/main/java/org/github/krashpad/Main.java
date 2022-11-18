@@ -176,11 +176,11 @@ public class Main {
                 ***REMOVED***
             ***REMOVED***
             if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_STARTUP)
                     || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OVERCOMMIT)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT_OOPS)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_STARTUP_LIMIT_OVERCOMMIT))) {
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS_STARTUP)
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT)
+                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP))) {
                 if (fel.getRlimitEvent() != null) {
                     printWriter.write(fel.getRlimitEvent().getLogEntry() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
@@ -300,7 +300,7 @@ public class Main {
                 printWriter.write("Direct Memory Max: " + fel.getDirectMemoryMaxSize()
                         + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
             ***REMOVED***
-            if (fel.getElapsedTime() != null && fel.getElapsedTime().matches("0d 0h 0m 0s")) {
+            if (fel.isCrashOnStartup()) {
                 // Display JVM initial memory if it fails to start
                 if (fel.getJvmMemoryInitial() > 0) {
                     long percentMemory;
