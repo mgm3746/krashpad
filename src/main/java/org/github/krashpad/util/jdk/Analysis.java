@@ -205,9 +205,9 @@ public enum Analysis {
     ERROR_MODULE_ENTRY_PURGE_READS("error.module.entry.purge.reads"),
 
     /**
-     * Property key for crash caused trying to dereference a null pointer.
+     * Property key for JVM crash in ModuleEntry::purge_reads possible.
      */
-    ERROR_NULL_POINTER("error.null.pointer"),
+    ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE("error.module.entry.purge.reads.possible"),
 
     /**
      * Property key for generic insufficient physical memory.
@@ -352,6 +352,16 @@ public enum Analysis {
     ERROR_ORACLE_JDBC_OCI_LOADING("error.oracle.jdbc.oci.loading"),
 
     /**
+     * Property key for crash caused trying to dereference an invalid pointer.
+     */
+    ERROR_POINTER_INVALID("error.pointer.invalid"),
+
+    /**
+     * Property key for crash caused trying to dereference a null pointer.
+     */
+    ERROR_POINTER_NULL("error.pointer.null"),
+
+    /**
      * Property key for a crash in PSPromotionManager::copy_to_survivor_space&lt;false&gt;(oopDesc*).
      */
     ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE("error.ps_promotion_manager.copy_to_survivor_space"),
@@ -365,11 +375,6 @@ public enum Analysis {
      * Property key RHEL/JDK rpm version mismatch.
      */
     ERROR_RHEL_JDK_RPM_MISMATCH("error.rhel.jdk.rpm.mismatch"),
-
-    /**
-     * Property key RHEL9 + JDK8.
-     */
-    ERROR_RHEL9_JDK8("error.rhel9.jdk8"),
 
     /**
      * Property key for stack free space greater than stack size.
@@ -395,6 +400,16 @@ public enum Analysis {
      * Property key for AdoptOpenJDK build of OpenJDK.
      */
     INFO_ADOPTOPENJDK_POSSIBLE("info.adoptopenjdk.possible"),
+
+    /**
+     * Property key for AppDynamics instrumentation detected.
+     */
+    INFO_APP_DYNAMICS_DETECTED("info.app.dynamics.detected"),
+
+    /**
+     * Property key for AppDynamics instrumentation possible.
+     */
+    INFO_APP_DYNAMICS_POSSIBLE("info.app.dynamics.possible"),
 
     /**
      * Property key for cgroup environment.
@@ -482,6 +497,11 @@ public enum Analysis {
      * TODO: Remove this? It's basically a duplicate of INFO_CGROUP_MEMORY_LIMIT?
      */
     INFO_MEMORY_JVM_NE_SYSTEM("info.memory.jvm.ne.system"),
+
+    /**
+     * Property key for Microsoft SQL Server native driver detected.
+     */
+    INFO_MICROSOFT_SQL_SERVER_NATIVE("info.microsoft.sql.server.native"),
 
     /**
      * Property key for unknown native libraries detected.
@@ -881,6 +901,11 @@ public enum Analysis {
      * Property key for -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC on a RH build.
      */
     INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH("info.rh.opt.experimental.shenandoah"),
+
+    /**
+     * Property key RHEL9 + JDK8.
+     */
+    INFO_RHEL9_JDK8("info.rhel9.jdk8"),
 
     /**
      * Property key for JVM crash during shutdown safepoint.

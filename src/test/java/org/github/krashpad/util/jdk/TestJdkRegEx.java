@@ -53,6 +53,30 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testAppDynamicsJar() {
+        String jar = "javaagent.jar";
+        assertTrue(jar.matches(JdkRegEx.JAR_APP_DYNAMICS), "AppDynamics jar not identified.");
+    ***REMOVED***
+
+    @Test
+    void testAppDynamicsJavaAgentLinux() {
+        String javaagent = "-javaagent:/path/to/appdynamics/javaagent.jar";
+        assertTrue(javaagent.matches(JdkRegEx.JAVAAGENT_APP_DYNAMICS), "AppDynamics javaagent not identified.");
+    ***REMOVED***
+
+    @Test
+    void testAppDynamicsJavaAgentWindows() {
+        String javaagent = "-javaagent:C:\\appdynamics\\appagent\\javaagent\\javaagent.jar";
+        assertTrue(javaagent.matches(JdkRegEx.JAVAAGENT_APP_DYNAMICS), "AppDynamics javaagent not identified.");
+    ***REMOVED***
+
+    @Test
+    void testAppDynamicsPackage() {
+        String pckage = "com.singularity.ee.agent";
+        assertTrue(pckage.matches(JdkRegEx.PACKAGE_APP_DYNAMICS), "AppDynamics package not identified.");
+    ***REMOVED***
+
+    @Test
     void testClass() {
         String address = "com.example.MyClass";
         assertTrue(address.matches(JdkRegEx.CLASS), "CLASS not recognized.");
@@ -195,18 +219,6 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
-    void testNullPointer32Bit() {
-        String address = "0x00000000";
-        assertTrue(address.matches(JdkRegEx.NULL_POINTER), "Null pointer not recognized.");
-    ***REMOVED***
-
-    @Test
-    void testNullPointer64Bit() {
-        String address = "0x0000000000000000";
-        assertTrue(address.matches(JdkRegEx.NULL_POINTER), "Null pointer not recognized.");
-    ***REMOVED***
-
-    @Test
     void testPercent() {
         String address = "54%";
         assertTrue(address.matches(JdkRegEx.PERCENT), "PERCENT not recognized.");
@@ -216,6 +228,30 @@ class TestJdkRegEx {
     void testPermission() {
         String s = "rw-p";
         assertTrue(s.matches(JdkRegEx.PERMISION), "Permission not identified.");
+    ***REMOVED***
+
+    @Test
+    void testPointerInvalid32Bit() {
+        String address = "0xffffffff";
+        assertTrue(address.matches(JdkRegEx.POINTER_INVALID), "Invalid pointer not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testPointerInvalid64Bit() {
+        String address = "0xffffffffffffffff";
+        assertTrue(address.matches(JdkRegEx.POINTER_INVALID), "Invalid pointer not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testPointerNull32Bit() {
+        String address = "0x00000000";
+        assertTrue(address.matches(JdkRegEx.POINTER_NULL), "Null pointer not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testPointerNull64Bit() {
+        String address = "0x0000000000000000";
+        assertTrue(address.matches(JdkRegEx.POINTER_NULL), "Null pointer not recognized.");
     ***REMOVED***
 
     @Test

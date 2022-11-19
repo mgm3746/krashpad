@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
+import org.github.krashpad.domain.jdk.CompilationEvent;
 import org.github.krashpad.domain.jdk.ContainerInfoEvent;
 import org.github.krashpad.domain.jdk.CpuInfoEvent;
 import org.github.krashpad.domain.jdk.CurrentCompileTaskEvent;
@@ -70,6 +71,46 @@ class TestAnalysis {
                 Analysis.INFO_ADOPTOPENJDK_POSSIBLE + " analysis not identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX),
                 Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testAppDynamicsDetectedCompilationEvent() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String compilation = "Event: 1234.567 Thread 0x000002a0fb87b000 124536   !   4       "
+                + "com.singularity.ee.agent.util.reflect.ReflectionUtility::getDeclaredField (79 bytes)";
+        CompilationEvent event = new CompilationEvent(compilation);
+        fel.getCompilationEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_DETECTED),
+                Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
+                Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis incorreclty identified.");
+    ***REMOVED***
+
+    @Test
+    void testAppDynamicsDetectedJavaAgent() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -javaagent:C:\\appdynamics\\appagent\\javaagent\\javaagent.jar -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_DETECTED),
+                Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
+                Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis incorreclty identified.");
+    ***REMOVED***
+
+    @Test
+    void testAppDynamicsPossible() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -javaagent:C:\\pathh\\to\\javaagent.jar -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
+                Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_DETECTED),
+                Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -2099,6 +2140,18 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testMicrosoftSqlServerNativeDriverDetected() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "0x00007fff77490000 - 0x00007fff774de000         "
+                + "C:\\Windows\\System32\\mssql-jdbc_auth-8.2.2.x64.dll";
+        DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE),
+                Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testMinHeapDeltaBytes() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xms1g -XX:MinHeapDeltaBytes=12345 -Xmx1g";
@@ -2174,9 +2227,26 @@ class TestAnalysis {
         assertTrue(fel.getAnalysis().contains(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis not identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
-                Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
+                Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         assertFalse(fel.getAnalysis().contains(Analysis.ERROR_JVM_DLL),
-                Analysis.ERROR_JVM_DLL + " analysis not identified.");
+                Analysis.ERROR_JVM_DLL + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testModuleEntryPurgeReadsPossible() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset82.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
+                Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE),
+                Analysis.ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+                Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_JVM_DLL),
+                Analysis.ERROR_JVM_DLL + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_POINTER_INVALID),
+                Analysis.ERROR_POINTER_INVALID + " analysis not identified.");
     ***REMOVED***
 
     /**
@@ -2255,8 +2325,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset51.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_NULL_POINTER),
-                Analysis.ERROR_NULL_POINTER + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_POINTER_NULL),
+                Analysis.ERROR_POINTER_NULL + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3168,8 +3238,8 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL9_JDK8),
-                Analysis.ERROR_RHEL9_JDK8 + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RHEL9_JDK8),
+                Analysis.INFO_RHEL9_JDK8 + " analysis not identified.");
     ***REMOVED***
 
     @Test

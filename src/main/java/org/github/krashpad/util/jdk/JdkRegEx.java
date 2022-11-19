@@ -282,6 +282,15 @@ public class JdkRegEx {
     public static final String INODE = "([0-9]{1,***REMOVED***)";
 
     /**
+     * AppDynamics jar.
+     * 
+     * For example:
+     * 
+     * javaagent.jar
+     */
+    public static final String JAR_APP_DYNAMICS = "javaagent.jar";
+
+    /**
      * JBoss EAP6 jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
      * For example:
@@ -333,6 +342,18 @@ public class JdkRegEx {
      * 
      */
     public static final String JAVA_NIO_BYTEBUFFER = "java[\\.\\/]nio[\\.\\/]ByteBuffer";
+
+    /**
+     * AppDynamics instrumentation.
+     * 
+     * For example:
+     * 
+     * -javaagent:/path/to/appdynamics/javaagent.jar
+     * 
+     * -javaagent:C:\appdynamics\appagent\javaagent\javaagent.jar
+     */
+    public static final String JAVAAGENT_APP_DYNAMICS = "-javaagent:([A-Z]:)?(.*[/\\\\])*appdynamics[/\\\\](.*[/\\\\])*"
+            + "javaagent.jar";
 
     /**
      * Kilobyte units identifier.
@@ -408,6 +429,13 @@ public class JdkRegEx {
     public static final String NATIVE_LIBRARY_JSS = "libjss4\\.so";
 
     /**
+     * Microsoft SQL Server native library.
+     * 
+     * For example mssql-jdbc_auth-8.2.2.x64.dll
+     */
+    public static final String NATIVE_LIBRARY_MICROSOFT_SQL_SERVER = "mssql-jdbc_auth-\\d\\.\\d\\.\\d\\.x64\\.dll";
+
+    /**
      * Wily/DX APM native library.
      * 
      * For example libIntroscopeLinuxIntelAmd64Stats.so
@@ -417,7 +445,12 @@ public class JdkRegEx {
     /**
      * A null pointer address.
      */
-    public static final String NULL_POINTER = "0x([0]{8***REMOVED***|[0]{16***REMOVED***)";
+    public static final String POINTER_NULL = "0x([0]{8***REMOVED***|[0]{16***REMOVED***)";
+
+    /**
+     * An invalid pointer address.
+     */
+    public static final String POINTER_INVALID = "0x([f]{8***REMOVED***|[f]{16***REMOVED***)";
 
     /**
      * Regular expression for a old generation gc data.
@@ -488,6 +521,15 @@ public class JdkRegEx {
     public static final String OPTION_SIZE_BYTES = "((\\d{1,***REMOVED***)(b|B|k|K|m|M|g|G)?)";
 
     /**
+     * AppDynamics package.
+     * 
+     * For example:
+     * 
+     * com.singularity.ee.agent.util.reflect.ReflectionUtility
+     */
+    public static final String PACKAGE_APP_DYNAMICS = "com\\.singularity\\.ee\\.agent";
+
+    /**
      * Percent rounded to whole number.
      * 
      * For example: 54%
@@ -536,7 +578,6 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d{1,2***REMOVED***\\.\\d{1,2***REMOVED***"
             + "(\\.\\d{1,2***REMOVED***)?-\\d\\.el([789])(_(\\d{1,2***REMOVED***))?\\.x86_64)";
-
     /**
      * Red Hat OpenJDK 11 rpm libjvm.so file path.
      * 
@@ -548,6 +589,7 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK11_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK11_DIR
             + "\\/lib\\/server\\/libjvm\\.so$";
+
     /**
      * Red Hat OpenJDK 17 rpm directory.
      * 

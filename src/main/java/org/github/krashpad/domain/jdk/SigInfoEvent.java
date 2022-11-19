@@ -124,7 +124,11 @@ public class SigInfoEvent implements LogEvent {
         Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
             if (matcher.group(6) != null) {
+                // linux
                 address = matcher.group(6);
+            ***REMOVED*** else if (matcher.group(18) != null) {
+                // windows
+                address = matcher.group(18);
             ***REMOVED***
         ***REMOVED***
         return address;

@@ -68,6 +68,7 @@ class TestSigInfoEvent {
         SigInfoEvent event = new SigInfoEvent(logLine);
         assertEquals(SignalNumber.EXCEPTION_ACCESS_VIOLATION, event.getSignalNumber(), "Signal number not correct.");
         assertEquals(SignalCode.UNKNOWN, event.getSignalCode(), "Signal code not correct.");
+        assertEquals("0xffffffffffffffff", event.getSignalAddress(), "Signal address not correct.");
     ***REMOVED***
 
     @Test

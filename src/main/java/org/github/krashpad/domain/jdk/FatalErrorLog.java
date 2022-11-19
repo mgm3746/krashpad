@@ -859,9 +859,12 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for crash caused trying to dereference a null pointer.
-        if (sigInfoEvent != null && sigInfoEvent.getSignalAddress() != null
-                && sigInfoEvent.getSignalAddress().matches(JdkRegEx.NULL_POINTER)) {
-            analysis.add(Analysis.ERROR_NULL_POINTER);
+        if (sigInfoEvent != null && sigInfoEvent.getSignalAddress() != null) {
+            if (sigInfoEvent.getSignalAddress().matches(JdkRegEx.POINTER_NULL)) {
+                analysis.add(Analysis.ERROR_POINTER_NULL);
+            ***REMOVED*** else if (sigInfoEvent.getSignalAddress().matches(JdkRegEx.POINTER_INVALID)) {
+                analysis.add(Analysis.ERROR_POINTER_INVALID);
+            ***REMOVED***
         ***REMOVED***
         // Check if performance data is being written to disk in a container environment
         if (isContainer() && jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUsePerfData())
@@ -1196,9 +1199,41 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        // AppDynamics
+        if (getJvmOptions() != null && getJvmOptions().getJavaagent() != null) {
+            Iterator<String> iterator = getJvmOptions().getJavaagent().iterator();
+            while (iterator.hasNext()) {
+                String javaagent = iterator.next();
+                if (javaagent.matches(JdkRegEx.JAVAAGENT_APP_DYNAMICS)) {
+                    analysis.add(Analysis.INFO_APP_DYNAMICS_DETECTED);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        if (!analysis.contains(Analysis.INFO_APP_DYNAMICS_DETECTED) && compilationEvents != null) {
+            Iterator<CompilationEvent> iterator = compilationEvents.iterator();
+            while (iterator.hasNext()) {
+                CompilationEvent event = iterator.next();
+                if (event.getLogEntry().matches("^.*" + JdkRegEx.PACKAGE_APP_DYNAMICS + ".*$")) {
+                    analysis.add(Analysis.INFO_APP_DYNAMICS_DETECTED);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        if (!analysis.contains(Analysis.INFO_APP_DYNAMICS_DETECTED) && getJvmOptions() != null
+                && getJvmOptions().getJavaagent() != null) {
+            Iterator<String> iterator = getJvmOptions().getJavaagent().iterator();
+            while (iterator.hasNext()) {
+                String javaagent = iterator.next();
+                if (javaagent.endsWith(JdkRegEx.JAR_APP_DYNAMICS)) {
+                    analysis.add(Analysis.INFO_APP_DYNAMICS_POSSIBLE);
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
         // RHEL9 + JDK8
         if (getOsVersion() == OsVersion.RHEL9 && getJavaSpecification() == JavaSpecification.JDK8) {
-            analysis.add(Analysis.ERROR_RHEL9_JDK8);
+            analysis.add(Analysis.INFO_RHEL9_JDK8);
         ***REMOVED***
         // Crash in 3rd party or unknown library
         if (getNativeLibraryInCrash() != null) {
@@ -1251,6 +1286,38 @@ public class FatalErrorLog {
                         analysis.add(Analysis.INFO_JSS);
                         break;
                     ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        // Microsoft SQL Server native driver
+        if (!getNativeLibrariesUnknown().isEmpty()) {
+            Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
+            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Matcher matcher;
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                matcher = pattern.matcher(nativeLibraryPath);
+                if (matcher.find()) {
+                    String nativeLibrary = matcher.group(3);
+                    if (nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_MICROSOFT_SQL_SERVER)) {
+                        analysis.add(Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE);
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        // Detective work when debug symbols are missing but many clues exist
+        if ((analysis.contains(Analysis.ERROR_JVM_DLL) || analysis.contains(Analysis.ERROR_LIBJVM_SO))
+                && analysis.contains(Analysis.WARN_DEBUG_SYMBOLS) && (analysis.contains(Analysis.ERROR_POINTER_NULL)
+                        || analysis.contains(Analysis.ERROR_POINTER_INVALID))) {
+            if (analysis.contains(Analysis.INFO_APP_DYNAMICS_DETECTED)
+                    || analysis.contains(Analysis.INFO_APP_DYNAMICS_POSSIBLE)
+                            && analysis.contains(Analysis.INFO_VM_OPERATION_CONCURRENT_GC)) {
+                if (getJavaSpecification() == JavaSpecification.JDK11
+                        && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) <= 12) {
+                    analysis.add(Analysis.ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE);
+                    analysis.remove(Analysis.ERROR_JVM_DLL);
+                    analysis.remove(Analysis.ERROR_LIBJVM_SO);
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
