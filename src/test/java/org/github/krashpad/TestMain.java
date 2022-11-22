@@ -21,12 +21,14 @@ import static org.github.krashpad.util.Constants.OPTION_OUTPUT_LONG;
 import static org.github.krashpad.util.Constants.OPTION_OUTPUT_SHORT;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
 import org.apache.commons.cli.CommandLine;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.api.io.TempDir;
 
 class TestMain {
@@ -59,6 +61,25 @@ class TestMain {
         assertNotNull(cmd);
         assertHasOption(cmd, OPTION_HELP_LONG);
         assertHasOption(cmd, OPTION_OUTPUT_LONG);
+    ***REMOVED***
+
+    @Test
+    void testOverwriteInputFile(@TempDir File temporaryFolder) throws Exception {
+        // Method arguments
+        String[] args = new String[] { //
+                "--help", //
+                "--output", //
+                temporaryFolder.getAbsolutePath(), //
+                // Instead of a file, use a location sure to exist.
+                temporaryFolder.getAbsolutePath() //
+        ***REMOVED***;
+        CommandLine cmd = OptionsParser.parseOptions(args);
+        assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                Main.createReport(cmd);
+            ***REMOVED***
+        ***REMOVED***);
     ***REMOVED***
 
     @Test

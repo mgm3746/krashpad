@@ -72,17 +72,20 @@ public class Main {
     public static void createReport(CommandLine cmd) throws IOException {
         String logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
         File logFile = new File(logFileName);
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(logFile);
-
         String outputFileName;
         if (cmd.hasOption(Constants.OPTION_OUTPUT_LONG)) {
             outputFileName = cmd.getOptionValue(Constants.OPTION_OUTPUT_SHORT);
         ***REMOVED*** else {
             outputFileName = Constants.OUTPUT_FILE_NAME;
         ***REMOVED***
+        File reportFile = new File(outputFileName);
+        if (logFile.equals(reportFile)) {
+            throw new IllegalArgumentException("Fatal error log and report are the same file.");
+        ***REMOVED***
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(logFile);
         boolean reportConsole = cmd.hasOption(OPTION_REPORT_CONSOLE_LONG);
-        createReport(fel, reportConsole, outputFileName, logFile.getName());
+        createReport(fel, reportConsole, reportFile, logFile.getName());
     ***REMOVED***
 
     /**
@@ -92,14 +95,12 @@ public class Main {
      *            Fatal error log object.
      * @param reportConsole
      *            Whether print the report to the console or to a file.
-     * @param reportFileName
-     *            Report file name.
+     * @param reportFile
+     *            Report file.
      * @param logFileName
      *            The fatal error log that was parsed.
      */
-    private static void createReport(FatalErrorLog fel, boolean reportConsole, String reportFileName,
-            String logFileName) {
-        File reportFile = new File(reportFileName);
+    private static void createReport(FatalErrorLog fel, boolean reportConsole, File reportFile, String logFileName) {
         FileWriter fileWriter = null;
         PrintWriter printWriter = null;
         try {
