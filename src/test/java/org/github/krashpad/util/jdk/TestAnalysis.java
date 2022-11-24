@@ -2460,6 +2460,24 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testOomeThreadLeakEapExecutorPool() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset83.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(Application.WILDFLY, fel.getApplication(), "Application not correct.");
+        assertEquals(32682, fel.getJavaThreadCount(JdkRegEx.WILDFLY_EXECUTOR_POOL_THREAD),
+                "JBoss EAP executor pool thread count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native libraries unknown count not correct.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL),
+                Analysis.ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_THREAD_LEAK),
+                Analysis.ERROR_OOME_THREAD_LEAK + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP),
+                Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP + " analysis incorrectly identified.");
+
+    ***REMOVED***
+
+    @Test
     void testOomJBossVersion() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset71.txt");
         Manager manager = new Manager();

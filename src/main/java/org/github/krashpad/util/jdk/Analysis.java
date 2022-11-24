@@ -301,6 +301,16 @@ public enum Analysis {
     ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP("error.oome.overcommit.limit.startup"),
 
     /**
+     * Property key for Property key for insufficient physical memory due to a thread leak.
+     */
+    ERROR_OOME_THREAD_LEAK("error.oome.thread.leak"),
+
+    /**
+     * Property key Property key for insufficient physical memory due to JBoss EAP executor pool leak.
+     */
+    ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL("error.oome.thread.leak.eap.executor.pool"),
+
+    /**
      * Property key for "OutOfMemoryError: Compressed class space" caught and thrown.
      */
     ERROR_OOME_THROWN_COMP_CLASS_SPACE("error.oome.thrown.comp.class.space"),

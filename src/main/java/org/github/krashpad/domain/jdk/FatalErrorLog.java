@@ -474,7 +474,8 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for insufficient physical memory
-        if (getJvmMemTotal() > 0 && getJvmMemoryMax() > Long.MIN_VALUE && getJvmMemoryMax() > getJvmMemTotal()) {
+        if (getHeapMaxSize() > 0 && getMetaspaceMaxSize() > 0
+                && (getHeapMaxSize() + getMetaspaceMaxSize()) > getJvmMemTotal()) {
             if (getOsSwap() == 0 || getJvmSwap() == 0) {
                 analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP);
             ***REMOVED*** else {
@@ -556,7 +557,17 @@ public class FatalErrorLog {
                 analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
             ***REMOVED*** else {
                 // Crash after startup
-                if (getMemoryAllocation() >= 0 && getCommitLimit() >= 0 && getCommittedAs() >= 0
+                if (getThreadStackMemory() > 0 && getJvmMemTotal() > 0
+                        && JdkMath.calcPercent(getThreadStackMemory(), getJvmMemTotal()) > 50) {
+                    // thread leak
+                    int executorPoolThreadCount = getJavaThreadCount(JdkRegEx.WILDFLY_EXECUTOR_POOL_THREAD);
+                    if (executorPoolThreadCount > 0 && getJavaThreadCount() > 0
+                            && JdkMath.calcPercent(executorPoolThreadCount, getJavaThreadCount()) > 50) {
+                        analysis.add(Analysis.ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL);
+                    ***REMOVED*** else {
+                        analysis.add(Analysis.ERROR_OOME_THREAD_LEAK);
+                    ***REMOVED***
+                ***REMOVED*** else if (getMemoryAllocation() >= 0 && getCommitLimit() >= 0 && getCommittedAs() >= 0
                         && getMemoryAllocation() > (getCommitLimit() - getCommittedAs())
                         && getCommitLimit() >= getCommittedAs()) {
                     // Allocation > available commit limit and CommitLimit >= Committed_AS
@@ -2480,6 +2491,25 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return javaThreadCount;
+    ***REMOVED***
+
+    /**
+     * @param regex
+     *            The thread name regex.
+     * @return The number of threads matching the pattern regex.
+     */
+    public int getJavaThreadCount(String regex) {
+        int threadCount = 0;
+        if (!threadEvents.isEmpty()) {
+            Iterator<ThreadEvent> iterator = threadEvents.iterator();
+            while (iterator.hasNext()) {
+                ThreadEvent event = iterator.next();
+                if (event.getLogEntry().matches("^.*" + regex + ".*$")) {
+                    threadCount++;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return threadCount;
     ***REMOVED***
 
     /**

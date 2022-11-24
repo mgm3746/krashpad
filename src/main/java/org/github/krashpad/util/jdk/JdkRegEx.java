@@ -443,16 +443,6 @@ public class JdkRegEx {
     public static final String NATIVE_LIBRARY_WILY = "libIntroscopeLinuxIntelAmd64Stats\\.so";
 
     /**
-     * A null pointer address.
-     */
-    public static final String POINTER_NULL = "0x([0]{8***REMOVED***|[0]{16***REMOVED***)";
-
-    /**
-     * An invalid pointer address.
-     */
-    public static final String POINTER_INVALID = "0x([f]{8***REMOVED***|[f]{16***REMOVED***)";
-
-    /**
      * Regular expression for a old generation gc data.
      * 
      * 1) <code>GarbageCollection.PARALLEL_OLD</code>:
@@ -544,6 +534,16 @@ public class JdkRegEx {
     public static final String PERMISION = "([rwxps\\-]{4***REMOVED***)";
 
     /**
+     * An invalid pointer address.
+     */
+    public static final String POINTER_INVALID = "0x([f]{8***REMOVED***|[f]{16***REMOVED***)";
+
+    /**
+     * A null pointer address.
+     */
+    public static final String POINTER_NULL = "0x([0]{8***REMOVED***|[0]{16***REMOVED***)";
+
+    /**
      * A 32-bit or 64-bit register.
      */
     public static final String REGISTER = "(CR2|CSGSFS|ctr|EAX|EBP|EBX|ECX|EDI|EDX|EFLAGS|EIP|ERR|ESI|ESP|lr |pc |RAX|"
@@ -578,6 +578,7 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d{1,2***REMOVED***\\.\\d{1,2***REMOVED***"
             + "(\\.\\d{1,2***REMOVED***)?-\\d\\.el([789])(_(\\d{1,2***REMOVED***))?\\.x86_64)";
+
     /**
      * Red Hat OpenJDK 11 rpm libjvm.so file path.
      * 
@@ -589,7 +590,6 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK11_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK11_DIR
             + "\\/lib\\/server\\/libjvm\\.so$";
-
     /**
      * Red Hat OpenJDK 17 rpm directory.
      * 
@@ -762,6 +762,16 @@ public class JdkRegEx {
      * </pre>
      */
     public static final String VERSION_STRING = "((6.0|7.0|8.0|9|10|11|12|13|14|15|16|17)[^\\)]{1,***REMOVED***)";
+
+    /**
+     * Wildfly or JBoss Enterprise Application Platform (EAP) executor pool thread name.
+     * 
+     * For example:
+     * 
+     * 0x00000000a3715000 JavaThread "pool-711-thread-1" [_thread_blocked, id=6848,
+     * stack(0x00000000dd6e0000,0x00000000dd7e0000)
+     */
+    public static final String WILDFLY_EXECUTOR_POOL_THREAD = "pool-\\d{1,***REMOVED***-thread-\\d{1,***REMOVED***";
 
     /**
      * Regular expression for a young generation gc data.

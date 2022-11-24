@@ -36,6 +36,12 @@ public class JdkMath {
      * @return Percent part:whole rounded to the nearest whole number.
      */
     public static int calcPercent(final long part, final long whole) {
+        if (part < 0) {
+            throw new IllegalArgumentException("part: " + part);
+        ***REMOVED***
+        if (whole < 0) {
+            throw new IllegalArgumentException("whole: " + whole);
+        ***REMOVED***
         int percent;
         if (whole == 0) {
             if (part == 0 && whole == 0) {

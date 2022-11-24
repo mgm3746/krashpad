@@ -194,6 +194,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libzip.so");
 
         NATIVE_LIBRARIES_WINDOWS = new ArrayList<String>();
+        NATIVE_LIBRARIES_WINDOWS.add("apphelp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ADVAPI32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("bcrypt.dll");
         NATIVE_LIBRARIES_WINDOWS.add("bcryptPrimitives.dll");
@@ -204,6 +205,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("combase.dll");
         NATIVE_LIBRARIES_WINDOWS.add("cryptdll.dll");
         NATIVE_LIBRARIES_WINDOWS.add("cryptsp.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("CRYPTSP.dll");        
         NATIVE_LIBRARIES_WINDOWS.add("DBGHELP.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("dbgcore.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("dhcpcsvc.DLL");
@@ -211,7 +213,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("DNSAPI.dll");
         NATIVE_LIBRARIES_WINDOWS.add("GDI32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("fwpuclnt.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("gdi32full.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("gdi32full.dll");        
+        NATIVE_LIBRARIES_WINDOWS.add("iertutil.dll");
         NATIVE_LIBRARIES_WINDOWS.add("IPHLPAPI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("KERNEL32.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("KERNELBASE.dll");
@@ -224,14 +227,16 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("mswsock.dll");
         NATIVE_LIBRARIES_WINDOWS.add("napinsp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ncrypt.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("netutils.dll");
         NATIVE_LIBRARIES_WINDOWS.add("NLAapi.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("NSI.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("NTASN1.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("NSI.dll");                     
         NATIVE_LIBRARIES_WINDOWS.add("ntdll.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ntdsapi.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("NtlmShared.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("NtlmShared.dll");        
         NATIVE_LIBRARIES_WINDOWS.add("ntmarta.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("NTASN1.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ole32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("OLEAUT32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("PSAPI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("powrprof.dll");
         NATIVE_LIBRARIES_WINDOWS.add("profapi.dll");
@@ -243,10 +248,12 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("sechost.dll");
         NATIVE_LIBRARIES_WINDOWS.add("secur32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("shcore.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("shlwapi.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("shlwapi.dll");        
+        NATIVE_LIBRARIES_WINDOWS.add("srvcli.dll");
         NATIVE_LIBRARIES_WINDOWS.add("USER32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("USERENV.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ucrtbase.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("urlmon.dll");
         NATIVE_LIBRARIES_WINDOWS.add("VERSION.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINHTTP.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINMMBASE.dll");
