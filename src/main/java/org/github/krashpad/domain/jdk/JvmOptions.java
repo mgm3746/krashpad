@@ -527,11 +527,15 @@ public class JvmOptions {
     private String g1MixedGCLiveThresholdPercent;
 
     /**
-     * The option for setting the percentage of heap space you're explicitly reserving for the to-survivor space for
-     * promotion from eden. For example:
+     * The G1 collector option for setting the percentage of heap space that should be kept in reserve (not used) to
+     * minimize the probability of promotion failures. It is a safety net in hopes of avoiding a G1 full collection.
+     * When increasing, it is necessary to increase the total heap size by an equivalent percentage to keep the amount
+     * of allocation space constant.
+     * 
+     * For example:
      * 
      * <pre>
-     * -XX:G1ReservePercent=10
+     * -XX:G1ReservePercent=10 (default)
      * </pre>
      */
     private String g1ReservePercent;

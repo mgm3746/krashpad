@@ -348,40 +348,40 @@ public class Main {
                     ***REMOVED***
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
-            ***REMOVED*** else {
-                if (fel.getJvmMemoryMax() > 0) {
-                    long percentMemory;
-                    if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
-                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal());
-                    ***REMOVED*** else {
-                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getOsMemTotal());
-                    ***REMOVED***
-                    printWriter.write("JVM Memory Max: >" + fel.getJvmMemoryMax()
-                            + Character.toString(Constants.PRECISION_REPORTING));
-                    if (fel.getOsMemTotal() > 0) {
-                        printWriter.write(" (");
-                        // provide rounding indicator
-                        if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
-                            if (percentMemory == 0
-                                    || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getJvmMemTotal())) {
-                                printWriter.write("~");
-                            ***REMOVED***
-                        ***REMOVED*** else {
-                            if (percentMemory == 0
-                                    || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getOsMemTotal())) {
-                                printWriter.write("~");
-                            ***REMOVED***
-                        ***REMOVED***
-                        printWriter.write(percentMemory + "% ");
-                        if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
-                            printWriter.write("Container Memory");
-                        ***REMOVED*** else {
-                            printWriter.write("OS Memory");
-                        ***REMOVED***
-                        printWriter.write(")");
-                    ***REMOVED***
-                    printWriter.write(Constants.LINE_SEPARATOR);
+            ***REMOVED*** else if (fel.getJvmMemoryMax() > 0) {
+                long percentMemory = Long.MIN_VALUE;
+                if (fel.getAnalysis().contains(Analysis.INFO_CGROUP) && fel.getJvmMemTotal() >= 0) {
+                    percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal());
+
+                ***REMOVED*** else if (fel.getOsMemTotal() >= 0) {
+                    percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getOsMemTotal());
+
                 ***REMOVED***
+                printWriter.write("JVM Memory Max: >" + fel.getJvmMemoryMax()
+                        + Character.toString(Constants.PRECISION_REPORTING));
+                if (fel.getOsMemTotal() > 0) {
+                    printWriter.write(" (");
+                    // provide rounding indicator
+                    if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                        if (percentMemory == 0
+                                || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getJvmMemTotal())) {
+                            printWriter.write("~");
+                        ***REMOVED***
+                    ***REMOVED*** else {
+                        if (percentMemory == 0
+                                || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getOsMemTotal())) {
+                            printWriter.write("~");
+                        ***REMOVED***
+                    ***REMOVED***
+                    printWriter.write(percentMemory + "% ");
+                    if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                        printWriter.write("Container Memory");
+                    ***REMOVED*** else {
+                        printWriter.write("OS Memory");
+                    ***REMOVED***
+                    printWriter.write(")");
+                ***REMOVED***
+                printWriter.write(Constants.LINE_SEPARATOR);
             ***REMOVED***
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
