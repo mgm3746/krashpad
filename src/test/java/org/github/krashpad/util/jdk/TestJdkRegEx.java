@@ -101,6 +101,12 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testClassWithSpaceAtEnd() {
+        String address = "java.util.HashMap$KeyIterator ";
+        assertTrue(address.matches(JdkRegEx.CLASS), "CLASS not recognized.");
+    ***REMOVED***
+
+    @Test
     void testCrashDate() {
         String time = "Tue Aug 18 14:10:59 2020";
         assertTrue(time.matches(JdkRegEx.CRASH_DATE_TIME), "'" + time + "' is a valid crash time.");

@@ -102,7 +102,7 @@ public class JdkRegEx {
      * 
      * com.example.MyClass$MyInnerClass
      */
-    public static final String CLASS = "([a-z]{1,***REMOVED***\\.){1,***REMOVED***[a-zA-Z$_]{1***REMOVED***[a-zA-Z$_\\d]{1,***REMOVED***+";
+    public static final String CLASS = "([a-z]{1,***REMOVED***\\.){1,***REMOVED***[a-zA-Z$_]{1***REMOVED***[a-zA-Z$_\\d]{1,***REMOVED***+[ ]*";
 
     /**
      * ActiveMQ CLI main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
