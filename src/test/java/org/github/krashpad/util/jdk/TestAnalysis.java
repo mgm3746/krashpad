@@ -1620,9 +1620,6 @@ class TestAnalysis {
                 Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_SMALL + " analysis not identified.");
     ***REMOVED***
 
-    /**
-     * HEAP_MIN_NOT_EQUAL_MAX Test with gc details missing.
-     */
     @Test
     void testJdk11PrintGCDetailsMissing() {
         FatalErrorLog fel = new FatalErrorLog();
@@ -1637,6 +1634,24 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING),
                 Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdk11PrintGCDetailsNotMissing() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xms2048M -Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,"
+                + "filesize=3M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9+11-LTS) for linux-amd64 JRE (11.0.9+11-LTS), built "
+                + "on Oct 15 2020 11:45:12 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("-Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M",
+                fel.getJvmOptions().getLog().get(0), "-Xlog not correct.");
+        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING),
+                Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test

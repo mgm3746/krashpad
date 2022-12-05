@@ -297,6 +297,14 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testLog() {
+        String jvmArgs = "-Xmx1g -Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertEquals("-Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M",
+                jvmOptions.getLog().get(0), "-Xlog not correct.");
+    ***REMOVED***
+
+    @Test
     void testMaxInlinLevel() {
         String jvmArgs = "-Xms1g -XX:MaxInlineLevel=15 -Xmx1g";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);

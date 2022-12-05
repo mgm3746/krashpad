@@ -474,7 +474,7 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for insufficient physical memory
-        if (getHeapMaxSize() > 0 && getMetaspaceMaxSize() > 0
+        if (getHeapMaxSize() > 0 && getMetaspaceMaxSize() > 0 && getJvmMemTotal() > 0
                 && (getHeapMaxSize() + getMetaspaceMaxSize()) > getJvmMemTotal()) {
             if (getOsSwap() == 0 || getJvmSwap() == 0) {
                 analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP);
@@ -897,7 +897,8 @@ public class FatalErrorLog {
             boolean haveGcDetails = false;
             while (iterator.hasNext()) {
                 String xLog = iterator.next();
-                if (xLog.matches("^.+gc\\*=(?!off).+$")) {
+                // negative lookahead: matches "gc*" followed by anything other than "=off"
+                if (xLog.matches("^.+gc\\*(?!=off).+$")) {
                     haveGcDetails = true;
                     break;
                 ***REMOVED***
