@@ -705,7 +705,7 @@ public class JvmOptions {
      * -Xloggc:/path/to/EAP-7.1.0/standalone/log/gc.log
      * </pre>
      */
-    private String logGc;
+    private String loggc;
 
     /**
      * Diagnostic option (-XX:+UnlockDiagnosticVMOptions) to enable/disable vm logging for safepoint analysis. For
@@ -1912,7 +1912,7 @@ public class JvmOptions {
                     log.add(option);
                     key = "log";
                 ***REMOVED*** else if (option.matches("^-Xloggc:.+$")) {
-                    logGc = option;
+                    loggc = option;
                     key = "loggc";
                 ***REMOVED*** else if (option.matches("^-Xmaxjitcodesize\\d{1,***REMOVED***[kKmMgG]{0,1***REMOVED***$")) {
                     maxjitcodesize = option;
@@ -2598,15 +2598,16 @@ public class JvmOptions {
                 && JdkUtil.isOptionEnabled(disableExplicitGc)) {
             analysis.add(Analysis.INFO_OPT_CRUFT_EXP_GC_INV_CON_AND_UNL_CLA);
         ***REMOVED***
+        // Check for JDK8 gc log file overwrite
+        if ((useGcLogFileRotation == null || JdkUtil.isOptionDisabled(useGcLogFileRotation)) && loggc != null
+                && !loggc.contains("%")) {
+            analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE);
+        ***REMOVED***
         // Check if JDK8 gc log file rotation missing or disabled
         if (JdkUtil.isOptionDisabled(useGcLogFileRotation)) {
-            analysis.add(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED);
+            analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED);
             if (numberOfGcLogFiles != null) {
-                analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_NUM_ROTATION_DISABLED);
-            ***REMOVED***
-            if (logGc != null && !logGc.contains("%")
-                    && !analysis.contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE)) {
-                analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE);
+                analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED_NUM);
             ***REMOVED***
         ***REMOVED***
         // JDK11 gc log file rotation checks
@@ -2644,7 +2645,7 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED***
         // Check if JDK8 log file size is small
-        if (gcLogFileSize != null) {
+        if (JdkUtil.getJavaSpecificationNumber(javaSpecification) <= 8 && gcLogFileSize != null) {
             BigDecimal fiveGigabytes = new BigDecimal("5").multiply(Constants.MEGABYTE);
             if (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(gcLogFileSize)) < fiveGigabytes.longValue()) {
                 analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_SIZE_SMALL);
@@ -2782,7 +2783,7 @@ public class JvmOptions {
             analysis.add(Analysis.WARN_OPT_PRINT_CLASS_HISTOGRAM_BEFORE_FULL_GC);
         ***REMOVED***
         // Check if print gc details option disabled
-        if (JdkUtil.isOptionDisabled(printGcDetails)) {
+        if (JdkUtil.getJavaSpecificationNumber(javaSpecification) <= 8 && JdkUtil.isOptionDisabled(printGcDetails)) {
             analysis.add(Analysis.WARN_OPT_JDK8_PRINT_GC_DETAILS_DISABLED);
         ***REMOVED***
         // Check for tenuring disabled or default overriden
@@ -2871,17 +2872,13 @@ public class JvmOptions {
             analysis.add(Analysis.WARN_OPT_RS);
         ***REMOVED***
         // Check JDK8 gc log file rotation
-        if (logGc != null && useGcLogFileRotation == null) {
-            analysis.add(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED);
+        if (JdkUtil.getJavaSpecificationNumber(javaSpecification) <= 8 && loggc != null
+                && useGcLogFileRotation == null) {
+            analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED);
         ***REMOVED***
         // Check if gc logging is being sent to stdout
         if (isGcLoggingToStdout()) {
             analysis.add(Analysis.INFO_GC_LOG_STDOUT);
-        ***REMOVED***
-        // Check for JDK8 gc log file overwrite
-        if ((useGcLogFileRotation == null || JdkUtil.isOptionDisabled(useGcLogFileRotation)) && logGc != null
-                && !logGc.contains("%") && !analysis.contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE)) {
-            analysis.add(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE);
         ***REMOVED***
         // Check for the creation of the AttachListener socket file (/tmp/.java_pid<pid>) disabled
         if (JdkUtil.isOptionEnabled(disableAttachMechanism)) {
@@ -2927,6 +2924,18 @@ public class JvmOptions {
         // Check for -Xdebug
         if (debug) {
             analysis.add(Analysis.INFO_OPT_DEBUG);
+        ***REMOVED***
+        // Check for deprecated JDK8 logging options on JDK11+
+        if (JdkUtil.getJavaSpecificationNumber(javaSpecification) >= 9) {
+            if (loggc != null) {
+                analysis.add(Analysis.INFO_OPT_JDK9_DEPRECATED_LOGGC);
+            ***REMOVED***
+            if (printGc != null) {
+                analysis.add(Analysis.INFO_OPT_JDK9_DEPRECATED_PRINT_GC);
+            ***REMOVED***
+            if (printGcDetails != null) {
+                analysis.add(Analysis.INFO_OPT_JDK9_DEPRECATED_PRINT_GC_DETAILS);
+            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
 
@@ -3238,8 +3247,8 @@ public class JvmOptions {
         return logFile;
     ***REMOVED***
 
-    public String getLogGc() {
-        return logGc;
+    public String getLoggc() {
+        return loggc;
     ***REMOVED***
 
     public String getLogVmOutput() {
@@ -3724,7 +3733,7 @@ public class JvmOptions {
                 || printGcApplicationStoppedTime != null) {
             isGcLoggingEnabled = true;
         ***REMOVED***
-        if (isGcLoggingEnabled && logGc == null) {
+        if (isGcLoggingEnabled && loggc == null) {
             isGcLoggingStdout = true;
         ***REMOVED***
         return isGcLoggingStdout;

@@ -986,6 +986,31 @@ class TestAnalysis {
                 GarbageCollector.PARALLEL_OLD + " collector not identified.");
     ***REMOVED***
 
+    @Test
+    void testDeprecatedLoggingOptionsJdk8() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+PrintGC -XX:+PrintGCDetails -Xloggc:gc.log -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), built "
+                + "on Jul 20 2022 13:03:41 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)";
+        VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
+        fel.setVmInfoEvent(vmEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE),
+                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE),
+                Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
+                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis incorrectly identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK9_DEPRECATED_LOGGC),
+                Analysis.INFO_OPT_JDK9_DEPRECATED_LOGGC + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK9_DEPRECATED_PRINT_GC),
+                Analysis.INFO_OPT_JDK9_DEPRECATED_PRINT_GC + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK9_DEPRECATED_PRINT_GC_DETAILS),
+                Analysis.INFO_OPT_JDK9_DEPRECATED_PRINT_GC_DETAILS + " analysis not identified.");
+    ***REMOVED***
+
     /**
      * Test analysis huge DGC intervals.
      */
@@ -1345,8 +1370,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
-                Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
+                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.INFO_GC_LOG_STDOUT),
                 Analysis.INFO_GC_LOG_STDOUT + " analysis not identified.");
     ***REMOVED***
@@ -1715,8 +1740,8 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
-                Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
+                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2095,10 +2120,10 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED),
-                Analysis.INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_NUM_ROTATION_DISABLED),
-                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_NUM_ROTATION_DISABLED + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED),
+                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED_NUM),
+                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED_NUM + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2635,6 +2660,24 @@ class TestAnalysis {
                 Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
         assertTrue(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
                 Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOracleJdbcJdkIncompatible() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), built "
+                + "on Jul 20 2022 13:03:41 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)";
+        VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
+        fel.setVmInfoEvent(vmEvent);
+        String dynamicLibrary = "7fd01e1b3000-7fd01e1d3000 r-xp 00000000 fd:03 2100954                    "
+                + "/ora01/app/oracle/product/11.2.0/client_1/lib/libocijdbc11.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.INFO_ORACLE_JDBC_OCI),
+                Analysis.INFO_ORACLE_JDBC_OCI + " analysis not identified.");
+        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE),
+                Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE + " analysis not identified.");
     ***REMOVED***
 
     @Test

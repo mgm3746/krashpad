@@ -289,6 +289,7 @@ public class Main {
             if (fel.getThreadStackSize() > 0) {
                 printWriter.write("Thread Stack Size: " + fel.getThreadStackSize() + "K" + Constants.LINE_SEPARATOR);
             ***REMOVED***
+            printWriter.write("***REMOVED*** Java threads: " + fel.getJavaThreadCount() + Constants.LINE_SEPARATOR);
             if (fel.getThreadStackMemory() > 0) {
                 printWriter.write("Thread Stack Memory: " + fel.getThreadStackMemory()
                         + Character.toString(Constants.PRECISION_REPORTING) + Constants.LINE_SEPARATOR);
@@ -404,7 +405,6 @@ public class Main {
                 printWriter.write(
                         "VM operation: " + fel.getVmOperationEvent().getVmOperationString() + Constants.LINE_SEPARATOR);
             ***REMOVED***
-            printWriter.write("***REMOVED*** Java threads: " + fel.getJavaThreadCount() + Constants.LINE_SEPARATOR);
 
             if (!fel.getError().equals("")) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);

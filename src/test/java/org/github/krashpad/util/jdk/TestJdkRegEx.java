@@ -225,6 +225,25 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testOracleJdbcOciDriverLinux() {
+        String release = "libocijdbc11.so";
+        assertTrue(release.matches(JdkRegEx.ORACLE_JDBC_OCI_DRIVER), "Oracle JDBC OCI driver not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOracleJdbcOciDriverPathLinux() {
+        String release = "/ora01/app/oracle/product/11.2.0/client_1/lib/libocijdbc11.so";
+        assertTrue(release.matches(JdkRegEx.ORACLE_JDBC_OCI_DRIVER_PATH),
+                "Oracle JDBC OCI driver path not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOracleJdbcOciDriverWindows() {
+        String release = "libocijdbc11.dll";
+        assertTrue(release.matches(JdkRegEx.ORACLE_JDBC_OCI_DRIVER), "Oracle JDBC OCI driver not identified.");
+    ***REMOVED***
+
+    @Test
     void testPercent() {
         String address = "54%";
         assertTrue(address.matches(JdkRegEx.PERCENT), "PERCENT not recognized.");

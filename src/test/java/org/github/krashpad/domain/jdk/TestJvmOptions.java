@@ -269,7 +269,7 @@ class TestJvmOptions {
                 + "-XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 "
                 + "-XX:GCLogFileSize=3M -Xss512k";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);
-        assertEquals("-Xloggc:/path/to/EAP-7.1.0/standalone/log/gc.log", jvmOptions.getLogGc(),
+        assertEquals("-Xloggc:/path/to/EAP-7.1.0/standalone/log/gc.log", jvmOptions.getLoggc(),
                 "Gc log location not correct.");
         assertEquals(true, jvmOptions.isVerboseGc(), "-verbose:gc not correct.");
         assertEquals("-XX:NumberOfGCLogFiles=5", jvmOptions.getNumberOfGcLogFiles(), "NumberOfGCLogFiles not correct.");

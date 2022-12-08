@@ -342,13 +342,42 @@ public class FatalErrorLog {
         if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER);
         ***REMOVED***
-        if (getEventTimestamp("^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$") > 0
+        if (getEventTimestamp("^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc.+.(dll|so)$") > 0
                 && getUptime() > 0 && getUptime() - getEventTimestamp(
-                        "^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$") <= 1000) {
+                        "^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc.+.(dll|so)$") <= 1000) {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING);
         ***REMOVED***
         if (getStackFrame(2) != null && getStackFrame(2).matches("^C  \\[libocijdbc.+$")) {
             analysis.add(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION);
+        ***REMOVED***
+        // Check Oracle JDBC driver / JDK compatibility
+        if (!getNativeLibrariesUnknown().isEmpty()) {
+            Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
+            Pattern pattern = Pattern.compile(JdkRegEx.ORACLE_JDBC_OCI_DRIVER_PATH);
+            Matcher matcher;
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                matcher = pattern.matcher(nativeLibraryPath);
+                if (!analysis.contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER)
+                        && !analysis.contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING)
+                        && !analysis.contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION)) {
+                    analysis.add(Analysis.INFO_ORACLE_JDBC_OCI);
+                ***REMOVED***
+                if (matcher.find()) {
+                    String versionRegEx = "^.*[/\\\\]oracle[/\\\\]product[/\\\\](\\d{1,***REMOVED***)\\.\\d{1,***REMOVED***\\.\\d{1,***REMOVED***"
+                            + "(\\.\\d{1,***REMOVED***)?[/\\\\].*$";
+                    Pattern pattern2 = Pattern.compile(versionRegEx);
+                    Matcher matcher2 = pattern2.matcher(nativeLibraryPath);
+                    if (matcher2.find()) {
+                        Integer oracleDatabaseVersion = Integer.parseInt(matcher2.group(1));
+                        if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) > 11
+                                && oracleDatabaseVersion < 21) {
+                            analysis.add(Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE);
+                            break;
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         // Check for ancient fatal error log
         if (ErrUtil.dayDiff(getCrashDate(), new Date()) > 30) {
@@ -745,7 +774,7 @@ public class FatalErrorLog {
         if (haveStackOverFlowError()) {
             analysis.add(Analysis.ERROR_STACKOVERFLOW);
         ***REMOVED*** else {
-            if (getStackFreeSpace() > getThreadStackSize()) {
+            if (getThreadStackFreeSpace() > getThreadStackSize()) {
                 // Applies only to ThreadStackSize (not CompilerThreadStackSize, VMThreadStackSize, MarkStackSize, or
                 // the JLI_Launch method in main.c that starts the JVM)
                 if (currentThreadEvent != null
@@ -3789,9 +3818,12 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * Applies only to ThreadStackSize (not CompilerThreadStackSize, VMThreadStackSize, MarkStackSize, or // the
+     * JLI_Launch method in main.c that starts the JVM).
+     * 
      * @return The stack free space in <code>Constants.PRECISION_REPORTING</code> units.
      */
-    public long getStackFreeSpace() {
+    public long getThreadStackFreeSpace() {
         long stackFreeSpace = Long.MIN_VALUE;
         if (!stackEvents.isEmpty()) {
             Iterator<StackEvent> iterator = stackEvents.iterator();

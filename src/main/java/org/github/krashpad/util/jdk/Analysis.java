@@ -352,6 +352,11 @@ public enum Analysis {
     ERROR_OPT_REMOTE_DEBUGGING_ENABLED("error.opt.remote.debugging.enabled"),
 
     /**
+     * Property key for incompatible Oracle JDBC driver / JDK versions.
+     */
+    ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE("error.oracle.jdbc.jdk.incompatible"),
+
+    /**
      * Property key for crash in Oracle JDBC OCI (native) driver code.
      */
     ERROR_ORACLE_JDBC_OCI_DRIVER("error.oracle.jdbc.oci.driver"),
@@ -641,17 +646,6 @@ public enum Analysis {
     INFO_OPT_JDK8_CMS_PAR_NEW_REDUNDANT("info.opt.jdk8.cms.par.new.redundant"),
 
     /**
-     * Property key for GC log file rotation disabled (-XX:-UseGCLogFileRotation).
-     */
-    INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED("info.opt.jdk8.gc.log.file.rotation.disabled"),
-
-    /**
-     * Property key for GC log file rotation not enabled in JDK8 (-XX:+UseGCLogFileRotation -XX:GCLogFileSize=N
-     * -XX:NumberOfGCLogFiles=N).
-     */
-    INFO_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED("info.opt.jdk8.gc.log.file.rotation.not.enabled"),
-
-    /**
      * Property key for disabling Adaptive Resize Policy output with -XX:-PrintAdaptiveSizePolicy.
      */
     INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED("info.opt.jdk8.print.adaptive.resize.plcy.disabled"),
@@ -700,6 +694,21 @@ public enum Analysis {
      * Property key for outputting tenuring distribution information (-XX:+PrintTenuringDistribution).
      */
     INFO_OPT_JDK8_PRINT_TENURING_DISTRIBUTION("info.opt.jdk8.print.tenuring.distribution"),
+
+    /**
+     * Property key for using the deprecated -Xloggc option on JDK9+.
+     */
+    INFO_OPT_JDK9_DEPRECATED_LOGGC("info.opt.jdk9.deprecated.loggc"),
+
+    /**
+     * Property key for using the deprecated -XX:+PrintGC option on JDK9+.
+     */
+    INFO_OPT_JDK9_DEPRECATED_PRINT_GC("info.opt.jdk9.deprecated.print.gc"),
+
+    /**
+     * Property key for using the deprecated -XX:+PrintGCDetails option on JDK9+.
+     */
+    INFO_OPT_JDK9_DEPRECATED_PRINT_GC_DETAILS("info.opt.jdk9.deprecated.print.gc.details"),
 
     /**
      * Property key for min heap not equal to max heap.
@@ -860,6 +869,11 @@ public enum Analysis {
      * Property key for class loading logging (sent to standard out) enabled with -verbose:class.
      */
     INFO_OPT_VERBOSE_CLASS("info.opt.verbose.class"),
+
+    /**
+     * Property key for Oracle JDBC OCI (native) driver detected.
+     */
+    INFO_ORACLE_JDBC_OCI("info.oracle.jdbc.oci"),
 
     /**
      * Property key for Red Hat Certificate System, Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or
@@ -1331,15 +1345,26 @@ public enum Analysis {
     WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED("warn.opt.jdk8.cms.par.new.disabled"),
 
     /**
+     * Property key for gc log file with a static name that will be overwritten on JVM startup.
+     */
+    WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE("warn.opt.jdk8.gc.log.file.overwrite"),
+
+    /**
+     * Property key for GC log file rotation disabled (-XX:-UseGCLogFileRotation).
+     */
+    WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED("warn.opt.jdk8.gc.log.file.rotation.disabled"),
+
+    /**
      * Property key for specifying the number of GC log files (-XX:NumberOfGCLogFiles) to keep with log rotation is
      * disabled (-XX:-UseGCLogFileRotation).
      */
-    WARN_OPT_JDK8_GC_LOG_FILE_NUM_ROTATION_DISABLED("warn.opt.jdk8.gc.log.file.num.rotation.disabled"),
+    WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED_NUM("warn.opt.jdk8.gc.log.file.rotation.disabled.num"),
 
     /**
-     * Property key for JDK8 gc log file with a static name that will be overwritten on JVM startup.
+     * Property key for GC log file rotation not enabled in JDK8 (-XX:+UseGCLogFileRotation -XX:GCLogFileSize=N
+     * -XX:NumberOfGCLogFiles=N).
      */
-    WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE("warn.opt.jdk8.gc.log.file.overwrite"),
+    WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED("warn.opt.jdk8.gc.log.file.rotation.not.enabled"),
 
     /**
      * Property key for specifying the gc log file size that triggers rotation (-XX:GCLogFileSize=N[K|M|G]) is small

@@ -169,6 +169,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libinstrument.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjli.so");
+        // java-17-openjdk-headless: Vector API
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libjsvml.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjvm.so");
         // java-(1.8.0|11|17)-openjdk-headless

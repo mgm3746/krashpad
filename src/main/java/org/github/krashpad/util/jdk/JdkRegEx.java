@@ -511,6 +511,16 @@ public class JdkRegEx {
     public static final String OPTION_SIZE_BYTES = "((\\d{1,***REMOVED***)(b|B|k|K|m|M|g|G)?)";
 
     /**
+     * Oracle JDBC OCI driver.
+     */
+    public static final String ORACLE_JDBC_OCI_DRIVER = "libocijdbc.+.(dll|so)";
+
+    /**
+     * Oracle JDBC OCI driver path.
+     */
+    public static final String ORACLE_JDBC_OCI_DRIVER_PATH = "([A-Z]:)?(.*[/\\\\])*" + ORACLE_JDBC_OCI_DRIVER;
+
+    /**
      * AppDynamics package.
      * 
      * For example:
