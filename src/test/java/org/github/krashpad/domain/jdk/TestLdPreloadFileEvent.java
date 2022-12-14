@@ -26,6 +26,13 @@ import org.junit.jupiter.api.Test;
 class TestLdPreloadFileEvent {
 
     @Test
+    void testDynatrace() {
+        String logLine = "/$LIB/liboneagentproc.so";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LD_PRELOAD_FILE,
+                JdkUtil.LogEventType.BITS.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testHeader() {
         String logLine = "/etc/ld.so.preload:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LD_PRELOAD_FILE,
@@ -34,14 +41,14 @@ class TestLdPreloadFileEvent {
 
     @Test
     void testIdentity() {
-        String logLine = "/$LIB/liboneagentproc.so";
+        String logLine = "/$LIB/myagent.so";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LD_PRELOAD_FILE,
                 JdkUtil.LogEventType.BITS.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testParseLogLine() {
-        String logLine = "/$LIB/liboneagentproc.so";
+        String logLine = "/$LIB/myagent.so";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof LdPreloadFileEvent,
                 JdkUtil.LogEventType.LD_PRELOAD_FILE.toString() + " not parsed.");
     ***REMOVED***

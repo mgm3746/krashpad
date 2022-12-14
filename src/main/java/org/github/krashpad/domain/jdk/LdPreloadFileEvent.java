@@ -25,6 +25,10 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <p>
  * ld.so.preload information.
  * </p>
+ * <p>
+ * Used to inject instrumentation at the host level (vs. at the JVM level with <code>-agentlib</code> or
+ * <code>-agentpath</code>
+ * </p>
  * 
  * <h2>Example Logging</h2>
  * 
