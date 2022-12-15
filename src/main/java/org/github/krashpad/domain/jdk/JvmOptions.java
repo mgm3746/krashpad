@@ -335,6 +335,28 @@ public class JvmOptions {
     private String concGcThreads;
 
     /**
+     * Mysteriously named, undocumented option that sets the following 4 options:
+     * 
+     * <pre>
+     * -XX:-BackgroundCompilation
+     * -XX:DeferThrSuspendLoopCount=1
+     * -XX:NewSizeThreadIncrease=16384
+     * -XX:-UseTLAB
+     * </pre>
+     * 
+     * It has no known, valid uses and was removed in JDK12:
+     * 
+     * https://bugs.openjdk.org/browse/JDK-8213767
+     * 
+     * For example:
+     * 
+     * <pre>
+     * -Xconcurrentio
+     * </pre>
+     */
+    private boolean concurrentio;
+
+    /**
      * Option to enable/disable the jvm process exiting (and producing a fatal error log and core as applicable) when
      * out of memory occurs.
      * 
@@ -1902,6 +1924,9 @@ public class JvmOptions {
                 ***REMOVED*** else if (option.matches("^-Xcomp$")) {
                     comp = true;
                     key = "comp";
+                ***REMOVED*** else if (option.matches("^-Xconcurrentio$")) {
+                    concurrentio = true;
+                    key = "concurrentio";
                 ***REMOVED*** else if (option.matches("^-Xdebug$")) {
                     debug = true;
                     key = "debug";
@@ -2937,6 +2962,10 @@ public class JvmOptions {
                 analysis.add(Analysis.INFO_OPT_JDK9_DEPRECATED_PRINT_GC_DETAILS);
             ***REMOVED***
         ***REMOVED***
+        // Check for -Xconcurrentio
+        if (concurrentio) {
+            analysis.add(Analysis.WARN_OPT_CONCURRENTIO);
+        ***REMOVED***
     ***REMOVED***
 
     public String getAdaptiveSizePolicyWeight() {
@@ -3713,6 +3742,10 @@ public class JvmOptions {
 
     public boolean isComp() {
         return comp;
+    ***REMOVED***
+
+    public boolean isConcurrentio() {
+        return concurrentio;
     ***REMOVED***
 
     public boolean isD64() {

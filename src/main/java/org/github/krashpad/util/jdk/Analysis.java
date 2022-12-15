@@ -1240,6 +1240,11 @@ public enum Analysis {
     WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G("warn.opt.comp.oops.enabled.heap.gt.32g"),
 
     /**
+     * Property key for -Xconcurrentio.
+     */
+    WARN_OPT_CONCURRENTIO("warn.opt.concurrentio"),
+
+    /**
      * Property key for performance data written to disk (/tmp/hsperfdata*) in a cloud environment.
      */
     WARN_OPT_CONTAINER_PERF_DATA_DISK("warn.opt.container.perf.data.disk"),

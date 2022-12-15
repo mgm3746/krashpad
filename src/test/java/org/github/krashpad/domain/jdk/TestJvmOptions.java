@@ -83,6 +83,14 @@ class TestJvmOptions {
     ***REMOVED***
 
     @Test
+    void testCncurrentio() {
+        String jvmArgs = "-Xms1g -Xconcurrentio -Xmx1g";
+        JvmOptions jvmOptions = new JvmOptions(jvmArgs);
+        assertTrue(jvmOptions.isConcurrentio(), "concurrentio not correct.");
+        assertEquals(0, jvmOptions.getUndefined().size(), "Undefined options not correct.");
+    ***REMOVED***
+
+    @Test
     void testCommonOptions() {
         String jvmArgs = "-Xmx1500m -Xms1000m -Xss512k -XX:MetaspaceSize=256M -XX:MaxMetaspaceSize=2048m";
         JvmOptions jvmOptions = new JvmOptions(jvmArgs);

@@ -835,6 +835,17 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testConcurrentio() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xconcurrentio -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CONCURRENTIO),
+                Analysis.WARN_OPT_CONCURRENTIO + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testContainer() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset47.txt");
         Manager manager = new Manager();
