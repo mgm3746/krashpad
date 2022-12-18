@@ -221,9 +221,9 @@ public class JdkUtil {
     /**
      * Defined garbage collectors
      * 
-     * Default collector JDK8: PARALLEL_SCAVENGE, PARALLEL_OLD
+     * Default collector JDK8 "server": PARALLEL_SCAVENGE, PARALLEL_OLD
      * 
-     * Default collector1 JDK11: G1
+     * Default collector JDK11/17 "server": G1
      */
     public enum GarbageCollector {
         //
@@ -2159,5 +2159,12 @@ public class JdkUtil {
             throw new AssertionError("Unexpected event type value: " + eventType);
         ***REMOVED***
         return event;
+    ***REMOVED***
+
+    /**
+     * Make default constructor private so the class cannot be instantiated.
+     */
+    private JdkUtil() {
+
     ***REMOVED***
 ***REMOVED***

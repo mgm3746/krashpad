@@ -115,7 +115,13 @@ class TestAnalysis {
 
     @Test
     void testAttachMechanismDisabled() {
-
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+DisableAttachMechanism -Xmx2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_DISABLE_ATTACH_MECHANISM),
+                Analysis.WARN_OPT_DISABLE_ATTACH_MECHANISM + " analysis not identified.");
     ***REMOVED***
 
     @Test

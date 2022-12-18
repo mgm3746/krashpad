@@ -711,7 +711,7 @@ public enum Analysis {
     INFO_OPT_JDK9_DEPRECATED_PRINT_GC_DETAILS("info.opt.jdk9.deprecated.print.gc.details"),
 
     /**
-     * Property key for min heap not equal to max heap.
+     * Property key for JDK Flight Recorder (JFR) being used.
      */
     INFO_OPT_JFR("info.opt.jfr"),
 

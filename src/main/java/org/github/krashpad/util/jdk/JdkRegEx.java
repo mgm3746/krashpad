@@ -15,7 +15,7 @@
 package org.github.krashpad.util.jdk;
 
 /**
- * Regular expression utility methods and constants for OpenJDK and Oracle JDK.
+ * Regular expression utility methods and constants for OpenJDK.
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 

@@ -323,11 +323,9 @@ public class FatalErrorLog {
         String jvmArgs = getJvmArgs();
         if (jvmArgs != null) {
             jvmOptions = new JvmOptions(jvmArgs);
-        ***REMOVED***
-        doDataAnalysis();
-        if (jvmOptions != null) {
             jvmOptions.doAnalysis(analysis, getJavaSpecification());
         ***REMOVED***
+        doDataAnalysis();
         // Unidentified logging lines
         if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) >= 8 && !getUnidentifiedLogLines().isEmpty()) {
             analysis.add(0, Analysis.WARN_UNIDENTIFIED_LOG_LINE);
@@ -884,6 +882,10 @@ public class FatalErrorLog {
         // Check for explicit gc disabled on EAP7
         if (getApplication() == Application.JBOSS_EAP7 && jvmOptions != null
                 && JdkUtil.isOptionEnabled(jvmOptions.getDisableExplicitGc())) {
+            // Don't double report
+            if (analysis.contains(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED)) {
+                analysis.remove(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED);
+            ***REMOVED***
             analysis.add(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7);
         ***REMOVED***
         // Check for redundant -server flag and ignored -client flag on 64-bit
@@ -1290,7 +1292,7 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check if JVM ignores collector(s) specified by JVM options
-        if (getGarbageCollectorsFromHeapEvents().size() > 0 && getGarbageCollectorsFromJvmOptions().size() > 0) {
+        if (!getGarbageCollectorsFromHeapEvents().isEmpty() && !getGarbageCollectorsFromJvmOptions().isEmpty()) {
             if (!getGarbageCollectorsFromJvmOptions().equals(getGarbageCollectorsFromHeapEvents())) {
                 if (getGarbageCollectorsFromJvmOptions().contains(GarbageCollector.G1)
                         && (getGarbageCollectorsFromHeapEvents().contains(GarbageCollector.PARALLEL_SCAVENGE)
@@ -2129,9 +2131,6 @@ public class FatalErrorLog {
                 garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
                 garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
             ***REMOVED***
-        ***REMOVED***
-        if (garbageCollectors.isEmpty()) {
-            garbageCollectors.add(GarbageCollector.UNKNOWN);
         ***REMOVED***
         return garbageCollectors;
     ***REMOVED***

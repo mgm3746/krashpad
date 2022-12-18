@@ -2783,8 +2783,7 @@ public class JvmOptions {
             ***REMOVED***
         ***REMOVED***
         // Check to see if explicit gc is disabled
-        if (JdkUtil.isOptionEnabled(disableExplicitGc)
-                && !analysis.contains(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7)) {
+        if (JdkUtil.isOptionEnabled(disableExplicitGc)) {
             analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED);
             // Specifying that explicit gc being collected concurrently makes no sense if explicit gc is disabled.
             if (JdkUtil.isOptionEnabled(explicitGCInvokesConcurrent)) {

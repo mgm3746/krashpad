@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 import org.github.krashpad.util.jdk.JdkRegEx;
 
 /**
- * Common vm collection utility methods and constants.
+ * Utility methods and constants.
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
@@ -207,7 +207,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("combase.dll");
         NATIVE_LIBRARIES_WINDOWS.add("cryptdll.dll");
         NATIVE_LIBRARIES_WINDOWS.add("cryptsp.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("CRYPTSP.dll");        
+        NATIVE_LIBRARIES_WINDOWS.add("CRYPTSP.dll");
         NATIVE_LIBRARIES_WINDOWS.add("DBGHELP.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("dbgcore.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("dhcpcsvc.DLL");
@@ -215,7 +215,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("DNSAPI.dll");
         NATIVE_LIBRARIES_WINDOWS.add("GDI32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("fwpuclnt.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("gdi32full.dll");        
+        NATIVE_LIBRARIES_WINDOWS.add("gdi32full.dll");
         NATIVE_LIBRARIES_WINDOWS.add("iertutil.dll");
         NATIVE_LIBRARIES_WINDOWS.add("IPHLPAPI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("KERNEL32.DLL");
@@ -231,10 +231,10 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("ncrypt.dll");
         NATIVE_LIBRARIES_WINDOWS.add("netutils.dll");
         NATIVE_LIBRARIES_WINDOWS.add("NLAapi.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("NSI.dll");                     
+        NATIVE_LIBRARIES_WINDOWS.add("NSI.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ntdll.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ntdsapi.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("NtlmShared.dll");        
+        NATIVE_LIBRARIES_WINDOWS.add("NtlmShared.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ntmarta.dll");
         NATIVE_LIBRARIES_WINDOWS.add("NTASN1.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ole32.dll");
@@ -250,7 +250,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("sechost.dll");
         NATIVE_LIBRARIES_WINDOWS.add("secur32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("shcore.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("shlwapi.dll");        
+        NATIVE_LIBRARIES_WINDOWS.add("shlwapi.dll");
         NATIVE_LIBRARIES_WINDOWS.add("srvcli.dll");
         NATIVE_LIBRARIES_WINDOWS.add("USER32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("USERENV.dll");

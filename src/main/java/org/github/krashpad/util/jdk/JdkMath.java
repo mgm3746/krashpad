@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Math utility methods and constants for OpenJDK and Oracle JDK.
+ * Math utility methods and constants for OpenJDK.
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
