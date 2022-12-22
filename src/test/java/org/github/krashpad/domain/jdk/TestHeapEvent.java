@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
+import org.github.joa.domain.GarbageCollector;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
-import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
 import org.junit.jupiter.api.Test;
 
 /**

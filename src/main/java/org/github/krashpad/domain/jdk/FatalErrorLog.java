@@ -25,10 +25,14 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.github.joa.JvmOptions;
+import org.github.joa.domain.Bit;
+import org.github.joa.domain.GarbageCollector;
+import org.github.joa.domain.JvmContext;
+import org.github.joa.domain.Os;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.CpuArch;
 import org.github.krashpad.util.Constants.Device;
-import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
 import org.github.krashpad.util.ErrUtil;
@@ -40,7 +44,6 @@ import org.github.krashpad.util.jdk.JdkUtil.Application;
 import org.github.krashpad.util.jdk.JdkUtil.Arch;
 import org.github.krashpad.util.jdk.JdkUtil.BuiltBy;
 import org.github.krashpad.util.jdk.JdkUtil.CompressedOopMode;
-import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 import org.github.krashpad.util.jdk.JdkUtil.JavaVendor;
 import org.github.krashpad.util.jdk.JdkUtil.SignalCode;
@@ -317,13 +320,24 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * Convenience method to add <code>Analysis</code>.
+     * 
+     * @param key
+     *            The <code>Analysis</code> to check.
+     */
+    public void addAnalysis(Analysis key) {
+        analysis.add(key);
+    ***REMOVED***
+
+    /**
      * Do analysis.
      */
     public void doAnalysis() {
-        String jvmArgs = getJvmArgs();
-        if (jvmArgs != null) {
-            jvmOptions = new JvmOptions(jvmArgs);
-            jvmOptions.doAnalysis(analysis, getJavaSpecification());
+        String opts = getJvmArgs();
+        if (opts != null) {
+            JvmContext context = new JvmContext(opts, getJavaVersionMajor(), getJavaVersionMinor(),
+                    getGarbageCollectors(), isContainer(), getOs(), getBit());
+            jvmOptions = new JvmOptions(context);
         ***REMOVED***
         doDataAnalysis();
         // Unidentified logging lines
@@ -356,7 +370,8 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
                 matcher = pattern.matcher(nativeLibraryPath);
-                if (!analysis.contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER)
+                if (!analysis.contains(Analysis.INFO_ORACLE_JDBC_OCI)
+                        && !analysis.contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER)
                         && !analysis.contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING)
                         && !analysis.contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION)) {
                     analysis.add(Analysis.INFO_ORACLE_JDBC_OCI);
@@ -417,7 +432,7 @@ public class FatalErrorLog {
         ***REMOVED***
         // Identify vendor/build
         if (isRhBuildOpenJdk()) {
-            if (getOsType() == OsType.LINUX) {
+            if (getOs() == Os.LINUX) {
                 if (getOsVendor() == OsVendor.CENTOS) {
                     // CentOs redistributes RH build of OpenJDK
                     analysis.add(0, Analysis.INFO_RH_BUILD_CENTOS);
@@ -536,7 +551,7 @@ public class FatalErrorLog {
                                     && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
                                             jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
                                                     JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
-                                analysis.add(Analysis.INFO_OPT_HEAP_MIN_EQUAL_MAX_OOME_STARTING);
+                                analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
                             ***REMOVED***
                         ***REMOVED*** else {
                             // Resource limit
@@ -552,7 +567,7 @@ public class FatalErrorLog {
                                     && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
                                             jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
                                                     JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
-                                analysis.add(Analysis.INFO_OPT_HEAP_MIN_EQUAL_MAX_OOME_STARTING);
+                                analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
                             ***REMOVED***
                         ***REMOVED*** else {
                             // Resource limit
@@ -573,7 +588,7 @@ public class FatalErrorLog {
                                         && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
                                                 jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
                                                         JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
-                            analysis.add(Analysis.INFO_OPT_HEAP_MIN_EQUAL_MAX_OOME_STARTING);
+                            analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
                         ***REMOVED***
                     ***REMOVED*** else {
                         // Resource limit
@@ -724,7 +739,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_SIGCODE_BUS_ADRALN);
             break;
         case BUS_ADRERR:
-            if (getOsType() == OsType.LINUX) {
+            if (getOs() == Os.LINUX) {
                 analysis.add(Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX);
             ***REMOVED*** else {
                 analysis.add(Analysis.INFO_SIGCODE_BUS_ADDERR);
@@ -788,10 +803,13 @@ public class FatalErrorLog {
         ***REMOVED***
         // Thread stack size
         long threadStackMaxSize = getThreadStackSize();
-        if (threadStackMaxSize < 1) {
-            analysis.add(Analysis.WARN_THREAD_STACK_SIZE_TINY);
-        ***REMOVED*** else if (threadStackMaxSize < 128) {
-            analysis.add(Analysis.WARN_THREAD_STACK_SIZE_SMALL);
+        if ((jvmOptions == null || !jvmOptions.hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_TINY))
+                && threadStackMaxSize < 1) {
+            jvmOptions.addAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_TINY);
+        ***REMOVED*** else if ((jvmOptions == null
+                || !jvmOptions.hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL))
+                && threadStackMaxSize < 128) {
+            jvmOptions.addAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL);
         ***REMOVED***
         // OutOfMemoryError other than "Metaspace" or "Compressed class space" caught and thrown
         if (haveOomeThrownJavaHeap()) {
@@ -835,7 +853,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_TRUNCATED);
         ***REMOVED***
         // Storage analysis
-        if (getOsType() == OsType.LINUX && !dynamicLibraryEvents.isEmpty()) {
+        if (getOs() == Os.LINUX && !dynamicLibraryEvents.isEmpty()) {
             switch (getStorageDevice()) {
             case AWS_BLOCK_STORAGE:
                 analysis.add(Analysis.INFO_STORAGE_AWS);
@@ -850,55 +868,19 @@ public class FatalErrorLog {
                 break;
             ***REMOVED***
         ***REMOVED***
-        // Check if summarized remembered set processing information being output
-        if (getGarbageCollectors().contains(GarbageCollector.G1) && jvmOptions != null
-                && JdkUtil.isOptionEnabled(jvmOptions.getG1SummarizeRSetStats())
-                && JdkUtil.getNumberOptionValue(jvmOptions.getG1SummarizeRSetStatsPeriod()) > 0) {
-            analysis.add(Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT);
-        ***REMOVED***
-        // Check OnOutOfMemoryError
-        if (jvmOptions != null && jvmOptions.getOnOutOfMemoryError() != null) {
-            if (jvmOptions.getOnOutOfMemoryError().matches("^.+kill -9.+$")
-                    && (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) > 8
-                            || (getJavaSpecification() == JavaSpecification.JDK8
-                                    && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) >= 92))) {
-                analysis.add(Analysis.INFO_OPT_ON_OOME_KILL);
-            ***REMOVED*** else {
-                analysis.add(Analysis.INFO_OPT_ON_OOME);
+        // Check for explicit gc disabled on EAP7
+        if (getApplication() == Application.JBOSS_EAP7 && jvmOptions != null
+                && JdkUtil.isOptionEnabled(jvmOptions.getDisableExplicitGc())) {
+            // Don't double report
+            if (jvmOptions.hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED)) {
+                jvmOptions.removeAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED);
             ***REMOVED***
+            analysis.add(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7);
         ***REMOVED***
         // Check for CMS incremental mode with > 2 cpu
         if (getCpusLogical() > 2 && jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUseConcMarkSweepGc())
                 && JdkUtil.isOptionEnabled(jvmOptions.getCmsIncrementalMode())) {
             analysis.add(Analysis.WARN_CMS_INCREMENTAL_MODE);
-        ***REMOVED***
-        // If CMS or G1, explicit gc is not handled concurrently by default
-        List<GarbageCollector> garbageCollectors = getGarbageCollectors();
-        if ((garbageCollectors.contains(GarbageCollector.CMS) || garbageCollectors.contains(GarbageCollector.G1))
-                && jvmOptions != null && !JdkUtil.isOptionEnabled(jvmOptions.getExplicitGCInvokesConcurrent())
-                && !JdkUtil.isOptionEnabled(jvmOptions.getDisableExplicitGc())) {
-            analysis.add(Analysis.WARN_OPT_EXPLICIT_GC_NOT_CONCURRENT);
-        ***REMOVED***
-        // Check for explicit gc disabled on EAP7
-        if (getApplication() == Application.JBOSS_EAP7 && jvmOptions != null
-                && JdkUtil.isOptionEnabled(jvmOptions.getDisableExplicitGc())) {
-            // Don't double report
-            if (analysis.contains(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED)) {
-                analysis.remove(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED);
-            ***REMOVED***
-            analysis.add(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7);
-        ***REMOVED***
-        // Check for redundant -server flag and ignored -client flag on 64-bit
-        if (is64Bit() && jvmOptions != null) {
-            if (jvmOptions.isD64()) {
-                analysis.add(Analysis.INFO_OPT_D64_REDUNDANT);
-            ***REMOVED***
-            if (jvmOptions.isServer()) {
-                analysis.add(Analysis.INFO_OPT_SERVER_REDUNDANT);
-            ***REMOVED***
-            if (jvmOptions.isClient()) {
-                analysis.add(Analysis.INFO_OPT_CLIENT);
-            ***REMOVED***
         ***REMOVED***
         // Check for crash caused trying to dereference a null pointer.
         if (sigInfoEvent != null && sigInfoEvent.getSignalAddress() != null) {
@@ -906,51 +888,6 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_POINTER_NULL);
             ***REMOVED*** else if (sigInfoEvent.getSignalAddress().matches(JdkRegEx.POINTER_INVALID)) {
                 analysis.add(Analysis.ERROR_POINTER_INVALID);
-            ***REMOVED***
-        ***REMOVED***
-        // Check if performance data is being written to disk in a container environment
-        if (isContainer() && jvmOptions != null && !JdkUtil.isOptionDisabled(jvmOptions.getUsePerfData())
-                && !JdkUtil.isOptionEnabled(jvmOptions.getPerfDisableSharedMem())) {
-            analysis.add(Analysis.WARN_OPT_CONTAINER_PERF_DATA_DISK);
-        ***REMOVED***
-        // Check if performance data disabled
-        if (jvmOptions != null && JdkUtil.isOptionDisabled(jvmOptions.getUsePerfData())) {
-            analysis.add(Analysis.INFO_OPT_PERF_DATA_DISABLED);
-        ***REMOVED***
-        // Check JDK8 print gc details option missing
-        if (getJavaSpecification() == JavaSpecification.JDK8 && jvmOptions != null
-                && jvmOptions.getPrintGcDetails() == null) {
-            analysis.add(Analysis.INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING);
-        ***REMOVED***
-        // Check JDK11 print gc details option missing
-        if (getJavaSpecification() == JavaSpecification.JDK11 && jvmOptions != null && !jvmOptions.getLog().isEmpty()) {
-            Iterator<String> iterator = jvmOptions.getLog().iterator();
-            boolean haveGcDetails = false;
-            while (iterator.hasNext()) {
-                String xLog = iterator.next();
-                // negative lookahead: matches "gc*" followed by anything other than "=off"
-                if (xLog.matches("^.+gc\\*(?!=off).+$")) {
-                    haveGcDetails = true;
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-            if (!haveGcDetails) {
-                analysis.add(Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING);
-            ***REMOVED***
-        ***REMOVED***
-        // Check heap initial/max values non container
-        if (getContainerInfoEvents().isEmpty() && jvmOptions != null && jvmOptions.getInitialHeapSize() != null
-                && jvmOptions.getMaxHeapSize() != null
-                && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(jvmOptions.getInitialHeapSize())) != JdkUtil
-                        .getByteOptionBytes(JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize())))) {
-            analysis.add(Analysis.INFO_OPT_HEAP_MIN_NOT_EQUAL_MAX);
-        ***REMOVED***
-        // Test extraneous use of -XX:LargePageSizeInBytes
-        if (jvmOptions != null && jvmOptions.getLargePageSizeInBytes() != null) {
-            if (getOsType() == OsType.LINUX) {
-                analysis.add(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_LINUX);
-            ***REMOVED*** else if (getOsType() == OsType.WINDOWS) {
-                analysis.add(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS);
             ***REMOVED***
         ***REMOVED***
         if (getStackFrameTop() != null && getStackFrameTop()
@@ -1035,10 +972,6 @@ public class FatalErrorLog {
         // Check if JVM user ne USERNAME
         if (getJvmUser() != null && getUsername() != null && !getJvmUser().equals(getUsername())) {
             analysis.add(Analysis.INFO_JVM_USER_NE_USERNAME);
-        ***REMOVED***
-        // Check for no jvm options
-        if (getJvmOptions() == null || getJvmOptions().getOptions().isEmpty()) {
-            analysis.add(Analysis.INFO_OPT_MISSING);
         ***REMOVED***
         // Check for many threads
         if (getJavaThreadCount() > 1000) {
@@ -1291,18 +1224,6 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        // Check if JVM ignores collector(s) specified by JVM options
-        if (!getGarbageCollectorsFromHeapEvents().isEmpty() && !getGarbageCollectorsFromJvmOptions().isEmpty()) {
-            if (!getGarbageCollectorsFromJvmOptions().equals(getGarbageCollectorsFromHeapEvents())) {
-                if (getGarbageCollectorsFromJvmOptions().contains(GarbageCollector.G1)
-                        && (getGarbageCollectorsFromHeapEvents().contains(GarbageCollector.PARALLEL_SCAVENGE)
-                                || getGarbageCollectorsFromHeapEvents().contains(GarbageCollector.PARALLEL_OLD))) {
-                    analysis.add(Analysis.ERROR_OPT_G1_IGNORED_PARALLEL);
-                ***REMOVED*** else {
-                    analysis.add(Analysis.ERROR_OPT_GC_IGNORED);
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
         // pki_tomcat
         if (getApplication() == Application.PKI_TOMCAT) {
             analysis.add(Analysis.INFO_PKI_TOMCAT);
@@ -1366,8 +1287,25 @@ public class FatalErrorLog {
         ***REMOVED***
     ***REMOVED***
 
-    public List<Analysis> getAnalysis() {
-        return analysis;
+    /**
+     * @return Analysis as a <code>List</code> of String arrays with 2 elements, the first the key, the second the
+     *         display literal.
+     */
+    public List<String[]> getAnalysis() {
+        List<String[]> a = new ArrayList<String[]>();
+        Iterator<Analysis> itFelAnalysis = analysis.iterator();
+        while (itFelAnalysis.hasNext()) {
+            Analysis item = itFelAnalysis.next();
+            a.add(new String[] { item.getKey(), item.getValue() ***REMOVED***);
+        ***REMOVED***
+        if (jvmOptions != null) {
+            Iterator<String[]> itJvmOptionsAnalysis = jvmOptions.getAnalysis().iterator();
+            while (itJvmOptionsAnalysis.hasNext()) {
+                String[] item = itJvmOptionsAnalysis.next();
+                a.add(item);
+            ***REMOVED***
+        ***REMOVED***
+        return a;
     ***REMOVED***
 
     /**
@@ -1494,6 +1432,17 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return availPageFile;
+    ***REMOVED***
+
+    /**
+     * @return <code>Bit</code>
+     */
+    public Bit getBit() {
+        Bit bit = Bit.UNKNOWN;
+        if (getArch() == Arch.X86) {
+            bit = Bit.BIT32;
+        ***REMOVED***
+        return bit;
     ***REMOVED***
 
     /**
@@ -2119,8 +2068,8 @@ public class FatalErrorLog {
     public List<GarbageCollector> getGarbageCollectorsFromJvmOptions() {
         List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
         // Check JVM options if no heap events
-        if (jvmOptions != null && !jvmOptions.getGarbageCollectors().isEmpty()) {
-            garbageCollectors.addAll(jvmOptions.getGarbageCollectors());
+        if (jvmOptions != null && !jvmOptions.getCollectors().isEmpty()) {
+            garbageCollectors.addAll(jvmOptions.getCollectors());
         ***REMOVED***
         // Assign JDK defaults JVM collector options
         if (garbageCollectors.isEmpty()) {
@@ -2585,7 +2534,7 @@ public class FatalErrorLog {
                 if (he.isJreVersion()) {
                     if (he.getLogEntry().matches("^.+AdoptOpenJDK.+$")) {
                         vendor = JavaVendor.ADOPTOPENJDK;
-                    ***REMOVED*** else if (getOsType() != OsType.UNIDENTIFIED && !isRhVersion()) {
+                    ***REMOVED*** else if (getOs() != Os.UNIDENTIFIED && !isRhVersion()) {
                         vendor = JavaVendor.NOT_RED_HAT;
                     ***REMOVED***
                     break;
@@ -2593,6 +2542,37 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return vendor;
+    ***REMOVED***
+
+    /**
+     * @return The Java major version, or Integer.MIN_VALUE if unknown.
+     */
+    public int getJavaVersionMajor() {
+        return JdkUtil.getJavaSpecificationNumber(getJavaSpecification());
+    ***REMOVED***
+
+    /**
+     * @return The Java minor version number, or Integer.MIN_VALUE if unknown.
+     */
+    public int getJavaVersionMinor() {
+        int javaVersionMinor = Integer.MIN_VALUE;
+        switch (getJavaSpecification()) {
+        case JDK8:
+            javaVersionMinor = JdkUtil.getJdk8UpdateNumber(getJdkReleaseString());
+            break;
+        case JDK11:
+            javaVersionMinor = JdkUtil.getJdk11UpdateNumber(getJdkReleaseString());
+            break;
+        case JDK17:
+            javaVersionMinor = JdkUtil.getJdk17UpdateNumber(getJdkReleaseString());
+            break;
+        case JDK6:
+        case JDK7:
+        case UNKNOWN:
+        default:
+            break;
+        ***REMOVED***
+        return javaVersionMinor;
     ***REMOVED***
 
     /**
@@ -2614,7 +2594,7 @@ public class FatalErrorLog {
         if (vmInfoEvent != null) {
             jdkReleaseString = vmInfoEvent.getJdkReleaseString();
             // TODO: Better solution than this hack to account for 2 windows builds based on the same upstream tag?
-            if (vmInfoEvent.getOs() == OsType.WINDOWS) {
+            if (vmInfoEvent.getOs() == Os.WINDOWS) {
                 if (vmInfoEvent.getJavaSpecification() == JavaSpecification.JDK8
                         && jdkReleaseString.equals("1.8.0_332-b09")) {
                     if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 19 2022 13:36:53"))) {
@@ -2784,7 +2764,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The JVM options, or null if none exists.
+     * @return The JVM options, or null if none exist.
      */
     public String getJvmArgs() {
         String jvmArgs = null;
@@ -3312,6 +3292,34 @@ public class FatalErrorLog {
         return nextStackFrame;
     ***REMOVED***
 
+    /**
+     * @return <code>Os</code>
+     */
+    public Os getOs() {
+        Os osType = Os.UNIDENTIFIED;
+        String osString = getOsString();
+        if (osString != null) {
+            if (osString.matches(".*Linux.*")) {
+                osType = Os.LINUX;
+            ***REMOVED*** else if (osString.matches("^Windows.+$")) {
+                osType = Os.WINDOWS;
+            ***REMOVED*** else if (osString.matches(".+Solaris.+")) {
+                osType = Os.SOLARIS;
+            ***REMOVED***
+        ***REMOVED*** else if (!headerEvents.isEmpty()) {
+            // Check header
+            Iterator<HeaderEvent> iterator = headerEvents.iterator();
+            while (iterator.hasNext()) {
+                HeaderEvent he = iterator.next();
+                if (he.isJavaVm()) {
+                    osType = he.getOsType();
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return osType;
+    ***REMOVED***
+
     public List<OsEvent> getOsEvents() {
         return osEvents;
     ***REMOVED***
@@ -3522,34 +3530,6 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return <code>OsType</code>
-     */
-    public OsType getOsType() {
-        OsType osType = OsType.UNIDENTIFIED;
-        String osString = getOsString();
-        if (osString != null) {
-            if (osString.matches(".*Linux.*")) {
-                osType = OsType.LINUX;
-            ***REMOVED*** else if (osString.matches("^Windows.+$")) {
-                osType = OsType.WINDOWS;
-            ***REMOVED*** else if (osString.matches(".+Solaris.+")) {
-                osType = OsType.SOLARIS;
-            ***REMOVED***
-        ***REMOVED*** else if (!headerEvents.isEmpty()) {
-            // Check header
-            Iterator<HeaderEvent> iterator = headerEvents.iterator();
-            while (iterator.hasNext()) {
-                HeaderEvent he = iterator.next();
-                if (he.isJavaVm()) {
-                    osType = he.getOsType();
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return osType;
-    ***REMOVED***
-
-    /**
      * @return <code>OsVendor</code>
      */
     public OsVendor getOsVendor() {
@@ -3669,7 +3649,7 @@ public class FatalErrorLog {
      */
     public String getRpmDirectory() {
         String rpmDirectory = null;
-        if (getOsType() == OsType.LINUX) {
+        if (getOs() == Os.LINUX) {
             if (!dynamicLibraryEvents.isEmpty()) {
                 Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
                 while (iterator.hasNext()) {
@@ -3816,27 +3796,6 @@ public class FatalErrorLog {
         return stackFrameTopJava;
     ***REMOVED***
 
-    /**
-     * Applies only to ThreadStackSize (not CompilerThreadStackSize, VMThreadStackSize, MarkStackSize, or // the
-     * JLI_Launch method in main.c that starts the JVM).
-     * 
-     * @return The stack free space in <code>Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getThreadStackFreeSpace() {
-        long stackFreeSpace = Long.MIN_VALUE;
-        if (!stackEvents.isEmpty()) {
-            Iterator<StackEvent> iterator = stackEvents.iterator();
-            while (iterator.hasNext()) {
-                StackEvent event = iterator.next();
-                if (event.isHeader()) {
-                    stackFreeSpace = event.getStackFreeSpace();
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return stackFreeSpace;
-    ***REMOVED***
-
     public List<StatisticsEvent> getStatisticsEvents() {
         return statisticsEvents;
     ***REMOVED***
@@ -3846,7 +3805,7 @@ public class FatalErrorLog {
      */
     public Device getStorageDevice() {
         Device device = Device.UNIDENTIFIED;
-        if (getOsType() == OsType.LINUX && !dynamicLibraryEvents.isEmpty()) {
+        if (getOs() == Os.LINUX && !dynamicLibraryEvents.isEmpty()) {
             Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
             while (iterator.hasNext()) {
                 DynamicLibraryEvent event = iterator.next();
@@ -3876,6 +3835,27 @@ public class FatalErrorLog {
 
     public ThreadsMaxEvent getThreadsMaxEvent() {
         return threadsMaxEvent;
+    ***REMOVED***
+
+    /**
+     * Applies only to ThreadStackSize (not CompilerThreadStackSize, VMThreadStackSize, MarkStackSize, or // the
+     * JLI_Launch method in main.c that starts the JVM).
+     * 
+     * @return The stack free space in <code>Constants.PRECISION_REPORTING</code> units.
+     */
+    public long getThreadStackFreeSpace() {
+        long stackFreeSpace = Long.MIN_VALUE;
+        if (!stackEvents.isEmpty()) {
+            Iterator<StackEvent> iterator = stackEvents.iterator();
+            while (iterator.hasNext()) {
+                StackEvent event = iterator.next();
+                if (event.isHeader()) {
+                    stackFreeSpace = event.getStackFreeSpace();
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return stackFreeSpace;
     ***REMOVED***
 
     /**
@@ -4021,6 +4001,33 @@ public class FatalErrorLog {
 
     public VmStateEvent getVmStateEvent() {
         return vmStateEvent;
+    ***REMOVED***
+
+    /**
+     * @param key
+     *            The <code>Analysis</code> to check.
+     * @return True if the <code>Analysis</code> exists, false otherwise.
+     */
+    public boolean hasAnalysis(Analysis key) {
+        return analysis.contains(key);
+    ***REMOVED***
+
+    /**
+     * @param key
+     *            The <code>Analysis</code> key to check.
+     * @return True if the <code>Analysis</code> exists, false otherwise.
+     */
+    public boolean hasAnalysis(String key) {
+        boolean hasAnalysis = false;
+        Iterator<Analysis> iterator = analysis.iterator();
+        while (iterator.hasNext()) {
+            Analysis entry = iterator.next();
+            if (entry.getKey().equals(key)) {
+                hasAnalysis = true;
+                break;
+            ***REMOVED***
+        ***REMOVED***
+        return hasAnalysis;
     ***REMOVED***
 
     /**
@@ -4280,17 +4287,6 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return true if the JDK is 64-bit, false otherwise.
-     */
-    public boolean is64Bit() {
-        boolean is64Bit = true;
-        if (getArch() == Arch.X86) {
-            is64Bit = false;
-        ***REMOVED***
-        return is64Bit;
-    ***REMOVED***
-
-    /**
      * AdoptOpenJDK has the same release versions as the RH build of OpenJDK but have a different build date/time and
      * builder string ("jenkins").
      * 
@@ -4454,7 +4450,7 @@ public class FatalErrorLog {
         if (getJdkBuildDate() != null) {
             String releaseString = getJdkReleaseString();
             String rpmDirectory = getRpmDirectory();
-            if (getOsType() == OsType.LINUX) {
+            if (getOs() == Os.LINUX) {
                 switch (getJavaSpecification()) {
                 case JDK8:
                     isRhBuildDate = (JdkUtil.JDK8_RHEL_ZIPS.containsKey(releaseString)
@@ -4530,7 +4526,7 @@ public class FatalErrorLog {
                 default:
                     break;
                 ***REMOVED***
-            ***REMOVED*** else if (getOsType() == OsType.WINDOWS) {
+            ***REMOVED*** else if (getOs() == Os.WINDOWS) {
                 switch (getJavaSpecification()) {
                 case JDK8:
                     isRhBuildDate = JdkUtil.JDK8_WINDOWS_ZIPS.containsKey(releaseString)
@@ -4569,7 +4565,7 @@ public class FatalErrorLog {
         if (getJdkBuildDate() != null) {
             String releaseString = getJdkReleaseString();
             String rpmDirectory = getRpmDirectory();
-            if (getOsType() == OsType.LINUX) {
+            if (getOs() == Os.LINUX) {
                 switch (getJavaSpecification()) {
                 case JDK8:
                     isRhBuildDateUnknown = (JdkUtil.JDK8_RHEL_ZIPS.containsKey(releaseString)
@@ -4609,7 +4605,7 @@ public class FatalErrorLog {
                 default:
                     break;
                 ***REMOVED***
-            ***REMOVED*** else if (getOsType() == OsType.WINDOWS) {
+            ***REMOVED*** else if (getOs() == Os.WINDOWS) {
                 switch (getJavaSpecification()) {
                 case JDK8:
                     isRhBuildDateUnknown = JdkUtil.JDK8_WINDOWS_ZIPS.containsKey(releaseString)
@@ -4679,7 +4675,7 @@ public class FatalErrorLog {
      */
     public boolean isRhLinuxZipInstall() {
         boolean isRhLinuxZipInstall = false;
-        if (getOsType() == OsType.LINUX && getArch() == Arch.X86_64) {
+        if (getOs() == Os.LINUX && getArch() == Arch.X86_64) {
             switch (getJavaSpecification()) {
             case JDK8:
                 isRhLinuxZipInstall = JdkUtil.JDK8_RHEL_ZIPS.containsKey(getJdkReleaseString())
@@ -4990,7 +4986,7 @@ public class FatalErrorLog {
      */
     public boolean isRhVersion() {
         boolean isRhVersion = false;
-        if (getOsType() == OsType.LINUX) {
+        if (getOs() == Os.LINUX) {
             switch (getJavaSpecification()) {
             case JDK8:
                 isRhVersion = JdkUtil.JDK8_RHEL_ZIPS.containsKey(getJdkReleaseString())
@@ -5015,7 +5011,7 @@ public class FatalErrorLog {
             default:
                 break;
             ***REMOVED***
-        ***REMOVED*** else if (getOsType() == OsType.WINDOWS) {
+        ***REMOVED*** else if (getOs() == Os.WINDOWS) {
             switch (getJavaSpecification()) {
             case JDK8:
                 isRhVersion = JdkUtil.JDK8_WINDOWS_ZIPS.containsKey(getJdkReleaseString());
@@ -5219,8 +5215,14 @@ public class FatalErrorLog {
         return isWindows;
     ***REMOVED***
 
-    public void setAnalysis(List<Analysis> analysis) {
-        this.analysis = analysis;
+    /**
+     * Convenience method to remove <code>Analysis</code>.
+     * 
+     * @param key
+     *            The <code>Analysis</code> to check.
+     */
+    public void removeAnalysis(Analysis key) {
+        analysis.remove(key);
     ***REMOVED***
 
     public void setCommandLineEvent(CommandLineEvent commandLineEvent) {

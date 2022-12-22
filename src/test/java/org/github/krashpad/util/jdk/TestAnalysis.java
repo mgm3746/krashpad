@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
+import org.github.joa.domain.GarbageCollector;
 import org.github.krashpad.domain.jdk.CompilationEvent;
 import org.github.krashpad.domain.jdk.ContainerInfoEvent;
 import org.github.krashpad.domain.jdk.CpuInfoEvent;
@@ -50,7 +51,6 @@ import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.OsVersion;
 import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
-import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 import org.github.krashpad.util.jdk.JdkUtil.JavaVendor;
 import org.junit.jupiter.api.Test;
@@ -65,11 +65,11 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset17.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_LINUX_ZIP),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_LINUX_ZIP),
                 Analysis.INFO_RH_BUILD_LINUX_ZIP + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_ADOPTOPENJDK_POSSIBLE),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_ADOPTOPENJDK_POSSIBLE),
                 Analysis.INFO_ADOPTOPENJDK_POSSIBLE + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX),
                 Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX + " analysis not identified.");
     ***REMOVED***
 
@@ -81,9 +81,9 @@ class TestAnalysis {
         CompilationEvent event = new CompilationEvent(compilation);
         fel.getCompilationEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_DETECTED),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_DETECTED),
                 Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
                 Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis incorreclty identified.");
     ***REMOVED***
 
@@ -94,34 +94,23 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_DETECTED),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_DETECTED),
                 Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
                 Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis incorreclty identified.");
     ***REMOVED***
 
     @Test
     void testAppDynamicsPossible() {
         FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -javaagent:C:\\pathh\\to\\javaagent.jar -Xmx2048M";
+        String jvm_args = "jvm_args: -Xss128k -javaagent:C:\\path\\to\\javaagent.jar -Xmx2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
                 Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_APP_DYNAMICS_DETECTED),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_DETECTED),
                 Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testAttachMechanismDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+DisableAttachMechanism -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_DISABLE_ATTACH_MECHANISM),
-                Analysis.WARN_OPT_DISABLE_ATTACH_MECHANISM + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -140,11 +129,11 @@ class TestAnalysis {
         CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpuInfo);
         fel.getCpuInfoEvents().add(cpuInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -164,11 +153,11 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
     ***REMOVED***
 
@@ -188,11 +177,11 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -210,11 +199,11 @@ class TestAnalysis {
         CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpuInfo);
         fel.getCpuInfoEvents().add(cpuInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -223,30 +212,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset34.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_STORAGE_AWS),
-                Analysis.INFO_STORAGE_AWS + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testBisasedLockingDisabledNotShenandoah() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:-UseBiasedLocking -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_BIASED_LOCKING_DISABLED),
-                Analysis.WARN_OPT_BIASED_LOCKING_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testBisasedLockingDisabledShenandoah() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+UseShenandoahGC -Xss128k -XX:-UseBiasedLocking -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_BIASED_LOCKING_DISABLED),
-                Analysis.WARN_OPT_BIASED_LOCKING_DISABLED + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_STORAGE_AWS), Analysis.INFO_STORAGE_AWS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -268,28 +234,10 @@ class TestAnalysis {
         assertTrue(fel.isRhVersion(), "Red Hat version not identified.");
         assertEquals(ErrUtil.getDate("Jan 27 2022 17:54:59"), fel.getJdkBuildDate(), "Build date not correct.");
         assertFalse(fel.isRhBuildDate(), "Red Hat build date incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_POSSIBLE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT),
                 Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testBytecodeBackgroundCompilationDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xbatch -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_BYTECODE_BACK_COMP_DISABLED),
-                Analysis.WARN_OPT_BYTECODE_BACK_COMP_DISABLED + " analysis not identified.");
-        fel.getVmArgumentsEvents().clear();
-        jvm_args = "jvm_args: -Xss128k -XX:-BackgroundCompilation -Xms2048M";
-        event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_BYTECODE_BACK_COMP_DISABLED),
-                Analysis.WARN_OPT_BYTECODE_BACK_COMP_DISABLED + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -299,97 +247,24 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION),
                 Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION + " analysis not identified.");
     ***REMOVED***
 
     @Test
-    void testCGroupMemoryLimit() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT),
-                Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE),
-                Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
-                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCGroupMemoryLimitOverrideMaxHeap() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:MaxHeapSize=2048m -XX:+UnlockExperimentalVMOptions "
-                + "-XX:+UseCGroupMemoryLimitForHeap";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE),
-                Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT),
-                Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
-                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCGroupMemoryLimitOverrideXmx() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE),
-                Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT_OVERRIDE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT),
-                Analysis.WARN_OPT_CGROUP_MEMORY_LIMIT + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
-                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testClassUnloadingDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-ClassUnloading";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CLASS_UNLOADING_DISABLED),
-                Analysis.WARN_OPT_CLASS_UNLOADING_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testClassVerificationDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss512 -Xmx33g -Xverify:none";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_VERIFY_NONE),
-                Analysis.WARN_OPT_VERIFY_NONE + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testClientFlag() {
+    void testClientFlag32Bit() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -client -Xmx2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        // 64-bit is assumed
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CLIENT),
-                Analysis.INFO_OPT_CLIENT + " analysis not identified.");
-        // Specify 32-bit
         String logLine = "vm_info: OpenJDK Server VM (25.252-b09) for linux-x86 JRE (1.8.0_252-b09), built on "
                 + "Apr 14 2020 14:55:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         fel.getAnalysis().clear();
         VmInfoEvent vmInfoEvent = new VmInfoEvent(logLine);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CLIENT),
-                Analysis.INFO_OPT_CLIENT + " analysis incorrectly identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_64_CLIENT),
+                org.github.joa.util.Analysis.INFO_64_CLIENT + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -403,30 +278,10 @@ class TestAnalysis {
         MeminfoEvent meminfoEvent = new MeminfoEvent("SwapTotal:       0 kB");
         fel.getMeminfoEvents().add(meminfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CONTAINER_PERF_DATA_DISK),
-                Analysis.WARN_OPT_CONTAINER_PERF_DATA_DISK + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_PERF_DATA_DISABLED),
-                Analysis.INFO_OPT_PERF_DATA_DISABLED + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testCmsClassUnloadingDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:-CMSClassUnloadingEnabled";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_CLASS_UNLOADING_DISABLED),
-                Analysis.WARN_OPT_CMS_CLASS_UNLOADING_DISABLED + " analysis not identified.");
-        // Don't report if CMS collector not being used
-        fel.getVmArgumentsEvents().clear();
-        fel.getAnalysis().clear();
-        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:-CMSClassUnloadingEnabled";
-        event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_CLASS_UNLOADING_DISABLED),
-                Analysis.WARN_OPT_CMS_CLASS_UNLOADING_DISABLED + " analysis incorrectly identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_CONTAINER_PERF_DATA_DISK),
+                org.github.joa.util.Analysis.WARN_CONTAINER_PERF_DATA_DISK + " analysis not identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_PERF_DATA_DISABLED),
+                org.github.joa.util.Analysis.INFO_PERF_DATA_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -457,35 +312,16 @@ class TestAnalysis {
         fel.getVmArgumentsEvents().clear();
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
-                Analysis.INFO_OPT_CMS_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test if CMS collector disabled with -XX:-UseConcMarkSweepGC -XX:-UseParNewGC.
-     */
-    @Test
-    void testCmsDisabledJdkUnknown() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParNewGC -XX:-UseConcMarkSweepGC "
-                + "-XX:CMSInitiatingOccupancyFraction=70";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
-                Analysis.INFO_OPT_CMS_DISABLED + " analysis not identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED),
+                org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT),
+                org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED),
+                org.github.joa.util.Analysis.INFO_CMS_DISABLED + " analysis not identified.");
     ***REMOVED***
 
     @Test
-    void testCmsIncrementalMode() {
+    void testCmsIncrementalModeCollectorCms() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode ";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
@@ -494,99 +330,22 @@ class TestAnalysis {
         CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpu);
         fel.getCpuInfoEvents().add(cpuInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_CMS_INCREMENTAL_MODE),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_CMS_INCREMENTAL_MODE),
                 Analysis.WARN_CMS_INCREMENTAL_MODE + " analysis not identified.");
-        // Don't report if CMS collector not being used
-        fel.getVmArgumentsEvents().clear();
-        fel.getAnalysis().clear();
-        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:+CMSIncrementalMode ";
-        event = new VmArgumentsEvent(jvm_args);
+    ***REMOVED***
+
+    @Test
+    void testCmsIncrementalModeCollectorCmsDisabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:+CMSIncrementalMode ";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
+        String cpu = "CPU:total 8 (2 cores per cpu, 1 threads per core)";
+        CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpu);
+        fel.getCpuInfoEvents().add(cpuInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_CMS_INCREMENTAL_MODE),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_CMS_INCREMENTAL_MODE),
                 Analysis.WARN_CMS_INCREMENTAL_MODE + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testCmsIncrementalModeWithInitatingOccupancyFraction() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode "
-                + "-XX:CMSInitiatingOccupancyFraction=70";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT),
-                Analysis.WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT + " analysis not identified.");
-        // Don't report if CMS collector not being used
-        fel.getVmArgumentsEvents().clear();
-        fel.getAnalysis().clear();
-        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:+CMSIncrementalMode "
-                + "-XX:CMSInitiatingOccupancyFraction=70";
-        event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT),
-                Analysis.WARN_OPT_CMS_INC_MODE_WITH_INIT_OCCUP_FRACT + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testCmsInitatingOccupancyOnlyMissing() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING),
-                Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING + " analysis not identified.");
-        // Don't report if CMS collector not being used
-        fel.getVmArgumentsEvents().clear();
-        fel.getAnalysis().clear();
-        jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70";
-        event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING),
-                Analysis.INFO_OPT_CMS_INIT_OCCUPANCY_ONLY_MISSING + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testCmsParallelInitialMarkEnabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:-CMSParallelInitialMarkEnabled";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED),
-                Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED + " analysis not identified.");
-        // Don't report if CMS collector not being used
-        fel.getVmArgumentsEvents().clear();
-        fel.getAnalysis().clear();
-        jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:-UseConcMarkSweepGC -XX:-CMSParallelInitialMarkEnabled";
-        event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED),
-                Analysis.WARN_OPT_CMS_PARALLEL_INITIAL_MARK_DISABLED + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testCmsParallelRemarkEnabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:-CMSParallelRemarkEnabled";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED),
-                Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED + " analysis not identified.");
-        // Don't report if CMS collector not being used
-        fel.getVmArgumentsEvents().clear();
-        fel.getAnalysis().clear();
-        jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:-UseConcMarkSweepGC -XX:-CMSParallelRemarkEnabled";
-        event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED),
-                Analysis.WARN_OPT_CMS_PARALLEL_REMARK_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
     /**
@@ -603,76 +362,12 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
-                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test if PAR_NEW collector is enabled/disabled when the CMS collector is not used.
-     */
-    @Test
-    void testCmsParNewCruftJdkUnknown() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParNewGC";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
-                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test if PAR_NEW collector is enabled/disabled when the CMS collector is not used.
-     */
-    @Test
-    void testCmsParNewCruftNone() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
-                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    /**
-     * Test analysis just in time (JIT) compiler disabled.
-     */
-    @Test
-    void testCompilationDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xint -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_BYTECODE_COMPILE_DISABLED),
-                Analysis.WARN_OPT_BYTECODE_COMPILE_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test analysis compilation on first invocation enabled.
-     */
-    @Test
-    void testCompilationOnFirstInvocation() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xcomp -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_BYTECODE_COMPILE_FIRST_INVOCATION),
-                Analysis.WARN_OPT_BYTECODE_COMPILE_FIRST_INVOCATION + " analysis not identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED),
+                org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED),
+                org.github.joa.util.Analysis.INFO_CMS_DISABLED + " analysis incorrectly identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT),
+                org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -680,9 +375,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset72.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD),
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS),
                 Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS + " analysis not identified.");
     ***REMOVED***
 
@@ -691,164 +386,10 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset76.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD),
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL),
                 Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompilerThreads() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:CICompilerCount=2 -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CI_COMPILER_COUNT),
-                Analysis.INFO_OPT_CI_COMPILER_COUNT + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompileThresholdIgnored() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss512 -XX:CompileThreshold=200 -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_COMPILE_THRESHOLD_IGNORED),
-                Analysis.INFO_OPT_COMPILE_THRESHOLD_IGNORED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressedClassPointersDisabledHeapLt32G() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedClassPointers -XX:+UseCompressedOops -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_LT_32G),
-                Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_LT_32G + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressedClassPointersDisabledHeapUnknown() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedClassPointers -XX:+UseCompressedOops";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK),
-                Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressedClassPointersEnabledCompressedOopsDisabledHeapUnknown() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedOops -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK),
-                Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressedClassPointersEnabledHeapGt32G() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+UseCompressedClassPointers -Xmx32g";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G),
-                Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G),
-                Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G + " incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressedClassSpaceSizeWithCompressedClassPointersDisabledHeapUnknown() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:CompressedClassSpaceSize=1G -XX:-UseCompressedClassPointers "
-                + "-Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK),
-                Analysis.WARN_OPT_COMP_CLASS_DISABLED_HEAP_UNK + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_CLASS_DISABLED),
-                Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_CLASS_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressedClassSpaceSizeWithCompressedOopsDisabledHeapUnknown() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:CompressedClassSpaceSize=1G -XX:-UseCompressedOops -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK),
-                Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_OOPS_DISABLED),
-                Analysis.INFO_OPT_COMP_CLASS_SIZE_COMP_OOPS_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressedOopsDisabledHeapEqual32G() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedOops -Xmx32G";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G),
-                Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK),
-                Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_UNK + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressedOopsDisabledHeapGreater32G() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedOops -Xmx40G";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G),
-                Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressedOopsDisabledHeapLess32G() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:-UseCompressedOops -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G),
-                Analysis.WARN_OPT_COMP_OOPS_DISABLED_HEAP_LT_32G + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testCompressedOopsEnabledHeapGreater32G() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+UseCompressedOops -Xmx40G";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G),
-                Analysis.WARN_OPT_COMP_OOPS_ENABLED_HEAP_GT_32G + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G),
-                Analysis.WARN_OPT_COMP_CLASS_ENABLED_HEAP_GT_32G + " incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testConcurrentio() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xconcurrentio -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_CONCURRENTIO),
-                Analysis.WARN_OPT_CONCURRENTIO + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -856,11 +397,10 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset47.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_CGROUP),
-                Analysis.INFO_CGROUP + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_MEMORY_JVM_NE_SYSTEM),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP), Analysis.INFO_CGROUP + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_MEMORY_JVM_NE_SYSTEM),
                 Analysis.INFO_MEMORY_JVM_NE_SYSTEM + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_CGROUP_MEMORY_LIMIT),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP_MEMORY_LIMIT),
                 Analysis.INFO_CGROUP_MEMORY_LIMIT + " analysis not identified.");
     ***REMOVED***
 
@@ -875,7 +415,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN),
                 Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN + " analysis not identified.");
     ***REMOVED***
 
@@ -893,9 +433,9 @@ class TestAnalysis {
         StackEvent stackEvent = new StackEvent(stack);
         fel.getStackEvents().add(stackEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_CRASH_ON_OOME_HEAP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ON_OOME_HEAP),
                 Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -904,35 +444,31 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset33.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JVM_STARTUP_FAILS),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JVM_STARTUP_FAILS),
                 Analysis.INFO_JVM_STARTUP_FAILS + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGNO_SIGSEGV),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGSEGV),
                 Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD),
                 Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
-    void testD64Flag() {
+    void testD64Flag32Bit() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -d64 -Xmx2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        // 64-bit is assumed
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_D64_REDUNDANT),
-                Analysis.INFO_OPT_D64_REDUNDANT + " analysis not identified.");
-        // Specify 32-bit
         String logLine = "vm_info: OpenJDK Server VM (25.252-b09) for linux-x86 JRE (1.8.0_252-b09), built on "
                 + "Apr 14 2020 14:55:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         fel.getAnalysis().clear();
         VmInfoEvent vmInfoEvent = new VmInfoEvent(logLine);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_D64_REDUNDANT),
-                Analysis.INFO_OPT_D64_REDUNDANT + " analysis incorrectly identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT),
+                org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -946,20 +482,9 @@ class TestAnalysis {
         StackEvent stackEvent2 = new StackEvent(stack2);
         fel.getStackEvents().add(stackEvent2);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_DBCP2), Analysis.INFO_DBCP2 + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_POSTGRESQL_CONNECTION),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_DBCP2), Analysis.INFO_DBCP2 + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_POSTGRESQL_CONNECTION),
                 Analysis.INFO_POSTGRESQL_CONNECTION + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testDebug() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xdebug -XX:+PrintHeapAtGC -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_DEBUG),
-                Analysis.INFO_OPT_DEBUG + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1014,105 +539,21 @@ class TestAnalysis {
         VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
         fel.setVmInfoEvent(vmEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE),
-                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE),
-                Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
-                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK9_DEPRECATED_LOGGC),
-                Analysis.INFO_OPT_JDK9_DEPRECATED_LOGGC + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK9_DEPRECATED_PRINT_GC),
-                Analysis.INFO_OPT_JDK9_DEPRECATED_PRINT_GC + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK9_DEPRECATED_PRINT_GC_DETAILS),
-                Analysis.INFO_OPT_JDK9_DEPRECATED_PRINT_GC_DETAILS + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test analysis huge DGC intervals.
-     */
-    @Test
-    void testDgcHugeIntervals() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Dsun.rmi.dgc.client.gcInteraval=9223372036854775807 "
-                + "-Dsun.rmi.dgc.server.gcInterval=9223372036854775807";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL),
-                Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL),
-                Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_LARGE),
-                Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_LARGE + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_LARGE),
-                Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_LARGE + " analysis nto identified.");
-    ***REMOVED***
-
-    /**
-     * Test analysis not small DGC intervals.
-     */
-    @Test
-    void testDgcNotSmallIntervals() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL),
-                Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL),
-                Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    /**
-     * Test DGC redundant options analysis.
-     */
-    @Test
-    void testDgcRedundantOptions() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+DisableExplicitGC -Dsun.rmi.dgc.client.gcInterval=14400000 "
-                + "-Dsun.rmi.dgc.server.gcInterval=24400000";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_RMI_DGC_CLIENT_GCINTERVAL_REDUNDANT),
-                Analysis.INFO_OPT_RMI_DGC_CLIENT_GCINTERVAL_REDUNDANT + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_RMI_DGC_SERVER_GCINTERVAL_REDUNDANT),
-                Analysis.INFO_OPT_RMI_DGC_SERVER_GCINTERVAL_REDUNDANT + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test analysis small DGC intervals
-     */
-    @Test
-    void testDgcSmallIntervals() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Dsun.rmi.dgc.client.gcInterval=3599999 -Dsun.rmi.dgc.server.gcInterval=3599999";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL),
-                Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL),
-                Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test analysis small DGC intervals with explicit gc disable
-     */
-    @Test
-    void testDgcSmallIntervalsDisableExplicitGc() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Dsun.rmi.dgc.client.gcInterval=3599999 -Dsun.rmi.dgc.server.gcInterval=3599999 "
-                + "-XX:+DisableExplicitGC";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL),
-                Analysis.WARN_OPT_RMI_DGC_CLIENT_GCINTERVAL_SMALL + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL),
-                Analysis.WARN_OPT_RMI_DGC_SERVER_GCINTERVAL_SMALL + " analysis incorrectly identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_OVERWRITE),
+                org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_OVERWRITE),
+                org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_OVERWRITE + " analysis incorrectly identified.");
+        assertFalse(
+                fel.getJvmOptions()
+                        .hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
+                org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED
+                        + " analysis incorrectly identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_LOGGC),
+                org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_LOGGC + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC),
+                org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC_DETAILS),
+                org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC_DETAILS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1124,28 +565,12 @@ class TestAnalysis {
         assertEquals("v  ~StubRoutines::jbyte_disjoint_arraycopy", fel.getStackFrameTop(),
                 "To stack frame not correct.");
         assertTrue(fel.isInStack(JdkRegEx.JAVA_NIO_BYTEBUFFER), "DirectByteBuffer class not identified in stack.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION),
                 Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7),
                 Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7 + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED),
-                Analysis.WARN_OPT_EXPLICIT_GC_DISABLED + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    /**
-     * Test DisableExplicitGC in combination with ExplicitGCInvokesConcurrent.
-     */
-    @Test
-    void testDisableExplictGc() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+DisableExplicitGC -XX:+ExplicitGCInvokesConcurrent -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED),
-                Analysis.WARN_OPT_EXPLICIT_GC_DISABLED + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPLICIT_GC_DISABLED_CONCURRENT),
-                Analysis.WARN_OPT_EXPLICIT_GC_DISABLED_CONCURRENT + " analysis not identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED),
+                org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -1155,8 +580,7 @@ class TestAnalysis {
         StackEvent stackEvent = new StackEvent(stack);
         fel.getStackEvents().add(stackEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_DYNATRACE),
-                Analysis.ERROR_DYNATRACE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_DYNATRACE), Analysis.ERROR_DYNATRACE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1167,8 +591,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_DYNATRACE),
-                Analysis.INFO_DYNATRACE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_DYNATRACE), Analysis.INFO_DYNATRACE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1176,19 +599,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_DYNATRACE),
-                Analysis.WARN_DYNATRACE + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testEliminateLocks() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:+EliminateLocks";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_ELIMINATE_LOCKS_ENABLED),
-                Analysis.INFO_OPT_ELIMINATE_LOCKS_ENABLED + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_DYNATRACE), Analysis.WARN_DYNATRACE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1196,7 +607,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset78.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_LIBC_CFREE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_LIBC_CFREE),
                 Analysis.ERROR_JDK8_LIBC_CFREE + " analysis not identified.");
 
     ***REMOVED***
@@ -1208,19 +619,8 @@ class TestAnalysis {
         HeaderEvent headerEvent = new HeaderEvent(logLine);
         fel.getHeaderEvents().add(headerEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_STUBROUTINES),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_STUBROUTINES),
                 Analysis.ERROR_STUBROUTINES + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testExplicitGCInvokesConcurrentAndUnloadsClassesDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+DisableExplicitGC -XX:-ExplicitGCInvokesConcurrentAndUnloadsClasses";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_CRUFT_EXP_GC_INV_CON_AND_UNL_CLA),
-                Analysis.INFO_OPT_CRUFT_EXP_GC_INV_CON_AND_UNL_CLA + " analysis not identified.");
     ***REMOVED***
 
     /**
@@ -1237,8 +637,8 @@ class TestAnalysis {
         HeapEvent heapEvent = new HeapEvent(logLine);
         fel.getHeapEvents().add(heapEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPLICIT_GC_NOT_CONCURRENT),
-                Analysis.WARN_OPT_EXPLICIT_GC_NOT_CONCURRENT + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT),
+                org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1246,7 +646,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset58.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS),
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
     ***REMOVED***
 
@@ -1255,11 +655,10 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset75.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM),
-                Analysis.ERROR_OOME_JVM + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JVM), Analysis.ERROR_OOME_JVM + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP),
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1270,7 +669,7 @@ class TestAnalysis {
         TimeEvent timeEven = new TimeEvent(time);
         fel.setTimeEvent(timeEven);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT),
                 Analysis.WARN_FATAL_ERROR_LOG_ANCIENT + " analysis not identified.");
     ***REMOVED***
 
@@ -1281,11 +680,11 @@ class TestAnalysis {
         SigInfoEvent event = new SigInfoEvent(siginfo);
         fel.setSigInfoEvent(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGNO_SIGFPE),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGFPE),
                 Analysis.INFO_SIGNO_SIGFPE + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGCODE_FPE_INTDIV),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_FPE_INTDIV),
                 Analysis.INFO_SIGCODE_FPE_INTDIV + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_FPE), Analysis.ERROR_FPE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_FPE), Analysis.ERROR_FPE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1293,22 +692,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset54.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE),
                 Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test if explicit not GC handled concurrently.
-     */
-    @Test
-    void testG1MixedGCLiveThresholdPercent() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xms2048M -XX:+UseG1GC -XX:G1MixedGCLiveThresholdPercent=50";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_G1_MIXED_GC_LIVE_THRSHOLD_PRCNT),
-                Analysis.WARN_OPT_G1_MIXED_GC_LIVE_THRSHOLD_PRCNT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1322,17 +707,17 @@ class TestAnalysis {
         assertEquals(stackFrame1, fel.getStackFrame(1), "Stack frame 1 not correct.");
         assertEquals(stackFrame2, fel.getStackFrame(2), "Stack frame 2 not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE),
                 Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         // Test header only
         fel.getAnalysis().clear();
         fel.getStackEvents().clear();
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE),
                 Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1347,8 +732,8 @@ class TestAnalysis {
         fel.getHeapEvents().add(heapEvent);
         fel.getVmArgumentsEvents().add(vmArgumentEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT),
-                Analysis.INFO_OPT_G1_SUMMARIZE_RSET_STATS_OUTPUT + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT),
+                org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1361,8 +746,8 @@ class TestAnalysis {
         HeapEvent heapEvent1 = new HeapEvent("Shenandoah Heap");
         fel.getHeapEvents().add(heapEvent1);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OPT_GC_IGNORED),
-                Analysis.ERROR_OPT_GC_IGNORED + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.ERROR_GC_IGNORED),
+                org.github.joa.util.Analysis.ERROR_GC_IGNORED + " analysis not identified.");
         // Test real world
         fel.getAnalysis().clear();
         fel.getHeapEvents().clear();
@@ -1375,36 +760,8 @@ class TestAnalysis {
                         + "0x00000000d5580000)");
         fel.getHeapEvents().add(heapEvent3);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OPT_G1_IGNORED_PARALLEL),
-                Analysis.ERROR_OPT_G1_IGNORED_PARALLEL + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testGcLoggingToStdout() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+PrintGC -XX:+PrintGCCause -XX:+PrintGCDateStamps -XX:+PrintGCDetails "
-                + "-XX:+PrintGCTimeStamps";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
-                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_GC_LOG_STDOUT),
-                Analysis.INFO_GC_LOG_STDOUT + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testGuaranteedSafepointInterval() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+UnlockDiagnosticVMOptions -XX:GuaranteedSafepointInterval=100000 "
-                + "-Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED),
-                Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_DIAGNOSTICS_GUARANTEED_SAFEPOINT_INTERVAL),
-                Analysis.WARN_OPT_DIAGNOSTICS_GUARANTEED_SAFEPOINT_INTERVAL + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL),
+                org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1430,65 +787,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_HASHMAP),
-                Analysis.ERROR_HASHMAP + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testHeapDumpOnOutOfMemoryErrorDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:-HeapDumpOnOutOfMemoryError";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED),
-                Analysis.WARN_OPT_HEAP_DUMP_ON_OOME_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testHeapDumpOnOutOfMemoryErrorMissing() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_DUMP_ON_OOME_MISSING),
-                Analysis.INFO_OPT_HEAP_DUMP_ON_OOME_MISSING + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testHeapDumpOnOutOfMemoryErrorPathIsDirectory() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:+HeapDumpOnOutOfMemoryError "
-                + "-XX:HeapDumpPath=/path/to";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_HEAP_DUMP_PATH_FILENAME),
-                Analysis.WARN_OPT_HEAP_DUMP_PATH_FILENAME + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testHeapDumpOnOutOfMemoryErrorPathIsFileName() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:+HeapDumpOnOutOfMemoryError "
-                + "-XX:HeapDumpPath=/path/to/heap.hprof";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_HEAP_DUMP_PATH_FILENAME),
-                Analysis.WARN_OPT_HEAP_DUMP_PATH_FILENAME + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testHeapDumpOnOutOfMemoryErrorPathMissing() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m -XX:+HeapDumpOnOutOfMemoryError";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_DUMP_PATH_MISSING),
-                Analysis.INFO_OPT_HEAP_DUMP_PATH_MISSING + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_HASHMAP), Analysis.ERROR_HASHMAP + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1496,8 +795,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset56.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_MAX_MISSING),
-                Analysis.INFO_OPT_HEAP_MAX_MISSING + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING),
+                org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1508,33 +807,7 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_IBM_TOOLKIT),
-                Analysis.INFO_IBM_TOOLKIT + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test if explicit not GC handled concurrently.
-     */
-    @Test
-    void testInitialNotEqualMaxHeap() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xms2048M -Xmx4096M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_MIN_NOT_EQUAL_MAX),
-                Analysis.INFO_OPT_HEAP_MIN_NOT_EQUAL_MAX + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testInstrumentation() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -javaagent:/path/to/appdynamics/javaagent.jar -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_INSTRUMENTATION),
-                Analysis.INFO_OPT_INSTRUMENTATION + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_IBM_TOOLKIT), Analysis.INFO_IBM_TOOLKIT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1577,21 +850,30 @@ class TestAnalysis {
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
                 "Jvm memory not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP),
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
-    void testItext() {
+    void testItextDetected() {
         FatalErrorLog fel = new FatalErrorLog();
         String dynamicLibrary = "7fff467a0000-7fff467c0000 r--s 00220000 fd:0a 67109364                   "
                 + "/path/to/itextpdf-5.5.13.1.jar";
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_ITEXT), Analysis.INFO_ITEXT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_ITEXT), Analysis.INFO_ITEXT + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testItextInStack() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7fff467a0000-7fff467c0000 r--s 00220000 fd:0a 67109364                   "
+                + "/path/to/itextpdf-5.5.13.1.jar";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         String stack1 = "v  ~BufferBlob::StubRoutines (2)";
         StackEvent stackEvent1 = new StackEvent(stack1);
         fel.getStackEvents().add(stackEvent1);
@@ -1601,9 +883,8 @@ class TestAnalysis {
         fel.getStackEvents().add(stackEvent2);
         fel.getAnalysis().clear();
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_ITEXT), Analysis.WARN_ITEXT + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_ITEXT),
-                Analysis.INFO_ITEXT + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_ITEXT), Analysis.WARN_ITEXT + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_ITEXT), Analysis.INFO_ITEXT + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -1617,19 +898,8 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_0),
-                Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_0 + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testJdk11GcLogFileOverwrite() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xlog:gc*,safepoint=info:file=gc.log:uptimemillis:filecount=0,filesize=50M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE),
-                Analysis.WARN_OPT_JDK11_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0),
+                org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0 + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1643,8 +913,9 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_ROTATION_DISABLED),
-                Analysis.WARN_OPT_JDK11_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.");
+        assertTrue(
+                fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED),
+                org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1658,8 +929,8 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_SMALL),
-                Analysis.WARN_OPT_JDK11_GC_LOG_FILE_SIZE_SMALL + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL),
+                org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1674,8 +945,8 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING),
-                Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING),
+                org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1692,8 +963,8 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("-Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M",
                 fel.getJvmOptions().getLog().get(0), "-Xlog not correct.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING),
-                Analysis.INFO_OPT_JDK11_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING),
+                org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -1704,7 +975,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK_VERSION_UNSUPPORTED),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK_VERSION_UNSUPPORTED),
                 Analysis.ERROR_JDK_VERSION_UNSUPPORTED + " analysis not identified.");
     ***REMOVED***
 
@@ -1718,32 +989,8 @@ class TestAnalysis {
                 + "0x00007f641d41accd [0x00007f641d41ac00+0xcd]";
         assertEquals(stackFrameTopCompiledJavaCode, fel.getStackFrameTopCompiledJavaCode(),
                 "Top compiled Java code (J) stack frame not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_DEFLATER_CONTENTION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_DEFLATER_CONTENTION),
                 Analysis.ERROR_JDK8_DEFLATER_CONTENTION + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testJdk8GcLogFileRotationDisabledOverwrite() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+PrintGC -Xloggc:gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps "
-                + "-XX:+PrintGCApplicationStoppedTime -XX:-UseGCLogFileRotation";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE),
-                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testJdk8GcLogFileRotationNotEnabledOverwrite() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+PrintGC -Xloggc:gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps "
-                + "-XX:+PrintGCApplicationStoppedTime";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE),
-                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1757,27 +1004,29 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
-                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis not identified.");
+        assertTrue(
+                fel.getJvmOptions()
+                        .hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
+                org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis not identified.");
     ***REMOVED***
 
-    @Test
-    void testJdk8LogFileSizeSmall() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation "
-                + "-XX:GCLogFileSize=8192";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_SIZE_SMALL),
-                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_SIZE_SMALL + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test with PrintGCDetails missing.
-     */
     @Test
     void testJdk8PrintGCDetailsMissing() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xloggc:gc.log  -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
+                + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
+                org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdk8PrintGCDetailsMissingGcLogging() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xms2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
@@ -1787,8 +1036,23 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING),
-                Analysis.INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
+                org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testJdk8PrintGCDetailsMissingNoGcLogging() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
+                + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        fel.doAnalysis();
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
+                org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -1801,7 +1065,7 @@ class TestAnalysis {
                 + "0x00007fa287303dce [0x00007fa287303d00+0xce]";
         assertEquals(stackFrameTopCompiledJavaCode, fel.getStackFrameTopCompiledJavaCode(),
                 "Top compiled Java code (J) stack frame not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
     ***REMOVED***
 
@@ -1817,7 +1081,7 @@ class TestAnalysis {
         fel.getStackEvents().add(stackEvent);
         fel.doAnalysis();
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
     ***REMOVED***
 
@@ -1832,7 +1096,7 @@ class TestAnalysis {
         fel.getHeaderEvents().add(headerEvent2);
         fel.doAnalysis();
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
     ***REMOVED***
 
@@ -1841,13 +1105,12 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset18.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_LINUX_ZIP),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_LINUX_ZIP),
                 Analysis.INFO_RH_BUILD_LINUX_ZIP + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JDK_ANCIENT),
-                Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT), Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
     ***REMOVED***
 
@@ -1858,7 +1121,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK_VERSION_UNKNOWN),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK_VERSION_UNKNOWN),
                 Analysis.ERROR_JDK_VERSION_UNKNOWN + " analysis not identified.");
     ***REMOVED***
 
@@ -1870,7 +1133,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JFFI), Analysis.INFO_JFFI + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JFFI), Analysis.INFO_JFFI + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1878,8 +1141,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JFR),
-                Analysis.INFO_OPT_JFR + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JFR),
+                org.github.joa.util.Analysis.INFO_JFR + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1901,7 +1164,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED),
                 Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED + " analysis not identified.");
     ***REMOVED***
 
@@ -1910,7 +1173,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JFR_PD_GET_TOP_FRAME),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JFR_PD_GET_TOP_FRAME),
                 Analysis.ERROR_JFR_PD_GET_TOP_FRAME + " analysis not identified.");
     ***REMOVED***
 
@@ -1931,26 +1194,8 @@ class TestAnalysis {
         CurrentThreadEvent currentThreadEvent = new CurrentThreadEvent(currentThread);
         fel.setCurrentThreadEvent(currentThreadEvent);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE),
                 Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testJmx() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+ManagementServer -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JMX_ENABLED),
-                Analysis.INFO_OPT_JMX_ENABLED + " analysis not identified.");
-        fel.getVmArgumentsEvents().clear();
-        jvm_args = "jvm_args: -Xss128k -Dcom.sun.management.jmxremote -Xms2048M";
-        event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JMX_ENABLED),
-                Analysis.INFO_OPT_JMX_ENABLED + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1961,7 +1206,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JNA), Analysis.INFO_JNA + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JNA), Analysis.INFO_JNA + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1987,8 +1232,7 @@ class TestAnalysis {
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.isJnaCrash(), "JNA crash not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JNA_RH),
-                Analysis.ERROR_JNA_RH + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_RH), Analysis.ERROR_JNA_RH + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2000,8 +1244,7 @@ class TestAnalysis {
         String stackFrame2 = "j  com.sun.jna.Native.invokePointer(Lcom/sun/jna/Function;JI[Ljava/lang/Object;)J+0";
         assertEquals(stackFrame1, fel.getStackFrame(1), "Stack frame 1 not correct.");
         assertEquals(stackFrame2, fel.getStackFrame(2), "Stack frame 2 not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JNA_RH),
-                Analysis.ERROR_JNA_RH + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_RH), Analysis.ERROR_JNA_RH + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2015,7 +1258,7 @@ class TestAnalysis {
         StackEvent stackEvent2 = new StackEvent(stack2);
         fel.getStackEvents().add(stackEvent2);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JSS), Analysis.ERROR_JSS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JSS), Analysis.ERROR_JSS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2026,7 +1269,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JSS), Analysis.INFO_JSS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JSS), Analysis.INFO_JSS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2040,7 +1283,7 @@ class TestAnalysis {
         StackEvent stackEvent2 = new StackEvent(stack2);
         fel.getStackEvents().add(stackEvent2);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_JSS), Analysis.WARN_JSS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_JSS), Analysis.WARN_JSS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2054,7 +1297,7 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(hsperfdata);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JVM_USER_NE_USERNAME),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JVM_USER_NE_USERNAME),
                 Analysis.INFO_JVM_USER_NE_USERNAME + " analysis not identified.");
     ***REMOVED***
 
@@ -2068,8 +1311,8 @@ class TestAnalysis {
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_LINUX),
-                Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_LINUX + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX),
+                org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2082,8 +1325,8 @@ class TestAnalysis {
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS),
-                Analysis.INFO_OPT_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS),
+                org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2091,7 +1334,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset14.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
         assertEquals(825, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
                 "Release days diff not correct.");
@@ -2106,7 +1349,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getLdPreloadFileEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_LD_SO_PRELOAD),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_LD_SO_PRELOAD),
                 Analysis.INFO_LD_SO_PRELOAD + " analysis not identified.");
     ***REMOVED***
 
@@ -2115,7 +1358,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset46.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_LIBAIO_CONTEXT_DONE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LIBAIO_CONTEXT_DONE),
                 Analysis.ERROR_LIBAIO_CONTEXT_DONE + " analysis not identified.");
     ***REMOVED***
 
@@ -2126,32 +1369,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getExceptionCountsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_LINKAGE),
-                Analysis.ERROR_LINKAGE + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testLogFileNumberWithRotationDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:NumberOfGCLogFiles=5 -XX:-UseGCLogFileRotation -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED),
-                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED_NUM),
-                Analysis.WARN_OPT_JDK8_GC_LOG_FILE_ROTATION_DISABLED_NUM + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMaxPermSize() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:MaxPermSize=256m";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_MAX_PERM_SIZE),
-                Analysis.INFO_OPT_MAX_PERM_SIZE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LINKAGE), Analysis.ERROR_LINKAGE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2159,41 +1377,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset73.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK),
                 Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMetaspaceEq32g() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss512 -Xmx32g";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_METASPACE_CLASS_METADATA),
-                Analysis.INFO_OPT_METASPACE_CLASS_METADATA + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMetaspaceGt32G() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss512 -Xmx33g";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_METASPACE_CLASS_METADATA),
-                Analysis.INFO_OPT_METASPACE_CLASS_METADATA + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMetaspaceLt32g() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss512 -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE),
-                Analysis.INFO_OPT_METASPACE_CLASS_METADATA_AND_COMP_CLASS_SPACE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2204,19 +1389,8 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE),
                 Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testMinHeapDeltaBytes() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1g -XX:MinHeapDeltaBytes=12345 -Xmx1g";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_MIN_HEAP_DELTA_BYTES),
-                Analysis.INFO_OPT_MIN_HEAP_DELTA_BYTES + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2227,7 +1401,7 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(library);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_MMAP_DELETED),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_MMAP_DELETED),
                 Analysis.WARN_MMAP_DELETED + " analysis not identified.");
     ***REMOVED***
 
@@ -2252,12 +1426,10 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
-                Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_JVM_DLL),
-                Analysis.ERROR_JVM_DLL + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO), Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL), Analysis.ERROR_JVM_DLL + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2281,11 +1453,11 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_JVM_DLL),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL),
                 Analysis.ERROR_JVM_DLL + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2294,44 +1466,16 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset82.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_JVM_DLL),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL),
                 Analysis.ERROR_JVM_DLL + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_POINTER_INVALID),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_POINTER_INVALID),
                 Analysis.ERROR_POINTER_INVALID + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test analysis if native library being used.
-     */
-    @Test
-    void testNative() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: Xss128k -Xms2048M -agentpath:/path/to/agent.so -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_NATIVE_AGENT),
-                Analysis.INFO_OPT_NATIVE_AGENT + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test analysis if new space &gt; old space.
-     */
-    @Test
-    void testNewRatioInverted() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: Xss128k -Xmx4g -XX:NewSize=2g";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_NEW_RATIO_INVERTED),
-                Analysis.INFO_OPT_NEW_RATIO_INVERTED + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2345,8 +1489,7 @@ class TestAnalysis {
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_STORAGE_NFS),
-                Analysis.INFO_STORAGE_NFS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_STORAGE_NFS), Analysis.INFO_STORAGE_NFS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2354,7 +1497,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset1.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_SWAP_DISABLED),
                 Analysis.INFO_SWAP_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2363,7 +1506,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset49.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_STACK_NO_VM_CODE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_STACK_NO_VM_CODE),
                 Analysis.INFO_STACK_NO_VM_CODE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2373,8 +1516,7 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(JavaSpecification.JDK12, fel.getJavaSpecification(), "Java specification not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LTS),
-                Analysis.WARN_JDK_NOT_LTS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LTS), Analysis.WARN_JDK_NOT_LTS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2382,56 +1524,40 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset51.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_POINTER_NULL),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_POINTER_NULL),
                 Analysis.ERROR_POINTER_NULL + " analysis not identified.");
     ***REMOVED***
 
     @Test
-    void testOnOutOfMemoryError() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:OnOutOfMemoryError=\"/usr/bin/restart_tomcat\" -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME_KILL),
-                Analysis.INFO_OPT_ON_OOME_KILL + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME),
-                Analysis.INFO_OPT_ON_OOME + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testOnOutOfMemoryErrorKill() {
+    void testOnOutOfMemoryErrorKillJdk8u101() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:OnOutOfMemoryError=\"kill -9 %p\" -Xms2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
+        String header = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_101-b13) (build 1.8.0_101-b13)";
+        HeaderEvent headerEvent = new HeaderEvent(header);
+        fel.getHeaderEvents().add(headerEvent);
         fel.doAnalysis();
-        // JDK unknown
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME),
-                Analysis.INFO_OPT_ON_OOME + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME_KILL),
-                Analysis.INFO_OPT_ON_OOME_KILL + " analysis incorrectly identified.");
-        // JDK8 update 91
-        fel.getAnalysis().clear();
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME),
+                org.github.joa.util.Analysis.INFO_ON_OOME + " analysis incorrectly identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL),
+                org.github.joa.util.Analysis.INFO_ON_OOME_KILL + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testOnOutOfMemoryErrorKillJdk8u91() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:OnOutOfMemoryError=\"kill -9 %p\" -Xms2048M";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
         String header = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_91-b14) (build 1.8.0_91-b14)";
         HeaderEvent headerEvent = new HeaderEvent(header);
         fel.getHeaderEvents().add(headerEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME),
-                Analysis.INFO_OPT_ON_OOME + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME_KILL),
-                Analysis.INFO_OPT_ON_OOME_KILL + " analysis incorrectly identified.");
-        // JDK8 update 101
-        fel.getAnalysis().clear();
-        fel.getHeaderEvents().clear();
-        header = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_101-b13) (build 1.8.0_101-b13)";
-        headerEvent = new HeaderEvent(header);
-        fel.getHeaderEvents().add(headerEvent);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME),
-                Analysis.INFO_OPT_ON_OOME + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_ON_OOME_KILL),
-                Analysis.INFO_OPT_ON_OOME_KILL + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME),
+                org.github.joa.util.Analysis.INFO_ON_OOME + " analysis not identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL),
+                org.github.joa.util.Analysis.INFO_ON_OOME_KILL + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -2439,7 +1565,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset67.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_AMQ_CLI),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_AMQ_CLI),
                 Analysis.ERROR_OOME_AMQ_CLI + " analysis not identified.");
     ***REMOVED***
 
@@ -2448,9 +1574,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset79.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE),
                 Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2459,9 +1585,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset80.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD),
                 Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL),
                 Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.");
     ***REMOVED***
 
@@ -2470,7 +1596,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset42.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS),
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
     ***REMOVED***
 
@@ -2478,11 +1604,11 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset36.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_JAVA_HEAP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_JAVA_HEAP),
                 Analysis.ERROR_OOME_THROWN_JAVA_HEAP + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGNO_SIGSEGV),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGSEGV),
                 Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGCODE_SEGV_MAPERR),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_SEGV_MAPERR),
                 Analysis.INFO_SIGCODE_SEGV_MAPERR + " analysis not identified.");
     ***REMOVED***
 
@@ -2510,9 +1636,9 @@ class TestAnalysis {
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
                 "Jvm memory max not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2525,11 +1651,11 @@ class TestAnalysis {
         assertEquals(32682, fel.getJavaThreadCount(JdkRegEx.WILDFLY_EXECUTOR_POOL_THREAD),
                 "JBoss EAP executor pool thread count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native libraries unknown count not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL),
                 Analysis.ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_THREAD_LEAK),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_THREAD_LEAK),
                 Analysis.ERROR_OOME_THREAD_LEAK + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP),
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP + " analysis incorrectly identified.");
 
     ***REMOVED***
@@ -2541,7 +1667,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(JavaVendor.AZUL, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(Application.JBOSS_VERSION, fel.getApplication(), "Application not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_JBOSS_VERSION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JBOSS_VERSION),
                 Analysis.ERROR_OOME_JBOSS_VERSION + " analysis not identified.");
     ***REMOVED***
 
@@ -2558,11 +1684,11 @@ class TestAnalysis {
         error.append(Constants.LINE_SEPARATOR);
         error.append("***REMOVED***  INVALID (0xe0000002) at pc=0x0000000000000000, pid=108047, tid=0x00007f67eb450700");
         assertEquals(error.toString(), fel.getError());
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM_STARTUP),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
     ***REMOVED***
 
@@ -2571,8 +1697,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset57.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT),
-                Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT), Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2580,7 +1705,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM_STARTUP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis not identified.");
     ***REMOVED***
 
@@ -2589,9 +1714,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset56.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_MISSING),
-                Analysis.INFO_OPT_MISSING + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_EXTERNAL_STARTUP),
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_OPTS_NONE),
+                org.github.joa.util.Analysis.INFO_OPTS_NONE + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL_STARTUP),
                 Analysis.ERROR_OOME_EXTERNAL_STARTUP + " analysis not identified.");
     ***REMOVED***
 
@@ -2600,9 +1725,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset66.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM_STARTUP),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2611,12 +1736,12 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset81.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_JVM_STARTUP),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_HEAP_MIN_EQUAL_MAX_OOME_STARTING),
-                Analysis.INFO_OPT_HEAP_MIN_EQUAL_MAX_OOME_STARTING + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX),
+                Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2624,9 +1749,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset62.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OOM_G1),
-                Analysis.WARN_OOM_G1 + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_SWAP_DISABLED_G1),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_OOM_G1), Analysis.WARN_OOM_G1 + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_SWAP_DISABLED_G1),
                 Analysis.WARN_SWAP_DISABLED_G1 + " analysis not identified.");
     ***REMOVED***
 
@@ -2635,7 +1759,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset68.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
     ***REMOVED***
 
@@ -2644,7 +1768,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset63.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
     ***REMOVED***
 
@@ -2673,9 +1797,9 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
                 Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
                 Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis not identified.");
     ***REMOVED***
 
@@ -2691,9 +1815,9 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_ORACLE_JDBC_OCI),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_ORACLE_JDBC_OCI),
                 Analysis.INFO_ORACLE_JDBC_OCI + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE),
                 Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE + " analysis not identified.");
     ***REMOVED***
 
@@ -2711,11 +1835,11 @@ class TestAnalysis {
                 "OCI driver load timestamp not correct.");
         assertEquals(86182L, fel.getUptime(), "Uptime not correct.");
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
                 Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
                 Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
                 Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2737,11 +1861,11 @@ class TestAnalysis {
         fel.getStackEvents().add(event3);
         fel.getStackEvents().add(event4);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
                 Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
                 Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
                 Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis not identified.");
     ***REMOVED***
 
@@ -2752,7 +1876,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getExceptionCountsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE),
                 Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE + " analysis not identified.");
     ***REMOVED***
 
@@ -2763,7 +1887,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getExceptionCountsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_JAVA_HEAP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_JAVA_HEAP),
                 Analysis.ERROR_OOME_THROWN_JAVA_HEAP + " analysis not identified.");
     ***REMOVED***
 
@@ -2774,58 +1898,8 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getExceptionCountsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_THROWN_METASPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_METASPACE),
                 Analysis.ERROR_OOME_THROWN_METASPACE + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParalleGcThreads() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:ParallelGCThreads=4 -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1),
-                Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1 + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL),
-                Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_PARALLEL_GC_THREADS),
-                Analysis.INFO_OPT_PARALLEL_GC_THREADS + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParalleGcThreads1() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:ParallelGCThreads=1 -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1),
-                Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1 + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParalleGcThreadsSerial() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+UseSerialGC -XX:ParallelGCThreads=1 -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1),
-                Analysis.ERROR_OPT_PARALLEL_GC_THREADS_1 + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL),
-                Analysis.INFO_OPT_PARALLEL_GC_THREADS_SERIAL + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testParallelClassLoading() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+UnlockDiagnosticVMOptions -XX:+UnsyncloadClass -Xmx2G";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_DIAGNOSTIC_UNSYNCLOAD_CLASS),
-                Analysis.WARN_OPT_DIAGNOSTIC_UNSYNCLOAD_CLASS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2851,8 +1925,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED),
-                Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED),
+                org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
     ***REMOVED***
 
     /**
@@ -2869,8 +1943,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED),
-                Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED),
+                org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
     ***REMOVED***
 
     /**
@@ -2888,10 +1962,10 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT),
-                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT),
-                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT + " analysis incorrectly identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT),
+                org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT + " analysis not identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT),
+                org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT + " analysis incorrectly identified.");
 
     ***REMOVED***
 
@@ -2910,65 +1984,10 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT),
-                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT),
-                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT + " analysis not identified.");
-
-    ***REMOVED***
-
-    /**
-     * Test PARALLEL_OLD collector is enabled/disabled when the parallel collector is not used.
-     */
-    @Test
-    void testParallelOldfCruftJdkUnknown() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseParallelGC -XX:+UseParallelOldGC";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT),
-                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED),
-                Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    /**
-     * Test if PARALLEL_OLD collector is enabled/disabled when the parallel collector is not used false positive.
-     */
-    @Test
-    void testParallelOldfCruftNone() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT),
-                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_CRUFT + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED),
-                Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testPerfDataDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss512 -XX:-UsePerfData -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_PERF_DATA_DISABLED),
-                Analysis.INFO_OPT_PERF_DATA_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPermSize() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:PermSize=256m";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_PERM_SIZE),
-                Analysis.INFO_OPT_PERM_SIZE + " analysis not identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT),
+                org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT + " analysis incorrectly identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT),
+                org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2977,9 +1996,9 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isError("Out of Memory Error"), "Out Of Memory Error not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_STARTUP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_STARTUP),
                 Analysis.ERROR_OOME_LIMIT_STARTUP + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2995,8 +2014,7 @@ class TestAnalysis {
                 JdkUtil.Application.PKI_TOMCAT + " application not identified.");
         assertFalse(fel.getApplication() == JdkUtil.Application.TOMCAT,
                 JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_PKI_TOMCAT),
-                Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT), Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3015,8 +2033,7 @@ class TestAnalysis {
                 JdkUtil.Application.PKI_TOMCAT + " application not identified.");
         assertFalse(fel.getApplication() == JdkUtil.Application.TOMCAT,
                 JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_PKI_TOMCAT),
-                Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT), Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3031,187 +2048,7 @@ class TestAnalysis {
                 JdkUtil.Application.PKI_TOMCAT + " application not identified.");
         assertFalse(fel.getApplication() == JdkUtil.Application.TOMCAT,
                 JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_PKI_TOMCAT),
-                Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPrintAdaptiveSizePolicyDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: Xss128k -Xmx4g -XX:-PrintAdaptiveSizePolicy";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED),
-                Analysis.INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPrintAdaptiveSizePolicyEnabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: Xss128k -Xmx4g -XX:+PrintAdaptiveSizePolicy";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED),
-                Analysis.INFO_OPT_JDK8_PRINT_ADAPTIVE_RESIZE_PLCY_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPrintClassHistogram() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+PrintClassHistogram";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_PRINT_CLASS_HISTOGRAM),
-                Analysis.WARN_OPT_PRINT_CLASS_HISTOGRAM + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPrintClassHistogramAfterFullGc() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+PrintClassHistogramAfterFullGC";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_PRINT_CLASS_HISTOGRAM_AFTER_FULL_GC),
-                Analysis.WARN_OPT_PRINT_CLASS_HISTOGRAM_AFTER_FULL_GC + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPrintClassHistogramBeforeFullGc() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+PrintClassHistogramBeforeFullGC";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_PRINT_CLASS_HISTOGRAM_BEFORE_FULL_GC),
-                Analysis.WARN_OPT_PRINT_CLASS_HISTOGRAM_BEFORE_FULL_GC + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPrintFLSStatistics() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:PrintFLSStatistics=1 -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_FLS_STATISTICS),
-                Analysis.INFO_OPT_JDK8_PRINT_FLS_STATISTICS + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test if explicit not GC handled concurrently.
-     */
-    @Test
-    void testPrintGCApplicationConcurrentTime() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xms2048M -Xmx4096M -XX:+PrintGCApplicationConcurrentTime";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_PRINT_GC_APPLICATION_CONCURRENT_TIME),
-                Analysis.INFO_OPT_PRINT_GC_APPLICATION_CONCURRENT_TIME + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPrintGcCause() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:+PrintGCCause -XX:-HeapDumpOnOutOfMemoryError";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_GC_CAUSE),
-                Analysis.INFO_OPT_JDK8_PRINT_GC_CAUSE + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPrintGcCauseDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:-PrintGCCause -XX:-HeapDumpOnOutOfMemoryError";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_PRINT_GC_CAUSE_DISABLED),
-                Analysis.WARN_OPT_JDK8_PRINT_GC_CAUSE_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test with PrintGCDetails disabled with -XX:-PrintGCDetails.
-     */
-    @Test
-    void testPrintGCDetailsDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:-PrintGCDetails -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_PRINT_GC_DETAILS_DISABLED),
-                Analysis.WARN_OPT_JDK8_PRINT_GC_DETAILS_DISABLED + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING),
-                Analysis.INFO_OPT_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testPrintHeapAtGc() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+PrintHeapAtGC -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_HEAP_AT_GC),
-                Analysis.INFO_OPT_JDK8_PRINT_HEAP_AT_GC + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPrintPromotionFailure() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: Xss128k -Xmx4g -XX:+PrintPromotionFailure";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_PROMOTION_FAILURE),
-                Analysis.INFO_OPT_JDK8_PRINT_PROMOTION_FAILURE + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test if -XX:+PrintReferenceGC enabled
-     */
-    @Test
-    void testPrintReferenceGC() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+PrintReferenceGC";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_REFERENCE_GC_ENABLED),
-                Analysis.INFO_OPT_JDK8_PRINT_REFERENCE_GC_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test if -XX:+PrintStringDeduplicationStatistics enabled
-     */
-    @Test
-    void testPrintStringDeduplicationStatistics() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+PrintStringDeduplicationStatistics -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_STRING_DEDUP_STATS_ENABLED),
-                Analysis.INFO_OPT_JDK8_PRINT_STRING_DEDUP_STATS_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPrintTenuringDistribution() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+PrintTenuringDistribution -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_PRINT_TENURING_DISTRIBUTION),
-                Analysis.INFO_OPT_JDK8_PRINT_TENURING_DISTRIBUTION + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT), Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
     ***REMOVED***
 
     /**
@@ -3221,7 +2058,7 @@ class TestAnalysis {
     void testPropertyKeyValueLookup() {
         Analysis[] analysis = Analysis.values();
         for (int i = 0; i < analysis.length; i++) {
-            assertNotNull(analysis[i].getKey() + " not found.", analysis[i].getValue());
+            assertNotNull(analysis[i] + " not found.", analysis[i].getValue());
         ***REMOVED***
     ***REMOVED***
 
@@ -3233,9 +2070,9 @@ class TestAnalysis {
         StackEvent stackEvent = new StackEvent(stackFrame1);
         fel.getStackEvents().add(stackEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE),
                 Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         // Test header only
         fel.getAnalysis().clear();
@@ -3245,9 +2082,9 @@ class TestAnalysis {
         HeaderEvent headerEvent = new HeaderEvent(header);
         fel.getHeaderEvents().add(headerEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE),
                 Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -3256,7 +2093,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset32.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_PTHREAD_GETCPUCLOCKID),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PTHREAD_GETCPUCLOCKID),
                 Analysis.ERROR_PTHREAD_GETCPUCLOCKID + " analysis not identified.");
     ***REMOVED***
 
@@ -3265,10 +2102,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset45.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED),
-                Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VMWARE),
-                Analysis.INFO_VMWARE + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED),
+                org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VMWARE), Analysis.INFO_VMWARE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3278,8 +2114,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED),
-                Analysis.ERROR_OPT_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED),
+                org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3303,9 +2139,9 @@ class TestAnalysis {
         assertEquals(ErrUtil.getDate("Jan 13 2016 21:08:08"), fel.getJdkBuildDate(), "Build date not correct.");
         assertTrue(fel.isRhBuildDate(), "Red Hat build date not identified.");
         assertFalse(fel.isRhBuildDateUnknown(), "Red Hat build of OpenJDK date unknown incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_POSSIBLE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -3314,7 +2150,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset19.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
     ***REMOVED***
 
@@ -3331,8 +2167,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RHEL9_JDK8),
-                Analysis.INFO_RHEL9_JDK8 + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RHEL9_JDK8), Analysis.INFO_RHEL9_JDK8 + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3352,7 +2187,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("8.5", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.4", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
     ***REMOVED***
 
@@ -3373,7 +2208,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("8.5", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.6", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
     ***REMOVED***
 
@@ -3386,9 +2221,9 @@ class TestAnalysis {
                 "Rpm directory not correct.");
         assertEquals("8.4", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.5", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -3409,7 +2244,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("7.1", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("7", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -3430,9 +2265,9 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("7.6", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("7.9", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_RHEL7_POWER9),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL7_POWER9),
                 Analysis.WARN_RHEL7_POWER9 + " analysis not identified.");
     ***REMOVED***
 
@@ -3441,47 +2276,28 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset15.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_JDK_NOT_LATEST),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9),
                 Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9 + " analysis not identified.");
     ***REMOVED***
 
     @Test
-    void testSafepointLogging() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+UnlockDiagnosticVMOptions -XX:+PrintSafepointStatistics "
-                + "-XX:PrintSafepointStatisticsCount=1 -XX:+LogVMOutput -XX:LogFile=/path/to/vm.log -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED),
-                Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_DIAGNOSTIC_PRINT_SAFEPOINT_STATISTICS),
-                Analysis.WARN_OPT_DIAGNOSTIC_PRINT_SAFEPOINT_STATISTICS + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testServerFlag() {
+    void testServerFlag32Bit() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -server -Xmx2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        // 64-bit is assumed
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_SERVER_REDUNDANT),
-                Analysis.INFO_OPT_SERVER_REDUNDANT + " analysis not identified.");
         // Specify 32-bit
         String logLine = "vm_info: OpenJDK Server VM (25.252-b09) for linux-x86 JRE (1.8.0_252-b09), built on "
                 + "Apr 14 2020 14:55:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
-        fel.getAnalysis().clear();
         VmInfoEvent vmInfoEvent = new VmInfoEvent(logLine);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_SERVER_REDUNDANT),
-                Analysis.INFO_OPT_SERVER_REDUNDANT + " analysis incorrectly identified.");
+        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT),
+                org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -3493,23 +2309,10 @@ class TestAnalysis {
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH),
                 GarbageCollector.SHENANDOAH + " collector not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_METASPACE),
-                Analysis.INFO_OPT_METASPACE + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_METASPACE_LT_COMP_CLASS),
-                Analysis.WARN_OPT_METASPACE_LT_COMP_CLASS + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testShenandoahGuaranteedGCInterval() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+UnlockExperimentalVMOptions -XX:ShenandoahGuaranteedGCInterval=20000";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_SHENANDOAH_GUARANTEED_GC_INTERVAL),
-                Analysis.WARN_OPT_SHENANDOAH_GUARANTEED_GC_INTERVAL + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
-                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_METASPACE),
+                org.github.joa.util.Analysis.INFO_METASPACE + " analysis not identified.");
+        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_METASPACE_LT_COMP_CLASS),
+                org.github.joa.util.Analysis.WARN_METASPACE_LT_COMP_CLASS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3517,32 +2320,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset44.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK),
                 Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testShenandoahUncommitDelay() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+UnlockExperimentalVMOptions -XX:ShenandoahUncommitDelay=5000";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_SHENANDOAH_GUARANTEED_UNCOMMIT_DELAY),
-                Analysis.WARN_OPT_SHENANDOAH_GUARANTEED_UNCOMMIT_DELAY + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
-                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testSignalHandlingDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss512 -Xmx33g -Xrs";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_RS),
-                Analysis.WARN_OPT_RS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3550,7 +2329,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset39.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SIGCODE_SI_KERNEL),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_SI_KERNEL),
                 Analysis.INFO_SIGCODE_SI_KERNEL + " analysis not identified.");
     ***REMOVED***
 
@@ -3585,11 +2364,11 @@ class TestAnalysis {
         VmArgumentsEvent vmArgumentsEvent = new VmArgumentsEvent(jvmArgs);
         fel.getVmArgumentsEvents().add(vmArgumentsEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE),
                 Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_COMPILER_THREAD),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD),
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -3598,7 +2377,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset37.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE),
                 Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE + " analysis not identified.");
     ***REMOVED***
 
@@ -3607,7 +2386,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset35.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_STACKOVERFLOW),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_STACKOVERFLOW),
                 Analysis.ERROR_STACKOVERFLOW + " analysis not identified.");
     ***REMOVED***
 
@@ -3616,24 +2395,13 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset17.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_STUBROUTINES),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_STUBROUTINES),
                 Analysis.ERROR_STUBROUTINES + " analysis not identified.");
         testFile = new File(Constants.TEST_DATA_DIR + "dataset43.txt");
         fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_STUBROUTINES),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_STUBROUTINES),
                 Analysis.ERROR_STUBROUTINES + " analysis not identified.");
 
-    ***REMOVED***
-
-    @Test
-    void testSurvivorRatio() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:SurvivorRatio=6 -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_SURVIVOR_RATIO),
-                Analysis.INFO_OPT_SURVIVOR_RATIO + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3642,7 +2410,7 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.isRhBuildOpenJdk(), "RH build of OpenJDK incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SWAP_DISABLED),
                 Analysis.INFO_SWAP_DISABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -3651,8 +2419,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset11.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SWAPPING),
-                Analysis.INFO_SWAPPING + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SWAPPING), Analysis.INFO_SWAPPING + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3660,100 +2427,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset12.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_SWAPPING),
-                Analysis.WARN_SWAPPING + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JVM_DLL),
-                Analysis.ERROR_JVM_DLL + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testTargetSurvivorRatio() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:TargetSurvivorRatio=90 -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_SURVIVOR_RATIO_TARGET),
-                Analysis.INFO_OPT_SURVIVOR_RATIO_TARGET + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testTenuringDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:MaxTenuringThreshold=0 -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_TENURING_DISABLED),
-                Analysis.WARN_OPT_TENURING_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testTenuringMissing() {
-        FatalErrorLog fel = new FatalErrorLog();
-        fel.getVmArgumentsEvents().clear();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_MAX_TENURING_OVERRIDE),
-                Analysis.INFO_OPT_MAX_TENURING_OVERRIDE + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testTenuringNotDefault() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:MaxTenuringThreshold=8 -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_MAX_TENURING_OVERRIDE),
-                Analysis.INFO_OPT_MAX_TENURING_OVERRIDE + " analysis not identified.");
-        fel.getVmArgumentsEvents().clear();
-    ***REMOVED***
-
-    @Test
-    void testThreadStackSizeTiny() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss512 -XX:TargetSurvivorRatio=90 -Xmx2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_THREAD_STACK_SIZE_TINY),
-                Analysis.WARN_THREAD_STACK_SIZE_TINY + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testTieredCompilation() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+TieredCompilation -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_TIERED_COMPILATION_ENABLED),
-                Analysis.INFO_OPT_TIERED_COMPILATION_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testTraceClassLoading() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+TraceClassLoading -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_TRACE_CLASS_LOADING),
-                Analysis.INFO_OPT_TRACE_CLASS_LOADING + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testTraceClassUnloading() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+TraceClassUnloading -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_TRACE_CLASS_UNLOADING),
-                Analysis.INFO_OPT_TRACE_CLASS_UNLOADING + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_SWAPPING), Analysis.WARN_SWAPPING + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JVM_DLL), Analysis.ERROR_JVM_DLL + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3761,14 +2436,12 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset48.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_TRUNCATED),
-                Analysis.INFO_TRUNCATED + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_OOME_OOPS),
-                Analysis.ERROR_OOME_OOPS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_TRUNCATED), Analysis.INFO_TRUNCATED + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OOPS), Analysis.ERROR_OOME_OOPS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3785,143 +2458,8 @@ class TestAnalysis {
     @Test
     void testUnknownStorageFalseReporting() {
         FatalErrorLog fel = new FatalErrorLog();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_STORAGE_UNKNOWN),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_STORAGE_UNKNOWN),
                 Analysis.INFO_STORAGE_UNKNOWN + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testUnlockDiagnosticVMOptions() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+UnlockDiagnosticVMOptions -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED),
-                Analysis.INFO_OPT_DIAGNOSTIC_VM_OPTIONS_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testUnlockExperimentalVMOptions() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+UnlockExperimentalVMOptions -Xms2048M";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
-                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testUseAdaptiveSizePolicyDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xms1024m -Xmx2048m -XX:-UseAdaptiveSizePolicy";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED),
-                Analysis.WARN_OPT_ADAPTIVE_SIZE_POLICY_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testUseFastUnorderedTimeStamps() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+UnlockExperimentalVMOptions -XX:+UseFastUnorderedTimeStamps";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_FAST_UNORDERED_TIMESTAMPS),
-                Analysis.WARN_OPT_FAST_UNORDERED_TIMESTAMPS + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED),
-                Analysis.WARN_OPT_EXPERIMENTAL_VM_OPTIONS_ENABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testUseMembar() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xms2048M -Xmx4096M -XX:+UseMembar";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_USE_MEMBAR),
-                Analysis.WARN_OPT_USE_MEMBAR + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testUseParallelOldGcDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseParallelGC -XX:-UseParallelOldGC ";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED),
-                Analysis.WARN_OPT_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testUseParallelOldGcRedundant() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseParallelGC -XX:+UseParallelOldGC ";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT),
-                Analysis.INFO_OPT_JDK11_PARALLEL_OLD_REDUNDANT + " analysis not identified.");
-    ***REMOVED***
-
-    /**
-     * Test if PAR_NEW collector disabled with -XX:-UseParNewGC with the CMS collector.
-     */
-    @Test
-    void testUseParNewGcDisabled() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:-UseParNewGC "
-                + "-XX:CMSInitiatingOccupancyFraction=70";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
-                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testUseParNewGcRedundant() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:+UseParNewGC";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_REDUNDANT),
-                Analysis.INFO_OPT_JDK8_CMS_PAR_NEW_REDUNDANT + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_OPT_CMS_DISABLED),
-                Analysis.INFO_OPT_CMS_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED),
-                Analysis.WARN_OPT_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-    ***REMOVED***
-
-    @Test
-    void testUseVmInterruptibleIo() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:-UseVMInterruptibleIO";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_OPT_JDK8_USE_VM_INTERRUPTIBLE_IO),
-                Analysis.WARN_OPT_JDK8_USE_VM_INTERRUPTIBLE_IO + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testVerboseClass() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -verbose:class -Xmx2G";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_OPT_VERBOSE_CLASS),
-                Analysis.INFO_OPT_VERBOSE_CLASS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3939,8 +2477,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JDK_ANCIENT),
-                Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT), Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3951,7 +2488,7 @@ class TestAnalysis {
         VmOperationEvent event = new VmOperationEvent(vmOperation);
         fel.setVmOperationEvent(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_CONCURRENT_GC),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_CONCURRENT_GC),
                 Analysis.INFO_VM_OPERATION_CONCURRENT_GC + " analysis not identified.");
     ***REMOVED***
 
@@ -3963,7 +2500,7 @@ class TestAnalysis {
         VmOperationEvent event = new VmOperationEvent(vmOperation);
         fel.setVmOperationEvent(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_HEAP_DUMP),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_HEAP_DUMP),
                 Analysis.INFO_VM_OPERATION_HEAP_DUMP + " analysis not identified.");
     ***REMOVED***
 
@@ -3984,7 +2521,7 @@ class TestAnalysis {
         StackEvent stackEvent2 = new StackEvent(stack2);
         fel.getStackEvents().add(stackEvent2);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_WILY), Analysis.ERROR_WILY + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_WILY), Analysis.ERROR_WILY + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -3995,7 +2532,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_WILY), Analysis.INFO_WILY + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_WILY), Analysis.INFO_WILY + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -4009,7 +2546,7 @@ class TestAnalysis {
         StackEvent stackEvent2 = new StackEvent(stack2);
         fel.getStackEvents().add(stackEvent2);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_WILY), Analysis.WARN_WILY + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_WILY), Analysis.WARN_WILY + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -4018,14 +2555,14 @@ class TestAnalysis {
         String zHeap = " ZHeap           used 4M, capacity 500M, max capacity 7978M";
         HeapEvent heapEvent = new HeapEvent(zHeap);
         fel.getHeapEvents().add(heapEvent);
-        assertTrue(fel.getGarbageCollectors().contains(JdkUtil.GarbageCollector.ZGC),
-                JdkUtil.GarbageCollector.ZGC + " collector not identified.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC),
+                GarbageCollector.ZGC + " collector not identified.");
         fel.getHeapEvents().clear();
         String jvm_args = "jvm_args: -Xss128k -XX:+UseZGC -Xmx2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getGarbageCollectors().contains(JdkUtil.GarbageCollector.ZGC),
-                JdkUtil.GarbageCollector.ZGC + " collector not identified.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC),
+                GarbageCollector.ZGC + " collector not identified.");
     ***REMOVED***
 ***REMOVED***

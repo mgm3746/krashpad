@@ -18,8 +18,8 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -228,17 +228,17 @@ public class VmInfoEvent implements LogEvent {
     /**
      * @return The OS type.
      */
-    public OsType getOs() {
-        OsType osType = OsType.UNIDENTIFIED;
+    public Os getOs() {
+        Os osType = Os.UNIDENTIFIED;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             int indexOs = 3;
             if (matcher.group(indexOs).equals("linux")) {
-                osType = OsType.LINUX;
+                osType = Os.LINUX;
             ***REMOVED*** else if (matcher.group(indexOs).equals("windows")) {
-                osType = OsType.WINDOWS;
+                osType = Os.WINDOWS;
             ***REMOVED*** else if (matcher.group(indexOs).equals("solaris")) {
-                osType = OsType.SOLARIS;
+                osType = Os.SOLARIS;
             ***REMOVED***
         ***REMOVED***
         return osType;

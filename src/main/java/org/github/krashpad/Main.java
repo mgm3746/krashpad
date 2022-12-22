@@ -32,6 +32,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.github.joa.domain.GarbageCollector;
 import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.StackEvent;
@@ -41,7 +42,6 @@ import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.JdkMath;
 import org.github.krashpad.util.jdk.JdkUtil;
-import org.github.krashpad.util.jdk.JdkUtil.GarbageCollector;
 
 /**
  * <p>
@@ -152,7 +152,7 @@ public class Main {
                                     + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
-            if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+            if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
@@ -176,12 +176,11 @@ public class Main {
                                     + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
-            if ((fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_STARTUP)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_LIMIT_OOPS_STARTUP)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT)
-                    || fel.getAnalysis().contains(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP))) {
+            if ((fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT) || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_STARTUP)
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS)
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS_STARTUP)
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT)
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP))) {
                 if (fel.getRlimitEvent() != null) {
                     printWriter.write(fel.getRlimitEvent().getLogEntry() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
@@ -306,7 +305,7 @@ public class Main {
                 // Display JVM initial memory if it fails to start
                 if (fel.getJvmMemoryInitial() > 0) {
                     long percentMemory;
-                    if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                    if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
                         percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getJvmMemTotal());
                     ***REMOVED*** else {
                         percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getOsMemTotal());
@@ -316,7 +315,7 @@ public class Main {
                     if (fel.getOsMemTotal() > 0) {
                         printWriter.write(" (");
                         // provide rounding indicator
-                        if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                        if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
                             if (percentMemory == 0
                                     || (percentMemory == 100 && fel.getJvmMemoryInitial() != fel.getJvmMemTotal())) {
                                 printWriter.write("~");
@@ -328,7 +327,7 @@ public class Main {
                             ***REMOVED***
                         ***REMOVED***
                         printWriter.write(percentMemory + "% ");
-                        if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                        if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
                             printWriter.write("Container Memory");
                         ***REMOVED*** else {
                             printWriter.write("OS Memory");
@@ -351,7 +350,7 @@ public class Main {
                 ***REMOVED***
             ***REMOVED*** else if (fel.getJvmMemoryMax() > 0) {
                 long percentMemory = Long.MIN_VALUE;
-                if (fel.getAnalysis().contains(Analysis.INFO_CGROUP) && fel.getJvmMemTotal() >= 0) {
+                if (fel.hasAnalysis(Analysis.INFO_CGROUP) && fel.getJvmMemTotal() >= 0) {
                     percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal());
 
                 ***REMOVED*** else if (fel.getOsMemTotal() >= 0) {
@@ -363,7 +362,7 @@ public class Main {
                 if (fel.getOsMemTotal() > 0) {
                     printWriter.write(" (");
                     // provide rounding indicator
-                    if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                    if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
                         if (percentMemory == 0
                                 || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getJvmMemTotal())) {
                             printWriter.write("~");
@@ -375,7 +374,7 @@ public class Main {
                         ***REMOVED***
                     ***REMOVED***
                     printWriter.write(percentMemory + "% ");
-                    if (fel.getAnalysis().contains(Analysis.INFO_CGROUP)) {
+                    if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
                         printWriter.write("Container Memory");
                     ***REMOVED*** else {
                         printWriter.write("OS Memory");
@@ -440,18 +439,18 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
 
             // Analysis
-            List<Analysis> analysis = fel.getAnalysis();
+            List<String[]> analysis = fel.getAnalysis();
             if (!analysis.isEmpty()) {
 
                 // Determine analysis levels
-                List<Analysis> error = new ArrayList<Analysis>();
-                List<Analysis> warn = new ArrayList<Analysis>();
-                List<Analysis> info = new ArrayList<Analysis>();
+                List<String[]> error = new ArrayList<String[]>();
+                List<String[]> warn = new ArrayList<String[]>();
+                List<String[]> info = new ArrayList<String[]>();
 
-                Iterator<Analysis> iteratorAnalysis = analysis.iterator();
+                Iterator<String[]> iteratorAnalysis = analysis.iterator();
                 while (iteratorAnalysis.hasNext()) {
-                    Analysis a = iteratorAnalysis.next();
-                    String level = a.getKey().split("\\.")[0];
+                    String[] a = iteratorAnalysis.next();
+                    String level = a[0].split("\\.")[0];
                     if (level.equals("error")) {
                         error.add(a);
                     ***REMOVED*** else if (level.equals("warn")) {
@@ -473,17 +472,17 @@ public class Main {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     printHeader = false;
-                    Analysis a = iteratorAnalysis.next();
+                    String[] a = iteratorAnalysis.next();
                     printWriter.write("*");
-                    printWriter.write(a.getValue());
-                    if (a.equals(Analysis.ERROR_CRASH_ON_OOME_HEAP)
+                    printWriter.write(a[1]);
+                    if (a[0].equals(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey())
                             && JdkUtil.isOptionEnabled(fel.getJvmOptions().getHeapDumpOnOutOfMemoryError())
                             && fel.getJvmOptions().getHeapDumpPath() != null) {
                         printWriter.write(" Check the following location for a heap dump: ");
                         printWriter.write(fel.getJvmOptions().getHeapDumpPath());
                         printWriter.write(".");
                     ***REMOVED***
-                    if (a.equals(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN)) {
+                    if (a[0].equals(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN.getKey())) {
                         printWriter.write(fel.getNativeLibraryInCrash());
                         printWriter.write(".");
                     ***REMOVED***
@@ -512,10 +511,10 @@ public class Main {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     printHeader = false;
-                    Analysis a = iteratorAnalysis.next();
+                    String[] a = iteratorAnalysis.next();
                     printWriter.write("*");
-                    printWriter.write(a.getValue());
-                    if (a.equals(Analysis.WARN_JDK_NOT_LATEST)) {
+                    printWriter.write(a[1]);
+                    if (a[0].equals(Analysis.WARN_JDK_NOT_LATEST.getKey())) {
                         printWriter.write(JdkUtil.getLatestJdkReleaseString(fel));
                         // Add latest release info
                         int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel),
@@ -552,10 +551,10 @@ public class Main {
                         printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     printHeader = false;
-                    Analysis a = iteratorAnalysis.next();
+                    String[] a = iteratorAnalysis.next();
                     printWriter.write("*");
-                    printWriter.write(a.getValue());
-                    if (a.equals(Analysis.INFO_OPT_UNDEFINED)) {
+                    printWriter.write(a[1]);
+                    if (a[0].equals(org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED.getKey())) {
                         Iterator<String> iterator = fel.getJvmOptions().getUndefined().iterator();
                         while (iterator.hasNext()) {
                             String option = iterator.next();
@@ -566,7 +565,7 @@ public class Main {
                                 + "https://github.com/mgm3746/krashpad/issues. "
                                 + "If attaching a fatal error log, be sure to review it and remove any sensitive "
                                 + "information.");
-                    ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_INSTRUMENTATION)) {
+                    ***REMOVED*** else if (a[0].equals(org.github.joa.util.Analysis.INFO_INSTRUMENTATION.getKey())) {
                         Iterator<String> iterator = fel.getJvmOptions().getJavaagent().iterator();
                         while (iterator.hasNext()) {
                             String option = iterator.next();
@@ -574,7 +573,7 @@ public class Main {
                             printWriter.write(option);
                         ***REMOVED***
                         printWriter.write(".");
-                    ***REMOVED*** else if (a.equals(Analysis.INFO_OPT_NATIVE_AGENT)) {
+                    ***REMOVED*** else if (a[0].equals(org.github.joa.util.Analysis.INFO_NATIVE_AGENT.getKey())) {
                         if (!fel.getJvmOptions().getAgentlib().isEmpty()) {
                             Iterator<String> iterator = fel.getJvmOptions().getAgentlib().iterator();
                             while (iterator.hasNext()) {
@@ -592,7 +591,7 @@ public class Main {
                             ***REMOVED***
                         ***REMOVED***
                         printWriter.write(".");
-                    ***REMOVED*** else if (a.equals(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN)) {
+                    ***REMOVED*** else if (a[0].equals(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN.getKey())) {
                         Iterator<String> iterator = fel.getNativeLibrariesUnknown().iterator();
                         boolean punctuate = false;
                         while (iterator.hasNext()) {

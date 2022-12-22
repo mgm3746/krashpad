@@ -20,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Arch;
 import org.github.krashpad.util.jdk.JdkUtil.BuiltBy;
@@ -42,7 +42,7 @@ class TestVmInfoEvent {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.PPC64, ((VmInfoEvent) event).getArch(), "Arch not correct.");
-        assertEquals(OsType.LINUX, ((VmInfoEvent) event).getOs(), "OS not correct.");
+        assertEquals(Os.LINUX, ((VmInfoEvent) event).getOs(), "OS not correct.");
     ***REMOVED***
 
     @Test
@@ -240,7 +240,7 @@ class TestVmInfoEvent {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.JAVA_RE, ((VmInfoEvent) event).getBuiltBy(), "JDK builder not correct.");
-        assertEquals(OsType.SOLARIS, ((VmInfoEvent) event).getOs(), "OS not correct.");
+        assertEquals(Os.SOLARIS, ((VmInfoEvent) event).getOs(), "OS not correct.");
     ***REMOVED***
 
     @Test
@@ -263,7 +263,7 @@ class TestVmInfoEvent {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.X86_64, ((VmInfoEvent) event).getArch(), "Arch not correct.");
         assertEquals(JavaSpecification.JDK8, ((VmInfoEvent) event).getJavaSpecification(), "Version not correct.");
-        assertEquals(OsType.WINDOWS, ((VmInfoEvent) event).getOs(), "OS not correct.");
+        assertEquals(Os.WINDOWS, ((VmInfoEvent) event).getOs(), "OS not correct.");
     ***REMOVED***
 
     @Test

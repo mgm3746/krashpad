@@ -39,17 +39,17 @@ class TestHeapAddressEvent {
     ***REMOVED***
 
     @Test
-    void testIdentity() {
-        String logLine = "heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: Zero based, Oop "
-                + "shift amount: 3";
+    void testErrorPrintingCompressedOopsMode() {
+        String logLine = "[error occurred during error reporting (printing compressed oops mode), id 0xb, SIGSEGV "
+                + "(0xb) at pc=0x00007f769228928f]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
                 JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testErrorPrintingCompressedOopsMode() {
-        String logLine = "[error occurred during error reporting (printing compressed oops mode), id 0xb, SIGSEGV "
-                + "(0xb) at pc=0x00007f769228928f]";
+    void testIdentity() {
+        String logLine = "heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: Zero based, Oop "
+                + "shift amount: 3";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
                 JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
     ***REMOVED***

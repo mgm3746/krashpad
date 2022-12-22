@@ -442,7 +442,7 @@ public class ErrUtil {
      * @return The value for the given property file and key.
      */
     public static final String getPropertyValue(String propertyFile, String key) {
-        ResourceBundle rb = ResourceBundle.getBundle("META-INF." + propertyFile);
+        ResourceBundle rb = ResourceBundle.getBundle("org.github.krashpad." + propertyFile);
         return rb.getString(key);
     ***REMOVED***
 

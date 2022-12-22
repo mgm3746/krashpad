@@ -18,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.junit.jupiter.api.Test;
 
@@ -113,7 +113,7 @@ class TestHeaderEvent {
         String logLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
                 + "oops)";
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        assertEquals(OsType.LINUX, headerEvent.getOsType(), "OS Type not identified.");
+        assertEquals(Os.LINUX, headerEvent.getOsType(), "OS Type not identified.");
     ***REMOVED***
 
     @Test
@@ -121,7 +121,7 @@ class TestHeaderEvent {
         String logLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode solaris-sparc compressed "
                 + "oops)";
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        assertEquals(OsType.SOLARIS, headerEvent.getOsType(), "OS Type not identified.");
+        assertEquals(Os.SOLARIS, headerEvent.getOsType(), "OS Type not identified.");
     ***REMOVED***
 
     @Test
@@ -129,7 +129,7 @@ class TestHeaderEvent {
         String logLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.25-b02 mixed mode windows-amd64 compressed "
                 + "oops)";
         HeaderEvent headerEvent = new HeaderEvent(logLine);
-        assertEquals(OsType.WINDOWS, headerEvent.getOsType(), "OS Type not identified.");
+        assertEquals(Os.WINDOWS, headerEvent.getOsType(), "OS Type not identified.");
     ***REMOVED***
 
     @Test

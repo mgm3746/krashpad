@@ -17,8 +17,8 @@ package org.github.krashpad.domain.jdk;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -141,12 +141,12 @@ public class UnameEvent implements LogEvent {
     /**
      * @return The OS type.
      */
-    public OsType getOsType() {
-        OsType osType = OsType.UNIDENTIFIED;
+    public Os getOsType() {
+        Os osType = Os.UNIDENTIFIED;
         if (getUname().matches("Linux.+")) {
-            osType = OsType.LINUX;
+            osType = Os.LINUX;
         ***REMOVED*** else if (getUname().matches("SunOS.+")) {
-            osType = OsType.SOLARIS;
+            osType = Os.SOLARIS;
         ***REMOVED***
         return osType;
     ***REMOVED***

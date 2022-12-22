@@ -14,8 +14,8 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
 
@@ -121,14 +121,14 @@ public class HeaderEvent implements LogEvent {
     /**
      * @return The <code>OsType</code>.
      */
-    public OsType getOsType() {
-        OsType osType = OsType.UNIDENTIFIED;
+    public Os getOsType() {
+        Os osType = Os.UNIDENTIFIED;
         if (logEntry.matches(".+linux.+")) {
-            osType = OsType.LINUX;
+            osType = Os.LINUX;
         ***REMOVED*** else if (logEntry.matches(".+solaris.+")) {
-            osType = OsType.SOLARIS;
+            osType = Os.SOLARIS;
         ***REMOVED*** else if (logEntry.matches(".+windows.+")) {
-            osType = OsType.WINDOWS;
+            osType = Os.WINDOWS;
         ***REMOVED***
         return osType;
     ***REMOVED***

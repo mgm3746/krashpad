@@ -219,18 +219,6 @@ public class JdkUtil {
     ***REMOVED***
 
     /**
-     * Defined garbage collectors
-     * 
-     * Default collector JDK8 "server": PARALLEL_SCAVENGE, PARALLEL_OLD
-     * 
-     * Default collector JDK11/17 "server": G1
-     */
-    public enum GarbageCollector {
-        //
-        CMS, G1, PAR_NEW, PARALLEL_OLD, PARALLEL_SCAVENGE, SERIAL, SERIAL_OLD, SHENANDOAH, UNKNOWN, ZGC
-    ***REMOVED***;
-
-    /**
      * Defined Java specifications.
      */
     public enum JavaSpecification {
@@ -571,9 +559,9 @@ public class JdkUtil {
 
         // RHEL7 amd64 OpenJDK8 rpm
         JDK8_RHEL7_X86_64_RPMS = new HashMap<String, Release>();
-        JDK8_RHEL7_X86_64_RPMS.put("LATEST", new Release("Oct 16 2022 00:00:00", 36, "1.8.0_352-b08"));
+        JDK8_RHEL7_X86_64_RPMS.put("LATEST", new Release("Oct 16 2022 04:57:48", 36, "1.8.0_352-b08"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.352.b08-2.el7_9.x86_64",
-                new Release("Oct 16 2022 00:00:00", 36, "1.8.0_352-b08"));
+                new Release("Oct 16 2022 04:57:48", 36, "1.8.0_352-b08"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.345.b01-1.el7_9.x86_64",
                 new Release("Aug 4 2022 00:00:00", 35, "1.8.0_345-b01"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64",

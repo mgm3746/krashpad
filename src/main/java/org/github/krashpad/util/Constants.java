@@ -41,14 +41,6 @@ public class Constants {
     /**
      * Defined OS types.
      */
-    public enum OsType {
-        //
-        LINUX, SOLARIS, UNIDENTIFIED, WINDOWS
-    ***REMOVED***
-
-    /**
-     * Defined OS types.
-     */
     public enum OsVendor {
         //
         CENTOS, IBM, MICROSOFT, ORACLE, REDHAT, UNIDENTIFIED

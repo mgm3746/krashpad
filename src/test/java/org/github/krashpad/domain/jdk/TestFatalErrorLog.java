@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
+import org.github.joa.domain.Os;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.Device;
-import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
 import org.github.krashpad.util.ErrUtil;
@@ -63,9 +63,9 @@ class TestFatalErrorLog {
         assertEquals(Arch.SPARC, fel.getArch(), "Arch not correct.");
         // No vm_info, so not possible to determine vendor
         assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS),
                 Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS + " analysis not identified.");
     ***REMOVED***
 
@@ -79,9 +79,9 @@ class TestFatalErrorLog {
                 "Rpm directory not correct.");
         assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
         assertEquals(Device.AWS_BLOCK_STORAGE, fel.getStorageDevice(), "Storage device not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB),
                 Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB + " analysis not identified.");
     ***REMOVED***
 
@@ -94,7 +94,7 @@ class TestFatalErrorLog {
         StackEvent stackEvent = new StackEvent(stack);
         fel.getStackEvents().add(stackEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_COMPILED_JAVA_CODE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
     ***REMOVED***
 
@@ -147,8 +147,7 @@ class TestFatalErrorLog {
         EventEvent event = new EventEvent(logLine);
         fel.getEventEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SHUTDOWN),
-                Analysis.INFO_SHUTDOWN + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SHUTDOWN), Analysis.INFO_SHUTDOWN + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -190,17 +189,17 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset5.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
         assertFalse(fel.isRhel(), "OS incorrectly identified as RHEL.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis incorrectly identified.");
         // It's a CentOS build, not a RH build.
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_CENTOS),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_CENTOS),
                 Analysis.INFO_RH_BUILD_CENTOS + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_STACK_NO_VM_CODE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_STACK_NO_VM_CODE),
                 Analysis.INFO_STACK_NO_VM_CODE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -273,7 +272,7 @@ class TestFatalErrorLog {
         assertEquals(255838, fel.getThreadsMax(), "threads-max not correct.");
         assertEquals(32768, fel.getPidMax(), "pid_max not correct.");
         assertEquals(65530, fel.getMaxMapCount(), "max_map_count not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_VM_OPERATION_THREAD_DUMP),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_THREAD_DUMP),
                 Analysis.INFO_VM_OPERATION_THREAD_DUMP + " analysis not identified.");
     ***REMOVED***
 
@@ -291,8 +290,7 @@ class TestFatalErrorLog {
         Release release = fel.getFirstRelease(fel.getJdkReleaseString());
         assertNotNull(release, "Red Hat release not identified.");
         assertEquals(ErrUtil.getDate("Oct 09 2018 00:00:00"), release.getBuildDate(), "Build date not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_JDK_ANCIENT),
-                Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT), Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -344,7 +342,7 @@ class TestFatalErrorLog {
                 + "compressed oops)";
         HeaderEvent he2 = new HeaderEvent(headerLine2);
         fel.getHeaderEvents().add(he2);
-        assertEquals(OsType.LINUX, fel.getOsType(), "OS type not correct.");
+        assertEquals(Os.LINUX, fel.getOs(), "OS type not correct.");
         assertEquals("1.8.0_301-b09", fel.getJdkReleaseString(), "Java release not correct.");
         assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
     ***REMOVED***
@@ -357,7 +355,7 @@ class TestFatalErrorLog {
         HeaderEvent he = new HeaderEvent(headerLine);
         fel.getHeaderEvents().add(he);
         assertEquals(OsVersion.UNIDENTIFIED, fel.getOsVersion(), "OS version not correct.");
-        assertEquals(OsType.LINUX, fel.getOsType(), "OS type not correct.");
+        assertEquals(Os.LINUX, fel.getOs(), "OS type not correct.");
     ***REMOVED***
 
     @Test
@@ -429,7 +427,7 @@ class TestFatalErrorLog {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_POSSIBLE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -454,7 +452,7 @@ class TestFatalErrorLog {
         assertTrue(fel.isRhel(), "OS not identified as RHEL.");
         assertTrue(fel.isRhRpmInstall(), "Red Hat rpm install not identified.");
         assertEquals(OsVersion.RHEL6, fel.getOsVersion(), "OS version not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_RHEL6), Analysis.WARN_RHEL6 + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL6), Analysis.WARN_RHEL6 + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -468,14 +466,14 @@ class TestFatalErrorLog {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertEquals(OsType.LINUX, fel.getOsType(), "OS not correct.");
+        assertEquals(Os.LINUX, fel.getOs(), "OS not correct.");
         assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
         assertTrue(fel.isRhRpm(), "Red Hat rpm not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis incorrectly identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_CENTOS),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_CENTOS),
                 Analysis.INFO_RH_BUILD_CENTOS + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_BASED),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_BASED),
                 Analysis.INFO_RH_BUILD_RPM_BASED + " analysis not identified.");
     ***REMOVED***
 
@@ -528,7 +526,7 @@ class TestFatalErrorLog {
                 "RPM directory not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals(Constants.PROPERTY_UNKNOWN, fel.getCurrentThread(), "Current thread not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_POSSIBLE),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis not identified.");
     ***REMOVED***
 
@@ -665,7 +663,7 @@ class TestFatalErrorLog {
         String os = "OS:Linux";
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
-        assertEquals(OsType.LINUX, fel.getOsType(), "OS not correct.");
+        assertEquals(Os.LINUX, fel.getOs(), "OS not correct.");
         assertEquals(OsVersion.UNIDENTIFIED, fel.getOsVersion(), "OS version not correct.");
     ***REMOVED***
 
@@ -675,7 +673,7 @@ class TestFatalErrorLog {
         String os = "OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)";
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
-        assertEquals(OsType.LINUX, fel.getOsType(), "OS not correct.");
+        assertEquals(Os.LINUX, fel.getOs(), "OS not correct.");
         assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
     ***REMOVED***
 
@@ -708,9 +706,9 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isRhel(), "OS not identified as RHEL.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
         assertEquals("11.0.7+10-LTS", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
@@ -722,9 +720,9 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isRhel(), "OS not identified as RHEL.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
         assertEquals("1.8.0_131-b12", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
@@ -736,9 +734,9 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isRhel(), "OS not identified as RHEL.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
         assertEquals("11.0.8+10-LTS", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
@@ -760,7 +758,7 @@ class TestFatalErrorLog {
         assertEquals(254790, fel.getThreadsMax(), "threads-max not correct.");
         assertEquals(4194304, fel.getPidMax(), "pid_max not correct.");
         assertEquals(65530, fel.getMaxMapCount(), "max_map_count not correct.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -800,7 +798,7 @@ class TestFatalErrorLog {
         fel.doAnalysis();
         assertEquals("java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64", fel.getRpmDirectory(), "Rpm directory not correct.");
         assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
     ***REMOVED***
 
@@ -809,7 +807,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset4.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT),
                 Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
         assertEquals("Thu May  7 17:24:12 2020 UTC", fel.getCrashTimeString(), "Time of crash not correct.");
         assertEquals("1d 7h 30m 19s", fel.getElapsedTime(), "JVM run time not correct.");
@@ -820,7 +818,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset77.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_NOT),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -858,9 +856,9 @@ class TestFatalErrorLog {
         VmArgumentsEvent vmArgumentsEvent = new VmArgumentsEvent(jvmArgs);
         fel.getVmArgumentsEvents().add(vmArgumentsEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_RPM_BASED),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_BASED),
                 Analysis.INFO_RH_BUILD_RPM_BASED + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH),
                 Analysis.INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH + " analysis not identified.");
     ***REMOVED***
 
@@ -883,7 +881,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isWindows(), "OS not identified as Windows.");
         assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_WINDOWS_ZIP),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_WINDOWS_ZIP),
                 Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis not identified.");
     ***REMOVED***
 
@@ -917,9 +915,9 @@ class TestFatalErrorLog {
         assertEquals(Application.JBOSS_EAP7, fel.getApplication(), "Application not correct.");
         assertEquals(16, fel.getCpusLogical(), "CPU cores not correct.");
         assertEquals("at safepoint (normal execution)", fel.getVmState(), "State not correct.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_SWAP_DISABLED),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SWAP_DISABLED),
                 Analysis.INFO_SWAP_DISABLED + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER),
                 Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER + " analysis not identified.");
     ***REMOVED***
 
@@ -955,7 +953,7 @@ class TestFatalErrorLog {
         assertEquals("1.8.0_251-b08", fel.getJdkReleaseString(), "JDK release not correct.");
         // No vm_info, so not possible to determine vendor
         assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
-        assertFalse(fel.getAnalysis().contains(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -989,7 +987,7 @@ class TestFatalErrorLog {
         VmOperationEvent vmOperationEvent = new VmOperationEvent(vmOperation);
         fel.setVmOperationEvent(vmOperationEvent);
         fel.doAnalysis();
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI),
                 Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI + " analysis not identified.");
     ***REMOVED***
 
@@ -1233,9 +1231,9 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isWindows(), "OS not identified as Windows.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis not identified.");
-        assertFalse(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_WINDOWS_ZIP),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_WINDOWS_ZIP),
                 Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis incorrectly identified.");
         assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
         assertEquals("1.8.0_25-b18", fel.getJdkReleaseString(), "JDK release not correct.");
@@ -1248,9 +1246,9 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isWindows(), "OS not identified as Windows.");
-        assertTrue(fel.getAnalysis().contains(Analysis.WARN_DEBUG_SYMBOLS),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis not identified.");
-        assertTrue(fel.getAnalysis().contains(Analysis.INFO_RH_BUILD_WINDOWS_ZIP),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_WINDOWS_ZIP),
                 Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis not identified.");
         assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
         assertEquals("11.0.7+10-LTS", fel.getJdkReleaseString(), "JDK release not correct.");

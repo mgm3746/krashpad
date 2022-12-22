@@ -17,8 +17,8 @@ package org.github.krashpad.domain.jdk;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.Constants.OsType;
 import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -38,7 +38,7 @@ class TestUnameEvent {
                 JdkUtil.LogEventType.UNAME.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.I86PC, ((UnameEvent) event).getArch(), "Arch not correct.");
-        assertEquals(OsType.SOLARIS, ((UnameEvent) event).getOsType(), "Version not correct.");
+        assertEquals(Os.SOLARIS, ((UnameEvent) event).getOsType(), "Version not correct.");
         assertEquals(OsVendor.ORACLE, ((UnameEvent) event).getOsVendor(), "Vendor not correct.");
     ***REMOVED***
 
@@ -56,7 +56,7 @@ class TestUnameEvent {
                 JdkUtil.LogEventType.UNAME.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.X86_64, ((UnameEvent) event).getArch(), "Arch not correct.");
-        assertEquals(OsType.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
+        assertEquals(Os.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
         assertEquals(OsVendor.REDHAT, ((UnameEvent) event).getOsVendor(), "Vendor not correct.");
     ***REMOVED***
 
@@ -74,7 +74,7 @@ class TestUnameEvent {
                 JdkUtil.LogEventType.UNAME.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.X86_64, ((UnameEvent) event).getArch(), "Arch not correct.");
-        assertEquals(OsType.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
+        assertEquals(Os.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
         assertEquals(OsVendor.REDHAT, ((UnameEvent) event).getOsVendor(), "Vendor not correct.");
         assertEquals(OsVersion.RHEL7, ((UnameEvent) event).getOsVersion(), "Version not correct.");
     ***REMOVED***
@@ -86,7 +86,7 @@ class TestUnameEvent {
                 JdkUtil.LogEventType.UNAME.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.PPC64, ((UnameEvent) event).getArch(), "Arch not correct.");
-        assertEquals(OsType.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
+        assertEquals(Os.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
         assertEquals(OsVendor.REDHAT, ((UnameEvent) event).getOsVendor(), "Vendor not correct.");
         assertEquals(OsVersion.RHEL7, ((UnameEvent) event).getOsVersion(), "Version not correct.");
     ***REMOVED***
@@ -98,7 +98,7 @@ class TestUnameEvent {
                 JdkUtil.LogEventType.UNAME.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.PPC64LE, ((UnameEvent) event).getArch(), "Arch not correct.");
-        assertEquals(OsType.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
+        assertEquals(Os.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
         assertEquals(OsVendor.REDHAT, ((UnameEvent) event).getOsVendor(), "Vendor not correct.");
         assertEquals(OsVersion.RHEL7, ((UnameEvent) event).getOsVersion(), "Version not correct.");
     ***REMOVED***
@@ -110,7 +110,7 @@ class TestUnameEvent {
                 JdkUtil.LogEventType.UNAME.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.X86_64, ((UnameEvent) event).getArch(), "Arch not correct.");
-        assertEquals(OsType.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
+        assertEquals(Os.LINUX, ((UnameEvent) event).getOsType(), "Version not correct.");
         assertEquals(OsVendor.REDHAT, ((UnameEvent) event).getOsVendor(), "Vendor not correct.");
         assertEquals(OsVersion.RHEL8, ((UnameEvent) event).getOsVersion(), "Version not correct.");
     ***REMOVED***
@@ -122,7 +122,7 @@ class TestUnameEvent {
                 JdkUtil.LogEventType.UNAME.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.SPARC, ((UnameEvent) event).getArch(), "Arch not correct.");
-        assertEquals(OsType.SOLARIS, ((UnameEvent) event).getOsType(), "OS type not correct.");
+        assertEquals(Os.SOLARIS, ((UnameEvent) event).getOsType(), "OS type not correct.");
     ***REMOVED***
 
     @Test

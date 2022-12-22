@@ -51,17 +51,6 @@ class TestVmOperationEvent {
     ***REMOVED***
 
     @Test
-    void testParallelGCFailedAllocation() {
-        String logLine = "VM_Operation (0x00007ffa3a2de290): ParallelGCFailedAllocation, mode: safepoint, requested by "
-                + "thread 0x0000557d902f1000";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
-                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
-        VmOperationEvent event = new VmOperationEvent(logLine);
-        assertEquals("ParallelGCFailedAllocation, mode: safepoint, requested by thread 0x0000557d902f1000",
-                event.getVmOperationString(), "VM operation not correct.");
-    ***REMOVED***
-
-    @Test
     void testGetThreadListStackTraces() {
         String logLine = "VM_Operation (0x00007efff5d6d830): GetThreadListStackTraces, mode: safepoint, requested by "
                 + "thread 0x000055b2423e2800";
@@ -94,6 +83,17 @@ class TestVmOperationEvent {
                 + "0x0000000001b2a";
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof ThrowAwayEvent,
                 "ThrowAwayEvent incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testParallelGCFailedAllocation() {
+        String logLine = "VM_Operation (0x00007ffa3a2de290): ParallelGCFailedAllocation, mode: safepoint, requested by "
+                + "thread 0x0000557d902f1000";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperationEvent event = new VmOperationEvent(logLine);
+        assertEquals("ParallelGCFailedAllocation, mode: safepoint, requested by thread 0x0000557d902f1000",
+                event.getVmOperationString(), "VM operation not correct.");
     ***REMOVED***
 
     @Test
