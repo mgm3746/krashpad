@@ -24,18 +24,16 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <p>
- * Heap information.
+ * Code cache information.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * Heap Regions:
- * EU=empty-uncommitted, EC=empty-committed, R=regular, H=humongous start, HC=humongous continuation, CS=collection set, T=trash, P=pinned
- * BTE=bottom/top/end, U=used, T=TLAB allocs, G=GCLAB allocs, S=shared allocs, L=live data
- * R=root, CP=critical pins, TAMS=top-at-mark-start, UWM=update watermark
- * SN=alloc sequence number
- * |    0|CS |BTE    67a200000,    67a400000,    67a400000|TAMS    67a400000|UWM    67a400000|U  2048K|T  2047K|G     0B|S    56B|L 31152B|CP   0
+ * CodeCache: size=245760Kb used=37495Kb max_used=37495Kb free=208264Kb
+ *  bounds [0x00007fa287170000, 0x00007fa289650000, 0x00007fa296170000]
+ *  total_blobs=10468 nmethods=9889 adapters=493
+ * ***REMOVED***
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>

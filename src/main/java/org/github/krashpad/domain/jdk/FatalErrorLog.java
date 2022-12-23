@@ -489,12 +489,23 @@ public class FatalErrorLog {
         if (getJavaSpecification() != JavaSpecification.UNKNOWN && !isJdkLts()) {
             analysis.add(Analysis.WARN_JDK_NOT_LTS);
         ***REMOVED***
-        // Check for crash in JNA
+        // JNA
         if (isJnaCrash()) {
-            if (getJavaVendor() == JavaVendor.RED_HAT) {
+            if (getStackFrameTop() != null && getStackFrameTop().matches("^C  .+ffi_prep_closure_loc.+$")) {
+                analysis.add(Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC);
+            ***REMOVED*** else if (getJavaVendor() == JavaVendor.RED_HAT) {
                 analysis.add(Analysis.ERROR_JNA_RH);
             ***REMOVED*** else {
                 analysis.add(Analysis.ERROR_JNA);
+            ***REMOVED***
+        ***REMOVED*** else {
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getFilePath() != null && event.getFilePath().matches("^.+[\\\\/](jna|JNA).+$")) {
+                    analysis.add(Analysis.INFO_JNA);
+                    break;
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         // Check for JDK8 ZipFile contention
@@ -535,7 +546,6 @@ public class FatalErrorLog {
                 && isError("OutOfMemory encountered: Java heap space")) {
             analysis.add(Analysis.ERROR_CRASH_ON_OOME_HEAP);
         ***REMOVED***
-
         // OOME
         if (isMemoryAllocationFail()) {
             if (isCrashOnStartup()) {
@@ -923,18 +933,6 @@ public class FatalErrorLog {
                 DynamicLibraryEvent event = iterator.next();
                 if (event.getFilePath() != null && event.getFilePath().matches("^.+[\\\\/](jffi|JFFI).+$")) {
                     analysis.add(Analysis.INFO_JFFI);
-                    break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        // Check for possible JNA usage
-        if (!analysis.contains(Analysis.ERROR_JNA) && !analysis.contains(Analysis.ERROR_JNA_RH)
-                && !dynamicLibraryEvents.isEmpty()) {
-            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
-            while (iterator.hasNext()) {
-                DynamicLibraryEvent event = iterator.next();
-                if (event.getFilePath() != null && event.getFilePath().matches("^.+[\\\\/](jna|JNA).+$")) {
-                    analysis.add(Analysis.INFO_JNA);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1365,6 +1363,8 @@ public class FatalErrorLog {
                     application = Application.AMQ;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_ARTEMIS_CLI)) {
                     application = Application.AMQ_CLI;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_CASSANDRA)) {
+                    application = Application.CASSANDRA;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_JBOSS_VERSION)) {
                     application = Application.JBOSS_VERSION;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_KAFKA)) {
@@ -4452,7 +4452,7 @@ public class FatalErrorLog {
         boolean isJnaCrash = false;
         if (getStackEvents() != null && getStackEvents().size() >= 2) {
             String stackFrame2 = getStackFrame(2);
-            if (stackFrame2 != null && stackFrame2.matches("^[jJ]( \\d{1,***REMOVED***)?[ ]{1,2***REMOVED***com\\.sun\\.jna\\..+$")) {
+            if (stackFrame2 != null && stackFrame2.matches("^[CjJ].+com[\\._]sun[\\._]jna[\\._].+$")) {
                 isJnaCrash = true;
             ***REMOVED***
         ***REMOVED***

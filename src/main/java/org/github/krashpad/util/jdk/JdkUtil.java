@@ -125,6 +125,8 @@ public class JdkUtil {
         //
         AMQ_CLI,
         //
+        CASSANDRA,
+        //
         JBOSS_EAP6,
         //
         JBOSS_EAP7,

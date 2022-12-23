@@ -597,6 +597,11 @@ public enum Analysis {
      * Property key for FPE_INTDIV.
      */
     INFO_SIGCODE_FPE_INTDIV("info.sigcode.fpe.intdiv"),
+    
+    /**
+     * Property key for crash in JNA ffi_prep_closure_loc. 
+     */
+    ERROR_JNA_FFI_PREP_CLOSURE_LOC("error.jna.ffi_prep_closure_loc"),
 
     /**
      * Property key for ILL_ILLOPN

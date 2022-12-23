@@ -120,6 +120,17 @@ public class JdkRegEx {
     public static final String COMMAND_ARTEMIS_CLI = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!run).*$";
 
     /**
+     * Cassandra main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * org.apache.cassandra.service.CassandraDaemon
+     * </pre>
+     */
+    public static final String COMMAND_CASSANDRA = "^.*org\\.apache\\.cassandra\\.service\\.CassandraDaemon.*$";
+
+    /**
      * JBoss version check string used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
      * For example:
@@ -140,7 +151,7 @@ public class JdkRegEx {
      * </pre>
      */
     public static final String COMMAND_KAFKA = "^.*kafka\\.Kafka.*$";
-
+    
     /**
      * Spring Boot main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 

@@ -1211,6 +1211,17 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testJnaFfiPrepClosureLoc() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset84.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(Application.CASSANDRA, fel.getApplication(), "Application not correct.");
+        assertTrue(fel.isJnaCrash(), "JNA crash not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC),
+                Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testJnaInvolvedRedHatJdk() {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "C  [libcrypt.so+0x1825]";
@@ -1661,7 +1672,7 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(Application.WILDFLY, fel.getApplication(), "Application not correct.");
-        assertEquals(32682, fel.getJavaThreadCount(JdkRegEx.WILDFLY_EXECUTOR_POOL_THREAD),
+        assertEquals(8304, fel.getJavaThreadCount(JdkRegEx.WILDFLY_EXECUTOR_POOL_THREAD),
                 "JBoss EAP executor pool thread count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native libraries unknown count not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL),

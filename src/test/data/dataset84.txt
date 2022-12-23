@@ -1,0 +1,569 @@
+***REMOVED***
+***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
+***REMOVED***
+***REMOVED***  SIGSEGV (0xb) at pc=0x00007f8803cfa2ca, pid=65195, tid=0x00007f882a063700
+***REMOVED***
+***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_352-b08) (build 1.8.0_352-b08)
+***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.352-b08 mixed mode linux-amd64 compressed oops)
+***REMOVED*** Problematic frame:
+***REMOVED*** C  [jna3125142934924644081.tmp+0x122ca]  ffi_prep_closure_loc+0x1a
+***REMOVED***
+***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+***REMOVED***
+***REMOVED*** If you would like to submit a bug report, please visit:
+***REMOVED***   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-1.8.0-openjdk
+***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
+***REMOVED*** See problematic frame for where to report the bug.
+***REMOVED***
+
+***REMOVED***
+
+Current thread (0x00007f8824051790):  JavaThread "main" [_thread_in_native, id=65196, stack(0x00007f882a024000,0x00007f882a064000)]
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000000
+
+***REMOVED***
+RAX=0x00007f8803cfa77e, RBX=0x0000000000000000, RCX=0x00007f88249079f0, RDX=0x00007f8803cef0f0
+RSP=0x00007f882a061400, RBP=0x00007f882a061400, RSI=0x00007f8824907a10, RDI=0x0000000000000000
+R8 =0xa7cbf77af5724500, R9 =0x0000000000000002, R10=0x0000000000000008, R11=0x00007f8829c34cd0
+R12=0x0000000000000000, R13=0x0000000000000008, R14=0x00007f88249079f0, R15=0x00007f8824051a78
+RIP=0x00007f8803cfa2ca, EFLAGS=0x0000000000010293, CSGSFS=0x002b000000000033, ERR=0x0000000000000006
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x00007f882a061400)
+0x00007f882a061400:   00007f882a0618c0 00007f8803cf5278
+0x00007f882a061410:   00007f881029d240 0100000000000000
+0x00007f882a061420:   00007f882a061a40 00007f882a061a58
+0x00007f882a061430:   0000000000000001 0000000100000003
+0x00007f882a061440:   00007f88249537d0 00007f8824953850
+0x00007f882a061450:   00007f8824907a10 0000000200000001
+0x00007f882a061460:   00007f8824953690 00007f8824953750
+0x00007f882a061470:   00007f882494e500 0000000000000004
+0x00007f882a061480:   00007f882a061540 00007f8828a4881f
+0x00007f882a061490:   00007f8803e93040 00007f8824051790
+0x00007f882a0614a0:   00007f88240041b0 0000000100002368
+0x00007f882a0614b0:   00007f881029d240 00007f8824051790
+0x00007f882a0614c0:   0000000100002368 0000000100002368
+0x00007f882a0614d0:   00007f881029d240 00007f8824051790
+0x00007f882a0614e0:   00007f881029d240 00007f8824051790
+0x00007f882a0614f0:   fffffffe00000000 0000000000000000
+0x00007f882a061500:   0000000000000000 a7cbf77af5724500
+0x00007f882a061510:   00007f8824051790 00007f882a061630
+0x00007f882a061520:   00007f8824051790 00007f8824051e90
+0x00007f882a061530:   0000000100002368 00007f882a0616f0
+0x00007f882a061540:   00007f882a0615e0 00007f8828a48f35
+0x00007f882a061550:   00007f88240041a0 00007f88240041a8
+0x00007f882a061560:   00007f8803e93040 00000000c5a000c8
+0x00007f882a061570:   00000000c0ecd948 00000000c0ecd948
+0x00007f882a061580:   0000000000000026 00007f8824051790
+0x00007f882a061590:   00007f882a0615c0 00007f8828a4b4a5
+0x00007f882a0615a0:   00007f88240041a8 a7cbf77af5010100
+0x00007f882a0615b0:   0000000000000000 00007f882a061568
+0x00007f882a0615c0:   00007f882a0615a9 0000000800000002
+0x00007f882a0615d0:   00007f882a061600 a7cbf77af5724500
+0x00007f882a0615e0:   00007f882a0616b0 00007f8828cbef54
+0x00007f882a0615f0:   00007f8824051790 00007f8828cbefab 
+
+Instructions: (pc=0x00007f8803cfa2ca)
+0x00007f8803cfa2aa:   66 90 66 66 66 90 8b 06 55 41 b9 02 00 00 00 48
+0x00007f8803cfa2ba:   89 e5 ff c8 83 f8 06 77 44 48 8b 05 76 4b 10 00
+0x00007f8803cfa2ca:   66 c7 07 49 bb 4c 89 47 0c 66 c7 47 0a 49 ba 48
+0x00007f8803cfa2da:   89 47 02 8b 46 1c 48 89 77 18 48 89 57 20 48 89 
+
+***REMOVED***
+
+RAX=0x00007f8803cfa77e: ffi_closure_unix64+0 in /home/cassandra/tmp/jna-1073564104/jna3125142934924644081.tmp at 0x00007f8803ce8000
+RBX=0x0000000000000000 is an unknown value
+RCX=0x00007f88249079f0 is an unknown value
+RDX=0x00007f8803cef0f0: <offset 0x70f0> in /home/cassandra/tmp/jna-1073564104/jna3125142934924644081.tmp at 0x00007f8803ce8000
+RSP=0x00007f882a061400 is pointing into the stack for thread: 0x00007f8824051790
+RBP=0x00007f882a061400 is pointing into the stack for thread: 0x00007f8824051790
+RSI=0x00007f8824907a10 is an unknown value
+RDI=0x0000000000000000 is an unknown value
+R8 =0xa7cbf77af5724500 is an unknown value
+R9 =0x0000000000000002 is an unknown value
+R10=0x0000000000000008 is an unknown value
+R11=0x00007f8829c34cd0: __errno_location+0 in /lib64/libpthread.so.0 at 0x00007f8829c20000
+R12=0x0000000000000000 is an unknown value
+R13=0x0000000000000008 is an unknown value
+R14=0x00007f88249079f0 is an unknown value
+R15=0x00007f8824051a78 is an unknown value
+
+
+Stack: [0x00007f882a024000,0x00007f882a064000],  sp=0x00007f882a061400,  free space=245k
+***REMOVED***
+C  [jna3125142934924644081.tmp+0x122ca]  ffi_prep_closure_loc+0x1a
+C  [jna3125142934924644081.tmp+0xd278]  Java_com_sun_jna_Native_registerMethod+0x498
+j  com.sun.jna.Native.registerMethod(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/String;[I[J[JIJJLjava/lang/Class;JIZ[Lcom/sun/jna/ToNativeConverter;Lcom/sun/jna/FromNativeConverter;Ljava/lang/String;)J+0
+j  com.sun.jna.Native.register(Ljava/lang/Class;Lcom/sun/jna/NativeLibrary;)V+1097
+j  com.sun.jna.Native.register(Lcom/sun/jna/NativeLibrary;)V+7
+j  org.apache.cassandra.utils.NativeLibraryLinux.<clinit>()V+16
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x6a9e15]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0xc65
+V  [libjvm.so+0x65c08a]  InstanceKlass::call_class_initializer_impl(instanceKlassHandle, Thread*)+0x11a
+V  [libjvm.so+0x65d4cd]  InstanceKlass::initialize_impl(instanceKlassHandle, Thread*)+0x47d
+V  [libjvm.so+0x65d7f2]  InstanceKlass::initialize(Thread*)+0x82
+V  [libjvm.so+0x69a4ad]  InterpreterRuntime::_new(JavaThread*, ConstantPool*, int)+0x30d
+j  org.apache.cassandra.utils.NativeLibrary.<clinit>()V+126
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x6a9e15]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0xc65
+V  [libjvm.so+0x65c08a]  InstanceKlass::call_class_initializer_impl(instanceKlassHandle, Thread*)+0x11a
+V  [libjvm.so+0x65d4cd]  InstanceKlass::initialize_impl(instanceKlassHandle, Thread*)+0x47d
+V  [libjvm.so+0x65d7f2]  InstanceKlass::initialize(Thread*)+0x82
+V  [libjvm.so+0x830d7f]  LinkResolver::resolve_static_call(CallInfo&, KlassHandle&, Symbol*, Symbol*, KlassHandle, bool, bool, Thread*)+0x14f
+V  [libjvm.so+0x8316b1]  LinkResolver::resolve_invokestatic(CallInfo&, constantPoolHandle, int, Thread*)+0x241
+V  [libjvm.so+0x832f25]  LinkResolver::resolve_invoke(CallInfo&, Handle, constantPoolHandle, int, Bytecodes::Code, Thread*)+0x485
+V  [libjvm.so+0x6a0222]  InterpreterRuntime::resolve_invoke(JavaThread*, Bytecodes::Code)+0x2f2
+j  org.apache.cassandra.service.CassandraDaemon.setup()V+34
+j  org.apache.cassandra.service.CassandraDaemon.activate()V+46
+j  org.apache.cassandra.service.CassandraDaemon.main([Ljava/lang/String;)V+3
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x6a9e15]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0xc65
+V  [libjvm.so+0x71fe2e]  jni_invoke_static(JNIEnv_*, JavaValue*, _jobject*, JNICallType, _jmethodID*, JNI_ArgumentPusher*, Thread*) [clone .isra.101] [clone .constprop.187]+0x3be
+V  [libjvm.so+0x72324d]  jni_CallStaticVoidMethod+0x17d
+C  [libjli.so+0x86aa]  JavaMain+0x48a
+C  [libpthread.so.0+0x81ca]  start_thread+0xea
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  com.sun.jna.Native.registerMethod(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/String;[I[J[JIJJLjava/lang/Class;JIZ[Lcom/sun/jna/ToNativeConverter;Lcom/sun/jna/FromNativeConverter;Ljava/lang/String;)J+0
+j  com.sun.jna.Native.register(Ljava/lang/Class;Lcom/sun/jna/NativeLibrary;)V+1097
+j  com.sun.jna.Native.register(Lcom/sun/jna/NativeLibrary;)V+7
+j  org.apache.cassandra.utils.NativeLibraryLinux.<clinit>()V+16
+v  ~StubRoutines::call_stub
+j  org.apache.cassandra.utils.NativeLibrary.<clinit>()V+126
+v  ~StubRoutines::call_stub
+j  org.apache.cassandra.service.CassandraDaemon.setup()V+34
+j  org.apache.cassandra.service.CassandraDaemon.activate()V+46
+j  org.apache.cassandra.service.CassandraDaemon.main([Ljava/lang/String;)V+3
+v  ~StubRoutines::call_stub
+
+***REMOVED***
+
+***REMOVED***
+  0x00007f882494bfe0 JavaThread "process reaper" daemon [_thread_blocked, id=65217, stack(0x00007f880800c000,0x00007f8808045000)]
+  0x00007f880c550610 JavaThread "EXPIRING-MAP-REAPER:1" daemon [_thread_blocked, id=65216, stack(0x00007f8808045000,0x00007f8808086000)]
+  0x00007f882490a080 JavaThread "RMI TCP Accept-0" daemon [_thread_in_native, id=65214, stack(0x00007f8808086000,0x00007f88080c7000)]
+  0x00007f8824901820 JavaThread "RMI TCP Accept-7199" daemon [_thread_in_native, id=65213, stack(0x00007f88092f0000,0x00007f8809331000)]
+  0x00007f88248c1360 JavaThread "ScheduledTasks:1" daemon [_thread_blocked, id=65212, stack(0x00007f880953e000,0x00007f880957f000)]
+  0x00007f88245f8890 JavaThread "AsyncAppender-Worker-ASYNCDEBUGLOG" daemon [_thread_blocked, id=65211, stack(0x00007f880a1e8000,0x00007f880a229000)]
+  0x00007f88242dc2c0 JavaThread "Service Thread" daemon [_thread_blocked, id=65208, stack(0x00007f880aa4f000,0x00007f880aa90000)]
+  0x00007f88242e7b40 JavaThread "C1 CompilerThread1" daemon [_thread_blocked, id=65207, stack(0x00007f880aa91000,0x00007f880ab91000)]
+  0x00007f88242e61e0 JavaThread "C2 CompilerThread0" daemon [_thread_in_native, id=65206, stack(0x00007f880ab92000,0x00007f880ac92000)]
+  0x00007f8824182790 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=65205, stack(0x00007f880b17b000,0x00007f880b1bc000)]
+  0x00007f8824180e20 JavaThread "Surrogate Locker Thread (Concurrent GC)" daemon [_thread_blocked, id=65204, stack(0x00007f880b1bc000,0x00007f880b1fd000)]
+  0x00007f8824152470 JavaThread "Finalizer" daemon [_thread_blocked, id=65201, stack(0x00007f880b6db000,0x00007f880b71c000)]
+  0x00007f882414c280 JavaThread "Reference Handler" daemon [_thread_blocked, id=65200, stack(0x00007f880b71c000,0x00007f880b75d000)]
+=>0x00007f8824051790 JavaThread "main" [_thread_in_native, id=65196, stack(0x00007f882a024000,0x00007f882a064000)]
+
+***REMOVED***
+  0x00007f8824142ec0 VMThread [stack: 0x00007f880b75e000,0x00007f880b85e000] [id=65199]
+  0x00007f88242dfa30 WatcherThread [stack: 0x00007f880a94f000,0x00007f880aa4f000] [id=65209]
+
+***REMOVED***
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00007f8824050b90] Heap_lock - owner thread: 0x00007f88248c1360
+
+heap address: 0x00000000c0000000, size: 1024 MB, Compressed Oops mode: 32-bit
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
+Compressed class space size: 1073741824 Address: 0x0000000100000000
+
+***REMOVED***
+ par new generation   total 92160K, used 28850K [0x00000000c0000000, 0x00000000c6400000, 0x00000000c6400000)
+  eden space 81920K,  22% used [0x00000000c0000000, 0x00000000c122c820, 0x00000000c5000000)
+  from space 10240K, 100% used [0x00000000c5a00000, 0x00000000c6400000, 0x00000000c6400000)
+  to   space 10240K,   0% used [0x00000000c5000000, 0x00000000c5000000, 0x00000000c5a00000)
+ concurrent mark-sweep generation total 946176K, used 915K [0x00000000c6400000, 0x0000000100000000, 0x0000000100000000)
+ Metaspace       used 22187K, capacity 22546K, committed 22880K, reserved 1069056K
+  class space    used 2563K, capacity 2685K, committed 2688K, reserved 1048576K
+
+Card table byte_map: [0x00007f8813dc5000,0x00007f8813fc6000] byte_map_base: 0x00007f88137c5000
+
+Marking Bits: (CMSBitMap*) 0x00007f8824080de8
+ Bits: [0x00007f8812c84000, 0x00007f8813af4000)
+
+Mod Union Table: (CMSBitMap*) 0x00007f8824080ea8
+ Bits: [0x00007f8829e9f000, 0x00007f8829ed8c00)
+
+Polling page: 0x00007f882a06a000
+
+CodeCache: size=245760Kb used=4148Kb max_used=4148Kb free=241611Kb
+ bounds [0x00007f8814386000, 0x00007f88147a6000, 0x00007f8823386000]
+ total_blobs=1685 nmethods=1262 adapters=335
+***REMOVED***
+
+***REMOVED***
+Event: 1.887 Thread 0x00007f88242e7b40 1253       3       java.nio.charset.CoderResult::isOverflow (14 bytes)
+Event: 1.887 Thread 0x00007f88242e7b40 nmethod 1253 0x00007f881478ac50 code [0x00007f881478adc0, 0x00007f881478af70]
+
+GC Heap History (2 events):
+Event: 1.674 GC heap before
+{Heap before GC invocations=0 (full 0):
+ par new generation   total 92160K, used 81920K [0x00000000c0000000, 0x00000000c6400000, 0x00000000c6400000)
+  eden space 81920K, 100% used [0x00000000c0000000, 0x00000000c5000000, 0x00000000c5000000)
+  from space 10240K,   0% used [0x00000000c5000000, 0x00000000c5000000, 0x00000000c5a00000)
+  to   space 10240K,   0% used [0x00000000c5a00000, 0x00000000c5a00000, 0x00000000c6400000)
+ concurrent mark-sweep generation total 946176K, used 0K [0x00000000c6400000, 0x0000000100000000, 0x0000000100000000)
+ Metaspace       used 20059K, capacity 20302K, committed 20608K, reserved 1067008K
+  class space    used 2299K, capacity 2413K, committed 2432K, reserved 1048576K
+Event: 1.695 GC heap after
+Heap after GC invocations=1 (full 0):
+ par new generation   total 92160K, used 10240K [0x00000000c0000000, 0x00000000c6400000, 0x00000000c6400000)
+  eden space 81920K,   0% used [0x00000000c0000000, 0x00000000c0000000, 0x00000000c5000000)
+  from space 10240K, 100% used [0x00000000c5a00000, 0x00000000c6400000, 0x00000000c6400000)
+  to   space 10240K,   0% used [0x00000000c5000000, 0x00000000c5000000, 0x00000000c5a00000)
+ concurrent mark-sweep generation total 946176K, used 915K [0x00000000c6400000, 0x0000000100000000, 0x0000000100000000)
+ Metaspace       used 20059K, capacity 20302K, committed 20608K, reserved 1067008K
+  class space    used 2299K, capacity 2413K, committed 2432K, reserved 1048576K
+***REMOVED***
+
+Deoptimization events (8 events):
+Event: 1.872 Thread 0x00007f8824051790 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f88145d45a4 method=java.lang.AbstractStringBuilder.append(Ljava/lang/String;)Ljava/lang/AbstractStringBuilder; @ 1
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (26 events):
+Event: 1.718 Thread 0x00007f8824051790 Exception <a 'java/lang/ClassNotFoundException': javax/management/remote/rmi/RMIServerImpl_Skel> (0x00000000c00077c0) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/openjdk/hotspot/src/share/vm/classfile/systemDictionary.
+
+***REMOVED***
+Event: 1.890 loading class java/lang/reflect/AnnotatedType done
+
+
+***REMOVED***
+561587859000-56158785a000 r-xp 00000000 fd:00 5217                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/bin/java
+561587a59000-561587a5a000 r--p 00000000 fd:00 5217                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/bin/java
+561587a5a000-561587a5b000 rw-p 00001000 fd:00 5217                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/bin/java
+561587b05000-561587b47000 rw-p 00000000 00:00 0                          [heap]
+7f8803ce8000-7f8803cff000 r-xp 00000000 fd:06 23                         /home/cassandra/tmp/jna-1073564104/jna3125142934924644081.tmp (deleted)
+7f8803cff000-7f8803dfe000 ---p 00017000 fd:06 23                         /home/cassandra/tmp/jna-1073564104/jna3125142934924644081.tmp (deleted)
+7f8803dfe000-7f8803e00000 rw-p 00016000 fd:06 23                         /home/cassandra/tmp/jna-1073564104/jna3125142934924644081.tmp (deleted)
+7f88080c7000-7f880814a000 r-xp 00000000 fd:00 1442702                    /usr/lib64/libpcre2-8.so.0.7.1
+7f880814a000-7f8808349000 ---p 00083000 fd:00 1442702                    /usr/lib64/libpcre2-8.so.0.7.1
+7f8808349000-7f880834a000 r--p 00082000 fd:00 1442702                    /usr/lib64/libpcre2-8.so.0.7.1
+7f880834a000-7f880834b000 rw-p 00083000 fd:00 1442702                    /usr/lib64/libpcre2-8.so.0.7.1
+7f880834b000-7f8808372000 r-xp 00000000 fd:00 1446077                    /usr/lib64/libselinux.so.1
+7f8808372000-7f8808572000 ---p 00027000 fd:00 1446077                    /usr/lib64/libselinux.so.1
+7f8808572000-7f8808573000 r--p 00027000 fd:00 1446077                    /usr/lib64/libselinux.so.1
+7f8808573000-7f8808574000 rw-p 00028000 fd:00 1446077                    /usr/lib64/libselinux.so.1
+7f8808576000-7f880857c000 r-xp 00000000 fd:00 1446628                    /usr/lib64/libuuid.so.1.3.0
+7f880857c000-7f880877c000 ---p 00006000 fd:00 1446628                    /usr/lib64/libuuid.so.1.3.0
+7f880877c000-7f880877d000 r--p 00006000 fd:00 1446628                    /usr/lib64/libuuid.so.1.3.0
+7f880877e000-7f88087cb000 r-xp 00000000 fd:00 1448640                    /usr/lib64/libblkid.so.1.1.0
+7f88087cb000-7f88089ca000 ---p 0004d000 fd:00 1448640                    /usr/lib64/libblkid.so.1.1.0
+7f88089ca000-7f88089cf000 r--p 0004c000 fd:00 1448640                    /usr/lib64/libblkid.so.1.1.0
+7f88089cf000-7f88089d0000 rw-p 00051000 fd:00 1448640                    /usr/lib64/libblkid.so.1.1.0
+7f88089d1000-7f8808a27000 r-xp 00000000 fd:00 1448393                    /usr/lib64/libmount.so.1.1.0
+7f8808a27000-7f8808c26000 ---p 00056000 fd:00 1448393                    /usr/lib64/libmount.so.1.1.0
+7f8808c26000-7f8808c29000 r--p 00055000 fd:00 1448393                    /usr/lib64/libmount.so.1.1.0
+7f8808c29000-7f8808c2a000 rw-p 00058000 fd:00 1448393                    /usr/lib64/libmount.so.1.1.0
+7f8808c2b000-7f8808cca000 r-xp 00000000 fd:00 1448606                    /usr/lib64/libnss_myhostname.so.2
+7f8808cca000-7f8808ec9000 ---p 0009f000 fd:00 1448606                    /usr/lib64/libnss_myhostname.so.2
+7f8808ec9000-7f8808ed0000 r--p 0009e000 fd:00 1448606                    /usr/lib64/libnss_myhostname.so.2
+7f8808ed0000-7f8808ed1000 rw-p 000a5000 fd:00 1448606                    /usr/lib64/libnss_myhostname.so.2
+7f8808ed1000-7f8808ee5000 r-xp 00000000 fd:00 1446250                    /usr/lib64/libresolv-2.28.so
+7f8808ee5000-7f88090e5000 ---p 00014000 fd:00 1446250                    /usr/lib64/libresolv-2.28.so
+7f88090e5000-7f88090e6000 r--p 00014000 fd:00 1446250                    /usr/lib64/libresolv-2.28.so
+7f88090e6000-7f88090e7000 rw-p 00015000 fd:00 1446250                    /usr/lib64/libresolv-2.28.so
+7f88090e9000-7f88090ee000 r-xp 00000000 fd:00 1446244                    /usr/lib64/libnss_dns-2.28.so
+7f88090ee000-7f88092ee000 ---p 00005000 fd:00 1446244                    /usr/lib64/libnss_dns-2.28.so
+7f88092ee000-7f88092ef000 r--p 00005000 fd:00 1446244                    /usr/lib64/libnss_dns-2.28.so
+7f88092ef000-7f88092f0000 rw-p 00006000 fd:00 1446244                    /usr/lib64/libnss_dns-2.28.so
+7f8809331000-7f880933e000 r-xp 00000000 fd:06 22                         /home/cassandra/tmp/liblz4-java3204758484974069317.so
+7f880933e000-7f880953d000 ---p 0000d000 fd:06 22                         /home/cassandra/tmp/liblz4-java3204758484974069317.so
+7f880953d000-7f880953e000 rw-p 0000c000 fd:06 22                         /home/cassandra/tmp/liblz4-java3204758484974069317.so
+7f8809b7f000-7f8809b85000 r--s 00047000 fd:00 134762                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/ext/sunjce_provider.jar
+7f8809b85000-7f8809b9c000 r-xp 00000000 fd:00 1450009                    /usr/lib64/libgcc_s-8-20210514.so.1
+7f8809b9c000-7f8809d9b000 ---p 00017000 fd:00 1450009                    /usr/lib64/libgcc_s-8-20210514.so.1
+7f8809d9b000-7f8809d9c000 r--p 00016000 fd:00 1450009                    /usr/lib64/libgcc_s-8-20210514.so.1
+7f8809d9c000-7f8809d9d000 rw-p 00017000 fd:00 1450009                    /usr/lib64/libgcc_s-8-20210514.so.1
+7f8809da2000-7f8809dcd000 r-xp 00000000 fd:00 5257                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libsunec.so
+7f8809dcd000-7f8809fcd000 ---p 0002b000 fd:00 5257                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libsunec.so
+7f8809fcd000-7f8809fcf000 r--p 0002b000 fd:00 5257                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libsunec.so
+7f8809fcf000-7f8809fd0000 rw-p 0002d000 fd:00 5257                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libsunec.so
+7f8809fd0000-7f8809fd1000 r--s 0000a000 fd:00 134761                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/ext/sunec.jar
+7f8809fd1000-7f8809fd5000 r--s 0004b000 fd:00 134763                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/ext/sunpkcs11.jar
+7f8809fd5000-7f8809fd7000 r--s 00019000 fd:00 5269                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/jce.jar
+7f8809fd7000-7f8809fe8000 r--s 00211000 fd:00 5272                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/jsse.jar
+7f880a429000-7f880a432000 r-xp 00000000 fd:00 5250                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libmanagement.so
+7f880a432000-7f880a631000 ---p 00009000 fd:00 5250                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libmanagement.so
+7f880a631000-7f880a632000 r--p 00008000 fd:00 5250                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libmanagement.so
+7f880a633000-7f880a635000 r-xp 00000000 fd:00 5258                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libsystemconf.so
+7f880a635000-7f880a834000 ---p 00002000 fd:00 5258                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libsystemconf.so
+7f880a834000-7f880a835000 r--p 00001000 fd:00 5258                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libsystemconf.so
+7f880a836000-7f880a83f000 r--s 0007c000 fd:00 135064                     /usr/share/cassandra/stress.jar
+7f880a83f000-7f880a860000 r--s 001b0000 fd:00 134987                     /usr/share/cassandra/apache-cassandra-thrift-3.11.13.jar
+7f880a860000-7f880a8c0000 r--s 005f5000 fd:00 134986                     /usr/share/cassandra/apache-cassandra-3.11.13.jar
+7f880a8c0000-7f880a8c2000 r--s 00008000 fd:00 135063                     /usr/share/cassandra/lib/thrift-server-0.3.7.jar
+7f880a8c2000-7f880a8c5000 r--s 00023000 fd:00 135062                     /usr/share/cassandra/lib/stream-2.5.2.jar
+7f880a8c5000-7f880a8c9000 r--s 00037000 fd:00 134991                     /usr/share/cassandra/lib/ST4-4.0.8.jar
+7f880a8c9000-7f880a8ca000 r--s 00016000 fd:00 135061                     /usr/share/cassandra/lib/snowball-stemmer-1.3.0.581.1.jar
+7f880a8ca000-7f880a8cd000 r--s 0008f000 fd:00 135060                     /usr/share/cassandra/lib/snappy-java-1.1.1.7.jar
+7f880a8cd000-7f880a8d4000 r--s 00045000 fd:00 135059                     /usr/share/cassandra/lib/snakeyaml-1.26.jar
+7f880a8d4000-7f880a8d6000 r--s 00009000 fd:00 135058                     /usr/share/cassandra/lib/slf4j-api-1.7.25.jar
+7f880a8d6000-7f880a8dd000 r--s 00062000 fd:00 135036                     /usr/share/cassandra/lib/sigar-1.6.4.jar
+7f880a8dd000-7f880a8df000 r--s 00006000 fd:00 135034                     /usr/share/cassandra/lib/reporter-config-base-3.0.3.jar
+7f880a8df000-7f880a8e1000 r--s 00007000 fd:00 135035                     /usr/share/cassandra/lib/reporter-config3-3.0.3.jar
+7f880a8e1000-7f880a8e3000 r--s 00000000 fd:00 135033                     /usr/share/cassandra/lib/ohc-core-j8-0.4.4.jar
+7f880a8e3000-7f880a8e6000 r--s 0001f000 fd:00 135032                     /usr/share/cassandra/lib/ohc-core-0.4.4.jar
+7f880a8e6000-7f880a90d000 r--s 00215000 fd:00 135031                     /usr/share/cassandra/lib/netty-all-4.0.44.Final.jar
+7f880a90d000-7f880a90f000 r--s 00000000 fd:00 135030                     /usr/share/cassandra/lib/metrics-logback-3.1.5.jar
+7f880a90f000-7f880a911000 r--s 00008000 fd:00 135029                     /usr/share/cassandra/lib/metrics-jvm-3.1.5.jar
+7f880a911000-7f880a915000 r--s 0001a000 fd:00 135028                     /usr/share/cassandra/lib/metrics-core-3.1.5.jar
+7f880a915000-7f880a917000 r--s 00038000 fd:00 135027                     /usr/share/cassandra/lib/lz4-1.3.0.jar
+7f880a917000-7f880a921000 r--s 00065000 fd:00 135026                     /usr/share/cassandra/lib/logback-core-1.2.9.jar
+7f880a921000-7f880a927000 r--s 00034000 fd:00 135025                     /usr/share/cassandra/lib/logback-classic-1.2.9.jar
+7f880a927000-7f880a929000 r--s 00004000 fd:00 135024                     /usr/share/cassandra/lib/log4j-over-slf4j-1.7.25.jar
+7f880a929000-7f880a92e000 r--s 00033000 fd:00 135023                     /usr/share/cassandra/lib/libthrift-0.9.2.jar
+7f880a92e000-7f880a92f000 r--s 00003000 fd:00 135022                     /usr/share/cassandra/lib/json-simple-1.1.jar
+7f880a92f000-7f880a93f000 r--s 00080000 fd:00 135021                     /usr/share/cassandra/lib/joda-time-2.4.jar
+7f880a93f000-7f880a943000 r--s 00112000 fd:00 135020                     /usr/share/cassandra/lib/jna-4.2.2.jar
+7f880a943000-7f880a947000 r--s 000fd000 fd:00 135019                     /usr/share/cassandra/lib/jflex-1.6.0.jar
+7f880a947000-7f880a94b000 r--s 00017000 fd:00 135018                     /usr/share/cassandra/lib/jctools-core-1.2.1.jar
+7f880a94b000-7f880a94d000 r--s 00003000 fd:00 135017                     /usr/share/cassandra/lib/jcl-over-slf4j-1.7.25.jar
+7f880a94d000-7f880a94e000 r--s 00004000 fd:00 135016                     /usr/share/cassandra/lib/jbcrypt-0.4.jar
+7f880ac92000-7f880ac98000 r--s 000f6000 fd:00 5271                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/jfr.jar
+7f880ac98000-7f880acb1000 r-xp 00000000 fd:00 5252                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libnet.so
+7f880acb1000-7f880aeb0000 ---p 00019000 fd:00 5252                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libnet.so
+7f880aeb0000-7f880aeb1000 r--p 00018000 fd:00 5252                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libnet.so
+7f880aeb1000-7f880aeb2000 rw-p 00019000 fd:00 5252                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libnet.so
+7f880aeb2000-7f880aec4000 r-xp 00000000 fd:00 5253                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libnio.so
+7f880aec4000-7f880b0c4000 ---p 00012000 fd:00 5253                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libnio.so
+7f880b0c4000-7f880b0c5000 r--p 00012000 fd:00 5253                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libnio.so
+7f880b0c5000-7f880b0c6000 rw-p 00013000 fd:00 5253                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libnio.so
+7f880b0c6000-7f880b0dd000 r--s 00160000 fd:00 135013                     /usr/share/cassandra/lib/jackson-databind-2.13.2.2.jar
+7f880b0dd000-7f880b0f5000 r--s 00127000 fd:00 135010                     /usr/share/cassandra/lib/hppc-0.5.4.jar
+7f880b0f5000-7f880b120000 r--s 001fc000 fd:00 135008                     /usr/share/cassandra/lib/guava-18.0.jar
+7f880b120000-7f880b132000 r--s 00223000 fd:00 135006                     /usr/share/cassandra/lib/ecj-4.4.2.jar
+7f880b132000-7f880b150000 r--s 00180000 fd:00 135001                     /usr/share/cassandra/lib/commons-math3-3.2.jar
+7f880b150000-7f880b17b000 r--s 0022a000 fd:00 134996                     /usr/share/cassandra/lib/cassandra-driver-core-3.0.1-shaded.jar
+7f880b1fd000-7f880b208000 r-xp 00000000 fd:00 1446246                    /usr/lib64/libnss_files-2.28.so
+7f880b208000-7f880b408000 ---p 0000b000 fd:00 1446246                    /usr/lib64/libnss_files-2.28.so
+7f880b408000-7f880b409000 r--p 0000b000 fd:00 1446246                    /usr/lib64/libnss_files-2.28.so
+7f880b409000-7f880b40a000 rw-p 0000c000 fd:00 1446246                    /usr/lib64/libnss_files-2.28.so
+7f880b410000-7f880b463000 r--p 00000000 fd:00 1704570                    /usr/lib/locale/C.utf8/LC_CTYPE
+7f880b463000-7f880b6db000 r--p 00000000 fd:00 1446172                    /usr/lib/locale/en_US.utf8/LC_COLLATE
+7f8810000000-7f8810002000 r--s 00004000 fd:00 135014                     /usr/share/cassandra/lib/jamm-0.3.0.jar
+7f8810002000-7f8810007000 r--s 00057000 fd:00 135012                     /usr/share/cassandra/lib/jackson-core-2.13.2.jar
+7f8810055000-7f8810227000 r--s 044b3000 fd:00 5281                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/rt.jar
+7f8823386000-7f88233a1000 r-xp 00000000 fd:00 5261                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libzip.so
+7f88233a1000-7f88235a1000 ---p 0001b000 fd:00 5261                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libzip.so
+7f88235a1000-7f88235a2000 r--p 0001b000 fd:00 5261                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libzip.so
+7f88235a3000-7f88235ad000 r-xp 00000000 fd:00 5237                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libinstrument.so
+7f88235ad000-7f88237ac000 ---p 0000a000 fd:00 5237                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libinstrument.so
+7f88237ac000-7f88237ad000 r--p 00009000 fd:00 5237                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libinstrument.so
+7f88237ad000-7f88237ae000 rw-p 0000a000 fd:00 5237                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libinstrument.so
+7f88237ae000-7f88237b9000 r-xp 00000000 fd:00 1446859                    /usr/lib64/libnuma.so.1.0.0
+7f88237b9000-7f88239b8000 ---p 0000b000 fd:00 1446859                    /usr/lib64/libnuma.so.1.0.0
+7f88239b8000-7f88239b9000 r--p 0000a000 fd:00 1446859                    /usr/lib64/libnuma.so.1.0.0
+7f88239b9000-7f88239ba000 rw-p 0000b000 fd:00 1446859                    /usr/lib64/libnuma.so.1.0.0
+7f88239ba000-7f88239e5000 r-xp 00000000 fd:00 5242                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libjava.so
+7f88239e5000-7f8823be5000 ---p 0002b000 fd:00 5242                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libjava.so
+7f8823be5000-7f8823be6000 r--p 0002b000 fd:00 5242                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libjava.so
+7f8823be6000-7f8823be7000 rw-p 0002c000 fd:00 5242                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libjava.so
+7f8823be8000-7f8823bf6000 r-xp 00000000 fd:00 5260                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libverify.so
+7f8823bf6000-7f8823df5000 ---p 0000e000 fd:00 5260                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libverify.so
+7f8823df5000-7f8823df7000 r--p 0000d000 fd:00 5260                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/libverify.so
+7f8823df8000-7f8823dff000 r-xp 00000000 fd:00 1446252                    /usr/lib64/librt-2.28.so
+7f8823dff000-7f8823ffe000 ---p 00007000 fd:00 1446252                    /usr/lib64/librt-2.28.so
+7f8823ffe000-7f8823fff000 r--p 00006000 fd:00 1446252                    /usr/lib64/librt-2.28.so
+7f8823fff000-7f8824000000 rw-p 00007000 fd:00 1446252                    /usr/lib64/librt-2.28.so
+7f8828000000-7f8828001000 r--s 00000000 fd:00 135015                     /usr/share/cassandra/lib/javax.inject-1.jar
+7f8828001000-7f8828004000 r--s 00010000 fd:00 135011                     /usr/share/cassandra/lib/jackson-annotations-2.13.2.jar
+7f8828004000-7f8828007000 r--s 00017000 fd:00 135009                     /usr/share/cassandra/lib/high-scale-lib-1.0.6.jar
+7f8828007000-7f8828009000 r--s 0001a000 fd:00 134990                     /usr/share/cassandra/lib/HdrHistogram-2.1.9.jar
+7f8828009000-7f882800d000 r--s 00019000 fd:00 135003                     /usr/share/cassandra/lib/concurrent-trees-2.4.0.jar
+7f882800d000-7f8828011000 r--s 00019000 fd:00 135004                     /usr/share/cassandra/lib/concurrentlinkedhashmap-lru-1.4.jar
+7f8828011000-7f8828017000 r--s 00048000 fd:00 135000                     /usr/share/cassandra/lib/commons-lang3-3.1.jar
+7f8828017000-7f882801e000 r--s 0003a000 fd:00 134999                     /usr/share/cassandra/lib/commons-codec-1.9.jar
+7f882801e000-7f882819f000 r-xp 00000000 fd:00 1446238                    /usr/lib64/libm-2.28.so
+7f882819f000-7f882839e000 ---p 00181000 fd:00 1446238                    /usr/lib64/libm-2.28.so
+7f882839e000-7f882839f000 r--p 00180000 fd:00 1446238                    /usr/lib64/libm-2.28.so
+7f882839f000-7f88283a0000 rw-p 00181000 fd:00 1446238                    /usr/lib64/libm-2.28.so
+7f88283a0000-7f8829141000 r-xp 00000000 fd:00 134747                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/server/libjvm.so
+7f8829141000-7f8829340000 ---p 00da1000 fd:00 134747                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/server/libjvm.so
+7f8829340000-7f88293e0000 r--p 00da0000 fd:00 134747                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/server/libjvm.so
+7f88293e0000-7f882940a000 rw-p 00e40000 fd:00 134747                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/server/libjvm.so
+7f882943d000-7f88295f9000 r-xp 00000000 fd:00 1446234                    /usr/lib64/libc-2.28.so
+7f88295f9000-7f88297f9000 ---p 001bc000 fd:00 1446234                    /usr/lib64/libc-2.28.so
+7f88297f9000-7f88297fd000 r--p 001bc000 fd:00 1446234                    /usr/lib64/libc-2.28.so
+7f88297fd000-7f88297ff000 rw-p 001c0000 fd:00 1446234                    /usr/lib64/libc-2.28.so
+7f8829803000-7f8829806000 r-xp 00000000 fd:00 1446236                    /usr/lib64/libdl-2.28.so
+7f8829806000-7f8829a05000 ---p 00003000 fd:00 1446236                    /usr/lib64/libdl-2.28.so
+7f8829a05000-7f8829a06000 r--p 00002000 fd:00 1446236                    /usr/lib64/libdl-2.28.so
+7f8829a06000-7f8829a07000 rw-p 00003000 fd:00 1446236                    /usr/lib64/libdl-2.28.so
+7f8829a07000-7f8829a1e000 r-xp 00000000 fd:00 134743                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/jli/libjli.so
+7f8829a1e000-7f8829c1e000 ---p 00017000 fd:00 134743                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/jli/libjli.so
+7f8829c1e000-7f8829c1f000 r--p 00017000 fd:00 134743                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/lib/amd64/jli/libjli.so
+7f8829c20000-7f8829c3b000 r-xp 00000000 fd:00 1446248                    /usr/lib64/libpthread-2.28.so
+7f8829c3b000-7f8829e3a000 ---p 0001b000 fd:00 1446248                    /usr/lib64/libpthread-2.28.so
+7f8829e3a000-7f8829e3b000 r--p 0001a000 fd:00 1446248                    /usr/lib64/libpthread-2.28.so
+7f8829e3b000-7f8829e3c000 rw-p 0001b000 fd:00 1446248                    /usr/lib64/libpthread-2.28.so
+7f8829e40000-7f8829e6d000 r-xp 00000000 fd:00 1446080                    /usr/lib64/ld-2.28.so
+7f8829e6d000-7f8829e70000 r--s 0000e000 fd:00 135005                     /usr/share/cassandra/lib/disruptor-3.0.1.jar
+7f8829e70000-7f8829e72000 r--s 00005000 fd:00 135002                     /usr/share/cassandra/lib/compress-lzf-0.8.4.jar
+7f8829e72000-7f8829e73000 r--s 00008000 fd:00 134998                     /usr/share/cassandra/lib/commons-cli-1.1.jar
+7f8829e73000-7f8829e89000 r--s 000d2000 fd:00 134995                     /usr/share/cassandra/lib/caffeine-2.2.6.jar
+7f8829e89000-7f8829e8b000 r--s 0000c000 fd:00 134994                     /usr/share/cassandra/lib/asm-5.0.4.jar
+7f8829e8b000-7f8829e8e000 r--s 00026000 fd:00 134993                     /usr/share/cassandra/lib/antlr-runtime-3.5.2.jar
+7f8829e8e000-7f8829e91000 r--s 00013000 fd:00 134992                     /usr/share/cassandra/lib/airline-0.6.jar
+7f8829e91000-7f8829e92000 r--p 00000000 fd:00 1446176                    /usr/lib/locale/en_US.utf8/LC_NUMERIC
+7f8829e92000-7f8829e93000 r--p 00000000 fd:00 1576743                    /usr/lib/locale/en_US.utf8/LC_TIME
+7f8829e93000-7f8829e94000 r--p 00000000 fd:00 1573564                    /usr/lib/locale/en_US.utf8/LC_MONETARY
+7f8829e94000-7f8829e95000 r--p 00000000 fd:00 1446174                    /usr/lib/locale/en_US.utf8/LC_MESSAGES/SYS_LC_MESSAGES
+7f8829e95000-7f8829e96000 r--p 00000000 fd:00 1446191                    /usr/lib/locale/en_US.utf8/LC_PAPER
+7f8829e96000-7f8829e97000 r--p 00000000 fd:00 1446175                    /usr/lib/locale/en_US.utf8/LC_NAME
+7f8829e97000-7f8829e98000 r--p 00000000 fd:00 1573614                    /usr/lib/locale/en_US.utf8/LC_ADDRESS
+7f8829e98000-7f8829e9f000 r--s 00000000 fd:00 1446520                    /usr/lib64/gconv/gconv-modules.cache
+7f882a066000-7f882a067000 r--p 00000000 fd:00 1573566                    /usr/lib/locale/en_US.utf8/LC_TELEPHONE
+7f882a067000-7f882a068000 r--p 00000000 fd:00 1573563                    /usr/lib/locale/en_US.utf8/LC_MEASUREMENT
+7f882a068000-7f882a069000 r--p 00000000 fd:00 1573562                    /usr/lib/locale/en_US.utf8/LC_IDENTIFICATION
+7f882a06d000-7f882a06e000 r--p 0002d000 fd:00 1446080                    /usr/lib64/ld-2.28.so
+7f882a06e000-7f882a070000 rw-p 0002e000 fd:00 1446080                    /usr/lib64/ld-2.28.so
+7fffc2c4c000-7fffc2c6e000 rw-p 00000000 00:00 0                          [stack]
+7fffc2ca4000-7fffc2ca8000 r--p 00000000 00:00 0                          [vvar]
+7fffc2ca8000-7fffc2caa000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+***REMOVED***
+jvm_args: -Xloggc:/var/log/cassandra/gc.log -Djava.io.tmpdir=/home/cassandra/tmp -ea -XX:+UseThreadPriorities -XX:ThreadPriorityPolicy=42 -XX:+HeapDumpOnOutOfMemoryError -Xss256k -XX:StringTableSize=1000003 -XX:+AlwaysPreTouch -XX:-UseBiasedLocking -XX:+UseTLAB -XX:+ResizeTLAB -XX:+UseNUMA -XX:+PerfDisableSharedMem -Djava.net.preferIPv4Stack=true -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=1 -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSWaitDuration=10000 -XX:+CMSParallelInitialMarkEnabled -XX:+CMSEdenChunksRecordAlways -XX:+CMSClassUnloadingEnabled -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+PrintPromotionFailure -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=10M -Xms1024M -Xmx1024M -Xmn100M -XX:+UseCondCardMark -XX:CompileCommandFile=/etc/cassandra/conf/hotspot_compiler -javaagent:/usr/share/cassandra/lib/jamm-0.3.0.jar -Dcassandra.jmx.local.port=7199 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.password.file=/etc/cassandra/jmxremote.password -Djava.library.path=/usr/share/cassandra/lib/sigar-bin -XX:OnOutOfMemoryError=kill -9 %p -Dlogback.configurationFile=logback.xml -Dcassandra.logdir=/var/log/cassandra -Dcassandra.storagedir= 
+java_command: org.apache.cassandra.service.CassandraDaemon
+java_class_path (initial): /etc/cassandra/conf:/usr/share/cassandra/lib/airline-0.6.jar:/usr/share/cassandra/lib/antlr-runtime-3.5.2.jar:/usr/share/cassandra/lib/asm-5.0.4.jar:/usr/share/cassandra/lib/caffeine-2.2.6.jar:/usr/share/cassandra/lib/cassandra-driver-core-3.0.1-shaded.jar:/usr/share/cassandra/lib/commons-cli-1.1.jar:/usr/share/cassandra/lib/commons-codec-1.9.jar:/usr/share/cassandra/lib/commons-lang3-3.1.jar:/usr/share/cassandra/lib/commons-math3-3.2.jar:/usr/share/cassandra/lib/compress-lzf-0.8.4.jar:/usr/share/cassandra/lib/concurrentlinkedhashmap-lru-1.4.jar:/usr/share/cassandra/lib/concurrent-trees-2.4.0.jar:/usr/share/cassandra/lib/disruptor-3.0.1.jar:/usr/share/cassandra/lib/ecj-4.4.2.jar:/usr/share/cassandra/lib/guava-18.0.jar:/usr/share/cassandra/lib/HdrHistogram-2.1.9.jar:/usr/share/cassandra/lib/high-scale-lib-1.0.6.jar:/usr/share/cassandra/lib/hppc-0.5.4.jar:/usr/share/cassandra/lib/jackson-annotations-2.13.2.jar:/usr/share/cassandra/lib/jackson-core-2.13.2.jar:/usr/share/cassandra/lib/jackson-databind-2.13.2.2.jar:/usr/share/cassandra/lib/jamm-0.3.0.jar:/usr/share/cassandra/lib/javax.inject-1.jar:/usr/share/cassandra/lib/jbcrypt-0.4.jar:/usr/share/cassandra/lib/jcl-over-slf4j-1.7.25.jar:/usr/share/cassandra/lib/jctools-core-1.2.1.jar:/usr/share/cassandra/lib/jflex-1.6.0.jar:/usr/share/cassandra/lib/jna-4.2.2.jar:/usr/share/cassandra/lib/joda-time-2.4.jar:/usr/share/cassandra/lib/json-simple-1.1.jar:/usr/share/cassandra/lib/libthrift-0.9.2.jar:/usr/share/cassandra/lib/log4j-over-slf4j-1.7.25.jar:/usr/share/cassandra/lib/logback-classic-1.2.9.jar:/usr/share/cassandra/lib/logback-core-1.2.9.jar:/usr/share/cassandra/lib/lz4-1.3.0.jar:/usr/share/cassandra/lib/metrics-core-3.1.5.jar:/usr/share/cassandra/lib/metrics-jvm-3.1.5.jar:/usr/share/cassandra/lib/metrics-logback-3.1.5.jar:/usr/share/cassandra/lib/netty-all-4.0.44.Final.jar:/usr/share/cassandra/lib/ohc-core-0.4.4.jar:/usr/share/cassandra/lib/ohc-core-j8-0.4.4.jar:/usr/share/cassandra/lib/rep
+***REMOVED***
+
+***REMOVED***
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+***REMOVED***
+
+***REMOVED***
+SIGSEGV: [libjvm.so+0xb9d160], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xb9d160], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0x965740], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0x965740], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0x965740], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0x965740], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+***REMOVED***
+SIGUSR2: [libjvm.so+0x965a70], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: [libjvm.so+0x9659c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGINT: [libjvm.so+0x9659c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGTERM: [libjvm.so+0x9659c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0x9659c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+***REMOVED***
+
+OS:Red Hat Enterprise Linux release 8.7 (Ootpa)
+
+uname:Linux 4.18.0-425.3.1.el8.x86_64 ***REMOVED***1 SMP Fri Sep 30 11:45:06 EDT 2022 x86_64
+***REMOVED***
+rlimit: STACK 8192k, CORE 0k, NPROC 32768, NOFILE 100000, AS infinity
+load average:0.24 0.06 0.03
+
+***REMOVED***
+MemTotal:        3502056 kB
+MemFree:         1265916 kB
+MemAvailable:    1799248 kB
+Buffers:          134156 kB
+Cached:           620628 kB
+SwapCached:            0 kB
+Active:           402620 kB
+Inactive:        1654228 kB
+Active(anon):      14376 kB
+Inactive(anon):  1334816 kB
+Active(file):     388244 kB
+Inactive(file):   319412 kB
+***REMOVED***
+***REMOVED***
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:               200 kB
+***REMOVED***
+AnonPages:       1301732 kB
+Mapped:           116900 kB
+Shmem:             47076 kB
+KReclaimable:      69528 kB
+Slab:             115120 kB
+SReclaimable:      69528 kB
+SUnreclaim:        45592 kB
+KernelStack:        2640 kB
+PageTables:        10404 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+CommitLimit:     1751028 kB
+Committed_AS:    1600500 kB
+VmallocTotal:   34359738367 kB
+***REMOVED***
+***REMOVED***
+Percpu:              584 kB
+***REMOVED***
+AnonHugePages:   1136640 kB
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+Hugepagesize:       2048 kB
+***REMOVED***
+DirectMap4k:      118720 kB
+DirectMap2M:     3551232 kB
+DirectMap1G:           0 kB
+
+***REMOVED***
+***REMOVED***
+cpu_cpuset_cpus: 0
+cpu_memory_nodes: 0
+active_processor_count: 1
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+memory_usage_in_bytes: 1232519168
+memory_max_usage_in_bytes: 1410420736
+
+
+CPU:total 1 (initial active 1) (1 cores per cpu, 1 threads per core) family 6 model 85 stepping 7, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx
+
+***REMOVED***
+***REMOVED***
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 85
+model name	: Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz
+stepping	: 7
+microcode	: 0xffffffff
+cpu MHz		: 2593.906
+cache size	: 36608 KB
+physical id	: 0
+siblings	: 1
+core id		: 0
+cpu cores	: 1
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 21
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology cpuid pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single pti fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm avx512f avx512dq rdseed adx smap clflushopt avx512cd avx512bw avx512vl xsaveopt xsavec xsaves md_clear
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit mmio_stale_data retbleed
+bogomips	: 5187.81
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+
+
+Memory: 4k page, physical 3502056k(1265916k free), swap 0k(0k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.352-b08) for linux-amd64 JRE (1.8.0_352-b08), built on Oct 17 2022 20:39:31 by "mockbuild" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)
+
+time: Thu Dec 15 11:42:11 2022
+timezone: GMT
+elapsed time: 1.948517 seconds (0d 0h 0m 1s)
+
