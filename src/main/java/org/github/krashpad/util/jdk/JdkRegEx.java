@@ -142,6 +142,17 @@ public class JdkRegEx {
     public static final String COMMAND_KAFKA = "^.*kafka\\.Kafka.*$";
 
     /**
+     * Spring Boot main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * org.springframework.boot.loader.WarLauncher
+     * </pre>
+     */
+    public static final String COMMAND_SPRING_BOOT = "^.*org\\.springframework\\.boot\\.loader\\.WarLauncher.*$";
+
+    /**
      * <p>
      * Regular expression for crash date/time in MMM d HH:mm:ss yyyy format (see <code>SimpleDateFormat</code> for date
      * and time pattern definitions).

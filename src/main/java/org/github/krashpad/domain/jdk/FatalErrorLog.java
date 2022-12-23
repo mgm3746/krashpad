@@ -223,6 +223,11 @@ public class FatalErrorLog {
     private List<StackEvent> stackEvents;
 
     /**
+     * Stack slot to memory mapping information.
+     */
+    private List<StackSlotToMemoryMappingEvent> stackSlotToMemoryMappingEvents;
+
+    /**
      * Statistics information.
      */
     private List<StatisticsEvent> statisticsEvents;
@@ -312,6 +317,7 @@ public class FatalErrorLog {
         nativeMemoryTrackingEvents = new ArrayList<NativeMemoryTrackingEvent>();
         osEvents = new ArrayList<OsEvent>();
         stackEvents = new ArrayList<StackEvent>();
+        stackSlotToMemoryMappingEvents = new ArrayList<StackSlotToMemoryMappingEvent>();
         statisticsEvents = new ArrayList<StatisticsEvent>();
         threadEvents = new ArrayList<ThreadEvent>();
         unidentifiedLogLines = new ArrayList<String>();
@@ -1064,6 +1070,10 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        // Lucene
+        if (isInStack("org\\.apache\\.lucene\\.")) {
+            analysis.add(0, Analysis.WARN_LUCENE);
+        ***REMOVED***
         // IBM Toolkit
         if (!dynamicLibraryEvents.isEmpty()) {
             Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
@@ -1075,7 +1085,6 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-
         // ERROR_JDK8_LIBC_CFREE
         if (getJavaSpecification() == JavaSpecification.JDK8
                 && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 262) {
@@ -1091,7 +1100,6 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-
         // VM operations
         if (vmOperationEvent != null) {
             if (vmOperationEvent.getVmOperation().equals("BulkRevokeBias")) {
@@ -1353,18 +1361,20 @@ public class FatalErrorLog {
         if (application == Application.UNKNOWN) {
             String javaCommand = getJavaCommand();
             if (javaCommand != null) {
-                if (javaCommand.matches(JdkRegEx.TOMCAT_START_COMMAND)) {
-                    application = Application.TOMCAT;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_STOP_COMMAND)) {
-                    application = Application.TOMCAT_SHUTDOWN;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.ARTEMIS_COMMAND)) {
+                if (javaCommand.matches(JdkRegEx.ARTEMIS_COMMAND)) {
                     application = Application.AMQ;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_ARTEMIS_CLI)) {
                     application = Application.AMQ_CLI;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_KAFKA)) {
-                    application = Application.KAFKA;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_JBOSS_VERSION)) {
                     application = Application.JBOSS_VERSION;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_KAFKA)) {
+                    application = Application.KAFKA;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_SPRING_BOOT)) {
+                    application = Application.SPRING_BOOT;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_START_COMMAND)) {
+                    application = Application.TOMCAT;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_STOP_COMMAND)) {
+                    application = Application.TOMCAT_SHUTDOWN;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.JAR_WILDFLY)) {
                     application = Application.WILDFLY;
                 ***REMOVED***
@@ -1662,6 +1672,7 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         compressedClassSpaceSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
                                 Constants.PRECISION_REPORTING);
+                        break;
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED*** else if (jvmOptions != null) {
@@ -3796,6 +3807,10 @@ public class FatalErrorLog {
         return stackFrameTopJava;
     ***REMOVED***
 
+    public List<StackSlotToMemoryMappingEvent> getStackSlotToMemoryMappingEvents() {
+        return stackSlotToMemoryMappingEvents;
+    ***REMOVED***
+
     public List<StatisticsEvent> getStatisticsEvents() {
         return statisticsEvents;
     ***REMOVED***
@@ -4383,6 +4398,19 @@ public class FatalErrorLog {
                 StackEvent event = iterator.next();
                 if (event.getLogEntry().matches("^.+" + classRegEx + ".+$")) {
                     isInStack = true;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        if (!isInStack) {
+            if (!stackSlotToMemoryMappingEvents.isEmpty()) {
+                Iterator<StackSlotToMemoryMappingEvent> iterator = stackSlotToMemoryMappingEvents.iterator();
+                while (iterator.hasNext()) {
+                    StackSlotToMemoryMappingEvent event = iterator.next();
+                    if (event.getLogEntry().matches("^.+" + classRegEx + ".+$")) {
+                        isInStack = true;
+                        break;
+                    ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***

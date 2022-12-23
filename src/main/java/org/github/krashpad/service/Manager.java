@@ -58,6 +58,7 @@ import org.github.krashpad.domain.jdk.PidMaxEvent;
 import org.github.krashpad.domain.jdk.RlimitEvent;
 import org.github.krashpad.domain.jdk.SigInfoEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
+import org.github.krashpad.domain.jdk.StackSlotToMemoryMappingEvent;
 import org.github.krashpad.domain.jdk.StatisticsEvent;
 import org.github.krashpad.domain.jdk.ThreadEvent;
 import org.github.krashpad.domain.jdk.ThreadsMaxEvent;
@@ -191,6 +192,8 @@ public class Manager {
                         fatalErrorLog.setSigInfoEvent((SigInfoEvent) event);
                     ***REMOVED*** else if (event instanceof StackEvent) {
                         fatalErrorLog.getStackEvents().add((StackEvent) event);
+                    ***REMOVED*** else if (event instanceof StackSlotToMemoryMappingEvent) {
+                        fatalErrorLog.getStackSlotToMemoryMappingEvents().add((StackSlotToMemoryMappingEvent) event);
                     ***REMOVED*** else if (event instanceof StatisticsEvent) {
                         fatalErrorLog.getStatisticsEvents().add((StatisticsEvent) event);
                     ***REMOVED*** else if (event instanceof ThreadEvent) {

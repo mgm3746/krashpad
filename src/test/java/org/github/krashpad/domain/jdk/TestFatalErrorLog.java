@@ -538,7 +538,19 @@ class TestFatalErrorLog {
         VmArgumentsEvent event = new VmArgumentsEvent(logLine);
         FatalErrorLog fel = new FatalErrorLog();
         fel.getVmArgumentsEvents().add(event);
-        assertEquals(Application.KAFKA, fel.getApplication(), "KAFKA application not identified.");
+        assertEquals(Application.KAFKA, fel.getApplication(), Application.KAFKA + " application not identified.");
+    ***REMOVED***
+
+    @Test
+    void testSpringBoot() {
+        String logLine = "java_command: org.springframework.boot.loader.WarLauncher";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
+        VmArgumentsEvent event = new VmArgumentsEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getVmArgumentsEvents().add(event);
+        assertEquals(Application.SPRING_BOOT, fel.getApplication(),
+                Application.SPRING_BOOT + " application not identified.");
     ***REMOVED***
 
     @Test

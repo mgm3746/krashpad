@@ -138,6 +138,8 @@ public class JdkUtil {
         //
         RHSSO,
         //
+        SPRING_BOOT,
+        //
         TOMCAT,
         //
         TOMCAT_SHUTDOWN,

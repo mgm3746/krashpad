@@ -40,6 +40,7 @@ import org.github.krashpad.domain.jdk.MemoryEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.SigInfoEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
+import org.github.krashpad.domain.jdk.StackSlotToMemoryMappingEvent;
 import org.github.krashpad.domain.jdk.ThreadEvent;
 import org.github.krashpad.domain.jdk.TimeElapsedTimeEvent;
 import org.github.krashpad.domain.jdk.TimeEvent;
@@ -1370,6 +1371,18 @@ class TestAnalysis {
         fel.getExceptionCountsEvents().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_LINKAGE), Analysis.ERROR_LINKAGE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testLuceneInStackSlotToMemoryMapping() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stackSlotToMemoryMapping = "stack at sp + 2 slots: 0x00000007abcf3808 is an oop: org.apache.lucene."
+                + "store.BufferedChecksumIndexInput";
+        StackSlotToMemoryMappingEvent stackSlotToMemoryMappingEvent = new StackSlotToMemoryMappingEvent(
+                stackSlotToMemoryMapping);
+        fel.getStackSlotToMemoryMappingEvents().add(stackSlotToMemoryMappingEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_LUCENE), Analysis.WARN_LUCENE + " analysis not identified.");
     ***REMOVED***
 
     @Test

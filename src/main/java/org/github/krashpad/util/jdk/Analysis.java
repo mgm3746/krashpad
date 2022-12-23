@@ -771,6 +771,11 @@ public enum Analysis {
     WARN_JSS("warn.jss"),
 
     /**
+     * Property key for Lucene code in stack.
+     */
+    WARN_LUCENE("warn.lucene"),
+
+    /**
      * Property key mmapped files in a deleted state.
      */
     WARN_MMAP_DELETED("warn.mmap.deleted"),

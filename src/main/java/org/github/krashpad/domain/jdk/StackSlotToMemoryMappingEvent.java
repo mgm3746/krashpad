@@ -15,7 +15,6 @@
 package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
@@ -44,7 +43,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class StackSlotToMemoryMappingEvent implements LogEvent, ThrowAwayEvent {
+public class StackSlotToMemoryMappingEvent implements LogEvent {
 
     /**
      * Regular expression defining the logging.
