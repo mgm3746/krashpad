@@ -376,13 +376,13 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
                 matcher = pattern.matcher(nativeLibraryPath);
-                if (!analysis.contains(Analysis.INFO_ORACLE_JDBC_OCI)
-                        && !analysis.contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER)
-                        && !analysis.contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING)
-                        && !analysis.contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION)) {
-                    analysis.add(Analysis.INFO_ORACLE_JDBC_OCI);
-                ***REMOVED***
                 if (matcher.find()) {
+                    if (!analysis.contains(Analysis.INFO_ORACLE_JDBC_OCI)
+                            && !analysis.contains(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER)
+                            && !analysis.contains(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING)
+                            && !analysis.contains(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION)) {
+                        analysis.add(Analysis.INFO_ORACLE_JDBC_OCI);
+                    ***REMOVED***
                     String versionRegEx = "^.*[/\\\\]oracle[/\\\\]product[/\\\\](\\d{1,***REMOVED***)\\.\\d{1,***REMOVED***\\.\\d{1,***REMOVED***"
                             + "(\\.\\d{1,***REMOVED***)?[/\\\\].*$";
                     Pattern pattern2 = Pattern.compile(versionRegEx);

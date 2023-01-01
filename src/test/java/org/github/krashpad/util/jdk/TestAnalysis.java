@@ -1894,6 +1894,21 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testOracleJdbcOciNot() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), built "
+                + "on Jul 20 2022 13:03:41 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)";
+        VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
+        fel.setVmInfoEvent(vmEvent);
+        String dynamicLibrary = "7fd01e1b3000-7fd01e1d3000 r-xp 00000000 fd:03 2100954 /path/to/my.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.INFO_ORACLE_JDBC_OCI),
+                Analysis.INFO_ORACLE_JDBC_OCI + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testOutOfMemoryErrorThrownCompressedClassSpace() {
         String logLine = "OutOfMemoryError class_metaspace_errors=7";
         ExceptionCountsEvent event = new ExceptionCountsEvent(logLine);

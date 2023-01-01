@@ -269,18 +269,20 @@ public class JdkUtil {
      * 
      * BUS_ADRALN: The memory address that has an invalid address alignment for the CPU.
      * 
-     * BUS_ADRERR: The memory address does not exist. Rare on Linux but can happen when an mmap'ed file is truncated
-     * (e.g. a threading issue where 2 threads access a file at the same time).
+     * BUS_ADRERR: The memory address does not exist. Two causes: (1) Internal JVM corruption. (2) A memory mapped
+     * (mmap) file has been deleted or truncated (e.g. a threading issue where 2 threads access a file at the same
+     * time).
      * 
      * BUS_OBJERR: Hardware issue.
      * 
      * FPE_INTDIV: Floating point error (division by 0, modulo by 0, integer overflow).
      * 
-     * SEGV_ACCERR: The access is not allowed. For example: (1) Attempting to write to read-only memory. (2) Attempting
-     * to write to protected (OS) memory. (3) Attempting to access an array at an index greater than the array size (out
-     * of bounds).
+     * SEGV_ACCERR: The access is not allowed due to permissions. For example: (1) Attempting to write to read-only
+     * memory. (2) Attempting to write to protected (OS) memory. (3) Attempting to access an array at an index greater
+     * than the array size (out of bounds).
      * 
-     * SEGV_MAPERR: The memory address is not mapped to an object.
+     * SEGV_MAPERR: The memory address is not in the application address space. For example: (1) Dereferencing a null
+     * pointer. (2) A corrupted pointer. (3) Stack overflow.
      * 
      * SI_KERNEL: Sent by the kernel.
      * 
