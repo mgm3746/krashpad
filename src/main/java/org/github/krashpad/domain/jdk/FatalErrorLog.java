@@ -398,6 +398,25 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        // Check PostgreSQL JDBC driver / JDK8 compatibility
+        if (!getDynamicLibraryEvents().isEmpty()) {
+            Iterator<DynamicLibraryEvent> iterator = getDynamicLibraryEvents().iterator();
+            Pattern pattern = Pattern.compile(JdkRegEx.POSTGRESQL_JDBC_DRIVER_PATH);
+            Matcher matcher;
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.getFilePath() != null) {
+                    matcher = pattern.matcher(event.getFilePath());
+                    if (matcher.find()) {
+                        Integer minorVersion = Integer.parseInt(matcher.group(3));
+                        if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) == 8 && minorVersion < 5) {
+                            analysis.add(Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE);
+                            break;
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
         // Check for ancient fatal error log
         if (ErrUtil.dayDiff(getCrashDate(), new Date()) > 30) {
             analysis.add(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT);

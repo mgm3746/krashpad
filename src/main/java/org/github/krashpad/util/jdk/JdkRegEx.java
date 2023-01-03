@@ -151,7 +151,7 @@ public class JdkRegEx {
      * </pre>
      */
     public static final String COMMAND_KAFKA = "^.*kafka\\.Kafka.*$";
-    
+
     /**
      * Spring Boot main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
@@ -574,6 +574,16 @@ public class JdkRegEx {
      * A null pointer address.
      */
     public static final String POINTER_NULL = "0x([0]{8***REMOVED***|[0]{16***REMOVED***)";
+
+    /**
+     * PostgreSQL JDBC driver.
+     */
+    public static final String POSTGRESQL_JDBC_DRIVER = "postgresql-42\\.(\\d)\\.\\d{1,***REMOVED***\\.jar";
+
+    /**
+     * PostgreSQL JDBC driver path.
+     */
+    public static final String POSTGRESQL_JDBC_DRIVER_PATH = "([A-Z]:)?(.*[/\\\\])*" + POSTGRESQL_JDBC_DRIVER;
 
     /**
      * A 32-bit or 64-bit register.

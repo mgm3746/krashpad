@@ -1846,6 +1846,22 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testPostgresqlJdbcJdkIncompatible() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.302-b08) for linux-amd64 JRE (1.8.0_302-b08), built on "
+                + "Jul 16 2021 12:35:49 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
+        fel.setVmInfoEvent(vmEvent);
+        String dynamicLibrary = "7f7028969000-7f7028973000 r--s 000c0000 fd:06 131786                     "
+                + "/path/to/postgresql-42.2.5.jar";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE),
+                Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testOracleJdbcOciDriverError() {
         FatalErrorLog fel = new FatalErrorLog();
         EventEvent eventEvent = new EventEvent(

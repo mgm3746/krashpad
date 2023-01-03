@@ -170,6 +170,11 @@ public enum Analysis {
     ERROR_JNA("error.jna"),
 
     /**
+     * Property key for crash in JNA ffi_prep_closure_loc.
+     */
+    ERROR_JNA_FFI_PREP_CLOSURE_LOC("error.jna.ffi_prep_closure_loc"),
+
+    /**
      * Property key for a crash in JNA code on a Red Hat JDK.
      */
     ERROR_JNA_RH("error.jna.rh"),
@@ -354,6 +359,11 @@ public enum Analysis {
      * Property key for crash caused trying to dereference a null pointer.
      */
     ERROR_POINTER_NULL("error.pointer.null"),
+
+    /**
+     * Property key for PostgreSQL JDBC driver incompatible with JDK8.
+     */
+    ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE("error.postgresql.jdbc.jdk8.incompatible"),
 
     /**
      * Property key for a crash in PSPromotionManager::copy_to_survivor_space&lt;false&gt;(oopDesc*).
@@ -597,11 +607,6 @@ public enum Analysis {
      * Property key for FPE_INTDIV.
      */
     INFO_SIGCODE_FPE_INTDIV("info.sigcode.fpe.intdiv"),
-    
-    /**
-     * Property key for crash in JNA ffi_prep_closure_loc. 
-     */
-    ERROR_JNA_FFI_PREP_CLOSURE_LOC("error.jna.ffi_prep_closure_loc"),
 
     /**
      * Property key for ILL_ILLOPN
