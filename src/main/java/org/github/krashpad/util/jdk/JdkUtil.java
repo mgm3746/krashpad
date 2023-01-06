@@ -700,6 +700,8 @@ public class JdkUtil {
                 new Release("Oct 16 2022 00:00:00", 39, "1.8.0_352-b08"));
         JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.352.b08-2.el8_1.ppc64le",
                 new Release("Oct 16 2022 00:00:00", 39, "1.8.0_352-b08"));
+        JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.345.b01-5.el8.ppc64le",
+                new Release("Aug 30 2022 00:00:00", 18, "1.8.0_345-b01"));
         JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.345.b01-1.el8_6.ppc64le",
                 new Release("Aug 4 2022 00:00:00", 38, "1.8.0_345-b01"));
         JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.345.b01-1.el8_4.ppc64le",
@@ -774,6 +776,8 @@ public class JdkUtil {
                 new Release("Oct 16 2022 00:00:00", 19, "1.8.0_352-b08"));
         JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.352.b08-2.el8_1.x86_64",
                 new Release("Oct 16 2022 00:00:00", 19, "1.8.0_352-b08"));
+        JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.345.b01-5.el8.x86_64",
+                new Release("Aug 30 2022 00:26:51", 18, "1.8.0_345-b01"));
         JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.345.b01-1.el8_6.x86_64",
                 new Release("Aug 4 2022 13:59:22", 18, "1.8.0_345-b01"));
         JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.345.b01-1.el8_4.x86_64",
