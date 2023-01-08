@@ -344,6 +344,7 @@ public class FatalErrorLog {
             JvmContext context = new JvmContext(opts, getJavaVersionMajor(), getJavaVersionMinor(),
                     getGarbageCollectors(), isContainer(), getOs(), getBit());
             jvmOptions = new JvmOptions(context);
+            jvmOptions.doAnalysis();
         ***REMOVED***
         doDataAnalysis();
         // Unidentified logging lines
