@@ -518,6 +518,11 @@ public enum Analysis {
     INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX("info.oome.startup.heap.min.equal.max"),
 
     /**
+     * Property key for no JVM options.
+     */
+    INFO_OPTS_NONE("info.opts.none"),
+
+    /**
      * Property key for Oracle JDBC OCI (native) driver detected.
      */
     INFO_ORACLE_JDBC_OCI("info.oracle.jdbc.oci"),

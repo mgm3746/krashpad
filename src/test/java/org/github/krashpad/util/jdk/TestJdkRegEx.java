@@ -229,14 +229,14 @@ class TestJdkRegEx {
         String release = "libocijdbc11.so";
         assertTrue(release.matches(JdkRegEx.ORACLE_JDBC_OCI_DRIVER), "Oracle JDBC OCI driver not identified.");
     ***REMOVED***
-    
+
     @Test
     void testOracleJdbcOciDriverPathLinux() {
         String release = "/ora01/app/oracle/product/11.2.0/client_1/lib/libocijdbc11.so";
         assertTrue(release.matches(JdkRegEx.ORACLE_JDBC_OCI_DRIVER_PATH),
                 "Oracle JDBC OCI driver path not identified.");
     ***REMOVED***
-    
+
     @Test
     void testOracleJdbcOciDriverWindows() {
         String release = "libocijdbc11.dll";
@@ -288,8 +288,7 @@ class TestJdkRegEx {
     @Test
     void testPostgresqlJdbcDriverPathLinux() {
         String release = "/opt/jboss/modules/system/layers/base/org/postgresql/main/postgresql-42.2.5.jar";
-        assertTrue(release.matches(JdkRegEx.POSTGRESQL_JDBC_DRIVER_PATH),
-                "PostreSQL JDBC driver path not identified.");
+        assertTrue(release.matches(JdkRegEx.POSTGRESQL_JDBC_DRIVER_PATH), "PostreSQL JDBC driver path not identified.");
     ***REMOVED***
 
     @Test

@@ -264,7 +264,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(logLine);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_64_CLIENT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_CLIENT),
                 org.github.joa.util.Analysis.INFO_64_CLIENT + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -279,9 +279,9 @@ class TestAnalysis {
         MeminfoEvent meminfoEvent = new MeminfoEvent("SwapTotal:       0 kB");
         fel.getMeminfoEvents().add(meminfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_CONTAINER_PERF_DATA_DISK),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_CONTAINER_PERF_DATA_DISK),
                 org.github.joa.util.Analysis.WARN_CONTAINER_PERF_DATA_DISK + " analysis not identified.");
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_PERF_DATA_DISABLED),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_PERF_DATA_DISABLED),
                 org.github.joa.util.Analysis.INFO_PERF_DATA_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -313,11 +313,11 @@ class TestAnalysis {
         fel.getVmArgumentsEvents().clear();
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED),
                 org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT),
                 org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED),
                 org.github.joa.util.Analysis.INFO_CMS_DISABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -363,11 +363,11 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED),
                 org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED),
                 org.github.joa.util.Analysis.INFO_CMS_DISABLED + " analysis incorrectly identified.");
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT),
                 org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT + " analysis not identified.");
     ***REMOVED***
 
@@ -468,7 +468,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(logLine);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT),
                 org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -540,20 +540,20 @@ class TestAnalysis {
         VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
         fel.setVmInfoEvent(vmEvent);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_OVERWRITE),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_OVERWRITE),
                 org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_OVERWRITE),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_OVERWRITE),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_OVERWRITE + " analysis incorrectly identified.");
         assertFalse(
                 fel.getJvmOptions()
                         .hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
                 org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED
                         + " analysis incorrectly identified.");
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_LOGGC),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_LOGGC),
                 org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_LOGGC + " analysis not identified.");
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC),
                 org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC + " analysis not identified.");
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC_DETAILS),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC_DETAILS),
                 org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC_DETAILS + " analysis not identified.");
     ***REMOVED***
 
@@ -570,7 +570,7 @@ class TestAnalysis {
                 Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7),
                 Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7 + " analysis not identified.");
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED),
                 org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -638,7 +638,7 @@ class TestAnalysis {
         HeapEvent heapEvent = new HeapEvent(logLine);
         fel.getHeapEvents().add(heapEvent);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT),
                 org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT + " analysis not identified.");
     ***REMOVED***
 
@@ -733,7 +733,7 @@ class TestAnalysis {
         fel.getHeapEvents().add(heapEvent);
         fel.getVmArgumentsEvents().add(vmArgumentEvent);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT),
                 org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT + " analysis not identified.");
     ***REMOVED***
 
@@ -747,7 +747,7 @@ class TestAnalysis {
         HeapEvent heapEvent1 = new HeapEvent("Shenandoah Heap");
         fel.getHeapEvents().add(heapEvent1);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.ERROR_GC_IGNORED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_GC_IGNORED),
                 org.github.joa.util.Analysis.ERROR_GC_IGNORED + " analysis not identified.");
         // Test real world
         fel.getAnalysis().clear();
@@ -761,7 +761,7 @@ class TestAnalysis {
                         + "0x00000000d5580000)");
         fel.getHeapEvents().add(heapEvent3);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL),
                 org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL + " analysis not identified.");
     ***REMOVED***
 
@@ -796,7 +796,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset56.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING),
                 org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING + " analysis not identified.");
     ***REMOVED***
 
@@ -899,7 +899,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0 + " analysis not identified.");
     ***REMOVED***
 
@@ -914,8 +914,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(
-                fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -930,7 +929,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL + " analysis not identified.");
     ***REMOVED***
 
@@ -946,7 +945,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING),
                 org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
     ***REMOVED***
 
@@ -964,7 +963,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("-Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M",
                 fel.getJvmOptions().getLog().get(0), "-Xlog not correct.");
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING),
                 org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1022,7 +1021,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
                 org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
     ***REMOVED***
 
@@ -1037,7 +1036,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
                 org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1052,7 +1051,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
                 org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1142,7 +1141,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JFR),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JFR),
                 org.github.joa.util.Analysis.INFO_JFR + " analysis not identified.");
     ***REMOVED***
 
@@ -1323,7 +1322,7 @@ class TestAnalysis {
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX),
                 org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX + " analysis not identified.");
     ***REMOVED***
 
@@ -1337,7 +1336,7 @@ class TestAnalysis {
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS),
                 org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS + " analysis not identified.");
     ***REMOVED***
 
@@ -1562,9 +1561,9 @@ class TestAnalysis {
         HeaderEvent headerEvent = new HeaderEvent(header);
         fel.getHeaderEvents().add(headerEvent);
         fel.doAnalysis();
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME),
                 org.github.joa.util.Analysis.INFO_ON_OOME + " analysis incorrectly identified.");
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL),
                 org.github.joa.util.Analysis.INFO_ON_OOME_KILL + " analysis not identified.");
     ***REMOVED***
 
@@ -1578,9 +1577,9 @@ class TestAnalysis {
         HeaderEvent headerEvent = new HeaderEvent(header);
         fel.getHeaderEvents().add(headerEvent);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME),
                 org.github.joa.util.Analysis.INFO_ON_OOME + " analysis not identified.");
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL),
                 org.github.joa.util.Analysis.INFO_ON_OOME_KILL + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1738,8 +1737,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset56.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_OPTS_NONE),
-                org.github.joa.util.Analysis.INFO_OPTS_NONE + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_OPTS_NONE),
+                Analysis.INFO_OPTS_NONE + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL_STARTUP),
                 Analysis.ERROR_OOME_EXTERNAL_STARTUP + " analysis not identified.");
     ***REMOVED***
@@ -1843,22 +1842,6 @@ class TestAnalysis {
                 Analysis.INFO_ORACLE_JDBC_OCI + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE),
                 Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testPostgresqlJdbcJdkIncompatible() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.302-b08) for linux-amd64 JRE (1.8.0_302-b08), built on "
-                + "Jul 16 2021 12:35:49 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
-        VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
-        fel.setVmInfoEvent(vmEvent);
-        String dynamicLibrary = "7f7028969000-7f7028973000 r--s 000c0000 fd:06 131786                     "
-                + "/path/to/postgresql-42.2.5.jar";
-        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE),
-                Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1980,7 +1963,7 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED),
                 org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -1998,7 +1981,7 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED),
                 org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -2017,9 +2000,9 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT),
                 org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT + " analysis not identified.");
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT),
                 org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT + " analysis incorrectly identified.");
 
     ***REMOVED***
@@ -2039,9 +2022,9 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT),
                 org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT + " analysis incorrectly identified.");
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT),
                 org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT + " analysis not identified.");
     ***REMOVED***
 
@@ -2106,6 +2089,22 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT), Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
     ***REMOVED***
 
+    @Test
+    void testPostgresqlJdbcJdkIncompatible() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.302-b08) for linux-amd64 JRE (1.8.0_302-b08), built on "
+                + "Jul 16 2021 12:35:49 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
+        fel.setVmInfoEvent(vmEvent);
+        String dynamicLibrary = "7f7028969000-7f7028973000 r--s 000c0000 fd:06 131786                     "
+                + "/path/to/postgresql-42.2.5.jar";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE),
+                Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE + " analysis not identified.");
+    ***REMOVED***
+
     /**
      * Verify analysis file property key/value lookup.
      */
@@ -2157,7 +2156,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset45.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED),
                 org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_VMWARE), Analysis.INFO_VMWARE + " analysis not identified.");
     ***REMOVED***
@@ -2169,7 +2168,7 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED),
                 org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -2351,7 +2350,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(logLine);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT),
                 org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2364,9 +2363,9 @@ class TestAnalysis {
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH),
                 GarbageCollector.SHENANDOAH + " collector not identified.");
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.INFO_METASPACE),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_METASPACE),
                 org.github.joa.util.Analysis.INFO_METASPACE + " analysis not identified.");
-        assertTrue(fel.getJvmOptions().hasAnalysis(org.github.joa.util.Analysis.WARN_METASPACE_LT_COMP_CLASS),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_METASPACE_LT_COMP_CLASS),
                 org.github.joa.util.Analysis.WARN_METASPACE_LT_COMP_CLASS + " analysis not identified.");
     ***REMOVED***
 
@@ -2605,14 +2604,18 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
-    void testZGc() {
+    void testZGcHeapEvent() {
         FatalErrorLog fel = new FatalErrorLog();
         String zHeap = " ZHeap           used 4M, capacity 500M, max capacity 7978M";
         HeapEvent heapEvent = new HeapEvent(zHeap);
         fel.getHeapEvents().add(heapEvent);
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC),
                 GarbageCollector.ZGC + " collector not identified.");
-        fel.getHeapEvents().clear();
+    ***REMOVED***
+
+    @Test
+    void testZGcJvmOptions() {
+        FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:+UseZGC -Xmx2048M";
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);

@@ -542,18 +542,6 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
-    void testSpringBoot() {
-        String logLine = "java_command: org.springframework.boot.loader.WarLauncher";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
-                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
-        VmArgumentsEvent event = new VmArgumentsEvent(logLine);
-        FatalErrorLog fel = new FatalErrorLog();
-        fel.getVmArgumentsEvents().add(event);
-        assertEquals(Application.SPRING_BOOT, fel.getApplication(),
-                Application.SPRING_BOOT + " application not identified.");
-    ***REMOVED***
-
-    @Test
     void testLogicalCpus() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset53.txt");
         Manager manager = new Manager();
@@ -667,6 +655,13 @@ class TestFatalErrorLog {
         HeaderEvent he = new HeaderEvent(headerLine);
         fel.getHeaderEvents().add(he);
         assertFalse(fel.haveJdkDebugSymbols(), "Debugging symbols incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testNoJvmOptions() {
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_OPTS_NONE), Analysis.INFO_OPTS_NONE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -967,6 +962,18 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testSpringBoot() {
+        String logLine = "java_command: org.springframework.boot.loader.WarLauncher";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
+        VmArgumentsEvent event = new VmArgumentsEvent(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getVmArgumentsEvents().add(event);
+        assertEquals(Application.SPRING_BOOT, fel.getApplication(),
+                Application.SPRING_BOOT + " application not identified.");
     ***REMOVED***
 
     @Test

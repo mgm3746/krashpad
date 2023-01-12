@@ -163,7 +163,7 @@ public class FatalErrorLog {
     private HostEvent hostEvent;
 
     /**
-     * JVM options convenience field
+     * JVMOptions object.
      */
     private JvmOptions jvmOptions;
 
@@ -341,22 +341,20 @@ public class FatalErrorLog {
     public void doAnalysis() {
         String opts = getJvmArgs();
         if (opts != null) {
-            JvmContext context = new JvmContext(opts, getJavaVersionMajor(), getJavaVersionMinor(),
-                    getGarbageCollectors(), isContainer(), getOs(), getBit());
+            JvmContext context = new JvmContext(opts, getJavaVersionMajor(), getJavaVersionMinor());
+            context.setGarbageCollectors(getGarbageCollectorsFromHeapEvents());
+            context.setContainer(isContainer());
+            context.setOs(getOs());
+            context.setBit(getBit());
             jvmOptions = new JvmOptions(context);
             jvmOptions.doAnalysis();
+        ***REMOVED*** else {
+            analysis.add(0, Analysis.INFO_OPTS_NONE);
         ***REMOVED***
-        doDataAnalysis();
         // Unidentified logging lines
         if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) >= 8 && !getUnidentifiedLogLines().isEmpty()) {
             analysis.add(0, Analysis.WARN_UNIDENTIFIED_LOG_LINE);
         ***REMOVED***
-    ***REMOVED***
-
-    /**
-     * Do data analysis.
-     */
-    private void doDataAnalysis() {
         // Crashes related to Oracle JDBC OCI (native) driver
         if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER);
@@ -839,11 +837,10 @@ public class FatalErrorLog {
         ***REMOVED***
         // Thread stack size
         long threadStackMaxSize = getThreadStackSize();
-        if ((jvmOptions == null || !jvmOptions.hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_TINY))
+        if ((jvmOptions == null || !hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_TINY))
                 && threadStackMaxSize < 1) {
             jvmOptions.addAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_TINY);
-        ***REMOVED*** else if ((jvmOptions == null
-                || !jvmOptions.hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL))
+        ***REMOVED*** else if ((jvmOptions == null || !hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL))
                 && threadStackMaxSize < 128) {
             jvmOptions.addAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL);
         ***REMOVED***
@@ -908,7 +905,7 @@ public class FatalErrorLog {
         if (getApplication() == Application.JBOSS_EAP7 && jvmOptions != null
                 && JdkUtil.isOptionEnabled(jvmOptions.getDisableExplicitGc())) {
             // Don't double report
-            if (jvmOptions.hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED)) {
+            if (hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED)) {
                 jvmOptions.removeAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED);
             ***REMOVED***
             analysis.add(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7);
@@ -2038,14 +2035,33 @@ public class FatalErrorLog {
         return firstRelease;
     ***REMOVED***
 
+    /**
+     * @return The list of garbage collectors identified from events, JVM options, or JDK defaults.
+     */
     public List<GarbageCollector> getGarbageCollectors() {
         if (getGarbageCollectorsFromHeapEvents().size() > 0) {
             return getGarbageCollectorsFromHeapEvents();
-        ***REMOVED*** else if (getGarbageCollectorsFromJvmOptions().size() > 0) {
-            return getGarbageCollectorsFromJvmOptions();
+        ***REMOVED*** else if (jvmOptions != null) {
+            return jvmOptions.getGarbageCollectors();
+        ***REMOVED*** else if (getGarbageCollectorsDefault().size() > 0) {
+            return getGarbageCollectorsDefault();
         ***REMOVED*** else {
             return new ArrayList<GarbageCollector>();
         ***REMOVED***
+    ***REMOVED***
+
+    /**
+     * @return The default garbage collector(s).
+     */
+    private List<GarbageCollector> getGarbageCollectorsDefault() {
+        List<GarbageCollector> collectors = new ArrayList<GarbageCollector>();
+        if (getJavaSpecification() == JavaSpecification.JDK11 || getJavaSpecification() == JavaSpecification.JDK17) {
+            collectors.add(GarbageCollector.G1);
+        ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK8) {
+            collectors.add(GarbageCollector.PARALLEL_SCAVENGE);
+            collectors.add(GarbageCollector.PARALLEL_OLD);
+        ***REMOVED***
+        return collectors;
     ***REMOVED***
 
     /**
@@ -2088,28 +2104,6 @@ public class FatalErrorLog {
                         && !garbageCollectors.contains(GarbageCollector.SERIAL_OLD)) {
                     garbageCollectors.add(GarbageCollector.SERIAL_OLD);
                 ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-        return garbageCollectors;
-    ***REMOVED***
-
-    /**
-     * @return The list of garbage collectors as determined by inspecting the <code>JvmOptions</code>.
-     */
-    public List<GarbageCollector> getGarbageCollectorsFromJvmOptions() {
-        List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
-        // Check JVM options if no heap events
-        if (jvmOptions != null && !jvmOptions.getCollectors().isEmpty()) {
-            garbageCollectors.addAll(jvmOptions.getCollectors());
-        ***REMOVED***
-        // Assign JDK defaults JVM collector options
-        if (garbageCollectors.isEmpty()) {
-            if (getJavaSpecification() == JavaSpecification.JDK11
-                    || getJavaSpecification() == JavaSpecification.JDK17) {
-                garbageCollectors.add(GarbageCollector.G1);
-            ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK8) {
-                garbageCollectors.add(GarbageCollector.PARALLEL_SCAVENGE);
-                garbageCollectors.add(GarbageCollector.PARALLEL_OLD);
             ***REMOVED***
         ***REMOVED***
         return garbageCollectors;
@@ -4040,11 +4034,24 @@ public class FatalErrorLog {
 
     /**
      * @param key
-     *            The <code>Analysis</code> to check.
-     * @return True if the <code>Analysis</code> exists, false otherwise.
+     *            The {@link org.github.krashpad.util.jdk.Analysis***REMOVED******REMOVED*** to check.
+     * @return True if the {@link org.github.krashpad.util.jdk.Analysis***REMOVED******REMOVED*** exists, false otherwise.
      */
     public boolean hasAnalysis(Analysis key) {
         return analysis.contains(key);
+    ***REMOVED***
+
+    /**
+     * @param key
+     *            The {@link org.github.joa.util.Analysis***REMOVED*** to check.
+     * @return True if the {@link org.github.joa.util.Analysis***REMOVED*** exists, false otherwise.
+     */
+    public boolean hasAnalysis(org.github.joa.util.Analysis key) {
+        boolean hasAnalysis = false;
+        if (jvmOptions != null && jvmOptions.hasAnalysis(key)) {
+            hasAnalysis = true;
+        ***REMOVED***
+        return hasAnalysis;
     ***REMOVED***
 
     /**
