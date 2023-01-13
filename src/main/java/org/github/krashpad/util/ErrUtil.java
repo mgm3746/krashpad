@@ -55,6 +55,8 @@ public class ErrUtil {
 
     static {
         NATIVE_LIBRARIES_LINUX = new ArrayList<String>();
+        // glibc-gconv-extra
+        NATIVE_LIBRARIES_LINUX.add("EUC-JP.so");
         // mesa-dri-drivers
         NATIVE_LIBRARIES_LINUX.add("i965_dri.so");
         // ibus-gtk*
@@ -95,6 +97,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libgvfscommon.so");
         // gvfs-client
         NATIVE_LIBRARIES_LINUX.add("libgvfsdbus.so");
+        // glibc-gconv-extra
+        NATIVE_LIBRARIES_LINUX.add("libJIS.so");
         // nspr
         NATIVE_LIBRARIES_LINUX.add("libnspr4.so");
         // nss
