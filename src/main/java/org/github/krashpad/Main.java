@@ -676,32 +676,4 @@ public class Main {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("krashpad [OPTION]... [FILE]", options);
     ***REMOVED***
-
-    /**
-     * Validate command line options.
-     * 
-     * @param cmd
-     *            The command line options.
-     * 
-     * @throws ParseException
-     *             Command line options not valid.
-     */
-    public static void validateOptions(CommandLine cmd) throws ParseException {
-        // Ensure log file specified.
-        if (cmd.getArgList().isEmpty()) {
-            throw new ParseException("Missing log file");
-        ***REMOVED***
-        String logFileName = null;
-        if (!cmd.getArgList().isEmpty()) {
-            logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
-        ***REMOVED***
-        // Ensure vm log file exists.
-        if (logFileName == null) {
-            throw new ParseException("Missing log file not");
-        ***REMOVED***
-        File logFile = new File(logFileName);
-        if (!logFile.exists()) {
-            throw new ParseException("Invalid log file: '" + logFileName + "'");
-        ***REMOVED***
-    ***REMOVED***
 ***REMOVED***
