@@ -38,6 +38,7 @@ import org.github.krashpad.domain.jdk.LdPreloadFileEvent;
 import org.github.krashpad.domain.jdk.MeminfoEvent;
 import org.github.krashpad.domain.jdk.MemoryEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
+import org.github.krashpad.domain.jdk.RegisterToMemoryMappingEvent;
 import org.github.krashpad.domain.jdk.SigInfoEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
 import org.github.krashpad.domain.jdk.StackSlotToMemoryMappingEvent;
@@ -886,6 +887,59 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_ITEXT), Analysis.WARN_ITEXT + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_ITEXT), Analysis.INFO_ITEXT + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testItextIoStubRoutinesFileChannelRandomAccessSource() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset43.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO), Analysis.ERROR_ITEXT_IO + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testItextIoStubRoutinesJbyteDisjointArrayCopyIndependentRandomAccessSource() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset17.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO), Analysis.ERROR_ITEXT_IO + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testItextIoStubRoutinesJbyteDisjointArrayCopyPagedChannelRandomAccessSource() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header = "***REMOVED*** v  ~StubRoutines::jbyte_disjoint_arraycopy";
+        HeaderEvent headerEvent = new HeaderEvent(header);
+        fel.getHeaderEvents().add(headerEvent);
+        String registerToMemoryMapping = " - klass: 'com/itextpdf/text/io/PagedChannelRandomAccessSource'";
+        RegisterToMemoryMappingEvent registerToMemoryMappingEvent = new RegisterToMemoryMappingEvent(
+                registerToMemoryMapping);
+        fel.getRegisterToMemoryMappingEvents().add(registerToMemoryMappingEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO), Analysis.ERROR_ITEXT_IO + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testItextIoStubRoutinesJintDisjointArrayCopyRandomAccessFileOrArray() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header = "v  ~StubRoutines::jint_disjoint_arraycopy";
+        HeaderEvent headerEvent = new HeaderEvent(header);
+        fel.getHeaderEvents().add(headerEvent);
+        String stack1 = "v  ~StubRoutines::jint_disjoint_arraycopy";
+        StackEvent stackEvent1 = new StackEvent(stack1);
+        fel.getStackEvents().add(stackEvent1);
+        String stack2 = "J 23636 C2 java.nio.Bits.copyToArray(JLjava/lang/Object;JJJ)V (68 bytes) @ "
+                + "0x00007f59389b1201 [0x00007f59389b11a0+0x61]";
+        StackEvent stackEvent2 = new StackEvent(stack2);
+        fel.getStackEvents().add(stackEvent2);
+        String stack3 = "J 25959 C2 com.itextpdf.text.pdf.RandomAccessFileOrArray.read([BII)I (97 bytes) @ "
+                + "0x00007f5936737800 [0x00007f5936737500+0x300]";
+        StackEvent stackEvent3 = new StackEvent(stack3);
+        fel.getStackEvents().add(stackEvent3);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO), Analysis.ERROR_ITEXT_IO + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2442,20 +2496,6 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_STACKOVERFLOW),
                 Analysis.ERROR_STACKOVERFLOW + " analysis not identified.");
-    ***REMOVED***
-
-    @Test
-    void testStubroutines() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset17.txt");
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_STUBROUTINES),
-                Analysis.ERROR_STUBROUTINES + " analysis not identified.");
-        testFile = new File(Constants.TEST_DATA_DIR + "dataset43.txt");
-        fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_STUBROUTINES),
-                Analysis.ERROR_STUBROUTINES + " analysis not identified.");
-
     ***REMOVED***
 
     @Test

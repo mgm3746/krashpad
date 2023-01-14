@@ -107,6 +107,11 @@ public enum Analysis {
     ERROR_HASHMAP("error.hashmap"),
 
     /**
+     * Property key for a crash in iText I/O.
+     */
+    ERROR_ITEXT_IO("error.itext.io"),
+
+    /**
      * Property key for an unknown JDK version.
      */
     ERROR_JDK_VERSION_UNKNOWN("error.jdk.version.unknown"),

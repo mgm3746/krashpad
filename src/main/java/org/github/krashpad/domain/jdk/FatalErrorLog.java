@@ -208,6 +208,11 @@ public class FatalErrorLog {
     private PidMaxEvent pidMaxEvent;
 
     /**
+     * Register to memory mapping information.
+     */
+    private List<RegisterToMemoryMappingEvent> registerToMemoryMappingEvents;
+
+    /**
      * rlimit information.
      */
     private RlimitEvent rlimitEvent;
@@ -317,6 +322,7 @@ public class FatalErrorLog {
         nativeMemoryTrackingEvents = new ArrayList<NativeMemoryTrackingEvent>();
         osEvents = new ArrayList<OsEvent>();
         stackEvents = new ArrayList<StackEvent>();
+        registerToMemoryMappingEvents = new ArrayList<RegisterToMemoryMappingEvent>();
         stackSlotToMemoryMappingEvents = new ArrayList<StackSlotToMemoryMappingEvent>();
         statisticsEvents = new ArrayList<StatisticsEvent>();
         threadEvents = new ArrayList<ThreadEvent>();
@@ -542,10 +548,13 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_JDK8_DEFLATER_CONTENTION);
         ***REMOVED***
         // Check for unsynchronized access to DirectByteBuffer
-        String stackFrameTop = "^v  ~StubRoutines::jbyte_disjoint_arraycopy$";
-        if (getStackFrameTop() != null && getStackFrameTop().matches(stackFrameTop)) {
+        String regexStubRoutines = "^v  ~(BufferBlob::)?StubRoutines.*$";
+        if (getStackFrameTop() != null && getStackFrameTop().matches(regexStubRoutines)) {
             if (isInStack(JdkRegEx.JAVA_NIO_BYTEBUFFER)) {
                 analysis.add(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION);
+            ***REMOVED*** else if (isInStack("(com[\\./]itextpdf[\\./](text[\\./])?io|"
+                    + "com[\\./]itextpdf[\\./]text[\\./]pdf[\\./]RandomAccessFileOrArray)")) {
+                analysis.add(Analysis.ERROR_ITEXT_IO);
             ***REMOVED*** else {
                 analysis.add(Analysis.ERROR_STUBROUTINES);
             ***REMOVED***
@@ -3640,6 +3649,10 @@ public class FatalErrorLog {
         return pidMaxEvent;
     ***REMOVED***
 
+    public List<RegisterToMemoryMappingEvent> getRegisterToMemoryMappingEvents() {
+        return registerToMemoryMappingEvents;
+    ***REMOVED***
+
     /**
      * @return The RHEL version, or null if unknown.
      */
@@ -4434,6 +4447,18 @@ public class FatalErrorLog {
                 Iterator<StackSlotToMemoryMappingEvent> iterator = stackSlotToMemoryMappingEvents.iterator();
                 while (iterator.hasNext()) {
                     StackSlotToMemoryMappingEvent event = iterator.next();
+                    if (event.getLogEntry().matches("^.+" + classRegEx + ".+$")) {
+                        isInStack = true;
+                        break;
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        if (!isInStack) {
+            if (!registerToMemoryMappingEvents.isEmpty()) {
+                Iterator<RegisterToMemoryMappingEvent> iterator = registerToMemoryMappingEvents.iterator();
+                while (iterator.hasNext()) {
+                    RegisterToMemoryMappingEvent event = iterator.next();
                     if (event.getLogEntry().matches("^.+" + classRegEx + ".+$")) {
                         isInStack = true;
                         break;
