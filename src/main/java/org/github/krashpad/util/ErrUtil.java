@@ -53,7 +53,15 @@ public class ErrUtil {
      */
     public static final List<String> NATIVE_LIBRARIES_WINDOWS_JAVA;
 
+    /**
+     * JBoss native libaries.
+     */
+    public static final List<String> NATIVE_LIBRARIES_JBOSS;
+
     static {
+        NATIVE_LIBRARIES_JBOSS = new ArrayList<String>();
+        NATIVE_LIBRARIES_JBOSS.add("libartemis-native-64.so");
+
         NATIVE_LIBRARIES_LINUX = new ArrayList<String>();
         // glibc-gconv-extra
         NATIVE_LIBRARIES_LINUX.add("EUC-JP.so");

@@ -38,10 +38,8 @@ import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.StackEvent;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
-import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.JdkMath;
-import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
@@ -475,29 +473,6 @@ public class Main {
                     String[] a = iteratorAnalysis.next();
                     printWriter.write("*");
                     printWriter.write(a[1]);
-                    if (a[0].equals(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey())
-                            && JdkUtil.isOptionEnabled(fel.getJvmOptions().getHeapDumpOnOutOfMemoryError())
-                            && fel.getJvmOptions().getHeapDumpPath() != null) {
-                        printWriter.write(" Check the following location for a heap dump: ");
-                        printWriter.write(fel.getJvmOptions().getHeapDumpPath());
-                        printWriter.write(".");
-                    ***REMOVED***
-                    if (a[0].equals(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN.getKey())) {
-                        printWriter.write(fel.getNativeLibraryInCrash());
-                        printWriter.write(".");
-                    ***REMOVED***
-                    printWriter.write(Constants.LINE_SEPARATOR);
-                ***REMOVED***
-                if (fel.getJvmOptions() != null && fel.getJvmOptions().getDuplicates() != null) {
-                    if (printHeader) {
-                        printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                        printWriter.write("error" + Constants.LINE_SEPARATOR);
-                        printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                    ***REMOVED***
-                    printHeader = false;
-                    printWriter.write("*Duplicate jvm options: ");
-                    printWriter.write(fel.getJvmOptions().getDuplicates());
-                    printWriter.write(".");
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
 
@@ -514,30 +489,6 @@ public class Main {
                     String[] a = iteratorAnalysis.next();
                     printWriter.write("*");
                     printWriter.write(a[1]);
-                    if (a[0].equals(Analysis.WARN_JDK_NOT_LATEST.getKey())) {
-                        printWriter.write(JdkUtil.getLatestJdkReleaseString(fel));
-                        // Add latest release info
-                        int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel),
-                                JdkUtil.getLatestJdkReleaseDate(fel));
-                        int releaseNumberDiff = JdkUtil.getLatestJdkReleaseNumber(fel)
-                                - JdkUtil.getJdkReleaseNumber(fel);
-                        if (releaseDayDiff > 0 && releaseNumberDiff > 0) {
-                            printWriter.write(" (newer by ");
-                            printWriter.write("" + releaseNumberDiff);
-                            printWriter.write(" version");
-                            if (releaseNumberDiff > 1) {
-                                printWriter.write("s");
-                            ***REMOVED***
-                            printWriter.write(" and ");
-                            printWriter.write("" + releaseDayDiff);
-                            printWriter.write(" day");
-                            if (releaseDayDiff > 1) {
-                                printWriter.write("s");
-                            ***REMOVED***
-                            printWriter.write(")");
-                        ***REMOVED***
-                        printWriter.write(".");
-                    ***REMOVED***
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
 
@@ -554,56 +505,6 @@ public class Main {
                     String[] a = iteratorAnalysis.next();
                     printWriter.write("*");
                     printWriter.write(a[1]);
-                    if (a[0].equals(org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED.getKey())) {
-                        Iterator<String> iterator = fel.getJvmOptions().getUndefined().iterator();
-                        while (iterator.hasNext()) {
-                            String option = iterator.next();
-                            printWriter.write(" ");
-                            printWriter.write(option);
-                        ***REMOVED***
-                        printWriter.write(". Please submit an issue so we can investigate: "
-                                + "https://github.com/mgm3746/krashpad/issues. "
-                                + "If attaching a fatal error log, be sure to review it and remove any sensitive "
-                                + "information.");
-                    ***REMOVED*** else if (a[0].equals(org.github.joa.util.Analysis.INFO_INSTRUMENTATION.getKey())) {
-                        Iterator<String> iterator = fel.getJvmOptions().getJavaagent().iterator();
-                        while (iterator.hasNext()) {
-                            String option = iterator.next();
-                            printWriter.write(" ");
-                            printWriter.write(option);
-                        ***REMOVED***
-                        printWriter.write(".");
-                    ***REMOVED*** else if (a[0].equals(org.github.joa.util.Analysis.INFO_NATIVE_AGENT.getKey())) {
-                        if (!fel.getJvmOptions().getAgentlib().isEmpty()) {
-                            Iterator<String> iterator = fel.getJvmOptions().getAgentlib().iterator();
-                            while (iterator.hasNext()) {
-                                String option = iterator.next();
-                                printWriter.write(" ");
-                                printWriter.write(option);
-                            ***REMOVED***
-                        ***REMOVED***
-                        if (!fel.getJvmOptions().getAgentpath().isEmpty()) {
-                            Iterator<String> iterator = fel.getJvmOptions().getAgentpath().iterator();
-                            while (iterator.hasNext()) {
-                                String option = iterator.next();
-                                printWriter.write(" ");
-                                printWriter.write(option);
-                            ***REMOVED***
-                        ***REMOVED***
-                        printWriter.write(".");
-                    ***REMOVED*** else if (a[0].equals(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN.getKey())) {
-                        Iterator<String> iterator = fel.getNativeLibrariesUnknown().iterator();
-                        boolean punctuate = false;
-                        while (iterator.hasNext()) {
-                            String library = iterator.next();
-                            if (punctuate) {
-                                printWriter.write(", ");
-                            ***REMOVED***
-                            printWriter.write(library);
-                            punctuate = true;
-                        ***REMOVED***
-                        printWriter.write(".");
-                    ***REMOVED***
                     printWriter.write(Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);

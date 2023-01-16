@@ -513,6 +513,11 @@ public enum Analysis {
     INFO_MICROSOFT_SQL_SERVER_NATIVE("info.microsoft.sql.server.native"),
 
     /**
+     * Property key for JBoss native libraries detected.
+     */
+    INFO_NATIVE_LIBRARIES_JBOSS("info.native.libraries.jboss"),
+
+    /**
      * Property key for unknown native libraries detected.
      */
     INFO_NATIVE_LIBRARIES_UNKNOWN("info.native.libraries.unknown"),

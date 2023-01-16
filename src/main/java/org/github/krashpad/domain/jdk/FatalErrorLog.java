@@ -352,6 +352,7 @@ public class FatalErrorLog {
             context.setContainer(isContainer());
             context.setOs(getOs());
             context.setBit(getBit());
+            context.setContainer(isContainer());
             jvmOptions = new JvmOptions(context);
             jvmOptions.doAnalysis();
         ***REMOVED*** else {
@@ -1317,6 +1318,10 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
+        // JBoss native library detection
+        if (!getNativeLibrariesJBoss().isEmpty()) {
+            analysis.add(Analysis.INFO_NATIVE_LIBRARIES_JBOSS);
+        ***REMOVED***
     ***REMOVED***
 
     /**
@@ -1328,13 +1333,123 @@ public class FatalErrorLog {
         Iterator<Analysis> itFelAnalysis = analysis.iterator();
         while (itFelAnalysis.hasNext()) {
             Analysis item = itFelAnalysis.next();
-            a.add(new String[] { item.getKey(), item.getValue() ***REMOVED***);
+            if (item.getKey().equals(Analysis.ERROR_CRASH_ON_OOME_HEAP.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                s.append(" Check the following location for a heap dump: ");
+                s.append(getJvmOptions().getHeapDumpPath());
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() ***REMOVED***);
+            ***REMOVED*** else if (item.getKey().equals(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                s.append(getNativeLibraryInCrash());
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() ***REMOVED***);
+            ***REMOVED*** else if (item.getKey().equals(Analysis.INFO_NATIVE_LIBRARIES_JBOSS.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                Iterator<String> iterator = getNativeLibrariesJBoss().iterator();
+                boolean punctuate = false;
+                while (iterator.hasNext()) {
+                    String library = iterator.next();
+                    if (punctuate) {
+                        s.append(", ");
+                    ***REMOVED***
+                    s.append(library);
+                    punctuate = true;
+                ***REMOVED***
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() ***REMOVED***);
+            ***REMOVED*** else if (item.getKey().equals(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
+                boolean punctuate = false;
+                while (iterator.hasNext()) {
+                    String library = iterator.next();
+                    if (punctuate) {
+                        s.append(", ");
+                    ***REMOVED***
+                    s.append(library);
+                    punctuate = true;
+                ***REMOVED***
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() ***REMOVED***);
+            ***REMOVED*** else if (item.getKey().equals(Analysis.WARN_JDK_NOT_LATEST.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                s.append(JdkUtil.getLatestJdkReleaseString(this));
+                // Add latest release info
+                int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this),
+                        JdkUtil.getLatestJdkReleaseDate(this));
+                int releaseNumberDiff = JdkUtil.getLatestJdkReleaseNumber(this) - JdkUtil.getJdkReleaseNumber(this);
+                if (releaseDayDiff > 0 && releaseNumberDiff > 0) {
+                    s.append(" (newer by ");
+                    s.append("" + releaseNumberDiff);
+                    s.append(" version");
+                    if (releaseNumberDiff > 1) {
+                        s.append("s");
+                    ***REMOVED***
+                    s.append(" and ");
+                    s.append("" + releaseDayDiff);
+                    s.append(" day");
+                    if (releaseDayDiff > 1) {
+                        s.append("s");
+                    ***REMOVED***
+                    s.append(")");
+                ***REMOVED***
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() ***REMOVED***);
+            ***REMOVED*** else {
+                a.add(new String[] { item.getKey(), item.getValue() ***REMOVED***);
+            ***REMOVED***
         ***REMOVED***
         if (jvmOptions != null) {
             Iterator<String[]> itJvmOptionsAnalysis = jvmOptions.getAnalysis().iterator();
             while (itJvmOptionsAnalysis.hasNext()) {
                 String[] item = itJvmOptionsAnalysis.next();
-                a.add(item);
+                if (item[0].equals(org.github.joa.util.Analysis.INFO_INSTRUMENTATION.toString())) {
+                    StringBuffer s = new StringBuffer(item[1]);
+                    Iterator<String> iterator = getJvmOptions().getJavaagent().iterator();
+                    while (iterator.hasNext()) {
+                        String option = iterator.next();
+                        s.append(" ");
+                        s.append(option);
+                    ***REMOVED***
+                    s.append(".");
+                    a.add(new String[] { item[0], s.toString() ***REMOVED***);
+                ***REMOVED*** else if (item[0].equals(org.github.joa.util.Analysis.INFO_NATIVE_AGENT.toString())) {
+                    StringBuffer s = new StringBuffer(item[1]);
+                    if (!getJvmOptions().getAgentlib().isEmpty()) {
+                        Iterator<String> iterator = getJvmOptions().getAgentlib().iterator();
+                        while (iterator.hasNext()) {
+                            String option = iterator.next();
+                            s.append(" ");
+                            s.append(option);
+                        ***REMOVED***
+                    ***REMOVED***
+                    if (!getJvmOptions().getAgentpath().isEmpty()) {
+                        Iterator<String> iterator = getJvmOptions().getAgentpath().iterator();
+                        while (iterator.hasNext()) {
+                            String option = iterator.next();
+                            s.append(" ");
+                            s.append(option);
+                        ***REMOVED***
+                    ***REMOVED***
+                    s.append(".");
+                    a.add(new String[] { item[0], s.toString() ***REMOVED***);
+                ***REMOVED*** else if (item[0].equals(org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED.toString())) {
+                    StringBuffer s = new StringBuffer();
+                    Iterator<String> iterator = getJvmOptions().getUndefined().iterator();
+                    while (iterator.hasNext()) {
+                        String option = iterator.next();
+                        s.append(" ");
+                        s.append(option);
+                    ***REMOVED***
+                    s.append(". Please submit an issue so we can investigate: "
+                            + "https://github.com/mgm3746/krashpad/issues. "
+                            + "If attaching a fatal error log, be sure to review it and remove any sensitive "
+                            + "information.");
+                    a.add(new String[] { item[0], s.toString() ***REMOVED***);
+                ***REMOVED*** else {
+                    a.add(item);
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         return a;
@@ -3260,6 +3375,30 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
+     * @return JBoss native libraries.
+     */
+    public List<String> getNativeLibrariesJBoss() {
+        List<String> jbossNativeLibraries = new ArrayList<String>();
+        List<String> nativeLibraries = getNativeLibraries();
+        if (!nativeLibraries.isEmpty()) {
+            Iterator<String> iterator = nativeLibraries.iterator();
+            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Matcher matcher;
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                matcher = pattern.matcher(nativeLibraryPath);
+                if (matcher.find()) {
+                    String nativeLibrary = matcher.group(3);
+                    if (ErrUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibrary)) {
+                        jbossNativeLibraries.add(nativeLibraryPath);
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return jbossNativeLibraries;
+    ***REMOVED***
+
+    /**
      * @return Unknown native libraries (not OS, not Java).
      */
     public List<String> getNativeLibrariesUnknown() {
@@ -3274,10 +3413,11 @@ public class FatalErrorLog {
                 matcher = pattern.matcher(nativeLibraryPath);
                 if (matcher.find()) {
                     String nativeLibrary = matcher.group(3);
-                    if (!ErrUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibrary)
+                    if (!ErrUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibrary)
                             && !ErrUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)) {
+                            && !ErrUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)
+                            && !ErrUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibrary)
+                            && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibrary)) {
                         unidentifiedNativeLibraries.add(nativeLibraryPath);
                     ***REMOVED***
                 ***REMOVED***

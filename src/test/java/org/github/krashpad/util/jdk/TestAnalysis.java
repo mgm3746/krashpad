@@ -1556,6 +1556,34 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testNativeLibraryJBoss() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7f8a71051000-7f8a71052000 rw-p 00004000 08:01 1852476                    "
+                + "/path/to/libartemis-native-64.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_JBOSS),
+                Analysis.INFO_NATIVE_LIBRARIES_JBOSS + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN),
+                Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
+    void testNativeLibraryUnknown() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7f8a71051000-7f8a71052000 rw-p 00004000 08:01 1852476                    "
+                + "/path/to/mgm.so";
+        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN),
+                Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_JBOSS),
+                Analysis.INFO_NATIVE_LIBRARIES_JBOSS + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testNfs() {
         FatalErrorLog fel = new FatalErrorLog();
         String logline = "7f5f66892000-7f5f6757a000 r-xp 00000000 00:38 1062721                    "
