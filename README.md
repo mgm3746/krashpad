@@ -38,8 +38,8 @@ Build it:
 ```
 cd krashpad
 mvn clean (rebuilding)
-mvn package
-mvn javadoc:javadoc
+mvn --settings settings.xml package
+mvn --settings settings.xml javadoc:javadoc
 ```
 
 Run it:
