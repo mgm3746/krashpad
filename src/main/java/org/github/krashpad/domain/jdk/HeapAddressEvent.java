@@ -17,8 +17,8 @@ package org.github.krashpad.domain.jdk;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.github.joa.util.Constants;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.jdk.JdkMath;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -107,7 +107,7 @@ public class HeapAddressEvent implements LogEvent {
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find() && matcher.group(1) != null) {
-            initialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(7)), 'M', Constants.PRECISION_REPORTING);
+            initialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(7)), 'M', Constants.PRECISION);
         ***REMOVED***
         return initialSize;
     ***REMOVED***

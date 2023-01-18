@@ -30,7 +30,6 @@ import org.github.joa.domain.Bit;
 import org.github.joa.domain.GarbageCollector;
 import org.github.joa.domain.JvmContext;
 import org.github.joa.domain.Os;
-import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.CpuArch;
 import org.github.krashpad.util.Constants.Device;
 import org.github.krashpad.util.Constants.OsVendor;
@@ -1564,7 +1563,7 @@ public class FatalErrorLog {
      * On Windows, the maximum amount of memory the current process can commit.
      * 
      * @return The maximum amount of memory the current process can commit, in
-     *         <code>Constants.PRECISION_REPORTING</code> units.
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getAvailPageFile() {
         long availPageFile = Long.MIN_VALUE;
@@ -1577,7 +1576,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     availPageFile = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1597,11 +1596,11 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The max code cache size in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The max code cache size in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getCodeCacheSize() {
         // Default is 420m
-        long reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', Constants.PRECISION_REPORTING);
+        long reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.PRECISION);
         // 1st check [Global flags]
         if (!globalFlagsEvents.isEmpty()) {
             Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
@@ -1612,7 +1611,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     reservedCodeCacheSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1634,7 +1633,8 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits,
+                        org.github.joa.util.Constants.PRECISION);
             ***REMOVED***
         ***REMOVED***
         return reservedCodeCacheSize;
@@ -1654,7 +1654,7 @@ public class FatalErrorLog {
      * Excludes memory mapped files (shared DLLs), but does not necessarily exclude the memory allocated by those files.
      * 
      * @return the memory the process has asked for that cannot be shared with other processes, in
-     *         <code>Constants.PRECISION_REPORTING</code> units.
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getCommitCharge() {
         long commitCharge = Long.MIN_VALUE;
@@ -1668,7 +1668,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     commitCharge = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1683,7 +1683,7 @@ public class FatalErrorLog {
      * This limit is only adhered to if strict overcommit accounting is enabled (mode 2 in vm.overcommit_memory)
      * 
      * @return The total amount of memory currently available to be allocated by the system in
-     *         <code>Constants.PRECISION_REPORTING</code> units.
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getCommitLimit() {
         long commitLimit = Long.MIN_VALUE;
@@ -1696,7 +1696,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     commitLimit = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1718,7 +1718,7 @@ public class FatalErrorLog {
      * RHEL6/7/8: allocatable memory=(swap size + ((RAM size - huge tlb size) * overcommit ratio / 100))
      * 
      * @return The amount of userspace virtual memory currently allocated on the system in
-     *         <code>Constants.PRECISION_REPORTING</code> units.
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getCommittedAs() {
         long committedAs = Long.MIN_VALUE;
@@ -1731,7 +1731,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     committedAs = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1748,14 +1748,15 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The max compressed class size reserved in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The max compressed class size reserved in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code>
+     *         units.
      */
     public long getCompressedClassSpaceSize() {
         // 1) Determine if compressed pointers are being used.
         boolean usingCompressedPointers = true;
 
         // 2) Default is to use compressed pointers based on heap size
-        BigDecimal thirtyTwoGigabytes = new BigDecimal("32").multiply(Constants.GIGABYTE);
+        BigDecimal thirtyTwoGigabytes = new BigDecimal("32").multiply(org.github.joa.util.Constants.GIGABYTE);
         long heapMaxSize = getHeapMaxSize();
         if (heapMaxSize >= thirtyTwoGigabytes.longValue()) {
             usingCompressedPointers = false;
@@ -1801,7 +1802,7 @@ public class FatalErrorLog {
 
         if (usingCompressedPointers) {
             // Default is 1g
-            compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', Constants.PRECISION_REPORTING);
+            compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', org.github.joa.util.Constants.PRECISION);
             // 1st check [Global flags]
             if (!globalFlagsEvents.isEmpty()) {
                 Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
@@ -1812,7 +1813,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         compressedClassSpaceSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                                Constants.PRECISION_REPORTING);
+                                org.github.joa.util.Constants.PRECISION);
                         break;
                     ***REMOVED***
                 ***REMOVED***
@@ -1832,7 +1833,8 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits,
+                                org.github.joa.util.Constants.PRECISION);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -1985,7 +1987,7 @@ public class FatalErrorLog {
             currentThread = currentThreadEvent.getCurrentThread();
         ***REMOVED***
         if (currentThread == null) {
-            return Constants.PROPERTY_UNKNOWN;
+            return org.github.krashpad.util.Constants.PROPERTY_UNKNOWN;
         ***REMOVED*** else {
             return currentThread;
         ***REMOVED***
@@ -1996,7 +1998,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The max direct memory size reserved in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The max direct memory size reserved in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code>
+     *         units.
      */
     public long getDirectMemoryMaxSize() {
         long directMemorySize = 0;
@@ -2010,7 +2013,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     directMemorySize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -2026,7 +2029,8 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                directMemorySize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                directMemorySize = JdkUtil.convertSize(value, fromUnits,
+                        org.github.joa.util.Constants.PRECISION);
             ***REMOVED***
         ***REMOVED***
         return directMemorySize;
@@ -2065,7 +2069,7 @@ public class FatalErrorLog {
                 if (he.isSignalNumber() || he.isInternalError() || he.isError() || he.isFailed() || he.isInsufficient()
                         || he.isInvalid() || he.isOutOf() || he.isProblematicFrame()) {
                     if (causedBy.length() > 0) {
-                        causedBy.append(Constants.LINE_SEPARATOR);
+                        causedBy.append(org.github.krashpad.util.Constants.LINE_SEPARATOR);
                     ***REMOVED***
                     causedBy.append(he.getLogEntry());
                 ***REMOVED***
@@ -2254,7 +2258,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total heap allocation in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The total heap allocation in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapAllocation() {
         long heapAllocation = Long.MIN_VALUE;
@@ -2277,7 +2281,8 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits,
+                                org.github.joa.util.Constants.PRECISION);
                     ***REMOVED***
                 ***REMOVED*** else if (event.isOldGen()) {
                     pattern = Pattern.compile(JdkRegEx.OLD_GEN_SIZE);
@@ -2289,7 +2294,8 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits,
+                                org.github.joa.util.Constants.PRECISION);
                     ***REMOVED***
                 ***REMOVED*** else if (event.isShenandoah()) {
                     pattern = Pattern.compile(JdkRegEx.SHENANDOAH_SIZE);
@@ -2301,7 +2307,8 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits,
+                                org.github.joa.util.Constants.PRECISION);
                     ***REMOVED***
                 ***REMOVED*** else if (event.isG1()) {
                     pattern = Pattern.compile(JdkRegEx.G1_SIZE);
@@ -2313,7 +2320,8 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits,
+                                org.github.joa.util.Constants.PRECISION);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -2326,7 +2334,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The heap initial size reserved in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The heap initial size reserved in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapInitialSize() {
         long heapInitialSize = Long.MIN_VALUE;
@@ -2340,7 +2348,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     heapInitialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -2357,7 +2365,8 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                heapInitialSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                heapInitialSize = JdkUtil.convertSize(value, fromUnits,
+                        org.github.joa.util.Constants.PRECISION);
             ***REMOVED***
         ***REMOVED*** else if (heapAddressEvent != null) {
             heapInitialSize = heapAddressEvent.getSize();
@@ -2375,7 +2384,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The heap max size reserved in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The heap max size reserved in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapMaxSize() {
         long heapMaxSize = Long.MIN_VALUE;
@@ -2389,7 +2398,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     heapMaxSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -2406,7 +2415,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                heapMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                heapMaxSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
             ***REMOVED***
         ***REMOVED*** else if (heapAddressEvent != null) {
             heapMaxSize = heapAddressEvent.getSize();
@@ -2424,19 +2433,19 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The heap starting address in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The heap starting address in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapStartingAddress() {
         long heapStartingAddress = Long.MIN_VALUE;
         if (heapAddressEvent != null) {
             heapStartingAddress = JdkUtil.convertSize(heapAddressEvent.getStartingAddress(), 'B',
-                    Constants.PRECISION_REPORTING);
+                    org.github.joa.util.Constants.PRECISION);
         ***REMOVED***
         return heapStartingAddress;
     ***REMOVED***
 
     /**
-     * @return The total heap used in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The total heap used in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapUsed() {
         long heapUsed = Long.MIN_VALUE;
@@ -2459,9 +2468,11 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits,
+                                    org.github.joa.util.Constants.PRECISION);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits,
+                                    org.github.joa.util.Constants.PRECISION);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isOldGen()) {
@@ -2475,9 +2486,11 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits,
+                                    org.github.joa.util.Constants.PRECISION);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits,
+                                    org.github.joa.util.Constants.PRECISION);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isShenandoah()) {
@@ -2491,9 +2504,11 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits,
+                                    org.github.joa.util.Constants.PRECISION);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits,
+                                    org.github.joa.util.Constants.PRECISION);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isG1()) {
@@ -2507,9 +2522,11 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits,
+                                    org.github.joa.util.Constants.PRECISION);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits,
+                                    org.github.joa.util.Constants.PRECISION);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
@@ -2872,7 +2889,7 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         if (jdkReleaseString == null) {
-            return Constants.PROPERTY_UNKNOWN;
+            return org.github.krashpad.util.Constants.PROPERTY_UNKNOWN;
         ***REMOVED*** else {
             return jdkReleaseString;
         ***REMOVED***
@@ -2936,8 +2953,8 @@ public class FatalErrorLog {
      * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
      * low free memory does not necessarily indicate swapping or out of memory is imminent.
      * 
-     * @return The total free physical memory as reported by the JVM in <code>Constants.PRECISION_REPORTING</code>
-     *         units.
+     * @return The total free physical memory as reported by the JVM in
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmMemFree() {
         long physicalMemoryFree = Long.MIN_VALUE;
@@ -2949,7 +2966,7 @@ public class FatalErrorLog {
                     Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)),
-                                matcher.group(9).charAt(0), Constants.PRECISION_REPORTING);
+                                matcher.group(9).charAt(0), org.github.joa.util.Constants.PRECISION);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -2958,7 +2975,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return Estimated JVM initial memory in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return Estimated JVM initial memory in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmMemoryInitial() {
         long jvmMemoryInitial = Long.MIN_VALUE;
@@ -2996,7 +3013,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return Estimated JVM maximum memory in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return Estimated JVM maximum memory in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmMemoryMax() {
         long jvmMemoryMax = Long.MIN_VALUE;
@@ -3034,7 +3051,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total physical memory reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The total physical memory reported by the JVM in
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmMemTotal() {
         long physicalMemory = Long.MIN_VALUE;
@@ -3046,7 +3064,7 @@ public class FatalErrorLog {
                     Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(4)),
-                                matcher.group(6).charAt(0), Constants.PRECISION_REPORTING);
+                                matcher.group(6).charAt(0), org.github.joa.util.Constants.PRECISION);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -3059,7 +3077,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The total available swap as reported by the JVM in
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmSwap() {
         long swap = Long.MIN_VALUE;
@@ -3072,7 +3091,7 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         if (matcher.group(11) != null && matcher.group(13) != null) {
                             swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
-                                    Constants.PRECISION_REPORTING);
+                                    org.github.joa.util.Constants.PRECISION);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
@@ -3082,7 +3101,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The total free swap as reported by the JVM in
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getJvmSwapFree() {
         long swapFree = Long.MIN_VALUE;
@@ -3095,7 +3115,7 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         if (matcher.group(14) != null && matcher.group(16) != null) {
                             swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)),
-                                    matcher.group(16).charAt(0), Constants.PRECISION_REPORTING);
+                                    matcher.group(16).charAt(0), org.github.joa.util.Constants.PRECISION);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
@@ -3158,7 +3178,8 @@ public class FatalErrorLog {
      * 
      * guest.mem.ballooned = 2048
      * 
-     * @return The total amount of ballooned memory in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The total amount of ballooned memory in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code>
+     *         units.
      */
     public long getMemBalloonedNow() {
         long memBallooned = Long.MIN_VALUE;
@@ -3173,7 +3194,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (now && matcher.find()) {
                     memBallooned = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED*** else if (event.getLogEntry().equals("vSphere resource information available now:")) {
                     now = true;
@@ -3203,7 +3224,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(he.getLogEntry());
                     if (matcher.find()) {
                         memoryAllocation = JdkUtil.convertSize(Long.parseLong(matcher.group(2)), 'B',
-                                Constants.PRECISION_REPORTING);
+                                org.github.joa.util.Constants.PRECISION);
                         break;
                     ***REMOVED***
                 ***REMOVED***
@@ -3217,7 +3238,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total metaspace allocation in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The total metaspace allocation in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getMetaspaceAllocation() {
         long metaspaceAllocation = Long.MIN_VALUE;
@@ -3239,7 +3260,8 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        metaspaceAllocation = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        metaspaceAllocation = JdkUtil.convertSize(value, fromUnits,
+                                org.github.joa.util.Constants.PRECISION);
                         break;
                     ***REMOVED***
                 ***REMOVED***
@@ -3249,7 +3271,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The metaspace max size reserved in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The metaspace max size reserved in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     /**
      * @return The Metaspace maximum size.
@@ -3268,7 +3290,8 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits,
+                        org.github.joa.util.Constants.PRECISION);
             ***REMOVED***
         ***REMOVED***
         // If max metaspace size not set (recommended), get from <code>HeapEvent</code>
@@ -3291,7 +3314,8 @@ public class FatalErrorLog {
                             ***REMOVED*** else {
                                 fromUnits = 'B';
                             ***REMOVED***
-                            metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                            metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits,
+                                    org.github.joa.util.Constants.PRECISION);
                             break;
                         ***REMOVED***
                     ***REMOVED***
@@ -3302,7 +3326,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total metaspace used in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The total metaspace used in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getMetaspaceUsed() {
         long metaspaceUsed = Long.MIN_VALUE;
@@ -3324,7 +3348,8 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits, Constants.PRECISION_REPORTING);
+                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits,
+                                org.github.joa.util.Constants.PRECISION);
                         break;
                     ***REMOVED***
                 ***REMOVED***
@@ -3502,8 +3527,8 @@ public class FatalErrorLog {
      * Available memory is an estimate of how much physical memory is available without swapping. It does not include
      * the memory used by the JVM process, as it is before the JVM process exits and its memory is freed.
      * 
-     * @return The total available physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code>
-     *         units.
+     * @return The total available physical memory as reported by the OS in
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getOsMemAvailable() {
         long memAvailable = Long.MIN_VALUE;
@@ -3516,7 +3541,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     memAvailable = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -3528,7 +3553,8 @@ public class FatalErrorLog {
      * Free memory as reported by the OS. Free memory does not include Buffers or Cached memory, which can be reclaimed
      * at any time. Therefore, low free memory does not necessarily indicate swapping or out of memory is imminent.
      * 
-     * @return The total free physical memory as reported by the OS in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The total free physical memory as reported by the OS in
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getOsMemFree() {
         long memFree = Long.MIN_VALUE;
@@ -3540,7 +3566,8 @@ public class FatalErrorLog {
                 MeminfoEvent event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.PRECISION_REPORTING);
+                    memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -3553,7 +3580,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0),
-                                Constants.PRECISION_REPORTING);
+                                org.github.joa.util.Constants.PRECISION);
                     ***REMOVED***
                     break;
                 ***REMOVED***
@@ -3563,8 +3590,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total available physical memory reported by the OS in <code>Constants.PRECISION_REPORTING</code>
-     *         units.
+     * @return The total available physical memory reported by the OS in
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getOsMemTotal() {
         long memTotal = Long.MIN_VALUE;
@@ -3577,7 +3604,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -3590,7 +3617,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0),
-                                Constants.PRECISION_REPORTING);
+                                org.github.joa.util.Constants.PRECISION);
                     ***REMOVED***
                     break;
                 ***REMOVED***
@@ -3633,7 +3660,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total available swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The total available swap as reported by the JVM in
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getOsSwap() {
         long swap = Long.MIN_VALUE;
@@ -3645,7 +3673,8 @@ public class FatalErrorLog {
                 MeminfoEvent event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', Constants.PRECISION_REPORTING);
+                    swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -3658,7 +3687,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find() && matcher.group(9) != null) {
                         swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0),
-                                Constants.PRECISION_REPORTING);
+                                org.github.joa.util.Constants.PRECISION);
                     ***REMOVED***
                     break;
                 ***REMOVED***
@@ -3668,7 +3697,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The total free swap as reported by the JVM in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The total free swap as reported by the JVM in
+     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getOsSwapFree() {
         long swapFree = Long.MIN_VALUE;
@@ -3681,7 +3711,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            Constants.PRECISION_REPORTING);
+                            org.github.joa.util.Constants.PRECISION);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -3694,7 +3724,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find() && matcher.group(9) != null) {
                         swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0),
-                                Constants.PRECISION_REPORTING);
+                                org.github.joa.util.Constants.PRECISION);
                     ***REMOVED***
                     break;
                 ***REMOVED***
@@ -4023,7 +4053,7 @@ public class FatalErrorLog {
      * Applies only to ThreadStackSize (not CompilerThreadStackSize, VMThreadStackSize, MarkStackSize, or // the
      * JLI_Launch method in main.c that starts the JVM).
      * 
-     * @return The stack free space in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The stack free space in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getThreadStackFreeSpace() {
         long stackFreeSpace = Long.MIN_VALUE;
@@ -4041,7 +4071,7 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The thread memory in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The thread memory in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getThreadStackMemory() {
         long threadStackMemory = Long.MIN_VALUE;
@@ -4049,7 +4079,8 @@ public class FatalErrorLog {
             BigDecimal memoryPerThread = new BigDecimal(getThreadStackSize());
             BigDecimal threads = new BigDecimal(getJavaThreadCount());
             threadStackMemory = memoryPerThread.multiply(threads).longValue();
-            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K', Constants.PRECISION_REPORTING);
+            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K',
+                    org.github.joa.util.Constants.PRECISION);
         ***REMOVED***
         return threadStackMemory;
     ***REMOVED***

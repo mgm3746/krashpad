@@ -14,8 +14,6 @@
  *********************************************************************************************************************/
 package org.github.krashpad.util;
 
-import java.math.BigDecimal;
-
 /**
  * Global constants.
  * 
@@ -73,24 +71,9 @@ public class Constants {
     public static final int FIRST_TIMESTAMP_THRESHOLD = 60;
 
     /**
-     * gigabyte
-     */
-    public static final BigDecimal GIGABYTE = new BigDecimal("1073741824");
-
-    /**
-     * kilobyte
-     */
-    public static final BigDecimal KILOBYTE = new BigDecimal("1024");
-
-    /**
      * Line separator used for report and preparsing.
      */
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
-    /**
-     * megabyte
-     */
-    public static final BigDecimal MEGABYTE = new BigDecimal("1048576");
 
     /**
      * Help command line long option.
@@ -126,11 +109,6 @@ public class Constants {
      * Default output file name.
      */
     public static final String OUTPUT_FILE_NAME = "report.txt";
-
-    /**
-     * Precision for reporting bytes.
-     */
-    public static final char PRECISION_REPORTING = 'M';
 
     /**
      * Literal for reporting and unknown property.

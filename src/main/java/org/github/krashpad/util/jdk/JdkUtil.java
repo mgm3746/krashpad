@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.github.joa.util.Constants;
 import org.github.krashpad.domain.BlankLineEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.UnknownEvent;
@@ -103,7 +104,6 @@ import org.github.krashpad.domain.jdk.VmInfoEvent;
 import org.github.krashpad.domain.jdk.VmMutexEvent;
 import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.domain.jdk.VmStateEvent;
-import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.OsVersion;
 
 /**
