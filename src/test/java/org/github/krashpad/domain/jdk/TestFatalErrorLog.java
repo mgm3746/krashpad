@@ -1089,6 +1089,16 @@ class TestFatalErrorLog {
     ***REMOVED***
 
     @Test
+    void testVendorAdoptium() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8) for linux-amd64 JRE (17.0.4+8), built on Jul 19 "
+                + "2022 00:00:00 by \"temurin\" with gcc 10.3.0";
+        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        fel.setVmInfoEvent(vmInfoEvent);
+        assertEquals(JavaVendor.ADOPTIUM, fel.getJavaVendor(), "JDK vendor not correct.");
+    ***REMOVED***
+
+    @Test
     void testVendorAdoptOpenJdkHeader() {
         FatalErrorLog fel = new FatalErrorLog();
         String header = "***REMOVED*** JRE version: OpenJDK Runtime Environment AdoptOpenJDK (11.0.9+11) (build 11.0.9+11)";

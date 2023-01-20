@@ -244,6 +244,16 @@ class TestVmInfoEvent {
     ***REMOVED***
 
     @Test
+    void testTemurinJdk17() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8) for linux-amd64 JRE (17.0.4+8), built on "
+                + "Jul 19 2022 00:00:00 by \"temurin\" with gcc 10.3.0";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
+                JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(BuiltBy.TEMURIN, ((VmInfoEvent) event).getBuiltBy(), "BuiltBy not correct.");
+    ***REMOVED***
+
+    @Test
     void testWindowsOracleJdk8() {
         String logLine = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.25-b02) for windows-amd64 JRE (1.8.0_25-b18), "
                 + "built on Oct  7 2014 14:25:37 by \"java_re\" with MS VC++ 10.0 (VS2010)";

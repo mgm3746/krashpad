@@ -178,6 +178,8 @@ public class JdkUtil {
         MACH5ONE,
         // Red Hat, CentOS
         MOCKBUILD,
+        // Adoptium temurin
+        TEMURIN,
         // Azul
         TESTER, UNKNOWN,
         // Microsoft
@@ -235,7 +237,7 @@ public class JdkUtil {
      * Defined Java vendors.
      */
     public enum JavaVendor {
-        ADOPTOPENJDK, AZUL, MICROSOFT, NOT_RED_HAT, ORACLE, RED_HAT, UNIDENTIFIED
+        ADOPTOPENJDK, ADOPTIUM, AZUL, MICROSOFT, NOT_RED_HAT, ORACLE, RED_HAT, UNIDENTIFIED
     ***REMOVED***
 
     /**

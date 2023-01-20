@@ -2670,6 +2670,9 @@ public class FatalErrorLog {
                 case VSTS:
                     vendor = JavaVendor.MICROSOFT;
                     break;
+                case TEMURIN:
+                    vendor = JavaVendor.ADOPTIUM;
+                    break;
                 case TESTER:
                 case ZULU_RE:
                     vendor = JavaVendor.AZUL;
