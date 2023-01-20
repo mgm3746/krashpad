@@ -352,6 +352,7 @@ public class FatalErrorLog {
             context.setOs(getOs());
             context.setBit(getBit());
             context.setContainer(isContainer());
+            context.setMemory(getOsMemTotal());
             jvmOptions = new JvmOptions(context);
             jvmOptions.doAnalysis();
         ***REMOVED*** else {
@@ -1633,8 +1634,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits,
-                        org.github.joa.util.Constants.PRECISION);
+                reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
             ***REMOVED***
         ***REMOVED***
         return reservedCodeCacheSize;
@@ -2029,8 +2029,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                directMemorySize = JdkUtil.convertSize(value, fromUnits,
-                        org.github.joa.util.Constants.PRECISION);
+                directMemorySize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
             ***REMOVED***
         ***REMOVED***
         return directMemorySize;
@@ -2365,8 +2364,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                heapInitialSize = JdkUtil.convertSize(value, fromUnits,
-                        org.github.joa.util.Constants.PRECISION);
+                heapInitialSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
             ***REMOVED***
         ***REMOVED*** else if (heapAddressEvent != null) {
             heapInitialSize = heapAddressEvent.getSize();
@@ -2468,11 +2466,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits,
-                                    org.github.joa.util.Constants.PRECISION);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits,
-                                    org.github.joa.util.Constants.PRECISION);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isOldGen()) {
@@ -2486,11 +2482,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits,
-                                    org.github.joa.util.Constants.PRECISION);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits,
-                                    org.github.joa.util.Constants.PRECISION);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isShenandoah()) {
@@ -2504,11 +2498,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits,
-                                    org.github.joa.util.Constants.PRECISION);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits,
-                                    org.github.joa.util.Constants.PRECISION);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isG1()) {
@@ -2522,11 +2514,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits,
-                                    org.github.joa.util.Constants.PRECISION);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits,
-                                    org.github.joa.util.Constants.PRECISION);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
@@ -3290,8 +3280,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits,
-                        org.github.joa.util.Constants.PRECISION);
+                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
             ***REMOVED***
         ***REMOVED***
         // If max metaspace size not set (recommended), get from <code>HeapEvent</code>
@@ -3348,8 +3337,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.PRECISION);
+                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
                         break;
                     ***REMOVED***
                 ***REMOVED***
@@ -4079,8 +4067,7 @@ public class FatalErrorLog {
             BigDecimal memoryPerThread = new BigDecimal(getThreadStackSize());
             BigDecimal threads = new BigDecimal(getJavaThreadCount());
             threadStackMemory = memoryPerThread.multiply(threads).longValue();
-            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K',
-                    org.github.joa.util.Constants.PRECISION);
+            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K', org.github.joa.util.Constants.PRECISION);
         ***REMOVED***
         return threadStackMemory;
     ***REMOVED***

@@ -126,8 +126,7 @@ public class Main {
             ***REMOVED***
             if (fel.getOsMemTotal() > 0) {
                 printWriter.write("Memory: " + fel.getOsMemTotal()
-                        + Character.toString(org.github.joa.util.Constants.PRECISION)
-                        + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.PRECISION) + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getOsMemFree() > 0) {
                 printWriter.write("Memory Free: " + fel.getOsMemFree()
@@ -143,8 +142,7 @@ public class Main {
             ***REMOVED***
             if (fel.getOsSwap() >= 0) {
                 printWriter.write("Swap: " + fel.getOsSwap()
-                        + Character.toString(org.github.joa.util.Constants.PRECISION)
-                        + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.PRECISION) + Constants.LINE_SEPARATOR);
                 if (fel.getOsSwap() > 0) {
                     printWriter.write("Swap Free: " + fel.getOsSwapFree()
                             + Character.toString(org.github.joa.util.Constants.PRECISION) + " ("
@@ -167,10 +165,10 @@ public class Main {
                             + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getOsSwap() > 0) {
-                    printWriter.write("Swap: " + fel.getJvmSwap()
-                            + Character.toString(org.github.joa.util.Constants.PRECISION) + " ("
-                            + JdkMath.calcPercent(fel.getJvmSwap(), fel.getOsSwap()) + "% OS Swap)"
-                            + Constants.LINE_SEPARATOR);
+                    printWriter.write(
+                            "Swap: " + fel.getJvmSwap() + Character.toString(org.github.joa.util.Constants.PRECISION)
+                                    + " (" + JdkMath.calcPercent(fel.getJvmSwap(), fel.getOsSwap()) + "% OS Swap)"
+                                    + Constants.LINE_SEPARATOR);
                     printWriter.write("Swap Free: " + fel.getJvmSwapFree()
                             + Character.toString(org.github.joa.util.Constants.PRECISION) + " ("
                             + JdkMath.calcPercent(fel.getJvmSwapFree(), fel.getJvmSwap()) + "%)"
@@ -241,14 +239,12 @@ public class Main {
                 // Display JVM initial memory if it fails to start
                 if (fel.getHeapMaxSize() > 0) {
                     printWriter.write("Heap Initial: " + fel.getHeapInitialSize()
-                            + Character.toString(org.github.joa.util.Constants.PRECISION)
-                            + Constants.LINE_SEPARATOR);
+                            + Character.toString(org.github.joa.util.Constants.PRECISION) + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED*** else {
                 if (fel.getHeapMaxSize() > 0) {
                     printWriter.write("Heap Max: " + fel.getHeapMaxSize()
-                            + Character.toString(org.github.joa.util.Constants.PRECISION)
-                            + Constants.LINE_SEPARATOR);
+                            + Character.toString(org.github.joa.util.Constants.PRECISION) + Constants.LINE_SEPARATOR);
                 ***REMOVED***
 
             ***REMOVED***
@@ -269,14 +265,12 @@ public class Main {
             ***REMOVED***
             if (fel.getHeapStartingAddress() > 0) {
                 printWriter.write("Heap Starting Address: " + fel.getHeapStartingAddress()
-                        + Character.toString(org.github.joa.util.Constants.PRECISION)
-                        + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.PRECISION) + Constants.LINE_SEPARATOR);
             ***REMOVED***
             printWriter.write("Compressed oops mode: " + fel.getCompressedOopMode() + Constants.LINE_SEPARATOR);
             if (fel.getMetaspaceMaxSize() > 0) {
                 printWriter.write("Metaspace Max: " + fel.getMetaspaceMaxSize()
-                        + Character.toString(org.github.joa.util.Constants.PRECISION)
-                        + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.PRECISION) + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getMetaspaceAllocation() > 0) {
                 printWriter.write("Metaspace Allocation: " + fel.getMetaspaceAllocation()
@@ -296,18 +290,15 @@ public class Main {
             printWriter.write("***REMOVED*** Java threads: " + fel.getJavaThreadCount() + Constants.LINE_SEPARATOR);
             if (fel.getThreadStackMemory() > 0) {
                 printWriter.write("Thread Stack Memory: " + fel.getThreadStackMemory()
-                        + Character.toString(org.github.joa.util.Constants.PRECISION)
-                        + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.PRECISION) + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getCodeCacheSize() > 0) {
                 printWriter.write("Code Cache Max: " + fel.getCodeCacheSize()
-                        + Character.toString(org.github.joa.util.Constants.PRECISION)
-                        + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.PRECISION) + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getDirectMemoryMaxSize() > 0) {
                 printWriter.write("Direct Memory Max: " + fel.getDirectMemoryMaxSize()
-                        + Character.toString(org.github.joa.util.Constants.PRECISION)
-                        + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.PRECISION) + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.isCrashOnStartup()) {
                 // Display JVM initial memory if it fails to start
