@@ -2578,6 +2578,24 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testUnknownJvmOptions() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+Mike";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
+        String undefined = "Undefined JVM option(s): -XX:+Mike. Please submit an issue so we can investigate: "
+                + "https://github.com/mgm3746/krashpad/issues. If attaching a fatal error log, be sure to review it "
+                + "and remove any sensitive information.";
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED),
+                org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED + " analysis not identified.");
+        assertEquals(undefined, fel.getAnalysisLiteral(org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED.getKey()),
+                org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED + " not correct.");
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED),
+                org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testUnknownStorageFalseReporting() {
         FatalErrorLog fel = new FatalErrorLog();
         assertFalse(fel.hasAnalysis(Analysis.INFO_STORAGE_UNKNOWN),

@@ -1435,14 +1435,8 @@ public class FatalErrorLog {
                     s.append(".");
                     a.add(new String[] { item[0], s.toString() ***REMOVED***);
                 ***REMOVED*** else if (item[0].equals(org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED.toString())) {
-                    StringBuffer s = new StringBuffer();
-                    Iterator<String> iterator = getJvmOptions().getUndefined().iterator();
-                    while (iterator.hasNext()) {
-                        String option = iterator.next();
-                        s.append(" ");
-                        s.append(option);
-                    ***REMOVED***
-                    s.append(". Please submit an issue so we can investigate: "
+                    StringBuffer s = new StringBuffer(item[1]);
+                    s.append(" Please submit an issue so we can investigate: "
                             + "https://github.com/mgm3746/krashpad/issues. "
                             + "If attaching a fatal error log, be sure to review it and remove any sensitive "
                             + "information.");
@@ -1453,6 +1447,24 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return a;
+    ***REMOVED***
+
+    /**
+     * Convenience method to get the <code>Analysis</code> literal.
+     * 
+     * @return The <code>Analysis</code> display literal, or null if it does not exist.
+     */
+    public String getAnalysisLiteral(String key) {
+        String literal = null;
+        Iterator<String[]> i = getAnalysis().iterator();
+        while (i.hasNext()) {
+            String[] item = i.next();
+            if (item[0].equals(key)) {
+                literal = item[1];
+                break;
+            ***REMOVED***
+        ***REMOVED***
+        return literal;
     ***REMOVED***
 
     /**
