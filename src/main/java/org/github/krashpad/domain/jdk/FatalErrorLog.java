@@ -334,10 +334,26 @@ public class FatalErrorLog {
      * Convenience method to add <code>Analysis</code>.
      * 
      * @param key
-     *            The <code>Analysis</code> to check.
+     *            The <code>Analysis</code> to dd.
      */
     public void addAnalysis(Analysis key) {
         analysis.add(key);
+    ***REMOVED***
+
+    /**
+     * Convenience method to add <code>org.github.joa.util.Analysis</code>.
+     * 
+     * @param key
+     *            The <code>org.github.joa.util.Analysis</code> to add.
+     */
+    public void addAnalysis(org.github.joa.util.Analysis key) {
+        if (jvmOptions == null) {
+            // Create JvmOptions for analysis
+            JvmContext context = new JvmContext(null);
+            JvmOptions options = new JvmOptions(context);
+            jvmOptions = options;
+        ***REMOVED***
+        jvmOptions.addAnalysis(key);
     ***REMOVED***
 
     /**
@@ -847,12 +863,13 @@ public class FatalErrorLog {
         ***REMOVED***
         // Thread stack size
         long threadStackMaxSize = getThreadStackSize();
-        if ((jvmOptions == null || !hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_TINY))
+        if ((jvmOptions == null || !hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_TINY.getKey()))
                 && threadStackMaxSize < 1) {
-            jvmOptions.addAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_TINY);
-        ***REMOVED*** else if ((jvmOptions == null || !hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL))
-                && threadStackMaxSize < 128) {
-            jvmOptions.addAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL);
+            addAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_TINY);
+        ***REMOVED*** else if ((jvmOptions == null
+                || !hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL.getKey())
+                        && threadStackMaxSize < 128)) {
+            addAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL);
         ***REMOVED***
         // OutOfMemoryError other than "Metaspace" or "Compressed class space" caught and thrown
         if (haveOomeThrownJavaHeap()) {
@@ -915,7 +932,7 @@ public class FatalErrorLog {
         if (getApplication() == Application.JBOSS_EAP7 && jvmOptions != null
                 && JdkUtil.isOptionEnabled(jvmOptions.getDisableExplicitGc())) {
             // Don't double report
-            if (hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED)) {
+            if (hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED.getKey())) {
                 jvmOptions.removeAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED);
             ***REMOVED***
             analysis.add(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7);
@@ -4220,39 +4237,20 @@ public class FatalErrorLog {
 
     /**
      * @param key
-     *            The {@link org.github.krashpad.util.jdk.Analysis***REMOVED******REMOVED*** to check.
-     * @return True if the {@link org.github.krashpad.util.jdk.Analysis***REMOVED******REMOVED*** exists, false otherwise.
-     */
-    public boolean hasAnalysis(Analysis key) {
-        return analysis.contains(key);
-    ***REMOVED***
-
-    /**
-     * @param key
-     *            The {@link org.github.joa.util.Analysis***REMOVED*** to check.
+     *            The analysis to check.
      * @return True if the {@link org.github.joa.util.Analysis***REMOVED*** exists, false otherwise.
-     */
-    public boolean hasAnalysis(org.github.joa.util.Analysis key) {
-        boolean hasAnalysis = false;
-        if (jvmOptions != null && jvmOptions.hasAnalysis(key)) {
-            hasAnalysis = true;
-        ***REMOVED***
-        return hasAnalysis;
-    ***REMOVED***
-
-    /**
-     * @param key
-     *            The <code>Analysis</code> key to check.
-     * @return True if the <code>Analysis</code> exists, false otherwise.
      */
     public boolean hasAnalysis(String key) {
         boolean hasAnalysis = false;
-        Iterator<Analysis> iterator = analysis.iterator();
-        while (iterator.hasNext()) {
-            Analysis entry = iterator.next();
-            if (entry.getKey().equals(key)) {
-                hasAnalysis = true;
-                break;
+        List<String[]> analysis = getAnalysis();
+        if (!analysis.isEmpty()) {
+            Iterator<String[]> i = analysis.iterator();
+            while (i.hasNext()) {
+                String[] a = i.next();
+                if (a[0].equals(key)) {
+                    hasAnalysis = true;
+                    break;
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
         return hasAnalysis;

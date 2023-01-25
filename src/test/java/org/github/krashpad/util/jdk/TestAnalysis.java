@@ -67,11 +67,11 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset17.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_LINUX_ZIP),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_LINUX_ZIP.getKey()),
                 Analysis.INFO_RH_BUILD_LINUX_ZIP + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_ADOPTOPENJDK_POSSIBLE),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_ADOPTOPENJDK_POSSIBLE.getKey()),
                 Analysis.INFO_ADOPTOPENJDK_POSSIBLE + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX.getKey()),
                 Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX + " analysis not identified.");
     ***REMOVED***
 
@@ -83,9 +83,9 @@ class TestAnalysis {
         CompilationEvent event = new CompilationEvent(compilation);
         fel.getCompilationEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_DETECTED),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_DETECTED.getKey()),
                 Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE.getKey()),
                 Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis incorreclty identified.");
     ***REMOVED***
 
@@ -96,9 +96,9 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_DETECTED),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_DETECTED.getKey()),
                 Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE.getKey()),
                 Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis incorreclty identified.");
     ***REMOVED***
 
@@ -109,9 +109,9 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE.getKey()),
                 Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_DETECTED),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_DETECTED.getKey()),
                 Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -131,11 +131,11 @@ class TestAnalysis {
         CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpuInfo);
         fel.getCpuInfoEvents().add(cpuInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO.getKey()),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2.getKey()),
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -155,11 +155,11 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO.getKey()),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2.getKey()),
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
     ***REMOVED***
 
@@ -179,11 +179,11 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO.getKey()),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2.getKey()),
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -201,11 +201,11 @@ class TestAnalysis {
         CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpuInfo);
         fel.getCpuInfoEvents().add(cpuInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO.getKey()),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_COMPILED_JAVA_CODE_AVX2.getKey()),
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -214,7 +214,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset34.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.INFO_STORAGE_AWS), Analysis.INFO_STORAGE_AWS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_STORAGE_AWS.getKey()),
+                Analysis.INFO_STORAGE_AWS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -236,9 +237,9 @@ class TestAnalysis {
         assertTrue(fel.isRhVersion(), "Red Hat version not identified.");
         assertEquals(ErrUtil.getDate("Jan 27 2022 17:54:59"), fel.getJdkBuildDate(), "Build date not correct.");
         assertFalse(fel.isRhBuildDate(), "Red Hat build date incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
                 Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
     ***REMOVED***
 
@@ -249,7 +250,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION.getKey()),
                 Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION + " analysis not identified.");
     ***REMOVED***
 
@@ -265,7 +266,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(logLine);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_CLIENT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_CLIENT.getKey()),
                 org.github.joa.util.Analysis.INFO_64_CLIENT + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -280,9 +281,9 @@ class TestAnalysis {
         MeminfoEvent meminfoEvent = new MeminfoEvent("SwapTotal:       0 kB");
         fel.getMeminfoEvents().add(meminfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_CONTAINER_PERF_DATA_DISK),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_CONTAINER_PERF_DATA_DISK.getKey()),
                 org.github.joa.util.Analysis.WARN_CONTAINER_PERF_DATA_DISK + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_PERF_DATA_DISABLED),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_PERF_DATA_DISABLED.getKey()),
                 org.github.joa.util.Analysis.INFO_PERF_DATA_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -314,11 +315,11 @@ class TestAnalysis {
         fel.getVmArgumentsEvents().clear();
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED.getKey()),
                 org.github.joa.util.Analysis.INFO_CMS_DISABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -332,7 +333,7 @@ class TestAnalysis {
         CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpu);
         fel.getCpuInfoEvents().add(cpuInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_CMS_INCREMENTAL_MODE),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_CMS_INCREMENTAL_MODE.getKey()),
                 Analysis.WARN_CMS_INCREMENTAL_MODE + " analysis not identified.");
     ***REMOVED***
 
@@ -346,7 +347,7 @@ class TestAnalysis {
         CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpu);
         fel.getCpuInfoEvents().add(cpuInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(Analysis.WARN_CMS_INCREMENTAL_MODE),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_CMS_INCREMENTAL_MODE.getKey()),
                 Analysis.WARN_CMS_INCREMENTAL_MODE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -364,11 +365,11 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED.getKey()),
                 org.github.joa.util.Analysis.INFO_CMS_DISABLED + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT + " analysis not identified.");
     ***REMOVED***
 
@@ -377,9 +378,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset72.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS.getKey()),
                 Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS + " analysis not identified.");
     ***REMOVED***
 
@@ -388,9 +389,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset76.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL.getKey()),
                 Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL + " analysis not identified.");
     ***REMOVED***
 
@@ -399,10 +400,10 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset47.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP), Analysis.INFO_CGROUP + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_MEMORY_JVM_NE_SYSTEM),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP.getKey()), Analysis.INFO_CGROUP + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_MEMORY_JVM_NE_SYSTEM.getKey()),
                 Analysis.INFO_MEMORY_JVM_NE_SYSTEM + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP_MEMORY_LIMIT),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP_MEMORY_LIMIT.getKey()),
                 Analysis.INFO_CGROUP_MEMORY_LIMIT + " analysis not identified.");
     ***REMOVED***
 
@@ -417,7 +418,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN.getKey()),
                 Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN + " analysis not identified.");
     ***REMOVED***
 
@@ -435,9 +436,9 @@ class TestAnalysis {
         StackEvent stackEvent = new StackEvent(stack);
         fel.getStackEvents().add(stackEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ON_OOME_HEAP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey()),
                 Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -446,13 +447,13 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset33.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.INFO_JVM_STARTUP_FAILS),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JVM_STARTUP_FAILS.getKey()),
                 Analysis.INFO_JVM_STARTUP_FAILS + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGSEGV),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGSEGV.getKey()),
                 Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -469,7 +470,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(logLine);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT.getKey()),
                 org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -484,8 +485,8 @@ class TestAnalysis {
         StackEvent stackEvent2 = new StackEvent(stack2);
         fel.getStackEvents().add(stackEvent2);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_DBCP2), Analysis.INFO_DBCP2 + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_POSTGRESQL_CONNECTION),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_DBCP2.getKey()), Analysis.INFO_DBCP2 + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_POSTGRESQL_CONNECTION.getKey()),
                 Analysis.INFO_POSTGRESQL_CONNECTION + " analysis not identified.");
     ***REMOVED***
 
@@ -541,20 +542,20 @@ class TestAnalysis {
         VmInfoEvent vmEvent = new VmInfoEvent(vm_info);
         fel.setVmInfoEvent(vmEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_OVERWRITE),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_OVERWRITE.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_OVERWRITE),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_OVERWRITE.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_OVERWRITE + " analysis incorrectly identified.");
         assertFalse(
                 fel.getJvmOptions()
-                        .hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
+                        .hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED
                         + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_LOGGC),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_LOGGC.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_LOGGC + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC_DETAILS),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC_DETAILS.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC_DETAILS + " analysis not identified.");
     ***REMOVED***
 
@@ -567,11 +568,11 @@ class TestAnalysis {
         assertEquals("v  ~StubRoutines::jbyte_disjoint_arraycopy", fel.getStackFrameTop(),
                 "To stack frame not correct.");
         assertTrue(fel.isInStack(JdkRegEx.JAVA_NIO_BYTEBUFFER), "DirectByteBuffer class not identified in stack.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION.getKey()),
                 Analysis.ERROR_DIRECT_BYTE_BUFFER_CONTENTION + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7.getKey()),
                 Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7 + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -582,7 +583,8 @@ class TestAnalysis {
         StackEvent stackEvent = new StackEvent(stack);
         fel.getStackEvents().add(stackEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_DYNATRACE), Analysis.ERROR_DYNATRACE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_DYNATRACE.getKey()),
+                Analysis.ERROR_DYNATRACE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -593,7 +595,8 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_DYNATRACE), Analysis.INFO_DYNATRACE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_DYNATRACE.getKey()),
+                Analysis.INFO_DYNATRACE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -601,7 +604,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.WARN_DYNATRACE), Analysis.WARN_DYNATRACE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_DYNATRACE.getKey()),
+                Analysis.WARN_DYNATRACE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -609,7 +613,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset78.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_LIBC_CFREE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_LIBC_CFREE.getKey()),
                 Analysis.ERROR_JDK8_LIBC_CFREE + " analysis not identified.");
 
     ***REMOVED***
@@ -621,7 +625,7 @@ class TestAnalysis {
         HeaderEvent headerEvent = new HeaderEvent(logLine);
         fel.getHeaderEvents().add(headerEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_STUBROUTINES),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_STUBROUTINES.getKey()),
                 Analysis.ERROR_STUBROUTINES + " analysis not identified.");
     ***REMOVED***
 
@@ -639,7 +643,7 @@ class TestAnalysis {
         HeapEvent heapEvent = new HeapEvent(logLine);
         fel.getHeapEvents().add(heapEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT.getKey()),
                 org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT + " analysis not identified.");
     ***REMOVED***
 
@@ -648,7 +652,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset58.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey()),
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
     ***REMOVED***
 
@@ -657,10 +661,11 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset75.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JVM), Analysis.ERROR_OOME_JVM + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JVM.getKey()),
+                Analysis.ERROR_OOME_JVM + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP.getKey()),
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -671,7 +676,7 @@ class TestAnalysis {
         TimeEvent timeEven = new TimeEvent(time);
         fel.setTimeEvent(timeEven);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT.getKey()),
                 Analysis.WARN_FATAL_ERROR_LOG_ANCIENT + " analysis not identified.");
     ***REMOVED***
 
@@ -682,11 +687,11 @@ class TestAnalysis {
         SigInfoEvent event = new SigInfoEvent(siginfo);
         fel.setSigInfoEvent(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGFPE),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGFPE.getKey()),
                 Analysis.INFO_SIGNO_SIGFPE + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_FPE_INTDIV),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_FPE_INTDIV.getKey()),
                 Analysis.INFO_SIGCODE_FPE_INTDIV + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_FPE), Analysis.ERROR_FPE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_FPE.getKey()), Analysis.ERROR_FPE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -694,7 +699,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset54.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE.getKey()),
                 Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE + " analysis not identified.");
     ***REMOVED***
 
@@ -709,17 +714,17 @@ class TestAnalysis {
         assertEquals(stackFrame1, fel.getStackFrame(1), "Stack frame 1 not correct.");
         assertEquals(stackFrame2, fel.getStackFrame(2), "Stack frame 2 not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE.getKey()),
                 Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         // Test header only
         fel.getAnalysis().clear();
         fel.getStackEvents().clear();
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE.getKey()),
                 Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -734,7 +739,7 @@ class TestAnalysis {
         fel.getHeapEvents().add(heapEvent);
         fel.getVmArgumentsEvents().add(vmArgumentEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT.getKey()),
                 org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT + " analysis not identified.");
     ***REMOVED***
 
@@ -748,7 +753,7 @@ class TestAnalysis {
         HeapEvent heapEvent1 = new HeapEvent("Shenandoah Heap");
         fel.getHeapEvents().add(heapEvent1);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_GC_IGNORED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_GC_IGNORED.getKey()),
                 org.github.joa.util.Analysis.ERROR_GC_IGNORED + " analysis not identified.");
         // Test real world
         fel.getAnalysis().clear();
@@ -762,7 +767,7 @@ class TestAnalysis {
                         + "0x00000000d5580000)");
         fel.getHeapEvents().add(heapEvent3);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL.getKey()),
                 org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL + " analysis not identified.");
     ***REMOVED***
 
@@ -789,7 +794,8 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_HASHMAP), Analysis.ERROR_HASHMAP + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_HASHMAP.getKey()),
+                Analysis.ERROR_HASHMAP + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -797,7 +803,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset56.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING.getKey()),
                 org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING + " analysis not identified.");
     ***REMOVED***
 
@@ -809,7 +815,8 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_IBM_TOOLKIT), Analysis.INFO_IBM_TOOLKIT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_IBM_TOOLKIT.getKey()),
+                Analysis.INFO_IBM_TOOLKIT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -852,9 +859,9 @@ class TestAnalysis {
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
                 "Jvm memory not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP.getKey()),
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -866,7 +873,7 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_ITEXT), Analysis.INFO_ITEXT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_ITEXT.getKey()), Analysis.INFO_ITEXT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -885,8 +892,9 @@ class TestAnalysis {
         fel.getStackEvents().add(stackEvent2);
         fel.getAnalysis().clear();
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_ITEXT), Analysis.WARN_ITEXT + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_ITEXT), Analysis.INFO_ITEXT + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_ITEXT.getKey()), Analysis.WARN_ITEXT + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_ITEXT.getKey()),
+                Analysis.INFO_ITEXT + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -895,7 +903,8 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO), Analysis.ERROR_ITEXT_IO + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
+                Analysis.ERROR_ITEXT_IO + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -904,7 +913,8 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO), Analysis.ERROR_ITEXT_IO + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
+                Analysis.ERROR_ITEXT_IO + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -918,7 +928,8 @@ class TestAnalysis {
                 registerToMemoryMapping);
         fel.getRegisterToMemoryMappingEvents().add(registerToMemoryMappingEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO), Analysis.ERROR_ITEXT_IO + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
+                Analysis.ERROR_ITEXT_IO + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -939,7 +950,8 @@ class TestAnalysis {
         StackEvent stackEvent3 = new StackEvent(stack3);
         fel.getStackEvents().add(stackEvent3);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO), Analysis.ERROR_ITEXT_IO + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
+                Analysis.ERROR_ITEXT_IO + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -953,7 +965,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0 + " analysis not identified.");
     ***REMOVED***
 
@@ -968,7 +980,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -983,7 +995,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL + " analysis not identified.");
     ***REMOVED***
 
@@ -999,7 +1011,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
     ***REMOVED***
 
@@ -1017,7 +1029,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("-Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M",
                 fel.getJvmOptions().getLog().get(0), "-Xlog not correct.");
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1029,7 +1041,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK_VERSION_UNSUPPORTED),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK_VERSION_UNSUPPORTED.getKey()),
                 Analysis.ERROR_JDK_VERSION_UNSUPPORTED + " analysis not identified.");
     ***REMOVED***
 
@@ -1043,7 +1055,7 @@ class TestAnalysis {
                 + "0x00007f641d41accd [0x00007f641d41ac00+0xcd]";
         assertEquals(stackFrameTopCompiledJavaCode, fel.getStackFrameTopCompiledJavaCode(),
                 "Top compiled Java code (J) stack frame not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_DEFLATER_CONTENTION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_DEFLATER_CONTENTION.getKey()),
                 Analysis.ERROR_JDK8_DEFLATER_CONTENTION + " analysis not identified.");
     ***REMOVED***
 
@@ -1060,7 +1072,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(
                 fel.getJvmOptions()
-                        .hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED),
+                        .hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -1075,7 +1087,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
     ***REMOVED***
 
@@ -1090,7 +1102,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1105,7 +1117,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1119,7 +1131,7 @@ class TestAnalysis {
                 + "0x00007fa287303dce [0x00007fa287303d00+0xce]";
         assertEquals(stackFrameTopCompiledJavaCode, fel.getStackFrameTopCompiledJavaCode(),
                 "Top compiled Java code (J) stack frame not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION.getKey()),
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
     ***REMOVED***
 
@@ -1135,7 +1147,7 @@ class TestAnalysis {
         fel.getStackEvents().add(stackEvent);
         fel.doAnalysis();
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION.getKey()),
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
     ***REMOVED***
 
@@ -1150,7 +1162,7 @@ class TestAnalysis {
         fel.getHeaderEvents().add(headerEvent2);
         fel.doAnalysis();
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION.getKey()),
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
     ***REMOVED***
 
@@ -1159,12 +1171,13 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset18.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_LINUX_ZIP),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_LINUX_ZIP.getKey()),
                 Analysis.INFO_RH_BUILD_LINUX_ZIP + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS.getKey()),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT), Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT.getKey()),
+                Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
     ***REMOVED***
 
@@ -1175,7 +1188,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK_VERSION_UNKNOWN),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK_VERSION_UNKNOWN.getKey()),
                 Analysis.ERROR_JDK_VERSION_UNKNOWN + " analysis not identified.");
     ***REMOVED***
 
@@ -1187,7 +1200,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_JFFI), Analysis.INFO_JFFI + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JFFI.getKey()), Analysis.INFO_JFFI + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1195,7 +1208,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JFR),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JFR.getKey()),
                 org.github.joa.util.Analysis.INFO_JFR + " analysis not identified.");
     ***REMOVED***
 
@@ -1218,7 +1231,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED.getKey()),
                 Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED + " analysis not identified.");
     ***REMOVED***
 
@@ -1227,7 +1240,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JFR_PD_GET_TOP_FRAME),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JFR_PD_GET_TOP_FRAME.getKey()),
                 Analysis.ERROR_JFR_PD_GET_TOP_FRAME + " analysis not identified.");
     ***REMOVED***
 
@@ -1248,7 +1261,7 @@ class TestAnalysis {
         CurrentThreadEvent currentThreadEvent = new CurrentThreadEvent(currentThread);
         fel.setCurrentThreadEvent(currentThreadEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE.getKey()),
                 Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1260,7 +1273,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(logline);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_JNA), Analysis.INFO_JNA + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JNA.getKey()), Analysis.INFO_JNA + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1270,7 +1283,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(Application.CASSANDRA, fel.getApplication(), "Application not correct.");
         assertTrue(fel.isJnaCrash(), "JNA crash not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC.getKey()),
                 Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC + " analysis not identified.");
     ***REMOVED***
 
@@ -1297,7 +1310,8 @@ class TestAnalysis {
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.isJnaCrash(), "JNA crash not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_RH), Analysis.ERROR_JNA_RH + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_RH.getKey()),
+                Analysis.ERROR_JNA_RH + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1309,7 +1323,8 @@ class TestAnalysis {
         String stackFrame2 = "j  com.sun.jna.Native.invokePointer(Lcom/sun/jna/Function;JI[Ljava/lang/Object;)J+0";
         assertEquals(stackFrame1, fel.getStackFrame(1), "Stack frame 1 not correct.");
         assertEquals(stackFrame2, fel.getStackFrame(2), "Stack frame 2 not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_RH), Analysis.ERROR_JNA_RH + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_RH.getKey()),
+                Analysis.ERROR_JNA_RH + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1323,7 +1338,7 @@ class TestAnalysis {
         StackEvent stackEvent2 = new StackEvent(stack2);
         fel.getStackEvents().add(stackEvent2);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JSS), Analysis.ERROR_JSS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JSS.getKey()), Analysis.ERROR_JSS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1334,7 +1349,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_JSS), Analysis.INFO_JSS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JSS.getKey()), Analysis.INFO_JSS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1348,7 +1363,7 @@ class TestAnalysis {
         StackEvent stackEvent2 = new StackEvent(stack2);
         fel.getStackEvents().add(stackEvent2);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_JSS), Analysis.WARN_JSS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_JSS.getKey()), Analysis.WARN_JSS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1362,7 +1377,7 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(hsperfdata);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_JVM_USER_NE_USERNAME),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JVM_USER_NE_USERNAME.getKey()),
                 Analysis.INFO_JVM_USER_NE_USERNAME + " analysis not identified.");
     ***REMOVED***
 
@@ -1376,7 +1391,7 @@ class TestAnalysis {
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX.getKey()),
                 org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX + " analysis not identified.");
     ***REMOVED***
 
@@ -1390,7 +1405,7 @@ class TestAnalysis {
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS.getKey()),
                 org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS + " analysis not identified.");
     ***REMOVED***
 
@@ -1399,7 +1414,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset14.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
         assertEquals(825, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
                 "Release days diff not correct.");
@@ -1414,7 +1429,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getLdPreloadFileEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_LD_SO_PRELOAD),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_LD_SO_PRELOAD.getKey()),
                 Analysis.INFO_LD_SO_PRELOAD + " analysis not identified.");
     ***REMOVED***
 
@@ -1423,7 +1438,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset46.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_LIBAIO_CONTEXT_DONE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LIBAIO_CONTEXT_DONE.getKey()),
                 Analysis.ERROR_LIBAIO_CONTEXT_DONE + " analysis not identified.");
     ***REMOVED***
 
@@ -1434,7 +1449,8 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getExceptionCountsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_LINKAGE), Analysis.ERROR_LINKAGE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LINKAGE.getKey()),
+                Analysis.ERROR_LINKAGE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1446,7 +1462,7 @@ class TestAnalysis {
                 stackSlotToMemoryMapping);
         fel.getStackSlotToMemoryMappingEvents().add(stackSlotToMemoryMappingEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_LUCENE), Analysis.WARN_LUCENE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_LUCENE.getKey()), Analysis.WARN_LUCENE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1454,7 +1470,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset73.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK.getKey()),
                 Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK + " analysis not identified.");
     ***REMOVED***
 
@@ -1466,7 +1482,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE.getKey()),
                 Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE + " analysis not identified.");
     ***REMOVED***
 
@@ -1478,7 +1494,7 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(library);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_MMAP_DELETED),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_MMAP_DELETED.getKey()),
                 Analysis.WARN_MMAP_DELETED + " analysis not identified.");
     ***REMOVED***
 
@@ -1503,10 +1519,12 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS.getKey()),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO), Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL), Analysis.ERROR_JVM_DLL + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
+                Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
+                Analysis.ERROR_JVM_DLL + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1530,11 +1548,11 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS.getKey()),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
                 Analysis.ERROR_JVM_DLL + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1543,15 +1561,15 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset82.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS.getKey()),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE.getKey()),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
                 Analysis.ERROR_JVM_DLL + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_POINTER_INVALID),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_POINTER_INVALID.getKey()),
                 Analysis.ERROR_POINTER_INVALID + " analysis not identified.");
     ***REMOVED***
 
@@ -1563,9 +1581,9 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_JBOSS),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_JBOSS.getKey()),
                 Analysis.INFO_NATIVE_LIBRARIES_JBOSS + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN.getKey()),
                 Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1577,9 +1595,9 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN.getKey()),
                 Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_JBOSS),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_JBOSS.getKey()),
                 Analysis.INFO_NATIVE_LIBRARIES_JBOSS + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1594,7 +1612,8 @@ class TestAnalysis {
         OsEvent osEvent = new OsEvent(os);
         fel.getOsEvents().add(osEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_STORAGE_NFS), Analysis.INFO_STORAGE_NFS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_STORAGE_NFS.getKey()),
+                Analysis.INFO_STORAGE_NFS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1602,7 +1621,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset1.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.hasAnalysis(Analysis.INFO_SWAP_DISABLED),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_SWAP_DISABLED.getKey()),
                 Analysis.INFO_SWAP_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1611,7 +1630,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset49.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.hasAnalysis(Analysis.INFO_STACK_NO_VM_CODE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_STACK_NO_VM_CODE.getKey()),
                 Analysis.INFO_STACK_NO_VM_CODE + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1621,7 +1640,8 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(JavaSpecification.JDK12, fel.getJavaSpecification(), "Java specification not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LTS), Analysis.WARN_JDK_NOT_LTS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LTS.getKey()),
+                Analysis.WARN_JDK_NOT_LTS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1629,7 +1649,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset51.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_POINTER_NULL),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_POINTER_NULL.getKey()),
                 Analysis.ERROR_POINTER_NULL + " analysis not identified.");
     ***REMOVED***
 
@@ -1643,9 +1663,9 @@ class TestAnalysis {
         HeaderEvent headerEvent = new HeaderEvent(header);
         fel.getHeaderEvents().add(headerEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME.getKey()),
                 org.github.joa.util.Analysis.INFO_ON_OOME + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL.getKey()),
                 org.github.joa.util.Analysis.INFO_ON_OOME_KILL + " analysis not identified.");
     ***REMOVED***
 
@@ -1659,9 +1679,9 @@ class TestAnalysis {
         HeaderEvent headerEvent = new HeaderEvent(header);
         fel.getHeaderEvents().add(headerEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME.getKey()),
                 org.github.joa.util.Analysis.INFO_ON_OOME + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL.getKey()),
                 org.github.joa.util.Analysis.INFO_ON_OOME_KILL + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1670,7 +1690,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset67.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_AMQ_CLI),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_AMQ_CLI.getKey()),
                 Analysis.ERROR_OOME_AMQ_CLI + " analysis not identified.");
     ***REMOVED***
 
@@ -1679,9 +1699,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset79.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE.getKey()),
                 Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL.getKey()),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1690,9 +1710,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset80.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL.getKey()),
                 Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.");
     ***REMOVED***
 
@@ -1701,7 +1721,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset42.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey()),
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
     ***REMOVED***
 
@@ -1709,11 +1729,11 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset36.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_JAVA_HEAP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_JAVA_HEAP.getKey()),
                 Analysis.ERROR_OOME_THROWN_JAVA_HEAP + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGSEGV),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGSEGV.getKey()),
                 Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_SEGV_MAPERR),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_SEGV_MAPERR.getKey()),
                 Analysis.INFO_SIGCODE_SEGV_MAPERR + " analysis not identified.");
     ***REMOVED***
 
@@ -1741,9 +1761,9 @@ class TestAnalysis {
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
                 "Jvm memory max not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL.getKey()),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1756,11 +1776,11 @@ class TestAnalysis {
         assertEquals(8304, fel.getJavaThreadCount(JdkRegEx.WILDFLY_EXECUTOR_POOL_THREAD),
                 "JBoss EAP executor pool thread count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native libraries unknown count not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL.getKey()),
                 Analysis.ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_THREAD_LEAK),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_THREAD_LEAK.getKey()),
                 Analysis.ERROR_OOME_THREAD_LEAK + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP.getKey()),
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP + " analysis incorrectly identified.");
 
     ***REMOVED***
@@ -1772,7 +1792,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(JavaVendor.AZUL, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(Application.JBOSS_VERSION, fel.getApplication(), "Application not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JBOSS_VERSION),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JBOSS_VERSION.getKey()),
                 Analysis.ERROR_OOME_JBOSS_VERSION + " analysis not identified.");
     ***REMOVED***
 
@@ -1789,11 +1809,11 @@ class TestAnalysis {
         error.append(Constants.LINE_SEPARATOR);
         error.append("***REMOVED***  INVALID (0xe0000002) at pc=0x0000000000000000, pid=108047, tid=0x00007f67eb450700");
         assertEquals(error.toString(), fel.getError());
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()),
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
     ***REMOVED***
 
@@ -1802,7 +1822,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset57.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT), Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT.getKey()),
+                Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1810,7 +1831,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis not identified.");
     ***REMOVED***
 
@@ -1819,9 +1840,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset56.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.hasAnalysis(Analysis.INFO_OPTS_NONE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_OPTS_NONE.getKey()),
                 Analysis.INFO_OPTS_NONE + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL_STARTUP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL_STARTUP.getKey()),
                 Analysis.ERROR_OOME_EXTERNAL_STARTUP + " analysis not identified.");
     ***REMOVED***
 
@@ -1830,9 +1851,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset66.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()),
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1841,11 +1862,11 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset81.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()),
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX.getKey()),
                 Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX + " analysis not identified.");
     ***REMOVED***
 
@@ -1854,8 +1875,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset62.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.WARN_OOM_G1), Analysis.WARN_OOM_G1 + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_SWAP_DISABLED_G1),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_OOM_G1.getKey()), Analysis.WARN_OOM_G1 + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_SWAP_DISABLED_G1.getKey()),
                 Analysis.WARN_SWAP_DISABLED_G1 + " analysis not identified.");
     ***REMOVED***
 
@@ -1864,7 +1885,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset68.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN.getKey()),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
     ***REMOVED***
 
@@ -1873,7 +1894,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset63.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN.getKey()),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
     ***REMOVED***
 
@@ -1902,9 +1923,9 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER.getKey()),
                 Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION.getKey()),
                 Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis not identified.");
     ***REMOVED***
 
@@ -1920,9 +1941,9 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_ORACLE_JDBC_OCI),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_ORACLE_JDBC_OCI.getKey()),
                 Analysis.INFO_ORACLE_JDBC_OCI + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE.getKey()),
                 Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE + " analysis not identified.");
     ***REMOVED***
 
@@ -1940,11 +1961,11 @@ class TestAnalysis {
                 "OCI driver load timestamp not correct.");
         assertEquals(86182L, fel.getUptime(), "Uptime not correct.");
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER.getKey()),
                 Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING.getKey()),
                 Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION.getKey()),
                 Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1966,11 +1987,11 @@ class TestAnalysis {
         fel.getStackEvents().add(event3);
         fel.getStackEvents().add(event4);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER.getKey()),
                 Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING.getKey()),
                 Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION.getKey()),
                 Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis not identified.");
     ***REMOVED***
 
@@ -1985,7 +2006,7 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(Analysis.INFO_ORACLE_JDBC_OCI),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_ORACLE_JDBC_OCI.getKey()),
                 Analysis.INFO_ORACLE_JDBC_OCI + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -1996,7 +2017,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getExceptionCountsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE.getKey()),
                 Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE + " analysis not identified.");
     ***REMOVED***
 
@@ -2007,7 +2028,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getExceptionCountsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_JAVA_HEAP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_JAVA_HEAP.getKey()),
                 Analysis.ERROR_OOME_THROWN_JAVA_HEAP + " analysis not identified.");
     ***REMOVED***
 
@@ -2018,7 +2039,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getExceptionCountsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_METASPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_METASPACE.getKey()),
                 Analysis.ERROR_OOME_THROWN_METASPACE + " analysis not identified.");
     ***REMOVED***
 
@@ -2045,7 +2066,7 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -2063,7 +2084,7 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -2082,9 +2103,9 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT + " analysis incorrectly identified.");
 
     ***REMOVED***
@@ -2104,9 +2125,9 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT + " analysis not identified.");
     ***REMOVED***
 
@@ -2116,9 +2137,9 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isError("Out of Memory Error"), "Out Of Memory Error not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_STARTUP),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_STARTUP.getKey()),
                 Analysis.ERROR_OOME_LIMIT_STARTUP + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2134,7 +2155,8 @@ class TestAnalysis {
                 JdkUtil.Application.PKI_TOMCAT + " application not identified.");
         assertFalse(fel.getApplication() == JdkUtil.Application.TOMCAT,
                 JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT), Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT.getKey()),
+                Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2153,7 +2175,8 @@ class TestAnalysis {
                 JdkUtil.Application.PKI_TOMCAT + " application not identified.");
         assertFalse(fel.getApplication() == JdkUtil.Application.TOMCAT,
                 JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT), Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT.getKey()),
+                Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2168,7 +2191,8 @@ class TestAnalysis {
                 JdkUtil.Application.PKI_TOMCAT + " application not identified.");
         assertFalse(fel.getApplication() == JdkUtil.Application.TOMCAT,
                 JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT), Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT.getKey()),
+                Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2183,7 +2207,7 @@ class TestAnalysis {
         DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE.getKey()),
                 Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE + " analysis not identified.");
     ***REMOVED***
 
@@ -2206,9 +2230,9 @@ class TestAnalysis {
         StackEvent stackEvent = new StackEvent(stackFrame1);
         fel.getStackEvents().add(stackEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE.getKey()),
                 Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         // Test header only
         fel.getAnalysis().clear();
@@ -2218,9 +2242,9 @@ class TestAnalysis {
         HeaderEvent headerEvent = new HeaderEvent(header);
         fel.getHeaderEvents().add(headerEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE.getKey()),
                 Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2229,7 +2253,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset32.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_PTHREAD_GETCPUCLOCKID),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PTHREAD_GETCPUCLOCKID.getKey()),
                 Analysis.ERROR_PTHREAD_GETCPUCLOCKID + " analysis not identified.");
     ***REMOVED***
 
@@ -2238,9 +2262,9 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset45.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED.getKey()),
                 org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_VMWARE), Analysis.INFO_VMWARE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VMWARE.getKey()), Analysis.INFO_VMWARE + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2250,7 +2274,7 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED.getKey()),
                 org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -2275,9 +2299,9 @@ class TestAnalysis {
         assertEquals(ErrUtil.getDate("Jan 13 2016 21:08:08"), fel.getJdkBuildDate(), "Build date not correct.");
         assertTrue(fel.isRhBuildDate(), "Red Hat build date not identified.");
         assertFalse(fel.isRhBuildDateUnknown(), "Red Hat build of OpenJDK date unknown incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2286,7 +2310,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset19.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
     ***REMOVED***
 
@@ -2303,7 +2327,8 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_RHEL9_JDK8), Analysis.INFO_RHEL9_JDK8 + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RHEL9_JDK8.getKey()),
+                Analysis.INFO_RHEL9_JDK8 + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2323,7 +2348,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("8.5", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.4", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
     ***REMOVED***
 
@@ -2344,7 +2369,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("8.5", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.6", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
     ***REMOVED***
 
@@ -2357,9 +2382,9 @@ class TestAnalysis {
                 "Rpm directory not correct.");
         assertEquals("8.4", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.5", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2380,7 +2405,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("7.1", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("7", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2401,9 +2426,9 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("7.6", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("7.9", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL7_POWER9),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL7_POWER9.getKey()),
                 Analysis.WARN_RHEL7_POWER9 + " analysis not identified.");
     ***REMOVED***
 
@@ -2412,11 +2437,11 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset15.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST),
+        assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9.getKey()),
                 Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9 + " analysis not identified.");
     ***REMOVED***
 
@@ -2432,7 +2457,7 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(logLine);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT.getKey()),
                 org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2445,9 +2470,9 @@ class TestAnalysis {
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH),
                 GarbageCollector.SHENANDOAH + " collector not identified.");
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_METASPACE),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_METASPACE.getKey()),
                 org.github.joa.util.Analysis.INFO_METASPACE + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_METASPACE_LT_COMP_CLASS),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_METASPACE_LT_COMP_CLASS.getKey()),
                 org.github.joa.util.Analysis.WARN_METASPACE_LT_COMP_CLASS + " analysis not identified.");
     ***REMOVED***
 
@@ -2456,7 +2481,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset44.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK.getKey()),
                 Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK + " analysis not identified.");
     ***REMOVED***
 
@@ -2465,7 +2490,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset39.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_SI_KERNEL),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_SI_KERNEL.getKey()),
                 Analysis.INFO_SIGCODE_SI_KERNEL + " analysis not identified.");
     ***REMOVED***
 
@@ -2500,11 +2525,11 @@ class TestAnalysis {
         VmArgumentsEvent vmArgumentsEvent = new VmArgumentsEvent(jvmArgs);
         fel.getVmArgumentsEvents().add(vmArgumentsEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE.getKey()),
                 Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL.getKey()),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2513,7 +2538,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset37.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE.getKey()),
                 Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE + " analysis not identified.");
     ***REMOVED***
 
@@ -2522,7 +2547,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset35.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_STACKOVERFLOW),
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_STACKOVERFLOW.getKey()),
                 Analysis.ERROR_STACKOVERFLOW + " analysis not identified.");
     ***REMOVED***
 
@@ -2532,7 +2557,7 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.isRhBuildOpenJdk(), "RH build of OpenJDK incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_SWAP_DISABLED),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SWAP_DISABLED.getKey()),
                 Analysis.INFO_SWAP_DISABLED + " analysis not identified.");
     ***REMOVED***
 
@@ -2541,7 +2566,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset11.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.INFO_SWAPPING), Analysis.INFO_SWAPPING + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SWAPPING.getKey()),
+                Analysis.INFO_SWAPPING + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2549,8 +2575,10 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset12.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.WARN_SWAPPING), Analysis.WARN_SWAPPING + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JVM_DLL), Analysis.ERROR_JVM_DLL + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_SWAPPING.getKey()),
+                Analysis.WARN_SWAPPING + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
+                Analysis.ERROR_JVM_DLL + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2558,12 +2586,14 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset48.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL),
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL.getKey()),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
-        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_TRUNCATED), Analysis.INFO_TRUNCATED + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OOPS), Analysis.ERROR_OOME_OOPS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_TRUNCATED.getKey()),
+                Analysis.INFO_TRUNCATED + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OOPS.getKey()),
+                Analysis.ERROR_OOME_OOPS + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2587,18 +2617,18 @@ class TestAnalysis {
         String undefined = "Undefined JVM option(s): -XX:+Mike. Please submit an issue so we can investigate: "
                 + "https://github.com/mgm3746/krashpad/issues. If attaching a fatal error log, be sure to review it "
                 + "and remove any sensitive information.";
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED),
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED.getKey()),
                 org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED + " analysis not identified.");
         assertEquals(undefined, fel.getAnalysisLiteral(org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED.getKey()),
                 org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED + " not correct.");
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED),
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED.getKey()),
                 org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
     void testUnknownStorageFalseReporting() {
         FatalErrorLog fel = new FatalErrorLog();
-        assertFalse(fel.hasAnalysis(Analysis.INFO_STORAGE_UNKNOWN),
+        assertFalse(fel.hasAnalysis(Analysis.INFO_STORAGE_UNKNOWN.getKey()),
                 Analysis.INFO_STORAGE_UNKNOWN + " analysis incorrectly identified.");
     ***REMOVED***
 
@@ -2617,7 +2647,8 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT), Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT.getKey()),
+                Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2628,7 +2659,7 @@ class TestAnalysis {
         VmOperationEvent event = new VmOperationEvent(vmOperation);
         fel.setVmOperationEvent(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_CONCURRENT_GC),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_CONCURRENT_GC.getKey()),
                 Analysis.INFO_VM_OPERATION_CONCURRENT_GC + " analysis not identified.");
     ***REMOVED***
 
@@ -2640,7 +2671,7 @@ class TestAnalysis {
         VmOperationEvent event = new VmOperationEvent(vmOperation);
         fel.setVmOperationEvent(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_HEAP_DUMP),
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_HEAP_DUMP.getKey()),
                 Analysis.INFO_VM_OPERATION_HEAP_DUMP + " analysis not identified.");
     ***REMOVED***
 
@@ -2661,7 +2692,7 @@ class TestAnalysis {
         StackEvent stackEvent2 = new StackEvent(stack2);
         fel.getStackEvents().add(stackEvent2);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_WILY), Analysis.ERROR_WILY + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_WILY.getKey()), Analysis.ERROR_WILY + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2672,7 +2703,7 @@ class TestAnalysis {
         DynamicLibraryEvent event = new DynamicLibraryEvent(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_WILY), Analysis.INFO_WILY + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_WILY.getKey()), Analysis.INFO_WILY + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -2686,7 +2717,7 @@ class TestAnalysis {
         StackEvent stackEvent2 = new StackEvent(stack2);
         fel.getStackEvents().add(stackEvent2);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_WILY), Analysis.WARN_WILY + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_WILY.getKey()), Analysis.WARN_WILY + " analysis not identified.");
     ***REMOVED***
 
     @Test

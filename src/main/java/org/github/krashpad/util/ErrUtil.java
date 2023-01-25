@@ -168,9 +168,9 @@ public class ErrUtil {
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libfontmanager.so");
         // java-(1.8.0|11|17)-openjdk-headless
-        NATIVE_LIBRARIES_LINUX_JAVA.add("libj2pkcs11.so");                
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libj2pkcs11.so");
         // java-(11|17)-openjdk-headless
-        NATIVE_LIBRARIES_LINUX_JAVA.add("libjaas.so");                
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libjaas.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjava.so");
         // java-(1.8.0|11|17)-openjdk-headless

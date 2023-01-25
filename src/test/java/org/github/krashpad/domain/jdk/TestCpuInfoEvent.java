@@ -287,7 +287,7 @@ class TestCpuInfoEvent {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset53.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE),
+        assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     ***REMOVED***
 

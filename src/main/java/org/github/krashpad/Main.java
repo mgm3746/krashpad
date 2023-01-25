@@ -150,7 +150,7 @@ public class Main {
                             + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
-            if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
+            if (fel.hasAnalysis(Analysis.INFO_CGROUP.getKey())) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
@@ -175,11 +175,12 @@ public class Main {
                             + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
-            if ((fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT) || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_STARTUP)
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS)
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS_STARTUP)
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT)
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP))) {
+            if ((fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT.getKey())
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_STARTUP.getKey())
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey())
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS_STARTUP.getKey())
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT.getKey())
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()))) {
                 if (fel.getRlimitEvent() != null) {
                     printWriter.write(fel.getRlimitEvent().getLogEntry() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
@@ -304,7 +305,7 @@ public class Main {
                 // Display JVM initial memory if it fails to start
                 if (fel.getJvmMemoryInitial() > 0) {
                     long percentMemory;
-                    if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
+                    if (fel.hasAnalysis(Analysis.INFO_CGROUP.getKey())) {
                         percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getJvmMemTotal());
                     ***REMOVED*** else {
                         percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getOsMemTotal());
@@ -314,7 +315,7 @@ public class Main {
                     if (fel.getOsMemTotal() > 0) {
                         printWriter.write(" (");
                         // provide rounding indicator
-                        if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
+                        if (fel.hasAnalysis(Analysis.INFO_CGROUP.getKey())) {
                             if (percentMemory == 0
                                     || (percentMemory == 100 && fel.getJvmMemoryInitial() != fel.getJvmMemTotal())) {
                                 printWriter.write("~");
@@ -326,7 +327,7 @@ public class Main {
                             ***REMOVED***
                         ***REMOVED***
                         printWriter.write(percentMemory + "% ");
-                        if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
+                        if (fel.hasAnalysis(Analysis.INFO_CGROUP.getKey())) {
                             printWriter.write("Container Memory");
                         ***REMOVED*** else {
                             printWriter.write("OS Memory");
@@ -349,7 +350,7 @@ public class Main {
                 ***REMOVED***
             ***REMOVED*** else if (fel.getJvmMemoryMax() > 0) {
                 long percentMemory = Long.MIN_VALUE;
-                if (fel.hasAnalysis(Analysis.INFO_CGROUP) && fel.getJvmMemTotal() >= 0) {
+                if (fel.hasAnalysis(Analysis.INFO_CGROUP.getKey()) && fel.getJvmMemTotal() >= 0) {
                     percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getJvmMemTotal());
 
                 ***REMOVED*** else if (fel.getOsMemTotal() >= 0) {
@@ -361,7 +362,7 @@ public class Main {
                 if (fel.getOsMemTotal() > 0) {
                     printWriter.write(" (");
                     // provide rounding indicator
-                    if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
+                    if (fel.hasAnalysis(Analysis.INFO_CGROUP.getKey())) {
                         if (percentMemory == 0
                                 || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getJvmMemTotal())) {
                             printWriter.write("~");
@@ -373,7 +374,7 @@ public class Main {
                         ***REMOVED***
                     ***REMOVED***
                     printWriter.write(percentMemory + "% ");
-                    if (fel.hasAnalysis(Analysis.INFO_CGROUP)) {
+                    if (fel.hasAnalysis(Analysis.INFO_CGROUP.getKey())) {
                         printWriter.write("Container Memory");
                     ***REMOVED*** else {
                         printWriter.write("OS Memory");
