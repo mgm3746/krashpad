@@ -163,6 +163,17 @@ class TestDynamicLibraryEvent {
     ***REMOVED***
 
     @Test
+    void testJar() {
+        String logLine = "7f2a4f8bc000-7f2a4f8be000 r--s 00000000 08:02 6976                       /path/to/modules/"
+                + "system/layers/base/.overlays/layer-base-jboss-eap-7.3.10.CP/org/wildfly/clustering/marshalling/"
+                + "infinispan/main/wildfly-clustering-marshalling-infinispan-7.3.10.GA-redhat-00003.jar";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibraryEvent event = new DynamicLibraryEvent(logLine);
+        assertTrue(event.isJar(), "Jar not identified.");
+    ***REMOVED***
+
+    @Test
     void testJdk11() {
         String logLine = "7fd072161000-7fd0733ae000 r-xp 00000000 fd:00 10120317                   "
                 + "/usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so";

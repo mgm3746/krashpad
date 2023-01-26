@@ -304,6 +304,13 @@ public class JdkRegEx {
     public static final String INODE = "([0-9]{1,***REMOVED***)";
 
     /**
+     * Jar.
+     * 
+     * For example catalina.jar
+     */
+    public static final String JAR = "[a-zA-Z\\d-_\\.]{1,***REMOVED***\\.jar";
+
+    /**
      * AppDynamics jar.
      * 
      * For example:

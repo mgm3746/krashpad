@@ -391,8 +391,9 @@ public class FatalErrorLog {
             analysis.add(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION);
         ***REMOVED***
         // Check Oracle JDBC driver / JDK compatibility
-        if (!getNativeLibrariesUnknown().isEmpty()) {
-            Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
+        List<String> nativeLibrariesUnknown = getNativeLibrariesUnknown();
+        if (!nativeLibrariesUnknown.isEmpty()) {
+            Iterator<String> iterator = nativeLibrariesUnknown.iterator();
             Pattern pattern = Pattern.compile(JdkRegEx.ORACLE_JDBC_OCI_DRIVER_PATH);
             Matcher matcher;
             while (iterator.hasNext()) {
@@ -421,20 +422,24 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check PostgreSQL JDBC driver / JDK8 compatibility
-        if (!getDynamicLibraryEvents().isEmpty()) {
-            Iterator<DynamicLibraryEvent> iterator = getDynamicLibraryEvents().iterator();
-            Pattern pattern = Pattern.compile(JdkRegEx.POSTGRESQL_JDBC_DRIVER_PATH);
-            Matcher matcher;
+        List<String> jars = getJars();
+        if (!jars.isEmpty()) {
+            String postgresqlJdbcDriverPath = null;
+            Iterator<String> iterator = jars.iterator();
             while (iterator.hasNext()) {
-                DynamicLibraryEvent event = iterator.next();
-                if (event.getFilePath() != null) {
-                    matcher = pattern.matcher(event.getFilePath());
-                    if (matcher.find()) {
-                        Integer minorVersion = Integer.parseInt(matcher.group(3));
-                        if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) == 8 && minorVersion < 5) {
-                            analysis.add(Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE);
-                            break;
-                        ***REMOVED***
+                String jar = iterator.next();
+                if (jar.matches(JdkRegEx.POSTGRESQL_JDBC_DRIVER_PATH)) {
+                    postgresqlJdbcDriverPath = jar;
+                    break;
+                ***REMOVED***
+            ***REMOVED***
+            if (postgresqlJdbcDriverPath != null) {
+                Pattern pattern = Pattern.compile(JdkRegEx.POSTGRESQL_JDBC_DRIVER_PATH);
+                Matcher matcher = pattern.matcher(postgresqlJdbcDriverPath);
+                if (matcher.find()) {
+                    Integer minorVersion = Integer.parseInt(matcher.group(3));
+                    if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) == 8 && minorVersion < 5) {
+                        analysis.add(Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -1135,7 +1140,8 @@ public class FatalErrorLog {
                 while (iterator.hasNext()) {
                     HeaderEvent event = iterator.next();
                     if (event.isProblematicFrame() && event.getLogEntry().matches("^.+libc.+cfree\\+0x1c$")
-                            && getJvmOptions().getUseGcLogFileRotation() != null) {
+                            && getJvmOptions().getUseGcLogFileRotation() != null
+                            && getCurrentThread().matches("^ConcurrentGCThread .+$")) {
                         analysis.add(Analysis.ERROR_JDK8_LIBC_CFREE);
                         break;
                     ***REMOVED***
@@ -2556,6 +2562,25 @@ public class FatalErrorLog {
 
     public HostEvent getHostEvent() {
         return hostEvent;
+    ***REMOVED***
+
+    /**
+     * @return Jar list (unique entries).
+     */
+    public List<String> getJars() {
+        List<String> jars = new ArrayList<String>();
+        if (!dynamicLibraryEvents.isEmpty()) {
+            Iterator<DynamicLibraryEvent> iterator = dynamicLibraryEvents.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibraryEvent event = iterator.next();
+                if (event.isJar()) {
+                    if (!jars.contains(event.getFilePath())) {
+                        jars.add(event.getFilePath());
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        return jars;
     ***REMOVED***
 
     /**

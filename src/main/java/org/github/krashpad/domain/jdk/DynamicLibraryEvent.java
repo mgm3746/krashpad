@@ -158,6 +158,13 @@ public class DynamicLibraryEvent implements LogEvent {
     ***REMOVED***
 
     /**
+     * @return True if a jar, false otherwise.
+     */
+    public boolean isJar() {
+        return logEntry.matches(".+" + JdkRegEx.JAR + "$");
+    ***REMOVED***
+
+    /**
      * @return True if a native library, false otherwise.
      */
     public boolean isNativeLibrary() {
