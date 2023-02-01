@@ -1475,7 +1475,9 @@ public class FatalErrorLog {
     /**
      * Convenience method to get the <code>Analysis</code> literal.
      * 
-     * @return The <code>Analysis</code> display literal, or null if it does not exist.
+     * @param key
+     *            The analysis identifier.
+     * @return The analysisis display literal, or null if it does not exist.
      */
     public String getAnalysisLiteral(String key) {
         String literal = null;
@@ -2315,8 +2317,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.UNITS);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                 ***REMOVED*** else if (event.isOldGen()) {
                     pattern = Pattern.compile(JdkRegEx.OLD_GEN_SIZE);
@@ -2328,8 +2329,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.UNITS);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                 ***REMOVED*** else if (event.isShenandoah()) {
                     pattern = Pattern.compile(JdkRegEx.SHENANDOAH_SIZE);
@@ -2341,8 +2341,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.UNITS);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                 ***REMOVED*** else if (event.isG1()) {
                     pattern = Pattern.compile(JdkRegEx.G1_SIZE);
@@ -2354,8 +2353,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.UNITS);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
