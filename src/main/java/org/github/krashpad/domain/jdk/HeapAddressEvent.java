@@ -107,7 +107,7 @@ public class HeapAddressEvent implements LogEvent {
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find() && matcher.group(1) != null) {
-            initialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(7)), 'M', Constants.PRECISION);
+            initialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(7)), 'M', Constants.UNITS);
         ***REMOVED***
         return initialSize;
     ***REMOVED***

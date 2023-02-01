@@ -1612,7 +1612,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     availPageFile = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1636,7 +1636,7 @@ public class FatalErrorLog {
      */
     public long getCodeCacheSize() {
         // Default is 420m
-        long reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.PRECISION);
+        long reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.UNITS);
         // 1st check [Global flags]
         if (!globalFlagsEvents.isEmpty()) {
             Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
@@ -1647,7 +1647,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     reservedCodeCacheSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1669,7 +1669,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
             ***REMOVED***
         ***REMOVED***
         return reservedCodeCacheSize;
@@ -1703,7 +1703,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     commitCharge = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1731,7 +1731,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     commitLimit = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1766,7 +1766,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     committedAs = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -1837,7 +1837,7 @@ public class FatalErrorLog {
 
         if (usingCompressedPointers) {
             // Default is 1g
-            compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', org.github.joa.util.Constants.PRECISION);
+            compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', org.github.joa.util.Constants.UNITS);
             // 1st check [Global flags]
             if (!globalFlagsEvents.isEmpty()) {
                 Iterator<GlobalFlagsEvent> iterator = globalFlagsEvents.iterator();
@@ -1848,7 +1848,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         compressedClassSpaceSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                         break;
                     ***REMOVED***
                 ***REMOVED***
@@ -1869,7 +1869,7 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -2048,7 +2048,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     directMemorySize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -2064,7 +2064,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                directMemorySize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                directMemorySize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
             ***REMOVED***
         ***REMOVED***
         return directMemorySize;
@@ -2316,7 +2316,7 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         heapAllocation += JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                 ***REMOVED*** else if (event.isOldGen()) {
                     pattern = Pattern.compile(JdkRegEx.OLD_GEN_SIZE);
@@ -2329,7 +2329,7 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         heapAllocation += JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                 ***REMOVED*** else if (event.isShenandoah()) {
                     pattern = Pattern.compile(JdkRegEx.SHENANDOAH_SIZE);
@@ -2342,7 +2342,7 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         heapAllocation += JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                 ***REMOVED*** else if (event.isG1()) {
                     pattern = Pattern.compile(JdkRegEx.G1_SIZE);
@@ -2355,7 +2355,7 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         heapAllocation += JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -2382,7 +2382,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     heapInitialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -2399,7 +2399,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                heapInitialSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                heapInitialSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
             ***REMOVED***
         ***REMOVED*** else if (heapAddressEvent != null) {
             heapInitialSize = heapAddressEvent.getSize();
@@ -2431,7 +2431,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     heapMaxSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -2448,7 +2448,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                heapMaxSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                heapMaxSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
             ***REMOVED***
         ***REMOVED*** else if (heapAddressEvent != null) {
             heapMaxSize = heapAddressEvent.getSize();
@@ -2472,7 +2472,7 @@ public class FatalErrorLog {
         long heapStartingAddress = Long.MIN_VALUE;
         if (heapAddressEvent != null) {
             heapStartingAddress = JdkUtil.convertSize(heapAddressEvent.getStartingAddress(), 'B',
-                    org.github.joa.util.Constants.PRECISION);
+                    org.github.joa.util.Constants.UNITS);
         ***REMOVED***
         return heapStartingAddress;
     ***REMOVED***
@@ -2501,9 +2501,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isOldGen()) {
@@ -2517,9 +2517,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isShenandoah()) {
@@ -2533,9 +2533,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED*** else if (event.isG1()) {
@@ -2549,9 +2549,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                         ***REMOVED*** else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
@@ -3013,7 +3013,7 @@ public class FatalErrorLog {
                     Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)),
-                                matcher.group(9).charAt(0), org.github.joa.util.Constants.PRECISION);
+                                matcher.group(9).charAt(0), org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -3111,7 +3111,7 @@ public class FatalErrorLog {
                     Matcher matcher = MemoryEvent.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(4)),
-                                matcher.group(6).charAt(0), org.github.joa.util.Constants.PRECISION);
+                                matcher.group(6).charAt(0), org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
@@ -3138,7 +3138,7 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         if (matcher.group(11) != null && matcher.group(13) != null) {
                             swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
-                                    org.github.joa.util.Constants.PRECISION);
+                                    org.github.joa.util.Constants.UNITS);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
@@ -3162,7 +3162,7 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         if (matcher.group(14) != null && matcher.group(16) != null) {
                             swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)),
-                                    matcher.group(16).charAt(0), org.github.joa.util.Constants.PRECISION);
+                                    matcher.group(16).charAt(0), org.github.joa.util.Constants.UNITS);
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
@@ -3241,7 +3241,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (now && matcher.find()) {
                     memBallooned = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED*** else if (event.getLogEntry().equals("vSphere resource information available now:")) {
                     now = true;
@@ -3271,7 +3271,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(he.getLogEntry());
                     if (matcher.find()) {
                         memoryAllocation = JdkUtil.convertSize(Long.parseLong(matcher.group(2)), 'B',
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                         break;
                     ***REMOVED***
                 ***REMOVED***
@@ -3308,7 +3308,7 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         ***REMOVED***
                         metaspaceAllocation = JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                         break;
                     ***REMOVED***
                 ***REMOVED***
@@ -3337,7 +3337,7 @@ public class FatalErrorLog {
                 ***REMOVED*** else {
                     fromUnits = 'B';
                 ***REMOVED***
-                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
             ***REMOVED***
         ***REMOVED***
         // If max metaspace size not set (recommended), get from <code>HeapEvent</code>
@@ -3361,7 +3361,7 @@ public class FatalErrorLog {
                                 fromUnits = 'B';
                             ***REMOVED***
                             metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits,
-                                    org.github.joa.util.Constants.PRECISION);
+                                    org.github.joa.util.Constants.UNITS);
                             break;
                         ***REMOVED***
                     ***REMOVED***
@@ -3394,7 +3394,7 @@ public class FatalErrorLog {
                         ***REMOVED*** else {
                             fromUnits = 'B';
                         ***REMOVED***
-                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.PRECISION);
+                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                         break;
                     ***REMOVED***
                 ***REMOVED***
@@ -3586,7 +3586,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     memAvailable = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -3612,7 +3612,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -3625,7 +3625,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0),
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                     break;
                 ***REMOVED***
@@ -3649,7 +3649,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -3662,7 +3662,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0),
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                     break;
                 ***REMOVED***
@@ -3719,7 +3719,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -3732,7 +3732,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find() && matcher.group(9) != null) {
                         swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0),
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                     break;
                 ***REMOVED***
@@ -3756,7 +3756,7 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.PRECISION);
+                            org.github.joa.util.Constants.UNITS);
                     break;
                 ***REMOVED***
             ***REMOVED***
@@ -3769,7 +3769,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find() && matcher.group(9) != null) {
                         swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0),
-                                org.github.joa.util.Constants.PRECISION);
+                                org.github.joa.util.Constants.UNITS);
                     ***REMOVED***
                     break;
                 ***REMOVED***
@@ -4124,7 +4124,7 @@ public class FatalErrorLog {
             BigDecimal memoryPerThread = new BigDecimal(getThreadStackSize());
             BigDecimal threads = new BigDecimal(getJavaThreadCount());
             threadStackMemory = memoryPerThread.multiply(threads).longValue();
-            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K', org.github.joa.util.Constants.PRECISION);
+            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K', org.github.joa.util.Constants.UNITS);
         ***REMOVED***
         return threadStackMemory;
     ***REMOVED***
