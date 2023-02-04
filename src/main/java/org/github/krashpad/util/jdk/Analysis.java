@@ -311,12 +311,12 @@ public enum Analysis {
     ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP("error.oome.overcommit.limit.startup"),
 
     /**
-     * Property key for Property key for insufficient physical memory due to a thread leak.
+     * Property key for a thread leak causing a limit to be reached.
      */
     ERROR_OOME_THREAD_LEAK("error.oome.thread.leak"),
 
     /**
-     * Property key Property key for insufficient physical memory due to JBoss EAP executor pool leak.
+     * Property key for a Wildfly or JBoss EAP executor pool leak causing a limit to be reached.
      */
     ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL("error.oome.thread.leak.eap.executor.pool"),
 
