@@ -34,6 +34,11 @@ import org.github.krashpad.util.jdk.JdkRegEx;
 public class ErrUtil {
 
     /**
+     * JBoss native libaries.
+     */
+    public static final List<String> NATIVE_LIBRARIES_JBOSS;
+
+    /**
      * Linux native libraries
      */
     public static final List<String> NATIVE_LIBRARIES_LINUX;
@@ -44,6 +49,11 @@ public class ErrUtil {
     public static final List<String> NATIVE_LIBRARIES_LINUX_JAVA;
 
     /**
+     * Oracle JDK native libaries.
+     */
+    public static final List<String> NATIVE_LIBRARIES_ORACLE;
+
+    /**
      * Windows native libraries
      */
     public static final List<String> NATIVE_LIBRARIES_WINDOWS;
@@ -52,11 +62,6 @@ public class ErrUtil {
      * Java windows native libaries.
      */
     public static final List<String> NATIVE_LIBRARIES_WINDOWS_JAVA;
-
-    /**
-     * JBoss native libaries.
-     */
-    public static final List<String> NATIVE_LIBRARIES_JBOSS;
 
     static {
         NATIVE_LIBRARIES_JBOSS = new ArrayList<String>();
@@ -173,7 +178,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjaas.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjava.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(11|17)-openjdk-headless. Replaces libjpeg.so in 1.8.0?
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjavajpeg.so");
         // java-(1.8.0-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjava_crw_demo.so");
@@ -183,6 +188,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libinstrument.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjli.so");
+        // java-8-openjdk-headless: Replaced by libjavajpeg.so in 11+?
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libjpeg.so");
         // java-17-openjdk-headless: Vector API
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjsvml.so");
         // java-(1.8.0|11|17)-openjdk-headless
@@ -208,6 +215,11 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libverify.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libzip.so");
+
+        NATIVE_LIBRARIES_ORACLE = new ArrayList<String>();
+        // proprietary T2K font library
+        NATIVE_LIBRARIES_ORACLE.add("libt2k.so");
+        NATIVE_LIBRARIES_ORACLE.add("libt2k.dll");
 
         NATIVE_LIBRARIES_WINDOWS = new ArrayList<String>();
         NATIVE_LIBRARIES_WINDOWS.add("apphelp.dll");
