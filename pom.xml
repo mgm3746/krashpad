@@ -70,6 +70,7 @@
 				<configuration>
 					<doctitle>${project.name***REMOVED*** ${project.version***REMOVED***</doctitle>
 					<stylesheetfile>src/main/javadoc/stylesheet.css</stylesheetfile>
+					<source>8</source>
 				</configuration>
 			</plugin>
 			<plugin>
