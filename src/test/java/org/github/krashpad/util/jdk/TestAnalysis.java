@@ -2552,6 +2552,14 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testStackSizeSmallNoJvmOptions() {
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL.getKey()),
+                org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL + " analysis incorrectly identified.");
+    ***REMOVED***
+
+    @Test
     void testSwapDisabled() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset28.txt");
         Manager manager = new Manager();

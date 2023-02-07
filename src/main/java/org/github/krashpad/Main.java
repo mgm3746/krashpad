@@ -129,10 +129,10 @@ public class Main {
                         + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getOsMemFree() > 0) {
-                printWriter.write("Memory Free: " + fel.getOsMemFree()
-                        + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                        + JdkMath.calcPercent(fel.getOsMemFree(), fel.getOsMemTotal()) + "%)"
-                        + Constants.LINE_SEPARATOR);
+                printWriter.write(
+                        "Memory Free: " + fel.getOsMemFree() + Character.toString(org.github.joa.util.Constants.UNITS)
+                                + " (" + JdkMath.calcPercent(fel.getOsMemFree(), fel.getOsMemTotal()) + "%)"
+                                + Constants.LINE_SEPARATOR);
                 if (fel.getOsMemAvailable() >= 0) {
                     printWriter.write("Memory Available: " + fel.getOsMemAvailable()
                             + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
@@ -141,8 +141,8 @@ public class Main {
                 ***REMOVED***
             ***REMOVED***
             if (fel.getOsSwap() >= 0) {
-                printWriter.write("Swap: " + fel.getOsSwap()
-                        + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
+                printWriter.write("Swap: " + fel.getOsSwap() + Character.toString(org.github.joa.util.Constants.UNITS)
+                        + Constants.LINE_SEPARATOR);
                 if (fel.getOsSwap() > 0) {
                     printWriter.write("Swap Free: " + fel.getOsSwapFree()
                             + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
@@ -155,18 +155,18 @@ public class Main {
                 printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                 if (fel.getJvmMemoryMax() > 0) {
-                    printWriter.write("Memory: " + fel.getJvmMemTotal()
-                            + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                            + JdkMath.calcPercent(fel.getJvmMemTotal(), fel.getOsMemTotal()) + "% OS Memory)"
-                            + Constants.LINE_SEPARATOR);
+                    printWriter.write(
+                            "Memory: " + fel.getJvmMemTotal() + Character.toString(org.github.joa.util.Constants.UNITS)
+                                    + " (" + JdkMath.calcPercent(fel.getJvmMemTotal(), fel.getOsMemTotal())
+                                    + "% OS Memory)" + Constants.LINE_SEPARATOR);
                     printWriter.write("Memory Free: " + fel.getJvmMemFree()
                             + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
                             + JdkMath.calcPercent(fel.getJvmMemFree(), fel.getJvmMemTotal()) + "%)"
                             + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getOsSwap() > 0) {
-                    printWriter.write(
-                            "Swap: " + fel.getJvmSwap() + Character.toString(org.github.joa.util.Constants.UNITS)
+                    printWriter
+                            .write("Swap: " + fel.getJvmSwap() + Character.toString(org.github.joa.util.Constants.UNITS)
                                     + " (" + JdkMath.calcPercent(fel.getJvmSwap(), fel.getOsSwap()) + "% OS Swap)"
                                     + Constants.LINE_SEPARATOR);
                     printWriter.write("Swap Free: " + fel.getJvmSwapFree()
@@ -256,8 +256,8 @@ public class Main {
                         + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getHeapUsed() >= 0) {
-                printWriter.write("Heap Used: " + fel.getHeapUsed()
-                        + Character.toString(org.github.joa.util.Constants.UNITS));
+                printWriter.write(
+                        "Heap Used: " + fel.getHeapUsed() + Character.toString(org.github.joa.util.Constants.UNITS));
                 if (fel.getHeapAllocation() > 0) {
                     printWriter.write(" (" + JdkMath.calcPercent(fel.getHeapUsed(), fel.getHeapAllocation())
                             + "% Heap Allocation)");

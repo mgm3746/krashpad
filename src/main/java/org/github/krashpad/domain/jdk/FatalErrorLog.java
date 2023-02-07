@@ -872,8 +872,8 @@ public class FatalErrorLog {
                 && threadStackMaxSize < 1) {
             addAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_TINY);
         ***REMOVED*** else if ((jvmOptions == null
-                || !hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL.getKey())
-                        && threadStackMaxSize < 128)) {
+                || !hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL.getKey()))
+                && threadStackMaxSize < 128) {
             addAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL);
         ***REMOVED***
         // OutOfMemoryError other than "Metaspace" or "Compressed class space" caught and thrown
