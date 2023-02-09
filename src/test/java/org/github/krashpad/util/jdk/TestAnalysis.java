@@ -1087,8 +1087,8 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
-                org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
+                org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
     ***REMOVED***
 
     @Test
@@ -1102,8 +1102,8 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
-                org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
+                org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -1117,8 +1117,8 @@ class TestAnalysis {
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
-                org.github.joa.util.Analysis.INFO_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
+                org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
