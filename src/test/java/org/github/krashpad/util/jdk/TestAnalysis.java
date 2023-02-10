@@ -497,6 +497,10 @@ class TestAnalysis {
                 + "on Oct 13 2021 11:20:31 by \"mockbuild\" with gcc 8.4.1 20200928 (Red Hat 8.4.1-1)";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
+        String jvmArgs = "jvm_args: -Xss128k";
+        VmArgumentsEvent vmArgumentsEvent = new VmArgumentsEvent(jvmArgs);
+        fel.getVmArgumentsEvents().add(vmArgumentsEvent);
+        fel.doAnalysis();
         assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.G1),
@@ -510,6 +514,10 @@ class TestAnalysis {
                 + "on Oct 28 2021 01:59:13 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-3)";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
+        String jvmArgs = "jvm_args: -Xss128k";
+        VmArgumentsEvent vmArgumentsEvent = new VmArgumentsEvent(jvmArgs);
+        fel.getVmArgumentsEvents().add(vmArgumentsEvent);
+        fel.doAnalysis();
         assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.G1),
@@ -523,6 +531,10 @@ class TestAnalysis {
                 + "built on Nov  6 2020 02:01:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
         VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
+        String jvm_args = "jvm_args: -Xss128k";
+        VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
+        fel.getVmArgumentsEvents().add(event);
+        fel.doAnalysis();
         assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.PARALLEL_SCAVENGE),

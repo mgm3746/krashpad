@@ -2210,25 +2210,11 @@ public class FatalErrorLog {
             return getGarbageCollectorsFromHeapEvents();
         ***REMOVED*** else if (jvmOptions != null) {
             return jvmOptions.getGarbageCollectors();
-        ***REMOVED*** else if (getGarbageCollectorsDefault().size() > 0) {
-            return getGarbageCollectorsDefault();
         ***REMOVED*** else {
-            return new ArrayList<GarbageCollector>();
+            ArrayList<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
+            garbageCollectors.add(GarbageCollector.UNKNOWN);
+            return garbageCollectors;
         ***REMOVED***
-    ***REMOVED***
-
-    /**
-     * @return The default garbage collector(s).
-     */
-    private List<GarbageCollector> getGarbageCollectorsDefault() {
-        List<GarbageCollector> collectors = new ArrayList<GarbageCollector>();
-        if (getJavaSpecification() == JavaSpecification.JDK11 || getJavaSpecification() == JavaSpecification.JDK17) {
-            collectors.add(GarbageCollector.G1);
-        ***REMOVED*** else if (getJavaSpecification() == JavaSpecification.JDK8) {
-            collectors.add(GarbageCollector.PARALLEL_SCAVENGE);
-            collectors.add(GarbageCollector.PARALLEL_OLD);
-        ***REMOVED***
-        return collectors;
     ***REMOVED***
 
     /**

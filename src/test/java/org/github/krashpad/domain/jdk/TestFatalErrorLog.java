@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
+import org.github.joa.domain.GarbageCollector;
 import org.github.joa.domain.Os;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
@@ -138,6 +139,28 @@ class TestFatalErrorLog {
         cpuInfoEvent = new CpuInfoEvent(cpu);
         fel.getCpuInfoEvents().add(cpuInfoEvent);
         assertTrue(fel.hasCpuCapability("avx2"), "CPU avx2 capability not identified.");
+    ***REMOVED***
+
+    @Test
+    void testCollectorTruncatedLog() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String headerLine1 = "***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_322-b06) (build 1.8.0_322-b06)";
+        HeaderEvent headerEvent1 = new HeaderEvent(headerLine1);
+        fel.getHeaderEvents().add(headerEvent1);
+        String headerLine2 = "***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.322-b06 mixed mode linux-amd64 compressed oops)";
+        HeaderEvent headerEvent2 = new HeaderEvent(headerLine2);
+        fel.getHeaderEvents().add(headerEvent2);
+        fel.getAnalysis();
+        assertEquals(1, fel.getGarbageCollectors().size(), "Garbage collector count not correct.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN), "Garbage collector not correct.");
+    ***REMOVED***
+
+    @Test
+    void testCollectorNoData() {
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getAnalysis();
+        assertEquals(1, fel.getGarbageCollectors().size(), "Garbage collector count not correct.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN), "Garbage collector not correct.");
     ***REMOVED***
 
     @Test
