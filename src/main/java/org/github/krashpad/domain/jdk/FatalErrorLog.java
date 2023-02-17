@@ -2250,8 +2250,8 @@ public class FatalErrorLog {
                         && !garbageCollectors.contains(GarbageCollector.ZGC)) {
                     garbageCollectors.add(GarbageCollector.ZGC);
                 ***REMOVED*** else if (event.getLogEntry().matches("^[ ]{0,***REMOVED***def new.+$")
-                        && !garbageCollectors.contains(GarbageCollector.SERIAL)) {
-                    garbageCollectors.add(GarbageCollector.SERIAL);
+                        && !garbageCollectors.contains(GarbageCollector.SERIAL_NEW)) {
+                    garbageCollectors.add(GarbageCollector.SERIAL_NEW);
                 ***REMOVED*** else if ((event.getLogEntry().matches("^[ ]{0,***REMOVED***PSOldGen.+$")
                         || event.getLogEntry().matches("^[ ]{0,***REMOVED***tenured.+$"))
                         && !garbageCollectors.contains(GarbageCollector.SERIAL_OLD)) {

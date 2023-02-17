@@ -315,8 +315,8 @@ class TestAnalysis {
         fel.getVmArgumentsEvents().clear();
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED.getKey()),
-                org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_JDK8_CMS_PAR_NEW_DISABLED.getKey()),
+                org.github.joa.util.Analysis.ERROR_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED.getKey()),
@@ -365,8 +365,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED.getKey()),
-                org.github.joa.util.Analysis.WARN_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_JDK8_CMS_PAR_NEW_DISABLED.getKey()),
+                org.github.joa.util.Analysis.ERROR_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED.getKey()),
                 org.github.joa.util.Analysis.INFO_CMS_DISABLED + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT.getKey()),
@@ -2078,8 +2078,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED.getKey()),
-                org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_PARALLEL_SCAVENGE_PARALLEL_SERIAL_OLD.getKey()),
+                org.github.joa.util.Analysis.ERROR_PARALLEL_SCAVENGE_PARALLEL_SERIAL_OLD + " analysis not identified.");
     ***REMOVED***
 
     /**
@@ -2096,8 +2096,8 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED.getKey()),
-                org.github.joa.util.Analysis.WARN_JDK11_PARALLEL_OLD_DISABLED + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_PARALLEL_SCAVENGE_PARALLEL_SERIAL_OLD.getKey()),
+                org.github.joa.util.Analysis.ERROR_PARALLEL_SCAVENGE_PARALLEL_SERIAL_OLD + " analysis not identified.");
     ***REMOVED***
 
     /**
@@ -2115,10 +2115,10 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT.getKey()),
-                org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT.getKey()),
-                org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_PARALLEL_OLD_CRUFT.getKey()),
+                org.github.joa.util.Analysis.INFO_PARALLEL_OLD_CRUFT + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_PARALLEL_OLD_REDUNDANT.getKey()),
+                org.github.joa.util.Analysis.INFO_PARALLEL_OLD_REDUNDANT + " analysis incorrectly identified.");
 
     ***REMOVED***
 
@@ -2137,10 +2137,10 @@ class TestAnalysis {
         VmArgumentsEvent event = new VmArgumentsEvent(jvm_args);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT.getKey()),
-                org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_CRUFT + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT.getKey()),
-                org.github.joa.util.Analysis.INFO_JDK11_PARALLEL_OLD_REDUNDANT + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_PARALLEL_OLD_CRUFT.getKey()),
+                org.github.joa.util.Analysis.INFO_PARALLEL_OLD_CRUFT + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_PARALLEL_OLD_REDUNDANT.getKey()),
+                org.github.joa.util.Analysis.INFO_PARALLEL_OLD_REDUNDANT + " analysis not identified.");
     ***REMOVED***
 
     @Test
