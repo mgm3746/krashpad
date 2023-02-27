@@ -64,7 +64,14 @@ class TestMetaspaceEvent {
     ***REMOVED***
 
     @Test
-    void testChunkFreelistsData() {
+    void testChunkFreelistsDataBytes() {
+        String logLine = "0 bytes";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+    
+    @Test
+    void testChunkFreelistsDataKilobytes() {
         String logLine = "3.00 KB";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");

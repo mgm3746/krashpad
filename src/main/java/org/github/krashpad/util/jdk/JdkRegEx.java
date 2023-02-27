@@ -748,7 +748,7 @@ public class JdkRegEx {
      * 
      * 3.00 KB, 395.36 MB, 1.00 GB
      */
-    public static final String SIZE2 = "(\\d{1,***REMOVED***([\\.,]\\d{2***REMOVED***)?) (KB|MB|GB)";
+    public static final String SIZE2 = "(\\d{1,***REMOVED***([\\.,]\\d{2***REMOVED***)?) (KB|MB|GB|bytes)";
 
     /**
      * Red Hat Certificate System (RHCS), Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or upstream Dogtag

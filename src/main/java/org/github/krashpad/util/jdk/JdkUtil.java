@@ -1071,13 +1071,13 @@ public class JdkUtil {
                 new Release("Jan 13 2023 00:00:00", 21, "11.0.18+10-LTS"));
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.18.0.10-1.el8_1.x86_64",
                 new Release("Jan 13 2023 00:00:00", 21, "11.0.18+10-LTS"));
-        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.16.1.1-1.el8_6.x86_64",
+        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.17.0.8-2.el8_6.x86_64",
                 new Release("Oct 15 2022 19:13:31", 20, "11.0.17+8-LTS"));
-        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.16.1.1-1.el8_4.x86_64",
+        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.17.0.8-2.el8_4.x86_64",
                 new Release("Oct 15 2022 00:00:00", 20, "11.0.17+8-LTS"));
-        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.16.1.1-1.el8_2.x86_64",
+        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.17.0.8-2.el8_2.x86_64",
                 new Release("Oct 15 2022 00:00:00", 20, "11.0.17+8-LTS"));
-        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.16.1.1-1.el8_1.x86_64",
+        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.17.0.8-2.el8_1.x86_64",
                 new Release("Oct 15 2022 00:00:00", 20, "11.0.17+8-LTS"));
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.16.1.1-1.el8_6.x86_64",
                 new Release("Aug 25 2022 13:29:35", 19, "11.0.16.1+1-LTS"));
