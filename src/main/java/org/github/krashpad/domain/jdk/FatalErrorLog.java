@@ -1010,7 +1010,8 @@ public class FatalErrorLog {
         ***REMOVED***
         // Check for G1ParScanThreadState::copy_to_survivor_space
         if (getStackFrameTop() != null
-                && getStackFrameTop().matches("^V.+G1ParScanThreadState::copy_to_survivor_space.+$")) {
+                && getStackFrameTop().matches("^V.+G1ParScanThreadState::copy_to_survivor_space.+$")
+                && (getJavaVersionMajor() == 8 || (getJavaVersionMajor() == 11 && getJavaVersionMinor() < 10))) {
             analysis.add(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE);
             // Don't double report
             analysis.remove(Analysis.ERROR_LIBJVM_SO);

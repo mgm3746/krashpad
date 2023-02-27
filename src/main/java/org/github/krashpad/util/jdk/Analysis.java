@@ -97,7 +97,8 @@ public enum Analysis {
     ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE("error.freetype.font.scaler.get.glyph.image.native"),
 
     /**
-     * Property key for a crash in G1ParScanThreadState::copy_to_survivor_space(InCSetState, oopDesc*, markOopDesc*).
+     * Property key for a crash in G1ParScanThreadState::copy_to_survivor_space(InCSetState, oopDesc*, markOopDesc*)
+     * fixed in JDK 11.0.10.
      */
     ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE("error.g1_par_scan_thread_state.copy_to_survivor_space"),
 

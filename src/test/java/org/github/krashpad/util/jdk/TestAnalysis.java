@@ -741,6 +741,29 @@ class TestAnalysis {
     ***REMOVED***
 
     @Test
+    void testG1ParScanThreadStateCopyToSurvivorSpaceNot() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stackFrame1 = "V  [libjvm.so+0x7d7b76]  G1ParScanThreadState::copy_to_survivor_space(InCSetState, "
+                + "oopDesc*, markOopDesc*)+0x56";
+        StackEvent stackEvent1 = new StackEvent(stackFrame1);
+        fel.getStackEvents().add(stackEvent1);
+        String stackFrame2 = "V  [libjvm.so+0x7d8968]  G1ParScanThreadState::trim_queue()+0x648";
+        StackEvent stackEvent2 = new StackEvent(stackFrame2);
+        fel.getStackEvents().add(stackEvent2);
+        assertEquals(stackFrame1, fel.getStackFrame(1), "Stack frame 1 not correct.");
+        assertEquals(stackFrame2, fel.getStackFrame(2), "Stack frame 2 not correct.");
+        String header = "***REMOVED*** JRE version: OpenJDK Runtime Environment (Red_Hat-11.0.17.0.8-2.el8_6) (11.0.17+8) "
+                + "(build 11.0.17+8-LTS)";
+        HeaderEvent headerEvent = new HeaderEvent(header);
+        fel.getHeaderEvents().add(headerEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE.getKey()),
+                Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
+                Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
     void testG1SummarizeRSetStats() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:+G1SummarizeRSetStats -XX:G1SummarizeRSetStatsPeriod=1";
