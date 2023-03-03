@@ -17,12 +17,12 @@ package org.github.krashpad.domain.jdk;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.github.joa.domain.Arch;
 import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
 import org.github.krashpad.util.jdk.JdkUtil;
-import org.github.krashpad.util.jdk.JdkUtil.Arch;
 
 /**
  * <p>

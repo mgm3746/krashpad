@@ -18,13 +18,13 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.github.joa.domain.Arch;
+import org.github.joa.domain.BuiltBy;
 import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
-import org.github.krashpad.util.jdk.JdkUtil.Arch;
-import org.github.krashpad.util.jdk.JdkUtil.BuiltBy;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 
 /**

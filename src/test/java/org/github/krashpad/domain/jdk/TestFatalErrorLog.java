@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
+import org.github.joa.domain.Arch;
 import org.github.joa.domain.GarbageCollector;
 import org.github.joa.domain.Os;
 import org.github.krashpad.service.Manager;
@@ -32,7 +33,6 @@ import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
-import org.github.krashpad.util.jdk.JdkUtil.Arch;
 import org.github.krashpad.util.jdk.JdkUtil.CompressedOopMode;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 import org.github.krashpad.util.jdk.JdkUtil.JavaVendor;

@@ -26,7 +26,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.joa.JvmOptions;
+import org.github.joa.domain.Arch;
 import org.github.joa.domain.Bit;
+import org.github.joa.domain.BuiltBy;
 import org.github.joa.domain.GarbageCollector;
 import org.github.joa.domain.JvmContext;
 import org.github.joa.domain.Os;
@@ -40,8 +42,6 @@ import org.github.krashpad.util.jdk.JdkMath;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
-import org.github.krashpad.util.jdk.JdkUtil.Arch;
-import org.github.krashpad.util.jdk.JdkUtil.BuiltBy;
 import org.github.krashpad.util.jdk.JdkUtil.CompressedOopMode;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 import org.github.krashpad.util.jdk.JdkUtil.JavaVendor;

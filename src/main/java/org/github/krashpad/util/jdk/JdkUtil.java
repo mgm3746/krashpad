@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.github.joa.domain.Arch;
 import org.github.joa.util.Constants;
 import org.github.krashpad.domain.BlankLineEvent;
 import org.github.krashpad.domain.LogEvent;
@@ -151,41 +152,6 @@ public class JdkUtil {
          * Upstream WildFly or an unidentified derivative (e.g. EAP, RHSSO, etc.).
          */
         WILDFLY
-    ***REMOVED***
-
-    /**
-     * Defined JDK architectures.
-     */
-    public enum Arch {
-        I86PC, PPC64, PPC64LE, SPARC, UNKNOWN, X86, X86_64
-    ***REMOVED***
-
-    /**
-     * Defined JDK builders
-     */
-    public enum BuiltBy {
-        // Red Hat
-        BUILD,
-        // Graal
-        BUILDSLAVE,
-        // In some Oracle and Red Hat builds
-        EMPTY,
-        // Oracle: "Java Release Engineering"
-        JAVA_RE,
-        // AdoptOpenJDK
-        JENKINS,
-        // Oracle: "mach5one" is the name of their build/test system? Replace by "java_re"?
-        MACH5ONE,
-        // Red Hat, CentOS
-        MOCKBUILD,
-        // Adoptium temurin
-        TEMURIN,
-        // Azul
-        TESTER, UNKNOWN,
-        // Microsoft
-        VSTS,
-        // Azul
-        ZULU_RE
     ***REMOVED***
 
     /**

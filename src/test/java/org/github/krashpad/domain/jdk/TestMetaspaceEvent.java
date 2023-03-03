@@ -69,7 +69,7 @@ class TestMetaspaceEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     ***REMOVED***
-    
+
     @Test
     void testChunkFreelistsDataKilobytes() {
         String logLine = "3.00 KB";

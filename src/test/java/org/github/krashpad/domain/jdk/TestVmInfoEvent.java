@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.github.joa.domain.Arch;
+import org.github.joa.domain.BuiltBy;
 import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
-import org.github.krashpad.util.jdk.JdkUtil.Arch;
-import org.github.krashpad.util.jdk.JdkUtil.BuiltBy;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 import org.junit.jupiter.api.Test;
 
