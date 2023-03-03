@@ -576,9 +576,9 @@ public class JdkUtil {
 
         // RHEL7 amd64 OpenJDK8 rpm
         JDK8_RHEL7_X86_64_RPMS = new HashMap<String, Release>();
-        JDK8_RHEL7_X86_64_RPMS.put("LATEST", new Release("Jan 13 2023 00:00:00", 37, "1.8.0_362-b08"));
+        JDK8_RHEL7_X86_64_RPMS.put("LATEST", new Release("Jan 13 2023 22:08:34", 37, "1.8.0_362-b08"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b08-1.el7_9.x86_64",
-                new Release("Jan 13 2023 00:00:00", 37, "1.8.0_362-b08"));
+                new Release("Jan 13 2023 22:08:34", 37, "1.8.0_362-b08"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.352.b08-2.el7_9.x86_64",
                 new Release("Oct 16 2022 04:57:48", 36, "1.8.0_352-b08"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.345.b01-1.el7_9.x86_64",
