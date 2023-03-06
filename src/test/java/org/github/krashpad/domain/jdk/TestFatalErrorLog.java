@@ -68,6 +68,8 @@ class TestFatalErrorLog {
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS.getKey()),
                 Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -84,6 +86,8 @@ class TestFatalErrorLog {
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB.getKey()),
                 Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -258,6 +262,8 @@ class TestFatalErrorLog {
                 fel.getJvmMemoryInitial(), "Jvm memory max not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
                 "Jvm memory max not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -298,6 +304,8 @@ class TestFatalErrorLog {
         assertEquals(65530, fel.getMaxMapCount(), "max_map_count not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_THREAD_DUMP.getKey()),
                 Analysis.INFO_VM_OPERATION_THREAD_DUMP + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -408,6 +416,8 @@ class TestFatalErrorLog {
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         long jvmMemoryMax = JdkUtil.convertSize(33554432 + 245760, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(jvmMemoryMax, fel.getJvmMemoryMax(), "Jvm memory max not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -427,7 +437,8 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(37, fel.getJavaThreadCount(), "Java thread count not correct.");
-        assertEquals(34, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(168, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(7, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -478,6 +489,8 @@ class TestFatalErrorLog {
         assertTrue(fel.isRhRpmInstall(), "Red Hat rpm install not identified.");
         assertEquals(OsVersion.RHEL6, fel.getOsVersion(), "OS version not correct.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL6.getKey()), Analysis.WARN_RHEL6 + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -581,6 +594,8 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         long codeCacheSize = JdkUtil.convertSize(1024, 'm', org.github.joa.util.Constants.UNITS);
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -611,6 +626,8 @@ class TestFatalErrorLog {
         long metaspaceUsed = JdkUtil.convertSize(40246, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
         assertEquals(256, fel.getThreadStackSize(), "Thread stack size not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -662,6 +679,8 @@ class TestFatalErrorLog {
         assertEquals(commitCharge, fel.getCommitCharge(), "Commit charge not correct.");
         long memBalloonedNow = JdkUtil.convertSize(0, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(memBalloonedNow, fel.getMemBalloonedNow(), "Memory ballooned now not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -745,6 +764,8 @@ class TestFatalErrorLog {
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
         assertEquals("11.0.7+10-LTS", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -759,6 +780,8 @@ class TestFatalErrorLog {
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
         assertEquals("1.8.0_131-b12", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -773,6 +796,8 @@ class TestFatalErrorLog {
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
         assertEquals("11.0.8+10-LTS", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -793,6 +818,8 @@ class TestFatalErrorLog {
         assertEquals(65530, fel.getMaxMapCount(), "max_map_count not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -803,6 +830,8 @@ class TestFatalErrorLog {
         assertEquals(Arch.PPC64LE, fel.getArch(), "Arch not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(Application.TOMCAT, fel.getApplication(), "Application not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -844,6 +873,8 @@ class TestFatalErrorLog {
                 Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
         assertEquals("Thu May  7 17:24:12 2020 UTC", fel.getCrashTimeString(), "Time of crash not correct.");
         assertEquals("1d 7h 30m 19s", fel.getElapsedTime(), "JVM run time not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -952,6 +983,8 @@ class TestFatalErrorLog {
                 Analysis.INFO_SWAP_DISABLED + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER.getKey()),
                 Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1022,6 +1055,8 @@ class TestFatalErrorLog {
         long metaspaceUsed = JdkUtil.convertSize(243180, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
         assertEquals(512, fel.getThreadStackSize(), "Thread stack size not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1197,6 +1232,8 @@ class TestFatalErrorLog {
         assertEquals(swap, fel.getOsSwap(), "System swap not correct.");
         long swapFree = JdkUtil.convertSize(5252, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(swapFree, fel.getOsSwapFree(), "System swap free not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1293,6 +1330,8 @@ class TestFatalErrorLog {
         assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
         assertEquals("1.8.0_25-b18", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1308,5 +1347,7 @@ class TestFatalErrorLog {
         assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
         assertEquals("11.0.7+10-LTS", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 ***REMOVED***

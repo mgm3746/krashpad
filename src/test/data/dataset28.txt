@@ -284,11 +284,9 @@ VM_Operation (0x00007f5a849bd790): ParallelGCFailedAllocation, mode: safepoint, 
 =>0x000000000232c800 VMThread [stack: 0x00007f5ab27b8000,0x00007f5ab28b8000] [id=25319]
   0x00000000023fa800 WatcherThread [stack: 0x00007f5aab986000,0x00007f5aaba86000] [id=25358]
   
-  ***REMOVED***
-  
-  7f5ad82b8000-7f5ad8fa0000 r-xp 00000000 fd:00 630566                     /usr/java/jdk1.8.0_211/jre/lib/amd64/server/libjvm.so
-  
-  7f5ad9d0c000-7f5ad9d14000 r--s 0006e000 08:20 27263022                   /app/EAP-7.2.0/jboss-modules.jar
+***REMOVED***
+7f5ad82b8000-7f5ad8fa0000 r-xp 00000000 fd:00 630566                     /usr/java/jdk1.8.0_211/jre/lib/amd64/server/libjvm.so
+7f5ad9d0c000-7f5ad9d14000 r--s 0006e000 08:20 27263022                   /app/EAP-7.2.0/jboss-modules.jar
   
   
 ***REMOVED***

@@ -78,46 +78,206 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("ld-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("ld-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("ld-2.28.so");
+        // aspell
+        NATIVE_LIBRARIES_LINUX.add("libaspell.so.15.1.5");
+        // atk
+        NATIVE_LIBRARIES_LINUX.add("libatk-1.0.so.0.22810.1");
+        // at-spi2-atk
+        NATIVE_LIBRARIES_LINUX.add("libatk-bridge-2.0.so.0.0.0");
+        // at-spi2-core
+        NATIVE_LIBRARIES_LINUX.add("libatspi.so.0.0.1");
+        // brotli (compression library)
+        NATIVE_LIBRARIES_LINUX.add("libbrotlicommon.so.1.0.6");
+        // brotli (compression library)
+        NATIVE_LIBRARIES_LINUX.add("libbrotlidec.so.1.0.6");
+        // bzip2-libs
+        NATIVE_LIBRARIES_LINUX.add("libbz2.so.1.0.6");
         // glibc-devel
         NATIVE_LIBRARIES_LINUX.add("libc-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libc-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libc-2.28.so");
-        // dconf
-        NATIVE_LIBRARIES_LINUX.add("libdconfsettings.so");
+        // cairo
+        NATIVE_LIBRARIES_LINUX.add("libcairo.so.2.11512.0");
+        // cairo-gobject
+        NATIVE_LIBRARIES_LINUX.add("libcairo-gobject.so.2.11512.0");
+        // libpcap
+        NATIVE_LIBRARIES_LINUX.add("libcap.so.2.26");
+        // libcom-err
+        NATIVE_LIBRARIES_LINUX.add("libcom_err.so.2.1");
+        // libcroco
+        NATIVE_LIBRARIES_LINUX.add("libcroco-0.6.so.3.0.1");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libcrypt-2.17.so");
+        // dconf
+        NATIVE_LIBRARIES_LINUX.add("libdconfsettings.so");
+        // libdatrie
+        NATIVE_LIBRARIES_LINUX.add("libdatrie.so.1.3.2");
+        // dbus-libs
+        NATIVE_LIBRARIES_LINUX.add("libdbus-1.so.3.19.7");
         // glibc-devel
         NATIVE_LIBRARIES_LINUX.add("libdl-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libdl-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libdl-2.28.so");
+        // libblkid
+        NATIVE_LIBRARIES_LINUX.add("libblkid.so.1.1.0");
+        // libdrm
+        NATIVE_LIBRARIES_LINUX.add("libdrm.so.2.4.0");
         // elfutils-devel
         NATIVE_LIBRARIES_LINUX.add("libdw-0.160.so");
         NATIVE_LIBRARIES_LINUX.add("libdw-0.176.so");
+        // libglvnd-egl
+        NATIVE_LIBRARIES_LINUX.add("libEGL.so.1.1.0");
+        // mesa-libEGL
+        NATIVE_LIBRARIES_LINUX.add("libEGL_mesa.so.0.0.0");
         // elfutils-libelf-devel
         NATIVE_LIBRARIES_LINUX.add("libelf-0.160.so");
         NATIVE_LIBRARIES_LINUX.add("libelf-0.176.so");
+        // enchant2
+        NATIVE_LIBRARIES_LINUX.add("libenchant-2.so.2.2.3");
+        // libepoxy
+        NATIVE_LIBRARIES_LINUX.add("libepoxy.so.0.0.0");
+        // expat
+        NATIVE_LIBRARIES_LINUX.add("libexpat.so.1.6.7");
+        // libffi
+        NATIVE_LIBRARIES_LINUX.add("libffi.so.6.0.2");
+        // fontconfig
+        NATIVE_LIBRARIES_LINUX.add("libfontconfig.so.1.12.0");
         // nss-softokn-freebl
         NATIVE_LIBRARIES_LINUX.add("libfreebl3.so");
         // nss-softokn-freebl
         NATIVE_LIBRARIES_LINUX.add("libfreeblpriv3.so");
-        // jss
-        NATIVE_LIBRARIES_LINUX.add("libjss4.so");
-        // glibc-devel
-        NATIVE_LIBRARIES_LINUX.add("libm-2.12.so");
-        NATIVE_LIBRARIES_LINUX.add("libm-2.17.so");
-        NATIVE_LIBRARIES_LINUX.add("libm-2.28.so");
+        // freetype
+        NATIVE_LIBRARIES_LINUX.add("libfreetype.so.6.16.1");
+        // fribidi
+        NATIVE_LIBRARIES_LINUX.add("libfribidi.so.0.4.0");
+        // libglvnd-glx
+        NATIVE_LIBRARIES_LINUX.add("libGL.so.1.7.0");
+        // libglvnd-gles
+        NATIVE_LIBRARIES_LINUX.add("libGLESv2.so.2.1.0");
+        // libglvnd-glx
+        NATIVE_LIBRARIES_LINUX.add("libGLX.so.0.0.0");
+        // libglvnd
+        NATIVE_LIBRARIES_LINUX.add("libGLdispatch.so.0.0.0");
+        // mesa-libglapi
+        NATIVE_LIBRARIES_LINUX.add("libgbm.so.1.0.0");
+        // libgcc
+        NATIVE_LIBRARIES_LINUX.add("libgcc_s-4.8.5-20150702.so.1");
+        NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20191121.so.1");
+        NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20210514.so.1");
+        // libgcrypt
+        NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.3");
+        // gtk3
+        NATIVE_LIBRARIES_LINUX.add("libgdk-3.so.0.2200.30");
+        // gdk-pixbuf2
+        NATIVE_LIBRARIES_LINUX.add("libgdk_pixbuf-2.0.so.0.3612.0");
+        // glib2
+        NATIVE_LIBRARIES_LINUX.add("libgio-2.0.so.0.5600.4");
+        // mesa-libglapi
+        NATIVE_LIBRARIES_LINUX.add("libglapi.so.0.0.0");
+        // glib2
+        NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.4");
+        // glib2
+        NATIVE_LIBRARIES_LINUX.add("libgmodule-2.0.so.0.5600.4");
+        // gmp
+        NATIVE_LIBRARIES_LINUX.add("libgmp.so.10.3.2");
+        // gnutls
+        NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.24.0");
+        // glib2
+        NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5600.4");
+        // libgpg-error
+        NATIVE_LIBRARIES_LINUX.add("libgpg-error.so.0.24.2");
+        // graphite2
+        NATIVE_LIBRARIES_LINUX.add("libgraphite2.so.3.0.1");
+        // krb5-libs
+        NATIVE_LIBRARIES_LINUX.add("libgssapi_krb5.so.2.2");
+        // gstreamer1-plugins-base
+        NATIVE_LIBRARIES_LINUX.add("libgstapp-1.0.so.0.1601.0");
+        // gstreamer1
+        NATIVE_LIBRARIES_LINUX.add("libgstbase-1.0.so.0.1601.0");
+        // gstreamer1-plugins-base
+        NATIVE_LIBRARIES_LINUX.add("libgstallocators-1.0.so.0.1601.0");
+        // gstreamer1-plugins-base
+        NATIVE_LIBRARIES_LINUX.add("libgstaudio-1.0.so.0.1601.0");
+        // gstreamer1
+        NATIVE_LIBRARIES_LINUX.add("libgstbase-1.0.so.0.1601.0");
+        // gstreamer1-plugins-base
+        NATIVE_LIBRARIES_LINUX.add("libgstfft-1.0.so.0.1601.0");
+        // gstreamer1-plugins-base
+        NATIVE_LIBRARIES_LINUX.add("libgstgl-1.0.so.0.1601.0");
+        // gstreamer1-plugins-base
+        NATIVE_LIBRARIES_LINUX.add("libgstpbutils-1.0.so.0.1601.0");
+        // gstreamer1
+        NATIVE_LIBRARIES_LINUX.add("libgstreamer-1.0.so.0.1601.0");
+        // gstreamer1-plugins-base
+        NATIVE_LIBRARIES_LINUX.add("libgsttag-1.0.so.0.1601.0");
+        // gstreamer1-plugins-base
+        NATIVE_LIBRARIES_LINUX.add("libgstvideo-1.0.so.0.1601.0");
+        // glib2
+        NATIVE_LIBRARIES_LINUX.add("libgthread-2.0.so.0.5600.4");
+        // gtk3
+        NATIVE_LIBRARIES_LINUX.add("libgtk-3.so.0.2200.30");
         // gvfs-client
         NATIVE_LIBRARIES_LINUX.add("libgvfscommon.so");
         // gvfs-client
         NATIVE_LIBRARIES_LINUX.add("libgvfsdbus.so");
+        // harfbuzz
+        NATIVE_LIBRARIES_LINUX.add("libharfbuzz.so.0.10705.0");
+        // harfbuzz-icu
+        NATIVE_LIBRARIES_LINUX.add("libharfbuzz-icu.so.0.10705.0");
+        // nettle
+        NATIVE_LIBRARIES_LINUX.add("libhogweed.so.4.5");
+        // hyphen
+        NATIVE_LIBRARIES_LINUX.add("libhyphen.so.0.3.0");
+        // libICE
+        NATIVE_LIBRARIES_LINUX.add("libICE.so.6.3.0");
+        // libibus
+        NATIVE_LIBRARIES_LINUX.add("libibus-1.0.so.5.0.519");
+        // libicu
+        NATIVE_LIBRARIES_LINUX.add("libicudata.so.60.3");
+        // libicu
+        NATIVE_LIBRARIES_LINUX.add("libicui18n.so.60.3");
+        // libicu
+        NATIVE_LIBRARIES_LINUX.add("libicuuc.so.60.3");
         // glibc-gconv-extra
         NATIVE_LIBRARIES_LINUX.add("libJIS.so");
+        // webkit2gtk3-jsc
+        NATIVE_LIBRARIES_LINUX.add("libjavascriptcoregtk-4.0.so.18.13.7");
+        // libjpeg-turbo
+        NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.2.0");
+        // jss
+        NATIVE_LIBRARIES_LINUX.add("libjss4.so");
+        // krb5-libs
+        NATIVE_LIBRARIES_LINUX.add("libk5crypto.so.3.1");
+        // keyutils-libs
+        NATIVE_LIBRARIES_LINUX.add("libkeyutils.so.1.6");
+        // krb5-libs
+        NATIVE_LIBRARIES_LINUX.add("libkrb5.so.3.3");
+        // krb5-libs
+        NATIVE_LIBRARIES_LINUX.add("libkrb5support.so.0.1");
+        // xz-libs
+        NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.4");
+        // lz4-libs
+        NATIVE_LIBRARIES_LINUX.add("liblz4.so.1.8.1");
+        // glibc-devel
+        NATIVE_LIBRARIES_LINUX.add("libm-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add("libm-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("libm-2.28.so");
+        // libmount
+        NATIVE_LIBRARIES_LINUX.add("libmount.so.1.1.0");
+        // libidn2
+        NATIVE_LIBRARIES_LINUX.add("libidn2.so.0.3.6");
+        // nettle
+        NATIVE_LIBRARIES_LINUX.add("libnettle.so.6.5");
+        // libnotify
+        NATIVE_LIBRARIES_LINUX.add("libnotify.so.4.0.0");
         // nspr
         NATIVE_LIBRARIES_LINUX.add("libnspr4.so");
         // nss
         NATIVE_LIBRARIES_LINUX.add("libnss3.so");
         // nss-util
         NATIVE_LIBRARIES_LINUX.add("libnssutil3.so");
+        // glibc
+        NATIVE_LIBRARIES_LINUX.add("libnss_compat-2.17.so");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libnss_dns-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libnss_dns-2.28.so");
@@ -127,6 +287,26 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libnss_files-2.28.so");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libnsl-2.17.so");
+        // sssd-client
+        NATIVE_LIBRARIES_LINUX.add("libnss_sss.so.2");
+        // numactl-libs
+        NATIVE_LIBRARIES_LINUX.add("libnuma.so.1.0.0");
+        // openjpeg2
+        NATIVE_LIBRARIES_LINUX.add("libopenjp2.so.2.3.1");
+        // orc
+        NATIVE_LIBRARIES_LINUX.add("liborc-0.4.so.0.28.0");
+        // p11-kit
+        NATIVE_LIBRARIES_LINUX.add("libp11-kit.so.0.3.0");
+        // pango
+        NATIVE_LIBRARIES_LINUX.add("libpango-1.0.so.0.4200.3");
+        // pango
+        NATIVE_LIBRARIES_LINUX.add("libpangocairo-1.0.so.0.4200.3");
+        // pango
+        NATIVE_LIBRARIES_LINUX.add("libpangoft2-1.0.so.0.4200.3");
+        // pcre
+        NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.10");
+        // pixman
+        NATIVE_LIBRARIES_LINUX.add("libpixman-1.so.0.38.4");
         // nspr
         NATIVE_LIBRARIES_LINUX.add("libplc4.so");
         // nspr
@@ -137,6 +317,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libpixbufloader-gif.so");
         // gdk-pixbuf2-modules
         NATIVE_LIBRARIES_LINUX.add("libpixbufloader-svg.so");
+        // libpng
+        NATIVE_LIBRARIES_LINUX.add("libpng16.so.16.34.0");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.17.so");
@@ -144,22 +326,116 @@ public class ErrUtil {
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libresolv-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libresolv-2.28.so");
+        // librsvg2
+        NATIVE_LIBRARIES_LINUX.add("librsvg-2.so.2.42.7");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("librt-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("librt-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("librt-2.28.so");
+        // libSM
+        NATIVE_LIBRARIES_LINUX.add("libSM.so.6.0.1");
+        // libsecret
+        NATIVE_LIBRARIES_LINUX.add("libsecret-1.so.0.0.0");
         // nss
         NATIVE_LIBRARIES_LINUX.add("libsmime3.so");
-        // nss-softokn
-        NATIVE_LIBRARIES_LINUX.add("libsoftokn3.so");
-        // nss
-        NATIVE_LIBRARIES_LINUX.add("libssl3.so");
-        // glibc
-        NATIVE_LIBRARIES_LINUX.add("libutil-2.28.so");
-        // p11-kit-trust
-        NATIVE_LIBRARIES_LINUX.add("p11-kit-trust.so");
         // softhsm
         NATIVE_LIBRARIES_LINUX.add("libsofthsm2.so");
+        // pcre2
+        NATIVE_LIBRARIES_LINUX.add("libpcre2-8.so.0.7.1");
+        // libselinux
+        NATIVE_LIBRARIES_LINUX.add("libselinux.so.1");
+        // nss-softokn
+        NATIVE_LIBRARIES_LINUX.add("libsoftokn3.so");
+        // libsoup
+        NATIVE_LIBRARIES_LINUX.add("libsoup-2.4.so.1.8.0");
+        // sqlite-libs
+        NATIVE_LIBRARIES_LINUX.add("libsqlite3.so.0.8.6");
+        // nss
+        NATIVE_LIBRARIES_LINUX.add("libssl3.so");
+        // systemd-libs
+        NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.23.0");
+        // libtasn1
+        NATIVE_LIBRARIES_LINUX.add("libtasn1.so.6.5.5");
+        // libthai
+        NATIVE_LIBRARIES_LINUX.add("libthai.so.0.3.0");
+        // libunistring
+        NATIVE_LIBRARIES_LINUX.add("libunistring.so.2.1.0");
+        // glibc
+        NATIVE_LIBRARIES_LINUX.add("libutil-2.28.so");
+        // libuuid
+        NATIVE_LIBRARIES_LINUX.add("libuuid.so.1.3.0");
+        // libwayland-client
+        NATIVE_LIBRARIES_LINUX.add("libwayland-client.so.0.3.0");
+        // libwayland-cursor
+        NATIVE_LIBRARIES_LINUX.add("libwayland-cursor.so.0.0.0");
+        // libwayland-egl
+        NATIVE_LIBRARIES_LINUX.add("libwayland-egl.so.1.0.0");
+        // libwayland-server
+        NATIVE_LIBRARIES_LINUX.add("libwayland-server.so.0.1.0");
+        // webkit2gtk3
+        NATIVE_LIBRARIES_LINUX.add("libwebkit2gtk-4.0.so.37.37.6");
+        // libwebp
+        NATIVE_LIBRARIES_LINUX.add("libwebp.so.7.0.2");
+        // libwebp
+        NATIVE_LIBRARIES_LINUX.add("libwebpdemux.so.2.0.4");
+        // woff2 (library for converting fonts from TTF WOFF 2.0 format)
+        NATIVE_LIBRARIES_LINUX.add("libwoff2common.so.1.0.2");
+        // woff2 (library for converting fonts from TTF WOFF 2.0 format)
+        NATIVE_LIBRARIES_LINUX.add("libwoff2dec.so.1.0.2");
+        // libX11
+        NATIVE_LIBRARIES_LINUX.add("libX11.so.6.3.0");
+        // libX11-xcb
+        NATIVE_LIBRARIES_LINUX.add("libX11-xcb.so.1.0.0");
+        // libXau
+        NATIVE_LIBRARIES_LINUX.add("libXau.so.6.0.0");
+        // libXcomposite
+        NATIVE_LIBRARIES_LINUX.add("libXcomposite.so.1.0.0");
+        // libXcursor
+        NATIVE_LIBRARIES_LINUX.add("libXcursor.so.1.0.2");
+        // libXdamage
+        NATIVE_LIBRARIES_LINUX.add("libXdamage.so.1.1.0");
+        // libXext
+        NATIVE_LIBRARIES_LINUX.add("libXext.so.6.4.0");
+        // libXfixes
+        NATIVE_LIBRARIES_LINUX.add("libXfixes.so.3.1.0");
+        // libXinerama
+        NATIVE_LIBRARIES_LINUX.add("libXinerama.so.1.0.0");
+        // libXi
+        NATIVE_LIBRARIES_LINUX.add("libXi.so.6.1.0");
+        // libXrandr
+        NATIVE_LIBRARIES_LINUX.add("libXrandr.so.2.2.0");
+        // libXrender
+        NATIVE_LIBRARIES_LINUX.add("libXrender.so.1.3.0");
+        // libXt
+        NATIVE_LIBRARIES_LINUX.add("libXt.so.6.0.0");
+        // libxcb
+        NATIVE_LIBRARIES_LINUX.add("libxcb.so.1.1.0");
+        // libxcb
+        NATIVE_LIBRARIES_LINUX.add("libxcb-dri2.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add("libxcb-dri3.so.0.0.0");
+        // libxcb
+        NATIVE_LIBRARIES_LINUX.add("libxcb-present.so.0.0.0");
+        // libxcb
+        NATIVE_LIBRARIES_LINUX.add("libxcb-render.so.0.0.0");
+        // libxcb
+        NATIVE_LIBRARIES_LINUX.add("libxcb-shm.so.0.0.0");
+        // libxcb
+        NATIVE_LIBRARIES_LINUX.add("libxcb-sync.so.1.0.0");
+        // libxcb
+        NATIVE_LIBRARIES_LINUX.add("libxcb-xfixes.so.0.0.0");
+        // libxkbcommon
+        NATIVE_LIBRARIES_LINUX.add("libxkbcommon.so.0.0.0");
+        // libxml2
+        NATIVE_LIBRARIES_LINUX.add("libxml2.so.2.9.7");
+        // libxshmfence
+        NATIVE_LIBRARIES_LINUX.add("libxshmfence.so.1.0.0");
+        // libxslt
+        NATIVE_LIBRARIES_LINUX.add("libxslt.so.1.1.32");
+        // zlib
+        NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.7");
+        NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.11");
+        // p11-kit-trust
+        NATIVE_LIBRARIES_LINUX.add("p11-kit-trust.so");
 
         NATIVE_LIBRARIES_LINUX_JAVA = new ArrayList<String>();
         // java-(1.8.0|11|17)-openjdk

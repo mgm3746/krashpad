@@ -88,10 +88,6 @@ CodeCache: size=245760Kb used=175269Kb max_used=175342Kb free=70490Kb
  total_blobs=43821 nmethods=43127 adapters=601
 ***REMOVED***
 
-
-***REMOVED***
-
-
 ***REMOVED***
 jvm_args: -Xms96g -Xmx96g -XX:MaxDirectMemorySize=8g -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+AlwaysPreTouch -XX:+UseNUMA -XX:ConcGCThreads=18 -XX:ShenandoahMinFreeThreshold=10 -XX:-UseBiasedLocking -Xloggc:/path/to/gc.log -verbose:gc -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/ -XX:+ExplicitGCInvokesConcurrent -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=10m -XX:ErrorFile=/path/to/ -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:-OmitStackTraceInFastThrow 
 java_command: 

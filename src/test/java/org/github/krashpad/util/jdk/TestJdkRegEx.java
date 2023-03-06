@@ -206,6 +206,9 @@ class TestJdkRegEx {
         assertTrue("my_app.so".matches(JdkRegEx.NATIVE_LIBRARY), "my_app.so not identified as native library.");
         assertTrue("my.app.so".matches(JdkRegEx.NATIVE_LIBRARY), "my.app.so not identified as native library.");
         assertTrue("my-app.so".matches(JdkRegEx.NATIVE_LIBRARY), "my-app.so not identified as native library.");
+        assertTrue("my-app.so.1".matches(JdkRegEx.NATIVE_LIBRARY), "my-app.so.1 not identified as native library.");
+        assertTrue("my-app.so.1.2.3".matches(JdkRegEx.NATIVE_LIBRARY),
+                "my-app.so.1.2.3 not identified as native library.");
         assertTrue("jvm.dll".matches(JdkRegEx.NATIVE_LIBRARY), "jvm.dll not identified as native library.");
         assertTrue("my44.dll".matches(JdkRegEx.NATIVE_LIBRARY), "my44.dll not identified as native library.");
         assertTrue("PSAPI.DLL".matches(JdkRegEx.NATIVE_LIBRARY), "PSAPI.DLL not identified as native library.");

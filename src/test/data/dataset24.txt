@@ -47,9 +47,7 @@ V  [libjvm.so+0x936322]  java_start(Thread*)+0x132
 C  [libpthread.so.0+0x7aa1]
 
 ***REMOVED***
-
 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511                     /path/to/jboss-eap-7.2/jboss-modules.jar
-
 7fb99c589000-7fb99c5b3000 r--s 00204000 f9:00 918256                     /path/to/jboss-eap-7.2/modules/system/layers/base/.overlays/layer-base-jboss-eap-7.2.8.CP/io/undertow/core/main/undertow-core-2.0.30.SP2-redhat-00001.jar
 
 jvm_args: -D[pcid:1553893585] -Xms8192m -Xmx8192m -XX:+UseG1GC -XX:ParallelGCThreads=16 -XX:+DisableExplicitGC -XX:+JavaMonitorsInStackTrace -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/avaya/SAL/ccs/jboss-eap-7.2 -XX:OnError=`pmap %p` -XX:NativeMemoryTracking=detail -verbose:gc -Xloggc:/path/to/gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime 

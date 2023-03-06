@@ -73,6 +73,8 @@ class TestAnalysis {
                 Analysis.INFO_ADOPTOPENJDK_POSSIBLE + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX.getKey()),
                 Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -298,6 +300,8 @@ class TestAnalysis {
                 GarbageCollector.PAR_NEW + " collector not identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.CMS),
                 GarbageCollector.CMS + " collector not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     /**
@@ -382,6 +386,8 @@ class TestAnalysis {
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS.getKey()),
                 Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -393,6 +399,8 @@ class TestAnalysis {
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL.getKey()),
                 Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -405,6 +413,8 @@ class TestAnalysis {
                 Analysis.INFO_MEMORY_JVM_NE_SYSTEM + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP_MEMORY_LIMIT.getKey()),
                 Analysis.INFO_CGROUP_MEMORY_LIMIT + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -455,6 +465,8 @@ class TestAnalysis {
                 Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -586,6 +598,8 @@ class TestAnalysis {
                 Analysis.ERROR_EXPLICIT_GC_DISABLED_EAP7 + " analysis not identified.");
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED + " analysis incorrectly identified.");
+        assertEquals(0, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -618,6 +632,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.WARN_DYNATRACE.getKey()),
                 Analysis.WARN_DYNATRACE + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -627,6 +643,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_LIBC_CFREE.getKey()),
                 Analysis.ERROR_JDK8_LIBC_CFREE + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
 
     ***REMOVED***
 
@@ -666,6 +684,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey()),
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -679,6 +699,8 @@ class TestAnalysis {
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -713,6 +735,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE.getKey()),
                 Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -738,6 +762,8 @@ class TestAnalysis {
                 Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -840,6 +866,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING.getKey()),
                 org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -898,6 +926,8 @@ class TestAnalysis {
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -940,6 +970,8 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
                 Analysis.ERROR_ITEXT_IO + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1092,6 +1124,8 @@ class TestAnalysis {
                 "Top compiled Java code (J) stack frame not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_DEFLATER_CONTENTION.getKey()),
                 Analysis.ERROR_JDK8_DEFLATER_CONTENTION + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1168,6 +1202,8 @@ class TestAnalysis {
                 "Top compiled Java code (J) stack frame not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION.getKey()),
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1214,6 +1250,8 @@ class TestAnalysis {
                 Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1320,6 +1358,8 @@ class TestAnalysis {
         assertTrue(fel.isJnaCrash(), "JNA crash not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC.getKey()),
                 Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC + " analysis not identified.");
+        assertEquals(29, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(2, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1360,6 +1400,8 @@ class TestAnalysis {
         assertEquals(stackFrame2, fel.getStackFrame(2), "Stack frame 2 not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_RH.getKey()),
                 Analysis.ERROR_JNA_RH + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1455,6 +1497,8 @@ class TestAnalysis {
                 "Release days diff not correct.");
         assertEquals(12, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
                 "Release ***REMOVED*** diff not correct.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1475,6 +1519,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_LIBAIO_CONTEXT_DONE.getKey()),
                 Analysis.ERROR_LIBAIO_CONTEXT_DONE + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1606,6 +1652,8 @@ class TestAnalysis {
                 Analysis.ERROR_JVM_DLL + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_POINTER_INVALID.getKey()),
                 Analysis.ERROR_POINTER_INVALID + " analysis not identified.");
+        assertEquals(79, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1677,6 +1725,8 @@ class TestAnalysis {
         assertEquals(JavaSpecification.JDK12, fel.getJavaSpecification(), "Java specification not correct.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LTS.getKey()),
                 Analysis.WARN_JDK_NOT_LTS + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1686,6 +1736,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_POINTER_NULL.getKey()),
                 Analysis.ERROR_POINTER_NULL + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1727,6 +1779,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_AMQ_CLI.getKey()),
                 Analysis.ERROR_OOME_AMQ_CLI + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1738,6 +1792,8 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL.getKey()),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1758,6 +1814,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey()),
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     void testOomeJavaHeap() {
@@ -1770,6 +1828,8 @@ class TestAnalysis {
                 Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_SEGV_MAPERR.getKey()),
                 Analysis.INFO_SIGCODE_SEGV_MAPERR + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1800,6 +1860,8 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1817,6 +1879,8 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_THREAD_LEAK + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP.getKey()),
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP + " analysis incorrectly identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
 
     ***REMOVED***
 
@@ -1829,6 +1893,8 @@ class TestAnalysis {
         assertEquals(Application.JBOSS_VERSION, fel.getApplication(), "Application not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JBOSS_VERSION.getKey()),
                 Analysis.ERROR_OOME_JBOSS_VERSION + " analysis not identified.");
+        assertEquals(31, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1850,6 +1916,8 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()),
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1859,6 +1927,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT.getKey()),
                 Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1890,6 +1960,8 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1903,6 +1975,8 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX.getKey()),
                 Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX + " analysis not identified.");
+        assertEquals(2, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1913,6 +1987,8 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(Analysis.WARN_OOM_G1.getKey()), Analysis.WARN_OOM_G1 + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_SWAP_DISABLED_G1.getKey()),
                 Analysis.WARN_SWAP_DISABLED_G1 + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1922,6 +1998,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN.getKey()),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -1931,6 +2009,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN.getKey()),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
+        assertEquals(17, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -2101,6 +2181,8 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_LIMIT_STARTUP + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -2225,6 +2307,8 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED.getKey()),
                 org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_VMWARE.getKey()), Analysis.INFO_VMWARE + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -2272,6 +2356,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -2346,6 +2432,8 @@ class TestAnalysis {
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis incorrectly identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -2403,6 +2491,8 @@ class TestAnalysis {
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9.getKey()),
                 Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9 + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -2443,6 +2533,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK.getKey()),
                 Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -2527,6 +2619,8 @@ class TestAnalysis {
         assertFalse(fel.isRhBuildOpenJdk(), "RH build of OpenJDK incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_SWAP_DISABLED.getKey()),
                 Analysis.INFO_SWAP_DISABLED + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test
@@ -2536,6 +2630,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.INFO_SWAPPING.getKey()),
                 Analysis.INFO_SWAPPING + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     ***REMOVED***
 
     @Test

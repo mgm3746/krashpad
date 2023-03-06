@@ -439,9 +439,15 @@ public class JdkRegEx {
     /**
      * Native library.
      * 
-     * For example libjvm.so, jvm.dll
+     * For example:
+     * 
+     * <pre>
+     * libjvm.so 
+     * jvm.dll 
+     * libpcre2-8.so.0.7.1
+     * </pre>
      */
-    public static final String NATIVE_LIBRARY = "[a-zA-Z\\d-_\\.]{1,***REMOVED***\\.(DLL|dll|so)";
+    public static final String NATIVE_LIBRARY = "[a-zA-Z\\d-_\\.]{1,***REMOVED***\\.(DLL|dll|so)(\\.\\d{1,***REMOVED***){0,***REMOVED***";
 
     /**
      * Dynatrace native library.
