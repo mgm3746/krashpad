@@ -87,7 +87,7 @@ public class CpuInfoEvent implements LogEvent {
      * </pre>
      */
     private static final String _REGEX_VALUE = "^(\\d{1,***REMOVED***|\\d{1,***REMOVED***-\\d{1,***REMOVED***|" + JdkRegEx.SIZE
-            + "|\\d{1,2***REMOVED***KFrequency|Data|Instruction|Unified|performance( powersave)?)$";
+            + "|\\d{1,2***REMOVED***KFrequency|Data|Instruction|Unified|performance|performance powersave|powersave)$";
 
     /**
      * Regular expression defining the logging.

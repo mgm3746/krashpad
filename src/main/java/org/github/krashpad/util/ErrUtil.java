@@ -83,7 +83,9 @@ public class ErrUtil {
         // atk
         NATIVE_LIBRARIES_LINUX.add("libatk-1.0.so.0.22810.1");
         // at-spi2-atk
-        NATIVE_LIBRARIES_LINUX.add("libatk-bridge-2.0.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add("libatk-bridge-2.0.so.0.0.0");        
+        // libatomic
+        NATIVE_LIBRARIES_LINUX.add("libatomic.so.1.2.0");        
         // at-spi2-core
         NATIVE_LIBRARIES_LINUX.add("libatspi.so.0.0.1");
         // brotli (compression library)
@@ -102,6 +104,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libcairo-gobject.so.2.11512.0");
         // libpcap
         NATIVE_LIBRARIES_LINUX.add("libcap.so.2.26");
+        NATIVE_LIBRARIES_LINUX.add("libcap.so.2.48");
         // libcom-err
         NATIVE_LIBRARIES_LINUX.add("libcom_err.so.2.1");
         // libcroco
@@ -122,6 +125,12 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libblkid.so.1.1.0");
         // libdrm
         NATIVE_LIBRARIES_LINUX.add("libdrm.so.2.4.0");
+        // libdrm
+        NATIVE_LIBRARIES_LINUX.add("libdrm_amdgpu.so.1.0.0");
+        // libdrm
+        NATIVE_LIBRARIES_LINUX.add("libdrm_nouveau.so.2.0.0");
+        // libdrm
+        NATIVE_LIBRARIES_LINUX.add("libdrm_radeon.so.1.0.1");
         // elfutils-devel
         NATIVE_LIBRARIES_LINUX.add("libdw-0.160.so");
         NATIVE_LIBRARIES_LINUX.add("libdw-0.176.so");
@@ -132,6 +141,7 @@ public class ErrUtil {
         // elfutils-libelf-devel
         NATIVE_LIBRARIES_LINUX.add("libelf-0.160.so");
         NATIVE_LIBRARIES_LINUX.add("libelf-0.176.so");
+        NATIVE_LIBRARIES_LINUX.add("libelf-0.187.so");
         // enchant2
         NATIVE_LIBRARIES_LINUX.add("libenchant-2.so.2.2.3");
         // libepoxy
@@ -166,6 +176,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20210514.so.1");
         // libgcrypt
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.3");
+        NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.5");
         // gtk3
         NATIVE_LIBRARIES_LINUX.add("libgdk-3.so.0.2200.30");
         // gdk-pixbuf2
@@ -176,12 +187,15 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libglapi.so.0.0.0");
         // glib2
         NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.4");
+        // libglvnd-opengl
+        NATIVE_LIBRARIES_LINUX.add("libOpenGL.so.0.0.0");
         // glib2
         NATIVE_LIBRARIES_LINUX.add("libgmodule-2.0.so.0.5600.4");
         // gmp
         NATIVE_LIBRARIES_LINUX.add("libgmp.so.10.3.2");
         // gnutls
         NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.24.0");
+        NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.28.2");
         // glib2
         NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5600.4");
         // libgpg-error
@@ -238,10 +252,13 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libicui18n.so.60.3");
         // libicu
         NATIVE_LIBRARIES_LINUX.add("libicuuc.so.60.3");
+        // mesa-dri-drivers
+        NATIVE_LIBRARIES_LINUX.add("iris_dri.so");
         // glibc-gconv-extra
         NATIVE_LIBRARIES_LINUX.add("libJIS.so");
         // webkit2gtk3-jsc
         NATIVE_LIBRARIES_LINUX.add("libjavascriptcoregtk-4.0.so.18.13.7");
+        NATIVE_LIBRARIES_LINUX.add("libjavascriptcoregtk-4.0.so.18.20.11");
         // libjpeg-turbo
         NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.2.0");
         // jss
@@ -254,10 +271,15 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libkrb5.so.3.3");
         // krb5-libs
         NATIVE_LIBRARIES_LINUX.add("libkrb5support.so.0.1");
+        // llvm-libs
+        NATIVE_LIBRARIES_LINUX.add("libLLVM-14.so");
+        // lcms2
+        NATIVE_LIBRARIES_LINUX.add("liblcms2.so.2.0.8");
         // xz-libs
         NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.4");
         // lz4-libs
         NATIVE_LIBRARIES_LINUX.add("liblz4.so.1.8.1");
+        NATIVE_LIBRARIES_LINUX.add("liblz4.so.1.8.3");
         // glibc-devel
         NATIVE_LIBRARIES_LINUX.add("libm-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libm-2.17.so");
@@ -293,6 +315,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libnuma.so.1.0.0");
         // openjpeg2
         NATIVE_LIBRARIES_LINUX.add("libopenjp2.so.2.3.1");
+        NATIVE_LIBRARIES_LINUX.add("libopenjp2.so.2.4.0");
         // orc
         NATIVE_LIBRARIES_LINUX.add("liborc-0.4.so.0.28.0");
         // p11-kit
@@ -358,6 +381,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libtasn1.so.6.5.5");
         // libthai
         NATIVE_LIBRARIES_LINUX.add("libthai.so.0.3.0");
+        // ncurses-libs
+        NATIVE_LIBRARIES_LINUX.add("libtinfo.so.6.1");
         // libunistring
         NATIVE_LIBRARIES_LINUX.add("libunistring.so.2.1.0");
         // glibc
@@ -374,6 +399,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libwayland-server.so.0.1.0");
         // webkit2gtk3
         NATIVE_LIBRARIES_LINUX.add("libwebkit2gtk-4.0.so.37.37.6");
+        NATIVE_LIBRARIES_LINUX.add("libwebkit2gtk-4.0.so.37.56.11");
         // libwebp
         NATIVE_LIBRARIES_LINUX.add("libwebp.so.7.0.2");
         // libwebp

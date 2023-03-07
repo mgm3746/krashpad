@@ -72,7 +72,7 @@ import org.github.krashpad.domain.jdk.UnameEvent;
 import org.github.krashpad.domain.jdk.VirtualizationInfoEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
-import org.github.krashpad.domain.jdk.VmOperationEvent;
+import org.github.krashpad.domain.jdk.VmOperation;
 import org.github.krashpad.domain.jdk.VmStateEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
@@ -235,8 +235,8 @@ public class Manager {
                         fatalErrorLog.getVmArgumentsEvents().add((VmArgumentsEvent) event);
                     ***REMOVED*** else if (event instanceof VmInfoEvent) {
                         fatalErrorLog.setVmInfoEvent((VmInfoEvent) event);
-                    ***REMOVED*** else if (event instanceof VmOperationEvent) {
-                        fatalErrorLog.setVmOperationEvent((VmOperationEvent) event);
+                    ***REMOVED*** else if (event instanceof VmOperation) {
+                        fatalErrorLog.setVmOperationEvent((VmOperation) event);
                     ***REMOVED*** else if (event instanceof VmStateEvent) {
                         fatalErrorLog.setVmStateEvent((VmStateEvent) event);
                     ***REMOVED***

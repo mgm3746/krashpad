@@ -14,26 +14,23 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * VM_OPERATION
+ * OPERATION
  * </p>
  * 
  * <p>
- * VM_Operation information.
+ * VM operations leading up to the crash.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a000
+ * VM Operations (0 events):
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -41,14 +38,18 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class VmOperationEvent implements LogEvent {
 
-    private static Pattern pattern = Pattern.compile(VmOperationEvent.REGEX);
+    /**
+     * Regular expression for the header.
+     */
+    public static final String _REGEX_HEADER = "VM Operations \\(\\d{1,***REMOVED*** events\\):";
+
+    private static final String _REGEX_OPERATIONS = "(Cleanup|HandshakeAllThreads|ICBufferFull)";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^VM_Operation \\(" + JdkRegEx.ADDRESS
-            + "\\): ((BulkRevokeBias|CGC_Operation|CollectForMetadataAllocation|G1CollectFull|GetAllStackTraces"
-            + "|GetThreadListStackTraces|HeapDumper|ParallelGCFailedAllocation|PrintThreads|ShenandoahFullGC).+)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
+            + " Executing VM operation: " + _REGEX_OPERATIONS + ".*|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -81,34 +82,6 @@ public class VmOperationEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.VM_OPERATION.toString();
-    ***REMOVED***
-
-    /**
-     * @return The VM operation. For example:
-     * 
-     *         PrintThreads
-     */
-    public String getVmOperation() {
-        String vmOperation = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            vmOperation = matcher.group(7);
-        ***REMOVED***
-        return vmOperation;
-    ***REMOVED***
-
-    /**
-     * @return The VM operation string. For example:
-     * 
-     *         PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a000
-     */
-    public String getVmOperationString() {
-        String vmOperation = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            vmOperation = matcher.group(6);
-        ***REMOVED***
-        return vmOperation;
+        return JdkUtil.LogEventType.VM_OPERATION_EVENT.toString();
     ***REMOVED***
 ***REMOVED***

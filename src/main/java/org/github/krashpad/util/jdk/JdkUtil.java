@@ -73,7 +73,7 @@ import org.github.krashpad.domain.jdk.MetaspaceEvent;
 import org.github.krashpad.domain.jdk.NarrowKlassEvent;
 import org.github.krashpad.domain.jdk.NativeMemoryTrackingEvent;
 import org.github.krashpad.domain.jdk.NumberEvent;
-import org.github.krashpad.domain.jdk.OperationEvent;
+import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.OsUptimeEvent;
 import org.github.krashpad.domain.jdk.PidMaxEvent;
@@ -104,7 +104,7 @@ import org.github.krashpad.domain.jdk.VirtualizationInfoEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
 import org.github.krashpad.domain.jdk.VmMutexEvent;
-import org.github.krashpad.domain.jdk.VmOperationEvent;
+import org.github.krashpad.domain.jdk.VmOperation;
 import org.github.krashpad.domain.jdk.VmStateEvent;
 import org.github.krashpad.util.Constants.OsVersion;
 
@@ -222,15 +222,15 @@ public class JdkUtil {
         //
         HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING,
         //
-        MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NUMBER, OPERATION,
+        MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME,
         //
-        OS, OS_UPTIME, PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO,
+        PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS,
         //
-        SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, STATISTICS, THREAD, THREADS_ACTIVE_COMPILE,
+        STACK, STACK_SLOT_TO_MEMORY_MAPPING, STATISTICS, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO,
         //
-        THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE,
+        THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME,
         //
-        UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_STATE
+        UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE
     ***REMOVED***
 
     /**
@@ -1818,9 +1818,6 @@ public class JdkUtil {
             logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
         ***REMOVED*** else if (NumberEvent.match(logLine)) {
             logEventType = LogEventType.NUMBER;
-        ***REMOVED*** else if (OperationEvent.match(logLine)
-                && (logLine.matches(OperationEvent._REGEX_HEADER) || priorEvent instanceof OperationEvent)) {
-            logEventType = LogEventType.OPERATION;
         ***REMOVED*** else if (OsEvent.match(logLine)) {
             logEventType = LogEventType.OS;
         ***REMOVED*** else if (OsUptimeEvent.match(logLine)) {
@@ -1877,8 +1874,11 @@ public class JdkUtil {
             logEventType = LogEventType.VM_INFO;
         ***REMOVED*** else if (VmMutexEvent.match(logLine)) {
             logEventType = LogEventType.VM_MUTEX;
-        ***REMOVED*** else if (VmOperationEvent.match(logLine)) {
+        ***REMOVED*** else if (VmOperation.match(logLine)) {
             logEventType = LogEventType.VM_OPERATION;
+        ***REMOVED*** else if (VmOperationEvent.match(logLine)
+                && (logLine.matches(VmOperationEvent._REGEX_HEADER) || priorEvent instanceof VmOperationEvent)) {
+            logEventType = LogEventType.VM_OPERATION_EVENT;
         ***REMOVED*** else if (VmStateEvent.match(logLine)) {
             logEventType = LogEventType.VM_STATE;
         ***REMOVED*** else if (VirtualizationInfoEvent.match(logLine)) {
@@ -2125,8 +2125,8 @@ public class JdkUtil {
         case NUMBER:
             event = new NumberEvent(logLine);
             break;
-        case OPERATION:
-            event = new OperationEvent(logLine);
+        case VM_OPERATION_EVENT:
+            event = new VmOperationEvent(logLine);
             break;
         case OS:
             event = new OsEvent(logLine);
@@ -2219,7 +2219,7 @@ public class JdkUtil {
             event = new VmMutexEvent(logLine);
             break;
         case VM_OPERATION:
-            event = new VmOperationEvent(logLine);
+            event = new VmOperation(logLine);
             break;
         case VM_STATE:
             event = new VmStateEvent(logLine);

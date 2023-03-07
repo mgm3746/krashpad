@@ -615,6 +615,14 @@ class TestCpuInfoEvent {
     ***REMOVED***
 
     @Test
+    void testValuePowerSave() {
+        LogEvent priorEvent = new CpuInfoEvent("");
+        String logLine = "powersave";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testVendorId() {
         LogEvent priorEvent = new CpuInfoEvent("");
         String logLine = "vendor_id       : GenuineIntel";

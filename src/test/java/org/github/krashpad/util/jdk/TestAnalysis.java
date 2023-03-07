@@ -47,7 +47,7 @@ import org.github.krashpad.domain.jdk.TimeElapsedTimeEvent;
 import org.github.krashpad.domain.jdk.TimeEvent;
 import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
-import org.github.krashpad.domain.jdk.VmOperationEvent;
+import org.github.krashpad.domain.jdk.VmOperation;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.OsVersion;
@@ -2720,7 +2720,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String vmOperation = "VM_Operation (0x0000008e276ff410): CGC_Operation, mode: safepoint, requested by thread "
                 + "0x000001d9d3e12800";
-        VmOperationEvent event = new VmOperationEvent(vmOperation);
+        VmOperation event = new VmOperation(vmOperation);
         fel.setVmOperationEvent(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_CONCURRENT_GC.getKey()),
@@ -2732,7 +2732,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String vmOperation = "VM_Operation (0x0000000054ede490): HeapDumper, mode: safepoint, requested by thread "
                 + "0x000000004d180000";
-        VmOperationEvent event = new VmOperationEvent(vmOperation);
+        VmOperation event = new VmOperation(vmOperation);
         fel.setVmOperationEvent(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_HEAP_DUMP.getKey()),

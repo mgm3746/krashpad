@@ -1064,7 +1064,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String vmOperation = "VM_Operation (0x00007efff5d6d830): GetThreadListStackTraces, mode: safepoint, requested "
                 + "by thread 0x000055b2423e2800";
-        VmOperationEvent vmOperationEvent = new VmOperationEvent(vmOperation);
+        VmOperation vmOperationEvent = new VmOperation(vmOperation);
         fel.setVmOperationEvent(vmOperationEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI.getKey()),

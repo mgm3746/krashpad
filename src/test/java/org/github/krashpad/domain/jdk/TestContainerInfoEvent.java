@@ -96,6 +96,13 @@ class TestContainerInfoEvent {
     ***REMOVED***
 
     @Test
+    void testKernelMemoryUsageInBytes() {
+        String logLine = "kernel_memory_usage_in_bytes: 599564 k";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testMaximumNumberOfTasks() {
         String logLine = "maximum number of tasks: 75254";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,

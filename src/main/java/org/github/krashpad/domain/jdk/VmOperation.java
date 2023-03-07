@@ -14,38 +14,44 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * OPERATION
+ * VM_OPERATION
  * </p>
  * 
  * <p>
- * VM operations leading up to the crash.
+ * VM_Operation information.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * VM Operations (0 events):
+ * VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a000
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class OperationEvent implements LogEvent {
+public class VmOperation implements LogEvent {
 
-    /**
-     * Regular expression for the header.
-     */
-    public static final String _REGEX_HEADER = "VM Operations \\(\\d{1,***REMOVED*** events\\):";
+    private static final String __REGEX_OPERATIONS = "(BulkRevokeBias|CGC_Operation|CollectForMetadataAllocation|"
+            + "G1CollectFull|GetAllStackTraces|GetThreadListStackTraces|HeapDumper|ParallelGCFailedAllocation|"
+            + "PrintThreads|ShenandoahFullGC)";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|No [Ee]vents)$";
+    private static final String _REGEX = "^VM_Operation \\(" + JdkRegEx.ADDRESS + "\\): (" + __REGEX_OPERATIONS
+            + ".+)$";
+
+    private static Pattern pattern = Pattern.compile(_REGEX);
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -55,7 +61,7 @@ public class OperationEvent implements LogEvent {
      * @return true if the log line matches the event pattern, false otherwise.
      */
     public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+        return logLine.matches(_REGEX);
     ***REMOVED***
 
     /**
@@ -69,7 +75,7 @@ public class OperationEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public OperationEvent(String logEntry) {
+    public VmOperation(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -78,6 +84,34 @@ public class OperationEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.OPERATION.toString();
+        return JdkUtil.LogEventType.VM_OPERATION.toString();
+    ***REMOVED***
+
+    /**
+     * @return The VM operation. For example:
+     * 
+     *         PrintThreads
+     */
+    public String getVmOperation() {
+        String vmOperation = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            vmOperation = matcher.group(7);
+        ***REMOVED***
+        return vmOperation;
+    ***REMOVED***
+
+    /**
+     * @return The VM operation string. For example:
+     * 
+     *         PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a000
+     */
+    public String getVmOperationString() {
+        String vmOperation = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            vmOperation = matcher.group(6);
+        ***REMOVED***
+        return vmOperation;
     ***REMOVED***
 ***REMOVED***

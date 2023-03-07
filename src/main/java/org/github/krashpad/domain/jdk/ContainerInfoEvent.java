@@ -53,7 +53,7 @@ public class ContainerInfoEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + ContainerInfoEvent.REGEX_HEADER
-            + "|active_processor|container_type|cpu_|(current|maximum) number of tasks|memory_).*$";
+            + "|active_processor|container_type|cpu_|(current|maximum) number of tasks|kernel_|memory_).*$";
 
     /**
      * Regular expression for the header.

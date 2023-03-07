@@ -299,7 +299,7 @@ public class FatalErrorLog {
     /**
      * VM operation information.
      */
-    private VmOperationEvent vmOperationEvent;
+    private VmOperation vmOperationEvent;
 
     /**
      * VM state information.
@@ -4261,7 +4261,7 @@ public class FatalErrorLog {
         return vmArgumentsEvents;
     ***REMOVED***
 
-    public VmOperationEvent getVmOperationEvent() {
+    public VmOperation getVmOperationEvent() {
         return vmOperationEvent;
     ***REMOVED***
 
@@ -5626,7 +5626,7 @@ public class FatalErrorLog {
         this.vmInfoEvent = vmInfoEvent;
     ***REMOVED***
 
-    public void setVmOperationEvent(VmOperationEvent vmOperationEvent) {
+    public void setVmOperationEvent(VmOperation vmOperationEvent) {
         this.vmOperationEvent = vmOperationEvent;
     ***REMOVED***
 
