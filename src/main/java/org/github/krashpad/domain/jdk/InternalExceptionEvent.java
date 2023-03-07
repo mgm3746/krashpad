@@ -37,7 +37,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class ExceptionEvent implements LogEvent {
+public class InternalExceptionEvent implements LogEvent {
 
     /**
      * Regular expression for the header.
@@ -72,7 +72,7 @@ public class ExceptionEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public ExceptionEvent(String logEntry) {
+    public InternalExceptionEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -81,6 +81,6 @@ public class ExceptionEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.EXCEPTION_EVENT.toString();
+        return JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT.toString();
     ***REMOVED***
 ***REMOVED***

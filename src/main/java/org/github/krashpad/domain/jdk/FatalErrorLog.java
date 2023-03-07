@@ -172,6 +172,16 @@ public class FatalErrorLog {
     private HostEvent hostEvent;
 
     /**
+     * Exceptions information.
+     */
+    private List<InternalExceptionEvent> internalExceptionEvents;
+
+    /**
+     * Statistics information.
+     */
+    private List<InternalStatisticEvent> internalStatisticEvents;
+
+    /**
      * JVMOptions object.
      */
     private JvmOptions jvmOptions;
@@ -242,11 +252,6 @@ public class FatalErrorLog {
     private List<StackSlotToMemoryMappingEvent> stackSlotToMemoryMappingEvents;
 
     /**
-     * Statistics information.
-     */
-    private List<StatisticsEvent> statisticsEvents;
-
-    /**
      * Thread information.
      */
     private List<ThreadEvent> threadEvents;
@@ -314,8 +319,8 @@ public class FatalErrorLog {
         classesUnloadedEvents = new ArrayList<ClassesUnloadedEvent>();
         compilationEvents = new ArrayList<CompilationEvent>();
         containerInfoEvents = new ArrayList<ContainerInfoEvent>();
-        currentCompileTaskEvents = new ArrayList<CurrentCompileTaskEvent>();
         cpuInfoEvents = new ArrayList<CpuInfoEvent>();
+        currentCompileTaskEvents = new ArrayList<CurrentCompileTaskEvent>();
         deoptimizationEvents = new ArrayList<DeoptimizationEvent>();
         dllOperationEvents = new ArrayList<DllOperationEvent>();
         dynamicLibraryEvents = new ArrayList<DynamicLibraryEvent>();
@@ -327,19 +332,20 @@ public class FatalErrorLog {
         globalFlagsEvents = new ArrayList<GlobalFlagsEvent>();
         headerEvents = new ArrayList<HeaderEvent>();
         heapEvents = new ArrayList<HeapEvent>();
+        internalExceptionEvents = new ArrayList<InternalExceptionEvent>();
+        internalStatisticEvents = new ArrayList<InternalStatisticEvent>();
         ldPreloadFileEvents = new ArrayList<LdPreloadFileEvent>();
         meminfoEvents = new ArrayList<MeminfoEvent>();
         memoryEvents = new ArrayList<MemoryEvent>();
         nativeMemoryTrackingEvents = new ArrayList<NativeMemoryTrackingEvent>();
         osEvents = new ArrayList<OsEvent>();
-        stackEvents = new ArrayList<StackEvent>();
         registerToMemoryMappingEvents = new ArrayList<RegisterToMemoryMappingEvent>();
+        stackEvents = new ArrayList<StackEvent>();
         stackSlotToMemoryMappingEvents = new ArrayList<StackSlotToMemoryMappingEvent>();
-        statisticsEvents = new ArrayList<StatisticsEvent>();
         threadEvents = new ArrayList<ThreadEvent>();
         unidentifiedLogLines = new ArrayList<String>();
-        vmArgumentsEvents = new ArrayList<VmArgumentsEvent>();
         virtualizationInfoEvents = new ArrayList<VirtualizationInfoEvent>();
+        vmArgumentsEvents = new ArrayList<VmArgumentsEvent>();
     ***REMOVED***
 
     /**
@@ -2572,6 +2578,14 @@ public class FatalErrorLog {
         return hostEvent;
     ***REMOVED***
 
+    public List<InternalExceptionEvent> getInternalExceptionEvents() {
+        return internalExceptionEvents;
+    ***REMOVED***
+
+    public List<InternalStatisticEvent> getInternalStatisticEvents() {
+        return internalStatisticEvents;
+    ***REMOVED***
+
     /**
      * @return Jar list (unique entries).
      */
@@ -3641,7 +3655,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 MemoryEvent event = iterator.next();
                 if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Pattern pattern = Pattern.compile(MemoryEvent.__REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0),
@@ -3678,7 +3692,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 MemoryEvent event = iterator.next();
                 if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Pattern pattern = Pattern.compile(MemoryEvent.__REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0),
@@ -3748,7 +3762,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 MemoryEvent event = iterator.next();
                 if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Pattern pattern = Pattern.compile(MemoryEvent.__REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find() && matcher.group(9) != null) {
                         swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0),
@@ -3785,7 +3799,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 MemoryEvent event = iterator.next();
                 if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(MemoryEvent.REGEX_HEADER);
+                    Pattern pattern = Pattern.compile(MemoryEvent.__REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find() && matcher.group(9) != null) {
                         swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0),
@@ -4071,10 +4085,6 @@ public class FatalErrorLog {
 
     public List<StackSlotToMemoryMappingEvent> getStackSlotToMemoryMappingEvents() {
         return stackSlotToMemoryMappingEvents;
-    ***REMOVED***
-
-    public List<StatisticsEvent> getStatisticsEvents() {
-        return statisticsEvents;
     ***REMOVED***
 
     /**

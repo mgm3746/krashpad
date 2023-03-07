@@ -48,6 +48,8 @@ import org.github.krashpad.domain.jdk.HeaderEvent;
 import org.github.krashpad.domain.jdk.HeapAddressEvent;
 import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.HostEvent;
+import org.github.krashpad.domain.jdk.InternalExceptionEvent;
+import org.github.krashpad.domain.jdk.InternalStatisticEvent;
 import org.github.krashpad.domain.jdk.LdPreloadFileEvent;
 import org.github.krashpad.domain.jdk.MaxMapCountEvent;
 import org.github.krashpad.domain.jdk.MeminfoEvent;
@@ -62,7 +64,6 @@ import org.github.krashpad.domain.jdk.RlimitEvent;
 import org.github.krashpad.domain.jdk.SigInfoEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
 import org.github.krashpad.domain.jdk.StackSlotToMemoryMappingEvent;
-import org.github.krashpad.domain.jdk.StatisticsEvent;
 import org.github.krashpad.domain.jdk.ThreadEvent;
 import org.github.krashpad.domain.jdk.ThreadsMaxEvent;
 import org.github.krashpad.domain.jdk.TimeElapsedTimeEvent;
@@ -203,8 +204,10 @@ public class Manager {
                         fatalErrorLog.getStackEvents().add((StackEvent) event);
                     ***REMOVED*** else if (event instanceof StackSlotToMemoryMappingEvent) {
                         fatalErrorLog.getStackSlotToMemoryMappingEvents().add((StackSlotToMemoryMappingEvent) event);
-                    ***REMOVED*** else if (event instanceof StatisticsEvent) {
-                        fatalErrorLog.getStatisticsEvents().add((StatisticsEvent) event);
+                    ***REMOVED*** else if (event instanceof InternalExceptionEvent) {
+                        fatalErrorLog.getInternalExceptionEvents().add((InternalExceptionEvent) event);
+                    ***REMOVED*** else if (event instanceof InternalStatisticEvent) {
+                        fatalErrorLog.getInternalStatisticEvents().add((InternalStatisticEvent) event);
                     ***REMOVED*** else if (event instanceof ThreadEvent) {
                         fatalErrorLog.getThreadEvents().add((ThreadEvent) event);
                     ***REMOVED*** else if (event instanceof ThreadsMaxEvent) {

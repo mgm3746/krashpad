@@ -66,8 +66,8 @@ class TestDllOperationEvent {
                 JdkUtil.LogEventType.CLASSES_UNLOADED.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof ClassesRedefinedEvent,
                 JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " incorrectly identified.");
-        assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof ExceptionEvent,
-                JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " incorrectly identified.");
+        assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof InternalExceptionEvent,
+                JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof EventEvent,

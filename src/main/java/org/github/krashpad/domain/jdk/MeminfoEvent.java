@@ -83,17 +83,17 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class MeminfoEvent implements LogEvent {
 
     /**
+     * Regular expression for the header.
+     */
+    public static final String _REGEX_HEADER = "***REMOVED***";
+
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + MeminfoEvent.REGEX_HEADER
+    private static final String REGEX = "^(" + _REGEX_HEADER
             + "|Active|Anon|Bounce|Buffers|Cached|Cma|Commit|Direct|Dirty|FileHugePages|FilePmdMapped|Hardware|Huge|"
             + "Inactive|Kernel|Mapped|MemAvailable|MemFree|MemTotal|Mlocked|NFS|Page|Percpu|[KS]Reclaimable|Shmem|Slab|"
             + "SUnreclaim|SwapCached|SwapFree|SwapTotal|Unevictable|Vmalloc|Write).*$";
-
-    /**
-     * Regular expression for the header.
-     */
-    private static final String REGEX_HEADER = "***REMOVED***";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

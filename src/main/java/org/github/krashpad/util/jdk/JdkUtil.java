@@ -50,7 +50,6 @@ import org.github.krashpad.domain.jdk.EndEvent;
 import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
 import org.github.krashpad.domain.jdk.EventEvent;
 import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
-import org.github.krashpad.domain.jdk.ExceptionEvent;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.GcHeapHistoryEvent;
 import org.github.krashpad.domain.jdk.GcPreciousLogEvent;
@@ -62,6 +61,8 @@ import org.github.krashpad.domain.jdk.HeapEvent;
 import org.github.krashpad.domain.jdk.HeapRegionsEvent;
 import org.github.krashpad.domain.jdk.HostEvent;
 import org.github.krashpad.domain.jdk.InstructionsEvent;
+import org.github.krashpad.domain.jdk.InternalExceptionEvent;
+import org.github.krashpad.domain.jdk.InternalStatisticEvent;
 import org.github.krashpad.domain.jdk.LdPreloadFileEvent;
 import org.github.krashpad.domain.jdk.LibcEvent;
 import org.github.krashpad.domain.jdk.LoadAverageEvent;
@@ -73,7 +74,6 @@ import org.github.krashpad.domain.jdk.MetaspaceEvent;
 import org.github.krashpad.domain.jdk.NarrowKlassEvent;
 import org.github.krashpad.domain.jdk.NativeMemoryTrackingEvent;
 import org.github.krashpad.domain.jdk.NumberEvent;
-import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
 import org.github.krashpad.domain.jdk.OsUptimeEvent;
 import org.github.krashpad.domain.jdk.PidMaxEvent;
@@ -87,7 +87,6 @@ import org.github.krashpad.domain.jdk.SigInfoEvent;
 import org.github.krashpad.domain.jdk.SignalHandlersEvent;
 import org.github.krashpad.domain.jdk.StackEvent;
 import org.github.krashpad.domain.jdk.StackSlotToMemoryMappingEvent;
-import org.github.krashpad.domain.jdk.StatisticsEvent;
 import org.github.krashpad.domain.jdk.ThreadEvent;
 import org.github.krashpad.domain.jdk.ThreadsActiveCompileEvent;
 import org.github.krashpad.domain.jdk.ThreadsClassSmrInfoEvent;
@@ -105,6 +104,7 @@ import org.github.krashpad.domain.jdk.VmArgumentsEvent;
 import org.github.krashpad.domain.jdk.VmInfoEvent;
 import org.github.krashpad.domain.jdk.VmMutexEvent;
 import org.github.krashpad.domain.jdk.VmOperation;
+import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.domain.jdk.VmStateEvent;
 import org.github.krashpad.util.Constants.OsVersion;
 
@@ -218,19 +218,21 @@ public class JdkUtil {
         //
         DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT,
         //
-        EXCEPTION_COUNTS, EXCEPTION_EVENT, GC_HEAP_HISTORY, GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER, HEADING, HEAP,
+        EXCEPTION_COUNTS, GC_HEAP_HISTORY, GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER, HEADING, HEAP, HEAP_ADDRESS,
         //
-        HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING,
+        HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTICS_EVENT,
         //
-        MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME,
+        LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS,
         //
-        PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS,
+        NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME, PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER,
         //
-        STACK, STACK_SLOT_TO_MEMORY_MAPPING, STATISTICS, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO,
+        REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD,
         //
-        THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME,
+        THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK,
         //
-        UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE
+        TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX,
+        //
+        VM_OPERATION, VM_OPERATION_EVENT, VM_STATE
     ***REMOVED***
 
     /**
@@ -1768,9 +1770,6 @@ public class JdkUtil {
             logEventType = LogEventType.EVENT;
         ***REMOVED*** else if (ExceptionCountsEvent.match(logLine)) {
             logEventType = LogEventType.EXCEPTION_COUNTS;
-        ***REMOVED*** else if (ExceptionEvent.match(logLine)
-                && (logLine.matches(ExceptionEvent._REGEX_HEADER) || priorEvent instanceof ExceptionEvent)) {
-            logEventType = LogEventType.EXCEPTION_EVENT;
         ***REMOVED*** else if (GcHeapHistoryEvent.match(logLine)
                 && (logLine.matches(GcHeapHistoryEvent._REGEX_HEADER) || priorEvent instanceof GcHeapHistoryEvent)) {
             logEventType = LogEventType.GC_HEAP_HISTORY;
@@ -1794,8 +1793,12 @@ public class JdkUtil {
             logEventType = LogEventType.HOST;
         ***REMOVED*** else if (InstructionsEvent.match(logLine)) {
             logEventType = LogEventType.INSTRUCTIONS;
-        ***REMOVED*** else if (StatisticsEvent.match(logLine)) {
-            logEventType = LogEventType.STATISTICS;
+        ***REMOVED*** else if (InternalExceptionEvent.match(logLine) && (logLine.matches(InternalExceptionEvent._REGEX_HEADER)
+                || priorEvent instanceof InternalExceptionEvent)) {
+            logEventType = LogEventType.INTERNAL_EXCEPTION_EVENT;
+        ***REMOVED*** else if (InternalStatisticEvent.match(logLine) && (logLine.matches(InternalStatisticEvent._REGEX_HEADER)
+                || priorEvent instanceof InternalStatisticEvent)) {
+            logEventType = LogEventType.INTERNAL_STATISTICS_EVENT;
         ***REMOVED*** else if (LdPreloadFileEvent.match(logLine)) {
             logEventType = LogEventType.LD_PRELOAD_FILE;
         ***REMOVED*** else if (LibcEvent.match(logLine)) {
@@ -1806,9 +1809,11 @@ public class JdkUtil {
             logEventType = LogEventType.LOGGING;
         ***REMOVED*** else if (MaxMapCountEvent.match(logLine)) {
             logEventType = LogEventType.MAX_MAP_COUNT;
-        ***REMOVED*** else if (MeminfoEvent.match(logLine)) {
+        ***REMOVED*** else if (MeminfoEvent.match(logLine)
+                && (logLine.matches(MeminfoEvent._REGEX_HEADER) || priorEvent instanceof MeminfoEvent)) {
             logEventType = LogEventType.MEMINFO;
-        ***REMOVED*** else if (MemoryEvent.match(logLine)) {
+        ***REMOVED*** else if (MemoryEvent.match(logLine)
+                && (logLine.matches(MemoryEvent.__REGEX_HEADER) || priorEvent instanceof MemoryEvent)) {
             logEventType = LogEventType.MEMORY;
         ***REMOVED*** else if (MetaspaceEvent.match(logLine)) {
             logEventType = LogEventType.METASPACE;
@@ -2053,14 +2058,14 @@ public class JdkUtil {
         case END:
             event = new EndEvent(logLine);
             break;
+        case EVENT:
+            event = new EventEvent(logLine);
+            break;
         case ENVIRONMENT_VARIABLES:
             event = new EnvironmentVariablesEvent(logLine);
             break;
         case EXCEPTION_COUNTS:
             event = new ExceptionCountsEvent(logLine);
-            break;
-        case EXCEPTION_EVENT:
-            event = new ExceptionEvent(logLine);
             break;
         case GC_HEAP_HISTORY:
             event = new GcHeapHistoryEvent(logLine);
@@ -2091,6 +2096,12 @@ public class JdkUtil {
             break;
         case INSTRUCTIONS:
             event = new InstructionsEvent(logLine);
+            break;
+        case INTERNAL_EXCEPTION_EVENT:
+            event = new InternalExceptionEvent(logLine);
+            break;
+        case INTERNAL_STATISTICS_EVENT:
+            event = new InternalStatisticEvent(logLine);
             break;
         case LD_PRELOAD_FILE:
             event = new LdPreloadFileEvent(logLine);
@@ -2124,9 +2135,6 @@ public class JdkUtil {
             break;
         case NUMBER:
             event = new NumberEvent(logLine);
-            break;
-        case VM_OPERATION_EVENT:
-            event = new VmOperationEvent(logLine);
             break;
         case OS:
             event = new OsEvent(logLine);
@@ -2163,9 +2171,6 @@ public class JdkUtil {
             break;
         case STACK_SLOT_TO_MEMORY_MAPPING:
             event = new StackSlotToMemoryMappingEvent(logLine);
-            break;
-        case STATISTICS:
-            event = new StatisticsEvent(logLine);
             break;
         case THREAD:
             event = new ThreadEvent(logLine);
@@ -2209,8 +2214,8 @@ public class JdkUtil {
         case VM_ARGUMENTS:
             event = new VmArgumentsEvent(logLine);
             break;
-        case EVENT:
-            event = new EventEvent(logLine);
+        case VM_OPERATION_EVENT:
+            event = new VmOperationEvent(logLine);
             break;
         case VM_INFO:
             event = new VmInfoEvent(logLine);

@@ -50,17 +50,17 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class StatisticsEvent implements LogEvent {
-
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(" + StatisticsEvent.REGEX_HEADER + "|num_)" + ".*$";
+public class InternalStatisticEvent implements LogEvent {
 
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "Internal statistics:";
+    public static final String _REGEX_HEADER = "Internal statistics:";
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|num_)" + ".*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -84,7 +84,7 @@ public class StatisticsEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public StatisticsEvent(String logEntry) {
+    public InternalStatisticEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -93,6 +93,6 @@ public class StatisticsEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.STATISTICS.toString();
+        return JdkUtil.LogEventType.INTERNAL_STATISTICS_EVENT.toString();
     ***REMOVED***
 ***REMOVED***

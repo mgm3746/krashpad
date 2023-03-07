@@ -52,20 +52,20 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class MemoryEvent implements LogEvent {
 
-    public static final Pattern PATTERN = Pattern.compile(MemoryEvent.REGEX);
+    /**
+     * Regular expression for the header.
+     */
+    public static final String __REGEX_HEADER = "^Memory: (4|8|64)k page,( system-wide)? physical " + JdkRegEx.SIZE
+            + "[ ]{0,1***REMOVED***\\(" + JdkRegEx.SIZE + " free\\)(, swap " + JdkRegEx.SIZE + "\\(" + JdkRegEx.SIZE
+            + " free\\))?$";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + MemoryEvent.REGEX_HEADER
-            + "|current process (commit charge|WorkingSet)|TotalPageFile).*$";
+    private static final String _REGEX = "^(" + __REGEX_HEADER
+            + "|current process (commit charge|WorkingSet).+|Page Sizes:.+|TotalPageFile.+)$";
 
-    /**
-     * Regular expression for the header.
-     */
-    public static final String REGEX_HEADER = "^Memory: (4|8|64)k page,( system-wide)? physical " + JdkRegEx.SIZE
-            + "[ ]{0,1***REMOVED***\\(" + JdkRegEx.SIZE + " free\\)(, swap " + JdkRegEx.SIZE + "\\(" + JdkRegEx.SIZE
-            + " free\\))?$";
+    public static final Pattern PATTERN = Pattern.compile(_REGEX);
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -75,7 +75,7 @@ public class MemoryEvent implements LogEvent {
      * @return true if the log line matches the event pattern, false otherwise.
      */
     public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+        return logLine.matches(_REGEX);
     ***REMOVED***
 
     /**
@@ -105,7 +105,7 @@ public class MemoryEvent implements LogEvent {
      * @return true if the log line is the header false otherwise.
      */
     public boolean isHeader() {
-        return logEntry.matches(REGEX_HEADER);
+        return logEntry.matches(__REGEX_HEADER);
     ***REMOVED***
 
 ***REMOVED***

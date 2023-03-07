@@ -63,7 +63,7 @@ class TestVmOperationEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
     ***REMOVED***
-    
+
     @Test
     void testNoEventsUppercaseE() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");

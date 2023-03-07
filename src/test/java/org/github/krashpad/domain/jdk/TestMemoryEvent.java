@@ -34,15 +34,17 @@ class TestMemoryEvent {
 
     @Test
     void testCurrentProcessCommitCharge() {
+        MemoryEvent priorLogEvent = new MemoryEvent("");
         String logLine = "current process commit charge (\"private bytes\"): 61M, peak: 8253M";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMORY,
                 JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testCurrentProcessWorkingSet() {
+        MemoryEvent priorLogEvent = new MemoryEvent("");
         String logLine = "current process WorkingSet (physical memory assigned to process): 11M, peak: 11M";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMORY,
                 JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
     ***REMOVED***
 
@@ -89,6 +91,14 @@ class TestMemoryEvent {
     ***REMOVED***
 
     @Test
+    void testPageSizes() {
+        MemoryEvent priorLogEvent = new MemoryEvent("");
+        String logLine = "Page Sizes: 4k";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMORY,
+                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testParseLogLine() {
         String logLine = "Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof MemoryEvent,
@@ -97,8 +107,10 @@ class TestMemoryEvent {
 
     @Test
     void testTotalPageFile() {
+        MemoryEvent priorLogEvent = new MemoryEvent("");
         String logLine = "TotalPageFile size 20479M (AvailPageFile size 7532M)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMORY,
                 JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
     ***REMOVED***
+
 ***REMOVED***

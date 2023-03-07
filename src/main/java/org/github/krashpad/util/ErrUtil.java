@@ -83,9 +83,9 @@ public class ErrUtil {
         // atk
         NATIVE_LIBRARIES_LINUX.add("libatk-1.0.so.0.22810.1");
         // at-spi2-atk
-        NATIVE_LIBRARIES_LINUX.add("libatk-bridge-2.0.so.0.0.0");        
+        NATIVE_LIBRARIES_LINUX.add("libatk-bridge-2.0.so.0.0.0");
         // libatomic
-        NATIVE_LIBRARIES_LINUX.add("libatomic.so.1.2.0");        
+        NATIVE_LIBRARIES_LINUX.add("libatomic.so.1.2.0");
         // at-spi2-core
         NATIVE_LIBRARIES_LINUX.add("libatspi.so.0.0.1");
         // brotli (compression library)
