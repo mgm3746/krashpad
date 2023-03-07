@@ -60,15 +60,16 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class GcHeapHistoryEvent implements LogEvent {
 
     /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(" + GcHeapHistoryEvent.REGEX_HEADER + "|" + JdkRegEx.YOUNG_GEN + "|"
-            + JdkRegEx.OLD_GEN + "|" + JdkRegEx.SHENANDOAH + "|" + JdkRegEx.G1 + "|" + JdkRegEx.METASPACE
-            + "|[\\{]{0,1***REMOVED***Heap (after|before) GC.+|Event: " + JdkRegEx.TIMESTAMP + " GC heap (after|before)|\\***REMOVED***)$";
-    /**
      * Regular expression for the header.
      */
-    public static final String REGEX_HEADER = "GC Heap History \\(\\d{1,***REMOVED*** events\\):";
+    public static final String _REGEX_HEADER = "GC Heap History \\(\\d{1,***REMOVED*** events\\):";
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.YOUNG_GEN + "|" + JdkRegEx.OLD_GEN + "|"
+            + JdkRegEx.SHENANDOAH + "|" + JdkRegEx.G1 + "|" + JdkRegEx.METASPACE
+            + "|[\\{]{0,1***REMOVED***Heap (after|before) GC.+|Event: " + JdkRegEx.TIMESTAMP
+            + " GC heap (after|before)|\\***REMOVED***|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

@@ -33,6 +33,7 @@ import org.github.krashpad.domain.jdk.BitsEvent;
 import org.github.krashpad.domain.jdk.CardTableEvent;
 import org.github.krashpad.domain.jdk.CdsArchiveEvent;
 import org.github.krashpad.domain.jdk.ClassesRedefinedEvent;
+import org.github.krashpad.domain.jdk.ClassesUnloadedEvent;
 import org.github.krashpad.domain.jdk.CodeCacheEvent;
 import org.github.krashpad.domain.jdk.CommandLineEvent;
 import org.github.krashpad.domain.jdk.CompilationEvent;
@@ -42,6 +43,7 @@ import org.github.krashpad.domain.jdk.CpuInfoEvent;
 import org.github.krashpad.domain.jdk.CurrentCompileTaskEvent;
 import org.github.krashpad.domain.jdk.CurrentThreadEvent;
 import org.github.krashpad.domain.jdk.DeoptimizationEvent;
+import org.github.krashpad.domain.jdk.DllOperationEvent;
 import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
 import org.github.krashpad.domain.jdk.ElapsedTimeEvent;
 import org.github.krashpad.domain.jdk.EndEvent;
@@ -70,7 +72,6 @@ import org.github.krashpad.domain.jdk.MemoryEvent;
 import org.github.krashpad.domain.jdk.MetaspaceEvent;
 import org.github.krashpad.domain.jdk.NarrowKlassEvent;
 import org.github.krashpad.domain.jdk.NativeMemoryTrackingEvent;
-import org.github.krashpad.domain.jdk.NoEventsEvent;
 import org.github.krashpad.domain.jdk.NumberEvent;
 import org.github.krashpad.domain.jdk.OperationEvent;
 import org.github.krashpad.domain.jdk.OsEvent;
@@ -211,17 +212,17 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_REDEFINED, CODE_CACHE, COMMAND_LINE, COMPILATION,
+        BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_REDEFINED, CLASSES_UNLOADED, CODE_CACHE, COMMAND_LINE,
         //
-        COMPRESSED_CLASS_SPACE, CONTAINER_INFO, CPU, CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD,
+        COMPILATION, COMPRESSED_CLASS_SPACE, CONTAINER_INFO, CPU, CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD,
         //
-        DEOPTIMIZATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT,
+        DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT,
         //
         EXCEPTION_COUNTS, EXCEPTION_EVENT, GC_HEAP_HISTORY, GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER, HEADING, HEAP,
         //
         HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING,
         //
-        MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NO_EVENTS, NUMBER, OPERATION,
+        MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NUMBER, OPERATION,
         //
         OS, OS_UPTIME, PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO,
         //
@@ -1724,27 +1725,36 @@ public class JdkUtil {
             logEventType = LogEventType.CARD_TABLE;
         ***REMOVED*** else if (CdsArchiveEvent.match(logLine)) {
             logEventType = LogEventType.CDS_ARCHIVE;
-        ***REMOVED*** else if (ClassesRedefinedEvent.match(logLine)) {
+        ***REMOVED*** else if (ClassesRedefinedEvent.match(logLine) && (logLine.matches(ClassesRedefinedEvent._REGEX_HEADER)
+                || priorEvent instanceof ClassesRedefinedEvent)) {
             logEventType = LogEventType.CLASSES_REDEFINED;
+        ***REMOVED*** else if (ClassesUnloadedEvent.match(logLine) && (logLine.matches(ClassesUnloadedEvent._REGEX_HEADER)
+                || priorEvent instanceof ClassesUnloadedEvent)) {
+            logEventType = LogEventType.CLASSES_UNLOADED;
         ***REMOVED*** else if (CodeCacheEvent.match(logLine)) {
             logEventType = LogEventType.CODE_CACHE;
         ***REMOVED*** else if (CommandLineEvent.match(logLine)) {
             logEventType = LogEventType.COMMAND_LINE;
-        ***REMOVED*** else if (CompilationEvent.match(logLine)) {
+        ***REMOVED*** else if (CompilationEvent.match(logLine)
+                && (logLine.matches(CompilationEvent._REGEX_HEADER) || priorEvent instanceof CompilationEvent)) {
             logEventType = LogEventType.COMPILATION;
         ***REMOVED*** else if (CompressedClassSpaceEvent.match(logLine)) {
             logEventType = LogEventType.COMPRESSED_CLASS_SPACE;
         ***REMOVED*** else if (ContainerInfoEvent.match(logLine)) {
             logEventType = LogEventType.CONTAINER_INFO;
         ***REMOVED*** else if (CpuInfoEvent.match(logLine)
-                || (logLine.matches(CpuInfoEvent.REGEX_VALUE) && priorEvent instanceof CpuInfoEvent)) {
+                && (logLine.matches(CpuInfoEvent._REGEX_HEADER) || priorEvent instanceof CpuInfoEvent)) {
             logEventType = LogEventType.CPU_INFO;
         ***REMOVED*** else if (CurrentCompileTaskEvent.match(logLine)) {
             logEventType = LogEventType.CURRENT_COMPILE_TASK;
         ***REMOVED*** else if (CurrentThreadEvent.match(logLine)) {
             logEventType = LogEventType.CURRENT_THREAD;
-        ***REMOVED*** else if (DeoptimizationEvent.match(logLine)) {
+        ***REMOVED*** else if (DeoptimizationEvent.match(logLine)
+                && (logLine.matches(DeoptimizationEvent._REGEX_HEADER) || priorEvent instanceof DeoptimizationEvent)) {
             logEventType = LogEventType.DEOPTIMIZATION_EVENT;
+        ***REMOVED*** else if (DllOperationEvent.match(logLine)
+                && (logLine.matches(DllOperationEvent._REGEX_HEADER) || priorEvent instanceof DllOperationEvent)) {
+            logEventType = LogEventType.DLL_OPERATION_EVENT;
         ***REMOVED*** else if (DynamicLibraryEvent.match(logLine)) {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
         ***REMOVED*** else if (ElapsedTimeEvent.match(logLine)) {
@@ -1753,12 +1763,16 @@ public class JdkUtil {
             logEventType = LogEventType.END;
         ***REMOVED*** else if (EnvironmentVariablesEvent.match(logLine)) {
             logEventType = LogEventType.ENVIRONMENT_VARIABLES;
+        ***REMOVED*** else if (EventEvent.match(logLine)
+                && (logLine.matches(EventEvent._REGEX_HEADER) || priorEvent instanceof EventEvent)) {
+            logEventType = LogEventType.EVENT;
         ***REMOVED*** else if (ExceptionCountsEvent.match(logLine)) {
             logEventType = LogEventType.EXCEPTION_COUNTS;
-        ***REMOVED*** else if (ExceptionEvent.match(logLine)) {
+        ***REMOVED*** else if (ExceptionEvent.match(logLine)
+                && (logLine.matches(ExceptionEvent._REGEX_HEADER) || priorEvent instanceof ExceptionEvent)) {
             logEventType = LogEventType.EXCEPTION_EVENT;
         ***REMOVED*** else if (GcHeapHistoryEvent.match(logLine)
-                && (logLine.matches(GcHeapHistoryEvent.REGEX_HEADER) || priorEvent instanceof GcHeapHistoryEvent)) {
+                && (logLine.matches(GcHeapHistoryEvent._REGEX_HEADER) || priorEvent instanceof GcHeapHistoryEvent)) {
             logEventType = LogEventType.GC_HEAP_HISTORY;
         ***REMOVED*** else if (GcPreciousLogEvent.match(logLine)) {
             logEventType = LogEventType.GC_PRECIOUS_LOG;
@@ -1802,11 +1816,10 @@ public class JdkUtil {
             logEventType = LogEventType.NARROW_KLASS;
         ***REMOVED*** else if (NativeMemoryTrackingEvent.match(logLine)) {
             logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
-        ***REMOVED*** else if (NoEventsEvent.match(logLine)) {
-            logEventType = LogEventType.NO_EVENTS;
         ***REMOVED*** else if (NumberEvent.match(logLine)) {
             logEventType = LogEventType.NUMBER;
-        ***REMOVED*** else if (OperationEvent.match(logLine)) {
+        ***REMOVED*** else if (OperationEvent.match(logLine)
+                && (logLine.matches(OperationEvent._REGEX_HEADER) || priorEvent instanceof OperationEvent)) {
             logEventType = LogEventType.OPERATION;
         ***REMOVED*** else if (OsEvent.match(logLine)) {
             logEventType = LogEventType.OS;
@@ -1860,8 +1873,6 @@ public class JdkUtil {
             logEventType = LogEventType.UNAME;
         ***REMOVED*** else if (VmArgumentsEvent.match(logLine)) {
             logEventType = LogEventType.VM_ARGUMENTS;
-        ***REMOVED*** else if (EventEvent.match(logLine)) {
-            logEventType = LogEventType.EVENT;
         ***REMOVED*** else if (VmInfoEvent.match(logLine)) {
             logEventType = LogEventType.VM_INFO;
         ***REMOVED*** else if (VmMutexEvent.match(logLine)) {
@@ -2000,6 +2011,9 @@ public class JdkUtil {
         case CLASSES_REDEFINED:
             event = new ClassesRedefinedEvent(logLine);
             break;
+        case CLASSES_UNLOADED:
+            event = new ClassesUnloadedEvent(logLine);
+            break;
         case CODE_CACHE:
             event = new CodeCacheEvent(logLine);
             break;
@@ -2026,6 +2040,9 @@ public class JdkUtil {
             break;
         case DEOPTIMIZATION_EVENT:
             event = new DeoptimizationEvent(logLine);
+            break;
+        case DLL_OPERATION_EVENT:
+            event = new DllOperationEvent(logLine);
             break;
         case DYNAMIC_LIBRARY:
             event = new DynamicLibraryEvent(logLine);
@@ -2104,9 +2121,6 @@ public class JdkUtil {
             break;
         case NATIVE_MEMORY_TRACKING:
             event = new NativeMemoryTrackingEvent(logLine);
-            break;
-        case NO_EVENTS:
-            event = new NoEventsEvent(logLine);
             break;
         case NUMBER:
             event = new NumberEvent(logLine);

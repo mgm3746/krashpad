@@ -14,35 +14,41 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.domain.ThrowAwayEvent;
+import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * NO_EVENTS
+ * DLL_OPERATION_EVENT
  * </p>
  * 
  * <p>
- * Displayed when an even colletion has no events.
+ * Shared library information. JDK17+.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * No events
+ * Dll operation events (18 events):
+ * Event: 0.001 Loaded shared library /usr/lib/jvm/java-17-openjdk-17.0.6.0.10-3.el8_7.x86_64/lib/libjava.so
  * </pre>
- * 
- * TODO: Add multi-line parsing and associate number with appropriate event.
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class NoEventsEvent implements ThrowAwayEvent {
+public class DllOperationEvent implements LogEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    public static final String _REGEX_HEADER = "Dll operation events \\(\\d{1,***REMOVED*** events\\):";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^No events$";
+    private static final String REGEX = "^(" + DllOperationEvent._REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
+            + " Loaded shared library " + JdkRegEx.FILE + ")$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -56,7 +62,7 @@ public class NoEventsEvent implements ThrowAwayEvent {
     ***REMOVED***
 
     /**
-     * The log entry for the event. Can be used for debugging purposes.
+     * The log entry for the event.
      */
     private String logEntry;
 
@@ -66,7 +72,7 @@ public class NoEventsEvent implements ThrowAwayEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public NoEventsEvent(String logEntry) {
+    public DllOperationEvent(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 
@@ -75,6 +81,6 @@ public class NoEventsEvent implements ThrowAwayEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.NO_EVENTS.toString();
+        return JdkUtil.LogEventType.DLL_OPERATION_EVENT.toString();
     ***REMOVED***
 ***REMOVED***

@@ -302,7 +302,7 @@ VM_Operation (0x00007f5a849bd790): ParallelGCFailedAllocation, mode: safepoint, 
 jvm_args: -Xms2048m -Xmx8192m -XX:MetaspaceSize=8192m -XX:MaxMetaspaceSize=8192m 
  
     
-  ***REMOVED***
+***REMOVED***
 
 OS:Red Hat Enterprise Linux Server release 7.5 (Maipo)
 

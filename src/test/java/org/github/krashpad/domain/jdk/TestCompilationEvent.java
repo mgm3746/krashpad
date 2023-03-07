@@ -34,17 +34,37 @@ class TestCompilationEvent {
 
     @Test
     void testIdentity() {
-        String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
-                + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
+        String logLine = "***REMOVED***";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMPILATION,
                 JdkUtil.LogEventType.COMPILATION.toString() + " not identified.");
     ***REMOVED***
 
     @Test
+    void testNoEvents() {
+        String priorLogLine = "***REMOVED***";
+        CompilationEvent priorLogEvent = new CompilationEvent(priorLogLine);
+        String logLine = "No Events";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
+                JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testNumber() {
+        String priorLogLine = "***REMOVED***";
+        CompilationEvent priorLogEvent = new CompilationEvent(priorLogLine);
+        String logLine = "Event: 0.021 Thread 0x00007fa9cc15ba60    1       3       "
+                + "java.lang.Object::<init> (1 bytes)";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
+                JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
     void testParseLogLine() {
+        String priorLogLine = "***REMOVED***";
+        CompilationEvent priorLogEvent = new CompilationEvent(priorLogLine);
         String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
                 + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent,
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
                 JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

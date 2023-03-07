@@ -25,13 +25,23 @@ import org.junit.jupiter.api.Test;
  */
 class TestDeoptimizationEvent {
 
+    @Test
+    void testDeoptPacking() {
+        DeoptimizationEvent priorLogEvent = new DeoptimizationEvent("Deoptimization events (250 events):");
+        String logLine = "Event: 624.202 Thread 0x00007ffff0017800 DEOPT PACKING pc=0x00007fffe0a0cbc8 "
+                + "sp=0x00007ffff540fc50";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof DeoptimizationEvent,
+                JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.");
+    ***REMOVED***
+
     /**
      * TODO: Does this error apply to multiple events and should be moved to a dedicated ErrorEvent?
      */
     @Test
     void testError() {
+        DeoptimizationEvent priorLogEvent = new DeoptimizationEvent("Deoptimization events (250 events):");
         String logLine = "[error occurred during error reporting (printing ring buffers), id 0xb]";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT,
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not identified.");
     ***REMOVED***
 
@@ -44,19 +54,38 @@ class TestDeoptimizationEvent {
 
     @Test
     void testIdentity() {
+        DeoptimizationEvent priorLogEvent = new DeoptimizationEvent("Deoptimization events (250 events):");
         String logLine = "Event: 5689.207 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if "
                 + "action=reinterpret pc=0x00007ff0df4a0408 "
                 + "method=org.eclipse.jface.text.ListLineTracker.getLineLength(I)I @ 28";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT,
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
+    void testNoEventsLowercaseE() {
+        DeoptimizationEvent priorLogEvent = new DeoptimizationEvent("Deoptimization events (250 events):");
+        String logLine = "No events";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof DeoptimizationEvent,
+                JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testNoEventsUppercaseE() {
+        DeoptimizationEvent priorLogEvent = new DeoptimizationEvent("Deoptimization events (250 events):");
+        String logLine = "No Events";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof DeoptimizationEvent,
+                JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
     void testParseLogLine() {
+        DeoptimizationEvent priorLogEvent = new DeoptimizationEvent("Deoptimization events (250 events):");
         String logLine = "Event: 5689.207 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if "
                 + "action=reinterpret pc=0x00007ff0df4a0408 "
                 + "method=org.eclipse.jface.text.ListLineTracker.getLineLength(I)I @ 28";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof DeoptimizationEvent,
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof DeoptimizationEvent,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.");
     ***REMOVED***
+
 ***REMOVED***

@@ -179,7 +179,7 @@ Event: 557593.041 Concurrent marking
 ***REMOVED***
 jvm_args: -D[Standalone] -XX:+UseCompressedOops -Xms32768M -Xmx32768M -XX:+DisableExplicitGC -XX:NewSize=4096M -XX:MaxNewSize=4096M -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=512M -XX:+UseShenandoahGC -XX:ShenandoahGCMode=satb -XX:ShenandoahGCHeuristics=adaptive -verbose:gc -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/crash/ -XX:+PrintHeapAtGC -XX:+PrintGCApplicationConcurrentTime -XX:+PrintGCApplicationStoppedTime -XX:-TraceClassUnloading -Xloggc:/var/log/pqd/ietafj/eap/gc.asietafj_1.log.2020-09-30.13-56-25 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=3 -XX:GCLogFileSize=100M -XX:+PrintTenuringDistribution -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8 -XX:-TieredCompilation -XX:ReservedCodeCacheSize=512M  -XX:InitialCodeCacheSize=512M  
 java_command: /path/to/jboss-modules.jar
-java_class_path (initial):
+java_class_path (initial): .
 ***REMOVED***
 
 ***REMOVED***

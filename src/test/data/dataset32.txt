@@ -1463,7 +1463,6 @@ Event: 956.874 Executing VM operation: PrintThreads
 
 
 ***REMOVED***
-_
 7ffff5c35000-7ffff6e6a000 r-xp 00000000 fd:00 823041892                  /usr/lib/jvm/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/lib/server/libjvm.so
 
 

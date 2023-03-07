@@ -42,16 +42,16 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class DeoptimizationEvent implements LogEvent {
 
     /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(" + DeoptimizationEvent.REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
-            + " Thread " + JdkRegEx.ADDRESS
-            + " Uncommon trap|\\[error occurred during error reporting \\(printing ring buffers\\), id 0x).*$";
-
-    /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "Deoptimization events \\(\\d{1,***REMOVED*** events\\):";
+    public static final String _REGEX_HEADER = "Deoptimization events \\(\\d{1,***REMOVED*** events\\):";
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
+            + JdkRegEx.ADDRESS + " (DEOPT|Uncommon trap).+|"
+            + "\\[error occurred during error reporting \\(printing ring buffers\\), id 0x.+\\]|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

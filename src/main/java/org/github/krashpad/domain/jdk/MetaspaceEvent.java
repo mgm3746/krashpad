@@ -132,8 +132,8 @@ public class MetaspaceEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + MetaspaceEvent.REGEX_HEADER
-            + "|[ ]{1,***REMOVED***Both:|CDS:|[ ]{1,***REMOVED***Class( space)?:|Chunk freelists:| - commit_granule_(bytes|words):|"
-            + "CompressedClassSpaceSize:| - enlarge_chunks_in_place:|"
+            + "|[ ]{1,***REMOVED***BotD:|[ ]{1,***REMOVED***Both:|CDS:|[ ]{1,***REMOVED***Class( space)?:|Chunk freelists:|"
+            + " - commit_granule_(bytes|words):|CompressedClassSpaceSize:| - enlarge_chunks_in_place:|"
             + "(Current|Initial) GC threshold|MaxMetaspaceSize:|MetaspaceReclaimPolicy:|No class space|"
             + " - handle_deallocations:| - new_chunks_are_fully_committed:|[ ]{1,***REMOVED***Non-[c|C]lass( space)?:|Usage:|"
             + " - uncommit_free_chunks:| - use_allocation_guard:| - virtual_space_node_default_size:|Virtual space:|"

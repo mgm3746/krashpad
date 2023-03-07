@@ -71,20 +71,20 @@ import org.github.krashpad.util.jdk.JdkUtil;
  */
 public class DynamicLibraryEvent implements LogEvent {
 
+    /**
+     * Regular expression for the header.
+     */
+    private static final String _REGEX_HEADER = "***REMOVED***";
+
     private static Pattern pattern = Pattern.compile(DynamicLibraryEvent.REGEX);
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + DynamicLibraryEvent.REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|"
-            + JdkRegEx.ADDRESS + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS
-            + " " + JdkRegEx.INODE + ")?[\\s]{1,***REMOVED***((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS
+            + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE
+            + ")?[\\s]{1,***REMOVED***((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA
             + "))?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,***REMOVED***)$";
-
-    /**
-     * Regular expression for the header.
-     */
-    private static final String REGEX_HEADER = "***REMOVED***";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

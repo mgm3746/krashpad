@@ -26,6 +26,13 @@ import org.junit.jupiter.api.Test;
 class TestMetaspaceEvent {
 
     @Test
+    void testBotD() {
+        String logLine = "        BotD:  47.00 KB";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testBoth() {
         String logLine = "       Both:    154.76 MB capacity,   144.43 MB ( 93%) used,     9.90 MB (  6%) "
                 + "free+waste,   448.81 KB ( <1%) overhead.";

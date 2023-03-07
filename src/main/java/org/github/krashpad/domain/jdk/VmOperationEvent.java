@@ -47,8 +47,8 @@ public class VmOperationEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^VM_Operation \\(" + JdkRegEx.ADDRESS
-            + "\\): ((BulkRevokeBias|CGC_Operation|G1CollectFull|GetThreadListStackTraces|HeapDumper|"
-            + "ParallelGCFailedAllocation|PrintThreads).+)$";
+            + "\\): ((BulkRevokeBias|CGC_Operation|CollectForMetadataAllocation|G1CollectFull|GetAllStackTraces"
+            + "|GetThreadListStackTraces|HeapDumper|ParallelGCFailedAllocation|PrintThreads|ShenandoahFullGC).+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

@@ -41,10 +41,15 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class CompilationEvent implements LogEvent {
 
     /**
+     * Regular expression for the header.
+     */
+    public static final String _REGEX_HEADER = "Compilation events \\(\\d{1,***REMOVED*** events\\):";
+
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(Compilation events|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " (nmethod|\\d{1,8***REMOVED***)).+$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
+            + JdkRegEx.ADDRESS + "[ ]{1,***REMOVED***(nmethod|\\d{1,***REMOVED***).+|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

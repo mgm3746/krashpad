@@ -25,6 +25,7 @@ import org.github.krashpad.domain.BlankLineEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.domain.UnknownEvent;
+import org.github.krashpad.domain.jdk.ClassesUnloadedEvent;
 import org.github.krashpad.domain.jdk.CommandLineEvent;
 import org.github.krashpad.domain.jdk.CompilationEvent;
 import org.github.krashpad.domain.jdk.CompressedClassSpaceEvent;
@@ -33,6 +34,7 @@ import org.github.krashpad.domain.jdk.CpuInfoEvent;
 import org.github.krashpad.domain.jdk.CurrentCompileTaskEvent;
 import org.github.krashpad.domain.jdk.CurrentThreadEvent;
 import org.github.krashpad.domain.jdk.DeoptimizationEvent;
+import org.github.krashpad.domain.jdk.DllOperationEvent;
 import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
 import org.github.krashpad.domain.jdk.ElapsedTimeEvent;
 import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
@@ -114,7 +116,9 @@ public class Manager {
                 LogEvent priorEvent = null;
                 while (logLine != null) {
                     LogEvent event = JdkUtil.parseLogLine(logLine, priorEvent);
-                    if (event instanceof CommandLineEvent) {
+                    if (event instanceof ClassesUnloadedEvent) {
+                        fatalErrorLog.getClassesUnloadedEvents().add((ClassesUnloadedEvent) event);
+                    ***REMOVED*** else if (event instanceof CommandLineEvent) {
                         fatalErrorLog.setCommandLineEvent((CommandLineEvent) event);
                     ***REMOVED*** else if (event instanceof CompilationEvent) {
                         fatalErrorLog.getCompilationEvents().add((CompilationEvent) event);
@@ -130,6 +134,8 @@ public class Manager {
                         fatalErrorLog.setCurrentThreadEvent((CurrentThreadEvent) event);
                     ***REMOVED*** else if (event instanceof DeoptimizationEvent) {
                         fatalErrorLog.getDeoptimizationEvents().add((DeoptimizationEvent) event);
+                    ***REMOVED*** else if (event instanceof DllOperationEvent) {
+                        fatalErrorLog.getDllOperationEvents().add((DllOperationEvent) event);
                     ***REMOVED*** else if (event instanceof DynamicLibraryEvent) {
                         fatalErrorLog.getDynamicLibraryEvents().add((DynamicLibraryEvent) event);
                     ***REMOVED*** else if (event instanceof EnvironmentVariablesEvent) {

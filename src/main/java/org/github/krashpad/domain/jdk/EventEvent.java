@@ -41,16 +41,16 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class EventEvent implements LogEvent {
 
     /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(" + EventEvent.REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
-            + " (Concurrent|Executing( coalesced safepoint)? VM operation|Loaded shared library|loading class|Pause|"
-            + "Protecting memory|Thread))" + ".*$";
-
-    /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "Events \\(\\d{1,***REMOVED*** events\\):";
+    public static final String _REGEX_HEADER = "Events \\(\\d{1,***REMOVED*** events\\):";
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
+            + " (Concurrent|Executing( coalesced safepoint)? VM operation|Loaded shared library|loading class|Pause|"
+            + "Protecting memory|Thread).+|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

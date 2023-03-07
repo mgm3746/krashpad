@@ -62,6 +62,11 @@ public class FatalErrorLog {
     private List<Analysis> analysis;
 
     /**
+     * Classes unloaded information.
+     */
+    private List<ClassesUnloadedEvent> classesUnloadedEvents;
+
+    /**
      * Command line information.
      */
     private CommandLineEvent commandLineEvent;
@@ -100,6 +105,11 @@ public class FatalErrorLog {
      * Deoptimization event information.
      */
     private List<DeoptimizationEvent> deoptimizationEvents;
+
+    /**
+     * Dll operation information.
+     */
+    private List<DllOperationEvent> dllOperationEvents;
 
     /**
      * Dynamic library information.
@@ -301,11 +311,13 @@ public class FatalErrorLog {
      */
     public FatalErrorLog() {
         analysis = new ArrayList<Analysis>();
+        classesUnloadedEvents = new ArrayList<ClassesUnloadedEvent>();
         compilationEvents = new ArrayList<CompilationEvent>();
         containerInfoEvents = new ArrayList<ContainerInfoEvent>();
         currentCompileTaskEvents = new ArrayList<CurrentCompileTaskEvent>();
         cpuInfoEvents = new ArrayList<CpuInfoEvent>();
         deoptimizationEvents = new ArrayList<DeoptimizationEvent>();
+        dllOperationEvents = new ArrayList<DllOperationEvent>();
         dynamicLibraryEvents = new ArrayList<DynamicLibraryEvent>();
         environmentVariablesEvents = new ArrayList<EnvironmentVariablesEvent>();
         eventEvents = new ArrayList<EventEvent>();
@@ -1634,6 +1646,10 @@ public class FatalErrorLog {
         return bit;
     ***REMOVED***
 
+    public List<ClassesUnloadedEvent> getClassesUnloadedEvents() {
+        return classesUnloadedEvents;
+    ***REMOVED***
+
     /**
      * @return The max code cache size in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
@@ -1939,7 +1955,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 CpuInfoEvent event = iterator.next();
                 if (event.isCpuHeader()) {
-                    Pattern pattern = Pattern.compile(CpuInfoEvent.REGEX_HEADER);
+                    Pattern pattern = Pattern.compile(CpuInfoEvent._REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find() && matcher.group(1) != null) {
                         int cpus = Integer.parseInt(matcher.group(1));
@@ -2071,6 +2087,10 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         return directMemorySize;
+    ***REMOVED***
+
+    public List<DllOperationEvent> getDllOperationEvents() {
+        return dllOperationEvents;
     ***REMOVED***
 
     public List<DynamicLibraryEvent> getDynamicLibraryEvents() {

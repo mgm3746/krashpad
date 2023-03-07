@@ -38,14 +38,14 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class OperationEvent implements LogEvent {
 
     /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(" + OperationEvent.REGEX_HEADER + ")" + ".*$";
-
-    /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "VM Operations \\(\\d{1,***REMOVED*** events\\):";
+    public static final String _REGEX_HEADER = "VM Operations \\(\\d{1,***REMOVED*** events\\):";
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

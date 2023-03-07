@@ -82,6 +82,22 @@ class TestGcHeapHistoryEvent {
     ***REMOVED***
 
     @Test
+    void testNoEventsLowercaseE() {
+        GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
+        String logLine = "No events";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY,
+                JdkUtil.LogEventType.GC_HEAP_HISTORY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNoEventsUppercaseE() {
+        GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
+        String logLine = "No Events";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY,
+                JdkUtil.LogEventType.GC_HEAP_HISTORY.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testParseLogLine() {
         GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
         String logLine = "Event: 1.905 GC heap before";

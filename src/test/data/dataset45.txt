@@ -452,7 +452,7 @@ Event: 1409563.637 Thread 0x000055ed9f573000 Thread added: 0x000055ed9f573000
 ***REMOVED***
 jvm_args: -D[Standalone] -Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M -Xms8192m -Xmx8192m -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=1024m -XX:+UseStringDeduplication -XX:+UseLWPSynchronization -XX:StringTableSize=120121 -Djava.net.preferIPv4Stack=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -XX:ReservedCodeCacheSize=256m -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n
 java_command: /path/to/jboss-modules.jar
-java_class_path (initial):
+java_class_path (initial): .
 ***REMOVED***
 
 [Global flags]

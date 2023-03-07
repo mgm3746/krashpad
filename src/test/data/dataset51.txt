@@ -5147,8 +5147,6 @@ SN=alloc sequence number
   0x00007f882c170000 JavaThread "Old I/O client worker ([id: 0x6f6638cb, /10.249.26.23:37312 => /10.249.23.17:5545]), runningThread=Thread-3 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20173, stack(0x00007f877667a000,0x00007f877677b000)]
   0x00007f8848110000 JavaThread "default-threads - 8" [_thread_blocked, id=20171, stack(0x00007f877687c000,0x00007f877697d000)]
   0x00007f882c158800 JavaThread "default-threads - 7" [_thread_blocked, id=20170, stack(0x00007f877697d000,0x00007f8776a7e000)]
-  0x00007f884014c800 JavaThread "default-threads - 6" [_thread_blocked, id=20169 <
-  , stack(0x00007f8776a7e000,0x00007f8776b7f000)]
   0x00007f8814030000 JavaThread "Thread-4 (HornetQ-client-global-scheduled-threads-1424576205)" daemon [_thread_blocked, id=20168, stack(0x00007f8776b7f000,0x00007f8776c80000)]
   0x00007f8818294000 JavaThread "default-threads - 5" [_thread_blocked, id=20167, stack(0x00007f8776c80000,0x00007f8776d81000)]
   0x00007f88341d2800 JavaThread "default-threads - 4" [_thread_blocked, id=20166, stack(0x00007f8776d81000,0x00007f8776e82000)]

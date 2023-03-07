@@ -14,28 +14,73 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.jupiter.api.Test;
 
 /**
+ * <p>
+ * CLASSES_UNLOADED
+ * </p>
+ * 
+ * <p>
+ * Classes unloaded information. JDK17+. Reported under <code>EventEvent</code> prior to JDK17.
+ * </p>
+ * 
+ * <h2>Example Logging</h2>
+ * 
+ * <pre>
+ * Classes unloaded (13 events):
+ * Event: 7.661 Thread 0x00007f282c2174f0 Unloading class 0x0000000801591000 'java/lang/invoke/LambdaForm$DMH+0x0000000801591000'
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestNoEventsEvent {
+public class ClassesUnloadedEvent implements LogEvent {
 
-    @Test
-    void testIdentity() {
-        String logLine = "No events";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NO_EVENTS,
-                JdkUtil.LogEventType.NO_EVENTS.toString() + " not identified.");
+    /**
+     * Regular expression for the header.
+     */
+    public static final String _REGEX_HEADER = "Classes unloaded \\(\\d{1,***REMOVED*** events\\):";
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
+            + JdkRegEx.ADDRESS + " Unloading class .+|No [Ee]vents)$";
+
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
     ***REMOVED***
 
-    @Test
-    void testParseLogLine() {
-        String logLine = "No events";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof NoEventsEvent,
-                JdkUtil.LogEventType.NO_EVENTS.toString() + " not parsed.");
+    /**
+     * The log entry for the event.
+     */
+    private String logEntry;
+
+    /**
+     * Create event from log entry.
+     * 
+     * @param logEntry
+     *            The log entry for the event.
+     */
+    public ClassesUnloadedEvent(String logEntry) {
+        this.logEntry = logEntry;
+    ***REMOVED***
+
+    public String getLogEntry() {
+        return logEntry;
+    ***REMOVED***
+
+    public String getName() {
+        return JdkUtil.LogEventType.CLASSES_UNLOADED.toString();
     ***REMOVED***
 ***REMOVED***

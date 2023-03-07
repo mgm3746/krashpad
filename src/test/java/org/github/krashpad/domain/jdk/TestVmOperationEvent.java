@@ -40,6 +40,17 @@ class TestVmOperationEvent {
     ***REMOVED***
 
     @Test
+    void testCollectForMetadataAllocation() {
+        String logLine = "VM_Operation (0x00007f7d9cd68720): CollectForMetadataAllocation, mode: safepoint, requested "
+                + "by thread 0x00007f7dc1c44000";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperationEvent event = new VmOperationEvent(logLine);
+        assertEquals("CollectForMetadataAllocation, mode: safepoint, requested by thread 0x00007f7dc1c44000",
+                event.getVmOperationString(), "VM operation not correct.");
+    ***REMOVED***
+
+    @Test
     void testG1CollectFull() {
         String logLine = "VM_Operation (0x00007f2764076d80): G1CollectFull, mode: safepoint, requested by thread "
                 + "0x00007f29ec6cf800";
@@ -47,6 +58,17 @@ class TestVmOperationEvent {
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
         VmOperationEvent event = new VmOperationEvent(logLine);
         assertEquals("G1CollectFull, mode: safepoint, requested by thread 0x00007f29ec6cf800",
+                event.getVmOperationString(), "VM operation not correct.");
+    ***REMOVED***
+
+    @Test
+    void testGetAllStackTraces() {
+        String logLine = "VM_Operation (0x0000000003a5f250): GetAllStackTraces, mode: safepoint, requested by thread "
+                + "0x0000000018af9800";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperationEvent event = new VmOperationEvent(logLine);
+        assertEquals("GetAllStackTraces, mode: safepoint, requested by thread 0x0000000018af9800",
                 event.getVmOperationString(), "VM operation not correct.");
     ***REMOVED***
 
@@ -113,5 +135,16 @@ class TestVmOperationEvent {
         VmOperationEvent event = new VmOperationEvent(logLine);
         assertEquals("PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a", event.getVmOperationString(),
                 "VM operation not correct.");
+    ***REMOVED***
+
+    @Test
+    void testShenandoahFullGC() {
+        String logLine = "VM_Operation (0x00007f25169a9ba0): ShenandoahFullGC, mode: safepoint, requested by thread "
+                + "0x0000560e86b75800";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperationEvent event = new VmOperationEvent(logLine);
+        assertEquals("ShenandoahFullGC, mode: safepoint, requested by thread 0x0000560e86b75800",
+                event.getVmOperationString(), "VM operation not correct.");
     ***REMOVED***
 ***REMOVED***

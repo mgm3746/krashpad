@@ -189,7 +189,7 @@ Event: 4.815 Thread 0x00007f7a3005d000 Uncommon trap: reason=range_check action=
 ***REMOVED***
 jvm_args: -Xmx220000M -Xms220000M -verbose:gc -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+PrintHeapAtGC -XX:+UseConcMarkSweepGC -XX:ThreadStackSize=256 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/my.hprof -XX:+UseLargePages -XX:-OmitStackTraceInFastThrow  
 java_command: 
-java_class_path (initial): 
+java_class_path (initial): .
 ***REMOVED***
 
 ***REMOVED***

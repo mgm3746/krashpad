@@ -14,7 +14,6 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -34,10 +33,19 @@ class TestOperationEvent {
     ***REMOVED***
 
     @Test
-    void testNoEvents() {
+    void testNoEventsLowercaseE() {
+        OperationEvent priorLogEvent = new OperationEvent("VM Operations (0 events):");
+        String logLine = "No events";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.OPERATION,
+                JdkUtil.LogEventType.OPERATION.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
+    void testNoEventsUppercaseE() {
+        OperationEvent priorLogEvent = new OperationEvent("VM Operations (0 events):");
         String logLine = "No Events";
-        assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OPERATION,
-                JdkUtil.LogEventType.OPERATION.toString() + " incorrectly identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.OPERATION,
+                JdkUtil.LogEventType.OPERATION.toString() + " not identified.");
     ***REMOVED***
 
     @Test

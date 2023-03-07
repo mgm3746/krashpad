@@ -14,7 +14,6 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -35,24 +34,35 @@ class TestClassesRedefinedEvent {
 
     @Test
     void testIdentity() {
+        ClassesRedefinedEvent priorLogEvent = new ClassesRedefinedEvent("Classes redefined (34 events):");
         String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
                 + "count=1";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.CLASSES_REDEFINED,
                 JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not identified.");
     ***REMOVED***
 
     @Test
-    void testNoEvents() {
+    void testNoEventsLowercaseE() {
+        ClassesRedefinedEvent priorLogEvent = new ClassesRedefinedEvent("Classes redefined (0 events):");
         String logLine = "No events";
-        assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " incorrectly identified.");
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof ClassesRedefinedEvent,
+                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not parsed.");
+    ***REMOVED***
+
+    @Test
+    void testNoEventsUppercaseE() {
+        ClassesRedefinedEvent priorLogEvent = new ClassesRedefinedEvent("Classes redefined (0 events):");
+        String logLine = "No Events";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof ClassesRedefinedEvent,
+                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not parsed.");
     ***REMOVED***
 
     @Test
     void testParseLogLine() {
+        ClassesRedefinedEvent priorLogEvent = new ClassesRedefinedEvent("Classes redefined (34 events):");
         String logLine = "Event: 19.740 Thread 0x000055ae21eec800 redefined class name=org.jboss.modules.Main, "
                 + "count=1";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ClassesRedefinedEvent,
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof ClassesRedefinedEvent,
                 JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

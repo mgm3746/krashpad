@@ -55,20 +55,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class CpuInfoEvent implements LogEvent {
 
     /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(" + CpuInfoEvent.REGEX_HEADER
-            + "|(<Not Available>|\\d{1,3***REMOVED***-\\d{1,3***REMOVED***|address sizes|apicid|Available cpu frequencies|"
-            + "(Available|Current) governor[s]{0,1***REMOVED***|BIOS frequency limitation|bogomips|bugs|cache_alignment|"
-            + "cache coherency line size|cache level|cache size|cache type|clflush size|clock|core id|"
-            + "Core performance/turbo boost|cpu|cpu cores|cpu family|CPU Model and flags from \\/proc\\/cpuinfo|"
-            + "cpuid level|cpu MHz|(Current|Maximum|Minimum) cpu frequency|flags|fpu|fpu_exception|"
-            + "Frequency switch latency \\(ns\\)|initial apicid|machine|microcode|model|model name|MMU|"
-            + "(Off|On)line cpus|ondemand|performance|physical id|platform|power management|\\/proc\\/cpuinfo|"
-            + "processor|revision|siblings|stepping|timebase|TLB size|vendor_id|wp)[\\s]{0,***REMOVED***(:)?( )?)(.*)$";
-
-    /**
-     * * Regular expression for the CPU header with summary information.
+     * Regular expression for the CPU header with summary information.
      * 
      * For example:
      * 
@@ -86,11 +73,11 @@ public class CpuInfoEvent implements LogEvent {
      * sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, erms, tsc, tscinvbit
      * </pre>
      */
-    public static final String REGEX_HEADER = "CPU:[ ]{0,1***REMOVED***total (\\d{1,3***REMOVED***)( \\(initial active (\\d{1,3***REMOVED***)\\))?"
+    public static final String _REGEX_HEADER = "CPU:[ ]{0,1***REMOVED***total (\\d{1,3***REMOVED***)( \\(initial active (\\d{1,3***REMOVED***)\\))?"
             + "( \\((\\d{1,2***REMOVED***) cores per cpu, (\\d) threads per core\\))?.*";
 
     /**
-     * * Regular expression for values for multi line entries.
+     * Regular expression for values for multi line entries.
      * 
      * For example:
      * 
@@ -99,7 +86,22 @@ public class CpuInfoEvent implements LogEvent {
      * Data
      * </pre>
      */
-    public static final String REGEX_VALUE = "^(" + JdkRegEx.SIZE + "|\\d{1,2***REMOVED***KFrequency|Data|Instruction|Unified)$";
+    private static final String _REGEX_VALUE = "^(\\d{1,***REMOVED***|\\d{1,***REMOVED***-\\d{1,***REMOVED***|" + JdkRegEx.SIZE
+            + "|\\d{1,2***REMOVED***KFrequency|Data|Instruction|Unified|performance( powersave)?)$";
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_VALUE
+            + "|<Not Available>|address sizes.+|apicid.+|Available cpu frequencies:.*|"
+            + "(Available|Current) governor[s]{0,1***REMOVED***:.*|BIOS frequency limitation:.*|bogomips.+|bugs.+|"
+            + "cache_alignment.+|cache coherency line size:|cache level:|cache size.+|cache type:|clflush size.+|"
+            + "clock.+|core id.+|Core performance/turbo boost:.*|cpu.+|cpu cores|cpu family.+|"
+            + "CPU Model and flags from \\/proc\\/cpuinfo:|cpuid level|cpu MHz|(Current|Maximum|"
+            + "Minimum) cpu frequency:|flags.+|fpu.+|fpu_exception|Frequency switch latency \\(ns\\):.*|"
+            + "initial apicid.+|machine.+|microcode.+|model.+|model name|MMU.+|(Off|On)line cpus:.*|ondemand|"
+            + "performance|physical id.+|platform.+|power management:|\\/proc\\/cpuinfo:|processor.+|revision.+|"
+            + "siblings.+|stepping.+|timebase.+|TLB size.+|vendor_id.+|wp.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -139,6 +141,6 @@ public class CpuInfoEvent implements LogEvent {
      * @return True if the event is the CPU header with summary information, false otherwise.
      */
     public boolean isCpuHeader() {
-        return logEntry.matches(REGEX_HEADER);
+        return logEntry.matches(_REGEX_HEADER);
     ***REMOVED***
 ***REMOVED***
