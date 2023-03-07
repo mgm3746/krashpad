@@ -110,6 +110,13 @@ class TestEnvironmentVariablesEvent {
     ***REMOVED***
 
     @Test
+    void testLcAll() {
+        String logLine = "LC_ALL=POSIX";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testLdLibraryPath() {
         String logLine = "LD_LIBRARY_PATH=:/path/to/lib";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
