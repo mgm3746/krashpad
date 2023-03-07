@@ -48,7 +48,7 @@ public class ExceptionEvent implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " (Exception|Implicit null exception).+|<meta name.+|thrown.+|No [Ee]vents)$";
+            + JdkRegEx.ADDRESS + " (Exception|Implicit).+|<meta name.+|thrown.+|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

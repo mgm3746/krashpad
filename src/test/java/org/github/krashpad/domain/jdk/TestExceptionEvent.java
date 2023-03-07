@@ -44,6 +44,15 @@ class TestExceptionEvent {
     ***REMOVED***
 
     @Test
+    void testImplicitDivisionByZeroException() {
+        ExceptionEvent priorLogEvent = new ExceptionEvent("***REMOVED***");
+        String logLine = "Event: 153.611 Thread 0x00007f2ce8042800 Implicit division by zero exception at "
+                + "0x00007f2ca9133501 to 0x00007f2ca913844a";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.EXCEPTION_EVENT,
+                JdkUtil.LogEventType.EXCEPTION_EVENT.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testMeta() {
         ExceptionEvent priorLogEvent = new ExceptionEvent("***REMOVED***");
         String logLine = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=0> (0x000000079d702b90) "
