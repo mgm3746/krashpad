@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -46,17 +47,17 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class BitsEvent implements LogEvent, ThrowAwayEvent {
-
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(" + BitsEvent.REGEX_HEADER + "|( (Begin|End|Next|Prev))? Bits:).*$";
+public class BitsEvent implements LogEvent, ThrowAwayEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "(Marking Bits( \\(Prev, Next\\))?|Mod Union Table):";
+    private static final String _REGEX_HEADER = "(Marking Bits( \\(Prev, Next\\))?|Mod Union Table):";
+
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|( (Begin|End|Next|Prev))? Bits:).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -90,5 +91,14 @@ public class BitsEvent implements LogEvent, ThrowAwayEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.BITS.toString();
+    ***REMOVED***
+
+    @Override
+    public boolean isHeader() {
+        boolean isHeader = false;
+        if (this.logEntry != null) {
+            isHeader = logEntry.matches(_REGEX_HEADER);
+        ***REMOVED***
+        return isHeader;
     ***REMOVED***
 ***REMOVED***

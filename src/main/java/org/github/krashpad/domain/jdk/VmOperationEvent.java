@@ -14,13 +14,14 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * OPERATION
+ * VM_OPERATION_EVENT
  * </p>
  * 
  * <p>
@@ -30,13 +31,14 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * VM Operations (0 events):
+ * VM Operations (2 events):
+ * Event: 31.627 Executing VM operation: HandshakeAllThreads done
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class VmOperationEvent implements LogEvent {
+public class VmOperationEvent implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
@@ -83,5 +85,14 @@ public class VmOperationEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.VM_OPERATION_EVENT.toString();
+    ***REMOVED***
+
+    @Override
+    public boolean isHeader() {
+        boolean isHeader = false;
+        if (this.logEntry != null) {
+            isHeader = logEntry.matches(_REGEX_HEADER);
+        ***REMOVED***
+        return isHeader;
     ***REMOVED***
 ***REMOVED***

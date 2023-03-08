@@ -33,9 +33,9 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.github.joa.domain.GarbageCollector;
-import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
+import org.github.krashpad.domain.jdk.ExceptionCounts;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
-import org.github.krashpad.domain.jdk.StackEvent;
+import org.github.krashpad.domain.jdk.Stack;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.jdk.Analysis;
@@ -410,9 +410,9 @@ public class Main {
                 printWriter.write("Errors:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
                 if (!fel.getExceptionCountsEvents().isEmpty()) {
-                    Iterator<ExceptionCountsEvent> iteratorExceptionCounts = fel.getExceptionCountsEvents().iterator();
+                    Iterator<ExceptionCounts> iteratorExceptionCounts = fel.getExceptionCountsEvents().iterator();
                     while (iteratorExceptionCounts.hasNext()) {
-                        ExceptionCountsEvent exceptionCountsEvent = iteratorExceptionCounts.next();
+                        ExceptionCounts exceptionCountsEvent = iteratorExceptionCounts.next();
                         if (!exceptionCountsEvent.isHeader()) {
                             printWriter.write(exceptionCountsEvent.getLogEntry() + Constants.LINE_SEPARATOR);
                         ***REMOVED***
@@ -424,12 +424,12 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Stack:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            List<StackEvent> stack = fel.getStackEvents();
-            Iterator<StackEvent> iteratorStackEvents = stack.iterator();
+            List<Stack> stack = fel.getStackEvents();
+            Iterator<Stack> iteratorStackEvents = stack.iterator();
             // Limit stack output for report readability
             int stackLength = 0;
             while (iteratorStackEvents.hasNext() && stackLength < 10) {
-                StackEvent se = iteratorStackEvents.next();
+                Stack se = iteratorStackEvents.next();
                 printWriter.write(se.getLogEntry() + Constants.LINE_SEPARATOR);
                 stackLength++;
             ***REMOVED***

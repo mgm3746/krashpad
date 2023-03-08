@@ -50,7 +50,7 @@ class TestFatalErrorLog {
                 + "--user myuser --password mypassword --maxRows 1234";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
-        VmArgumentsEvent event = new VmArgumentsEvent(logLine);
+        VmArguments event = new VmArguments(logLine);
         FatalErrorLog fel = new FatalErrorLog();
         fel.getVmArgumentsEvents().add(event);
         assertEquals(Application.AMQ_CLI, fel.getApplication(), "AMQ CLI application not identified.");
@@ -102,10 +102,10 @@ class TestFatalErrorLog {
     void testCollectorTruncatedLog() {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine1 = "***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_322-b06) (build 1.8.0_322-b06)";
-        HeaderEvent headerEvent1 = new HeaderEvent(headerLine1);
+        Header headerEvent1 = new Header(headerLine1);
         fel.getHeaderEvents().add(headerEvent1);
         String headerLine2 = "***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.322-b06 mixed mode linux-amd64 compressed oops)";
-        HeaderEvent headerEvent2 = new HeaderEvent(headerLine2);
+        Header headerEvent2 = new Header(headerLine2);
         fel.getHeaderEvents().add(headerEvent2);
         fel.getAnalysis();
         assertEquals(1, fel.getGarbageCollectors().size(), "Garbage collector count not correct.");
@@ -118,7 +118,7 @@ class TestFatalErrorLog {
         String stack = "J 7241% C2 com.example.MyClass.match(Ljava/util/List;Ljava/util/List;Ljava/util/Comparator;"
                 + "Ljava/util/Comparator;Ljava/util/Comparator;Lcom/example/IMatch;Ljava/lang/Object;)V (534 bytes) "
                 + "@ 0x00002b7c5142e69c [0x00002b7c5142e340+0x35c]";
-        StackEvent stackEvent = new StackEvent(stack);
+        Stack stackEvent = new Stack(stack);
         fel.getStackEvents().add(stackEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
@@ -130,7 +130,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         // BIT32
         String heapAddress = "heap address: 0x00000000c0000000, size: 1024 MB, Compressed Oops mode: 32-bit";
-        HeapAddressEvent heapAddressEvent = new HeapAddressEvent(heapAddress);
+        HeapAddress heapAddressEvent = new HeapAddress(heapAddress);
         fel.setHeapAddressEvent(heapAddressEvent);
         assertEquals(CompressedOopMode.BIT32, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
         assertEquals(3072, fel.getHeapStartingAddress(), "Heap starting address not correct.");
@@ -138,13 +138,13 @@ class TestFatalErrorLog {
         // ZERO
         heapAddress = "heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: "
                 + "Zero based, Oop shift amount: 3";
-        heapAddressEvent = new HeapAddressEvent(heapAddress);
+        heapAddressEvent = new HeapAddress(heapAddress);
         fel.setHeapAddressEvent(heapAddressEvent);
         assertEquals(CompressedOopMode.ZERO, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
         // NON_ZERO
         heapAddress = "heap address: 0x00000005a9c00000, size: 8548 MB, Compressed Oops mode: "
                 + "Non-zero based:0x00000005a9bff000, Oop shift amount: 3";
-        heapAddressEvent = new HeapAddressEvent(heapAddress);
+        heapAddressEvent = new HeapAddress(heapAddress);
         fel.setHeapAddressEvent(heapAddressEvent);
         assertEquals(CompressedOopMode.NON_ZERO, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
         assertEquals(8548, fel.getHeapMaxSize(), "Heap max size not correct.");
@@ -155,14 +155,14 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String cpu = "CPU:total 8 (2 cores per cpu, 1 threads per core) family 6 model 63 stepping 0, cmov, cx8, "
                 + "fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, erms, tsc, tscinvbit";
-        CpuInfoEvent cpuInfoEvent = new CpuInfoEvent(cpu);
+        CpuInfo cpuInfoEvent = new CpuInfo(cpu);
         fel.getCpuInfoEvents().add(cpuInfoEvent);
         assertTrue(fel.hasCpuCapability("avx2"), "CPU avx2 capability not identified.");
         // test when at end
         fel.getCpuInfoEvents().clear();
         cpu = "CPU:total 8 (2 cores per cpu, 1 threads per core) family 6 model 63 stepping 0, cmov, cx8, "
                 + "fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2";
-        cpuInfoEvent = new CpuInfoEvent(cpu);
+        cpuInfoEvent = new CpuInfo(cpu);
         fel.getCpuInfoEvents().add(cpuInfoEvent);
         assertTrue(fel.hasCpuCapability("avx2"), "CPU avx2 capability not identified.");
     ***REMOVED***
@@ -171,7 +171,7 @@ class TestFatalErrorLog {
     void testCrashShutdown() {
         FatalErrorLog fel = new FatalErrorLog();
         String logLine = "Event: 5353.018 Executing VM operation: Exit";
-        EventEvent event = new EventEvent(logLine);
+        Event event = new Event(logLine);
         fel.getEventEvents().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_SHUTDOWN.getKey()),
@@ -193,7 +193,7 @@ class TestFatalErrorLog {
     void testDatesJdk11() {
         FatalErrorLog fel = new FatalErrorLog();
         String logLine = "Time: Sun Nov 14 14:25:00 2021 UTC elapsed time: 5697278.196357 seconds (65d 22h 34m 38s)";
-        TimeElapsedTimeEvent event = new TimeElapsedTimeEvent(logLine);
+        TimeElapsedTime event = new TimeElapsedTime(logLine);
         fel.setTimeElapsedTimeEvent(event);
         assertEquals("Sun Nov 14 14:25:00 2021 UTC", fel.getCrashTimeString(), "Crash time not correct.");
         assertEquals("65d 22h 34m 38s", fel.getElapsedTime(), "Elapsed time not correct.");
@@ -202,11 +202,11 @@ class TestFatalErrorLog {
     @Test
     void testDatesJdk8() {
         FatalErrorLog fel = new FatalErrorLog();
-        TimeEvent timeEvent = new TimeEvent("time: Tue Nov 23 09:21:06 2021");
+        Time timeEvent = new Time("time: Tue Nov 23 09:21:06 2021");
         fel.setTimeEvent(timeEvent);
-        TimezoneEvent timezoneEvent = new TimezoneEvent("***REMOVED***");
+        Timezone timezoneEvent = new Timezone("***REMOVED***");
         fel.setTimezoneEvent(timezoneEvent);
-        ElapsedTimeEvent elapsedTimeEvent = new ElapsedTimeEvent("elapsed time: 644647 seconds (7d 11h 4m 7s)");
+        ElapsedTime elapsedTimeEvent = new ElapsedTime("elapsed time: 644647 seconds (7d 11h 4m 7s)");
         fel.setElapsedTimeEvent(elapsedTimeEvent);
         assertEquals("Tue Nov 23 09:21:06 2021 CET", fel.getCrashTimeString(), "Crash time not correct.");
         assertEquals("7d 11h 4m 7s", fel.getElapsedTime(), "Elapsed time not correct.");
@@ -312,10 +312,10 @@ class TestFatalErrorLog {
     void testGetRhReleaseFromBuildString() {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine1 = "***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)";
-        HeaderEvent headerEvent1 = new HeaderEvent(headerLine1);
+        Header headerEvent1 = new Header(headerLine1);
         fel.getHeaderEvents().add(headerEvent1);
         String headerLine2 = "***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.191-bl2 mixed mode linux-amdé4 compressed oops)";
-        HeaderEvent headerEvent2 = new HeaderEvent(headerLine2);
+        Header headerEvent2 = new Header(headerLine2);
         fel.getHeaderEvents().add(headerEvent2);
         assertEquals("1.8.0_191-b12", fel.getJdkReleaseString(), "JDK release string not correct.");
         fel.doAnalysis();
@@ -331,7 +331,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.15+10-jvmci-22.1-b06) for linux-amd64 JRE "
                 + "(11.0.15+10-jvmci-22.1-b06), built on Apr 20 2022 15:31:40 by \"buildslave\" with gcc 7.3.0";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         assertFalse(fel.isRhBuildString(), "RH build string identified.");
     ***REMOVED***
@@ -340,7 +340,7 @@ class TestFatalErrorLog {
     void testHaveDebuggingSymbols() {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine = "***REMOVED*** V  [libjvm.so+0xa333a6]  ShenandoahUpdateRefsClosure::do_oop(oopDesc**)+0x26";
-        HeaderEvent he = new HeaderEvent(headerLine);
+        Header he = new Header(headerLine);
         fel.getHeaderEvents().add(he);
         assertTrue(fel.haveJdkDebugSymbols(), "Debugging symbols not identified.");
     ***REMOVED***
@@ -350,7 +350,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
                 + "oops)";
-        HeaderEvent he = new HeaderEvent(headerLine);
+        Header he = new Header(headerLine);
         fel.getHeaderEvents().add(he);
         assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
     ***REMOVED***
@@ -359,7 +359,7 @@ class TestFatalErrorLog {
     void testHeaderJdkVersion() {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine = "***REMOVED*** JRE version:  (7.0_85-b15) (build )";
-        HeaderEvent he = new HeaderEvent(headerLine);
+        Header he = new Header(headerLine);
         fel.getHeaderEvents().add(he);
         assertEquals(JavaSpecification.JDK7, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals("1.7.0_85-b15", fel.getJdkReleaseString(), "Java release not correct.");
@@ -369,11 +369,11 @@ class TestFatalErrorLog {
     void testHeaderNotRhVersion() {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine1 = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_301-b09) (build 1.8.0_301-b09)";
-        HeaderEvent he1 = new HeaderEvent(headerLine1);
+        Header he1 = new Header(headerLine1);
         fel.getHeaderEvents().add(he1);
         String headerLine2 = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.301-b09 mixed mode linux-amd64 "
                 + "compressed oops)";
-        HeaderEvent he2 = new HeaderEvent(headerLine2);
+        Header he2 = new Header(headerLine2);
         fel.getHeaderEvents().add(he2);
         assertEquals(Os.LINUX, fel.getOs(), "OS type not correct.");
         assertEquals("1.8.0_301-b09", fel.getJdkReleaseString(), "Java release not correct.");
@@ -385,7 +385,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
                 + "oops)";
-        HeaderEvent he = new HeaderEvent(headerLine);
+        Header he = new Header(headerLine);
         fel.getHeaderEvents().add(he);
         assertEquals(OsVersion.UNIDENTIFIED, fel.getOsVersion(), "OS version not correct.");
         assertEquals(Os.LINUX, fel.getOs(), "OS type not correct.");
@@ -395,10 +395,10 @@ class TestFatalErrorLog {
     void testHeapAllocation() {
         FatalErrorLog fel = new FatalErrorLog();
         String event1 = "***REMOVED***";
-        HeapEvent heapEvent1 = new HeapEvent(event1);
+        Heap heapEvent1 = new Heap(event1);
         fel.getHeapEvents().add(heapEvent1);
         String event2 = " 3456M max, 3456M soft max, 3200M committed, 2325M used";
-        HeapEvent heapEvent2 = new HeapEvent(event2);
+        Heap heapEvent2 = new Heap(event2);
         fel.getHeapEvents().add(heapEvent2);
         assertEquals(3200, fel.getHeapAllocation(), "Heap allocation not correct.");
     ***REMOVED***
@@ -446,7 +446,7 @@ class TestFatalErrorLog {
         String logLine = "java_command: /path/to/jboss-modules.jar -Djboss.home.dir=/path/to/standalone";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
-        VmArgumentsEvent event = new VmArgumentsEvent(logLine);
+        VmArguments event = new VmArguments(logLine);
         FatalErrorLog fel = new FatalErrorLog();
         fel.getVmArgumentsEvents().add(event);
         assertEquals(Application.WILDFLY, fel.getApplication(), "JBoss application not identified.");
@@ -456,11 +456,11 @@ class TestFatalErrorLog {
     void testJdk8NotRhVersion() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS: Windows 10.0 , 64 bit Build 17763 (10.0.17763.2028)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         fel.getOsEvents().add(osEvent);
         String vmInfo = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.271-b09) for windows-amd64 JRE "
                 + "(1.8.0_271-b09), built on Sep 16 2020 19:14:59 by \"\" with MS VC++ 15.9 (VS2017)";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
@@ -471,10 +471,10 @@ class TestFatalErrorLog {
     void testJdk8Rhel7GenericOs() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS: Linux";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         fel.getOsEvents().add(osEvent);
         String uname = "uname:Linux 3.10.0-514.6.1.el7.x86_64 ***REMOVED***1 SMP Sat Dec 10 11:15:38 EST 2016 x86_6";
-        UnameEvent unameEvent = new UnameEvent(uname);
+        Uname unameEvent = new Uname(uname);
         fel.setUnameEvent(unameEvent);
         assertEquals("Linux", fel.getOsString(), "OS string not correct.");
         assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
@@ -497,11 +497,11 @@ class TestFatalErrorLog {
     void testJlinkCustomerJreFromRpm() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         fel.getOsEvents().add(osEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9.1+1-LTS) for linux-amd64 JRE (11.0.9.1+1-LTS), "
                 + "built on Nov 12 2020 18:10:11 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
         assertEquals(Os.LINUX, fel.getOs(), "OS not correct.");
@@ -528,7 +528,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String hsperfdata = "7f23f0838000-7f23f0840000 rw-s 00000000 fd:05 3430                       "
                 + "/tmp/hsperfdata_first.last@location/12345";
-        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(hsperfdata);
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(hsperfdata);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         assertEquals("first.last@location", fel.getJvmUser(), "JVM user not correct.");
     ***REMOVED***
@@ -538,7 +538,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String hsperfdata = "7ff0f61d2000-7ff0f61da000 rw-s 00000000 fd:01 33563495                   "
                 + "/tmp/hsperfdata_jb_admin/92333";
-        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(hsperfdata);
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(hsperfdata);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         assertEquals("jb_admin", fel.getJvmUser(), "JVM user not correct.");
     ***REMOVED***
@@ -547,14 +547,14 @@ class TestFatalErrorLog {
     void testJvmVersionFromRpmPath() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         fel.getOsEvents().add(osEvent);
         String dynamicLibrary = "7efc12c7c000-7efc12ca7000 rw-p 00e4c000 fd:98 12596136                   "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
-        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         String uname = "uname:Linux 3.10.0-957.27.2.el7.x86_64 ***REMOVED***1 SMP Tue Jul 9 16:53:14 UTC 2019 x86_64";
-        UnameEvent unameEvent = new UnameEvent(uname);
+        Uname unameEvent = new Uname(uname);
         fel.setUnameEvent(unameEvent);
         fel.doAnalysis();
         assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
@@ -573,7 +573,7 @@ class TestFatalErrorLog {
         String logLine = "java_command: kafka.Kafka /path/to/my.properties";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
-        VmArgumentsEvent event = new VmArgumentsEvent(logLine);
+        VmArguments event = new VmArguments(logLine);
         FatalErrorLog fel = new FatalErrorLog();
         fel.getVmArgumentsEvents().add(event);
         assertEquals(Application.KAFKA, fel.getApplication(), Application.KAFKA + " application not identified.");
@@ -687,7 +687,7 @@ class TestFatalErrorLog {
     void testNoCompressedOops() {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine = "***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.302-b08 mixed mode linux-amd64 )";
-        HeaderEvent he = new HeaderEvent(headerLine);
+        Header he = new Header(headerLine);
         fel.getHeaderEvents().add(he);
         assertEquals(CompressedOopMode.NONE, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
     ***REMOVED***
@@ -696,7 +696,7 @@ class TestFatalErrorLog {
     void testNoDebuggingSymbols() {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine = "***REMOVED*** V  [libjvm.so+0xa41ea4]";
-        HeaderEvent he = new HeaderEvent(headerLine);
+        Header he = new Header(headerLine);
         fel.getHeaderEvents().add(he);
         assertFalse(fel.haveJdkDebugSymbols(), "Debugging symbols incorrectly identified.");
     ***REMOVED***
@@ -713,7 +713,7 @@ class TestFatalErrorLog {
     void testOsJustLinux() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Linux";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         fel.getOsEvents().add(osEvent);
         assertEquals(Os.LINUX, fel.getOs(), "OS not correct.");
         assertEquals(OsVersion.UNIDENTIFIED, fel.getOsVersion(), "OS version not correct.");
@@ -723,7 +723,7 @@ class TestFatalErrorLog {
     void testOsRhel() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         fel.getOsEvents().add(osEvent);
         assertEquals(Os.LINUX, fel.getOs(), "OS not correct.");
         assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
@@ -747,7 +747,7 @@ class TestFatalErrorLog {
     void testRhBuildStringMockbuild() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         assertFalse(fel.isRhBuildString(), "RH build string identified.");
     ***REMOVED***
@@ -838,7 +838,7 @@ class TestFatalErrorLog {
     void testRhel9Os() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         fel.getOsEvents().add(osEvent);
         assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
     ***REMOVED***
@@ -847,15 +847,15 @@ class TestFatalErrorLog {
     void testRhel9RhBuildJdk17() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         fel.getOsEvents().add(osEvent);
         String dynamicLibrary = "7f76913c5000-7f7691649000 r--p 00000000 fd:01 1706624                    "
                 + "/usr/lib/jvm/java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64/lib/server/libjvm.so";
-        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.17+8-LTS) for linux-amd64 JRE (11.0.17+8-LTS), built "
                 + "on Oct 15 2022 00:00:00 by \"mockbuild\" with gcc 11.2.1 20220127 (Red Hat 11.2.1-9)";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64", fel.getRpmDirectory(), "Rpm directory not correct.");
@@ -890,15 +890,15 @@ class TestFatalErrorLog {
     void testRhRpmInstall() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         fel.getOsEvents().add(osEvent);
         String dynamicLibrary = "7f7eec43f000-7f7eed1dc000 r-xp 00000000 fd:00 37590                      "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
-        DynamicLibraryEvent dynamicLibraryEvent = new DynamicLibraryEvent(dynamicLibrary);
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
         fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.342-b07) for linux-amd64 JRE (1.8.0_342-b07), built on "
                 + "Jul 18 2022 23:53:30 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64", fel.getRpmDirectory(),
@@ -910,14 +910,14 @@ class TestFatalErrorLog {
     void testRhShenandoahNotExperimental() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         fel.getOsEvents().add(osEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9.1+1-LTS) for linux-amd64 JRE (11.0.9.1+1-LTS), "
                 + "built on Nov 12 2020 18:10:11 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         String jvmArgs = "jvm_args: -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC";
-        VmArgumentsEvent vmArgumentsEvent = new VmArgumentsEvent(jvmArgs);
+        VmArguments vmArgumentsEvent = new VmArguments(jvmArgs);
         fel.getVmArgumentsEvents().add(vmArgumentsEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_BASED.getKey()),
@@ -932,7 +932,7 @@ class TestFatalErrorLog {
                 + "stack(0x00007f5abb897000,0x00007f5abb998000)]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-        ThreadEvent event = new ThreadEvent(logLine);
+        Thread event = new Thread(logLine);
         FatalErrorLog fel = new FatalErrorLog();
         fel.getThreadEvents().add(event);
         assertEquals(Application.RHSSO, fel.getApplication(), "RHSSO application not identified.");
@@ -1028,7 +1028,7 @@ class TestFatalErrorLog {
         String logLine = "java_command: org.springframework.boot.loader.WarLauncher";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
-        VmArgumentsEvent event = new VmArgumentsEvent(logLine);
+        VmArguments event = new VmArguments(logLine);
         FatalErrorLog fel = new FatalErrorLog();
         fel.getVmArgumentsEvents().add(event);
         assertEquals(Application.SPRING_BOOT, fel.getApplication(),
@@ -1075,19 +1075,19 @@ class TestFatalErrorLog {
     void testThreadStackSize() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvmArgs = "jvm_args: -Xmx37400M -Xms37400M -XX:ThreadStackSize=256";
-        VmArgumentsEvent event = new VmArgumentsEvent(jvmArgs);
+        VmArguments event = new VmArguments(jvmArgs);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertEquals(256, fel.getThreadStackSize(), "Thread stack size not correct.");
         fel.getVmArgumentsEvents().clear();
         jvmArgs = "jvm_args: -Xmx37400M -Xms37400M -XX:ThreadStackSize=256k";
-        event = new VmArgumentsEvent(jvmArgs);
+        event = new VmArguments(jvmArgs);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertEquals(256 * 1024, fel.getThreadStackSize(), "Thread stack size not correct.");
         fel.getVmArgumentsEvents().clear();
         jvmArgs = "jvm_args: -Xmx37400M -Xms37400M -Xss256";
-        event = new VmArgumentsEvent(jvmArgs);
+        event = new VmArguments(jvmArgs);
         fel.getVmArgumentsEvents().add(event);
         fel.doAnalysis();
         assertEquals(0, fel.getThreadStackSize(), "Thread stack size not correct.");
@@ -1097,10 +1097,10 @@ class TestFatalErrorLog {
     void testUbi9OnRhel7() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         fel.getOsEvents().add(osEvent);
         String uname = "uname:Linux 3.10.0-870.el7.CSB.input.5.x86_64 ***REMOVED***1 SMP Mon Apr 16 16:59:47 UTC 2018 x86_64";
-        UnameEvent unameEvent = new UnameEvent(uname);
+        Uname unameEvent = new Uname(uname);
         fel.setUnameEvent(unameEvent);
         assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
     ***REMOVED***
@@ -1117,7 +1117,7 @@ class TestFatalErrorLog {
     @Test
     void testUptime() {
         FatalErrorLog fel = new FatalErrorLog();
-        TimeElapsedTimeEvent event = new TimeElapsedTimeEvent(
+        TimeElapsedTime event = new TimeElapsedTime(
                 "Time: Tue May  5 18:32:04 2020 CEST elapsed time: 956 seconds (0d 0h 15m 56s)");
         fel.setTimeElapsedTimeEvent(event);
         assertEquals(956000L, fel.getUptime(), "Uptime not correct.");
@@ -1135,7 +1135,7 @@ class TestFatalErrorLog {
     void testUsernameWithDotAtSign() {
         FatalErrorLog fel = new FatalErrorLog();
         String username = "USERNAME=first.last@location";
-        EnvironmentVariablesEvent environmentVariablesEvent = new EnvironmentVariablesEvent(username);
+        EnvironmentVariables environmentVariablesEvent = new EnvironmentVariables(username);
         fel.getEnvironmentVariablesEvents().add(environmentVariablesEvent);
         assertEquals("first.last@location", fel.getUsername(), "USERNAME not correct.");
     ***REMOVED***
@@ -1144,7 +1144,7 @@ class TestFatalErrorLog {
     void testUsernameWithUnderscore() {
         FatalErrorLog fel = new FatalErrorLog();
         String username = "USERNAME=jb_admin";
-        EnvironmentVariablesEvent environmentVariablesEvent = new EnvironmentVariablesEvent(username);
+        EnvironmentVariables environmentVariablesEvent = new EnvironmentVariables(username);
         fel.getEnvironmentVariablesEvents().add(environmentVariablesEvent);
         assertEquals("jb_admin", fel.getUsername(), "USERNAME not correct.");
     ***REMOVED***
@@ -1154,7 +1154,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8) for linux-amd64 JRE (17.0.4+8), built on Jul 19 "
                 + "2022 00:00:00 by \"temurin\" with gcc 10.3.0";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         assertEquals(JavaVendor.ADOPTIUM, fel.getJavaVendor(), "JDK vendor not correct.");
     ***REMOVED***
@@ -1163,7 +1163,7 @@ class TestFatalErrorLog {
     void testVendorAdoptOpenJdkHeader() {
         FatalErrorLog fel = new FatalErrorLog();
         String header = "***REMOVED*** JRE version: OpenJDK Runtime Environment AdoptOpenJDK (11.0.9+11) (build 11.0.9+11)";
-        HeaderEvent headerEvent = new HeaderEvent(header);
+        Header headerEvent = new Header(header);
         fel.getHeaderEvents().add(headerEvent);
         assertEquals(JavaVendor.ADOPTOPENJDK, fel.getJavaVendor(), "JDK vendor not correct.");
     ***REMOVED***
@@ -1173,7 +1173,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
                 + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         assertEquals(JavaVendor.ADOPTOPENJDK, fel.getJavaVendor(), "JDK vendor not correct.");
     ***REMOVED***
@@ -1184,7 +1184,7 @@ class TestFatalErrorLog {
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.252-b14) for linux-amd64 JRE "
                 + "(Zulu 8.46.0.52-SA-linux64) (1.8.0_252-b14), built on Apr 22 2020 07:39:02 by \"zulu_re\" with gcc "
                 + "4.4.7 20120313";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         assertEquals(JavaVendor.AZUL, fel.getJavaVendor(), "JDK vendor not correct.");
     ***REMOVED***
@@ -1194,7 +1194,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.10+9) for linux-amd64 JRE (11.0.10+9), "
                 + "built on Jan 22 2021 19:24:16 by \"vsts\" with gcc 7.3.0";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         assertEquals(JavaVendor.MICROSOFT, fel.getJavaVendor(), "JDK vendor not correct.");
     ***REMOVED***
@@ -1204,7 +1204,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.25-b02) for windows-amd64 JRE (1.8.0_25-b18), "
                 + "built on Oct  7 2014 14:25:37 by \"java_re\" with MS VC++ 10.0 (VS2010)";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "JDK vendor not correct.");
     ***REMOVED***
@@ -1214,7 +1214,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.242-b08) for linux-amd64 JRE (1.8.0_242-b08), built on "
                 + "Jan 17 2020 09:36:23 by \"bob\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23";
-        VmInfoEvent vmInfoEvent = new VmInfoEvent(vmInfo);
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfoEvent(vmInfoEvent);
         assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "JDK vendor not correct.");
     ***REMOVED***
@@ -1245,12 +1245,12 @@ class TestFatalErrorLog {
                 + "built on Apr 17 2022 13:56:34 by \"\" with unknown MS VC++:1916";
         String vmInfo15_2 = "vm_info: OpenJDK 64-Bit Server VM (11.0.15+9-LTS) for windows-amd64 JRE (11.0.15+9-LTS), "
                 + "built on Apr 27 2022 19:12:18 by \"\" with unknown MS VC++:1916";
-        VmInfoEvent vmInfoEvent15_1 = new VmInfoEvent(vmInfo15_1);
-        VmInfoEvent vmInfoEvent15_2 = new VmInfoEvent(vmInfo15_2);
+        VmInfo vmInfoEvent15_1 = new VmInfo(vmInfo15_1);
+        VmInfo vmInfoEvent15_2 = new VmInfo(vmInfo15_2);
         felJdk11u15_1.setVmInfoEvent(vmInfoEvent15_1);
         felJdk11u15_2.setVmInfoEvent(vmInfoEvent15_2);
         String os = "OS: Windows Server 2012 , 64 Bit Build 9200 (6.2.9200.16384)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         felJdk11u15_1.getOsEvents().add(osEvent);
         felJdk11u15_2.getOsEvents().add(osEvent);
         assertEquals("11.0.15+9-LTS-1", felJdk11u15_1.getJdkReleaseString(), "JDK release not correct.");
@@ -1272,12 +1272,12 @@ class TestFatalErrorLog {
                 + "built on Apr 17 2022 12:11:44 by \"\" with MS VC++ 16.10 / 16.11 (VS2019)";
         String vmInfo15_2 = "vm_info: OpenJDK 64-Bit Server VM (17.0.3+6-LTS) for windows-amd64 JRE (17.0.3+6-LTS), "
                 + "built on Apr 27 2022 11:51:42 by \"\" with MS VC++ 16.10 / 16.11 (VS2019)";
-        VmInfoEvent vmInfoEvent15_1 = new VmInfoEvent(vmInfo15_1);
-        VmInfoEvent vmInfoEvent15_2 = new VmInfoEvent(vmInfo15_2);
+        VmInfo vmInfoEvent15_1 = new VmInfo(vmInfo15_1);
+        VmInfo vmInfoEvent15_2 = new VmInfo(vmInfo15_2);
         felJdk17u3_1.setVmInfoEvent(vmInfoEvent15_1);
         felJdk17u3_2.setVmInfoEvent(vmInfoEvent15_2);
         String os = "OS: Windows Server 2012 , 64 Bit Build 9200 (6.2.9200.16384)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         felJdk17u3_1.getOsEvents().add(osEvent);
         felJdk17u3_2.getOsEvents().add(osEvent);
         assertEquals("17.0.3+6-LTS-1", felJdk17u3_1.getJdkReleaseString(), "JDK release not correct.");
@@ -1299,12 +1299,12 @@ class TestFatalErrorLog {
                 + "built on Apr 19 2022 13:36:53 by \"build\" with MS VC++ 10.0 (VS2010)";
         String vmInfo332_2 = "vm_info: OpenJDK 64-Bit Server VM (25.332-b09) for windows-amd64 JRE (1.8.0_332-b09), "
                 + "built on Apr 27 2022 21:29:19 by \"build\" with MS VC++ 10.0 (VS2010)";
-        VmInfoEvent vmInfoEventJdk8u332_1 = new VmInfoEvent(vmInfo332_1);
-        VmInfoEvent vmInfoEventJdk8u332_2 = new VmInfoEvent(vmInfo332_2);
+        VmInfo vmInfoEventJdk8u332_1 = new VmInfo(vmInfo332_1);
+        VmInfo vmInfoEventJdk8u332_2 = new VmInfo(vmInfo332_2);
         felJdk8u332_1.setVmInfoEvent(vmInfoEventJdk8u332_1);
         felJdk8u332_2.setVmInfoEvent(vmInfoEventJdk8u332_2);
         String os = "OS: Windows Server 2012 , 64 Bit Build 9200 (6.2.9200.16384)";
-        OsEvent osEvent = new OsEvent(os);
+        OsInfo osEvent = new OsInfo(os);
         felJdk8u332_1.getOsEvents().add(osEvent);
         felJdk8u332_2.getOsEvents().add(osEvent);
         assertEquals("1.8.0_332-b09-1", felJdk8u332_1.getJdkReleaseString(), "JDK release not correct.");

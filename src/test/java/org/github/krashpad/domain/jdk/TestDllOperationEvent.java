@@ -57,20 +57,20 @@ class TestDllOperationEvent {
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof DllOperationEvent,
                 JdkUtil.LogEventType.DLL_OPERATION_EVENT.toString() + " not identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent,
-                JdkUtil.LogEventType.COMPILATION.toString() + " incorrectly identified.");
+                JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof GcHeapHistoryEvent,
-                JdkUtil.LogEventType.GC_HEAP_HISTORY.toString() + " incorrectly identified.");
+                JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof DeoptimizationEvent,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof ClassesUnloadedEvent,
-                JdkUtil.LogEventType.CLASSES_UNLOADED.toString() + " incorrectly identified.");
+                JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof ClassesRedefinedEvent,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " incorrectly identified.");
+                JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof InternalExceptionEvent,
                 JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " incorrectly identified.");
-        assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof EventEvent,
+        assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof Event,
                 JdkUtil.LogEventType.EVENT.toString() + " incorrectly identified.");
     ***REMOVED***
 

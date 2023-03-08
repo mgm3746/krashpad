@@ -14,13 +14,14 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * COMPILATION
+ * COMPILATION_EVENT
  * </p>
  * 
  * <p>
@@ -38,7 +39,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class CompilationEvent implements LogEvent {
+public class CompilationEvent implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
@@ -82,6 +83,15 @@ public class CompilationEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.COMPILATION.toString();
+        return JdkUtil.LogEventType.COMPILATION_EVENT.toString();
+    ***REMOVED***
+
+    @Override
+    public boolean isHeader() {
+        boolean isHeader = false;
+        if (this.logEntry != null) {
+            isHeader = logEntry.matches(_REGEX_HEADER);
+        ***REMOVED***
+        return isHeader;
     ***REMOVED***
 ***REMOVED***

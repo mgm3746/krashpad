@@ -29,14 +29,14 @@ class TestCompilationEvent {
     void testHeader() {
         String logLine = "***REMOVED***";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent,
-                JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
+                JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.");
     ***REMOVED***
 
     @Test
     void testIdentity() {
         String logLine = "***REMOVED***";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMPILATION,
-                JdkUtil.LogEventType.COMPILATION.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMPILATION_EVENT,
+                JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
@@ -45,7 +45,7 @@ class TestCompilationEvent {
         CompilationEvent priorLogEvent = new CompilationEvent(priorLogLine);
         String logLine = "No Events";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
-                JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
+                JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.");
     ***REMOVED***
 
     @Test
@@ -55,7 +55,7 @@ class TestCompilationEvent {
         String logLine = "Event: 0.021 Thread 0x00007fa9cc15ba60    1       3       "
                 + "java.lang.Object::<init> (1 bytes)";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
-                JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
+                JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.");
     ***REMOVED***
 
     @Test
@@ -65,6 +65,6 @@ class TestCompilationEvent {
         String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
                 + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
-                JdkUtil.LogEventType.COMPILATION.toString() + " not parsed.");
+                JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

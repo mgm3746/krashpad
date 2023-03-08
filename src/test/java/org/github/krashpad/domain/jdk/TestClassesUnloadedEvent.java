@@ -29,8 +29,8 @@ class TestClassesUnloadedEvent {
     @Test
     void testIdentity() {
         String logLine = "Classes unloaded (13 events):";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_UNLOADED,
-                JdkUtil.LogEventType.CLASSES_UNLOADED.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT,
+                JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
@@ -38,46 +38,46 @@ class TestClassesUnloadedEvent {
         ClassesUnloadedEvent priorLogEvent = new ClassesUnloadedEvent("");
         String logLine = "Event: 7.661 Thread 0x00007f282c2174f0 Unloading class 0x0000000801591000 "
                 + "'java/lang/invoke/LambdaForm$DMH+0x0000000801591000'";
-        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.CLASSES_UNLOADED,
-                JdkUtil.LogEventType.CLASSES_UNLOADED.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT,
+                JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testNoEventsLowercaseE() {
         ClassesUnloadedEvent priorLogEvent = new ClassesUnloadedEvent("");
         String logLine = "No events";
-        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.CLASSES_UNLOADED,
-                JdkUtil.LogEventType.CLASSES_UNLOADED.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT,
+                JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testNoEventsUppercaseE() {
         ClassesUnloadedEvent priorLogEvent = new ClassesUnloadedEvent("");
         String logLine = "No Events";
-        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.CLASSES_UNLOADED,
-                JdkUtil.LogEventType.CLASSES_UNLOADED.toString() + " not identified.");
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT,
+                JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT.toString() + " not identified.");
     ***REMOVED***
 
     @Test
     void testParseLogLine() {
         String logLine = "Classes unloaded (13 events):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ClassesUnloadedEvent,
-                JdkUtil.LogEventType.CLASSES_UNLOADED.toString() + " not identified.");
+                JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT.toString() + " not identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent,
-                JdkUtil.LogEventType.COMPILATION.toString() + " incorrectly identified.");
+                JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof GcHeapHistoryEvent,
-                JdkUtil.LogEventType.GC_HEAP_HISTORY.toString() + " incorrectly identified.");
+                JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof DeoptimizationEvent,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof DllOperationEvent,
                 JdkUtil.LogEventType.DLL_OPERATION_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof ClassesRedefinedEvent,
-                JdkUtil.LogEventType.CLASSES_REDEFINED.toString() + " incorrectly identified.");
+                JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof InternalExceptionEvent,
                 JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " incorrectly identified.");
-        assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof EventEvent,
+        assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof Event,
                 JdkUtil.LogEventType.EVENT.toString() + " incorrectly identified.");
     ***REMOVED***
 

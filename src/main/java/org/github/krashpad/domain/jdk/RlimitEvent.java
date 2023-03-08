@@ -18,6 +18,8 @@ import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
+ * TODO: Move to a new package?
+ * 
  * <p>
  * RLIMIT
  * </p>

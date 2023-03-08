@@ -26,86 +26,86 @@ import java.util.regex.Pattern;
 
 import org.github.joa.domain.Arch;
 import org.github.joa.util.Constants;
-import org.github.krashpad.domain.BlankLineEvent;
+import org.github.krashpad.domain.BlankLine;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.UnknownEvent;
 import org.github.krashpad.domain.jdk.BitsEvent;
-import org.github.krashpad.domain.jdk.CardTableEvent;
-import org.github.krashpad.domain.jdk.CdsArchiveEvent;
+import org.github.krashpad.domain.jdk.CardTable;
+import org.github.krashpad.domain.jdk.CdsArchive;
 import org.github.krashpad.domain.jdk.ClassesRedefinedEvent;
 import org.github.krashpad.domain.jdk.ClassesUnloadedEvent;
-import org.github.krashpad.domain.jdk.CodeCacheEvent;
-import org.github.krashpad.domain.jdk.CommandLineEvent;
+import org.github.krashpad.domain.jdk.CodeCache;
+import org.github.krashpad.domain.jdk.CommandLine;
 import org.github.krashpad.domain.jdk.CompilationEvent;
-import org.github.krashpad.domain.jdk.CompressedClassSpaceEvent;
-import org.github.krashpad.domain.jdk.ContainerInfoEvent;
-import org.github.krashpad.domain.jdk.CpuInfoEvent;
-import org.github.krashpad.domain.jdk.CurrentCompileTaskEvent;
-import org.github.krashpad.domain.jdk.CurrentThreadEvent;
+import org.github.krashpad.domain.jdk.CompressedClassSpace;
+import org.github.krashpad.domain.jdk.ContainerInfo;
+import org.github.krashpad.domain.jdk.CpuInfo;
+import org.github.krashpad.domain.jdk.CurrentCompileTask;
+import org.github.krashpad.domain.jdk.CurrentThread;
 import org.github.krashpad.domain.jdk.DeoptimizationEvent;
 import org.github.krashpad.domain.jdk.DllOperationEvent;
-import org.github.krashpad.domain.jdk.DynamicLibraryEvent;
-import org.github.krashpad.domain.jdk.ElapsedTimeEvent;
-import org.github.krashpad.domain.jdk.EndEvent;
-import org.github.krashpad.domain.jdk.EnvironmentVariablesEvent;
-import org.github.krashpad.domain.jdk.EventEvent;
-import org.github.krashpad.domain.jdk.ExceptionCountsEvent;
+import org.github.krashpad.domain.jdk.DynamicLibrary;
+import org.github.krashpad.domain.jdk.ElapsedTime;
+import org.github.krashpad.domain.jdk.End;
+import org.github.krashpad.domain.jdk.EnvironmentVariables;
+import org.github.krashpad.domain.jdk.Event;
+import org.github.krashpad.domain.jdk.ExceptionCounts;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.GcHeapHistoryEvent;
-import org.github.krashpad.domain.jdk.GcPreciousLogEvent;
-import org.github.krashpad.domain.jdk.GlobalFlagsEvent;
-import org.github.krashpad.domain.jdk.HeaderEvent;
-import org.github.krashpad.domain.jdk.HeadingEvent;
-import org.github.krashpad.domain.jdk.HeapAddressEvent;
-import org.github.krashpad.domain.jdk.HeapEvent;
-import org.github.krashpad.domain.jdk.HeapRegionsEvent;
-import org.github.krashpad.domain.jdk.HostEvent;
-import org.github.krashpad.domain.jdk.InstructionsEvent;
+import org.github.krashpad.domain.jdk.GcPreciousLog;
+import org.github.krashpad.domain.jdk.GlobalFlags;
+import org.github.krashpad.domain.jdk.Header;
+import org.github.krashpad.domain.jdk.Heading;
+import org.github.krashpad.domain.jdk.Heap;
+import org.github.krashpad.domain.jdk.HeapAddress;
+import org.github.krashpad.domain.jdk.HeapRegions;
+import org.github.krashpad.domain.jdk.Host;
+import org.github.krashpad.domain.jdk.Instructions;
 import org.github.krashpad.domain.jdk.InternalExceptionEvent;
-import org.github.krashpad.domain.jdk.InternalStatisticEvent;
-import org.github.krashpad.domain.jdk.LdPreloadFileEvent;
-import org.github.krashpad.domain.jdk.LibcEvent;
-import org.github.krashpad.domain.jdk.LoadAverageEvent;
-import org.github.krashpad.domain.jdk.LoggingEvent;
-import org.github.krashpad.domain.jdk.MaxMapCountEvent;
-import org.github.krashpad.domain.jdk.MeminfoEvent;
-import org.github.krashpad.domain.jdk.MemoryEvent;
-import org.github.krashpad.domain.jdk.MetaspaceEvent;
-import org.github.krashpad.domain.jdk.NarrowKlassEvent;
-import org.github.krashpad.domain.jdk.NativeMemoryTrackingEvent;
+import org.github.krashpad.domain.jdk.InternalStatistic;
+import org.github.krashpad.domain.jdk.LdPreloadFile;
+import org.github.krashpad.domain.jdk.Libc;
+import org.github.krashpad.domain.jdk.LoadAverage;
+import org.github.krashpad.domain.jdk.Logging;
+import org.github.krashpad.domain.jdk.MaxMapCount;
+import org.github.krashpad.domain.jdk.Meminfo;
+import org.github.krashpad.domain.jdk.Memory;
+import org.github.krashpad.domain.jdk.Metaspace;
+import org.github.krashpad.domain.jdk.NarrowKlass;
+import org.github.krashpad.domain.jdk.NativeMemoryTracking;
 import org.github.krashpad.domain.jdk.NumberEvent;
-import org.github.krashpad.domain.jdk.OsEvent;
-import org.github.krashpad.domain.jdk.OsUptimeEvent;
-import org.github.krashpad.domain.jdk.PidMaxEvent;
-import org.github.krashpad.domain.jdk.PollingPageEvent;
-import org.github.krashpad.domain.jdk.ProcessMemoryEvent;
-import org.github.krashpad.domain.jdk.RegisterEvent;
-import org.github.krashpad.domain.jdk.RegisterToMemoryMappingEvent;
+import org.github.krashpad.domain.jdk.OsInfo;
+import org.github.krashpad.domain.jdk.OsUptime;
+import org.github.krashpad.domain.jdk.PidMax;
+import org.github.krashpad.domain.jdk.PollingPage;
+import org.github.krashpad.domain.jdk.ProcessMemory;
+import org.github.krashpad.domain.jdk.Register;
+import org.github.krashpad.domain.jdk.RegisterToMemoryMapping;
 import org.github.krashpad.domain.jdk.Release;
 import org.github.krashpad.domain.jdk.RlimitEvent;
-import org.github.krashpad.domain.jdk.SigInfoEvent;
-import org.github.krashpad.domain.jdk.SignalHandlersEvent;
-import org.github.krashpad.domain.jdk.StackEvent;
-import org.github.krashpad.domain.jdk.StackSlotToMemoryMappingEvent;
-import org.github.krashpad.domain.jdk.ThreadEvent;
-import org.github.krashpad.domain.jdk.ThreadsActiveCompileEvent;
-import org.github.krashpad.domain.jdk.ThreadsClassSmrInfoEvent;
-import org.github.krashpad.domain.jdk.ThreadsMaxEvent;
-import org.github.krashpad.domain.jdk.TimeElapsedTimeEvent;
-import org.github.krashpad.domain.jdk.TimeEvent;
-import org.github.krashpad.domain.jdk.TimezoneEvent;
-import org.github.krashpad.domain.jdk.TopOfStackEvent;
-import org.github.krashpad.domain.jdk.TransparentHugepageEvent;
-import org.github.krashpad.domain.jdk.UidEvent;
-import org.github.krashpad.domain.jdk.UmaskEvent;
-import org.github.krashpad.domain.jdk.UnameEvent;
-import org.github.krashpad.domain.jdk.VirtualizationInfoEvent;
-import org.github.krashpad.domain.jdk.VmArgumentsEvent;
-import org.github.krashpad.domain.jdk.VmInfoEvent;
-import org.github.krashpad.domain.jdk.VmMutexEvent;
+import org.github.krashpad.domain.jdk.SigInfo;
+import org.github.krashpad.domain.jdk.SignalHandlers;
+import org.github.krashpad.domain.jdk.Stack;
+import org.github.krashpad.domain.jdk.StackSlotToMemoryMapping;
+import org.github.krashpad.domain.jdk.Thread;
+import org.github.krashpad.domain.jdk.ThreadsActiveCompile;
+import org.github.krashpad.domain.jdk.ThreadsClassSmrInfo;
+import org.github.krashpad.domain.jdk.ThreadsMax;
+import org.github.krashpad.domain.jdk.Time;
+import org.github.krashpad.domain.jdk.TimeElapsedTime;
+import org.github.krashpad.domain.jdk.Timezone;
+import org.github.krashpad.domain.jdk.TopOfStack;
+import org.github.krashpad.domain.jdk.TransparentHugepage;
+import org.github.krashpad.domain.jdk.Uid;
+import org.github.krashpad.domain.jdk.Umask;
+import org.github.krashpad.domain.jdk.Uname;
+import org.github.krashpad.domain.jdk.VirtualizationInfo;
+import org.github.krashpad.domain.jdk.VmArguments;
+import org.github.krashpad.domain.jdk.VmInfo;
+import org.github.krashpad.domain.jdk.VmMutex;
 import org.github.krashpad.domain.jdk.VmOperation;
 import org.github.krashpad.domain.jdk.VmOperationEvent;
-import org.github.krashpad.domain.jdk.VmStateEvent;
+import org.github.krashpad.domain.jdk.VmState;
 import org.github.krashpad.util.Constants.OsVersion;
 
 /**
@@ -212,27 +212,27 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_REDEFINED, CLASSES_UNLOADED, CODE_CACHE, COMMAND_LINE,
+        BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_REDEFINED_EVENT, CLASSES_UNLOADED_EVENT, CODE_CACHE,
         //
-        COMPILATION, COMPRESSED_CLASS_SPACE, CONTAINER_INFO, CPU, CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD,
+        COMMAND_LINE, COMPILATION_EVENT, COMPRESSED_CLASS_SPACE, CONTAINER_INFO, CPU, CPU_INFO, CURRENT_COMPILE_TASK,
         //
-        DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT,
+        CURRENT_THREAD, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END,
         //
-        EXCEPTION_COUNTS, GC_HEAP_HISTORY, GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER, HEADING, HEAP, HEAP_ADDRESS,
+        ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT, GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER,
         //
-        HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTICS_EVENT,
+        HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, INTERNAL_EXCEPTION_EVENT,
         //
-        LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS,
+        INTERNAL_STATISTICS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE,
         //
-        NATIVE_MEMORY_TRACKING, NUMBER, OS, OS_UPTIME, PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER,
+        NARROW_KLASS, NATIVE_MEMORY_TRACKING, NUMBER, OS_INFO, OS_UPTIME, PID_MAX, POLLING_PAGE, PROCESS_MEMORY,
         //
-        REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD,
+        REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING,
         //
-        THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK,
+        THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE,
         //
-        TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX,
+        TOP_OF_STACK, TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
         //
-        VM_OPERATION, VM_OPERATION_EVENT, VM_STATE
+        VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE
     ***REMOVED***
 
     /**
@@ -1721,35 +1721,35 @@ public class JdkUtil {
         LogEventType logEventType = LogEventType.UNKNOWN;
         if (BitsEvent.match(logLine)) {
             logEventType = LogEventType.BITS;
-        ***REMOVED*** else if (BlankLineEvent.match(logLine)) {
+        ***REMOVED*** else if (BlankLine.match(logLine)) {
             logEventType = LogEventType.BLANK_LINE;
-        ***REMOVED*** else if (CardTableEvent.match(logLine)) {
+        ***REMOVED*** else if (CardTable.match(logLine)) {
             logEventType = LogEventType.CARD_TABLE;
-        ***REMOVED*** else if (CdsArchiveEvent.match(logLine)) {
+        ***REMOVED*** else if (CdsArchive.match(logLine)) {
             logEventType = LogEventType.CDS_ARCHIVE;
         ***REMOVED*** else if (ClassesRedefinedEvent.match(logLine) && (logLine.matches(ClassesRedefinedEvent._REGEX_HEADER)
                 || priorEvent instanceof ClassesRedefinedEvent)) {
-            logEventType = LogEventType.CLASSES_REDEFINED;
+            logEventType = LogEventType.CLASSES_REDEFINED_EVENT;
         ***REMOVED*** else if (ClassesUnloadedEvent.match(logLine) && (logLine.matches(ClassesUnloadedEvent._REGEX_HEADER)
                 || priorEvent instanceof ClassesUnloadedEvent)) {
-            logEventType = LogEventType.CLASSES_UNLOADED;
-        ***REMOVED*** else if (CodeCacheEvent.match(logLine)) {
+            logEventType = LogEventType.CLASSES_UNLOADED_EVENT;
+        ***REMOVED*** else if (CodeCache.match(logLine)) {
             logEventType = LogEventType.CODE_CACHE;
-        ***REMOVED*** else if (CommandLineEvent.match(logLine)) {
+        ***REMOVED*** else if (CommandLine.match(logLine)) {
             logEventType = LogEventType.COMMAND_LINE;
         ***REMOVED*** else if (CompilationEvent.match(logLine)
                 && (logLine.matches(CompilationEvent._REGEX_HEADER) || priorEvent instanceof CompilationEvent)) {
-            logEventType = LogEventType.COMPILATION;
-        ***REMOVED*** else if (CompressedClassSpaceEvent.match(logLine)) {
+            logEventType = LogEventType.COMPILATION_EVENT;
+        ***REMOVED*** else if (CompressedClassSpace.match(logLine)) {
             logEventType = LogEventType.COMPRESSED_CLASS_SPACE;
-        ***REMOVED*** else if (ContainerInfoEvent.match(logLine)) {
+        ***REMOVED*** else if (ContainerInfo.match(logLine)) {
             logEventType = LogEventType.CONTAINER_INFO;
-        ***REMOVED*** else if (CpuInfoEvent.match(logLine)
-                && (logLine.matches(CpuInfoEvent._REGEX_HEADER) || priorEvent instanceof CpuInfoEvent)) {
+        ***REMOVED*** else if (CpuInfo.match(logLine)
+                && (logLine.matches(CpuInfo._REGEX_HEADER) || priorEvent instanceof CpuInfo)) {
             logEventType = LogEventType.CPU_INFO;
-        ***REMOVED*** else if (CurrentCompileTaskEvent.match(logLine)) {
+        ***REMOVED*** else if (CurrentCompileTask.match(logLine)) {
             logEventType = LogEventType.CURRENT_COMPILE_TASK;
-        ***REMOVED*** else if (CurrentThreadEvent.match(logLine)) {
+        ***REMOVED*** else if (CurrentThread.match(logLine)) {
             logEventType = LogEventType.CURRENT_THREAD;
         ***REMOVED*** else if (DeoptimizationEvent.match(logLine)
                 && (logLine.matches(DeoptimizationEvent._REGEX_HEADER) || priorEvent instanceof DeoptimizationEvent)) {
@@ -1757,136 +1757,133 @@ public class JdkUtil {
         ***REMOVED*** else if (DllOperationEvent.match(logLine)
                 && (logLine.matches(DllOperationEvent._REGEX_HEADER) || priorEvent instanceof DllOperationEvent)) {
             logEventType = LogEventType.DLL_OPERATION_EVENT;
-        ***REMOVED*** else if (DynamicLibraryEvent.match(logLine)) {
+        ***REMOVED*** else if (DynamicLibrary.match(logLine)) {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
-        ***REMOVED*** else if (ElapsedTimeEvent.match(logLine)) {
+        ***REMOVED*** else if (ElapsedTime.match(logLine)) {
             logEventType = LogEventType.ELAPSED_TIME;
-        ***REMOVED*** else if (EndEvent.match(logLine)) {
+        ***REMOVED*** else if (End.match(logLine)) {
             logEventType = LogEventType.END;
-        ***REMOVED*** else if (EnvironmentVariablesEvent.match(logLine)) {
+        ***REMOVED*** else if (EnvironmentVariables.match(logLine)) {
             logEventType = LogEventType.ENVIRONMENT_VARIABLES;
-        ***REMOVED*** else if (EventEvent.match(logLine)
-                && (logLine.matches(EventEvent._REGEX_HEADER) || priorEvent instanceof EventEvent)) {
+        ***REMOVED*** else if (Event.match(logLine) && (logLine.matches(Event._REGEX_HEADER) || priorEvent instanceof Event)) {
             logEventType = LogEventType.EVENT;
-        ***REMOVED*** else if (ExceptionCountsEvent.match(logLine)) {
+        ***REMOVED*** else if (ExceptionCounts.match(logLine)) {
             logEventType = LogEventType.EXCEPTION_COUNTS;
         ***REMOVED*** else if (GcHeapHistoryEvent.match(logLine)
                 && (logLine.matches(GcHeapHistoryEvent._REGEX_HEADER) || priorEvent instanceof GcHeapHistoryEvent)) {
-            logEventType = LogEventType.GC_HEAP_HISTORY;
-        ***REMOVED*** else if (GcPreciousLogEvent.match(logLine)) {
+            logEventType = LogEventType.GC_HEAP_HISTORY_EVENT;
+        ***REMOVED*** else if (GcPreciousLog.match(logLine)) {
             logEventType = LogEventType.GC_PRECIOUS_LOG;
-        ***REMOVED*** else if (GlobalFlagsEvent.match(logLine)) {
+        ***REMOVED*** else if (GlobalFlags.match(logLine)) {
             logEventType = LogEventType.GLOBAL_FLAGS;
-        ***REMOVED*** else if (HeaderEvent.match(logLine)
-                && (priorEvent == null || priorEvent instanceof UnknownEvent || priorEvent instanceof HeaderEvent)) {
+        ***REMOVED*** else if (Header.match(logLine)
+                && (priorEvent == null || priorEvent instanceof UnknownEvent || priorEvent instanceof Header)) {
             logEventType = LogEventType.HEADER;
-        ***REMOVED*** else if (HeadingEvent.match(logLine)) {
+        ***REMOVED*** else if (Heading.match(logLine)) {
             logEventType = LogEventType.HEADING;
-        ***REMOVED*** else if (HeapEvent.match(logLine)
-                && (logLine.matches(HeapEvent.REGEX_HEADER) || priorEvent instanceof HeapEvent)) {
+        ***REMOVED*** else if (Heap.match(logLine) && (logLine.matches(Heap._REGEX_HEADER) || priorEvent instanceof Heap)) {
             logEventType = LogEventType.HEAP;
-        ***REMOVED*** else if (HeapAddressEvent.match(logLine)) {
+        ***REMOVED*** else if (HeapAddress.match(logLine)) {
             logEventType = LogEventType.HEAP_ADDRESS;
-        ***REMOVED*** else if (HeapRegionsEvent.match(logLine)) {
+        ***REMOVED*** else if (HeapRegions.match(logLine)) {
             logEventType = LogEventType.HEAP_REGIONS;
-        ***REMOVED*** else if (HostEvent.match(logLine)) {
+        ***REMOVED*** else if (Host.match(logLine)) {
             logEventType = LogEventType.HOST;
-        ***REMOVED*** else if (InstructionsEvent.match(logLine)) {
+        ***REMOVED*** else if (Instructions.match(logLine)) {
             logEventType = LogEventType.INSTRUCTIONS;
         ***REMOVED*** else if (InternalExceptionEvent.match(logLine) && (logLine.matches(InternalExceptionEvent._REGEX_HEADER)
                 || priorEvent instanceof InternalExceptionEvent)) {
             logEventType = LogEventType.INTERNAL_EXCEPTION_EVENT;
-        ***REMOVED*** else if (InternalStatisticEvent.match(logLine) && (logLine.matches(InternalStatisticEvent._REGEX_HEADER)
-                || priorEvent instanceof InternalStatisticEvent)) {
-            logEventType = LogEventType.INTERNAL_STATISTICS_EVENT;
-        ***REMOVED*** else if (LdPreloadFileEvent.match(logLine)) {
+        ***REMOVED*** else if (InternalStatistic.match(logLine)
+                && (logLine.matches(InternalStatistic._REGEX_HEADER) || priorEvent instanceof InternalStatistic)) {
+            logEventType = LogEventType.INTERNAL_STATISTICS;
+        ***REMOVED*** else if (LdPreloadFile.match(logLine)) {
             logEventType = LogEventType.LD_PRELOAD_FILE;
-        ***REMOVED*** else if (LibcEvent.match(logLine)) {
+        ***REMOVED*** else if (Libc.match(logLine)) {
             logEventType = LogEventType.LIBC;
-        ***REMOVED*** else if (LoadAverageEvent.match(logLine)) {
+        ***REMOVED*** else if (LoadAverage.match(logLine)) {
             logEventType = LogEventType.LOAD_AVERAGE;
-        ***REMOVED*** else if (LoggingEvent.match(logLine)) {
+        ***REMOVED*** else if (Logging.match(logLine)) {
             logEventType = LogEventType.LOGGING;
-        ***REMOVED*** else if (MaxMapCountEvent.match(logLine)) {
+        ***REMOVED*** else if (MaxMapCount.match(logLine)) {
             logEventType = LogEventType.MAX_MAP_COUNT;
-        ***REMOVED*** else if (MeminfoEvent.match(logLine)
-                && (logLine.matches(MeminfoEvent._REGEX_HEADER) || priorEvent instanceof MeminfoEvent)) {
+        ***REMOVED*** else if (Meminfo.match(logLine)
+                && (logLine.matches(Meminfo._REGEX_HEADER) || priorEvent instanceof Meminfo)) {
             logEventType = LogEventType.MEMINFO;
-        ***REMOVED*** else if (MemoryEvent.match(logLine)
-                && (logLine.matches(MemoryEvent.__REGEX_HEADER) || priorEvent instanceof MemoryEvent)) {
+        ***REMOVED*** else if (Memory.match(logLine) && (logLine.matches(Memory._REGEX_HEADER) || priorEvent instanceof Memory)) {
             logEventType = LogEventType.MEMORY;
-        ***REMOVED*** else if (MetaspaceEvent.match(logLine)) {
+        ***REMOVED*** else if (Metaspace.match(logLine)) {
             logEventType = LogEventType.METASPACE;
-        ***REMOVED*** else if (NarrowKlassEvent.match(logLine)) {
+        ***REMOVED*** else if (NarrowKlass.match(logLine)) {
             logEventType = LogEventType.NARROW_KLASS;
-        ***REMOVED*** else if (NativeMemoryTrackingEvent.match(logLine)) {
+        ***REMOVED*** else if (NativeMemoryTracking.match(logLine)) {
             logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
         ***REMOVED*** else if (NumberEvent.match(logLine)) {
             logEventType = LogEventType.NUMBER;
-        ***REMOVED*** else if (OsEvent.match(logLine)) {
-            logEventType = LogEventType.OS;
-        ***REMOVED*** else if (OsUptimeEvent.match(logLine)) {
+        ***REMOVED*** else if (OsInfo.match(logLine)) {
+            logEventType = LogEventType.OS_INFO;
+        ***REMOVED*** else if (OsUptime.match(logLine)) {
             logEventType = LogEventType.OS_UPTIME;
-        ***REMOVED*** else if (PidMaxEvent.match(logLine)) {
+        ***REMOVED*** else if (PidMax.match(logLine)) {
             logEventType = LogEventType.PID_MAX;
-        ***REMOVED*** else if (PollingPageEvent.match(logLine)) {
+        ***REMOVED*** else if (PollingPage.match(logLine)) {
             logEventType = LogEventType.POLLING_PAGE;
-        ***REMOVED*** else if (ProcessMemoryEvent.match(logLine)) {
+        ***REMOVED*** else if (ProcessMemory.match(logLine)) {
             logEventType = LogEventType.PROCESS_MEMORY;
-        ***REMOVED*** else if (RegisterEvent.match(logLine)) {
+        ***REMOVED*** else if (Register.match(logLine)) {
             logEventType = LogEventType.REGISTER;
-        ***REMOVED*** else if (RegisterToMemoryMappingEvent.match(logLine) || (priorEvent instanceof RegisterToMemoryMappingEvent
+        ***REMOVED*** else if (RegisterToMemoryMapping.match(logLine) || (priorEvent instanceof RegisterToMemoryMapping
                 && (logLine.matches(JdkRegEx.CLASS) || logLine.matches(JdkRegEx.MEMORY_MAPPING)))) {
             logEventType = LogEventType.REGISTER_TO_MEMORY_MAPPING;
         ***REMOVED*** else if (RlimitEvent.match(logLine)) {
             logEventType = LogEventType.RLIMIT;
-        ***REMOVED*** else if (SigInfoEvent.match(logLine)) {
+        ***REMOVED*** else if (SigInfo.match(logLine)) {
             logEventType = LogEventType.SIGINFO;
-        ***REMOVED*** else if (SignalHandlersEvent.match(logLine)) {
+        ***REMOVED*** else if (SignalHandlers.match(logLine)) {
             logEventType = LogEventType.SIGNAL_HANDLERS;
-        ***REMOVED*** else if (StackEvent.match(logLine)) {
+        ***REMOVED*** else if (Stack.match(logLine)) {
             logEventType = LogEventType.STACK;
-        ***REMOVED*** else if (StackSlotToMemoryMappingEvent.match(logLine)
-                || (priorEvent instanceof StackSlotToMemoryMappingEvent) && logLine.matches(JdkRegEx.MEMORY_MAPPING)) {
+        ***REMOVED*** else if (StackSlotToMemoryMapping.match(logLine)
+                || (priorEvent instanceof StackSlotToMemoryMapping) && logLine.matches(JdkRegEx.MEMORY_MAPPING)) {
             logEventType = LogEventType.STACK_SLOT_TO_MEMORY_MAPPING;
-        ***REMOVED*** else if (ThreadEvent.match(logLine)) {
+        ***REMOVED*** else if (Thread.match(logLine)) {
             logEventType = LogEventType.THREAD;
-        ***REMOVED*** else if (ThreadsActiveCompileEvent.match(logLine)) {
+        ***REMOVED*** else if (ThreadsActiveCompile.match(logLine)) {
             logEventType = LogEventType.THREADS_ACTIVE_COMPILE;
-        ***REMOVED*** else if (ThreadsClassSmrInfoEvent.match(logLine)) {
+        ***REMOVED*** else if (ThreadsClassSmrInfo.match(logLine)) {
             logEventType = LogEventType.THREADS_CLASS_SMR_INFO;
-        ***REMOVED*** else if (ThreadsMaxEvent.match(logLine)) {
+        ***REMOVED*** else if (ThreadsMax.match(logLine)) {
             logEventType = LogEventType.THREADS_MAX;
-        ***REMOVED*** else if (TimeEvent.match(logLine)) {
+        ***REMOVED*** else if (Time.match(logLine)) {
             logEventType = LogEventType.TIME;
-        ***REMOVED*** else if (TimeElapsedTimeEvent.match(logLine)) {
+        ***REMOVED*** else if (TimeElapsedTime.match(logLine)) {
             logEventType = LogEventType.TIME_ELAPSED_TIME;
-        ***REMOVED*** else if (TimezoneEvent.match(logLine)) {
+        ***REMOVED*** else if (Timezone.match(logLine)) {
             logEventType = LogEventType.TIMEZONE;
-        ***REMOVED*** else if (TopOfStackEvent.match(logLine)) {
+        ***REMOVED*** else if (TopOfStack.match(logLine)) {
             logEventType = LogEventType.TOP_OF_STACK;
-        ***REMOVED*** else if (TransparentHugepageEvent.match(logLine)) {
+        ***REMOVED*** else if (TransparentHugepage.match(logLine)) {
             logEventType = LogEventType.TRANSPARENT_HUGEPAGE;
-        ***REMOVED*** else if (UidEvent.match(logLine)) {
+        ***REMOVED*** else if (Uid.match(logLine)) {
             logEventType = LogEventType.UID;
-        ***REMOVED*** else if (UmaskEvent.match(logLine)) {
+        ***REMOVED*** else if (Umask.match(logLine)) {
             logEventType = LogEventType.UMASK;
-        ***REMOVED*** else if (UnameEvent.match(logLine)) {
+        ***REMOVED*** else if (Uname.match(logLine)) {
             logEventType = LogEventType.UNAME;
-        ***REMOVED*** else if (VmArgumentsEvent.match(logLine)) {
+        ***REMOVED*** else if (VmArguments.match(logLine)) {
             logEventType = LogEventType.VM_ARGUMENTS;
-        ***REMOVED*** else if (VmInfoEvent.match(logLine)) {
+        ***REMOVED*** else if (VmInfo.match(logLine)) {
             logEventType = LogEventType.VM_INFO;
-        ***REMOVED*** else if (VmMutexEvent.match(logLine)) {
+        ***REMOVED*** else if (VmMutex.match(logLine)) {
             logEventType = LogEventType.VM_MUTEX;
         ***REMOVED*** else if (VmOperation.match(logLine)) {
             logEventType = LogEventType.VM_OPERATION;
         ***REMOVED*** else if (VmOperationEvent.match(logLine)
                 && (logLine.matches(VmOperationEvent._REGEX_HEADER) || priorEvent instanceof VmOperationEvent)) {
             logEventType = LogEventType.VM_OPERATION_EVENT;
-        ***REMOVED*** else if (VmStateEvent.match(logLine)) {
+        ***REMOVED*** else if (VmState.match(logLine)) {
             logEventType = LogEventType.VM_STATE;
-        ***REMOVED*** else if (VirtualizationInfoEvent.match(logLine)) {
+        ***REMOVED*** else if (VirtualizationInfo.match(logLine)) {
             logEventType = LogEventType.VIRTUALIZATION_INFO;
         ***REMOVED***
         return logEventType;
@@ -2005,43 +2002,43 @@ public class JdkUtil {
             event = new BitsEvent(logLine);
             break;
         case BLANK_LINE:
-            event = new BlankLineEvent(logLine);
+            event = new BlankLine(logLine);
             break;
         case CARD_TABLE:
-            event = new CardTableEvent(logLine);
+            event = new CardTable(logLine);
             break;
         case CDS_ARCHIVE:
-            event = new CdsArchiveEvent(logLine);
+            event = new CdsArchive(logLine);
             break;
-        case CLASSES_REDEFINED:
+        case CLASSES_REDEFINED_EVENT:
             event = new ClassesRedefinedEvent(logLine);
             break;
-        case CLASSES_UNLOADED:
+        case CLASSES_UNLOADED_EVENT:
             event = new ClassesUnloadedEvent(logLine);
             break;
         case CODE_CACHE:
-            event = new CodeCacheEvent(logLine);
+            event = new CodeCache(logLine);
             break;
         case COMMAND_LINE:
-            event = new CommandLineEvent(logLine);
+            event = new CommandLine(logLine);
             break;
         case COMPRESSED_CLASS_SPACE:
-            event = new CompressedClassSpaceEvent(logLine);
+            event = new CompressedClassSpace(logLine);
             break;
-        case COMPILATION:
+        case COMPILATION_EVENT:
             event = new CompilationEvent(logLine);
             break;
         case CONTAINER_INFO:
-            event = new ContainerInfoEvent(logLine);
+            event = new ContainerInfo(logLine);
             break;
         case CPU_INFO:
-            event = new CpuInfoEvent(logLine);
+            event = new CpuInfo(logLine);
             break;
         case CURRENT_COMPILE_TASK:
-            event = new CurrentCompileTaskEvent(logLine);
+            event = new CurrentCompileTask(logLine);
             break;
         case CURRENT_THREAD:
-            event = new CurrentThreadEvent(logLine);
+            event = new CurrentThread(logLine);
             break;
         case DEOPTIMIZATION_EVENT:
             event = new DeoptimizationEvent(logLine);
@@ -2050,187 +2047,187 @@ public class JdkUtil {
             event = new DllOperationEvent(logLine);
             break;
         case DYNAMIC_LIBRARY:
-            event = new DynamicLibraryEvent(logLine);
+            event = new DynamicLibrary(logLine);
             break;
         case ELAPSED_TIME:
-            event = new ElapsedTimeEvent(logLine);
+            event = new ElapsedTime(logLine);
             break;
         case END:
-            event = new EndEvent(logLine);
+            event = new End(logLine);
             break;
         case EVENT:
-            event = new EventEvent(logLine);
+            event = new Event(logLine);
             break;
         case ENVIRONMENT_VARIABLES:
-            event = new EnvironmentVariablesEvent(logLine);
+            event = new EnvironmentVariables(logLine);
             break;
         case EXCEPTION_COUNTS:
-            event = new ExceptionCountsEvent(logLine);
+            event = new ExceptionCounts(logLine);
             break;
-        case GC_HEAP_HISTORY:
+        case GC_HEAP_HISTORY_EVENT:
             event = new GcHeapHistoryEvent(logLine);
             break;
         case GC_PRECIOUS_LOG:
-            event = new GcPreciousLogEvent(logLine);
+            event = new GcPreciousLog(logLine);
             break;
         case GLOBAL_FLAGS:
-            event = new GlobalFlagsEvent(logLine);
+            event = new GlobalFlags(logLine);
             break;
         case HEADER:
-            event = new HeaderEvent(logLine);
+            event = new Header(logLine);
             break;
         case HEADING:
-            event = new HeadingEvent(logLine);
+            event = new Heading(logLine);
             break;
         case HEAP:
-            event = new HeapEvent(logLine);
+            event = new Heap(logLine);
             break;
         case HEAP_ADDRESS:
-            event = new HeapAddressEvent(logLine);
+            event = new HeapAddress(logLine);
             break;
         case HEAP_REGIONS:
-            event = new HeapRegionsEvent(logLine);
+            event = new HeapRegions(logLine);
             break;
         case HOST:
-            event = new HostEvent(logLine);
+            event = new Host(logLine);
             break;
         case INSTRUCTIONS:
-            event = new InstructionsEvent(logLine);
+            event = new Instructions(logLine);
             break;
         case INTERNAL_EXCEPTION_EVENT:
             event = new InternalExceptionEvent(logLine);
             break;
-        case INTERNAL_STATISTICS_EVENT:
-            event = new InternalStatisticEvent(logLine);
+        case INTERNAL_STATISTICS:
+            event = new InternalStatistic(logLine);
             break;
         case LD_PRELOAD_FILE:
-            event = new LdPreloadFileEvent(logLine);
+            event = new LdPreloadFile(logLine);
             break;
         case LIBC:
-            event = new LibcEvent(logLine);
+            event = new Libc(logLine);
             break;
         case LOAD_AVERAGE:
-            event = new LoadAverageEvent(logLine);
+            event = new LoadAverage(logLine);
             break;
         case LOGGING:
-            event = new LoggingEvent(logLine);
+            event = new Logging(logLine);
             break;
         case MAX_MAP_COUNT:
-            event = new MaxMapCountEvent(logLine);
+            event = new MaxMapCount(logLine);
             break;
         case MEMINFO:
-            event = new MeminfoEvent(logLine);
+            event = new Meminfo(logLine);
             break;
         case MEMORY:
-            event = new MemoryEvent(logLine);
+            event = new Memory(logLine);
             break;
         case METASPACE:
-            event = new MetaspaceEvent(logLine);
+            event = new Metaspace(logLine);
             break;
         case NARROW_KLASS:
-            event = new NarrowKlassEvent(logLine);
+            event = new NarrowKlass(logLine);
             break;
         case NATIVE_MEMORY_TRACKING:
-            event = new NativeMemoryTrackingEvent(logLine);
+            event = new NativeMemoryTracking(logLine);
             break;
         case NUMBER:
             event = new NumberEvent(logLine);
             break;
-        case OS:
-            event = new OsEvent(logLine);
+        case OS_INFO:
+            event = new OsInfo(logLine);
             break;
         case OS_UPTIME:
-            event = new OsUptimeEvent(logLine);
+            event = new OsUptime(logLine);
             break;
         case PID_MAX:
-            event = new PidMaxEvent(logLine);
+            event = new PidMax(logLine);
             break;
         case POLLING_PAGE:
-            event = new PollingPageEvent(logLine);
+            event = new PollingPage(logLine);
             break;
         case PROCESS_MEMORY:
-            event = new ProcessMemoryEvent(logLine);
+            event = new ProcessMemory(logLine);
             break;
         case REGISTER:
-            event = new RegisterEvent(logLine);
+            event = new Register(logLine);
             break;
         case REGISTER_TO_MEMORY_MAPPING:
-            event = new RegisterToMemoryMappingEvent(logLine);
+            event = new RegisterToMemoryMapping(logLine);
             break;
         case RLIMIT:
             event = new RlimitEvent(logLine);
             break;
         case SIGINFO:
-            event = new SigInfoEvent(logLine);
+            event = new SigInfo(logLine);
             break;
         case SIGNAL_HANDLERS:
-            event = new SignalHandlersEvent(logLine);
+            event = new SignalHandlers(logLine);
             break;
         case STACK:
-            event = new StackEvent(logLine);
+            event = new Stack(logLine);
             break;
         case STACK_SLOT_TO_MEMORY_MAPPING:
-            event = new StackSlotToMemoryMappingEvent(logLine);
+            event = new StackSlotToMemoryMapping(logLine);
             break;
         case THREAD:
-            event = new ThreadEvent(logLine);
+            event = new Thread(logLine);
             break;
         case THREADS_ACTIVE_COMPILE:
-            event = new ThreadsActiveCompileEvent(logLine);
+            event = new ThreadsActiveCompile(logLine);
             break;
         case THREADS_CLASS_SMR_INFO:
-            event = new ThreadsClassSmrInfoEvent(logLine);
+            event = new ThreadsClassSmrInfo(logLine);
             break;
         case THREADS_MAX:
-            event = new ThreadsMaxEvent(logLine);
+            event = new ThreadsMax(logLine);
             break;
         case TIME:
-            event = new TimeEvent(logLine);
+            event = new Time(logLine);
             break;
         case TIME_ELAPSED_TIME:
-            event = new TimeElapsedTimeEvent(logLine);
+            event = new TimeElapsedTime(logLine);
             break;
         case TIMEZONE:
-            event = new TimezoneEvent(logLine);
+            event = new Timezone(logLine);
             break;
         case TOP_OF_STACK:
-            event = new TopOfStackEvent(logLine);
+            event = new TopOfStack(logLine);
             break;
         case TRANSPARENT_HUGEPAGE:
-            event = new TransparentHugepageEvent(logLine);
+            event = new TransparentHugepage(logLine);
             break;
         case UID:
-            event = new UidEvent(logLine);
+            event = new Uid(logLine);
             break;
         case UMASK:
-            event = new UmaskEvent(logLine);
+            event = new Umask(logLine);
             break;
         case UNAME:
-            event = new UnameEvent(logLine);
+            event = new Uname(logLine);
             break;
         case UNKNOWN:
             event = new UnknownEvent(logLine);
             break;
         case VM_ARGUMENTS:
-            event = new VmArgumentsEvent(logLine);
+            event = new VmArguments(logLine);
             break;
         case VM_OPERATION_EVENT:
             event = new VmOperationEvent(logLine);
             break;
         case VM_INFO:
-            event = new VmInfoEvent(logLine);
+            event = new VmInfo(logLine);
             break;
         case VM_MUTEX:
-            event = new VmMutexEvent(logLine);
+            event = new VmMutex(logLine);
             break;
         case VM_OPERATION:
             event = new VmOperation(logLine);
             break;
         case VM_STATE:
-            event = new VmStateEvent(logLine);
+            event = new VmState(logLine);
             break;
         case VIRTUALIZATION_INFO:
-            event = new VirtualizationInfoEvent(logLine);
+            event = new VirtualizationInfo(logLine);
             break;
         default:
             throw new AssertionError("Unexpected event type value: " + eventType);

@@ -18,6 +18,8 @@ import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
+ * TODO: Remove (move to associated events).
+ * 
  * <p>
  * NUMBER
  * </p>

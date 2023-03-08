@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -37,7 +38,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class DllOperationEvent implements LogEvent {
+public class DllOperationEvent implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
@@ -82,5 +83,14 @@ public class DllOperationEvent implements LogEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.DLL_OPERATION_EVENT.toString();
+    ***REMOVED***
+
+    @Override
+    public boolean isHeader() {
+        boolean isHeader = false;
+        if (this.logEntry != null) {
+            isHeader = logEntry.matches(_REGEX_HEADER);
+        ***REMOVED***
+        return isHeader;
     ***REMOVED***
 ***REMOVED***

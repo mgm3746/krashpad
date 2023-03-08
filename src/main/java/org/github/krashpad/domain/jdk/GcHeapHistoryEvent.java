@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -57,12 +58,13 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class GcHeapHistoryEvent implements LogEvent {
+public class GcHeapHistoryEvent implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
      */
     public static final String _REGEX_HEADER = "GC Heap History \\(\\d{1,***REMOVED*** events\\):";
+
     /**
      * Regular expression defining the logging.
      */
@@ -102,7 +104,7 @@ public class GcHeapHistoryEvent implements LogEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.HEAP.toString();
+        return JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString();
     ***REMOVED***
 
     /**
@@ -110,6 +112,15 @@ public class GcHeapHistoryEvent implements LogEvent {
      */
     public boolean isG1() {
         return logEntry.matches(JdkRegEx.G1_SIZE);
+    ***REMOVED***
+
+    @Override
+    public boolean isHeader() {
+        boolean isHeader = false;
+        if (this.logEntry != null) {
+            isHeader = logEntry.matches(_REGEX_HEADER);
+        ***REMOVED***
+        return isHeader;
     ***REMOVED***
 
     /**

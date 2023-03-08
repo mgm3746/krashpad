@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
@@ -21,7 +22,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * CLASSES_REDEFINED
+ * CLASSES_REDEFINED_EVENT
  * </p>
  * 
  * <p>
@@ -41,7 +42,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class ClassesRedefinedEvent implements LogEvent, ThrowAwayEvent {
+public class ClassesRedefinedEvent implements LogEvent, ThrowAwayEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
@@ -85,6 +86,15 @@ public class ClassesRedefinedEvent implements LogEvent, ThrowAwayEvent {
     ***REMOVED***
 
     public String getName() {
-        return JdkUtil.LogEventType.CLASSES_REDEFINED.toString();
+        return JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT.toString();
+    ***REMOVED***
+
+    @Override
+    public boolean isHeader() {
+        boolean isHeader = false;
+        if (this.logEntry != null) {
+            isHeader = logEntry.matches(_REGEX_HEADER);
+        ***REMOVED***
+        return isHeader;
     ***REMOVED***
 ***REMOVED***
