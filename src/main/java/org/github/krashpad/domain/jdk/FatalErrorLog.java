@@ -868,7 +868,7 @@ public class FatalErrorLog {
                 if (currentThreadEvent != null
                         && !(currentThreadEvent.isCompilerThread() || currentThreadEvent.isVmThread())
                         && stackEvents.size() > 0 && !isInStack("JLI_Launch")) {
-                    analysis.add(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE);
+                    analysis.add(Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE);
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***

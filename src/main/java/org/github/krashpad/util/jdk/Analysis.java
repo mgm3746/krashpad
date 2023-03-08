@@ -387,11 +387,6 @@ public enum Analysis {
     ERROR_RHEL_JDK_RPM_MISMATCH("error.rhel.jdk.rpm.mismatch"),
 
     /**
-     * Property key for stack free space greater than stack size.
-     */
-    ERROR_STACK_FREESPACE_GT_STACK_SIZE("error.stack.freespace.gt.stack.size"),
-
-    /**
      * Property key for StackOverflowError.
      */
     ERROR_STACKOVERFLOW("error.stackoverflow"),
@@ -673,6 +668,11 @@ public enum Analysis {
      * Property key for SIGSEGV crash.
      */
     INFO_SIGNO_SIGSEGV("info.signo.sigsegv"),
+
+    /**
+     * Property key for stack free space greater than stack size.
+     */
+    INFO_STACK_FREESPACE_GT_STACK_SIZE("info.stack.freespace.gt.stack.size"),
 
     /**
      * Property key for the stack not containing any VM code.

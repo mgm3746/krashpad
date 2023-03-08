@@ -1332,8 +1332,8 @@ class TestAnalysis {
         CurrentThread currentThreadEvent = new CurrentThread(currentThread);
         fel.setCurrentThreadEvent(currentThreadEvent);
         fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE.getKey()),
-                Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE.getKey()),
+                Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE + " analysis incorrectly identified.");
     ***REMOVED***
 
     @Test
@@ -2587,8 +2587,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset37.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE.getKey()),
-                Analysis.ERROR_STACK_FREESPACE_GT_STACK_SIZE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE.getKey()),
+                Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE + " analysis not identified.");
     ***REMOVED***
 
     @Test
