@@ -1522,20 +1522,20 @@ public class JdkUtil {
     public static final Date getJdkReleaseDate(FatalErrorLog fatalErrorLog) {
         Date date = null;
         if (fatalErrorLog != null) {
+            Release release = null;
             HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
             if (releases != null && !releases.isEmpty()) {
-                Release release = null;
                 if (fatalErrorLog.isRhRpmInstall()) {
                     release = releases.get(fatalErrorLog.getRpmDirectory());
                 ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
                     release = releases.get(fatalErrorLog.getJdkReleaseString());
-                ***REMOVED*** else if (fatalErrorLog.isRhVersion()) {
-                    // Approximate release
-                    release = fatalErrorLog.getFirstRelease(fatalErrorLog.getJdkReleaseString());
                 ***REMOVED***
-                if (release != null) {
-                    date = release.getBuildDate();
-                ***REMOVED***
+            ***REMOVED*** else {
+                // Approximate release
+                release = fatalErrorLog.getFirstRelease(fatalErrorLog.getJdkReleaseString());
+            ***REMOVED***
+            if (release != null) {
+                date = release.getBuildDate();
             ***REMOVED***
         ***REMOVED***
         return date;

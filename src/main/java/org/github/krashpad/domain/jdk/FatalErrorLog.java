@@ -15,6 +15,8 @@
 
 package org.github.krashpad.domain.jdk;
 
+import static java.math.RoundingMode.HALF_EVEN;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -467,18 +469,8 @@ public class FatalErrorLog {
             analysis.add(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT);
         ***REMOVED***
         // Check for ancient JDK
-        Date releaseDate = JdkUtil.getJdkReleaseDate(this);
-        if (releaseDate == null) {
-            Release approximateRelease = getFirstRelease(getJdkReleaseString());
-            if (approximateRelease != null) {
-                releaseDate = approximateRelease.getBuildDate();
-            ***REMOVED***
-        ***REMOVED***
-        if (releaseDate != null) {
-            if (ErrUtil.dayDiff(releaseDate, JdkUtil.getLatestJdkReleaseDate(this)) > 365
-                    || ErrUtil.dayDiff(releaseDate, new Date()) > 365) {
-                analysis.add(Analysis.INFO_JDK_ANCIENT);
-            ***REMOVED***
+        if (getJdkReleaseDate() != null && ErrUtil.dayDiff(getJdkReleaseDate(), new Date()) > 365) {
+            analysis.add(Analysis.INFO_JDK_ANCIENT);
         ***REMOVED***
         // Check for unknown JDK version
         if (getJavaSpecification() == JavaSpecification.UNKNOWN) {
@@ -1375,16 +1367,27 @@ public class FatalErrorLog {
         Iterator<Analysis> itFelAnalysis = analysis.iterator();
         while (itFelAnalysis.hasNext()) {
             Analysis item = itFelAnalysis.next();
-            if (item.getKey().equals(Analysis.ERROR_CRASH_ON_OOME_HEAP.toString())) {
+            if (item.getKey().equals(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                s.append(getNativeLibraryInCrash());
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() ***REMOVED***);
+            ***REMOVED*** else if (item.getKey().equals(Analysis.ERROR_CRASH_ON_OOME_HEAP.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 s.append(" Check the following location for a heap dump: ");
                 s.append(getJvmOptions().getHeapDumpPath());
                 s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() ***REMOVED***);
-            ***REMOVED*** else if (item.getKey().equals(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN.toString())) {
+            ***REMOVED*** else if (item.getKey().equals(Analysis.INFO_JDK_ANCIENT.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
-                s.append(getNativeLibraryInCrash());
-                s.append(".");
+                String replace = ">1 yr";
+                int position = s.toString().lastIndexOf(replace);
+                StringBuffer with = new StringBuffer();
+                BigDecimal years = new BigDecimal(ErrUtil.dayDiff(getJdkReleaseDate(), new Date()));
+                years = years.divide(new BigDecimal(365), 1, HALF_EVEN);
+                with.append(years.toString());
+                with.append(" years");
+                s.replace(position, position + replace.length(), with.toString());
                 a.add(new String[] { item.getKey(), s.toString() ***REMOVED***);
             ***REMOVED*** else if (item.getKey().equals(Analysis.INFO_NATIVE_LIBRARIES_JBOSS.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
@@ -2811,12 +2814,23 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * @return The JDK build date/time.
+     * @return The JDK build date/time in <code>VmInfo</code>.
      */
     public Date getJdkBuildDate() {
         Date date = null;
         if (vmInfoEvent != null) {
             date = vmInfoEvent.getBuildDate();
+        ***REMOVED***
+        return date;
+    ***REMOVED***
+
+    /**
+     * @return The JDK actual or estimated release date.
+     */
+    public Date getJdkReleaseDate() {
+        Date date = getJdkBuildDate();
+        if (date == null) {
+            date = JdkUtil.getJdkReleaseDate(this);
         ***REMOVED***
         return date;
     ***REMOVED***

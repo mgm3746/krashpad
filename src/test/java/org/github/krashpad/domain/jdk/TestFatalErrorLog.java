@@ -324,6 +324,10 @@ class TestFatalErrorLog {
         assertEquals(ErrUtil.getDate("Oct 09 2018 00:00:00"), release.getBuildDate(), "Build date not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT.getKey()),
                 Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
+        assertTrue(
+                fel.getAnalysisLiteral(Analysis.INFO_JDK_ANCIENT.getKey())
+                        .matches("^The JDK is very old \\(\\d{1,***REMOVED***\\.\\d years\\)\\..+$"),
+                Analysis.INFO_JDK_ANCIENT + " not correct.");
     ***REMOVED***
 
     @Test
