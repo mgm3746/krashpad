@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestGlobalFlags {
+class TestGlobalFlag {
 
     @Test
     void testCcstrlist() {
@@ -92,7 +92,7 @@ class TestGlobalFlags {
     void testParseLogLine() {
         String logLine = "     intx CICompilerCount                          = 4"
                 + "                                         {product***REMOVED*** {ergonomic***REMOVED***";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GlobalFlags,
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GlobalFlag,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not parsed.");
     ***REMOVED***
 ***REMOVED***

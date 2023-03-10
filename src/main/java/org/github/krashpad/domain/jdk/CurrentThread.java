@@ -78,24 +78,24 @@ public class CurrentThread implements LogEvent {
         this.logEntry = logEntry;
     ***REMOVED***
 
-    /**
-     * @return The thread running when the JVM crashed.
-     */
-    public String getCurrentThread() {
-        String currentThread = null;
-        Matcher matcher = PATTERN.matcher(logEntry);
-        if (matcher.find()) {
-            currentThread = matcher.group(7);
-        ***REMOVED***
-        return currentThread;
-    ***REMOVED***
-
     public String getLogEntry() {
         return logEntry;
     ***REMOVED***
 
     public String getName() {
         return JdkUtil.LogEventType.CURRENT_THREAD.toString();
+    ***REMOVED***
+
+    /**
+     * @return The thread running when the JVM crashed.
+     */
+    public String getThreadName() {
+        String currentThread = null;
+        Matcher matcher = PATTERN.matcher(logEntry);
+        if (matcher.find()) {
+            currentThread = matcher.group(7);
+        ***REMOVED***
+        return currentThread;
     ***REMOVED***
 
     /**

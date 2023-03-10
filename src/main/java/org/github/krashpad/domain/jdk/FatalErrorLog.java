@@ -71,7 +71,7 @@ public class FatalErrorLog {
     /**
      * Command line information.
      */
-    private CommandLine commandLineEvent;
+    private CommandLine commandLine;
 
     /**
      * Compilation event information.
@@ -86,22 +86,22 @@ public class FatalErrorLog {
     /**
      * Container information.
      */
-    private List<ContainerInfo> containerInfoEvents;
+    private List<ContainerInfo> containerInfos;
 
     /**
      * CPU information.
      */
-    private List<CpuInfo> cpuInfoEvents;
+    private List<CpuInfo> cpuInfos;
 
     /**
      * Current compile task information.
      */
-    private List<CurrentCompileTask> currentCompileTaskEvents;
+    private List<CurrentCompileTask> currentCompileTasks;
 
     /**
      * Current thread information.
      */
-    private CurrentThread currentThreadEvent;
+    private CurrentThread currentThread;
 
     /**
      * Deoptimization event information.
@@ -116,27 +116,27 @@ public class FatalErrorLog {
     /**
      * Dynamic library information.
      */
-    private List<DynamicLibrary> dynamicLibraryEvents;
+    private List<DynamicLibrary> dynamicLibraries;
 
     /**
      * JVM run duration information in JDK8.
      */
-    private ElapsedTime elapsedTimeEvent;
+    private ElapsedTime elapsedTime;
 
     /**
      * Environment variables information.
      */
-    private List<EnvironmentVariables> environmentVariablesEvents;
+    private List<EnvironmentVariable> environmentVariables;
 
     /**
      * Vm event information.
      */
-    private List<Event> eventEvents;
+    private List<Event> events;
 
     /**
      * Exception counts information.
      */
-    private List<ExceptionCounts> exceptionCountsEvents;
+    private List<ExceptionCounts> exceptionCounts;
 
     /**
      * GC heap history information.
@@ -146,32 +146,32 @@ public class FatalErrorLog {
     /**
      * GC precious log information.
      */
-    private List<GcPreciousLog> gcPreciousLogEvents;
+    private List<GcPreciousLog> gcPreciousLogs;
 
     /**
      * Global flag information.
      */
-    private List<GlobalFlags> globalFlagsEvents;
+    private List<GlobalFlag> globalFlags;
 
     /**
      * Header.
      */
-    private List<Header> headerEvents;
+    private List<Header> headers;
 
     /**
      * Heap address information
      */
-    private HeapAddress heapAddressEvent;
+    private HeapAddress heapAddress;
 
     /**
      * Heap information.
      */
-    private List<Heap> heapEvents;
+    private List<Heap> heaps;
 
     /**
      * Host information.
      */
-    private Host hostEvent;
+    private Host host;
 
     /**
      * Exceptions information.
@@ -181,7 +181,7 @@ public class FatalErrorLog {
     /**
      * Statistics information.
      */
-    private List<InternalStatistic> internalStatisticEvents;
+    private List<InternalStatistic> internalStatistics;
 
     /**
      * JVMOptions object.
@@ -191,97 +191,97 @@ public class FatalErrorLog {
     /**
      * Preloaded library information.
      */
-    private List<LdPreloadFile> ldPreloadFileEvents;
+    private List<LdPreloadFile> ldPreloadFiles;
 
     /**
      * max_map_count information.
      */
-    private MaxMapCount maxMapCountEvent;
+    private MaxMapCount maxMapCount;
 
     /**
      * Memory information.
      */
-    private List<Meminfo> meminfoEvents;
+    private List<Meminfo> meminfos;
 
     /**
      * Memory information.
      */
-    private List<Memory> memoryEvents;
+    private List<Memory> memories;
 
     /**
      * Narrow klass information
      */
-    private NarrowKlass narrowKlassEvent;
+    private NarrowKlass narrowKlass;
 
     /**
      * Native memory tracking information.
      */
-    private List<NativeMemoryTracking> nativeMemoryTrackingEvents;
+    private List<NativeMemoryTracking> nativeMemoryTrackings;
 
     /**
      * OS information.
      */
-    private List<OsInfo> osEvents;
+    private List<OsInfo> osInfos;
 
     /**
      * pid_max information.
      */
-    private PidMax pidMaxEvent;
+    private PidMax pidMax;
 
     /**
      * Register to memory mapping information.
      */
-    private List<RegisterToMemoryMapping> registerToMemoryMappingEvents;
+    private List<RegisterToMemoryMapping> registerToMemoryMappings;
 
     /**
      * rlimit information.
      */
-    private RlimitEvent rlimitEvent;
+    private Rlimit rlimit;
 
     /**
      * Signal information.
      */
-    private SigInfo sigInfoEvent;
+    private SigInfo sigInfo;
 
     /**
      * Stack information.
      */
-    private List<Stack> stackEvents;
+    private List<Stack> stacks;
 
     /**
      * Stack slot to memory mapping information.
      */
-    private List<StackSlotToMemoryMapping> stackSlotToMemoryMappingEvents;
+    private List<StackSlotToMemoryMapping> stackSlotToMemoryMappings;
 
     /**
      * Thread information.
      */
-    private List<Thread> threadEvents;
+    private List<Thread> threads;
 
     /**
      * threads-max information.
      */
-    private ThreadsMax threadsMaxEvent;
-
-    /**
-     * Combined time + elapsed time information.
-     */
-    private TimeElapsedTime timeElapsedTimeEvent;
+    private ThreadsMax threadsMax;
 
     /**
      * JVM crash time information.
      */
-    private Time timeEvent;
+    private Time time;
+
+    /**
+     * Combined time + elapsed time information.
+     */
+    private TimeElapsedTime timeElapsedTime;
 
     /**
      * JVM crash time timezone information in JDK8.
      */
-    private Timezone timezoneEvent;
+    private Timezone timezone;
 
     /**
      * uname information.
      */
-    private Uname unameEvent;
+    private Uname uname;
 
     /**
      * Log lines that do not match any existing logging patterns.
@@ -291,27 +291,27 @@ public class FatalErrorLog {
     /**
      * VMware information.
      */
-    private List<VirtualizationInfo> virtualizationInfoEvents;
+    private List<VirtualizationInfo> virtualizationInfos;
 
     /**
      * VM arguments information.
      */
-    private List<VmArguments> vmArgumentsEvents;
+    private List<VmArguments> vmArguments;
 
     /**
      * JVM environment information.
      */
-    private VmInfo vmInfoEvent;
+    private VmInfo vmInfo;
 
     /**
      * VM operation information.
      */
-    private VmOperation vmOperationEvent;
+    private VmOperation vmOperation;
 
     /**
      * VM state information.
      */
-    private VmState vmStateEvent;
+    private VmState vmState;
 
     /*
      * Default constructor.
@@ -320,34 +320,34 @@ public class FatalErrorLog {
         analysis = new ArrayList<Analysis>();
         classesUnloadedEvents = new ArrayList<ClassesUnloadedEvent>();
         compilationEvents = new ArrayList<CompilationEvent>();
-        containerInfoEvents = new ArrayList<ContainerInfo>();
-        cpuInfoEvents = new ArrayList<CpuInfo>();
-        currentCompileTaskEvents = new ArrayList<CurrentCompileTask>();
+        containerInfos = new ArrayList<ContainerInfo>();
+        cpuInfos = new ArrayList<CpuInfo>();
+        currentCompileTasks = new ArrayList<CurrentCompileTask>();
         deoptimizationEvents = new ArrayList<DeoptimizationEvent>();
         dllOperationEvents = new ArrayList<DllOperationEvent>();
-        dynamicLibraryEvents = new ArrayList<DynamicLibrary>();
-        environmentVariablesEvents = new ArrayList<EnvironmentVariables>();
-        eventEvents = new ArrayList<Event>();
-        exceptionCountsEvents = new ArrayList<ExceptionCounts>();
+        dynamicLibraries = new ArrayList<DynamicLibrary>();
+        environmentVariables = new ArrayList<EnvironmentVariable>();
+        events = new ArrayList<Event>();
+        exceptionCounts = new ArrayList<ExceptionCounts>();
         gcHeapHistoryEvents = new ArrayList<GcHeapHistoryEvent>();
-        gcPreciousLogEvents = new ArrayList<GcPreciousLog>();
-        globalFlagsEvents = new ArrayList<GlobalFlags>();
-        headerEvents = new ArrayList<Header>();
-        heapEvents = new ArrayList<Heap>();
+        gcPreciousLogs = new ArrayList<GcPreciousLog>();
+        globalFlags = new ArrayList<GlobalFlag>();
+        headers = new ArrayList<Header>();
+        heaps = new ArrayList<Heap>();
         internalExceptionEvents = new ArrayList<InternalExceptionEvent>();
-        internalStatisticEvents = new ArrayList<InternalStatistic>();
-        ldPreloadFileEvents = new ArrayList<LdPreloadFile>();
-        meminfoEvents = new ArrayList<Meminfo>();
-        memoryEvents = new ArrayList<Memory>();
-        nativeMemoryTrackingEvents = new ArrayList<NativeMemoryTracking>();
-        osEvents = new ArrayList<OsInfo>();
-        registerToMemoryMappingEvents = new ArrayList<RegisterToMemoryMapping>();
-        stackEvents = new ArrayList<Stack>();
-        stackSlotToMemoryMappingEvents = new ArrayList<StackSlotToMemoryMapping>();
-        threadEvents = new ArrayList<Thread>();
+        internalStatistics = new ArrayList<InternalStatistic>();
+        ldPreloadFiles = new ArrayList<LdPreloadFile>();
+        meminfos = new ArrayList<Meminfo>();
+        memories = new ArrayList<Memory>();
+        nativeMemoryTrackings = new ArrayList<NativeMemoryTracking>();
+        osInfos = new ArrayList<OsInfo>();
+        registerToMemoryMappings = new ArrayList<RegisterToMemoryMapping>();
+        stacks = new ArrayList<Stack>();
+        stackSlotToMemoryMappings = new ArrayList<StackSlotToMemoryMapping>();
+        threads = new ArrayList<Thread>();
         unidentifiedLogLines = new ArrayList<String>();
-        virtualizationInfoEvents = new ArrayList<VirtualizationInfo>();
-        vmArgumentsEvents = new ArrayList<VmArguments>();
+        virtualizationInfos = new ArrayList<VirtualizationInfo>();
+        vmArguments = new ArrayList<VmArguments>();
     ***REMOVED***
 
     /**
@@ -529,12 +529,11 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             ***REMOVED***
         ***REMOVED*** else {
-            if ((vmInfoEvent == null || isRhBuildString()) && isRhVersion()
-                    && (isRhBuildDate() || isRhBuildDateUnknown())) {
+            if ((vmInfo == null || isRhBuildString()) && isRhVersion() && (isRhBuildDate() || isRhBuildDateUnknown())) {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
             ***REMOVED*** else if (isAdoptOpenJdkBuildString()) {
                 analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
-            ***REMOVED*** else if (vmInfoEvent != null || getJavaVendor() == JavaVendor.NOT_RED_HAT) {
+            ***REMOVED*** else if (vmInfo != null || getJavaVendor() == JavaVendor.NOT_RED_HAT) {
                 analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
             ***REMOVED***
         ***REMOVED***
@@ -555,7 +554,7 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_JNA);
             ***REMOVED***
         ***REMOVED*** else {
-            Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
                 if (event.getFilePath() != null && event.getFilePath().matches("^.+[\\\\/](jna|JNA).+$")) {
@@ -766,7 +765,7 @@ public class FatalErrorLog {
                 && getStackFrameTop()
                         .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  MetadataOnStackMark::~MetadataOnStackMark.+$")) {
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK);
-        ***REMOVED*** else if (getCurrentThread() != null && getCurrentThread().matches("^.+CompilerThread\\d{1,***REMOVED***.+$")) {
+        ***REMOVED*** else if (getCurrentThreadName() != null && getCurrentThreadName().matches("^.+CompilerThread\\d{1,***REMOVED***.+$")) {
             analysis.add(Analysis.ERROR_COMPILER_THREAD);
         ***REMOVED*** else if (getStackFrameTop() != null
                 && getStackFrameTop().matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  (ModuleEntry::purge_reads|"
@@ -865,9 +864,8 @@ public class FatalErrorLog {
             if (getThreadStackFreeSpace() > getThreadStackSize()) {
                 // Applies only to ThreadStackSize (not CompilerThreadStackSize, VMThreadStackSize, MarkStackSize, the
                 // JLI_Launch method in main.c that starts the JVM, or C code).
-                if (currentThreadEvent != null
-                        && !(currentThreadEvent.isCompilerThread() || currentThreadEvent.isVmThread())
-                        && stackEvents.size() > 0 && !isInStack("JLI_Launch")) {
+                if (currentThread != null && !(currentThread.isCompilerThread() || currentThread.isVmThread())
+                        && stacks.size() > 0 && !isInStack("JLI_Launch")) {
                     analysis.add(Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE);
                 ***REMOVED***
             ***REMOVED***
@@ -914,7 +912,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_LIBAIO_CONTEXT_DONE);
         ***REMOVED***
         // container
-        if (!getContainerInfoEvents().isEmpty() && getJvmSwap() == 0) {
+        if (!getContainerInfos().isEmpty() && getJvmSwap() == 0) {
             analysis.add(Analysis.INFO_CGROUP);
         ***REMOVED***
         if (getJvmMemTotal() > 0 && getOsMemTotal() > 0 && getJvmMemTotal() != getOsMemTotal()) {
@@ -928,7 +926,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_TRUNCATED);
         ***REMOVED***
         // Storage analysis
-        if (getOs() == Os.LINUX && !dynamicLibraryEvents.isEmpty()) {
+        if (getOs() == Os.LINUX && !dynamicLibraries.isEmpty()) {
             switch (getStorageDevice()) {
             case AWS_BLOCK_STORAGE:
                 analysis.add(Analysis.INFO_STORAGE_AWS);
@@ -958,16 +956,16 @@ public class FatalErrorLog {
             analysis.add(Analysis.WARN_CMS_INCREMENTAL_MODE);
         ***REMOVED***
         // Check for crash caused trying to dereference a null pointer.
-        if (sigInfoEvent != null && sigInfoEvent.getSignalAddress() != null) {
-            if (sigInfoEvent.getSignalAddress().matches(JdkRegEx.POINTER_NULL)) {
+        if (sigInfo != null && sigInfo.getSignalAddress() != null) {
+            if (sigInfo.getSignalAddress().matches(JdkRegEx.POINTER_NULL)) {
                 analysis.add(Analysis.ERROR_POINTER_NULL);
-            ***REMOVED*** else if (sigInfoEvent.getSignalAddress().matches(JdkRegEx.POINTER_INVALID)) {
+            ***REMOVED*** else if (sigInfo.getSignalAddress().matches(JdkRegEx.POINTER_INVALID)) {
                 analysis.add(Analysis.ERROR_POINTER_INVALID);
             ***REMOVED***
         ***REMOVED***
         if (getStackFrameTop() != null && getStackFrameTop()
                 .matches("J \\d{1,***REMOVED*** C2 java\\.lang\\.String\\.compareTo\\(Ljava/lang/Object;\\)I")) {
-            if (getCpuInfoEvents().size() > 0) {
+            if (getCpuInfos().size() > 0) {
 
             ***REMOVED***
         ***REMOVED***
@@ -986,8 +984,8 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check for possible JFFI usage
-        if (!dynamicLibraryEvents.isEmpty()) {
-            Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+        if (!dynamicLibraries.isEmpty()) {
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
                 if (event.getFilePath() != null && event.getFilePath().matches("^.+[\\\\/](jffi|JFFI).+$")) {
@@ -1008,8 +1006,8 @@ public class FatalErrorLog {
         ***REMOVED***
 
         // Cannot get library information
-        if (!dynamicLibraryEvents.isEmpty()) {
-            Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+        if (!dynamicLibraries.isEmpty()) {
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
                 if (event.getLogEntry().matches("^Can not get library information for pid = \\d{1,***REMOVED***$")) {
@@ -1052,7 +1050,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_HYPERV);
         ***REMOVED***
         // Check for mmap resources in deleted state
-        if (!getDynamicLibraryEvents().isEmpty() && getMmapDeletedCount() > 0) {
+        if (!getDynamicLibraries().isEmpty() && getMmapDeletedCount() > 0) {
             analysis.add(Analysis.WARN_MMAP_DELETED);
         ***REMOVED***
         // Check for RHEL/JDK rpm version mismatch
@@ -1071,7 +1069,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_HASHMAP);
         ***REMOVED***
         // Specific CompilerThread crashes
-        if (getCurrentThread() != null && getCurrentThread().matches("^.+C2 CompilerThread\\d{1,***REMOVED***.+$")) {
+        if (getCurrentThreadName() != null && getCurrentThreadName().matches("^.+C2 CompilerThread\\d{1,***REMOVED***.+$")) {
             if (isInHeader("guarantee\\(n != NULL\\) failed: No Node.") && isInStack("IdealLoopTree::beautify_loops")) {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS);
                 // Don't double report
@@ -1087,8 +1085,8 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
-            ***REMOVED*** else if (!getCurrentCompileTaskEvents().isEmpty()) {
-                Iterator<CurrentCompileTask> iterator = getCurrentCompileTaskEvents().iterator();
+            ***REMOVED*** else if (!getCurrentCompileTasks().isEmpty()) {
+                Iterator<CurrentCompileTask> iterator = getCurrentCompileTasks().iterator();
                 while (iterator.hasNext()) {
                     CurrentCompileTask event = iterator.next();
                     if (event.getLogEntry() != null && event.getLogEntry()
@@ -1109,8 +1107,8 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Crash during shutdown
-        if (!getEventEvents().isEmpty()) {
-            Event lastEventEvent = getEventEvents().get(getEventEvents().size() - 1);
+        if (!getEvents().isEmpty()) {
+            Event lastEventEvent = getEvents().get(getEvents().size() - 1);
             if (lastEventEvent.getLogEntry().matches("^.+Executing VM operation: Exit$")) {
                 analysis.add(Analysis.INFO_SHUTDOWN);
             ***REMOVED***
@@ -1118,8 +1116,8 @@ public class FatalErrorLog {
         // iText
         if (isInStack("com\\.itextpdf\\.text")) {
             analysis.add(0, Analysis.WARN_ITEXT);
-        ***REMOVED*** else if (!dynamicLibraryEvents.isEmpty()) {
-            Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+        ***REMOVED*** else if (!dynamicLibraries.isEmpty()) {
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
                 if (event.getLogEntry() != null && event.getLogEntry().matches("^.+itext.*\\.jar$")) {
@@ -1133,8 +1131,8 @@ public class FatalErrorLog {
             analysis.add(0, Analysis.WARN_LUCENE);
         ***REMOVED***
         // IBM Toolkit
-        if (!dynamicLibraryEvents.isEmpty()) {
-            Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+        if (!dynamicLibraries.isEmpty()) {
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
                 if (event.getLogEntry() != null && event.getLogEntry().matches("^.+jt400\\.jar$")) {
@@ -1146,13 +1144,13 @@ public class FatalErrorLog {
         // ERROR_JDK8_LIBC_CFREE
         if (getJavaSpecification() == JavaSpecification.JDK8
                 && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 262) {
-            if (!headerEvents.isEmpty()) {
-                Iterator<Header> iterator = headerEvents.iterator();
+            if (!headers.isEmpty()) {
+                Iterator<Header> iterator = headers.iterator();
                 while (iterator.hasNext()) {
                     Header event = iterator.next();
                     if (event.isProblematicFrame() && event.getLogEntry().matches("^.+libc.+cfree\\+0x1c$")
                             && getJvmOptions().getUseGcLogFileRotation() != null
-                            && getCurrentThread().matches("^ConcurrentGCThread .+$")) {
+                            && getCurrentThreadName().matches("^ConcurrentGCThread .+$")) {
                         analysis.add(Analysis.ERROR_JDK8_LIBC_CFREE);
                         break;
                     ***REMOVED***
@@ -1160,16 +1158,16 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // VM operations
-        if (vmOperationEvent != null) {
-            if (vmOperationEvent.getVmOperation().equals("BulkRevokeBias")) {
+        if (vmOperation != null) {
+            if (vmOperation.getVmOperation().equals("BulkRevokeBias")) {
                 analysis.add(Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS);
-            ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("CGC_Operation")) {
+            ***REMOVED*** else if (vmOperation.getVmOperation().equals("CGC_Operation")) {
                 analysis.add(Analysis.INFO_VM_OPERATION_CONCURRENT_GC);
-            ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("GetThreadListStackTraces")) {
+            ***REMOVED*** else if (vmOperation.getVmOperation().equals("GetThreadListStackTraces")) {
                 analysis.add(Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI);
-            ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("HeapDumper")) {
+            ***REMOVED*** else if (vmOperation.getVmOperation().equals("HeapDumper")) {
                 analysis.add(Analysis.INFO_VM_OPERATION_HEAP_DUMP);
-            ***REMOVED*** else if (vmOperationEvent.getVmOperation().equals("PrintThreads")) {
+            ***REMOVED*** else if (vmOperation.getVmOperation().equals("PrintThreads")) {
                 analysis.add(Analysis.INFO_VM_OPERATION_THREAD_DUMP);
             ***REMOVED***
         ***REMOVED***
@@ -1184,7 +1182,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_POSTGRESQL_CONNECTION);
         ***REMOVED***
         // ld.so.preload
-        if (!getLdPreloadFileEvents().isEmpty()) {
+        if (!getLdPreloadFiles().isEmpty()) {
             analysis.add(Analysis.INFO_LD_SO_PRELOAD);
         ***REMOVED***
         // Unknown native libraries
@@ -1520,8 +1518,8 @@ public class FatalErrorLog {
     public Application getApplication() {
         Application application = Application.UNKNOWN;
         // Check libraries
-        if (!dynamicLibraryEvents.isEmpty()) {
-            Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+        if (!dynamicLibraries.isEmpty()) {
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
                 if (event.getLogEntry().matches(JdkRegEx.JAR_JBOSS_EAP6)) {
@@ -1529,6 +1527,9 @@ public class FatalErrorLog {
                     break;
                 ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.JAR_JBOSS_EAP7)) {
                     application = Application.JBOSS_EAP7;
+                    break;
+                ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.JAR_JEUS)) {
+                    application = Application.JEUS;
                     break;
                 ***REMOVED*** else if (event.getLogEntry().matches(JdkRegEx.JAR_TOMCAT)) {
                     application = Application.TOMCAT;
@@ -1541,15 +1542,18 @@ public class FatalErrorLog {
         ***REMOVED***
         // Check threads
         if (application == Application.UNKNOWN) {
-            if (!threadEvents.isEmpty()) {
-                Iterator<Thread> iterator = threadEvents.iterator();
+            if (!threads.isEmpty()) {
+                Iterator<Thread> iterator = threads.iterator();
                 while (iterator.hasNext()) {
                     Thread event = iterator.next();
-                    if (event.getLogEntry() != null && event.getLogEntry().matches(JdkRegEx.THREAD_RHSSO)) {
-                        application = Application.RHSSO;
+                    if (event.getLogEntry() != null && event.getLogEntry().matches(JdkRegEx.THREAD_JEUS)) {
+                        application = Application.JEUS;
                         break;
                     ***REMOVED*** else if (event.getLogEntry() != null && event.getLogEntry().matches(JdkRegEx.THREAD_PKI_TOMCAT)) {
                         application = Application.PKI_TOMCAT;
+                        break;
+                    ***REMOVED*** else if (event.getLogEntry() != null && event.getLogEntry().matches(JdkRegEx.THREAD_RHSSO)) {
+                        application = Application.RHSSO;
                         break;
                     ***REMOVED***
                 ***REMOVED***
@@ -1567,13 +1571,15 @@ public class FatalErrorLog {
                     application = Application.CASSANDRA;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_JBOSS_VERSION)) {
                     application = Application.JBOSS_VERSION;
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_JEUS)) {
+                    application = Application.JEUS;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_KAFKA)) {
                     application = Application.KAFKA;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_SPRING_BOOT)) {
                     application = Application.SPRING_BOOT;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_START_COMMAND)) {
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_TOMCAT_START)) {
                     application = Application.TOMCAT;
-                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.TOMCAT_STOP_COMMAND)) {
+                ***REMOVED*** else if (javaCommand.matches(JdkRegEx.COMMAND_TOMCAT_STOP)) {
                     application = Application.TOMCAT_SHUTDOWN;
                 ***REMOVED*** else if (javaCommand.matches(JdkRegEx.JAR_WILDFLY)) {
                     application = Application.WILDFLY;
@@ -1594,13 +1600,13 @@ public class FatalErrorLog {
      */
     public Arch getArch() {
         Arch arch = Arch.UNKNOWN;
-        if (unameEvent != null) {
-            arch = unameEvent.getArch();
-        ***REMOVED*** else if (vmInfoEvent != null) {
-            arch = vmInfoEvent.getArch();
-        ***REMOVED*** else if (!headerEvents.isEmpty()) {
+        if (uname != null) {
+            arch = uname.getArch();
+        ***REMOVED*** else if (vmInfo != null) {
+            arch = vmInfo.getArch();
+        ***REMOVED*** else if (!headers.isEmpty()) {
             // Check header
-            Iterator<Header> iterator = headerEvents.iterator();
+            Iterator<Header> iterator = headers.iterator();
             while (iterator.hasNext()) {
                 Header he = iterator.next();
                 if (he.isJavaVm()) {
@@ -1627,10 +1633,10 @@ public class FatalErrorLog {
      */
     public long getAvailPageFile() {
         long availPageFile = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
+        if (!memories.isEmpty()) {
             String regexTotalPageFile = "TotalPageFile size \\d{1,***REMOVED***M \\(AvailPageFile size (\\d{1,***REMOVED***)M\\)";
             Pattern pattern = Pattern.compile(regexTotalPageFile);
-            Iterator<Memory> iterator = memoryEvents.iterator();
+            Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -1666,10 +1672,10 @@ public class FatalErrorLog {
         // Default is 420m
         long reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.UNITS);
         // 1st check [Global flags]
-        if (!globalFlagsEvents.isEmpty()) {
-            Iterator<GlobalFlags> iterator = globalFlagsEvents.iterator();
+        if (!globalFlags.isEmpty()) {
+            Iterator<GlobalFlag> iterator = globalFlags.iterator();
             while (iterator.hasNext()) {
-                GlobalFlags event = iterator.next();
+                GlobalFlag event = iterator.next();
                 String regExReservedCodeCacheSize = "^.+uintx ReservedCodeCacheSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
                 Pattern pattern = Pattern.compile(regExReservedCodeCacheSize);
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -1703,8 +1709,8 @@ public class FatalErrorLog {
         return reservedCodeCacheSize;
     ***REMOVED***
 
-    public CommandLine getCommandLineEvent() {
-        return commandLineEvent;
+    public CommandLine getCommandLine() {
+        return commandLine;
     ***REMOVED***
 
     /**
@@ -1721,11 +1727,11 @@ public class FatalErrorLog {
      */
     public long getCommitCharge() {
         long commitCharge = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
+        if (!memories.isEmpty()) {
             String regexTotalPageFile = "current process commit charge \\(\"private bytes\"\\): (\\d{1,***REMOVED***)M, peak: "
                     + "\\d{1,***REMOVED***M";
             Pattern pattern = Pattern.compile(regexTotalPageFile);
-            Iterator<Memory> iterator = memoryEvents.iterator();
+            Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -1750,10 +1756,10 @@ public class FatalErrorLog {
      */
     public long getCommitLimit() {
         long commitLimit = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
+        if (!meminfos.isEmpty()) {
             String regexMemTotal = "CommitLimit:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<Meminfo> iterator = meminfoEvents.iterator();
+            Iterator<Meminfo> iterator = meminfos.iterator();
             while (iterator.hasNext()) {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -1785,10 +1791,10 @@ public class FatalErrorLog {
      */
     public long getCommittedAs() {
         long committedAs = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
+        if (!meminfos.isEmpty()) {
             String regexMemTotal = "Committed_AS:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<Meminfo> iterator = meminfoEvents.iterator();
+            Iterator<Meminfo> iterator = meminfos.iterator();
             while (iterator.hasNext()) {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -1836,12 +1842,12 @@ public class FatalErrorLog {
                     usingCompressedPointers = true;
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (!globalFlagsEvents.isEmpty()) {
-            Iterator<GlobalFlags> iterator = globalFlagsEvents.iterator();
+        ***REMOVED*** else if (!globalFlags.isEmpty()) {
+            Iterator<GlobalFlag> iterator = globalFlags.iterator();
             boolean useCompressedOops = true;
             boolean useCompressedClassPointers = true;
             while (iterator.hasNext()) {
-                GlobalFlags event = iterator.next();
+                GlobalFlag event = iterator.next();
                 String regExCompressedOopsDisabled = "^.+bool UseCompressedOops[ ]{1,***REMOVED***= false.+$";
                 String regExCompressedClassPointersDisabled = "^.+bool UseCompressedClassPointers[ ]{1,***REMOVED***= false.+$";
                 if (event.getLogEntry().matches(regExCompressedOopsDisabled)) {
@@ -1867,10 +1873,10 @@ public class FatalErrorLog {
             // Default is 1g
             compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', org.github.joa.util.Constants.UNITS);
             // 1st check [Global flags]
-            if (!globalFlagsEvents.isEmpty()) {
-                Iterator<GlobalFlags> iterator = globalFlagsEvents.iterator();
+            if (!globalFlags.isEmpty()) {
+                Iterator<GlobalFlag> iterator = globalFlags.iterator();
                 while (iterator.hasNext()) {
-                    GlobalFlags event = iterator.next();
+                    GlobalFlag event = iterator.next();
                     String regExCompressedClassSpaceSize = "^.+uintx CompressedClassSpaceSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
                     Pattern pattern = Pattern.compile(regExCompressedClassSpaceSize);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -1910,8 +1916,8 @@ public class FatalErrorLog {
      */
     public CompressedOopMode getCompressedOopMode() {
         CompressedOopMode compressedOopMode = CompressedOopMode.UNKNOWN;
-        if (!headerEvents.isEmpty()) {
-            Iterator<Header> iterator = headerEvents.iterator();
+        if (!headers.isEmpty()) {
+            Iterator<Header> iterator = headers.iterator();
             while (iterator.hasNext()) {
                 Header event = iterator.next();
                 if (event.isJavaVm()) {
@@ -1922,14 +1928,14 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        if (compressedOopMode != CompressedOopMode.NONE && heapAddressEvent != null) {
-            compressedOopMode = heapAddressEvent.getCompressedOopMode();
+        if (compressedOopMode != CompressedOopMode.NONE && heapAddress != null) {
+            compressedOopMode = heapAddress.getCompressedOopMode();
         ***REMOVED***
         return compressedOopMode;
     ***REMOVED***
 
-    public List<ContainerInfo> getContainerInfoEvents() {
-        return containerInfoEvents;
+    public List<ContainerInfo> getContainerInfos() {
+        return containerInfos;
     ***REMOVED***
 
     /**
@@ -1937,8 +1943,8 @@ public class FatalErrorLog {
      */
     public CpuArch getCpuArch() {
         CpuArch cpuArch = CpuArch.UNIDENTIFIED;
-        if (!cpuInfoEvents.isEmpty()) {
-            Iterator<CpuInfo> iterator = cpuInfoEvents.iterator();
+        if (!cpuInfos.isEmpty()) {
+            Iterator<CpuInfo> iterator = cpuInfos.iterator();
             while (iterator.hasNext()) {
                 CpuInfo event = iterator.next();
                 if (event.getLogEntry().matches("^.+POWER9.+$")) {
@@ -1950,8 +1956,8 @@ public class FatalErrorLog {
         return cpuArch;
     ***REMOVED***
 
-    public List<CpuInfo> getCpuInfoEvents() {
-        return cpuInfoEvents;
+    public List<CpuInfo> getCpuInfos() {
+        return cpuInfos;
     ***REMOVED***
 
     /**
@@ -1959,8 +1965,8 @@ public class FatalErrorLog {
      */
     public int getCpusLogical() {
         int cpuLogical = Integer.MIN_VALUE;
-        if (!cpuInfoEvents.isEmpty()) {
-            Iterator<CpuInfo> iterator = cpuInfoEvents.iterator();
+        if (!cpuInfos.isEmpty()) {
+            Iterator<CpuInfo> iterator = cpuInfos.iterator();
             while (iterator.hasNext()) {
                 CpuInfo event = iterator.next();
                 if (event.isCpuHeader()) {
@@ -2028,32 +2034,30 @@ public class FatalErrorLog {
      */
     public String getCrashTimeString() {
         StringBuilder crashTime = new StringBuilder();
-        if (timeEvent != null) {
-            crashTime.append(timeEvent.getTimeString());
-            if (timezoneEvent != null) {
+        if (time != null) {
+            crashTime.append(time.getTimeString());
+            if (timezone != null) {
                 crashTime.append(" ");
-                crashTime.append(timezoneEvent.getTimezone());
+                crashTime.append(timezone.getTimezone());
             ***REMOVED***
-        ***REMOVED*** else if (timeElapsedTimeEvent != null) {
-            crashTime.append(timeElapsedTimeEvent.getTimeString());
+        ***REMOVED*** else if (timeElapsedTime != null) {
+            crashTime.append(timeElapsedTime.getTimeString());
         ***REMOVED***
         return crashTime.toString();
     ***REMOVED***
 
-    public List<CurrentCompileTask> getCurrentCompileTaskEvents() {
-        return currentCompileTaskEvents;
+    public List<CurrentCompileTask> getCurrentCompileTasks() {
+        return currentCompileTasks;
     ***REMOVED***
 
-    public String getCurrentThread() {
-        String currentThread = null;
-        if (currentThreadEvent != null) {
-            currentThread = currentThreadEvent.getCurrentThread();
-        ***REMOVED***
-        if (currentThread == null) {
-            return org.github.krashpad.util.Constants.PROPERTY_UNKNOWN;
+    public String getCurrentThreadName() {
+        String currentThreadName = null;
+        if (currentThread != null) {
+            currentThreadName = currentThread.getThreadName();
         ***REMOVED*** else {
-            return currentThread;
+            currentThreadName = org.github.krashpad.util.Constants.PROPERTY_UNKNOWN;
         ***REMOVED***
+        return currentThreadName;
     ***REMOVED***
 
     public List<DeoptimizationEvent> getDeoptimizationEvents() {
@@ -2067,10 +2071,10 @@ public class FatalErrorLog {
     public long getDirectMemoryMaxSize() {
         long directMemorySize = 0;
         // 1st check [Global flags]
-        if (!globalFlagsEvents.isEmpty()) {
-            Iterator<GlobalFlags> iterator = globalFlagsEvents.iterator();
+        if (!globalFlags.isEmpty()) {
+            Iterator<GlobalFlag> iterator = globalFlags.iterator();
             while (iterator.hasNext()) {
-                GlobalFlags event = iterator.next();
+                GlobalFlag event = iterator.next();
                 String regExMaxDirectMemorySize = "^.+uintx MaxDirectMemorySize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
                 Pattern pattern = Pattern.compile(regExMaxDirectMemorySize);
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -2102,25 +2106,25 @@ public class FatalErrorLog {
         return dllOperationEvents;
     ***REMOVED***
 
-    public List<DynamicLibrary> getDynamicLibraryEvents() {
-        return dynamicLibraryEvents;
+    public List<DynamicLibrary> getDynamicLibraries() {
+        return dynamicLibraries;
     ***REMOVED***
 
     /**
      * @return The duration of the JVM run in seconds.
      */
     public String getElapsedTime() {
-        String elapsedTime = null;
-        if (elapsedTimeEvent != null) {
-            elapsedTime = elapsedTimeEvent.getElapsedTime();
-        ***REMOVED*** else if (timeElapsedTimeEvent != null) {
-            elapsedTime = timeElapsedTimeEvent.getElapsedTime();
+        String elapsedTimeLiteral = null;
+        if (elapsedTime != null) {
+            elapsedTimeLiteral = elapsedTime.getLiteral();
+        ***REMOVED*** else if (timeElapsedTime != null) {
+            elapsedTimeLiteral = timeElapsedTime.getLiteral();
         ***REMOVED***
-        return elapsedTime;
+        return elapsedTimeLiteral;
     ***REMOVED***
 
-    public List<EnvironmentVariables> getEnvironmentVariablesEvents() {
-        return environmentVariablesEvents;
+    public List<EnvironmentVariable> getEnvironmentVariables() {
+        return environmentVariables;
     ***REMOVED***
 
     /**
@@ -2128,8 +2132,8 @@ public class FatalErrorLog {
      */
     public String getError() {
         StringBuilder causedBy = new StringBuilder();
-        if (!headerEvents.isEmpty()) {
-            Iterator<Header> iterator = headerEvents.iterator();
+        if (!headers.isEmpty()) {
+            Iterator<Header> iterator = headers.iterator();
             while (iterator.hasNext()) {
                 Header he = iterator.next();
                 if (he.isSignalNumber() || he.isInternalError() || he.isError() || he.isFailed() || he.isInsufficient()
@@ -2144,8 +2148,8 @@ public class FatalErrorLog {
         return causedBy.toString();
     ***REMOVED***
 
-    public List<Event> getEventEvents() {
-        return eventEvents;
+    public List<Event> getEvents() {
+        return events;
     ***REMOVED***
 
     /**
@@ -2156,9 +2160,9 @@ public class FatalErrorLog {
      */
     public long getEventTimestamp(String regex) {
         long timestamp = Long.MIN_VALUE;
-        if (!eventEvents.isEmpty()) {
+        if (!events.isEmpty()) {
             Pattern pattern = Pattern.compile(regex);
-            Iterator<Event> iterator = eventEvents.iterator();
+            Iterator<Event> iterator = events.iterator();
             while (iterator.hasNext()) {
                 Event event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -2172,8 +2176,8 @@ public class FatalErrorLog {
         return timestamp;
     ***REMOVED***
 
-    public List<ExceptionCounts> getExceptionCountsEvents() {
-        return exceptionCountsEvents;
+    public List<ExceptionCounts> getExceptionCounts() {
+        return exceptionCounts;
     ***REMOVED***
 
     /**
@@ -2252,8 +2256,8 @@ public class FatalErrorLog {
      */
     public List<GarbageCollector> getGarbageCollectorsFromHeapEvents() {
         List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
-        if (!heapEvents.isEmpty()) {
-            Iterator<Heap> iterator = heapEvents.iterator();
+        if (!heaps.isEmpty()) {
+            Iterator<Heap> iterator = heaps.iterator();
             while (iterator.hasNext()) {
                 Heap event = iterator.next();
                 if (event.getLogEntry().matches("^[ ]{0,***REMOVED***Shenandoah.+$")
@@ -2296,20 +2300,20 @@ public class FatalErrorLog {
         return gcHeapHistoryEvents;
     ***REMOVED***
 
-    public List<GcPreciousLog> getGcPreciousLogEvents() {
-        return gcPreciousLogEvents;
+    public List<GcPreciousLog> getGcPreciousLogs() {
+        return gcPreciousLogs;
     ***REMOVED***
 
-    public List<GlobalFlags> getGlobalFlagsEvents() {
-        return globalFlagsEvents;
+    public List<GlobalFlag> getGlobalFlags() {
+        return globalFlags;
     ***REMOVED***
 
-    public List<Header> getHeaderEvents() {
-        return headerEvents;
+    public List<Header> getHeaders() {
+        return headers;
     ***REMOVED***
 
-    public HeapAddress getHeapAddressEvent() {
-        return heapAddressEvent;
+    public HeapAddress getHeapAddress() {
+        return heapAddress;
     ***REMOVED***
 
     /**
@@ -2317,9 +2321,9 @@ public class FatalErrorLog {
      */
     public long getHeapAllocation() {
         long heapAllocation = Long.MIN_VALUE;
-        if (!heapEvents.isEmpty()) {
+        if (!heaps.isEmpty()) {
             heapAllocation = 0;
-            Iterator<Heap> iterator = heapEvents.iterator();
+            Iterator<Heap> iterator = heaps.iterator();
             char fromUnits;
             long value;
             Pattern pattern = null;
@@ -2380,20 +2384,16 @@ public class FatalErrorLog {
         return heapAllocation;
     ***REMOVED***
 
-    public List<Heap> getHeapEvents() {
-        return heapEvents;
-    ***REMOVED***
-
     /**
      * @return The heap initial size reserved in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapInitialSize() {
         long heapInitialSize = Long.MIN_VALUE;
         // 1st check [Global flags]
-        if (!globalFlagsEvents.isEmpty()) {
-            Iterator<GlobalFlags> iterator = globalFlagsEvents.iterator();
+        if (!globalFlags.isEmpty()) {
+            Iterator<GlobalFlag> iterator = globalFlags.iterator();
             while (iterator.hasNext()) {
-                GlobalFlags event = iterator.next();
+                GlobalFlag event = iterator.next();
                 String regExInitialHeapSize = "^.+size_t InitialHeapSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
                 Pattern pattern = Pattern.compile(regExInitialHeapSize);
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -2418,8 +2418,8 @@ public class FatalErrorLog {
                 ***REMOVED***
                 heapInitialSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
             ***REMOVED***
-        ***REMOVED*** else if (heapAddressEvent != null) {
-            heapInitialSize = heapAddressEvent.getSize();
+        ***REMOVED*** else if (heapAddress != null) {
+            heapInitialSize = heapAddress.getSize();
         ***REMOVED*** else if (getOsMemTotal() > 0) {
             // Use JVM default = 1/64 system memory
             BigDecimal systemPhysicalMemory = new BigDecimal(getOsMemTotal());
@@ -2439,10 +2439,10 @@ public class FatalErrorLog {
     public long getHeapMaxSize() {
         long heapMaxSize = Long.MIN_VALUE;
         // 1st check [Global flags]
-        if (!globalFlagsEvents.isEmpty()) {
-            Iterator<GlobalFlags> iterator = globalFlagsEvents.iterator();
+        if (!globalFlags.isEmpty()) {
+            Iterator<GlobalFlag> iterator = globalFlags.iterator();
             while (iterator.hasNext()) {
-                GlobalFlags event = iterator.next();
+                GlobalFlag event = iterator.next();
                 String regExMaxHeapSize = "^.+size_t MaxHeapSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
                 Pattern pattern = Pattern.compile(regExMaxHeapSize);
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -2467,8 +2467,8 @@ public class FatalErrorLog {
                 ***REMOVED***
                 heapMaxSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
             ***REMOVED***
-        ***REMOVED*** else if (heapAddressEvent != null) {
-            heapMaxSize = heapAddressEvent.getSize();
+        ***REMOVED*** else if (heapAddress != null) {
+            heapMaxSize = heapAddress.getSize();
         ***REMOVED*** else if (getOsMemTotal() > 0) {
             // Use JVM default = 1/4 system memory
             BigDecimal systemPhysicalMemory = new BigDecimal(getOsMemTotal());
@@ -2482,13 +2482,17 @@ public class FatalErrorLog {
         return heapMaxSize;
     ***REMOVED***
 
+    public List<Heap> getHeaps() {
+        return heaps;
+    ***REMOVED***
+
     /**
      * @return The heap starting address in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getHeapStartingAddress() {
         long heapStartingAddress = Long.MIN_VALUE;
-        if (heapAddressEvent != null) {
-            heapStartingAddress = JdkUtil.convertSize(heapAddressEvent.getStartingAddress(), 'B',
+        if (heapAddress != null) {
+            heapStartingAddress = JdkUtil.convertSize(heapAddress.getStartingAddress(), 'B',
                     org.github.joa.util.Constants.UNITS);
         ***REMOVED***
         return heapStartingAddress;
@@ -2499,8 +2503,8 @@ public class FatalErrorLog {
      */
     public long getHeapUsed() {
         long heapUsed = Long.MIN_VALUE;
-        if (!heapEvents.isEmpty()) {
-            Iterator<Heap> iterator = heapEvents.iterator();
+        if (!heaps.isEmpty()) {
+            Iterator<Heap> iterator = heaps.iterator();
             char fromUnits;
             long value;
             Pattern pattern = null;
@@ -2577,16 +2581,16 @@ public class FatalErrorLog {
         return heapUsed;
     ***REMOVED***
 
-    public Host getHostEvent() {
-        return hostEvent;
+    public Host getHost() {
+        return host;
     ***REMOVED***
 
     public List<InternalExceptionEvent> getInternalExceptionEvents() {
         return internalExceptionEvents;
     ***REMOVED***
 
-    public List<InternalStatistic> getInternalStatisticEvents() {
-        return internalStatisticEvents;
+    public List<InternalStatistic> getInternalStatistics() {
+        return internalStatistics;
     ***REMOVED***
 
     /**
@@ -2594,8 +2598,8 @@ public class FatalErrorLog {
      */
     public List<String> getJars() {
         List<String> jars = new ArrayList<String>();
-        if (!dynamicLibraryEvents.isEmpty()) {
-            Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+        if (!dynamicLibraries.isEmpty()) {
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
                 if (event.isJar()) {
@@ -2613,8 +2617,8 @@ public class FatalErrorLog {
      */
     public String getJavaCommand() {
         String javaCommand = null;
-        if (!vmArgumentsEvents.isEmpty()) {
-            Iterator<VmArguments> iterator = vmArgumentsEvents.iterator();
+        if (!vmArguments.isEmpty()) {
+            Iterator<VmArguments> iterator = vmArguments.iterator();
             while (iterator.hasNext()) {
                 VmArguments event = iterator.next();
                 if (event.isJavaCommand()) {
@@ -2631,12 +2635,12 @@ public class FatalErrorLog {
      */
     public JavaSpecification getJavaSpecification() {
         JavaSpecification version = JavaSpecification.UNKNOWN;
-        if (vmInfoEvent != null) {
-            version = vmInfoEvent.getJavaSpecification();
+        if (vmInfo != null) {
+            version = vmInfo.getJavaSpecification();
         ***REMOVED***
         // Get from header
-        if (version == JavaSpecification.UNKNOWN && !headerEvents.isEmpty()) {
-            Iterator<Header> iterator = headerEvents.iterator();
+        if (version == JavaSpecification.UNKNOWN && !headers.isEmpty()) {
+            Iterator<Header> iterator = headers.iterator();
             while (iterator.hasNext()) {
                 Header he = iterator.next();
                 String regEx = "\\((\\d{1,2***REMOVED***)\\..+\\)";
@@ -2668,7 +2672,7 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         // Check dynamic library (rpm)
-        if (version == JavaSpecification.UNKNOWN && !dynamicLibraryEvents.isEmpty()) {
+        if (version == JavaSpecification.UNKNOWN && !dynamicLibraries.isEmpty()) {
             if (getRpmDirectory() != null) {
                 String regEx = "^java-.+-openjdk-(1.8.0|11|17).+-.+$";
                 Pattern pattern = Pattern.compile(regEx);
@@ -2692,8 +2696,8 @@ public class FatalErrorLog {
      */
     public int getJavaThreadCount() {
         int javaThreadCount = 0;
-        if (!threadEvents.isEmpty()) {
-            Iterator<Thread> iterator = threadEvents.iterator();
+        if (!threads.isEmpty()) {
+            Iterator<Thread> iterator = threads.iterator();
             while (iterator.hasNext()) {
                 Thread event = iterator.next();
                 if (event.getLogEntry().matches("^***REMOVED***$")) {
@@ -2713,8 +2717,8 @@ public class FatalErrorLog {
      */
     public int getJavaThreadCount(String regex) {
         int threadCount = 0;
-        if (!threadEvents.isEmpty()) {
-            Iterator<Thread> iterator = threadEvents.iterator();
+        if (!threads.isEmpty()) {
+            Iterator<Thread> iterator = threads.iterator();
             while (iterator.hasNext()) {
                 Thread event = iterator.next();
                 if (event.getLogEntry().matches("^.*" + regex + ".*$")) {
@@ -2733,8 +2737,8 @@ public class FatalErrorLog {
         if (isRhBuildOpenJdk()) {
             vendor = JavaVendor.RED_HAT;
         ***REMOVED*** else {
-            if (vmInfoEvent != null) {
-                switch (vmInfoEvent.getBuiltBy()) {
+            if (vmInfo != null) {
+                switch (vmInfo.getBuiltBy()) {
                 case JAVA_RE:
                 case MACH5ONE:
                     vendor = JavaVendor.ORACLE;
@@ -2764,9 +2768,9 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        if (vendor == JavaVendor.UNIDENTIFIED && !headerEvents.isEmpty()) {
+        if (vendor == JavaVendor.UNIDENTIFIED && !headers.isEmpty()) {
             // Check header
-            Iterator<Header> iterator = headerEvents.iterator();
+            Iterator<Header> iterator = headers.iterator();
             while (iterator.hasNext()) {
                 Header he = iterator.next();
                 if (he.isJreVersion()) {
@@ -2818,8 +2822,8 @@ public class FatalErrorLog {
      */
     public Date getJdkBuildDate() {
         Date date = null;
-        if (vmInfoEvent != null) {
-            date = vmInfoEvent.getBuildDate();
+        if (vmInfo != null) {
+            date = vmInfo.getBuildDate();
         ***REMOVED***
         return date;
     ***REMOVED***
@@ -2840,37 +2844,37 @@ public class FatalErrorLog {
      */
     public String getJdkReleaseString() {
         String jdkReleaseString = null;
-        if (vmInfoEvent != null) {
-            jdkReleaseString = vmInfoEvent.getJdkReleaseString();
+        if (vmInfo != null) {
+            jdkReleaseString = vmInfo.getJdkReleaseString();
             // TODO: Better solution than this hack to account for 2 windows builds based on the same upstream tag?
-            if (vmInfoEvent.getOs() == Os.WINDOWS) {
-                if (vmInfoEvent.getJavaSpecification() == JavaSpecification.JDK8
+            if (vmInfo.getOs() == Os.WINDOWS) {
+                if (vmInfo.getJavaSpecification() == JavaSpecification.JDK8
                         && jdkReleaseString.equals("1.8.0_332-b09")) {
-                    if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 19 2022 13:36:53"))) {
+                    if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 19 2022 13:36:53"))) {
                         jdkReleaseString = "1.8.0_332-b09-1";
-                    ***REMOVED*** else if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 21:29:19"))) {
+                    ***REMOVED*** else if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 21:29:19"))) {
                         jdkReleaseString = "1.8.0_332-b09-2";
                     ***REMOVED***
-                ***REMOVED*** else if (vmInfoEvent.getJavaSpecification() == JavaSpecification.JDK11
+                ***REMOVED*** else if (vmInfo.getJavaSpecification() == JavaSpecification.JDK11
                         && jdkReleaseString.equals("11.0.15+9-LTS")) {
-                    if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 17 2022 13:56:34"))) {
+                    if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 17 2022 13:56:34"))) {
                         jdkReleaseString = "11.0.15+9-LTS-1";
-                    ***REMOVED*** else if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 19:12:18"))) {
+                    ***REMOVED*** else if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 19:12:18"))) {
                         jdkReleaseString = "11.0.15+9-LTS-2";
                     ***REMOVED***
-                ***REMOVED*** else if (vmInfoEvent.getJavaSpecification() == JavaSpecification.JDK17
+                ***REMOVED*** else if (vmInfo.getJavaSpecification() == JavaSpecification.JDK17
                         && jdkReleaseString.equals("17.0.3+6-LTS")) {
-                    if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 17 2022 12:11:44"))) {
+                    if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 17 2022 12:11:44"))) {
                         jdkReleaseString = "17.0.3+6-LTS-1";
-                    ***REMOVED*** else if (vmInfoEvent.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 11:51:42"))) {
+                    ***REMOVED*** else if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 11:51:42"))) {
                         jdkReleaseString = "17.0.3+6-LTS-2";
                     ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        if (jdkReleaseString == null && !headerEvents.isEmpty()) {
+        if (jdkReleaseString == null && !headers.isEmpty()) {
             // Check header
-            Iterator<Header> iterator = headerEvents.iterator();
+            Iterator<Header> iterator = headers.iterator();
             while (iterator.hasNext()) {
                 Header he = iterator.next();
                 if (he.isJreVersion()) {
@@ -2894,7 +2898,7 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        if (jdkReleaseString == null && !dynamicLibraryEvents.isEmpty()) {
+        if (jdkReleaseString == null && !dynamicLibraries.isEmpty()) {
             // Check dynamic libraries (rpm)
             if (getRpmDirectory() != null) {
                 Iterator<Entry<String, Release>> iterator;
@@ -3028,8 +3032,8 @@ public class FatalErrorLog {
      */
     public String getJvmArgs() {
         String jvmArgs = null;
-        if (!vmArgumentsEvents.isEmpty()) {
-            Iterator<VmArguments> iterator = vmArgumentsEvents.iterator();
+        if (!vmArguments.isEmpty()) {
+            Iterator<VmArguments> iterator = vmArguments.iterator();
             while (iterator.hasNext()) {
                 VmArguments event = iterator.next();
                 if (event.isJvmArgs()) {
@@ -3052,8 +3056,8 @@ public class FatalErrorLog {
      */
     public long getJvmMemFree() {
         long physicalMemoryFree = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<Memory> iterator = memoryEvents.iterator();
+        if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 if (event.isHeader()) {
@@ -3150,8 +3154,8 @@ public class FatalErrorLog {
      */
     public long getJvmMemTotal() {
         long physicalMemory = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<Memory> iterator = memoryEvents.iterator();
+        if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 if (event.isHeader()) {
@@ -3176,8 +3180,8 @@ public class FatalErrorLog {
      */
     public long getJvmSwap() {
         long swap = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<Memory> iterator = memoryEvents.iterator();
+        if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 if (event.isHeader()) {
@@ -3200,8 +3204,8 @@ public class FatalErrorLog {
      */
     public long getJvmSwapFree() {
         long swapFree = Long.MIN_VALUE;
-        if (!memoryEvents.isEmpty()) {
-            Iterator<Memory> iterator = memoryEvents.iterator();
+        if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 if (event.isHeader()) {
@@ -3227,11 +3231,11 @@ public class FatalErrorLog {
      */
     public String getJvmUser() {
         String jvmUser = null;
-        if (!dynamicLibraryEvents.isEmpty()) {
+        if (!dynamicLibraries.isEmpty()) {
             String regExHsPerfData = System.getProperty("file.separator") + "hsperfdata_([^"
                     + System.getProperty("file.separator") + "]+)";
             Pattern pattern = Pattern.compile(regExHsPerfData);
-            Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
                 if (event.getFilePath() != null) {
@@ -3246,23 +3250,34 @@ public class FatalErrorLog {
         return jvmUser;
     ***REMOVED***
 
-    public List<LdPreloadFile> getLdPreloadFileEvents() {
-        return ldPreloadFileEvents;
+    public List<LdPreloadFile> getLdPreloadFiles() {
+        return ldPreloadFiles;
+    ***REMOVED***
+
+    /**
+     * @return The VM state for display purposes.
+     */
+    public String getLiteral() {
+        String vmStateState = null;
+        if (vmState != null) {
+            vmStateState = vmState.getState();
+        ***REMOVED***
+        return vmStateState;
+    ***REMOVED***
+
+    public MaxMapCount getMaxMapCount() {
+        return maxMapCount;
     ***REMOVED***
 
     /**
      * @return max_map_count, or a negative value if undefined.
      */
-    public Long getMaxMapCount() {
-        Long maxMapCount = Long.MIN_VALUE;
-        if (maxMapCountEvent != null) {
-            maxMapCount = maxMapCountEvent.getLimit();
+    public Long getMaxMapCountLimit() {
+        Long maxMapCountLimit = Long.MIN_VALUE;
+        if (maxMapCount != null) {
+            maxMapCountLimit = maxMapCount.getLimit();
         ***REMOVED***
-        return maxMapCount;
-    ***REMOVED***
-
-    public MaxMapCount getMaxMapCountEvent() {
-        return maxMapCountEvent;
+        return maxMapCountLimit;
     ***REMOVED***
 
     /**
@@ -3277,10 +3292,10 @@ public class FatalErrorLog {
      */
     public long getMemBalloonedNow() {
         long memBallooned = Long.MIN_VALUE;
-        if (!virtualizationInfoEvents.isEmpty()) {
+        if (!virtualizationInfos.isEmpty()) {
             String regexGuestMemBallooned = "guest.mem.ballooned = (\\d{1,***REMOVED***)";
             Pattern pattern = Pattern.compile(regexGuestMemBallooned);
-            Iterator<VirtualizationInfo> iterator = virtualizationInfoEvents.iterator();
+            Iterator<VirtualizationInfo> iterator = virtualizationInfos.iterator();
             // Get information now, not at startup
             boolean now = false;
             while (iterator.hasNext()) {
@@ -3298,8 +3313,12 @@ public class FatalErrorLog {
         return memBallooned;
     ***REMOVED***
 
-    public List<Meminfo> getMeminfoEvents() {
-        return meminfoEvents;
+    public List<Meminfo> getMeminfos() {
+        return meminfos;
+    ***REMOVED***
+
+    public List<Memory> getMemories() {
+        return memories;
     ***REMOVED***
 
     /**
@@ -3308,8 +3327,8 @@ public class FatalErrorLog {
      */
     public long getMemoryAllocation() {
         long memoryAllocation = Long.MIN_VALUE;
-        if (!headerEvents.isEmpty()) {
-            Iterator<Header> iterator = headerEvents.iterator();
+        if (!headers.isEmpty()) {
+            Iterator<Header> iterator = headers.iterator();
             String regex = "^.+failed to (allocate|map) (\\d{1,***REMOVED***) bytes.+$";
             while (iterator.hasNext()) {
                 Header he = iterator.next();
@@ -3327,17 +3346,13 @@ public class FatalErrorLog {
         return memoryAllocation;
     ***REMOVED***
 
-    public List<Memory> getMemoryEvents() {
-        return memoryEvents;
-    ***REMOVED***
-
     /**
      * @return The total metaspace allocation in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getMetaspaceAllocation() {
         long metaspaceAllocation = Long.MIN_VALUE;
-        if (!heapEvents.isEmpty()) {
-            Iterator<Heap> iterator = heapEvents.iterator();
+        if (!heaps.isEmpty()) {
+            Iterator<Heap> iterator = heaps.iterator();
             char fromUnits;
             long value;
             Pattern pattern = null;
@@ -3389,8 +3404,8 @@ public class FatalErrorLog {
         ***REMOVED***
         // If max metaspace size not set (recommended), get from <code>HeapEvent</code>
         if (metaspaceMaxSize == Long.MIN_VALUE) {
-            if (!heapEvents.isEmpty()) {
-                Iterator<Heap> iterator = heapEvents.iterator();
+            if (!heaps.isEmpty()) {
+                Iterator<Heap> iterator = heaps.iterator();
                 char fromUnits;
                 long value;
                 Pattern pattern = null;
@@ -3423,8 +3438,8 @@ public class FatalErrorLog {
      */
     public long getMetaspaceUsed() {
         long metaspaceUsed = Long.MIN_VALUE;
-        if (!heapEvents.isEmpty()) {
-            Iterator<Heap> iterator = heapEvents.iterator();
+        if (!heaps.isEmpty()) {
+            Iterator<Heap> iterator = heaps.iterator();
             char fromUnits;
             long value;
             Pattern pattern = null;
@@ -3455,9 +3470,9 @@ public class FatalErrorLog {
      */
     public int getMmapDeletedCount() {
         int mmapDeletedCount = 0;
-        if (!dynamicLibraryEvents.isEmpty()) {
+        if (!dynamicLibraries.isEmpty()) {
             String regExMmapDeleted = "^.+ \\(deleted\\)$";
-            Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
                 if (event.getLogEntry().matches(regExMmapDeleted)) {
@@ -3468,8 +3483,8 @@ public class FatalErrorLog {
         return mmapDeletedCount;
     ***REMOVED***
 
-    public NarrowKlass getNarrowKlassEvent() {
-        return narrowKlassEvent;
+    public NarrowKlass getNarrowKlass() {
+        return narrowKlass;
     ***REMOVED***
 
     /**
@@ -3477,8 +3492,8 @@ public class FatalErrorLog {
      */
     public List<String> getNativeLibraries() {
         List<String> nativeLibraries = new ArrayList<String>();
-        if (!dynamicLibraryEvents.isEmpty()) {
-            Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+        if (!dynamicLibraries.isEmpty()) {
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
                 if (event.isNativeLibrary()) {
@@ -3559,8 +3574,8 @@ public class FatalErrorLog {
         return nativeLibraryInCrash;
     ***REMOVED***
 
-    public List<NativeMemoryTracking> getNativeMemoryTrackingEvents() {
-        return nativeMemoryTrackingEvents;
+    public List<NativeMemoryTracking> getNativeMemoryTrackings() {
+        return nativeMemoryTrackings;
     ***REMOVED***
 
     /**
@@ -3572,11 +3587,11 @@ public class FatalErrorLog {
     public String getNextStackFrame(String stackFrame) {
         String nextStackFrame = null;
         int stackIndex = 0;
-        Iterator<Stack> iterator = stackEvents.iterator();
+        Iterator<Stack> iterator = stacks.iterator();
         while (iterator.hasNext()) {
             Stack event = iterator.next();
-            if (event.getLogEntry().matches("^" + stackFrame + "$") && stackIndex < stackEvents.size()) {
-                nextStackFrame = stackEvents.get(stackIndex + 1).getLogEntry();
+            if (event.getLogEntry().matches("^" + stackFrame + "$") && stackIndex < stacks.size()) {
+                nextStackFrame = stacks.get(stackIndex + 1).getLogEntry();
                 break;
             ***REMOVED***
             stackIndex++;
@@ -3598,9 +3613,9 @@ public class FatalErrorLog {
             ***REMOVED*** else if (osString.matches(".+Solaris.+")) {
                 osType = Os.SOLARIS;
             ***REMOVED***
-        ***REMOVED*** else if (!headerEvents.isEmpty()) {
+        ***REMOVED*** else if (!headers.isEmpty()) {
             // Check header
-            Iterator<Header> iterator = headerEvents.iterator();
+            Iterator<Header> iterator = headers.iterator();
             while (iterator.hasNext()) {
                 Header he = iterator.next();
                 if (he.isJavaVm()) {
@@ -3612,8 +3627,8 @@ public class FatalErrorLog {
         return osType;
     ***REMOVED***
 
-    public List<OsInfo> getOsEvents() {
-        return osEvents;
+    public List<OsInfo> getOsInfos() {
+        return osInfos;
     ***REMOVED***
 
     /**
@@ -3625,10 +3640,10 @@ public class FatalErrorLog {
      */
     public long getOsMemAvailable() {
         long memAvailable = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
+        if (!meminfos.isEmpty()) {
             String regexMemTotal = "MemAvailable:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<Meminfo> iterator = meminfoEvents.iterator();
+            Iterator<Meminfo> iterator = meminfos.iterator();
             while (iterator.hasNext()) {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -3651,10 +3666,10 @@ public class FatalErrorLog {
      */
     public long getOsMemFree() {
         long memFree = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
+        if (!meminfos.isEmpty()) {
             String regexMemTotal = "MemFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<Meminfo> iterator = meminfoEvents.iterator();
+            Iterator<Meminfo> iterator = meminfos.iterator();
             while (iterator.hasNext()) {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -3664,8 +3679,8 @@ public class FatalErrorLog {
                     break;
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
-            Iterator<Memory> iterator = memoryEvents.iterator();
+        ***REMOVED*** else if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 if (event.isHeader()) {
@@ -3688,10 +3703,10 @@ public class FatalErrorLog {
      */
     public long getOsMemTotal() {
         long memTotal = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
+        if (!meminfos.isEmpty()) {
             String regexMemTotal = "MemTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<Meminfo> iterator = meminfoEvents.iterator();
+            Iterator<Meminfo> iterator = meminfos.iterator();
             while (iterator.hasNext()) {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -3701,8 +3716,8 @@ public class FatalErrorLog {
                     break;
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
-            Iterator<Memory> iterator = memoryEvents.iterator();
+        ***REMOVED*** else if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 if (event.isHeader()) {
@@ -3728,8 +3743,8 @@ public class FatalErrorLog {
      */
     public String getOsString() {
         String osString = null;
-        if (!osEvents.isEmpty()) {
-            Iterator<OsInfo> iterator = osEvents.iterator();
+        if (!osInfos.isEmpty()) {
+            Iterator<OsInfo> iterator = osInfos.iterator();
             while (iterator.hasNext()) {
                 OsInfo event = iterator.next();
                 if (event.isHeader()) {
@@ -3746,8 +3761,8 @@ public class FatalErrorLog {
                     break;
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (hostEvent != null && hostEvent.getOsString() != null) {
-            osString = hostEvent.getOsString();
+        ***REMOVED*** else if (host != null && host.getOsString() != null) {
+            osString = host.getOsString();
         ***REMOVED***
         return osString;
     ***REMOVED***
@@ -3758,10 +3773,10 @@ public class FatalErrorLog {
      */
     public long getOsSwap() {
         long swap = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
+        if (!meminfos.isEmpty()) {
             String regexMemTotal = "SwapTotal:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<Meminfo> iterator = meminfoEvents.iterator();
+            Iterator<Meminfo> iterator = meminfos.iterator();
             while (iterator.hasNext()) {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -3771,8 +3786,8 @@ public class FatalErrorLog {
                     break;
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
-            Iterator<Memory> iterator = memoryEvents.iterator();
+        ***REMOVED*** else if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 if (event.isHeader()) {
@@ -3795,10 +3810,10 @@ public class FatalErrorLog {
      */
     public long getOsSwapFree() {
         long swapFree = Long.MIN_VALUE;
-        if (!meminfoEvents.isEmpty()) {
+        if (!meminfos.isEmpty()) {
             String regexMemTotal = "SwapFree:[ ]{0,***REMOVED***(\\d{1,***REMOVED***) kB";
             Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<Meminfo> iterator = meminfoEvents.iterator();
+            Iterator<Meminfo> iterator = meminfos.iterator();
             while (iterator.hasNext()) {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -3808,8 +3823,8 @@ public class FatalErrorLog {
                     break;
                 ***REMOVED***
             ***REMOVED***
-        ***REMOVED*** else if (!memoryEvents.isEmpty()) {
-            Iterator<Memory> iterator = memoryEvents.iterator();
+        ***REMOVED*** else if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 if (event.isHeader()) {
@@ -3831,8 +3846,8 @@ public class FatalErrorLog {
      */
     public OsVendor getOsVendor() {
         OsVendor osVendor = OsVendor.UNIDENTIFIED;
-        if (!osEvents.isEmpty()) {
-            Iterator<OsInfo> iterator = osEvents.iterator();
+        if (!osInfos.isEmpty()) {
+            Iterator<OsInfo> iterator = osInfos.iterator();
             while (iterator.hasNext()) {
                 OsInfo event = iterator.next();
                 if (event.isHeader()) {
@@ -3862,8 +3877,8 @@ public class FatalErrorLog {
      */
     public OsVersion getOsVersion() {
         OsVersion osVersion = OsVersion.UNIDENTIFIED;
-        if (!osEvents.isEmpty()) {
-            Iterator<OsInfo> iterator = osEvents.iterator();
+        if (!osInfos.isEmpty()) {
+            Iterator<OsInfo> iterator = osInfos.iterator();
             while (iterator.hasNext()) {
                 OsInfo event = iterator.next();
                 if (event.isHeader()) {
@@ -3891,29 +3906,29 @@ public class FatalErrorLog {
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
-        if (osVersion == OsVersion.UNIDENTIFIED && unameEvent != null) {
-            osVersion = unameEvent.getOsVersion();
+        if (osVersion == OsVersion.UNIDENTIFIED && uname != null) {
+            osVersion = uname.getOsVersion();
         ***REMOVED***
         return osVersion;
+    ***REMOVED***
+
+    public PidMax getPidMax() {
+        return pidMax;
     ***REMOVED***
 
     /**
      * @return pid_max, or a negative value if undefined.
      */
-    public Long getPidMax() {
-        Long pidMax = Long.MIN_VALUE;
-        if (pidMaxEvent != null) {
-            pidMax = pidMaxEvent.getLimit();
+    public Long getPidMaxLimit() {
+        Long pidMaxLimit = Long.MIN_VALUE;
+        if (pidMax != null) {
+            pidMaxLimit = pidMax.getLimit();
         ***REMOVED***
-        return pidMax;
+        return pidMaxLimit;
     ***REMOVED***
 
-    public PidMax getPidMaxEvent() {
-        return pidMaxEvent;
-    ***REMOVED***
-
-    public List<RegisterToMemoryMapping> getRegisterToMemoryMappingEvents() {
-        return registerToMemoryMappingEvents;
+    public List<RegisterToMemoryMapping> getRegisterToMemoryMappings() {
+        return registerToMemoryMappings;
     ***REMOVED***
 
     /**
@@ -3933,8 +3948,8 @@ public class FatalErrorLog {
         return rhelVersion;
     ***REMOVED***
 
-    public RlimitEvent getRlimitEvent() {
-        return rlimitEvent;
+    public Rlimit getRlimit() {
+        return rlimit;
     ***REMOVED***
 
     /**
@@ -3951,8 +3966,8 @@ public class FatalErrorLog {
     public String getRpmDirectory() {
         String rpmDirectory = null;
         if (getOs() == Os.LINUX) {
-            if (!dynamicLibraryEvents.isEmpty()) {
-                Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+            if (!dynamicLibraries.isEmpty()) {
+                Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
                 while (iterator.hasNext()) {
                     DynamicLibrary event = iterator.next();
                     if (event.getFilePath() != null) {
@@ -3987,8 +4002,8 @@ public class FatalErrorLog {
         return rpmDirectory;
     ***REMOVED***
 
-    public SigInfo getSigInfoEvent() {
-        return sigInfoEvent;
+    public SigInfo getSigInfo() {
+        return sigInfo;
     ***REMOVED***
 
     /**
@@ -3996,8 +4011,8 @@ public class FatalErrorLog {
      */
     public SignalCode getSignalCode() {
         SignalCode signalCode = SignalCode.UNKNOWN;
-        if (sigInfoEvent != null) {
-            signalCode = sigInfoEvent.getSignalCode();
+        if (sigInfo != null) {
+            signalCode = sigInfo.getSignalCode();
         ***REMOVED***
         return signalCode;
     ***REMOVED***
@@ -4007,14 +4022,10 @@ public class FatalErrorLog {
      */
     public SignalNumber getSignalNumber() {
         SignalNumber signalNumber = SignalNumber.UNKNOWN;
-        if (sigInfoEvent != null) {
-            signalNumber = sigInfoEvent.getSignalNumber();
+        if (sigInfo != null) {
+            signalNumber = sigInfo.getSignalNumber();
         ***REMOVED***
         return signalNumber;
-    ***REMOVED***
-
-    public List<Stack> getStackEvents() {
-        return stackEvents;
     ***REMOVED***
 
     /**
@@ -4025,7 +4036,7 @@ public class FatalErrorLog {
     public String getStackFrame(int i) {
         String stackFrame = null;
         int stackIndex = 1;
-        Iterator<Stack> iterator = stackEvents.iterator();
+        Iterator<Stack> iterator = stacks.iterator();
         while (iterator.hasNext()) {
             Stack event = iterator.next();
             if (!event.getLogEntry().matches("^(Stack|(Java|Native) frames):.+$")) {
@@ -4044,7 +4055,7 @@ public class FatalErrorLog {
      */
     public String getStackFrameTop() {
         String stackFrameTop = null;
-        Iterator<Stack> iteratorStack = stackEvents.iterator();
+        Iterator<Stack> iteratorStack = stacks.iterator();
         while (iteratorStack.hasNext()) {
             Stack event = iteratorStack.next();
             if (event.getLogEntry().matches("^(A|C|j|J|v|V)[ ]{1,2***REMOVED***.+$")) {
@@ -4052,8 +4063,8 @@ public class FatalErrorLog {
                 break;
             ***REMOVED***
         ***REMOVED***
-        if (stackFrameTop == null && !headerEvents.isEmpty()) {
-            Iterator<Header> iteratorHeader = headerEvents.iterator();
+        if (stackFrameTop == null && !headers.isEmpty()) {
+            Iterator<Header> iteratorHeader = headers.iterator();
             while (iteratorHeader.hasNext()) {
                 Header he = iteratorHeader.next();
                 if (he.isProblematicFrame()) {
@@ -4070,7 +4081,7 @@ public class FatalErrorLog {
      */
     public String getStackFrameTopCompiledJavaCode() {
         String stackFrameTopCompiledJavaCode = null;
-        Iterator<Stack> iterator = stackEvents.iterator();
+        Iterator<Stack> iterator = stacks.iterator();
         while (iterator.hasNext()) {
             Stack event = iterator.next();
             if (event.getLogEntry().matches("^J[ ]{1,2***REMOVED***.+$")) {
@@ -4086,7 +4097,7 @@ public class FatalErrorLog {
      */
     public String getStackFrameTopJava() {
         String stackFrameTopJava = null;
-        Iterator<Stack> iterator = stackEvents.iterator();
+        Iterator<Stack> iterator = stacks.iterator();
         while (iterator.hasNext()) {
             Stack event = iterator.next();
             if (event.getLogEntry().matches("^[jJ][ ]{1,2***REMOVED***.+$")) {
@@ -4097,8 +4108,12 @@ public class FatalErrorLog {
         return stackFrameTopJava;
     ***REMOVED***
 
-    public List<StackSlotToMemoryMapping> getStackSlotToMemoryMappingEvents() {
-        return stackSlotToMemoryMappingEvents;
+    public List<Stack> getStacks() {
+        return stacks;
+    ***REMOVED***
+
+    public List<StackSlotToMemoryMapping> getStackSlotToMemoryMappings() {
+        return stackSlotToMemoryMappings;
     ***REMOVED***
 
     /**
@@ -4106,8 +4121,8 @@ public class FatalErrorLog {
      */
     public Device getStorageDevice() {
         Device device = Device.UNIDENTIFIED;
-        if (getOs() == Os.LINUX && !dynamicLibraryEvents.isEmpty()) {
-            Iterator<DynamicLibrary> iterator = dynamicLibraryEvents.iterator();
+        if (getOs() == Os.LINUX && !dynamicLibraries.isEmpty()) {
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
                 if (event.getFilePath() != null && event.getFilePath().matches("^.+libjvm\\.so$")) {
@@ -4119,23 +4134,23 @@ public class FatalErrorLog {
         return device;
     ***REMOVED***
 
-    public List<Thread> getThreadEvents() {
-        return threadEvents;
+    public List<Thread> getThreads() {
+        return threads;
+    ***REMOVED***
+
+    public ThreadsMax getThreadsMax() {
+        return threadsMax;
     ***REMOVED***
 
     /**
      * @return threads-max, or a negative value if undefined.
      */
-    public Long getThreadsMax() {
-        Long threadsMax = Long.MIN_VALUE;
-        if (threadsMaxEvent != null) {
-            threadsMax = threadsMaxEvent.getLimit();
+    public Long getThreadsMaxLimit() {
+        Long threadsMaxLimit = Long.MIN_VALUE;
+        if (threadsMax != null) {
+            threadsMaxLimit = threadsMax.getLimit();
         ***REMOVED***
-        return threadsMax;
-    ***REMOVED***
-
-    public ThreadsMax getThreadsMaxEvent() {
-        return threadsMaxEvent;
+        return threadsMaxLimit;
     ***REMOVED***
 
     /**
@@ -4146,8 +4161,8 @@ public class FatalErrorLog {
      */
     public long getThreadStackFreeSpace() {
         long stackFreeSpace = Long.MIN_VALUE;
-        if (!stackEvents.isEmpty()) {
-            Iterator<Stack> iterator = stackEvents.iterator();
+        if (!stacks.isEmpty()) {
+            Iterator<Stack> iterator = stacks.iterator();
             while (iterator.hasNext()) {
                 Stack event = iterator.next();
                 if (event.isHeader()) {
@@ -4196,10 +4211,10 @@ public class FatalErrorLog {
             break;
         ***REMOVED***
         // 1st check [Global flags]
-        if (!globalFlagsEvents.isEmpty()) {
-            Iterator<GlobalFlags> iterator = globalFlagsEvents.iterator();
+        if (!globalFlags.isEmpty()) {
+            Iterator<GlobalFlag> iterator = globalFlags.iterator();
             while (iterator.hasNext()) {
-                GlobalFlags event = iterator.next();
+                GlobalFlag event = iterator.next();
                 String regExThreadStackSize = "^.+intx ThreadStackSize[ ]{1,***REMOVED***= (\\d{1,***REMOVED***).+$";
                 Pattern pattern = Pattern.compile(regExThreadStackSize);
                 Matcher matcher = pattern.matcher(event.getLogEntry());
@@ -4231,12 +4246,12 @@ public class FatalErrorLog {
 
     ***REMOVED***
 
-    public TimeElapsedTime getTimeElapsedTimeEvent() {
-        return timeElapsedTimeEvent;
+    public TimeElapsedTime getTimeElapsedTime() {
+        return timeElapsedTime;
     ***REMOVED***
 
-    public Uname getUnameEvent() {
-        return unameEvent;
+    public Uname getUname() {
+        return uname;
     ***REMOVED***
 
     public List<String> getUnidentifiedLogLines() {
@@ -4248,10 +4263,10 @@ public class FatalErrorLog {
      */
     public Long getUptime() {
         long uptime = Long.MIN_VALUE;
-        if (timeElapsedTimeEvent != null && timeElapsedTimeEvent.getUptime() > 0) {
-            uptime = timeElapsedTimeEvent.getUptime();
-        ***REMOVED*** else if (elapsedTimeEvent != null && elapsedTimeEvent.getUptime() > 0) {
-            uptime = elapsedTimeEvent.getUptime();
+        if (timeElapsedTime != null && timeElapsedTime.getUptime() > 0) {
+            uptime = timeElapsedTime.getUptime();
+        ***REMOVED*** else if (elapsedTime != null && elapsedTime.getUptime() > 0) {
+            uptime = elapsedTime.getUptime();
         ***REMOVED***
         return uptime;
     ***REMOVED***
@@ -4261,12 +4276,12 @@ public class FatalErrorLog {
      */
     public String getUsername() {
         String username = null;
-        if (!environmentVariablesEvents.isEmpty()) {
+        if (!environmentVariables.isEmpty()) {
             String regExUsername = "^USERNAME=(.+)$";
             Pattern pattern = Pattern.compile(regExUsername);
-            Iterator<EnvironmentVariables> iterator = environmentVariablesEvents.iterator();
+            Iterator<EnvironmentVariable> iterator = environmentVariables.iterator();
             while (iterator.hasNext()) {
-                EnvironmentVariables event = iterator.next();
+                EnvironmentVariable event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     username = matcher.group(1);
@@ -4277,31 +4292,20 @@ public class FatalErrorLog {
         return username;
     ***REMOVED***
 
-    public List<VirtualizationInfo> getVirtualizationInfoEvents() {
-        return virtualizationInfoEvents;
+    public List<VirtualizationInfo> getVirtualizationInfos() {
+        return virtualizationInfos;
     ***REMOVED***
 
-    public List<VmArguments> getVmArgumentsEvents() {
-        return vmArgumentsEvents;
+    public List<VmArguments> getVmArguments() {
+        return vmArguments;
     ***REMOVED***
 
-    public VmOperation getVmOperationEvent() {
-        return vmOperationEvent;
+    public VmOperation getVmOperation() {
+        return vmOperation;
     ***REMOVED***
 
-    /**
-     * @return The VM state.
-     */
-    public String getVmState() {
-        String vmState = null;
-        if (vmStateEvent != null) {
-            vmState = vmStateEvent.getState();
-        ***REMOVED***
+    public VmState getVmState() {
         return vmState;
-    ***REMOVED***
-
-    public VmState getVmStateEvent() {
-        return vmStateEvent;
     ***REMOVED***
 
     /**
@@ -4332,8 +4336,8 @@ public class FatalErrorLog {
      */
     public boolean hasCpuCapability(String capability) {
         boolean hasCpuCapability = false;
-        if (!cpuInfoEvents.isEmpty()) {
-            Iterator<CpuInfo> iterator = cpuInfoEvents.iterator();
+        if (!cpuInfos.isEmpty()) {
+            Iterator<CpuInfo> iterator = cpuInfos.iterator();
             while (iterator.hasNext()) {
                 CpuInfo event = iterator.next();
                 if (event.isCpuHeader()) {
@@ -4350,8 +4354,8 @@ public class FatalErrorLog {
      */
     public boolean haveCgroupMemoryLimit() {
         boolean isCgroupMemoryLimit = false;
-        if (!containerInfoEvents.isEmpty()) {
-            Iterator<ContainerInfo> iterator = containerInfoEvents.iterator();
+        if (!containerInfos.isEmpty()) {
+            Iterator<ContainerInfo> iterator = containerInfos.iterator();
             while (iterator.hasNext()) {
                 ContainerInfo event = iterator.next();
                 if (event.getLogEntry().matches("^memory_limit_in_bytes: \\d{1,***REMOVED***$")) {
@@ -4368,8 +4372,8 @@ public class FatalErrorLog {
      */
     public boolean haveFramesInStack() {
         boolean haveFramesInStack = false;
-        if (!stackEvents.isEmpty()) {
-            Iterator<Stack> iterator = stackEvents.iterator();
+        if (!stacks.isEmpty()) {
+            Iterator<Stack> iterator = stacks.iterator();
             while (iterator.hasNext()) {
                 Stack event = iterator.next();
                 if (event.isFrame()) {
@@ -4386,8 +4390,8 @@ public class FatalErrorLog {
      */
     public boolean haveJdkDebugSymbols() {
         boolean haveJdkDebugSymbols = false;
-        if (!headerEvents.isEmpty()) {
-            Iterator<Header> iterator1 = headerEvents.iterator();
+        if (!headers.isEmpty()) {
+            Iterator<Header> iterator1 = headers.iterator();
             while (iterator1.hasNext()) {
                 Header he = iterator1.next();
                 if (he.isProblematicFrame()) {
@@ -4397,8 +4401,8 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         if (!haveJdkDebugSymbols) {
-            if (!stackEvents.isEmpty()) {
-                Iterator<Stack> iterator2 = stackEvents.iterator();
+            if (!stacks.isEmpty()) {
+                Iterator<Stack> iterator2 = stacks.iterator();
                 while (iterator2.hasNext() && !haveJdkDebugSymbols) {
                     Stack se = iterator2.next();
                     if (se.isVmFrame()) {
@@ -4416,8 +4420,8 @@ public class FatalErrorLog {
      */
     public boolean haveLinkageError() {
         boolean haveLinkageError = false;
-        if (!exceptionCountsEvents.isEmpty()) {
-            Iterator<ExceptionCounts> iteratorExceptionCounts = exceptionCountsEvents.iterator();
+        if (!exceptionCounts.isEmpty()) {
+            Iterator<ExceptionCounts> iteratorExceptionCounts = exceptionCounts.iterator();
             while (iteratorExceptionCounts.hasNext()) {
                 ExceptionCounts exceptionCountsEvent = iteratorExceptionCounts.next();
                 if (!exceptionCountsEvent.isHeader()
@@ -4436,8 +4440,8 @@ public class FatalErrorLog {
      */
     public boolean haveOomeThrownCompressedClassSpace() {
         boolean haveOomeThrownCompressedClassSpace = false;
-        if (!exceptionCountsEvents.isEmpty()) {
-            Iterator<ExceptionCounts> iteratorExceptionCounts = exceptionCountsEvents.iterator();
+        if (!exceptionCounts.isEmpty()) {
+            Iterator<ExceptionCounts> iteratorExceptionCounts = exceptionCounts.iterator();
             while (iteratorExceptionCounts.hasNext()) {
                 ExceptionCounts exceptionCountsEvent = iteratorExceptionCounts.next();
                 if (!exceptionCountsEvent.isHeader() && exceptionCountsEvent.getLogEntry()
@@ -4456,8 +4460,8 @@ public class FatalErrorLog {
      */
     public boolean haveOomeThrownJavaHeap() {
         boolean haveOomeThrownJavaHeap = false;
-        if (!exceptionCountsEvents.isEmpty()) {
-            Iterator<ExceptionCounts> iteratorExceptionCounts = exceptionCountsEvents.iterator();
+        if (!exceptionCounts.isEmpty()) {
+            Iterator<ExceptionCounts> iteratorExceptionCounts = exceptionCounts.iterator();
             while (iteratorExceptionCounts.hasNext()) {
                 ExceptionCounts exceptionCountsEvent = iteratorExceptionCounts.next();
                 if (!exceptionCountsEvent.isHeader()
@@ -4475,8 +4479,8 @@ public class FatalErrorLog {
      */
     public boolean haveOomeThrownMetaspace() {
         boolean haveOomeThrownMetaspace = false;
-        if (!exceptionCountsEvents.isEmpty()) {
-            Iterator<ExceptionCounts> iteratorExceptionCounts = exceptionCountsEvents.iterator();
+        if (!exceptionCounts.isEmpty()) {
+            Iterator<ExceptionCounts> iteratorExceptionCounts = exceptionCounts.iterator();
             while (iteratorExceptionCounts.hasNext()) {
                 ExceptionCounts exceptionCountsEvent = iteratorExceptionCounts.next();
                 if (!exceptionCountsEvent.isHeader()
@@ -4494,8 +4498,8 @@ public class FatalErrorLog {
      */
     public boolean haveStackOverFlowError() {
         boolean haveStackOverFlowError = false;
-        if (!exceptionCountsEvents.isEmpty()) {
-            Iterator<ExceptionCounts> iteratorExceptionCounts = exceptionCountsEvents.iterator();
+        if (!exceptionCounts.isEmpty()) {
+            Iterator<ExceptionCounts> iteratorExceptionCounts = exceptionCounts.iterator();
             while (iteratorExceptionCounts.hasNext()) {
                 ExceptionCounts exceptionCountsEvent = iteratorExceptionCounts.next();
                 if (!exceptionCountsEvent.isHeader()
@@ -4514,8 +4518,8 @@ public class FatalErrorLog {
     public boolean haveVmCodeInStack() {
         boolean haveVmCodeInStack = false;
         //
-        if (stackEvents.size() > 2) {
-            Iterator<Stack> iterator = stackEvents.iterator();
+        if (stacks.size() > 2) {
+            Iterator<Stack> iterator = stacks.iterator();
             while (iterator.hasNext()) {
                 Stack event = iterator.next();
                 if (event.isVmFrame() || event.isVmGeneratedCodeFrame()) {
@@ -4532,8 +4536,8 @@ public class FatalErrorLog {
      */
     public boolean haveVmFrameInHeader() {
         boolean haveVmFrameInHeader = false;
-        if (!headerEvents.isEmpty()) {
-            Iterator<Header> iterator = headerEvents.iterator();
+        if (!headers.isEmpty()) {
+            Iterator<Header> iterator = headers.iterator();
             while (iterator.hasNext()) {
                 Header event = iterator.next();
                 if (event.isVmFrame()) {
@@ -4550,8 +4554,8 @@ public class FatalErrorLog {
      */
     public boolean haveVmFrameInStack() {
         boolean haveVmFrameInStack = false;
-        if (!stackEvents.isEmpty()) {
-            Iterator<Stack> iterator = stackEvents.iterator();
+        if (!stacks.isEmpty()) {
+            Iterator<Stack> iterator = stacks.iterator();
             while (iterator.hasNext()) {
                 Stack event = iterator.next();
                 if (event.isVmFrame()) {
@@ -4568,8 +4572,8 @@ public class FatalErrorLog {
      */
     public boolean haveVmGeneratedCodeFrameInStack() {
         boolean haveVmGeneratedCodeFrameInStack = false;
-        if (!stackEvents.isEmpty()) {
-            Iterator<Stack> iterator = stackEvents.iterator();
+        if (!stacks.isEmpty()) {
+            Iterator<Stack> iterator = stacks.iterator();
             while (iterator.hasNext()) {
                 Stack event = iterator.next();
                 if (event.isVmGeneratedCodeFrame()) {
@@ -4588,7 +4592,7 @@ public class FatalErrorLog {
      * @return true if the fatal error log was created by a JDK build string used by AdoptOpenJDK, false otherwise.
      */
     public boolean isAdoptOpenJdkBuildString() {
-        return vmInfoEvent != null && (vmInfoEvent.getBuiltBy() == BuiltBy.JENKINS);
+        return vmInfo != null && (vmInfo.getBuiltBy() == BuiltBy.JENKINS);
     ***REMOVED***
 
     /**
@@ -4596,7 +4600,7 @@ public class FatalErrorLog {
      */
     public boolean isContainer() {
         boolean isContainer = false;
-        if (!containerInfoEvents.isEmpty() && (getOsSwap() == 0 || getJvmSwap() == 0)) {
+        if (!containerInfos.isEmpty() && (getOsSwap() == 0 || getJvmSwap() == 0)) {
             isContainer = true;
         ***REMOVED***
         return isContainer;
@@ -4633,8 +4637,8 @@ public class FatalErrorLog {
      */
     public boolean isHyperVEnvironment() {
         boolean isVMWareEnvironment = false;
-        if (!containerInfoEvents.isEmpty()) {
-            Iterator<ContainerInfo> iterator = containerInfoEvents.iterator();
+        if (!containerInfos.isEmpty()) {
+            Iterator<ContainerInfo> iterator = containerInfos.iterator();
             while (iterator.hasNext()) {
                 ContainerInfo event = iterator.next();
                 if (event.getLogEntry().matches("^HyperV virtualization detected$")) {
@@ -4653,8 +4657,8 @@ public class FatalErrorLog {
      */
     public boolean isInHeader(String regEx) {
         boolean isInHeader = false;
-        if (!headerEvents.isEmpty()) {
-            Iterator<Header> iterator = headerEvents.iterator();
+        if (!headers.isEmpty()) {
+            Iterator<Header> iterator = headers.iterator();
             while (iterator.hasNext()) {
                 Header event = iterator.next();
                 if (event.getLogEntry().matches("^.*" + regEx + ".*$")) {
@@ -4672,8 +4676,8 @@ public class FatalErrorLog {
      */
     public boolean isInStack(String classRegEx) {
         boolean isInStack = false;
-        if (!stackEvents.isEmpty()) {
-            Iterator<Stack> iterator = stackEvents.iterator();
+        if (!stacks.isEmpty()) {
+            Iterator<Stack> iterator = stacks.iterator();
             while (iterator.hasNext()) {
                 Stack event = iterator.next();
                 if (event.getLogEntry().matches("^.+" + classRegEx + ".+$")) {
@@ -4683,8 +4687,8 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         if (!isInStack) {
-            if (!stackSlotToMemoryMappingEvents.isEmpty()) {
-                Iterator<StackSlotToMemoryMapping> iterator = stackSlotToMemoryMappingEvents.iterator();
+            if (!stackSlotToMemoryMappings.isEmpty()) {
+                Iterator<StackSlotToMemoryMapping> iterator = stackSlotToMemoryMappings.iterator();
                 while (iterator.hasNext()) {
                     StackSlotToMemoryMapping event = iterator.next();
                     if (event.getLogEntry().matches("^.+" + classRegEx + ".+$")) {
@@ -4695,8 +4699,8 @@ public class FatalErrorLog {
             ***REMOVED***
         ***REMOVED***
         if (!isInStack) {
-            if (!registerToMemoryMappingEvents.isEmpty()) {
-                Iterator<RegisterToMemoryMapping> iterator = registerToMemoryMappingEvents.iterator();
+            if (!registerToMemoryMappings.isEmpty()) {
+                Iterator<RegisterToMemoryMapping> iterator = registerToMemoryMappings.iterator();
                 while (iterator.hasNext()) {
                     RegisterToMemoryMapping event = iterator.next();
                     if (event.getLogEntry().matches("^.+" + classRegEx + ".+$")) {
@@ -4742,7 +4746,7 @@ public class FatalErrorLog {
      */
     public boolean isJnaCrash() {
         boolean isJnaCrash = false;
-        if (getStackEvents() != null && getStackEvents().size() >= 2) {
+        if (getStacks() != null && getStacks().size() >= 2) {
             String stackFrame2 = getStackFrame(2);
             if (stackFrame2 != null && stackFrame2.matches("^[CjJ].+com[\\._]sun[\\._]jna[\\._].+$")) {
                 isJnaCrash = true;
@@ -4970,8 +4974,8 @@ public class FatalErrorLog {
      * @return true if the fatal error log was created by a JDK build string used by Red Hat, false otherwise.
      */
     public boolean isRhBuildString() {
-        return vmInfoEvent != null && (vmInfoEvent.getBuiltBy() == BuiltBy.BUILD
-                || vmInfoEvent.getBuiltBy() == BuiltBy.EMPTY || vmInfoEvent.getBuiltBy() == BuiltBy.MOCKBUILD);
+        return vmInfo != null && (vmInfo.getBuiltBy() == BuiltBy.BUILD || vmInfo.getBuiltBy() == BuiltBy.EMPTY
+                || vmInfo.getBuiltBy() == BuiltBy.MOCKBUILD);
     ***REMOVED***
 
     /**
@@ -4979,8 +4983,8 @@ public class FatalErrorLog {
      */
     public boolean isRhel() {
         boolean isRhel = false;
-        if (!osEvents.isEmpty()) {
-            Iterator<OsInfo> iterator = osEvents.iterator();
+        if (!osInfos.isEmpty()) {
+            Iterator<OsInfo> iterator = osInfos.iterator();
             while (iterator.hasNext()) {
                 OsInfo event = iterator.next();
                 if (event.isHeader()) {
@@ -5522,7 +5526,7 @@ public class FatalErrorLog {
      */
     public boolean isTruncated() {
         boolean isTruncated = false;
-        if (vmInfoEvent == null) {
+        if (vmInfo == null) {
             isTruncated = true;
         ***REMOVED***
         return isTruncated;
@@ -5533,8 +5537,8 @@ public class FatalErrorLog {
      */
     public boolean isVMWareEnvironment() {
         boolean isVMWareEnvironment = false;
-        if (!virtualizationInfoEvents.isEmpty()) {
-            Iterator<VirtualizationInfo> iterator = virtualizationInfoEvents.iterator();
+        if (!virtualizationInfos.isEmpty()) {
+            Iterator<VirtualizationInfo> iterator = virtualizationInfos.iterator();
             while (iterator.hasNext()) {
                 VirtualizationInfo event = iterator.next();
                 if (event.getLogEntry().matches("^VMWare virtualization detected$")) {
@@ -5551,8 +5555,8 @@ public class FatalErrorLog {
      */
     public boolean isWindows() {
         boolean isWindows = false;
-        if (!osEvents.isEmpty()) {
-            Iterator<OsInfo> iterator = osEvents.iterator();
+        if (!osInfos.isEmpty()) {
+            Iterator<OsInfo> iterator = osInfos.iterator();
             while (iterator.hasNext()) {
                 OsInfo event = iterator.next();
                 if (event.isHeader()) {
@@ -5578,83 +5582,83 @@ public class FatalErrorLog {
         analysis.remove(key);
     ***REMOVED***
 
-    public void setCommandLineEvent(CommandLine commandLineEvent) {
-        this.commandLineEvent = commandLineEvent;
+    public void setCommandLine(CommandLine commandLine) {
+        this.commandLine = commandLine;
     ***REMOVED***
 
     public void setCompressedClassSpaceEvent(CompressedClassSpace compressedClassSpaceEvent) {
         this.compressedClassSpaceEvent = compressedClassSpaceEvent;
     ***REMOVED***
 
-    public void setCurrentThreadEvent(CurrentThread currentThreadEvent) {
-        this.currentThreadEvent = currentThreadEvent;
+    public void setCurrentThread(CurrentThread currentThread) {
+        this.currentThread = currentThread;
     ***REMOVED***
 
-    public void setElapsedTimeEvent(ElapsedTime elapsedTimeEvent) {
-        this.elapsedTimeEvent = elapsedTimeEvent;
+    public void setElapsedTime(ElapsedTime elapsedTime) {
+        this.elapsedTime = elapsedTime;
     ***REMOVED***
 
-    public void setHeapAddressEvent(HeapAddress heapAddressEvent) {
-        this.heapAddressEvent = heapAddressEvent;
+    public void setHeapAddress(HeapAddress heapAddress) {
+        this.heapAddress = heapAddress;
     ***REMOVED***
 
-    public void setHostEvent(Host hostEvent) {
-        this.hostEvent = hostEvent;
+    public void setHost(Host host) {
+        this.host = host;
     ***REMOVED***
 
-    public void setMaxMapCountEvent(MaxMapCount maxMapCountEvent) {
-        this.maxMapCountEvent = maxMapCountEvent;
+    public void setMaxMapCount(MaxMapCount maxMapCount) {
+        this.maxMapCount = maxMapCount;
     ***REMOVED***
 
-    public void setNarrowKlassEvent(NarrowKlass narrowKlassEvent) {
-        this.narrowKlassEvent = narrowKlassEvent;
+    public void setNarrowKlass(NarrowKlass narrowKlass) {
+        this.narrowKlass = narrowKlass;
     ***REMOVED***
 
-    public void setPidMaxEvent(PidMax pidMaxEvent) {
-        this.pidMaxEvent = pidMaxEvent;
+    public void setPidMax(PidMax pidMax) {
+        this.pidMax = pidMax;
     ***REMOVED***
 
-    public void setRlimitEvent(RlimitEvent rlimitEvent) {
-        this.rlimitEvent = rlimitEvent;
+    public void setRlimit(Rlimit rlimit) {
+        this.rlimit = rlimit;
     ***REMOVED***
 
-    public void setSigInfoEvent(SigInfo sigInfoEvent) {
-        this.sigInfoEvent = sigInfoEvent;
+    public void setSigInfo(SigInfo sigInfo) {
+        this.sigInfo = sigInfo;
     ***REMOVED***
 
-    public void setThreadsMaxEvent(ThreadsMax threadsMaxEvent) {
-        this.threadsMaxEvent = threadsMaxEvent;
+    public void setThreadsMax(ThreadsMax threadsMax) {
+        this.threadsMax = threadsMax;
     ***REMOVED***
 
-    public void setTimeElapsedTimeEvent(TimeElapsedTime timeElapsedTimeEvent) {
-        this.timeElapsedTimeEvent = timeElapsedTimeEvent;
+    public void setTime(Time time) {
+        this.time = time;
     ***REMOVED***
 
-    public void setTimeEvent(Time timeEvent) {
-        this.timeEvent = timeEvent;
+    public void setTimeElapsedTime(TimeElapsedTime timeElapsedTime) {
+        this.timeElapsedTime = timeElapsedTime;
     ***REMOVED***
 
-    public void setTimezoneEvent(Timezone timezoneEvent) {
-        this.timezoneEvent = timezoneEvent;
+    public void setTimezone(Timezone timezone) {
+        this.timezone = timezone;
     ***REMOVED***
 
-    public void setUnameEvent(Uname unameEvent) {
-        this.unameEvent = unameEvent;
+    public void setUname(Uname uname) {
+        this.uname = uname;
     ***REMOVED***
 
     public void setUnidentifiedLogLines(List<String> unidentifiedLogLines) {
         this.unidentifiedLogLines = unidentifiedLogLines;
     ***REMOVED***
 
-    public void setVmInfoEvent(VmInfo vmInfoEvent) {
-        this.vmInfoEvent = vmInfoEvent;
+    public void setVmInfo(VmInfo vmInfo) {
+        this.vmInfo = vmInfo;
     ***REMOVED***
 
-    public void setVmOperationEvent(VmOperation vmOperationEvent) {
-        this.vmOperationEvent = vmOperationEvent;
+    public void setVmOperation(VmOperation vmOperation) {
+        this.vmOperation = vmOperation;
     ***REMOVED***
 
-    public void setVmStateEvent(VmState vmStateEvent) {
-        this.vmStateEvent = vmStateEvent;
+    public void setVmState(VmState vmState) {
+        this.vmState = vmState;
     ***REMOVED***
 ***REMOVED***

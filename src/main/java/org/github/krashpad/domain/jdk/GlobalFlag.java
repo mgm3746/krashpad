@@ -59,14 +59,14 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class GlobalFlags implements LogEvent, HeaderEvent {
+public class GlobalFlag implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
      */
     private static final String _REGEX_HEADER = "\\[Global flags\\]";
 
-    private static Pattern pattern = Pattern.compile(GlobalFlags.REGEX);
+    private static Pattern pattern = Pattern.compile(GlobalFlag.REGEX);
 
     /**
      * Regular expression defining the logging.
@@ -96,7 +96,7 @@ public class GlobalFlags implements LogEvent, HeaderEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public GlobalFlags(String logEntry) {
+    public GlobalFlag(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 

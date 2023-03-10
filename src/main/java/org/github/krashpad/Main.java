@@ -181,17 +181,17 @@ public class Main {
                     || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS_STARTUP.getKey())
                     || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT.getKey())
                     || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()))) {
-                if (fel.getRlimitEvent() != null) {
-                    printWriter.write(fel.getRlimitEvent().getLogEntry() + Constants.LINE_SEPARATOR);
+                if (fel.getRlimit() != null) {
+                    printWriter.write(fel.getRlimit().getLogEntry() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getThreadsMax() > 0) {
+                if (fel.getThreadsMaxLimit() > 0) {
                     printWriter.write("threads-max: " + fel.getThreadsMax() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getMaxMapCount() > 0) {
-                    printWriter.write("max_map_count: " + fel.getMaxMapCount() + Constants.LINE_SEPARATOR);
+                if (fel.getMaxMapCountLimit() > 0) {
+                    printWriter.write("max_map_count: " + fel.getMaxMapCountLimit() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
-                if (fel.getPidMax() > 0) {
-                    printWriter.write("pid_max: " + fel.getPidMax() + Constants.LINE_SEPARATOR);
+                if (fel.getPidMaxLimit() > 0) {
+                    printWriter.write("pid_max: " + fel.getPidMaxLimit() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
             ***REMOVED***
 
@@ -212,7 +212,7 @@ public class Main {
             ***REMOVED*** else if (fel.getUsername() != null) {
                 printWriter.write("JVM User: " + fel.getUsername() + Constants.LINE_SEPARATOR);
             ***REMOVED***
-            if (fel.getVmStateEvent() != null) {
+            if (fel.getVmState() != null) {
                 printWriter.write("VM State: " + fel.getVmState() + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (!fel.getCrashTimeString().equals("")) {
@@ -398,19 +398,19 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Threads:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            printWriter.write("Current thread: " + fel.getCurrentThread() + Constants.LINE_SEPARATOR);
-            if (fel.getCurrentThread() != null && fel.getCurrentThread().matches("^VMThread.+$")
-                    && fel.getVmOperationEvent() != null) {
+            printWriter.write("Current thread: " + fel.getCurrentThreadName() + Constants.LINE_SEPARATOR);
+            if (fel.getCurrentThreadName() != null && fel.getCurrentThreadName().matches("^VMThread.+$")
+                    && fel.getVmOperation() != null) {
                 printWriter.write(
-                        "VM operation: " + fel.getVmOperationEvent().getVmOperationString() + Constants.LINE_SEPARATOR);
+                        "VM operation: " + fel.getVmOperation().getVmOperationString() + Constants.LINE_SEPARATOR);
             ***REMOVED***
 
             if (!fel.getError().equals("")) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 printWriter.write("Errors:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                if (!fel.getExceptionCountsEvents().isEmpty()) {
-                    Iterator<ExceptionCounts> iteratorExceptionCounts = fel.getExceptionCountsEvents().iterator();
+                if (!fel.getExceptionCounts().isEmpty()) {
+                    Iterator<ExceptionCounts> iteratorExceptionCounts = fel.getExceptionCounts().iterator();
                     while (iteratorExceptionCounts.hasNext()) {
                         ExceptionCounts exceptionCountsEvent = iteratorExceptionCounts.next();
                         if (!exceptionCountsEvent.isHeader()) {
@@ -424,7 +424,7 @@ public class Main {
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Stack:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-            List<Stack> stack = fel.getStackEvents();
+            List<Stack> stack = fel.getStacks();
             Iterator<Stack> iteratorStackEvents = stack.iterator();
             // Limit stack output for report readability
             int stackLength = 0;

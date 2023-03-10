@@ -41,7 +41,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class RlimitEvent implements LogEvent {
+public class Rlimit implements LogEvent {
 
     /**
      * Regular expression defining the logging.
@@ -70,7 +70,7 @@ public class RlimitEvent implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public RlimitEvent(String logEntry) {
+    public Rlimit(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 

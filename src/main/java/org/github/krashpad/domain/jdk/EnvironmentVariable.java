@@ -40,7 +40,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class EnvironmentVariables implements LogEvent, ThrowAwayEvent, HeaderEvent {
+public class EnvironmentVariable implements LogEvent, ThrowAwayEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
@@ -75,7 +75,7 @@ public class EnvironmentVariables implements LogEvent, ThrowAwayEvent, HeaderEve
      * @param logEntry
      *            The log entry for the event.
      */
-    public EnvironmentVariables(String logEntry) {
+    public EnvironmentVariable(String logEntry) {
         this.logEntry = logEntry;
     ***REMOVED***
 

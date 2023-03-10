@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestEnvironmentVariables {
+class TestEnvironmentVariable {
 
     @Test
     void testArch() {
@@ -154,7 +154,7 @@ class TestEnvironmentVariables {
     @Test
     void testParseLogLine() {
         String logLine = "PATH=/path/to/bin";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof EnvironmentVariables,
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof EnvironmentVariable,
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not parsed.");
     ***REMOVED***
 

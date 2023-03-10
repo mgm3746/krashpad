@@ -35,7 +35,7 @@ class TestCurrentThread {
                 JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals("JavaThread \"main\" [_thread_blocked, id=29301, stack(0xffc15000,0xffc65000)]",
-                ((CurrentThread) event).getCurrentThread(), "Current thread not correct.");
+                ((CurrentThread) event).getThreadName(), "Current thread not correct.");
     ***REMOVED***
 
     @Test
@@ -46,7 +46,7 @@ class TestCurrentThread {
         assertEquals(
                 "JavaThread \"C2 CompilerThread1\" daemon [_thread_in_native, id=1956021, "
                         + "stack(0x00007f1572d1f000,0x00007f1572e20000)]",
-                ((CurrentThread) event).getCurrentThread(), "Current thread not correct.");
+                ((CurrentThread) event).getThreadName(), "Current thread not correct.");
         assertTrue(event.isCompilerThread(), "CompilerThread not identified");
     ***REMOVED***
 
@@ -56,7 +56,7 @@ class TestCurrentThread {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_THREAD,
                 JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
-        assertEquals("is native thread", ((CurrentThread) event).getCurrentThread());
+        assertEquals("is native thread", ((CurrentThread) event).getThreadName());
     ***REMOVED***
 
     @Test
@@ -65,7 +65,7 @@ class TestCurrentThread {
                 + "0x0000008e27b00000] [id=19320]";
         CurrentThread event = new CurrentThread(logLine);
         assertEquals("VMThread \"VM Thread\" [stack: 0x0000008e27a00000,0x0000008e27b00000] [id=19320]",
-                ((CurrentThread) event).getCurrentThread(), "Current thread not correct.");
+                ((CurrentThread) event).getThreadName(), "Current thread not correct.");
         assertTrue(event.isVmThread(), "VMThread not identified");
     ***REMOVED***
 

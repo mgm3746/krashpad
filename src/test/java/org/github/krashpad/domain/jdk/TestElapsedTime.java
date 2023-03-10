@@ -32,7 +32,7 @@ class TestElapsedTime {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
                 JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
         ElapsedTime event = new ElapsedTime(logLine);
-        assertEquals("9d 21h 33m 5s", event.getElapsedTime(), "Elapsed time not correct.");
+        assertEquals("9d 21h 33m 5s", event.getLiteral(), "Elapsed time not correct.");
     ***REMOVED***
 
     @Test
@@ -55,7 +55,7 @@ class TestElapsedTime {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
                 JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
         ElapsedTime event = new ElapsedTime(logLine);
-        assertEquals("228058 seconds", event.getElapsedTime(), "Elapsed time not correct.");
+        assertEquals("228058 seconds", event.getLiteral(), "Elapsed time not correct.");
         assertEquals(228058000L, event.getUptime(), "Uptime not correct.");
     ***REMOVED***
 
@@ -65,7 +65,7 @@ class TestElapsedTime {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
                 JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
         ElapsedTime event = new ElapsedTime(logLine);
-        assertEquals("0d 0h 0m 0s", event.getElapsedTime(), "Elapsed time not correct.");
+        assertEquals("0d 0h 0m 0s", event.getLiteral(), "Elapsed time not correct.");
         assertEquals(606L, event.getUptime(), "Uptime not correct.");
     ***REMOVED***
 ***REMOVED***

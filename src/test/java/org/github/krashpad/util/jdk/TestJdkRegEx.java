@@ -149,6 +149,13 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testJavaThreadJeus() {
+        String thread = "  0x00007ff434057000 JavaThread \"jeus.server.Server\" [_thread_blocked, id=2663909, "
+                + "stack(0x00007ff43b657000,0x00007ff43b757000)]";
+        assertTrue(thread.matches(JdkRegEx.THREAD_JEUS), "JEUS thread not identified.");
+    ***REMOVED***
+
+    @Test
     void testJBossVersionDoubleDashVersion() {
         String javaCommand = "java_command: C:\\path\\to\\jboss-modules.jar -mp "
                 + "C:\\path\\to\\modules org.jboss.as.standalone -Djboss.home.dir=C:\\path\\to --version";

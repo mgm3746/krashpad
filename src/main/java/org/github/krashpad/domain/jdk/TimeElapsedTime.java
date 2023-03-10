@@ -77,9 +77,9 @@ public class TimeElapsedTime implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return The elapsed time in ***REMOVED***d ***REMOVED***h ***REMOVED***m ***REMOVED***s format.
+     * @return The elapsed time for display purposes in ***REMOVED***d ***REMOVED***h ***REMOVED***m ***REMOVED***s format.
      */
-    public String getElapsedTime() {
+    public String getLiteral() {
         String time = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {

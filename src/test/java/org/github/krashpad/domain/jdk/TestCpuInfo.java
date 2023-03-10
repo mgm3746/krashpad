@@ -360,7 +360,7 @@ class TestCpuInfo {
         assertEquals(
                 "JavaThread \"ajp-/hostname:8109-16\" daemon [_thread_in_native, id=112672, "
                         + "stack(0x00007f11e11a2000,0x00007f11e12a3000)]",
-                fel.getCurrentThread(), "Current thread not correct.");
+                fel.getCurrentThreadName(), "Current thread not correct.");
     ***REMOVED***
 
     @Test

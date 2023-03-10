@@ -28,7 +28,7 @@ import org.github.krashpad.domain.jdk.CpuInfo;
 import org.github.krashpad.domain.jdk.CurrentCompileTask;
 import org.github.krashpad.domain.jdk.CurrentThread;
 import org.github.krashpad.domain.jdk.DynamicLibrary;
-import org.github.krashpad.domain.jdk.EnvironmentVariables;
+import org.github.krashpad.domain.jdk.EnvironmentVariable;
 import org.github.krashpad.domain.jdk.Event;
 import org.github.krashpad.domain.jdk.ExceptionCounts;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
@@ -96,7 +96,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -javaagent:C:\\appdynamics\\appagent\\javaagent\\javaagent.jar -Xmx2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_DETECTED.getKey()),
                 Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis not identified.");
@@ -109,7 +109,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -javaagent:C:\\path\\to\\javaagent.jar -Xmx2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE.getKey()),
                 Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis not identified.");
@@ -122,16 +122,16 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String header1 = "***REMOVED*** Problematic frame:";
         Header headerEvent1 = new Header(header1);
-        fel.getHeaderEvents().add(headerEvent1);
+        fel.getHeaders().add(headerEvent1);
         String header2 = "***REMOVED*** J 3917 C2 java.lang.String.compareTo(Ljava/lang/Object;)I (9 bytes) @ 0x00007f414557b275 "
                 + "[0x00007f414557b1a0+0xd5]";
         Header headerEvent2 = new Header(header2);
-        fel.getHeaderEvents().add(headerEvent2);
+        fel.getHeaders().add(headerEvent2);
         String cpuInfo = "CPU:total 16 (initial active 16) (1 cores per cpu, 1 threads per core) family 6 model 85 "
                 + "stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, "
                 + "clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx";
         CpuInfo cpuInfoEvent = new CpuInfo(cpuInfo);
-        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        fel.getCpuInfos().add(cpuInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO.getKey()),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
@@ -147,15 +147,15 @@ class TestAnalysis {
         String stack = "J 3917 C2 com.example.Object.someMethod() (9 bytes) @ 0x00007f414557b275 "
                 + "[0x00007f414557b1a0+0xd5]";
         Stack stackEvent = new Stack(stack);
-        fel.getStackEvents().add(stackEvent);
+        fel.getStacks().add(stackEvent);
         String cpuInfo = "CPU:total 16 (initial active 16) (1 cores per cpu, 1 threads per core) family 6 model 85 "
                 + "stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, "
                 + "clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx";
         CpuInfo cpuInfoEvent = new CpuInfo(cpuInfo);
-        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        fel.getCpuInfos().add(cpuInfoEvent);
         String jvm_args = "jvm_args: -Xms256m -XX:UseAVX=0 -Xmx2048m";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO.getKey()),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis incorrectly identified.");
@@ -171,15 +171,15 @@ class TestAnalysis {
         String stack = "J 3917 C2 java.lang.String.compareTo(Ljava/lang/Object;)I (9 bytes) @ 0x00007f414557b275 "
                 + "[0x00007f414557b1a0+0xd5]";
         Stack stackEvent = new Stack(stack);
-        fel.getStackEvents().add(stackEvent);
+        fel.getStacks().add(stackEvent);
         String cpuInfo = "CPU:total 16 (initial active 16) (1 cores per cpu, 1 threads per core) family 6 model 85 "
                 + "stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, "
                 + "clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx";
         CpuInfo cpuInfoEvent = new CpuInfo(cpuInfo);
-        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        fel.getCpuInfos().add(cpuInfoEvent);
         String jvm_args = "jvm_args: -Xms256m -Xmx2048m";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO.getKey()),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
@@ -195,13 +195,13 @@ class TestAnalysis {
         String stack = "J 3917 C2 java.lang.String.compareTo(Ljava/lang/Object;)I (9 bytes) @ 0x00007f414557b275 "
                 + "[0x00007f414557b1a0+0xd5]";
         Stack stackEvent = new Stack(stack);
-        fel.getStackEvents().add(stackEvent);
+        fel.getStacks().add(stackEvent);
 
         String cpuInfo = "CPU:total 16 (initial active 16) (1 cores per cpu, 1 threads per core) family 6 model 85 "
                 + "stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, "
                 + "clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx";
         CpuInfo cpuInfoEvent = new CpuInfo(cpuInfo);
-        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        fel.getCpuInfos().add(cpuInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_AVX2_STRING_COMPARE_TO.getKey()),
                 Analysis.ERROR_AVX2_STRING_COMPARE_TO + " analysis not identified.");
@@ -226,14 +226,14 @@ class TestAnalysis {
         String dynamicLibrary = "7f72e3ca8000-7f72e4a45000 r-xp 00000000 103:02 45812172                  "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.322-b06) for linux-amd64 JRE (1.8.0_322-b06), built on "
                 + "Jan 27 2022 17:54:59 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmEvent = new VmInfo(vm_info);
-        fel.setVmInfoEvent(vmEvent);
+        fel.setVmInfo(vmEvent);
         String os = "OS:CentOS Linux release 7.9.2009 (Core)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         fel.doAnalysis();
         assertTrue(fel.isRhBuildString(), "Red Hat build string not identified.");
         assertTrue(fel.isRhVersion(), "Red Hat version not identified.");
@@ -250,7 +250,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String logline = "Can not get library information for pid = 123456";
         DynamicLibrary event = new DynamicLibrary(logline);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION.getKey()),
                 Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION + " analysis not identified.");
@@ -261,12 +261,12 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -client -Xmx2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String logLine = "vm_info: OpenJDK Server VM (25.252-b09) for linux-x86 JRE (1.8.0_252-b09), built on "
                 + "Apr 14 2020 14:55:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         fel.getAnalysis().clear();
         VmInfo vmInfoEvent = new VmInfo(logLine);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_CLIENT.getKey()),
                 org.github.joa.util.Analysis.INFO_64_CLIENT + " analysis incorrectly identified.");
@@ -277,11 +277,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -Xmx2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         ContainerInfo containerInfoEvent = new ContainerInfo("TEST");
-        fel.getContainerInfoEvents().add(containerInfoEvent);
+        fel.getContainerInfos().add(containerInfoEvent);
         Meminfo meminfoEvent = new Meminfo("SwapTotal:       0 kB");
-        fel.getMeminfoEvents().add(meminfoEvent);
+        fel.getMeminfos().add(meminfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_CONTAINER_PERF_DATA_DISK.getKey()),
                 org.github.joa.util.Analysis.WARN_CONTAINER_PERF_DATA_DISK + " analysis not identified.");
@@ -313,11 +313,11 @@ class TestAnalysis {
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.13+8-LTS) for linux-amd64 JRE (11.0.13+8-LTS), built "
                 + "on Oct 13 2021 11:20:31 by \"mockbuild\" with gcc 8.4.1 20200928 (Red Hat 8.4.1-1)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().clear();
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().clear();
+        fel.getVmArguments().add(event);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_JDK8_CMS_PAR_NEW_DISABLED.getKey()),
                 org.github.joa.util.Analysis.ERROR_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
@@ -332,10 +332,10 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode ";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String cpu = "CPU:total 8 (2 cores per cpu, 1 threads per core)";
         CpuInfo cpuInfoEvent = new CpuInfo(cpu);
-        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        fel.getCpuInfos().add(cpuInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_CMS_INCREMENTAL_MODE.getKey()),
                 Analysis.WARN_CMS_INCREMENTAL_MODE + " analysis not identified.");
@@ -346,10 +346,10 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:-UseConcMarkSweepGC -XX:+CMSIncrementalMode ";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String cpu = "CPU:total 8 (2 cores per cpu, 1 threads per core)";
         CpuInfo cpuInfoEvent = new CpuInfo(cpu);
-        fel.getCpuInfoEvents().add(cpuInfoEvent);
+        fel.getCpuInfos().add(cpuInfoEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.WARN_CMS_INCREMENTAL_MODE.getKey()),
                 Analysis.WARN_CMS_INCREMENTAL_MODE + " analysis incorrectly identified.");
@@ -364,10 +364,10 @@ class TestAnalysis {
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.275-b01) for linux-amd64 JRE (1.8.0_275-b01), "
                 + "built on Nov  6 2020 02:01:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         String jvm_args = "jvm_args: -Xss128k -Xmx2048M -XX:+UseParNewGC";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_JDK8_CMS_PAR_NEW_DISABLED.getKey()),
                 org.github.joa.util.Analysis.ERROR_JDK8_CMS_PAR_NEW_DISABLED + " analysis incorrectly identified.");
@@ -422,11 +422,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "C  [my-library_123.so+0x22c30d]";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String dynamicLibrary = "7f4d6fd25000-7f4d70359000 r-xp 00000000 fd:04 402192                     "
                 + "/path/to/my-library_123.so";
         DynamicLibrary event = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN.getKey()),
                 Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN + " analysis not identified.");
@@ -438,13 +438,13 @@ class TestAnalysis {
         String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError "
                 + "-XX:HeapDumpPath=/path/to/mydir";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String header = "***REMOVED***  fatal error: OutOfMemory encountered: Java heap space";
         Header headerEvent = new Header(header);
-        fel.getHeaderEvents().add(headerEvent);
+        fel.getHeaders().add(headerEvent);
         String stack = "V  [libjvm.so+0xb2caf6]  TypeArrayKlass::allocate_common(int, bool, Thread*)+0x796";
         Stack stackEvent = new Stack(stack);
-        fel.getStackEvents().add(stackEvent);
+        fel.getStacks().add(stackEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey()),
                 Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis not identified.");
@@ -474,13 +474,13 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -d64 -Xmx2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         fel.doAnalysis();
         String logLine = "vm_info: OpenJDK Server VM (25.252-b09) for linux-x86 JRE (1.8.0_252-b09), built on "
                 + "Apr 14 2020 14:55:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         fel.getAnalysis().clear();
         VmInfo vmInfoEvent = new VmInfo(logLine);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT.getKey()),
                 org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT + " analysis incorrectly identified.");
@@ -492,10 +492,10 @@ class TestAnalysis {
         String stack1 = "j  org.postgresql.Driver.connect(Ljava/lang/String;Ljava/util/Properties;)Ljava/sql/"
                 + "Connection;+222";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "j  org.apache.commons.dbcp2.BasicDataSource.getConnection()Ljava/sql/Connection;+55";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_DBCP2.getKey()), Analysis.INFO_DBCP2 + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_POSTGRESQL_CONNECTION.getKey()),
@@ -508,10 +508,10 @@ class TestAnalysis {
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.13+8-LTS) for linux-amd64 JRE (11.0.13+8-LTS), built "
                 + "on Oct 13 2021 11:20:31 by \"mockbuild\" with gcc 8.4.1 20200928 (Red Hat 8.4.1-1)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         String jvmArgs = "jvm_args: -Xss128k";
         VmArguments vmArgumentsEvent = new VmArguments(jvmArgs);
-        fel.getVmArgumentsEvents().add(vmArgumentsEvent);
+        fel.getVmArguments().add(vmArgumentsEvent);
         fel.doAnalysis();
         assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
@@ -525,10 +525,10 @@ class TestAnalysis {
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.1+12-LTS) for linux-amd64 JRE (17.0.1+12-LTS), built "
                 + "on Oct 28 2021 01:59:13 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-3)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         String jvmArgs = "jvm_args: -Xss128k";
         VmArguments vmArgumentsEvent = new VmArguments(jvmArgs);
-        fel.getVmArgumentsEvents().add(vmArgumentsEvent);
+        fel.getVmArguments().add(vmArgumentsEvent);
         fel.doAnalysis();
         assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
@@ -542,10 +542,10 @@ class TestAnalysis {
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.275-b01) for linux-amd64 JRE (1.8.0_275-b01), "
                 + "built on Nov  6 2020 02:01:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         String jvm_args = "jvm_args: -Xss128k";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         fel.doAnalysis();
         assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
@@ -560,11 +560,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:+PrintGC -XX:+PrintGCDetails -Xloggc:gc.log -Xms2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String vm_info = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), built "
                 + "on Jul 20 2022 13:03:41 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)";
         VmInfo vmEvent = new VmInfo(vm_info);
-        fel.setVmInfoEvent(vmEvent);
+        fel.setVmInfo(vmEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_OVERWRITE.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_OVERWRITE + " analysis not identified.");
@@ -607,7 +607,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String stack = "C  [liboneagentproc.so+0x17993]";
         Stack stackEvent = new Stack(stack);
-        fel.getStackEvents().add(stackEvent);
+        fel.getStacks().add(stackEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_DYNATRACE.getKey()),
                 Analysis.ERROR_DYNATRACE + " analysis not identified.");
@@ -619,7 +619,7 @@ class TestAnalysis {
         String dynamicLibrary = "7effff525000-7effff526000 rw-p 000ce000 fd:02 4238968 "
                 + "/usr/lib64/liboneagentproc.so";
         DynamicLibrary event = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_DYNATRACE.getKey()),
                 Analysis.INFO_DYNATRACE + " analysis not identified.");
@@ -653,7 +653,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String logLine = "***REMOVED*** v  ~StubRoutines::jbyte_disjoint_arraycopy";
         Header headerEvent = new Header(logLine);
-        fel.getHeaderEvents().add(headerEvent);
+        fel.getHeaders().add(headerEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_STUBROUTINES.getKey()),
                 Analysis.ERROR_STUBROUTINES + " analysis not identified.");
@@ -667,11 +667,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xms2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String logLine = "concurrent mark-sweep generation total 21676032K, used 6923299K [0x0000000295000000, "
                 + "0x00000007c0000000, 0x00000007c0000000)";
         Heap heapEvent = new Heap(logLine);
-        fel.getHeapEvents().add(heapEvent);
+        fel.getHeaps().add(heapEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT.getKey()),
                 org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT + " analysis not identified.");
@@ -708,7 +708,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String time = "time: Tue Aug 18 14:10:59 2020";
         Time timeEven = new Time(time);
-        fel.setTimeEvent(timeEven);
+        fel.setTime(timeEven);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT.getKey()),
                 Analysis.WARN_FATAL_ERROR_LOG_ANCIENT + " analysis not identified.");
@@ -719,7 +719,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String siginfo = "siginfo: si_signo: 8 (SIGFPE), si_code: 1 (FPE_INTDIV), si_addr: 0x00007fdfe95e789f";
         SigInfo event = new SigInfo(siginfo);
-        fel.setSigInfoEvent(event);
+        fel.setSigInfo(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGFPE.getKey()),
                 Analysis.INFO_SIGNO_SIGFPE + " analysis not identified.");
@@ -756,7 +756,7 @@ class TestAnalysis {
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         // Test header only
         fel.getAnalysis().clear();
-        fel.getStackEvents().clear();
+        fel.getStacks().clear();
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE.getKey()),
                 Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
@@ -772,16 +772,16 @@ class TestAnalysis {
         String stackFrame1 = "V  [libjvm.so+0x7d7b76]  G1ParScanThreadState::copy_to_survivor_space(InCSetState, "
                 + "oopDesc*, markOopDesc*)+0x56";
         Stack stackEvent1 = new Stack(stackFrame1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stackFrame2 = "V  [libjvm.so+0x7d8968]  G1ParScanThreadState::trim_queue()+0x648";
         Stack stackEvent2 = new Stack(stackFrame2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         assertEquals(stackFrame1, fel.getStackFrame(1), "Stack frame 1 not correct.");
         assertEquals(stackFrame2, fel.getStackFrame(2), "Stack frame 2 not correct.");
         String header = "***REMOVED*** JRE version: OpenJDK Runtime Environment (Red_Hat-11.0.17.0.8-2.el8_6) (11.0.17+8) "
                 + "(build 11.0.17+8-LTS)";
         Header headerEvent = new Header(header);
-        fel.getHeaderEvents().add(headerEvent);
+        fel.getHeaders().add(headerEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE.getKey()),
                 Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis incorrectly identified.");
@@ -797,8 +797,8 @@ class TestAnalysis {
         Heap heapEvent = new Heap(
                 "garbage-first heap   total 15728640K, used 2720924K [0x0000000300000000, 0x0000000300407800, "
                         + "0x00000006c0000000)");
-        fel.getHeapEvents().add(heapEvent);
-        fel.getVmArgumentsEvents().add(vmArgumentEvent);
+        fel.getHeaps().add(heapEvent);
+        fel.getVmArguments().add(vmArgumentEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT.getKey()),
                 org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT + " analysis not identified.");
@@ -809,23 +809,23 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:+UseG1GC";
         VmArguments vmArgumentEvent = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(vmArgumentEvent);
+        fel.getVmArguments().add(vmArgumentEvent);
         // Test a combination not yet seen
         Heap heapEvent1 = new Heap("Shenandoah Heap");
-        fel.getHeapEvents().add(heapEvent1);
+        fel.getHeaps().add(heapEvent1);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_GC_IGNORED.getKey()),
                 org.github.joa.util.Analysis.ERROR_GC_IGNORED + " analysis not identified.");
         // Test real world
         fel.getAnalysis().clear();
-        fel.getHeapEvents().clear();
+        fel.getHeaps().clear();
         Heap heapEvent2 = new Heap(
                 " PSYoungGen      total 611840K, used 524800K [0x00000000d5580000, 0x0000000100000000, "
                         + "0x0000000100000000)");
-        fel.getHeapEvents().add(heapEvent2);
+        fel.getHeaps().add(heapEvent2);
         Heap heapEvent3 = new Heap(" ParOldGen       total 1398272K, used 16K [0x0000000080000000, 0x00000000d5580000, "
                 + "0x00000000d5580000)");
-        fel.getHeapEvents().add(heapEvent3);
+        fel.getHeaps().add(heapEvent3);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL.getKey()),
                 org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL + " analysis not identified.");
@@ -837,22 +837,22 @@ class TestAnalysis {
         String stack1 = "J 28841 C2 java.util.HashMap.putVal(ILjava/lang/Object;Ljava/lang/Object;ZZ)Ljava/lang/"
                 + "Object; (300 bytes) @ 0x00007f5c5613467a [0x00007f5c561320a0+0x25da]";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "J 34843 C2 com.example.Service.save(Lcom/example/Entity;Ljava/lang/String;Z)V (83 bytes) "
                 + "@ 0x00007f5c5514d8fc [0x00007f5c5514d420+0x4dc]";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         String logline = "7f5c61494000-7f5c62233000 r-xp 00000000 fd:00 17171138                   "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
         DynamicLibrary event = new DynamicLibrary(logline);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.312-b07) for linux-amd64 JRE (1.8.0_312-b07), "
                 + "built on Oct 15 2021 04:33:40 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_HASHMAP.getKey()),
                 Analysis.ERROR_HASHMAP + " analysis not identified.");
@@ -875,7 +875,7 @@ class TestAnalysis {
         String dynamicLibrary = "7fff46c40000-7fff46c80000 r--s 00520000 fd:0a 67109322                   "
                 + "/path/to/jt400.jar";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_IBM_TOOLKIT.getKey()),
                 Analysis.INFO_IBM_TOOLKIT + " analysis not identified.");
@@ -935,7 +935,7 @@ class TestAnalysis {
         String dynamicLibrary = "7fff467a0000-7fff467c0000 r--s 00220000 fd:0a 67109364                   "
                 + "/path/to/itextpdf-5.5.13.1.jar";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_ITEXT.getKey()), Analysis.INFO_ITEXT + " analysis not identified.");
     ***REMOVED***
@@ -946,14 +946,14 @@ class TestAnalysis {
         String dynamicLibrary = "7fff467a0000-7fff467c0000 r--s 00220000 fd:0a 67109364                   "
                 + "/path/to/itextpdf-5.5.13.1.jar";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         String stack1 = "v  ~BufferBlob::StubRoutines (2)";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "J 42480 C2 com.itextpdf.text.pdf.RandomAccessFileOrArray.readFully([B)V (9 bytes) @ "
                 + "0x00007f8d2057c449 [0x00007f8d2057c2c0+0x189]";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         fel.getAnalysis().clear();
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_ITEXT.getKey()), Analysis.WARN_ITEXT + " analysis not identified.");
@@ -988,10 +988,10 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String header = "***REMOVED*** v  ~StubRoutines::jbyte_disjoint_arraycopy";
         Header headerEvent = new Header(header);
-        fel.getHeaderEvents().add(headerEvent);
+        fel.getHeaders().add(headerEvent);
         String registerToMemoryMapping = " - klass: 'com/itextpdf/text/io/PagedChannelRandomAccessSource'";
         RegisterToMemoryMapping registerToMemoryMappingEvent = new RegisterToMemoryMapping(registerToMemoryMapping);
-        fel.getRegisterToMemoryMappingEvents().add(registerToMemoryMappingEvent);
+        fel.getRegisterToMemoryMappings().add(registerToMemoryMappingEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
                 Analysis.ERROR_ITEXT_IO + " analysis not identified.");
@@ -1002,18 +1002,18 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String header = "v  ~StubRoutines::jint_disjoint_arraycopy";
         Header headerEvent = new Header(header);
-        fel.getHeaderEvents().add(headerEvent);
+        fel.getHeaders().add(headerEvent);
         String stack1 = "v  ~StubRoutines::jint_disjoint_arraycopy";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "J 23636 C2 java.nio.Bits.copyToArray(JLjava/lang/Object;JJJ)V (68 bytes) @ "
                 + "0x00007f59389b1201 [0x00007f59389b11a0+0x61]";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         String stack3 = "J 25959 C2 com.itextpdf.text.pdf.RandomAccessFileOrArray.read([BII)I (97 bytes) @ "
                 + "0x00007f5936737800 [0x00007f5936737500+0x300]";
         Stack stackEvent3 = new Stack(stack3);
-        fel.getStackEvents().add(stackEvent3);
+        fel.getStacks().add(stackEvent3);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
                 Analysis.ERROR_ITEXT_IO + " analysis not identified.");
@@ -1024,11 +1024,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xlog:gc*:file=/path/to/gc.log::filesize=0";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9+11-LTS) for linux-amd64 JRE (11.0.9+11-LTS), built "
                 + "on Oct 15 2020 11:45:12 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0 + " analysis not identified.");
@@ -1039,11 +1039,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xlog:gc*:file=/path/to/gc.log::filecount=0,filesize=50M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9+11-LTS) for linux-amd64 JRE (11.0.9+11-LTS), built "
                 + "on Oct 15 2020 11:45:12 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.");
@@ -1054,11 +1054,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xlog:gc*:file=/path/to/gc.log::filecount=10,filesize=4M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9+11-LTS) for linux-amd64 JRE (11.0.9+11-LTS), built "
                 + "on Oct 15 2020 11:45:12 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL + " analysis not identified.");
@@ -1070,11 +1070,11 @@ class TestAnalysis {
         String jvm_args = "jvm_args: -Xss128k -Xms2048M -Xlog:gc=debug:file=/path/to/gc-%t.log:time,pid,tid,level,"
                 + "tags:filesize=1G";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9+11-LTS) for linux-amd64 JRE (11.0.9+11-LTS), built "
                 + "on Oct 15 2020 11:45:12 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
@@ -1086,11 +1086,11 @@ class TestAnalysis {
         String jvm_args = "jvm_args: -Xss128k -Xms2048M -Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,"
                 + "filesize=3M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9+11-LTS) for linux-amd64 JRE (11.0.9+11-LTS), built "
                 + "on Oct 15 2020 11:45:12 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("-Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M",
                 fel.getJvmOptions().getLog().get(0), "-Xlog not correct.");
@@ -1104,7 +1104,7 @@ class TestAnalysis {
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (24.51-b03) for linux-amd64 JRE (1.7.0_55-b13), "
                 + "built on Apr  9 2014 12:07:12 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-4)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK_VERSION_UNSUPPORTED.getKey()),
                 Analysis.ERROR_JDK_VERSION_UNSUPPORTED + " analysis not identified.");
@@ -1131,11 +1131,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xloggc:gc.log";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
                 + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(
                 fel.getJvmOptions()
@@ -1148,11 +1148,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xloggc:gc.log  -Xms2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
                 + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
@@ -1163,11 +1163,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xms2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
                 + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
@@ -1178,11 +1178,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xms2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.265-b01) for linux-amd64 JRE (1.8.0_265-b01), "
                 + "built on Jul 28 2020 15:17:23 by \"jenkins\" with gcc 4.8.2 20140120 (Red Hat 4.8.2-15)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
@@ -1210,10 +1210,10 @@ class TestAnalysis {
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.342-b07) for linux-amd64 JRE (1.8.0_342-b07), built on "
                 + "Jul 18 2022 23:53:30 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         String stack = "C  [libzip.so+0x4c59]  readCEN+0x8e9";
         Stack stackEvent = new Stack(stack);
-        fel.getStackEvents().add(stackEvent);
+        fel.getStacks().add(stackEvent);
         fel.doAnalysis();
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION.getKey()),
@@ -1225,10 +1225,10 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String header1 = "***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_342-b07) (build 1.8.0_342-b07)";
         Header headerEvent1 = new Header(header1);
-        fel.getHeaderEvents().add(headerEvent1);
+        fel.getHeaders().add(headerEvent1);
         String header2 = "***REMOVED*** C  [libzip.so+0x4c59]  readCEN+0x8e9";
         Header headerEvent2 = new Header(header2);
-        fel.getHeaderEvents().add(headerEvent2);
+        fel.getHeaders().add(headerEvent2);
         fel.doAnalysis();
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION.getKey()),
@@ -1257,7 +1257,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: test";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK_VERSION_UNKNOWN.getKey()),
                 Analysis.ERROR_JDK_VERSION_UNKNOWN + " analysis not identified.");
@@ -1269,7 +1269,7 @@ class TestAnalysis {
         String logline = "3ffe9c800000-3ffe9c820000 r-xp 00000000 fd:00 1107498958                 "
                 + "/path/to/jffi3667428567419554714.so (deleted)";
         DynamicLibrary event = new DynamicLibrary(logline);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_JFFI.getKey()), Analysis.INFO_JFFI + " analysis not identified.");
     ***REMOVED***
@@ -1289,18 +1289,18 @@ class TestAnalysis {
         String stack1 = "V  [libjvm.so+0x6b67f7]  JfrEventClassTransformer::on_klass_creation(InstanceKlass*&, "
                 + "ClassFileParser&, Thread*)+0xa17";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String logline = "7f55dbe9a000-7f55dcc26000 r-xp 00000000 08:05 34105880                   "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-1.el7.x86_64/jre/lib/amd64/server/libjvm.so";
         DynamicLibrary event = new DynamicLibrary(logline);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.262-b10) for linux-amd64 JRE (1.8.0_262-b10), "
                 + "built on Jul 12 2020 18:53:50 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED.getKey()),
                 Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED + " analysis not identified.");
@@ -1320,17 +1320,17 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss256k -XX:TargetSurvivorRatio=90 -Xmx2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String stack1 = "Stack: [0x00007fff14ecc000,0x00007fff156ca000],  sp=0x00007fff156c50c0,  free space=8164k";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "C  [libjli.so+0x877f]  JLI_Launch+0x15bf";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         String currentThread = "Current thread (0x000055c487db2800):  JavaThread \"Unknown thread\" [_thread_in_vm, "
                 + "id=11, stack(0x00007fff14ecc000,0x00007fff156ca000)]";
         CurrentThread currentThreadEvent = new CurrentThread(currentThread);
-        fel.setCurrentThreadEvent(currentThreadEvent);
+        fel.setCurrentThread(currentThreadEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE.getKey()),
                 Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE + " analysis incorrectly identified.");
@@ -1342,7 +1342,7 @@ class TestAnalysis {
         String logline = "7f99774f8000-7f99775f7000 ---p 00017000 00:27 165351280                  "
                 + "/tmp/jna-100343/jna17878442429968131541.tmp (deleted)";
         DynamicLibrary event = new DynamicLibrary(logline);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_JNA.getKey()), Analysis.INFO_JNA + " analysis not identified.");
     ***REMOVED***
@@ -1365,22 +1365,22 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "C  [libcrypt.so+0x1825]";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "J 14265  com.sun.jna.Native.invokePointer(Lcom/sun/jna/Function;JI[Ljava/lang/Object;)J "
                 + "(0 bytes) @ 0x00007fb6f9855969 [0x00007fb6f9855900+0x69]";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         String logline = "7f7dc59c6000-7f7dc673b000 r-xp 00000000 fd:01 17006104                   "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.x86_64/jre/lib/amd64/server/libjvm.so";
         DynamicLibrary event = new DynamicLibrary(logline);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         String os = "OS:Red Hat Enterprise Linux release 8.3 (Ootpa)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.282-b08) for linux-amd64 JRE (1.8.0_282-b08), "
                 + "built on Jan 17 2021 16:21:17 by \"mockbuild\" with gcc 8.3.1 20191121 (Red Hat 8.3.1-5)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.isJnaCrash(), "JNA crash not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_RH.getKey()),
@@ -1407,11 +1407,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "C  [libc.so.6+0x36e5b]  __memcpy_sse2_unaligned_erms+0x1b";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "J 13417  org.mozilla.jss.nss.PR.Shutdown(Lorg/mozilla/jss/nss/PRFDProxy;I)I (0 bytes) "
                 + "@ 0x00007f47ea93da92 [0x00007f47ea93da40+0x52]";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JSS.getKey()), Analysis.ERROR_JSS + " analysis not identified.");
     ***REMOVED***
@@ -1422,7 +1422,7 @@ class TestAnalysis {
         String dynamicLibrary = "7f47d6b82000-7f47d6bc6000 r-xp 00000000 fd:00 201485134                  "
                 + "/usr/lib64/jss/libjss4.so";
         DynamicLibrary event = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_JSS.getKey()), Analysis.INFO_JSS + " analysis not identified.");
     ***REMOVED***
@@ -1432,11 +1432,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "J  12345 com.example.MyClass";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "J 13417  org.mozilla.jss.nss.PR.Shutdown(Lorg/mozilla/jss/nss/PRFDProxy;I)I (0 bytes) "
                 + "@ 0x00007f47ea93da92 [0x00007f47ea93da40+0x52]";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_JSS.getKey()), Analysis.WARN_JSS + " analysis not identified.");
     ***REMOVED***
@@ -1445,12 +1445,12 @@ class TestAnalysis {
     void testJvmUserNeUsername() {
         FatalErrorLog fel = new FatalErrorLog();
         String username = "USERNAME=user1";
-        EnvironmentVariables environmentVariablesEvent = new EnvironmentVariables(username);
-        fel.getEnvironmentVariablesEvents().add(environmentVariablesEvent);
+        EnvironmentVariable environmentVariablesEvent = new EnvironmentVariable(username);
+        fel.getEnvironmentVariables().add(environmentVariablesEvent);
         String hsperfdata = "7ff0f61d2000-7ff0f61da000 rw-s 00000000 fd:01 33563495                   "
                 + "/tmp/hsperfdata_user2/92333";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(hsperfdata);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_JVM_USER_NE_USERNAME.getKey()),
                 Analysis.INFO_JVM_USER_NE_USERNAME + " analysis not identified.");
@@ -1461,10 +1461,10 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:+UseLargePages -XX:LargePageSizeInBytes=4m";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String os = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX.getKey()),
                 org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX + " analysis not identified.");
@@ -1475,10 +1475,10 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:+UseLargePages -XX:LargePageSizeInBytes=4m";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String os = "OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS.getKey()),
                 org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS + " analysis not identified.");
@@ -1504,7 +1504,7 @@ class TestAnalysis {
         String logLine = "/etc/ld.so.preload:";
         LdPreloadFile event = new LdPreloadFile(logLine);
         FatalErrorLog fel = new FatalErrorLog();
-        fel.getLdPreloadFileEvents().add(event);
+        fel.getLdPreloadFiles().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_LD_SO_PRELOAD.getKey()),
                 Analysis.INFO_LD_SO_PRELOAD + " analysis not identified.");
@@ -1526,7 +1526,7 @@ class TestAnalysis {
         String logLine = "LinkageErrors=5276";
         ExceptionCounts event = new ExceptionCounts(logLine);
         FatalErrorLog fel = new FatalErrorLog();
-        fel.getExceptionCountsEvents().add(event);
+        fel.getExceptionCounts().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_LINKAGE.getKey()),
                 Analysis.ERROR_LINKAGE + " analysis not identified.");
@@ -1538,7 +1538,7 @@ class TestAnalysis {
         String stackSlotToMemoryMapping = "stack at sp + 2 slots: 0x00000007abcf3808 is an oop: org.apache.lucene."
                 + "store.BufferedChecksumIndexInput";
         StackSlotToMemoryMapping stackSlotToMemoryMappingEvent = new StackSlotToMemoryMapping(stackSlotToMemoryMapping);
-        fel.getStackSlotToMemoryMappingEvents().add(stackSlotToMemoryMappingEvent);
+        fel.getStackSlotToMemoryMappings().add(stackSlotToMemoryMappingEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_LUCENE.getKey()), Analysis.WARN_LUCENE + " analysis not identified.");
     ***REMOVED***
@@ -1558,7 +1558,7 @@ class TestAnalysis {
         String dynamicLibrary = "0x00007fff77490000 - 0x00007fff774de000         "
                 + "C:\\Windows\\System32\\mssql-jdbc_auth-8.2.2.x64.dll";
         DynamicLibrary event = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE.getKey()),
                 Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE + " analysis not identified.");
@@ -1570,7 +1570,7 @@ class TestAnalysis {
         String library = "7ca8cf3d6000-7ca8cfdd6000 rw-s 00000000 fd:00 1074566196                 "
                 + "/var/lib/kafka/data/kafka-log0/something/00000000000002627674.index.deleted (deleted)";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(library);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_MMAP_DELETED.getKey()),
                 Analysis.WARN_MMAP_DELETED + " analysis not identified.");
@@ -1581,21 +1581,21 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "V  [jvm.dll+0x5ab390]  ModuleEntryTable::purge_all_module_reads+0x140  (moduleentry.cpp:444)";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "V  [jvm.dll+0x1ce246]  ClassLoaderDataGraph::do_unloading+0x1c6  (classloaderdata.cpp:1435)";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         String logline = "0x00007ffdd2230000 - 0x00007ffdd2d76000         "
                 + "D:\\Java\\jdk11.0.7.10\\bin\\server\\jvm.dll";
         DynamicLibrary event = new DynamicLibrary(logline);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         String os = "OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.4651)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.7+10-LTS) for windows-amd64 JRE (11.0.7+10-LTS), "
                 + "built on Apr  9 2020 00:20:14 by \"\" with MS VC++ 15.9 (VS2017)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS.getKey()),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis not identified.");
@@ -1610,21 +1610,21 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "V  [libjvm.so+0xbfb228]  ModuleEntry::purge_reads()+0x118";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "V  [libjvm.so+0xbfb338]  ModuleEntryTable::purge_all_module_reads()+0x38";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         String logline = "7f03a6cbf000-7f03a7ef9000 r-xp 00000000 fd:00 1180422                    "
                 + "/usr/lib/jvm/java-11-openjdk-11.0.12.0.7-0.el7_9.x86_64/lib/server/libjvm.so";
         DynamicLibrary event = new DynamicLibrary(logline);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.12+7-LTS) for linux-amd64 JRE (11.0.12+7-LTS), built "
                 + "on Jul 14 2021 00:06:01 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS.getKey()),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis not identified.");
@@ -1659,7 +1659,7 @@ class TestAnalysis {
         String dynamicLibrary = "7f8a71051000-7f8a71052000 rw-p 00004000 08:01 1852476                    "
                 + "/path/to/libartemis-native-64.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_JBOSS.getKey()),
                 Analysis.INFO_NATIVE_LIBRARIES_JBOSS + " analysis not identified.");
@@ -1673,7 +1673,7 @@ class TestAnalysis {
         String dynamicLibrary = "7f8a71051000-7f8a71052000 rw-p 00004000 08:01 1852476                    "
                 + "/path/to/mgm.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN.getKey()),
                 Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN + " analysis not identified.");
@@ -1687,10 +1687,10 @@ class TestAnalysis {
         String logline = "7f5f66892000-7f5f6757a000 r-xp 00000000 00:38 1062721                    "
                 + "/tools/java/jdk1.8.0_201/jre/lib/amd64/server/libjvm.so";
         DynamicLibrary event = new DynamicLibrary(logline);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         String os = "OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_STORAGE_NFS.getKey()),
                 Analysis.INFO_STORAGE_NFS + " analysis not identified.");
@@ -1742,10 +1742,10 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:OnOutOfMemoryError=\"kill -9 %p\" -Xms2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String header = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_101-b13) (build 1.8.0_101-b13)";
         Header headerEvent = new Header(header);
-        fel.getHeaderEvents().add(headerEvent);
+        fel.getHeaders().add(headerEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME.getKey()),
                 org.github.joa.util.Analysis.INFO_ON_OOME + " analysis incorrectly identified.");
@@ -1758,10 +1758,10 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:OnOutOfMemoryError=\"kill -9 %p\" -Xms2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         String header = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_91-b14) (build 1.8.0_91-b14)";
         Header headerEvent = new Header(header);
-        fel.getHeaderEvents().add(headerEvent);
+        fel.getHeaders().add(headerEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME.getKey()),
                 org.github.joa.util.Analysis.INFO_ON_OOME + " analysis not identified.");
@@ -2016,24 +2016,24 @@ class TestAnalysis {
         String stack1 = "V  [libjvm.so+0x290d84]  AccessInternal::PostRuntimeDispatch<G1BarrierSet::AccessBarrier"
                 + "<548964ul, G1BarrierSet>, (AccessInternal::BarrierType)2, 548964ul>::oop_access_barrier(void*)+0x4";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "C  [libocijdbc11.so+0x458c]  Java_oracle_jdbc_driver_T2CConnection_t2cSetSessionTimeZone+0x5";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         String logline = "7f6e73a91000-7f6e74d08000 r-xp 00000000 fd:00 8632767                    "
                 + "/usr/lib/jvm/java-17-openjdk-17.0.4.0.8-2.el8_6.x86_64/lib/server/libjvm.so";
         DynamicLibrary event = new DynamicLibrary(logline);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         String os1 = "OS:";
         OsInfo osEvent1 = new OsInfo(os1);
-        fel.getOsEvents().add(osEvent1);
+        fel.getOsInfos().add(osEvent1);
         String os2 = "Red Hat Enterprise Linux release 8.6 (Ootpa)";
         OsInfo osEvent2 = new OsInfo(os2);
-        fel.getOsEvents().add(osEvent2);
+        fel.getOsInfos().add(osEvent2);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), "
                 + "built on Jul 20 2022 13:03:41 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER.getKey()),
                 Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
@@ -2047,11 +2047,11 @@ class TestAnalysis {
         String vm_info = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), built "
                 + "on Jul 20 2022 13:03:41 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)";
         VmInfo vmEvent = new VmInfo(vm_info);
-        fel.setVmInfoEvent(vmEvent);
+        fel.setVmInfo(vmEvent);
         String dynamicLibrary = "7fd01e1b3000-7fd01e1d3000 r-xp 00000000 fd:03 2100954                    "
                 + "/ora01/app/oracle/product/11.2.0/client_1/lib/libocijdbc11.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_ORACLE_JDBC_OCI.getKey()),
                 Analysis.INFO_ORACLE_JDBC_OCI + " analysis not identified.");
@@ -2064,10 +2064,10 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         Event eventEvent = new Event(
                 "Event: 86.139 Loaded shared library /ora01/app/oracle/product/11.2.0/client_1/lib/libocijdbc11.so");
-        fel.getEventEvents().add(eventEvent);
+        fel.getEvents().add(eventEvent);
         TimeElapsedTime timeElapsedTimeEvent = new TimeElapsedTime(
                 "Time: Mon Sep 12 13:46:23 2022 EDT elapsed time: 86.182142 seconds (0d 0h 1m 26s)");
-        fel.setTimeElapsedTimeEvent(timeElapsedTimeEvent);
+        fel.setTimeElapsedTime(timeElapsedTimeEvent);
         assertEquals(86139L,
                 fel.getEventTimestamp("^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$"),
                 "OCI driver load timestamp not correct.");
@@ -2094,10 +2094,10 @@ class TestAnalysis {
                         + "G1BarrierSet>, (AccessInternal::BarrierType)2, 1097844ul>::oop_access_barrier(void*)+0x4");
         Stack event4 = new Stack(
                 "C  [libocijdbc11.so+0x458c]  Java_oracle_jdbc_driver_T2CConnection_t2cSetSessionTimeZone+0x5a");
-        fel.getStackEvents().add(event1);
-        fel.getStackEvents().add(event2);
-        fel.getStackEvents().add(event3);
-        fel.getStackEvents().add(event4);
+        fel.getStacks().add(event1);
+        fel.getStacks().add(event2);
+        fel.getStacks().add(event3);
+        fel.getStacks().add(event4);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER.getKey()),
                 Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
@@ -2113,10 +2113,10 @@ class TestAnalysis {
         String vm_info = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), built "
                 + "on Jul 20 2022 13:03:41 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)";
         VmInfo vmEvent = new VmInfo(vm_info);
-        fel.setVmInfoEvent(vmEvent);
+        fel.setVmInfo(vmEvent);
         String dynamicLibrary = "7fd01e1b3000-7fd01e1d3000 r-xp 00000000 fd:03 2100954 /path/to/my.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.INFO_ORACLE_JDBC_OCI.getKey()),
                 Analysis.INFO_ORACLE_JDBC_OCI + " analysis incorrectly identified.");
@@ -2127,7 +2127,7 @@ class TestAnalysis {
         String logLine = "OutOfMemoryError class_metaspace_errors=7";
         ExceptionCounts event = new ExceptionCounts(logLine);
         FatalErrorLog fel = new FatalErrorLog();
-        fel.getExceptionCountsEvents().add(event);
+        fel.getExceptionCounts().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE.getKey()),
                 Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE + " analysis not identified.");
@@ -2138,7 +2138,7 @@ class TestAnalysis {
         String logLine = "OutOfMemoryError java_heap_errors=13";
         ExceptionCounts event = new ExceptionCounts(logLine);
         FatalErrorLog fel = new FatalErrorLog();
-        fel.getExceptionCountsEvents().add(event);
+        fel.getExceptionCounts().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_JAVA_HEAP.getKey()),
                 Analysis.ERROR_OOME_THROWN_JAVA_HEAP + " analysis not identified.");
@@ -2149,7 +2149,7 @@ class TestAnalysis {
         String logLine = "OutOfMemoryError metaspace_errors=48";
         ExceptionCounts event = new ExceptionCounts(logLine);
         FatalErrorLog fel = new FatalErrorLog();
-        fel.getExceptionCountsEvents().add(event);
+        fel.getExceptionCounts().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_METASPACE.getKey()),
                 Analysis.ERROR_OOME_THROWN_METASPACE + " analysis not identified.");
@@ -2188,7 +2188,7 @@ class TestAnalysis {
         String dynamicLibrary = "7f47d77d3000-7f47d77d5000 r--s 00003000 fd:00 135061429                  "
                 + "/usr/share/java/pki/pki-tomcat.jar";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertTrue(fel.getApplication() == JdkUtil.Application.PKI_TOMCAT,
                 JdkUtil.Application.PKI_TOMCAT + " application not identified.");
@@ -2208,7 +2208,7 @@ class TestAnalysis {
                 + "-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.security.manager "
                 + "-Djava.security.policy==/var/lib/pki/pki-tomcat/conf/catalina.policy";
         VmArguments vmArgumentsEvent = new VmArguments(jvmArgs);
-        fel.getVmArgumentsEvents().add(vmArgumentsEvent);
+        fel.getVmArguments().add(vmArgumentsEvent);
         fel.doAnalysis();
         assertTrue(fel.getApplication() == JdkUtil.Application.PKI_TOMCAT,
                 JdkUtil.Application.PKI_TOMCAT + " application not identified.");
@@ -2224,7 +2224,7 @@ class TestAnalysis {
         String thread = "  0x00007f47f9449800 JavaThread \"ACMEEngineConfigFileSource\" [_thread_blocked, id=369917, "
                 + "stack(0x00007f47cc792000,0x00007f47cc893000)]";
         Thread threadEvent = new Thread(thread);
-        fel.getThreadEvents().add(threadEvent);
+        fel.getThreads().add(threadEvent);
         fel.doAnalysis();
         assertTrue(fel.getApplication() == JdkUtil.Application.PKI_TOMCAT,
                 JdkUtil.Application.PKI_TOMCAT + " application not identified.");
@@ -2240,11 +2240,11 @@ class TestAnalysis {
         String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.302-b08) for linux-amd64 JRE (1.8.0_302-b08), built on "
                 + "Jul 16 2021 12:35:49 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmEvent = new VmInfo(vm_info);
-        fel.setVmInfoEvent(vmEvent);
+        fel.setVmInfo(vmEvent);
         String dynamicLibrary = "7f7028969000-7f7028973000 r--s 000c0000 fd:06 131786                     "
                 + "/path/to/postgresql-42.2.5.jar";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE.getKey()),
                 Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE + " analysis not identified.");
@@ -2267,7 +2267,7 @@ class TestAnalysis {
         String stackFrame1 = "V  [libjvm.so+0x9b43cc]  oopDesc* PSPromotionManager::copy_to_survivor_space<false>"
                 + "(oopDesc*)+0x70c";
         Stack stackEvent = new Stack(stackFrame1);
-        fel.getStackEvents().add(stackEvent);
+        fel.getStacks().add(stackEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE.getKey()),
                 Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
@@ -2275,11 +2275,11 @@ class TestAnalysis {
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         // Test header only
         fel.getAnalysis().clear();
-        fel.getStackEvents().clear();
+        fel.getStacks().clear();
         String header = "***REMOVED*** V  [libjvm.so+0x9b43cc]  oopDesc* PSPromotionManager::copy_to_survivor_space<false>"
                 + "(oopDesc*)+0x70c";
         Header headerEvent = new Header(header);
-        fel.getHeaderEvents().add(headerEvent);
+        fel.getHeaders().add(headerEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE.getKey()),
                 Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
@@ -2313,7 +2313,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xmx2g -Xrunjdwp:transport=dt_socket,server=y,address=8787,suspend=n -Xms2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED.getKey()),
                 org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
@@ -2325,14 +2325,14 @@ class TestAnalysis {
         String dynamicLibrary = "7fd421b89000-7fd4227ab000 r-xp 00000000 fd:01 264289                     "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.71-1.b15.el6_7.x86_64/jre/lib/amd64/server/libjvm.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.71-b15) for linux-amd64 JRE (1.8.0_71-b15), built on "
                 + "Jan 13 2016 21:08:08 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-16)";
         VmInfo vmEvent = new VmInfo(vm_info);
-        fel.setVmInfoEvent(vmEvent);
+        fel.setVmInfo(vmEvent);
         String os = "OS:Red Hat Enterprise Linux Server release 6.7 (Santiago)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         fel.doAnalysis();
         assertTrue(fel.isRhBuildOpenJdk(), "Red Hat build of OpenJDK not identified.");
         assertTrue(fel.isRhBuildString(), "Red Hat build string not identified.");
@@ -2363,10 +2363,10 @@ class TestAnalysis {
         String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.345-b01) for linux-amd64 JRE (1.8.0_345-b01), built on "
                 + "Aug  4 2022 05:08:02 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmEvent = new VmInfo(vm_info);
-        fel.setVmInfoEvent(vmEvent);
+        fel.setVmInfo(vmEvent);
         String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         fel.doAnalysis();
         assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
@@ -2379,15 +2379,15 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux release 8.5 (Ootpa)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         String library = "7ff001124000-7ff001ecf000 r-xp 00000000 fd:00 17385                      "
                 + "/usr/lib/jvm/java-11-openjdk-11.0.13.0.8-1.el8_4.x86_64/lib/server/libjvm.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(library);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.13+8-LTS) for linux-amd64 JRE (11.0.13+8-LTS), built "
                 + "on Oct 13 2021 11:20:31 by \"mockbuild\" with gcc 8.4.1 20200928 (Red Hat 8.4.1-1)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("8.5", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.4", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
@@ -2400,15 +2400,15 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux release 8.5 (Ootpa)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         String library = "7f7b5e35f000-7f7b5f5d6000 r-xp 00000000 fd:01 67638415                   "
                 + "/usr/lib/jvm/java-17-openjdk-17.0.4.0.8-2.el8_6.x86_64/lib/server/libjvm.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(library);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), built on "
                 + "Jul 20 2022 13:03:41 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("8.5", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.6", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
@@ -2438,15 +2438,15 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.1 (Maipo)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         String library = "7fcb5ea06000-7fcb5f6ee000 r-xp 00000000 fd:01 121728675                  "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b03-1.el7.x86_64/jre/lib/amd64/server/libjvm.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(library);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.222-b03) for linux-amd64 JRE (1.8.0_222-ea-b03), built "
                 + "on May 22 2019 13:05:27 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("7.1", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("7", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
@@ -2459,15 +2459,15 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.6 (Maipo)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         String library = "3fff7c2d0000-3fff7cf40000 r-xp 00000000 fd:08 138908                     "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.275.b01-0.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(library);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.275-b01) for linux-ppc64le JRE (1.8.0_275-b01), built "
                 + "on Nov  6 2020 06:43:55 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("7.6", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("7.9", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
@@ -2497,12 +2497,12 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -server -Xmx2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         // Specify 32-bit
         String logLine = "vm_info: OpenJDK Server VM (25.252-b09) for linux-x86 JRE (1.8.0_252-b09), built on "
                 + "Apr 14 2020 14:55:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         VmInfo vmInfoEvent = new VmInfo(logLine);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT.getKey()),
                 org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT + " analysis incorrectly identified.");
@@ -2548,31 +2548,31 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String header1 = "***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.";
         Header headerEvent1 = new Header(header1);
-        fel.getHeaderEvents().add(headerEvent1);
+        fel.getHeaders().add(headerEvent1);
         String header2 = "***REMOVED*** Native memory allocation (malloc) failed to allocate 4294967312 bytes for Chunk::new";
         Header headerEvent2 = new Header(header2);
-        fel.getHeaderEvents().add(headerEvent2);
+        fel.getHeaders().add(headerEvent2);
         String header3 = "***REMOVED***  Out of Memory Error (arena.cpp:197), pid=2907, tid=2927";
         Header headerEvent3 = new Header(header3);
-        fel.getHeaderEvents().add(headerEvent3);
+        fel.getHeaders().add(headerEvent3);
         String currentThread = "Current thread (0x00007f5134b1b000):  JavaThread \"C2 CompilerThread0\" daemon "
                 + "[_thread_in_native, id=2927, stack(0x00007f5138229000,0x00007f513832a000)]";
         CurrentThread currentThreadEvent = new CurrentThread(currentThread);
-        fel.setCurrentThreadEvent(currentThreadEvent);
+        fel.setCurrentThread(currentThreadEvent);
         String currentCompileTask = "C2:299829840 17165   !   4       "
                 + "sun.security.ssl.SSLEngineInputRecord::decodeInputRecord (812 bytes)";
         CurrentCompileTask currentCompileTaskEvent = new CurrentCompileTask(currentCompileTask);
-        fel.getCurrentCompileTaskEvents().add(currentCompileTaskEvent);
+        fel.getCurrentCompileTasks().add(currentCompileTaskEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.16+8-LTS) for linux-amd64 JRE (11.0.16+8-LTS), "
                 + "built on Jul 18 2022 19:50:20 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         String memory = "Memory: 4k page, physical 65686152k(438884k free), swap 2097148k(0k free)";
         Memory memoryEvent = new Memory(memory);
-        fel.getMemoryEvents().add(memoryEvent);
+        fel.getMemories().add(memoryEvent);
         String jvmArgs = "-Xms3g -Xmx3g -XX:ThreadStackSize=640";
         VmArguments vmArgumentsEvent = new VmArguments(jvmArgs);
-        fel.getVmArgumentsEvents().add(vmArgumentsEvent);
+        fel.getVmArguments().add(vmArgumentsEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE.getKey()),
                 Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
@@ -2673,7 +2673,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:+Mike";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         fel.doAnalysis();
         String undefined = "Undefined JVM option(s): -XX:+Mike. Please submit an issue so we can investigate: "
                 + "https://github.com/mgm3746/krashpad/issues. If attaching a fatal error log, be sure to review it "
@@ -2698,15 +2698,15 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)";
         OsInfo osEvent = new OsInfo(os);
-        fel.getOsEvents().add(osEvent);
+        fel.getOsInfos().add(osEvent);
         String library = "7ff001124000-7ff001ecf000 r-xp 00000000 fd:00 17385                      "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.275.b01-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(library);
-        fel.getDynamicLibraryEvents().add(dynamicLibraryEvent);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.275-b01) for linux-amd64 JRE (1.8.0_275-b01), "
                 + "built on Nov  6 2020 02:01:23 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfoEvent(vmInfoEvent);
+        fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT.getKey()),
                 Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
@@ -2718,7 +2718,7 @@ class TestAnalysis {
         String vmOperation = "VM_Operation (0x0000008e276ff410): CGC_Operation, mode: safepoint, requested by thread "
                 + "0x000001d9d3e12800";
         VmOperation event = new VmOperation(vmOperation);
-        fel.setVmOperationEvent(event);
+        fel.setVmOperation(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_CONCURRENT_GC.getKey()),
                 Analysis.INFO_VM_OPERATION_CONCURRENT_GC + " analysis not identified.");
@@ -2730,7 +2730,7 @@ class TestAnalysis {
         String vmOperation = "VM_Operation (0x0000000054ede490): HeapDumper, mode: safepoint, requested by thread "
                 + "0x000000004d180000";
         VmOperation event = new VmOperation(vmOperation);
-        fel.setVmOperationEvent(event);
+        fel.setVmOperation(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_HEAP_DUMP.getKey()),
                 Analysis.INFO_VM_OPERATION_HEAP_DUMP + " analysis not identified.");
@@ -2747,11 +2747,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "C  0x0000000000000e76";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "J 16666  com.wily.introscope.agent.platform.linux.LinuxPlatformStatisticsBackEnd."
                 + "getAggregateCPUUsage(Ljava/lang/String;)[J (0 bytes) @ 0x00007f6dabd0e7fc [0x00007f6dabd0e740+0xbc]";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_WILY.getKey()), Analysis.ERROR_WILY + " analysis not identified.");
     ***REMOVED***
@@ -2762,7 +2762,7 @@ class TestAnalysis {
         String dynamicLibrary = "7f6d9a3b7000-7f6d9a4b6000 ---p 00003000 fd:08 98413                      "
                 + "/app/jbossas/wily10.7/core/ext/libIntroscopeLinuxIntelAmd64Stats.so";
         DynamicLibrary event = new DynamicLibrary(dynamicLibrary);
-        fel.getDynamicLibraryEvents().add(event);
+        fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_WILY.getKey()), Analysis.INFO_WILY + " analysis not identified.");
     ***REMOVED***
@@ -2772,11 +2772,11 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "J  12345 com.example.MyClass";
         Stack stackEvent1 = new Stack(stack1);
-        fel.getStackEvents().add(stackEvent1);
+        fel.getStacks().add(stackEvent1);
         String stack2 = "J 16666  com.wily.introscope.agent.platform.linux.LinuxPlatformStatisticsBackEnd."
                 + "getAggregateCPUUsage(Ljava/lang/String;)[J (0 bytes) @ 0x00007f6dabd0e7fc [0x00007f6dabd0e740+0xbc]";
         Stack stackEvent2 = new Stack(stack2);
-        fel.getStackEvents().add(stackEvent2);
+        fel.getStacks().add(stackEvent2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_WILY.getKey()), Analysis.WARN_WILY + " analysis not identified.");
     ***REMOVED***
@@ -2786,7 +2786,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String zHeap = " ZHeap           used 4M, capacity 500M, max capacity 7978M";
         Heap heapEvent = new Heap(zHeap);
-        fel.getHeapEvents().add(heapEvent);
+        fel.getHeaps().add(heapEvent);
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC),
                 GarbageCollector.ZGC + " collector not identified.");
     ***REMOVED***
@@ -2796,7 +2796,7 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:+UseZGC -Xmx2048M";
         VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArgumentsEvents().add(event);
+        fel.getVmArguments().add(event);
         fel.doAnalysis();
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC),
                 GarbageCollector.ZGC + " collector not identified.");

@@ -142,6 +142,17 @@ public class JdkRegEx {
     public static final String COMMAND_JBOSS_VERSION = "^.+org\\.jboss\\.as\\.standalone .*(-[vV]|[-]{1,2***REMOVED***version)$";
 
     /**
+     * JEUS main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * jeus.server.ServerBootstrapper -domain mydomain -u myuser -server myserver
+     * </pre>
+     */
+    public static final String COMMAND_JEUS = "^.*jeus\\.server\\.ServerBootstrapper.*$";
+
+    /**
      * Kafka main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
      * For example:
@@ -162,6 +173,24 @@ public class JdkRegEx {
      * </pre>
      */
     public static final String COMMAND_SPRING_BOOT = "^.*org\\.springframework\\.boot\\.loader\\.WarLauncher.*$";
+
+    /**
+     * Tomcat start main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * org.apache.catalina.startup.Bootstrap start
+     */
+    public static final String COMMAND_TOMCAT_START = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap start$";
+
+    /**
+     * Tomcat stop main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * org.apache.catalina.startup.Bootstrap stop stop
+     */
+    public static final String COMMAND_TOMCAT_STOP = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap stop.*$";
 
     /**
      * <p>
@@ -336,6 +365,16 @@ public class JdkRegEx {
      * 7fb99ed0d000-7fb99ed15000 r--s 0006e000 f9:00 792511 /path/to/undertow-core-2.0.22.Final-redhat-00001.jar
      */
     public static final String JAR_JBOSS_EAP7 = "^.+undertow-core.+\\.jar$";
+
+    /**
+     * JEUS (Java Enterprise User Solution) jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED***
+     * identification.
+     * 
+     * For example:
+     * 
+     * 7ff41c726000-7ff41c764000 r--s 004dd000 fd:02 9611207 /sw/was/tmax/jeus8/lib/system/jeus.jar
+     */
+    public static final String JAR_JEUS = "^.+jeus\\.jar.*$";
 
     /**
      * Red Hat Certificate System (RHCS), Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or upstream Dogtag
@@ -615,7 +654,6 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_DIR = "(" + JdkRegEx.RH_RPM_OPENJDK8_DIR + "|" + JdkRegEx.RH_RPM_OPENJDK11_DIR
             + "|" + JdkRegEx.RH_RPM_OPENJDK17_DIR + ")";
-
     /**
      * Red Hat OpenJDK 17 rpm directory.
      * 
@@ -645,6 +683,7 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK11_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK11_DIR
             + "\\/lib\\/server\\/libjvm\\.so$";
+
     /**
      * Red Hat OpenJDK 17 rpm directory.
      * 
@@ -757,6 +796,16 @@ public class JdkRegEx {
     public static final String SIZE2 = "(\\d{1,***REMOVED***([\\.,]\\d{2***REMOVED***)?) (KB|MB|GB|bytes)";
 
     /**
+     * JEUS thread used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * 
+     * For example:
+     * 
+     * 0x00007ff434057000 JavaThread "jeus.server.Server" [_thread_blocked, id=2663909,
+     * stack(0x00007ff43b657000,0x00007ff43b757000)]
+     */
+    public static final String THREAD_JEUS = "^.+\"jeus.server.Server\".+$";
+
+    /**
      * Red Hat Certificate System (RHCS), Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or upstream Dogtag
      * Certificate System thread used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
      * 
@@ -783,24 +832,6 @@ public class JdkRegEx {
      * For example: 487.020
      */
     public static final String TIMESTAMP = "(\\d{0,12***REMOVED***[\\.\\,]\\d{3***REMOVED***)";
-
-    /**
-     * Tomcat start main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
-     * 
-     * For example:
-     * 
-     * org.apache.catalina.startup.Bootstrap start
-     */
-    public static final String TOMCAT_START_COMMAND = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap start$";
-
-    /**
-     * Tomcat stop main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
-     * 
-     * For example:
-     * 
-     * org.apache.catalina.startup.Bootstrap stop stop
-     */
-    public static final String TOMCAT_STOP_COMMAND = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap stop.*$";
 
     /**
      * <p>

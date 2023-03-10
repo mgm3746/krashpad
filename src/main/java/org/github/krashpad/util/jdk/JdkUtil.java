@@ -47,13 +47,13 @@ import org.github.krashpad.domain.jdk.DllOperationEvent;
 import org.github.krashpad.domain.jdk.DynamicLibrary;
 import org.github.krashpad.domain.jdk.ElapsedTime;
 import org.github.krashpad.domain.jdk.End;
-import org.github.krashpad.domain.jdk.EnvironmentVariables;
+import org.github.krashpad.domain.jdk.EnvironmentVariable;
 import org.github.krashpad.domain.jdk.Event;
 import org.github.krashpad.domain.jdk.ExceptionCounts;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.GcHeapHistoryEvent;
 import org.github.krashpad.domain.jdk.GcPreciousLog;
-import org.github.krashpad.domain.jdk.GlobalFlags;
+import org.github.krashpad.domain.jdk.GlobalFlag;
 import org.github.krashpad.domain.jdk.Header;
 import org.github.krashpad.domain.jdk.Heading;
 import org.github.krashpad.domain.jdk.Heap;
@@ -82,7 +82,7 @@ import org.github.krashpad.domain.jdk.ProcessMemory;
 import org.github.krashpad.domain.jdk.Register;
 import org.github.krashpad.domain.jdk.RegisterToMemoryMapping;
 import org.github.krashpad.domain.jdk.Release;
-import org.github.krashpad.domain.jdk.RlimitEvent;
+import org.github.krashpad.domain.jdk.Rlimit;
 import org.github.krashpad.domain.jdk.SigInfo;
 import org.github.krashpad.domain.jdk.SignalHandlers;
 import org.github.krashpad.domain.jdk.Stack;
@@ -134,6 +134,8 @@ public class JdkUtil {
         JBOSS_EAP7,
         //
         JBOSS_VERSION,
+        // Java Enterprise User Solution, Korean web application server developed by TmaxSoft
+        JEUS,
         //
         KAFKA,
         // Red Hat Certificate System, Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or upstream Dogtag
@@ -1763,7 +1765,7 @@ public class JdkUtil {
             logEventType = LogEventType.ELAPSED_TIME;
         ***REMOVED*** else if (End.match(logLine)) {
             logEventType = LogEventType.END;
-        ***REMOVED*** else if (EnvironmentVariables.match(logLine)) {
+        ***REMOVED*** else if (EnvironmentVariable.match(logLine)) {
             logEventType = LogEventType.ENVIRONMENT_VARIABLES;
         ***REMOVED*** else if (Event.match(logLine) && (logLine.matches(Event._REGEX_HEADER) || priorEvent instanceof Event)) {
             logEventType = LogEventType.EVENT;
@@ -1774,7 +1776,7 @@ public class JdkUtil {
             logEventType = LogEventType.GC_HEAP_HISTORY_EVENT;
         ***REMOVED*** else if (GcPreciousLog.match(logLine)) {
             logEventType = LogEventType.GC_PRECIOUS_LOG;
-        ***REMOVED*** else if (GlobalFlags.match(logLine)) {
+        ***REMOVED*** else if (GlobalFlag.match(logLine)) {
             logEventType = LogEventType.GLOBAL_FLAGS;
         ***REMOVED*** else if (Header.match(logLine)
                 && (priorEvent == null || priorEvent instanceof UnknownEvent || priorEvent instanceof Header)) {
@@ -1835,7 +1837,7 @@ public class JdkUtil {
         ***REMOVED*** else if (RegisterToMemoryMapping.match(logLine) || (priorEvent instanceof RegisterToMemoryMapping
                 && (logLine.matches(JdkRegEx.CLASS) || logLine.matches(JdkRegEx.MEMORY_MAPPING)))) {
             logEventType = LogEventType.REGISTER_TO_MEMORY_MAPPING;
-        ***REMOVED*** else if (RlimitEvent.match(logLine)) {
+        ***REMOVED*** else if (Rlimit.match(logLine)) {
             logEventType = LogEventType.RLIMIT;
         ***REMOVED*** else if (SigInfo.match(logLine)) {
             logEventType = LogEventType.SIGINFO;
@@ -2059,7 +2061,7 @@ public class JdkUtil {
             event = new Event(logLine);
             break;
         case ENVIRONMENT_VARIABLES:
-            event = new EnvironmentVariables(logLine);
+            event = new EnvironmentVariable(logLine);
             break;
         case EXCEPTION_COUNTS:
             event = new ExceptionCounts(logLine);
@@ -2071,7 +2073,7 @@ public class JdkUtil {
             event = new GcPreciousLog(logLine);
             break;
         case GLOBAL_FLAGS:
-            event = new GlobalFlags(logLine);
+            event = new GlobalFlag(logLine);
             break;
         case HEADER:
             event = new Header(logLine);
@@ -2155,7 +2157,7 @@ public class JdkUtil {
             event = new RegisterToMemoryMapping(logLine);
             break;
         case RLIMIT:
-            event = new RlimitEvent(logLine);
+            event = new Rlimit(logLine);
             break;
         case SIGINFO:
             event = new SigInfo(logLine);
