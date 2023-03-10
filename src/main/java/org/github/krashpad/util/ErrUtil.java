@@ -309,6 +309,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libnss_files-2.28.so");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libnsl-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("libnsl-2.28.so");
         // sssd-client
         NATIVE_LIBRARIES_LINUX.add("libnss_sss.so.2");
         // numactl-libs
