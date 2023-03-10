@@ -34,10 +34,52 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * C2:   1092  423       4       java.util.HashMap$KeyIterator::next (8 bytes)
  * </pre>
  * 
+ * <pre>
+ * C2:   1360 2202 % !   4       org.jboss.modules.Module::addExportedPaths @ 1224 (1429 bytes)
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
 public class CurrentCompileTask implements LogEvent, HeaderEvent {
+
+    /**
+     * Regular expression for the compile id, sequentially incremented with every new compile.
+     */
+    private static final String _ID = "\\d{1,***REMOVED***";
+
+    /**
+     * Regular expression for the compilation level (0-4).
+     * 
+     * 0: interpreted (not compiled).
+     * 
+     * 1: C1 compiler without profiling information.
+     * 
+     * 2: C1 compiler with light profiling.
+     * 
+     * 3: C1 compiler with full profiling.
+     * 
+     * 4: C2 compiler (maximum performance).
+     */
+    private static final String _LEVEL = "\\d{1,***REMOVED***";
+
+    /**
+     * Regular expression for the attributes of the method being compiled.
+     * 
+     * https://github.com/openjdk/jdk/blob/6d30bbe62c10af0f2c80cb1eaac3d171fb7bffcb/src/hotspot/share/compiler/
+     * compileTask.cpp***REMOVED***L227-L260
+     * 
+     * %: osr compilation (compilation was triggered by some loop rather than on method entry).
+     * 
+     * !: A method with exception handlers.
+     * 
+     * b: A blocking method.
+     * 
+     * n: A native method.
+     * 
+     * s: A synchronized method.
+     */
+    private static final String _METHOD_ATTRIBUTE = "([%!bns] )";
 
     /**
      * Regular expression for the header.
@@ -45,9 +87,15 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
     private static final String _REGEX_HEADER = "Current CompileTask:";
 
     /**
+     * Regular expression for the compile timestamp.
+     */
+    private static final String _TIMESTAMP = "\\d{1,***REMOVED***";
+
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|C[12]:).*$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|C[12]:[ ]{1,***REMOVED***" + _TIMESTAMP + "[ ]{1,***REMOVED***" + _ID
+            + "[ ]{1,***REMOVED***" + _METHOD_ATTRIBUTE + "{0,***REMOVED***[ ]{1,***REMOVED***" + _LEVEL + ".+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

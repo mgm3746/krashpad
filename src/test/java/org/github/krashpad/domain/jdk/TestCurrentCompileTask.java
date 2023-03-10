@@ -47,6 +47,14 @@ class TestCurrentCompileTask {
     ***REMOVED***
 
     @Test
+    void testMethodAttributes() {
+        String logLine = "C2:   1360 2202 % !   4       org.jboss.modules.Module::addExportedPaths @ 1224 "
+                + "(1429 bytes)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
+                JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testParseLogLine() {
         String logLine = "C2:   1092  423       4       java.util.HashMap$KeyIterator::next (8 bytes)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CurrentCompileTask,
