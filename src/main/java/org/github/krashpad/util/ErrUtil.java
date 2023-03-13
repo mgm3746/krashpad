@@ -78,6 +78,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("ld-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("ld-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("ld-2.28.so");
+        // libaio
+        NATIVE_LIBRARIES_LINUX.add("libaio.so.1.0.1");
         // aspell
         NATIVE_LIBRARIES_LINUX.add("libaspell.so.15.1.5");
         // atk
