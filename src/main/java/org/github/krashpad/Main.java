@@ -213,7 +213,7 @@ public class Main {
                 printWriter.write("JVM User: " + fel.getUsername() + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (fel.getVmState() != null) {
-                printWriter.write("VM State: " + fel.getVmState() + Constants.LINE_SEPARATOR);
+                printWriter.write("VM State: " + fel.getVmState().getState() + Constants.LINE_SEPARATOR);
             ***REMOVED***
             if (!fel.getCrashTimeString().equals("")) {
                 printWriter.write("Crash Date: " + fel.getCrashTimeString() + Constants.LINE_SEPARATOR);
