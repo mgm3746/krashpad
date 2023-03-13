@@ -138,6 +138,19 @@ class TestVmOperation {
     ***REMOVED***
 
     @Test
+    void testRedefineClasses() {
+        String logLine = "VM_Operation (0x000015539e38b1e0): RedefineClasses, mode: safepoint, requested by thread "
+                + "0x0000564c51d7b800, redefining class java.util.concurrent.CompletableFuture";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperation event = new VmOperation(logLine);
+        assertEquals(
+                "RedefineClasses, mode: safepoint, requested by thread 0x0000564c51d7b800, redefining class "
+                        + "java.util.concurrent.CompletableFuture",
+                event.getVmOperationString(), "VM operation not correct.");
+    ***REMOVED***
+
+    @Test
     void testShenandoahFullGC() {
         String logLine = "VM_Operation (0x00007f25169a9ba0): ShenandoahFullGC, mode: safepoint, requested by thread "
                 + "0x0000560e86b75800";
