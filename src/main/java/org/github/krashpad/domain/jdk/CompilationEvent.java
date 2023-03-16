@@ -50,7 +50,7 @@ public class CompilationEvent implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + "[ ]{1,***REMOVED***(nmethod|\\d{1,***REMOVED***).+|No [Ee]vents)$";
+            + JdkRegEx.ADDRESS + "[ ]{1,***REMOVED***((nmethod|\\d{1,***REMOVED***).+)?|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

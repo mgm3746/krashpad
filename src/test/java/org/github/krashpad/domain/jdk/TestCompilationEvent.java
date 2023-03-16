@@ -67,4 +67,13 @@ class TestCompilationEvent {
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
                 JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.");
     ***REMOVED***
+
+    @Test
+    void testTruncatedLine() {
+        String priorLogLine = "***REMOVED***";
+        CompilationEvent priorLogEvent = new CompilationEvent(priorLogLine);
+        String logLine = "Event: 415187.311 Thread 0x000056188c761800 ";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
+                JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.");
+    ***REMOVED***
 ***REMOVED***
