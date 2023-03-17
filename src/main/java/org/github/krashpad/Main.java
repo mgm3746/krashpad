@@ -185,7 +185,7 @@ public class Main {
                     printWriter.write(fel.getRlimit().getLogEntry() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getThreadsMaxLimit() > 0) {
-                    printWriter.write("threads-max: " + fel.getThreadsMax() + Constants.LINE_SEPARATOR);
+                    printWriter.write("threads-max: " + fel.getThreadsMaxLimit() + Constants.LINE_SEPARATOR);
                 ***REMOVED***
                 if (fel.getMaxMapCountLimit() > 0) {
                     printWriter.write("max_map_count: " + fel.getMaxMapCountLimit() + Constants.LINE_SEPARATOR);
