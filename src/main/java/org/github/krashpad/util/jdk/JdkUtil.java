@@ -977,9 +977,9 @@ public class JdkUtil {
 
         // RHEL7 amd64 OpenJDK11 rpm
         JDK11_RHEL7_X86_64_RPMS = new HashMap<String, Release>();
-        JDK11_RHEL7_X86_64_RPMS.put("LATEST", new Release("Jan 11 2023 00:00:00", 21, "11.0.18+10-LTS"));
+        JDK11_RHEL7_X86_64_RPMS.put("LATEST", new Release("Jan 11 2023 04:53:58", 21, "11.0.18+10-LTS"));
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64",
-                new Release("Jan 11 2023 00:00:00", 21, "11.0.18+10-LTS"));
+                new Release("Jan 11 2023 04:53:58", 21, "11.0.18+10-LTS"));
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.17.0.8-2.el7_9.x86_64",
                 new Release("Oct 16 2022 00:00:00", 20, "11.0.17+8-LTS"));
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.16.1.1-1.el7_9.x86_64",
