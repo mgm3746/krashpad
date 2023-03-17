@@ -614,39 +614,25 @@ public class FatalErrorLog {
                 ***REMOVED*** else if (getApplication() == Application.AMQ_CLI) {
                     analysis.add(Analysis.ERROR_OOME_AMQ_CLI);
                 ***REMOVED*** else if (getCommitLimit() >= 0 && getCommittedAs() >= 0) {
-                    if (getMemoryAllocation() >= 0) {
-                        // Known allocation size
-                        if (getMemoryAllocation() > (getCommitLimit() - getCommittedAs())
-                                && getCommitLimit() >= getCommittedAs()) {
-                            // Strong evidence for vm.overcommit_memory=2, but possible resource limit
-                            analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP);
-                            if (jvmOptions == null || (jvmOptions.getInitialHeapSize() != null
-                                    && jvmOptions.getMaxHeapSize() != null
-                                    && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
-                                            jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
-                                                    JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
-                                analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
-                            ***REMOVED***
-                        ***REMOVED*** else {
-                            // Resource limit
-                            analysis.add(Analysis.ERROR_OOME_LIMIT_STARTUP);
-                        ***REMOVED***
-                    ***REMOVED*** else if (getJvmMemoryInitial() >= 0) {
+                    long allocation = Long.MIN_VALUE;
+                    allocation = getMemoryAllocation();
+                    if (allocation < 0) {
                         // Use JVM estimated initial process size
-                        if (getJvmMemoryInitial() > (getCommitLimit() - getCommittedAs())) {
-                            // Strong evidence for vm.overcommit_memory=2, but possible resource limit
-                            analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP);
-                            if (jvmOptions == null || (jvmOptions.getInitialHeapSize() != null
-                                    && jvmOptions.getMaxHeapSize() != null
-                                    && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
-                                            jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
-                                                    JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
-                                analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
-                            ***REMOVED***
-                        ***REMOVED*** else {
-                            // Resource limit
-                            analysis.add(Analysis.ERROR_OOME_LIMIT_STARTUP);
+                        allocation = getJvmMemoryInitial();
+                    ***REMOVED***
+                    if (allocation > 0 && allocation > (getCommitLimit() - getCommittedAs()) && !isOvercommitted()) {
+                        // Strong evidence for vm.overcommit_memory=2, but possible resource limit
+                        analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP);
+                        if (jvmOptions == null
+                                || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
+                                        && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
+                                                jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
+                                                        JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
+                            analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
                         ***REMOVED***
+                    ***REMOVED*** else {
+                        // Resource limit
+                        analysis.add(Analysis.ERROR_OOME_LIMIT_STARTUP);
                     ***REMOVED***
                 ***REMOVED*** else if (getJvmMemoryInitial() >= 0 && (getJvmMemFree() >= 0 || getOsMemAvailable() >= 0)
                         && getJvmSwapFree() >= 0) {
@@ -1746,8 +1732,8 @@ public class FatalErrorLog {
     ***REMOVED***
 
     /**
-     * The total amount of memory currently available to be allocated by the system, based on the overcommit ratio (vm.
-     * overcommit_ratio), this is the total amount of memory currently available to be allocated on the system.
+     * The total amount of memory that can be allocated by the system, based on the overcommit ratio (vm.
+     * overcommit_ratio).
      * 
      * This limit is only adhered to if strict overcommit accounting is enabled (mode 2 in vm.overcommit_memory)
      * 
@@ -1779,7 +1765,7 @@ public class FatalErrorLog {
      * The committed memory is a sum of all of the memory which has been allocated by processes, even if it has not been
      * "used" by them yet.
      * 
-     * When vm.overcommit_memory=2, the cummulative VSS of all userspace processes is limited to overcomit_ratio percent
+     * When vm.overcommit_memory=2, the cumulative VSS of all userspace processes is limited to overcomit_ratio percent
      * of ram + swap.
      * 
      * RHEL5: allocatable memory=(swap size + (RAM size * overcommit ratio / 100))
@@ -4764,6 +4750,17 @@ public class FatalErrorLog {
             isMemoryAllocationFail = true;
         ***REMOVED***
         return isMemoryAllocationFail;
+    ***REMOVED***
+
+    /**
+     * @return true if memory is overcommitted, false otherwise.
+     */
+    private boolean isOvercommitted() {
+        boolean isOvercommitted = false;
+        if (getCommitLimit() > 0 && getCommittedAs() > 0 && (getCommittedAs() > getCommitLimit())) {
+            isOvercommitted = true;
+        ***REMOVED***
+        return isOvercommitted;
     ***REMOVED***
 
     /**
