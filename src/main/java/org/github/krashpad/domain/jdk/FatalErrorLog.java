@@ -1735,6 +1735,8 @@ public class FatalErrorLog {
      * The total amount of memory that can be allocated by the system, based on the overcommit ratio (vm.
      * overcommit_ratio).
      * 
+     * Formula: ([total RAM pages] - [total huge TLB pages]) * overcommit_ratio / 100 + [total swap pages]
+     * 
      * This limit is only adhered to if strict overcommit accounting is enabled (mode 2 in vm.overcommit_memory)
      * 
      * @return The total amount of memory currently available to be allocated by the system in
