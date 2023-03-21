@@ -75,17 +75,17 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "***REMOVED***";
-
-    private static Pattern pattern = Pattern.compile(DynamicLibrary.REGEX);
+    private static final String __REGEX_HEADER = "***REMOVED***";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS
+    private static final String _REGEX = "^(" + __REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS
             + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE
             + ")?[\\s]{1,***REMOVED***((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA
             + "))?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,***REMOVED***)$";
+
+    private static Pattern pattern = Pattern.compile(_REGEX);
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -95,7 +95,7 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
      * @return true if the log line matches the event pattern, false otherwise.
      */
     public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+        return logLine.matches(_REGEX);
     ***REMOVED***
 
     /**
@@ -162,7 +162,7 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
-            isHeader = logEntry.matches(_REGEX_HEADER);
+            isHeader = logEntry.matches(__REGEX_HEADER);
         ***REMOVED***
         return isHeader;
     ***REMOVED***
@@ -178,6 +178,6 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
      * @return True if a native library, false otherwise.
      */
     public boolean isNativeLibrary() {
-        return logEntry.matches(".+" + JdkRegEx.NATIVE_LIBRARY + "$");
+        return logEntry.matches(".+" + JdkRegEx.NATIVE_LIBRARY + "( \\(deleted\\))?$");
     ***REMOVED***
 ***REMOVED***

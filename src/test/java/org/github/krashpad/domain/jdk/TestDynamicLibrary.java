@@ -217,6 +217,17 @@ class TestDynamicLibrary {
     ***REMOVED***
 
     @Test
+    void testNativeLibraryDeleted() {
+        String logLine = "7e89648c6000-7e89649c7000 r-xp 00000000 fd:08 11814549870                "
+                + "/path/to/mylib-jni.so (deleted)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibrary event = new DynamicLibrary(logLine);
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
+        assertEquals("/path/to/mylib-jni.so (deleted)", event.getFilePath(), "File path not correct.");
+    ***REMOVED***
+
+    @Test
     void testNfs() {
         String logLine = "7f6d359b3000-7f6d3669b000 r-xp 00000000 00:3d 2629821830"
                 + "                 /tools/java/jdk1.8.0_201/jre/lib/amd64/server/libjvm.so";
