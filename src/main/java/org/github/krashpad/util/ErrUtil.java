@@ -90,6 +90,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libatomic.so.1.2.0");
         // at-spi2-core
         NATIVE_LIBRARIES_LINUX.add("libatspi.so.0.0.1");
+        // libattr
+        NATIVE_LIBRARIES_LINUX.add("libattr.so.1.1.0");
         // brotli (compression library)
         NATIVE_LIBRARIES_LINUX.add("libbrotlicommon.so.1.0.6");
         // brotli (compression library)
@@ -105,6 +107,7 @@ public class ErrUtil {
         // cairo-gobject
         NATIVE_LIBRARIES_LINUX.add("libcairo-gobject.so.2.11512.0");
         // libpcap
+        NATIVE_LIBRARIES_LINUX.add("libcap.so.2.22");
         NATIVE_LIBRARIES_LINUX.add("libcap.so.2.26");
         NATIVE_LIBRARIES_LINUX.add("libcap.so.2.48");
         // libcom-err
@@ -118,6 +121,7 @@ public class ErrUtil {
         // libdatrie
         NATIVE_LIBRARIES_LINUX.add("libdatrie.so.1.3.2");
         // dbus-libs
+        NATIVE_LIBRARIES_LINUX.add("libdbus-1.so.3.14.14");
         NATIVE_LIBRARIES_LINUX.add("libdbus-1.so.3.19.7");
         // glibc-devel
         NATIVE_LIBRARIES_LINUX.add("libdl-2.12.so");
@@ -151,6 +155,7 @@ public class ErrUtil {
         // expat
         NATIVE_LIBRARIES_LINUX.add("libexpat.so.1.6.7");
         // libffi
+        NATIVE_LIBRARIES_LINUX.add("libffi.so.6.0.1");
         NATIVE_LIBRARIES_LINUX.add("libffi.so.6.0.2");
         // fontconfig
         NATIVE_LIBRARIES_LINUX.add("libfontconfig.so.1.12.0");
@@ -159,6 +164,7 @@ public class ErrUtil {
         // nss-softokn-freebl
         NATIVE_LIBRARIES_LINUX.add("libfreeblpriv3.so");
         // freetype
+        NATIVE_LIBRARIES_LINUX.add("libfreetype.so.6.14.0");
         NATIVE_LIBRARIES_LINUX.add("libfreetype.so.6.16.1");
         // fribidi
         NATIVE_LIBRARIES_LINUX.add("libfribidi.so.0.4.0");
@@ -177,6 +183,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20191121.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20210514.so.1");
         // libgcrypt
+        NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.11.8.2");
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.3");
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.5");
         // gtk3
@@ -188,6 +195,7 @@ public class ErrUtil {
         // mesa-libglapi
         NATIVE_LIBRARIES_LINUX.add("libglapi.so.0.0.0");
         // glib2
+        NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.1");
         NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.4");
         // libglvnd-opengl
         NATIVE_LIBRARIES_LINUX.add("libOpenGL.so.0.0.0");
@@ -195,12 +203,16 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libgmodule-2.0.so.0.5600.4");
         // gmp
         NATIVE_LIBRARIES_LINUX.add("libgmp.so.10.3.2");
+        // gnome-keyring
+        NATIVE_LIBRARIES_LINUX.add("libgnome-keyring.so.0.2.0");
         // gnutls
         NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.24.0");
         NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.28.2");
         // glib2
+        NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5600.1");
         NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5600.4");
         // libgpg-error
+        NATIVE_LIBRARIES_LINUX.add("libgpg-error.so.0.10.0");
         NATIVE_LIBRARIES_LINUX.add("libgpg-error.so.0.24.2");
         // graphite2
         NATIVE_LIBRARIES_LINUX.add("libgraphite2.so.3.0.1");
@@ -262,6 +274,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libjavascriptcoregtk-4.0.so.18.13.7");
         NATIVE_LIBRARIES_LINUX.add("libjavascriptcoregtk-4.0.so.18.20.11");
         // libjpeg-turbo
+        NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.1.0");
         NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.2.0");
         // jss
         NATIVE_LIBRARIES_LINUX.add("libjss4.so");
@@ -278,6 +291,7 @@ public class ErrUtil {
         // lcms2
         NATIVE_LIBRARIES_LINUX.add("liblcms2.so.2.0.8");
         // xz-libs
+        NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.2");
         NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.4");
         // lz4-libs
         NATIVE_LIBRARIES_LINUX.add("liblz4.so.1.8.1");
@@ -330,6 +344,7 @@ public class ErrUtil {
         // pango
         NATIVE_LIBRARIES_LINUX.add("libpangoft2-1.0.so.0.4200.3");
         // pcre
+        NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.0");
         NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.10");
         // pixman
         NATIVE_LIBRARIES_LINUX.add("libpixman-1.so.0.38.4");
@@ -344,6 +359,7 @@ public class ErrUtil {
         // gdk-pixbuf2-modules
         NATIVE_LIBRARIES_LINUX.add("libpixbufloader-svg.so");
         // libpng
+        NATIVE_LIBRARIES_LINUX.add("libpng15.so.15.13.0");
         NATIVE_LIBRARIES_LINUX.add("libpng16.so.16.34.0");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.12.so");
@@ -379,6 +395,7 @@ public class ErrUtil {
         // nss
         NATIVE_LIBRARIES_LINUX.add("libssl3.so");
         // systemd-libs
+        NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.6.0");
         NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.23.0");
         // libtasn1
         NATIVE_LIBRARIES_LINUX.add("libtasn1.so.6.5.5");
