@@ -312,6 +312,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libnspr4.so");
         // nss
         NATIVE_LIBRARIES_LINUX.add("libnss3.so");
+        // nss-sysinit
+        NATIVE_LIBRARIES_LINUX.add("libnsssysinit.so");
         // nss-util
         NATIVE_LIBRARIES_LINUX.add("libnssutil3.so");
         // glibc
