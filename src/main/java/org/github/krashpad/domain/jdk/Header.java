@@ -201,11 +201,12 @@ public class Header implements LogEvent {
     ***REMOVED***
 
     /**
-     * @return True if the event is SIGSEGV, false otherwise.
+     * @return True if the event includes a <code>SignalNumber</code>, false otherwise.
      */
     public boolean isSignalNumber() {
-        return logEntry.matches(
-                "^***REMOVED***  (" + SignalNumber.SIGBUS + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ").+$");
+        return logEntry.matches("^***REMOVED***  (" + SignalNumber.EXCEPTION_ACCESS_VIOLATION + "|"
+                + SignalNumber.EXCEPTION_STACK_OVERFLOW + "|" + SignalNumber.SIGBUS + "|" + SignalNumber.SIGFPE + "|"
+                + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ").+$");
     ***REMOVED***
 
     /**

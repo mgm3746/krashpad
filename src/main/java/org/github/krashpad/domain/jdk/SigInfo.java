@@ -48,6 +48,7 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  * 
  * <pre>
  * siginfo: ExceptionCode=0xc0000005, reading address 0x0000000000000048
+ * siginfo: ExceptionCode=0xc00000fd, ExceptionInformation=0x0000000000000001 0x00000000c9dd0000
  * siginfo: EXCEPTION_ACCESS_VIOLATION (0xc0000005), reading address 0xffffffffffffffff
  * </pre>
  * 
@@ -69,14 +70,17 @@ public class SigInfo implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^siginfo: ((si_signo: \\d{1,2***REMOVED*** \\((" + SignalNumber.EXCEPTION_ACCESS_VIOLATION
-            + "|" + SignalNumber.SIGBUS + "|" + SignalNumber.SIGFPE + "|" + SignalNumber.SIGILL + "|"
-            + SignalNumber.SIGSEGV + ")\\), si_code: \\d{1,3***REMOVED*** \\((" + SignalCode.BUS_ADRALN + "|"
-            + SignalCode.BUS_ADRERR + "|" + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|"
-            + SignalCode.SEGV_ACCERR + "|" + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|"
-            + SignalCode.SI_USER + "|" + SignalCode.FPE_INTDIV + ")\\), (si_addr: " + JdkRegEx.ADDRESS
-            + "|sent from pid: \\d{1,***REMOVED*** \\(uid: \\d{1,***REMOVED***\\)))|(ExceptionCode=|EXCEPTION_ACCESS_VIOLATION \\()"
-            + JdkRegEx.ADDRESS + "[\\)]{0,1***REMOVED***, (reading|writing) address " + JdkRegEx.ADDRESS + ")$";
+    private static final String REGEX = "^siginfo: ((si_signo: \\d{1,2***REMOVED*** \\((" + SignalNumber.SIGBUS + "|"
+            + SignalNumber.SIGFPE + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV
+            + ")\\), si_code: \\d{1,3***REMOVED*** \\((" + SignalCode.BUS_ADRALN + "|" + SignalCode.BUS_ADRERR + "|"
+            + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|" + SignalCode.SEGV_ACCERR + "|"
+            + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|" + SignalCode.SI_USER + "|"
+            + SignalCode.FPE_INTDIV + ")\\), (si_addr: " + JdkRegEx.ADDRESS
+            + "|sent from pid: \\d{1,***REMOVED*** \\(uid: \\d{1,***REMOVED***\\)))|ExceptionCode=("
+            + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW
+            + "), ((reading|writing) " + "address " + JdkRegEx.ADDRESS + "|ExceptionInformation=" + JdkRegEx.ADDRESS
+            + " " + JdkRegEx.ADDRESS + ")|" + SignalNumber.EXCEPTION_ACCESS_VIOLATION + " \\(("
+            + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION + ")\\), reading address " + JdkRegEx.ADDRESS + ")[ ]*$";
 
     static {
         PATTERN = Pattern.compile(SigInfo.REGEX);
@@ -126,9 +130,9 @@ public class SigInfo implements LogEvent {
             if (matcher.group(6) != null) {
                 // linux
                 address = matcher.group(6);
-            ***REMOVED*** else if (matcher.group(18) != null) {
+            ***REMOVED*** else if (matcher.group(30) != null) {
                 // windows
-                address = matcher.group(18);
+                address = matcher.group(30);
             ***REMOVED***
         ***REMOVED***
         return address;
@@ -185,9 +189,16 @@ public class SigInfo implements LogEvent {
                 ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {
                     number = SignalNumber.SIGSEGV;
                 ***REMOVED***
-            ***REMOVED*** else if (matcher.group(13) != null) {
-                // Windows
-                if (matcher.group(13).matches("0xc0000005")) {
+            ***REMOVED*** else if (matcher.group(11) != null) {
+                // Windows format 1
+                if (matcher.group(11).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
+                    number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
+                ***REMOVED*** else if (matcher.group(11).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW)) {
+                    number = SignalNumber.EXCEPTION_STACK_OVERFLOW;
+                ***REMOVED***
+            ***REMOVED*** else if (matcher.group(29) != null) {
+                // Windows format 2
+                if (matcher.group(29).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
                     number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
                 ***REMOVED***
             ***REMOVED***

@@ -125,6 +125,18 @@ class TestJdkRegEx {
     ***REMOVED***
 
     @Test
+    void testDynatraceDtagent() {
+        String address = "dtagent.dll";
+        assertTrue(address.matches(JdkRegEx.NATIVE_LIBRARY_DYNATRACE), "NATIVE_LIBRARY_DYNATRACE not recognized.");
+    ***REMOVED***
+
+    @Test
+    void testDynatraceDtagentcore() {
+        String address = "dtagentcore.dll";
+        assertTrue(address.matches(JdkRegEx.NATIVE_LIBRARY_DYNATRACE), "NATIVE_LIBRARY_DYNATRACE not recognized.");
+    ***REMOVED***
+
+    @Test
     void testFileLinux() {
         String s = "/usr/lib64/libaio.so.1.0.1";
         assertTrue(s.matches(JdkRegEx.FILE), "Inode not identified.");

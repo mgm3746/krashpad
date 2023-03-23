@@ -30,6 +30,16 @@ import org.junit.jupiter.api.Test;
 class TestHeader {
 
     @Test
+    void testAccessViolation() {
+        String logLine = "***REMOVED***  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x000000006ee76520, pid=11556, "
+                + "tid=0x000000000000040c";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
+        Header headerEvent = new Header(logLine);
+        assertTrue(headerEvent.isSignalNumber(), "EXCEPTION_ACCESS_VIOLATION not identified.");
+    ***REMOVED***
+
+    @Test
     void testError() {
         String logLine = "***REMOVED***  Error: ShouldNotReachHere()";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
@@ -227,6 +237,16 @@ class TestHeader {
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isSignalNumber(), "SIGSEGV not identified.");
+    ***REMOVED***
+
+    @Test
+    void testStackOverflow() {
+        String logLine = "***REMOVED***  EXCEPTION_STACK_OVERFLOW (0xc00000fd) at pc=0x00007ff8b9b47447, pid=4304, "
+                + "tid=0x0000000000002aec";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
+        Header headerEvent = new Header(logLine);
+        assertTrue(headerEvent.isSignalNumber(), "EXCEPTION_STACK_OVERFLOW not identified.");
     ***REMOVED***
 
     @Test

@@ -35,6 +35,11 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Event: 101.811 Thread 0x00007ff0ec698000 Exception &lt;a 'java/lang/ArrayIndexOutOfBoundsException'&gt; (0x00000000ef71e968) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 609]
  * </pre>
  * 
+ * <pre>
+ * Internal exceptions (10 events):
+ * Event: 1787840.598 Thread 0x00000000e2291000 StackOverflowError at 0x0000000006f058c0
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -49,7 +54,7 @@ public class InternalExceptionEvent implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " (Exception|Implicit).+|<meta name.+|thrown.+|No [Ee]vents)$";
+            + JdkRegEx.ADDRESS + " (Exception|Implicit|StackOverflow).+|<meta name.+|thrown.+|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

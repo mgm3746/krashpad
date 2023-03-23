@@ -566,6 +566,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("gdi32full.dll");
         NATIVE_LIBRARIES_WINDOWS.add("iertutil.dll");
         NATIVE_LIBRARIES_WINDOWS.add("IPHLPAPI.DLL");
+        NATIVE_LIBRARIES_WINDOWS.add("iphlpapi.dll");
         NATIVE_LIBRARIES_WINDOWS.add("KERNEL32.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("KERNELBASE.dll");
         NATIVE_LIBRARIES_WINDOWS.add("kerberos.DLL");
@@ -574,6 +575,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("msv1_0.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("msvcp_win.dll");
         NATIVE_LIBRARIES_WINDOWS.add("msvcrt.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("MSWSOCK.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("mswsock.dll");
         NATIVE_LIBRARIES_WINDOWS.add("napinsp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ncrypt.dll");
@@ -596,6 +598,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("SHELL32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("SSPICLI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("sechost.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("Secur32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("secur32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("shcore.dll");
         NATIVE_LIBRARIES_WINDOWS.add("shlwapi.dll");

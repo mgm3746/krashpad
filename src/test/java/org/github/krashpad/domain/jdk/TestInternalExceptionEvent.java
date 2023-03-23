@@ -89,6 +89,14 @@ class TestInternalExceptionEvent {
     ***REMOVED***
 
     @Test
+    void testStackOverflow() {
+        InternalExceptionEvent priorLogEvent = new InternalExceptionEvent("Internal exceptions (10 events):");
+        String logLine = "Event: 1787840.598 Thread 0x00000000e2291000 StackOverflowError at 0x0000000006f058c0";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT,
+                JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testThreadImplicitNullException() {
         InternalExceptionEvent priorLogEvent = new InternalExceptionEvent("***REMOVED***");
         String logLine = "Event: 32.906 Thread 0x00007ffff1dac800 Implicit null exception at 0x00007fffe09b9782 to "

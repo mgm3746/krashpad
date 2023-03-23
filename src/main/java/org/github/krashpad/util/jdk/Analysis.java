@@ -650,6 +650,11 @@ public enum Analysis {
     INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION("info.signo.exception.access.violation"),
 
     /**
+     * Property key for STACK_OVERFLOW crash.
+     */
+    INFO_SIGNO_EXCEPTION_STACK_OVERFLOW("info.signo.exception.stack.overflow"),
+
+    /**
      * Property key for SIGBUS crash.
      */
     INFO_SIGNO_SIGBUS("info.signo.sigbus"),

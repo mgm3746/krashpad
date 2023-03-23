@@ -15,6 +15,7 @@
 package org.github.krashpad.domain.jdk;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -69,6 +70,18 @@ class TestSigInfo {
         assertEquals(SignalNumber.EXCEPTION_ACCESS_VIOLATION, event.getSignalNumber(), "Signal number not correct.");
         assertEquals(SignalCode.UNKNOWN, event.getSignalCode(), "Signal code not correct.");
         assertEquals("0xffffffffffffffff", event.getSignalAddress(), "Signal address not correct.");
+    ***REMOVED***
+
+    @Test
+    void testWindowsExceptionStackOverflow() {
+        String logLine = "siginfo: ExceptionCode=0xc00000fd, ExceptionInformation=0x0000000000000001 "
+                + "0x00000000c9dd0000 ";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
+        SigInfo event = new SigInfo(logLine);
+        assertEquals(SignalNumber.EXCEPTION_STACK_OVERFLOW, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.UNKNOWN, event.getSignalCode(), "Signal code not correct.");
+        assertNull(event.getSignalAddress(), "Signal address not correct.");
     ***REMOVED***
 
     @Test

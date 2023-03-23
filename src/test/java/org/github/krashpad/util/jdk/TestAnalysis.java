@@ -659,6 +659,53 @@ class TestAnalysis {
                 Analysis.ERROR_STUBROUTINES + " analysis not identified.");
     ***REMOVED***
 
+    @Test
+    void testExceptionAccessViolationHeader() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header = "***REMOVED***  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x000000006ee76520, pid=11556, "
+                + "tid=0x000000000000040c";
+        Header event = new Header(header);
+        fel.getHeaders().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION.getKey()),
+                Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testExceptionAccessViolationSiginfo() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String siginfo = "siginfo: EXCEPTION_ACCESS_VIOLATION (0xc0000005), reading address 0xffffffffffffffff";
+        SigInfo event = new SigInfo(siginfo);
+        fel.setSigInfo(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION.getKey()),
+                Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testExceptionStackOverflowHeader() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header = "***REMOVED***  EXCEPTION_STACK_OVERFLOW (0xc00000fd) at pc=0x00007ff8b9b47447, pid=4304, "
+                + "tid=0x0000000000002aec";
+        Header event = new Header(header);
+        fel.getHeaders().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_EXCEPTION_STACK_OVERFLOW.getKey()),
+                Analysis.INFO_SIGNO_EXCEPTION_STACK_OVERFLOW + " analysis not identified.");
+    ***REMOVED***
+
+    @Test
+    void testExceptionStackOverflowSiginfo() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String siginfo = "siginfo: ExceptionCode=0xc00000fd, ExceptionInformation=0x0000000000000001 "
+                + "0x00000000c9dd0000";
+        SigInfo event = new SigInfo(siginfo);
+        fel.setSigInfo(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_EXCEPTION_STACK_OVERFLOW.getKey()),
+                Analysis.INFO_SIGNO_EXCEPTION_STACK_OVERFLOW + " analysis not identified.");
+    ***REMOVED***
+
     /**
      * Test if explicit not GC handled concurrently.
      */

@@ -271,6 +271,8 @@ public class JdkUtil {
     /**
      * Signal numbers.
      * 
+     * EXCEPTION_STACK_OVERFLOW: Stack overflow.
+     * 
      * SIGBUS: Invalid memory address.
      * 
      * SIGFPE: Floating point error (division by 0, modulo by 0, integer overflow).
@@ -281,7 +283,7 @@ public class JdkUtil {
      */
     public enum SignalNumber {
         //
-        EXCEPTION_ACCESS_VIOLATION, SIGBUS, SIGFPE, SIGILL, SIGSEGV, UNKNOWN
+        EXCEPTION_ACCESS_VIOLATION, EXCEPTION_STACK_OVERFLOW, SIGBUS, SIGFPE, SIGILL, SIGSEGV, UNKNOWN
     ***REMOVED***
 
     /**

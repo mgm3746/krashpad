@@ -777,6 +777,9 @@ public class FatalErrorLog {
         case EXCEPTION_ACCESS_VIOLATION:
             analysis.add(Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION);
             break;
+        case EXCEPTION_STACK_OVERFLOW:
+            analysis.add(Analysis.INFO_SIGNO_EXCEPTION_STACK_OVERFLOW);
+            break;
         case SIGBUS:
             analysis.add(Analysis.INFO_SIGNO_SIGBUS);
             break;
@@ -844,7 +847,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB);
         ***REMOVED***
         // StackOverflowError
-        if (haveStackOverFlowError()) {
+        if (getSignalNumber() != SignalNumber.EXCEPTION_STACK_OVERFLOW && haveStackOverFlowError()) {
             analysis.add(Analysis.ERROR_STACKOVERFLOW);
         ***REMOVED*** else {
             if (getThreadStackFreeSpace() > getThreadStackSize()) {
@@ -4012,6 +4015,28 @@ public class FatalErrorLog {
         SignalNumber signalNumber = SignalNumber.UNKNOWN;
         if (sigInfo != null) {
             signalNumber = sigInfo.getSignalNumber();
+        ***REMOVED***
+        if (signalNumber == SignalNumber.UNKNOWN && !headers.isEmpty()) {
+            Iterator<Header> iterator = headers.iterator();
+            while (iterator.hasNext()) {
+                Header he = iterator.next();
+                if (he.isSignalNumber()) {
+                    if (he.getLogEntry().indexOf(SignalNumber.EXCEPTION_ACCESS_VIOLATION.toString()) > 0) {
+                        signalNumber = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
+                    ***REMOVED*** else if (he.getLogEntry().indexOf(SignalNumber.EXCEPTION_STACK_OVERFLOW.toString()) > 0) {
+                        signalNumber = SignalNumber.EXCEPTION_STACK_OVERFLOW;
+                    ***REMOVED*** else if (he.getLogEntry().indexOf(SignalNumber.SIGBUS.toString()) > 0) {
+                        signalNumber = SignalNumber.SIGBUS;
+                    ***REMOVED*** else if (he.getLogEntry().indexOf(SignalNumber.SIGFPE.toString()) > 0) {
+                        signalNumber = SignalNumber.SIGFPE;
+                    ***REMOVED*** else if (he.getLogEntry().indexOf(SignalNumber.SIGILL.toString()) > 0) {
+                        signalNumber = SignalNumber.SIGILL;
+                    ***REMOVED*** else if (he.getLogEntry().indexOf(SignalNumber.SIGSEGV.toString()) > 0) {
+                        signalNumber = SignalNumber.SIGSEGV;
+                    ***REMOVED***
+                    break;
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
         return signalNumber;
     ***REMOVED***

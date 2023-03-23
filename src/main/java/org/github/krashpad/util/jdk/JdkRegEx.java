@@ -491,9 +491,10 @@ public class JdkRegEx {
     /**
      * Dynatrace native library.
      * 
-     * For example liboneagentjava.so, liboneagentloader.so, liboneagentproc.so
+     * For example liboneagentjava.so, liboneagentloader.so, liboneagentproc.so, dtagent.dll, dtagentcore.dll
      */
-    public static final String NATIVE_LIBRARY_DYNATRACE = "liboneagent(java|loader|proc)\\.(DLL|dll|so)";
+    public static final String NATIVE_LIBRARY_DYNATRACE = "(liboneagent(java|loader|proc)|dtagent(core)?)"
+            + "\\.(DLL|dll|so)";
 
     /**
      * JSS native library.
@@ -858,6 +859,16 @@ public class JdkRegEx {
      * stack(0x00000000dd6e0000,0x00000000dd7e0000)
      */
     public static final String WILDFLY_EXECUTOR_POOL_THREAD = "pool-\\d{1,***REMOVED***-thread-\\d{1,***REMOVED***";
+
+    /**
+     * Windows exception code for access violation.
+     */
+    public static final String WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION = "0xc0000005";
+
+    /**
+     * Windows exception code for stack overflow.
+     */
+    public static final String WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW = "0xc00000fd";
 
     /**
      * Regular expression for a young generation gc data.
