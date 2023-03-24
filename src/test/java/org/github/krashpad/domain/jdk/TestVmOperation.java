@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class TestVmOperation {
 
     @Test
-    void testCGCOperation() {
+    void testCgcOperation() {
         String logLine = "VM_Operation (0x0000008e276ff410): CGC_Operation, mode: safepoint, requested by thread "
                 + "0x000001d9d3e12800";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
@@ -58,6 +58,17 @@ class TestVmOperation {
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
         VmOperation event = new VmOperation(logLine);
         assertEquals("G1CollectFull, mode: safepoint, requested by thread 0x00007f29ec6cf800",
+                event.getVmOperationString(), "VM operation not correct.");
+    ***REMOVED***
+
+    @Test
+    void testGcHeapInspection() {
+        String logLine = "VM_Operation (0x00007f0ab47f7b60): GC_HeapInspection, mode: safepoint, requested by thread "
+                + "0x000055b24a035800";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperation event = new VmOperation(logLine);
+        assertEquals("GC_HeapInspection, mode: safepoint, requested by thread 0x000055b24a035800",
                 event.getVmOperationString(), "VM operation not correct.");
     ***REMOVED***
 
