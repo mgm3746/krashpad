@@ -78,6 +78,15 @@ class TestInternalExceptionEvent {
     ***REMOVED***
 
     @Test
+    void testNullPointerException() {
+        InternalExceptionEvent priorLogEvent = new InternalExceptionEvent("***REMOVED***");
+        String logLine = "Event: 134938.340 Thread 0x000055c53e54f000 NullPointerException at vtable entry "
+                + "0x00007f6a048a7a77";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT,
+                JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT.toString() + " not identified.");
+    ***REMOVED***
+
+    @Test
     void testParseLogLine() {
         InternalExceptionEvent priorLogEvent = new InternalExceptionEvent("***REMOVED***");
         String logLine = "Event: 101.811 Thread 0x00007ff0ec698000 Exception "
