@@ -281,6 +281,7 @@ public class ErrUtil {
         // krb5-libs
         NATIVE_LIBRARIES_LINUX.add("libk5crypto.so.3.1");
         // keyutils-libs
+        NATIVE_LIBRARIES_LINUX.add("libkeyutils.so.1.5");
         NATIVE_LIBRARIES_LINUX.add("libkeyutils.so.1.6");
         // krb5-libs
         NATIVE_LIBRARIES_LINUX.add("libkrb5.so.3.3");
@@ -290,6 +291,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libLLVM-14.so");
         // lcms2
         NATIVE_LIBRARIES_LINUX.add("liblcms2.so.2.0.8");
+        // libtool-ltdl
+        NATIVE_LIBRARIES_LINUX.add("libltdl.so.7.3.0");
         // xz-libs
         NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.2");
         NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.4");
@@ -474,10 +477,16 @@ public class ErrUtil {
         // libxkbcommon
         NATIVE_LIBRARIES_LINUX.add("libxkbcommon.so.0.0.0");
         // libxml2
+        NATIVE_LIBRARIES_LINUX.add("libxml2.so.2.9.1");
         NATIVE_LIBRARIES_LINUX.add("libxml2.so.2.9.7");
+        // xmlsec1
+        NATIVE_LIBRARIES_LINUX.add("libxmlsec1.so.1.2.20");
+        // xmlsec1-openssl
+        NATIVE_LIBRARIES_LINUX.add("libxmlsec1-openssl.so.1.2.20");
         // libxshmfence
         NATIVE_LIBRARIES_LINUX.add("libxshmfence.so.1.0.0");
         // libxslt
+        NATIVE_LIBRARIES_LINUX.add("libxslt.so.1.1.28");
         NATIVE_LIBRARIES_LINUX.add("libxslt.so.1.1.32");
         // zlib
         NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.7");
