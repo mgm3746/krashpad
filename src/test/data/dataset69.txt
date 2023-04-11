@@ -1,0 +1,1122 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007fff8ceba2f4, pid=8219, tid=0x00007ffdb4cdf170
+#
+# JRE version: OpenJDK Runtime Environment (8.0_312-b07) (build 1.8.0_312-b07)
+# Java VM: OpenJDK 64-Bit Server VM (25.312-b07 mixed mode linux-ppc64le compressed oops)
+# Problematic frame:
+# V  [libjvm.so+0x8ea2f4]  Method::validate_bci_from_bcx(long) const+0x14
+#
+# Core dump written. Default location: //core or core.8219
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-1.8.0-openjdk
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007ffed8eaf000):  Thread [stack: 0x00007ffdb4ae0000,0x00007ffdb4ce0000] [id=8588]
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000008
+
+Registers:
+pc =0x00007fff8ceba2f4  lr =0x00007fff8cc4b9bc  ctr=0x00007fff8c902e90  
+r0 =0x00007fff8cc4b878  r1 =0x00007ffdb4cdd690  r2 =0x00007fff8d4f7e00  
+r3 =0x0000000000000000  r4 =0xd9185ce200000001  r5 =0x00007ffd850fd300  
+r6 =0x00007fff47eb9ea0  r7 =0x00007fff47eb5e90  r8 =0x00007fff47eb9ea0  
+r9 =0x00007ffd850fd3d0  r10=0x0000000000037000  r11=0x00007fff485675a8  
+r12=0x00007fff8c902e90  r13=0x00007ffdb4ce68e0  r14=0x0000000000000001  
+r15=0xffffffffffffffff  r16=0x0000000000000001  r17=0x00000000ffffffff  
+r18=0x00007ffdb4cdd738  r19=0xfffffffffffffc80  r20=0x0000000000000000  
+r21=0x00007ffdb4cdd6e0  r22=0x0000000000000001  r23=0x00007ffdb4cdd7a0  
+r24=0x0000000000000000  r25=0x0000000000000001  r26=0x0000000000001000  
+r27=0x00007ffdb4cde398  r28=0x0000000000000000  r29=0x00007ffdb4cdd768  
+r30=0x0000000000000000  r31=0x00007ffdb4cdd690  
+
+Top of Stack: (sp=0x00007ffdb4cdd690)
+0x00007ffdb4cdd690:   00007ffdb4cdd6c0 00007ffdb4cde398
+0x00007ffdb4cdd6a0:   000000003983000a 00007ffdb4cdd768
+0x00007ffdb4cdd6b0:   0000000000000000 00007ffdb4cdd6c0
+0x00007ffdb4cdd6c0:   00007ffdb4cdddf0 00007ffdb4cdde10
+0x00007ffdb4cdd6d0:   00007fff8cc4b878 00007fff8d4f7e00
+0x00007ffdb4cdd6e0:   00007ffd850fd300 00007fff47eb9ea0
+0x00007ffdb4cdd6f0:   00007fff47eb5e90 00007fff00000000
+0x00007ffdb4cdd700:   00007ffd850fd3d0 00007ffd850fd300
+0x00007ffdb4cdd710:   0000000000000004 00007fff48568bc0
+0x00007ffdb4cdd720:   00007ffd00000004 00007fff48567090
+0x00007ffdb4cdd730:   0000000000000000 00007ffd850fd230
+0x00007ffdb4cdd740:   00007fff485675a8 00007fff48567090
+0x00007ffdb4cdd750:   00007ffe00000002 00007ffd850fd300
+0x00007ffdb4cdd760:   00007ffd850fd230 00007ffd850fd300
+0x00007ffdb4cdd770:   00007fff47eb9ea0 00007fff47eb5e90
+0x00007ffdb4cdd780:   00007fff00000000 00007ffd850fd3d0
+0x00007ffdb4cdd790:   00007ffd850fd300 00007ffe94511000
+0x00007ffdb4cdd7a0:   00007fff47ec34a8 00007fff47eb5e90
+0x00007ffdb4cdd7b0:   00007fff00000000 00007ffce484dd70
+0x00007ffdb4cdd7c0:   00007ffce484dc70 00007ffce484df90
+0x00007ffdb4cdd7d0:   00007fff47eba074 00007fff47eb5e90
+0x00007ffdb4cdd7e0:   00007ffc00000000 00007ffce484e040
+0x00007ffdb4cdd7f0:   00007ffce484df70 00007fff89065000
+0x00007ffdb4cdd800:   00007fff0dd6af80 00007ffdb4cdd810
+0x00007ffdb4cdd810:   00007ffdb4cdd870 16e95dbf9c19a700
+0x00007ffdb4cdd820:   00007fff8d18502c 00007ffce484dc70
+0x00007ffdb4cdd830:   00007fff47ec34a8 00007fff47eb5e90
+0x00007ffdb4cdd840:   00007fff00000000 00007ffce484dd70
+0x00007ffdb4cdd850:   00007ffce484dc70 0000000000000000
+0x00007ffdb4cdd860:   00007fff0dd6af80 00007ffdb4cdd870
+0x00007ffdb4cdd870:   00007ffdb4cdd8f0 16e95dbf9c19a700
+0x00007ffdb4cdd880:   00007fff8c9244b4 0000000000000001
+0x00007ffdb4cdd890:   00007ffdb4cdd8c0 00007fff0dd6af80
+0x00007ffdb4cdd8a0:   00007ffed8ed8000 16e95dbf9c19a700
+0x00007ffdb4cdd8b0:   00007ffdb4cdda50 00007fff0dd6af80
+0x00007ffdb4cdd8c0:   0000000000000000 00007fff0dd6af80
+0x00007ffdb4cdd8d0:   ffffffffffffffff 00007ffed8ed8b80
+0x00007ffdb4cdd8e0:   00007ffdb4cdd998 00007ffdb4cdd8f0
+0x00007ffdb4cdd8f0:   00007ffdb4cdd960 00007fff0dd6d648
+0x00007ffdb4cdd900:   00007fff8c92490c 00007ffdb4cdd910
+0x00007ffdb4cdd910:   00007ffdb4cdd960 00007fff0dd6af80
+0x00007ffdb4cdd920:   00007ffed8ed8000 16e95dbf9c19a700
+0x00007ffdb4cdd930:   0000000000000000 0000000000000002
+0x00007ffdb4cdd940:   00007ffdb4cdda90 00007ffed8ed8000
+0x00007ffdb4cdd950:   00007ffdb4cdd998 00007ffdb4cdd960
+0x00007ffdb4cdd960:   00007ffdb4cdda00 00007ffdb4cdd970
+0x00007ffdb4cdd970:   00007fff8cdd6dfc 00007fff8d4f7e00
+0x00007ffdb4cdd980:   00007fff8cb6bbc4 0000000000000000
+0x00007ffdb4cdd990:   0000000000000000 00007fff0dd6af80
+0x00007ffdb4cdd9a0:   00007ffdb4cdd9f0 16e95dbf9c19a700
+0x00007ffdb4cdd9b0:   00007ffed8ed8000 00007fff8d757300
+0x00007ffdb4cdd9c0:   00007ffdb4cdd9f0 00007fff8d6eedb8
+0x00007ffdb4cdd9d0:   00007ffdb4cde0e8 0000000000000000
+0x00007ffdb4cdd9e0:   00007fff8d74ca00 0000000000000004
+0x00007ffdb4cdd9f0:   00007ffdb4cdda70 00007ffdb4cdda00
+0x00007ffdb4cdda00:   00007fff8d5d2cd0 00007fff8d757300
+0x00007ffdb4cdda10:   00007fff8cdde4c8 00000006e40ac8e8
+0x00007ffdb4cdda20:   00007ffdb4cdda70 16e95dbf9c19a700
+0x00007ffdb4cdda30:   00007ffdb4cddbb0 00007fff8d757300
+0x00007ffdb4cdda40:   00007fff88076850 0000000000000000
+0x00007ffdb4cdda50:   00007fff8d2b6fb0 0000000000000015
+0x00007ffdb4cdda60:   00007ffdb4cde0e8 00007ffdb4cdda70
+0x00007ffdb4cdda70:   00007ffdb4cde0c0 00007ffe00004000
+0x00007ffdb4cdda80:   00007fff8d5b4a0c 00007fff8d757300 
+
+Instructions: (pc=0x00007fff8ceba2f4)
+0x00007fff8ceba2b4:   ebe1fff8 38630030 7c632050 7c6307b4
+0x00007fff8ceba2c4:   4e800020 00000000 00000900 00000180
+0x00007fff8ceba2d4:   60000000 60000000 60420000 fbe1fff8
+0x00007fff8ceba2e4:   f821ffd1 2c240000 7c3f0b78 41820040
+0x00007fff8ceba2f4:   e9430008 38600000 390a0030 7fa44040
+0x00007fff8ceba304:   419e001c 2aa4ffff 41950034 a14a0020
+0x00007fff8ceba314:   7faa2000 409d0058 7c8307b4 383f0030
+0x00007fff8ceba324:   ebe1fff8 4e800020 60420000 383f0030 
+
+
+Register to memory mapping:
+
+r0 =0x00007fff8cc4b878: <offset 0x67b878> in /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le/jre/lib/ppc64le/server/libjvm.so at 0x00007fff8c5d0000
+r1 =0x00007ffdb4cdd690 is an unknown value
+r2 =0x00007fff8d4f7e00: <offset 0xf27e00> in /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le/jre/lib/ppc64le/server/libjvm.so at 0x00007fff8c5d0000
+r3 =0x0000000000000000 is an unknown value
+r4 =0xd9185ce200000001 is an unknown value
+r5 =0x00007ffd850fd300 is pointing into the stack for thread: 0x00007ffe94511000
+r6 =0x00007fff47eb9ea0 is at code_begin+2848 in an Interpreter codelet
+invoke return entry points  [0x00007fff47eb9380, 0x00007fff47eba180]  3584 bytes
+r7 =0x00007fff47eb5e90 is at code_begin+-112 in 
+[CodeBlob (0x00007fff47eb5e90)]
+Framesize: 0
+BufferBlob (0x00007fff47eb5e90) used for Interpreter
+r8 =0x00007fff47eb9ea0 is at code_begin+2848 in an Interpreter codelet
+invoke return entry points  [0x00007fff47eb9380, 0x00007fff47eba180]  3584 bytes
+r9 =0x00007ffd850fd3d0 is pointing into the stack for thread: 0x00007ffe94511000
+r10=0x0000000000037000 is an unknown value
+r11=0x00007fff485675a8 is at entry_point+40 in (nmethod*)0x00007fff48567090
+r12=0x00007fff8c902e90: <offset 0x332e90> in /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le/jre/lib/ppc64le/server/libjvm.so at 0x00007fff8c5d0000
+r13=0x00007ffdb4ce68e0 is an unknown value
+r14=0x0000000000000001 is an unknown value
+r15=0xffffffffffffffff is an unknown value
+r16=0x0000000000000001 is an unknown value
+r17=0x00000000ffffffff is an unknown value
+r18=0x00007ffdb4cdd738 is an unknown value
+r19=0xfffffffffffffc80 is an unknown value
+r20=0x0000000000000000 is an unknown value
+r21=0x00007ffdb4cdd6e0 is an unknown value
+r22=0x0000000000000001 is an unknown value
+r23=0x00007ffdb4cdd7a0 is an unknown value
+r24=0x0000000000000000 is an unknown value
+r25=0x0000000000000001 is an unknown value
+r26=0x0000000000001000 is an unknown value
+r27=0x00007ffdb4cde398 is an unknown value
+r28=0x0000000000000000 is an unknown value
+r29=0x00007ffdb4cdd768 is an unknown value
+r30=0x0000000000000000 is an unknown value
+r31=0x00007ffdb4cdd690 is an unknown value
+
+
+Stack: [0x00007ffdb4ae0000,0x00007ffdb4ce0000],  sp=0x00007ffdb4cdd690,  free space=2037k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0x8ea2f4]  Method::validate_bci_from_bcx(long) const+0x14
+V  [libjvm.so+0x67b878]  JfrStackTrace::record_thread(JavaThread&, frame&)+0x378
+V  [libjvm.so+0x690200]  OSThreadSamplerCallback::call()+0x160
+V  [libjvm.so+0x9b265c]  os::ThreadCrashProtection::call(os::CrashProtectionCallback&)+0xcc
+V  [libjvm.so+0x68accc]  OSThreadSampler::do_task(os::SuspendedThreadTaskContext const&) [clone .part.36]+0x5c
+V  [libjvm.so+0x9a3e84]  os::SuspendedThreadTask::internal_do_task()+0x414
+V  [libjvm.so+0x98fb18]  os::SuspendedThreadTask::run()+0x28
+V  [libjvm.so+0x68b664]  JfrThreadSampleClosure::do_sample_thread(JavaThread*, JfrStackFrame*, unsigned int, JfrSampleType)+0x2b4
+V  [libjvm.so+0x68faa8]  JfrThreadSampler::task_stacktrace(JfrSampleType, JavaThread**) [clone .constprop.66]+0x388
+V  [libjvm.so+0x68ffa8]  JfrThreadSampler::run()+0x248
+V  [libjvm.so+0x99974c]  java_start(Thread*)+0x22c
+C  [libpthread.so.0+0x87c8]  start_thread+0xf8
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x00007ffea8167000 JavaThread "pool-50-thread-1123" daemon [_thread_blocked, id=146106, stack(0x00007ffc203a0000,0x00007ffc205a0000)]
+
+Other Threads:
+  0x00007fff88d1d800 VMThread [stack: 0x00007fff0d420000,0x00007fff0d620000] [id=8238]
+  0x00007fff895cb000 WatcherThread [stack: 0x00007ffee91d0000,0x00007ffee93d0000] [id=8276]
+
+=>0x00007ffed8eaf000 (exited) Thread [stack: 0x00007ffdb4ae0000,0x00007ffdb4ce0000] [id=8588]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+heap address: 0x00000006c0000000, size: 5120 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+
+Heap:
+ garbage-first heap   total 5242880K, used 4252559K [0x00000006c0000000, 0x00000006c0205000, 0x0000000800000000)
+  region size 2048K, 1085 young (2222080K), 40 survivors (81920K)
+ Metaspace       used 592068K, capacity 613614K, committed 613632K, reserved 614400K
+
+Heap Regions: (E=young(eden), S=young(survivor), O=old, HS=humongous(starts), HC=humongous(continues), CS=collection set, F=free, TS=gc time stamp, PTAMS=previous top-at-mark-start, NTAMS=next top-at-mark-start)
+AC   0  O    TS     0 PTAMS 0x00000006c0200000 NTAMS 0x00000006c0200000 space 2048K, 100% used [0x00000006c0000000, 0x00000006c0200000)
+AC   0  E CS TS     0 PTAMS 0x00000007ffe00000 NTAMS 0x00000007ffe00000 space 2048K, 100% used [0x00000007ffe00000, 0x0000000800000000)
+
+Card table byte_map: [0x00007fff44100000,0x00007fff44b00000] byte_map_base: 0x00007fff40b00000
+
+Marking Bits (Prev, Next): (CMBitMap*) 0x00007fff88085780, (CMBitMap*) 0x00007fff88085728
+ Prev Bits: [0x00007fff15600000, 0x00007fff1a600000)
+ Next Bits: [0x00007fff1a600000, 0x00007fff1f600000)
+
+Polling page: 0x00007fff8d860000
+
+CodeCache: size=1048576Kb used=79638Kb max_used=79659Kb free=968937Kb
+ bounds [0x00007fff47eb0000, 0x00007fff4ccf0000, 0x00007fff87eb0000]
+ total_blobs=11796 nmethods=10733 adapters=1021
+ compilation: enabled
+
+Compilation events (250 events):
+Event: 18960.899 Thread 0x00007fff8945f800 nmethod 15702 0x00007fff4caa3c10 code [0x00007fff4caa3e00, 0x00007fff4caa3f50]
+Event: 20195.893 Thread 0x00007fff8945f800 15826   !         com.microsoft.sqlserver.jdbc.DDC::convertStreamToObject (612 bytes)
+Event: 20195.936 Thread 0x00007fff8945f800 nmethod 15826 0x00007fff4c047710 code [0x00007fff4c048400, 0x00007fff4c04ac30]
+
+GC Heap History (250 events):
+Event: 19983.262 GC heap before
+{Heap before GC invocations=213 (full 0):
+ garbage-first heap   total 5242880K, used 4605009K [0x00000006c0000000, 0x00000006c0205000, 0x0000000800000000)
+  region size 2048K, 1258 young (2576384K), 39 survivors (79872K)
+ Metaspace       used 591968K, capacity 613460K, committed 613632K, reserved 614400K
+Event: 19983.392 GC heap after
+Heap after GC invocations=214 (full 0):
+ garbage-first heap   total 5242880K, used 2114447K [0x00000006c0000000, 0x00000006c0205000, 0x0000000800000000)
+  region size 2048K, 40 young (81920K), 40 survivors (81920K)
+ Metaspace       used 591968K, capacity 613460K, committed 613632K, reserved 614400K
+}
+
+Classes redefined (23 events):
+Event: 2.899 Thread 0x00007fff88d1d800 redefined class name=java.net.HttpURLConnection, count=1
+
+Internal exceptions (250 events):
+Event: 20230.605 Thread 0x00007fff8937d800 Exception <a 'java/net/SocketTimeoutException': Read timed out> (0x000000077da11c30) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le/openjdk/hotspot/src/share/vm/prims/jni.cpp, line 739]
+
+Events (250 events):
+Event: 20210.963 Thread 0x00007ffed40b2000 Thread exited: 0x00007ffed40b2000
+Event: 20225.015 Thread 0x00007ffc14154000 Thread exited: 0x00007ffc14154000
+
+
+Dynamic libraries:
+7fff8c000000-7fff8c010000 rw-s 00000000 fd:00 2483176579                 /tmp/hsperfdata_tomcat/8219
+7fff8c5d0000-7fff8d480000 r-xp 00000000 fd:00 2483174672                 /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le/jre/lib/ppc64le/server/libjvm.so
+
+VM Arguments:
+jvm_args: -Djava.util.logging.config.file=/path/to/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dorg.apache.catalina.security.SecurityListener.UMASK=0002 -Xmx5g -Xms4g -XX:MetaspaceSize=7g -XX:MaxMetaspaceSize=8g -XX:-UseCompressedClassPointers -Xss2m -XX:MaxJavaStackTraceDepth=50000 -XX:+UseG1GC -XX:MaxGCPauseMillis=500 -XX:+UseStringDeduplication -Xloggc:/path/to/gc-v3-%t-%p.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintAdaptiveSizePolicy -XX:+PrintGCApplicationStoppedTime -XX:+DisableExplicitGC -XX:ParallelGCThreads=4 -XX:ConcGCThreads=2 -XX:G1ConcRefinementThreads=4 -XX:ReservedCodeCacheSize=1024m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to -XX:ErrorFile=/path/to/java_error%p.log -XX:OnOutOfMemoryError=/path/to/myscript.sh -Djava.awt.headless=true -Dfile.encoding=ISO-8859-15 -Dsun.zip.disableMemoryMapping=true -javaagent:/etc/datadog-agent/dd-java-agent-0.89.0.jar -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -XX:FlightRecorderOptions=stackdepth=256 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1234 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dignore.endorsed.dirs= -Dcatalina.base=/path/to -Dcatalina.home=/path/to -Djava.io.tmpdir=/path/to/temp 
+java_command: org.apache.catalina.startup.Bootstrap start
+java_class_path (initial): /path/to/bootstrap.jar:/path/to/tomcat-juli.jar:/etc/datadog-agent/dd-java-agent.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=/opt/jdk
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+SHELL=/bin/bash
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0xc54a30], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xc54a30], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0x996f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0x996f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0x996f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0x996f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGUSR2: [libjvm.so+0x996cd0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: [libjvm.so+0x996ec0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGINT: [libjvm.so+0x996ec0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGTERM: [libjvm.so+0x996ec0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0x996ec0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGTRAP: [libjvm.so+0x996f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+---------------  S Y S T E M  ---------------
+
+OS:Red Hat Enterprise Linux release 8.4 (Ootpa)
+
+uname:Linux 4.18.0-305.19.1.el8_4.ppc64le #1 SMP Tue Sep 7 06:49:25 EDT 2021 ppc64le
+libc:glibc 2.28 NPTL 2.28 
+rlimit: STACK 8192k, CORE infinity, NPROC 992350, NOFILE 20480, AS infinity
+load average:3.97 3.94 4.17
+
+/proc/meminfo:
+MemTotal:       254114176 kB
+MemFree:         2230336 kB
+MemAvailable:   58533248 kB
+Buffers:             832 kB
+Cached:         54646528 kB
+SwapCached:         7424 kB
+Active:         30885184 kB
+Inactive:       208872960 kB
+Active(anon):     292800 kB
+Inactive(anon): 185032960 kB
+Active(file):   30592384 kB
+Inactive(file): 23840000 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:       4194240 kB
+SwapFree:        2555776 kB
+Dirty:             17472 kB
+Writeback:             0 kB
+AnonPages:      185123776 kB
+Mapped:           300864 kB
+Shmem:            210624 kB
+KReclaimable:    6364544 kB
+Slab:           10994560 kB
+SReclaimable:    6364544 kB
+SUnreclaim:      4630016 kB
+KernelStack:      106624 kB
+PageTables:        74368 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    131251328 kB
+Committed_AS:   175891776 kB
+VmallocTotal:   541165879296 kB
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
+Percpu:           317440 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:      16384 kB
+Hugetlb:               0 kB
+
+container (cgroup) information:
+container_type: cgroupv1
+cpu_cpuset_cpus: 0-151
+cpu_memory_nodes: 0-1
+active_processor_count: 152
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
+memory_usage_in_bytes: 8362590208
+memory_max_usage_in_bytes: 8495038464
+
+
+CPU:total 160 (initial active 152) ppc64 fsqrt isel lxarxeh cmpb popcntb popcntw fcfids vand aes vpmsumb mfdscr vsx sha
+
+/proc/cpuinfo:
+processor	: 0
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 1
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 2
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 3
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 4
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 5
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 6
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 7
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 8
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 9
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 10
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 11
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 12
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 13
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 14
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 15
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 16
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 17
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 18
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 19
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 20
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 21
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 22
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 23
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 24
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 25
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 26
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 27
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 28
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 29
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 30
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 31
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 32
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 33
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 34
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 35
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 36
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 37
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 38
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 39
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 40
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 41
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 42
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 43
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 44
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 45
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 46
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 47
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 48
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 49
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 50
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 51
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 52
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 53
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 54
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 55
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 56
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 57
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 58
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 59
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 60
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 61
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 62
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 63
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 64
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 65
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 66
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 67
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 68
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 69
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 70
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 71
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 72
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 73
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 74
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 75
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 76
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 77
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 78
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 79
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 80
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 81
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 82
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 83
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 84
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 85
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 86
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 87
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 88
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 89
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 90
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 91
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 92
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 93
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 94
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 95
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 96
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 97
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 98
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 99
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 100
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 101
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 102
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 103
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 104
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 105
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 106
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 107
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 108
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 109
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 110
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 111
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 112
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 113
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 114
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 115
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 116
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 117
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 118
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 119
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 120
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 121
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 122
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 123
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 124
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 125
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 126
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 127
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 128
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 129
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 130
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 131
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 132
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 133
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 134
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 135
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 136
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 137
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 138
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 139
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 140
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 141
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 142
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 143
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 144
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 145
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 146
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 147
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 148
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 149
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 150
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+processor	: 151
+cpu		: POWER9 (architected), altivec supported
+clock		: 2500.000000MHz
+revision	: 2.2 (pvr 004e 0202)
+
+timebase	: 512000000
+platform	: pSeries
+model		: IBM,9008-22L
+machine		: CHRP IBM,9008-22L
+MMU		: Hash
+
+
+Memory: 64k page, physical 254114176k(2230336k free), swap 4194240k(2555776k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.312-b07) for linux-ppc64le JRE (1.8.0_312-b07), built on Oct 16 2021 19:04:33 by "mockbuild" with gcc 8.4.1 20200928 (Red Hat 8.4.1-1)
+
+time: Fri Nov 26 10:07:01 2021
+timezone: CET
+elapsed time: 20231.239245 seconds (0d 5h 37m 11s)
