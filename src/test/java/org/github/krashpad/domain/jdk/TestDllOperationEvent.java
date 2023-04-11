@@ -31,7 +31,7 @@ class TestDllOperationEvent {
         String logLine = "Dll operation events (18 events):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DLL_OPERATION_EVENT,
                 JdkUtil.LogEventType.DLL_OPERATION_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJbds() {
@@ -40,7 +40,7 @@ class TestDllOperationEvent {
                 + "org.eclipse.osgi/149/0/.cp/os/linux/x86_64/libunixfile_1_0_0.s";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DLL_OPERATION_EVENT,
                 JdkUtil.LogEventType.DLL_OPERATION_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLibJava() {
@@ -49,7 +49,7 @@ class TestDllOperationEvent {
                 + "lib/libjava.so";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DLL_OPERATION_EVENT,
                 JdkUtil.LogEventType.DLL_OPERATION_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -72,6 +72,6 @@ class TestDllOperationEvent {
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof Event,
                 JdkUtil.LogEventType.EVENT.toString() + " incorrectly identified.");
-    ***REMOVED***
+    }
 
-***REMOVED***
+}

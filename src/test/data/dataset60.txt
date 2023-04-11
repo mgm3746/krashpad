@@ -1,26 +1,26 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007f510e83bab3, pid=205542, tid=0x00007f510c1d4700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_222-b10) (build 1.8.0_222-b10)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.222-b10 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** V  [libjvm.so+0x5b4ab3]  G1ParScanThreadState::copy_to_survivor_space(InCSetState, oopDesc*, markOopDesc*)+0x2e3
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f510e83bab3, pid=205542, tid=0x00007f510c1d4700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_222-b10) (build 1.8.0_222-b10)
+# Java VM: OpenJDK 64-Bit Server VM (25.222-b10 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# V  [libjvm.so+0x5b4ab3]  G1ParScanThreadState::copy_to_survivor_space(InCSetState, oopDesc*, markOopDesc*)+0x2e3
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f5108060000):  GCTaskThread [stack: 0x00007f510c0d5000,0x00007f510c1d5000] [id=205546]
 
-***REMOVED***
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000008
 
-***REMOVED***
+Registers:
 RAX=0x0000000000000001, RBX=0x000000070e3deee8, RCX=0x0000000000000003, RDX=0x00007f510f230f40
 RSP=0x00007f510c1d36a0, RBP=0x00007f510c1d3700, RSI=0x0000000000000001, RDI=0x0000000000000000
 R8 =0x0000000000000009, R9 =0x00007f5108085840, R10=0x0000000000000001, R11=0x0000000000000006
@@ -68,7 +68,7 @@ Instructions: (pc=0x00007f510e83bab3)
 0x00007f510e83bab3:   8b 4f 08 83 f9 00 0f 8f 52 fd ff ff 0f 85 a6 02
 0x00007f510e83bac3:   00 00 0f 1f 00 48 8b 07 4c 89 e6 ff 90 e8 00 00 
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x0000000000000001 is an unknown value
 RBX=0x000000070e3deee8 is pointing into object: 0x000000070e3dee78
@@ -95,7 +95,7 @@ R15=0x00007f50ac1115a0 is an unknown value
 
 
 Stack: [0x00007f510c0d5000,0x00007f510c1d5000],  sp=0x00007f510c1d36a0,  free space=1017k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0x5b4ab3]  G1ParScanThreadState::copy_to_survivor_space(InCSetState, oopDesc*, markOopDesc*)+0x2e3
 V  [libjvm.so+0x5b54ae]  G1ParScanThreadState::trim_queue()+0x59e
 V  [libjvm.so+0x598db7]  G1ParEvacuateFollowersClosure::do_void()+0x37
@@ -104,9 +104,9 @@ V  [libjvm.so+0xae685a]  GangWorker::loop()+0xca
 V  [libjvm.so+0x8c3a72]  java_start(Thread*)+0xf2
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007f5068021000 JavaThread "RMI TCP Connection(idle)" daemon [_thread_blocked, id=557488, stack(0x00007f5062090000,0x00007f5062191000)]
   0x00007f510903d800 JavaThread "ContainerBackgroundProcessor[StandardEngine[Tomcat]]" daemon [_thread_blocked, id=205662, stack(0x00007f50bccf9000,0x00007f50bcdfa000)]
   0x00007f510839a800 JavaThread "Service Thread" daemon [_thread_blocked, id=205570, stack(0x00007f50bd2fb000,0x00007f50bd3fc000)]
@@ -118,7 +118,7 @@ V  [libjvm.so+0x8c3a72]  java_start(Thread*)+0xf2
   0x00007f5108349800 JavaThread "Finalizer" daemon [_thread_blocked, id=205564, stack(0x00007f50f0125000,0x00007f50f0226000)]
   0x00007f5108344800 JavaThread "Reference Handler" daemon [_thread_blocked, id=205563, stack(0x00007f50f0226000,0x00007f50f0327000)]
 
-***REMOVED***
+Other Threads:
   0x00007f510833b000 VMThread [stack: 0x00007f50f0328000,0x00007f50f0428000] [id=205562]
   0x00007f51083af800 WatcherThread [stack: 0x00007f50bd1fb000,0x00007f50bd2fb000] [id=205571]
 
@@ -134,7 +134,7 @@ heap address: 0x0000000640000000, size: 6144 MB, Compressed Oops mode: Zero base
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
 Compressed class space size: 1073741824 Address: 0x00000007c0000000
 
-***REMOVED***
+Heap:
  garbage-first heap   total 3477504K, used 1163715K [0x0000000640000000, 0x0000000640106a20, 0x00000007c0000000)
   region size 1024K, 169 young (173056K), 22 survivors (22528K)
  Metaspace       used 93882K, capacity 97842K, committed 98176K, reserved 1134592K
@@ -149,28 +149,28 @@ Polling page: 0x00007f51100aa000
 CodeCache: size=245760Kb used=54711Kb max_used=54754Kb free=191048Kb
  bounds [0x00007f50f9000000, 0x00007f50fc5e0000, 0x00007f5108000000]
  total_blobs=15673 nmethods=15034 adapters=551
-***REMOVED***
+ compilation: enabled
 
-***REMOVED***
+Dynamic libraries:
 7f510e287000-7f510ef6f000 r-xp 00000000 fd:00 4738837                    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b10-1.el7_7.x86_64/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Xmx6144m -XX:+UseG1GC -XX:+CMSClassUnloadingEnabled -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xloggc:/path/to/heapdump.hprof -verbose:gc -Dserver.port=8888 -Dsecret.storage=/path/to/secret.key -Dspring.profiles.active=all -Denv=prod 
 java_command: org.springframework.boot.loader.JarLauncher
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-***REMOVED***
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xacf850], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xacf850], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x8c1cb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: [libjvm.so+0x8c1cb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0x8c1cb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x8c1cb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x8c1b60], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: [libjvm.so+0x8c1d70], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -178,16 +178,16 @@ SIGTERM: [libjvm.so+0x8c1d70], sa_mask[0]=11111111011111111101111111111110, sa_f
 SIGQUIT: [libjvm.so+0x8c1d70], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)
 
-uname:Linux 3.10.0-1160.21.1.el7.x86_64 ***REMOVED***1 SMP Mon Feb 22 18:03:13 EST 2021 x86_64
+uname:Linux 3.10.0-1160.21.1.el7.x86_64 #1 SMP Mon Feb 22 18:03:13 EST 2021 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE 0k, NPROC 32768, NOFILE 32768, AS infinity
 load average:0.87 0.50 0.45
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       32775532 kB
 MemFree:        16887660 kB
 MemAvailable:   21688284 kB
@@ -200,12 +200,12 @@ Active(anon):    9298908 kB
 Inactive(anon):    44800 kB
 Active(file):    2352596 kB
 Inactive(file):  2615460 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:      16775164 kB
 SwapFree:       16775164 kB
 Dirty:               852 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       9304736 kB
 Mapped:           372552 kB
 Shmem:             38972 kB
@@ -214,35 +214,35 @@ SReclaimable:     235388 kB
 SUnreclaim:       107344 kB
 KernelStack:        9984 kB
 PageTables:        33204 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    33162928 kB
 Committed_AS:   11206284 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      217900 kB
 VmallocChunk:   34359334908 kB
 Percpu:             7680 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   5787648 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      236868 kB
 DirectMap2M:    33316864 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-3
 cpu_memory_nodes: 0
 active_processor_count: 4
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
 memory_limit_in_bytes: -2
 memory_and_swap_limit_in_bytes: -2
 memory_soft_limit_in_bytes: -2
@@ -252,8 +252,8 @@ memory_max_usage_in_bytes: -2
 
 CPU:total 4 (initial active 4) (1 cores per cpu, 1 threads per core) family 6 model 58 stepping 0, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, tsc, tscinvbit, tscinv
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 58
@@ -279,7 +279,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 58
@@ -305,7 +305,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 58
@@ -331,7 +331,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 58

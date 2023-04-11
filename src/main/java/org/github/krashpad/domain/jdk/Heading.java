@@ -30,15 +30,15 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * ***REMOVED***
+ * ---------------  T H R E A D  ---------------
  * </pre>
  * 
  * <pre>
- * ***REMOVED***
+ * ---------------  P R O C E S S  ---------------
  * </pre>
  * 
  * <pre>
- * ***REMOVED***
+ * ---------------  S Y S T E M  ---------------
  * </pre>
  * 
  * <pre>
@@ -53,8 +53,8 @@ public class Heading implements LogEvent, ThrowAwayEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^([-]{15***REMOVED***  (T H R E A D|P R O C E S S|S U M M A R Y|S Y S T E M)"
-            + "[ ]{1,2***REMOVED***[-]{12,15***REMOVED***|[-]{70***REMOVED***)$";
+    private static final String REGEX = "^([-]{15}  (T H R E A D|P R O C E S S|S U M M A R Y|S Y S T E M)"
+            + "[ ]{1,2}[-]{12,15}|[-]{70})$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -65,7 +65,7 @@ public class Heading implements LogEvent, ThrowAwayEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -80,13 +80,13 @@ public class Heading implements LogEvent, ThrowAwayEvent {
      */
     public Heading(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.HEADING.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

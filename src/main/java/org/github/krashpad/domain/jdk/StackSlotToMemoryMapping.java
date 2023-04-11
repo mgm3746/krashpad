@@ -65,7 +65,7 @@ public class StackSlotToMemoryMapping implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -80,13 +80,13 @@ public class StackSlotToMemoryMapping implements LogEvent {
      */
     public StackSlotToMemoryMapping(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

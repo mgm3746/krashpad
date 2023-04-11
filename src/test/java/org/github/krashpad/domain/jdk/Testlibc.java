@@ -30,12 +30,12 @@ class Testlibc {
         String logLine = "libc:glibc 2.12 NPTL 2.12";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LIBC,
                 JdkUtil.LogEventType.LIBC.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "libc:glibc 2.12 NPTL 2.12";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Libc,
                 JdkUtil.LogEventType.LIBC.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

@@ -30,7 +30,7 @@ class TestTransparentHugepage {
         String logLine = "[always] madvise never";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAlwaysDefer() {
@@ -38,40 +38,40 @@ class TestTransparentHugepage {
                 + "defer defer+madvise [madvise] never";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAlwaysNoBrackets() {
         String logLine = "always defer defer+madvise [madvise] never";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDefrag() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/enabled:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMadviseNever() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/enabled: [always] madvise never";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/enabled:";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TransparentHugepage,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

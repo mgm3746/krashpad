@@ -31,7 +31,7 @@ class TestThread {
                 + "stack(0xd6b0d000,0xd6b5e000)]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testConcurrentGcThread() {
@@ -39,7 +39,7 @@ class TestThread {
                 + "0x00007fffba5b0000] [id=24734]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentThreadJavaThread() {
@@ -47,7 +47,7 @@ class TestThread {
                 + "stack(0x00007ff0f60c5000,0x00007ff0f61c5000)]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentThreadThread() {
@@ -55,7 +55,7 @@ class TestThread {
                 + "[id=107493]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testError() {
@@ -63,7 +63,7 @@ class TestThread {
                 + "pc=0x00007fc88aaa9a74]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testGcTaskThread() {
@@ -71,7 +71,7 @@ class TestThread {
                 + "[id=52418]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
@@ -79,21 +79,21 @@ class TestThread {
                 + "stack(0x00007f199cf04000,0x00007f199d005000)]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJavaThreadHeader() {
-        String logLine = "***REMOVED***";
+        String logLine = "Java Threads: ( => current thread )";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOtherThreadHeader() {
-        String logLine = "***REMOVED***";
+        String logLine = "Other Threads:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -101,5 +101,5 @@ class TestThread {
                 + "stack(0x00007f199cf04000,0x00007f199d005000)]";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Thread,
                 JdkUtil.LogEventType.THREAD.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

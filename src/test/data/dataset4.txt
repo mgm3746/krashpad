@@ -1,26 +1,26 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007f95e552b495, pid=13161, tid=0x00007f95c924c700
-***REMOVED***
-***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_192-b26) (build 1.8.0_192-b26)
-***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.192-b26 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** j  org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done(Lorg/apache/activemq/artemis/nativo/jlibaio/SubmitInfo;)V+1
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f95e552b495, pid=13161, tid=0x00007f95c924c700
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_192-b26) (build 1.8.0_192-b26)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.192-b26 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# j  org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done(Lorg/apache/activemq/artemis/nativo/jlibaio/SubmitInfo;)V+1
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00000000082d7000):  JavaThread "Apache ActiveMQ Artemis libaio poller" [_thread_in_Java, id=14549, stack(0x00007f95c914c000,0x00007f95c924d000)]
 
 
 Stack: [0x00007f95c914c000,0x00007f95c924d000],  sp=0x00007f95c924b3c0,  free space=1020k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 j  org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done(Lorg/apache/activemq/artemis/nativo/jlibaio/SubmitInfo;)V+1
 v  ~StubRoutines::call_stub
 V  [libjvm.so+0x685d2b]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0xddb
@@ -28,14 +28,14 @@ V  [libjvm.so+0x6cd5c8]  jni_invoke_nonstatic(JNIEnv_*, JavaValue*, _jobject*, J
 V  [libjvm.so+0x6cf6a6]  jni_CallVoidMethod+0x166
 C  [libartemis-native-64.so+0x29b6]  Java_org_apache_activemq_artemis_nativo_jlibaio_LibaioContext_blockedPoll+0x156
 
-***REMOVED***
+Dynamic libraries:
 7f95fc25c000-7f95fcf40000 r-xp 00000000 fd:0d 15528                      /hosting/products/rdn-lta-cpadmss/jdk/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)
 
-uname:Linux 3.10.0-1127.el7.x86_64 ***REMOVED***1 SMP Tue Feb 18 16:39:12 EST 2020 x86_64
+uname:Linux 3.10.0-1127.el7.x86_64 #1 SMP Tue Feb 18 16:39:12 EST 2020 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE 0k, NPROC 127353, NOFILE 63536, AS infinity
 load average:5.60 6.67 8.03

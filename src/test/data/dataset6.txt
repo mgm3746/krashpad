@@ -15,7 +15,7 @@ Instructions: (pc=0x00007f908c4a9ea4)
 0x00007f908c4a9ea4:   8b 50 08 85 d2 0f 8f 30 fb ff ff 40 84 f6 0f 84
 0x00007f908c4a9eb4:   48 03 00 00 48 8b 15 a9 65 61 00 41 8b 41 08 8b 
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x007000700061002f is an unknown value
 RBX=0x00007f9084160ba0 is an unknown value
@@ -28,7 +28,7 @@ RDI=0x00000000000084c2 is an unknown value
 R8 =0x00007f908409b5b0 is an unknown value
 R9 =0x00007f905604ff10 is pointing into object: 0x00007f905604fef0
 [C 
- - klass: {type array char***REMOVED***
+ - klass: {type array char}
  - length: 125
 R10=0x0000000000000001 is an unknown value
 R11=0x0000000000000010 is an unknown value
@@ -39,21 +39,21 @@ R15=0x00007f908cb00e00: <offset 0x1098e00> in /usr/lib/jvm/java-1.8.0-openjdk-1.
 
 
 Stack: [0x00007f9089b94000,0x00007f9089c95000],  sp=0x00007f9089c93a80,  free space=1022k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xa41ea4]
 V  [libjvm.so+0xa47cb7]
 V  [libjvm.so+0xa553c8]
 V  [libjvm.so+0xb93fd7]
 V  [libjvm.so+0x967dd2]
 
-***REMOVED***
+Dynamic libraries:
 7f908ba68000-7f908c80e000 r-xp 00000000 fd:0a 140891                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)
 
-uname:Linux 2.6.32-754.31.1.el6.x86_64 ***REMOVED***1 SMP Mon Jun 15 08:08:31 EDT 2020 x86_64
+uname:Linux 2.6.32-754.31.1.el6.x86_64 #1 SMP Mon Jun 15 08:08:31 EDT 2020 x86_64
 libc:glibc 2.12 NPTL 2.12
 rlimit: STACK 10240k, CORE 0k, NPROC 65536, NOFILE 16384, AS infinity
 load average:4.05 3.61 2.68

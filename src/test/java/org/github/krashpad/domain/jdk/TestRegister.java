@@ -30,35 +30,35 @@ class TestRegister {
         String logLine = "RIP=0x00007ff8193e0c3b, EFLAGS=0x0000000000010202";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void test2RegistersSpacesAtEnd() {
         String logLine = "r30=0x00007ffe958dde20  r31=0x00007ffe958ddcc0  ";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
-        String logLine = "***REMOVED***";
+        String logLine = "Registers:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
-        String logLine = "***REMOVED***";
+        String logLine = "Registers:";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Register,
                 JdkUtil.LogEventType.REGISTER.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testPcSmallLetters() {
         String logLine = "pc =0x00003fff7a9ddba0  lr =0x00003fff7a9ddb54  ctr=0x000000000000000f";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testR12() {
@@ -66,7 +66,7 @@ class TestRegister {
                 + "R15=0x00007f673d50bdf0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testR8() {
@@ -74,7 +74,7 @@ class TestRegister {
                 + "R11=0x0000000000000000";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRax() {
@@ -82,35 +82,35 @@ class TestRegister {
                 + "RDX=0x00007f69b031f898";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRegisterEax() {
         String logLine = "EAX=0xfffffffc, EBX=0x086c8d44, ECX=0x00000080, EDX=0x00000001";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRegisterEip() {
         String logLine = "EIP=0xf7752430, EFLAGS=0x00000246, CR2=0x00000000";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRegisterEsp() {
         String logLine = "ESP=0xffc2c69c, EBP=0xffc2c720, ESI=0xffc2c6b0, EDI=0x086c8d28";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRegisterSmallLetter() {
         String logLine = "r0 =0x00003fff7aa0c5d8  r1 =0x00003fff79b2ddb0  r2 =0x00003fff7b0b7e00";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRop() {
@@ -118,7 +118,7 @@ class TestRegister {
                 + "ERR=0x0000000000000004";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRsp() {
@@ -126,26 +126,26 @@ class TestRegister {
                 + "RDI=0x00007f69b031f898";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSpaceAtEnd() {
         String logLine = "pc =0x00007fff7fd30634  lr =0x00007fff7fd30614  ctr=0x00007fff7f481a90 ";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testTrapno1LeadingSpace() {
         String logLine = " TRAPNO=0x000000000000000e";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testTrapno2LeadingSpaces() {
         String logLine = "  TRAPNO=0x000000000000000e";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,
                 JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

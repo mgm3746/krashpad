@@ -1,26 +1,26 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x0000000030000000, pid=589642, tid=0x00007f7a352ca700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_242-b08) (build 1.8.0_242-b08)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.242-b08 mixed mode linux-amd64 )
-***REMOVED*** Problematic frame:
-***REMOVED*** C  0x0000000030000000
-***REMOVED***
-***REMOVED*** Core dump written. Default location: /path/to/core or core.589642
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x0000000030000000, pid=589642, tid=0x00007f7a352ca700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_242-b08) (build 1.8.0_242-b08)
+# Java VM: OpenJDK 64-Bit Server VM (25.242-b08 mixed mode linux-amd64 )
+# Problematic frame:
+# C  0x0000000030000000
+#
+# Core dump written. Default location: /path/to/core or core.589642
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f7a3006b800):  GCTaskThread [stack: 0x00007f7a351cb000,0x00007f7a352cb000] [id=589649]
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000030000000
 
-***REMOVED***
+Registers:
 RAX=0x0000000000000000, RBX=0x00007f7a28000020, RCX=0xffffffffffffffff, RDX=0x0000000000000003
 RSP=0x00007f7a352c9708, RBP=0x0000000000007ff0, RSI=0x0000000000008000, RDI=0x00007f7a28089000
 R8 =0x0000000000091000, R9 =0x0000000000089000, R10=0x0000000000000075, R11=0x0000000000000206
@@ -66,7 +66,7 @@ Instructions: (pc=0x0000000030000000)
 0x000000002fffffe0:   
 [error occurred during error reporting (printing registers, top of stack, instructions near pc), id 0xb]
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x0000000000000000 is an unknown value
 RBX=0x00007f7a28000020 is an unknown value
@@ -87,15 +87,15 @@ R15=0x00007f7a386df760: <offset 0x3c7760> in /lib64/libc.so.6 at 0x00007f7a38318
 
 
 Stack: [0x00007f7a351cb000,0x00007f7a352cb000],  sp=0x00007f7a352c9708,  free space=1017k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 C  0x0000000030000000
 
 [error occurred during error reporting (printing native stack), id 0xb]
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007f7a32acd800 JavaThread "Thread-9" [_thread_blocked, id=591131, stack(0x00007f780f13d000,0x00007f780f17e000)]
   0x00007f7a32a1d800 JavaThread "Thread-8" [_thread_in_native, id=591130, stack(0x00007f780f37e000,0x00007f780f3bf000)]
   0x00007f7a31a91000 JavaThread "GCCleaner" daemon [_thread_blocked, id=589730, stack(0x00007f788d11f000,0x00007f788d160000)]
@@ -125,7 +125,7 @@ C  0x0000000030000000
   0x00007f7a30269800 JavaThread "Reference Handler" daemon [_thread_blocked, id=589694, stack(0x00007f7a34002000,0x00007f7a34043000)]
   0x00007f7a3005d000 JavaThread "main" [_thread_blocked, id=589646, stack(0x00007f7a3903b000,0x00007f7a3913b000)]
 
-***REMOVED***
+Other Threads:
   0x00007f7a3025f800 VMThread [stack: 0x00007f78ac026000,0x00007f78ac126000] [id=589693]
   0x00007f7a302df000 WatcherThread [stack: 0x00007f788e7f1000,0x00007f788e8f1000] [id=589715]
 
@@ -137,7 +137,7 @@ VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
 [0x00007f7a3005a410] Threads_lock - owner thread: 0x00007f7a3025f800
 [0x00007f7a3005a990] Heap_lock - owner thread: 0x00007f7a32acd800
 
-***REMOVED***
+Heap:
  par new generation   total 2146944K, used 1908416K [0x00002aaab9c00000, 0x00002aab4b590000, 0x00002aab4b590000)
   eden space 1908416K, 100% used [0x00002aaab9c00000, 0x00002aab2e3b0000, 0x00002aab2e3b0000)
   from space 238528K,   0% used [0x00002aab2e3b0000, 0x00002aab2e3b0000, 0x00002aab3cca0000)
@@ -158,9 +158,9 @@ Polling page: 0x00007f7a3914a000
 CodeCache: size=245760Kb used=16409Kb max_used=16423Kb free=229350Kb
  bounds [0x00002aaaaac00000, 0x00002aaaabc20000, 0x00002aaab9c00000]
  total_blobs=4320 nmethods=3815 adapters=413
-***REMOVED***
+ compilation: enabled
 
-***REMOVED***
+Compilation events (250 events):
 Event: 28.210 Thread 0x00007f7a302ca800 nmethod 4449 0x00002aaaab8a8850 code [0x00002aaaab8a89e0, 0x00002aaaab8a8df0]
 Event: 28.210 Thread 0x00007f7a302cf000 nmethod 4444 0x00002aaaab8a7750 code [0x00002aaaab8a7980, 0x00002aaaab8a8360]
 Event: 28.210 Thread 0x00007f7a302ba800 4451       4       oracle.sql.LnxLibThin::lnxnuc (1930 bytes)
@@ -182,30 +182,30 @@ Event: 4.714 Thread 0x00007f7a3005d000 Uncommon trap: reason=range_check action=
 Event: 4.815 Thread 0x00007f7a3005d000 Uncommon trap: reason=range_check action=none pc=0x00002aaaab76fa78 method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
 [error occurred during error reporting (printing ring buffers), id 0xb]
 
-***REMOVED***
+Dynamic libraries:
 
 7f7a388ea000-7f7a388f8000 r-xp 00000000 fd:00 20972572                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.242.b08-1.el7.x86_64/jre/lib/amd64/jli/libjli.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Xmx220000M -Xms220000M -verbose:gc -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+PrintHeapAtGC -XX:+UseConcMarkSweepGC -XX:ThreadStackSize=256 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/my.hprof -XX:+UseLargePages -XX:-OmitStackTraceInFastThrow  
 java_command: 
 java_class_path (initial): .
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 JAVA_HOME=/usr/lib/jvm/jre-openjdk
 PATH=/sbcimp/run/tp/sun/jre/jre-openjdk/bin:/sbcimp/run/pd/git/1.8.4.1/bin:/app/ora/dbclient/bin:/usr/lib/jvm/jre-openjdk/bin:/usr/bin:/bin:/usr/sbin:/sbin
 LD_LIBRARY_PATH=:/sbcimp/dyn/data/FIT/merival/oracle_client/lib:
-***REMOVED***
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xadc2e0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xadc2e0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x8bba70], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: SIG_IGN, sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0x8bba70], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x8bba70], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x8bb920], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -213,16 +213,16 @@ SIGTERM: [libjvm.so+0x8bbb30], sa_mask[0]=11111111011111111101111111111110, sa_f
 SIGQUIT: [libjvm.so+0x8bbb30], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
 
-uname:Linux 3.10.0-1062.9.1.el7.x86_64 ***REMOVED***1 SMP Mon Dec 2 08:31:54 EST 2019 x86_64
+uname:Linux 3.10.0-1062.9.1.el7.x86_64 #1 SMP Mon Dec 2 08:31:54 EST 2019 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE infinity, NPROC 4128823, NOFILE 32768, AS infinity
 load average:3.93 0.97 0.36
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       1584737884 kB
 MemFree:        136528040 kB
 MemAvailable:   135975020 kB
@@ -235,12 +235,12 @@ Active(anon):    5728852 kB
 Inactive(anon):    22820 kB
 Active(file):    3724444 kB
 Inactive(file):   839712 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:      33554428 kB
 SwapFree:       33554428 kB
 Dirty:               664 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       5702612 kB
 Mapped:           849076 kB
 Shmem:             46888 kB
@@ -249,26 +249,26 @@ SReclaimable:     509248 kB
 SUnreclaim:       246836 kB
 KernelStack:       28864 kB
 PageTables:        33960 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    112791336 kB
 Committed_AS:    7166088 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:     3610628 kB
 VmallocChunk:   33550475260 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
 HugePages_Total:   696418
 HugePages_Free:    680962
 HugePages_Rsvd:    669791
-***REMOVED***
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      716636 kB
 DirectMap2M:    27269120 kB
 DirectMap1G:    1584398336 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1

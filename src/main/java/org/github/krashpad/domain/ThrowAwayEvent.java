@@ -23,4 +23,4 @@ package org.github.krashpad.domain;
  */
 public interface ThrowAwayEvent extends LogEvent {
 
-***REMOVED***
+}

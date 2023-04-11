@@ -31,7 +31,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * ***REMOVED***
+ * Environment Variables:
  * PATH=/path/to/bin
  * LD_LIBRARY_PATH=:/path/to/lib 
  * SHELL=/bin/ksh
@@ -45,7 +45,7 @@ public class EnvironmentVariable implements LogEvent, ThrowAwayEvent, HeaderEven
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "***REMOVED***";
+    private static final String _REGEX_HEADER = "Environment Variables:";
     /**
      * Regular expression defining the logging.
      */
@@ -62,7 +62,7 @@ public class EnvironmentVariable implements LogEvent, ThrowAwayEvent, HeaderEven
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -77,22 +77,22 @@ public class EnvironmentVariable implements LogEvent, ThrowAwayEvent, HeaderEven
      */
     public EnvironmentVariable(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

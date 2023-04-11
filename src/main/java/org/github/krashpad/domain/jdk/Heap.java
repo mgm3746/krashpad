@@ -35,7 +35,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <pre>
- * ***REMOVED***
+ * Heap:
  *  PSYoungGen      total 244736K, used 103751K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
  *   eden space 141312K, 24% used [0x00000000eab00000,0x00000000ecc7aef8,0x00000000f3500000)
  *   from space 103424K, 67% used [0x00000000f9b00000,0x00000000fded6e68,0x0000000100000000)
@@ -51,7 +51,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  *
  * <pre>
- * ***REMOVED***
+ * Heap:
  *  par new generation   total 947392K, used 396580K [0x00000006f9c00000, 0x000000073bd50000, 0x000000073bd50000)
  *   eden space 812096K,  46% used [0x00000006f9c00000, 0x0000000710f89f10, 0x000000072b510000)
  *   from space 135296K,  11% used [0x000000072b510000, 0x000000072c4cf2e0, 0x0000000733930000)
@@ -67,7 +67,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  *
  * <pre>
- * ***REMOVED***
+ * Heap:
  *  garbage-first heap   total 33554432K, used 22395212K [0x00007f56fc000000, 0x00007f5efc000000)
  *   region size 16384K, 182 young (2981888K), 19 survivors (311296K)
  *  Metaspace       used 156484K, capacity 157356K, committed 160440K, reserved 161792K
@@ -78,7 +78,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <pre>
- * ***REMOVED***
+ * Heap:
  * Shenandoah Heap
  *  5734M total, 5734M committed, 3099M used
  *  2867 x 2048K regions
@@ -101,7 +101,7 @@ public class Heap implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "***REMOVED***";
+    public static final String _REGEX_HEADER = "Heap:";
 
     /**
      * Regular expression defining the logging.
@@ -118,7 +118,7 @@ public class Heap implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -133,57 +133,57 @@ public class Heap implements LogEvent, HeaderEvent {
      */
     public Heap(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.HEAP.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return true if the log line contains G1 heap information, false otherwise.
      */
     public boolean isG1() {
         return logEntry.matches(JdkRegEx.G1_SIZE);
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
+    }
 
     /**
      * @return true if the log line contains metaspace information, false otherwise.
      */
     public boolean isMetaspace() {
         return logEntry.matches(JdkRegEx.METASPACE_SIZE);
-    ***REMOVED***
+    }
 
     /**
      * @return true if the log line contains old generation heap information, false otherwise.
      */
     public boolean isOldGen() {
         return logEntry.matches(JdkRegEx.OLD_GEN_SIZE);
-    ***REMOVED***
+    }
 
     /**
      * @return true if the log line contains Shenandoah heap information, false otherwise.
      */
     public boolean isShenandoah() {
         return logEntry.matches(JdkRegEx.SHENANDOAH_SIZE);
-    ***REMOVED***
+    }
 
     /**
      * @return true if the log line contains young generation heap information, false otherwise.
      */
     public boolean isYoungGen() {
         return logEntry.matches(JdkRegEx.YOUNG_GEN_SIZE);
-    ***REMOVED***
-***REMOVED***
+    }
+}

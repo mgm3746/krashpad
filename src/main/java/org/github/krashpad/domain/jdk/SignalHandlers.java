@@ -31,14 +31,14 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * ***REMOVED***
+ * Signal Handlers:
  * SIGSEGV: [libjvm.so+0xb73090], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
  * SIGBUS: [libjvm.so+0xb73090], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
  * SIGFPE: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
  * SIGPIPE: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
  * SIGXFSZ: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
  * SIGILL: [libjvm.so+0x960f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
- * ***REMOVED***
+ * SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
  * SIGUSR2: [libjvm.so+0x9628d0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
  * SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
  * SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -54,13 +54,13 @@ public class SignalHandlers implements LogEvent, ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "***REMOVED***";
+    private static final String _REGEX_HEADER = "Signal Handlers:";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|[ ]{0,5***REMOVED***(\\*\\*\\* Expected: |\\*\\*\\* Handler was modified!|SIG39|SIG40|SIGSEGV|SIGBUS|SIGFPE|"
+            + "|[ ]{0,5}(\\*\\*\\* Expected: |\\*\\*\\* Handler was modified!|SIG39|SIG40|SIGSEGV|SIGBUS|SIGFPE|"
             + "SIGPIPE|SIGXFSZ|SIGILL|SIGUSR1|SIGUSR2|SIGHUP|SIGINT|SIGTERM|SIGTRAP|SIGQUIT)).*$";
 
     /**
@@ -72,7 +72,7 @@ public class SignalHandlers implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -87,22 +87,22 @@ public class SignalHandlers implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public SignalHandlers(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.SIGNAL_HANDLERS.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

@@ -1,42 +1,42 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (malloc) failed to allocate 32784 bytes for Chunk::new
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   In 32 bit mode, the process size limit was hit
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Use 64 bit Java on a 64 bit OS
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (allocation.cpp:390), pid=13700, tid=0x000000000000523c
-***REMOVED***
-***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)
-***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.191-b12 mixed mode windows-amd64 compressed oops)
-***REMOVED*** Failed to write core dump. Call to MiniDumpWriteDump() failed (Error 0x80070008: Not enough storage is available to process this command.
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 32784 bytes for Chunk::new
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (allocation.cpp:390), pid=13700, tid=0x000000000000523c
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.191-b12 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Call to MiniDumpWriteDump() failed (Error 0x80070008: Not enough storage is available to process this command.
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x0000000017208800):  VMThread [stack: 0x0000000018280000,0x0000000018380000] [id=21052]
 
 Stack: [0x0000000018280000,0x0000000018380000]
 [error occurred during error reporting (printing stack bounds), id 0xc0000005]
 
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 
 VM_Operation (0x0000000003a5f250): GetAllStackTraces, mode: safepoint, requested by thread 0x0000000018af9800
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00000000494e7800 JavaThread "Timer-3" daemon [_thread_blocked, id=836, stack(0x0000000075ae0000,0x0000000075be0000)]
   0x00000000454b1000 JavaThread "Thread-9 (ActiveMQ-client-netty-threads)" daemon [_thread_blocked, id=14048, stack(0x00000000759e0000,0x0000000075ae0000)]
   0x00000000454ad800 JavaThread "Thread-8 (ActiveMQ-client-netty-threads)" daemon [_thread_blocked, id=11676, stack(0x0000000074ce0000,0x0000000074de0000)]
@@ -51,7 +51,7 @@ VM_Operation (0x0000000003a5f250): GetAllStackTraces, mode: safepoint, requested
   0x0000000017239800 JavaThread "Finalizer" daemon [_thread_blocked, id=10116, stack(0x0000000018480000,0x0000000018580000)]
   0x000000001722e800 JavaThread "Reference Handler" daemon [_thread_blocked, id=18920, stack(0x0000000018380000,0x0000000018480000)]
 
-***REMOVED***
+Other Threads:
 =>0x0000000017208800 VMThread [stack: 0x0000000018280000,0x0000000018380000] [id=21052]
   0x0000000018839800 WatcherThread [stack: 0x0000000018f80000,0x0000000019080000] [id=14704]
 
@@ -60,7 +60,7 @@ VM state:at safepoint (normal execution)
 VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
 [0x0000000001a48630] Threads_lock - owner thread: 0x0000000017208800
 
-***REMOVED***
+Heap:
  PSYoungGen      total 2756096K, used 826557K [0x00000006eab00000, 0x00000007ba400000, 0x00000007c0000000)
   eden space 2087424K, 22% used [0x00000006eab00000,0x0000000707c67018,0x000000076a180000)
   from space 668672K, 52% used [0x0000000791700000,0x00000007a6cc85b0,0x00000007ba400000)
@@ -81,7 +81,7 @@ Polling page: 0x0000000001920000
 CodeCache: size=245760Kb used=72009Kb max_used=72023Kb free=173750Kb
  bounds [0x0000000003b60000, 0x0000000008220000, 0x0000000012b60000]
  total_blobs=21406 nmethods=20440 adapters=874
-***REMOVED***
+ compilation: enabled
 
 Compilation events (10 events):
 Event: 159.464 Thread 0x0000000018786800 nmethod 32695 0x0000000008200a10 code [0x0000000008200bc0, 0x0000000008201218]
@@ -116,7 +116,7 @@ Heap after GC invocations=22 (full 5):
   object space 6346752K, 10% used [0x0000000540000000,0x0000000567b83018,0x00000006c3600000)
  Metaspace       used 256874K, capacity 273238K, committed 273280K, reserved 1282048K
   class space    used 36087K, capacity 40664K, committed 40704K, reserved 1048576K
-***REMOVED***
+}
 Event: 125.673 GC heap before
 {Heap before GC invocations=23 (full 6):
  PSYoungGen      total 2631168K, used 180786K [0x00000006eab00000, 0x00000007bae00000, 0x00000007c0000000)
@@ -137,7 +137,7 @@ Heap after GC invocations=23 (full 6):
   object space 6990848K, 8% used [0x0000000540000000,0x0000000565b5c950,0x00000006eab00000)
  Metaspace       used 256811K, capacity 273040K, committed 273280K, reserved 1282048K
   class space    used 36068K, capacity 40631K, committed 40704K, reserved 1048576K
-***REMOVED***
+}
 Event: 140.200 GC heap before
 {Heap before GC invocations=24 (full 6):
  PSYoungGen      total 2631168K, used 1926656K [0x00000006eab00000, 0x00000007bae00000, 0x00000007c0000000)
@@ -158,7 +158,7 @@ Heap after GC invocations=24 (full 6):
   object space 6990848K, 8% used [0x0000000540000000,0x0000000565b5e950,0x00000006eab00000)
  Metaspace       used 330388K, capacity 349452K, committed 349696K, reserved 1347584K
   class space    used 46423K, capacity 51409K, committed 51456K, reserved 1048576K
-***REMOVED***
+}
 Event: 149.387 GC heap before
 {Heap before GC invocations=25 (full 6):
  PSYoungGen      total 2756096K, used 2320190K [0x00000006eab00000, 0x00000007ba400000, 0x00000007c0000000)
@@ -179,7 +179,7 @@ Heap after GC invocations=25 (full 6):
   object space 6990848K, 9% used [0x0000000540000000,0x000000056962bfc8,0x00000006eab00000)
  Metaspace       used 355647K, capacity 376288K, committed 376576K, reserved 1370112K
   class space    used 49833K, capacity 55005K, committed 55040K, reserved 1048576K
-***REMOVED***
+}
 Event: 157.662 GC heap before
 {Heap before GC invocations=26 (full 6):
  PSYoungGen      total 2732032K, used 2601797K [0x00000006eab00000, 0x00000007ba400000, 0x00000007c0000000)
@@ -200,7 +200,7 @@ Heap after GC invocations=26 (full 6):
   object space 6990848K, 10% used [0x0000000540000000,0x000000056c742308,0x00000006eab00000)
  Metaspace       used 361682K, capacity 385091K, committed 385280K, reserved 1380352K
   class space    used 50358K, capacity 55953K, committed 56064K, reserved 1048576K
-***REMOVED***
+}
 
 Deoptimization events (10 events):
 Event: 155.285 Thread 0x0000000047c01000 Uncommon trap: reason=speculate_class_check action=maybe_recompile pc=0x00000000079a454c method=java.lang.StringCoding.encode(Ljava/nio/charset/Charset;[CII)[B @ 91
@@ -242,16 +242,16 @@ Event: 159.447 Thread 0x0000000047680800 Thread exited: 0x0000000047680800
 Event: 159.491 Executing VM operation: GetAllStackTraces
 
 
-***REMOVED***
+Dynamic libraries:
 0x0000000059e00000 - 0x000000005a6a4000 	C:\path\to\jvm.dll
 
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Dprogram.name=standalone.bat -Xms5G -Xmx10G -XX:MaxPermSize=512M -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -Xloggc:X:\path\to\gc.log -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -agentpath:C:/path/to/dynatrace/oneagent/agent/lib64/oneagentloader.dll 
 java_command: X:\path\to\jboss-modules.jar
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS: Windows 10.0 , 64 bit Build 14393 (10.0.14393.3630)
 

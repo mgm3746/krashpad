@@ -36,7 +36,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <pre>
- * ***REMOVED***
+ * Registers:
  * RAX=0x0000000000000001, RBX=0x00007f67383dc748, RCX=0x0000000000000004, RDX=0x00007f69b031f898
  * RSP=0x00007fcbcc676c50, RBP=0x00007fcbcc676cb0, RSI=0x0000000000000000, RDI=0x00007f69b031f898
  * R8 =0x0000000000000005, R9 =0x0000000000000010, R10=0x0000000000000000, R11=0x0000000000000000
@@ -50,7 +50,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <pre>
- * ***REMOVED***
+ * Registers:
  * pc =0x00003fff7a9ddba0  lr =0x00003fff7a9ddb54  ctr=0x000000000000000f
  * r0 =0x00003fff7aa0c5d8  r1 =0x00003fff79b2ddb0  r2 =0x00003fff7b0b7e00
  * </pre>
@@ -63,14 +63,14 @@ public class Register implements LogEvent, ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "***REMOVED***";
+    private static final String _REGEX_HEADER = "Registers:";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.REGISTER + "[, ] " + JdkRegEx.REGISTER
-            + "([, ])?( " + JdkRegEx.REGISTER + ")?(, " + JdkRegEx.REGISTER + ")?|[ ]{1,***REMOVED***TRAPNO=" + JdkRegEx.ADDRESS
-            + ")[ ]{0,***REMOVED***$";
+            + "([, ])?( " + JdkRegEx.REGISTER + ")?(, " + JdkRegEx.REGISTER + ")?|[ ]{1,}TRAPNO=" + JdkRegEx.ADDRESS
+            + ")[ ]{0,}$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -81,7 +81,7 @@ public class Register implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -96,22 +96,22 @@ public class Register implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public Register(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.REGISTER.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

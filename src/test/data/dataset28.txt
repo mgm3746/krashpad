@@ -1,35 +1,35 @@
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (mmap) failed to map 754974720 bytes for committing reserved memory.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED***   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
-***REMOVED***     placed in the first 32GB address space. The Java Heap base address is the
-***REMOVED***     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
-***REMOVED***     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (os_linux.cpp:2749), pid=25305, tid=0x00007f5ab28b7700
-***REMOVED***
-***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_211-b12) (build 1.8.0_211-b12)
-***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.211-b12 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 754974720 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2749), pid=25305, tid=0x00007f5ab28b7700
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_211-b12) (build 1.8.0_211-b12)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.211-b12 mixed mode linux-amd64 compressed oops)
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x000000000232c800):  VMThread [stack: 0x00007f5ab27b8000,0x00007f5ab28b8000] [id=25319]
 
 Stack: [0x00007f5ab27b8000,0x00007f5ab28b8000],  sp=0x00007f5ab28b63f0,  free space=1016k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xad3455]  VMError::report_and_die()+0x2e5
 V  [libjvm.so+0x4e0537]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0x67
 V  [libjvm.so+0x910320]  os::pd_commit_memory(char*, unsigned long, unsigned long, bool)+0x100
@@ -40,7 +40,7 @@ V  [libjvm.so+0x97bbc8]  PSOldGen::expand(unsigned long) [clone .part.29]+0xa8
 V  [libjvm.so+0x97c771]  PSOldGen::resize(unsigned long)+0xe1
 V  [libjvm.so+0x9828ac]  PSParallelCompact::invoke_no_policy(bool) [clone .part.118]+0xa2c
 V  [libjvm.so+0x98a6c5]  PSScavenge::invoke()+0x215
-V  [libjvm.so+0x93a248]  ParallelScavenge***REMOVED***:failed_mem_allocate(unsigned long)+0x68
+V  [libjvm.so+0x93a248]  ParallelScavengeHeap::failed_mem_allocate(unsigned long)+0x68
 V  [libjvm.so+0xad4fa3]  VM_ParallelGCFailedAllocation::doit()+0x93
 V  [libjvm.so+0xada1c6]  VM_Operation::evaluate()+0x46
 V  [libjvm.so+0xad84fd]  VMThread::evaluate_operation(VM_Operation*) [clone .constprop.44]+0xcd
@@ -51,9 +51,9 @@ V  [libjvm.so+0x90d952]  java_start(Thread*)+0x102
 VM_Operation (0x00007f5a849bd790): ParallelGCFailedAllocation, mode: safepoint, requested by thread 0x000000000cfec800
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x000000001aa0a000 JavaThread "Log4j2-TF-470-54eb95e2-494" [_thread_blocked, id=21770, stack(0x00007f5a9dbb3000,0x00007f5a9dcb4000)]
   0x00000000180d2000 JavaThread "default task-2815" [_thread_in_native, id=21769, stack(0x00007f5aa0fa7000,0x00007f5aa10a8000)]
   0x0000000018072000 JavaThread "default task-2814" [_thread_in_native, id=21768, stack(0x00007f5a8dbfb000,0x00007f5a8dcfc000)]
@@ -280,16 +280,16 @@ VM_Operation (0x00007f5a849bd790): ParallelGCFailedAllocation, mode: safepoint, 
   0x0000000002336800 JavaThread "Reference Handler" daemon [_thread_blocked, id=25326, stack(0x00007f5ab26b6000,0x00007f5ab27b7000)]
   0x000000000216f000 JavaThread "main" [_thread_in_native, id=25306, stack(0x00007f5ad9dbd000,0x00007f5ad9ebd000)]
 
-***REMOVED***
+Other Threads:
 =>0x000000000232c800 VMThread [stack: 0x00007f5ab27b8000,0x00007f5ab28b8000] [id=25319]
   0x00000000023fa800 WatcherThread [stack: 0x00007f5aab986000,0x00007f5aaba86000] [id=25358]
   
-***REMOVED***
+Dynamic libraries:
 7f5ad82b8000-7f5ad8fa0000 r-xp 00000000 fd:00 630566                     /usr/java/jdk1.8.0_211/jre/lib/amd64/server/libjvm.so
 7f5ad9d0c000-7f5ad9d14000 r--s 0006e000 08:20 27263022                   /app/EAP-7.2.0/jboss-modules.jar
   
   
-***REMOVED***
+Heap:
  PSYoungGen      total 2761728K, used 0K [0x0000000715580000, 0x00000007c0000000, 0x00000007c0000000)
   eden space 2727424K, 0% used [0x0000000715580000,0x0000000715580000,0x00000007bbd00000)
   from space 34304K, 0% used [0x00000007bbd00000,0x00000007bbd00000,0x00000007bde80000)
@@ -299,20 +299,20 @@ VM_Operation (0x00007f5a849bd790): ParallelGCFailedAllocation, mode: safepoint, 
  Metaspace       used 347525K, capacity 385674K, committed 471808K, reserved 1447936K
   class space    used 41145K, capacity 53309K, committed 74240K, reserved 1048576K
   
-***REMOVED***
+VM Arguments:
 jvm_args: -Xms2048m -Xmx8192m -XX:MetaspaceSize=8192m -XX:MaxMetaspaceSize=8192m 
  
     
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.5 (Maipo)
 
-uname:Linux 3.10.0-862.el7.x86_64 ***REMOVED***1 SMP Wed Mar 21 18:14:51 EDT 2018 x86_64
+uname:Linux 3.10.0-862.el7.x86_64 #1 SMP Wed Mar 21 18:14:51 EDT 2018 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE 0k, NPROC 127926, NOFILE 65535, AS infinity
 load average:2.88 2.61 2.49
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       32773012 kB
 MemFree:          241892 kB
 MemAvailable:     166460 kB
@@ -325,12 +325,12 @@ Active(anon):   29475976 kB
 Inactive(anon):  2248220 kB
 Active(file):      69304 kB
 Inactive(file):    73260 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:      10592252 kB
 SwapFree:              4 kB
 Dirty:               596 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:      31135840 kB
 Mapped:           145072 kB
 Shmem:            355900 kB
@@ -339,46 +339,46 @@ SReclaimable:     167124 kB
 SUnreclaim:        93652 kB
 KernelStack:       21040 kB
 PageTables:       112816 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    26978756 kB
 Committed_AS:   51419196 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      143352 kB
 VmallocChunk:   34359588316 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:    995328 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      210880 kB
 DirectMap2M:    20760576 kB
 DirectMap1G:    12582912 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-7
 cpu_memory_nodes: 0
 active_processor_count: 8
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 32391016448
 memory_max_usage_in_bytes: 0
 
 
 CPU:total 8 (initial active 8) (8 cores per cpu, 1 threads per core) family 6 model 79 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -404,7 +404,7 @@ cache_alignment	: 64
 address sizes	: 44 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -430,7 +430,7 @@ cache_alignment	: 64
 address sizes	: 44 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -456,7 +456,7 @@ cache_alignment	: 64
 address sizes	: 44 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -482,7 +482,7 @@ cache_alignment	: 64
 address sizes	: 44 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 4
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -508,7 +508,7 @@ cache_alignment	: 64
 address sizes	: 44 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 5
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -534,7 +534,7 @@ cache_alignment	: 64
 address sizes	: 44 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 6
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -560,7 +560,7 @@ cache_alignment	: 64
 address sizes	: 44 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 7
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79

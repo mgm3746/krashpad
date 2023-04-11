@@ -1,33 +1,33 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Cannot create GC thread. Out of system resources.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   In 32 bit mode, the process size limit was hit
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Use 64 bit Java on a 64 bit OS
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (gcTaskThread.cpp:48), pid=30601, tid=0x00007f177a43b700
-***REMOVED***
-***REMOVED*** JRE version:  (8.0_131-b12) (build )
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.131-b12 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Cannot create GC thread. Out of system resources.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (gcTaskThread.cpp:48), pid=30601, tid=0x00007f177a43b700
+#
+# JRE version:  (8.0_131-b12) (build )
+# Java VM: OpenJDK 64-Bit Server VM (25.131-b12 mixed mode linux-amd64 compressed oops)
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f1770009000):  JavaThread "Unknown thread" [_thread_in_vm, id=30608, stack(0x00007f177a33b000,0x00007f177a43c000)]
 
 Stack: [0x00007f177a33b000,0x00007f177a43c000],  sp=0x00007f177a43a770,  free space=1021k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xaa477d]
 V  [libjvm.so+0x4e862a]
 V  [libjvm.so+0x5b7f5f]
@@ -42,17 +42,17 @@ C  [libjli.so+0x3057]
 C  [libpthread.so.0+0x7e25]  start_thread+0xc5
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
 
-***REMOVED***
+Other Threads:
 
 =>0x00007f1770009000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=30608, stack(0x00007f177a33b000,0x00007f177a43c000)]
 
 VM state:not at safepoint (not fully initialized)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
 GC Heap History (0 events):
 No events
@@ -67,23 +67,23 @@ Events (0 events):
 No events
 
 
-***REMOVED***
+Dynamic libraries:
 
 7f1778675000-7f1779326000 r-xp 00000000 fd:02 152814                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.4 (Maipo)
 
-uname:Linux 3.10.0-693.el7.x86_64 ***REMOVED***1 SMP Thu Jul 6 19:56:57 EDT 2017 x86_64
+uname:Linux 3.10.0-693.el7.x86_64 #1 SMP Thu Jul 6 19:56:57 EDT 2017 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE 0k, NPROC 4096, NOFILE 655360, AS infinity
 load average:0.65 1.49 3.01
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       32946384 kB
 MemFree:          457052 kB
 MemAvailable:   15213508 kB
@@ -96,12 +96,12 @@ Active(anon):   14969944 kB
 Inactive(anon):  1597124 kB
 Active(file):    7953272 kB
 Inactive(file):  6312108 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:      16777212 kB
 SwapFree:       14134040 kB
 Dirty:              5208 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:      16434144 kB
 Mapped:            51232 kB
 Shmem:             92084 kB
@@ -110,20 +110,20 @@ SReclaimable:     893960 kB
 SUnreclaim:       160848 kB
 KernelStack:       74016 kB
 PageTables:        59448 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    33250404 kB
 Committed_AS:   22842648 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      208664 kB
 VmallocChunk:   34359339004 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:    309248 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      544640 kB
 DirectMap2M:    29863936 kB
@@ -132,8 +132,8 @@ DirectMap1G:     5242880 kB
 
 CPU:total 16 (initial active 16) (1 cores per cpu, 1 threads per core) family 6 model 85 stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, tsc, tscinvbit, bmi1, bmi2, adx
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -159,7 +159,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -185,7 +185,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -211,7 +211,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -237,7 +237,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 4
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -263,7 +263,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 5
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -289,7 +289,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 6
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -315,7 +315,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 7
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -341,7 +341,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 8
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -367,7 +367,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 9
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -393,7 +393,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***0
+processor	: 10
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -419,7 +419,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***1
+processor	: 11
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -445,7 +445,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***2
+processor	: 12
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -471,7 +471,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***3
+processor	: 13
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -497,7 +497,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***4
+processor	: 14
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -523,7 +523,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***5
+processor	: 15
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85

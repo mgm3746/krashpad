@@ -32,7 +32,7 @@ public class NumberEvent implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^\\d{1,***REMOVED***$";
+    private static final String REGEX = "^\\d{1,}$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -43,7 +43,7 @@ public class NumberEvent implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event. Can be used for debugging purposes.
@@ -58,13 +58,13 @@ public class NumberEvent implements LogEvent {
      */
     public NumberEvent(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.NUMBER.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

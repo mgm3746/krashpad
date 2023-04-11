@@ -73,7 +73,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.4.1</version>
 				<configuration>
-					<doctitle>${project.name***REMOVED*** ${project.version***REMOVED***</doctitle>
+					<doctitle>${project.name} ${project.version}</doctitle>
 					<stylesheetfile>src/main/javadoc/stylesheet.css</stylesheetfile>
 					<source>8</source>
 				</configuration>

@@ -97,7 +97,7 @@ public class Manager {
      */
     public Manager() {
         this.fatalErrorLog = new FatalErrorLog();
-    ***REMOVED***
+    }
 
     /**
      * Parse the fatal error log.
@@ -119,152 +119,152 @@ public class Manager {
                     LogEvent event = JdkUtil.parseLogLine(logLine, priorEvent);
                     if (event instanceof ClassesUnloadedEvent) {
                         fatalErrorLog.getClassesUnloadedEvents().add((ClassesUnloadedEvent) event);
-                    ***REMOVED*** else if (event instanceof CommandLine) {
+                    } else if (event instanceof CommandLine) {
                         fatalErrorLog.setCommandLine((CommandLine) event);
-                    ***REMOVED*** else if (event instanceof CompilationEvent) {
+                    } else if (event instanceof CompilationEvent) {
                         fatalErrorLog.getCompilationEvents().add((CompilationEvent) event);
-                    ***REMOVED*** else if (event instanceof CompressedClassSpace) {
+                    } else if (event instanceof CompressedClassSpace) {
                         fatalErrorLog.setCompressedClassSpaceEvent((CompressedClassSpace) event);
-                    ***REMOVED*** else if (event instanceof ContainerInfo) {
+                    } else if (event instanceof ContainerInfo) {
                         fatalErrorLog.getContainerInfos().add((ContainerInfo) event);
-                    ***REMOVED*** else if (event instanceof CpuInfo) {
+                    } else if (event instanceof CpuInfo) {
                         fatalErrorLog.getCpuInfos().add((CpuInfo) event);
-                    ***REMOVED*** else if (event instanceof CurrentCompileTask) {
+                    } else if (event instanceof CurrentCompileTask) {
                         fatalErrorLog.getCurrentCompileTasks().add((CurrentCompileTask) event);
-                    ***REMOVED*** else if (event instanceof CurrentThread) {
+                    } else if (event instanceof CurrentThread) {
                         fatalErrorLog.setCurrentThread((CurrentThread) event);
-                    ***REMOVED*** else if (event instanceof DeoptimizationEvent) {
+                    } else if (event instanceof DeoptimizationEvent) {
                         fatalErrorLog.getDeoptimizationEvents().add((DeoptimizationEvent) event);
-                    ***REMOVED*** else if (event instanceof DllOperationEvent) {
+                    } else if (event instanceof DllOperationEvent) {
                         fatalErrorLog.getDllOperationEvents().add((DllOperationEvent) event);
-                    ***REMOVED*** else if (event instanceof DynamicLibrary) {
+                    } else if (event instanceof DynamicLibrary) {
                         fatalErrorLog.getDynamicLibraries().add((DynamicLibrary) event);
-                    ***REMOVED*** else if (event instanceof EnvironmentVariable) {
+                    } else if (event instanceof EnvironmentVariable) {
                         fatalErrorLog.getEnvironmentVariables().add((EnvironmentVariable) event);
-                    ***REMOVED*** else if (event instanceof ElapsedTime) {
+                    } else if (event instanceof ElapsedTime) {
                         fatalErrorLog.setElapsedTime((ElapsedTime) event);
-                    ***REMOVED*** else if (event instanceof Event) {
+                    } else if (event instanceof Event) {
                         fatalErrorLog.getEvents().add((Event) event);
-                    ***REMOVED*** else if (event instanceof ExceptionCounts) {
+                    } else if (event instanceof ExceptionCounts) {
                         fatalErrorLog.getExceptionCounts().add((ExceptionCounts) event);
-                    ***REMOVED*** else if (event instanceof GcHeapHistoryEvent) {
+                    } else if (event instanceof GcHeapHistoryEvent) {
                         fatalErrorLog.getGcHeapHistoryEvents().add((GcHeapHistoryEvent) event);
-                    ***REMOVED*** else if (event instanceof GcPreciousLog) {
+                    } else if (event instanceof GcPreciousLog) {
                         fatalErrorLog.getGcPreciousLogs().add((GcPreciousLog) event);
-                    ***REMOVED*** else if (event instanceof GlobalFlag) {
+                    } else if (event instanceof GlobalFlag) {
                         fatalErrorLog.getGlobalFlags().add((GlobalFlag) event);
-                    ***REMOVED*** else if (event instanceof Header) {
+                    } else if (event instanceof Header) {
                         fatalErrorLog.getHeaders().add((Header) event);
-                    ***REMOVED*** else if (event instanceof HeapAddress) {
+                    } else if (event instanceof HeapAddress) {
                         fatalErrorLog.setHeapAddress((HeapAddress) event);
-                    ***REMOVED*** else if (event instanceof Heap) {
+                    } else if (event instanceof Heap) {
                         fatalErrorLog.getHeaps().add((Heap) event);
-                    ***REMOVED*** else if (event instanceof LdPreloadFile) {
+                    } else if (event instanceof LdPreloadFile) {
                         fatalErrorLog.getLdPreloadFiles().add((LdPreloadFile) event);
-                    ***REMOVED*** else if (event instanceof Host) {
+                    } else if (event instanceof Host) {
                         fatalErrorLog.setHost((Host) event);
-                    ***REMOVED*** else if (event instanceof MaxMapCount) {
+                    } else if (event instanceof MaxMapCount) {
                         fatalErrorLog.setMaxMapCount((MaxMapCount) event);
-                    ***REMOVED*** else if (event instanceof Meminfo) {
+                    } else if (event instanceof Meminfo) {
                         fatalErrorLog.getMeminfos().add((Meminfo) event);
-                    ***REMOVED*** else if (event instanceof Memory) {
+                    } else if (event instanceof Memory) {
                         fatalErrorLog.getMemories().add((Memory) event);
-                    ***REMOVED*** else if (event instanceof NativeMemoryTracking) {
+                    } else if (event instanceof NativeMemoryTracking) {
                         fatalErrorLog.getNativeMemoryTrackings().add((NativeMemoryTracking) event);
-                    ***REMOVED*** else if (event instanceof NarrowKlass) {
+                    } else if (event instanceof NarrowKlass) {
                         fatalErrorLog.setNarrowKlass((NarrowKlass) event);
-                    ***REMOVED*** else if (event instanceof NumberEvent) {
+                    } else if (event instanceof NumberEvent) {
                         // Add number to prior event
                         String combinedLogLine = priorEvent.getLogEntry() + " " + event.getLogEntry();
                         if (priorEvent instanceof CpuInfo) {
                             fatalErrorLog.getCpuInfos().remove(priorEvent);
                             CpuInfo combinedCpuInfoEvent = new CpuInfo(combinedLogLine);
                             fatalErrorLog.getCpuInfos().add(combinedCpuInfoEvent);
-                        ***REMOVED*** else if (priorEvent instanceof MaxMapCount) {
+                        } else if (priorEvent instanceof MaxMapCount) {
                             fatalErrorLog.setMaxMapCount(new MaxMapCount(combinedLogLine));
-                        ***REMOVED*** else if (priorEvent instanceof PidMax) {
+                        } else if (priorEvent instanceof PidMax) {
                             fatalErrorLog.setPidMax(new PidMax(combinedLogLine));
-                        ***REMOVED*** else if (priorEvent instanceof ThreadsMax) {
+                        } else if (priorEvent instanceof ThreadsMax) {
                             fatalErrorLog.setThreadsMax(new ThreadsMax(combinedLogLine));
-                        ***REMOVED*** else if (fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
+                        } else if (fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
                             // catch for future handling
                             fatalErrorLog.getUnidentifiedLogLines().add(logLine);
-                        ***REMOVED***
-                    ***REMOVED*** else if (event instanceof OsInfo) {
+                        }
+                    } else if (event instanceof OsInfo) {
                         fatalErrorLog.getOsInfos().add((OsInfo) event);
-                    ***REMOVED*** else if (event instanceof PidMax) {
+                    } else if (event instanceof PidMax) {
                         fatalErrorLog.setPidMax((PidMax) event);
-                    ***REMOVED*** else if (event instanceof RegisterToMemoryMapping) {
+                    } else if (event instanceof RegisterToMemoryMapping) {
                         fatalErrorLog.getRegisterToMemoryMappings().add((RegisterToMemoryMapping) event);
-                    ***REMOVED*** else if (event instanceof Rlimit) {
+                    } else if (event instanceof Rlimit) {
                         fatalErrorLog.setRlimit((Rlimit) event);
-                    ***REMOVED*** else if (event instanceof SigInfo) {
+                    } else if (event instanceof SigInfo) {
                         fatalErrorLog.setSigInfo((SigInfo) event);
-                    ***REMOVED*** else if (event instanceof Stack) {
+                    } else if (event instanceof Stack) {
                         fatalErrorLog.getStacks().add((Stack) event);
-                    ***REMOVED*** else if (event instanceof StackSlotToMemoryMapping) {
+                    } else if (event instanceof StackSlotToMemoryMapping) {
                         fatalErrorLog.getStackSlotToMemoryMappings().add((StackSlotToMemoryMapping) event);
-                    ***REMOVED*** else if (event instanceof InternalExceptionEvent) {
+                    } else if (event instanceof InternalExceptionEvent) {
                         fatalErrorLog.getInternalExceptionEvents().add((InternalExceptionEvent) event);
-                    ***REMOVED*** else if (event instanceof InternalStatistic) {
+                    } else if (event instanceof InternalStatistic) {
                         fatalErrorLog.getInternalStatistics().add((InternalStatistic) event);
-                    ***REMOVED*** else if (event instanceof Thread) {
+                    } else if (event instanceof Thread) {
                         fatalErrorLog.getThreads().add((Thread) event);
-                    ***REMOVED*** else if (event instanceof ThreadsMax) {
+                    } else if (event instanceof ThreadsMax) {
                         fatalErrorLog.setThreadsMax((ThreadsMax) event);
-                    ***REMOVED*** else if (event instanceof ThrowAwayEvent) {
+                    } else if (event instanceof ThrowAwayEvent) {
                         // ThrowAwayEvents are ignored
-                    ***REMOVED*** else if (event instanceof Time) {
+                    } else if (event instanceof Time) {
                         fatalErrorLog.setTime((Time) event);
-                    ***REMOVED*** else if (event instanceof TimeElapsedTime) {
+                    } else if (event instanceof TimeElapsedTime) {
                         fatalErrorLog.setTimeElapsedTime((TimeElapsedTime) event);
-                    ***REMOVED*** else if (event instanceof Timezone) {
+                    } else if (event instanceof Timezone) {
                         fatalErrorLog.setTimezone((Timezone) event);
-                    ***REMOVED*** else if (event instanceof Uname) {
+                    } else if (event instanceof Uname) {
                         // some uname information is split across 2 lines
                         if (fatalErrorLog.getUname() == null) {
                             fatalErrorLog.setUname((Uname) event);
-                        ***REMOVED*** else {
+                        } else {
                             Uname unameEvent = new Uname(
                                     fatalErrorLog.getUname().getLogEntry() + ((Uname) event).getLogEntry());
                             fatalErrorLog.setUname(unameEvent);
-                        ***REMOVED***
-                    ***REMOVED*** else if (event instanceof UnknownEvent
+                        }
+                    } else if (event instanceof UnknownEvent
                             && fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
                         fatalErrorLog.getUnidentifiedLogLines().add(logLine);
-                    ***REMOVED*** else if (event instanceof VirtualizationInfo) {
+                    } else if (event instanceof VirtualizationInfo) {
                         fatalErrorLog.getVirtualizationInfos().add((VirtualizationInfo) event);
-                    ***REMOVED*** else if (event instanceof VmArguments) {
+                    } else if (event instanceof VmArguments) {
                         fatalErrorLog.getVmArguments().add((VmArguments) event);
-                    ***REMOVED*** else if (event instanceof VmInfo) {
+                    } else if (event instanceof VmInfo) {
                         fatalErrorLog.setVmInfo((VmInfo) event);
-                    ***REMOVED*** else if (event instanceof VmOperation) {
+                    } else if (event instanceof VmOperation) {
                         fatalErrorLog.setVmOperation((VmOperation) event);
-                    ***REMOVED*** else if (event instanceof VmState) {
+                    } else if (event instanceof VmState) {
                         fatalErrorLog.setVmState((VmState) event);
-                    ***REMOVED***
+                    }
                     if (!(event instanceof BlankLine)) {
                         // throw away blank lines
                         priorEvent = event;
-                    ***REMOVED***
+                    }
                     logLine = bufferedReader.readLine();
-                ***REMOVED***
-            ***REMOVED*** catch (FileNotFoundException e) {
+                }
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            ***REMOVED*** catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
-            ***REMOVED*** finally {
+            } finally {
                 // Close streams
                 if (bufferedReader != null) {
                     try {
                         bufferedReader.close();
-                    ***REMOVED*** catch (IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                    }
+                }
+            }
+        }
         fatalErrorLog.doAnalysis();
         return fatalErrorLog;
-    ***REMOVED***
-***REMOVED***
+    }
+}

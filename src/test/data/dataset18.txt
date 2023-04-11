@@ -1,25 +1,25 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00003fff71efdc3c, pid=98862, tid=0x00003ffbdb99f1b0
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_181-b13) (build 1.8.0_181-b13)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.181-b13 mixed mode linux-ppc64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** J 1985 C2 java.net.URLStreamHandler.parseURL(Ljava/net/URL;Ljava/lang/String;II)V (1193 bytes) @ 0x00003fff71efdc3c [0x00003fff71efc280+0x19bc]
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00003fff71efdc3c, pid=98862, tid=0x00003ffbdb99f1b0
+#
+# JRE version: OpenJDK Runtime Environment (8.0_181-b13) (build 1.8.0_181-b13)
+# Java VM: OpenJDK 64-Bit Server VM (25.181-b13 mixed mode linux-ppc64 compressed oops)
+# Problematic frame:
+# J 1985 C2 java.net.URLStreamHandler.parseURL(Ljava/net/URL;Ljava/lang/String;II)V (1193 bytes) @ 0x00003fff71efdc3c [0x00003fff71efc280+0x19bc]
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
 
 Current thread (0x00003ffc98053800):  JavaThread "thread_pool_executor-71" daemon [_thread_in_Java, id=106185, stack(0x00003ffbdb7a0000,0x00003ffbdb9a0000)]
 
 
 Stack: [0x00003ffbdb7a0000,0x00003ffbdb9a0000],  sp=0x00003ffbdb99ba20,  free space=2030k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 J 1985 C2 java.net.URLStreamHandler.parseURL(Ljava/net/URL;Ljava/lang/String;II)V (1193 bytes) @ 0x00003fff71efdc3c [0x00003fff71efc280+0x19bc]
 J 437 C2 sun.net.www.protocol.file.Handler.parseURL(Ljava/net/URL;Ljava/lang/String;II)V (18 bytes) @ 0x00003fff71915c64 [0x00003fff71915c00+0x64]
 J 11465 C2 java.net.URL.<init>(Ljava/net/URL;Ljava/lang/String;Ljava/net/URLStreamHandler;)V (543 bytes) @ 0x00003fff735feed4 [0x00003fff735fe800+0x6d4]
@@ -46,16 +46,16 @@ C  [libjava.so+0xda80]  Java_java_security_AccessController_doPrivileged__Ljava_
 J 1001  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAction;)Ljava/lang/Object; (0 bytes) @ 0x00003fff71bfea8c [0x00003fff71bfea00+0x8c]
 
 
-***REMOVED***
+Dynamic libraries:
 
 3fff8e6f0000-3fff8f1c0000 r-xp 00000000 fd:08 306305                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.181-7.b13.el7.ppc64le/jre/lib/ppc64le/server/libjvm.so
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.6 (Maipo)
 
-uname:Linux 3.10.0-957.el7.ppc64le ***REMOVED***1 SMP Thu Oct 4 20:51:36 UTC 2018 ppc64le
+uname:Linux 3.10.0-957.el7.ppc64le #1 SMP Thu Oct 4 20:51:36 UTC 2018 ppc64le
 libc:glibc 2.17 NPTL 2.17
 rlimit: STACK 8192k, CORE 0k, NPROC 100000, NOFILE 100000, AS infinity
 load average:13.01 15.26 16.23

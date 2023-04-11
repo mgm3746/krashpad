@@ -1,28 +1,28 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (mmap) failed to map 8589934592 bytes for Failed to commit area from 0x0000000600000000 to 0x0000000800000000 of length 8589934592.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (./src/hotspot/os/windows/os_windows.cpp:3303), pid=17140, tid=1496
-***REMOVED***
-***REMOVED*** JRE version:  (11.0.7+10) (build )
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (11.0.7+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, windows-amd64)
-***REMOVED*** Core dump will be written. Default location: C:\Program Files\EAP-7.2.0\bin\hs_err_pid17140.log
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 8589934592 bytes for Failed to commit area from 0x0000000600000000 to 0x0000000800000000 of length 8589934592.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (./src/hotspot/os/windows/os_windows.cpp:3303), pid=17140, tid=1496
+#
+# JRE version:  (11.0.7+10) (build )
+# Java VM: OpenJDK 64-Bit Server VM (11.0.7+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, windows-amd64)
+# Core dump will be written. Default location: C:\Program Files\EAP-7.2.0\bin\hs_err_pid17140.log
+#
 
 Stack: [0x00000075dae00000,0x00000075daf00000]
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [jvm.dll+0x5e3cca]
 V  [jvm.dll+0x77a76e]
 V  [jvm.dll+0x77be3f]
@@ -49,11 +49,11 @@ C  [KERNEL32.DLL+0x84d4]
 C  [ntdll.dll+0x6e871]
 
 
-***REMOVED***
+Dynamic libraries:
 
 0x00007ffc25390000 - 0x00007ffc25ed6000         C:\Program Files\Java\java-11-openjdk-11.0.7-1\bin\server\jvm.dll
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.3630)
 OS uptime: 1 days 2:33 hours

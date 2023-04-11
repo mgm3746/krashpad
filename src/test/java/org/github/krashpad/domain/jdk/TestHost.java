@@ -32,7 +32,7 @@ class TestHost {
                 + "release 7.4 (Maipo)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HOST,
                 JdkUtil.LogEventType.HOST.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOsString() {
@@ -41,7 +41,7 @@ class TestHost {
         Host event = new Host(logLine);
         assertEquals("Red Hat Enterprise Linux Workstation release 7.4 (Maipo)", event.getOsString(),
                 "OS string not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -49,5 +49,5 @@ class TestHost {
                 + "release 7.4 (Maipo)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Host,
                 JdkUtil.LogEventType.HOST.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

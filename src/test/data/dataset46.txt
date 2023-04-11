@@ -1,26 +1,26 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007f95e552b495, pid=13161, tid=0x00007f95c924c700
-***REMOVED***
-***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_192-b26) (build 1.8.0_192-b26)
-***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.192-b26 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** j  org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done(Lorg/apache/activemq/artemis/nativo/jlibaio/SubmitInfo;)V+1
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f95e552b495, pid=13161, tid=0x00007f95c924c700
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_192-b26) (build 1.8.0_192-b26)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.192-b26 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# j  org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done(Lorg/apache/activemq/artemis/nativo/jlibaio/SubmitInfo;)V+1
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00000000082d7000):  JavaThread "Apache ActiveMQ Artemis libaio poller" [_thread_in_Java, id=14549, stack(0x00007f95c914c000,0x00007f95c924d000)]
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000034376578
 
-***REMOVED***
+Registers:
 RAX=0x00000007c09e32c0, RBX=0x00007f95ca62a7e8, RCX=0x0000000000b9a850, RDX=0x0000000005cd4280
 RSP=0x00007f95c924b3c0, RBP=0x00007f95c924b410, RSI=0x00007f95e5519600, RDI=0x00007f95c924b530
 R8 =0x00007f95e5519600, R9 =0x00007f95c924b678, R10=0x00007f95fd235be0, R11=0x00007f95e550671f
@@ -68,10 +68,10 @@ Instructions: (pc=0x00007f95e552b495)
 0x00007f95e552b495:   4d 8b 2e 49 3b c5 74 15 4d 85 ed 0f 84 e0 03 00
 0x00007f95e552b4a5:   00 49 83 c6 10 4d 8b 2e 49 3b c5 75 eb 4c 8b 6d 
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x00000007c09e32c0 is pointing into metadata
-RBX={method***REMOVED*** {0x00007f95ca62a7e8***REMOVED*** 'done' '()V' in 'org/apache/activemq/artemis/nativo/jlibaio/SubmitInfo'
+RBX={method} {0x00007f95ca62a7e8} 'done' '()V' in 'org/apache/activemq/artemis/nativo/jlibaio/SubmitInfo'
 RCX=0x0000000000b9a850 is a global jni handle
 RDX=0x0000000005cd4280 is an unknown value
 RSP=0x00007f95c924b3c0 is pointing into the stack for thread: 0x00000000082d7000
@@ -92,7 +92,7 @@ R15=0x00000000082d7000 is a thread
 
 
 Stack: [0x00007f95c914c000,0x00007f95c924d000],  sp=0x00007f95c924b3c0,  free space=1020k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 j  org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done(Lorg/apache/activemq/artemis/nativo/jlibaio/SubmitInfo;)V+1
 v  ~StubRoutines::call_stub
 V  [libjvm.so+0x685d2b]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0xddb
@@ -101,16 +101,16 @@ V  [libjvm.so+0x6cf6a6]  jni_CallVoidMethod+0x166
 C  [libartemis-native-64.so+0x29b6]  Java_org_apache_activemq_artemis_nativo_jlibaio_LibaioContext_blockedPoll+0x156
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
 =>0x00000000082d7000 JavaThread "Apache ActiveMQ Artemis libaio poller" [_thread_in_Java, id=14549, stack(0x00007f95c914c000,0x00007f95c924d000)]
   0x0000000005869000 JavaThread "activemq-buffer-timeout" [_thread_blocked, id=14548, stack(0x00007f95c924d000,0x00007f95c934e000)]
   0x0000000005833000 JavaThread "activemq-discovery-group-thread-dg-group1" daemon [_thread_blocked, id=14545, stack(0x00007f95c9750000,0x00007f95c9851000)]
   0x0000000003199800 JavaThread "Thread-0 (-scheduled-threads)" [_thread_blocked, id=14543, stack(0x00007f95c9e51000,0x00007f95c9f52000)]
 
 
-***REMOVED***
+Other Threads:
   0x0000000000d03000 VMThread [stack: 0x00007f95d8525000,0x00007f95d8625000] [id=13177]
   0x0000000001a44800 WatcherThread [stack: 0x00007f95d508c000,0x00007f95d518c000] [id=13684]
 
@@ -124,7 +124,7 @@ heap address: 0x00000006c0000000, size: 4096 MB, Compressed Oops mode: Zero base
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
 Compressed class space size: 1073741824 Address: 0x00000007c0000000
 
-***REMOVED***
+Heap:
  PSYoungGen      total 1310208K, used 642970K [0x000000076ab00000, 0x00000007c0000000, 0x00000007c0000000)
   eden space 1222656K, 45% used [0x000000076ab00000,0x000000078cc55930,0x00000007b5500000)
   from space 87552K, 96% used [0x00000007baa80000,0x00000007bfd11070,0x00000007c0000000)
@@ -145,7 +145,7 @@ Polling page: 0x00007f95fde66000
 CodeCache: size=245760Kb used=109964Kb max_used=110042Kb free=135795Kb
  bounds [0x00007f95e5506000, 0x00007f95ec166000, 0x00007f95f4506000]
  total_blobs=28716 nmethods=27634 adapters=993
-***REMOVED***
+ compilation: enabled
 
 Compilation events (10 events):
 Event: 113413.091 Thread 0x00000000019e5000 39586       3       javax.crypto.KeyAgreement::<init> (31 bytes)
@@ -180,7 +180,7 @@ Heap after GC invocations=1296 (full 6):
   object space 2796544K, 64% used [0x00000006c0000000,0x000000072dc424a8,0x000000076ab00000)
  Metaspace       used 195282K, capacity 208988K, committed 210368K, reserved 1232896K
   class space    used 23488K, capacity 27113K, committed 27328K, reserved 1048576K
-***REMOVED***
+}
 Event: 113362.236 GC heap before
 {Heap before GC invocations=1297 (full 6):
  PSYoungGen      total 1310208K, used 1306407K [0x000000076ab00000, 0x00000007c0000000, 0x00000007c0000000)
@@ -201,7 +201,7 @@ Heap after GC invocations=1297 (full 6):
   object space 2796544K, 64% used [0x00000006c0000000,0x000000072dea44a8,0x000000076ab00000)
  Metaspace       used 195283K, capacity 208992K, committed 210368K, reserved 1232896K
   class space    used 23488K, capacity 27113K, committed 27328K, reserved 1048576K
-***REMOVED***
+}
 Event: 113378.576 GC heap before
 {Heap before GC invocations=1298 (full 6):
  PSYoungGen      total 1310208K, used 1303152K [0x000000076ab00000, 0x00000007c0000000, 0x00000007c0000000)
@@ -222,7 +222,7 @@ Heap after GC invocations=1298 (full 6):
   object space 2796544K, 64% used [0x00000006c0000000,0x000000072e1404a8,0x000000076ab00000)
  Metaspace       used 195283K, capacity 208992K, committed 210368K, reserved 1232896K
   class space    used 23488K, capacity 27113K, committed 27328K, reserved 1048576K
-***REMOVED***
+}
 Event: 113396.055 GC heap before
 {Heap before GC invocations=1299 (full 6):
  PSYoungGen      total 1309184K, used 1307111K [0x000000076ab00000, 0x00000007c0000000, 0x00000007c0000000)
@@ -243,7 +243,7 @@ Heap after GC invocations=1299 (full 6):
   object space 2796544K, 64% used [0x00000006c0000000,0x000000072e3bc4d8,0x000000076ab00000)
  Metaspace       used 195283K, capacity 208992K, committed 210368K, reserved 1232896K
   class space    used 23488K, capacity 27113K, committed 27328K, reserved 1048576K
-***REMOVED***
+}
 Event: 113411.566 GC heap before
 {Heap before GC invocations=1300 (full 6):
  PSYoungGen      total 1309696K, used 1304756K [0x000000076ab00000, 0x00000007c0000000, 0x00000007c0000000)
@@ -264,30 +264,30 @@ Heap after GC invocations=1300 (full 6):
   object space 2796544K, 64% used [0x00000006c0000000,0x000000072e6264e8,0x000000076ab00000)
  Metaspace       used 195299K, capacity 208992K, committed 210368K, reserved 1232896K
   class space    used 23488K, capacity 27113K, committed 27328K, reserved 1048576K
-***REMOVED***
+}
 
 
-***REMOVED***
+Dynamic libraries:
 
 7f95fc25c000-7f95fcf40000 r-xp 00000000 fd:0d 15528                      /hosting/products/rdn-lta-cpadmss/jdk/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Xms4096m -Xmx4096m -javaagent:/hosting/products/appdynamics/java_agent/javaagent.jar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/cores/rdn-lta-cpadmss/rdn-lta-cpadmssbulkpolicyinfo01-ah-1075570-001.hprof -Xloggc:/path/to/gc.log
 
-***REMOVED***
+Environment Variables:
 JAVA_HOME=
 
 PATH=
 SHELL=ksh
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xacfc80], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xacfc80], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x9088c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: [libjvm.so+0x9088c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0x9088c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x9088c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x908790], sa_mask[0]=00100000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: [libjvm.so+0x908db0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -295,16 +295,16 @@ SIGTERM: [libjvm.so+0x908db0], sa_mask[0]=11111111011111111101111111111110, sa_f
 SIGQUIT: [libjvm.so+0x908db0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)
 
-uname:Linux 3.10.0-1127.el7.x86_64 ***REMOVED***1 SMP Tue Feb 18 16:39:12 EST 2020 x86_64
+uname:Linux 3.10.0-1127.el7.x86_64 #1 SMP Tue Feb 18 16:39:12 EST 2020 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE 0k, NPROC 127353, NOFILE 63536, AS infinity
 load average:5.60 6.67 8.03
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       65807424 kB
 MemFree:        21787160 kB
 MemAvailable:   37302036 kB
@@ -322,7 +322,7 @@ Mlocked:           55592 kB
 SwapTotal:      16777212 kB
 SwapFree:       16777212 kB
 Dirty:             21124 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:      27020248 kB
 Mapped:           207484 kB
 Shmem:              1892 kB
@@ -331,47 +331,47 @@ SReclaimable:     609584 kB
 SUnreclaim:       144060 kB
 KernelStack:       81632 kB
 PageTables:        80252 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    49680924 kB
 Committed_AS:   44432572 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      275876 kB
 VmallocChunk:   34359339004 kB
 Percpu:             3584 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:  24766464 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      149376 kB
 DirectMap2M:     4044800 kB
 DirectMap1G:    65011712 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-11
 cpu_memory_nodes: 0
 active_processor_count: 12
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 43486535680
 memory_max_usage_in_bytes: 0
 
 
 CPU:total 12 (initial active 12) (1 cores per cpu, 1 threads per core) family 6 model 63 stepping 0, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, lzcnt, tsc, tscinvbit, bmi1, bmi2
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -397,7 +397,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -423,7 +423,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -449,7 +449,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -475,7 +475,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 4
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -501,7 +501,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 5
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -527,7 +527,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 6
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -553,7 +553,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 7
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -579,7 +579,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 8
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -605,7 +605,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 9
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -631,7 +631,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***0
+processor	: 10
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -657,7 +657,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***1
+processor	: 11
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63

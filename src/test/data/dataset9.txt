@@ -1,24 +1,24 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (mmap) failed to map 34359738368 bytes for committing reserved memory.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (os_linux.cpp:2879), pid=720881, tid=720883
-***REMOVED***
-***REMOVED*** JRE version:  (11.0.8+10) (build )
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (11.0.8+10-LTS, mixed mode, tiered, g1 gc, linux-amd64)
-***REMOVED*** Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /path/to/core.720881)
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 34359738368 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2879), pid=720881, tid=720883
+#
+# JRE version:  (11.0.8+10) (build )
+# Java VM: OpenJDK 64-Bit Server VM (11.0.8+10-LTS, mixed mode, tiered, g1 gc, linux-amd64)
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /path/to/core.720881)
+#
 
 Stack: [0x00007fc88c4f2000,0x00007fc88c5f3000],  sp=0x00007fc88c5f11f0,  free space=1020k
 Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
@@ -33,8 +33,8 @@ V  [libjvm.so+0x7bccda]  G1RegionsLargerThanCommitSizeMapper::commit_regions(uns
 V  [libjvm.so+0x8393a8]  HeapRegionManager::commit_regions(unsigned int, unsigned long, WorkGang*)+0x58
 V  [libjvm.so+0x839fd4]  HeapRegionManager::make_regions_available(unsigned int, unsigned int, WorkGang*)+0x34
 V  [libjvm.so+0x83a3e7]  HeapRegionManager::expand_at(unsigned int, unsigned int, WorkGang*) [clone .part.25]+0xf7
-V  [libjvm.so+0x770008]  G1Collected***REMOVED***:expand(unsigned long, WorkGang*, double*)+0xe8
-V  [libjvm.so+0x770721]  G1Collected***REMOVED***:initialize()+0x6a1
+V  [libjvm.so+0x770008]  G1CollectedHeap::expand(unsigned long, WorkGang*, double*)+0xe8
+V  [libjvm.so+0x770721]  G1CollectedHeap::initialize()+0x6a1
 V  [libjvm.so+0xe57115]  Universe::initialize_heap()+0x45
 V  [libjvm.so+0xe573e7]  universe_init()+0x57
 V  [libjvm.so+0x859cba]  init_globals()+0x6a
@@ -42,14 +42,14 @@ V  [libjvm.so+0xe2fddb]  Threads::create_vm(JavaVMInitArgs*, bool*)+0x30b
 V  [libjvm.so+0x907855]  JNI_CreateJavaVM+0x65
 C  [libjli.so+0x431b]  JavaMain+0x9b
 
-***REMOVED***
+Dynamic libraries:
 
 7fc88a31f000-7fc88b482000 r-xp 00000000 fd:01 67566282                   /usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64/lib/server/libjvm.so
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux release 8.2 (Ootpa)
-uname:Linux 4.18.0-193.14.3.el8_2.x86_64 ***REMOVED***1 SMP Mon Jul 20 15:02:29 UTC 2020 x86_64
+uname:Linux 4.18.0-193.14.3.el8_2.x86_64 #1 SMP Mon Jul 20 15:02:29 UTC 2020 x86_64
 OS uptime: 3 days 8:33 hours
 libc:glibc 2.28 NPTL 2.28
 rlimit (soft/hard): STACK 8192k/infinity , CORE infinity/infinity , NPROC 62502/62502 , NOFILE 262144/262144 , AS infinity/infinity , CPU infinity/infinity , DATA infinity/infinity , FSIZE infinity/infinity , MEMLOCK 64k/64k

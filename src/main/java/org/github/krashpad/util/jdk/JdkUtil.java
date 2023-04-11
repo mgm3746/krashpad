@@ -155,14 +155,14 @@ public class JdkUtil {
          * Upstream WildFly or an unidentified derivative (e.g. EAP, RHSSO, etc.).
          */
         WILDFLY
-    ***REMOVED***
+    }
 
     /**
      * Defined collector families.
      */
     public enum CollectorFamily {
         CMS, G1, PARALLEL, SERIAL, SHENANDOAH, UNKNOWN, Z
-    ***REMOVED***
+    }
 
     /**
      * Compressed ordinary object pointer (oop) modes used by the JVM to encode 64-bit addresses as 32-bit pointers to
@@ -191,7 +191,7 @@ public class JdkUtil {
     public enum CompressedOopMode {
         //
         BIT32, NON_ZERO, NONE, UNKNOWN, ZERO
-    ***REMOVED***
+    }
 
     /**
      * Defined Java specifications.
@@ -200,14 +200,14 @@ public class JdkUtil {
         JDK10, JDK11, JDK12, JDK13, JDK14, JDK15, JDK16, JDK17,
         //
         JDK6, JDK7, JDK8, JDK9, UNKNOWN
-    ***REMOVED***
+    }
 
     /**
      * Defined Java vendors.
      */
     public enum JavaVendor {
         ADOPTIUM, ADOPTOPENJDK, AZUL, MICROSOFT, NOT_RED_HAT, ORACLE, RED_HAT, UNIDENTIFIED
-    ***REMOVED***
+    }
 
     /**
      * Defined logging events.
@@ -235,7 +235,7 @@ public class JdkUtil {
         TOP_OF_STACK, TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
         //
         VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE
-    ***REMOVED***
+    }
 
     /**
      * Signal codes.
@@ -266,7 +266,7 @@ public class JdkUtil {
         BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, FPE_INTDIV, ILL_ILLOPN, SEGV_ACCERR, SEGV_MAPERR, SI_KERNEL, SI_USER,
         //
         UNKNOWN
-    ***REMOVED***
+    }
 
     /**
      * Signal numbers.
@@ -284,7 +284,7 @@ public class JdkUtil {
     public enum SignalNumber {
         //
         EXCEPTION_ACCESS_VIOLATION, EXCEPTION_STACK_OVERFLOW, SIGBUS, SIGFPE, SIGILL, SIGSEGV, UNKNOWN
-    ***REMOVED***
+    }
 
     /**
      * OpenJDK11 RHEL zip release information.
@@ -1313,7 +1313,7 @@ public class JdkUtil {
         JDK17_WINDOWS_ZIPS.put("17.0.3+6-LTS-1", new Release("Apr 17 2022 12:11:44", 3, "17.0.3+6-LTS"));
         JDK17_WINDOWS_ZIPS.put("17.0.2+8-LTS", new Release("Jan 18 2022 00:00:00", 2, "17.0.2+8-LTS"));
         JDK17_WINDOWS_ZIPS.put("17.0.1+12-LTS", new Release("Oct 29 2021 00:00:00", 1, "17.0.1+12-LTS"));
-    ***REMOVED***
+    }
 
     /**
      * @param size
@@ -1327,59 +1327,59 @@ public class JdkUtil {
     public static long convertSize(final long size, char fromUnits, char toUnits) {
         if (fromUnits == toUnits) {
             return size;
-        ***REMOVED*** else {
+        } else {
             if (!"bBkKmMgG".matches("^.*" + Character.toString(toUnits) + ".*$")) {
                 throw new AssertionError("Unexpected toUnits value: " + toUnits);
-            ***REMOVED***
+            }
             BigDecimal newSize = new BigDecimal(size);
             switch (fromUnits) {
             case 'b':
             case 'B':
                 if (toUnits == 'k' || toUnits == 'K') {
                     newSize = newSize.divide(Constants.KILOBYTE);
-                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
+                } else if (toUnits == 'm' || toUnits == 'M') {
                     newSize = newSize.divide(Constants.MEGABYTE);
-                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
+                } else if (toUnits == 'g' || toUnits == 'G') {
                     newSize = newSize.divide(Constants.GIGABYTE);
-                ***REMOVED***
+                }
                 break;
             case 'k':
             case 'K':
                 if (toUnits == 'b' || toUnits == 'B') {
                     newSize = newSize.multiply(Constants.KILOBYTE);
-                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
+                } else if (toUnits == 'm' || toUnits == 'M') {
                     newSize = newSize.divide(Constants.KILOBYTE);
-                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
+                } else if (toUnits == 'g' || toUnits == 'G') {
                     newSize = newSize.divide(Constants.MEGABYTE);
-                ***REMOVED***
+                }
                 break;
             case 'm':
             case 'M':
                 if (toUnits == 'b' || toUnits == 'B') {
                     newSize = newSize.multiply(Constants.MEGABYTE);
-                ***REMOVED*** else if (toUnits == 'k' || toUnits == 'K') {
+                } else if (toUnits == 'k' || toUnits == 'K') {
                     newSize = newSize.multiply(Constants.KILOBYTE);
-                ***REMOVED*** else if (toUnits == 'g' || toUnits == 'G') {
+                } else if (toUnits == 'g' || toUnits == 'G') {
                     newSize = newSize.divide(Constants.MEGABYTE);
-                ***REMOVED***
+                }
                 break;
             case 'g':
             case 'G':
                 if (toUnits == 'b' || toUnits == 'B') {
                     newSize = newSize.multiply(Constants.GIGABYTE);
-                ***REMOVED*** else if (toUnits == 'k' || toUnits == 'K') {
+                } else if (toUnits == 'k' || toUnits == 'K') {
                     newSize = newSize.multiply(Constants.MEGABYTE);
-                ***REMOVED*** else if (toUnits == 'm' || toUnits == 'M') {
+                } else if (toUnits == 'm' || toUnits == 'M') {
                     newSize = newSize.multiply(Constants.KILOBYTE);
-                ***REMOVED***
+                }
                 break;
             default:
                 throw new AssertionError("Unexpected fromUnits value: " + fromUnits);
-            ***REMOVED***
+            }
             newSize = newSize.setScale(0, RoundingMode.HALF_EVEN);
             return newSize.longValue();
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     /**
      * Get the bytes of a JVM option that specifies a byte value. For example, the bytes for <code>128k</code> is 128 x
@@ -1400,19 +1400,19 @@ public class JdkUtil {
                 value = Long.parseLong(matcher.group(2));
                 if (matcher.group(3) != null) {
                     fromUnits = matcher.group(3).charAt(0);
-                ***REMOVED*** else {
+                } else {
                     fromUnits = 'B';
-                ***REMOVED***
+                }
                 char toUnits = 'B';
                 if (fromUnits == toUnits) {
                     bytes = value;
-                ***REMOVED*** else {
+                } else {
                     bytes = JdkUtil.convertSize(value, fromUnits, toUnits);
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                }
+            }
+        }
         return bytes;
-    ***REMOVED***
+    }
 
     /**
      * Get the value of a JVM option that specifies a byte value. For example, the value for <code>-Xss128k</code> is
@@ -1425,15 +1425,15 @@ public class JdkUtil {
     public static final String getByteOptionValue(final String option) {
         String value = null;
         if (option != null) {
-            String regex = "^-[a-zA-Z:.]+={0,1***REMOVED***(" + JdkRegEx.OPTION_SIZE_BYTES + ")$";
+            String regex = "^-[a-zA-Z:.]+={0,1}(" + JdkRegEx.OPTION_SIZE_BYTES + ")$";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(option);
             if (matcher.find()) {
                 value = matcher.group(1);
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return value;
-    ***REMOVED***
+    }
 
     /**
      * @param jdkReleaseString
@@ -1452,10 +1452,10 @@ public class JdkUtil {
             if (release.getVersion().equals(jdkReleaseString)) {
                 firstRelease = release;
                 break;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return firstRelease;
-    ***REMOVED***
+    }
 
     /**
      * @param version
@@ -1466,9 +1466,9 @@ public class JdkUtil {
         int javaSpecificationNumber = Integer.MIN_VALUE;
         if (version != JavaSpecification.UNKNOWN) {
             javaSpecificationNumber = Integer.parseInt(version.toString().substring(3));
-        ***REMOVED***
+        }
         return javaSpecificationNumber;
-    ***REMOVED***
+    }
 
     /**
      * @param jdk11ReleaseString
@@ -1477,14 +1477,14 @@ public class JdkUtil {
      */
     public static final int getJdk11UpdateNumber(String jdk11ReleaseString) {
         int jdk11UpdateNumber = Integer.MIN_VALUE;
-        String regEx = "11.0.(\\d{1,***REMOVED***).+";
+        String regEx = "11.0.(\\d{1,}).+";
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(jdk11ReleaseString);
         if (matcher.find()) {
             jdk11UpdateNumber = Integer.parseInt(matcher.group(1));
-        ***REMOVED***
+        }
         return jdk11UpdateNumber;
-    ***REMOVED***
+    }
 
     /**
      * @param jdk17ReleaseString
@@ -1493,14 +1493,14 @@ public class JdkUtil {
      */
     public static final int getJdk17UpdateNumber(String jdk17ReleaseString) {
         int jdk17UpdateNumber = Integer.MIN_VALUE;
-        String regEx = "17.0.(\\d{1,***REMOVED***).+";
+        String regEx = "17.0.(\\d{1,}).+";
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(jdk17ReleaseString);
         if (matcher.find()) {
             jdk17UpdateNumber = Integer.parseInt(matcher.group(1));
-        ***REMOVED***
+        }
         return jdk17UpdateNumber;
-    ***REMOVED***
+    }
 
     /**
      * @param jdk8ReleaseString
@@ -1509,14 +1509,14 @@ public class JdkUtil {
      */
     public static final int getJdk8UpdateNumber(String jdk8ReleaseString) {
         int jdk8UpdateNumber = Integer.MIN_VALUE;
-        String regEx = "(1.)?8.0_(\\d{1,***REMOVED***).+";
+        String regEx = "(1.)?8.0_(\\d{1,}).+";
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(jdk8ReleaseString);
         if (matcher.find()) {
             jdk8UpdateNumber = Integer.parseInt(matcher.group(2));
-        ***REMOVED***
+        }
         return jdk8UpdateNumber;
-    ***REMOVED***
+    }
 
     /**
      * @param fatalErrorLog
@@ -1531,19 +1531,19 @@ public class JdkUtil {
             if (releases != null && !releases.isEmpty()) {
                 if (fatalErrorLog.isRhRpmInstall()) {
                     release = releases.get(fatalErrorLog.getRpmDirectory());
-                ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
+                } else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
                     release = releases.get(fatalErrorLog.getJdkReleaseString());
-                ***REMOVED***
-            ***REMOVED*** else {
+                }
+            } else {
                 // Approximate release
                 release = fatalErrorLog.getFirstRelease(fatalErrorLog.getJdkReleaseString());
-            ***REMOVED***
+            }
             if (release != null) {
                 date = release.getBuildDate();
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return date;
-    ***REMOVED***
+    }
 
     /**
      * @param fatalErrorLog
@@ -1558,16 +1558,16 @@ public class JdkUtil {
                 Release release = null;
                 if (fatalErrorLog.isRhRpmInstall()) {
                     release = releases.get(fatalErrorLog.getRpmDirectory());
-                ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
+                } else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
                     release = releases.get(fatalErrorLog.getJdkReleaseString());
-                ***REMOVED***
+                }
                 if (release != null) {
                     number = release.getNumber();
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                }
+            }
+        }
         return number;
-    ***REMOVED***
+    }
 
     /**
      * @param fatalErrorLog
@@ -1582,33 +1582,33 @@ public class JdkUtil {
                     if (fatalErrorLog.getOsVersion() == OsVersion.RHEL6
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
                         releases = JDK8_RHEL6_X86_64_RPMS;
-                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7 && fatalErrorLog.getArch() == Arch.X86_64
+                    } else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7 && fatalErrorLog.getArch() == Arch.X86_64
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
                         releases = JDK8_RHEL7_X86_64_RPMS;
-                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7 && fatalErrorLog.getArch() == Arch.PPC64
+                    } else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7 && fatalErrorLog.getArch() == Arch.PPC64
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
                         releases = JDK8_RHEL7_PPC64_RPMS;
-                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7
+                    } else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7
                             && fatalErrorLog.getArch() == Arch.PPC64LE
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
                         releases = JDK8_RHEL7_PPC64LE_RPMS;
-                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7
+                    } else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL7
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK11) {
                         releases = JDK11_RHEL7_X86_64_RPMS;
-                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL8
+                    } else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL8
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
                         releases = JDK8_RHEL8_X86_64_RPMS;
-                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL9
+                    } else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL9
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
                         releases = JDK8_RHEL9_X86_64_RPMS;
-                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL8
+                    } else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL8
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK11) {
                         releases = JDK11_RHEL8_X86_64_RPMS;
-                    ***REMOVED*** else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL8
+                    } else if (fatalErrorLog.getOsVersion() == OsVersion.RHEL8
                             && fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK17) {
                         releases = JDK17_RHEL8_X86_64_RPMS;
-                    ***REMOVED***
-                ***REMOVED*** else if (fatalErrorLog.isRhLinuxZipInstall()) {
+                    }
+                } else if (fatalErrorLog.isRhLinuxZipInstall()) {
                     switch (fatalErrorLog.getJavaSpecification()) {
                     case JDK8:
                         releases = JDK8_RHEL_ZIPS;
@@ -1621,9 +1621,9 @@ public class JdkUtil {
                         break;
                     case UNKNOWN:
                     default:
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED*** else if (fatalErrorLog.isRhWindowsZipInstall()) {
+                    }
+                }
+            } else if (fatalErrorLog.isRhWindowsZipInstall()) {
                 switch (fatalErrorLog.getJavaSpecification()) {
                 case JDK8:
                     releases = JDK8_WINDOWS_ZIPS;
@@ -1636,12 +1636,12 @@ public class JdkUtil {
                     break;
                 case UNKNOWN:
                 default:
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                }
+            }
+        }
         return releases;
 
-    ***REMOVED***
+    }
 
     /**
      * @param fatalErrorLog
@@ -1653,9 +1653,9 @@ public class JdkUtil {
         HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
         if (releases != null && releases.get("LATEST") != null) {
             date = releases.get("LATEST").getBuildDate();
-        ***REMOVED***
+        }
         return date;
-    ***REMOVED***
+    }
 
     /**
      * @param fatalErrorLog
@@ -1668,9 +1668,9 @@ public class JdkUtil {
         if (releases != null && !releases.isEmpty()) {
             Release latest = releases.get("LATEST");
             number = latest.getNumber();
-        ***REMOVED***
+        }
         return number;
-    ***REMOVED***
+    }
 
     /**
      * @param fatalErrorLog
@@ -1682,9 +1682,9 @@ public class JdkUtil {
         HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
         if (releases != null && !releases.isEmpty()) {
             release = releases.get("LATEST").getVersion();
-        ***REMOVED***
+        }
         return release;
-    ***REMOVED***
+    }
 
     /**
      * Get the value of a JVM option that specifies a number value.
@@ -1702,15 +1702,15 @@ public class JdkUtil {
     public static final long getNumberOptionValue(final String option) {
         long value = Long.MIN_VALUE;
         if (option != null) {
-            String regex = "^.+=(\\d{1,19***REMOVED***)$";
+            String regex = "^.+=(\\d{1,19})$";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(option);
             if (matcher.find()) {
                 value = Long.parseLong(matcher.group(1));
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return value;
-    ***REMOVED***
+    }
 
     /**
      * Identify the log line fatal error log event.
@@ -1725,173 +1725,173 @@ public class JdkUtil {
         LogEventType logEventType = LogEventType.UNKNOWN;
         if (BitsEvent.match(logLine)) {
             logEventType = LogEventType.BITS;
-        ***REMOVED*** else if (BlankLine.match(logLine)) {
+        } else if (BlankLine.match(logLine)) {
             logEventType = LogEventType.BLANK_LINE;
-        ***REMOVED*** else if (CardTable.match(logLine)) {
+        } else if (CardTable.match(logLine)) {
             logEventType = LogEventType.CARD_TABLE;
-        ***REMOVED*** else if (CdsArchive.match(logLine)) {
+        } else if (CdsArchive.match(logLine)) {
             logEventType = LogEventType.CDS_ARCHIVE;
-        ***REMOVED*** else if (ClassesRedefinedEvent.match(logLine) && (logLine.matches(ClassesRedefinedEvent._REGEX_HEADER)
+        } else if (ClassesRedefinedEvent.match(logLine) && (logLine.matches(ClassesRedefinedEvent._REGEX_HEADER)
                 || priorEvent instanceof ClassesRedefinedEvent)) {
             logEventType = LogEventType.CLASSES_REDEFINED_EVENT;
-        ***REMOVED*** else if (ClassesUnloadedEvent.match(logLine) && (logLine.matches(ClassesUnloadedEvent._REGEX_HEADER)
+        } else if (ClassesUnloadedEvent.match(logLine) && (logLine.matches(ClassesUnloadedEvent._REGEX_HEADER)
                 || priorEvent instanceof ClassesUnloadedEvent)) {
             logEventType = LogEventType.CLASSES_UNLOADED_EVENT;
-        ***REMOVED*** else if (CodeCache.match(logLine)) {
+        } else if (CodeCache.match(logLine)) {
             logEventType = LogEventType.CODE_CACHE;
-        ***REMOVED*** else if (CommandLine.match(logLine)) {
+        } else if (CommandLine.match(logLine)) {
             logEventType = LogEventType.COMMAND_LINE;
-        ***REMOVED*** else if (CompilationEvent.match(logLine)
+        } else if (CompilationEvent.match(logLine)
                 && (logLine.matches(CompilationEvent._REGEX_HEADER) || priorEvent instanceof CompilationEvent)) {
             logEventType = LogEventType.COMPILATION_EVENT;
-        ***REMOVED*** else if (CompressedClassSpace.match(logLine)) {
+        } else if (CompressedClassSpace.match(logLine)) {
             logEventType = LogEventType.COMPRESSED_CLASS_SPACE;
-        ***REMOVED*** else if (ContainerInfo.match(logLine)) {
+        } else if (ContainerInfo.match(logLine)) {
             logEventType = LogEventType.CONTAINER_INFO;
-        ***REMOVED*** else if (CpuInfo.match(logLine)
+        } else if (CpuInfo.match(logLine)
                 && (logLine.matches(CpuInfo._REGEX_HEADER) || priorEvent instanceof CpuInfo)) {
             logEventType = LogEventType.CPU_INFO;
-        ***REMOVED*** else if (CurrentCompileTask.match(logLine)) {
+        } else if (CurrentCompileTask.match(logLine)) {
             logEventType = LogEventType.CURRENT_COMPILE_TASK;
-        ***REMOVED*** else if (CurrentThread.match(logLine)) {
+        } else if (CurrentThread.match(logLine)) {
             logEventType = LogEventType.CURRENT_THREAD;
-        ***REMOVED*** else if (DeoptimizationEvent.match(logLine)
+        } else if (DeoptimizationEvent.match(logLine)
                 && (logLine.matches(DeoptimizationEvent._REGEX_HEADER) || priorEvent instanceof DeoptimizationEvent)) {
             logEventType = LogEventType.DEOPTIMIZATION_EVENT;
-        ***REMOVED*** else if (DllOperationEvent.match(logLine)
+        } else if (DllOperationEvent.match(logLine)
                 && (logLine.matches(DllOperationEvent._REGEX_HEADER) || priorEvent instanceof DllOperationEvent)) {
             logEventType = LogEventType.DLL_OPERATION_EVENT;
-        ***REMOVED*** else if (DynamicLibrary.match(logLine)) {
+        } else if (DynamicLibrary.match(logLine)) {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
-        ***REMOVED*** else if (ElapsedTime.match(logLine)) {
+        } else if (ElapsedTime.match(logLine)) {
             logEventType = LogEventType.ELAPSED_TIME;
-        ***REMOVED*** else if (End.match(logLine)) {
+        } else if (End.match(logLine)) {
             logEventType = LogEventType.END;
-        ***REMOVED*** else if (EnvironmentVariable.match(logLine)) {
+        } else if (EnvironmentVariable.match(logLine)) {
             logEventType = LogEventType.ENVIRONMENT_VARIABLES;
-        ***REMOVED*** else if (Event.match(logLine) && (logLine.matches(Event._REGEX_HEADER) || priorEvent instanceof Event)) {
+        } else if (Event.match(logLine) && (logLine.matches(Event._REGEX_HEADER) || priorEvent instanceof Event)) {
             logEventType = LogEventType.EVENT;
-        ***REMOVED*** else if (ExceptionCounts.match(logLine)) {
+        } else if (ExceptionCounts.match(logLine)) {
             logEventType = LogEventType.EXCEPTION_COUNTS;
-        ***REMOVED*** else if (GcHeapHistoryEvent.match(logLine)
+        } else if (GcHeapHistoryEvent.match(logLine)
                 && (logLine.matches(GcHeapHistoryEvent._REGEX_HEADER) || priorEvent instanceof GcHeapHistoryEvent)) {
             logEventType = LogEventType.GC_HEAP_HISTORY_EVENT;
-        ***REMOVED*** else if (GcPreciousLog.match(logLine)) {
+        } else if (GcPreciousLog.match(logLine)) {
             logEventType = LogEventType.GC_PRECIOUS_LOG;
-        ***REMOVED*** else if (GlobalFlag.match(logLine)) {
+        } else if (GlobalFlag.match(logLine)) {
             logEventType = LogEventType.GLOBAL_FLAGS;
-        ***REMOVED*** else if (Header.match(logLine)
+        } else if (Header.match(logLine)
                 && (priorEvent == null || priorEvent instanceof UnknownEvent || priorEvent instanceof Header)) {
             logEventType = LogEventType.HEADER;
-        ***REMOVED*** else if (Heading.match(logLine)) {
+        } else if (Heading.match(logLine)) {
             logEventType = LogEventType.HEADING;
-        ***REMOVED*** else if (Heap.match(logLine) && (logLine.matches(Heap._REGEX_HEADER) || priorEvent instanceof Heap)) {
+        } else if (Heap.match(logLine) && (logLine.matches(Heap._REGEX_HEADER) || priorEvent instanceof Heap)) {
             logEventType = LogEventType.HEAP;
-        ***REMOVED*** else if (HeapAddress.match(logLine)) {
+        } else if (HeapAddress.match(logLine)) {
             logEventType = LogEventType.HEAP_ADDRESS;
-        ***REMOVED*** else if (HeapRegions.match(logLine)) {
+        } else if (HeapRegions.match(logLine)) {
             logEventType = LogEventType.HEAP_REGIONS;
-        ***REMOVED*** else if (Host.match(logLine)) {
+        } else if (Host.match(logLine)) {
             logEventType = LogEventType.HOST;
-        ***REMOVED*** else if (Instructions.match(logLine)) {
+        } else if (Instructions.match(logLine)) {
             logEventType = LogEventType.INSTRUCTIONS;
-        ***REMOVED*** else if (InternalExceptionEvent.match(logLine) && (logLine.matches(InternalExceptionEvent._REGEX_HEADER)
+        } else if (InternalExceptionEvent.match(logLine) && (logLine.matches(InternalExceptionEvent._REGEX_HEADER)
                 || priorEvent instanceof InternalExceptionEvent)) {
             logEventType = LogEventType.INTERNAL_EXCEPTION_EVENT;
-        ***REMOVED*** else if (InternalStatistic.match(logLine)
+        } else if (InternalStatistic.match(logLine)
                 && (logLine.matches(InternalStatistic._REGEX_HEADER) || priorEvent instanceof InternalStatistic)) {
             logEventType = LogEventType.INTERNAL_STATISTICS;
-        ***REMOVED*** else if (LdPreloadFile.match(logLine)) {
+        } else if (LdPreloadFile.match(logLine)) {
             logEventType = LogEventType.LD_PRELOAD_FILE;
-        ***REMOVED*** else if (Libc.match(logLine)) {
+        } else if (Libc.match(logLine)) {
             logEventType = LogEventType.LIBC;
-        ***REMOVED*** else if (LoadAverage.match(logLine)) {
+        } else if (LoadAverage.match(logLine)) {
             logEventType = LogEventType.LOAD_AVERAGE;
-        ***REMOVED*** else if (Logging.match(logLine)) {
+        } else if (Logging.match(logLine)) {
             logEventType = LogEventType.LOGGING;
-        ***REMOVED*** else if (MaxMapCount.match(logLine)) {
+        } else if (MaxMapCount.match(logLine)) {
             logEventType = LogEventType.MAX_MAP_COUNT;
-        ***REMOVED*** else if (Meminfo.match(logLine)
+        } else if (Meminfo.match(logLine)
                 && (logLine.matches(Meminfo._REGEX_HEADER) || priorEvent instanceof Meminfo)) {
             logEventType = LogEventType.MEMINFO;
-        ***REMOVED*** else if (Memory.match(logLine) && (logLine.matches(Memory._REGEX_HEADER) || priorEvent instanceof Memory)) {
+        } else if (Memory.match(logLine) && (logLine.matches(Memory._REGEX_HEADER) || priorEvent instanceof Memory)) {
             logEventType = LogEventType.MEMORY;
-        ***REMOVED*** else if (Metaspace.match(logLine)) {
+        } else if (Metaspace.match(logLine)) {
             logEventType = LogEventType.METASPACE;
-        ***REMOVED*** else if (NarrowKlass.match(logLine)) {
+        } else if (NarrowKlass.match(logLine)) {
             logEventType = LogEventType.NARROW_KLASS;
-        ***REMOVED*** else if (NativeMemoryTracking.match(logLine)) {
+        } else if (NativeMemoryTracking.match(logLine)) {
             logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
-        ***REMOVED*** else if (NumberEvent.match(logLine)) {
+        } else if (NumberEvent.match(logLine)) {
             logEventType = LogEventType.NUMBER;
-        ***REMOVED*** else if (OsInfo.match(logLine)) {
+        } else if (OsInfo.match(logLine)) {
             logEventType = LogEventType.OS_INFO;
-        ***REMOVED*** else if (OsUptime.match(logLine)) {
+        } else if (OsUptime.match(logLine)) {
             logEventType = LogEventType.OS_UPTIME;
-        ***REMOVED*** else if (PidMax.match(logLine)) {
+        } else if (PidMax.match(logLine)) {
             logEventType = LogEventType.PID_MAX;
-        ***REMOVED*** else if (PollingPage.match(logLine)) {
+        } else if (PollingPage.match(logLine)) {
             logEventType = LogEventType.POLLING_PAGE;
-        ***REMOVED*** else if (ProcessMemory.match(logLine)) {
+        } else if (ProcessMemory.match(logLine)) {
             logEventType = LogEventType.PROCESS_MEMORY;
-        ***REMOVED*** else if (Register.match(logLine)) {
+        } else if (Register.match(logLine)) {
             logEventType = LogEventType.REGISTER;
-        ***REMOVED*** else if (RegisterToMemoryMapping.match(logLine) || (priorEvent instanceof RegisterToMemoryMapping
+        } else if (RegisterToMemoryMapping.match(logLine) || (priorEvent instanceof RegisterToMemoryMapping
                 && (logLine.matches(JdkRegEx.CLASS) || logLine.matches(JdkRegEx.MEMORY_MAPPING)))) {
             logEventType = LogEventType.REGISTER_TO_MEMORY_MAPPING;
-        ***REMOVED*** else if (Rlimit.match(logLine)) {
+        } else if (Rlimit.match(logLine)) {
             logEventType = LogEventType.RLIMIT;
-        ***REMOVED*** else if (SigInfo.match(logLine)) {
+        } else if (SigInfo.match(logLine)) {
             logEventType = LogEventType.SIGINFO;
-        ***REMOVED*** else if (SignalHandlers.match(logLine)) {
+        } else if (SignalHandlers.match(logLine)) {
             logEventType = LogEventType.SIGNAL_HANDLERS;
-        ***REMOVED*** else if (Stack.match(logLine)) {
+        } else if (Stack.match(logLine)) {
             logEventType = LogEventType.STACK;
-        ***REMOVED*** else if (StackSlotToMemoryMapping.match(logLine)
+        } else if (StackSlotToMemoryMapping.match(logLine)
                 || (priorEvent instanceof StackSlotToMemoryMapping) && logLine.matches(JdkRegEx.MEMORY_MAPPING)) {
             logEventType = LogEventType.STACK_SLOT_TO_MEMORY_MAPPING;
-        ***REMOVED*** else if (Thread.match(logLine)) {
+        } else if (Thread.match(logLine)) {
             logEventType = LogEventType.THREAD;
-        ***REMOVED*** else if (ThreadsActiveCompile.match(logLine)) {
+        } else if (ThreadsActiveCompile.match(logLine)) {
             logEventType = LogEventType.THREADS_ACTIVE_COMPILE;
-        ***REMOVED*** else if (ThreadsClassSmrInfo.match(logLine)) {
+        } else if (ThreadsClassSmrInfo.match(logLine)) {
             logEventType = LogEventType.THREADS_CLASS_SMR_INFO;
-        ***REMOVED*** else if (ThreadsMax.match(logLine)) {
+        } else if (ThreadsMax.match(logLine)) {
             logEventType = LogEventType.THREADS_MAX;
-        ***REMOVED*** else if (Time.match(logLine)) {
+        } else if (Time.match(logLine)) {
             logEventType = LogEventType.TIME;
-        ***REMOVED*** else if (TimeElapsedTime.match(logLine)) {
+        } else if (TimeElapsedTime.match(logLine)) {
             logEventType = LogEventType.TIME_ELAPSED_TIME;
-        ***REMOVED*** else if (Timezone.match(logLine)) {
+        } else if (Timezone.match(logLine)) {
             logEventType = LogEventType.TIMEZONE;
-        ***REMOVED*** else if (TopOfStack.match(logLine)) {
+        } else if (TopOfStack.match(logLine)) {
             logEventType = LogEventType.TOP_OF_STACK;
-        ***REMOVED*** else if (TransparentHugepage.match(logLine)) {
+        } else if (TransparentHugepage.match(logLine)) {
             logEventType = LogEventType.TRANSPARENT_HUGEPAGE;
-        ***REMOVED*** else if (Uid.match(logLine)) {
+        } else if (Uid.match(logLine)) {
             logEventType = LogEventType.UID;
-        ***REMOVED*** else if (Umask.match(logLine)) {
+        } else if (Umask.match(logLine)) {
             logEventType = LogEventType.UMASK;
-        ***REMOVED*** else if (Uname.match(logLine)) {
+        } else if (Uname.match(logLine)) {
             logEventType = LogEventType.UNAME;
-        ***REMOVED*** else if (VmArguments.match(logLine)) {
+        } else if (VmArguments.match(logLine)) {
             logEventType = LogEventType.VM_ARGUMENTS;
-        ***REMOVED*** else if (VmInfo.match(logLine)) {
+        } else if (VmInfo.match(logLine)) {
             logEventType = LogEventType.VM_INFO;
-        ***REMOVED*** else if (VmMutex.match(logLine)) {
+        } else if (VmMutex.match(logLine)) {
             logEventType = LogEventType.VM_MUTEX;
-        ***REMOVED*** else if (VmOperation.match(logLine)) {
+        } else if (VmOperation.match(logLine)) {
             logEventType = LogEventType.VM_OPERATION;
-        ***REMOVED*** else if (VmOperationEvent.match(logLine)
+        } else if (VmOperationEvent.match(logLine)
                 && (logLine.matches(VmOperationEvent._REGEX_HEADER) || priorEvent instanceof VmOperationEvent)) {
             logEventType = LogEventType.VM_OPERATION_EVENT;
-        ***REMOVED*** else if (VmState.match(logLine)) {
+        } else if (VmState.match(logLine)) {
             logEventType = LogEventType.VM_STATE;
-        ***REMOVED*** else if (VirtualizationInfo.match(logLine)) {
+        } else if (VirtualizationInfo.match(logLine)) {
             logEventType = LogEventType.VIRTUALIZATION_INFO;
-        ***REMOVED***
+        }
         return logEventType;
-    ***REMOVED***
+    }
 
     /**
      * Determine if a build date is a known date/time or an estimate. Estimate have 0 for hh:mm:ss.
@@ -1916,9 +1916,9 @@ public class JdkUtil {
         if (!(calendar.get(Calendar.HOUR) == 0 && calendar.get(Calendar.MINUTE) == 0
                 && calendar.get(Calendar.SECOND) == 0)) {
             isBuildDateKnown = true;
-        ***REMOVED***
+        }
         return isBuildDateKnown;
-    ***REMOVED***
+    }
 
     /**
      * @param fatalErrorLog
@@ -1933,10 +1933,10 @@ public class JdkUtil {
             if (latest != null && latest.getVersion() != null
                     && !latest.getVersion().equals(fatalErrorLog.getJdkReleaseString())) {
                 isLatestRelease = false;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return isLatestRelease;
-    ***REMOVED***
+    }
 
     /**
      * Determine if a JVM option is explicitly disabled. For example, <code>-XX:-TraceClassUnloading</code> is disabled.
@@ -1949,9 +1949,9 @@ public class JdkUtil {
         boolean disabled = false;
         if (option != null) {
             disabled = option.matches("^-XX:-.+$");
-        ***REMOVED***
+        }
         return disabled;
-    ***REMOVED***
+    }
 
     /**
      * Determine if a JVM option is explicitly enabled. For example, <code>-XX:+TraceClassUnloading</code> is enabled.
@@ -1964,9 +1964,9 @@ public class JdkUtil {
         boolean enabled = false;
         if (option != null) {
             enabled = option.matches("^-XX:\\+.+$");
-        ***REMOVED***
+        }
         return enabled;
-    ***REMOVED***
+    }
 
     /**
      * @param jdkReleaseString
@@ -1984,10 +1984,10 @@ public class JdkUtil {
             if (release.getVersion().equals(jdkReleaseString)) {
                 containsJdkReleaseString = true;
                 break;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return containsJdkReleaseString;
-    ***REMOVED***
+    }
 
     /**
      * Create <code>LogEvent</code> from VM log line.
@@ -2235,14 +2235,14 @@ public class JdkUtil {
             break;
         default:
             throw new AssertionError("Unexpected event type value: " + eventType);
-        ***REMOVED***
+        }
         return event;
-    ***REMOVED***
+    }
 
     /**
      * Make default constructor private so the class cannot be instantiated.
      */
     private JdkUtil() {
 
-    ***REMOVED***
-***REMOVED***
+    }
+}

@@ -1,18 +1,18 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007f4b14b60eb4, pid=3304760, tid=3305042
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment 18.9 (11.0.15+10) (build 11.0.15+10-LTS)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM 18.9 (11.0.15+10-LTS, mixed mode, tiered, g1 gc, linux-amd64)
-***REMOVED*** Problematic frame:
-***REMOVED*** C  [libpthread.so.0+0xfeb4]  pthread_getcpuclockid+0x4
-***REMOVED***
-***REMOVED*** Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /nix/store/vwyaa1fb0d9l4v5hysra8sydwpgix3ip-user-environment/core.3304760)
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-11-openjdk
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f4b14b60eb4, pid=3304760, tid=3305042
+#
+# JRE version: OpenJDK Runtime Environment 18.9 (11.0.15+10) (build 11.0.15+10-LTS)
+# Java VM: OpenJDK 64-Bit Server VM 18.9 (11.0.15+10-LTS, mixed mode, tiered, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libpthread.so.0+0xfeb4]  pthread_getcpuclockid+0x4
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /nix/store/vwyaa1fb0d9l4v5hysra8sydwpgix3ip-user-environment/core.3304760)
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-11-openjdk
+#
 
 ---------------  S U M M A R Y ------------
 
@@ -21,7 +21,7 @@ Command Line: -Xmx1200G -Xms1200G -XX:MaxDirectMemorySize=30G -XX:ReservedCodeCa
 Host: AMD EPYC 7H12 64-Core Processor, 256 cores, 2003G, Red Hat Enterprise Linux release 8.5 (Ootpa)
 Time: Tue Jul 26 11:48:03 2022 EEST elapsed time: 48192.839374 seconds (0d 13h 23m 12s)
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007e0f0d4ed800):  VMThread "VM Thread" [stack: 0x00007e0f328b0000,0x00007e0f329b0000] [id=3305042]
 
@@ -31,7 +31,7 @@ C  [libpthread.so.0+0xfeb4]  pthread_getcpuclockid+0x4
 V  [libjvm.so+0xe63315]  Thread::print_on(outputStream*, bool) const+0x55
 V  [libjvm.so+0xe6354b]  NamedThread::print_on(outputStream*) const+0x3b
 V  [libjvm.so+0x7a79a7]  G1ConcurrentRefine::print_threads_on(outputStream*) const+0x37
-V  [libjvm.so+0x786cb6]  G1Collected***REMOVED***:print_gc_threads_on(outputStream*) const+0x56
+V  [libjvm.so+0x786cb6]  G1CollectedHeap::print_gc_threads_on(outputStream*) const+0x56
 V  [libjvm.so+0xe68304]  Threads::print_on(outputStream*, bool, bool, bool, bool)+0x4f4
 V  [libjvm.so+0xed37eb]  VM_Operation::evaluate()+0xeb
 V  [libjvm.so+0xed9c5e]  VMThread::evaluate_operation(VM_Operation*) [clone .constprop.71]+0x11e
@@ -43,7 +43,7 @@ V  [libjvm.so+0xc1f896]  thread_native_entry(Thread*)+0xf6
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x00007e0f333b39d0
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x00007f4b14b60eb0: pthread_getcpuclockid+0x0000000000000000 in /lib64/libpthread.so.0 at 0x00007f4b14b51000
 RBX=0x00007e0f0d429000 points into unknown readable memory: 0x00007f4b142d8370 | 70 83 2d 14 4b 7f 00 00
@@ -63,7 +63,7 @@ R14=0x00007e0f0d492640 points into unknown readable memory: 0x0000000000000000 |
 R15=0x00007e0654003288 points into unknown readable memory: 0x0000000000000000 | 00 00 00 00 00 00 00 00
 
 
-***REMOVED***
+Registers:
 RAX=0x00007f4b14b60eb0, RBX=0x00007e0f0d429000, RCX=0x0000000000000008, RDX=0x0000000000000020
 RSP=0x00007e0f329ae758, RBP=0x00007e0f329ae790, RSI=0x00007e0f329ae76c, RDI=0x00007e0f333b3700
 R8 =0x00000000000007d0, R9 =0x00007e0f329adc87, R10=0x0000000000000000, R11=0x0000000000000000

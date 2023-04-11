@@ -31,15 +31,15 @@ class TestGcHeapHistoryEvent {
         String logLine = "{Heap after GC invocations=10 (full 0):";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testClosingBrace() {
         GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
-        String logLine = "***REMOVED***";
+        String logLine = "}";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeaderGcHeapHistory() {
@@ -47,7 +47,7 @@ class TestGcHeapHistoryEvent {
         String logLine = "GC Heap History (48 events):";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeapAfterGc() {
@@ -55,7 +55,7 @@ class TestGcHeapHistoryEvent {
         String logLine = "Heap after GC invocations=1 (full 0):";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeapAfterGcWithTimestamp() {
@@ -63,7 +63,7 @@ class TestGcHeapHistoryEvent {
         String logLine = "Event: 345.632 GC heap after";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeapBeforeGc() {
@@ -71,7 +71,7 @@ class TestGcHeapHistoryEvent {
         String logLine = "{Heap before GC invocations=1 (full 0):";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
@@ -79,7 +79,7 @@ class TestGcHeapHistoryEvent {
         String logLine = "Event: 1.905 GC heap before";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoEventsLowercaseE() {
@@ -87,7 +87,7 @@ class TestGcHeapHistoryEvent {
         String logLine = "No events";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoEventsUppercaseE() {
@@ -95,7 +95,7 @@ class TestGcHeapHistoryEvent {
         String logLine = "No Events";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -103,5 +103,5 @@ class TestGcHeapHistoryEvent {
         String logLine = "Event: 1.905 GC heap before";
         assertTrue(JdkUtil.parseLogLine(logLine, priorEvent) instanceof GcHeapHistoryEvent,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

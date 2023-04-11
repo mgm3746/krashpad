@@ -1,28 +1,28 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007f6431aa05be, pid=373007, tid=0x00007f6400dd2700
-***REMOVED***
-***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_281-b09) (build 1.8.0_281-b09)
-***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.281-b09 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** C  [libzip.so+0x45be]  fill_window+0x17e
-***REMOVED***
-***REMOVED*** Core dump written. Default location: /igea_serverRF/procedimientos/core or core.373007
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
-***REMOVED*** See problematic frame for where to report the bug.
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f6431aa05be, pid=373007, tid=0x00007f6400dd2700
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_281-b09) (build 1.8.0_281-b09)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.281-b09 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# C  [libzip.so+0x45be]  fill_window+0x17e
+#
+# Core dump written. Default location: /igea_serverRF/procedimientos/core or core.373007
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f642c9c6800):  JavaThread "MyThread" [_thread_in_native, id=373373, stack(0x00007f6400cd2000,0x00007f6400dd3000)]
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x00007f652c984765
 
-***REMOVED***
+Registers:
 RAX=0x00007f642c984850, RBX=0x00007f642cd249b0, RCX=0x00000000ffffff15, RDX=0x0000000000008000
 RSP=0x00007f6400dd0530, RBP=0x00007f6400dd0560, RSI=0x00000000ffffff15, RDI=0x00007f642c98c765
 R8 =0x00007f642c994860, R9 =0x0000000000000001, R10=0x00007f642c98c765, R11=0x00007f642c984850
@@ -70,7 +70,7 @@ Instructions: (pc=0x00007f6431aa05be)
 0x00007f6431aa05be:   0f b6 3c 08 8d 4e 01 89 bb 80 00 00 00 0f b6 04
 0x00007f6431aa05ce:   08 8b 8b 90 00 00 00 d3 e7 31 f8 23 83 8c 00 00 
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x00007f642c984850 is an unknown value
 RBX=0x00007f642cd249b0 is an unknown value
@@ -91,7 +91,7 @@ R15=0x00000000000080eb is an unknown value
 
 
 Stack: [0x00007f6400cd2000,0x00007f6400dd3000],  sp=0x00007f6400dd0530,  free space=1017k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 C  [libzip.so+0x45be]  fill_window+0x17e
 C  [libzip.so+0x492d]  deflate_slow+0x19d
 C  [libzip.so+0x6212]  deflate+0x2a2
@@ -132,9 +132,9 @@ J 3642 C1 java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)
 j  java.lang.Thread.run()V+11
 v  ~StubRoutines::call_stub
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007f63e427c800 JavaThread "WeakCollectionCleaner" daemon [_thread_blocked, id=373410, stack(0x00007f6402d0c000,0x00007f6402e0d000)]
   0x00007f63e40f3000 JavaThread "GT authority factory disposer" daemon [_thread_blocked, id=373409, stack(0x00007f6400ad0000,0x00007f6400bd1000)]
 =>0x00007f642c9c6800 JavaThread "MyThread" [_thread_in_native, id=373373, stack(0x00007f6400cd2000,0x00007f6400dd3000)]
@@ -151,19 +151,19 @@ v  ~StubRoutines::call_stub
   0x00007f642c081800 JavaThread "Reference Handler" daemon [_thread_blocked, id=373012, stack(0x00007f641841a000,0x00007f641851b000)]
   0x00007f642c00d800 JavaThread "main" [_thread_in_native, id=373008, stack(0x00007f6434190000,0x00007f6434290000)]
 
-***REMOVED***
+Other Threads:
   0x00007f642c078000 VMThread [stack: 0x00007f641851c000,0x00007f641861c000] [id=373011]
   0x00007f642c0c9000 WatcherThread [stack: 0x00007f6403afc000,0x00007f6403bfc000] [id=373018]
 
-***REMOVED***
+VM state:not at safepoint (normal execution)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
 heap address: 0x0000000080000000, size: 2048 MB, Compressed Oops mode: 32-bit
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
 Compressed class space size: 1073741824 Address: 0x0000000100000000
 
-***REMOVED***
+Heap:
  PSYoungGen      total 594432K, used 99223K [0x00000000d5580000, 0x0000000100000000, 0x0000000100000000)
   eden space 548352K, 9% used [0x00000000d5580000,0x00000000d89b8028,0x00000000f6d00000)
   from space 46080K, 99% used [0x00000000f6d00000,0x00000000f99adc00,0x00000000f9a00000)
@@ -184,7 +184,7 @@ Polling page: 0x00007f643429c000
 CodeCache: size=245760Kb used=13026Kb max_used=14071Kb free=232733Kb
  bounds [0x00007f641d000000, 0x00007f641ddf0000, 0x00007f642c000000]
  total_blobs=4125 nmethods=3521 adapters=517
-***REMOVED***
+ compilation: enabled
 
 Compilation events (10 events):
 Event: 409.440 Thread 0x00007f642c0be800 nmethod 4731 0x00007f641d344590 code [0x00007f641d344760, 0x00007f641d344d08]
@@ -210,7 +210,7 @@ Heap after GC invocations=14 (full 1):
   object space 1398272K, 2% used [0x0000000080000000,0x00000000824a2368,0x00000000d5580000)
  Metaspace       used 30140K, capacity 30728K, committed 30976K, reserved 1077248K
   class space    used 3390K, capacity 3550K, committed 3584K, reserved 1048576K
-***REMOVED***
+}
 Event: 370.989 GC heap before
 {Heap before GC invocations=15 (full 1):
  PSYoungGen      total 613888K, used 613594K [0x00000000d5580000, 0x0000000100000000, 0x0000000100000000)
@@ -231,7 +231,7 @@ Heap after GC invocations=15 (full 1):
   object space 1398272K, 2% used [0x0000000080000000,0x00000000824a4368,0x00000000d5580000)
  Metaspace       used 30140K, capacity 30728K, committed 30976K, reserved 1077248K
   class space    used 3390K, capacity 3550K, committed 3584K, reserved 1048576K
-***REMOVED***
+}
 Event: 383.282 GC heap before
 {Heap before GC invocations=16 (full 1):
  PSYoungGen      total 624128K, used 600279K [0x00000000d5580000, 0x0000000100000000, 0x0000000100000000)
@@ -252,7 +252,7 @@ Heap after GC invocations=16 (full 1):
   object space 1398272K, 2% used [0x0000000080000000,0x00000000824a4368,0x00000000d5580000)
  Metaspace       used 30140K, capacity 30728K, committed 30976K, reserved 1077248K
   class space    used 3390K, capacity 3550K, committed 3584K, reserved 1048576K
-***REMOVED***
+}
 Event: 397.520 GC heap before
 {Heap before GC invocations=17 (full 1):
  PSYoungGen      total 600576K, used 600263K [0x00000000d5580000, 0x0000000100000000, 0x0000000100000000)
@@ -273,7 +273,7 @@ Heap after GC invocations=17 (full 1):
   object space 1398272K, 2% used [0x0000000080000000,0x00000000824a4368,0x00000000d5580000)
  Metaspace       used 30141K, capacity 30728K, committed 30976K, reserved 1077248K
   class space    used 3390K, capacity 3550K, committed 3584K, reserved 1048576K
-***REMOVED***
+}
 Event: 411.550 GC heap before
 {Heap before GC invocations=18 (full 1):
  PSYoungGen      total 622592K, used 594103K [0x00000000d5580000, 0x0000000100000000, 0x0000000100000000)
@@ -294,7 +294,7 @@ Heap after GC invocations=18 (full 1):
   object space 1398272K, 2% used [0x0000000080000000,0x00000000824a4368,0x00000000d5580000)
  Metaspace       used 30141K, capacity 30728K, committed 30976K, reserved 1077248K
   class space    used 3390K, capacity 3550K, committed 3584K, reserved 1048576K
-***REMOVED***
+}
 
 Deoptimization events (10 events):
 Event: 383.826 Thread 0x00007f642c9c6800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f641db5fd30 method=java.io.BufferedOutputStream.write(I)V @ 9
@@ -327,27 +327,27 @@ Event: 411.549 Executing VM operation: ParallelGCFailedAllocation
 Event: 411.583 Executing VM operation: ParallelGCFailedAllocation done
 
 
-***REMOVED***
+Dynamic libraries:
 7f6432681000-7f6433376000 r-xp 00000000 fd:0e 629103                     /opt/soft/oracle/jdk1.8.0_281/jre/lib/amd64/server/libjvm.so
 
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Xms2G -Xmx2G 
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 JAVA_HOME=/opt/soft/oracle/jdk1.8
-***REMOVED***
-***REMOVED***
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xadeac0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xadeac0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x912fb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: [libjvm.so+0x912fb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0x912fb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x912fb0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x912e80], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: [libjvm.so+0x9134a0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -355,16 +355,16 @@ SIGTERM: [libjvm.so+0x9134a0], sa_mask[0]=11111111011111111101111111111110, sa_f
 SIGQUIT: [libjvm.so+0x9134a0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux release 8.2 (Ootpa)
 
-uname:Linux 4.18.0-193.1.2.el8_2.x86_64 ***REMOVED***1 SMP Thu May 7 16:37:54 UTC 2020 x86_64
-***REMOVED***
+uname:Linux 4.18.0-193.1.2.el8_2.x86_64 #1 SMP Thu May 7 16:37:54 UTC 2020 x86_64
+libc:glibc 2.28 NPTL 2.28 
 rlimit: STACK 8192k, CORE infinity, NPROC 63261, NOFILE 65535, AS infinity
 load average:0.12 0.63 0.58
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       16228272 kB
 MemFree:         4234316 kB
 MemAvailable:    7827920 kB
@@ -377,12 +377,12 @@ Active(anon):    7271324 kB
 Inactive(anon):   264612 kB
 Active(file):    1900980 kB
 Inactive(file):  1693212 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:      25161724 kB
 SwapFree:       25156092 kB
 Dirty:               184 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       7365340 kB
 Mapped:           298480 kB
 Shmem:            163792 kB
@@ -392,47 +392,47 @@ SReclaimable:     336960 kB
 SUnreclaim:       140972 kB
 KernelStack:       13216 kB
 PageTables:        29096 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    33275860 kB
 Committed_AS:   25782204 kB
 VmallocTotal:   34359738367 kB
-***REMOVED***
-***REMOVED***
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
 Percpu:           165888 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   6080512 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
-***REMOVED***
+Hugetlb:               0 kB
 DirectMap4k:      610112 kB
 DirectMap2M:    16166912 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-1
 cpu_memory_nodes: 0
 active_processor_count: 2
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 7385055232
 memory_max_usage_in_bytes: 7385055232
 
 
 CPU:total 2 (initial active 2) (1 cores per cpu, 1 threads per core) family 6 model 58 stepping 0, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, erms, tsc, tscinvbit, tscinv
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 58
@@ -459,7 +459,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 58

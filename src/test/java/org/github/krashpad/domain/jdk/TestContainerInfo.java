@@ -30,124 +30,124 @@ class TestContainerInfo {
         String logLine = "active_processor_count: 8";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testBuffers() {
         String logLine = "cpu_cpuset_cpus: 0-7";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuCpusetCpus() {
         String logLine = "cpu_cpuset_cpus: 0-7";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuMemoryNodes() {
         String logLine = "cpu_memory_nodes: 0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuPeriod() {
-        String logLine = "***REMOVED***";
+        String logLine = "cpu_period: 100000";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuQuota() {
-        String logLine = "***REMOVED***";
+        String logLine = "cpu_quota: -1";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuShares() {
-        String logLine = "***REMOVED***";
+        String logLine = "cpu_shares: -1";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentNumberOfTasks() {
         String logLine = "current number of tasks: 39";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeader() {
-        String logLine = "***REMOVED***";
+        String logLine = "container (cgroup) information:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
-        String logLine = "***REMOVED***";
+        String logLine = "container_type: cgroupv1";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testKernelMemoryUsageInBytes() {
         String logLine = "kernel_memory_usage_in_bytes: 599564 k";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMaximumNumberOfTasks() {
         String logLine = "maximum number of tasks: 75254";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMemoryAndSwapLimit() {
-        String logLine = "***REMOVED***";
+        String logLine = "memory_and_swap_limit_in_bytes: -1";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMemoryLimit() {
-        String logLine = "***REMOVED***";
+        String logLine = "memory_limit_in_bytes: -1";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMemoryMaxUsage() {
         String logLine = "memory_max_usage_in_bytes: 0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMemorySoftLimit() {
-        String logLine = "***REMOVED***";
+        String logLine = "memory_soft_limit_in_bytes: -1";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMemoryUsage() {
         String logLine = "memory_usage_in_bytes: 3469758464";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
-        String logLine = "***REMOVED***";
+        String logLine = "container_type: cgroupv1";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ContainerInfo,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

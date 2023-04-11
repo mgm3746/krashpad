@@ -62,7 +62,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * CodeHeap 'non-nmethods': size=5700Kb used=1496Kb max_used=1524Kb free=4203Kb
  *  bounds [0x00007fffd7941000, 0x00007fffd7bb1000, 0x00007fffd7ed2000]
  *  total_blobs=29416 nmethods=14571 adapters=913
- * ***REMOVED***
+ *  compilation: enabled
  *               stopped_count=0, restarted_count=0
  *  full_count=0
  * </pre>
@@ -138,14 +138,14 @@ public class Metaspace implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|[ ]{1,***REMOVED***BotD:|[ ]{1,***REMOVED***Both:|CDS:|[ ]{1,***REMOVED***Class( space)?:|Chunk freelists:|"
+            + "|[ ]{1,}BotD:|[ ]{1,}Both:|CDS:|[ ]{1,}Class( space)?:|Chunk freelists:|"
             + " - commit_granule_(bytes|words):|CompressedClassSpaceSize:| - enlarge_chunks_in_place:|"
             + "(Current|Initial) GC threshold|MaxMetaspaceSize:|MetaspaceReclaimPolicy:|No class space|"
-            + " - handle_deallocations:| - new_chunks_are_fully_committed:|[ ]{1,***REMOVED***Non-[c|C]lass( space)?:|Usage:|"
+            + " - handle_deallocations:| - new_chunks_are_fully_committed:|[ ]{1,}Non-[c|C]lass( space)?:|Usage:|"
             + " - uncommit_free_chunks:| - use_allocation_guard:| - virtual_space_node_default_size:|Virtual space:|"
-            + JdkRegEx.SIZE2 + "|[ ]+" + JdkRegEx.SIZE2 + " reserved,[ ]+" + JdkRegEx.SIZE2 + " \\([>]{0,1***REMOVED***"
+            + JdkRegEx.SIZE2 + "|[ ]+" + JdkRegEx.SIZE2 + " reserved,[ ]+" + JdkRegEx.SIZE2 + " \\([>]{0,1}"
             + JdkRegEx.PERCENT + "\\) committed|  " + JdkRegEx.SIZE2 + " capacity,[ ]+" + JdkRegEx.SIZE2
-            + " \\([ ]{0,2***REMOVED***" + JdkRegEx.PERCENT + "\\) used,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2***REMOVED***" + JdkRegEx.PERCENT
+            + " \\([ ]{0,2}" + JdkRegEx.PERCENT + "\\) used,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2}" + JdkRegEx.PERCENT
             + "\\) free\\+waste,[ ]+" + JdkRegEx.SIZE2 + " \\( <" + JdkRegEx.PERCENT + "\\) overhead\\.)" + ".*$";
 
     /**
@@ -157,7 +157,7 @@ public class Metaspace implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -172,22 +172,22 @@ public class Metaspace implements LogEvent, HeaderEvent {
      */
     public Metaspace(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.METASPACE.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

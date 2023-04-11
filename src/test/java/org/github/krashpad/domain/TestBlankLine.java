@@ -30,12 +30,12 @@ class TestBlankLine {
         String logLine = "";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.BLANK_LINE,
                 JdkUtil.LogEventType.BLANK_LINE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof BlankLine,
                 JdkUtil.LogEventType.BLANK_LINE.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

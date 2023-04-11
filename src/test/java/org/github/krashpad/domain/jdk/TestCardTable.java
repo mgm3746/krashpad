@@ -31,7 +31,7 @@ class TestCardTable {
                 + "0x00007f297e79f000";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CARD_TABLE,
                 JdkUtil.LogEventType.CARD_TABLE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -39,5 +39,5 @@ class TestCardTable {
                 + "0x00007f297e79f000";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CardTable,
                 JdkUtil.LogEventType.CARD_TABLE.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

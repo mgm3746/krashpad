@@ -31,7 +31,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * ***REMOVED***
+ * Compilation events (250 events):
  * Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code [0x00007ff0e04fd360, 0x00007ff0e04fe1d0]
  * Event: 6606.129 Thread 0x00007ff0ec201800 20997   !   4       org.eclipse.emf.ecore.xmi.impl.StringSegment::add (297 bytes)
  * </pre>
@@ -44,13 +44,13 @@ public class CompilationEvent implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "Compilation events \\(\\d{1,***REMOVED*** events\\):";
+    public static final String _REGEX_HEADER = "Compilation events \\(\\d{1,} events\\):";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + "[ ]{1,***REMOVED***((nmethod|\\d{1,***REMOVED***).+)?|No [Ee]vents)$";
+            + JdkRegEx.ADDRESS + "[ ]{1,}((nmethod|\\d{1,}).+)?|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -61,7 +61,7 @@ public class CompilationEvent implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -76,22 +76,22 @@ public class CompilationEvent implements LogEvent, HeaderEvent {
      */
     public CompilationEvent(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.COMPILATION_EVENT.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

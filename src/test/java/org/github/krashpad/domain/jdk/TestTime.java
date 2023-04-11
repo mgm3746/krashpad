@@ -31,14 +31,14 @@ class TestTime {
         String logLine = "time: Tue Aug 18 14:10:59 2020";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME,
                 JdkUtil.LogEventType.TIME.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "time: Tue Aug 18 14:10:59 2020";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Time,
                 JdkUtil.LogEventType.TIME.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testTime() {
@@ -47,7 +47,7 @@ class TestTime {
                 JdkUtil.LogEventType.TIME.toString() + " not identified.");
         Time event = new Time(logLine);
         assertEquals("Tue Aug 18 14:10:59 2020", event.getTimeString(), "Time not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testTimeZone() {
@@ -56,5 +56,5 @@ class TestTime {
                 JdkUtil.LogEventType.TIME.toString() + " not identified.");
         Time event = new Time(logLine);
         assertEquals("Tue Aug 18 14:10:59 2020", event.getTimeString(), "Time not correct.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

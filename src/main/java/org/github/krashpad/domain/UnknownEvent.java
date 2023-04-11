@@ -37,13 +37,13 @@ public class UnknownEvent implements LogEvent {
      */
     public UnknownEvent(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.UNKNOWN.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

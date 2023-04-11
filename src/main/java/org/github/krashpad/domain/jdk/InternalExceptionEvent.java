@@ -31,7 +31,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * ***REMOVED***
+ * Internal exceptions (250 events):
  * Event: 101.811 Thread 0x00007ff0ec698000 Exception &lt;a 'java/lang/ArrayIndexOutOfBoundsException'&gt; (0x00000000ef71e968) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 609]
  * </pre>
  * 
@@ -48,7 +48,7 @@ public class InternalExceptionEvent implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "Internal exceptions \\(\\d{1,***REMOVED*** events\\):";
+    public static final String _REGEX_HEADER = "Internal exceptions \\(\\d{1,} events\\):";
 
     /**
      * Regular expression defining the logging.
@@ -66,7 +66,7 @@ public class InternalExceptionEvent implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -81,22 +81,22 @@ public class InternalExceptionEvent implements LogEvent, HeaderEvent {
      */
     public InternalExceptionEvent(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

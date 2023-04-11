@@ -1,38 +1,38 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Cannot create GC thread. Out of system resources.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   In 32 bit mode, the process size limit was hit
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Use 64 bit Java on a 64 bit OS
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (gcTaskThread.cpp:48), pid=45280, tid=0x00007f2156868700
-***REMOVED***
-***REMOVED*** JRE version:  (8.0_151-b12) (build )
-***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.151-b12 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Cannot create GC thread. Out of system resources.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (gcTaskThread.cpp:48), pid=45280, tid=0x00007f2156868700
+#
+# JRE version:  (8.0_151-b12) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.151-b12 mixed mode linux-amd64 compressed oops)
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f2150008800):  JavaThread "Unknown thread" [_thread_in_vm, id=45281, stack(0x00007f2156769000,0x00007f2156869000)]
 
 Stack: [0x00007f2156769000,0x00007f2156869000],  sp=0x00007f21568675b0,  free space=1017k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xacb58a]  VMError::report_and_die()+0x2ba
 V  [libjvm.so+0x4ff4ab]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0x8b
 V  [libjvm.so+0x5daabf]  GCTaskThread::GCTaskThread(GCTaskManager*, unsigned int, unsigned int)+0x15f
 V  [libjvm.so+0x5d987b]  GCTaskManager::initialize()+0x3ab
-V  [libjvm.so+0x94b90d]  ParallelScavenge***REMOVED***:initialize()+0x34d
+V  [libjvm.so+0x94b90d]  ParallelScavengeHeap::initialize()+0x34d
 V  [libjvm.so+0xa93603]  Universe::initialize_heap()+0xf3
 V  [libjvm.so+0xa93b6e]  universe_init()+0x3e
 V  [libjvm.so+0x640545]  init_globals()+0x65
@@ -42,17 +42,17 @@ C  [libjli.so+0x797e]  JavaMain+0x9e
 C  [libpthread.so.0+0x7dd5]  start_thread+0xc5
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
 
-***REMOVED***
+Other Threads:
 
 =>0x00007f2150008800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=45281, stack(0x00007f2156769000,0x00007f2156869000)]
 
 VM state:not at safepoint (not fully initialized)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
 GC Heap History (0 events):
 No events
@@ -67,28 +67,28 @@ Events (0 events):
 No events
 
 
-***REMOVED***
+Dynamic libraries:
 7f215592e000-7f2155b2d000 ---p 00cd3000 fd:00 287379                     /usr/java/jdk1.8.0_151/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Xms512m -Xmx512m 
 java_command: /path/to/my.jar
 java_class_path (initial): /path/to/my.jar
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 PATH=
 USERNAME=root
-***REMOVED***
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xacbe10], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xacbe10], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x924f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: [libjvm.so+0x924f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0x924f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x924f90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x9267d0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGINT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -96,16 +96,16 @@ SIGTERM: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGQUIT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.6 (Maipo)
 
-uname:Linux 3.10.0-957.1.3.el7.x86_64 ***REMOVED***1 SMP Thu Nov 15 17:36:42 UTC 2018 x86_64
+uname:Linux 3.10.0-957.1.3.el7.x86_64 #1 SMP Thu Nov 15 17:36:42 UTC 2018 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE 0k, NPROC 55305, NOFILE 100000, AS infinity
 load average:0.80 0.86 0.82
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       14183432 kB
 MemFree:          206316 kB
 MemAvailable:    4812740 kB
@@ -118,12 +118,12 @@ Active(anon):    7262872 kB
 Inactive(anon):  1415264 kB
 Active(file):    1049544 kB
 Inactive(file):  3664664 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:       6238204 kB
 SwapFree:        6237684 kB
 Dirty:               124 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       7953544 kB
 Mapped:           162432 kB
 Shmem:            724724 kB
@@ -132,22 +132,22 @@ SReclaimable:     222380 kB
 SUnreclaim:        85972 kB
 KernelStack:       14816 kB
 PageTables:        37412 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    13329920 kB
 Committed_AS:   13301540 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      248192 kB
 VmallocChunk:   34359310332 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   3448832 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      175936 kB
 DirectMap2M:     4018176 kB
@@ -156,8 +156,8 @@ DirectMap1G:    12582912 kB
 
 CPU:total 6 (initial active 6) (1 cores per cpu, 1 threads per core) family 6 model 79 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, tsc, tscinvbit, bmi1, bmi2, adx
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -183,7 +183,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -209,7 +209,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -235,7 +235,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -261,7 +261,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 4
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -287,7 +287,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 5
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79

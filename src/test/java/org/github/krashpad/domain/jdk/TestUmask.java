@@ -30,12 +30,12 @@ class TestUmask {
         String logLine = "umask: 0022 (----w--w-)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UMASK,
                 JdkUtil.LogEventType.UMASK.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "umask: 0022 (----w--w-)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Umask,
                 JdkUtil.LogEventType.UMASK.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

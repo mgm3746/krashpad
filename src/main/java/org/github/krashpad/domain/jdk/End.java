@@ -41,7 +41,7 @@ public class End implements ThrowAwayEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event. Can be used for debugging purposes.
@@ -56,13 +56,13 @@ public class End implements ThrowAwayEvent {
      */
     public End(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.END.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

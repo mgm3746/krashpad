@@ -85,7 +85,7 @@ public class VmInfo implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -100,7 +100,7 @@ public class VmInfo implements LogEvent {
      */
     public VmInfo(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     /**
      * @return The chip architecture.
@@ -112,16 +112,16 @@ public class VmInfo implements LogEvent {
             int indexArch = 4;
             if (matcher.group(indexArch).equals("amd64") || matcher.group(indexArch).equals("linux64")) {
                 arch = Arch.X86_64;
-            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64le")) {
+            } else if (matcher.group(indexArch).equals("ppc64le")) {
                 arch = Arch.PPC64LE;
-            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64")) {
+            } else if (matcher.group(indexArch).equals("ppc64")) {
                 arch = Arch.PPC64;
-            ***REMOVED*** else if (matcher.group(indexArch).equals("x86")) {
+            } else if (matcher.group(indexArch).equals("x86")) {
                 arch = Arch.X86;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return arch;
-    ***REMOVED***
+    }
 
     /**
      * @return The JDK build date/time.
@@ -132,9 +132,9 @@ public class VmInfo implements LogEvent {
         if (matcher.find()) {
             date = ErrUtil.getDate(matcher.group(8), matcher.group(9), matcher.group(10), matcher.group(11),
                     matcher.group(12), matcher.group(13));
-        ***REMOVED***
+        }
         return date;
-    ***REMOVED***
+    }
 
     /**
      * @return JDK builder.
@@ -143,37 +143,37 @@ public class VmInfo implements LogEvent {
         BuiltBy builtBy = BuiltBy.UNKNOWN;
         if (logEntry.matches(".+\"build\".+")) {
             builtBy = BuiltBy.BUILD;
-        ***REMOVED*** else if (logEntry.matches(".+\"buildslave\".+")) {
+        } else if (logEntry.matches(".+\"buildslave\".+")) {
             builtBy = BuiltBy.BUILDSLAVE;
-        ***REMOVED*** else if (logEntry.matches(".+\"\".+")) {
+        } else if (logEntry.matches(".+\"\".+")) {
             builtBy = BuiltBy.EMPTY;
-        ***REMOVED*** else if (logEntry.matches(".+\"jenkins\".+")) {
+        } else if (logEntry.matches(".+\"jenkins\".+")) {
             // AdoptOpenJDK
             builtBy = BuiltBy.JENKINS;
-        ***REMOVED*** else if (logEntry.matches(".+\"java_re\".+")) {
+        } else if (logEntry.matches(".+\"java_re\".+")) {
             // Oracle current
             builtBy = BuiltBy.JAVA_RE;
-        ***REMOVED*** else if (logEntry.matches(".+\"mach5one\".+")) {
+        } else if (logEntry.matches(".+\"mach5one\".+")) {
             // Oracle previous
             builtBy = BuiltBy.MACH5ONE;
-        ***REMOVED*** else if (logEntry.matches(".+\"mockbuild\".+")) {
+        } else if (logEntry.matches(".+\"mockbuild\".+")) {
             // Red Hat, CentOS
             builtBy = BuiltBy.MOCKBUILD;
-        ***REMOVED*** else if (logEntry.matches(".+\"temurin\".+")) {
+        } else if (logEntry.matches(".+\"temurin\".+")) {
             // Adoptium temurin
             builtBy = BuiltBy.TEMURIN;
-        ***REMOVED*** else if (logEntry.matches(".+\"tester\".+")) {
+        } else if (logEntry.matches(".+\"tester\".+")) {
             // Azul
             builtBy = BuiltBy.TESTER;
-        ***REMOVED*** else if (logEntry.matches(".+\"vsts\".+")) {
+        } else if (logEntry.matches(".+\"vsts\".+")) {
             // Microsoft
             builtBy = BuiltBy.VSTS;
-        ***REMOVED*** else if (logEntry.matches(".+\"zulu_re\".+")) {
+        } else if (logEntry.matches(".+\"zulu_re\".+")) {
             // Azul
             builtBy = BuiltBy.ZULU_RE;
-        ***REMOVED***
+        }
         return builtBy;
-    ***REMOVED***
+    }
 
     /**
      * @return The JDK version.
@@ -185,20 +185,20 @@ public class VmInfo implements LogEvent {
             int indexJdkVersion = 7;
             if (matcher.group(indexJdkVersion).equals("17")) {
                 version = JavaSpecification.JDK17;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("12")) {
+            } else if (matcher.group(indexJdkVersion).equals("12")) {
                 version = JavaSpecification.JDK12;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("11")) {
+            } else if (matcher.group(indexJdkVersion).equals("11")) {
                 version = JavaSpecification.JDK11;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.8.0")) {
+            } else if (matcher.group(indexJdkVersion).equals("1.8.0")) {
                 version = JavaSpecification.JDK8;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.7.0")) {
+            } else if (matcher.group(indexJdkVersion).equals("1.7.0")) {
                 version = JavaSpecification.JDK7;
-            ***REMOVED*** else if (matcher.group(indexJdkVersion).equals("1.6.0")) {
+            } else if (matcher.group(indexJdkVersion).equals("1.6.0")) {
                 version = JavaSpecification.JDK6;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return version;
-    ***REMOVED***
+    }
 
     /**
      * The Java release string. For example:
@@ -216,17 +216,17 @@ public class VmInfo implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             jdkReleaseString = matcher.group(6);
-        ***REMOVED***
+        }
         return jdkReleaseString;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.VM_INFO.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return The OS type.
@@ -238,12 +238,12 @@ public class VmInfo implements LogEvent {
             int indexOs = 3;
             if (matcher.group(indexOs).equals("linux")) {
                 osType = Os.LINUX;
-            ***REMOVED*** else if (matcher.group(indexOs).equals("windows")) {
+            } else if (matcher.group(indexOs).equals("windows")) {
                 osType = Os.WINDOWS;
-            ***REMOVED*** else if (matcher.group(indexOs).equals("solaris")) {
+            } else if (matcher.group(indexOs).equals("solaris")) {
                 osType = Os.SOLARIS;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return osType;
-    ***REMOVED***
-***REMOVED***
+    }
+}

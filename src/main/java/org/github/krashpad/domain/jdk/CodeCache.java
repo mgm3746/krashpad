@@ -34,7 +34,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * CodeCache: size=245760Kb used=37495Kb max_used=37495Kb free=208264Kb
  *  bounds [0x00007fa287170000, 0x00007fa289650000, 0x00007fa296170000]
  *  total_blobs=10468 nmethods=9889 adapters=493
- * ***REMOVED***
+ *  compilation: enabled
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -62,7 +62,7 @@ public class CodeCache implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -77,22 +77,22 @@ public class CodeCache implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public CodeCache(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.CODE_CACHE.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

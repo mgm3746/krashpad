@@ -56,7 +56,7 @@ public class OsInfo implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "OS:((PRETTY_NAME=\")?(.+)[\"]{0,1***REMOVED***)?";
+    private static final String _REGEX_HEADER = "OS:((PRETTY_NAME=\")?(.+)[\"]{0,1})?";
 
     public static final Pattern PATTERN = Pattern.compile(OsInfo.REGEX);
 
@@ -64,8 +64,8 @@ public class OsInfo implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|(CentOS|Oracle|Red Hat Enterprise) Linux.+|Windows|"
-            + "[ ]{0,***REMOVED***(Assembled|Copyright|ID|NAME|PATCHLEVEL|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?|"
-            + "***REMOVED*** Please check \\/etc\\/os-release|***REMOVED*** This file is deprecated|"
+            + "[ ]{0,}(Assembled|Copyright|ID|NAME|PATCHLEVEL|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?|"
+            + "# Please check \\/etc\\/os-release|# This file is deprecated|"
             + "\\[error occurred during error reporting \\(printing OS information\\))(.+))$";
 
     /**
@@ -77,7 +77,7 @@ public class OsInfo implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -92,22 +92,22 @@ public class OsInfo implements LogEvent, HeaderEvent {
      */
     public OsInfo(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.OS_INFO.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

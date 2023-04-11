@@ -30,28 +30,28 @@ class TestRlimit {
         String logLine = "rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.RLIMIT,
                 JdkUtil.LogEventType.RLIMIT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNofile() {
         String logLine = "rlimit: STACK 32768k, CORE infinity, NPROC 95259, NOFILE 10240, AS infinity";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Rlimit,
                 JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testNprocInfinity() {
         String logLine = "rlimit: STACK 8192k, CORE 0k, NPROC infinity, NOFILE 240000, AS infinity";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Rlimit,
                 JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Rlimit,
                 JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testSoftHard() {
@@ -60,12 +60,12 @@ class TestRlimit {
                 + "FSIZE infinity/infinity , MEMLOCK 64k/64k";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Rlimit,
                 JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testSolaris() {
         String logLine = "rlimit: STACK 8192k, CORE infinity, NOFILE 65536, AS infinity";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Rlimit,
                 JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

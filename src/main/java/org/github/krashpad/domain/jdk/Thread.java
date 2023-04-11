@@ -48,7 +48,7 @@ public class Thread implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "(Java Threads: \\( => current thread \\)|***REMOVED***)";
+    private static final String REGEX_HEADER = "(Java Threads: \\( => current thread \\)|Other Threads:)";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -59,7 +59,7 @@ public class Thread implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -74,13 +74,13 @@ public class Thread implements LogEvent {
      */
     public Thread(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.THREAD.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

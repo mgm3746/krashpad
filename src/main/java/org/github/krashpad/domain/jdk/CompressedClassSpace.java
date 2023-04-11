@@ -63,7 +63,7 @@ public class CompressedClassSpace implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -78,13 +78,13 @@ public class CompressedClassSpace implements LogEvent {
      */
     public CompressedClassSpace(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

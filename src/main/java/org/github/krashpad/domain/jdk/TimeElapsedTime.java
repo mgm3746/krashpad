@@ -47,8 +47,8 @@ public class TimeElapsedTime implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^Time: (.+) elapsed time: (\\d{1,10***REMOVED***(\\.\\d{6***REMOVED***)?) seconds \\((\\d{1,4***REMOVED***d "
-            + "\\d{1,2***REMOVED***h \\d{1,2***REMOVED***m \\d{1,2***REMOVED***s)\\)$";
+    private static final String REGEX = "^Time: (.+) elapsed time: (\\d{1,10}(\\.\\d{6})?) seconds \\((\\d{1,4}d "
+            + "\\d{1,2}h \\d{1,2}m \\d{1,2}s)\\)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -59,7 +59,7 @@ public class TimeElapsedTime implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -74,10 +74,10 @@ public class TimeElapsedTime implements LogEvent {
      */
     public TimeElapsedTime(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     /**
-     * @return The elapsed time for display purposes in ***REMOVED***d ***REMOVED***h ***REMOVED***m ***REMOVED***s format.
+     * @return The elapsed time for display purposes in #d #h #m #s format.
      */
     public String getLiteral() {
         String time = null;
@@ -85,18 +85,18 @@ public class TimeElapsedTime implements LogEvent {
         if (matcher.find()) {
             if (matcher.group(4) != null) {
                 time = matcher.group(4);
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return time;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return The date/time of the crash.
@@ -106,9 +106,9 @@ public class TimeElapsedTime implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             time = matcher.group(1);
-        ***REMOVED***
+        }
         return time;
-    ***REMOVED***
+    }
 
     /**
      * @return The uptime in milliseconds.
@@ -121,8 +121,8 @@ public class TimeElapsedTime implements LogEvent {
                 BigDecimal millis = new BigDecimal(matcher.group(2)).movePointRight(3);
                 millis.setScale(0, RoundingMode.HALF_EVEN);
                 uptime = millis.longValue();
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return uptime;
-    ***REMOVED***
-***REMOVED***
+    }
+}

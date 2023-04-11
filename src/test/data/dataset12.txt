@@ -1,19 +1,19 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  Internal Error (sharedRuntime.cpp:833), pid=8768, tid=6780
-***REMOVED***  fatal error: exception happened outside interpreter, nmethods and vtable stubs at pc 0x0000000001fd4750
-***REMOVED***
-***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_25-b18) (build 1.8.0_25-b18)
-***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.25-b02 mixed mode windows-amd64 compressed oops)
-***REMOVED*** Core dump written. Default location: E:\path\to\hs_err_pid1234.mdmp
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.sun.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (sharedRuntime.cpp:833), pid=8768, tid=6780
+#  fatal error: exception happened outside interpreter, nmethods and vtable stubs at pc 0x0000000001fd4750
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_25-b18) (build 1.8.0_25-b18)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.25-b02 mixed mode windows-amd64 compressed oops)
+# Core dump written. Default location: E:\path\to\hs_err_pid1234.mdmp
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.sun.com/bugreport/crash.jsp
+#
 
 Stack: [0x000000005a740000,0x000000005a840000]
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [jvm.dll+0x31667a]
 V  [jvm.dll+0x267073]
 V  [jvm.dll+0x267cb3]
@@ -26,11 +26,11 @@ C  [ntdll.dll+0x3fd43]
 C  [ntdll.dll+0xa960a]
 C  0x0000000001fd4750
 
-***REMOVED***
+Dynamic libraries:
 
 0x0000000052380000 - 0x0000000052bda000         E:\path\java\bin\server\jvm.dll
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS: Windows Server 2012 R2 , 64 bit Build 9600
 

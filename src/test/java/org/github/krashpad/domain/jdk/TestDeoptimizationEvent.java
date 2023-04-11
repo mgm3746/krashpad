@@ -32,7 +32,7 @@ class TestDeoptimizationEvent {
                 + "sp=0x00007ffff540fc50";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof DeoptimizationEvent,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     /**
      * TODO: Does this error apply to multiple events and should be moved to a dedicated ErrorEvent?
@@ -43,14 +43,14 @@ class TestDeoptimizationEvent {
         String logLine = "[error occurred during error reporting (printing ring buffers), id 0xb]";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeader() {
         String logLine = "Deoptimization events (250 events):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
@@ -60,7 +60,7 @@ class TestDeoptimizationEvent {
                 + "method=org.eclipse.jface.text.ListLineTracker.getLineLength(I)I @ 28";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoEventsLowercaseE() {
@@ -68,7 +68,7 @@ class TestDeoptimizationEvent {
         String logLine = "No events";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof DeoptimizationEvent,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoEventsUppercaseE() {
@@ -76,7 +76,7 @@ class TestDeoptimizationEvent {
         String logLine = "No Events";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof DeoptimizationEvent,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -86,6 +86,6 @@ class TestDeoptimizationEvent {
                 + "method=org.eclipse.jface.text.ListLineTracker.getLineLength(I)I @ 28";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof DeoptimizationEvent,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
-***REMOVED***
+}

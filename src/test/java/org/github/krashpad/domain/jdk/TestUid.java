@@ -30,12 +30,12 @@ class TestUid {
         String logLine = "uid  : 22408 euid : 22408 gid  : 7001 egid : 7001";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UID,
                 JdkUtil.LogEventType.UID.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "uid  : 22408 euid : 22408 gid  : 7001 egid : 7001";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Uid,
                 JdkUtil.LogEventType.UID.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

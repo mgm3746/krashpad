@@ -54,7 +54,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getVmArguments().add(event);
         assertEquals(Application.AMQ_CLI, fel.getApplication(), "AMQ CLI application not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testArchSparc() {
@@ -70,7 +70,7 @@ class TestFatalErrorLog {
                 Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testAws() {
@@ -88,7 +88,7 @@ class TestFatalErrorLog {
                 Analysis.ERROR_BUFFERBLOB_FLUSH_ICACHE_STUB + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testCollectorNoData() {
@@ -96,21 +96,21 @@ class TestFatalErrorLog {
         fel.getAnalysis();
         assertEquals(1, fel.getGarbageCollectors().size(), "Garbage collector count not correct.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN), "Garbage collector not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testCollectorTruncatedLog() {
         FatalErrorLog fel = new FatalErrorLog();
-        String headerLine1 = "***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_322-b06) (build 1.8.0_322-b06)";
+        String headerLine1 = "# JRE version: OpenJDK Runtime Environment (8.0_322-b06) (build 1.8.0_322-b06)";
         Header headerEvent1 = new Header(headerLine1);
         fel.getHeaders().add(headerEvent1);
-        String headerLine2 = "***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.322-b06 mixed mode linux-amd64 compressed oops)";
+        String headerLine2 = "# Java VM: OpenJDK 64-Bit Server VM (25.322-b06 mixed mode linux-amd64 compressed oops)";
         Header headerEvent2 = new Header(headerLine2);
         fel.getHeaders().add(headerEvent2);
         fel.getAnalysis();
         assertEquals(1, fel.getGarbageCollectors().size(), "Garbage collector count not correct.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN), "Garbage collector not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testCompiledFrameWithPercent() {
@@ -123,7 +123,7 @@ class TestFatalErrorLog {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCompressedOopMode() {
@@ -148,7 +148,7 @@ class TestFatalErrorLog {
         fel.setHeapAddress(heapAddressEvent);
         assertEquals(CompressedOopMode.NON_ZERO, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
         assertEquals(8548, fel.getHeapMaxSize(), "Heap max size not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuCapilityAvx2() {
@@ -165,7 +165,7 @@ class TestFatalErrorLog {
         cpuInfoEvent = new CpuInfo(cpu);
         fel.getCpuInfos().add(cpuInfoEvent);
         assertTrue(fel.hasCpuCapability("avx2"), "CPU avx2 capability not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCrashShutdown() {
@@ -176,7 +176,7 @@ class TestFatalErrorLog {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_SHUTDOWN.getKey()),
                 Analysis.INFO_SHUTDOWN + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentThread() {
@@ -187,7 +187,7 @@ class TestFatalErrorLog {
                 "JavaThread \"ajp-/hostname:8109-16\" daemon [_thread_in_native, id=112672, "
                         + "stack(0x00007f11e11a2000,0x00007f11e12a3000)]",
                 fel.getCurrentThreadName(), "Current thread not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testDatesJdk11() {
@@ -197,20 +197,20 @@ class TestFatalErrorLog {
         fel.setTimeElapsedTime(event);
         assertEquals("Sun Nov 14 14:25:00 2021 UTC", fel.getCrashTimeString(), "Crash time not correct.");
         assertEquals("65d 22h 34m 38s", fel.getElapsedTime(), "Elapsed time not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testDatesJdk8() {
         FatalErrorLog fel = new FatalErrorLog();
         Time timeEvent = new Time("time: Tue Nov 23 09:21:06 2021");
         fel.setTime(timeEvent);
-        Timezone timezoneEvent = new Timezone("***REMOVED***");
+        Timezone timezoneEvent = new Timezone("timezone: CET");
         fel.setTimezone(timezoneEvent);
         ElapsedTime elapsedTimeEvent = new ElapsedTime("elapsed time: 644647 seconds (7d 11h 4m 7s)");
         fel.setElapsedTime(elapsedTimeEvent);
         assertEquals("Tue Nov 23 09:21:06 2021 CET", fel.getCrashTimeString(), "Crash time not correct.");
         assertEquals("7d 11h 4m 7s", fel.getElapsedTime(), "Elapsed time not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testDebugSymbolsNoVmCodeInStack() {
@@ -229,7 +229,7 @@ class TestFatalErrorLog {
                 Analysis.INFO_RH_BUILD_CENTOS + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_STACK_NO_VM_CODE.getKey()),
                 Analysis.INFO_STACK_NO_VM_CODE + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDirectMemory() {
@@ -264,7 +264,7 @@ class TestFatalErrorLog {
                 "Jvm memory max not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testG1() {
@@ -306,15 +306,15 @@ class TestFatalErrorLog {
                 Analysis.INFO_VM_OPERATION_THREAD_DUMP + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testGetRhReleaseFromBuildString() {
         FatalErrorLog fel = new FatalErrorLog();
-        String headerLine1 = "***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)";
+        String headerLine1 = "# JRE version: OpenJDK Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)";
         Header headerEvent1 = new Header(headerLine1);
         fel.getHeaders().add(headerEvent1);
-        String headerLine2 = "***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.191-bl2 mixed mode linux-amdé4 compressed oops)";
+        String headerLine2 = "# Java VM: OpenJDK 64-Bit Server VM (25.191-bl2 mixed mode linux-amdé4 compressed oops)";
         Header headerEvent2 = new Header(headerLine2);
         fel.getHeaders().add(headerEvent2);
         assertEquals("1.8.0_191-b12", fel.getJdkReleaseString(), "JDK release string not correct.");
@@ -326,9 +326,9 @@ class TestFatalErrorLog {
                 Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
         assertTrue(
                 fel.getAnalysisLiteral(Analysis.INFO_JDK_ANCIENT.getKey())
-                        .matches("^The JDK is very old \\(\\d{1,***REMOVED***\\.\\d years\\)\\..+$"),
+                        .matches("^The JDK is very old \\(\\d{1,}\\.\\d years\\)\\..+$"),
                 Analysis.INFO_JDK_ANCIENT + " not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testGraal() {
@@ -338,74 +338,74 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         assertFalse(fel.isRhBuildString(), "RH build string identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHaveDebuggingSymbols() {
         FatalErrorLog fel = new FatalErrorLog();
-        String headerLine = "***REMOVED*** V  [libjvm.so+0xa333a6]  ShenandoahUpdateRefsClosure::do_oop(oopDesc**)+0x26";
+        String headerLine = "# V  [libjvm.so+0xa333a6]  ShenandoahUpdateRefsClosure::do_oop(oopDesc**)+0x26";
         Header he = new Header(headerLine);
         fel.getHeaders().add(he);
         assertTrue(fel.haveJdkDebugSymbols(), "Debugging symbols not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeaderArch() {
         FatalErrorLog fel = new FatalErrorLog();
-        String headerLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
+        String headerLine = "# Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
                 + "oops)";
         Header he = new Header(headerLine);
         fel.getHeaders().add(he);
         assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeaderJdkVersion() {
         FatalErrorLog fel = new FatalErrorLog();
-        String headerLine = "***REMOVED*** JRE version:  (7.0_85-b15) (build )";
+        String headerLine = "# JRE version:  (7.0_85-b15) (build )";
         Header he = new Header(headerLine);
         fel.getHeaders().add(he);
         assertEquals(JavaSpecification.JDK7, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals("1.7.0_85-b15", fel.getJdkReleaseString(), "Java release not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeaderNotRhVersion() {
         FatalErrorLog fel = new FatalErrorLog();
-        String headerLine1 = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_301-b09) (build 1.8.0_301-b09)";
+        String headerLine1 = "# JRE version: Java(TM) SE Runtime Environment (8.0_301-b09) (build 1.8.0_301-b09)";
         Header he1 = new Header(headerLine1);
         fel.getHeaders().add(he1);
-        String headerLine2 = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.301-b09 mixed mode linux-amd64 "
+        String headerLine2 = "# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.301-b09 mixed mode linux-amd64 "
                 + "compressed oops)";
         Header he2 = new Header(headerLine2);
         fel.getHeaders().add(he2);
         assertEquals(Os.LINUX, fel.getOs(), "OS type not correct.");
         assertEquals("1.8.0_301-b09", fel.getJdkReleaseString(), "Java release not correct.");
         assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeaderOsVersion() {
         FatalErrorLog fel = new FatalErrorLog();
-        String headerLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
+        String headerLine = "# Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
                 + "oops)";
         Header he = new Header(headerLine);
         fel.getHeaders().add(he);
         assertEquals(OsVersion.UNIDENTIFIED, fel.getOsVersion(), "OS version not correct.");
         assertEquals(Os.LINUX, fel.getOs(), "OS type not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeapAllocation() {
         FatalErrorLog fel = new FatalErrorLog();
-        String event1 = "***REMOVED***";
+        String event1 = "Heap:";
         Heap heapEvent1 = new Heap(event1);
         fel.getHeaps().add(heapEvent1);
         String event2 = " 3456M max, 3456M soft max, 3200M committed, 2325M used";
         Heap heapEvent2 = new Heap(event2);
         fel.getHeaps().add(heapEvent2);
         assertEquals(3200, fel.getHeapAllocation(), "Heap allocation not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeapMaxGlobalFlag() {
@@ -422,18 +422,18 @@ class TestFatalErrorLog {
         assertEquals(jvmMemoryMax, fel.getJvmMemoryMax(), "Jvm memory max not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testInternalError() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset3.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        String causedBy = "***REMOVED***  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700"
-                + Constants.LINE_SEPARATOR + "***REMOVED***  Error: ShouldNotReachHere()";
+        String causedBy = "#  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700"
+                + Constants.LINE_SEPARATOR + "#  Error: ShouldNotReachHere()";
         assertEquals(causedBy, fel.getError(), "Caused by incorrect.");
         assertTrue(fel.haveJdkDebugSymbols(), "Debugging symbols incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJavaThreadCount() {
@@ -443,7 +443,7 @@ class TestFatalErrorLog {
         assertEquals(37, fel.getJavaThreadCount(), "Java thread count not correct.");
         assertEquals(168, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(7, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJBoss() {
@@ -454,7 +454,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getVmArguments().add(event);
         assertEquals(Application.WILDFLY, fel.getApplication(), "JBoss application not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk8NotRhVersion() {
@@ -469,7 +469,7 @@ class TestFatalErrorLog {
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk8Rhel7GenericOs() {
@@ -477,12 +477,12 @@ class TestFatalErrorLog {
         String os = "OS: Linux";
         OsInfo osEvent = new OsInfo(os);
         fel.getOsInfos().add(osEvent);
-        String uname = "uname:Linux 3.10.0-514.6.1.el7.x86_64 ***REMOVED***1 SMP Sat Dec 10 11:15:38 EST 2016 x86_6";
+        String uname = "uname:Linux 3.10.0-514.6.1.el7.x86_64 #1 SMP Sat Dec 10 11:15:38 EST 2016 x86_6";
         Uname unameEvent = new Uname(uname);
         fel.setUname(unameEvent);
         assertEquals("Linux", fel.getOsString(), "OS string not correct.");
         assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdkRedHatBuildUnknown() {
@@ -495,7 +495,7 @@ class TestFatalErrorLog {
         assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL6.getKey()), Analysis.WARN_RHEL6 + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJeusCommandLine() {
@@ -506,7 +506,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getVmArguments().add(event);
         assertEquals(Application.JEUS, fel.getApplication(), "JEUS application not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJeusDynamicLibrary() {
@@ -518,7 +518,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getDynamicLibraries().add(event);
         assertEquals(Application.JEUS, fel.getApplication(), "JEUS application not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJeusThread() {
@@ -530,7 +530,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getThreads().add(event);
         assertEquals(Application.JEUS, fel.getApplication(), "JEUS application not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJlinkCustomerJreFromRpm() {
@@ -552,7 +552,7 @@ class TestFatalErrorLog {
                 Analysis.INFO_RH_BUILD_CENTOS + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_BASED.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_BASED + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJvmUser() {
@@ -560,7 +560,7 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals("user123", fel.getJvmUser(), "JVM user not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJvmUserWithDotAndAtSign() {
@@ -570,7 +570,7 @@ class TestFatalErrorLog {
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(hsperfdata);
         fel.getDynamicLibraries().add(dynamicLibraryEvent);
         assertEquals("first.last@location", fel.getJvmUser(), "JVM user not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJvmUserWithUnderscore() {
@@ -580,7 +580,7 @@ class TestFatalErrorLog {
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(hsperfdata);
         fel.getDynamicLibraries().add(dynamicLibraryEvent);
         assertEquals("jb_admin", fel.getJvmUser(), "JVM user not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJvmVersionFromRpmPath() {
@@ -592,7 +592,7 @@ class TestFatalErrorLog {
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
         fel.getDynamicLibraries().add(dynamicLibraryEvent);
-        String uname = "uname:Linux 3.10.0-957.27.2.el7.x86_64 ***REMOVED***1 SMP Tue Jul 9 16:53:14 UTC 2019 x86_64";
+        String uname = "uname:Linux 3.10.0-957.27.2.el7.x86_64 #1 SMP Tue Jul 9 16:53:14 UTC 2019 x86_64";
         Uname unameEvent = new Uname(uname);
         fel.setUname(unameEvent);
         fel.doAnalysis();
@@ -605,7 +605,7 @@ class TestFatalErrorLog {
         assertEquals(Constants.PROPERTY_UNKNOWN, fel.getCurrentThreadName(), "Current thread not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testKafka() {
@@ -616,7 +616,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getVmArguments().add(event);
         assertEquals(Application.KAFKA, fel.getApplication(), Application.KAFKA + " application not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLogicalCpus() {
@@ -624,7 +624,7 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(200, fel.getCpusLogical(), "CPU cores not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testMaxjitcodesize() {
@@ -635,7 +635,7 @@ class TestFatalErrorLog {
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testMeminfo() {
@@ -667,7 +667,7 @@ class TestFatalErrorLog {
         assertEquals(256, fel.getThreadStackSize(), "Thread stack size not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testMemory() {
@@ -701,7 +701,7 @@ class TestFatalErrorLog {
         assertEquals(commitLimit, fel.getCommitLimit(), "CommitLimit not correct.");
         long committedAs = JdkUtil.convertSize(28976296, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(committedAs, fel.getCommittedAs(), "Committed_AS not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testMemoryWindows() {
@@ -720,25 +720,25 @@ class TestFatalErrorLog {
         assertEquals(memBalloonedNow, fel.getMemBalloonedNow(), "Memory ballooned now not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoCompressedOops() {
         FatalErrorLog fel = new FatalErrorLog();
-        String headerLine = "***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.302-b08 mixed mode linux-amd64 )";
+        String headerLine = "# Java VM: OpenJDK 64-Bit Server VM (25.302-b08 mixed mode linux-amd64 )";
         Header he = new Header(headerLine);
         fel.getHeaders().add(he);
         assertEquals(CompressedOopMode.NONE, fel.getCompressedOopMode(), "Compressed oop mode not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoDebuggingSymbols() {
         FatalErrorLog fel = new FatalErrorLog();
-        String headerLine = "***REMOVED*** V  [libjvm.so+0xa41ea4]";
+        String headerLine = "# V  [libjvm.so+0xa41ea4]";
         Header he = new Header(headerLine);
         fel.getHeaders().add(he);
         assertFalse(fel.haveJdkDebugSymbols(), "Debugging symbols incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoJvmOptions() {
@@ -746,7 +746,7 @@ class TestFatalErrorLog {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_OPTS_NONE.getKey()),
                 Analysis.INFO_OPTS_NONE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOsJustLinux() {
@@ -756,7 +756,7 @@ class TestFatalErrorLog {
         fel.getOsInfos().add(osEvent);
         assertEquals(Os.LINUX, fel.getOs(), "OS not correct.");
         assertEquals(OsVersion.UNIDENTIFIED, fel.getOsVersion(), "OS version not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOsRhel() {
@@ -766,7 +766,7 @@ class TestFatalErrorLog {
         fel.getOsInfos().add(osEvent);
         assertEquals(Os.LINUX, fel.getOs(), "OS not correct.");
         assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOutOfMemoryError() {
@@ -774,13 +774,13 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         StringBuilder error = new StringBuilder();
-        error.append("***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.");
+        error.append("# There is insufficient memory for the Java Runtime Environment to continue.");
         error.append(Constants.LINE_SEPARATOR);
-        error.append("***REMOVED*** Native memory allocation (mmap) failed to map 754974720 bytes for committing reserved memory.");
+        error.append("# Native memory allocation (mmap) failed to map 754974720 bytes for committing reserved memory.");
         error.append(Constants.LINE_SEPARATOR);
-        error.append("***REMOVED***  Out of Memory Error (os_linux.cpp:2749), pid=25305, tid=0x00007f5ab28b7700");
+        error.append("#  Out of Memory Error (os_linux.cpp:2749), pid=25305, tid=0x00007f5ab28b7700");
         assertEquals(error.toString(), fel.getError());
-    ***REMOVED***
+    }
 
     @Test
     void testRhBuildStringMockbuild() {
@@ -789,7 +789,7 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         assertFalse(fel.isRhBuildString(), "RH build string identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhel7Jdk11() {
@@ -805,7 +805,7 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhel7Jdk8() {
@@ -821,7 +821,7 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhel8Jdk11() {
@@ -837,7 +837,7 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhel8Jdk17() {
@@ -859,7 +859,7 @@ class TestFatalErrorLog {
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhel8Ppc64le() {
@@ -871,7 +871,7 @@ class TestFatalErrorLog {
         assertEquals(Application.TOMCAT, fel.getApplication(), "Application not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhel9Os() {
@@ -880,7 +880,7 @@ class TestFatalErrorLog {
         OsInfo osEvent = new OsInfo(os);
         fel.getOsInfos().add(osEvent);
         assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhel9RhBuildJdk17() {
@@ -901,7 +901,7 @@ class TestFatalErrorLog {
         assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhelJdkNotRedHatBuild() {
@@ -914,7 +914,7 @@ class TestFatalErrorLog {
         assertEquals("1d 7h 30m 19s", fel.getElapsedTime(), "JVM run time not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhReleaseStringTruncatedLogfile() {
@@ -923,7 +923,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhRpmInstall() {
@@ -943,7 +943,7 @@ class TestFatalErrorLog {
         assertEquals("java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64", fel.getRpmDirectory(),
                 "Rpm directory not correct.");
         assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhShenandoahNotExperimental() {
@@ -963,7 +963,7 @@ class TestFatalErrorLog {
                 Analysis.INFO_RH_BUILD_RPM_BASED + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH.getKey()),
                 Analysis.INFO_RH_OPT_EXPERIMENTAL_SHENANDOAH + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhSso() {
@@ -975,7 +975,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getThreads().add(event);
         assertEquals(Application.RHSSO, fel.getApplication(), "RHSSO application not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhWindowsReleaseWith2BuildDateTimes() {
@@ -986,7 +986,7 @@ class TestFatalErrorLog {
         assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_WINDOWS_ZIP.getKey()),
                 Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoah() {
@@ -1024,18 +1024,18 @@ class TestFatalErrorLog {
                 Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testSigSegvCompiledJavaCode() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset1.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        StringBuffer causedBy = new StringBuffer("***REMOVED***  SIGSEGV (0xb) at pc=0x00007fcd2af94e64, pid=23171, tid=23172");
+        StringBuffer causedBy = new StringBuffer("#  SIGSEGV (0xb) at pc=0x00007fcd2af94e64, pid=23171, tid=23172");
         causedBy.append(Constants.LINE_SEPARATOR);
-        causedBy.append("***REMOVED*** C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4");
+        causedBy.append("# C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4");
         assertEquals(causedBy.toString(), fel.getError(), "Caused by incorrect.");
-    ***REMOVED***
+    }
 
     @Test
     void testSigSegvNativeCode() {
@@ -1043,11 +1043,11 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         StringBuffer causedBy = new StringBuffer(
-                "***REMOVED***  SIGSEGV (0xb) at pc=0x0000000000000000, pid=44768, tid=0x00007f368f18d700");
+                "#  SIGSEGV (0xb) at pc=0x0000000000000000, pid=44768, tid=0x00007f368f18d700");
         causedBy.append(Constants.LINE_SEPARATOR);
-        causedBy.append("***REMOVED*** C  0x0000000000000000");
+        causedBy.append("# C  0x0000000000000000");
         assertEquals(causedBy.toString(), fel.getError(), "Caused by incorrect.");
-    ***REMOVED***
+    }
 
     @Test
     void testSolaris() {
@@ -1060,7 +1060,7 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSpringBoot() {
@@ -1072,7 +1072,7 @@ class TestFatalErrorLog {
         fel.getVmArguments().add(event);
         assertEquals(Application.SPRING_BOOT, fel.getApplication(),
                 Application.SPRING_BOOT + " application not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testTenuredGeneration() {
@@ -1096,7 +1096,7 @@ class TestFatalErrorLog {
         assertEquals(512, fel.getThreadStackSize(), "Thread stack size not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testThreadDumpJvmti() {
@@ -1108,7 +1108,7 @@ class TestFatalErrorLog {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI.getKey()),
                 Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testThreadStackSize() {
@@ -1130,7 +1130,7 @@ class TestFatalErrorLog {
         fel.getVmArguments().add(event);
         fel.doAnalysis();
         assertEquals(0, fel.getThreadStackSize(), "Thread stack size not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testUbi9OnRhel7() {
@@ -1138,11 +1138,11 @@ class TestFatalErrorLog {
         String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
         OsInfo osEvent = new OsInfo(os);
         fel.getOsInfos().add(osEvent);
-        String uname = "uname:Linux 3.10.0-870.el7.CSB.input.5.x86_64 ***REMOVED***1 SMP Mon Apr 16 16:59:47 UTC 2018 x86_64";
+        String uname = "uname:Linux 3.10.0-870.el7.CSB.input.5.x86_64 #1 SMP Mon Apr 16 16:59:47 UTC 2018 x86_64";
         Uname unameEvent = new Uname(uname);
         fel.setUname(unameEvent);
         assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testUnameSplitAcross2Lines() {
@@ -1150,7 +1150,7 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals("SunOS 5.11 11.4.32.88.3 sun4v  (T2 libthread)", fel.getUname().getUname(), "uname not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testUptime() {
@@ -1159,7 +1159,7 @@ class TestFatalErrorLog {
                 "Time: Tue May  5 18:32:04 2020 CEST elapsed time: 956 seconds (0d 0h 15m 56s)");
         fel.setTimeElapsedTime(event);
         assertEquals(956000L, fel.getUptime(), "Uptime not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testUsername() {
@@ -1167,7 +1167,7 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals("username", fel.getUsername(), "USERNAME not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testUsernameWithDotAtSign() {
@@ -1176,7 +1176,7 @@ class TestFatalErrorLog {
         EnvironmentVariable environmentVariablesEvent = new EnvironmentVariable(username);
         fel.getEnvironmentVariables().add(environmentVariablesEvent);
         assertEquals("first.last@location", fel.getUsername(), "USERNAME not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testUsernameWithUnderscore() {
@@ -1185,7 +1185,7 @@ class TestFatalErrorLog {
         EnvironmentVariable environmentVariablesEvent = new EnvironmentVariable(username);
         fel.getEnvironmentVariables().add(environmentVariablesEvent);
         assertEquals("jb_admin", fel.getUsername(), "USERNAME not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testVendorAdoptium() {
@@ -1195,16 +1195,16 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         assertEquals(JavaVendor.ADOPTIUM, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testVendorAdoptOpenJdkHeader() {
         FatalErrorLog fel = new FatalErrorLog();
-        String header = "***REMOVED*** JRE version: OpenJDK Runtime Environment AdoptOpenJDK (11.0.9+11) (build 11.0.9+11)";
+        String header = "# JRE version: OpenJDK Runtime Environment AdoptOpenJDK (11.0.9+11) (build 11.0.9+11)";
         Header headerEvent = new Header(header);
         fel.getHeaders().add(headerEvent);
         assertEquals(JavaVendor.ADOPTOPENJDK, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testVendorAdoptOpenJdkVmInfo() {
@@ -1214,7 +1214,7 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         assertEquals(JavaVendor.ADOPTOPENJDK, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testVendorAzul() {
@@ -1225,7 +1225,7 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         assertEquals(JavaVendor.AZUL, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testVendorMicrosoft() {
@@ -1235,7 +1235,7 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         assertEquals(JavaVendor.MICROSOFT, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testVendorOracle() {
@@ -1245,7 +1245,7 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testVendorUnknown() {
@@ -1255,7 +1255,7 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "JDK vendor not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testWindows() {
@@ -1272,7 +1272,7 @@ class TestFatalErrorLog {
         assertEquals(swapFree, fel.getOsSwapFree(), "System swap free not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testWindowsJdk11u15Releases() {
@@ -1299,7 +1299,7 @@ class TestFatalErrorLog {
                 "Build date not correct.");
         assertTrue(felJdk11u15_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
         assertTrue(felJdk11u15_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testWindowsJdk17u3Releases() {
@@ -1326,7 +1326,7 @@ class TestFatalErrorLog {
                 "Build date not correct.");
         assertTrue(felJdk17u3_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
         assertTrue(felJdk17u3_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testWindowsJdk8u332Releases() {
@@ -1353,7 +1353,7 @@ class TestFatalErrorLog {
                 "Build date not correct.");
         assertTrue(felJdk8u332_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
         assertTrue(felJdk8u332_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testWindowsOracleJdk8() {
@@ -1370,7 +1370,7 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testWindowsRedHatJdk11() {
@@ -1387,5 +1387,5 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

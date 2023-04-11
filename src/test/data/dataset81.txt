@@ -1,32 +1,32 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (mmap) failed to map 16830955520 bytes for committing reserved memory.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (os_linux.cpp:2763), pid=31285, tid=0x00007fca938ae700
-***REMOVED***
-***REMOVED*** JRE version:  (8.0_232-b09) (build )
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.232-b09 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 16830955520 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2763), pid=31285, tid=0x00007fca938ae700
+#
+# JRE version:  (8.0_232-b09) (build )
+# Java VM: OpenJDK 64-Bit Server VM (25.232-b09 mixed mode linux-amd64 compressed oops)
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007fca8c050800):  JavaThread "Unknown thread" [_thread_in_vm, id=31289, stack(0x00007fca9386f000,0x00007fca938af000)]
 
 Stack: [0x00007fca9386f000,0x00007fca938af000],  sp=0x00007fca938ad370,  free space=248k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xaf19dd]  VMError::report_and_die()+0x15d
 V  [libjvm.so+0x502f89]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0x99
 V  [libjvm.so+0x8fa173]  os::Linux::commit_memory_impl(char*, unsigned long, bool)+0x113
@@ -36,7 +36,7 @@ V  [libjvm.so+0xaee348]  _ZN12VirtualSpace9expand_byEmb.clone.1+0x188
 V  [libjvm.so+0x5f2a39]  CardGeneration::CardGeneration(ReservedSpace, unsigned long, int, GenRemSet*)+0xf9
 V  [libjvm.so+0x4e658e]  ConcurrentMarkSweepGeneration::ConcurrentMarkSweepGeneration(ReservedSpace, unsigned long, int, CardTableRS*, bool, FreeBlockDictionary<FreeChunk>::DictionaryChoice)+0x4e
 V  [libjvm.so+0x5f3749]  GenerationSpec::init(ReservedSpace, int, GenRemSet*)+0x159
-V  [libjvm.so+0x5e2bd6]  GenCollected***REMOVED***:initialize()+0x1e6
+V  [libjvm.so+0x5e2bd6]  GenCollectedHeap::initialize()+0x1e6
 V  [libjvm.so+0xabaf8d]  Universe::initialize_heap()+0x14d
 V  [libjvm.so+0xabc3e3]  universe_init()+0x33
 V  [libjvm.so+0x6347f5]  init_globals()+0x55
@@ -46,17 +46,17 @@ C  [libjli.so+0x7777]  JavaMain+0x87
 C  [libpthread.so.0+0x7ea5]  start_thread+0xc5
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
 
-***REMOVED***
+Other Threads:
 
 =>0x00007fca8c050800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=31289, stack(0x00007fca9386f000,0x00007fca938af000)]
 
 VM state:not at safepoint (not fully initialized)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
 heap address: 0x00000003c0000000, size: 16384 MB, Compressed Oops mode: Non-zero based:0x00000003bffff000, Oop shift amount: 3
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 0
@@ -77,7 +77,7 @@ Events (0 events):
 No events
 
 
-***REMOVED***
+Dynamic libraries:
 7fca91c60000-7fca92979000 r-xp 00000000 103:04 805306531                 /opt/path/java-1.8.0-openjdk/jre/lib/amd64/server/libjvm.so
 7fca938b3000-7fca938bb000 rw-s 00000000 00:24 248916                     /tmp/username/31285
 7fca938bb000-7fca938bd000 rw-p 00000000 00:00 0 
@@ -90,26 +90,26 @@ No events
 7ffc02662000-7ffc02664000 r-xp 00000000 00:00 0                          [vdso]
 ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Xms16384m -Xmx16384m -XX:+ExplicitGCInvokesConcurrent -XX:SurvivorRatio=4 -XX:TargetSurvivorRatio=90 -XX:MaxTenuringThreshold=8 -XX:+UseConcMarkSweepGC -XX:ConcGCThreads=4 -XX:ParallelGCThreads=4 -XX:+CMSScavengeBeforeRemark -XX:PretenureSizeThreshold=64m -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=50 -XX:CMSMaxAbortablePrecleanTime=6000 -XX:+CMSParallelRemarkEnabled -XX:+ParallelRefProcEnabled -verbose:gc -XX:+PrintHeapAtGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -Xloggc:/opt/path/Solr/Solr-MDMPERF-8.5.1/server/logs/solr_gc.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=9 -XX:GCLogFileSize=20M -Dsolr.jetty.inetaccess.includes= -Dsolr.jetty.inetaccess.excludes= -DzkClientTimeout=15000 -DzkHost=DE01C01LA04133:3501,DE01C01LA04134:3501,de01c01la04166:3501 -Dsolr.log.level=INFO -Dsolr.log.dir=/opt/path/Solr/Solr-MDMPERF-8.5.1/server/logs -Djetty.port=8085 -DSTOP.PORT=7085 -DSTOP.KEY=solrrocks -Duser.timezone=CST -Djetty.home=/opt/path/Solr/Solr-MDMPERF-8.5.1/server -Dsolr.solr.home=/opt/path/Solr/Solr-MDMPERF-8.5.1/server/solr -Dsolr.data.home= -Dsolr.install.dir=/opt/path/Solr/Solr-MDMPERF-8.5.1 -Dsolr.default.confdir=/opt/path/Solr/Solr-MDMPERF-8.5.1/server/solr/configsets/_default/conf -Dlog4j.configurationFile=/opt/path/Solr/Solr-MDMPERF-8.5.1/server/resources/log4j.properties -Xss256k -Dsolr.jetty.https.port=8085 -Dsolr.log.muteconsole -XX:OnOutOfMemoryError=/opt/path/Solr/Solr-MDMPERF-8.5.1/bin/oom_solr.sh 8085 /opt/path/Solr/Solr-MDMPERF-8.5.1/server/logs 
 java_command: start.jar --module=http
 java_class_path (initial): start.jar
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 JAVA_HOME=/opt/path/java-1.8.0-openjdk/jre
 PATH=/opt/path/java-1.8.0-openjdk/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/somebody/.local/bin:/home/somebody/bin:/root/bin:/opt/path/java-1.8.0-openjdk/jre/bin
 USERNAME=root
-***REMOVED***
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xaf2400], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xaf2400], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x8f3850], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: [libjvm.so+0x8f3850], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0x8f3850], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x8f3850], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x8f5000], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -117,16 +117,16 @@ SIGTERM: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGQUIT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)
 
-uname:Linux 3.10.0-1160.76.1.el7.x86_64 ***REMOVED***1 SMP Tue Jul 26 14:15:37 UTC 2022 x86_64
+uname:Linux 3.10.0-1160.76.1.el7.x86_64 #1 SMP Tue Jul 26 14:15:37 UTC 2022 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 10240k, CORE 0k, NPROC 65000, NOFILE 65000, AS infinity
 load average:0.05 0.13 0.10
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       31729840 kB
 MemFree:        18601428 kB
 MemAvailable:   25504640 kB
@@ -144,7 +144,7 @@ Mlocked:             136 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
 Dirty:               312 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       5048184 kB
 Mapped:           167804 kB
 Shmem:               936 kB
@@ -153,47 +153,47 @@ SReclaimable:     111644 kB
 SUnreclaim:       165892 kB
 KernelStack:      174064 kB
 PageTables:        45684 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    26970364 kB
 Committed_AS:   20302416 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:       68800 kB
 VmallocChunk:   34359666468 kB
 Percpu:             3776 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   3778560 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      126884 kB
 DirectMap2M:     6148096 kB
 DirectMap1G:    26214400 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-15
 cpu_memory_nodes: 0
 active_processor_count: 16
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 701386752
 memory_max_usage_in_bytes: 783585280
 
 
 CPU:total 16 (initial active 16) (8 cores per cpu, 2 threads per core) family 6 model 85 stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -219,7 +219,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -245,7 +245,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -271,7 +271,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -297,7 +297,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 4
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -323,7 +323,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 5
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -349,7 +349,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 6
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -375,7 +375,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 7
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -401,7 +401,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 8
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -427,7 +427,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 9
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -453,7 +453,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***0
+processor	: 10
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -479,7 +479,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***1
+processor	: 11
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -505,7 +505,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***2
+processor	: 12
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -531,7 +531,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***3
+processor	: 13
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -557,7 +557,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***4
+processor	: 14
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -583,7 +583,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***5
+processor	: 15
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85

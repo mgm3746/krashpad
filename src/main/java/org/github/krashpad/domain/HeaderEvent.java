@@ -27,4 +27,4 @@ public interface HeaderEvent {
      * @return true if the logging is a header, false otherwise.
      */
     boolean isHeader();
-***REMOVED***
+}

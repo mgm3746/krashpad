@@ -30,12 +30,12 @@ class TestNumberEvent {
         String logLine = "44";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NUMBER,
                 JdkUtil.LogEventType.NUMBER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "44";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof NumberEvent,
                 JdkUtil.LogEventType.NUMBER.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

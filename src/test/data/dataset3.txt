@@ -1,23 +1,23 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700
-***REMOVED***  Error: ShouldNotReachHere()
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_265-b01) (build 1.8.0_265-b01)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.265-b01 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700
+#  Error: ShouldNotReachHere()
+#
+# JRE version: OpenJDK Runtime Environment (8.0_265-b01) (build 1.8.0_265-b01)
+# Java VM: OpenJDK 64-Bit Server VM (25.265-b01 mixed mode linux-amd64 compressed oops)
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007fe3f4197000):  JavaThread "C2 CompilerThread0" daemon [_thread_in_vm, id=6633, stack(0x00007fe3d7cfe000,0x00007fe3d7dfe000)]
 
 Stack: [0x00007fe3d7cfe000,0x00007fe3d7dfe000],  sp=0x00007fe3d7df9c50,  free space=1007k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xb5718d]  VMError::report_and_die()+0x15d
 V  [libjvm.so+0x50688d]  report_should_not_reach_here(char const*, int)+0x5d
 V  [libjvm.so+0x42ef26]  ciField::ciField(ciInstanceKlass*, int)+0x956

@@ -54,7 +54,7 @@ public class Host implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -69,15 +69,15 @@ public class Host implements LogEvent {
      */
     public Host(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.HOST.toString();
-    ***REMOVED***
+    }
 
     public String getOsString() {
         String osString = null;
@@ -87,10 +87,10 @@ public class Host implements LogEvent {
             if (matcher.find()) {
                 if (matcher.group(1) != null) {
                     osString = matcher.group(1).trim();
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                }
+            }
+        }
         return osString;
-    ***REMOVED***
+    }
 
-***REMOVED***
+}

@@ -1,24 +1,24 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (mmap) failed to map 34359738368 bytes for committing reserved memory.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (os_linux.cpp:2879), pid=720881, tid=720883
-***REMOVED***
-***REMOVED*** JRE version:  (11.0.8+10) (build )
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (11.0.8+10-LTS, mixed mode, tiered, g1 gc, linux-amd64)
-***REMOVED*** Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /home/mmillson/cases/02747473/PROD_Node1_101020/core.720881)
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 34359738368 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2879), pid=720881, tid=720883
+#
+# JRE version:  (11.0.8+10) (build )
+# Java VM: OpenJDK 64-Bit Server VM (11.0.8+10-LTS, mixed mode, tiered, g1 gc, linux-amd64)
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /home/mmillson/cases/02747473/PROD_Node1_101020/core.720881)
+#
 
 ---------------  S U M M A R Y ------------
 
@@ -27,7 +27,7 @@ Command Line: -XX:+PrintFlagsFinal -Xms32g
 Host: Intel(R) Core(TM) i7-7600U CPU @ 2.80GHz, 4 cores, 15G, Red Hat Enterprise Linux release 8.2 (Ootpa)
 Time: Tue Oct 13 17:05:20 2020 EDT elapsed time: 0 seconds (0d 0h 0m 0s)
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007fc884016800):  JavaThread "Unknown thread" [_thread_in_vm, id=720883, stack(0x00007fc88c4f2000,0x00007fc88c5f3000)]
 
@@ -44,8 +44,8 @@ V  [libjvm.so+0x7bccda]  G1RegionsLargerThanCommitSizeMapper::commit_regions(uns
 V  [libjvm.so+0x8393a8]  HeapRegionManager::commit_regions(unsigned int, unsigned long, WorkGang*)+0x58
 V  [libjvm.so+0x839fd4]  HeapRegionManager::make_regions_available(unsigned int, unsigned int, WorkGang*)+0x34
 V  [libjvm.so+0x83a3e7]  HeapRegionManager::expand_at(unsigned int, unsigned int, WorkGang*) [clone .part.25]+0xf7
-V  [libjvm.so+0x770008]  G1Collected***REMOVED***:expand(unsigned long, WorkGang*, double*)+0xe8
-V  [libjvm.so+0x770721]  G1Collected***REMOVED***:initialize()+0x6a1
+V  [libjvm.so+0x770008]  G1CollectedHeap::expand(unsigned long, WorkGang*, double*)+0xe8
+V  [libjvm.so+0x770721]  G1CollectedHeap::initialize()+0x6a1
 V  [libjvm.so+0xe57115]  Universe::initialize_heap()+0x45
 V  [libjvm.so+0xe573e7]  universe_init()+0x57
 V  [libjvm.so+0x859cba]  init_globals()+0x6a
@@ -54,18 +54,18 @@ V  [libjvm.so+0x907855]  JNI_CreateJavaVM+0x65
 C  [libjli.so+0x431b]  JavaMain+0x9b
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
 Threads class SMR info:
 _java_thread_list=0x00005646e33d1120, length=0, elements={
-***REMOVED***
+}
 
-***REMOVED***
+Java Threads: ( => current thread )
 
-***REMOVED***
-  0x00007fc88402e000 GCTaskThread "GC Thread***REMOVED***0" [stack: 0x00007fc8882b6000,0x00007fc8883b6000] [id=720884]
+Other Threads:
+  0x00007fc88402e000 GCTaskThread "GC Thread#0" [stack: 0x00007fc8882b6000,0x00007fc8883b6000] [id=720884]
   0x00007fc884056800 ConcurrentGCThread "G1 Main Marker" [stack: 0x00007fc86c501000,0x00007fc86c601000] [id=720885]
-  0x00007fc884058800 ConcurrentGCThread "G1 Conc***REMOVED***0" [stack: 0x00007fc86c3ff000,0x00007fc86c4ff000] [id=720886]
+  0x00007fc884058800 ConcurrentGCThread "G1 Conc#0" [stack: 0x00007fc86c3ff000,0x00007fc86c4ff000] [id=720886]
 
 [error occurred during error reporting (printing all threads), id 0xb, SIGSEGV (0xb) at pc=0x00007fc88aaa9a74]
 
@@ -91,48 +91,48 @@ Event: 0.001 Protecting memory [0x00007fc88c4f2000,0x00007fc88c4f6000] with prot
 Event: 0.001 Loaded shared library /usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64/lib/libzip.so
 
 
-***REMOVED***
+Dynamic libraries:
 
 7fc88bd9a000-7fc88bda9000 r-xp 00000000 fd:01 36973795                   /usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64/lib/jli/libjli.so
 
 
-***REMOVED***
+VM Arguments:
 jvm_args: -XX:+PrintFlagsFinal -Xms32g 
 java_command: <unknown>
 java_class_path (initial): <not set>
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
 [Global flags]
-     intx CICompilerCount                          = 3                                         {product***REMOVED*** {ergonomic***REMOVED***
-     uint ConcGCThreads                            = 1                                         {product***REMOVED*** {ergonomic***REMOVED***
-     uint G1ConcRefinementThreads                  = 4                                         {product***REMOVED*** {ergonomic***REMOVED***
-   size_t G1HeapRegionSize                         = 16777216                                  {product***REMOVED*** {ergonomic***REMOVED***
-    uintx GCDrainStackTargetSize                   = 64                                        {product***REMOVED*** {ergonomic***REMOVED***
-   size_t InitialHeapSize                          = 34359738368                               {product***REMOVED*** {command line***REMOVED***
-   size_t MarkStackSize                            = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
-   size_t MaxHeapSize                              = 34359738368                               {product***REMOVED*** {ergonomic***REMOVED***
-   size_t MinHeapDeltaBytes                        = 16777216                                  {product***REMOVED*** {ergonomic***REMOVED***
-    uintx NonNMethodCodeHeapSize                   = 5830732                                {pd product***REMOVED*** {ergonomic***REMOVED***
-    uintx NonProfiledCodeHeapSize                  = 122913754                              {pd product***REMOVED*** {ergonomic***REMOVED***
-     bool PrintFlagsFinal                          = true                                      {product***REMOVED*** {command line***REMOVED***
-    uintx ProfiledCodeHeapSize                     = 122913754                              {pd product***REMOVED*** {ergonomic***REMOVED***
-    uintx ReservedCodeCacheSize                    = 251658240                              {pd product***REMOVED*** {ergonomic***REMOVED***
-     bool SegmentedCodeCache                       = true                                      {product***REMOVED*** {ergonomic***REMOVED***
-     bool UseG1GC                                  = true                                      {product***REMOVED*** {ergonomic***REMOVED***
+     intx CICompilerCount                          = 3                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 1                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 4                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 16777216                                  {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 34359738368                               {product} {command line}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 34359738368                               {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 16777216                                  {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5830732                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122913754                              {pd product} {ergonomic}
+     bool PrintFlagsFinal                          = true                                      {product} {command line}
+    uintx ProfiledCodeHeapSize                     = 122913754                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
 
 Logging:
 Log output configuration:
- ***REMOVED***0: stdout all=warning uptime,level,tags
- ***REMOVED***1: stderr all=off uptime,level,tags
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
 
-***REMOVED***
+Environment Variables:
 PATH=
 USERNAME=username
-***REMOVED***
+SHELL=/bin/bash
 DISPLAY=:0
 LANG=en_US.UTF-8
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xe95f80], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xe95f80], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0xe95f80], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
@@ -146,16 +146,16 @@ SIGTERM: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGQUIT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux release 8.2 (Ootpa)
-uname:Linux 4.18.0-193.14.3.el8_2.x86_64 ***REMOVED***1 SMP Mon Jul 20 15:02:29 UTC 2020 x86_64
+uname:Linux 4.18.0-193.14.3.el8_2.x86_64 #1 SMP Mon Jul 20 15:02:29 UTC 2020 x86_64
 OS uptime: 3 days 8:33 hours
-***REMOVED***
+libc:glibc 2.28 NPTL 2.28 
 rlimit (soft/hard): STACK 8192k/infinity , CORE infinity/infinity , NPROC 62502/62502 , NOFILE 262144/262144 , AS infinity/infinity , CPU infinity/infinity , DATA infinity/infinity , FSIZE infinity/infinity , MEMLOCK 64k/64k
 load average:0.39 0.37 0.36
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       16058700 kB
 MemFree:         2757504 kB
 MemAvailable:    6697348 kB
@@ -173,7 +173,7 @@ Mlocked:              64 kB
 SwapTotal:       8097788 kB
 SwapFree:        8097788 kB
 Dirty:               304 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       6694492 kB
 Mapped:           994524 kB
 Shmem:            948040 kB
@@ -183,25 +183,25 @@ SReclaimable:     241604 kB
 SUnreclaim:       233072 kB
 KernelStack:       23648 kB
 PageTables:       130552 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    16127136 kB
 Committed_AS:   23441372 kB
 VmallocTotal:   34359738367 kB
-***REMOVED***
-***REMOVED***
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
 Percpu:             2576 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   1912832 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
-***REMOVED***
+Hugetlb:               0 kB
 DirectMap4k:      628616 kB
 DirectMap2M:    15783936 kB
 DirectMap1G:     1048576 kB
@@ -226,17 +226,17 @@ always defer defer+madvise [madvise] never
 
 
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-3
 cpu_memory_nodes: 0
 active_processor_count: 4
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 2495922176
 memory_max_usage_in_bytes: 3111854080
 
@@ -244,7 +244,7 @@ Steal ticks since vm start: 0
 Steal ticks percentage since vm start:  0.000
 
 CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 142 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx, fma
-CPU Model and flags from ***REMOVED***
+CPU Model and flags from /proc/cpuinfo:
 model name	: Intel(R) Core(TM) i7-7600U CPU @ 2.80GHz
 flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp md_clear flush_l1d
 

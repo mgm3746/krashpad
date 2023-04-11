@@ -1,4 +1,4 @@
-***REMOVED***
+Heap:
 Shenandoah Heap
  5734M total, 5734M committed, 3099M used
  2867 x 2048K regions

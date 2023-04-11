@@ -46,11 +46,11 @@ public class CurrentThread implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^Current thread( \\(" + JdkRegEx.ADDRESS + "\\):)?[ ]{1,2***REMOVED***(.+)$";
+    private static final String REGEX = "^Current thread( \\(" + JdkRegEx.ADDRESS + "\\):)?[ ]{1,2}(.+)$";
 
     static {
         PATTERN = Pattern.compile(CurrentThread.REGEX);
-    ***REMOVED***
+    }
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -61,7 +61,7 @@ public class CurrentThread implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -76,15 +76,15 @@ public class CurrentThread implements LogEvent {
      */
     public CurrentThread(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.CURRENT_THREAD.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return The thread running when the JVM crashed.
@@ -94,21 +94,21 @@ public class CurrentThread implements LogEvent {
         Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
             currentThread = matcher.group(7);
-        ***REMOVED***
+        }
         return currentThread;
-    ***REMOVED***
+    }
 
     /**
      * @return True if the current thread is a CompilerThread, false otherwise.
      */
     public boolean isCompilerThread() {
-        return logEntry.matches("^.+C[12] CompilerThread\\d{1,***REMOVED***.+$");
-    ***REMOVED***
+        return logEntry.matches("^.+C[12] CompilerThread\\d{1,}.+$");
+    }
 
     /**
      * @return True if the current thread is a VMThread, false otherwise.
      */
     public boolean isVmThread() {
         return logEntry.matches("^.+VMThread.+$");
-    ***REMOVED***
-***REMOVED***
+    }
+}

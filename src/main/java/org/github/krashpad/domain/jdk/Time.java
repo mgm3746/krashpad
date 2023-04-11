@@ -66,9 +66,9 @@ public class Time implements LogEvent {
             HH = matcher.group(4);
             mm = matcher.group(5);
             ss = matcher.group(6);
-        ***REMOVED***
+        }
         return ErrUtil.getDate(MMM, d, yyyy, HH, mm, ss);
-    ***REMOVED***
+    }
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -79,7 +79,7 @@ public class Time implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -94,22 +94,22 @@ public class Time implements LogEvent {
      */
     public Time(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.TIME.toString();
-    ***REMOVED***
+    }
 
     public String getTimeString() {
         String time = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             time = matcher.group(1);
-        ***REMOVED***
+        }
         return time;
-    ***REMOVED***
-***REMOVED***
+    }
+}

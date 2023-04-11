@@ -30,19 +30,19 @@ class TestThreadsMax {
         String logLine = "/proc/sys/kernel/threads-max (system-wide limit on the number of threads):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_MAX,
                 JdkUtil.LogEventType.THREADS_MAX.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk17() {
         String logLine = "/proc/sys/kernel/threads-max (system-wide limit on the number of threads): 254790";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ThreadsMax,
                 JdkUtil.LogEventType.THREADS_MAX.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "/proc/sys/kernel/threads-max (system-wide limit on the number of threads):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ThreadsMax,
                 JdkUtil.LogEventType.THREADS_MAX.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

@@ -1,18 +1,18 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007ffff79b5e90, pid=24731, tid=24738
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (11.0.5+10) (build 11.0.5+10-LTS)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (11.0.5+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
-***REMOVED*** Problematic frame:
-***REMOVED*** C  [libpthread.so.0+0xce90]  pthread_getcpuclockid+0x0
-***REMOVED***
-***REMOVED*** No core dump will be written. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007ffff79b5e90, pid=24731, tid=24738
+#
+# JRE version: OpenJDK Runtime Environment (11.0.5+10) (build 11.0.5+10-LTS)
+# Java VM: OpenJDK 64-Bit Server VM (11.0.5+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libpthread.so.0+0xce90]  pthread_getcpuclockid+0x0
+#
+# No core dump will be written. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
 
 Current thread (0x00007ffff044d000):  VMThread "VM Thread" [stack: 0x00007fffb70a4000,0x00007fffb71a4000] [id=24738]
@@ -32,15 +32,15 @@ V  [libjvm.so+0xe90fe5]  Thread::call_run()+0x155
 V  [libjvm.so+0xc1a878]  thread_native_entry(Thread*)+0xf8
 
 
-***REMOVED***
+Dynamic libraries:
 
 7ffff5c35000-7ffff6e6a000 r-xp 00000000 fd:00 823041892                  /usr/lib/jvm/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/lib/server/libjvm.so
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Workstation release 7.4 (Maipo)
-uname:Linux 3.10.0-862.3.2.el7.x86_64 ***REMOVED***1 SMP Tue May 15 18:22:15 EDT 2018 x86_64
+uname:Linux 3.10.0-862.3.2.el7.x86_64 #1 SMP Tue May 15 18:22:15 EDT 2018 x86_64
 
 
 Memory: 4k page, physical 32780544k(2698868k free), swap 8191996k(8190972k free)

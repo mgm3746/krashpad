@@ -41,7 +41,7 @@ public class BlankLine implements ThrowAwayEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX) || logLine.length() == 0;
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event. Can be used for debugging purposes.
@@ -56,13 +56,13 @@ public class BlankLine implements ThrowAwayEvent {
      */
     public BlankLine(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.BLANK_LINE.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

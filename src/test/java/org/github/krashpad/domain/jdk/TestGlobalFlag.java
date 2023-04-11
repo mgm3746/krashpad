@@ -28,71 +28,71 @@ class TestGlobalFlag {
     @Test
     void testCcstrlist() {
         String logLine = "ccstrlist OnOutOfMemoryError                       = /u/search/bin/on-oom.sh"
-                + "                   {product***REMOVED*** {command line***REMOVED***";
+                + "                   {product} {command line}";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testGlobalFlagBool() {
         String logLine = "     bool SegmentedCodeCache                       = true"
-                + "                                      {product***REMOVED*** {ergonomic***REMOVED***";
+                + "                                      {product} {ergonomic}";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testGlobalFlagCcstr() {
         String logLine = "    ccstr ErrorFile                                = /path/to/vm_crash_%p.log            "
-                + "{product***REMOVED*** {command line***REMOVED***";
+                + "{product} {command line}";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testGlobalFlagSizeT() {
         String logLine = "   size_t G1HeapRegionSize                         = 2097152"
-                + "                                   {product***REMOVED*** {ergonomic***REMOVED***";
+                + "                                   {product} {ergonomic}";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testGlobalFlagUint() {
         String logLine = "     uint ConcGCThreads                            = 2"
-                + "                                         {product***REMOVED*** {ergonomic***REMOVED***";
+                + "                                         {product} {ergonomic}";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testGlobalFlagUintx() {
         String logLine = "    uintx GCDrainStackTargetSize                   = 64"
-                + "                                        {product***REMOVED*** {ergonomic***REMOVED***";
+                + "                                        {product} {ergonomic}";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeader() {
         String logLine = "[Global flags]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         String logLine = "     intx CICompilerCount                          = 4"
-                + "                                         {product***REMOVED*** {ergonomic***REMOVED***";
+                + "                                         {product} {ergonomic}";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "     intx CICompilerCount                          = 4"
-                + "                                         {product***REMOVED*** {ergonomic***REMOVED***";
+                + "                                         {product} {ergonomic}";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GlobalFlag,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

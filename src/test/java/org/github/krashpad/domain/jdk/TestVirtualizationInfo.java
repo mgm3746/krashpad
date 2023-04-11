@@ -30,104 +30,104 @@ class TestVirtualizationInfo {
         String logLine = "Hyper-V virtualization detected";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHyperV() {
         String logLine = "HyperV virtualization detected";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         String logLine = "HyperV virtualization detected";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testKvm() {
         String logLine = "KVM virtualization detected";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testKvmStealTicks() {
         String logLine = "Steal ticks since vm start: 152";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testKvmStealTicksPercentage() {
         String logLine = "Steal ticks percentage since vm start:  0.000";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "HyperV virtualization detected";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VirtualizationInfo,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testVmWare() {
         String logLine = "VMWare virtualization detected";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVmWareGuestMem() {
         String logLine = "guest.mem.reserved = 0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVmWareHostCpu() {
         String logLine = "host.cpu.processorMHz = 2095";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVmWareOvhdMem() {
         String logLine = "ovhd.mem.swapped = 0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVmWareVmCpu() {
         String logLine = "vm.cpu.reserved = 0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVmWareVmNuma() {
         String logLine = "vm.numa.local = 66932356";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVmWareVSphereHostInfoHeader() {
         String logLine = "vSphere host information:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVmWareVSphereResourceInfoNowHeader() {
         String logLine = "vSphere resource information available now:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VIRTUALIZATION_INFO,
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
-***REMOVED***
+}

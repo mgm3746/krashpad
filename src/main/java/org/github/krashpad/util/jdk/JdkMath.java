@@ -38,26 +38,26 @@ public class JdkMath {
     public static int calcPercent(final long part, final long whole) {
         if (part < 0) {
             throw new IllegalArgumentException("part: " + part);
-        ***REMOVED***
+        }
         if (whole < 0) {
             throw new IllegalArgumentException("whole: " + whole);
-        ***REMOVED***
+        }
         int percent;
         if (whole == 0) {
             if (part == 0 && whole == 0) {
                 percent = 100;
-            ***REMOVED*** else {
+            } else {
                 percent = Integer.MAX_VALUE;
-            ***REMOVED***
-        ***REMOVED*** else {
+            }
+        } else {
             BigDecimal calc = new BigDecimal(part);
             BigDecimal hundred = new BigDecimal("100");
             calc = calc.multiply(hundred);
             calc = calc.divide(new BigDecimal(whole), 0, RoundingMode.HALF_EVEN);
             percent = calc.intValue();
-        ***REMOVED***
+        }
         return percent;
-    ***REMOVED***
+    }
 
     /**
      * Convert a hexadecimal number to a decimal number.
@@ -83,20 +83,20 @@ public class JdkMath {
                     if (!place.equals('0')) {
                         int digit = Integer.parseInt(place.toString(), 16);
                         decimal = decimal + digit * (long) Math.pow(16, power);
-                    ***REMOVED***
+                    }
                     pos++;
                     power++;
-                ***REMOVED*** else {
+                } else {
                     break;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                }
+            }
+        }
         return decimal;
-    ***REMOVED***
+    }
 
     /**
      * Make default constructor private so the class cannot be instantiated.
      */
     private JdkMath() {
-    ***REMOVED***
-***REMOVED***
+    }
+}

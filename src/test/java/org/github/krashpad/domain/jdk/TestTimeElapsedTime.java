@@ -34,21 +34,21 @@ class TestTimeElapsedTime {
         TimeElapsedTime event = new TimeElapsedTime(logLine);
         assertEquals("0d 0h 15m 56s", event.getLiteral(), "Elapsed time not correct.");
         assertEquals(956000L, event.getUptime(), "Uptime not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         String logLine = "Time: Tue May  5 18:32:04 2020 CEST elapsed time: 956 seconds (0d 0h 15m 56s)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIME_ELAPSED_TIME,
                 JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "Time: Tue May  5 18:32:04 2020 CEST elapsed time: 956 seconds (0d 0h 15m 56s)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TimeElapsedTime,
                 JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testTime() {
@@ -57,5 +57,5 @@ class TestTimeElapsedTime {
                 JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString() + " not identified.");
         TimeElapsedTime event = new TimeElapsedTime(logLine);
         assertEquals("Tue May  5 18:32:04 2020 CEST", event.getTimeString(), "Time not correct.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

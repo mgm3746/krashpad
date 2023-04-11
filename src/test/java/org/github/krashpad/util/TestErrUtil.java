@@ -45,5 +45,5 @@ class TestErrUtil {
         assertEquals(18, calendar.get(Calendar.HOUR_OF_DAY), "Start hour not parsed correctly.");
         assertEquals(55, calendar.get(Calendar.MINUTE), "Start minute not parsed correctly.");
         assertEquals(8, calendar.get(Calendar.SECOND), "Start second not parsed correctly.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

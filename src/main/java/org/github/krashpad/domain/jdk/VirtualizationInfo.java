@@ -30,17 +30,17 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * ***REMOVED***
- * ***REMOVED***
+ * container (cgroup) information:
+ * container_type: cgroupv1
  * cpu_cpuset_cpus: 0-7
  * cpu_memory_nodes: 0
  * active_processor_count: 8
- * ***REMOVED***
- * ***REMOVED***
- * ***REMOVED***
- * ***REMOVED***
- * ***REMOVED***
- * ***REMOVED***
+ * cpu_quota: -1
+ * cpu_period: 100000
+ * cpu_shares: -1
+ * memory_limit_in_bytes: -1
+ * memory_and_swap_limit_in_bytes: -1
+ * memory_soft_limit_in_bytes: -1
  * memory_usage_in_bytes: 3469758464
  * memory_max_usage_in_bytes: 0
  * </pre>
@@ -53,7 +53,7 @@ public class VirtualizationInfo implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "(Hyper[-]{0,1***REMOVED***V|KVM|VMWare) virtualization detected";
+    private static final String _REGEX_HEADER = "(Hyper[-]{0,1}V|KVM|VMWare) virtualization detected";
 
     /**
      * Regular expression defining the logging.
@@ -72,7 +72,7 @@ public class VirtualizationInfo implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -87,22 +87,22 @@ public class VirtualizationInfo implements LogEvent, HeaderEvent {
      */
     public VirtualizationInfo(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

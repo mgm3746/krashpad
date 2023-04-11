@@ -62,7 +62,7 @@ public class VmOperation implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(_REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -77,15 +77,15 @@ public class VmOperation implements LogEvent {
      */
     public VmOperation(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.VM_OPERATION.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return The VM operation. For example:
@@ -97,9 +97,9 @@ public class VmOperation implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             vmOperation = matcher.group(7);
-        ***REMOVED***
+        }
         return vmOperation;
-    ***REMOVED***
+    }
 
     /**
      * @return The VM operation string. For example:
@@ -111,7 +111,7 @@ public class VmOperation implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             vmOperation = matcher.group(6);
-        ***REMOVED***
+        }
         return vmOperation;
-    ***REMOVED***
-***REMOVED***
+    }
+}

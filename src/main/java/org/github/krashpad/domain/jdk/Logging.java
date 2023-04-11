@@ -33,8 +33,8 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <pre>
  * Logging:
  * Log output configuration:
- *  ***REMOVED***0: stdout all=warning uptime,level,tags
- *  ***REMOVED***1: stderr all=off uptime,level,tags
+ *  #0: stdout all=warning uptime,level,tags
+ *  #1: stderr all=off uptime,level,tags
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -50,7 +50,7 @@ public class Logging implements LogEvent, ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|Log output configuration:| ***REMOVED***\\d).*$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|Log output configuration:| #\\d).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -61,7 +61,7 @@ public class Logging implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -76,22 +76,22 @@ public class Logging implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public Logging(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.LOGGING.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

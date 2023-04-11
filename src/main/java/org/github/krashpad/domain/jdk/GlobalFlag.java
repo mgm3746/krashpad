@@ -34,26 +34,26 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * 
  * <pre>
  * [Global flags]
- *      intx CICompilerCount                          = 4                                         {product***REMOVED*** {ergonomic***REMOVED***
- *      uint ConcGCThreads                            = 2                                         {product***REMOVED*** {ergonomic***REMOVED***
- *     ccstr ErrorFile                                = /tmp/path/to/eclipse_vm_crash_%p.log            {product***REMOVED*** {command line***REMOVED***
- *      uint G1ConcRefinementThreads                  = 8                                         {product***REMOVED*** {ergonomic***REMOVED***
- *    size_t G1HeapRegionSize                         = 2097152                                   {product***REMOVED*** {ergonomic***REMOVED***
- *     uintx GCDrainStackTargetSize                   = 64                                        {product***REMOVED*** {ergonomic***REMOVED***
- *    size_t InitialHeapSize                          = 1073741824                                {product***REMOVED*** {command line***REMOVED***
- *    size_t MarkStackSize                            = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
- *    size_t MaxHeapSize                              = 12884901888                               {product***REMOVED*** {command line***REMOVED***
- *    size_t MaxNewSize                               = 7730102272                                {product***REMOVED*** {ergonomic***REMOVED***
- *    size_t MinHeapDeltaBytes                        = 2097152                                   {product***REMOVED*** {ergonomic***REMOVED***
- *     uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product***REMOVED*** {ergonomic***REMOVED***
- *     uintx NonProfiledCodeHeapSize                  = 131299578                              {pd product***REMOVED*** {ergonomic***REMOVED***
- *     uintx ProfiledCodeHeapSize                     = 131299578                              {pd product***REMOVED*** {ergonomic***REMOVED***
- *     uintx ReservedCodeCacheSize                    = 268435456                              {pd product***REMOVED*** {command line***REMOVED***
- *      bool SegmentedCodeCache                       = true                                      {product***REMOVED*** {ergonomic***REMOVED***
- *      intx ThreadStackSize                          = 5120                                   {pd product***REMOVED*** {command line***REMOVED***
- *      bool UseCompressedClassPointers               = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
- *      bool UseCompressedOops                        = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
- *      bool UseG1GC                                  = true                                      {product***REMOVED*** {ergonomic***REMOVED***
+ *      intx CICompilerCount                          = 4                                         {product} {ergonomic}
+ *      uint ConcGCThreads                            = 2                                         {product} {ergonomic}
+ *     ccstr ErrorFile                                = /tmp/path/to/eclipse_vm_crash_%p.log            {product} {command line}
+ *      uint G1ConcRefinementThreads                  = 8                                         {product} {ergonomic}
+ *    size_t G1HeapRegionSize                         = 2097152                                   {product} {ergonomic}
+ *     uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+ *    size_t InitialHeapSize                          = 1073741824                                {product} {command line}
+ *    size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+ *    size_t MaxHeapSize                              = 12884901888                               {product} {command line}
+ *    size_t MaxNewSize                               = 7730102272                                {product} {ergonomic}
+ *    size_t MinHeapDeltaBytes                        = 2097152                                   {product} {ergonomic}
+ *     uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product} {ergonomic}
+ *     uintx NonProfiledCodeHeapSize                  = 131299578                              {pd product} {ergonomic}
+ *     uintx ProfiledCodeHeapSize                     = 131299578                              {pd product} {ergonomic}
+ *     uintx ReservedCodeCacheSize                    = 268435456                              {pd product} {command line}
+ *      bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+ *      intx ThreadStackSize                          = 5120                                   {pd product} {command line}
+ *      bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+ *      bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+ *      bool UseG1GC                                  = true                                      {product} {ergonomic}
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -72,7 +72,7 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|[ ]{0,***REMOVED***(bool|ccstr|ccstrlist|intx|size_t|uint|uintx))(.*)$";
+            + "|[ ]{0,}(bool|ccstr|ccstrlist|intx|size_t|uint|uintx))(.*)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -83,7 +83,7 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -98,15 +98,15 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
      */
     public GlobalFlag(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.GLOBAL_FLAGS.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return The value of the VM argument.
@@ -116,16 +116,16 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             value = matcher.group(3);
-        ***REMOVED***
+        }
         return value;
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

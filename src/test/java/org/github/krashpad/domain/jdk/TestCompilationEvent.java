@@ -27,53 +27,53 @@ class TestCompilationEvent {
 
     @Test
     void testHeader() {
-        String logLine = "***REMOVED***";
+        String logLine = "Compilation events (250 events):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompilationEvent,
                 JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
-        String logLine = "***REMOVED***";
+        String logLine = "Compilation events (250 events):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMPILATION_EVENT,
                 JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoEvents() {
-        String priorLogLine = "***REMOVED***";
+        String priorLogLine = "Compilation events (250 events):";
         CompilationEvent priorLogEvent = new CompilationEvent(priorLogLine);
         String logLine = "No Events";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
                 JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testNumber() {
-        String priorLogLine = "***REMOVED***";
+        String priorLogLine = "Compilation events (250 events):";
         CompilationEvent priorLogEvent = new CompilationEvent(priorLogLine);
         String logLine = "Event: 0.021 Thread 0x00007fa9cc15ba60    1       3       "
                 + "java.lang.Object::<init> (1 bytes)";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
                 JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
-        String priorLogLine = "***REMOVED***";
+        String priorLogLine = "Compilation events (250 events):";
         CompilationEvent priorLogEvent = new CompilationEvent(priorLogLine);
         String logLine = "Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code "
                 + "[0x00007ff0e04fd360, 0x00007ff0e04fe1d0]";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
                 JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testTruncatedLine() {
-        String priorLogLine = "***REMOVED***";
+        String priorLogLine = "Compilation events (250 events):";
         CompilationEvent priorLogEvent = new CompilationEvent(priorLogLine);
         String logLine = "Event: 415187.311 Thread 0x000056188c761800 ";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompilationEvent,
                 JdkUtil.LogEventType.COMPILATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

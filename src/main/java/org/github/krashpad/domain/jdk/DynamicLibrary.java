@@ -47,7 +47,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <pre>
- * ***REMOVED***
+ * Dynamic libraries:
  * 00400000-00401000 r-xp 00000000 fd:0d 201327127                          /path/to/jdk/bin/java
  * </pre>
  * 
@@ -75,15 +75,15 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String __REGEX_HEADER = "***REMOVED***";
+    private static final String __REGEX_HEADER = "Dynamic libraries:";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String _REGEX = "^(" + __REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS
             + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE
-            + ")?[\\s]{1,***REMOVED***((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA
-            + "))?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,***REMOVED***)$";
+            + ")?[\\s]{1,}((" + JdkRegEx.FILE + "|" + JdkRegEx.AREA
+            + "))?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,})$";
 
     private static Pattern pattern = Pattern.compile(_REGEX);
 
@@ -96,7 +96,7 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(_REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -111,7 +111,7 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
      */
     public DynamicLibrary(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     /**
      * @return Device.
@@ -123,19 +123,19 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
             int deviceIdIndex = 14;
             String deviceId = matcher.group(deviceIdIndex);
             if (deviceId != null) {
-                if (deviceId.matches("fd:[a-z0-9]{2***REMOVED***")) {
+                if (deviceId.matches("fd:[a-z0-9]{2}")) {
                     device = Device.FIXED_DISK;
-                ***REMOVED*** else if (deviceId.matches("103:0[03]")) {
+                } else if (deviceId.matches("103:0[03]")) {
                     device = Device.AWS_BLOCK_STORAGE;
-                ***REMOVED*** else if (deviceId.matches("00:[a-z0-9]{2***REMOVED***")) {
+                } else if (deviceId.matches("00:[a-z0-9]{2}")) {
                     device = Device.NFS;
-                ***REMOVED*** else if (deviceId.matches("08:[0-9]{2***REMOVED***")) {
+                } else if (deviceId.matches("08:[0-9]{2}")) {
                     device = Device.SCSI_DISK;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                }
+            }
+        }
         return device;
-    ***REMOVED***
+    }
 
     /**
      * @return Dynamic library file path.
@@ -146,38 +146,38 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
         if (matcher.find()) {
             int filePathIndex = 16;
             filePath = matcher.group(filePathIndex);
-        ***REMOVED***
+        }
         return filePath;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(__REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
+    }
 
     /**
      * @return True if a jar, false otherwise.
      */
     public boolean isJar() {
         return logEntry.matches(".+" + JdkRegEx.JAR + "$");
-    ***REMOVED***
+    }
 
     /**
      * @return True if a native library, false otherwise.
      */
     public boolean isNativeLibrary() {
         return logEntry.matches(".+" + JdkRegEx.NATIVE_LIBRARY + "( \\(deleted\\))?$");
-    ***REMOVED***
-***REMOVED***
+    }
+}

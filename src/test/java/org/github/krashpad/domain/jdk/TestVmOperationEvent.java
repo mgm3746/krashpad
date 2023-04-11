@@ -31,7 +31,7 @@ class TestVmOperationEvent {
         String logLine = "Event: 31.306 Executing VM operation: Cleanup";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testHandshakeAllThreads() {
@@ -39,7 +39,7 @@ class TestVmOperationEvent {
         String logLine = "Event: 31.627 Executing VM operation: HandshakeAllThreads done";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testIcBufferFull() {
@@ -47,14 +47,14 @@ class TestVmOperationEvent {
         String logLine = "Event: 32.322 Executing VM operation: ICBufferFull done";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         String logLine = "VM Operations (0 events):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoEventsLowercaseE() {
@@ -62,7 +62,7 @@ class TestVmOperationEvent {
         String logLine = "No events";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoEventsUppercaseE() {
@@ -70,12 +70,12 @@ class TestVmOperationEvent {
         String logLine = "No Events";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "VM Operations (0 events):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

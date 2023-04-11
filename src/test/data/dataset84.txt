@@ -1,28 +1,28 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007f8803cfa2ca, pid=65195, tid=0x00007f882a063700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_352-b08) (build 1.8.0_352-b08)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.352-b08 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** C  [jna3125142934924644081.tmp+0x122ca]  ffi_prep_closure_loc+0x1a
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-1.8.0-openjdk
-***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
-***REMOVED*** See problematic frame for where to report the bug.
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f8803cfa2ca, pid=65195, tid=0x00007f882a063700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_352-b08) (build 1.8.0_352-b08)
+# Java VM: OpenJDK 64-Bit Server VM (25.352-b08 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# C  [jna3125142934924644081.tmp+0x122ca]  ffi_prep_closure_loc+0x1a
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-1.8.0-openjdk
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f8824051790):  JavaThread "main" [_thread_in_native, id=65196, stack(0x00007f882a024000,0x00007f882a064000)]
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000000
 
-***REMOVED***
+Registers:
 RAX=0x00007f8803cfa77e, RBX=0x0000000000000000, RCX=0x00007f88249079f0, RDX=0x00007f8803cef0f0
 RSP=0x00007f882a061400, RBP=0x00007f882a061400, RSI=0x00007f8824907a10, RDI=0x0000000000000000
 R8 =0xa7cbf77af5724500, R9 =0x0000000000000002, R10=0x0000000000000008, R11=0x00007f8829c34cd0
@@ -70,7 +70,7 @@ Instructions: (pc=0x00007f8803cfa2ca)
 0x00007f8803cfa2ca:   66 c7 07 49 bb 4c 89 47 0c 66 c7 47 0a 49 ba 48
 0x00007f8803cfa2da:   89 47 02 8b 46 1c 48 89 77 18 48 89 57 20 48 89 
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x00007f8803cfa77e: ffi_closure_unix64+0 in /home/cassandra/tmp/jna-1073564104/jna3125142934924644081.tmp at 0x00007f8803ce8000
 RBX=0x0000000000000000 is an unknown value
@@ -91,7 +91,7 @@ R15=0x00007f8824051a78 is an unknown value
 
 
 Stack: [0x00007f882a024000,0x00007f882a064000],  sp=0x00007f882a061400,  free space=245k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 C  [jna3125142934924644081.tmp+0x122ca]  ffi_prep_closure_loc+0x1a
 C  [jna3125142934924644081.tmp+0xd278]  Java_com_sun_jna_Native_registerMethod+0x498
 j  com.sun.jna.Native.registerMethod(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/String;[I[J[JIJJLjava/lang/Class;JIZ[Lcom/sun/jna/ToNativeConverter;Lcom/sun/jna/FromNativeConverter;Ljava/lang/String;)J+0
@@ -137,9 +137,9 @@ j  org.apache.cassandra.service.CassandraDaemon.activate()V+46
 j  org.apache.cassandra.service.CassandraDaemon.main([Ljava/lang/String;)V+3
 v  ~StubRoutines::call_stub
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007f882494bfe0 JavaThread "process reaper" daemon [_thread_blocked, id=65217, stack(0x00007f880800c000,0x00007f8808045000)]
   0x00007f880c550610 JavaThread "EXPIRING-MAP-REAPER:1" daemon [_thread_blocked, id=65216, stack(0x00007f8808045000,0x00007f8808086000)]
   0x00007f882490a080 JavaThread "RMI TCP Accept-0" daemon [_thread_in_native, id=65214, stack(0x00007f8808086000,0x00007f88080c7000)]
@@ -155,11 +155,11 @@ v  ~StubRoutines::call_stub
   0x00007f882414c280 JavaThread "Reference Handler" daemon [_thread_blocked, id=65200, stack(0x00007f880b71c000,0x00007f880b75d000)]
 =>0x00007f8824051790 JavaThread "main" [_thread_in_native, id=65196, stack(0x00007f882a024000,0x00007f882a064000)]
 
-***REMOVED***
+Other Threads:
   0x00007f8824142ec0 VMThread [stack: 0x00007f880b75e000,0x00007f880b85e000] [id=65199]
   0x00007f88242dfa30 WatcherThread [stack: 0x00007f880a94f000,0x00007f880aa4f000] [id=65209]
 
-***REMOVED***
+VM state:not at safepoint (normal execution)
 
 VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
 [0x00007f8824050b90] Heap_lock - owner thread: 0x00007f88248c1360
@@ -168,7 +168,7 @@ heap address: 0x00000000c0000000, size: 1024 MB, Compressed Oops mode: 32-bit
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
 Compressed class space size: 1073741824 Address: 0x0000000100000000
 
-***REMOVED***
+Heap:
  par new generation   total 92160K, used 28850K [0x00000000c0000000, 0x00000000c6400000, 0x00000000c6400000)
   eden space 81920K,  22% used [0x00000000c0000000, 0x00000000c122c820, 0x00000000c5000000)
   from space 10240K, 100% used [0x00000000c5a00000, 0x00000000c6400000, 0x00000000c6400000)
@@ -190,9 +190,9 @@ Polling page: 0x00007f882a06a000
 CodeCache: size=245760Kb used=4148Kb max_used=4148Kb free=241611Kb
  bounds [0x00007f8814386000, 0x00007f88147a6000, 0x00007f8823386000]
  total_blobs=1685 nmethods=1262 adapters=335
-***REMOVED***
+ compilation: enabled
 
-***REMOVED***
+Compilation events (250 events):
 Event: 1.887 Thread 0x00007f88242e7b40 1253       3       java.nio.charset.CoderResult::isOverflow (14 bytes)
 Event: 1.887 Thread 0x00007f88242e7b40 nmethod 1253 0x00007f881478ac50 code [0x00007f881478adc0, 0x00007f881478af70]
 
@@ -215,7 +215,7 @@ Heap after GC invocations=1 (full 0):
  concurrent mark-sweep generation total 946176K, used 915K [0x00000000c6400000, 0x0000000100000000, 0x0000000100000000)
  Metaspace       used 20059K, capacity 20302K, committed 20608K, reserved 1067008K
   class space    used 2299K, capacity 2413K, committed 2432K, reserved 1048576K
-***REMOVED***
+}
 
 Deoptimization events (8 events):
 Event: 1.872 Thread 0x00007f8824051790 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f88145d45a4 method=java.lang.AbstractStringBuilder.append(Ljava/lang/String;)Ljava/lang/AbstractStringBuilder; @ 1
@@ -226,11 +226,11 @@ No events
 Internal exceptions (26 events):
 Event: 1.718 Thread 0x00007f8824051790 Exception <a 'java/lang/ClassNotFoundException': javax/management/remote/rmi/RMIServerImpl_Skel> (0x00000000c00077c0) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/openjdk/hotspot/src/share/vm/classfile/systemDictionary.
 
-***REMOVED***
+Events (250 events):
 Event: 1.890 loading class java/lang/reflect/AnnotatedType done
 
 
-***REMOVED***
+Dynamic libraries:
 561587859000-56158785a000 r-xp 00000000 fd:00 5217                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/bin/java
 561587a59000-561587a5a000 r--p 00000000 fd:00 5217                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/bin/java
 561587a5a000-561587a5b000 rw-p 00001000 fd:00 5217                       /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre/bin/java
@@ -425,24 +425,24 @@ Event: 1.890 loading class java/lang/reflect/AnnotatedType done
 7fffc2ca8000-7fffc2caa000 r-xp 00000000 00:00 0                          [vdso]
 ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Xloggc:/var/log/cassandra/gc.log -Djava.io.tmpdir=/home/cassandra/tmp -ea -XX:+UseThreadPriorities -XX:ThreadPriorityPolicy=42 -XX:+HeapDumpOnOutOfMemoryError -Xss256k -XX:StringTableSize=1000003 -XX:+AlwaysPreTouch -XX:-UseBiasedLocking -XX:+UseTLAB -XX:+ResizeTLAB -XX:+UseNUMA -XX:+PerfDisableSharedMem -Djava.net.preferIPv4Stack=true -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=1 -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSWaitDuration=10000 -XX:+CMSParallelInitialMarkEnabled -XX:+CMSEdenChunksRecordAlways -XX:+CMSClassUnloadingEnabled -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+PrintPromotionFailure -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=10M -Xms1024M -Xmx1024M -Xmn100M -XX:+UseCondCardMark -XX:CompileCommandFile=/etc/cassandra/conf/hotspot_compiler -javaagent:/usr/share/cassandra/lib/jamm-0.3.0.jar -Dcassandra.jmx.local.port=7199 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.password.file=/etc/cassandra/jmxremote.password -Djava.library.path=/usr/share/cassandra/lib/sigar-bin -XX:OnOutOfMemoryError=kill -9 %p -Dlogback.configurationFile=logback.xml -Dcassandra.logdir=/var/log/cassandra -Dcassandra.storagedir= 
 java_command: org.apache.cassandra.service.CassandraDaemon
 java_class_path (initial): /etc/cassandra/conf:/usr/share/cassandra/lib/airline-0.6.jar:/usr/share/cassandra/lib/antlr-runtime-3.5.2.jar:/usr/share/cassandra/lib/asm-5.0.4.jar:/usr/share/cassandra/lib/caffeine-2.2.6.jar:/usr/share/cassandra/lib/cassandra-driver-core-3.0.1-shaded.jar:/usr/share/cassandra/lib/commons-cli-1.1.jar:/usr/share/cassandra/lib/commons-codec-1.9.jar:/usr/share/cassandra/lib/commons-lang3-3.1.jar:/usr/share/cassandra/lib/commons-math3-3.2.jar:/usr/share/cassandra/lib/compress-lzf-0.8.4.jar:/usr/share/cassandra/lib/concurrentlinkedhashmap-lru-1.4.jar:/usr/share/cassandra/lib/concurrent-trees-2.4.0.jar:/usr/share/cassandra/lib/disruptor-3.0.1.jar:/usr/share/cassandra/lib/ecj-4.4.2.jar:/usr/share/cassandra/lib/guava-18.0.jar:/usr/share/cassandra/lib/HdrHistogram-2.1.9.jar:/usr/share/cassandra/lib/high-scale-lib-1.0.6.jar:/usr/share/cassandra/lib/hppc-0.5.4.jar:/usr/share/cassandra/lib/jackson-annotations-2.13.2.jar:/usr/share/cassandra/lib/jackson-core-2.13.2.jar:/usr/share/cassandra/lib/jackson-databind-2.13.2.2.jar:/usr/share/cassandra/lib/jamm-0.3.0.jar:/usr/share/cassandra/lib/javax.inject-1.jar:/usr/share/cassandra/lib/jbcrypt-0.4.jar:/usr/share/cassandra/lib/jcl-over-slf4j-1.7.25.jar:/usr/share/cassandra/lib/jctools-core-1.2.1.jar:/usr/share/cassandra/lib/jflex-1.6.0.jar:/usr/share/cassandra/lib/jna-4.2.2.jar:/usr/share/cassandra/lib/joda-time-2.4.jar:/usr/share/cassandra/lib/json-simple-1.1.jar:/usr/share/cassandra/lib/libthrift-0.9.2.jar:/usr/share/cassandra/lib/log4j-over-slf4j-1.7.25.jar:/usr/share/cassandra/lib/logback-classic-1.2.9.jar:/usr/share/cassandra/lib/logback-core-1.2.9.jar:/usr/share/cassandra/lib/lz4-1.3.0.jar:/usr/share/cassandra/lib/metrics-core-3.1.5.jar:/usr/share/cassandra/lib/metrics-jvm-3.1.5.jar:/usr/share/cassandra/lib/metrics-logback-3.1.5.jar:/usr/share/cassandra/lib/netty-all-4.0.44.Final.jar:/usr/share/cassandra/lib/ohc-core-0.4.4.jar:/usr/share/cassandra/lib/ohc-core-j8-0.4.4.jar:/usr/share/cassandra/lib/rep
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-***REMOVED***
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xb9d160], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xb9d160], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x965740], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: [libjvm.so+0x965740], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0x965740], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x965740], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x965a70], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: [libjvm.so+0x9659c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGINT: [libjvm.so+0x9659c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
@@ -450,16 +450,16 @@ SIGTERM: [libjvm.so+0x9659c0], sa_mask[0]=11111111011111111101111111111110, sa_f
 SIGQUIT: [libjvm.so+0x9659c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux release 8.7 (Ootpa)
 
-uname:Linux 4.18.0-425.3.1.el8.x86_64 ***REMOVED***1 SMP Fri Sep 30 11:45:06 EDT 2022 x86_64
-***REMOVED***
+uname:Linux 4.18.0-425.3.1.el8.x86_64 #1 SMP Fri Sep 30 11:45:06 EDT 2022 x86_64
+libc:glibc 2.28 NPTL 2.28 
 rlimit: STACK 8192k, CORE 0k, NPROC 32768, NOFILE 100000, AS infinity
 load average:0.24 0.06 0.03
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:        3502056 kB
 MemFree:         1265916 kB
 MemAvailable:    1799248 kB
@@ -472,12 +472,12 @@ Active(anon):      14376 kB
 Inactive(anon):  1334816 kB
 Active(file):     388244 kB
 Inactive(file):   319412 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
 Dirty:               200 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       1301732 kB
 Mapped:           116900 kB
 Shmem:             47076 kB
@@ -487,50 +487,50 @@ SReclaimable:      69528 kB
 SUnreclaim:        45592 kB
 KernelStack:        2640 kB
 PageTables:        10404 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:     1751028 kB
 Committed_AS:    1600500 kB
 VmallocTotal:   34359738367 kB
-***REMOVED***
-***REMOVED***
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
 Percpu:              584 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   1136640 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
-***REMOVED***
+Hugetlb:               0 kB
 DirectMap4k:      118720 kB
 DirectMap2M:     3551232 kB
 DirectMap1G:           0 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0
 cpu_memory_nodes: 0
 active_processor_count: 1
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 1232519168
 memory_max_usage_in_bytes: 1410420736
 
 
 CPU:total 1 (initial active 1) (1 cores per cpu, 1 threads per core) family 6 model 85 stepping 7, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85

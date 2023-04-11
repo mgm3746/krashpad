@@ -45,7 +45,7 @@ public class DeoptimizationEvent implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "Deoptimization events \\(\\d{1,***REMOVED*** events\\):";
+    public static final String _REGEX_HEADER = "Deoptimization events \\(\\d{1,} events\\):";
 
     /**
      * Regular expression defining the logging.
@@ -63,7 +63,7 @@ public class DeoptimizationEvent implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -78,22 +78,22 @@ public class DeoptimizationEvent implements LogEvent, HeaderEvent {
      */
     public DeoptimizationEvent(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

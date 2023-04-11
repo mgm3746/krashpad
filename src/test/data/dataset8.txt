@@ -1,26 +1,26 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007fd072dbc17c, pid=110589, tid=110601
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (11.0.7+10) (build 11.0.7+10-LTS)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (11.0.7+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
-***REMOVED*** Problematic frame:
-***REMOVED*** V  [libjvm.so+0xc5b17c]  compute_tree_cost(SwitchRange*, SwitchRange*, float)+0x23c
-***REMOVED***
-***REMOVED*** Core dump will be written. Default location: Core dumps may be processed with "/usr/libexec/abrt-hook-ccpp %s %c %p %u %g %t e %P %I %h" (or dumping to /u/search/app-replication/core.110589)
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007fd072dbc17c, pid=110589, tid=110601
+#
+# JRE version: OpenJDK Runtime Environment (11.0.7+10) (build 11.0.7+10-LTS)
+# Java VM: OpenJDK 64-Bit Server VM (11.0.7+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# V  [libjvm.so+0xc5b17c]  compute_tree_cost(SwitchRange*, SwitchRange*, float)+0x23c
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/libexec/abrt-hook-ccpp %s %c %p %u %g %t e %P %I %h" (or dumping to /u/search/app-replication/core.110589)
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
 
-***REMOVED***
+Dynamic libraries:
 
 7fd072161000-7fd0733ae000 r-xp 00000000 fd:00 10120317                   /usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/lib/server/libjvm.so
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)
-uname:Linux 3.10.0-1127.8.2.el7.x86_64 ***REMOVED***1 SMP Thu May 7 19:30:37 EDT 2020 x86_64
+uname:Linux 3.10.0-1127.8.2.el7.x86_64 #1 SMP Thu May 7 19:30:37 EDT 2020 x86_64
 OS uptime: 65 days 6:25 hours
 libc:glibc 2.17 NPTL 2.17
 rlimit: STACK 8192k, CORE 0k, NPROC 127883, NOFILE 65536, AS infinity, CPU infinity, DATA infinity, FSIZE infinity

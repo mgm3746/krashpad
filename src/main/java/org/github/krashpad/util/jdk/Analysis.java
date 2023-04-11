@@ -871,24 +871,24 @@ public enum Analysis {
 
     private Analysis(final String key) {
         this.key = key;
-    ***REMOVED***
+    }
 
     /**
      * @return Analysis property file key.
      */
     public String getKey() {
         return key;
-    ***REMOVED***
+    }
 
     /**
      * @return Analysis property file value.
      */
     public String getValue() {
         return ErrUtil.getPropertyValue(Constants.ANALYSIS_PROPERTY_FILE, key);
-    ***REMOVED***
+    }
 
     @Override
     public String toString() {
         return this.getKey();
-    ***REMOVED***
-***REMOVED***
+    }
+}

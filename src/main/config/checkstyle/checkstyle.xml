@@ -15,35 +15,35 @@
 
 <module name="Checker">
 	<!-- If you set the basedir property below, then all reported file names 
-		will be relative to the specified directory. See http://checkstyle.sourceforge.net/config.html***REMOVED***Checker 
-		<property name="basedir" value="${basedir***REMOVED***"/> -->
+		will be relative to the specified directory. See http://checkstyle.sourceforge.net/config.html#Checker 
+		<property name="basedir" value="${basedir}"/> -->
 
 	<!-- Checks for Headers -->
 	<!-- See http://checkstyle.sf.net/config_header.html -->
 	<module name="Header">
 		<!-- The follow property value demonstrates the ability -->
 		<!-- to have access to ANT properties. In this case it uses -->
-		<!-- the ${basedir***REMOVED*** property to allow Checkstyle to be run -->
+		<!-- the ${basedir} property to allow Checkstyle to be run -->
 		<!-- from any directory within a project. See property -->
 		<!-- expansion, -->
-		<!-- http://checkstyle.sf.net/config.html***REMOVED***properties -->
+		<!-- http://checkstyle.sf.net/config.html#properties -->
 		<property name="headerFile"
 			value="src/main/config/checkstyle/java.header" />
 		<property name="fileExtensions" value="java" />
 	</module>
 
 	<!-- Checks that a package-info.java file exists for each package. -->
-	<!-- See http://checkstyle.sf.net/config_javadoc.html***REMOVED***JavadocPackage -->
+	<!-- See http://checkstyle.sf.net/config_javadoc.html#JavadocPackage -->
 	<!-- <module name="JavadocPackage" /> -->
 	<!-- <property name="allowLegacy" value="true" /> -->
 	<!--</module> -->
 
 	<!-- Checks whether files end with a new line. -->
-	<!-- See http://checkstyle.sf.net/config_misc.html***REMOVED***NewlineAtEndOfFile -->
+	<!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
 	<!-- <module name="NewlineAtEndOfFile" /> -->
 
 	<!-- Checks that property files contain the same keys. -->
-	<!-- See http://checkstyle.sf.net/config_misc.html***REMOVED***Translation -->
+	<!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
 	<!-- <module name="Translation" /> -->
 
 	<!-- Checks for Size Violations. -->
@@ -134,7 +134,7 @@
 		<!--<module name="RedundantModifier" /> -->
 
 
-		<!-- Checks for blocks. You know, those {***REMOVED***'s -->
+		<!-- Checks for blocks. You know, those {}'s -->
 		<!-- See http://checkstyle.sf.net/config_blocks.html -->
 		<!--<module name="AvoidNestedBlocks" /> -->
 		<!--<module name="EmptyBlock" /> -->

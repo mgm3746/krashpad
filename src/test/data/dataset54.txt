@@ -1,28 +1,28 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007f50045c8d66, pid=33440, tid=0x00007f5029229700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.191-b12 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** C  [libfreetype.so.6+0x2bd66]
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
-***REMOVED*** See problematic frame for where to report the bug.
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f50045c8d66, pid=33440, tid=0x00007f5029229700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)
+# Java VM: OpenJDK 64-Bit Server VM (25.191-b12 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# C  [libfreetype.so.6+0x2bd66]
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f50f0020800):  JavaThread "default task-50" [_thread_in_native, id=96495, stack(0x00007f5029129000,0x00007f502922a000)]
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x00000000000000e0
 
-***REMOVED***
+Registers:
 RAX=0x0000000000000000, RBX=0x00007f50292251a0, RCX=0x00007f5029224f40, RDX=0x0000000000000015
 RSP=0x00007f5029224f40, RBP=0x00007f50a8050e80, RSI=0x0000000000000000, RDI=0x00007f50a8050e80
 R8 =0x00007f5029224f44, R9 =0x00000000000000ec, R10=0x00007f51440639c0, R11=0x00007f51441fd440
@@ -70,7 +70,7 @@ Instructions: (pc=0x00007f50045c8d66)
 0x00007f50045c8d66:   ff 90 e0 00 00 00 48 8b 53 58 48 8d 4c 24 02 4c
 0x00007f50045c8d76:   8d 44 24 06 44 89 e6 48 89 ef e8 fb fe ff ff 4c 
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x0000000000000000 is an unknown value
 RBX=0x00007f50292251a0 is pointing into the stack for thread: 0x00007f50f0020800
@@ -91,7 +91,7 @@ R15=0x0000000000000000 is an unknown value
 
 
 Stack: [0x00007f5029129000,0x00007f502922a000],  sp=0x00007f5029224f40,  free space=1007k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 C  [libfreetype.so.6+0x2bd66]
 
 Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
@@ -174,9 +174,9 @@ j  java.util.concurrent.ThreadPoolExecutor$Worker.run()V+5
 j  java.lang.Thread.run()V+11
 v  ~StubRoutines::call_stub
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007f50f4010800 JavaThread "logback-8" daemon [_thread_blocked, id=107311, stack(0x00007f50030fa000,0x00007f50031fb000)]
   0x00007f50640a3000 JavaThread "logback-7" daemon [_thread_blocked, id=86069, stack(0x00007f500365f000,0x00007f5003760000)]
   0x00007f50300df800 JavaThread "logback-6" daemon [_thread_blocked, id=113681, stack(0x00007f5003960000,0x00007f5003a61000)]
@@ -390,38 +390,38 @@ v  ~StubRoutines::call_stub
   0x00007f513c235800 JavaThread "Finalizer" daemon [_thread_blocked, id=33468, stack(0x00007f510dde6000,0x00007f510dee7000)]
   0x00007f513c230800 JavaThread "Reference Handler" daemon [_thread_blocked, id=33467, stack(0x00007f510dee7000,0x00007f510dfe8000)]
 
-***REMOVED***
+Other Threads:
   0x00007f513c227000 VMThread [stack: 0x00007f510dfe9000,0x00007f510e0e9000] [id=33466]
   0x00007f513c27b800 WatcherThread [stack: 0x00007f510d6e0000,0x00007f510d7e0000] [id=33483]
 
-***REMOVED***
+VM state:not at safepoint (normal execution)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
 
-***REMOVED***
+Dynamic libraries:
 7f5143072000-7f5143d66000 r-xp 00000000 fd:07 131120                     /opt/jboss/jdk/lib/amd64/server/libjvm.so
 
 
-***REMOVED***
+VM Arguments:
 jvm_args: -D[Standalone] -verbose:gc -Xloggc:/path/to/gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -Xms2048m -Xmx5120m -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -XX:+UseParallelGC -XX:+ExplicitGCInvokesConcurrent -XX:-HeapDumpOnOutOfMemoryError -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000
 java_command: /opt/jboss/jboss-eap-7.0/jboss-modules.jar
 java_class_path (initial): /opt/jboss/jboss-eap-7.0/jboss-modules.jar
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 JAVA_HOME=/opt/jboss/jdk
 PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/jboss/.local/bin:/home/jboss/bin
-***REMOVED***
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xadb250], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xadb250], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x8cb1b0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGXFSZ: [libjvm.so+0x8cb1b0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x8cb1b0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x8cb060], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -429,16 +429,16 @@ SIGTERM: [libjvm.so+0x8cb270], sa_mask[0]=11111111011111111101111111111110, sa_f
 SIGQUIT: [libjvm.so+0x8cb270], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
 
-uname:Linux 3.10.0-1062.26.1.el7.x86_64 ***REMOVED***1 SMP Tue May 26 15:16:00 EDT 2020 x86_64
+uname:Linux 3.10.0-1062.26.1.el7.x86_64 #1 SMP Tue May 26 15:16:00 EDT 2020 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE 0k, NPROC infinity, NOFILE 65536, AS infinity
 load average:0.17 0.26 0.26
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       32761684 kB
 MemFree:          836524 kB
 MemAvailable:   10711724 kB
@@ -451,12 +451,12 @@ Active(anon):   19278232 kB
 Inactive(anon):  1817360 kB
 Active(file):    4421452 kB
 Inactive(file):  1087540 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:       8294396 kB
 SwapFree:        7887100 kB
 Dirty:              1296 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:      19476108 kB
 Mapped:           133644 kB
 Shmem:           1608076 kB
@@ -465,46 +465,46 @@ SReclaimable:    4768968 kB
 SUnreclaim:       110016 kB
 KernelStack:       30240 kB
 PageTables:        56500 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    24675236 kB
 Committed_AS:   29291240 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      236636 kB
 VmallocChunk:   34359310332 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:  10348544 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      132928 kB
 DirectMap2M:     6158336 kB
 DirectMap1G:    29360128 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-7
 cpu_memory_nodes: 0
 active_processor_count: 8
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 27239145472
 memory_max_usage_in_bytes: 0
 
 
 CPU:total 8 (initial active 8) (8 cores per cpu, 1 threads per core) family 6 model 79 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, tsc, tscinvbit, bmi1, bmi2, adx
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -530,7 +530,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -556,7 +556,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -582,7 +582,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -608,7 +608,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 4
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -634,7 +634,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 5
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -660,7 +660,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 6
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -686,7 +686,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 7
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79

@@ -52,7 +52,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  *   object space 349696K, 1% used [0x00000000c0000000,0x00000000c06311f0,0x00000000d5580000)
  *  Metaspace       used 19510K, capacity 21116K, committed 21248K, reserved 1069056K
  *   class space    used 1971K, capacity 2479K, committed 2560K, reserved 1048576K
- * ***REMOVED***
+ * }
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -63,15 +63,15 @@ public class GcHeapHistoryEvent implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "GC Heap History \\(\\d{1,***REMOVED*** events\\):";
+    public static final String _REGEX_HEADER = "GC Heap History \\(\\d{1,} events\\):";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.YOUNG_GEN + "|" + JdkRegEx.OLD_GEN + "|"
             + JdkRegEx.SHENANDOAH + "|" + JdkRegEx.G1 + "|" + JdkRegEx.METASPACE
-            + "|[\\{]{0,1***REMOVED***Heap (after|before) GC.+|Event: " + JdkRegEx.TIMESTAMP
-            + " GC heap (after|before)|\\***REMOVED***|No [Ee]vents)$";
+            + "|[\\{]{0,1}Heap (after|before) GC.+|Event: " + JdkRegEx.TIMESTAMP
+            + " GC heap (after|before)|\\}|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -82,7 +82,7 @@ public class GcHeapHistoryEvent implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -97,57 +97,57 @@ public class GcHeapHistoryEvent implements LogEvent, HeaderEvent {
      */
     public GcHeapHistoryEvent(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return true if the log line contains G1 heap information, false otherwise.
      */
     public boolean isG1() {
         return logEntry.matches(JdkRegEx.G1_SIZE);
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
+    }
 
     /**
      * @return true if the log line contains metaspace information, false otherwise.
      */
     public boolean isMetaspace() {
         return logEntry.matches(JdkRegEx.METASPACE_SIZE);
-    ***REMOVED***
+    }
 
     /**
      * @return true if the log line contains old generation heap information, false otherwise.
      */
     public boolean isOldGen() {
         return logEntry.matches(JdkRegEx.OLD_GEN_SIZE);
-    ***REMOVED***
+    }
 
     /**
      * @return true if the log line contains Shenandoah heap information, false otherwise.
      */
     public boolean isShenandoah() {
         return logEntry.matches(JdkRegEx.SHENANDOAH_SIZE);
-    ***REMOVED***
+    }
 
     /**
      * @return true if the log line contains young generation heap information, false otherwise.
      */
     public boolean isYoungGen() {
         return logEntry.matches(JdkRegEx.YOUNG_GEN_SIZE);
-    ***REMOVED***
-***REMOVED***
+    }
+}

@@ -56,7 +56,7 @@ public class Timezone implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -71,22 +71,22 @@ public class Timezone implements LogEvent {
      */
     public Timezone(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.TIME.toString();
-    ***REMOVED***
+    }
 
     public String getTimezone() {
         String timezone = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             timezone = matcher.group(1);
-        ***REMOVED***
+        }
         return timezone;
-    ***REMOVED***
-***REMOVED***
+    }
+}

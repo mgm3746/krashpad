@@ -32,7 +32,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * ***REMOVED***
+ * Register to memory mapping:
  * 
  * RAX=0x0000000000000001 is an unknown value
  * RBX=0x00007f67383dc748 is an unknown value
@@ -61,18 +61,18 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "***REMOVED***";
+    private static final String _REGEX_HEADER = "Register to memory mapping:";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.REGISTER
-            + "|Adapter for signature:.+|\\[[BCIL]([a-z]{1,***REMOVED***\\..+)?|BufferBlob.+|\\[CodeBlob.+|Framesize.+|"
+            + "|Adapter for signature:.+|\\[[BCIL]([a-z]{1,}\\..+)?|BufferBlob.+|\\[CodeBlob.+|Framesize.+|"
             + " - (klass|length):.+|\\{" + JdkRegEx.ADDRESS
-            + "\\***REMOVED*** - klass:.+|([R|r][ ]{0,1***REMOVED***\\d{1,2***REMOVED***[ ]{0,1***REMOVED***|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
+            + "\\} - klass:.+|([R|r][ ]{0,1}\\d{1,2}[ ]{0,1}|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
             + "\\[error occurred during error reporting \\(printing register info\\).+|exception handling.+|"
             + "invoke return entry points.+|method entry point.+|(i)?return.+|StubRoutines.+|"
-            + "([a-zA-Z]\\.{0,1***REMOVED***){1,***REMOVED***)[ ]{0,***REMOVED***$";
+            + "([a-zA-Z]\\.{0,1}){1,})[ ]{0,}$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -83,7 +83,7 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -98,22 +98,22 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
      */
     public RegisterToMemoryMapping(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

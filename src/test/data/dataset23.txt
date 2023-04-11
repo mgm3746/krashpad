@@ -1,27 +1,27 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007fa2a4353667, pid=25779, tid=0x00007fa1bf13b700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_222-b03) (build 1.8.0_222-ea-b03)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.222-b03 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** C  [libc.so.6+0x14d667]  __memcpy_ssse3+0xb57
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
-***REMOVED*** See problematic frame for where to report the bug.
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007fa2a4353667, pid=25779, tid=0x00007fa1bf13b700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_222-b03) (build 1.8.0_222-ea-b03)
+# Java VM: OpenJDK 64-Bit Server VM (25.222-b03 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# C  [libc.so.6+0x14d667]  __memcpy_ssse3+0xb57
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007fa29d232800):  JavaThread "domain-10" daemon [_thread_in_native, id=25945, stack(0x00007fa1bf03b000,0x00007fa1bf13c000)]
 
 Stack: [0x00007fa1bf03b000,0x00007fa1bf13c000],  sp=0x00007fa1bf138608,  free space=1013k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 C  [libc.so.6+0x14d667]  __memcpy_ssse3+0xb57
 C  [libzip.so+0x6034]  ZIP_GetEntry2+0xf4
 C  [libzip.so+0x3c1d]  Java_java_util_zip_ZipFile_getEntry+0xfd
@@ -104,9 +104,9 @@ j  jeus.servlet.engine.WebThreadPoolExecutor$WebRequestWorker.run()V+1
 j  java.lang.Thread.run()V+11
 v  ~StubRoutines::call_stub
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x0000000001e46800 JavaThread "System-Clustering-Framework-21" daemon [_thread_blocked, id=30067, stack(0x00007fa204dce000,0x00007fa204ecf000)]
   0x0000000001e47000 JavaThread "System-Clustering-Framework-20" daemon [_thread_blocked, id=29607, stack(0x00007fa2040c1000,0x00007fa2041c2000)]
   0x00007fa20c008000 JavaThread "Thread-33" daemon [_thread_blocked, id=28392, stack(0x00007fa206bee000,0x00007fa206cef000)]
@@ -156,11 +156,11 @@ v  ~StubRoutines::call_stub
   0x00007fa1e4047000 JavaThread "TimerChecker" daemon [_thread_blocked, id=25911, stack(0x00007fa1c1d52000,0x00007fa1c1e53000)]
   0x00007fa208653800 JavaThread "distributed-session-backup-thread" daemon [_thread_blocked, id=25910, stack(0x00007fa1c1f54000,0x00007fa1c2055000)]
   0x00007fa1e400e000 JavaThread "RealtimeCheckupThread" daemon [_thread_blocked, id=25909, stack(0x00007fa1c174e000,0x00007fa1c184f000)]
-  0x00007fa2085f6000 JavaThread "Plugin{interface***REMOVED***" daemon [_thread_blocked, id=25908, stack(0x00007fa1c1a4f000,0x00007fa1c1b50000)]
-  0x00007fa2085f4000 JavaThread "Plugin{McCubeCustomerEnvPlugin***REMOVED***" daemon [_thread_blocked, id=25907, stack(0x00007fa1c1b50000,0x00007fa1c1c51000)]
-  0x00007fa2085f2000 JavaThread "Plugin{TransferServicePlugin***REMOVED***" daemon [_thread_blocked, id=25906, stack(0x00007fa1c1c51000,0x00007fa1c1d52000)]
-  0x00007fa1d45c5800 JavaThread "ProxyWorker***REMOVED***2" daemon [_thread_blocked, id=25900, stack(0x00007fa1c2055000,0x00007fa1c2156000)]
-  0x00007fa1d45c4000 JavaThread "ProxyWorker***REMOVED***1" daemon [_thread_blocked, id=25899, stack(0x00007fa1c2156000,0x00007fa1c2257000)]
+  0x00007fa2085f6000 JavaThread "Plugin{interface}" daemon [_thread_blocked, id=25908, stack(0x00007fa1c1a4f000,0x00007fa1c1b50000)]
+  0x00007fa2085f4000 JavaThread "Plugin{McCubeCustomerEnvPlugin}" daemon [_thread_blocked, id=25907, stack(0x00007fa1c1b50000,0x00007fa1c1c51000)]
+  0x00007fa2085f2000 JavaThread "Plugin{TransferServicePlugin}" daemon [_thread_blocked, id=25906, stack(0x00007fa1c1c51000,0x00007fa1c1d52000)]
+  0x00007fa1d45c5800 JavaThread "ProxyWorker#2" daemon [_thread_blocked, id=25900, stack(0x00007fa1c2055000,0x00007fa1c2156000)]
+  0x00007fa1d45c4000 JavaThread "ProxyWorker#1" daemon [_thread_blocked, id=25899, stack(0x00007fa1c2156000,0x00007fa1c2257000)]
   0x00007fa2085e6000 JavaThread "MBeanResponseReader[Socket[addr=/127.0.0.1,port=3543,localport=58952]]" daemon [_thread_blocked, id=25896, stack(0x00007fa1c2257000,0x00007fa1c2358000)]
   0x00007fa2085d7000 JavaThread "MBeanSelector" daemon [_thread_in_native, id=25895, stack(0x00007fa1c2358000,0x00007fa1c2459000)]
   0x00007fa2085d5800 JavaThread "HelthChecker" daemon [_thread_blocked, id=25894, stack(0x00007fa1c2459000,0x00007fa1c255a000)]
@@ -244,19 +244,19 @@ v  ~StubRoutines::call_stub
   0x00007fa29c21f000 JavaThread "Reference Handler" daemon [_thread_blocked, id=25790, stack(0x00007fa27f8f9000,0x00007fa27f9fa000)]
   0x00007fa29c062000 JavaThread "jeus.server.Server [t-1] [call_P203-1]" [_thread_blocked, id=25782, stack(0x00007fa2a4f1e000,0x00007fa2a501e000)]
 
-***REMOVED***
+Other Threads:
   0x00007fa29c215000 VMThread [stack: 0x00007fa27f9fb000,0x00007fa27fafb000] [id=25789]
   0x00007fa29c4ef800 WatcherThread [stack: 0x00007fa27ebcb000,0x00007fa27eccb000] [id=25802]
 
-***REMOVED***
+VM state:not at safepoint (normal execution)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
 heap address: 0x00000000c0000000, size: 1024 MB, Compressed Oops mode: 32-bit
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
 Compressed class space size: 1073741824 Address: 0x0000000100000000
 
-***REMOVED***
+Heap:
  PSYoungGen      total 295936K, used 102999K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
   eden space 247808K, 36% used [0x00000000eab00000,0x00000000f0474650,0x00000000f9d00000)
   from space 48128K, 23% used [0x00000000fd100000,0x00000000fdc21650,0x0000000100000000)
@@ -277,26 +277,26 @@ Polling page: 0x00007fa2a5038000
 CodeCache: size=245760Kb used=37495Kb max_used=37495Kb free=208264Kb
  bounds [0x00007fa287170000, 0x00007fa289650000, 0x00007fa296170000]
  total_blobs=10468 nmethods=9889 adapters=493
-***REMOVED***
+ compilation: enabled
 
 
-***REMOVED***
+Dynamic libraries:
 
 7fa2a3215000-7fa2a3efd000 r-xp 00000000 fd:00 67733944                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b03-1.el7.x86_64/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Dcall_P203 -Xms1024m -Xmx1024m -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -Xloggc:/path/to/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/  -XX:+UnlockDiagnosticVMOptions -XX:+LogVMOutput -XX:LogFile=/path/to/jvm.log 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.7 (Maipo)
 
-uname:Linux 3.10.0-1062.el7.x86_64 ***REMOVED***1 SMP Thu Jul 18 20:25:13 UTC 2019 x86_64
+uname:Linux 3.10.0-1062.el7.x86_64 #1 SMP Thu Jul 18 20:25:13 UTC 2019 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE 0k, NPROC 1024, NOFILE 4096, AS infinity
 load average:0.02 0.87 0.96
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       26551248 kB
 MemFree:         1535720 kB
 MemAvailable:   18600016 kB
@@ -309,12 +309,12 @@ Active(anon):    5522200 kB
 Inactive(anon):  1080004 kB
 Active(file):    8281740 kB
 Inactive(file):  8369016 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:       7815164 kB
 SwapFree:        7809268 kB
 Dirty:               448 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       5924608 kB
 Mapped:           865312 kB
 Shmem:            677796 kB
@@ -323,46 +323,46 @@ SReclaimable:     792032 kB
 SUnreclaim:       263180 kB
 KernelStack:       36160 kB
 PageTables:        38436 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    21090788 kB
 Committed_AS:   10553600 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      145116 kB
 VmallocChunk:   34359585788 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:    397312 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      231268 kB
 DirectMap2M:     9205760 kB
 DirectMap1G:    19922944 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-5
 cpu_memory_nodes: 0
 active_processor_count: 6
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 23811358720
 memory_max_usage_in_bytes: 0
 
 
 CPU:total 6 (initial active 6) (1 cores per cpu, 1 threads per core) family 15 model 6 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 15
 model		: 6
@@ -388,7 +388,7 @@ cache_alignment	: 128
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 15
 model		: 6
@@ -414,7 +414,7 @@ cache_alignment	: 128
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 15
 model		: 6
@@ -440,7 +440,7 @@ cache_alignment	: 128
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 15
 model		: 6
@@ -466,7 +466,7 @@ cache_alignment	: 128
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 4
 vendor_id	: GenuineIntel
 cpu family	: 15
 model		: 6
@@ -492,7 +492,7 @@ cache_alignment	: 128
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 5
 vendor_id	: GenuineIntel
 cpu family	: 15
 model		: 6

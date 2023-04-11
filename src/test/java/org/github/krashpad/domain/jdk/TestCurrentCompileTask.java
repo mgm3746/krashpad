@@ -30,21 +30,21 @@ class TestCurrentCompileTask {
         String logLine = "C1:    234  385       3       org.jboss.modules.xml.MXParser::nextImpl (1195 bytes)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
                 JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeader() {
         String logLine = "Current CompileTask:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
                 JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         String logLine = "C2:   1092  423       4       java.util.HashMap$KeyIterator::next (8 bytes)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
                 JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMethodAttributes() {
@@ -52,12 +52,12 @@ class TestCurrentCompileTask {
                 + "(1429 bytes)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
                 JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "C2:   1092  423       4       java.util.HashMap$KeyIterator::next (8 bytes)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CurrentCompileTask,
                 JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

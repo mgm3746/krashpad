@@ -30,19 +30,19 @@ class TestPidMax {
         String logLine = "/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.PID_MAX,
                 JdkUtil.LogEventType.PID_MAX.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk17() {
         String logLine = "/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers): 4194304";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.PID_MAX,
                 JdkUtil.LogEventType.PID_MAX.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof PidMax,
                 JdkUtil.LogEventType.PID_MAX.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

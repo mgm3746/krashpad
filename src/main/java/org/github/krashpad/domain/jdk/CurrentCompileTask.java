@@ -46,7 +46,7 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the compile id, sequentially incremented with every new compile.
      */
-    private static final String _ID = "\\d{1,***REMOVED***";
+    private static final String _ID = "\\d{1,}";
 
     /**
      * Regular expression for the compilation level (0-4).
@@ -61,13 +61,13 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
      * 
      * 4: C2 compiler (maximum performance).
      */
-    private static final String _LEVEL = "\\d{1,***REMOVED***";
+    private static final String _LEVEL = "\\d{1,}";
 
     /**
      * Regular expression for the attributes of the method being compiled.
      * 
      * https://github.com/openjdk/jdk/blob/6d30bbe62c10af0f2c80cb1eaac3d171fb7bffcb/src/hotspot/share/compiler/
-     * compileTask.cpp***REMOVED***L227-L260
+     * compileTask.cpp#L227-L260
      * 
      * %: osr compilation (compilation was triggered by some loop rather than on method entry).
      * 
@@ -89,13 +89,13 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the compile timestamp.
      */
-    private static final String _TIMESTAMP = "\\d{1,***REMOVED***";
+    private static final String _TIMESTAMP = "\\d{1,}";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|C[12]:[ ]{1,***REMOVED***" + _TIMESTAMP + "[ ]{1,***REMOVED***" + _ID
-            + "[ ]{1,***REMOVED***" + _METHOD_ATTRIBUTE + "{0,***REMOVED***[ ]{1,***REMOVED***" + _LEVEL + ".+)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|C[12]:[ ]{1,}" + _TIMESTAMP + "[ ]{1,}" + _ID
+            + "[ ]{1,}" + _METHOD_ATTRIBUTE + "{0,}[ ]{1,}" + _LEVEL + ".+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -106,7 +106,7 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -121,22 +121,22 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
      */
     public CurrentCompileTask(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

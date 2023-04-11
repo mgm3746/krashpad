@@ -47,7 +47,7 @@ public class ClassesRedefinedEvent implements LogEvent, ThrowAwayEvent, HeaderEv
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "Classes redefined \\(\\d{1,***REMOVED*** events\\):";
+    public static final String _REGEX_HEADER = "Classes redefined \\(\\d{1,} events\\):";
 
     /**
      * Regular expression defining the logging.
@@ -64,7 +64,7 @@ public class ClassesRedefinedEvent implements LogEvent, ThrowAwayEvent, HeaderEv
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -79,22 +79,22 @@ public class ClassesRedefinedEvent implements LogEvent, ThrowAwayEvent, HeaderEv
      */
     public ClassesRedefinedEvent(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

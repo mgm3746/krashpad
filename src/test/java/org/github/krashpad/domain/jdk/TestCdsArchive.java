@@ -31,7 +31,7 @@ class TestCdsArchive {
                 + "12460032, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CDS_ARCHIVE,
                 JdkUtil.LogEventType.CDS_ARCHIVE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -39,5 +39,5 @@ class TestCdsArchive {
                 + "12460032, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CdsArchive,
                 JdkUtil.LogEventType.CDS_ARCHIVE.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

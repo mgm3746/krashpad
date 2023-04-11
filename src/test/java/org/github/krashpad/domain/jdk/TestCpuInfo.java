@@ -39,7 +39,7 @@ class TestCpuInfo {
         String logLine = "address sizes   : 39 bits physical, 48 bits virtual";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testApicid() {
@@ -47,7 +47,7 @@ class TestCpuInfo {
         String logLine = "apicid          : 0";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAvailableCpuFrequencies() {
@@ -55,7 +55,7 @@ class TestCpuInfo {
         String logLine = "Available cpu frequencies: <Not Available>";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAvailableCpuFrequenciesHeader() {
@@ -63,7 +63,7 @@ class TestCpuInfo {
         String logLine = "Available cpu frequencies:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAvailableGovernors() {
@@ -71,7 +71,7 @@ class TestCpuInfo {
         String logLine = "Available governors:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testBiosFrequencyLimitation() {
@@ -79,7 +79,7 @@ class TestCpuInfo {
         String logLine = "BIOS frequency limitation: <Not Available>";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testBiosFrequencyLimitationHeader() {
@@ -87,7 +87,7 @@ class TestCpuInfo {
         String logLine = "BIOS frequency limitation:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testBogomips() {
@@ -95,7 +95,7 @@ class TestCpuInfo {
         String logLine = "bogomips        : 5808.00";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testBugs() {
@@ -103,7 +103,7 @@ class TestCpuInfo {
         String logLine = "bugs            : cpu_meltdown spectre_v1 spectre_v2";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCacheAlignment() {
@@ -111,7 +111,7 @@ class TestCpuInfo {
         String logLine = "cache_alignment : 64";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCacheCoherencyLineSize() {
@@ -119,7 +119,7 @@ class TestCpuInfo {
         String logLine = "cache coherency line size:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCacheLevel() {
@@ -127,7 +127,7 @@ class TestCpuInfo {
         String logLine = "cache level:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCacheSize() {
@@ -135,7 +135,7 @@ class TestCpuInfo {
         String logLine = "cache size      : 4096 KB";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCacheSizeSlitFirstLine() {
@@ -143,7 +143,7 @@ class TestCpuInfo {
         String logLine = "cache size:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCacheType() {
@@ -151,7 +151,7 @@ class TestCpuInfo {
         LogEvent priorEvent = new CpuInfo("");
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testClflushSize() {
@@ -159,7 +159,7 @@ class TestCpuInfo {
         String logLine = "clflush size    : 64";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testClock() {
@@ -167,7 +167,7 @@ class TestCpuInfo {
         String logLine = "clock           : 2500.000000MHz";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCoreId() {
@@ -175,7 +175,7 @@ class TestCpuInfo {
         String logLine = "core id         : 0";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCorePerformanceTurboBoost() {
@@ -183,7 +183,7 @@ class TestCpuInfo {
         String logLine = "Core performance/turbo boost: <Not Available>";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCorePerformanceTurboBoostHeader() {
@@ -191,7 +191,7 @@ class TestCpuInfo {
         String logLine = "Core performance/turbo boost:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpu() {
@@ -199,7 +199,7 @@ class TestCpuInfo {
         String logLine = "cpu             : POWER9 (architected), altivec supported";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuCores() {
@@ -207,7 +207,7 @@ class TestCpuInfo {
         String logLine = "cpu cores       : 2";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuFamily() {
@@ -215,7 +215,7 @@ class TestCpuInfo {
         String logLine = "cpu family      : 6";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuHeaderWithCoresWithThreads() {
@@ -227,7 +227,7 @@ class TestCpuInfo {
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
         CpuInfo event = new CpuInfo(logLine);
         assertTrue(event.isCpuHeader(), "CPU header not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuHeaderWithoutCoresWithoutThreads() {
@@ -238,7 +238,7 @@ class TestCpuInfo {
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
         CpuInfo event = new CpuInfo(logLine);
         assertTrue(event.isCpuHeader(), "CPU header not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuHeaderWithoutInitialActiveWithCoresWithThreads() {
@@ -249,7 +249,7 @@ class TestCpuInfo {
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
         CpuInfo event = new CpuInfo(logLine);
         assertTrue(event.isCpuHeader(), "CPU header not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuIdentifier() {
@@ -257,7 +257,7 @@ class TestCpuInfo {
         String logLine = "10-65";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuidLevel() {
@@ -265,15 +265,15 @@ class TestCpuInfo {
         String logLine = "cpuid level     : 22";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuInfo() {
         LogEvent priorEvent = new CpuInfo("");
-        String logLine = "***REMOVED***";
+        String logLine = "/proc/cpuinfo:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuJdk17() {
@@ -286,7 +286,7 @@ class TestCpuInfo {
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
         CpuInfo event = new CpuInfo(logLine);
         assertTrue(event.isCpuHeader(), "CPU header not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuMhz() {
@@ -294,7 +294,7 @@ class TestCpuInfo {
         String logLine = "cpu MHz         : 3630.932";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuModel() {
@@ -302,15 +302,15 @@ class TestCpuInfo {
         String logLine = "model           : 142";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuModelAndFlagsFrom() {
         LogEvent priorEvent = new CpuInfo("");
-        String logLine = "CPU Model and flags from ***REMOVED***";
+        String logLine = "CPU Model and flags from /proc/cpuinfo:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCpuModelName() {
@@ -318,7 +318,7 @@ class TestCpuInfo {
         String logLine = "model name      : Intel(R) Core(TM) i7-7600U CPU @ 2.80GHz";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentGovernor() {
@@ -326,7 +326,7 @@ class TestCpuInfo {
         String logLine = "Current governor: performance";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentGovernorHeader() {
@@ -334,7 +334,7 @@ class TestCpuInfo {
         String logLine = "Current governor:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentGovernorOnDemand() {
@@ -342,7 +342,7 @@ class TestCpuInfo {
         String logLine = "ondemand";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentGovernorPerformance() {
@@ -350,7 +350,7 @@ class TestCpuInfo {
         String logLine = "performance";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentThread() {
@@ -361,7 +361,7 @@ class TestCpuInfo {
                 "JavaThread \"ajp-/hostname:8109-16\" daemon [_thread_in_native, id=112672, "
                         + "stack(0x00007f11e11a2000,0x00007f11e12a3000)]",
                 fel.getCurrentThreadName(), "Current thread not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testData() {
@@ -369,7 +369,7 @@ class TestCpuInfo {
         String logLine = "Data";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testExtensiveErrorReportsMultiLine() {
@@ -378,7 +378,7 @@ class TestCpuInfo {
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testFlags() {
@@ -386,7 +386,7 @@ class TestCpuInfo {
         String logLine = "flags           : fpu vme de pse tsc msr ";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testfpu() {
@@ -394,7 +394,7 @@ class TestCpuInfo {
         String logLine = "fpu             : yes";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testFpuException() {
@@ -402,7 +402,7 @@ class TestCpuInfo {
         String logLine = "fpu_exception   : yes";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testFrequencySwitchLatency() {
@@ -410,7 +410,7 @@ class TestCpuInfo {
         String logLine = "Frequency switch latency (ns): 0";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testFrequencySwitchLatencyHeader() {
@@ -418,7 +418,7 @@ class TestCpuInfo {
         String logLine = "Frequency switch latency (ns):";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
@@ -427,7 +427,7 @@ class TestCpuInfo {
                 + "aes vpmsumb mfdscr vsx sha";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testInitialApicid() {
@@ -435,7 +435,7 @@ class TestCpuInfo {
         String logLine = "initial apicid  : 0";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMachine() {
@@ -443,7 +443,7 @@ class TestCpuInfo {
         String logLine = "machine     : CHRP IBM,9008-22L";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMaximumCputFrequency() {
@@ -451,7 +451,7 @@ class TestCpuInfo {
         String logLine = "Maximum cpu frequency:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMicrocode() {
@@ -459,7 +459,7 @@ class TestCpuInfo {
         String logLine = "microcode       : 0xd6";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMmu() {
@@ -467,7 +467,7 @@ class TestCpuInfo {
         String logLine = "MMU     : Hash";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testModel() {
@@ -475,7 +475,7 @@ class TestCpuInfo {
         String logLine = "model       : IBM,9008-22L";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testModelName() {
@@ -483,7 +483,7 @@ class TestCpuInfo {
         String logLine = "model name  : Intel(R) Core(TM) i7-10850H CPU @ 2.70GHz";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNotAvailable() {
@@ -491,7 +491,7 @@ class TestCpuInfo {
         String logLine = "<Not Available>";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNumber7() {
@@ -499,7 +499,7 @@ class TestCpuInfo {
         String logLine = "4899871";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOfflineCpus() {
@@ -507,7 +507,7 @@ class TestCpuInfo {
         String logLine = "Offline cpus:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOnlineCpus() {
@@ -515,7 +515,7 @@ class TestCpuInfo {
         String logLine = "Online cpus: 0-11";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOnlineCpusHeader() {
@@ -523,7 +523,7 @@ class TestCpuInfo {
         String logLine = "Online cpus:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -532,7 +532,7 @@ class TestCpuInfo {
                 + "aes vpmsumb mfdscr vsx sha";
         assertTrue(JdkUtil.parseLogLine(logLine, priorEvent) instanceof CpuInfo,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testPerformancePorwersave() {
@@ -540,7 +540,7 @@ class TestCpuInfo {
         String logLine = "performance powersave";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testPhysicalId() {
@@ -548,7 +548,7 @@ class TestCpuInfo {
         String logLine = "physical id     : 0";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testPlatform() {
@@ -556,7 +556,7 @@ class TestCpuInfo {
         String logLine = "platform    : pSeries";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testPowerManagement() {
@@ -564,7 +564,7 @@ class TestCpuInfo {
         String logLine = "power management:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testProcessor() {
@@ -572,7 +572,7 @@ class TestCpuInfo {
         String logLine = "processor       : 0";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRevision() {
@@ -580,7 +580,7 @@ class TestCpuInfo {
         String logLine = "revision        : 2.2 (pvr 004e 0202)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSiblings() {
@@ -588,7 +588,7 @@ class TestCpuInfo {
         String logLine = "siblings        : 4";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testStepping() {
@@ -596,7 +596,7 @@ class TestCpuInfo {
         String logLine = "stepping        : 9";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testTimebase() {
@@ -604,7 +604,7 @@ class TestCpuInfo {
         String logLine = "timebase    : 512000000";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testTlbSize() {
@@ -612,7 +612,7 @@ class TestCpuInfo {
         String logLine = "TLB size        : 2560 4K pages";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testValuePowerSave() {
@@ -620,7 +620,7 @@ class TestCpuInfo {
         String logLine = "powersave";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVendorId() {
@@ -628,7 +628,7 @@ class TestCpuInfo {
         String logLine = "vendor_id       : GenuineIntel";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testWp() {
@@ -636,5 +636,5 @@ class TestCpuInfo {
         String logLine = "wp              : yes";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

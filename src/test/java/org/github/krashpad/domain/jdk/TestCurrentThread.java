@@ -36,7 +36,7 @@ class TestCurrentThread {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals("JavaThread \"main\" [_thread_blocked, id=29301, stack(0xffc15000,0xffc65000)]",
                 ((CurrentThread) event).getThreadName(), "Current thread not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentThreadCompilerThread() {
@@ -48,7 +48,7 @@ class TestCurrentThread {
                         + "stack(0x00007f1572d1f000,0x00007f1572e20000)]",
                 ((CurrentThread) event).getThreadName(), "Current thread not correct.");
         assertTrue(event.isCompilerThread(), "CompilerThread not identified");
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentThreadIsNativeThread() {
@@ -57,7 +57,7 @@ class TestCurrentThread {
                 JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals("is native thread", ((CurrentThread) event).getThreadName());
-    ***REMOVED***
+    }
 
     @Test
     void testCurrentThreadVmOperation() {
@@ -67,7 +67,7 @@ class TestCurrentThread {
         assertEquals("VMThread \"VM Thread\" [stack: 0x0000008e27a00000,0x0000008e27b00000] [id=19320]",
                 ((CurrentThread) event).getThreadName(), "Current thread not correct.");
         assertTrue(event.isVmThread(), "VMThread not identified");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
@@ -75,7 +75,7 @@ class TestCurrentThread {
                 + "[_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_THREAD,
                 JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -83,5 +83,5 @@ class TestCurrentThread {
                 + "[_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CurrentThread,
                 JdkUtil.LogEventType.CURRENT_THREAD.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

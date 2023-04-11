@@ -1,26 +1,26 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007f252d2d13aa, pid=4694, tid=0x00007f25159b4700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_265-b01) (build 1.8.0_265-b01)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.265-b01 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** V  [libjvm.so+0x8d63aa]  MetadataOnStackMark::~MetadataOnStackMark()+0xba
-***REMOVED***
-***REMOVED*** Core dump written. Default location: /home/jboss/core or core.4694
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f252d2d13aa, pid=4694, tid=0x00007f25159b4700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_265-b01) (build 1.8.0_265-b01)
+# Java VM: OpenJDK 64-Bit Server VM (25.265-b01 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# V  [libjvm.so+0x8d63aa]  MetadataOnStackMark::~MetadataOnStackMark()+0xba
+#
+# Core dump written. Default location: /home/jboss/core or core.4694
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x0000560e86c09000):  VMThread [stack: 0x00007f25158b5000,0x00007f25159b5000] [id=4701]
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x00007f24f82cc828
 
-***REMOVED***
+Registers:
 RAX=0x0000000000080000, RBX=0x000000000000003e, RCX=0x0000000000000001, RDX=0x0000000000080000
 RSP=0x00007f25159b2fb0, RBP=0x00007f25159b2fd0, RSI=0x0000000000000000, RDI=0x00007f24f82cc828
 R8 =0x0000000000000000, R9 =0x00007f252daa1e20, R10=0x0000000000000000, R11=0x0029ba8b4989a17d
@@ -68,7 +68,7 @@ Instructions: (pc=0x00007f252d2d13aa)
 0x00007f252d2d13aa:   48 8b 07 ff 50 48 4c 39 eb 72 eb 49 8b 84 24 08
 0x00007f252d2d13ba:   02 00 00 4d 89 a4 24 00 02 00 00 49 c7 84 24 08 
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x0000000000080000 is an unknown value
 RBX=0x000000000000003e is an unknown value
@@ -89,13 +89,13 @@ R15=0x00007f252daa6eec: <offset 0x10abeec> in /usr/lib/jvm/java-1.8.0-openjdk-1.
 
 
 Stack: [0x00007f25158b5000,0x00007f25159b5000],  sp=0x00007f25159b2fb0,  free space=1015k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0x8d63aa]  MetadataOnStackMark::~MetadataOnStackMark()+0xba
-V  [libjvm.so+0xa5a785]  Shenandoah***REMOVED***:unload_classes_and_cleanup_tables(bool)+0x3d5
+V  [libjvm.so+0xa5a785]  ShenandoahHeap::unload_classes_and_cleanup_tables(bool)+0x3d5
 V  [libjvm.so+0xa32ce6]  ShenandoahConcurrentMark::finish_mark_from_roots(bool)+0x2b6
 V  [libjvm.so+0xa6a092]  ShenandoahMarkCompact::phase1_mark_heap()+0x132
 V  [libjvm.so+0xa6b4c4]  ShenandoahMarkCompact::do_it(GCCause::Cause)+0x134
-V  [libjvm.so+0xa5d0b3]  Shenandoah***REMOVED***:entry_full(GCCause::Cause)+0x103
+V  [libjvm.so+0xa5d0b3]  ShenandoahHeap::entry_full(GCCause::Cause)+0x103
 V  [libjvm.so+0xa86ca8]  VM_ShenandoahFullGC::doit()+0x38
 V  [libjvm.so+0xb7ab02]  VM_Operation::evaluate()+0x52
 V  [libjvm.so+0xb787ab]  VMThread::evaluate_operation(VM_Operation*)+0x9b
@@ -106,14 +106,14 @@ V  [libjvm.so+0x9674a2]  java_start(Thread*)+0x132
 VM_Operation (0x00007f25169a9ba0): ShenandoahFullGC, mode: safepoint, requested by thread 0x0000560e86b75800
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x0000560e90c14800 JavaThread "Thread-15216418" daemon [_thread_blocked, id=89668, stack(0x00007f24fc79c000,0x00007f24fc89d000)]
   0x0000560e89281000 JavaThread "Thread-15216417" daemon [_thread_blocked, id=89667, stack(0x00007f24ecc31000,0x00007f24ecd32000)]
   0x0000560e8f37a000 JavaThread "Thread-15216416" daemon [_thread_blocked, id=89666, stack(0x00007f24ff6c1000,0x00007f24ff7c2000)]
 
-***REMOVED***
+Other Threads:
 =>0x0000560e86c09000 VMThread [stack: 0x00007f25158b5000,0x00007f25159b5000] [id=4701]
   0x0000560e87d12800 WatcherThread [stack: 0x00007f2511a6d000,0x00007f2511b6d000] [id=4747]
 
@@ -126,7 +126,7 @@ heap address: 0x000000072d500000, size: 2867 MB, Compressed Oops mode: Zero base
 Narrow klass base: 0x00000007e0800000, Narrow klass shift: 0
 Compressed class space size: 1073741824 Address: 0x00000007e0800000
 
-***REMOVED***
+Heap:
 Shenandoah Heap
  2867M total, 2867M committed, 2827M used
  2867 x 1024K regions
@@ -163,9 +163,9 @@ Polling page: 0x00007f252e6f7000
 CodeCache: size=245760Kb used=135031Kb max_used=181483Kb free=110728Kb
  bounds [0x00007f251cb07000, 0x00007f2527e07000, 0x00007f252bb07000]
  total_blobs=24664 nmethods=23543 adapters=1031
-***REMOVED***
+ compilation: enabled
 
-***REMOVED***
+Compilation events (250 events):
 Event: 3323244.181 Thread 0x0000560e87cd7000 98547       4       org.jboss.marshalling.reflect.SerializableClassRegistry::lookup (17 bytes)
 Event: 3323244.187 Thread 0x0000560e87cd7000 nmethod 98547 0x00007f25256c1910 code [0x00007f25256c1a80, 0x00007f25256c1f48]
 
@@ -178,10 +178,10 @@ Event: 1439888.115 Thread 0x0000560e8ff81000 Uncommon trap: reason=bimorphic act
 Classes redefined (34 events):
 Event: 24.114 Thread 0x0000560e86c09000 redefined class name=org.jboss.modules.Main, count=1
 
-***REMOVED***
+Internal exceptions (250 events):
 Event: 3333004.028 Thread 0x0000560e9300e800 Exception <a 'java/net/SocketException': Socket closed> (0x000000073a5841d0) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.265.b01-0.el6openjdkportable.x86_64/openjdk/hotspot/src/share/vm/prims/jni.cpp, line 738]
 
-***REMOVED***
+Events (250 events):
 Event: 3333014.323 Executing VM operation: ThreadDump
 Event: 3333014.326 Executing VM operation: ThreadDump done
 Event: 3333014.330 Thread 0x0000560e90c14800 Thread added: 0x0000560e90c14800
@@ -194,27 +194,27 @@ Event: 3333014.402 Executing VM operation: ShenandoahFullGC
 Event: 3333014.405 Pause Full
 
 
-***REMOVED***
+Dynamic libraries:
 7f252c9fb000-7f252d7af000 r-xp 00000000 fd:4a 23202844                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.portable.jdk.el.x86_64/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: -D[Standalone] -verbose:gc -Xloggc:/opt/eap/standalone/log/gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -Xms2007m -Xmx2867m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+PerfDisableSharedMem -XX:+AlwaysPreTouch -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:ParallelGCThreads=4 -Djava.util.concurrent.ForkJoinPool.common.parallelism=4 -XX:CICompilerCount=2 -XX:+ExitOnOutOfMemoryError  
 java_command: /opt/eap/jboss-modules.jar -mp /opt/eap/modules org.jboss.as.standalone
 java_class_path (initial): /path/to/jboss-modules.jar:/path/to/container/jolokia/jolokia.jar:/path/to/appdynamics/javaagent.jar
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.portable.jdk.el.x86_64
 PATH=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.portable.jdk.el.x86_64/jre/bin:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.portable.jdk.el.x86_64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xb72110], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xb72110], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x960660], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: [libjvm.so+0x960660], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0x960660], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x960660], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x961fa0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: [libjvm.so+0x963b00], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -222,16 +222,16 @@ SIGTERM: [libjvm.so+0x963b00], sa_mask[0]=11111111011111111101111111111110, sa_f
 SIGQUIT: [libjvm.so+0x963b00], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.6 (Maipo)
 
-uname:Linux 3.10.0-957.1.3.el7.x86_64 ***REMOVED***1 SMP Thu Nov 15 17:36:42 UTC 2018 x86_64
+uname:Linux 3.10.0-957.1.3.el7.x86_64 #1 SMP Thu Nov 15 17:36:42 UTC 2018 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE infinity, NPROC 1048576, NOFILE 1048576, AS infinity
 load average:19.42 16.01 13.82
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       396080512 kB
 MemFree:        226763360 kB
 MemAvailable:   267723592 kB
@@ -249,7 +249,7 @@ Mlocked:          267464 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
 Dirty:               364 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:      115385632 kB
 Mapped:          1989372 kB
 Shmem:             37620 kB
@@ -258,46 +258,46 @@ SReclaimable:   12620384 kB
 SUnreclaim:      2076364 kB
 KernelStack:      224080 kB
 PageTables:       336032 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    198040256 kB
 Committed_AS:   148324752 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:     1574144 kB
 VmallocChunk:   34357949440 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:  56770560 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      542592 kB
 DirectMap2M:    38254592 kB
 DirectMap1G:    365953024 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-15
 cpu_memory_nodes: 0
 active_processor_count: 4
 cpu_quota: 400000
-***REMOVED***
+cpu_period: 100000
 cpu_shares: 4096
 memory_limit_in_bytes: 4294967296
 memory_and_swap_limit_in_bytes: 4294967296
-***REMOVED***
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 4282966016
 memory_max_usage_in_bytes: 4294774784
 
 
 CPU:total 16 (initial active 4) (1 cores per cpu, 1 threads per core) family 6 model 79 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, erms, 3dnowpref, tsc, tscinvbit
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -323,7 +323,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -349,7 +349,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -375,7 +375,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -401,7 +401,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 4
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -427,7 +427,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 5
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -453,7 +453,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 6
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -479,7 +479,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 7
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -505,7 +505,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 8
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -531,7 +531,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 9
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -557,7 +557,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***0
+processor	: 10
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -583,7 +583,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***1
+processor	: 11
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -609,7 +609,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***2
+processor	: 12
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -635,7 +635,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***3
+processor	: 13
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -661,7 +661,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***4
+processor	: 14
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -687,7 +687,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***5
+processor	: 15
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79

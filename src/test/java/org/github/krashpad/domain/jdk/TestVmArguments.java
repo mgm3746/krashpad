@@ -27,24 +27,24 @@ class TestVmArguments {
 
     @Test
     void testHeader() {
-        String logLine = "***REMOVED***";
+        String logLine = "VM Arguments:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
-        String logLine = "***REMOVED***";
+        String logLine = "Launcher Type: SUN_STANDARD";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJavaClassPath() {
         String logLine = "java_class_path (initial): /path/to/jboss-modules.jar";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJavaCommand() {
@@ -53,19 +53,19 @@ class TestVmArguments {
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
         VmArguments event = new VmArguments(logLine);
         assertTrue(event.isJavaCommand(), "Java command not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJvmArgs() {
         String logLine = "jvm_args: -D[Standalone] -verbose:gc -Xloggc:/path/to/gc.log";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
-        String logLine = "***REMOVED***";
+        String logLine = "Launcher Type: SUN_STANDARD";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmArguments,
                 JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

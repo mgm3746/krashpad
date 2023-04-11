@@ -1,27 +1,27 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGBUS (0x7) at pc=0x00007f824afe3410, pid=14689, tid=0x00007f81a3452700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_265-b01) (build 1.8.0_265-b01)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.265-b01 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** v  ~StubRoutines::jbyte_disjoint_arraycopy
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGBUS (0x7) at pc=0x00007f824afe3410, pid=14689, tid=0x00007f81a3452700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_265-b01) (build 1.8.0_265-b01)
+# Java VM: OpenJDK 64-Bit Server VM (25.265-b01 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# v  ~StubRoutines::jbyte_disjoint_arraycopy
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x0000564db6334800):  JavaThread "default task-1105" [_thread_in_Java, id=30520, stack(0x00007f81a3352000,0x00007f81a3453000)]
 
 siginfo: si_signo: 7 (SIGBUS), si_code: 2 (BUS_ADRERR), si_addr: 0x00007f81e90a3000
 
 Stack: [0x00007f81a3352000,0x00007f81a3453000],  sp=0x00007f81a344fc50,  free space=1015k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 v  ~StubRoutines::jbyte_disjoint_arraycopy
 J 140012 C2 com.itextpdf.text.io.IndependentRandomAccessSource.get(J[BII)I (16 bytes) @ 0x00007f824b98bd9a [0x00007f824b98ba20+0x37a]
 J 106475 C2 com.itextpdf.text.pdf.RandomAccessFileOrArray.readFully([BII)V (45 bytes) @ 0x00007f8252b6f3fc [0x00007f8252b6f020+0x3dc]
@@ -36,16 +36,16 @@ j  com.itextpdf.text.pdf.PdfStamperImp.close(Ljava/util/Map;)V+1405
 j  com.itextpdf.text.pdf.PdfStamper.close()V+30
 
 
-***REMOVED***
+Dynamic libraries:
 
 7f825ad07000-7f825b9bc000 r-xp 00000000 08:21 524725                     /sdo/jdk8u265-b01/jre/lib/amd64/server/libjvm.so
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)
 
-uname:Linux 3.10.0-1160.2.2.el7.x86_64 ***REMOVED***1 SMP Sat Oct 17 05:06:47 UTC 2020 x86_64
+uname:Linux 3.10.0-1160.2.2.el7.x86_64 #1 SMP Sat Oct 17 05:06:47 UTC 2020 x86_64
 libc:glibc 2.17 NPTL 2.17
 rlimit: STACK 8192k, CORE 0k, NPROC 12000, NOFILE 65535, AS infinity
 load average:0.29 0.21 0.23

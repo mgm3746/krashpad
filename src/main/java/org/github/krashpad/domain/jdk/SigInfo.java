@@ -39,7 +39,7 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  * </p>
  * 
  * <pre>
- * ***REMOVED***
+ * siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000008
  * </pre>
  * 
  * <p>
@@ -70,13 +70,13 @@ public class SigInfo implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^siginfo: ((si_signo: \\d{1,2***REMOVED*** \\((" + SignalNumber.SIGBUS + "|"
+    private static final String REGEX = "^siginfo: ((si_signo: \\d{1,2} \\((" + SignalNumber.SIGBUS + "|"
             + SignalNumber.SIGFPE + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV
-            + ")\\), si_code: \\d{1,3***REMOVED*** \\((" + SignalCode.BUS_ADRALN + "|" + SignalCode.BUS_ADRERR + "|"
+            + ")\\), si_code: \\d{1,3} \\((" + SignalCode.BUS_ADRALN + "|" + SignalCode.BUS_ADRERR + "|"
             + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|" + SignalCode.SEGV_ACCERR + "|"
             + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|" + SignalCode.SI_USER + "|"
             + SignalCode.FPE_INTDIV + ")\\), (si_addr: " + JdkRegEx.ADDRESS
-            + "|sent from pid: \\d{1,***REMOVED*** \\(uid: \\d{1,***REMOVED***\\)))|ExceptionCode=("
+            + "|sent from pid: \\d{1,} \\(uid: \\d{1,}\\)))|ExceptionCode=("
             + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW
             + "), ((reading|writing) " + "address " + JdkRegEx.ADDRESS + "|ExceptionInformation=" + JdkRegEx.ADDRESS
             + " " + JdkRegEx.ADDRESS + ")|" + SignalNumber.EXCEPTION_ACCESS_VIOLATION + " \\(("
@@ -84,7 +84,7 @@ public class SigInfo implements LogEvent {
 
     static {
         PATTERN = Pattern.compile(SigInfo.REGEX);
-    ***REMOVED***
+    }
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -95,7 +95,7 @@ public class SigInfo implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -110,15 +110,15 @@ public class SigInfo implements LogEvent {
      */
     public SigInfo(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.SIGINFO.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return Signal address.
@@ -130,13 +130,13 @@ public class SigInfo implements LogEvent {
             if (matcher.group(6) != null) {
                 // linux
                 address = matcher.group(6);
-            ***REMOVED*** else if (matcher.group(30) != null) {
+            } else if (matcher.group(30) != null) {
                 // windows
                 address = matcher.group(30);
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return address;
-    ***REMOVED***
+    }
 
     /**
      * @return Signal code.
@@ -149,27 +149,27 @@ public class SigInfo implements LogEvent {
             if (matcher.group(4) != null) {
                 if (matcher.group(4).matches(SignalCode.BUS_ADRALN.toString())) {
                     code = SignalCode.BUS_ADRALN;
-                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.BUS_ADRERR.toString())) {
+                } else if (matcher.group(4).matches(SignalCode.BUS_ADRERR.toString())) {
                     code = SignalCode.BUS_ADRERR;
-                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.BUS_OBJERR.toString())) {
+                } else if (matcher.group(4).matches(SignalCode.BUS_OBJERR.toString())) {
                     code = SignalCode.BUS_OBJERR;
-                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.FPE_INTDIV.toString())) {
+                } else if (matcher.group(4).matches(SignalCode.FPE_INTDIV.toString())) {
                     code = SignalCode.FPE_INTDIV;
-                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.ILL_ILLOPN.toString())) {
+                } else if (matcher.group(4).matches(SignalCode.ILL_ILLOPN.toString())) {
                     code = SignalCode.ILL_ILLOPN;
-                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SEGV_ACCERR.toString())) {
+                } else if (matcher.group(4).matches(SignalCode.SEGV_ACCERR.toString())) {
                     code = SignalCode.SEGV_ACCERR;
-                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SEGV_MAPERR.toString())) {
+                } else if (matcher.group(4).matches(SignalCode.SEGV_MAPERR.toString())) {
                     code = SignalCode.SEGV_MAPERR;
-                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SI_KERNEL.toString())) {
+                } else if (matcher.group(4).matches(SignalCode.SI_KERNEL.toString())) {
                     code = SignalCode.SI_KERNEL;
-                ***REMOVED*** else if (matcher.group(4).matches(SignalCode.SI_USER.toString())) {
+                } else if (matcher.group(4).matches(SignalCode.SI_USER.toString())) {
                     code = SignalCode.SI_USER;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                }
+            }
+        }
         return code;
-    ***REMOVED***
+    }
 
     /**
      * @return Signal number.
@@ -182,27 +182,27 @@ public class SigInfo implements LogEvent {
             if (matcher.group(3) != null) {
                 if (matcher.group(3).matches(SignalNumber.SIGBUS.toString())) {
                     number = SignalNumber.SIGBUS;
-                ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGFPE.toString())) {
+                } else if (matcher.group(3).matches(SignalNumber.SIGFPE.toString())) {
                     number = SignalNumber.SIGFPE;
-                ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGILL.toString())) {
+                } else if (matcher.group(3).matches(SignalNumber.SIGILL.toString())) {
                     number = SignalNumber.SIGILL;
-                ***REMOVED*** else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {
+                } else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {
                     number = SignalNumber.SIGSEGV;
-                ***REMOVED***
-            ***REMOVED*** else if (matcher.group(11) != null) {
+                }
+            } else if (matcher.group(11) != null) {
                 // Windows format 1
                 if (matcher.group(11).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
                     number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
-                ***REMOVED*** else if (matcher.group(11).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW)) {
+                } else if (matcher.group(11).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW)) {
                     number = SignalNumber.EXCEPTION_STACK_OVERFLOW;
-                ***REMOVED***
-            ***REMOVED*** else if (matcher.group(29) != null) {
+                }
+            } else if (matcher.group(29) != null) {
                 // Windows format 2
                 if (matcher.group(29).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
                     number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                }
+            }
+        }
         return number;
-    ***REMOVED***
-***REMOVED***
+    }
+}

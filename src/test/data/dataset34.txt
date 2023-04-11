@@ -1,20 +1,20 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007ffae9000060, pid=9052, tid=0x00007ffaffce2700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_272-b10) (build 1.8.0_272-b10)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.272-b10 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** v  ~BufferBlob::flush_icache_stub
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%207&component=java-1.8.0-openjdk
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007ffae9000060, pid=9052, tid=0x00007ffaffce2700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_272-b10) (build 1.8.0_272-b10)
+# Java VM: OpenJDK 64-Bit Server VM (25.272-b10 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# v  ~BufferBlob::flush_icache_stub
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%207&component=java-1.8.0-openjdk
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007ffaf804b000):  JavaThread "main" [_thread_in_vm, id=9053, stack(0x00007ffaffbe3000,0x00007ffaffce3000)]
 
@@ -22,7 +22,7 @@ siginfo: si_signo: 11 (SIGSEGV), si_code: 2 (SEGV_ACCERR), si_addr: 0x00007ffae9
 
 
 Stack: [0x00007ffaffbe3000,0x00007ffaffce3000],  sp=0x00007ffaffce0fc8,  free space=1015k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 v  ~BufferBlob::flush_icache_stub
 V  [libjvm.so+0x9fcd47]  SharedRuntime::generate_i2c2i_adapters(MacroAssembler*, int, int, BasicType const*, VMRegPair const*, AdapterFingerPrint*)+0xd97
 V  [libjvm.so+0x9f3200]  AdapterHandlerLibrary::get_adapter(methodHandle)+0x460
@@ -38,9 +38,9 @@ C  [libjli.so+0x3093]  JavaMain+0xa3
 C  [libpthread.so.0+0x7ea5]  start_thread+0xc5
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007ffaf8123000 JavaThread "C1 CompilerThread2" daemon [_thread_blocked, id=9064, stack(0x00007ffad9e25000,0x00007ffad9f25000)]
   0x00007ffaf8121000 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=9063, stack(0x00007ffad9f26000,0x00007ffada026000)]
   0x00007ffaf811e800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=9062, stack(0x00007ffada027000,0x00007ffada127000)]
@@ -49,10 +49,10 @@ C  [libpthread.so.0+0x7ea5]  start_thread+0xc5
   0x00007ffaf80df800 JavaThread "Reference Handler" daemon [_thread_blocked, id=9059, stack(0x00007ffada329000,0x00007ffada42a000)]
 =>0x00007ffaf804b000 JavaThread "main" [_thread_in_vm, id=9053, stack(0x00007ffaffbe3000,0x00007ffaffce3000)]
 
-***REMOVED***
+Other Threads:
   0x00007ffaf80d5800 VMThread [stack: 0x00007ffada42b000,0x00007ffada52b000] [id=9058]
 
-***REMOVED***
+VM state:not at safepoint (normal execution)
 
 VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
 [0x00007ffaf8048e80] AdapterHandlerLibrary_lock - owner thread: 0x00007ffaf804b000
@@ -61,7 +61,7 @@ heap address: 0x00000006cf000000, size: 3856 MB, Compressed Oops mode: Zero base
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
 Compressed class space size: 1073741824 Address: 0x00000007c0000000
 
-***REMOVED***
+Heap:
  PSYoungGen      total 72192K, used 1239K [0x000000076fb00000, 0x0000000774b80000, 0x00000007c0000000)
   eden space 61952K, 2% used [0x000000076fb00000,0x000000076fc35c38,0x0000000773780000)
   from space 10240K, 0% used [0x0000000774180000,0x0000000774180000,0x0000000774b80000)
@@ -82,7 +82,7 @@ Polling page: 0x00007ffaffcf0000
 CodeCache: size=245760Kb used=1027Kb max_used=1038Kb free=244732Kb
  bounds [0x00007ffae9000000, 0x00007ffae9270000, 0x00007ffaf8000000]
  total_blobs=220 nmethods=0 adapters=136
-***REMOVED***
+ compilation: enabled
 
 Compilation events (0 events):
 No events
@@ -100,7 +100,7 @@ Internal exceptions (2 events):
 Event: 0.021 Thread 0x00007ffaf804b000 Exception <a 'java/lang/NoSuchMethodError': Method sun.misc.Unsafe.defineClass(Ljava/lang/String;[BII)Ljava/lang/Class; name or signature does not match> (0x000000076fb07cc0) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64
 Event: 0.021 Thread 0x00007ffaf804b000 Exception <a 'java/lang/NoSuchMethodError': Method sun.misc.Unsafe.prefetchRead(Ljava/lang/Object;J)V name or signature does not match> (0x000000076fb07fa8) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/openjdk/hotspot/s
 
-***REMOVED***
+Events (250 events):
 Event: 0.028 loading class java/io/FilterOutputStream done
 Event: 0.028 loading class java/io/PrintStream done
 Event: 0.028 loading class java/io/BufferedOutputStream
@@ -353,27 +353,27 @@ Event: 0.042 loading class java/lang/invoke/MethodHandleStatics$1
 Event: 0.042 loading class java/lang/invoke/MethodHandleStatics$1 done
 
 
-***REMOVED***
+Dynamic libraries:
 
 7ffafde1f000-7ffafebb0000 r-xp 00000000 103:03 51649                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so
 
 
-***REMOVED***
+VM Arguments:
 java_command: <unknown>
 java_class_path (initial): .
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)
 
-uname:Linux 3.10.0-1160.2.2.el7.x86_64 ***REMOVED***1 SMP Sat Oct 17 05:06:47 UTC 2020 x86_64
+uname:Linux 3.10.0-1160.2.2.el7.x86_64 #1 SMP Sat Oct 17 05:06:47 UTC 2020 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE 0k, NPROC 61494, NOFILE 4096, AS infinity
 load average:0.02 0.02 0.05
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       15791156 kB
 MemFree:         6933876 kB
 MemAvailable:   13744720 kB
@@ -386,12 +386,12 @@ Active(anon):     536384 kB
 Inactive(anon):    10440 kB
 Active(file):    2405516 kB
 Inactive(file):  3036716 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
 Dirty:              3440 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:        525448 kB
 Mapped:           150272 kB
 Shmem:             17136 kB
@@ -400,47 +400,47 @@ SReclaimable:    1705092 kB
 SUnreclaim:       204320 kB
 KernelStack:        5376 kB
 PageTables:        11248 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:     7895576 kB
 Committed_AS:    2014540 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:       34480 kB
 VmallocChunk:   34359700172 kB
 Percpu:              768 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:    102400 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      227304 kB
 DirectMap2M:     9777152 kB
 DirectMap1G:     6291456 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-3
 cpu_memory_nodes: 0
 active_processor_count: 4
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 6133190656
 memory_max_usage_in_bytes: 0
 
 
 CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 85 stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -466,7 +466,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -492,7 +492,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85
@@ -518,7 +518,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 85

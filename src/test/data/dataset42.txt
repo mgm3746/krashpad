@@ -1,36 +1,36 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Out of swap space to map in thread stack.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED***   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
-***REMOVED***     placed in the first 32GB address space. The Java Heap base address is the
-***REMOVED***     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
-***REMOVED***     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (os_solaris_sparc.cpp:570), pid=1129, tid=0x0000000000008488
-***REMOVED***
-***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_231-b11) (build 1.8.0_231-b11)
-***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.231-b11 mixed mode solaris-sparc compressed oops)
-***REMOVED*** Core dump written. Default location: /path/to/core or core.1129
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Out of swap space to map in thread stack.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_solaris_sparc.cpp:570), pid=1129, tid=0x0000000000008488
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_231-b11) (build 1.8.0_231-b11)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.231-b11 mixed mode solaris-sparc compressed oops)
+# Core dump written. Default location: /path/to/core or core.1129
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00000001201fc800):  JavaThread "Thread-389" [_thread_in_Java, id=33928, stack(0xfffffffed4600000,0xfffffffed4700000)]
 
 Stack: [0xfffffffed4600000,0xfffffffed4700000],  sp=0xfffffffed46fe600,  free space=1017k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xdfe038]  void VMError::report_and_die()+0x6e0
 V  [libjvm.so+0x54165c]  void report_vm_out_of_memory(const char*,int,unsigned long,VMErrorType,const char*)+0x64
 V  [libjvm.so+0xb98314]  JVM_handle_solaris_signal+0xbe4
@@ -50,9 +50,9 @@ V  [libjvm.so+0xb856a8]  java_start+0x390
 C  [libc.so.1+0x149884]  _lwp_start+0x8
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
 =>0x00000001201fc800 JavaThread "Thread-389" [_thread_in_Java, id=33928, stack(0xfffffffed4600000,0xfffffffed4700000)]
   0x000000012153f000 JavaThread "Thread-388" [_thread_blocked, id=33913, stack(0xfffffffedf900000,0xfffffffedfa00000)]
   0x000000010ed60800 JavaThread "Keep-Alive-Timer" daemon [_thread_blocked, id=33909, stack(0xfffffffe15400000,0xfffffffe15500000)]
@@ -124,7 +124,7 @@ C  [libc.so.1+0x149884]  _lwp_start+0x8
   0x0000000104f46800 JavaThread "default I/O-83" [_thread_in_native, id=258, stack(0xffffffff06500000,0xffffffff06600000)]
   0x0000000102722000 JavaThread "default I/O-82" [_thread_in_native, id=257, stack(0xffffffff06700000,0xffffffff06800000)]
 
-***REMOVED***
+Other Threads:
   0x0000000101d57000 VMThread [stack: 0xffffffff2cc00000,0xffffffff2cd00000] [id=61]
   0x0000000101eb4800 WatcherThread [stack: 0xffffffff29200000,0xffffffff29300000] [id=85]
 
@@ -138,7 +138,7 @@ heap address: 0x0000000300000000, size: 15360 MB, Compressed Oops mode: Zero bas
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
 Compressed class space size: 2147483648 Address: 0x00000006c0000000
 
-***REMOVED***
+Heap:
  garbage-first heap   total 15728640K, used 3221714K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
   region size 4096K, 476 young (1949696K), 29 survivors (118784K)
  Metaspace       used 3572734K, capacity 3601675K, committed 3637248K, reserved 4464640K
@@ -159,7 +159,7 @@ Polling page: 0xffffffff7a400000
 CodeCache: size=245760Kb used=194825Kb max_used=197637Kb free=50934Kb
  bounds [0xffffffff6ac00000, 0xffffffff77030000, 0xffffffff79c00000]
  total_blobs=43310 nmethods=42116 adapters=965
-***REMOVED***
+ compilation: enabled
 
 Compilation events (10 events):
 Event: 119764.082 Thread 0x0000000101e64000 66226       3       org.apache.xerces.impl.XMLDTDScannerImpl::scanMixed (315 bytes)
@@ -186,7 +186,7 @@ Heap after GC invocations=209 (full 0):
   region size 4096K, 25 young (102400K), 25 survivors (102400K)
  Metaspace       used 3536565K, capacity 3564495K, committed 3608448K, reserved 4446208K
   class space    used 1248877K, capacity 1255708K, committed 1260672K, reserved 2097152K
-***REMOVED***
+}
 Event: 113499.849 GC heap before
 {Heap before GC invocations=209 (full 0):
  garbage-first heap   total 15728640K, used 4028151K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
@@ -199,7 +199,7 @@ Heap after GC invocations=210 (full 0):
   region size 4096K, 38 young (155648K), 38 survivors (155648K)
  Metaspace       used 3558708K, capacity 3587017K, committed 3628544K, reserved 4458496K
   class space    used 1256524K, capacity 1263494K, committed 1268224K, reserved 2097152K
-***REMOVED***
+}
 Event: 114932.604 GC heap before
 {Heap before GC invocations=210 (full 0):
  garbage-first heap   total 15728640K, used 4970234K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
@@ -212,7 +212,7 @@ Heap after GC invocations=211 (full 0):
   region size 4096K, 35 young (143360K), 35 survivors (143360K)
  Metaspace       used 3565749K, capacity 3594187K, committed 3632896K, reserved 4460544K
   class space    used 1258310K, capacity 1265424K, committed 1269760K, reserved 2097152K
-***REMOVED***
+}
 Event: 116634.044 GC heap before
 {Heap before GC invocations=211 (full 0):
  garbage-first heap   total 15728640K, used 5335612K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
@@ -225,7 +225,7 @@ Heap after GC invocations=212 (full 0):
   region size 4096K, 34 young (139264K), 34 survivors (139264K)
  Metaspace       used 3571890K, capacity 3600617K, committed 3636992K, reserved 4464640K
   class space    used 1259912K, capacity 1267159K, committed 1271296K, reserved 2097152K
-***REMOVED***
+}
 Event: 118842.965 GC heap before
 {Heap before GC invocations=212 (full 0):
  garbage-first heap   total 15728640K, used 6999731K [0x0000000300000000, 0x0000000300407800, 0x00000006c0000000)
@@ -238,7 +238,7 @@ Heap after GC invocations=213 (full 0):
   region size 4096K, 29 young (118784K), 29 survivors (118784K)
  Metaspace       used 3572594K, capacity 3601485K, committed 3637248K, reserved 4464640K
   class space    used 1259952K, capacity 1267235K, committed 1271296K, reserved 2097152K
-***REMOVED***
+}
 
 Deoptimization events (10 events):
 Event: 112230.640 Thread 0x0000000102729000 Uncommon trap: reason=unstable_if action=reinterpret pc=0xffffffff730dfc70 method=io.undertow.server.handlers.NameVirtualHostHandler.handleRequest(Lio/undertow/server/HttpServerExchange;)V @ 21
@@ -253,29 +253,29 @@ Events (10 events):
 Event: 119789.514 Thread 0x00000001201fc800 Thread added: 0x00000001201fc800
 
 
-***REMOVED***
+Dynamic libraries:
 
 0xffffffff7d400000 	/path/to/jdk1.8.0_231/jre/lib/sparcv9/server/libjvm.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: -D[Standalone] -verbose:gc -Xloggc:/path/to/gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -XX:+DoEscapeAnalysis -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:MaxGCPauseMillis=1000 -Xms15g -Xmx15g -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+UseCompressedOops -XX:+UseCompressedClassPointers -XX:CompressedClassSpaceSize=2048M -XX:HeapBaseMinAddress=12g -XX:MetaspaceSize=15g -XX:MaxMetaspaceSize=15g  
 java_command: /path/to/jboss-modules.jar
 java_class_path (initial): /path/to/jboss-modules.jar
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 JAVA_HOME=/path/to/jdk1.8.0_231
 CLASSPATH=
 SHELL=/usr/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xdffe80], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xdffe80], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGQUIT: [libjvm.so+0xb89ba0], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART
 SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -285,7 +285,7 @@ SIG39: [libjvm.so+0xb8ff88], sa_mask[0]=00000000000000000000000000000000, sa_fla
 SIG40: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:                            Oracle Solaris 11.3 SPARC
   Copyright (c) 1983, 2018, Oracle and/or its affiliates.  All rights reserved.

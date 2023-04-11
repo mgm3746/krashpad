@@ -48,17 +48,17 @@ public class Release {
         this.buildDate = ErrUtil.getDate(buildDate);
         this.number = number;
         this.version = version;
-    ***REMOVED***
+    }
 
     public Date getBuildDate() {
         return buildDate;
-    ***REMOVED***
+    }
 
     public int getNumber() {
         return number;
-    ***REMOVED***
+    }
 
     public String getVersion() {
         return version;
-    ***REMOVED***
-***REMOVED***
+    }
+}

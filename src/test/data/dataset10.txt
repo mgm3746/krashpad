@@ -1,29 +1,29 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Cannot create GC thread. Out of system resources.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   In 32 bit mode, the process size limit was hit
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Use 64 bit Java on a 64 bit OS
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (gcTaskThread.cpp:48), pid=30601, tid=0x00007f177a43b700
-***REMOVED***
-***REMOVED*** JRE version:  (8.0_131-b12) (build )
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.131-b12 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Cannot create GC thread. Out of system resources.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (gcTaskThread.cpp:48), pid=30601, tid=0x00007f177a43b700
+#
+# JRE version:  (8.0_131-b12) (build )
+# Java VM: OpenJDK 64-Bit Server VM (25.131-b12 mixed mode linux-amd64 compressed oops)
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
 
 Stack: [0x00007f177a33b000,0x00007f177a43c000],  sp=0x00007f177a43a770,  free space=1021k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xaa477d]
 V  [libjvm.so+0x4e862a]
 V  [libjvm.so+0x5b7f5f]
@@ -38,15 +38,15 @@ C  [libjli.so+0x3057]
 C  [libpthread.so.0+0x7e25]  start_thread+0xc5
 
 
-***REMOVED***
+Dynamic libraries:
 
 7f1778675000-7f1779326000 r-xp 00000000 fd:02 152814                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.4 (Maipo)
 
-uname:Linux 3.10.0-693.el7.x86_64 ***REMOVED***1 SMP Thu Jul 6 19:56:57 EDT 2017 x86_64
+uname:Linux 3.10.0-693.el7.x86_64 #1 SMP Thu Jul 6 19:56:57 EDT 2017 x86_64
 libc:glibc 2.17 NPTL 2.17
 rlimit: STACK 8192k, CORE 0k, NPROC 4096, NOFILE 655360, AS infinity
 load average:0.65 1.49 3.01

@@ -1,28 +1,28 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007ff0a677de64, pid=92333, tid=0x00007ff0f61c4700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_262-b10) (build 1.8.0_262-b10)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.262-b10 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4
-***REMOVED***
-***REMOVED*** Core dump written. Default location: /path/to/core or core.92333
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
-***REMOVED*** See problematic frame for where to report the bug.
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007ff0a677de64, pid=92333, tid=0x00007ff0f61c4700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_262-b10) (build 1.8.0_262-b10)
+# Java VM: OpenJDK 64-Bit Server VM (25.262-b10 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4
+#
+# Core dump written. Default location: /path/to/core or core.92333
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007ff0ec053800):  JavaThread "main" [_thread_in_native, id=92334, stack(0x00007ff0f60c5000,0x00007ff0f61c5000)]
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000004
 
-***REMOVED***
+Registers:
 RAX=0x00007ff0ed92d820, RBX=0x0000000000000000, RCX=0x0000000000000001, RDX=0x00007ff0ec383460
 RSP=0x00007ff0f61c2028, RBP=0x00007ff0ed388ae0, RSI=0x00007ff0ec380980, RDI=0x0000000000000000
 R8 =0x00007ff0ec0008d2, R9 =0x0000000000000006, R10=0x00007ff0edbf3e00, R11=0x00007ff0ef388480
@@ -70,7 +70,7 @@ Instructions: (pc=0x00007ff0a677de64)
 0x00007ff0a677de64:   8b 47 04 85 c0 74 05 31 c0 c3 66 90 48 83 c7 08
 0x00007ff0a677de74:   e9 e7 c4 fa ff 0f 1f 80 00 00 00 00 f3 0f 1e fa 
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x00007ff0ed92d820 is an unknown value
 RBX=0x0000000000000000 is an unknown value
@@ -91,7 +91,7 @@ R15=0x00007ff0ec053800 is a thread
 
 
 Stack: [0x00007ff0f60c5000,0x00007ff0f61c5000],  sp=0x00007ff0f61c2028,  free space=1012k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4
 
 Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
@@ -126,9 +126,9 @@ j  org.eclipse.equinox.launcher.Main.run([Ljava/lang/String;)I+4
 j  org.eclipse.equinox.launcher.Main.main([Ljava/lang/String;)V+10
 v  ~StubRoutines::call_stub
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007fefe8b22800 JavaThread "org.eclipse.jface.text.reconciler.MonoReconciler" daemon [_thread_blocked, id=99203, stack(0x00007ff04accd000,0x00007ff04adce000)]
   0x00007ff0ec611800 JavaThread "org.jboss.tools.common.validation.java.JavaDirtyRegionProcessor" daemon [_thread_blocked, id=92664, stack(0x00007ff04adce000,0x00007ff04aecf000)]
   0x00007ff0ec656800 JavaThread "pool-8-thread-1" [_thread_in_native, id=92659, stack(0x00007ff0516d2000,0x00007ff0517d3000)]
@@ -167,19 +167,19 @@ v  ~StubRoutines::call_stub
   0x00007ff0ec1c6000 JavaThread "Reference Handler" daemon [_thread_blocked, id=92340, stack(0x00007ff0dcdfe000,0x00007ff0dceff000)]
 =>0x00007ff0ec053800 JavaThread "main" [_thread_in_native, id=92334, stack(0x00007ff0f60c5000,0x00007ff0f61c5000)]
 
-***REMOVED***
+Other Threads:
   0x00007ff0ec1bb800 VMThread [stack: 0x00007ff0dcf00000,0x00007ff0dd000000] [id=92339]
   0x00007ff0ec23c000 WatcherThread [stack: 0x00007ff0dc480000,0x00007ff0dc580000] [id=92347]
 
-***REMOVED***
+VM state:not at safepoint (normal execution)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
 heap address: 0x00000000c0000000, size: 1024 MB, Compressed Oops mode: 32-bit
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
 Compressed class space size: 1073741824 Address: 0x0000000100000000
 
-***REMOVED***
+Heap:
  PSYoungGen      total 244736K, used 103751K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
   eden space 141312K, 24% used [0x00000000eab00000,0x00000000ecc7aef8,0x00000000f3500000)
   from space 103424K, 67% used [0x00000000f9b00000,0x00000000fded6e68,0x0000000100000000)
@@ -200,9 +200,9 @@ Polling page: 0x00007ff0f61db000
 CodeCache: size=245760Kb used=54358Kb max_used=54358Kb free=191401Kb
  bounds [0x00007ff0dd000000, 0x00007ff0e0570000, 0x00007ff0ec000000]
  total_blobs=16718 nmethods=15802 adapters=824
-***REMOVED***
+ compilation: enabled
 
-***REMOVED***
+Compilation events (250 events):
 Event: 6606.129 Thread 0x00007ff0ec201800 nmethod 21002 0x00007ff0e04fd110 code [0x00007ff0e04fd360, 0x00007ff0e04fe1d0]
 Event: 6606.129 Thread 0x00007ff0ec201800 20997   !   4       org.eclipse.emf.ecore.xmi.impl.StringSegment::add (297 bytes)
 Event: 6606.141 Thread 0x00007ff0ec201800 nmethod 20997 0x00007ff0e04ef790 code [0x00007ff0e04ef960, 0x00007ff0e04f0368]
@@ -229,7 +229,7 @@ Heap after GC invocations=1 (full 0):
   object space 349696K, 1% used [0x00000000c0000000,0x00000000c06311f0,0x00000000d5580000)
  Metaspace       used 19510K, capacity 21116K, committed 21248K, reserved 1069056K
   class space    used 1971K, capacity 2479K, committed 2560K, reserved 1048576K
-***REMOVED***
+}
 Event: 1.941 GC heap before
 {Heap before GC invocations=2 (full 1):
  PSYoungGen      total 153088K, used 21493K [0x00000000eab00000, 0x00000000fd600000, 0x0000000100000000)
@@ -250,7 +250,7 @@ Heap after GC invocations=2 (full 1):
   object space 349696K, 7% used [0x00000000c0000000,0x00000000c1abbb08,0x00000000d5580000)
  Metaspace       used 19510K, capacity 21116K, committed 21248K, reserved 1069056K
   class space    used 1971K, capacity 2479K, committed 2560K, reserved 1048576K
-***REMOVED***
+}
 Event: 4.142 GC heap before
 {Heap before GC invocations=3 (full 1):
  PSYoungGen      total 153088K, used 74742K [0x00000000eab00000, 0x00000000fd600000, 0x0000000100000000)
@@ -271,7 +271,7 @@ Heap after GC invocations=3 (full 1):
   object space 349696K, 7% used [0x00000000c0000000,0x00000000c1abdb08,0x00000000d5580000)
  Metaspace       used 31886K, capacity 35354K, committed 35416K, reserved 1079296K
   class space    used 3630K, capacity 4651K, committed 4696K, reserved 1048576K
-***REMOVED***
+}
 Event: 4.169 GC heap before
 {Heap before GC invocations=4 (full 2):
  PSYoungGen      total 179200K, used 20977K [0x00000000eab00000, 0x00000000fd580000, 0x0000000100000000)
@@ -292,7 +292,7 @@ Heap after GC invocations=4 (full 2):
   object space 471552K, 8% used [0x00000000c0000000,0x00000000c2746978,0x00000000dcc80000)
  Metaspace       used 31886K, capacity 35354K, committed 35416K, reserved 1079296K
   class space    used 3630K, capacity 4651K, committed 4696K, reserved 1048576K
-***REMOVED***
+}
 Event: 7.163 GC heap before
 {Heap before GC invocations=5 (full 2):
  PSYoungGen      total 179200K, used 158208K [0x00000000eab00000, 0x00000000fd580000, 0x0000000100000000)
@@ -313,7 +313,7 @@ Heap after GC invocations=5 (full 2):
   object space 471552K, 10% used [0x00000000c0000000,0x00000000c321f2e8,0x00000000dcc80000)
  Metaspace       used 52512K, capacity 58254K, committed 58328K, reserved 1099776K
   class space    used 5934K, capacity 7620K, committed 7640K, reserved 1048576K
-***REMOVED***
+}
 Event: 7.256 GC heap before
 {Heap before GC invocations=6 (full 2):
  PSYoungGen      total 206336K, used 26506K [0x00000000eab00000, 0x00000000fc180000, 0x0000000100000000)
@@ -334,7 +334,7 @@ Heap after GC invocations=6 (full 2):
   object space 471552K, 14% used [0x00000000c0000000,0x00000000c43a2850,0x00000000dcc80000)
  Metaspace       used 53042K, capacity 58850K, committed 58968K, reserved 1099776K
   class space    used 6029K, capacity 7666K, committed 7768K, reserved 1048576K
-***REMOVED***
+}
 Event: 7.280 GC heap before
 {Heap before GC invocations=7 (full 3):
  PSYoungGen      total 263680K, used 1024K [0x00000000eab00000, 0x00000000feb80000, 0x0000000100000000)
@@ -355,7 +355,7 @@ Heap after GC invocations=7 (full 3):
   object space 620544K, 8% used [0x00000000c0000000,0x00000000c30f0500,0x00000000e5e00000)
  Metaspace       used 53042K, capacity 58850K, committed 58968K, reserved 1099776K
   class space    used 6029K, capacity 7666K, committed 7768K, reserved 1048576K
-***REMOVED***
+}
 Event: 11.324 GC heap before
 {Heap before GC invocations=8 (full 3):
  PSYoungGen      total 263680K, used 262656K [0x00000000eab00000, 0x00000000feb80000, 0x0000000100000000)
@@ -376,7 +376,7 @@ Heap after GC invocations=8 (full 3):
   object space 620544K, 12% used [0x00000000c0000000,0x00000000c4ca88b0,0x00000000e5e00000)
  Metaspace       used 86503K, capacity 94982K, committed 95192K, reserved 1132544K
   class space    used 10467K, capacity 12712K, committed 12760K, reserved 1048576K
-***REMOVED***
+}
 Event: 11.940 GC heap before
 {Heap before GC invocations=9 (full 3):
  PSYoungGen      total 284160K, used 65556K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -397,7 +397,7 @@ Heap after GC invocations=9 (full 3):
   object space 620544K, 12% used [0x00000000c0000000,0x00000000c4caa8b0,0x00000000e5e00000)
  Metaspace       used 89297K, capacity 98248K, committed 98264K, reserved 1134592K
   class space    used 10692K, capacity 13006K, committed 13016K, reserved 1048576K
-***REMOVED***
+}
 Event: 11.970 GC heap before
 {Heap before GC invocations=10 (full 4):
  PSYoungGen      total 300032K, used 24514K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -418,7 +418,7 @@ Heap after GC invocations=10 (full 4):
   object space 699392K, 10% used [0x00000000c0000000,0x00000000c488a940,0x00000000eab00000)
  Metaspace       used 89297K, capacity 98248K, committed 98264K, reserved 1134592K
   class space    used 10692K, capacity 13006K, committed 13016K, reserved 1048576K
-***REMOVED***
+}
 Event: 14.496 GC heap before
 {Heap before GC invocations=11 (full 4):
  PSYoungGen      total 300032K, used 248832K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -439,7 +439,7 @@ Heap after GC invocations=11 (full 4):
   object space 699392K, 10% used [0x00000000c0000000,0x00000000c488e940,0x00000000eab00000)
  Metaspace       used 106681K, capacity 118192K, committed 118232K, reserved 1150976K
   class space    used 12891K, capacity 16057K, committed 16088K, reserved 1048576K
-***REMOVED***
+}
 Event: 18.398 GC heap before
 {Heap before GC invocations=12 (full 4):
  PSYoungGen      total 281600K, used 281102K [0x00000000eab00000, 0x00000000ffc00000, 0x0000000100000000)
@@ -460,7 +460,7 @@ Heap after GC invocations=12 (full 4):
   object space 699392K, 10% used [0x00000000c0000000,0x00000000c4890940,0x00000000eab00000)
  Metaspace       used 122072K, capacity 135812K, committed 135896K, reserved 1167360K
   class space    used 14808K, capacity 18615K, committed 18648K, reserved 1048576K
-***REMOVED***
+}
 Event: 34.164 GC heap before
 {Heap before GC invocations=13 (full 4):
  PSYoungGen      total 294912K, used 285935K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -481,7 +481,7 @@ Heap after GC invocations=13 (full 4):
   object space 699392K, 10% used [0x00000000c0000000,0x00000000c4892940,0x00000000eab00000)
  Metaspace       used 128290K, capacity 143026K, committed 143320K, reserved 1173504K
   class space    used 15580K, capacity 19615K, committed 19672K, reserved 1048576K
-***REMOVED***
+}
 Event: 38.069 GC heap before
 {Heap before GC invocations=14 (full 4):
  PSYoungGen      total 290304K, used 290210K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -502,7 +502,7 @@ Heap after GC invocations=14 (full 4):
   object space 699392K, 10% used [0x00000000c0000000,0x00000000c4a77e38,0x00000000eab00000)
  Metaspace       used 129045K, capacity 143778K, committed 143960K, reserved 1173504K
   class space    used 15669K, capacity 19711K, committed 19800K, reserved 1048576K
-***REMOVED***
+}
 Event: 98.819 GC heap before
 {Heap before GC invocations=15 (full 4):
  PSYoungGen      total 283648K, used 283079K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -523,7 +523,7 @@ Heap after GC invocations=15 (full 4):
   object space 699392K, 10% used [0x00000000c0000000,0x00000000c4a79e38,0x00000000eab00000)
  Metaspace       used 129927K, capacity 144834K, committed 144984K, reserved 1175552K
   class space    used 15700K, capacity 19764K, committed 19800K, reserved 1048576K
-***REMOVED***
+}
 Event: 120.986 GC heap before
 {Heap before GC invocations=16 (full 4):
  PSYoungGen      total 287744K, used 287302K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -544,7 +544,7 @@ Heap after GC invocations=16 (full 4):
   object space 699392K, 11% used [0x00000000c0000000,0x00000000c4bd4338,0x00000000eab00000)
  Metaspace       used 132881K, capacity 147896K, committed 148056K, reserved 1177600K
   class space    used 15937K, capacity 20010K, committed 20056K, reserved 1048576K
-***REMOVED***
+}
 Event: 144.826 GC heap before
 {Heap before GC invocations=17 (full 4):
  PSYoungGen      total 266240K, used 265819K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -565,7 +565,7 @@ Heap after GC invocations=17 (full 4):
   object space 699392K, 11% used [0x00000000c0000000,0x00000000c4bd6338,0x00000000eab00000)
  Metaspace       used 133725K, capacity 148964K, committed 149208K, reserved 1177600K
   class space    used 16002K, capacity 20106K, committed 20184K, reserved 1048576K
-***REMOVED***
+}
 Event: 5692.208 GC heap before
 {Heap before GC invocations=18 (full 4):
  PSYoungGen      total 270336K, used 270287K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -586,7 +586,7 @@ Heap after GC invocations=18 (full 4):
   object space 699392K, 13% used [0x00000000c0000000,0x00000000c5904c08,0x00000000eab00000)
  Metaspace       used 138101K, capacity 154134K, committed 154328K, reserved 1183744K
   class space    used 16510K, capacity 20870K, committed 20952K, reserved 1048576K
-***REMOVED***
+}
 Event: 5718.067 GC heap before
 {Heap before GC invocations=19 (full 4):
  PSYoungGen      total 241152K, used 241139K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -607,7 +607,7 @@ Heap after GC invocations=19 (full 4):
   object space 699392K, 13% used [0x00000000c0000000,0x00000000c5906c08,0x00000000eab00000)
  Metaspace       used 138767K, capacity 154696K, committed 154968K, reserved 1183744K
   class space    used 16599K, capacity 20959K, committed 21080K, reserved 1048576K
-***REMOVED***
+}
 Event: 6195.474 GC heap before
 {Heap before GC invocations=20 (full 4):
  PSYoungGen      total 231424K, used 231000K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -628,7 +628,7 @@ Heap after GC invocations=20 (full 4):
   object space 699392K, 13% used [0x00000000c0000000,0x00000000c5908c08,0x00000000eab00000)
  Metaspace       used 139078K, capacity 155032K, committed 155224K, reserved 1183744K
   class space    used 16628K, capacity 20973K, committed 21080K, reserved 1048576K
-***REMOVED***
+}
 Event: 6242.490 GC heap before
 {Heap before GC invocations=21 (full 4):
  PSYoungGen      total 246784K, used 219086K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -649,7 +649,7 @@ Heap after GC invocations=21 (full 4):
   object space 699392K, 13% used [0x00000000c0000000,0x00000000c5908c08,0x00000000eab00000)
  Metaspace       used 139149K, capacity 155164K, committed 155480K, reserved 1183744K
   class space    used 16628K, capacity 20973K, committed 21080K, reserved 1048576K
-***REMOVED***
+}
 Event: 6305.596 GC heap before
 {Heap before GC invocations=22 (full 4):
  PSYoungGen      total 217600K, used 217343K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -670,7 +670,7 @@ Heap after GC invocations=22 (full 4):
   object space 699392K, 13% used [0x00000000c0000000,0x00000000c590ac08,0x00000000eab00000)
  Metaspace       used 139231K, capacity 155228K, committed 155480K, reserved 1183744K
   class space    used 16630K, capacity 20973K, committed 21080K, reserved 1048576K
-***REMOVED***
+}
 Event: 6450.421 GC heap before
 {Heap before GC invocations=23 (full 4):
  PSYoungGen      total 246272K, used 213080K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -691,7 +691,7 @@ Heap after GC invocations=23 (full 4):
   object space 699392K, 13% used [0x00000000c0000000,0x00000000c590cc08,0x00000000eab00000)
  Metaspace       used 139515K, capacity 155498K, committed 155736K, reserved 1183744K
   class space    used 16666K, capacity 21023K, committed 21080K, reserved 1048576K
-***REMOVED***
+}
 Event: 6669.413 GC heap before
 {Heap before GC invocations=24 (full 4):
  PSYoungGen      total 214016K, used 213597K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
@@ -712,7 +712,7 @@ Heap after GC invocations=24 (full 4):
   object space 699392K, 13% used [0x00000000c0000000,0x00000000c590cc08,0x00000000eab00000)
  Metaspace       used 139564K, capacity 155498K, committed 155736K, reserved 1183744K
   class space    used 16666K, capacity 21023K, committed 21080K, reserved 1048576K
-***REMOVED***
+}
 
 Deoptimization events (250 events):
 Event: 5688.682 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007ff0dd93860c method=org.eclipse.swt.custom.StyledTextRenderer.disposeTextLayout(Lorg/eclipse/swt/graphics/TextLayout;)V @ 39
@@ -969,7 +969,7 @@ Event: 6671.856 Thread 0x00007ff0ec053800 Uncommon trap: reason=unstable_if acti
 Classes redefined (0 events):
 No events
 
-***REMOVED***
+Internal exceptions (250 events):
 Event: 101.811 Thread 0x00007ff0ec698000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ef71e968) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 609]
 Event: 101.811 Thread 0x00007ff0ec698000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ef71fd30) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 609]
 Event: 101.812 Thread 0x00007ff0ec698000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x00000000ef733038) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 609]
@@ -1221,7 +1221,7 @@ Event: 6446.059 Thread 0x00007ff0ac001800 Exception <a 'sun/nio/fs/UnixException
 Event: 6446.059 Thread 0x00007ff0ac001800 Exception <a 'sun/nio/fs/UnixException'> (0x00000000ebbe20e0) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/vm/prims/jni.cpp, line 711]
 Event: 6446.059 Thread 0x00007ff0ac001800 Exception <a 'sun/nio/fs/UnixException'> (0x00000000ebbe2688) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/vm/prims/jni.cpp, line 711]
 
-***REMOVED***
+Events (250 events):
 Event: 6665.311 Executing VM operation: RevokeBias done
 Event: 6665.311 Thread 0x00007fefe944f000 Thread exited: 0x00007fefe944f000
 Event: 6668.297 Thread 0x00007fefe944f000 Thread added: 0x00007fefe944f000
@@ -1474,7 +1474,7 @@ Event: 6671.859 loading class projectNature
 Event: 6671.859 loading class projectNature done
 
 
-***REMOVED***
+Dynamic libraries:
 c0000000-eab00000 rw-p 00000000 00:00 0 
 eab00000-100000000 rw-p 00000000 00:00 0 
 100000000-101496000 rw-p 00000000 00:00 0 
@@ -2790,18 +2790,18 @@ eab00000-100000000 rw-p 00000000 00:00 0
 7ffd3d916000-7ffd3d918000 r-xp 00000000 00:00 0                          [vdso]
 ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Xloggc:gc.log -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Xms512m -Xmx1024m -XX:MaxMetaspaceSize=1183744K -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=detail -XX:+PrintNMTStatistics
 java_command: /home/user123/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar -os linux -ws gtk -arch x86_64 -showsplash -launcher /home/user123/codereadystudio/studio/codereadystudio -name Codereadystudio --launcher.library /home/user123/codereadystudio/studio//plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.1200.v20200508-1552/eclipse_1801.so -startup /home/user123/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar --launcher.overrideVmargs -exitdata 80002 -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product -vm /etc/alternatives/java_sdk/bin/java -vmargs -Xloggc:gc.log -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Xms512m -Xmx1024m -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=detail -XX:+PrintNMTStatistics -Dosgi.instance.area.default=@user.home/workspace -jar /home/user123/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar
 java_class_path (initial): /home/user123/codereadystudio/studio//plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 PATH=/home/user123/.local/bin:/home/user123/bin:/usr/share/Modules/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
-***REMOVED***
+SHELL=/bin/bash
 DISPLAY=:0
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xb80fd0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xb80fd0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x952590], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
@@ -2823,54 +2823,54 @@ Total: reserved=2659951KB, committed=1438171KB
                             (mmap: reserved=1048576KB, committed=1048576KB) 
  
 -                     Class (reserved=1192802KB, committed=165050KB)
-                            (classes ***REMOVED***22801)
-                            (malloc=9058KB ***REMOVED***47580) 
+                            (classes #22801)
+                            (malloc=9058KB #47580) 
                             (mmap: reserved=1183744KB, committed=155992KB) 
  
 -                    Thread (reserved=42569KB, committed=42569KB)
-                            (thread ***REMOVED***43)
+                            (thread #43)
                             (stack: reserved=42336KB, committed=42336KB)
-                            (malloc=150KB ***REMOVED***258) 
-                            (arena=82KB ***REMOVED***83)
+                            (malloc=150KB #258) 
+                            (arena=82KB #83)
  
 -                      Code (reserved=261502KB, committed=67478KB)
-                            (malloc=11902KB ***REMOVED***16710) 
+                            (malloc=11902KB #16710) 
                             (mmap: reserved=249600KB, committed=55576KB) 
  
 -                        GC (reserved=44111KB, committed=44111KB)
-                            (malloc=5795KB ***REMOVED***855) 
+                            (malloc=5795KB #855) 
                             (mmap: reserved=38316KB, committed=38316KB) 
  
 -                  Compiler (reserved=21446KB, committed=21446KB)
-                            (malloc=138KB ***REMOVED***1673) 
-                            (arena=21309KB ***REMOVED***19)
+                            (malloc=138KB #1673) 
+                            (arena=21309KB #19)
  
 -                  Internal (reserved=9409KB, committed=9405KB)
-                            (malloc=9373KB ***REMOVED***28095) 
+                            (malloc=9373KB #28095) 
                             (mmap: reserved=36KB, committed=32KB) 
  
 -                    Symbol (reserved=31141KB, committed=31141KB)
-                            (malloc=28160KB ***REMOVED***324331) 
-                            (arena=2981KB ***REMOVED***1)
+                            (malloc=28160KB #324331) 
+                            (arena=2981KB #1)
  
 -    Native Memory Tracking (reserved=6996KB, committed=6996KB)
-                            (malloc=351KB ***REMOVED***5021) 
+                            (malloc=351KB #5021) 
                             (tracking overhead=6645KB)
  
 -               Arena Chunk (reserved=1399KB, committed=1399KB)
                             (malloc=1399KB) 
  
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux release 8.2 (Ootpa)
 
-uname:Linux 4.18.0-193.14.3.el8_2.x86_64 ***REMOVED***1 SMP Mon Jul 20 15:02:29 UTC 2020 x86_64
-***REMOVED***
+uname:Linux 4.18.0-193.14.3.el8_2.x86_64 #1 SMP Mon Jul 20 15:02:29 UTC 2020 x86_64
+libc:glibc 2.28 NPTL 2.28 
 rlimit: STACK 8192k, CORE infinity, NPROC 62502, NOFILE 262144, AS infinity
 load average:0.27 0.43 0.57
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       16058700 kB
 MemFree:         1456180 kB
 MemAvailable:    3311312 kB
@@ -2888,7 +2888,7 @@ Mlocked:              80 kB
 SwapTotal:       8097788 kB
 SwapFree:        7612768 kB
 Dirty:               604 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:      10956856 kB
 Mapped:           860068 kB
 Shmem:            949436 kB
@@ -2898,48 +2898,48 @@ SReclaimable:     131460 kB
 SUnreclaim:       186160 kB
 KernelStack:       23232 kB
 PageTables:       142964 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    16127136 kB
 Committed_AS:   28976296 kB
 VmallocTotal:   34359738367 kB
-***REMOVED***
-***REMOVED***
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
 Percpu:             2272 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   5261312 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
-***REMOVED***
+Hugetlb:               0 kB
 DirectMap4k:      804744 kB
 DirectMap2M:    15607808 kB
 DirectMap1G:     1048576 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-3
 cpu_memory_nodes: 0
 active_processor_count: 4
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 7598051328
 memory_max_usage_in_bytes: 9477705728
 
 
 CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 142 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 142
@@ -2966,7 +2966,7 @@ cache_alignment	: 64
 address sizes	: 39 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 142
@@ -2993,7 +2993,7 @@ cache_alignment	: 64
 address sizes	: 39 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 142
@@ -3020,7 +3020,7 @@ cache_alignment	: 64
 address sizes	: 39 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 142

@@ -37,7 +37,7 @@ class TestVmOperation {
         VmOperation event = new VmOperation(logLine);
         assertEquals("CGC_Operation, mode: safepoint, requested by thread 0x000001d9d3e12800",
                 event.getVmOperationString(), "VM operation not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testCollectForMetadataAllocation() {
@@ -48,7 +48,7 @@ class TestVmOperation {
         VmOperation event = new VmOperation(logLine);
         assertEquals("CollectForMetadataAllocation, mode: safepoint, requested by thread 0x00007f7dc1c44000",
                 event.getVmOperationString(), "VM operation not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testG1CollectFull() {
@@ -59,7 +59,7 @@ class TestVmOperation {
         VmOperation event = new VmOperation(logLine);
         assertEquals("G1CollectFull, mode: safepoint, requested by thread 0x00007f29ec6cf800",
                 event.getVmOperationString(), "VM operation not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testGcHeapInspection() {
@@ -70,7 +70,7 @@ class TestVmOperation {
         VmOperation event = new VmOperation(logLine);
         assertEquals("GC_HeapInspection, mode: safepoint, requested by thread 0x000055b24a035800",
                 event.getVmOperationString(), "VM operation not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testGetAllStackTraces() {
@@ -81,7 +81,7 @@ class TestVmOperation {
         VmOperation event = new VmOperation(logLine);
         assertEquals("GetAllStackTraces, mode: safepoint, requested by thread 0x0000000018af9800",
                 event.getVmOperationString(), "VM operation not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testGetThreadListStackTraces() {
@@ -92,7 +92,7 @@ class TestVmOperation {
         VmOperation event = new VmOperation(logLine);
         assertEquals("GetThreadListStackTraces, mode: safepoint, requested by thread 0x000055b2423e2800",
                 event.getVmOperationString(), "VM operation not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeapDumper() {
@@ -100,7 +100,7 @@ class TestVmOperation {
                 + "0x000000004d180000";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
@@ -108,7 +108,7 @@ class TestVmOperation {
                 + "0x0000000001b2a";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_OPERATION,
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIsNotThrowaway() {
@@ -116,7 +116,7 @@ class TestVmOperation {
                 + "0x0000000001b2a";
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof ThrowAwayEvent,
                 "ThrowAwayEvent incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParallelGCFailedAllocation() {
@@ -127,7 +127,7 @@ class TestVmOperation {
         VmOperation event = new VmOperation(logLine);
         assertEquals("ParallelGCFailedAllocation, mode: safepoint, requested by thread 0x0000557d902f1000",
                 event.getVmOperationString(), "VM operation not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -135,7 +135,7 @@ class TestVmOperation {
                 + "0x0000000001b2a";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testPrintThreads() {
@@ -146,7 +146,7 @@ class TestVmOperation {
         VmOperation event = new VmOperation(logLine);
         assertEquals("PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a", event.getVmOperationString(),
                 "VM operation not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testRedefineClasses() {
@@ -159,7 +159,7 @@ class TestVmOperation {
                 "RedefineClasses, mode: safepoint, requested by thread 0x0000564c51d7b800, redefining class "
                         + "java.util.concurrent.CompletableFuture",
                 event.getVmOperationString(), "VM operation not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahFullGC() {
@@ -170,5 +170,5 @@ class TestVmOperation {
         VmOperation event = new VmOperation(logLine);
         assertEquals("ShenandoahFullGC, mode: safepoint, requested by thread 0x0000560e86b75800",
                 event.getVmOperationString(), "VM operation not correct.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

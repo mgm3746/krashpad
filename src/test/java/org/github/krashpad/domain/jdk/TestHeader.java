@@ -31,229 +31,229 @@ class TestHeader {
 
     @Test
     void testAccessViolation() {
-        String logLine = "***REMOVED***  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x000000006ee76520, pid=11556, "
+        String logLine = "#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x000000006ee76520, pid=11556, "
                 + "tid=0x000000000000040c";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isSignalNumber(), "EXCEPTION_ACCESS_VIOLATION not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testError() {
-        String logLine = "***REMOVED***  Error: ShouldNotReachHere()";
+        String logLine = "#  Error: ShouldNotReachHere()";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isError(), "Error not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testErrorPrintingProblematicFrame() {
         String logLine = "[error occurred during error reporting (printing problematic frame), id 0x7]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
-        String logLine = "***REMOVED***";
+        String logLine = "#";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testInsufficientMemoroy() {
-        String logLine = "***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.";
+        String logLine = "# There is insufficient memory for the Java Runtime Environment to continue.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isInsufficient(), "Insufficient not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testInternalError() {
-        String logLine = "***REMOVED***  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700";
+        String logLine = "#  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isInternalError(), "Internal Errror not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJavaVm() {
-        String logLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode solaris-sparc compressed "
+        String logLine = "# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode solaris-sparc compressed "
                 + "oops)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isJavaVm(), "Java VM not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJreVersion() {
-        String logLine = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_251-b08) (build 1.8.0_251-b08)";
+        String logLine = "# JRE version: Java(TM) SE Runtime Environment (8.0_251-b08) (build 1.8.0_251-b08)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isJreVersion(), "JRE version not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNativeMemoryAllocationFailed() {
-        String logLine = "***REMOVED*** Native memory allocation (mmap) failed to map 754974720 bytes for committing reserved "
+        String logLine = "# Native memory allocation (mmap) failed to map 754974720 bytes for committing reserved "
                 + "memory.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isFailed(), "Failed not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomeHeap() {
-        String logLine = "***REMOVED***  fatal error: OutOfMemory encountered: Java heap space";
+        String logLine = "#  fatal error: OutOfMemory encountered: Java heap space";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isError(), "Error not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOsTypeLinux() {
-        String logLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
+        String logLine = "# Java VM: Java HotSpot(TM) 64-Bit Server VM (24.85-b06 mixed mode linux-amd64 compressed "
                 + "oops)";
         Header headerEvent = new Header(logLine);
         assertEquals(Os.LINUX, headerEvent.getOsType(), "OS Type not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOsTypeSolaris() {
-        String logLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode solaris-sparc compressed "
+        String logLine = "# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.251-b08 mixed mode solaris-sparc compressed "
                 + "oops)";
         Header headerEvent = new Header(logLine);
         assertEquals(Os.SOLARIS, headerEvent.getOsType(), "OS Type not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOsTypeWindows() {
-        String logLine = "***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.25-b02 mixed mode windows-amd64 compressed "
+        String logLine = "# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.25-b02 mixed mode windows-amd64 compressed "
                 + "oops)";
         Header headerEvent = new Header(logLine);
         assertEquals(Os.WINDOWS, headerEvent.getOsType(), "OS Type not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOutOfMemoryError() {
-        String logLine = "***REMOVED***  Out of Memory Error (os_solaris_sparc.cpp:570), pid=1129, tid=0x0000000000008488";
+        String logLine = "#  Out of Memory Error (os_solaris_sparc.cpp:570), pid=1129, tid=0x0000000000008488";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isOutOf(), "Out of Memory Error not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOutOfSwapSpace() {
-        String logLine = "***REMOVED*** Out of swap space to map in thread stack.";
+        String logLine = "# Out of swap space to map in thread stack.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isOutOf(), "Out of not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
-        String logLine = "***REMOVED***";
+        String logLine = "#";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Header,
                 JdkUtil.LogEventType.HEADER.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testPleaseCheckEtcOsRelease() {
         LogEvent priorEvent = new OsInfo(null);
-        String logLine = "***REMOVED*** Please check /etc/os-release for details about this release.";
+        String logLine = "# Please check /etc/os-release for details about this release.";
         assertFalse(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testProblematicFrameJavaCompiledCode() {
-        String logLine = "***REMOVED*** J 3285 c2 java.util.AbstractList.subListRangeCheck(III)V java.base@12.0.1 (110 bytes) "
+        String logLine = "# J 3285 c2 java.util.AbstractList.subListRangeCheck(III)V java.base@12.0.1 (110 bytes) "
                 + "@ 0x00007f682098912c [0x00007f68209891a0+0xffffffffffffff8c]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isProblematicFrame(), "Problematic frame not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testProblematicFrameNativeCode() {
-        String logLine = "***REMOVED*** C  0x0000000000000000";
+        String logLine = "# C  0x0000000000000000";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isProblematicFrame(), "Problematic frame not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testProblematicFrameVmCodeCapitalV() {
-        String logLine = "***REMOVED*** V  [libjvm.so+0xa41a10]";
+        String logLine = "# V  [libjvm.so+0xa41a10]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isProblematicFrame(), "Problematic frame not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testProblematicFrameVmCodeSmallV() {
-        String logLine = "***REMOVED*** v  ~StubRoutines::jbyte_disjoint_arraycopy";
+        String logLine = "# v  ~StubRoutines::jbyte_disjoint_arraycopy";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isProblematicFrame(), "Problematic frame not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSigBus() {
-        String logLine = "***REMOVED***  SIGBUS (0x7) at pc=0x00007f824afe3410, pid=14689, tid=0x00007f81a3452700";
+        String logLine = "#  SIGBUS (0x7) at pc=0x00007f824afe3410, pid=14689, tid=0x00007f81a3452700";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isSignalNumber(), "SIGBUS not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSigIll() {
-        String logLine = "***REMOVED***  SIGILL (0x4) at pc=0x00007f682098912c, pid=12005, tid=44979";
+        String logLine = "#  SIGILL (0x4) at pc=0x00007f682098912c, pid=12005, tid=44979";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isSignalNumber(), "SIGILL not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSigSegv() {
-        String logLine = "***REMOVED***  SIGSEGV (0xb) at pc=0x00007f11cbec3480, pid=101755, tid=139714768807680";
+        String logLine = "#  SIGSEGV (0xb) at pc=0x00007f11cbec3480, pid=101755, tid=139714768807680";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isSignalNumber(), "SIGSEGV not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testStackOverflow() {
-        String logLine = "***REMOVED***  EXCEPTION_STACK_OVERFLOW (0xc00000fd) at pc=0x00007ff8b9b47447, pid=4304, "
+        String logLine = "#  EXCEPTION_STACK_OVERFLOW (0xc00000fd) at pc=0x00007ff8b9b47447, pid=4304, "
                 + "tid=0x0000000000002aec";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isSignalNumber(), "EXCEPTION_STACK_OVERFLOW not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testThisFileIsDeprecated() {
         LogEvent priorEvent = new OsInfo(null);
-        String logLine = "***REMOVED*** This file is deprecated and will be removed in a future service pack or release.";
+        String logLine = "# This file is deprecated and will be removed in a future service pack or release.";
         assertFalse(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " incorrectly identified.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

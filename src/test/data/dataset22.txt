@@ -1,27 +1,27 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007f11cbec3480, pid=101755, tid=139714768807680
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_65-b17) (build 1.8.0_65-b17)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.65-b01 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** C  [jna8588255081773605818.tmp+0x13c480]  CkMultiByteBase::nextIdx()+0x10
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
-***REMOVED*** See problematic frame for where to report the bug.
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f11cbec3480, pid=101755, tid=139714768807680
+#
+# JRE version: OpenJDK Runtime Environment (8.0_65-b17) (build 1.8.0_65-b17)
+# Java VM: OpenJDK 64-Bit Server VM (25.65-b01 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# C  [jna8588255081773605818.tmp+0x13c480]  CkMultiByteBase::nextIdx()+0x10
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f127434f800):  JavaThread "ajp-/172.28.142.37:8109-28" daemon [_thread_in_native, id=112672, stack(0x00007f11e11a2000,0x00007f11e12a3000)]
 
 Stack: [0x00007f11e11a2000,0x00007f11e12a3000],  sp=0x00007f11e129f0d0,  free space=1012k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 C  [jna8588255081773605818.tmp+0x13c480]  CkMultiByteBase::nextIdx()+0x10
 
 Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
@@ -31,14 +31,14 @@ J 60128 C1 com.sun.jna.Function.invoke(Ljava/lang/reflect/Method;[Ljava/lang/Cla
 J 60127 C1 com.sun.jna.Library$Handler.invoke(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object; (348 bytes) @ 0x00007f1259d8f834 [0x00007f1259d8d440+0x23f4]
 
 
-***REMOVED***
+Dynamic libraries:
 
 7f1291da5000-7f12929aa000 r-xp 00000000 fd:02 416413                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.65-3.b17.el7.x86_64/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.2 (Maipo)
 
-uname:Linux 3.10.0-327.el7.x86_64 ***REMOVED***1 SMP Thu Oct 29 17:29:29 EDT 2015 x86_64
+uname:Linux 3.10.0-327.el7.x86_64 #1 SMP Thu Oct 29 17:29:29 EDT 2015 x86_64
 
 vm_info: OpenJDK 64-Bit Server VM (25.65-b01) for linux-amd64 JRE (1.8.0_65-b17), built on Oct 19 2015 06:27:55 by "mockbuild" with gcc 4.8.3 20140911 (Red Hat 4

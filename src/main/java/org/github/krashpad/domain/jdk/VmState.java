@@ -56,7 +56,7 @@ public class VmState implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -71,15 +71,15 @@ public class VmState implements LogEvent {
      */
     public VmState(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.VM_STATE.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return The VM state.
@@ -89,7 +89,7 @@ public class VmState implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             value = matcher.group(1);
-        ***REMOVED***
+        }
         return value;
-    ***REMOVED***
-***REMOVED***
+    }
+}

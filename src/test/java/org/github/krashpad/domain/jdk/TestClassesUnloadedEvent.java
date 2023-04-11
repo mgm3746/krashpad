@@ -31,7 +31,7 @@ class TestClassesUnloadedEvent {
         String logLine = "Classes unloaded (13 events):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT,
                 JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLambda() {
@@ -40,7 +40,7 @@ class TestClassesUnloadedEvent {
                 + "'java/lang/invoke/LambdaForm$DMH+0x0000000801591000'";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT,
                 JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoEventsLowercaseE() {
@@ -48,7 +48,7 @@ class TestClassesUnloadedEvent {
         String logLine = "No events";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT,
                 JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoEventsUppercaseE() {
@@ -56,7 +56,7 @@ class TestClassesUnloadedEvent {
         String logLine = "No Events";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT,
                 JdkUtil.LogEventType.CLASSES_UNLOADED_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -79,6 +79,6 @@ class TestClassesUnloadedEvent {
                 JdkUtil.LogEventType.VM_OPERATION.toString() + " incorrectly identified.");
         assertFalse(JdkUtil.parseLogLine(logLine, null) instanceof Event,
                 JdkUtil.LogEventType.EVENT.toString() + " incorrectly identified.");
-    ***REMOVED***
+    }
 
-***REMOVED***
+}

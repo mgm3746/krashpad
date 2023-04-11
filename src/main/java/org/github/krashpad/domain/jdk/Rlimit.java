@@ -57,7 +57,7 @@ public class Rlimit implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -72,13 +72,13 @@ public class Rlimit implements LogEvent {
      */
     public Rlimit(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.RLIMIT.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

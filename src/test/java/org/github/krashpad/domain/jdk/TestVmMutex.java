@@ -30,19 +30,19 @@ class TestVmMutex {
         String logLine = "VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_MUTEX,
                 JdkUtil.LogEventType.VM_MUTEX.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         String logLine = "[0x00007fcbc8008420] Threads_lock - owner thread: 0x00007fcbc82b6000";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_MUTEX,
                 JdkUtil.LogEventType.VM_MUTEX.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "[0x00007fcbc8008420] Threads_lock - owner thread: 0x00007fcbc82b6000";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmMutex,
                 JdkUtil.LogEventType.VM_MUTEX.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

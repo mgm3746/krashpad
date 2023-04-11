@@ -53,11 +53,11 @@ public class Instructions implements LogEvent, ThrowAwayEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.ADDRESS
-            + ":(   [0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED*** "
-            + "[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED*** "
-            + "[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED*** "
-            + "[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***[ ]{0,1***REMOVED***[0-9a-f?]{2***REMOVED***)?|\\[error occurred during "
-            + "error reporting \\(printing registers, top of stack, instructions near pc\\), id 0x[a-z0-9]\\])[ ]{0,***REMOVED***$";
+            + ":(   [0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2} "
+            + "[0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2} "
+            + "[0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2} "
+            + "[0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2}[ ]{0,1}[0-9a-f?]{2})?|\\[error occurred during "
+            + "error reporting \\(printing registers, top of stack, instructions near pc\\), id 0x[a-z0-9]\\])[ ]{0,}$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -68,7 +68,7 @@ public class Instructions implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -83,22 +83,22 @@ public class Instructions implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public Instructions(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.INSTRUCTIONS.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

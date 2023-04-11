@@ -1,20 +1,20 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007fd57e24ad0d, pid=1976, tid=127576
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (11.0.6+10) (build 11.0.6+10-LTS)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (11.0.6+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
-***REMOVED*** Problematic frame:
-***REMOVED*** V  [libjvm.so+0xbf6d0d]  os::PlatformEvent::unpark()+0xd
-***REMOVED***
-***REMOVED*** Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /opt/OpenIAM/core.1976)
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
-***REMOVED*** See problematic frame for where to report the bug.
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007fd57e24ad0d, pid=1976, tid=127576
+#
+# JRE version: OpenJDK Runtime Environment (11.0.6+10) (build 11.0.6+10-LTS)
+# Java VM: OpenJDK 64-Bit Server VM (11.0.6+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# V  [libjvm.so+0xbf6d0d]  os::PlatformEvent::unpark()+0xd
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /opt/OpenIAM/core.1976)
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
 
 ---------------  S U M M A R Y ------------
 
@@ -22,7 +22,7 @@ Command Line: -D[Standalone] -Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:fi
 Host: Intel(R) Xeon(R) Platinum 8160 CPU @ 2.10GHz, 8 cores, 15G, Red Hat Enterprise Linux release 8.1 (Ootpa)
 Time: Tue Dec 22 16:10:12 2020 IST elapsed time: 1409563 seconds (16d 7h 32m 43s)
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x000055ed9f6a3800):  JavaThread "I/O dispatcher 30248931" [_thread_in_native, id=127576, stack(0x00007fd52f5ea000,0x00007fd52f6eb000)]
 
@@ -45,7 +45,7 @@ V  [libjvm.so+0xbeccd6]  thread_native_entry(Thread*)+0xf6
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000020
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x0000000000000001 is an unknown value
 RBX=0x000055ed3ccfc7e0 points into unknown readable memory: 00 00 00 00 00 00 00 00
@@ -65,7 +65,7 @@ R14=0x000055ed9f6a3b40 points into unknown readable memory: e0 ca ae 7e d5 7f 00
 R15=0x0 is NULL
 
 
-***REMOVED***
+Registers:
 RAX=0x0000000000000001, RBX=0x000055ed3ccfc7e0, RCX=0x0000000000000000, RDX=0x0000000000000020
 RSP=0x00007fd52f6e9888, RBP=0x00007fd52f6e98b0, RSI=0x000055ed9f6a3800, RDI=0x0000000000000000
 R8 =0x0000000000000000, R9 =0x0000000000000001, R10=0x0000000000000000, R11=0x0000000000000206
@@ -125,7 +125,7 @@ stack at sp + 6 slots: 0x00007fd57e06679b: <offset 0x0000000000a1279b> in /usr/l
 stack at sp + 7 slots: 0x00007fd52f6e98e0 is pointing into the stack for thread: 0x000055ed9f6a3800
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
 Threads class SMR info:
 _java_thread_list=0x000055ed9f6a13f0, length=137, elements={
@@ -164,9 +164,9 @@ _java_thread_list=0x000055ed9f6a13f0, length=137, elements={
 0x000055ed9fa4b000, 0x000055ed9f3d9000, 0x000055ed9ed5b800, 0x000055ed9f878800,
 0x000055ed9f68c800, 0x000055ed9f279800, 0x000055ed9f577800, 0x000055ed9fa45800,
 0x000055ed9f6a3800
-***REMOVED***
+}
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x000055ed3cb0d800 JavaThread "Reference Handler" daemon [_thread_blocked, id=1985, stack(0x00007fd54ba12000,0x00007fd54bb13000)]
   0x000055ed3cb0f800 JavaThread "Finalizer" daemon [_thread_blocked, id=1986, stack(0x00007fd54b911000,0x00007fd54ba12000)]
   0x000055ed3cb22000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=1987, stack(0x00007fd54b545000,0x00007fd54b646000)]
@@ -182,38 +182,38 @@ _java_thread_list=0x000055ed9f6a13f0, length=137, elements={
   0x000055ed3fbda800 JavaThread "MSC service thread 1-2" [_thread_blocked, id=2001, stack(0x00007fd548397000,0x00007fd548498000)]
 =>0x000055ed9f6a3800 JavaThread "I/O dispatcher 30248931" [_thread_in_native, id=127576, stack(0x00007fd52f5ea000,0x00007fd52f6eb000)]
 
-***REMOVED***
+Other Threads:
   0x000055ed3cb0a000 VMThread "VM Thread" [stack: 0x00007fd54bb15000,0x00007fd54bc15000] [id=1984]
   0x000055ed3cdea000 WatcherThread [stack: 0x00007fd54a936000,0x00007fd54aa36000] [id=1998]
-  0x000055ed3bf45000 GCTaskThread "GC Thread***REMOVED***0" [stack: 0x00007fd562a8d000,0x00007fd562b8d000] [id=1978]
-  0x000055ed4160c000 GCTaskThread "GC Thread***REMOVED***1" [stack: 0x00007fd5418fe000,0x00007fd5419fe000] [id=2162]
-  0x000055ed439d9000 GCTaskThread "GC Thread***REMOVED***2" [stack: 0x00007fd5417fc000,0x00007fd5418fc000] [id=2163]
-  0x000055ed42079000 GCTaskThread "GC Thread***REMOVED***3" [stack: 0x00007fd5416fa000,0x00007fd5417fa000] [id=2164]
-  0x000055ed41197800 GCTaskThread "GC Thread***REMOVED***4" [stack: 0x00007fd5415f8000,0x00007fd5416f8000] [id=2165]
-  0x000055ed416dd000 GCTaskThread "GC Thread***REMOVED***5" [stack: 0x00007fd5414f6000,0x00007fd5415f6000] [id=2167]
-  0x000055ed416df000 GCTaskThread "GC Thread***REMOVED***6" [stack: 0x00007fd5413f4000,0x00007fd5414f4000] [id=2169]
-  0x000055ed42977000 GCTaskThread "GC Thread***REMOVED***7" [stack: 0x00007fd5412f2000,0x00007fd5413f2000] [id=2170]
+  0x000055ed3bf45000 GCTaskThread "GC Thread#0" [stack: 0x00007fd562a8d000,0x00007fd562b8d000] [id=1978]
+  0x000055ed4160c000 GCTaskThread "GC Thread#1" [stack: 0x00007fd5418fe000,0x00007fd5419fe000] [id=2162]
+  0x000055ed439d9000 GCTaskThread "GC Thread#2" [stack: 0x00007fd5417fc000,0x00007fd5418fc000] [id=2163]
+  0x000055ed42079000 GCTaskThread "GC Thread#3" [stack: 0x00007fd5416fa000,0x00007fd5417fa000] [id=2164]
+  0x000055ed41197800 GCTaskThread "GC Thread#4" [stack: 0x00007fd5415f8000,0x00007fd5416f8000] [id=2165]
+  0x000055ed416dd000 GCTaskThread "GC Thread#5" [stack: 0x00007fd5414f6000,0x00007fd5415f6000] [id=2167]
+  0x000055ed416df000 GCTaskThread "GC Thread#6" [stack: 0x00007fd5413f4000,0x00007fd5414f4000] [id=2169]
+  0x000055ed42977000 GCTaskThread "GC Thread#7" [stack: 0x00007fd5412f2000,0x00007fd5413f2000] [id=2170]
   0x000055ed3bf66800 ConcurrentGCThread "G1 Main Marker" [stack: 0x00007fd54f183000,0x00007fd54f283000] [id=1979]
-  0x000055ed3bf68800 ConcurrentGCThread "G1 Conc***REMOVED***0" [stack: 0x00007fd54f081000,0x00007fd54f181000] [id=1980]
-  0x000055ed3ca6b800 ConcurrentGCThread "G1 Refine***REMOVED***0" [stack: 0x00007fd54c777000,0x00007fd54c877000] [id=1981]
-  0x000055ed44863800 ConcurrentGCThread "G1 Refine***REMOVED***1" [stack: 0x00007fd53d9cd000,0x00007fd53dacd000] [id=2228]
-  0x000055ed46773800 ConcurrentGCThread "G1 Refine***REMOVED***2" [stack: 0x00007fd53d8cb000,0x00007fd53d9cb000] [id=2230]
-  0x000055ed48403800 ConcurrentGCThread "G1 Refine***REMOVED***3" [stack: 0x00007fd53c36e000,0x00007fd53c46e000] [id=2247]
-  0x000055ed3f60c000 ConcurrentGCThread "G1 Refine***REMOVED***4" [stack: 0x00007fd54486c000,0x00007fd54496c000] [id=3849]
+  0x000055ed3bf68800 ConcurrentGCThread "G1 Conc#0" [stack: 0x00007fd54f081000,0x00007fd54f181000] [id=1980]
+  0x000055ed3ca6b800 ConcurrentGCThread "G1 Refine#0" [stack: 0x00007fd54c777000,0x00007fd54c877000] [id=1981]
+  0x000055ed44863800 ConcurrentGCThread "G1 Refine#1" [stack: 0x00007fd53d9cd000,0x00007fd53dacd000] [id=2228]
+  0x000055ed46773800 ConcurrentGCThread "G1 Refine#2" [stack: 0x00007fd53d8cb000,0x00007fd53d9cb000] [id=2230]
+  0x000055ed48403800 ConcurrentGCThread "G1 Refine#3" [stack: 0x00007fd53c36e000,0x00007fd53c46e000] [id=2247]
+  0x000055ed3f60c000 ConcurrentGCThread "G1 Refine#4" [stack: 0x00007fd54486c000,0x00007fd54496c000] [id=3849]
   0x000055ed3ca6d800 ConcurrentGCThread "G1 Young RemSet Sampling" [stack: 0x00007fd54c675000,0x00007fd54c775000] [id=1982]
   0x000055ed3ca76000 ConcurrentGCThread "StrDedup" [stack: 0x00007fd54c573000,0x00007fd54c673000] [id=1983]
 
 Threads with active compile tasks:
 
-***REMOVED***
+VM state:not at safepoint (normal execution)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
 Heap address: 0x0000000600000000, size: 8192 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
 Narrow klass base: 0x0000000800000000, Narrow klass shift: 3
 Compressed class space size: 1065353216 Address: 0x0000000840000000
 
-***REMOVED***
+Heap:
  garbage-first heap   total 8388608K, used 6158247K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 1147 young (4698112K), 12 survivors (49152K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
@@ -258,7 +258,7 @@ CodeHeap 'profiled nmethods': size=128220Kb used=15373Kb max_used=69877Kb free=1
 CodeHeap 'non-nmethods': size=5700Kb used=2584Kb max_used=2691Kb free=3116Kb
  bounds [0x00007fd562d83000, 0x00007fd563043000, 0x00007fd563314000]
  total_blobs=262669 nmethods=16735 adapters=1128
-***REMOVED***
+ compilation: enabled
               stopped_count=0, restarted_count=0
  full_count=0
 
@@ -273,140 +273,140 @@ Event: 1409129.277 GC heap before
   region size 4096K, 1228 young (5029888K), 11 survivors (45056K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409129.467 GC heap after
 {Heap after GC invocations=15341 (full 0):
  garbage-first heap   total 8388608K, used 1526105K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 15 young (61440K), 15 survivors (61440K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409177.724 GC heap before
 {Heap before GC invocations=15341 (full 0):
  garbage-first heap   total 8388608K, used 6490457K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 1228 young (5029888K), 15 survivors (61440K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409177.908 GC heap after
 {Heap after GC invocations=15342 (full 0):
  garbage-first heap   total 8388608K, used 1516638K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 13 young (53248K), 13 survivors (53248K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409216.534 GC heap before
 {Heap before GC invocations=15342 (full 0):
  garbage-first heap   total 8388608K, used 6489182K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 1228 young (5029888K), 13 survivors (53248K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409216.704 GC heap after
 {Heap after GC invocations=15343 (full 0):
  garbage-first heap   total 8388608K, used 1515265K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 13 young (53248K), 13 survivors (53248K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409247.741 GC heap before
 {Heap before GC invocations=15343 (full 0):
  garbage-first heap   total 8388608K, used 6487809K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 1228 young (5029888K), 13 survivors (53248K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409247.931 GC heap after
 {Heap after GC invocations=15344 (full 0):
  garbage-first heap   total 8388608K, used 1509382K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 11 young (45056K), 11 survivors (45056K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409291.309 GC heap before
 {Heap before GC invocations=15344 (full 0):
  garbage-first heap   total 8388608K, used 6490118K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 1228 young (5029888K), 11 survivors (45056K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409291.493 GC heap after
 {Heap after GC invocations=15345 (full 0):
  garbage-first heap   total 8388608K, used 1510126K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 11 young (45056K), 11 survivors (45056K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409328.029 GC heap before
 {Heap before GC invocations=15345 (full 0):
  garbage-first heap   total 8388608K, used 6494958K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 1228 young (5029888K), 11 survivors (45056K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409328.210 GC heap after
 {Heap after GC invocations=15346 (full 0):
  garbage-first heap   total 8388608K, used 1501020K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 9 young (36864K), 9 survivors (36864K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409395.487 GC heap before
 {Heap before GC invocations=15346 (full 0):
  garbage-first heap   total 8388608K, used 6494044K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 1228 young (5029888K), 9 survivors (36864K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409395.677 GC heap after
 {Heap after GC invocations=15347 (full 0):
  garbage-first heap   total 8388608K, used 1522723K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 14 young (57344K), 14 survivors (57344K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409438.110 GC heap before
 {Heap before GC invocations=15347 (full 0):
  garbage-first heap   total 8388608K, used 6495267K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 1228 young (5029888K), 14 survivors (57344K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409438.287 GC heap after
 {Heap after GC invocations=15348 (full 0):
  garbage-first heap   total 8388608K, used 1512926K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 12 young (49152K), 12 survivors (49152K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409505.351 GC heap before
 {Heap before GC invocations=15348 (full 0):
  garbage-first heap   total 8388608K, used 6493662K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 1228 young (5029888K), 12 survivors (49152K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409505.537 GC heap after
 {Heap after GC invocations=15349 (full 0):
  garbage-first heap   total 8388608K, used 1517279K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 13 young (53248K), 13 survivors (53248K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409549.338 GC heap before
 {Heap before GC invocations=15349 (full 0):
  garbage-first heap   total 8388608K, used 6489823K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 1228 young (5029888K), 13 survivors (53248K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 Event: 1409549.521 GC heap after
 {Heap after GC invocations=15350 (full 0):
  garbage-first heap   total 8388608K, used 1513383K [0x0000000600000000, 0x0000000800000000)
   region size 4096K, 12 young (49152K), 12 survivors (49152K)
  Metaspace       used 233841K, capacity 254505K, committed 254592K, reserved 1261568K
   class space    used 27132K, capacity 34170K, committed 34176K, reserved 1040384K
-***REMOVED***
+}
 
 Deoptimization events (20 events):
 Event: 1409563.626 Thread 0x000055ed9f6a3800 DEOPT PACKING pc=0x00007fd56d0f8118 sp=0x00007fd52f6e90a0
@@ -434,9 +434,9 @@ Classes redefined (0 events):
 No events
 
 Internal exceptions (20 events):
-Event: 1409563.522 Thread 0x000055ed9f3bf800 Exception <a 'java/net/ConnectException'{0x00000006e5e136b8***REMOVED***> (0x00000006e5e136b8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
-Event: 1409563.539 Thread 0x000055ed9f1f3000 Exception <a 'java/net/ConnectException'{0x00000006e5ca46b8***REMOVED***> (0x00000006e5ca46b8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
-Event: 1409563.540 Thread 0x000055ed9f1f3000 Exception <a 'java/net/ConnectException'{0x00000006e5ca8180***REMOVED***> (0x00000006e5ca8180) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
+Event: 1409563.522 Thread 0x000055ed9f3bf800 Exception <a 'java/net/ConnectException'{0x00000006e5e136b8}> (0x00000006e5e136b8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
+Event: 1409563.539 Thread 0x000055ed9f1f3000 Exception <a 'java/net/ConnectException'{0x00000006e5ca46b8}> (0x00000006e5ca46b8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
+Event: 1409563.540 Thread 0x000055ed9f1f3000 Exception <a 'java/net/ConnectException'{0x00000006e5ca8180}> (0x00000006e5ca8180) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
 
 Events (20 events):
 Event: 1409563.636 Protecting memory [0x00007fd5306fb000,0x00007fd5306ff000] with protection modes 0
@@ -444,54 +444,54 @@ Event: 1409563.637 Thread 0x000055ed9f573000 Thread added: 0x000055ed9f573000
 
 
 
-***REMOVED***
+Dynamic libraries:
 
 7fd57d654000-7fd57e824000 r-xp 00000000 fd:02 571545                     /usr/lib/jvm/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/lib/server/libjvm.so
 
 
-***REMOVED***
+VM Arguments:
 jvm_args: -D[Standalone] -Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M -Xms8192m -Xmx8192m -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=1024m -XX:+UseStringDeduplication -XX:+UseLWPSynchronization -XX:StringTableSize=120121 -Djava.net.preferIPv4Stack=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -XX:ReservedCodeCacheSize=256m -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n
 java_command: /path/to/jboss-modules.jar
 java_class_path (initial): .
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
 [Global flags]
-     intx CICompilerCount                          = 4                                         {product***REMOVED*** {ergonomic***REMOVED***
-   size_t CompressedClassSpaceSize                 = 1065353216                                {product***REMOVED*** {ergonomic***REMOVED***
-     uint ConcGCThreads                            = 2                                         {product***REMOVED*** {ergonomic***REMOVED***
-     uint G1ConcRefinementThreads                  = 8                                         {product***REMOVED*** {ergonomic***REMOVED***
-   size_t G1HeapRegionSize                         = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
-    uintx GCDrainStackTargetSize                   = 64                                        {product***REMOVED*** {ergonomic***REMOVED***
-   size_t InitialHeapSize                          = 8589934592                                {product***REMOVED*** {command line***REMOVED***
-   size_t MarkStackSize                            = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
-   size_t MaxHeapSize                              = 8589934592                                {product***REMOVED*** {command line***REMOVED***
-   size_t MaxMetaspaceSize                         = 1073741824                                {product***REMOVED*** {command line***REMOVED***
-   size_t MaxNewSize                               = 5150605312                                {product***REMOVED*** {ergonomic***REMOVED***
-   size_t MetaspaceSize                            = 536870912                              {pd product***REMOVED*** {command line***REMOVED***
-   size_t MinHeapDeltaBytes                        = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
-    uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product***REMOVED*** {ergonomic***REMOVED***
-    uintx NonProfiledCodeHeapSize                  = 131299578                              {pd product***REMOVED*** {ergonomic***REMOVED***
-    uintx ProfiledCodeHeapSize                     = 131299578                              {pd product***REMOVED*** {ergonomic***REMOVED***
-    uintx ReservedCodeCacheSize                    = 268435456                              {pd product***REMOVED*** {command line***REMOVED***
-     bool SegmentedCodeCache                       = true                                      {product***REMOVED*** {ergonomic***REMOVED***
-    uintx StringTableSize                          = 120121                                    {product***REMOVED*** {command line***REMOVED***
-     bool UseCompressedClassPointers               = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
-     bool UseCompressedOops                        = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
-     bool UseG1GC                                  = true                                      {product***REMOVED*** {ergonomic***REMOVED***
-     bool UseLWPSynchronization                    = true                                      {product***REMOVED*** {command line***REMOVED***
-     bool UseStringDeduplication                   = true                                      {product***REMOVED*** {command line***REMOVED***
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+   size_t CompressedClassSpaceSize                 = 1065353216                                {product} {ergonomic}
+     uint ConcGCThreads                            = 2                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 8                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 4194304                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 8589934592                                {product} {command line}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 8589934592                                {product} {command line}
+   size_t MaxMetaspaceSize                         = 1073741824                                {product} {command line}
+   size_t MaxNewSize                               = 5150605312                                {product} {ergonomic}
+   size_t MetaspaceSize                            = 536870912                              {pd product} {command line}
+   size_t MinHeapDeltaBytes                        = 4194304                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 131299578                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 131299578                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 268435456                              {pd product} {command line}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+    uintx StringTableSize                          = 120121                                    {product} {command line}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLWPSynchronization                    = true                                      {product} {command line}
+     bool UseStringDeduplication                   = true                                      {product} {command line}
 
 Logging:
 Log output configuration:
- ***REMOVED***0: stdout all=warning uptime,level,tags
- ***REMOVED***1: stderr all=off uptime,level,tags
- ***REMOVED***2: file=/opt/OpenIAM/jboss-eap-7.2/standalone/log/gc.log all=off,gc*=info time,uptimemillis filecount=5,filesize=3072K
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+ #2: file=/opt/OpenIAM/jboss-eap-7.2/standalone/log/gc.log all=off,gc*=info time,uptimemillis filecount=5,filesize=3072K
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
+Environment Variables:
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xef8500], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xef8500], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0xef8500], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
@@ -505,15 +505,15 @@ SIGTERM: [libjvm.so+0xbe3b40], sa_mask[0]=11111111011111111101111111111110, sa_f
 SIGQUIT: [libjvm.so+0xbe3b40], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux release 8.1 (Ootpa)
-uname:Linux 4.18.0-193.19.1.el8_2.x86_64 ***REMOVED***1 SMP Wed Aug 26 15:29:02 EDT 2020 x86_64
-***REMOVED***
+uname:Linux 4.18.0-193.19.1.el8_2.x86_64 #1 SMP Wed Aug 26 15:29:02 EDT 2020 x86_64
+libc:glibc 2.28 NPTL 2.28 
 rlimit: STACK 8192k, CORE infinity, NPROC 65536, NOFILE 65536, AS infinity, DATA infinity, FSIZE infinity
 load average:0.96 0.66 0.64
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       16228352 kB
 MemFree:          248256 kB
 MemAvailable:    5328680 kB
@@ -526,12 +526,12 @@ Active(anon):    8348124 kB
 Inactive(anon):  1539060 kB
 Active(file):     423428 kB
 Inactive(file):  4760400 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:       8388604 kB
 SwapFree:        8101116 kB
 Dirty:              2384 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       9093352 kB
 Mapped:           264824 kB
 Shmem:            763828 kB
@@ -541,25 +541,25 @@ SReclaimable:     234280 kB
 SUnreclaim:       259072 kB
 KernelStack:       13564 kB
 PageTables:        46348 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    16502780 kB
 Committed_AS:   14234044 kB
 VmallocTotal:   34359738367 kB
-***REMOVED***
-***REMOVED***
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
 Percpu:           143872 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   8558592 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
-***REMOVED***
+Hugetlb:               0 kB
 DirectMap4k:     2910016 kB
 DirectMap2M:    13867008 kB
 DirectMap1G:     2097152 kB
@@ -578,17 +578,17 @@ DirectMap1G:     2097152 kB
 
 
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-7
 cpu_memory_nodes: 0
 active_processor_count: 8
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 14066225152
 memory_max_usage_in_bytes: 14112825344
 
@@ -597,7 +597,7 @@ Steal ticks since vm start: 0
 Steal ticks percentage since vm start:  0.000
 
 CPU:total 8 (initial active 8) (1 cores per cpu, 1 threads per core) family 6 model 85 stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, tsc, tscinvbit, bmi1, bmi2, adx, fma
-CPU Model and flags from ***REMOVED***
+CPU Model and flags from /proc/cpuinfo:
 model name	: Intel(R) Xeon(R) Platinum 8160 CPU @ 2.10GHz
 flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 avx2 smep bmi2 invpcid mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xsaves arat pku ospke md_clear flush_l1d arch_capabilities
 

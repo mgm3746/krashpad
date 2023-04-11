@@ -1,7 +1,7 @@
-***REMOVED*** krashpad
+# krashpad
 A command line tool to parse Java fatal error logs.
 
-***REMOVED******REMOVED*** Supports
+## Supports
 
 OpenJDK derivatives:
 * Adoptium/AdoptOpenJDK
@@ -11,9 +11,9 @@ OpenJDK derivatives:
 * Red Hat build of OpenJDK
 * etc.
   
-***REMOVED******REMOVED*** Running
+## Running
 
-***REMOVED******REMOVED******REMOVED*** docker/podman
+### docker/podman
 
 Fastest/easiest way to run the latest version. The image in github.io is built/updated with every commit to the `main` branch.
 
@@ -25,7 +25,7 @@ $ docker run --pull=always -v "$PWD":/home/krashpad/files:z ghcr.io/mgm3746/kras
 
 Name the analysis report after the log file with a ".pad" extension (or whatever convention you want to use).
 
-***REMOVED******REMOVED******REMOVED*** jar
+### jar
 
 Check out the `main` branch and build it.
 
@@ -47,7 +47,7 @@ Run it:
 java -jar krashpad-LATEST.jar /path/to/hs_err_pid12345
 ```
 
-***REMOVED******REMOVED*** Usage
+## Usage
 
 ```
 usage: krashpad [OPTION]... [FILE]
@@ -59,7 +59,7 @@ usage: krashpad [OPTION]... [FILE]
 Notes:
   1. The custom output file name option only applies when running as a jar. It is useful when analyzing multiple fatal error logs.
   
-***REMOVED******REMOVED*** Report
+## Report
   
 The report below is based on the following fatal error log:
 
@@ -115,17 +115,17 @@ JVM Args: -Dcall_P203 -Xms1024m -Xmx1024m -XX:MetaspaceSize=256m -XX:MaxMetaspac
 Threads:
 ----------------------------------------
 Current thread: JavaThread "domain-10" daemon [_thread_in_native, id=25945, stack(0x00007fa1bf03b000,0x00007fa1bf13c000)]
-***REMOVED*** Java threads: 136
+# Java threads: 136
 ========================================
 Error(s):
 ----------------------------------------
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007fa2a4353667, pid=25779, tid=0x00007fa1bf13b700
-***REMOVED*** C  [libc.so.6+0x14d667]  __memcpy_ssse3+0xb57
+#  SIGSEGV (0xb) at pc=0x00007fa2a4353667, pid=25779, tid=0x00007fa1bf13b700
+# C  [libc.so.6+0x14d667]  __memcpy_ssse3+0xb57
 ========================================
 Stack:
 ----------------------------------------
 Stack: [0x00007fa1bf03b000,0x00007fa1bf13c000],  sp=0x00007fa1bf138608,  free space=1013k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 C  [libc.so.6+0x14d667]  __memcpy_ssse3+0xb57
 C  [libzip.so+0x6034]  ZIP_GetEntry2+0xf4
 C  [libzip.so+0x3c1d]  Java_java_util_zip_ZipFile_getEntry+0xfd
@@ -171,7 +171,7 @@ Notes:
   1. There is a limit of 1000 unidentified log lines that will be reported.
   1. Please report unidentified log lines by opening an issue: https://github.com/mgm3746/krashpad/issues. Attach the fatal error log after reviewing it and removing any sensitive information.
   
-***REMOVED******REMOVED*** Copyright
+## Copyright
 
 Copyright (c) 2020-2023 Mike Millson
 

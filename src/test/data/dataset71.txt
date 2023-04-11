@@ -1,41 +1,41 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (mmap) failed to map 8589934592 bytes for Failed to commit area from 0x00000003c0800000 to 0x00000005c0800000 of length 8589934592.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (os_windows.cpp:3491), pid=33296, tid=0x0000000000008038
-***REMOVED***
-***REMOVED*** JRE version:  (8.0_292-b10) (build )
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.292-b10 mixed mode windows-amd64 compressed oops)
-***REMOVED*** Core dump written. Default location: C:\path\to\hs_err_pid12345.mdmp
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 8589934592 bytes for Failed to commit area from 0x00000003c0800000 to 0x00000005c0800000 of length 8589934592.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_windows.cpp:3491), pid=33296, tid=0x0000000000008038
+#
+# JRE version:  (8.0_292-b10) (build )
+# Java VM: OpenJDK 64-Bit Server VM (25.292-b10 mixed mode windows-amd64 compressed oops)
+# Core dump written. Default location: C:\path\to\hs_err_pid12345.mdmp
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x0000000001be3800):  JavaThread "Unknown thread" [_thread_in_vm, id=32824, stack(0x0000000001a90000,0x0000000001b90000)]
 
 Stack: [0x0000000001a90000,0x0000000001b90000]
 [error occurred during error reporting (printing stack bounds), id 0xc0000005]
 
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
 
-***REMOVED***
+Other Threads:
 
 =>0x0000000001be3800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=32824, stack(0x0000000001a90000,0x0000000001b90000)]
 
@@ -63,7 +63,7 @@ Events (0 events):
 No events
 
 
-***REMOVED***
+Dynamic libraries:
 0x00007ff7bb0c0000 - 0x00007ff7bb0f5000 	C:\Program Files\Zulu\zulu-8\bin\java.exe
 0x00007ffd61b50000 - 0x00007ffd61d3d000 	C:\Windows\SYSTEM32\ntdll.dll
 0x00007ffd3fb50000 - 0x00007ffd3fb77000 	C:\Program Files\Cylance\Desktop\CyMemDef64.dll
@@ -97,13 +97,13 @@ No events
 0x00007ffd52080000 - 0x00007ffd5226d000 	C:\Windows\system32\DBGHELP.DLL
 0x00007ffd52050000 - 0x00007ffd5207a000 	C:\Windows\SYSTEM32\dbgcore.DLL
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Dprogram.name=standalone.bat -Xms8G -Xmx16G -XX:MetaspaceSize=500M -XX:MaxMetaspaceSize=1024M -XX:+UseG1GC -XX:+AggressiveOpts -Djava.net.preferIPv4Stack=true -Djboss.as.management.blocking.timeout=5000 -Djboss.modules.system.pkgs=org.jboss.byteman -Dlog4j2.formatMsgNoLookups=true -verbose:gc -Xloggc:C:\path\to\gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -Dorg.jboss.boot.log.file=C:\path\to\server.log -Dlogging.configuration=file:C:\path\to\logging.properties 
 java_command: C:\path\to\jboss-modules.jar -mp C:\path\to\modules org.jboss.as.standalone -Djboss.home.dir=C:\path\to -version
 java_class_path (initial): C:\path\to\jboss-modules.jar
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 JAVA_HOME=C:\Program Files\Zulu\zulu-8
 PATH=C:\Windows\system32;C:\Windows;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Windows\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps
 USERNAME=username
@@ -112,7 +112,7 @@ PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 63 Stepping 2, GenuineIntel
 
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS: Windows 10.0 , 64 bit Build 17763 (10.0.17763.2300)
 HyperV virtualization detected

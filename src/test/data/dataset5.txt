@@ -1,24 +1,24 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007fde0573e2f0, pid=22448, tid=0x00007fdd8c465700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.191-b12 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** C  [libc.so.6+0x1572f0]  __memcpy_ssse3_back+0x2900
-***REMOVED***
-***REMOVED*** Core dump written. Default location: /path/to/core or core.22448
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED*** The crash happened outside the Java Virtual Machine in native code.
-***REMOVED*** See problematic frame for where to report the bug.
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007fde0573e2f0, pid=22448, tid=0x00007fdd8c465700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)
+# Java VM: OpenJDK 64-Bit Server VM (25.191-b12 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# C  [libc.so.6+0x1572f0]  __memcpy_ssse3_back+0x2900
+#
+# Core dump written. Default location: /path/to/core or core.22448
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
 
 
 Stack: [0x00007fdd8c365000,0x00007fdd8c466000],  sp=0x00007fdd8c460a58,  free space=1006k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 C  [libc.so.6+0x1572f0]  __memcpy_ssse3_back+0x2900
 C  [libfreetype.so.6+0x1e108]  FT_Stream_EnterFrame+0x88
 
@@ -139,12 +139,12 @@ J 61514 C2 java.lang.Thread.run()V (17 bytes) @ 0x00007fddee8fa22c [0x00007fddee
 v  ~StubRoutines::call_stub
 
 
-***REMOVED***
+Dynamic libraries:
 7fde045e9000-7fde052dd000 r-xp 00000000 fd:00 17610                      /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre/lib/amd64/server/libjvm.so
 
 
 OS:CentOS Linux release 7.7.1908 (Core)
 
-uname:Linux 3.10.0-1062.9.1.el7.x86_64 ***REMOVED***1 SMP Fri Dec 6 15:49:49 UTC 2019 x86_64
+uname:Linux 3.10.0-1062.9.1.el7.x86_64 #1 SMP Fri Dec 6 15:49:49 UTC 2019 x86_64
 
 vm_info: OpenJDK 64-Bit Server VM (25.191-b12) for linux-amd64 JRE (1.8.0_191-b12), built on Nov 19 2018 16:07:16 by "mockbuild" with gcc 4.8.5 20150623 (Red Hat 4.8.5-36)

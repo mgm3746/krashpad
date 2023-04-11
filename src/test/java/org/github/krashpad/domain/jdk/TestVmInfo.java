@@ -43,7 +43,7 @@ class TestVmInfo {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.PPC64, ((VmInfo) event).getArch(), "Arch not correct.");
         assertEquals(Os.LINUX, ((VmInfo) event).getOs(), "OS not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testArchPpc64Le() {
@@ -53,7 +53,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.PPC64LE, ((VmInfo) event).getArch(), "Arch not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testArchX86_64() {
@@ -63,7 +63,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.X86_64, ((VmInfo) event).getArch(), "Arch not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testBuildDate() {
@@ -82,7 +82,7 @@ class TestVmInfo {
         assertEquals(18, calendar.get(Calendar.HOUR_OF_DAY), "Start hour not parsed correctly.");
         assertEquals(55, calendar.get(Calendar.MINUTE), "Start minute not parsed correctly.");
         assertEquals(8, calendar.get(Calendar.SECOND), "Start second not parsed correctly.");
-    ***REMOVED***
+    }
 
     @Test
     void testBuiltByJavaRe() {
@@ -92,7 +92,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.JAVA_RE, ((VmInfo) event).getBuiltBy(), "JDK builder not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testBuiltByJenkins() {
@@ -102,7 +102,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.JENKINS, ((VmInfo) event).getBuiltBy(), "JDK builder not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testBuiltByMockbuild() {
@@ -112,7 +112,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.MOCKBUILD, ((VmInfo) event).getBuiltBy(), "JDK builder not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testBuiltByZuluRe() {
@@ -123,7 +123,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.ZULU_RE, ((VmInfo) event).getBuiltBy(), "JDK builder not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentifyZulu() {
@@ -132,7 +132,7 @@ class TestVmInfo {
                 + "4.4.7 20120313";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
                 JdkUtil.LogEventType.VM_INFO.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
@@ -140,7 +140,7 @@ class TestVmInfo {
                 + "built on Oct  6 2018 06:46:09 by \"java_re\" with gcc 7.3.0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJavaSpecification11() {
@@ -150,7 +150,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(JavaSpecification.JDK11, ((VmInfo) event).getJavaSpecification(), "Version not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJavaSpecification12() {
@@ -160,7 +160,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(JavaSpecification.JDK12, ((VmInfo) event).getJavaSpecification(), "Version not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJavaSpecification8() {
@@ -170,7 +170,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(JavaSpecification.JDK8, ((VmInfo) event).getJavaSpecification(), "Version not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk17() {
@@ -181,7 +181,7 @@ class TestVmInfo {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(JavaSpecification.JDK17, ((VmInfo) event).getJavaSpecification(),
                 "Java specification not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk7() {
@@ -192,7 +192,7 @@ class TestVmInfo {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(JavaSpecification.JDK7, ((VmInfo) event).getJavaSpecification(),
                 "Java specification not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdkReleaseString() {
@@ -202,7 +202,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals("11.0.5+10-LTS", ((VmInfo) event).getJdkReleaseString(), "Version not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testMicrosoft() {
@@ -212,7 +212,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.VSTS, ((VmInfo) event).getBuiltBy(), "JDK builder not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOracleOld() {
@@ -222,7 +222,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.MACH5ONE, ((VmInfo) event).getBuiltBy(), "JDK builder not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -230,7 +230,7 @@ class TestVmInfo {
                 + "built on Oct  6 2018 06:46:09 by \"java_re\" with gcc 7.3.0";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmInfo,
                 JdkUtil.LogEventType.VM_INFO.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testSparc() {
@@ -241,7 +241,7 @@ class TestVmInfo {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.JAVA_RE, ((VmInfo) event).getBuiltBy(), "JDK builder not correct.");
         assertEquals(Os.SOLARIS, ((VmInfo) event).getOs(), "OS not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testTemurinJdk17() {
@@ -251,7 +251,7 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.TEMURIN, ((VmInfo) event).getBuiltBy(), "BuiltBy not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testWindowsOracleJdk8() {
@@ -262,7 +262,7 @@ class TestVmInfo {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.X86_64, ((VmInfo) event).getArch(), "Arch not correct.");
         assertEquals(JavaSpecification.JDK8, ((VmInfo) event).getJavaSpecification(), "Version not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testWindowsUnknownJdk8() {
@@ -274,7 +274,7 @@ class TestVmInfo {
         assertEquals(Arch.X86_64, ((VmInfo) event).getArch(), "Arch not correct.");
         assertEquals(JavaSpecification.JDK8, ((VmInfo) event).getJavaSpecification(), "Version not correct.");
         assertEquals(Os.WINDOWS, ((VmInfo) event).getOs(), "OS not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testX86() {
@@ -285,7 +285,7 @@ class TestVmInfo {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.MOCKBUILD, ((VmInfo) event).getBuiltBy(), "JDK builder not correct.");
         assertEquals(Arch.X86, ((VmInfo) event).getArch(), "Arch not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testZuluWindows() {
@@ -297,7 +297,7 @@ class TestVmInfo {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(BuiltBy.TESTER, ((VmInfo) event).getBuiltBy(), "JDK builder not correct.");
         assertEquals(Arch.X86_64, ((VmInfo) event).getArch(), "Arch not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testZuluX86_64() {
@@ -308,5 +308,5 @@ class TestVmInfo {
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.X86_64, ((VmInfo) event).getArch(), "Arch not correct.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

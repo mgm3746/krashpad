@@ -27,14 +27,14 @@ public class Constants {
      */
     public enum CpuArch {
         POWER8, POWER9, UNIDENTIFIED, X86_64
-    ***REMOVED***
+    }
 
     /**
      * Defined devices.
      */
     public enum Device {
         AWS_BLOCK_STORAGE, FIXED_DISK, NFS, SCSI_DISK, UNIDENTIFIED
-    ***REMOVED***
+    }
 
     /**
      * Defined OS types.
@@ -42,7 +42,7 @@ public class Constants {
     public enum OsVendor {
         //
         CENTOS, IBM, MICROSOFT, ORACLE, REDHAT, UNIDENTIFIED
-    ***REMOVED***
+    }
 
     /**
      * Defined OS versions.
@@ -50,7 +50,7 @@ public class Constants {
     public enum OsVersion {
         //
         CENTOS6, CENTOS7, CENTOS8, CENTOS9, RHEL6, RHEL7, RHEL8, RHEL9, UNIDENTIFIED
-    ***REMOVED***
+    }
 
     /**
      * Analysis property file.
@@ -126,5 +126,5 @@ public class Constants {
      */
     private Constants() {
 
-    ***REMOVED***
-***REMOVED***
+    }
+}

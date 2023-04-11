@@ -30,12 +30,12 @@ class TestPollingPage {
         String logLine = "Polling page: 0x00007fcbd1b68000";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.POLLING_PAGE,
                 JdkUtil.LogEventType.POLLING_PAGE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "Polling page: 0x00007fcbd1b68000";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof PollingPage,
                 JdkUtil.LogEventType.POLLING_PAGE.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

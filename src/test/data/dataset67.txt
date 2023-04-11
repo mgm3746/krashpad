@@ -1,32 +1,32 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (mmap) failed to map 6442450944 bytes for committing reserved memory.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (os_linux.cpp:2798), pid=104590, tid=0x00007f24b2223700
-***REMOVED***
-***REMOVED*** JRE version:  (8.0_265-b01) (build )
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.265-b01 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Core dump written. Default location: /local/appadm15/core or core.104590
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 6442450944 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2798), pid=104590, tid=0x00007f24b2223700
+#
+# JRE version:  (8.0_265-b01) (build )
+# Java VM: OpenJDK 64-Bit Server VM (25.265-b01 mixed mode linux-amd64 compressed oops)
+# Core dump written. Default location: /local/appadm15/core or core.104590
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f24a804d800):  JavaThread "Unknown thread" [_thread_in_vm, id=104602, stack(0x00007f24b2124000,0x00007f24b2224000)]
 
 Stack: [0x00007f24b2124000,0x00007f24b2224000],  sp=0x00007f24b2222420,  free space=1017k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xb5718d]  VMError::report_and_die()+0x15d
 V  [libjvm.so+0x50675a]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0xaa
 V  [libjvm.so+0x93d557]  os::pd_commit_memory_or_exit(char*, unsigned long, unsigned long, bool, char const*)+0xe7
@@ -37,8 +37,8 @@ V  [libjvm.so+0x5cd5f8]  G1RegionsLargerThanCommitSizeMapper::commit_regions(uns
 V  [libjvm.so+0x62c425]  HeapRegionManager::commit_regions(unsigned int, unsigned long)+0x75
 V  [libjvm.so+0x62c4fd]  HeapRegionManager::make_regions_available(unsigned int, unsigned int)+0x3d
 V  [libjvm.so+0x62cbb7]  HeapRegionManager::expand_by(unsigned int)+0x67
-V  [libjvm.so+0x5a4dea]  G1Collected***REMOVED***:expand(unsigned long)+0x17a
-V  [libjvm.so+0x5aee87]  G1Collected***REMOVED***:initialize()+0x7e7
+V  [libjvm.so+0x5a4dea]  G1CollectedHeap::expand(unsigned long)+0x17a
+V  [libjvm.so+0x5aee87]  G1CollectedHeap::initialize()+0x7e7
 V  [libjvm.so+0xb1ffe9]  Universe::initialize_heap()+0x159
 V  [libjvm.so+0xb20292]  universe_init()+0x42
 V  [libjvm.so+0x641945]  init_globals()+0x65
@@ -48,11 +48,11 @@ C  [libjli.so+0x3093]  JavaMain+0xa3
 C  [libpthread.so.0+0x7ea5]  start_thread+0xc5
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
 
-***REMOVED***
+Other Threads:
 
 =>0x00007f24a804d800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=104602, stack(0x00007f24b2124000,0x00007f24b2224000)]
 
@@ -80,28 +80,28 @@ Events (0 events):
 No events
 
 
-***REMOVED***
+Dynamic libraries:
 7f24b0365000-7f24b10f1000 r-xp 00000000 fd:00 17024948                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: -XX:+PrintClassHistogram -XX:+UseG1GC -Xms1G -Xms6G -Dhawtio.disableProxy=true -Dhawtio.realm=activemq -Dhawtio.offline=true -Dhawtio.role=amq -Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal -Djolokia.policyLocation=file:/path/to/jolokia-access.xml -Djon.id=amq 
 java_command: org.apache.activemq.artemis.boot.Artemis queue stat --url tcp://mydomain:61616 --user myuser --password mypassword --maxRows 1234
 java_class_path (initial): /path/to/amq-broker-7.8.1/lib/artemis-boot.jar
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 JAVA_HOME=/etc/alternatives/jre_1.8.0
 PATH=
-***REMOVED***
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xb57c40], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xb57c40], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x9385c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: [libjvm.so+0x9385c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0x9385c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x9385c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x938470], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGINT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -109,16 +109,16 @@ SIGTERM: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGQUIT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)
 
-uname:Linux 3.10.0-1160.2.1.el7.x86_64 ***REMOVED***1 SMP Mon Sep 21 21:00:09 EDT 2020 x86_64
+uname:Linux 3.10.0-1160.2.1.el7.x86_64 #1 SMP Mon Sep 21 21:00:09 EDT 2020 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE infinity, NPROC 4096, NOFILE 4096, AS infinity
 load average:5.66 1.62 0.93
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:        7892772 kB
 MemFree:          139180 kB
 MemAvailable:     179864 kB
@@ -131,12 +131,12 @@ Active(anon):    5683812 kB
 Inactive(anon):  1325456 kB
 Active(file):      60620 kB
 Inactive(file):   158204 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:       6512636 kB
 SwapFree:        5844144 kB
 Dirty:               672 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       6842008 kB
 Mapped:            46036 kB
 Shmem:            154460 kB
@@ -145,46 +145,46 @@ SReclaimable:      86440 kB
 SUnreclaim:        70764 kB
 KernelStack:       12384 kB
 PageTables:        23964 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    10459020 kB
 Committed_AS:   14728392 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      198440 kB
 VmallocChunk:   34359310332 kB
 Percpu:            24064 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:    655360 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      167744 kB
 DirectMap2M:     8220672 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-1
 cpu_memory_nodes: 0
 active_processor_count: 2
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 7277797376
 memory_max_usage_in_bytes: 0
 
 
 CPU:total 2 (initial active 2) (2 cores per cpu, 1 threads per core) family 6 model 45 stepping 2, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, tsc, tscinvbit, tscinv
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 45
@@ -210,7 +210,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 45

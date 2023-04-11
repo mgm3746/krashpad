@@ -39,7 +39,7 @@ class TestDynamicLibrary {
                 event.getFilePath(), "File path not correct.");
         assertEquals(Device.AWS_BLOCK_STORAGE, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAwsBlockStorage10300() {
@@ -52,7 +52,7 @@ class TestDynamicLibrary {
                 "File path not correct.");
         assertEquals(Device.AWS_BLOCK_STORAGE, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAwsBlockStorage10303() {
@@ -65,21 +65,21 @@ class TestDynamicLibrary {
                 event.getFilePath(), "File path not correct.");
         assertEquals(Device.AWS_BLOCK_STORAGE, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCannotGetLibraryInformation() {
         String logLine = "Can not get library information for pid = 123456";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDbghelp() {
         String logLine = "dbghelp: loaded successfully - version: 4.0.5 - missing functions: none";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDeviceId4Char() {
@@ -92,7 +92,7 @@ class TestDynamicLibrary {
                 "File path not correct.");
         assertEquals(Device.UNIDENTIFIED, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDll() {
@@ -103,7 +103,7 @@ class TestDynamicLibrary {
         assertEquals("E:\\path\\java\\bin\\server\\jvm.dll", event.getFilePath(), "File path not correct.");
         assertEquals(Device.UNIDENTIFIED, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDllTabPreceedingPath() {
@@ -114,7 +114,7 @@ class TestDynamicLibrary {
         assertEquals("C:\\Windows\\SYSTEM32\\ntdll.dll", event.getFilePath(), "File path not correct.");
         assertEquals(Device.UNIDENTIFIED, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testFilePathAmd64() {
@@ -127,7 +127,7 @@ class TestDynamicLibrary {
                 event.getFilePath(), "File path not correct.");
         assertEquals(Device.FIXED_DISK, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testFilePathPpc64le() {
@@ -140,14 +140,14 @@ class TestDynamicLibrary {
                 event.getFilePath(), "File path not correct.");
         assertEquals(Device.FIXED_DISK, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
-        String logLine = "***REMOVED***";
+        String logLine = "Dynamic libraries:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testInode19digit() {
@@ -160,7 +160,7 @@ class TestDynamicLibrary {
                 event.getFilePath(), "File path not correct.");
         assertEquals(Device.NFS, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJar() {
@@ -171,7 +171,7 @@ class TestDynamicLibrary {
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
         DynamicLibrary event = new DynamicLibrary(logLine);
         assertTrue(event.isJar(), "Jar not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk11() {
@@ -184,7 +184,7 @@ class TestDynamicLibrary {
                 "File path not correct.");
         assertEquals(Device.FIXED_DISK, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLogLineAllData() {
@@ -192,14 +192,14 @@ class TestDynamicLibrary {
                 + "/path/to/jdk/jre/lib/amd64/libnet.so";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLogLineMemoryRangeLength16() {
         String logLine = "ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLogLineMemoryRangeLength8() {
@@ -207,14 +207,14 @@ class TestDynamicLibrary {
                 + "/path/to/jdk/bin/java";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLogLineNoFile() {
         String logLine = "6c0000000-7c1ab0000 rw-p 00000000 00:00 0 ";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNativeLibraryDeleted() {
@@ -225,7 +225,7 @@ class TestDynamicLibrary {
         DynamicLibrary event = new DynamicLibrary(logLine);
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
         assertEquals("/path/to/mylib-jni.so (deleted)", event.getFilePath(), "File path not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testNfs() {
@@ -238,14 +238,14 @@ class TestDynamicLibrary {
                 "File path not correct.");
         assertEquals(Device.NFS, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
-        String logLine = "***REMOVED***";
+        String logLine = "Dynamic libraries:";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof DynamicLibrary,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testScsi() {
@@ -258,7 +258,7 @@ class TestDynamicLibrary {
                 "File path not correct.");
         assertEquals(Device.SCSI_DISK, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSolarisMemoryRegionAndFileOnly() {
@@ -270,7 +270,7 @@ class TestDynamicLibrary {
         assertEquals("/apps/java/jdk1.8.0_251_no_compiler/jre/lib/sparcv9/server/libjvm.so", event.getFilePath(),
                 "File path not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSymbolEngine() {
@@ -281,7 +281,7 @@ class TestDynamicLibrary {
                 + "Prevention\\Ips;C:\\Program Files\\Java\\java-11-openjdk-11.0.7-1\\bin\\serve";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVdso() {
@@ -292,5 +292,5 @@ class TestDynamicLibrary {
         assertEquals("[vdso]", event.getFilePath(), "File path not correct.");
         assertEquals(Device.NFS, event.getDevice(), "Device not correct.");
         assertFalse(event.isNativeLibrary(), "Native library incorrectly identified.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

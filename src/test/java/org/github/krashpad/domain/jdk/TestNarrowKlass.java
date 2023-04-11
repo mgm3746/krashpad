@@ -30,12 +30,12 @@ class TestNarrowKlass {
         String logLine = "Narrow klass base: 0x0000000000000000, Narrow klass shift: 3";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NARROW_KLASS,
                 JdkUtil.LogEventType.NARROW_KLASS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "Narrow klass base: 0x0000000000000000, Narrow klass shift: 3";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof NarrowKlass,
                 JdkUtil.LogEventType.NARROW_KLASS.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

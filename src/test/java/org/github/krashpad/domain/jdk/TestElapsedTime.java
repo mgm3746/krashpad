@@ -33,21 +33,21 @@ class TestElapsedTime {
                 JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
         ElapsedTime event = new ElapsedTime(logLine);
         assertEquals("9d 21h 33m 5s", event.getLiteral(), "Elapsed time not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
                 JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ElapsedTime,
                 JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testSecondsOnly() {
@@ -57,7 +57,7 @@ class TestElapsedTime {
         ElapsedTime event = new ElapsedTime(logLine);
         assertEquals("228058 seconds", event.getLiteral(), "Elapsed time not correct.");
         assertEquals(228058000L, event.getUptime(), "Uptime not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testZero() {
@@ -67,5 +67,5 @@ class TestElapsedTime {
         ElapsedTime event = new ElapsedTime(logLine);
         assertEquals("0d 0h 0m 0s", event.getLiteral(), "Elapsed time not correct.");
         assertEquals(606L, event.getUptime(), "Uptime not correct.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

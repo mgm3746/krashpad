@@ -39,7 +39,7 @@ class TestHeap {
         String logLine = "  class space    used 1971K, capacity 2479K, committed 2560K, reserved 1048576K";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testConcurrentMarkSweep() {
@@ -50,7 +50,7 @@ class TestHeap {
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         Heap event = new Heap(logLine);
         assertTrue(event.isOldGen(), "Old gen not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDefNewGeneration() {
@@ -61,7 +61,7 @@ class TestHeap {
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         Heap event = new Heap(logLine);
         assertTrue(event.isYoungGen(), "New gen not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testEden() {
@@ -69,7 +69,7 @@ class TestHeap {
         String logLine = "  eden space 131584K, 88% used [0x00000000eab00000,0x00000000f1c87328,0x00000000f2b80000)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testFrom() {
@@ -77,7 +77,7 @@ class TestHeap {
         String logLine = "  from space 21504K, 0% used [0x00000000f4080000,0x00000000f4080000,0x00000000f5580000)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testG1() {
@@ -86,7 +86,7 @@ class TestHeap {
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         assertTrue(logLine.matches(JdkRegEx.G1), "G1 heap event not recognized.");
-    ***REMOVED***
+    }
 
     @Test
     void testG1Region() {
@@ -94,23 +94,23 @@ class TestHeap {
         String logLine = "  region size 2048K, 417 young (854016K), 55 survivors (112640K)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeaderHeap() {
         Heap priorEvent = null;
-        String logLine = "***REMOVED***";
+        String logLine = "Heap:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         Heap priorEvent = null;
-        String logLine = "***REMOVED***";
+        String logLine = "Heap:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMetaspace() {
@@ -120,7 +120,7 @@ class TestHeap {
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         Heap event = new Heap(logLine);
         assertTrue(event.isMetaspace(), "Metaspace not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMetaspaceJdk17() {
@@ -130,7 +130,7 @@ class TestHeap {
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         Heap event = new Heap(logLine);
         assertTrue(event.isMetaspace(), "Metaspace not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testObjectSpace() {
@@ -138,7 +138,7 @@ class TestHeap {
         String logLine = "  object space 349696K, 0% used [0x00000000c0000000,0x00000000c0000000,0x00000000d5580000)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParNew() {
@@ -149,7 +149,7 @@ class TestHeap {
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         Heap event = new Heap(logLine);
         assertTrue(event.isYoungGen(), "Young gen not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParOldGen() {
@@ -160,15 +160,15 @@ class TestHeap {
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         Heap event = new Heap(logLine);
         assertTrue(event.isOldGen(), "Old gen not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         Heap priorEvent = null;
-        String logLine = "***REMOVED***";
+        String logLine = "Heap:";
         assertTrue(JdkUtil.parseLogLine(logLine, priorEvent) instanceof Heap,
                 JdkUtil.LogEventType.HEAP.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testPsYoungGen() {
@@ -179,7 +179,7 @@ class TestHeap {
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         Heap event = new Heap(logLine);
         assertTrue(event.isYoungGen(), "Young gen not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoah() {
@@ -192,7 +192,7 @@ class TestHeap {
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH),
                 "Shenandoah heap event not recognized.");
         assertFalse(fel.getUnidentifiedLogLines().size() > 0, "Uknown log lines.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahCollectionSet() {
@@ -200,7 +200,7 @@ class TestHeap {
         String logLine = " - map (vanilla): 0x00007ffb91f5e3d1";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahCollectionSetHeader() {
@@ -208,7 +208,7 @@ class TestHeap {
         String logLine = "Collection set:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahHeader() {
@@ -216,7 +216,7 @@ class TestHeap {
         String logLine = "Shenandoah Heap";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahRegions() {
@@ -224,7 +224,7 @@ class TestHeap {
         String logLine = " 2867 x 2048K regions";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahReservedRegion() {
@@ -232,7 +232,7 @@ class TestHeap {
         String logLine = " - [0x000000067a200000, 0x00000007e0800000)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahReservedRegionHeader() {
@@ -240,7 +240,7 @@ class TestHeap {
         String logLine = "Reserved region:";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahSoftMax() {
@@ -249,7 +249,7 @@ class TestHeap {
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         assertTrue(logLine.matches(JdkRegEx.SHENANDOAH), "Shenandoah heap event not recognized.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahStatus() {
@@ -257,7 +257,7 @@ class TestHeap {
         String logLine = "Status: has forwarded objects, updating refs, degenerated gc, not cancelled";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahTotal() {
@@ -266,7 +266,7 @@ class TestHeap {
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         assertTrue(logLine.matches(JdkRegEx.SHENANDOAH), "Shenandoah heap event not recognized.");
-    ***REMOVED***
+    }
 
     @Test
     void testTenuredGeneration() {
@@ -277,7 +277,7 @@ class TestHeap {
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         Heap event = new Heap(logLine);
         assertTrue(event.isOldGen(), "Old gen not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testThe() {
@@ -286,7 +286,7 @@ class TestHeap {
                 + "0x0000000774e14600, 0x00000007c0000000)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testTo() {
@@ -294,6 +294,6 @@ class TestHeap {
         String logLine = "  to   space 21504K, 0% used [0x00000000f2b80000,0x00000000f2b80000,0x00000000f4080000)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
-    ***REMOVED***
+    }
 
-***REMOVED***
+}

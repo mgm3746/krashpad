@@ -30,40 +30,40 @@ class TestHeading {
         String logLine = "----------------------------------------------------------------------";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
                 JdkUtil.LogEventType.HEADING.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
-        String logLine = "***REMOVED***";
+        String logLine = "---------------  T H R E A D  ---------------";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
                 JdkUtil.LogEventType.HEADING.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
-        String logLine = "***REMOVED***";
+        String logLine = "---------------  T H R E A D  ---------------";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Heading,
                 JdkUtil.LogEventType.HEADING.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testProcess() {
-        String logLine = "***REMOVED***";
+        String logLine = "---------------  S Y S T E M  ---------------";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
                 JdkUtil.LogEventType.HEADING.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSummary() {
         String logLine = "---------------  S U M M A R Y ------------";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
                 JdkUtil.LogEventType.HEADING.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSystem() {
-        String logLine = "***REMOVED***";
+        String logLine = "---------------  P R O C E S S  ---------------";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
                 JdkUtil.LogEventType.HEADING.toString() + " not identified.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

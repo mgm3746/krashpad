@@ -29,7 +29,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * ***REMOVED***
+ * /proc/meminfo:
  * MemTotal:       65305448 kB
  * MemFree:        30813412 kB
  * Buffers:          817980 kB
@@ -41,12 +41,12 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * Inactive(anon):    47860 kB
  * Active(file):    3464604 kB
  * Inactive(file):  1553728 kB
- * ***REMOVED***
- * ***REMOVED***
+ * Unevictable:           0 kB
+ * Mlocked:               0 kB
  * SwapTotal:       4194300 kB
  * SwapFree:        4194300 kB
  * Dirty:              1732 kB
- * ***REMOVED***
+ * Writeback:             0 kB
  * AnonPages:      24234268 kB
  * Mapped:           378036 kB
  * Shmem:             48464 kB
@@ -55,26 +55,26 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * SUnreclaim:        89492 kB
  * KernelStack:       67264 kB
  * PageTables:        72112 kB
- * ***REMOVED***
- * ***REMOVED***
- * ***REMOVED***
+ * NFS_Unstable:          0 kB
+ * Bounce:                0 kB
+ * WritebackTmp:          0 kB
  * CommitLimit:    36847024 kB
  * Committed_AS:   32863880 kB
  * VmallocTotal:   34359738367 kB
  * VmallocUsed:      293044 kB
  * VmallocChunk:   34359435764 kB
- * ***REMOVED***
+ * HardwareCorrupted:     0 kB
  * AnonHugePages:  20576256 kB
- * ***REMOVED***
- * ***REMOVED***
- * ***REMOVED***
- * ***REMOVED***
+ * HugePages_Total:       0
+ * HugePages_Free:        0
+ * HugePages_Rsvd:        0
+ * HugePages_Surp:        0
  * Hugepagesize:       2048 kB
  * DirectMap4k:        8192 kB
  * DirectMap2M:     2088960 kB
  * DirectMap1G:    65011712 kB
- * ***REMOVED***
- * ***REMOVED***
+ * FileHugePages:         0 kB
+ * FilePmdMapped:         0 kB
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -85,7 +85,7 @@ public class Meminfo implements LogEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "***REMOVED***";
+    public static final String _REGEX_HEADER = "/proc/meminfo:";
 
     /**
      * Regular expression defining the logging.
@@ -104,7 +104,7 @@ public class Meminfo implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -119,13 +119,13 @@ public class Meminfo implements LogEvent {
      */
     public Meminfo(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.MEMINFO.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

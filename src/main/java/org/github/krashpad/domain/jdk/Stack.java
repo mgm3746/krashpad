@@ -35,7 +35,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * 
  * <pre>
  * Stack: [0x00007fe1bc2b9000,0x00007fe1bc3b9000],  sp=0x00007fe1bc3b7bd0,  free space=1018k
- * ***REMOVED***
+ * Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
  * V  [libjvm.so+0x65a9e1]  oopDesc::size_given_klass(Klass*)+0x1
  * V  [libjvm.so+0x95f950]  ParScanThreadState::trim_queues(int)+0x160
  * V  [libjvm.so+0x9634af]  ParEvacuateFollowersClosure::do_void()+0x3f
@@ -90,7 +90,7 @@ public class Stack implements LogEvent, HeaderEvent {
      * Regular expression for the header.
      */
     private static final String _REGEX_HEADER = "Stack: \\[" + JdkRegEx.ADDRESS + "," + JdkRegEx.ADDRESS + "\\](,  sp="
-            + JdkRegEx.ADDRESS + ",  free space=(\\d{1,***REMOVED***)k)?";
+            + JdkRegEx.ADDRESS + ",  free space=(\\d{1,})k)?";
 
     private static Pattern pattern = Pattern.compile(Stack.REGEX);
 
@@ -110,7 +110,7 @@ public class Stack implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -125,15 +125,15 @@ public class Stack implements LogEvent, HeaderEvent {
      */
     public Stack(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.STACK.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return The stack free space (kilobytes).
@@ -145,11 +145,11 @@ public class Stack implements LogEvent, HeaderEvent {
             if (matcher.find()) {
                 if (matcher.group(18) != null) {
                     stackFreeSpace = Long.parseLong(matcher.group(18));
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                }
+            }
+        }
         return stackFreeSpace;
-    ***REMOVED***
+    }
 
     /**
      * @return true if the stack frame is a Java or native frame, false otherwise.
@@ -166,19 +166,19 @@ public class Stack implements LogEvent, HeaderEvent {
         if (matcher.find()) {
             if (matcher.group(19) != null) {
                 isFrame = true;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return isFrame;
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
+    }
 
     /**
      * @return true if the stack frame is vm code, false otherwise.
@@ -193,10 +193,10 @@ public class Stack implements LogEvent, HeaderEvent {
         if (matcher.find()) {
             if (matcher.group(19) != null && matcher.group(19).equals("V")) {
                 isVmCode = true;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return isVmCode;
-    ***REMOVED***
+    }
 
     /**
      * @return true if the stack frame is vm generated code, false otherwise.
@@ -211,8 +211,8 @@ public class Stack implements LogEvent, HeaderEvent {
         if (matcher.find()) {
             if (matcher.group(19) != null && matcher.group(19).equals("v")) {
                 isVmGeneratedCodeFrame = true;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return isVmGeneratedCodeFrame;
-    ***REMOVED***
-***REMOVED***
+    }
+}

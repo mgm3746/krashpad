@@ -1,33 +1,33 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007fd154f82640, pid=101663, tid=0x00007fd070276700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_262-b10) (build 1.8.0_262-b10)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.262-b10 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Problematic frame:
-***REMOVED*** J 145543 C2 sun.reflect.GeneratedMethodAccessor12373.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (61 bytes) @ 0x00007fd154f82640 [0x00007fd154f82620+0x20]
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007fd154f82640, pid=101663, tid=0x00007fd070276700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_262-b10) (build 1.8.0_262-b10)
+# Java VM: OpenJDK 64-Bit Server VM (25.262-b10 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# J 145543 C2 sun.reflect.GeneratedMethodAccessor12373.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (61 bytes) @ 0x00007fd154f82640 [0x00007fd154f82620+0x20]
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007fd17c626f90):  JavaThread "tomcat-http--32" daemon [_thread_in_Java, id=118491, stack(0x00007fd070176000,0x00007fd070277000)]
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 2 (SEGV_ACCERR), si_addr: 0x00007fd06df59ff8
 
 Stack: [0x00007fd070176000,0x00007fd070277000],  sp=0x00007fd06df6dff8,  free space=18014398509447135k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 J 145543 C2 sun.reflect.GeneratedMethodAccessor12373.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (61 bytes) @ 0x00007fd154f82640 [0x00007fd154f82620+0x20]
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007fd0bc59b5f0 JavaThread "DispatchThread: [com.ibm.mq.jmqi.remote.impl.RemoteSession[:/28d3931a][connectionId=414D5143514D535245543131202020209BFB5B5F017B0828]]" daemon [_thread_blocked, id=66341, stack(0x00007fd057404000,0x00007fd057505000)]
   0x00007fd134735d70 JavaThread "AD Thread Pool-Global192" daemon [_thread_blocked, id=65510, stack(0x00007fd057303000,0x00007fd057404000)]
   0x00007fd0e03d57a0 JavaThread "Keep-Alive-Timer" daemon [_thread_blocked, id=38930, stack(0x00007fd057707000,0x00007fd057808000)]
@@ -201,13 +201,13 @@ J 145543 C2 sun.reflect.GeneratedMethodAccessor12373.invoke(Ljava/lang/Object;[L
   0x00007fd17cb5c820 JavaThread "tomcat-http--1" daemon [_thread_blocked, id=118460, stack(0x00007fd072d84000,0x00007fd072e85000)]
     
 
-***REMOVED***
+Other Threads:
   0x00007fd17c20cf40 VMThread [stack: 0x00007fd1233de000,0x00007fd1234df000] [id=101671]
   0x00007fd17c51b6d0 WatcherThread [stack: 0x00007fd0f25da000,0x00007fd0f26db000] [id=105301]
 
-***REMOVED***
+VM state:not at safepoint (normal execution)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
 OutOfMemory and StackOverflow Exception counts:
 StackOverflowErrors=54
@@ -216,7 +216,7 @@ heap address: 0x00000006c0000000, size: 4096 MB, Compressed Oops mode: Zero base
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
 Compressed class space size: 1073741824 Address: 0x00000007c0000000
 
-***REMOVED***
+Heap:
  par new generation   total 229376K, used 175748K [0x00000006c0000000, 0x00000006d0000000, 0x00000006d0000000)
   eden space 196608K,  73% used [0x00000006c0000000, 0x00000006c8c37e98, 0x00000006cc000000)
   from space 32768K,  98% used [0x00000006cc000000, 0x00000006cdf69508, 0x00000006ce000000)
@@ -238,32 +238,32 @@ Polling page: 0x00007fd183cde000
 CodeCache: size=1048576Kb used=405664Kb max_used=405673Kb free=642911Kb
  bounds [0x00007fd13c000000, 0x00007fd154fa0000, 0x00007fd17c000000]
  total_blobs=107599 nmethods=106029 adapters=1477
-***REMOVED***
+ compilation: enabled
 
 
-***REMOVED***
+Internal exceptions (250 events):
 Event: 66898.579 Thread 0x00007fd17c626f90 Exception <a 'java/lang/StackOverflowError'> (0x00000006c8afd320) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/openjdk/hotspot/src/share/vm/runtime/javaCalls.cpp, line 386]
 
 
-***REMOVED***
+Dynamic libraries:
 
 7fd181e2d000-7fd182bd3000 r-xp 00000000 fd:00 262798                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so
 
 
-***REMOVED***
+VM Arguments:
 jvm_args: -XX:+PrintGCApplicationConcurrentTime -XX:+UseParNewGC -XX:+PrintClassHistogram -XX:ParallelGCThreads=4 -Djavax.xml.transform.TransformerFactory=org.apache.xalan.processor.TransformerFactoryImpl -XX:-UseBiasedLocking -Xmaxjitcodesize1024m -XX:+CMSParallelRemarkEnabled -XX:CompileThreshold=200 -javaagent:/path/to/appdynamics/javaagent/current/javaagent.jar -XX:SurvivorRatio=6 -Dappdynamics.http.proxyPort=80 -XX:+PrintGCDetails -XX:+UseCompressedOops -Xloggc:/path/to/gc.log -XX:CMSInitiatingOccupancyFraction=70 -XX:NewSize=256m -XX:+UseConcMarkSweepGC -XX:MaxNewSize=256m -XX:+CMSScavengeBeforeRemark -XX:+UseCMSInitiatingOccupancyOnly -XX:+PrintGCTimeStamps -XX:MetaspaceSize=256m -Xms512m -XX:+PrintGCDateStamps -XX:+DisableExplicitGC -XX:GCLogFileSize=100m -verbose:gc -XX:+CMSClassUnloadingEnabled -XX:+UseGCLogFileRotation -XX:TargetSurvivorRatio=90 -XX:MaxMetaspaceSize=2048m -XX:NumberOfGCLogFiles=10 -Dmqs.startup=true -Dappdynamics.agent.maxMetrics=9000 -Xmx4096m -XX:+PrintGCApplicationStoppedTime 
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)
 
-uname:Linux 2.6.32-754.31.1.el6.x86_64 ***REMOVED***1 SMP Mon Jun 15 08:08:31 EDT 2020 x86_64
+uname:Linux 2.6.32-754.31.1.el6.x86_64 #1 SMP Mon Jun 15 08:08:31 EDT 2020 x86_64
 libc:glibc 2.12 NPTL 2.12 
 rlimit: STACK 10240k, CORE 0k, NPROC 16384, NOFILE 16384, AS infinity
 load average:1.62 0.81 0.74
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       36347668 kB
 MemFree:          922700 kB
 Buffers:         1182640 kB
@@ -275,12 +275,12 @@ Active(anon):   22993780 kB
 Inactive(anon):  1722144 kB
 Active(file):    5087692 kB
 Inactive(file):  2893864 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:       4194300 kB
 SwapFree:        3778004 kB
 Dirty:               864 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:      24638404 kB
 Mapped:           257344 kB
 Shmem:             39548 kB
@@ -289,20 +289,20 @@ SReclaimable:    2091968 kB
 SUnreclaim:       161044 kB
 KernelStack:       90880 kB
 PageTables:        80012 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    22368132 kB
 Committed_AS:   34256200 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      293116 kB
 VmallocChunk:   34359432012 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:  20705280 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:        8192 kB
 DirectMap2M:     2088960 kB
@@ -311,8 +311,8 @@ DirectMap1G:    35651584 kB
 
 CPU:total 4 (initial active 4) (1 cores per cpu, 1 threads per core) family 6 model 79 stepping 0, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, tsc, tscinvbit, bmi1, bmi2, adx
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -338,7 +338,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -364,7 +364,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79
@@ -390,7 +390,7 @@ cache_alignment	: 64
 address sizes	: 42 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 79

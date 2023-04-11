@@ -41,7 +41,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <pre>
- * uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64
+ * uname:Linux 3.10.0-1127.19.1.el7.x86_64 #1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64
  * </pre>
  * 
  * <pre>
@@ -66,7 +66,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <pre>
- * uname: Linux 4.18.0-348.2.1.el8_5.x86_64 ***REMOVED***1 SMP Mon Nov 8 13:30:15 EST 2021 x86_64
+ * uname: Linux 4.18.0-348.2.1.el8_5.x86_64 #1 SMP Mon Nov 8 13:30:15 EST 2021 x86_64
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -77,7 +77,7 @@ public class Uname implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "uname:[ ]{0,1***REMOVED***((Linux|SunOS) .+(i86pc|sun4v|ppc64(le)?|x86_64).*)";
+    public static final String _REGEX_HEADER = "uname:[ ]{0,1}((Linux|SunOS) .+(i86pc|sun4v|ppc64(le)?|x86_64).*)";
 
     private static Pattern pattern = Pattern.compile(Uname.REGEX);
 
@@ -95,7 +95,7 @@ public class Uname implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -110,7 +110,7 @@ public class Uname implements LogEvent, HeaderEvent {
      */
     public Uname(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     /**
      * @return The chip architecture.
@@ -122,26 +122,26 @@ public class Uname implements LogEvent, HeaderEvent {
             int indexArch = 4;
             if (matcher.group(indexArch).equals("x86_64")) {
                 arch = Arch.X86_64;
-            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64")) {
+            } else if (matcher.group(indexArch).equals("ppc64")) {
                 arch = Arch.PPC64;
-            ***REMOVED*** else if (matcher.group(indexArch).equals("ppc64le")) {
+            } else if (matcher.group(indexArch).equals("ppc64le")) {
                 arch = Arch.PPC64LE;
-            ***REMOVED*** else if (matcher.group(indexArch).equals("sun4v")) {
+            } else if (matcher.group(indexArch).equals("sun4v")) {
                 arch = Arch.SPARC;
-            ***REMOVED*** else if (matcher.group(indexArch).equals("i86pc")) {
+            } else if (matcher.group(indexArch).equals("i86pc")) {
                 arch = Arch.I86PC;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return arch;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.UNAME.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return The OS type.
@@ -150,11 +150,11 @@ public class Uname implements LogEvent, HeaderEvent {
         Os osType = Os.UNIDENTIFIED;
         if (getUname().matches("Linux.+")) {
             osType = Os.LINUX;
-        ***REMOVED*** else if (getUname().matches("SunOS.+")) {
+        } else if (getUname().matches("SunOS.+")) {
             osType = Os.SOLARIS;
-        ***REMOVED***
+        }
         return osType;
-    ***REMOVED***
+    }
 
     /**
      * @return The OS vendor.
@@ -163,11 +163,11 @@ public class Uname implements LogEvent, HeaderEvent {
         OsVendor osVendor = OsVendor.UNIDENTIFIED;
         if (getUname().matches("Linux.+\\.el(6|7|8_\\d)\\..+")) {
             osVendor = OsVendor.REDHAT;
-        ***REMOVED*** else if (getUname().matches("SunOS.+")) {
+        } else if (getUname().matches("SunOS.+")) {
             osVendor = OsVendor.ORACLE;
-        ***REMOVED***
+        }
         return osVendor;
-    ***REMOVED***
+    }
 
     /**
      * @return The OS version.
@@ -176,13 +176,13 @@ public class Uname implements LogEvent, HeaderEvent {
         OsVersion osVersion = OsVersion.UNIDENTIFIED;
         if (getUname().matches("Linux.+\\.el6\\..+")) {
             osVersion = OsVersion.RHEL6;
-        ***REMOVED*** else if (getUname().matches("Linux.+\\.el7\\..+")) {
+        } else if (getUname().matches("Linux.+\\.el7\\..+")) {
             osVersion = OsVersion.RHEL7;
-        ***REMOVED*** else if (getUname().matches("Linux.+\\.el8_\\d\\..+")) {
+        } else if (getUname().matches("Linux.+\\.el8_\\d\\..+")) {
             osVersion = OsVersion.RHEL8;
-        ***REMOVED***
+        }
         return osVersion;
-    ***REMOVED***
+    }
 
     /**
      * @return The uname string.
@@ -192,16 +192,16 @@ public class Uname implements LogEvent, HeaderEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             uname = matcher.group(2);
-        ***REMOVED***
+        }
         return uname;
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

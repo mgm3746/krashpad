@@ -30,33 +30,33 @@ class TestExceptionCounts {
         String logLine = "OutOfMemory and StackOverflow Exception counts:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS,
                 JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         String logLine = "StackOverflowErrors=54";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS,
                 JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLinkageErrors() {
         String logLine = "LinkageErrors=5276";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS,
                 JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomeJavaHeap() {
         String logLine = "OutOfMemoryError java_heap_errors=7096811";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.EXCEPTION_COUNTS,
                 JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "StackOverflowErrors=54";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ExceptionCounts,
                 JdkUtil.LogEventType.EXCEPTION_COUNTS.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

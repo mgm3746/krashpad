@@ -30,12 +30,12 @@ public class JdkRegEx {
     /**
      * A 32-bit memory address.
      */
-    public static final String ADDRESS32 = "((0x)?[0-9a-f]{8***REMOVED***)";
+    public static final String ADDRESS32 = "((0x)?[0-9a-f]{8})";
 
     /**
      * A 64-bit memory address.
      */
-    public static final String ADDRESS64 = "((0x)?[0-9a-f]{16***REMOVED***)";
+    public static final String ADDRESS64 = "((0x)?[0-9a-f]{16})";
 
     /**
      * Memory map area.
@@ -45,7 +45,7 @@ public class JdkRegEx {
     public static final String AREA = "(\\[(stack|vdso|vsyscall)\\])";
 
     /**
-     * ActiveMQ main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * ActiveMQ main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -72,7 +72,7 @@ public class JdkRegEx {
      * Oct  6 2018 06:46:09
      * </pre>
      */
-    public static final String BUILD_DATE_TIME = "([a-zA-Z]{3***REMOVED***)[ ]{1,2***REMOVED***(\\d{1,2***REMOVED***) (\\d{4***REMOVED***) (\\d{2***REMOVED***):(\\d{2***REMOVED***):(\\d{2***REMOVED***)";
+    public static final String BUILD_DATE_TIME = "([a-zA-Z]{3})[ ]{1,2}(\\d{1,2}) (\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})";
 
     /**
      * <p>
@@ -88,7 +88,7 @@ public class JdkRegEx {
      * 12.0.1+12
      * </pre>
      */
-    public static final String BUILD_STRING = "((1.6.0|1.7.0|1.8.0|9|10|11|12|13|14|15|16|17)[^\\)]{1,***REMOVED***)";
+    public static final String BUILD_STRING = "((1.6.0|1.7.0|1.8.0|9|10|11|12|13|14|15|16|17)[^\\)]{1,})";
 
     /**
      * Byte units identifier.
@@ -102,10 +102,10 @@ public class JdkRegEx {
      * 
      * com.example.MyClass$MyInnerClass
      */
-    public static final String CLASS = "([a-z]{1,***REMOVED***\\.){1,***REMOVED***[a-zA-Z$_]{1***REMOVED***[a-zA-Z$_\\d]{1,***REMOVED***+[ ]*";
+    public static final String CLASS = "([a-z]{1,}\\.){1,}[a-zA-Z$_]{1}[a-zA-Z$_\\d]{1,}+[ ]*";
 
     /**
-     * ActiveMQ CLI main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * ActiveMQ CLI main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -120,7 +120,7 @@ public class JdkRegEx {
     public static final String COMMAND_ARTEMIS_CLI = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!run).*$";
 
     /**
-     * Cassandra main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * Cassandra main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -131,7 +131,7 @@ public class JdkRegEx {
     public static final String COMMAND_CASSANDRA = "^.*org\\.apache\\.cassandra\\.service\\.CassandraDaemon.*$";
 
     /**
-     * JBoss version check string used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * JBoss version check string used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -139,10 +139,10 @@ public class JdkRegEx {
      * org.jboss.as.standalone -Djboss.home.dir=C:\path\to -version
      * </pre>
      */
-    public static final String COMMAND_JBOSS_VERSION = "^.+org\\.jboss\\.as\\.standalone .*(-[vV]|[-]{1,2***REMOVED***version)$";
+    public static final String COMMAND_JBOSS_VERSION = "^.+org\\.jboss\\.as\\.standalone .*(-[vV]|[-]{1,2}version)$";
 
     /**
-     * JEUS main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * JEUS main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -153,7 +153,7 @@ public class JdkRegEx {
     public static final String COMMAND_JEUS = "^.*jeus\\.server\\.ServerBootstrapper.*$";
 
     /**
-     * Kafka main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * Kafka main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -164,7 +164,7 @@ public class JdkRegEx {
     public static final String COMMAND_KAFKA = "^.*kafka\\.Kafka.*$";
 
     /**
-     * Spring Boot main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * Spring Boot main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -175,7 +175,7 @@ public class JdkRegEx {
     public static final String COMMAND_SPRING_BOOT = "^.*org\\.springframework\\.boot\\.loader\\.WarLauncher.*$";
 
     /**
-     * Tomcat start main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * Tomcat start main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -184,7 +184,7 @@ public class JdkRegEx {
     public static final String COMMAND_TOMCAT_START = "^.*org\\.apache\\.catalina\\.startup\\.Bootstrap start$";
 
     /**
-     * Tomcat stop main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * Tomcat stop main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -216,8 +216,8 @@ public class JdkRegEx {
      * Tue Mar  1 09:13:16 2022 UTC
      * </pre>
      */
-    public static final String CRASH_DATE_TIME = "([a-zA-Z]{3***REMOVED***) ([a-zA-Z]{3***REMOVED***)[ ]{1,2***REMOVED***(\\d{1,2***REMOVED***) "
-            + "(\\d{2***REMOVED***):(\\d{2***REMOVED***):(\\d{2***REMOVED***) (\\d{4***REMOVED***).*";
+    public static final String CRASH_DATE_TIME = "([a-zA-Z]{3}) ([a-zA-Z]{3})[ ]{1,2}(\\d{1,2}) "
+            + "(\\d{2}):(\\d{2}):(\\d{2}) (\\d{4}).*";
 
     /**
      * Major ID and minor ID of the device where the file is located in hexadecimal.
@@ -268,7 +268,7 @@ public class JdkRegEx {
      * 00:38
      * </pre>
      */
-    public static final String DEVICE_IDS = "([0-9a-f]{2,3***REMOVED***:[0-9a-f]{2,4***REMOVED***)";
+    public static final String DEVICE_IDS = "([0-9a-f]{2,3}:[0-9a-f]{2,4})";
 
     /**
      * Memory map file path.
@@ -298,7 +298,7 @@ public class JdkRegEx {
      * 
      * For example: 00016000
      */
-    public static final String FILE_OFFSET = "([0-9a-f]{8***REMOVED***)";
+    public static final String FILE_OFFSET = "([0-9a-f]{8})";
 
     /**
      * Regular expression for G1 gc data.
@@ -330,14 +330,14 @@ public class JdkRegEx {
      * 
      * For example: 134326056
      */
-    public static final String INODE = "([0-9]{1,***REMOVED***)";
+    public static final String INODE = "([0-9]{1,})";
 
     /**
      * Jar.
      * 
      * For example catalina.jar
      */
-    public static final String JAR = "[a-zA-Z\\d-_\\.]{1,***REMOVED***\\.jar";
+    public static final String JAR = "[a-zA-Z\\d-_\\.]{1,}\\.jar";
 
     /**
      * AppDynamics jar.
@@ -349,7 +349,7 @@ public class JdkRegEx {
     public static final String JAR_APP_DYNAMICS = "javaagent.jar";
 
     /**
-     * JBoss EAP6 jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * JBoss EAP6 jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -358,7 +358,7 @@ public class JdkRegEx {
     public static final String JAR_JBOSS_EAP6 = "^.+jbossweb.+\\.jar$";
 
     /**
-     * JBoss EAP6 jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * JBoss EAP6 jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -367,7 +367,7 @@ public class JdkRegEx {
     public static final String JAR_JBOSS_EAP7 = "^.+undertow-core.+\\.jar$";
 
     /**
-     * JEUS (Java Enterprise User Solution) jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED***
+     * JEUS (Java Enterprise User Solution) jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application}
      * identification.
      * 
      * For example:
@@ -378,7 +378,7 @@ public class JdkRegEx {
 
     /**
      * Red Hat Certificate System (RHCS), Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or upstream Dogtag
-     * Certificate System jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * Certificate System jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -387,7 +387,7 @@ public class JdkRegEx {
     public static final String JAR_PKI_TOMCAT = "^.+pki-tomcat\\.jar$";
 
     /**
-     * Tomcat jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * Tomcat jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -396,7 +396,7 @@ public class JdkRegEx {
     public static final String JAR_TOMCAT = "^.+catalina\\.jar$";
 
     /**
-     * JBoss jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * JBoss jar used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -439,10 +439,10 @@ public class JdkRegEx {
      * For example:
      * 
      * <pre>
-     * org.xnio.nio.WorkerThread {0x0000000800c89d28***REMOVED***
+     * org.xnio.nio.WorkerThread {0x0000000800c89d28}
      * </pre>
      */
-    public static final String MEMORY_MAPPING = "^" + CLASS + " \\{" + ADDRESS + "\\***REMOVED***$";
+    public static final String MEMORY_MAPPING = "^" + CLASS + " \\{" + ADDRESS + "\\}$";
 
     /**
      * Memory region
@@ -453,7 +453,7 @@ public class JdkRegEx {
      * 
      * 0x00000000742b0000 - 0x0000000074b70000 (Windows)
      */
-    public static final String MEMORY_REGION = "((0x)?[0-9a-f]{8,16***REMOVED***[ ]{0,1***REMOVED***-[ ]{0,1***REMOVED***(0x)?[0-9a-f]{8,16***REMOVED***)";
+    public static final String MEMORY_REGION = "((0x)?[0-9a-f]{8,16}[ ]{0,1}-[ ]{0,1}(0x)?[0-9a-f]{8,16})";
 
     /**
      * Regular expression for a metaspace event.
@@ -472,7 +472,7 @@ public class JdkRegEx {
      * Metaspace used 19510K, capacity 21116K, committed 21248K, reserved 1069056K
      * </pre>
      */
-    public static final String METASPACE_SIZE = " Metaspace[ ]{1,7***REMOVED***used " + JdkRegEx.SIZE + ", (capacity "
+    public static final String METASPACE_SIZE = " Metaspace[ ]{1,7}used " + JdkRegEx.SIZE + ", (capacity "
             + JdkRegEx.SIZE + ", )?committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE;
 
     /**
@@ -486,7 +486,7 @@ public class JdkRegEx {
      * libpcre2-8.so.0.7.1
      * </pre>
      */
-    public static final String NATIVE_LIBRARY = "[a-zA-Z\\d-_\\.]{1,***REMOVED***\\.(DLL|dll|so)(\\.\\d{1,***REMOVED***){0,***REMOVED***";
+    public static final String NATIVE_LIBRARY = "[a-zA-Z\\d-_\\.]{1,}\\.(DLL|dll|so)(\\.\\d{1,}){0,}";
 
     /**
      * Dynatrace native library.
@@ -576,14 +576,14 @@ public class JdkRegEx {
      * </pre>
      */
     public static final String OLD_GEN_SIZE = " (concurrent mark-sweep generation|PSOldGen|ParOldGen|"
-            + "tenured generation)[ ]{1,7***REMOVED***total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE + ".+";
+            + "tenured generation)[ ]{1,7}total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE + ".+";
 
     /**
      * Units for JVM options that take a byte number.
      * 
      * For example: -Xss128k -Xmx2048m -Xms2G -XX:ThreadStackSize=256
      */
-    public static final String OPTION_SIZE_BYTES = "((\\d{1,***REMOVED***)(b|B|k|K|m|M|g|G)?)";
+    public static final String OPTION_SIZE_BYTES = "((\\d{1,})(b|B|k|K|m|M|g|G)?)";
 
     /**
      * Oracle JDBC OCI driver.
@@ -609,29 +609,29 @@ public class JdkRegEx {
      * 
      * For example: 54%
      */
-    public static final String PERCENT = "\\d{1,3***REMOVED***%";
+    public static final String PERCENT = "\\d{1,3}%";
 
     /**
      * Permission
      * 
      * For example: r--s
      */
-    public static final String PERMISION = "([rwxps\\-]{4***REMOVED***)";
+    public static final String PERMISION = "([rwxps\\-]{4})";
 
     /**
      * An invalid pointer address.
      */
-    public static final String POINTER_INVALID = "0x([f]{8***REMOVED***|[f]{16***REMOVED***)";
+    public static final String POINTER_INVALID = "0x([f]{8}|[f]{16})";
 
     /**
      * A null pointer address.
      */
-    public static final String POINTER_NULL = "0x([0]{8***REMOVED***|[0]{16***REMOVED***)";
+    public static final String POINTER_NULL = "0x([0]{8}|[0]{16})";
 
     /**
      * PostgreSQL JDBC driver.
      */
-    public static final String POSTGRESQL_JDBC_DRIVER = "postgresql-42\\.(\\d)\\.\\d{1,***REMOVED***\\.jar";
+    public static final String POSTGRESQL_JDBC_DRIVER = "postgresql-42\\.(\\d)\\.\\d{1,}\\.jar";
 
     /**
      * PostgreSQL JDBC driver path.
@@ -642,7 +642,7 @@ public class JdkRegEx {
      * A 32-bit or 64-bit register.
      */
     public static final String REGISTER = "(CR2|CSGSFS|ctr|EAX|EBP|EBX|ECX|EDI|EDX|EFLAGS|EIP|ERR|ESI|ESP|lr |pc |RAX|"
-            + "RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|[Rr]" + "\\d{1,2***REMOVED***[ ]{0,1***REMOVED***)=(" + ADDRESS32 + "|" + ADDRESS64 + ")";
+            + "RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|[Rr]" + "\\d{1,2}[ ]{0,1})=(" + ADDRESS32 + "|" + ADDRESS64 + ")";
 
     /**
      * Red Hat OpenJDK rpm directory.
@@ -670,8 +670,8 @@ public class JdkRegEx {
      * 
      * java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64
      */
-    public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d{1,2***REMOVED***\\.\\d{1,2***REMOVED***"
-            + "(\\.\\d{1,2***REMOVED***)?-\\d\\.el([789])(_(\\d{1,2***REMOVED***))?\\.x86_64)";
+    public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d{1,2}\\.\\d{1,2}"
+            + "(\\.\\d{1,2})?-\\d\\.el([789])(_(\\d{1,2}))?\\.x86_64)";
 
     /**
      * Red Hat OpenJDK 11 rpm libjvm.so file path.
@@ -692,8 +692,8 @@ public class JdkRegEx {
      * 
      * java-17-openjdk-17.0.1.0.12-2.el8_5.x86_64
      */
-    public static final String RH_RPM_OPENJDK17_DIR = "(java\\-17\\-openjdk\\-17\\.0\\.\\d{1,2***REMOVED***\\.\\d{1,2***REMOVED***"
-            + "(\\.\\d{1,2***REMOVED***)?-\\d\\.el([89])_(\\d{1,2***REMOVED***)\\.x86_64)";
+    public static final String RH_RPM_OPENJDK17_DIR = "(java\\-17\\-openjdk\\-17\\.0\\.\\d{1,2}\\.\\d{1,2}"
+            + "(\\.\\d{1,2})?-\\d\\.el([89])_(\\d{1,2})\\.x86_64)";
 
     /**
      * Red Hat OpenJDK 17 rpm libjvm.so file path.
@@ -717,7 +717,7 @@ public class JdkRegEx {
      * java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le
      */
     public static final String RH_RPM_OPENJDK8_DIR = "(java\\-1\\.8\\.0\\-openjdk\\-1\\.8\\.0\\..+\\.el([678])"
-            + "(_(\\d{1,2***REMOVED***))?\\.(ppc64(le)?|x86_64))";
+            + "(_(\\d{1,2}))?\\.(ppc64(le)?|x86_64))";
 
     /**
      * Red Hat OpenJDK 8 rpm file path.
@@ -756,7 +756,7 @@ public class JdkRegEx {
      * 3456M max, 3456M soft max, 3200M committed, 2325M used
      * </pre>
      */
-    public static final String SHENANDOAH = "(Shenandoah Heap|" + JdkRegEx.SHENANDOAH_SIZE + "| \\d{1,5***REMOVED*** x "
+    public static final String SHENANDOAH = "(Shenandoah Heap|" + JdkRegEx.SHENANDOAH_SIZE + "| \\d{1,5} x "
             + JdkRegEx.SIZE + " regions|Status:.+|Reserved region:| - \\[.+|Collection set:| - map.+)";
 
     /**
@@ -787,17 +787,17 @@ public class JdkRegEx {
      * 
      * With comma: 306,0M
      */
-    public static final String SIZE = "(\\d{1,10***REMOVED***([\\.,]\\d)?)([" + BYTES + KILOBYTES + MEGABYTES + GIGABYTES + "])";
+    public static final String SIZE = "(\\d{1,10}([\\.,]\\d)?)([" + BYTES + KILOBYTES + MEGABYTES + GIGABYTES + "])";
 
     /**
      * The size of memory in kilobytes (KB), megabytes (MB), or gigabytes (GB) to two decimal places. For example:
      * 
      * 3.00 KB, 395.36 MB, 1.00 GB
      */
-    public static final String SIZE2 = "(\\d{1,***REMOVED***([\\.,]\\d{2***REMOVED***)?) (KB|MB|GB|bytes)";
+    public static final String SIZE2 = "(\\d{1,}([\\.,]\\d{2})?) (KB|MB|GB|bytes)";
 
     /**
-     * JEUS thread used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * JEUS thread used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -808,7 +808,7 @@ public class JdkRegEx {
 
     /**
      * Red Hat Certificate System (RHCS), Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or upstream Dogtag
-     * Certificate System thread used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * Certificate System thread used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -818,7 +818,7 @@ public class JdkRegEx {
     public static final String THREAD_PKI_TOMCAT = "^.+\"ACMEEngineConfigFileSource\".+$";
 
     /**
-     * RHSSO thread used for {@link org.github.krashpad.util.jdk.JdkUtil.Application***REMOVED*** identification.
+     * RHSSO thread used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:
      * 
@@ -832,7 +832,7 @@ public class JdkRegEx {
      * 
      * For example: 487.020
      */
-    public static final String TIMESTAMP = "(\\d{0,12***REMOVED***[\\.\\,]\\d{3***REMOVED***)";
+    public static final String TIMESTAMP = "(\\d{0,12}[\\.\\,]\\d{3})";
 
     /**
      * <p>
@@ -848,7 +848,7 @@ public class JdkRegEx {
      * 12.0.1+12
      * </pre>
      */
-    public static final String VERSION_STRING = "((6.0|7.0|8.0|9|10|11|12|13|14|15|16|17)[^\\)]{1,***REMOVED***)";
+    public static final String VERSION_STRING = "((6.0|7.0|8.0|9|10|11|12|13|14|15|16|17)[^\\)]{1,})";
 
     /**
      * Wildfly or JBoss Enterprise Application Platform (EAP) executor pool thread name.
@@ -858,7 +858,7 @@ public class JdkRegEx {
      * 0x00000000a3715000 JavaThread "pool-711-thread-1" [_thread_blocked, id=6848,
      * stack(0x00000000dd6e0000,0x00000000dd7e0000)
      */
-    public static final String WILDFLY_EXECUTOR_POOL_THREAD = "pool-\\d{1,***REMOVED***-thread-\\d{1,***REMOVED***";
+    public static final String WILDFLY_EXECUTOR_POOL_THREAD = "pool-\\d{1,}-thread-\\d{1,}";
 
     /**
      * Windows exception code for access violation.
@@ -902,6 +902,6 @@ public class JdkRegEx {
      * 
      * par new generation total 766784K, used 37193K [0x0000000261000000, 0x0000000295000000, 0x0000000295000000)
      */
-    public static final String YOUNG_GEN_SIZE = " ((def|par) new generation|PSYoungGen)[ ]{1,6***REMOVED***total " + JdkRegEx.SIZE
+    public static final String YOUNG_GEN_SIZE = " ((def|par) new generation|PSYoungGen)[ ]{1,6}total " + JdkRegEx.SIZE
             + ", used " + JdkRegEx.SIZE + ".+";
-***REMOVED***
+}

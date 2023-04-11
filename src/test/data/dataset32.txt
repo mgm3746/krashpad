@@ -1,18 +1,18 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007ffff79b5e90, pid=24731, tid=24738
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (11.0.5+10) (build 11.0.5+10-LTS)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (11.0.5+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
-***REMOVED*** Problematic frame:
-***REMOVED*** C  [libpthread.so.0+0xce90]  pthread_getcpuclockid+0x0
-***REMOVED***
-***REMOVED*** No core dump will be written. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007ffff79b5e90, pid=24731, tid=24738
+#
+# JRE version: OpenJDK Runtime Environment (11.0.5+10) (build 11.0.5+10-LTS)
+# Java VM: OpenJDK 64-Bit Server VM (11.0.5+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libpthread.so.0+0xce90]  pthread_getcpuclockid+0x0
+#
+# No core dump will be written. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
 ---------------  S U M M A R Y ------------
 
@@ -21,7 +21,7 @@ Command Line: -Xmx2048m --add-modules=ALL-SYSTEM -Xmx12G -Xms1G -Xss5m -XX:Reser
 Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation release 7.4 (Maipo)
 Time: Tue May  5 18:32:04 2020 CEST elapsed time: 956 seconds (0d 0h 15m 56s)
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007ffff044d000):  VMThread "VM Thread" [stack: 0x00007fffb70a4000,0x00007fffb71a4000] [id=24738]
 
@@ -41,7 +41,7 @@ V  [libjvm.so+0xc1a878]  thread_native_entry(Thread*)+0xf8
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x00007fff073ff9d0
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x00007ffff79b5e90: pthread_getcpuclockid+0x0000000000000000 in /lib64/libpthread.so.0 at 0x00007ffff79a9000
 RBX=0x00007ffff0ca3800 is a thread
@@ -61,7 +61,7 @@ R14=0x0 is NULL
 R15=0x00007ffff044c690 points into unknown readable memory: 02 00 00 00 ff 7f 00 00
 
 
-***REMOVED***
+Registers:
 RAX=0x00007ffff79b5e90, RBX=0x00007ffff0ca3800, RCX=0x0000000000000020, RDX=0x00007fffb71a202a
 RSP=0x00007fffb71a28f8, RBP=0x00007fffb71a2930, RSI=0x00007fffb71a2900, RDI=0x00007fff073ff700
 R8 =0x0000000000000007, R9 =0x0000000000000008, R10=0x0000000000000000, R11=0x00007ffff7354a90
@@ -123,7 +123,7 @@ stack at sp + 7 slots: 0x00007fffb71a2970 points into unknown readable memory: a
 VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a000
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
 Threads class SMR info:
 _java_thread_list=0x00000000020a0100, length=58, elements={
@@ -142,9 +142,9 @@ _java_thread_list=0x00000000020a0100, length=58, elements={
 0x00007ffff2aa9000, 0x00007fff7cd28000, 0x00007fff7cd2f000, 0x00007fff7cb9a000,
 0x0000000000b8a800, 0x00007ffff3d9a800, 0x00007ffff0ca3800, 0x00007fff7d2ed000,
 0x00007fff5d5c6000, 0x0000000001b2a000
-***REMOVED***
+}
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007ffff0017800 JavaThread "main" [_thread_blocked, id=24732, stack(0x00007ffff4f14000,0x00007ffff5415000)]
   0x00007ffff0450000 JavaThread "Reference Handler" daemon [_thread_blocked, id=24739, stack(0x00007fffb6ba2000,0x00007fffb70a3000)]
   0x00007ffff0452000 JavaThread "Finalizer" daemon [_thread_blocked, id=24740, stack(0x00007fffb66a1000,0x00007fffb6ba2000)]
@@ -204,27 +204,27 @@ _java_thread_list=0x00000000020a0100, length=58, elements={
   0x00007fff5d5c6000 JavaThread "AWT-XAWT" daemon [_thread_in_native, id=598, stack(0x00007fff76ef1000,0x00007fff773f2000)]
   0x0000000001b2a000 JavaThread "Attach Listener" daemon [_thread_blocked, id=5398, stack(0x00007fffaa12b000,0x00007fffaa62c000)]
 
-***REMOVED***
+Other Threads:
 =>0x00007ffff044d000 VMThread "VM Thread" [stack: 0x00007fffb70a4000,0x00007fffb71a4000] [id=24738]
   0x00007ffff062a800 WatcherThread [stack: 0x00007fffae512000,0x00007fffae612000] [id=24748]
-  0x00007ffff0030000 GCTaskThread "GC Thread***REMOVED***0" [stack: 0x00007fffd7746000,0x00007fffd7846000] [id=24733]
-  0x00007ffff18db800 GCTaskThread "GC Thread***REMOVED***1" [stack: 0x00007fffae24e000,0x00007fffae34e000] [id=24777]
-  0x00007ffff1659800 GCTaskThread "GC Thread***REMOVED***2" [stack: 0x00007fffae14d000,0x00007fffae24d000] [id=24778]
-  0x00007ffff165b000 GCTaskThread "GC Thread***REMOVED***3" [stack: 0x00007fffae04c000,0x00007fffae14c000] [id=24779]
-  0x00007ffff07eb800 GCTaskThread "GC Thread***REMOVED***4" [stack: 0x00007fffadf4b000,0x00007fffae04b000] [id=24780]
-  0x00007ffff07ed800 GCTaskThread "GC Thread***REMOVED***5" [stack: 0x00007fffade4a000,0x00007fffadf4a000] [id=24781]
-  0x00007ffff1925000 GCTaskThread "GC Thread***REMOVED***6" [stack: 0x00007fffadd49000,0x00007fffade49000] [id=24782]
-  0x00007ffff1926800 GCTaskThread "GC Thread***REMOVED***7" [stack: 0x00007fffadc48000,0x00007fffadd48000] [id=24783]
+  0x00007ffff0030000 GCTaskThread "GC Thread#0" [stack: 0x00007fffd7746000,0x00007fffd7846000] [id=24733]
+  0x00007ffff18db800 GCTaskThread "GC Thread#1" [stack: 0x00007fffae24e000,0x00007fffae34e000] [id=24777]
+  0x00007ffff1659800 GCTaskThread "GC Thread#2" [stack: 0x00007fffae14d000,0x00007fffae24d000] [id=24778]
+  0x00007ffff165b000 GCTaskThread "GC Thread#3" [stack: 0x00007fffae04c000,0x00007fffae14c000] [id=24779]
+  0x00007ffff07eb800 GCTaskThread "GC Thread#4" [stack: 0x00007fffadf4b000,0x00007fffae04b000] [id=24780]
+  0x00007ffff07ed800 GCTaskThread "GC Thread#5" [stack: 0x00007fffade4a000,0x00007fffadf4a000] [id=24781]
+  0x00007ffff1925000 GCTaskThread "GC Thread#6" [stack: 0x00007fffadd49000,0x00007fffade49000] [id=24782]
+  0x00007ffff1926800 GCTaskThread "GC Thread#7" [stack: 0x00007fffadc48000,0x00007fffadd48000] [id=24783]
   0x00007ffff0087000 ConcurrentGCThread "G1 Main Marker" [stack: 0x00007fffba4b0000,0x00007fffba5b0000] [id=24734]
-  0x00007ffff0089000 ConcurrentGCThread "G1 Conc***REMOVED***0" [stack: 0x00007fffba3af000,0x00007fffba4af000] [id=24735]
-  0x00007ffff16e6000 ConcurrentGCThread "G1 Conc***REMOVED***1" [stack: 0x00007fffa7524000,0x00007fffa7624000] [id=24844]
-  0x00007ffff039c000 ConcurrentGCThread "G1 Refine***REMOVED***0" [stack: 0x00007fffb7aa6000,0x00007fffb7ba6000] [id=24736]
-  0x00007fff7c407000 ConcurrentGCThread "G1 Refine***REMOVED***1" [stack: 0x00007fff6f2fe000,0x00007fff6f3fe000] [id=25385]
-  0x00000000018ed800 ConcurrentGCThread "G1 Refine***REMOVED***2" [stack: 0x00007fff6f1fd000,0x00007fff6f2fd000] [id=25386]
-  0x00007ffff2d7e800 ConcurrentGCThread "G1 Refine***REMOVED***3" [stack: 0x00007fff6e9fd000,0x00007fff6eafd000] [id=25417]
-  0x00007ffff1a3b000 ConcurrentGCThread "G1 Refine***REMOVED***4" [stack: 0x00007fffae34f000,0x00007fffae44f000] [id=25503]
-  0x00007ffff1a40000 ConcurrentGCThread "G1 Refine***REMOVED***5" [stack: 0x00007fff60046000,0x00007fff60146000] [id=25504]
-  0x0000000000b46800 ConcurrentGCThread "G1 Refine***REMOVED***6" [stack: 0x00007fff4d464000,0x00007fff4d564000] [id=25505]
+  0x00007ffff0089000 ConcurrentGCThread "G1 Conc#0" [stack: 0x00007fffba3af000,0x00007fffba4af000] [id=24735]
+  0x00007ffff16e6000 ConcurrentGCThread "G1 Conc#1" [stack: 0x00007fffa7524000,0x00007fffa7624000] [id=24844]
+  0x00007ffff039c000 ConcurrentGCThread "G1 Refine#0" [stack: 0x00007fffb7aa6000,0x00007fffb7ba6000] [id=24736]
+  0x00007fff7c407000 ConcurrentGCThread "G1 Refine#1" [stack: 0x00007fff6f2fe000,0x00007fff6f3fe000] [id=25385]
+  0x00000000018ed800 ConcurrentGCThread "G1 Refine#2" [stack: 0x00007fff6f1fd000,0x00007fff6f2fd000] [id=25386]
+  0x00007ffff2d7e800 ConcurrentGCThread "G1 Refine#3" [stack: 0x00007fff6e9fd000,0x00007fff6eafd000] [id=25417]
+  0x00007ffff1a3b000 ConcurrentGCThread "G1 Refine#4" [stack: 0x00007fffae34f000,0x00007fffae44f000] [id=25503]
+  0x00007ffff1a40000 ConcurrentGCThread "G1 Refine#5" [stack: 0x00007fff60046000,0x00007fff60146000] [id=25504]
+  0x0000000000b46800 ConcurrentGCThread "G1 Refine#6" [stack: 0x00007fff4d464000,0x00007fff4d564000] [id=25505]
   0x00007ffff039e000 ConcurrentGCThread "G1 Young RemSet Sampling" [stack: 0x00007fffb79a5000,0x00007fffb7aa5000] [id=24737]
 
 Threads with active compile tasks:
@@ -238,7 +238,7 @@ Heap address: 0x0000000500000000, size: 12288 MB, Compressed Oops mode: Zero bas
 Narrow klass base: 0x0000000800000000, Narrow klass shift: 3
 Compressed class space size: 1073741824 Address: 0x0000000840000000
 
-***REMOVED***
+Heap:
  garbage-first heap   total 1933312K, used 1030565K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 417 young (854016K), 55 survivors (112640K)
  Metaspace       used 147896K, capacity 158479K, committed 159168K, reserved 1189888K
@@ -1224,7 +1224,7 @@ CodeHeap 'profiled nmethods': size=128220Kb used=38331Kb max_used=45088Kb free=8
 CodeHeap 'non-nmethods': size=5700Kb used=1496Kb max_used=1524Kb free=4203Kb
  bounds [0x00007fffd7941000, 0x00007fffd7bb1000, 0x00007fffd7ed2000]
  total_blobs=29416 nmethods=14571 adapters=913
-***REMOVED***
+ compilation: enabled
               stopped_count=0, restarted_count=0
  full_count=0
 
@@ -1257,140 +1257,140 @@ Event: 11.272 GC heap before
   region size 2048K, 181 young (370688K), 11 survivors (22528K)
  Metaspace       used 49410K, capacity 54458K, committed 54576K, reserved 1097728K
   class space    used 4891K, capacity 6506K, committed 6528K, reserved 1048576K
-***REMOVED***
+}
 Event: 11.295 GC heap after
 {Heap after GC invocations=10 (full 0):
  garbage-first heap   total 1263616K, used 68516K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 18 young (36864K), 18 survivors (36864K)
  Metaspace       used 49410K, capacity 54458K, committed 54576K, reserved 1097728K
   class space    used 4891K, capacity 6506K, committed 6528K, reserved 1048576K
-***REMOVED***
+}
 Event: 11.835 GC heap before
 {Heap before GC invocations=10 (full 0):
  garbage-first heap   total 1263616K, used 152484K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 60 young (122880K), 18 survivors (36864K)
  Metaspace       used 54517K, capacity 60117K, committed 60336K, reserved 1101824K
   class space    used 5504K, capacity 7335K, committed 7424K, reserved 1048576K
-***REMOVED***
+}
 Event: 11.860 GC heap after
 {Heap after GC invocations=11 (full 0):
  garbage-first heap   total 1263616K, used 70197K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 18 young (36864K), 18 survivors (36864K)
  Metaspace       used 54517K, capacity 60117K, committed 60336K, reserved 1101824K
   class space    used 5504K, capacity 7335K, committed 7424K, reserved 1048576K
-***REMOVED***
+}
 Event: 14.277 GC heap before
 {Heap before GC invocations=12 (full 0):
  garbage-first heap   total 1263616K, used 612917K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 283 young (579584K), 18 survivors (36864K)
  Metaspace       used 72215K, capacity 79166K, committed 79440K, reserved 1120256K
   class space    used 7143K, capacity 9349K, committed 9472K, reserved 1048576K
-***REMOVED***
+}
 Event: 14.303 GC heap after
 {Heap after GC invocations=13 (full 0):
  garbage-first heap   total 1263616K, used 72403K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 19 young (38912K), 19 survivors (38912K)
  Metaspace       used 72215K, capacity 79166K, committed 79440K, reserved 1120256K
   class space    used 7143K, capacity 9349K, committed 9472K, reserved 1048576K
-***REMOVED***
+}
 Event: 17.823 GC heap before
 {Heap before GC invocations=14 (full 0):
  garbage-first heap   total 1263616K, used 791251K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 370 young (757760K), 19 survivors (38912K)
  Metaspace       used 102272K, capacity 111194K, committed 111440K, reserved 1146880K
   class space    used 10449K, capacity 13526K, committed 13568K, reserved 1048576K
-***REMOVED***
+}
 Event: 17.868 GC heap after
 {Heap after GC invocations=15 (full 0):
  garbage-first heap   total 1263616K, used 88986K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 27 young (55296K), 27 survivors (55296K)
  Metaspace       used 102272K, capacity 111194K, committed 111440K, reserved 1146880K
   class space    used 10449K, capacity 13526K, committed 13568K, reserved 1048576K
-***REMOVED***
+}
 Event: 19.415 GC heap before
 {Heap before GC invocations=15 (full 0):
  garbage-first heap   total 1263616K, used 805786K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 370 young (757760K), 27 survivors (55296K)
  Metaspace       used 118448K, capacity 128412K, committed 128848K, reserved 1163264K
   class space    used 12174K, capacity 15510K, committed 15616K, reserved 1048576K
-***REMOVED***
+}
 Event: 19.480 GC heap after
 {Heap after GC invocations=16 (full 0):
  garbage-first heap   total 1517568K, used 124950K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 39 young (79872K), 39 survivors (79872K)
  Metaspace       used 118448K, capacity 128412K, committed 128848K, reserved 1163264K
   class space    used 12174K, capacity 15510K, committed 15616K, reserved 1048576K
-***REMOVED***
+}
 Event: 19.736 GC heap before
 {Heap before GC invocations=16 (full 0):
  garbage-first heap   total 1517568K, used 296982K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 125 young (256000K), 39 survivors (79872K)
  Metaspace       used 122445K, capacity 132285K, committed 132816K, reserved 1167360K
   class space    used 12314K, capacity 15618K, committed 15744K, reserved 1048576K
-***REMOVED***
+}
 Event: 19.795 GC heap after
 {Heap after GC invocations=17 (full 0):
  garbage-first heap   total 1517568K, used 123176K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 28 young (57344K), 28 survivors (57344K)
  Metaspace       used 122445K, capacity 132285K, committed 132816K, reserved 1167360K
   class space    used 12314K, capacity 15618K, committed 15744K, reserved 1048576K
-***REMOVED***
+}
 Event: 21.537 GC heap before
 {Heap before GC invocations=18 (full 0):
  garbage-first heap   total 1517568K, used 979240K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 444 young (909312K), 28 survivors (57344K)
  Metaspace       used 138824K, capacity 149119K, committed 149952K, reserved 1181696K
   class space    used 14103K, capacity 17508K, committed 17612K, reserved 1048576K
-***REMOVED***
+}
 Event: 21.617 GC heap after
 {Heap after GC invocations=19 (full 0):
  garbage-first heap   total 1517568K, used 171304K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 50 young (102400K), 50 survivors (102400K)
  Metaspace       used 138824K, capacity 149119K, committed 149952K, reserved 1181696K
   class space    used 14103K, capacity 17508K, committed 17612K, reserved 1048576K
-***REMOVED***
+}
 Event: 22.044 GC heap before
 {Heap before GC invocations=20 (full 0):
  garbage-first heap   total 1517568K, used 359720K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 141 young (288768K), 50 survivors (102400K)
  Metaspace       used 140187K, capacity 150495K, committed 151360K, reserved 1183744K
   class space    used 14190K, capacity 17604K, committed 17740K, reserved 1048576K
-***REMOVED***
+}
 Event: 22.088 GC heap after
 {Heap after GC invocations=21 (full 0):
  garbage-first heap   total 1517568K, used 187813K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 10 young (20480K), 10 survivors (20480K)
  Metaspace       used 140187K, capacity 150495K, committed 151360K, reserved 1183744K
   class space    used 14190K, capacity 17604K, committed 17740K, reserved 1048576K
-***REMOVED***
+}
 Event: 22.948 GC heap before
 {Heap before GC invocations=21 (full 0):
  garbage-first heap   total 1517568K, used 662949K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 240 young (491520K), 10 survivors (20480K)
  Metaspace       used 142254K, capacity 152679K, committed 153536K, reserved 1185792K
   class space    used 14382K, capacity 17839K, committed 17868K, reserved 1048576K
-***REMOVED***
+}
 Event: 22.972 GC heap after
 {Heap after GC invocations=22 (full 0):
  garbage-first heap   total 1933312K, used 225701K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 26 young (53248K), 26 survivors (53248K)
  Metaspace       used 142254K, capacity 152679K, committed 153536K, reserved 1185792K
   class space    used 14382K, capacity 17839K, committed 17868K, reserved 1048576K
-***REMOVED***
+}
 Event: 26.699 GC heap before
 {Heap before GC invocations=22 (full 0):
  garbage-first heap   total 1933312K, used 1343909K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 505 young (1034240K), 26 survivors (53248K)
  Metaspace       used 143910K, capacity 154395K, committed 155072K, reserved 1185792K
   class space    used 14536K, capacity 18020K, committed 18124K, reserved 1048576K
-***REMOVED***
+}
 Event: 26.740 GC heap after
 {Heap after GC invocations=23 (full 0):
  garbage-first heap   total 1933312K, used 289189K [0x0000000500000000, 0x0000000800000000)
   region size 2048K, 55 young (112640K), 55 survivors (112640K)
  Metaspace       used 143910K, capacity 154395K, committed 155072K, reserved 1185792K
   class space    used 14536K, capacity 18020K, committed 18124K, reserved 1048576K
-***REMOVED***
+}
 
 Deoptimization events (20 events):
 Event: 624.202 Thread 0x00007ffff0017800 DEOPT PACKING pc=0x00007fffe0a0cbc8 sp=0x00007ffff540fc50
@@ -1418,26 +1418,26 @@ Classes redefined (0 events):
 No events
 
 Internal exceptions (20 events):
-Event: 27.835 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000056321d8a0***REMOVED***> (0x000000056321d8a0) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
-Event: 27.835 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000056322a240***REMOVED***> (0x000000056322a240) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
-Event: 27.836 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x00000005632363e8***REMOVED***> (0x00000005632363e8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
-Event: 27.837 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x00000005632414a8***REMOVED***> (0x00000005632414a8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
-Event: 27.837 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000056324f240***REMOVED***> (0x000000056324f240) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
-Event: 27.838 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000056325bfd8***REMOVED***> (0x000000056325bfd8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
+Event: 27.835 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000056321d8a0}> (0x000000056321d8a0) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
+Event: 27.835 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000056322a240}> (0x000000056322a240) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
+Event: 27.836 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x00000005632363e8}> (0x00000005632363e8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
+Event: 27.837 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x00000005632414a8}> (0x00000005632414a8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
+Event: 27.837 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000056324f240}> (0x000000056324f240) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
+Event: 27.838 Thread 0x00007fff7c753000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'{0x000000056325bfd8}> (0x000000056325bfd8) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/sharedRuntime.cpp, line 584]
 Event: 32.906 Thread 0x00007ffff1dac800 Implicit null exception at 0x00007fffe09b9782 to 0x00007fffe09ba54e
 Event: 313.635 Thread 0x0000000000e43800 Implicit null exception at 0x00007fffe05a18a8 to 0x00007fffe05a488a
-Event: 623.775 Thread 0x00007ffff0017800 Exception <a 'java/lang/reflect/InvocationTargetException'{0x00000005509e9788***REMOVED***> (0x00000005509e9788) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/reflection.cpp, line 1246]
-Event: 623.777 Thread 0x00007ffff0017800 Exception <a 'java/lang/ClassNotFoundException'{0x00000005509fd020***REMOVED***: sun/awt/resources/spi/awtProvider> (0x00000005509fd020) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/classfile/systemDictionary.cpp
-Event: 623.784 Thread 0x00007ffff0017800 Exception <a 'java/io/FileNotFoundException'{0x0000000550646568***REMOVED***> (0x0000000550646568) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
-Event: 623.785 Thread 0x00007ffff0017800 Exception <a 'java/io/FileNotFoundException'{0x000000055064a338***REMOVED***> (0x000000055064a338) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
-Event: 623.862 Thread 0x00007ffff0017800 Exception <a 'java/lang/NoSuchMethodError'{0x000000055046d5d0***REMOVED***: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang
-Event: 623.863 Thread 0x00007ffff0017800 Exception <a 'java/lang/NoSuchMethodError'{0x00000005504888e8***REMOVED***: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang
-Event: 623.870 Thread 0x00007ffff0017800 Exception <a 'java/lang/NoSuchMethodError'{0x00000005504e1650***REMOVED***: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeSpecial(java.lang.Object, java.lang.Object, long)'> (0x00000005504e1650) thrown at [/builddir/build/BUILD/java-11-openjdk-11
-Event: 623.965 Thread 0x00007fff7c8e9800 Exception <a 'java/lang/InterruptedException'{0x0000000550200000***REMOVED***> (0x0000000550200000) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/objectMonitor.cpp, line 1635]
-Event: 623.965 Thread 0x0000000001b2a000 Exception <a 'java/lang/InterruptedException'{0x000000056e11e848***REMOVED***> (0x000000056e11e848) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/objectMonitor.cpp, line 1635]
-Event: 623.965 Thread 0x00007ffff2409800 Exception <a 'java/lang/InterruptedException'{0x0000000550200800***REMOVED***> (0x0000000550200800) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/objectMonitor.cpp, line 1635]
-Event: 623.965 Thread 0x0000000002744000 Exception <a 'java/lang/InterruptedException'{0x000000055036a0d0***REMOVED***> (0x000000055036a0d0) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/objectMonitor.cpp, line 1635]
-Event: 623.965 Thread 0x00007fff7c7a9800 Exception <a 'java/lang/InterruptedException'{0x000000055039e3e0***REMOVED***> (0x000000055039e3e0) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/objectMonitor.cpp, line 1635]
+Event: 623.775 Thread 0x00007ffff0017800 Exception <a 'java/lang/reflect/InvocationTargetException'{0x00000005509e9788}> (0x00000005509e9788) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/reflection.cpp, line 1246]
+Event: 623.777 Thread 0x00007ffff0017800 Exception <a 'java/lang/ClassNotFoundException'{0x00000005509fd020}: sun/awt/resources/spi/awtProvider> (0x00000005509fd020) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/classfile/systemDictionary.cpp
+Event: 623.784 Thread 0x00007ffff0017800 Exception <a 'java/io/FileNotFoundException'{0x0000000550646568}> (0x0000000550646568) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
+Event: 623.785 Thread 0x00007ffff0017800 Exception <a 'java/io/FileNotFoundException'{0x000000055064a338}> (0x000000055064a338) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/prims/jni.cpp, line 615]
+Event: 623.862 Thread 0x00007ffff0017800 Exception <a 'java/lang/NoSuchMethodError'{0x000000055046d5d0}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang
+Event: 623.863 Thread 0x00007ffff0017800 Exception <a 'java/lang/NoSuchMethodError'{0x00000005504888e8}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang
+Event: 623.870 Thread 0x00007ffff0017800 Exception <a 'java/lang/NoSuchMethodError'{0x00000005504e1650}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeSpecial(java.lang.Object, java.lang.Object, long)'> (0x00000005504e1650) thrown at [/builddir/build/BUILD/java-11-openjdk-11
+Event: 623.965 Thread 0x00007fff7c8e9800 Exception <a 'java/lang/InterruptedException'{0x0000000550200000}> (0x0000000550200000) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/objectMonitor.cpp, line 1635]
+Event: 623.965 Thread 0x0000000001b2a000 Exception <a 'java/lang/InterruptedException'{0x000000056e11e848}> (0x000000056e11e848) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/objectMonitor.cpp, line 1635]
+Event: 623.965 Thread 0x00007ffff2409800 Exception <a 'java/lang/InterruptedException'{0x0000000550200800}> (0x0000000550200800) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/objectMonitor.cpp, line 1635]
+Event: 623.965 Thread 0x0000000002744000 Exception <a 'java/lang/InterruptedException'{0x000000055036a0d0}> (0x000000055036a0d0) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/objectMonitor.cpp, line 1635]
+Event: 623.965 Thread 0x00007fff7c7a9800 Exception <a 'java/lang/InterruptedException'{0x000000055039e3e0}> (0x000000055039e3e0) thrown at [/builddir/build/BUILD/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/openjdk/src/hotspot/share/runtime/objectMonitor.cpp, line 1635]
 
 Events (20 events):
 Event: 948.994 Thread 0x00007ffff0477000 flushing nmethod 0x00007fffda885e90
@@ -1462,44 +1462,44 @@ Event: 956.560 loading class jdk/internal/vm/VMSupport done
 Event: 956.874 Executing VM operation: PrintThreads
 
 
-***REMOVED***
+Dynamic libraries:
 7ffff5c35000-7ffff6e6a000 r-xp 00000000 fd:00 823041892                  /usr/lib/jvm/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/lib/server/libjvm.so
 
 
-***REMOVED***
+VM Arguments:
 jvm_args: -Xmx12G -Xms1G -Xss5m -XX:ReservedCodeCacheSize=256m -javaagent:/path/to/jacocoagent.jar=destfile=/path/to/jacoco.exec 
 
 [Global flags]
-     intx CICompilerCount                          = 4                                         {product***REMOVED*** {ergonomic***REMOVED***
-     uint ConcGCThreads                            = 2                                         {product***REMOVED*** {ergonomic***REMOVED***
-    ccstr ErrorFile                                = /tmp/sandreev_ws-java11-jep1654-q9v2kh//eclipse_vm_crash_%p.log            {product***REMOVED*** {command line***REMOVED***
-     uint G1ConcRefinementThreads                  = 8                                         {product***REMOVED*** {ergonomic***REMOVED***
-   size_t G1HeapRegionSize                         = 2097152                                   {product***REMOVED*** {ergonomic***REMOVED***
-    uintx GCDrainStackTargetSize                   = 64                                        {product***REMOVED*** {ergonomic***REMOVED***
-   size_t InitialHeapSize                          = 1073741824                                {product***REMOVED*** {command line***REMOVED***
-   size_t MarkStackSize                            = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
-   size_t MaxHeapSize                              = 12884901888                               {product***REMOVED*** {command line***REMOVED***
-   size_t MaxNewSize                               = 7730102272                                {product***REMOVED*** {ergonomic***REMOVED***
-   size_t MinHeapDeltaBytes                        = 2097152                                   {product***REMOVED*** {ergonomic***REMOVED***
-    uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product***REMOVED*** {ergonomic***REMOVED***
-    uintx NonProfiledCodeHeapSize                  = 131299578                              {pd product***REMOVED*** {ergonomic***REMOVED***
-    uintx ProfiledCodeHeapSize                     = 131299578                              {pd product***REMOVED*** {ergonomic***REMOVED***
-    uintx ReservedCodeCacheSize                    = 268435456                              {pd product***REMOVED*** {command line***REMOVED***
-     bool SegmentedCodeCache                       = true                                      {product***REMOVED*** {ergonomic***REMOVED***
-     intx ThreadStackSize                          = 5120                                   {pd product***REMOVED*** {command line***REMOVED***
-     bool UseCompressedClassPointers               = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
-     bool UseCompressedOops                        = true                                 {lp64_product***REMOVED*** {ergonomic***REMOVED***
-     bool UseG1GC                                  = true                                      {product***REMOVED*** {ergonomic***REMOVED***
-    uintx CompressedClassSpaceSize                 = 805306368                                 {product***REMOVED***
-    uintx MaxDirectMemorySize                      = 1073741824                                {product***REMOVED***    
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 2                                         {product} {ergonomic}
+    ccstr ErrorFile                                = /tmp/sandreev_ws-java11-jep1654-q9v2kh//eclipse_vm_crash_%p.log            {product} {command line}
+     uint G1ConcRefinementThreads                  = 8                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 2097152                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 1073741824                                {product} {command line}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 12884901888                               {product} {command line}
+   size_t MaxNewSize                               = 7730102272                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 2097152                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 131299578                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 131299578                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 268435456                              {pd product} {command line}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     intx ThreadStackSize                          = 5120                                   {pd product} {command line}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+    uintx CompressedClassSpaceSize                 = 805306368                                 {product}
+    uintx MaxDirectMemorySize                      = 1073741824                                {product}    
 
 Logging:
 Log output configuration:
- ***REMOVED***0: stdout all=warning uptime,level,tags
- ***REMOVED***1: stderr all=off uptime,level,tags
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
 
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xefc4c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xefc4c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0xefc4c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
@@ -1513,15 +1513,15 @@ SIGTERM: [libjvm.so+0xc103d0], sa_mask[0]=11111111011111111101111111111110, sa_f
 SIGQUIT: [libjvm.so+0xc103d0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Workstation release 7.4 (Maipo)
-uname:Linux 3.10.0-862.3.2.el7.x86_64 ***REMOVED***1 SMP Tue May 15 18:22:15 EDT 2018 x86_64
+uname:Linux 3.10.0-862.3.2.el7.x86_64 #1 SMP Tue May 15 18:22:15 EDT 2018 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 10240k, CORE 0k, NPROC 4096, NOFILE 4096, AS infinity, DATA infinity, FSIZE infinity
 load average:1.50 1.05 1.03
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       32780544 kB
 MemFree:         2698868 kB
 MemAvailable:   24905780 kB
@@ -1534,12 +1534,12 @@ Active(anon):    5164200 kB
 Inactive(anon):   921476 kB
 Active(file):   10834712 kB
 Inactive(file): 10556272 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:       8191996 kB
 SwapFree:        8190972 kB
 Dirty:               672 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       5387452 kB
 Mapped:          1252680 kB
 Shmem:            698500 kB
@@ -1548,22 +1548,22 @@ SReclaimable:    1218764 kB
 SUnreclaim:       486484 kB
 KernelStack:       12512 kB
 PageTables:        52620 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    24582268 kB
 Committed_AS:   15019368 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:       63664 kB
 VmallocChunk:   34359669804 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   3543040 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      151508 kB
 DirectMap2M:    10334208 kB
@@ -1583,17 +1583,17 @@ DirectMap1G:    25165824 kB
 
 
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-7
 cpu_memory_nodes: 0
 active_processor_count: 8
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 28137373696
 memory_max_usage_in_bytes: 0
 
@@ -1602,7 +1602,7 @@ Steal ticks since vm start: 152
 Steal ticks percentage since vm start:  0.000
 
 CPU:total 8 (initial active 8) (1 cores per cpu, 1 threads per core) family 6 model 94 stepping 3, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx, fma
-CPU Model and flags from ***REMOVED***
+CPU Model and flags from /proc/cpuinfo:
 model name	: Intel Core Processor (Skylake)
 flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl eagerfpu pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt
 

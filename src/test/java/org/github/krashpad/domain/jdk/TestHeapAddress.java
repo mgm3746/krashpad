@@ -36,7 +36,7 @@ class TestHeapAddress {
         HeapAddress event = new HeapAddress(logLine);
         assertEquals(12288, event.getSize(), "Size not correct.");
         assertEquals(CompressedOopMode.ZERO, event.getCompressedOopMode(), "Compressed oop mode not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testErrorPrintingCompressedOopsMode() {
@@ -44,7 +44,7 @@ class TestHeapAddress {
                 + "(0xb) at pc=0x00007f769228928f]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
                 JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
@@ -52,7 +52,7 @@ class TestHeapAddress {
                 + "shift amount: 3";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
                 JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -63,5 +63,5 @@ class TestHeapAddress {
         HeapAddress heapAddressEvent = new HeapAddress(logLine);
         assertEquals(16106127360L, heapAddressEvent.getStartingAddress(), "Heap starting address not correct.");
         assertEquals(16384L, heapAddressEvent.getSize(), "Heap size not correct.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

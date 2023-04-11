@@ -675,7 +675,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("WindowsAccessBridge-64.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("w2k_lsa_auth.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("zip.dll");
-    ***REMOVED***
+    }
 
     /**
      * @param start
@@ -687,7 +687,7 @@ public class ErrUtil {
     public static final int dayDiff(Date start, Date end) {
         long millisDiff = millisDiff(start, end);
         return daysInMilliSeconds(millisDiff);
-    ***REMOVED***
+    }
 
     /**
      * Calculate the number of whole days (24 hour periods) for a given number of milliseconds
@@ -699,7 +699,7 @@ public class ErrUtil {
     public static final int daysInMilliSeconds(long timestamp) {
         BigDecimal days = new BigDecimal(timestamp);
         return days.divideToIntegralValue(new BigDecimal(1000 * 60 * 60 * 24)).intValue();
-    ***REMOVED***
+    }
 
     public static final Date getDate(String buildDate) {
         String MMM = null;
@@ -717,9 +717,9 @@ public class ErrUtil {
             HH = matcher.group(4);
             mm = matcher.group(5);
             ss = matcher.group(6);
-        ***REMOVED***
+        }
         return getDate(MMM, d, yyyy, HH, mm, ss);
-    ***REMOVED***
+    }
 
     /**
      * Convert date parts to a <code>Date</code>.
@@ -741,7 +741,7 @@ public class ErrUtil {
     public static final Date getDate(String MMM, String d, String yyyy, String HH, String mm, String ss) {
         if (MMM == null || d == null || yyyy == null || HH == null || mm == null || ss == null) {
             throw new IllegalArgumentException("One or more date parts are missing.");
-        ***REMOVED***
+        }
 
         Calendar calendar = Calendar.getInstance();
         // Java Calendar month is 0 based
@@ -784,7 +784,7 @@ public class ErrUtil {
             break;
         default:
             throw new IllegalArgumentException("Unexpected month: " + MMM);
-        ***REMOVED***
+        }
         calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(d).intValue());
         calendar.set(Calendar.YEAR, Integer.valueOf(yyyy));
         calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(HH).intValue());
@@ -792,7 +792,7 @@ public class ErrUtil {
         calendar.set(Calendar.SECOND, Integer.valueOf(ss).intValue());
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
-    ***REMOVED***
+    }
 
     /**
      * Retrieve the value for a given property file and key.
@@ -806,7 +806,7 @@ public class ErrUtil {
     public static final String getPropertyValue(String propertyFile, String key) {
         ResourceBundle rb = ResourceBundle.getBundle("org.github.krashpad." + propertyFile);
         return rb.getString(key);
-    ***REMOVED***
+    }
 
     /**
      * Check if the <code>TagHtmlEvent</code> is a start tag.
@@ -817,7 +817,7 @@ public class ErrUtil {
      */
     public static final boolean isHtmlEventStartTag(String htmlTag) {
         return htmlTag.matches("^<[^/].+$");
-    ***REMOVED***
+    }
 
     /**
      * Calculate the number of milliseconds between two dates.
@@ -832,14 +832,14 @@ public class ErrUtil {
         long millisDiff = 0;
         if (start != null && end != null) {
             millisDiff = end.getTime() - start.getTime();
-        ***REMOVED***
+        }
         return millisDiff;
-    ***REMOVED***
+    }
 
     /**
      * Make default constructor private so the class cannot be instantiated.
      */
     private ErrUtil() {
 
-    ***REMOVED***
-***REMOVED***
+    }
+}

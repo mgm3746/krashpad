@@ -75,7 +75,7 @@ class TestAnalysis {
                 Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testAppDynamicsDetectedCompilationEvent() {
@@ -89,7 +89,7 @@ class TestAnalysis {
                 Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE.getKey()),
                 Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis incorreclty identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAppDynamicsDetectedJavaAgent() {
@@ -102,7 +102,7 @@ class TestAnalysis {
                 Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_POSSIBLE.getKey()),
                 Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis incorreclty identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAppDynamicsPossible() {
@@ -115,15 +115,15 @@ class TestAnalysis {
                 Analysis.INFO_APP_DYNAMICS_POSSIBLE + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_APP_DYNAMICS_DETECTED.getKey()),
                 Analysis.INFO_APP_DYNAMICS_DETECTED + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAvx2StringCompareInHeader() {
         FatalErrorLog fel = new FatalErrorLog();
-        String header1 = "***REMOVED*** Problematic frame:";
+        String header1 = "# Problematic frame:";
         Header headerEvent1 = new Header(header1);
         fel.getHeaders().add(headerEvent1);
-        String header2 = "***REMOVED*** J 3917 C2 java.lang.String.compareTo(Ljava/lang/Object;)I (9 bytes) @ 0x00007f414557b275 "
+        String header2 = "# J 3917 C2 java.lang.String.compareTo(Ljava/lang/Object;)I (9 bytes) @ 0x00007f414557b275 "
                 + "[0x00007f414557b1a0+0xd5]";
         Header headerEvent2 = new Header(header2);
         fel.getHeaders().add(headerEvent2);
@@ -139,7 +139,7 @@ class TestAnalysis {
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAvx2StringCompareToAvxDisabled() {
@@ -163,7 +163,7 @@ class TestAnalysis {
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAvx2StringCompareToInStackJvmOptions() {
@@ -187,7 +187,7 @@ class TestAnalysis {
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAvx2StringCompareToInStackNoJvmOptions() {
@@ -209,7 +209,7 @@ class TestAnalysis {
                 Analysis.INFO_COMPILED_JAVA_CODE_AVX2 + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILED_JAVA_CODE.getKey()),
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testAws() {
@@ -218,7 +218,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.INFO_STORAGE_AWS.getKey()),
                 Analysis.INFO_STORAGE_AWS + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testBuildDateIsNotRedHat() {
@@ -243,7 +243,7 @@ class TestAnalysis {
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
                 Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCannotGetLibraryInformation() {
@@ -254,7 +254,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION.getKey()),
                 Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testClientFlag32Bit() {
@@ -270,7 +270,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_CLIENT.getKey()),
                 org.github.joa.util.Analysis.INFO_64_CLIENT + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCloudPerfDataDisk() {
@@ -287,7 +287,7 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.WARN_CONTAINER_PERF_DATA_DISK + " analysis not identified.");
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_PERF_DATA_DISABLED.getKey()),
                 org.github.joa.util.Analysis.INFO_PERF_DATA_DISABLED + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCmsCollector() {
@@ -302,7 +302,7 @@ class TestAnalysis {
                 GarbageCollector.CMS + " collector not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     /**
      * Test if CMS collector disabled with -XX:-UseConcMarkSweepGC -XX:-UseParNewGC.
@@ -325,7 +325,7 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_CMS_DISABLED.getKey()),
                 org.github.joa.util.Analysis.INFO_CMS_DISABLED + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCmsIncrementalModeCollectorCms() {
@@ -339,7 +339,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_CMS_INCREMENTAL_MODE.getKey()),
                 Analysis.WARN_CMS_INCREMENTAL_MODE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCmsIncrementalModeCollectorCmsDisabled() {
@@ -353,7 +353,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.WARN_CMS_INCREMENTAL_MODE.getKey()),
                 Analysis.WARN_CMS_INCREMENTAL_MODE + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     /**
      * Test if PAR_NEW collector is enabled/disabled when the CMS collector is not used.
@@ -375,7 +375,7 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_CMS_DISABLED + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK8_CMS_PAR_NEW_CRUFT + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCompilerThreadC2BeautifyLoops() {
@@ -388,7 +388,7 @@ class TestAnalysis {
                 Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testCompilerThreadC2MininodeIdeal() {
@@ -401,7 +401,7 @@ class TestAnalysis {
                 Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testContainer() {
@@ -415,7 +415,7 @@ class TestAnalysis {
                 Analysis.INFO_CGROUP_MEMORY_LIMIT + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testCrash3rdPartyLibrary() {
@@ -430,7 +430,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN.getKey()),
                 Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCrashOnOomeHeap() {
@@ -439,7 +439,7 @@ class TestAnalysis {
                 + "-XX:HeapDumpPath=/path/to/mydir";
         VmArguments event = new VmArguments(jvm_args);
         fel.getVmArguments().add(event);
-        String header = "***REMOVED***  fatal error: OutOfMemory encountered: Java heap space";
+        String header = "#  fatal error: OutOfMemory encountered: Java heap space";
         Header headerEvent = new Header(header);
         fel.getHeaders().add(headerEvent);
         String stack = "V  [libjvm.so+0xb2caf6]  TypeArrayKlass::allocate_common(int, bool, Thread*)+0x796";
@@ -450,7 +450,7 @@ class TestAnalysis {
                 Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testCrashStartup() {
@@ -467,7 +467,7 @@ class TestAnalysis {
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testD64Flag32Bit() {
@@ -484,7 +484,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT.getKey()),
                 org.github.joa.util.Analysis.INFO_64_D64_REDUNDANT + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDbcp2Postgresql() {
@@ -500,7 +500,7 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(Analysis.INFO_DBCP2.getKey()), Analysis.INFO_DBCP2 + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_POSTGRESQL_CONNECTION.getKey()),
                 Analysis.INFO_POSTGRESQL_CONNECTION + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDefaultCollectorJdk11() {
@@ -517,7 +517,7 @@ class TestAnalysis {
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.G1),
                 GarbageCollector.G1 + " collector not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDefaultCollectorJdk17() {
@@ -534,7 +534,7 @@ class TestAnalysis {
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.G1),
                 GarbageCollector.G1 + " collector not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDefaultCollectorJdk8() {
@@ -553,7 +553,7 @@ class TestAnalysis {
                 GarbageCollector.PARALLEL_SCAVENGE + " collector not identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.PARALLEL_OLD),
                 GarbageCollector.PARALLEL_OLD + " collector not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDeprecatedLoggingOptionsJdk8() {
@@ -581,7 +581,7 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC + " analysis not identified.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC_DETAILS.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK9_DEPRECATED_PRINT_GC_DETAILS + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDirectByteBufferUnsynchronizedAccess() {
@@ -600,7 +600,7 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.WARN_EXPLICIT_GC_DISABLED + " analysis incorrectly identified.");
         assertEquals(0, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testDynatraceCrash() {
@@ -611,7 +611,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_DYNATRACE.getKey()),
                 Analysis.ERROR_DYNATRACE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDynatraceDetected() {
@@ -623,7 +623,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_DYNATRACE.getKey()),
                 Analysis.INFO_DYNATRACE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testDynatraceInStack() {
@@ -634,7 +634,7 @@ class TestAnalysis {
                 Analysis.WARN_DYNATRACE + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testErrorJdk8LibcCfree() {
@@ -646,30 +646,30 @@ class TestAnalysis {
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
 
-    ***REMOVED***
+    }
 
     @Test
     void testErrorStubroutinesHeaderOnly() {
         FatalErrorLog fel = new FatalErrorLog();
-        String logLine = "***REMOVED*** v  ~StubRoutines::jbyte_disjoint_arraycopy";
+        String logLine = "# v  ~StubRoutines::jbyte_disjoint_arraycopy";
         Header headerEvent = new Header(logLine);
         fel.getHeaders().add(headerEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_STUBROUTINES.getKey()),
                 Analysis.ERROR_STUBROUTINES + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testExceptionAccessViolationHeader() {
         FatalErrorLog fel = new FatalErrorLog();
-        String header = "***REMOVED***  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x000000006ee76520, pid=11556, "
+        String header = "#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x000000006ee76520, pid=11556, "
                 + "tid=0x000000000000040c";
         Header event = new Header(header);
         fel.getHeaders().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION.getKey()),
                 Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testExceptionAccessViolationSiginfo() {
@@ -680,19 +680,19 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION.getKey()),
                 Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testExceptionStackOverflowHeader() {
         FatalErrorLog fel = new FatalErrorLog();
-        String header = "***REMOVED***  EXCEPTION_STACK_OVERFLOW (0xc00000fd) at pc=0x00007ff8b9b47447, pid=4304, "
+        String header = "#  EXCEPTION_STACK_OVERFLOW (0xc00000fd) at pc=0x00007ff8b9b47447, pid=4304, "
                 + "tid=0x0000000000002aec";
         Header event = new Header(header);
         fel.getHeaders().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_EXCEPTION_STACK_OVERFLOW.getKey()),
                 Analysis.INFO_SIGNO_EXCEPTION_STACK_OVERFLOW + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testExceptionStackOverflowSiginfo() {
@@ -704,7 +704,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_EXCEPTION_STACK_OVERFLOW.getKey()),
                 Analysis.INFO_SIGNO_EXCEPTION_STACK_OVERFLOW + " analysis not identified.");
-    ***REMOVED***
+    }
 
     /**
      * Test if explicit not GC handled concurrently.
@@ -722,7 +722,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT.getKey()),
                 org.github.joa.util.Analysis.WARN_EXPLICIT_GC_NOT_CONCURRENT + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testFailedToMapBytes() {
@@ -733,7 +733,7 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testFailedToMapBytesNoSwap() {
@@ -748,7 +748,7 @@ class TestAnalysis {
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testFatalErrorLogAncient() {
@@ -759,7 +759,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT.getKey()),
                 Analysis.WARN_FATAL_ERROR_LOG_ANCIENT + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testFpe() {
@@ -773,7 +773,7 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_FPE_INTDIV.getKey()),
                 Analysis.INFO_SIGCODE_FPE_INTDIV + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_FPE.getKey()), Analysis.ERROR_FPE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testFreetypeFontScalerGetGlyphImageNative() {
@@ -784,7 +784,7 @@ class TestAnalysis {
                 Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testG1ParScanThreadStateCopyToSurvivorSpace() {
@@ -811,7 +811,7 @@ class TestAnalysis {
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testG1ParScanThreadStateCopyToSurvivorSpaceNot() {
@@ -825,7 +825,7 @@ class TestAnalysis {
         fel.getStacks().add(stackEvent2);
         assertEquals(stackFrame1, fel.getStackFrame(1), "Stack frame 1 not correct.");
         assertEquals(stackFrame2, fel.getStackFrame(2), "Stack frame 2 not correct.");
-        String header = "***REMOVED*** JRE version: OpenJDK Runtime Environment (Red_Hat-11.0.17.0.8-2.el8_6) (11.0.17+8) "
+        String header = "# JRE version: OpenJDK Runtime Environment (Red_Hat-11.0.17.0.8-2.el8_6) (11.0.17+8) "
                 + "(build 11.0.17+8-LTS)";
         Header headerEvent = new Header(header);
         fel.getHeaders().add(headerEvent);
@@ -834,7 +834,7 @@ class TestAnalysis {
                 Analysis.ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testG1SummarizeRSetStats() {
@@ -849,7 +849,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT.getKey()),
                 org.github.joa.util.Analysis.INFO_G1_SUMMARIZE_RSET_STATS_OUTPUT + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testGarbageCollectorsJvmOptionsMismatch() {
@@ -876,7 +876,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL.getKey()),
                 org.github.joa.util.Analysis.ERROR_G1_IGNORED_PARALLEL + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHashMap() {
@@ -903,7 +903,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_HASHMAP.getKey()),
                 Analysis.ERROR_HASHMAP + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeapMaxMissing() {
@@ -914,7 +914,7 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testIbmToolkit() {
@@ -926,7 +926,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_IBM_TOOLKIT.getKey()),
                 Analysis.INFO_IBM_TOOLKIT + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testInsufficientMemory() {
@@ -974,7 +974,7 @@ class TestAnalysis {
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testItextDetected() {
@@ -985,7 +985,7 @@ class TestAnalysis {
         fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_ITEXT.getKey()), Analysis.INFO_ITEXT + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testItextInStack() {
@@ -1006,7 +1006,7 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(Analysis.WARN_ITEXT.getKey()), Analysis.WARN_ITEXT + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_ITEXT.getKey()),
                 Analysis.INFO_ITEXT + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testItextIoStubRoutinesFileChannelRandomAccessSource() {
@@ -1018,7 +1018,7 @@ class TestAnalysis {
                 Analysis.ERROR_ITEXT_IO + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testItextIoStubRoutinesJbyteDisjointArrayCopyIndependentRandomAccessSource() {
@@ -1028,12 +1028,12 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
                 Analysis.ERROR_ITEXT_IO + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testItextIoStubRoutinesJbyteDisjointArrayCopyPagedChannelRandomAccessSource() {
         FatalErrorLog fel = new FatalErrorLog();
-        String header = "***REMOVED*** v  ~StubRoutines::jbyte_disjoint_arraycopy";
+        String header = "# v  ~StubRoutines::jbyte_disjoint_arraycopy";
         Header headerEvent = new Header(header);
         fel.getHeaders().add(headerEvent);
         String registerToMemoryMapping = " - klass: 'com/itextpdf/text/io/PagedChannelRandomAccessSource'";
@@ -1042,7 +1042,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
                 Analysis.ERROR_ITEXT_IO + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testItextIoStubRoutinesJintDisjointArrayCopyRandomAccessFileOrArray() {
@@ -1064,7 +1064,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
                 Analysis.ERROR_ITEXT_IO + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk11AutomaticLogFileRotationDisabled() {
@@ -1079,7 +1079,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_0 + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk11LogFileRotationDisabled() {
@@ -1094,7 +1094,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_ROTATION_DISABLED + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk11LogFileSizeSmall() {
@@ -1109,7 +1109,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK11_GC_LOG_FILE_SIZE_SMALL + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk11PrintGCDetailsMissing() {
@@ -1125,7 +1125,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk11PrintGCDetailsNotMissing() {
@@ -1143,7 +1143,7 @@ class TestAnalysis {
                 fel.getJvmOptions().getLog().get(0), "-Xlog not correct.");
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.INFO_JDK11_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk7() {
@@ -1155,7 +1155,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK_VERSION_UNSUPPORTED.getKey()),
                 Analysis.ERROR_JDK_VERSION_UNSUPPORTED + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk8DeflaterContention() {
@@ -1171,7 +1171,7 @@ class TestAnalysis {
                 Analysis.ERROR_JDK8_DEFLATER_CONTENTION + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk8LogFileRotationNotEnabled() {
@@ -1188,7 +1188,7 @@ class TestAnalysis {
                 fel.getJvmOptions()
                         .hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_GC_LOG_FILE_ROTATION_NOT_ENABLED + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk8PrintGCDetailsMissing() {
@@ -1203,7 +1203,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk8PrintGCDetailsMissingGcLogging() {
@@ -1218,7 +1218,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk8PrintGCDetailsMissingNoGcLogging() {
@@ -1233,7 +1233,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING.getKey()),
                 org.github.joa.util.Analysis.WARN_JDK8_PRINT_GC_DETAILS_MISSING + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk8ZipFileContentionGetEntry() {
@@ -1249,7 +1249,7 @@ class TestAnalysis {
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk8ZipFileContentionReadCen() {
@@ -1265,22 +1265,22 @@ class TestAnalysis {
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION.getKey()),
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk8ZipFileContentionReadCenHeaderOnly() {
         FatalErrorLog fel = new FatalErrorLog();
-        String header1 = "***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_342-b07) (build 1.8.0_342-b07)";
+        String header1 = "# JRE version: OpenJDK Runtime Environment (8.0_342-b07) (build 1.8.0_342-b07)";
         Header headerEvent1 = new Header(header1);
         fel.getHeaders().add(headerEvent1);
-        String header2 = "***REMOVED*** C  [libzip.so+0x4c59]  readCEN+0x8e9";
+        String header2 = "# C  [libzip.so+0x4c59]  readCEN+0x8e9";
         Header headerEvent2 = new Header(header2);
         fel.getHeaders().add(headerEvent2);
         fel.doAnalysis();
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION.getKey()),
                 Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdkDebugSymbolsMissing() {
@@ -1297,7 +1297,7 @@ class TestAnalysis {
                 Analysis.ERROR_COMPILED_JAVA_CODE + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdkUnknown() {
@@ -1308,7 +1308,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK_VERSION_UNKNOWN.getKey()),
                 Analysis.ERROR_JDK_VERSION_UNKNOWN + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJffi() {
@@ -1319,7 +1319,7 @@ class TestAnalysis {
         fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_JFFI.getKey()), Analysis.INFO_JFFI + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJfr() {
@@ -1328,7 +1328,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JFR.getKey()),
                 org.github.joa.util.Analysis.INFO_JFR + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJfrClassTransformed() {
@@ -1351,7 +1351,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED.getKey()),
                 Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJfrPdGetTopFrame() {
@@ -1360,7 +1360,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JFR_PD_GET_TOP_FRAME.getKey()),
                 Analysis.ERROR_JFR_PD_GET_TOP_FRAME + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJliLaunchStackSize() {
@@ -1381,7 +1381,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE.getKey()),
                 Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJna() {
@@ -1392,7 +1392,7 @@ class TestAnalysis {
         fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_JNA.getKey()), Analysis.INFO_JNA + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJnaFfiPrepClosureLoc() {
@@ -1405,7 +1405,7 @@ class TestAnalysis {
                 Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC + " analysis not identified.");
         assertEquals(29, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(2, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJnaInvolvedRedHatJdk() {
@@ -1432,7 +1432,7 @@ class TestAnalysis {
         assertTrue(fel.isJnaCrash(), "JNA crash not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_RH.getKey()),
                 Analysis.ERROR_JNA_RH + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJnaRedHatJdk() {
@@ -1447,7 +1447,7 @@ class TestAnalysis {
                 Analysis.ERROR_JNA_RH + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testJssCrash() {
@@ -1461,7 +1461,7 @@ class TestAnalysis {
         fel.getStacks().add(stackEvent2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JSS.getKey()), Analysis.ERROR_JSS + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJssDetected() {
@@ -1472,7 +1472,7 @@ class TestAnalysis {
         fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_JSS.getKey()), Analysis.INFO_JSS + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJssInStack() {
@@ -1486,7 +1486,7 @@ class TestAnalysis {
         fel.getStacks().add(stackEvent2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_JSS.getKey()), Analysis.WARN_JSS + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJvmUserNeUsername() {
@@ -1501,7 +1501,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_JVM_USER_NE_USERNAME.getKey()),
                 Analysis.INFO_JVM_USER_NE_USERNAME + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLargePageSizeInBytesLinux() {
@@ -1515,7 +1515,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX.getKey()),
                 org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLargePageSizeInBytesWindows() {
@@ -1529,7 +1529,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS.getKey()),
                 org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLatestRelease() {
@@ -1541,10 +1541,10 @@ class TestAnalysis {
         assertEquals(915, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
                 "Release days diff not correct.");
         assertEquals(12, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
-                "Release ***REMOVED*** diff not correct.");
+                "Release # diff not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testLdPreloadFile() {
@@ -1555,7 +1555,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_LD_SO_PRELOAD.getKey()),
                 Analysis.INFO_LD_SO_PRELOAD + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLibaioContextDone() {
@@ -1566,7 +1566,7 @@ class TestAnalysis {
                 Analysis.ERROR_LIBAIO_CONTEXT_DONE + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testLinkageError() {
@@ -1577,7 +1577,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_LINKAGE.getKey()),
                 Analysis.ERROR_LINKAGE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testLuceneInStackSlotToMemoryMapping() {
@@ -1588,7 +1588,7 @@ class TestAnalysis {
         fel.getStackSlotToMemoryMappings().add(stackSlotToMemoryMappingEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_LUCENE.getKey()), Analysis.WARN_LUCENE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMetadataOnStackMark() {
@@ -1597,7 +1597,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK.getKey()),
                 Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMicrosoftSqlServerNativeDriverDetected() {
@@ -1609,7 +1609,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE.getKey()),
                 Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testMmapDeleted() {
@@ -1621,7 +1621,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_MMAP_DELETED.getKey()),
                 Analysis.WARN_MMAP_DELETED + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testModuleEntryPurgeAllModuleReads() {
@@ -1650,7 +1650,7 @@ class TestAnalysis {
                 Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
                 Analysis.ERROR_JVM_DLL + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testModuleEntryPurgeReads() {
@@ -1679,7 +1679,7 @@ class TestAnalysis {
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
                 Analysis.ERROR_JVM_DLL + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testModuleEntryPurgeReadsPossible() {
@@ -1698,7 +1698,7 @@ class TestAnalysis {
                 Analysis.ERROR_POINTER_INVALID + " analysis not identified.");
         assertEquals(79, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testNativeLibraryJBoss() {
@@ -1712,7 +1712,7 @@ class TestAnalysis {
                 Analysis.INFO_NATIVE_LIBRARIES_JBOSS + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN.getKey()),
                 Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNativeLibraryUnknown() {
@@ -1726,7 +1726,7 @@ class TestAnalysis {
                 Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_JBOSS.getKey()),
                 Analysis.INFO_NATIVE_LIBRARIES_JBOSS + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNfs() {
@@ -1741,7 +1741,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_STORAGE_NFS.getKey()),
                 Analysis.INFO_STORAGE_NFS + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoMemoryEvent() {
@@ -1750,7 +1750,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.hasAnalysis(Analysis.INFO_SWAP_DISABLED.getKey()),
                 Analysis.INFO_SWAP_DISABLED + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoStack() {
@@ -1759,7 +1759,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.hasAnalysis(Analysis.INFO_STACK_NO_VM_CODE.getKey()),
                 Analysis.INFO_STACK_NO_VM_CODE + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNotLts() {
@@ -1771,7 +1771,7 @@ class TestAnalysis {
                 Analysis.WARN_JDK_NOT_LTS + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testNullPointer() {
@@ -1782,7 +1782,7 @@ class TestAnalysis {
                 Analysis.ERROR_POINTER_NULL + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOnOutOfMemoryErrorKillJdk8u101() {
@@ -1790,7 +1790,7 @@ class TestAnalysis {
         String jvm_args = "jvm_args: -Xss128k -XX:OnOutOfMemoryError=\"kill -9 %p\" -Xms2048M";
         VmArguments event = new VmArguments(jvm_args);
         fel.getVmArguments().add(event);
-        String header = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_101-b13) (build 1.8.0_101-b13)";
+        String header = "# JRE version: Java(TM) SE Runtime Environment (8.0_101-b13) (build 1.8.0_101-b13)";
         Header headerEvent = new Header(header);
         fel.getHeaders().add(headerEvent);
         fel.doAnalysis();
@@ -1798,7 +1798,7 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_ON_OOME + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL.getKey()),
                 org.github.joa.util.Analysis.INFO_ON_OOME_KILL + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOnOutOfMemoryErrorKillJdk8u91() {
@@ -1806,7 +1806,7 @@ class TestAnalysis {
         String jvm_args = "jvm_args: -Xss128k -XX:OnOutOfMemoryError=\"kill -9 %p\" -Xms2048M";
         VmArguments event = new VmArguments(jvm_args);
         fel.getVmArguments().add(event);
-        String header = "***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_91-b14) (build 1.8.0_91-b14)";
+        String header = "# JRE version: Java(TM) SE Runtime Environment (8.0_91-b14) (build 1.8.0_91-b14)";
         Header headerEvent = new Header(header);
         fel.getHeaders().add(headerEvent);
         fel.doAnalysis();
@@ -1814,7 +1814,7 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_ON_OOME + " analysis not identified.");
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_ON_OOME_KILL.getKey()),
                 org.github.joa.util.Analysis.INFO_ON_OOME_KILL + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomAmqCli() {
@@ -1825,7 +1825,7 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_AMQ_CLI + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomCompilerThreadC2SslDecode() {
@@ -1838,7 +1838,7 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomCompilerThreadWindows() {
@@ -1849,7 +1849,7 @@ class TestAnalysis {
                 Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL.getKey()),
                 Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomeCompressedOops() {
@@ -1860,7 +1860,7 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     void testOomeJavaHeap() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset36.txt");
@@ -1874,7 +1874,7 @@ class TestAnalysis {
                 Analysis.INFO_SIGCODE_SEGV_MAPERR + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomePhysicalMemory() {
@@ -1906,7 +1906,7 @@ class TestAnalysis {
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomeThreadLeakEapExecutorPool() {
@@ -1926,7 +1926,7 @@ class TestAnalysis {
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
 
-    ***REMOVED***
+    }
 
     @Test
     void testOomJBossVersion() {
@@ -1939,7 +1939,7 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_JBOSS_VERSION + " analysis not identified.");
         assertEquals(31, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomLibJvm() {
@@ -1947,12 +1947,12 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         StringBuilder error = new StringBuilder();
-        error.append("***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.");
+        error.append("# There is insufficient memory for the Java Runtime Environment to continue.");
         error.append(Constants.LINE_SEPARATOR);
         error.append(
-                "***REMOVED*** Native memory allocation (mmap) failed to map 32304529408 bytes for committing reserved memory.");
+                "# Native memory allocation (mmap) failed to map 32304529408 bytes for committing reserved memory.");
         error.append(Constants.LINE_SEPARATOR);
-        error.append("***REMOVED***  INVALID (0xe0000002) at pc=0x0000000000000000, pid=108047, tid=0x00007f67eb450700");
+        error.append("#  INVALID (0xe0000002) at pc=0x0000000000000000, pid=108047, tid=0x00007f67eb450700");
         assertEquals(error.toString(), fel.getError());
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
@@ -1962,7 +1962,7 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomLimit() {
@@ -1973,7 +1973,7 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomStartup() {
@@ -1982,7 +1982,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomStartupExternal() {
@@ -1993,7 +1993,7 @@ class TestAnalysis {
                 Analysis.INFO_OPTS_NONE + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL_STARTUP.getKey()),
                 Analysis.ERROR_OOME_EXTERNAL_STARTUP + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomStartupOvercommit() {
@@ -2006,7 +2006,7 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomStartupOvercommitLimit() {
@@ -2021,7 +2021,7 @@ class TestAnalysis {
                 Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX + " analysis not identified.");
         assertEquals(2, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomSwapDisabledG1() {
@@ -2033,7 +2033,7 @@ class TestAnalysis {
                 Analysis.WARN_SWAP_DISABLED_G1 + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomTomcatShutdown() {
@@ -2044,7 +2044,7 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOomTomcatShutdownStopStop() {
@@ -2055,7 +2055,7 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
         assertEquals(17, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testOracleJdbcDriverNotTopFrame() {
@@ -2086,7 +2086,7 @@ class TestAnalysis {
                 Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION.getKey()),
                 Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOracleJdbcJdkIncompatible() {
@@ -2104,7 +2104,7 @@ class TestAnalysis {
                 Analysis.INFO_ORACLE_JDBC_OCI + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE.getKey()),
                 Analysis.ERROR_ORACLE_JDBC_JDK_INCOMPATIBLE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOracleJdbcOciDriverError() {
@@ -2116,7 +2116,7 @@ class TestAnalysis {
                 "Time: Mon Sep 12 13:46:23 2022 EDT elapsed time: 86.182142 seconds (0d 0h 1m 26s)");
         fel.setTimeElapsedTime(timeElapsedTimeEvent);
         assertEquals(86139L,
-                fel.getEventTimestamp("^Event: (\\d{1,***REMOVED***\\.\\d{3***REMOVED***) Loaded shared library .+libocijdbc11.so$"),
+                fel.getEventTimestamp("^Event: (\\d{1,}\\.\\d{3}) Loaded shared library .+libocijdbc11.so$"),
                 "OCI driver load timestamp not correct.");
         assertEquals(86182L, fel.getUptime(), "Uptime not correct.");
         fel.doAnalysis();
@@ -2126,7 +2126,7 @@ class TestAnalysis {
                 Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION.getKey()),
                 Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOracleJdbcOciDriverWarning() {
@@ -2152,7 +2152,7 @@ class TestAnalysis {
                 Analysis.ERROR_ORACLE_JDBC_OCI_LOADING + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION.getKey()),
                 Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOracleJdbcOciNot() {
@@ -2167,7 +2167,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(Analysis.INFO_ORACLE_JDBC_OCI.getKey()),
                 Analysis.INFO_ORACLE_JDBC_OCI + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOutOfMemoryErrorThrownCompressedClassSpace() {
@@ -2178,7 +2178,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE.getKey()),
                 Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOutOfMemoryErrorThrownJavaHeap() {
@@ -2189,7 +2189,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_JAVA_HEAP.getKey()),
                 Analysis.ERROR_OOME_THROWN_JAVA_HEAP + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testOutOfMemoryErrorThrownMetaspace() {
@@ -2200,7 +2200,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_METASPACE.getKey()),
                 Analysis.ERROR_OOME_THROWN_METASPACE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParallelCollector() {
@@ -2213,7 +2213,7 @@ class TestAnalysis {
                 GarbageCollector.PARALLEL_SCAVENGE + " collector not identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.PARALLEL_OLD),
                 GarbageCollector.PARALLEL_OLD + " collector not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testPhysicalMemoryInsufficientJvmStartup() {
@@ -2227,7 +2227,7 @@ class TestAnalysis {
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testPkiTomcatJar() {
@@ -2243,7 +2243,7 @@ class TestAnalysis {
                 JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT.getKey()),
                 Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testPkiTomcatJvmArgs() {
@@ -2263,7 +2263,7 @@ class TestAnalysis {
                 JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT.getKey()),
                 Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testPkiTomcatThread() {
@@ -2279,7 +2279,7 @@ class TestAnalysis {
                 JdkUtil.Application.TOMCAT + " application incorrectlyu identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_PKI_TOMCAT.getKey()),
                 Analysis.INFO_PKI_TOMCAT + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testPostgresqlJdbcJdkIncompatible() {
@@ -2295,7 +2295,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE.getKey()),
                 Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     /**
      * Verify analysis file property key/value lookup.
@@ -2305,8 +2305,8 @@ class TestAnalysis {
         Analysis[] analysis = Analysis.values();
         for (int i = 0; i < analysis.length; i++) {
             assertNotNull(analysis[i] + " not found.", analysis[i].getValue());
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     @Test
     void testPsPromotionManagerCopyToSurvivorSpace() {
@@ -2323,7 +2323,7 @@ class TestAnalysis {
         // Test header only
         fel.getAnalysis().clear();
         fel.getStacks().clear();
-        String header = "***REMOVED*** V  [libjvm.so+0x9b43cc]  oopDesc* PSPromotionManager::copy_to_survivor_space<false>"
+        String header = "# V  [libjvm.so+0x9b43cc]  oopDesc* PSPromotionManager::copy_to_survivor_space<false>"
                 + "(oopDesc*)+0x70c";
         Header headerEvent = new Header(header);
         fel.getHeaders().add(headerEvent);
@@ -2332,7 +2332,7 @@ class TestAnalysis {
                 Analysis.ERROR_PS_PROMOTION_MANAGER_COPY_TO_SURVIVOR_SPACE + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testPthreadGetcpuclockid() {
@@ -2341,7 +2341,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_PTHREAD_GETCPUCLOCKID.getKey()),
                 Analysis.ERROR_PTHREAD_GETCPUCLOCKID + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRemoteDebuggingEnabledAgentlib() {
@@ -2353,7 +2353,7 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(Analysis.INFO_VMWARE.getKey()), Analysis.INFO_VMWARE + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testRemoteDebuggingEnabledRunjdwp() {
@@ -2364,7 +2364,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED.getKey()),
                 org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhel6() {
@@ -2391,7 +2391,7 @@ class TestAnalysis {
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhel7WorkstationrRpm() {
@@ -2402,7 +2402,7 @@ class TestAnalysis {
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhel9OpenJdk8() {
@@ -2419,7 +2419,7 @@ class TestAnalysis {
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RHEL9_JDK8.getKey()),
                 Analysis.INFO_RHEL9_JDK8 + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhelJdkRpmMismatchJdk11() {
@@ -2440,7 +2440,7 @@ class TestAnalysis {
         assertEquals("8.4", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhelJdkRpmMismatchJdk17() {
@@ -2461,7 +2461,7 @@ class TestAnalysis {
         assertEquals("8.6", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhelJdkRpmMismatchJdk8() {
@@ -2478,7 +2478,7 @@ class TestAnalysis {
                 Analysis.WARN_JDK_NOT_LATEST + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhelJdkRpmMismatchNot() {
@@ -2499,7 +2499,7 @@ class TestAnalysis {
         assertEquals("7", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRhelJdkRpmMismatchRhel7Power9() {
@@ -2522,7 +2522,7 @@ class TestAnalysis {
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL7_POWER9.getKey()),
                 Analysis.WARN_RHEL7_POWER9 + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testRpmPpc64le() {
@@ -2537,7 +2537,7 @@ class TestAnalysis {
                 Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9 + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testServerFlag32Bit() {
@@ -2553,7 +2553,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT.getKey()),
                 org.github.joa.util.Analysis.INFO_64_SERVER_REDUNDANT + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahCollector() {
@@ -2568,7 +2568,7 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_METASPACE + " analysis not identified.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_METASPACE_LT_COMP_CLASS.getKey()),
                 org.github.joa.util.Analysis.WARN_METASPACE_LT_COMP_CLASS + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testShenandoahMarkLoopWork() {
@@ -2579,7 +2579,7 @@ class TestAnalysis {
                 Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testSiKernel() {
@@ -2588,18 +2588,18 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_SI_KERNEL.getKey()),
                 Analysis.INFO_SIGCODE_SI_KERNEL + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSslDecode() {
         FatalErrorLog fel = new FatalErrorLog();
-        String header1 = "***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.";
+        String header1 = "# There is insufficient memory for the Java Runtime Environment to continue.";
         Header headerEvent1 = new Header(header1);
         fel.getHeaders().add(headerEvent1);
-        String header2 = "***REMOVED*** Native memory allocation (malloc) failed to allocate 4294967312 bytes for Chunk::new";
+        String header2 = "# Native memory allocation (malloc) failed to allocate 4294967312 bytes for Chunk::new";
         Header headerEvent2 = new Header(header2);
         fel.getHeaders().add(headerEvent2);
-        String header3 = "***REMOVED***  Out of Memory Error (arena.cpp:197), pid=2907, tid=2927";
+        String header3 = "#  Out of Memory Error (arena.cpp:197), pid=2907, tid=2927";
         Header headerEvent3 = new Header(header3);
         fel.getHeaders().add(headerEvent3);
         String currentThread = "Current thread (0x00007f5134b1b000):  JavaThread \"C2 CompilerThread0\" daemon "
@@ -2627,7 +2627,7 @@ class TestAnalysis {
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL.getKey()),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testStackFreeSpaceGtStackSize() {
@@ -2636,7 +2636,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE.getKey()),
                 Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testStackOverflowError() {
@@ -2645,7 +2645,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.ERROR_STACKOVERFLOW.getKey()),
                 Analysis.ERROR_STACKOVERFLOW + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testStackSizeSmallNoJvmOptions() {
@@ -2653,7 +2653,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL.getKey()),
                 org.github.joa.util.Analysis.WARN_THREAD_STACK_SIZE_SMALL + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testSwapDisabled() {
@@ -2665,7 +2665,7 @@ class TestAnalysis {
                 Analysis.INFO_SWAP_DISABLED + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testSwappingInfo() {
@@ -2676,7 +2676,7 @@ class TestAnalysis {
                 Analysis.INFO_SWAPPING + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testSwappingWarn() {
@@ -2687,7 +2687,7 @@ class TestAnalysis {
                 Analysis.WARN_SWAPPING + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
                 Analysis.ERROR_JVM_DLL + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testTruncatedLog() {
@@ -2702,7 +2702,7 @@ class TestAnalysis {
                 Analysis.INFO_TRUNCATED + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OOPS.getKey()),
                 Analysis.ERROR_OOME_OOPS + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testUnidentifiedNativeLibrariesWindows() {
@@ -2713,7 +2713,7 @@ class TestAnalysis {
         assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Number of unidentified native libraries not correct.");
         assertEquals("C:\\Program Files\\Cylance\\Desktop\\CyMemDef64.dll", fel.getNativeLibrariesUnknown().get(0),
                 "Unidentified native library not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testUnknownJvmOptions() {
@@ -2731,14 +2731,14 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED + " not correct.");
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED.getKey()),
                 org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testUnknownStorageFalseReporting() {
         FatalErrorLog fel = new FatalErrorLog();
         assertFalse(fel.hasAnalysis(Analysis.INFO_STORAGE_UNKNOWN.getKey()),
                 Analysis.INFO_STORAGE_UNKNOWN + " analysis incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVersionEol() {
@@ -2757,7 +2757,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT.getKey()),
                 Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVmOperationConcurrentGc() {
@@ -2769,7 +2769,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_CONCURRENT_GC.getKey()),
                 Analysis.INFO_VM_OPERATION_CONCURRENT_GC + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testVmOperationHeapDump() {
@@ -2781,13 +2781,13 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_HEAP_DUMP.getKey()),
                 Analysis.INFO_VM_OPERATION_HEAP_DUMP + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testWarnNotLatestJdkValue() {
         assertEquals("JDK is not the latest version. Latest version is ", Analysis.WARN_JDK_NOT_LATEST.getValue(),
                 Analysis.WARN_JDK_NOT_LATEST + "value not correct.");
-    ***REMOVED***
+    }
 
     @Test
     void testWilyCrash() {
@@ -2801,7 +2801,7 @@ class TestAnalysis {
         fel.getStacks().add(stackEvent2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_WILY.getKey()), Analysis.ERROR_WILY + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testWilyDetected() {
@@ -2812,7 +2812,7 @@ class TestAnalysis {
         fel.getDynamicLibraries().add(event);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_WILY.getKey()), Analysis.INFO_WILY + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testWilyInStack() {
@@ -2826,7 +2826,7 @@ class TestAnalysis {
         fel.getStacks().add(stackEvent2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_WILY.getKey()), Analysis.WARN_WILY + " analysis not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testZGcHeapEvent() {
@@ -2836,7 +2836,7 @@ class TestAnalysis {
         fel.getHeaps().add(heapEvent);
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC),
                 GarbageCollector.ZGC + " collector not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testZGcJvmOptions() {
@@ -2847,5 +2847,5 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC),
                 GarbageCollector.ZGC + " collector not identified.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

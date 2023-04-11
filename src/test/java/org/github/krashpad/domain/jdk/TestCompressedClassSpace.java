@@ -30,7 +30,7 @@ class TestCompressedClassSpace {
         String logLine = "Compressed class space size: 1073741824 Address: 0x00000007c0000000";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE,
                 JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testJdk17() {
@@ -38,12 +38,12 @@ class TestCompressedClassSpace {
                 + "1073741824";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompressedClassSpace,
                 JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "Compressed class space size: 1073741824 Address: 0x00000007c0000000";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompressedClassSpace,
                 JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

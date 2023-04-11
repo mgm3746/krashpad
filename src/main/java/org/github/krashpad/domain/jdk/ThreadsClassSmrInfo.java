@@ -55,7 +55,7 @@ public class ThreadsClassSmrInfo implements LogEvent, ThrowAwayEvent, HeaderEven
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", "
             + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "(,)?|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", "
             + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS
-            + "|_java_thread_list=.*|***REMOVED***)$";
+            + "|_java_thread_list=.*|})$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -66,7 +66,7 @@ public class ThreadsClassSmrInfo implements LogEvent, ThrowAwayEvent, HeaderEven
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -81,22 +81,22 @@ public class ThreadsClassSmrInfo implements LogEvent, ThrowAwayEvent, HeaderEven
      */
     public ThreadsClassSmrInfo(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

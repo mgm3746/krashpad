@@ -31,14 +31,14 @@ class TestVmState {
         String logLine = "VM state:at safepoint (normal execution)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_STATE,
                 JdkUtil.LogEventType.VM_STATE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "VM state:at safepoint (normal execution)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmState,
                 JdkUtil.LogEventType.VM_STATE.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testStateValue() {
@@ -47,5 +47,5 @@ class TestVmState {
                 JdkUtil.LogEventType.VM_STATE.toString() + " not identified.");
         VmState event = new VmState(logLine);
         assertEquals("at safepoint (normal execution)", event.getState(), "State not correct.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

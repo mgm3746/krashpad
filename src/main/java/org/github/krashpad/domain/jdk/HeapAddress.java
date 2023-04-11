@@ -47,7 +47,7 @@ public class HeapAddress implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^([h|H]eap address: " + JdkRegEx.ADDRESS + ", size: (\\d{1,***REMOVED***) MB|"
+    private static final String REGEX = "^([h|H]eap address: " + JdkRegEx.ADDRESS + ", size: (\\d{1,}) MB|"
             + "\\[error occurred during error reporting \\(printing compressed oops mode\\), id 0x).*$";
 
     /**
@@ -59,7 +59,7 @@ public class HeapAddress implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -74,7 +74,7 @@ public class HeapAddress implements LogEvent {
      */
     public HeapAddress(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     /**
      * @return The compressed oop mode.
@@ -83,21 +83,21 @@ public class HeapAddress implements LogEvent {
         CompressedOopMode compressedOopMode = CompressedOopMode.UNKNOWN;
         if (logEntry.matches(".*Compressed Oops mode: 32-bit.*")) {
             compressedOopMode = CompressedOopMode.BIT32;
-        ***REMOVED*** else if (logEntry.matches(".*Compressed Oops mode: Zero based.*")) {
+        } else if (logEntry.matches(".*Compressed Oops mode: Zero based.*")) {
             compressedOopMode = CompressedOopMode.ZERO;
-        ***REMOVED*** else if (logEntry.matches(".*Compressed Oops mode: Non-zero based.*")) {
+        } else if (logEntry.matches(".*Compressed Oops mode: Non-zero based.*")) {
             compressedOopMode = CompressedOopMode.NON_ZERO;
-        ***REMOVED***
+        }
         return compressedOopMode;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.HEAP_ADDRESS.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return The heap size reserved in <code>Constants.PRECISION_REPORTING</code> units.
@@ -108,9 +108,9 @@ public class HeapAddress implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find() && matcher.group(1) != null) {
             initialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(7)), 'M', Constants.UNITS);
-        ***REMOVED***
+        }
         return initialSize;
-    ***REMOVED***
+    }
 
     /**
      * @return The address the heap starts at in <code>Constants.PRECISION_REPORTING</code> units.
@@ -121,7 +121,7 @@ public class HeapAddress implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find() && matcher.group(1) != null) {
             return JdkMath.convertHexToDecimal(matcher.group(2));
-        ***REMOVED***
+        }
         return startingAddress;
-    ***REMOVED***
-***REMOVED***
+    }
+}

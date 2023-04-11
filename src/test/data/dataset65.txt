@@ -1,36 +1,36 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (malloc) failed to allocate 32744 bytes for ChunkPool::allocate
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED***   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
-***REMOVED***     placed in the first 32GB address space. The Java Heap base address is the
-***REMOVED***     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
-***REMOVED***     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (allocation.cpp:272), pid=4487, tid=0x0000000000000027
-***REMOVED***
-***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_231-b11) (build 1.8.0_231-b11)
-***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.231-b11 mixed mode solaris-sparc compressed oops)
-***REMOVED*** Core dump written. Default location: /edata/ebkg/jboss-eap-7.2/bin/core or core.4487
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 32744 bytes for ChunkPool::allocate
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (allocation.cpp:272), pid=4487, tid=0x0000000000000027
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_231-b11) (build 1.8.0_231-b11)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.231-b11 mixed mode solaris-sparc compressed oops)
+# Core dump written. Default location: /edata/ebkg/jboss-eap-7.2/bin/core or core.4487
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x000000010199f000):  VMThread [stack: 0xffffffff572d0000,0xffffffff573d0000] [id=39]
 
 Stack: [0xffffffff572d0000,0xffffffff573d0000],  sp=0xffffffff573ce810,  free space=1018k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xdfe038]  void VMError::report_and_die()+0x6e0
 V  [libjvm.so+0x54165c]  void report_vm_out_of_memory(const char*,int,unsigned long,VMErrorType,const char*)+0x64
 V  [libjvm.so+0x282e68]  void*ChunkPool::allocate(unsigned long,AllocFailStrategy::AllocFailEnum)+0x128
@@ -50,9 +50,9 @@ V  [libjvm.so+0xb856a8]  java_start+0x390
 VM_Operation (0xfffffffd71c0e870): BulkRevokeBias, mode: safepoint, requested by thread 0x00000001b3fe3000
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00000001b5265800 JavaThread "Thread-4429454" [_thread_blocked, id=12505601, stack(0xfffffffd23ea0000,0xfffffffd23fa0000)]
   0x00000001b6786000 JavaThread "Thread-4429453" [_thread_blocked, id=12505597, stack(0xfffffffd661c0000,0xfffffffd662c0000)]
   0x00000001b3b02800 JavaThread "Thread-4418164" [_thread_blocked, id=12483786, stack(0xfffffffde0370000,0xfffffffde0470000)]
@@ -137,7 +137,7 @@ VM_Operation (0xfffffffd71c0e870): BulkRevokeBias, mode: safepoint, requested by
   0x00000001019b4000 JavaThread "Finalizer" daemon [_thread_blocked, id=41, stack(0xffffffff570b0000,0xffffffff571b0000)]
   0x00000001019a8800 JavaThread "Reference Handler" daemon [_thread_blocked, id=40, stack(0xffffffff571c0000,0xffffffff572c0000)]
 
-***REMOVED***
+Other Threads:
 =>0x000000010199f000 VMThread [stack: 0xffffffff572d0000,0xffffffff573d0000] [id=39]
   0x0000000101ac6000 WatcherThread [stack: 0xffffffff543c0000,0xffffffff544c0000] [id=60]
 
@@ -150,7 +150,7 @@ heap address: 0x00000001c0000000, size: 7168 MB, Compressed Oops mode: Zero base
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
 Compressed class space size: 2147483648 Address: 0x0000000380000000
 
-***REMOVED***
+Heap:
  garbage-first heap   total 7340032K, used 3910921K [0x00000001c0000000, 0x00000001c0207000, 0x0000000380000000)
   region size 2048K, 1107 young (2267136K), 238 survivors (487424K)
  Metaspace       used 1305540K, capacity 5215120K, committed 5216384K, reserved 7172096K
@@ -170,7 +170,7 @@ Polling page: 0xffffffff7f5e8000
 CodeCache: size=245760Kb used=84879Kb max_used=84879Kb free=160880Kb
  bounds [0xffffffff68400000, 0xffffffff6d7e0000, 0xffffffff77400000]
  total_blobs=19634 nmethods=18825 adapters=663
-***REMOVED***
+ compilation: enabled
 
 Compilation events (10 events):
 Event: 256468.994 Thread 0x0000000101a97800 27529   !   3       com.iob.ib.dao.IBBBPSDAO::getBillPayDetailsForTxnRefId (1454 bytes)
@@ -197,7 +197,7 @@ Heap after GC invocations=16201 (full 45):
   region size 2048K, 232 young (475136K), 232 survivors (475136K)
  Metaspace       used 1292345K, capacity 5158148K, committed 5160576K, reserved 7114752K
   class space    used 79462K, capacity 140962K, committed 143232K, reserved 2097152K
-***REMOVED***
+}
 Event: 259391.376 GC heap before
 {Heap before GC invocations=16201 (full 45):
  garbage-first heap   total 7340032K, used 5875977K [0x00000001c0000000, 0x00000001c0207000, 0x0000000380000000)
@@ -210,7 +210,7 @@ Heap after GC invocations=16202 (full 45):
   region size 2048K, 232 young (475136K), 232 survivors (475136K)
  Metaspace       used 1295215K, capacity 5170530K, committed 5172864K, reserved 7127040K
   class space    used 79620K, capacity 141264K, committed 143232K, reserved 2097152K
-***REMOVED***
+}
 Event: 259410.099 GC heap before
 {Heap before GC invocations=16202 (full 45):
  garbage-first heap   total 7340032K, used 5916937K [0x00000001c0000000, 0x00000001c0207000, 0x0000000380000000)
@@ -223,7 +223,7 @@ Heap after GC invocations=16203 (full 45):
   region size 2048K, 238 young (487424K), 238 survivors (487424K)
  Metaspace       used 1298339K, capacity 5184106K, committed 5185920K, reserved 7141376K
   class space    used 79792K, capacity 141592K, committed 143232K, reserved 2097152K
-***REMOVED***
+}
 Event: 259429.372 GC heap before
 {Heap before GC invocations=16203 (full 45):
  garbage-first heap   total 7340032K, used 5959945K [0x00000001c0000000, 0x00000001c0207000, 0x0000000380000000)
@@ -236,7 +236,7 @@ Heap after GC invocations=16204 (full 45):
   region size 2048K, 239 young (489472K), 239 survivors (489472K)
  Metaspace       used 1301590K, capacity 5198128K, committed 5199744K, reserved 7153664K
   class space    used 79971K, capacity 141934K, committed 143232K, reserved 2097152K
-***REMOVED***
+}
 Event: 259445.688 GC heap before
 {Heap before GC invocations=16204 (full 45):
  garbage-first heap   total 7340032K, used 5999881K [0x00000001c0000000, 0x00000001c0207000, 0x0000000380000000)
@@ -249,7 +249,7 @@ Heap after GC invocations=16205 (full 45):
   region size 2048K, 238 young (487424K), 238 survivors (487424K)
  Metaspace       used 1304191K, capacity 5209298K, committed 5210496K, reserved 7165952K
   class space    used 80114K, capacity 142208K, committed 143232K, reserved 2097152K
-***REMOVED***
+}
 
 Deoptimization events (10 events):
 Event: 196355.831 Thread 0x000000018f207000 Uncommon trap: reason=unstable_if action=reinterpret pc=0xffffffff6ae78a6c method=org.apache.xml.security.c14n.implementations.CanonicalizerBase.outputAttrToWriter(Ljava/lang/String;Ljava/lang/String;Ljava/io/OutputStream;Ljava/util/Map;)V @ 209
@@ -282,29 +282,29 @@ Event: 259454.225 Thread 0x00000001b5265800 Thread added: 0x00000001b5265800
 Event: 259454.249 Executing VM operation: BulkRevokeBias
 
 
-***REMOVED***
+Dynamic libraries:
 0xffffffff4a000000 	/path/to/jdk1.8.0_231/jre/lib/sparcv9/server/libjvm.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: -D[Standalone] -verbose:gc -Xloggc:gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -XX:+DoEscapeAnalysis -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:MaxGCPauseMillis=1000 -Xms7g -Xmx7g -verbose:gc -Xloggc:/edata/ebkg/jboss-eap-7.2/standalone/log/gc.log.20211027100702 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+UseCompressedOops -XX:+UseCompressedClassPointers -XX:CompressedClassSpaceSize=2048M -XX:HeapBaseMinAddress=7g -XX:MetaspaceSize=5g -XX:MaxMetaspaceSize=5g -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true -Dorg.jboss.boot.log.file=/edata/ebkg/jboss-eap-7.2/standalone/log/server.log -Dlogging.configuration=file:/edata/ebkg/jboss-eap-7.2/standalone/configuration/logging.properties 
 java_command: /path/to/jboss-modules.jar -mp /path/to/jboss-eap-7.2/modules org.jboss.as.standalone -Djboss.home.dir=/path/to/jboss-eap-7.2 -Djboss.server.base.dir=/path/to/jboss-eap-7.2/standalone
 java_class_path (initial): /path/to/jboss-eap-7.2/jboss-modules.jar
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 JAVA_HOME=/path/to/jdk1.8.0_231
 CLASSPATH=
 PATH=/path/to/jdk1.7.0_80/bin:/usr/bin:/usr/sbin:/bin:/sbin
-***REMOVED***
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xdffe80], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xdffe80], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGQUIT: [libjvm.so+0xb89ba0], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART
 SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -314,7 +314,7 @@ SIG39: [libjvm.so+0xb8ff88], sa_mask[0]=00000000000000000000000000000000, sa_fla
 SIG40: [libjvm.so+0xb8ff38], sa_mask[0]=11111111011111111111110111111111, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:                            Oracle Solaris 11.4 SPARC
              Copyright (c) 1983, 2021, Oracle and/or its affiliates.

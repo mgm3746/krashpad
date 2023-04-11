@@ -30,7 +30,7 @@ class TestClassesRedefinedEvent {
         String logLine = "Classes redefined (34 events):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT,
                 JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
@@ -39,7 +39,7 @@ class TestClassesRedefinedEvent {
                 + "count=1";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT,
                 JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoEventsLowercaseE() {
@@ -47,7 +47,7 @@ class TestClassesRedefinedEvent {
         String logLine = "No events";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof ClassesRedefinedEvent,
                 JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testNoEventsUppercaseE() {
@@ -55,7 +55,7 @@ class TestClassesRedefinedEvent {
         String logLine = "No Events";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof ClassesRedefinedEvent,
                 JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -64,5 +64,5 @@ class TestClassesRedefinedEvent {
                 + "count=1";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof ClassesRedefinedEvent,
                 JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

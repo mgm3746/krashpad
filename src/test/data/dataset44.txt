@@ -1,26 +1,26 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007f90f122912d, pid=19906, tid=0x00007f90ee71e700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_262-b10) (build 1.8.0_262-b10)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.262-b10 mixed mode linux-amd64 )
-***REMOVED*** Problematic frame:
-***REMOVED*** V  [libjvm.so+0xa2e12d]  void ShenandoahConcurrentMark::mark_loop_work<ShenandoahMarkRefsClosure, true>(ShenandoahMarkRefsClosure*, unsigned short*, unsigned int, ShenandoahTaskTerminator*)+0x19d
-***REMOVED***
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   http://bugreport.java.com/bugreport/crash.jsp
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f90f122912d, pid=19906, tid=0x00007f90ee71e700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_262-b10) (build 1.8.0_262-b10)
+# Java VM: OpenJDK 64-Bit Server VM (25.262-b10 mixed mode linux-amd64 )
+# Problematic frame:
+# V  [libjvm.so+0xa2e12d]  void ShenandoahConcurrentMark::mark_loop_work<ShenandoahMarkRefsClosure, true>(ShenandoahMarkRefsClosure*, unsigned short*, unsigned int, ShenandoahTaskTerminator*)+0x19d
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f90e8060000):  GCTaskThread [stack: 0x00007f90ee61f000,0x00007f90ee71f000] [id=19908]
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 128 (SI_KERNEL), si_addr: 0x0000000000000000
 
-***REMOVED***
+Registers:
 RAX=0x00007f8972b936f8, RBX=0x00007f8972b936f8, RCX=0x00000000000003a6, RDX=0x0000000000000000
 RSP=0x00007f90ee71dba0, RBP=0x00007f90ee71dd00, RSI=0x000000000000001f, RDI=0x0030003000310030
 R8 =0x0000000020000000, R9 =0x00007f90f18699f3, R10=0x0000000000000001, R11=0x00547f88bf9a1078
@@ -68,15 +68,15 @@ Instructions: (pc=0x00007f90f122912d)
 0x00007f90f122912d:   8b 47 08 85 c0 0f 8f 96 03 00 00 3d 00 00 00 c0
 0x00007f90f122913d:   0f 8c 25 04 00 00 48 8b 85 18 ff ff ff 4c 8d 35 
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x00007f8972b936f8 is pointing into object: 0x00007f8972b936b0
 [C 
- - klass: {type array char***REMOVED***
+ - klass: {type array char}
  - length: 75
 RBX=0x00007f8972b936f8 is pointing into object: 0x00007f8972b936b0
 [C 
- - klass: {type array char***REMOVED***
+ - klass: {type array char}
  - length: 75
 RCX=0x00000000000003a6 is an unknown value
 RDX=0x0000000000000000 is an unknown value
@@ -95,7 +95,7 @@ R15=0x00007f90e811ff40 is an unknown value
 
 
 Stack: [0x00007f90ee61f000,0x00007f90ee71f000],  sp=0x00007f90ee71dba0,  free space=1018k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xa2e12d]  void ShenandoahConcurrentMark::mark_loop_work<ShenandoahMarkRefsClosure, true>(ShenandoahMarkRefsClosure*, unsigned short*, unsigned int, ShenandoahTaskTerminator*)+0x19d
 V  [libjvm.so+0xa36c59]  void ShenandoahConcurrentMark::mark_loop_prework<true>(unsigned int, ShenandoahTaskTerminator*, ReferenceProcessor*, bool)+0x209
 V  [libjvm.so+0xa36fd4]  ShenandoahConcurrentMarkingTask::work(unsigned int)+0xd4
@@ -103,9 +103,9 @@ V  [libjvm.so+0xb7398a]  GangWorker::loop()+0xca
 V  [libjvm.so+0x93a382]  java_start(Thread*)+0xf2
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007f879c02e800 JavaThread "Thread-15518 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5099, stack(0x00007f87444c7000,0x00007f87445c8000)]
   0x00007f879c024000 JavaThread "Thread-15514 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5098, stack(0x00007f8747dfe000,0x00007f8747eff000)]
   0x00007f884813e000 JavaThread "Thread-15515 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5097, stack(0x00007f8747cfd000,0x00007f8747dfe000)]
@@ -121,17 +121,17 @@ V  [libjvm.so+0x93a382]  java_start(Thread*)+0xf2
   0x00007f879806b800 JavaThread "Old I/O client worker ([id: 0x76bf2744, /10.249.26.23:37686 => /10.249.23.17:5545]), runningThread=Thread-194 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20396, stack(0x00007f87690a5000,0x00007f87691a6000)]
   
 
-***REMOVED***
+Other Threads:
   0x00007f90e8138800 VMThread [stack: 0x00007f90eca87000,0x00007f90ecb87000] [id=19913]
   0x00007f90e8193000 WatcherThread [stack: 0x00007f90ec27f000,0x00007f90ec37f000] [id=19921]
 
 =>0x00007f90e8060000 (exited) GCTaskThread [stack: 0x00007f90ee61f000,0x00007f90ee71f000] [id=19908]
 
-***REMOVED***
+VM state:not at safepoint (normal execution)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
-***REMOVED***
+Heap:
 Shenandoah Heap
  32768M total, 32768M committed, 6279M used
  2048 x 16384K regions
@@ -158,10 +158,10 @@ Polling page: 0x00007f90f26c7000
 CodeCache: size=524288Kb used=175212Kb max_used=175277Kb free=349075Kb
  bounds [0x00007f90c8000000, 0x00007f90e8000000, 0x00007f90e8000000]
  total_blobs=15390 nmethods=14629 adapters=708
-***REMOVED***
+ compilation: enabled
 
 
-***REMOVED***
+Events (250 events):
 Event: 557592.950 loading class sun/reflect/GeneratedMethodAccessor170 done
 Event: 557593.029 Concurrent reset done
 Event: 557593.029 Executing VM operation: ShenandoahInitMark
@@ -171,29 +171,29 @@ Event: 557593.041 Executing VM operation: ShenandoahInitMark done
 Event: 557593.041 Concurrent marking
 
 
-***REMOVED***
+Dynamic libraries:
 
 7f90f07fb000-7f90f1587000 r-xp 00000000 fd:02 4216592                    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/jre/lib/amd64/server/libjvm.so
 
 
-***REMOVED***
+VM Arguments:
 jvm_args: -D[Standalone] -XX:+UseCompressedOops -Xms32768M -Xmx32768M -XX:+DisableExplicitGC -XX:NewSize=4096M -XX:MaxNewSize=4096M -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=512M -XX:+UseShenandoahGC -XX:ShenandoahGCMode=satb -XX:ShenandoahGCHeuristics=adaptive -verbose:gc -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/crash/ -XX:+PrintHeapAtGC -XX:+PrintGCApplicationConcurrentTime -XX:+PrintGCApplicationStoppedTime -XX:-TraceClassUnloading -Xloggc:/var/log/pqd/ietafj/eap/gc.asietafj_1.log.2020-09-30.13-56-25 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=3 -XX:GCLogFileSize=100M -XX:+PrintTenuringDistribution -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8 -XX:-TieredCompilation -XX:ReservedCodeCacheSize=512M  -XX:InitialCodeCacheSize=512M  
 java_command: /path/to/jboss-modules.jar
 java_class_path (initial): .
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
+Environment Variables:
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xb57c40], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xb57c40], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x9385c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGXFSZ: [libjvm.so+0x9385c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x9385c0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x938470], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -201,16 +201,16 @@ SIGTERM: [libjvm.so+0x938680], sa_mask[0]=11111111011111111101111111111110, sa_f
 SIGQUIT: [libjvm.so+0x938680], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)
 
-uname:Linux 3.10.0-1127.19.1.el7.x86_64 ***REMOVED***1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64
+uname:Linux 3.10.0-1127.19.1.el7.x86_64 #1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE 0k, NPROC 32768, NOFILE 32768, AS infinity
 load average:25.59 26.63 26.98
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       98481808 kB
 MemFree:        15941592 kB
 MemAvailable:   59370640 kB
@@ -228,7 +228,7 @@ Mlocked:             916 kB
 SwapTotal:       4194300 kB
 SwapFree:        4194300 kB
 Dirty:              3884 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:      37156036 kB
 Mapped:           195792 kB
 Shmem:              1628 kB
@@ -238,46 +238,46 @@ SUnreclaim:       426456 kB
 KernelStack:       17952 kB
 PageTables:        87112 kB
 NFS_Unstable:        188 kB
-***REMOVED***
-***REMOVED***
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    53435204 kB
 Committed_AS:   39152796 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      369368 kB
 VmallocChunk:   34359267304 kB
 Percpu:             1696 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:  36487168 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      114560 kB
 DirectMap2M:     7225344 kB
 DirectMap1G:    95420416 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-7
 cpu_memory_nodes: 0
 active_processor_count: 8
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 79816192000
 memory_max_usage_in_bytes: 0
 
 
 CPU:total 8 (initial active 8) (8 cores per cpu, 1 threads per core) family 6 model 63 stepping 0, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, lzcnt, tsc, tscinvbit, bmi1, bmi2
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -303,7 +303,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -329,7 +329,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -355,7 +355,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -381,7 +381,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 4
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -407,7 +407,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 5
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -433,7 +433,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 6
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -459,7 +459,7 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 7
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63

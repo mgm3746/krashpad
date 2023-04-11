@@ -30,12 +30,12 @@ class TestOsUptime {
         String logLine = "OS uptime: 3 days 8:33 hours";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_UPTIME,
                 JdkUtil.LogEventType.OS_UPTIME.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "OS uptime: 3 days 8:33 hours";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof OsUptime,
                 JdkUtil.LogEventType.OS_UPTIME.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

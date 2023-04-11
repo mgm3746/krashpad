@@ -35,7 +35,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </pre>
  * 
  * <pre>
- * ***REMOVED***
+ * /proc/cpuinfo:
  * processor       : 0
  * cpu             : POWER9 (architected), altivec supported
  * clock           : 2500.000000MHz
@@ -74,8 +74,8 @@ public class CpuInfo implements LogEvent, HeaderEvent {
      * sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, erms, tsc, tscinvbit
      * </pre>
      */
-    public static final String _REGEX_HEADER = "CPU:[ ]{0,1***REMOVED***total (\\d{1,3***REMOVED***)( \\(initial active (\\d{1,3***REMOVED***)\\))?"
-            + "( \\((\\d{1,2***REMOVED***) cores per cpu, (\\d) threads per core\\))?.*";
+    public static final String _REGEX_HEADER = "CPU:[ ]{0,1}total (\\d{1,3})( \\(initial active (\\d{1,3})\\))?"
+            + "( \\((\\d{1,2}) cores per cpu, (\\d) threads per core\\))?.*";
 
     /**
      * Regular expression for values for multi line entries.
@@ -87,15 +87,15 @@ public class CpuInfo implements LogEvent, HeaderEvent {
      * Data
      * </pre>
      */
-    private static final String _REGEX_VALUE = "^(\\d{1,***REMOVED***|\\d{1,***REMOVED***-\\d{1,***REMOVED***|" + JdkRegEx.SIZE
-            + "|\\d{1,2***REMOVED***KFrequency|Data|Instruction|Unified|performance|performance powersave|powersave)$";
+    private static final String _REGEX_VALUE = "^(\\d{1,}|\\d{1,}-\\d{1,}|" + JdkRegEx.SIZE
+            + "|\\d{1,2}KFrequency|Data|Instruction|Unified|performance|performance powersave|powersave)$";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_VALUE
             + "|<Not Available>|address sizes.+|apicid.+|Available cpu frequencies:.*|"
-            + "(Available|Current) governor[s]{0,1***REMOVED***:.*|BIOS frequency limitation:.*|bogomips.+|bugs.+|"
+            + "(Available|Current) governor[s]{0,1}:.*|BIOS frequency limitation:.*|bogomips.+|bugs.+|"
             + "cache_alignment.+|cache coherency line size:|cache level:|cache size.+|cache type:|clflush size.+|"
             + "clock.+|core id.+|Core performance/turbo boost:.*|cpu.+|cpu cores|cpu family.+|"
             + "CPU Model and flags from \\/proc\\/cpuinfo:|cpuid level|cpu MHz|(Current|Maximum|"
@@ -113,7 +113,7 @@ public class CpuInfo implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -128,29 +128,29 @@ public class CpuInfo implements LogEvent, HeaderEvent {
      */
     public CpuInfo(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.CPU_INFO.toString();
-    ***REMOVED***
+    }
 
     /**
      * @return True if the event is the CPU header with summary information, false otherwise.
      */
     public boolean isCpuHeader() {
         return logEntry.matches(_REGEX_HEADER);
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

@@ -40,7 +40,7 @@ public class Uid implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^uid[ ]{0,***REMOVED***: .+$";
+    private static final String REGEX = "^uid[ ]{0,}: .+$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -51,7 +51,7 @@ public class Uid implements LogEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -66,13 +66,13 @@ public class Uid implements LogEvent {
      */
     public Uid(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.UID.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

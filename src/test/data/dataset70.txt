@@ -1,18 +1,18 @@
-***REMOVED***
-***REMOVED*** A fatal error has been detected by the Java Runtime Environment:
-***REMOVED***
-***REMOVED***  SIGSEGV (0xb) at pc=0x00007fa9d22950f4, pid=356407, tid=356408
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment 21.9 (17.0.1+12) (build 17.0.1+12-LTS)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM 21.9 (17.0.1+12-LTS, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, linux-amd64)
-***REMOVED*** Problematic frame:
-***REMOVED*** V  [libjvm.so+0xf160f4]  Unsafe_GetByte+0x134
-***REMOVED***
-***REMOVED*** Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /home/user/tmp/core.356407)
-***REMOVED***
-***REMOVED*** If you would like to submit a bug report, please visit:
-***REMOVED***   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-17-openjdk
-***REMOVED***
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007fa9d22950f4, pid=356407, tid=356408
+#
+# JRE version: OpenJDK Runtime Environment 21.9 (17.0.1+12) (build 17.0.1+12-LTS)
+# Java VM: OpenJDK 64-Bit Server VM 21.9 (17.0.1+12-LTS, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, linux-amd64)
+# Problematic frame:
+# V  [libjvm.so+0xf160f4]  Unsafe_GetByte+0x134
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /home/user/tmp/core.356407)
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-17-openjdk
+#
 
 ---------------  S U M M A R Y ------------
 
@@ -21,12 +21,12 @@ Command Line: TestCrash
 Host: Intel(R) Core(TM) i7-10850H CPU @ 2.70GHz, 12 cores, 31G, Red Hat Enterprise Linux release 8.5 (Ootpa)
 Time: Mon Nov 29 06:26:33 2021 EST elapsed time: 0.044441 seconds (0d 0h 0m 0s)
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007fa9cc012530):  JavaThread "main" [_thread_in_vm, id=356408, stack(0x00007fa9d3658000,0x00007fa9d3759000)]
 
 Stack: [0x00007fa9d3658000,0x00007fa9d3759000],  sp=0x00007fa9d37577f0,  free space=1021k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xf160f4]  Unsafe_GetByte+0x134
 j  jdk.internal.misc.Unsafe.getByte(Ljava/lang/Object;J)B+0 java.base@17.0.1
 j  jdk.internal.misc.Unsafe.getByte(J)B+3 java.base@17.0.1
@@ -48,7 +48,7 @@ v  ~StubRoutines::call_stub
 
 siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000000
 
-***REMOVED***
+Register to memory mapping:
 
 RAX=0x0 is NULL
 RBX=0x00007fa9cc012530 is a thread
@@ -58,7 +58,7 @@ RSP=0x00007fa9d37577f0 is pointing into the stack for thread: 0x00007fa9cc012530
 RBP=0x00007fa9d3757810 is pointing into the stack for thread: 0x00007fa9cc012530
 RSI=0x00007fa9d37578c8 is pointing into the stack for thread: 0x00007fa9cc012530
 RDI=0x00007fa9cc0127d8 points into unknown readable memory: 0x00007fa9d28a6460 | 60 64 8a d2 a9 7f 00 00
-R8 ={method***REMOVED*** {0x0000000800402b80***REMOVED*** 'getByte' '(Ljava/lang/Object;J)B' in 'jdk/internal/misc/Unsafe'
+R8 ={method} {0x0000000800402b80} 'getByte' '(Ljava/lang/Object;J)B' in 'jdk/internal/misc/Unsafe'
 R9 =0x0000000000000002 is an unknown value
 R10=0x00007fa9b481450b is at code_begin+843 in an Interpreter codelet
 method entry point (kind = native)  [0x00007fa9b48141c0, 0x00007fa9b4814a20]  2144 bytes
@@ -69,7 +69,7 @@ R14=0x00007fa9d37578c8 is pointing into the stack for thread: 0x00007fa9cc012530
 R15=0x00007fa9cc012530 is a thread
 
 
-***REMOVED***
+Registers:
 RAX=0x0000000000000000, RBX=0x00007fa9cc012530, RCX=0x0000000000000000, RDX=0x0000000000000000
 RSP=0x00007fa9d37577f0, RBP=0x00007fa9d3757810, RSI=0x00007fa9d37578c8, RDI=0x00007fa9cc0127d8
 R8 =0x0000000800402b80, R9 =0x0000000000000002, R10=0x00007fa9b481450b, R11=0x0000000000000101
@@ -120,7 +120,7 @@ Instructions: (pc=0x00007fa9d22950f4)
 
 Stack slot to memory mapping:
 stack at sp + 0 slots: 0x0 is NULL
-stack at sp + 1 slots: {method***REMOVED*** {0x0000000800402b80***REMOVED*** 'getByte' '(Ljava/lang/Object;J)B' in 'jdk/internal/misc/Unsafe'
+stack at sp + 1 slots: {method} {0x0000000800402b80} 'getByte' '(Ljava/lang/Object;J)B' in 'jdk/internal/misc/Unsafe'
 stack at sp + 2 slots: 0x0 is NULL
 stack at sp + 3 slots: 0x0000000800b1b8a0 is pointing into metadata
 stack at sp + 4 slots: 0x00007fa9d3757890 is pointing into the stack for thread: 0x00007fa9cc012530
@@ -130,16 +130,16 @@ stack at sp + 6 slots: 0x0 is NULL
 stack at sp + 7 slots: 0x0000000800b1b8a0 is pointing into metadata
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
 Threads class SMR info:
 _java_thread_list=0x00007fa9cc170af0, length=11, elements={
 0x00007fa9cc012530, 0x00007fa9cc14c030, 0x00007fa9cc14d410, 0x00007fa9cc1563c0,
 0x00007fa9cc157770, 0x00007fa9cc158b80, 0x00007fa9cc15a530, 0x00007fa9cc15ba60,
 0x00007fa9cc164ec0, 0x00007fa9cc16c5c0, 0x00007fa9cc16fb60
-***REMOVED***
+}
 
-***REMOVED***
+Java Threads: ( => current thread )
 =>0x00007fa9cc012530 JavaThread "main" [_thread_in_vm, id=356408, stack(0x00007fa9d3658000,0x00007fa9d3759000)]
   0x00007fa9cc14c030 JavaThread "Reference Handler" daemon [_thread_blocked, id=356415, stack(0x00007fa9a00d9000,0x00007fa9a01da000)]
   0x00007fa9cc14d410 JavaThread "Finalizer" daemon [_thread_blocked, id=356416, stack(0x00007fa9916ff000,0x00007fa991800000)]
@@ -152,20 +152,20 @@ _java_thread_list=0x00007fa9cc170af0, length=11, elements={
   0x00007fa9cc16c5c0 JavaThread "Notification Thread" daemon [_thread_blocked, id=356423, stack(0x00007fa990d80000,0x00007fa990e81000)]
   0x00007fa9cc16fb60 JavaThread "Common-Cleaner" daemon [_thread_blocked, id=356425, stack(0x00007fa990b7d000,0x00007fa990c7e000)]
 
-***REMOVED***
+Other Threads:
   0x00007fa9cc148110 VMThread "VM Thread" [stack: 0x00007fa9a01dc000,0x00007fa9a02dc000] [id=356414]
   0x00007fa9cc16df00 WatcherThread [stack: 0x00007fa990c80000,0x00007fa990d80000] [id=356424]
-  0x00007fa9cc0484c0 GCTaskThread "GC Thread***REMOVED***0" [stack: 0x00007fa9a14db000,0x00007fa9a15db000] [id=356409]
+  0x00007fa9cc0484c0 GCTaskThread "GC Thread#0" [stack: 0x00007fa9a14db000,0x00007fa9a15db000] [id=356409]
   0x00007fa9cc059420 ConcurrentGCThread "G1 Main Marker" [stack: 0x00007fa9a13d9000,0x00007fa9a14d9000] [id=356410]
-  0x00007fa9cc05a380 ConcurrentGCThread "G1 Conc***REMOVED***0" [stack: 0x00007fa9a12d7000,0x00007fa9a13d7000] [id=356411]
-  0x00007fa9cc117900 ConcurrentGCThread "G1 Refine***REMOVED***0" [stack: 0x00007fa9a07cb000,0x00007fa9a08cb000] [id=356412]
+  0x00007fa9cc05a380 ConcurrentGCThread "G1 Conc#0" [stack: 0x00007fa9a12d7000,0x00007fa9a13d7000] [id=356411]
+  0x00007fa9cc117900 ConcurrentGCThread "G1 Refine#0" [stack: 0x00007fa9a07cb000,0x00007fa9a08cb000] [id=356412]
   0x00007fa9cc1187f0 ConcurrentGCThread "G1 Service" [stack: 0x00007fa9a06c9000,0x00007fa9a07c9000] [id=356413]
 
 Threads with active compile tasks:
 
 VM state: not at safepoint (normal execution)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
 Heap address: 0x000000060d400000, size: 7980 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
 
@@ -189,7 +189,7 @@ GC Precious Log:
  Concurrent Refinement Workers: 10
  Periodic GC: Disabled
 
-***REMOVED***
+Heap:
  garbage-first heap   total 520192K, used 996K [0x000000060d400000, 0x0000000800000000)
   region size 4096K, 1 young (4096K), 0 survivors (0K)
  Metaspace       used 117K, committed 320K, reserved 1056768K
@@ -389,7 +389,7 @@ CodeHeap 'profiled nmethods': size=120028Kb used=3Kb max_used=3Kb free=120024Kb
 CodeHeap 'non-nmethods': size=5704Kb used=1025Kb max_used=1035Kb free=4678Kb
  bounds [0x00007fa9b4807000, 0x00007fa9b4a77000, 0x00007fa9b4d99000]
  total_blobs=286 nmethods=3 adapters=198
-***REMOVED***
+ compilation: enabled
               stopped_count=0, restarted_count=0
  full_count=0
 
@@ -442,51 +442,51 @@ Event: 0.025 loading class jdk/internal/reflect/UnsafeQualifiedStaticFieldAccess
 Event: 0.025 loading class jdk/internal/reflect/UnsafeQualifiedStaticObjectFieldAccessorImpl done
 
 
-***REMOVED***
+Dynamic libraries:
 7fa9d137f000-7fa9d25e9000 r-xp 00000000 fd:01 67396140                   /usr/lib/jvm/java-17-openjdk-17.0.1.0.12-2.el8_5.x86_64/lib/server/libjvm.so
 7fa9d375d000-7fa9d3765000 rw-s 00000000 fd:01 104673714                  /tmp/hsperfdata_user/356407
 
 
-***REMOVED***
+VM Arguments:
 java_command: TestCrash
 java_class_path (initial): .
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
 [Global flags]
-     intx CICompilerCount                          = 4                                         {product***REMOVED*** {ergonomic***REMOVED***
-     uint ConcGCThreads                            = 3                                         {product***REMOVED*** {ergonomic***REMOVED***
-     uint G1ConcRefinementThreads                  = 10                                        {product***REMOVED*** {ergonomic***REMOVED***
-   size_t G1HeapRegionSize                         = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
-    uintx GCDrainStackTargetSize                   = 64                                        {product***REMOVED*** {ergonomic***REMOVED***
-   size_t InitialHeapSize                          = 524288000                                 {product***REMOVED*** {ergonomic***REMOVED***
-   size_t MarkStackSize                            = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
-   size_t MaxHeapSize                              = 8367636480                                {product***REMOVED*** {ergonomic***REMOVED***
-   size_t MaxNewSize                               = 5020581888                                {product***REMOVED*** {ergonomic***REMOVED***
-   size_t MinHeapDeltaBytes                        = 4194304                                   {product***REMOVED*** {ergonomic***REMOVED***
-   size_t MinHeapSize                              = 8388608                                   {product***REMOVED*** {ergonomic***REMOVED***
-    uintx NonNMethodCodeHeapSize                   = 5839372                                {pd product***REMOVED*** {ergonomic***REMOVED***
-    uintx NonProfiledCodeHeapSize                  = 122909434                              {pd product***REMOVED*** {ergonomic***REMOVED***
-    uintx ProfiledCodeHeapSize                     = 122909434                              {pd product***REMOVED*** {ergonomic***REMOVED***
-    uintx ReservedCodeCacheSize                    = 251658240                              {pd product***REMOVED*** {ergonomic***REMOVED***
-     bool SegmentedCodeCache                       = true                                      {product***REMOVED*** {ergonomic***REMOVED***
-   size_t SoftMaxHeapSize                          = 8367636480                             {manageable***REMOVED*** {ergonomic***REMOVED***
-     bool UseCompressedClassPointers               = true                           {product lp64_product***REMOVED*** {ergonomic***REMOVED***
-     bool UseCompressedOops                        = true                           {product lp64_product***REMOVED*** {ergonomic***REMOVED***
-     bool UseG1GC                                  = true                                      {product***REMOVED*** {ergonomic***REMOVED***
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 3                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 10                                        {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 4194304                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 524288000                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 8367636480                                {product} {ergonomic}
+   size_t MaxNewSize                               = 5020581888                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 4194304                                   {product} {ergonomic}
+   size_t MinHeapSize                              = 8388608                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5839372                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122909434                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122909434                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+   size_t SoftMaxHeapSize                          = 8367636480                             {manageable} {ergonomic}
+     bool UseCompressedClassPointers               = true                           {product lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
 
 Logging:
 Log output configuration:
- ***REMOVED***0: stdout all=warning uptime,level,tags
- ***REMOVED***1: stderr all=off uptime,level,tags
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
 
-***REMOVED***
+Environment Variables:
 PATH=/home/user/.local/bin:/home/user/bin:/home/user/.local/bin:/home/user/bin:/usr/share/Modules/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
 USERNAME=user
-***REMOVED***
+SHELL=/bin/bash
 DISPLAY=:0
 LANG=en_US.UTF-8
 
-***REMOVED***
+Signal Handlers:
    SIGSEGV: crash_handler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
     SIGBUS: crash_handler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
     SIGFPE: crash_handler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
@@ -501,17 +501,17 @@ LANG=en_US.UTF-8
    SIGTRAP: crash_handler in libjvm.so, mask=11100100010111111101111111111110, flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:
 Red Hat Enterprise Linux release 8.5 (Ootpa)
-uname: Linux 4.18.0-348.2.1.el8_5.x86_64 ***REMOVED***1 SMP Mon Nov 8 13:30:15 EST 2021 x86_64
+uname: Linux 4.18.0-348.2.1.el8_5.x86_64 #1 SMP Mon Nov 8 13:30:15 EST 2021 x86_64
 OS uptime: 3 days 20:22 hours
 libc: glibc 2.28 NPTL 2.28 
 rlimit (soft/hard): STACK 8192k/infinity , CORE 0k/infinity , NPROC 127395/127395 , NOFILE 262144/262144 , AS infinity/infinity , CPU infinity/infinity , DATA infinity/infinity , FSIZE infinity/infinity , MEMLOCK 64k/64k
 load average: 0.87 0.70 0.41
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       32673416 kB
 MemFree:         7556048 kB
 MemAvailable:   22487640 kB
@@ -529,7 +529,7 @@ Mlocked:              64 kB
 SwapTotal:      16412668 kB
 SwapFree:       16264188 kB
 Dirty:               220 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       7778776 kB
 Mapped:           812288 kB
 Shmem:           1079420 kB
@@ -539,27 +539,27 @@ SReclaimable:     198748 kB
 SUnreclaim:       235540 kB
 KernelStack:       25936 kB
 PageTables:       122816 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    32749376 kB
 Committed_AS:   26126856 kB
 VmallocTotal:   34359738367 kB
-***REMOVED***
-***REMOVED***
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
 Percpu:            27648 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   1470464 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
-***REMOVED***
+Hugetlb:               0 kB
 DirectMap4k:      843488 kB
 DirectMap2M:    20928512 kB
 DirectMap1G:    11534336 kB
@@ -577,13 +577,13 @@ C-Heap outstanding allocations: 2241K
 /proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 65530
 /proc/sys/kernel/pid_max (system-wide limit on number of process identifiers): 4194304
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-11
 cpu_memory_nodes: 0
 active_processor_count: 12
 cpu_quota: no quota
-***REMOVED***
+cpu_period: 100000
 cpu_shares: no shares
 memory_limit_in_bytes: unlimited
 memory_and_swap_limit_in_bytes: unlimited
@@ -595,7 +595,7 @@ Steal ticks since vm start: 0
 Steal ticks percentage since vm start:  0.000
 
 CPU: total 12 (initial active 12) (6 cores per cpu, 2 threads per core) family 6 model 165 stepping 2 microcode 0xea, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, erms, clmul, bmi1, bmi2, adx, fma, vzeroupper, clflush, clflushopt
-CPU Model and flags from ***REMOVED***
+CPU Model and flags from /proc/cpuinfo:
 model name	: Intel(R) Core(TM) i7-10850H CPU @ 2.70GHz
 flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust sgx bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp pku ospke sgx_lc md_clear flush_l1d arch_capabilities
 

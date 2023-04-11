@@ -30,12 +30,12 @@ class TestEnd {
         String logLine = "END.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.END,
                 JdkUtil.LogEventType.END.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "END.";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof End,
                 JdkUtil.LogEventType.END.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

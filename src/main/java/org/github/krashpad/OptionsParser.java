@@ -45,7 +45,7 @@ public class OptionsParser {
                 "output file name (default " + OUTPUT_FILE_NAME + ")");
         options.addOption(OPTION_REPORT_CONSOLE_SHORT, OPTION_REPORT_CONSOLE_LONG, false,
                 "print report to stdout instead of file");
-    ***REMOVED***
+    }
 
     /**
      * @param args
@@ -59,12 +59,12 @@ public class OptionsParser {
         // Allow user to just specify help or version.
         if (args.length == 1 && (args[0].equals("-" + OPTION_HELP_SHORT) || args[0].equals("--" + OPTION_HELP_LONG))) {
             return null;
-        ***REMOVED*** else {
+        } else {
             CommandLine cmd = parser.parse(options, args);
             validateOptions(cmd);
             return cmd;
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
 
     /**
      * Validate command line options.
@@ -79,18 +79,18 @@ public class OptionsParser {
         // Ensure command line input.
         if (cmd.getArgList().size() == 0) {
             throw new ParseException("Missing input");
-        ***REMOVED*** else {
+        } else {
             // Ensure file input.
             String logFileName = (String) cmd.getArgList().get(cmd.getArgList().size() - 1);
             if (logFileName == null) {
                 throw new ParseException("Missing file");
-            ***REMOVED*** else {
+            } else {
                 // Ensure file exists.
                 File logFile = new File(logFileName);
                 if (!logFile.exists()) {
                     throw new ParseException("Invalid file: '" + logFileName + "'");
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
-***REMOVED***
+                }
+            }
+        }
+    }
+}

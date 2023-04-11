@@ -30,26 +30,26 @@ class TestLdPreloadFile {
         String logLine = "/$LIB/liboneagentproc.so";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LD_PRELOAD_FILE,
                 JdkUtil.LogEventType.BITS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeader() {
         String logLine = "/etc/ld.so.preload:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LD_PRELOAD_FILE,
                 JdkUtil.LogEventType.BITS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         String logLine = "/$LIB/myagent.so";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LD_PRELOAD_FILE,
                 JdkUtil.LogEventType.BITS.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "/$LIB/myagent.so";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof LdPreloadFile,
                 JdkUtil.LogEventType.LD_PRELOAD_FILE.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

@@ -52,7 +52,7 @@ public class CardTable implements LogEvent, ThrowAwayEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -67,13 +67,13 @@ public class CardTable implements LogEvent, ThrowAwayEvent {
      */
     public CardTable(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.CARD_TABLE.toString();
-    ***REMOVED***
-***REMOVED***
+    }
+}

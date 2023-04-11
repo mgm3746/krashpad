@@ -1,32 +1,32 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (mmap) failed to map 32304529408 bytes for committing reserved memory.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  INVALID (0xe0000002) at pc=0x0000000000000000, pid=108047, tid=0x00007f67eb450700
-***REMOVED***
-***REMOVED*** JRE version:  (8.0_282-b08) (build )
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.282-b08 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Core dump written. Default location: /bw/local/broadworks/XS_Rel_22.0_1.1123/bin/core or core.108047 (max size 8388608 kB). To ensure a full core dump, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 32304529408 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  INVALID (0xe0000002) at pc=0x0000000000000000, pid=108047, tid=0x00007f67eb450700
+#
+# JRE version:  (8.0_282-b08) (build )
+# Java VM: OpenJDK 64-Bit Server VM (25.282-b08 mixed mode linux-amd64 compressed oops)
+# Core dump written. Default location: /bw/local/broadworks/XS_Rel_22.0_1.1123/bin/core or core.108047 (max size 8388608 kB). To ensure a full core dump, try "ulimit -c unlimited" before starting Java again
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f67e400b000):  JavaThread "Unknown thread" [_thread_in_vm, id=108048, stack(0x00007f67eb351000,0x00007f67eb451000)]
 
 Stack: [0x00007f67eb351000,0x00007f67eb451000],  sp=0x00007f67eb44f300,  free space=1016k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xae6e8d]  VMError::report_and_die()+0x15d
 V  [libjvm.so+0x4f7869]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0x99
 V  [libjvm.so+0x9401e3]  os::Linux::commit_memory_impl(char*, unsigned long, bool)+0x113
@@ -36,7 +36,7 @@ V  [libjvm.so+0xae3838]  _ZN12VirtualSpace9expand_byEmb.clone.1+0x188
 V  [libjvm.so+0x5ef0e9]  CardGeneration::CardGeneration(ReservedSpace, unsigned long, int, GenRemSet*)+0xf9
 V  [libjvm.so+0x4d59be]  ConcurrentMarkSweepGeneration::ConcurrentMarkSweepGeneration(ReservedSpace, unsigned long, int, CardTableRS*, bool, FreeBlockDictionary<FreeChunk>::DictionaryChoice)+0x4e
 V  [libjvm.so+0x5efdf9]  GenerationSpec::init(ReservedSpace, int, GenRemSet*)+0x159
-V  [libjvm.so+0x5df6a6]  GenCollected***REMOVED***:initialize()+0x1e6
+V  [libjvm.so+0x5df6a6]  GenCollectedHeap::initialize()+0x1e6
 V  [libjvm.so+0xab0dd1]  Universe::initialize_heap()+0x101
 V  [libjvm.so+0xab2ae3]  universe_init()+0x33
 V  [libjvm.so+0x634955]  init_globals()+0x55
@@ -46,17 +46,17 @@ C  [libjli.so+0x73c0]  JavaMain+0x90
 C  [libpthread.so.0+0x7dd5]  start_thread+0xc5
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
 
-***REMOVED***
+Other Threads:
 
 =>0x00007f67e400b000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=108048, stack(0x00007f67eb351000,0x00007f67eb451000)]
 
 VM state:not at safepoint (not fully initialized)
 
-***REMOVED***
+VM Mutex/Monitor currently owned by a thread: None
 
 heap address: 0x00007f600e800000, size: 31000 MB, Compressed Oops mode: Non-zero based:0x00007f600e7ff000, Oop shift amount: 3
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 0
@@ -77,27 +77,27 @@ Events (0 events):
 No events
 
 
-***REMOVED***
+Dynamic libraries:
 7f67e980e000-7f67ea523000 r-xp 00000000 fd:02 430444251                  /bw/local/java/jdk1.8.0_282/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: -verbose:gc -Xnoclassgc -XX:-OmitStackTraceInFastThrow -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:MaxNewSize=192m -XX:NewSize=192m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:SurvivorRatio=1000 -XX:TargetSurvivorRatio=100 -XX:MaxTenuringThreshold=0 -XX:CMSIncrementalDutyCycle=50 -XX:CMSInitiatingOccupancyFraction=59 -XX:-CMSIncrementalPacing -XX:MetaspaceSize=75m -XX:ParallelGCThreads=12 -XX:+PerfDisableSharedMem -Xms31000m -Xmx31000m 
-***REMOVED***
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 PATH=/usr/local/java/java_base/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
 USERNAME=username
 LD_LIBRARY_PATH=:/usr/local/TimesTen/tt_base/lib:/usr/local/TimesTenLight/ttl_base/lib:/usr/local/ssl/ssl_base/lib
-***REMOVED***
+SHELL=/bin/bash
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xae7d20], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xae7d20], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x9391f0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: [libjvm.so+0x9391f0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0x9391f0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x9391f0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x93aad0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGINT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
@@ -105,16 +105,16 @@ SIGTERM: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGQUIT: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 7.6 (Maipo)
 
-uname:Linux 3.10.0-957.10.1.el7.x86_64 ***REMOVED***1 SMP Thu Feb 7 07:12:53 UTC 2019 x86_64
+uname:Linux 3.10.0-957.10.1.el7.x86_64 #1 SMP Thu Feb 7 07:12:53 UTC 2019 x86_64
 libc:glibc 2.17 NPTL 2.17 
 rlimit: STACK 8192k, CORE 8388608k, NPROC 65535, NOFILE 64000, AS infinity
 load average:0.03 0.04 0.05
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       36879464 kB
 MemFree:        20547076 kB
 MemAvailable:   21776608 kB
@@ -127,12 +127,12 @@ Active(anon):   13606376 kB
 Inactive(anon):   582000 kB
 Active(file):     561404 kB
 Inactive(file):   874876 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:       8388604 kB
 SwapFree:        8388604 kB
 Dirty:               288 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:      12344032 kB
 Mapped:            80928 kB
 Shmem:           1844612 kB
@@ -141,37 +141,37 @@ SReclaimable:     212100 kB
 SUnreclaim:        89144 kB
 KernelStack:       10736 kB
 PageTables:        34616 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    26828336 kB
 Committed_AS:    3580740 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      271220 kB
 VmallocChunk:   34359392252 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   9322496 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      161648 kB
 DirectMap2M:    37586944 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-11
 cpu_memory_nodes: 0
 active_processor_count: 12
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 16000237568
 memory_max_usage_in_bytes: 0
 
@@ -179,8 +179,8 @@ KVM virtualization detected
 
 CPU:total 12 (initial active 12) (12 cores per cpu, 1 threads per core) family 6 model 61 stepping 2, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, tsc, bmi1, bmi2, adx
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61
@@ -206,7 +206,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61
@@ -232,7 +232,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61
@@ -258,7 +258,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61
@@ -284,7 +284,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 4
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61
@@ -310,7 +310,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 5
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61
@@ -336,7 +336,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 6
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61
@@ -362,7 +362,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 7
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61
@@ -388,7 +388,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 8
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61
@@ -414,7 +414,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 9
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61
@@ -440,7 +440,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***0
+processor	: 10
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61
@@ -466,7 +466,7 @@ cache_alignment	: 64
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***1
+processor	: 11
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 61

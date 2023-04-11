@@ -1,33 +1,33 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (mmap) failed to map 1633157120 bytes for committing reserved memory.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   In 32 bit mode, the process size limit was hit
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Use 64 bit Java on a 64 bit OS
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (os_linux.cpp:2640), pid=28211, tid=0x00007f2ff76f6700
-***REMOVED***
-***REMOVED*** JRE version: Java(TM) SE Runtime Environment (8.0_131-b11) (build 1.8.0_131-b11)
-***REMOVED*** Java VM: Java HotSpot(TM) 64-Bit Server VM (25.131-b11 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 1633157120 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2640), pid=28211, tid=0x00007f2ff76f6700
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_131-b11) (build 1.8.0_131-b11)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.131-b11 mixed mode linux-amd64 compressed oops)
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f301013e800):  VMThread [stack: 0x00007f2ff75f6000,0x00007f2ff76f7000] [id=28217]
 
 Stack: [0x00007f2ff75f6000,0x00007f2ff76f7000],  sp=0x00007f2ff76f4f80,  free space=1019k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xac826a]  VMError::report_and_die()+0x2ba
 V  [libjvm.so+0x4fd4cb]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0x8b
 V  [libjvm.so+0x924f53]  os::Linux::commit_memory_impl(char*, unsigned long, bool)+0x103
@@ -38,7 +38,7 @@ V  [libjvm.so+0x984aa0]  PSOldGen::expand(unsigned long)+0x170
 V  [libjvm.so+0x984cab]  PSOldGen::resize(unsigned long)+0x1cb
 V  [libjvm.so+0x98c9b1]  PSParallelCompact::invoke_no_policy(bool)+0x991
 V  [libjvm.so+0x99230d]  PSScavenge::invoke()+0x1ad
-V  [libjvm.so+0x948f00]  ParallelScavenge***REMOVED***:failed_mem_allocate(unsigned long)+0x70
+V  [libjvm.so+0x948f00]  ParallelScavengeHeap::failed_mem_allocate(unsigned long)+0x70
 V  [libjvm.so+0xac9c87]  VM_ParallelGCFailedAllocation::doit()+0x97
 V  [libjvm.so+0xad1765]  VM_Operation::evaluate()+0x55
 V  [libjvm.so+0xacfb3a]  VMThread::evaluate_operation(VM_Operation*)+0xba
@@ -48,9 +48,9 @@ V  [libjvm.so+0x927568]  java_start(Thread*)+0x108
 
 VM_Operation (0x00007f2f49249730): ParallelGCFailedAllocation, mode: safepoint, requested by thread 0x00007f2ff01c3800
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007f2ff0290800 JavaThread "http-executor-threads - 300" [_thread_blocked, id=24845, stack(0x00007f2f41fdb000,0x00007f2f420dc000)]
   0x00007f2ff028e800 JavaThread "http-executor-threads - 299" [_thread_blocked, id=24841, stack(0x00007f2f420dc000,0x00007f2f421dd000)]
   0x00007f2ff028d000 JavaThread "http-executor-threads - 298" [_thread_blocked, id=24663, stack(0x00007f2f421dd000,0x00007f2f422de000)]
@@ -119,7 +119,7 @@ VM_Operation (0x00007f2f49249730): ParallelGCFailedAllocation, mode: safepoint, 
   0x00007f301014b000 JavaThread "Finalizer" daemon [_thread_blocked, id=28219, stack(0x00007f2ff74f5000,0x00007f2ff75f6000)]
   0x00007f3010146000 JavaThread "Reference Handler" daemon [_thread_blocked, id=28218, stack(0x00007f2fc8aff000,0x00007f2fc8c00000)]
 
-***REMOVED***
+Other Threads:
 =>0x00007f301013e800 VMThread [stack: 0x00007f2ff75f6000,0x00007f2ff76f7000] [id=28217]
   0x00007f30101ad000 WatcherThread [stack: 0x00007f2ff6eef000,0x00007f2ff6ff0000] [id=28225]
 
@@ -130,7 +130,7 @@ VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
 [0x00007f3010006c90] Threads_lock - owner thread: 0x00007f301013e800
 [0x00007f3010007190] Heap_lock - owner thread: 0x00007f2ff01c3800
 
-***REMOVED***
+Heap:
  PSYoungGen      total 4590080K, used 0K [0x0000000672b00000, 0x00000007bcd80000, 0x00000007c0000000)
   eden space 3821056K, 0% used [0x0000000672b00000,0x0000000672b00000,0x000000075be80000)
   from space 769024K, 0% used [0x000000078de80000,0x000000078de80000,0x00000007bcd80000)
@@ -151,7 +151,7 @@ Polling page: 0x00007f3017a0b000
 CodeCache: size=245760Kb used=77091Kb max_used=77968Kb free=168668Kb
  bounds [0x00007f3001000000, 0x00007f3005d10000, 0x00007f3010000000]
  total_blobs=18381 nmethods=17733 adapters=559
-***REMOVED***
+ compilation: enabled
 
 Compilation events (10 events):
 Event: 975265.002 Thread 0x00007f3010184800 27411       1       org.jboss.ws.common.management.AbstractServerConfig::getWebServiceHost (5 bytes)
@@ -176,7 +176,7 @@ Heap after GC invocations=816 (full 13):
   object space 6235648K, 56% used [0x00000003d8000000,0x00000004afbaccd0,0x0000000554980000)
  Metaspace       used 101071K, capacity 112982K, committed 113368K, reserved 1148928K
   class space    used 11675K, capacity 14777K, committed 14848K, reserved 1048576K
-***REMOVED***
+}
 Event: 978021.494 GC heap before
 {Heap before GC invocations=817 (full 13):
  PSYoungGen      total 4650496K, used 4294720K [0x0000000672b00000, 0x00000007c0000000, 0x00000007c0000000)
@@ -197,7 +197,7 @@ Heap after GC invocations=817 (full 13):
   object space 6235648K, 64% used [0x00000003d8000000,0x00000004cdb54cd0,0x0000000554980000)
  Metaspace       used 101077K, capacity 112994K, committed 113368K, reserved 1148928K
   class space    used 11676K, capacity 14779K, committed 14848K, reserved 1048576K
-***REMOVED***
+}
 Event: 978056.952 GC heap before
 {Heap before GC invocations=818 (full 13):
  PSYoungGen      total 4615680K, used 4389281K [0x0000000672b00000, 0x00000007be500000, 0x00000007c0000000)
@@ -218,7 +218,7 @@ Heap after GC invocations=818 (full 13):
   object space 6235648K, 71% used [0x00000003d8000000,0x00000004e6c733f8,0x0000000554980000)
  Metaspace       used 101077K, capacity 112994K, committed 113368K, reserved 1148928K
   class space    used 11676K, capacity 14779K, committed 14848K, reserved 1048576K
-***REMOVED***
+}
 Event: 978080.253 GC heap before
 {Heap before GC invocations=819 (full 13):
  PSYoungGen      total 4614144K, used 4396786K [0x0000000672b00000, 0x00000007c0000000, 0x00000007c0000000)
@@ -239,7 +239,7 @@ Heap after GC invocations=819 (full 13):
   object space 6235648K, 78% used [0x00000003d8000000,0x00000005029f44a0,0x0000000554980000)
  Metaspace       used 101077K, capacity 112994K, committed 113368K, reserved 1148928K
   class space    used 11676K, capacity 14779K, committed 14848K, reserved 1048576K
-***REMOVED***
+}
 Event: 978101.984 GC heap before
 {Heap before GC invocations=820 (full 13):
  PSYoungGen      total 4619264K, used 4395659K [0x0000000672b00000, 0x00000007c0000000, 0x00000007c0000000)
@@ -260,7 +260,7 @@ Heap after GC invocations=820 (full 13):
   object space 6235648K, 87% used [0x00000003d8000000,0x0000000526c50300,0x0000000554980000)
  Metaspace       used 101077K, capacity 112994K, committed 113368K, reserved 1148928K
   class space    used 11676K, capacity 14779K, committed 14848K, reserved 1048576K
-***REMOVED***
+}
 Event: 978110.875 GC heap before
 {Heap before GC invocations=821 (full 14):
  PSYoungGen      total 4590080K, used 493824K [0x0000000672b00000, 0x00000007bcd80000, 0x00000007c0000000)
@@ -309,27 +309,27 @@ Event: 978096.810 Executing VM operation: BulkRevokeBias done
 Event: 978101.983 Executing VM operation: ParallelGCFailedAllocation
 
 
-***REMOVED***
+Dynamic libraries:
 
 7f30162af000-7f30162b5000 r--s 00050000 fd:02 392589                     /path/to/jboss-eap-6.2/jboss-modules.jar
 
 7f30167f0000-7f30174bf000 r-xp 00000000 fd:02 790680                     /path/to/jdk1.8.0_131/jre/lib/amd64/server/libjvm.so
 
 
-***REMOVED***
+VM Arguments:
 jvm_args: -D[Standalone] -XX:+UseCompressedOops -Xms1303m -Xmx16000m
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux Server release 6.10 (Santiago)
 
-uname:Linux 2.6.32-754.14.2.el6.x86_64 ***REMOVED***1 SMP Wed Apr 24 16:18:30 EDT 2019 x86_64
+uname:Linux 2.6.32-754.14.2.el6.x86_64 #1 SMP Wed Apr 24 16:18:30 EDT 2019 x86_64
 libc:glibc 2.12 NPTL 2.12 
 rlimit: STACK 10240k, CORE 0k, NPROC 10240, NOFILE 10240, AS infinity
 load average:2.94 1.73 1.10
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       24609684 kB
 MemFree:          212100 kB
 Buffers:            2628 kB
@@ -341,12 +341,12 @@ Active(anon):   20445624 kB
 Inactive(anon):  1910140 kB
 Active(file):      26996 kB
 Inactive(file):    22884 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:       8241148 kB
 SwapFree:         535916 kB
 Dirty:               116 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:      21425720 kB
 Mapped:            25616 kB
 Shmem:               904 kB
@@ -355,20 +355,20 @@ SReclaimable:      55196 kB
 SUnreclaim:        94948 kB
 KernelStack:       16720 kB
 PageTables:        86824 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    20545988 kB
 Committed_AS:   30341436 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:      211728 kB
 VmallocChunk:   34359482544 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   9332736 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:       16384 kB
 DirectMap2M:    25149440 kB
@@ -376,8 +376,8 @@ DirectMap2M:    25149440 kB
 
 CPU:total 4 (initial active 4) (1 cores per cpu, 1 threads per core) family 6 model 63 stepping 0, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, tsc, tscinvbit
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -403,7 +403,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -429,7 +429,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63
@@ -455,7 +455,7 @@ cache_alignment	: 64
 address sizes	: 40 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 6
 model		: 63

@@ -31,14 +31,14 @@ class TestThreadsActiveCompile {
                 + "javax.swing.text.html.parser.Parser::parseAttributeSpecificationList (798 bytes)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE,
                 JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testHeader() {
         String logLine = "Threads with active compile tasks:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE,
                 JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
@@ -46,7 +46,7 @@ class TestThreadsActiveCompile {
                 + "(111 bytes)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE,
                 JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
@@ -54,5 +54,5 @@ class TestThreadsActiveCompile {
                 + "(111 bytes)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ThreadsActiveCompile,
                 JdkUtil.LogEventType.THREADS_ACTIVE_COMPILE.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

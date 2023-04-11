@@ -30,12 +30,12 @@ class TestCommandLine {
         String logLine = "Command Line: -Xmx2048m -Xmx12G -Xms1G";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMMAND_LINE,
                 JdkUtil.LogEventType.COMMAND_LINE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "Command Line: -Xmx2048m -Xmx12G -Xms1G";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CommandLine,
                 JdkUtil.LogEventType.COMMAND_LINE.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

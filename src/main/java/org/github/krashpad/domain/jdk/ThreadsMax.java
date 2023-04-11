@@ -64,7 +64,7 @@ public class ThreadsMax implements LogEvent, ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_HEADER + " (\\d{1,***REMOVED***))$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_HEADER + " (\\d{1,}))$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -75,7 +75,7 @@ public class ThreadsMax implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
-    ***REMOVED***
+    }
 
     /**
      * The log entry for the event.
@@ -90,7 +90,7 @@ public class ThreadsMax implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     public ThreadsMax(String logEntry) {
         this.logEntry = logEntry;
-    ***REMOVED***
+    }
 
     /**
      * @return true if the log line matches the event pattern, false otherwise.
@@ -102,25 +102,25 @@ public class ThreadsMax implements LogEvent, ThrowAwayEvent, HeaderEvent {
         if (matcher.find()) {
             if (matcher.group(1) != null) {
                 limit = Long.parseLong(matcher.group(2));
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         return limit;
-    ***REMOVED***
+    }
 
     public String getLogEntry() {
         return logEntry;
-    ***REMOVED***
+    }
 
     public String getName() {
         return JdkUtil.LogEventType.THREADS_MAX.toString();
-    ***REMOVED***
+    }
 
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
             isHeader = logEntry.matches(_REGEX_HEADER);
-        ***REMOVED***
+        }
         return isHeader;
-    ***REMOVED***
-***REMOVED***
+    }
+}

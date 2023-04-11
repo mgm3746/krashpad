@@ -1,36 +1,36 @@
-***REMOVED***
-***REMOVED*** There is insufficient memory for the Java Runtime Environment to continue.
-***REMOVED*** Native memory allocation (mmap) failed to map 450560 bytes for committing reserved memory.
-***REMOVED*** Possible reasons:
-***REMOVED***   The system is out of physical RAM or swap space
-***REMOVED***   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
-***REMOVED*** Possible solutions:
-***REMOVED***   Reduce memory load on the system
-***REMOVED***   Increase physical memory or swap space
-***REMOVED***   Check if swap backing store is full
-***REMOVED***   Decrease Java heap size (-Xmx/-Xms)
-***REMOVED***   Decrease number of Java threads
-***REMOVED***   Decrease Java thread stack sizes (-Xss)
-***REMOVED***   Set larger code cache with -XX:ReservedCodeCacheSize=
-***REMOVED***   JVM is running with Unscaled Compressed Oops mode in which the Java heap is
-***REMOVED***     placed in the first 4GB address space. The Java Heap base address is the
-***REMOVED***     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
-***REMOVED***     to set the Java Heap base and to place the Java Heap above 4GB virtual address.
-***REMOVED*** This output file may be truncated or incomplete.
-***REMOVED***
-***REMOVED***  Out of Memory Error (os_linux.cpp:2799), pid=3851188, tid=0x00007f7d9f5f5700
-***REMOVED***
-***REMOVED*** JRE version: OpenJDK Runtime Environment (8.0_282-b08) (build 1.8.0_282-b08)
-***REMOVED*** Java VM: OpenJDK 64-Bit Server VM (25.282-b08 mixed mode linux-amd64 compressed oops)
-***REMOVED*** Core dump written. Default location: /path/to/core or core.3851188
-***REMOVED***
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 450560 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Unscaled Compressed Oops mode in which the Java heap is
+#     placed in the first 4GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 4GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2799), pid=3851188, tid=0x00007f7d9f5f5700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_282-b08) (build 1.8.0_282-b08)
+# Java VM: OpenJDK 64-Bit Server VM (25.282-b08 mixed mode linux-amd64 compressed oops)
+# Core dump written. Default location: /path/to/core or core.3851188
+#
 
-***REMOVED***
+---------------  T H R E A D  ---------------
 
 Current thread (0x00007f7dc01b1000):  VMThread [stack: 0x00007f7d9f4f6000,0x00007f7d9f5f6000] [id=3851194]
 
 Stack: [0x00007f7d9f4f6000,0x00007f7d9f5f6000],  sp=0x00007f7d9f5f41d0,  free space=1016k
-***REMOVED***
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0xb854a9]  VMError::report_and_die()+0x1c9
 V  [libjvm.so+0x4ed39f]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0xaf
 V  [libjvm.so+0x959a3e]  os::pd_commit_memory_or_exit(char*, unsigned long, unsigned long, bool, char const*)+0xde
@@ -41,7 +41,7 @@ V  [libjvm.so+0x9cfa03]  PSYoungGen::resize_generation(unsigned long, unsigned l
 V  [libjvm.so+0x9d036f]  PSYoungGen::resize(unsigned long, unsigned long)+0x1f
 V  [libjvm.so+0x9ccf69]  PSScavenge::invoke_no_policy()+0x1329
 V  [libjvm.so+0x9c5565]  PSParallelCompact::invoke(bool)+0x95
-V  [libjvm.so+0x472f85]  Collected***REMOVED***:collect_as_vm_thread(GCCause::Cause)+0xf5
+V  [libjvm.so+0x472f85]  CollectedHeap::collect_as_vm_thread(GCCause::Cause)+0xf5
 V  [libjvm.so+0xb87732]  VM_CollectForMetadataAllocation::doit()+0x162
 V  [libjvm.so+0xb8e1fa]  VM_Operation::evaluate()+0x4a
 V  [libjvm.so+0xb8bde9]  VMThread::evaluate_operation(VM_Operation*) [clone .constprop.60]+0x119
@@ -52,9 +52,9 @@ V  [libjvm.so+0x956b02]  java_start(Thread*)+0x162
 VM_Operation (0x00007f7d9cd68720): CollectForMetadataAllocation, mode: safepoint, requested by thread 0x00007f7dc1c44000
 
 
-***REMOVED***
+---------------  P R O C E S S  ---------------
 
-***REMOVED***
+Java Threads: ( => current thread )
   0x00007f7dc1c8e000 JavaThread "http-nio-8086-AsyncTimeout" daemon [_thread_blocked, id=3851248, stack(0x00007f7d38dd0000,0x00007f7d38ed1000)]
   0x00007f7dc1c8c000 JavaThread "http-nio-8086-Acceptor-0" daemon [_thread_in_native, id=3851247, stack(0x00007f7d38ed1000,0x00007f7d38fd2000)]
   0x00007f7dc1c89800 JavaThread "http-nio-8086-ClientPoller-1" daemon [_thread_in_native, id=3851246, stack(0x00007f7d38fd2000,0x00007f7d390d3000)]
@@ -89,7 +89,7 @@ VM_Operation (0x00007f7d9cd68720): CollectForMetadataAllocation, mode: safepoint
   0x00007f7dc01bb000 JavaThread "Reference Handler" daemon [_thread_blocked, id=3851195, stack(0x00007f7d9f3f4000,0x00007f7d9f4f5000)]
   0x00007f7dc000c000 JavaThread "main" [_thread_in_native, id=3851189, stack(0x00007f7dc7756000,0x00007f7dc7856000)]
 
-***REMOVED***
+Other Threads:
 =>0x00007f7dc01b1000 VMThread [stack: 0x00007f7d9f4f6000,0x00007f7d9f5f6000] [id=3851194]
   0x00007f7dc02c5800 WatcherThread [stack: 0x00007f7d9e09b000,0x00007f7d9e19b000] [id=3851204]
 
@@ -103,7 +103,7 @@ heap address: 0x00000000a0000000, size: 1536 MB, Compressed Oops mode: 32-bit
 Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
 Compressed class space size: 1073741824 Address: 0x0000000100000000
 
-***REMOVED***
+Heap:
  PSYoungGen      total 274432K, used 20833K [0x00000000e0000000, 0x0000000100000000, 0x0000000100000000)
   eden space 252928K, 0% used [0x00000000e0000000,0x00000000e0000000,0x00000000ef700000)
   from space 21504K, 96% used [0x00000000efa00000,0x00000000f0e58660,0x00000000f0f00000)
@@ -124,9 +124,9 @@ Polling page: 0x00007f7dc7869000
 CodeCache: size=245760Kb used=8390Kb max_used=8406Kb free=237369Kb
  bounds [0x00007f7db0df7000, 0x00007f7db1647000, 0x00007f7dbfdf7000]
  total_blobs=2640 nmethods=2162 adapters=398
-***REMOVED***
+ compilation: enabled
 
-***REMOVED***
+Compilation events (250 events):
 Event: 23.929 Thread 0x00007f7dc02bb800 2566       4       org.metatype.sxc.util.XoXMLStreamReaderImpl$ChildElementsIterator::next (5 bytes)
 
 GC Heap History (11 events):
@@ -150,7 +150,7 @@ Heap after GC invocations=1 (full 0):
   object space 349696K, 0% used [0x00000000a0000000,0x00000000a0014010,0x00000000b5580000)
  Metaspace       used 14931K, capacity 15262K, committed 15488K, reserved 1062912K
   class space    used 1551K, capacity 1649K, committed 1664K, reserved 1048576K
-***REMOVED***
+}
 Event: 9.356 GC heap before
 {Heap before GC invocations=2 (full 0):
  PSYoungGen      total 153088K, used 147321K [0x00000000e0000000, 0x00000000eaa80000, 0x0000000100000000)
@@ -171,7 +171,7 @@ Heap after GC invocations=2 (full 0):
   object space 349696K, 1% used [0x00000000a0000000,0x00000000a0611e18,0x00000000b5580000)
  Metaspace       used 20782K, capacity 21067K, committed 21296K, reserved 1069056K
   class space    used 2265K, capacity 2385K, committed 2432K, reserved 1048576K
-***REMOVED***
+}
 Event: 9.477 GC heap before
 {Heap before GC invocations=3 (full 0):
  PSYoungGen      total 153088K, used 45175K [0x00000000e0000000, 0x00000000f2b00000, 0x0000000100000000)
@@ -192,7 +192,7 @@ Heap after GC invocations=3 (full 0):
   object space 349696K, 1% used [0x00000000a0000000,0x00000000a0613e18,0x00000000b5580000)
  Metaspace       used 20797K, capacity 21131K, committed 21296K, reserved 1069056K
   class space    used 2266K, capacity 2385K, committed 2432K, reserved 1048576K
-***REMOVED***
+}
 Event: 9.511 GC heap before
 {Heap before GC invocations=4 (full 1):
  PSYoungGen      total 153088K, used 18367K [0x00000000e0000000, 0x00000000f2b00000, 0x0000000100000000)
@@ -213,7 +213,7 @@ Heap after GC invocations=4 (full 1):
   object space 349696K, 5% used [0x00000000a0000000,0x00000000a123bf78,0x00000000b5580000)
  Metaspace       used 20797K, capacity 21131K, committed 21296K, reserved 1069056K
   class space    used 2266K, capacity 2385K, committed 2432K, reserved 1048576K
-***REMOVED***
+}
 Event: 15.157 GC heap before
 {Heap before GC invocations=5 (full 1):
  PSYoungGen      total 153088K, used 131584K [0x00000000e0000000, 0x00000000f2b00000, 0x0000000100000000)
@@ -234,7 +234,7 @@ Heap after GC invocations=5 (full 1):
   object space 349696K, 5% used [0x00000000a0000000,0x00000000a123df78,0x00000000b5580000)
  Metaspace       used 31146K, capacity 31541K, committed 32000K, reserved 1077248K
   class space    used 3585K, capacity 3715K, committed 3840K, reserved 1048576K
-***REMOVED***
+}
 Event: 23.931 GC heap before
 {Heap before GC invocations=6 (full 1):
  PSYoungGen      total 267264K, used 143342K [0x00000000e0000000, 0x00000000f2400000, 0x0000000100000000)
@@ -252,34 +252,34 @@ Event: 23.929 Thread 0x00007f7dc1c44000 Uncommon trap: reason=unstable_if action
 Classes redefined (0 events):
 No events
 
-***REMOVED***
+Internal exceptions (250 events):
 Event: 22.606 Thread 0x00007f7dc1c44000 Exception <a 'java/lang/NullPointerException'> (0x00000000e33403a0) thrown at [/builddir/build/BUILD/java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.x86_64/openjdk/hotspot/src/share/vm/interpreter/linkResolver.cpp, line 1287]
 
-***REMOVED***
+Events (250 events):
 Event: 23.931 Executing VM operation: CollectForMetadataAllocation
 
 
-***REMOVED***
+Dynamic libraries:
 7f7dc59c6000-7f7dc673b000 r-xp 00000000 fd:01 17006104                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.x86_64/jre/lib/amd64/server/libjvm.so
 
-***REMOVED***
+VM Arguments:
 jvm_args: -javaagent:/path/to/openejb-javaagent.jar -Xms512m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=512m -agentlib:jdwp=transport=dt_socket,address=hostname:9745,server=y,suspend=n -Xmx1536m 
-***REMOVED***
-***REMOVED***
+java_command: org.apache.catalina.startup.Bootstrap start
+Launcher Type: SUN_STANDARD
 
-***REMOVED***
+Environment Variables:
 JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
 SHELL=/bin/ksh
 DISPLAY=:0
 
-***REMOVED***
+Signal Handlers:
 SIGSEGV: [libjvm.so+0xb86ba0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGBUS: [libjvm.so+0xb86ba0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGFPE: [libjvm.so+0x954bc0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGPIPE: SIG_IGN, sa_mask[0]=11100000010011011101111001111100, sa_flags=SA_RESTART|SA_SIGINFO
 SIGXFSZ: [libjvm.so+0x954bc0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGILL: [libjvm.so+0x954bc0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
-***REMOVED***
+SIGUSR1: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGUSR2: [libjvm.so+0x954a50], sa_mask[0]=00100000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
 SIGHUP: [libjvm.so+0x954e40], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGINT: [libclntshcore.so.12.1+0xabe00], sa_mask[0]=11100000010011011101111001111100, sa_flags=SA_RESTART|SA_SIGINFO
@@ -287,16 +287,16 @@ SIGTERM: [libjvm.so+0x954e40], sa_mask[0]=11111111011111111101111111111110, sa_f
 SIGQUIT: [libjvm.so+0x954e40], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
 
-***REMOVED***
+---------------  S Y S T E M  ---------------
 
 OS:Red Hat Enterprise Linux release 8.3 (Ootpa)
 
-uname:Linux 4.18.0-240.15.1.el8_3.x86_64 ***REMOVED***1 SMP Wed Feb 3 03:12:15 EST 2021 x86_64
-***REMOVED***
+uname:Linux 4.18.0-240.15.1.el8_3.x86_64 #1 SMP Wed Feb 3 03:12:15 EST 2021 x86_64
+libc:glibc 2.28 NPTL 2.28 
 rlimit: STACK 32768k, CORE infinity, NPROC 95259, NOFILE 10240, AS infinity
 load average:1.20 0.71 0.63
 
-***REMOVED***
+/proc/meminfo:
 MemTotal:       24418052 kB
 MemFree:          632260 kB
 MemAvailable:   14166968 kB
@@ -309,12 +309,12 @@ Active(anon):    3845008 kB
 Inactive(anon):  1317028 kB
 Active(file):    2805296 kB
 Inactive(file):  9514920 kB
-***REMOVED***
-***REMOVED***
+Unevictable:           0 kB
+Mlocked:               0 kB
 SwapTotal:      16777212 kB
 SwapFree:       16530212 kB
 Dirty:              1104 kB
-***REMOVED***
+Writeback:             0 kB
 AnonPages:       4928224 kB
 Mapped:           411688 kB
 Shmem:            203552 kB
@@ -324,48 +324,48 @@ SReclaimable:    1613116 kB
 SUnreclaim:       863784 kB
 KernelStack:       28848 kB
 PageTables:       126648 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
 CommitLimit:    28986236 kB
 Committed_AS:   12266872 kB
 VmallocTotal:   34359738367 kB
-***REMOVED***
-***REMOVED***
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
 Percpu:           337920 kB
-***REMOVED***
+HardwareCorrupted:     0 kB
 AnonHugePages:   2596864 kB
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
 Hugepagesize:       2048 kB
-***REMOVED***
+Hugetlb:               0 kB
 DirectMap4k:     2045796 kB
 DirectMap2M:    23119872 kB
 DirectMap1G:     2097152 kB
 
-***REMOVED***
-***REMOVED***
+container (cgroup) information:
+container_type: cgroupv1
 cpu_cpuset_cpus: 0-3
 cpu_memory_nodes: 0
 active_processor_count: 4
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
 memory_usage_in_bytes: 1975959552
 memory_max_usage_in_bytes: 1975959552
 
 
 CPU:total 4 (initial active 4) (2 cores per cpu, 1 threads per core) family 15 model 6 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, erms, tsc
 
-***REMOVED***
-***REMOVED***
+/proc/cpuinfo:
+processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 15
 model		: 6
@@ -392,7 +392,7 @@ cache_alignment	: 128
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 1
 vendor_id	: GenuineIntel
 cpu family	: 15
 model		: 6
@@ -419,7 +419,7 @@ cache_alignment	: 128
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 2
 vendor_id	: GenuineIntel
 cpu family	: 15
 model		: 6
@@ -446,7 +446,7 @@ cache_alignment	: 128
 address sizes	: 46 bits physical, 48 bits virtual
 power management:
 
-***REMOVED***
+processor	: 3
 vendor_id	: GenuineIntel
 cpu family	: 15
 model		: 6
@@ -480,6 +480,6 @@ Memory: 4k page, physical 24418052k(632260k free), swap 16777212k(16530212k free
 vm_info: OpenJDK 64-Bit Server VM (25.282-b08) for linux-amd64 JRE (1.8.0_282-b08), built on Jan 17 2021 16:21:17 by "mockbuild" with gcc 8.3.1 20191121 (Red Hat 8.3.1-5)
 
 time: Wed Mar 17 16:45:42 2021
-***REMOVED***
+timezone: CET
 elapsed time: 24.062955 seconds (0d 0h 0m 24s)
 

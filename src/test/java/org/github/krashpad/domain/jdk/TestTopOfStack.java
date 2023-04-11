@@ -31,33 +31,33 @@ class TestTopOfStack {
         String logLine = "Top of Stack: (sp=0x00007fcbcc676c50)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TOP_OF_STACK,
                 JdkUtil.LogEventType.TOP_OF_STACK.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testIdentity() {
         String logLine = "0x00007fcbcc676c50:   00007fcbcc676cb0 00007fcbd0596b86";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TOP_OF_STACK,
                 JdkUtil.LogEventType.TOP_OF_STACK.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testNotInstructions() {
         String logLine = "0x00007fcbd05a3b51:   5d c3 0f 1f 44 00 00 48 8d 35 01 db 4c 00 bf 03";
         assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TOP_OF_STACK,
                 JdkUtil.LogEventType.TOP_OF_STACK.toString() + " incorrectly identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "0x00007fcbcc676c50:   00007fcbcc676cb0 00007fcbd0596b86";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TopOfStack,
                 JdkUtil.LogEventType.TOP_OF_STACK.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testSpaceAtEnd() {
         String logLine = "0x00007fcbcc676e40:   00007fcbc8056a98 00000000000000d8 ";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TOP_OF_STACK,
                 JdkUtil.LogEventType.TOP_OF_STACK.toString() + " not identified.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

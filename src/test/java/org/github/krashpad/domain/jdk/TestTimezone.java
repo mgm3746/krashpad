@@ -31,14 +31,14 @@ class TestTimezone {
         String logLine = "timezone: UTC";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIMEZONE,
                 JdkUtil.LogEventType.TIMEZONE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "timezone: UTC";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Timezone,
                 JdkUtil.LogEventType.TIMEZONE.toString() + " not parsed.");
-    ***REMOVED***
+    }
 
     @Test
     void testTimezone() {
@@ -47,5 +47,5 @@ class TestTimezone {
                 JdkUtil.LogEventType.TIMEZONE.toString() + " not identified.");
         Timezone event = new Timezone(logLine);
         assertEquals("UTC", event.getTimezone(), "Timezone not correct.");
-    ***REMOVED***
-***REMOVED***
+    }
+}

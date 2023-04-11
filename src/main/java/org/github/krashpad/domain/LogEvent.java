@@ -32,4 +32,4 @@ public interface LogEvent {
      * @return The event identifier.
      */
     String getName();
-***REMOVED***
+}

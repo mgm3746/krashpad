@@ -30,12 +30,12 @@ class TestLoadAverage {
         String logLine = "load average:0.39 0.39 0.42";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOAD_AVERAGE,
                 JdkUtil.LogEventType.LOAD_AVERAGE.toString() + " not identified.");
-    ***REMOVED***
+    }
 
     @Test
     void testParseLogLine() {
         String logLine = "load average:0.39 0.39 0.42";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof LoadAverage,
                 JdkUtil.LogEventType.LOAD_AVERAGE.toString() + " not parsed.");
-    ***REMOVED***
-***REMOVED***
+    }
+}
