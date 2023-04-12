@@ -253,8 +253,8 @@ class TestFatalErrorLog {
         long directMemoryMax = JdkUtil.convertSize(8, 'G', org.github.joa.util.Constants.UNITS);
         assertEquals(directMemoryMax, fel.getDirectMemoryMaxSize(), "Direct Memory max not correct.");
         assertEquals(1024, fel.getThreadStackSize(), "Thread stack size not correct.");
-        assertEquals(720, fel.getJavaThreadCount(), "Thread count not correct.");
-        long threadMemory = JdkUtil.convertSize(1024 * 720, 'K', org.github.joa.util.Constants.UNITS);
+        assertEquals(25, fel.getJavaThreadCount(), "Thread count not correct.");
+        long threadMemory = JdkUtil.convertSize(1024 * 25, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(threadMemory, fel.getThreadStackMemory(), "Thread memory not correct.");
         long codeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.UNITS);
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");

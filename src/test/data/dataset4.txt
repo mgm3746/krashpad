@@ -29,7 +29,7 @@ V  [libjvm.so+0x6cf6a6]  jni_CallVoidMethod+0x166
 C  [libartemis-native-64.so+0x29b6]  Java_org_apache_activemq_artemis_nativo_jlibaio_LibaioContext_blockedPoll+0x156
 
 Dynamic libraries:
-7f95fc25c000-7f95fcf40000 r-xp 00000000 fd:0d 15528                      /hosting/products/rdn-lta-cpadmss/jdk/jre/lib/amd64/server/libjvm.so
+7f95fc25c000-7f95fcf40000 r-xp 00000000 fd:0d 15528                      /path/to/jdk/jre/lib/amd64/server/libjvm.so
 
 ---------------  S Y S T E M  ---------------
 

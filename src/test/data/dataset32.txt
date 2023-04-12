@@ -16,7 +16,7 @@
 
 ---------------  S U M M A R Y ------------
 
-Command Line: -Xmx2048m --add-modules=ALL-SYSTEM -Xmx12G -Xms1G -Xss5m -XX:ReservedCodeCacheSize=256m -javaagent:/path/to/jacocoagent.jar=destfile=/path/to/jacoco.exec 
+Command Line: -Xmx2048m --add-modules=ALL-SYSTEM -Xmx12G -Xms1G -Xss5m -XX:ReservedCodeCacheSize=256m -javaagent:/path/to/myagent.jar=destfile=/path/to/myagent.exec 
 
 Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation release 7.4 (Maipo)
 Time: Tue May  5 18:32:04 2020 CEST elapsed time: 956 seconds (0d 0h 15m 56s)
@@ -1467,7 +1467,7 @@ Dynamic libraries:
 
 
 VM Arguments:
-jvm_args: -Xmx12G -Xms1G -Xss5m -XX:ReservedCodeCacheSize=256m -javaagent:/path/to/jacocoagent.jar=destfile=/path/to/jacoco.exec 
+jvm_args: -Xmx12G -Xms1G -Xss5m -XX:ReservedCodeCacheSize=256m -javaagent:/path/to/myagent.jar=destfile=/path/to/myagent.exec 
 
 [Global flags]
      intx CICompilerCount                          = 4                                         {product} {ergonomic}

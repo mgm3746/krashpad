@@ -82,7 +82,7 @@ RDI=0x00007f95c924b530 is pointing into the stack for thread: 0x00000000082d7000
 R8 =0x00007f95e5519600 is at code_begin+0 in an Interpreter codelet
 method entry point (kind = zerolocals)  [0x00007f95e5519600, 0x00007f95e5519ac0]  1216 bytes
 R9 =0x00007f95c924b678 is pointing into the stack for thread: 0x00000000082d7000
-R10=0x00007f95fd235be0: <offset 0xfd9be0> in /hosting/products/rdn-lta-cpadmss/jdk/jre/lib/amd64/server/libjvm.so at 0x00007f95fc25c000
+R10=0x00007f95fd235be0: <offset 0xfd9be0> in /path/to/jdk/jre/lib/amd64/server/libjvm.so at 0x00007f95fc25c000
 R11=0x00007f95e550671f is at begin+0 in a stub
 StubRoutines::call_stub [0x00007f95e550671f, 0x00007f95e5506807[ (232 bytes)
 R12=0x0000000000000000 is an unknown value
@@ -269,10 +269,10 @@ Heap after GC invocations=1300 (full 6):
 
 Dynamic libraries:
 
-7f95fc25c000-7f95fcf40000 r-xp 00000000 fd:0d 15528                      /hosting/products/rdn-lta-cpadmss/jdk/jre/lib/amd64/server/libjvm.so
+7f95fc25c000-7f95fcf40000 r-xp 00000000 fd:0d 15528                      /path/to/jdk/jre/lib/amd64/server/libjvm.so
 
 VM Arguments:
-jvm_args: -Xms4096m -Xmx4096m -javaagent:/hosting/products/appdynamics/java_agent/javaagent.jar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/cores/rdn-lta-cpadmss/rdn-lta-cpadmssbulkpolicyinfo01-ah-1075570-001.hprof -Xloggc:/path/to/gc.log
+jvm_args: -Xms4096m -Xmx4096m -javaagent:/path/to/appdynamics/java_agent/javaagent.jar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/my.hprof -Xloggc:/path/to/gc.log
 
 Environment Variables:
 JAVA_HOME=

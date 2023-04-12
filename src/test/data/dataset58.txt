@@ -263,7 +263,7 @@ Dynamic libraries:
 7f7dc59c6000-7f7dc673b000 r-xp 00000000 fd:01 17006104                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.x86_64/jre/lib/amd64/server/libjvm.so
 
 VM Arguments:
-jvm_args: -javaagent:/path/to/openejb-javaagent.jar -Xms512m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=512m -agentlib:jdwp=transport=dt_socket,address=hostname:9745,server=y,suspend=n -Xmx1536m 
+jvm_args: -javaagent:/path/to/javaagent.jar -Xms512m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=512m -agentlib:jdwp=transport=dt_socket,address=hostname:9745,server=y,suspend=n -Xmx1536m 
 java_command: org.apache.catalina.startup.Bootstrap start
 Launcher Type: SUN_STANDARD
 

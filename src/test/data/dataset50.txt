@@ -170,7 +170,7 @@ Dynamic libraries:
 7f328f6b7000-7f329045d000 r-xp 00000000 fd:0a 402447                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so
 
 VM Arguments:
-jvm_args: -javaagent:./lib/jmx-connector-server-agent-1.0.jar -Xms96g -Xmx96g -XX:MaxDirectMemorySize=8g -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+AlwaysPreTouch -XX:+UseNUMA -XX:ConcGCThreads=18 -XX:ShenandoahMinFreeThreshold=10 -XX:-UseBiasedLocking -Xloggc:/path/to/gc.log -verbose:gc -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/ -XX:+ExplicitGCInvokesConcurrent -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=10m -XX:ErrorFile=/path/to/ -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:-OmitStackTraceInFastThrow
+jvm_args: -javaagent:./path/to/myagent.jar -Xms96g -Xmx96g -XX:MaxDirectMemorySize=8g -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+AlwaysPreTouch -XX:+UseNUMA -XX:ConcGCThreads=18 -XX:ShenandoahMinFreeThreshold=10 -XX:-UseBiasedLocking -Xloggc:/path/to/gc.log -verbose:gc -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/ -XX:+ExplicitGCInvokesConcurrent -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=10m -XX:ErrorFile=/path/to/ -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:-OmitStackTraceInFastThrow
 Launcher Type: SUN_STANDARD
 
 Environment Variables:
