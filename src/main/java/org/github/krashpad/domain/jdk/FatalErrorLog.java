@@ -1658,8 +1658,7 @@ public class FatalErrorLog {
      * @return The max code cache size in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getCodeCacheSize() {
-        // Default is 420m
-        long reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.UNITS);
+        long reservedCodeCacheSize = Long.MIN_VALUE;
         // 1st check [Global flags]
         if (!globalFlags.isEmpty()) {
             Iterator<GlobalFlag> iterator = globalFlags.iterator();
@@ -1674,64 +1673,77 @@ public class FatalErrorLog {
                     break;
                 }
             }
-        } else if (jvmOptions != null) {
-            if (jvmOptions.getReservedCodeCacheSize() != null || jvmOptions.getMaxjitcodesize() != null) {
-                char fromUnits;
-                long value;
-                Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-                Matcher matcher;
-                if (jvmOptions.getReservedCodeCacheSize() != null) {
-                    matcher = pattern.matcher(jvmOptions.getReservedCodeCacheSize());
-                } else {
-                    matcher = pattern.matcher(jvmOptions.getMaxjitcodesize());
-                }
-                if (matcher.find()) {
-                    value = Long.parseLong(matcher.group(2));
-                    if (matcher.group(3) != null) {
-                        fromUnits = matcher.group(3).charAt(0);
+        }
+        // Next check JVM options
+        if (reservedCodeCacheSize < 0) {
+            if (jvmOptions != null) {
+                if (jvmOptions.getReservedCodeCacheSize() != null || jvmOptions.getMaxjitcodesize() != null) {
+                    char fromUnits;
+                    long value;
+                    Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+                    Matcher matcher;
+                    if (jvmOptions.getReservedCodeCacheSize() != null) {
+                        matcher = pattern.matcher(jvmOptions.getReservedCodeCacheSize());
                     } else {
-                        fromUnits = 'B';
+                        matcher = pattern.matcher(jvmOptions.getMaxjitcodesize());
                     }
-                    reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
-                }
-            } else if (JdkUtil.isOptionEnabled(getJvmOptions().getSegmentedCodeCache())
-                    && jvmOptions.getNonNMethodCodeHeapSize() != null && jvmOptions.getNonProfiledCodeHeapSize() != null
-                    && jvmOptions.getProfiledCodeHeapSize() != null) {
-                char fromUnits;
-                long value;
-                Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-                Matcher matcher;
-                matcher = pattern.matcher(jvmOptions.getNonNMethodCodeHeapSize());
-                if (matcher.find()) {
-                    value = Long.parseLong(matcher.group(2));
-                    if (matcher.group(3) != null) {
-                        fromUnits = matcher.group(3).charAt(0);
-                    } else {
-                        fromUnits = 'B';
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(2));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
+                        } else {
+                            fromUnits = 'B';
+                        }
+                        reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits,
+                                org.github.joa.util.Constants.UNITS);
                     }
-                    reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
-                }
-                matcher = pattern.matcher(jvmOptions.getNonProfiledCodeHeapSize());
-                if (matcher.find()) {
-                    value = Long.parseLong(matcher.group(2));
-                    if (matcher.group(3) != null) {
-                        fromUnits = matcher.group(3).charAt(0);
-                    } else {
-                        fromUnits = 'B';
+                } else if (JdkUtil.isOptionEnabled(getJvmOptions().getSegmentedCodeCache())
+                        && jvmOptions.getNonNMethodCodeHeapSize() != null
+                        && jvmOptions.getNonProfiledCodeHeapSize() != null
+                        && jvmOptions.getProfiledCodeHeapSize() != null) {
+                    char fromUnits;
+                    long value;
+                    Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+                    Matcher matcher;
+                    matcher = pattern.matcher(jvmOptions.getNonNMethodCodeHeapSize());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(2));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
+                        } else {
+                            fromUnits = 'B';
+                        }
+                        reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits,
+                                org.github.joa.util.Constants.UNITS);
                     }
-                    reservedCodeCacheSize += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
-                }
-                matcher = pattern.matcher(jvmOptions.getProfiledCodeHeapSize());
-                if (matcher.find()) {
-                    value = Long.parseLong(matcher.group(2));
-                    if (matcher.group(3) != null) {
-                        fromUnits = matcher.group(3).charAt(0);
-                    } else {
-                        fromUnits = 'B';
+                    matcher = pattern.matcher(jvmOptions.getNonProfiledCodeHeapSize());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(2));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
+                        } else {
+                            fromUnits = 'B';
+                        }
+                        reservedCodeCacheSize += JdkUtil.convertSize(value, fromUnits,
+                                org.github.joa.util.Constants.UNITS);
                     }
-                    reservedCodeCacheSize += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                    matcher = pattern.matcher(jvmOptions.getProfiledCodeHeapSize());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(2));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
+                        } else {
+                            fromUnits = 'B';
+                        }
+                        reservedCodeCacheSize += JdkUtil.convertSize(value, fromUnits,
+                                org.github.joa.util.Constants.UNITS);
+                    }
                 }
             }
+        }
+        // Use default 420m
+        if (reservedCodeCacheSize < 0) {
+            reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.UNITS);
         }
         return reservedCodeCacheSize;
     }
