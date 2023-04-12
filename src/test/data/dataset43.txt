@@ -107,8 +107,7 @@ j  com.itextpdf.kernel.pdf.PdfReader.readPdf()V+32
 J 14134 C1 com.itextpdf.kernel.pdf.PdfDocument.open(Lcom/itextpdf/kernel/pdf/PdfVersion;)V (1028 bytes) @ 0x00007feac3ae64fc [0x00007feac3ae5e60+0x69c]
 j  com.itextpdf.kernel.pdf.PdfDocument.<init>(Lcom/itextpdf/kernel/pdf/PdfReader;Lcom/itextpdf/kernel/pdf/PdfWriter;Lcom/itextpdf/kernel/pdf/StampingProperties;)V+276
 j  com.itextpdf.kernel.pdf.PdfDocument.<init>(Lcom/itextpdf/kernel/pdf/PdfReader;Lcom/itextpdf/kernel/pdf/PdfWriter;)V+10
-j  com.tcs.digigov.certificates.buildingPermission.buildingDevelopment.service.BpmAutoDCRPdf.manipulateAutoDCRFile(Ljava/lang/String;Ljava/lang/String;Lcom/tcs/digigov/certificates/buildingPermission/buildingDevelopment/dto/BpmDrawingFileCordinates;Lcom/tcs/digigov/certificates/buildingPermission/buildingDevelopment/dto/BuildingDevelopmentBean;Lcom/tcs/digigov/certificates/common/dto/EnagarPdfBean;)V+40
-j  com.tcs.digigov.certificates.buildingPermission.buildingDevelopment.service.BpmAutoDCRPdf.generateAutoDCRPdf(Ljava/util/Map;)Ljava/lang/String;+214
+j  com.example.service.MyService.manipulateSomething(Ljava/lang/String;Ljava/lang/String/)V+40
 v  ~StubRoutines::call_stub
 V  [libjvm.so+0x66f96a]
 V  [libjvm.so+0x92c700]
@@ -117,7 +116,6 @@ V  [libjvm.so+0x6bd9b3]  JVM_InvokeMethod+0x193
 J 3460  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (0 bytes) @ 0x00007feac1c9f26d [0x00007feac1c9f180+0xed]
 J 3459 C1 sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (104 bytes) @ 0x00007feac1cc28dc [0x00007feac1cc16e0+0x11fc]
 J 10914 C2 java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (62 bytes) @ 0x00007feac323deec [0x00007feac323de40+0xac]
-J 14262 C1 com.tcs.digigov.certificates.common.handler.ENagarCommonCertificateHandler.generateEnagarCertificate(Ljava/lang/String;)Ljava/lang/String; (204 bytes) @ 0x00007feac3b96b0c [0x00007feac3b94240+0x28cc]
 J 13584 C1 sun.reflect.GeneratedMethodAccessor17.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (65 bytes) @ 0x00007feac1c5af9c [0x00007feac1c5acc0+0x2dc]
 J 10914 C2 java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (62 bytes) @ 0x00007feac323deec [0x00007feac323de40+0xac]
 j  org.springframework.web.method.support.InvocableHandlerMethod.invoke([Ljava/lang/Object;)Ljava/lang/Object;+16

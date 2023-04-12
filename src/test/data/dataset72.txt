@@ -122,7 +122,7 @@ V  [libjvm.so+0x82ff91]  IdealLoopTree::beautify_loops(PhaseIdealLoop*)+0x211
 
 
 Current CompileTask:
-C2:147541338 34397 %s!   4       com.exmaple.DoSomthing::run @ 2888 (3436 bytes)
+C2:147541338 34397 %s!   4       com.example.DoSomthing::run @ 2888 (3436 bytes)
 
 
 ---------------  P R O C E S S  ---------------

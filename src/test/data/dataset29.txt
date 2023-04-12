@@ -280,8 +280,6 @@ Event: 883062.341 Thread 0x00007f2ff01d3800 Uncommon trap: reason=null_check act
 Event: 883125.389 Thread 0x00007f2ff01d3800 Uncommon trap: reason=null_check action=make_not_entrant pc=0x00007f30024f0218 method=sun.util.locale.provider.LocaleResources.getNumberPatterns()[Ljava/lang/String; @ 17
 Event: 883146.574 Thread 0x00007f2ff01d3800 Uncommon trap: reason=null_check action=make_not_entrant pc=0x00007f300419bc64 method=sun.util.locale.provider.TimeZoneNameUtility.retrieveDisplayNamesImpl(Ljava/lang/String;Ljava/util/Locale;)[Ljava/lang/String; @ 36
 Event: 886181.665 Thread 0x00007f2fc0012000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x00007f300458d958 method=java.util.concurrent.ConcurrentHashMap.replaceNode(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; @ 147
-Event: 926776.285 Thread 0x00007f2ff0240800 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007f3002c7d918 method=com.lacera.wsp.util.WspLogger.getString(Ljava/lang/Object;I)Ljava/lang/String; @ 25
-Event: 951597.408 Thread 0x00007f2f785e5000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f3003a5449c method=com.filenet.apiimpl.util.BaseLogger.isDetailTraceEnabled()Z @ 21
 Event: 976625.951 Thread 0x00007f2ff0287800 Uncommon trap: reason=class_check action=maybe_recompile pc=0x00007f300458d958 method=java.util.concurrent.ConcurrentHashMap.replaceNode(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; @ 147
 
 Internal exceptions (10 events):

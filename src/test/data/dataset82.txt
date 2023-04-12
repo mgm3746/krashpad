@@ -220,7 +220,6 @@ Compilation events (20 events):
 Event: 49311.448 Thread 0x000002a0fb87b000 124528       4       com.fasterxml.jackson.core.json.UTF8JsonGenerator::writeNumber (54 bytes)
 Event: 49311.457 Thread 0x000002a0fb87b000 nmethod 124528 0x000002a0e7046710 code [0x000002a0e7046900, 0x000002a0e7047178]
 Event: 49329.732 Thread 0x000002a0fb87e000 124535       3       sun.net.www.protocol.http.HttpURLConnection::setReadTimeout (21 bytes)
-Event: 49329.732 Thread 0x000002a0fb87b000 124536   !   4       com.singularity.ee.agent.util.reflect.ReflectionUtility::getDeclaredField (79 bytes)
 Event: 49329.732 Thread 0x000002a0fb87e000 nmethod 124535 0x000002a0dfa16390 code [0x000002a0dfa16560, 0x000002a0dfa16768]
 Event: 49329.732 Thread 0x000002a0fb87e000 124537   !   3       sun.net.www.protocol.http.HttpURLConnection::plainConnect0 (741 bytes)
 Event: 49329.738 Thread 0x000002a0fb87e000 nmethod 124537 0x000002a0e3a3de10 code [0x000002a0e3a3e7c0, 0x000002a0e3a44a18]
@@ -367,9 +366,6 @@ Event: 49329.864 GC heap after
  Metaspace       used 637780K, capacity 667061K, committed 667336K, reserved 1630208K
   class space    used 78340K, capacity 87820K, committed 87920K, reserved 1048576K
 }
-
-Deoptimization events (20 events):
-Event: 49316.646 Thread 0x000002a0a5d87800 Uncommon trap: reason=tenured action=make_not_entrant pc=0x000002a0e7412844 method=com.singularity.ee.agent.appagent.services.transactionmonitor.http.servlet.config.naming.URINamingScheme.getName(Lcom/singularity/ee/agent/appagent/services/transactionmoni
 
 Classes redefined (20 events):
 Event: 801.325 Thread 0x000002a0fb816800 redefined class name=org.apache.logging.log4j.core.appender.rolling.action.AbstractAction, count=2
@@ -525,8 +521,8 @@ Log output configuration:
 
 Environment Variables:
 JAVA_HOME=D:\app\java\java-11-openjdk-11.0.8.10-2
-PATH=D:\app\java\java-11-openjdk-11.0.8.10-2\bin;D:\app\java\java-11-openjdk-11.0.8.10-2\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\system32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\rac\sysinternalssuite;C:\Users\svc.raci.jboss-prd\AppData\Local\Microsoft\WindowsApps
-USERNAME=svc.raci.jboss-prd
+PATH=D:\app\java\java-11-openjdk-11.0.8.10-2\bin;D:\app\java\java-11-openjdk-11.0.8.10-2\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\system32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\rac\sysinternalssuite;C:\Users\myuser\AppData\Local\Microsoft\WindowsApps
+USERNAME=username
 OS=Windows_NT
 PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 85 Stepping 7, GenuineIntel
 

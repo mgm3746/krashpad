@@ -173,14 +173,11 @@ CodeCache: size=245760Kb used=84879Kb max_used=84879Kb free=160880Kb
  compilation: enabled
 
 Compilation events (10 events):
-Event: 256468.994 Thread 0x0000000101a97800 27529   !   3       com.iob.ib.dao.IBBBPSDAO::getBillPayDetailsForTxnRefId (1454 bytes)
 Event: 256468.995 Thread 0x0000000101a8d800 nmethod 27524 0xffffffff6af17dd0 code [0xffffffff6af17fc0, 0xffffffff6af18630]
 Event: 256468.995 Thread 0x0000000101aad000 nmethod 27525 0xffffffff68d8ee90 code [0xffffffff68d8f040, 0xffffffff68d8f490]
-Event: 256468.996 Thread 0x0000000101a8d800 27528   !   3       com.iob.ib.thread.IBBillTxnStatusThread::run (26 bytes)
 Event: 256468.997 Thread 0x0000000101a8d800 nmethod 27528 0xffffffff68b2e210 code [0xffffffff68b2e3e0, 0xffffffff68b2e910]
 Event: 256469.022 Thread 0x0000000101aaa800 nmethod 27530 0xffffffff69f1af90 code [0xffffffff69f1b9a0, 0xffffffff69f20bf8]
 Event: 256469.050 Thread 0x0000000101ab0000 nmethod 27523 0xffffffff6d78d450 code [0xffffffff6d78ee40, 0xffffffff6d79aa70]
-Event: 256469.071 Thread 0x0000000101aad000 27531       3       com.iob.ib.dao.IBBBPSDAO$4::<init> (10 bytes)
 Event: 256469.079 Thread 0x0000000101aad000 nmethod 27531 0xffffffff68b2dd50 code [0xffffffff68b2dec0, 0xffffffff68b2e148]
 Event: 256469.234 Thread 0x0000000101a97800 nmethod 27529 0xffffffff6d7a23d0 code [0xffffffff6d7a5f20, 0xffffffff6d7c4708]
 

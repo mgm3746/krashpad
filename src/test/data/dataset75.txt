@@ -204,18 +204,12 @@ Event: 207.366 Thread 0x000055e8552c1800 nmethod 58262 0x00007f4a7f299ed0 code [
 Event: 207.367 Thread 0x000055e8552bf000 nmethod 58261 0x00007f4a7a40e590 code [0x00007f4a7a40e700, 0x00007f4a7a40e838]
 Event: 207.367 Thread 0x000055e8552bf000 58263   !   4       org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor::postProcessProperties (40 bytes)
 Event: 207.369 Thread 0x000055e8552bf000 nmethod 58263 0x00007f4a7eed3090 code [0x00007f4a7eed31e0, 0x00007f4a7eed32c8]
-Event: 207.411 Thread 0x000055e8552c4800 58264       3       org.apache.camel.com.github.benmanes.caffeine.cache.Caffeine::weakKeys (60 bytes)
 Event: 207.414 Thread 0x000055e8552c4800 nmethod 58264 0x00007f4a7ecf2310 code [0x00007f4a7ecf2640, 0x00007f4a7ecf3f78]
-Event: 207.420 Thread 0x000055e8552c4800 58265       3       org.apache.camel.com.github.benmanes.caffeine.cache.Caffeine::weakValues (38 bytes)
 Event: 207.422 Thread 0x000055e8552c4800 nmethod 58265 0x00007f4a7bb12610 code [0x00007f4a7bb12860, 0x00007f4a7bb13658]
-Event: 207.426 Thread 0x000055e8552c4800 58266       3       org.apache.camel.com.github.benmanes.caffeine.cache.WIL::<init> (17 bytes)
 Event: 207.427 Thread 0x000055e8552c4800 nmethod 58266 0x00007f4a7c249c50 code [0x00007f4a7c249e60, 0x00007f4a7c24a998]
-Event: 207.430 Thread 0x000055e8552c4800 58267       3       org.apache.camel.com.github.benmanes.caffeine.cache.WI::<init> (30 bytes)
 Event: 207.431 Thread 0x000055e8552c4800 nmethod 58267 0x00007f4a7c3d6b10 code [0x00007f4a7c3d6ce0, 0x00007f4a7c3d73e8]
-Event: 207.435 Thread 0x000055e8552c4800 58268       3       org.apache.camel.com.github.benmanes.caffeine.cache.WILMS::lazySetMaximum (12 bytes)
 Event: 207.435 Thread 0x000055e8552c4800 nmethod 58268 0x00007f4a801e0a50 code [0x00007f4a801e0ba0, 0x00007f4a801e0d10]
 Event: 207.437 Thread 0x000055e8552c1800 58270       4       org.apache.camel.util.ObjectHelper::loadClass (95 bytes)
-Event: 207.440 Thread 0x000055e8552c4800 58269       3       org.apache.camel.com.github.benmanes.caffeine.cache.WILMS::lazySetEdenMaximum (12 bytes)
 Event: 207.440 Thread 0x000055e8552c4800 nmethod 58269 0x00007f4a7cfc9410 code [0x00007f4a7cfc9560, 0x00007f4a7cfc96d0]
 Event: 207.446 Thread 0x000055e8552c1800 nmethod 58270 0x00007f4a7bf75350 code [0x00007f4a7bf755c0, 0x00007f4a7bf75fc0]
 Event: 207.590 Thread 0x000055e8552c4800 58271       3       org.apache.camel.spring.CamelContextFactoryBean::onApplicationEvent (9 bytes)
@@ -278,9 +272,7 @@ Event: 209.792 Thread 0x000055e8552bf000 58299       4       org.apache.camel.im
 Event: 209.815 Thread 0x000055e8552bf000 nmethod 58299 0x00007f4a7c94dc90 code [0x00007f4a7c94de60, 0x00007f4a7c94ea68]
 Event: 210.630 Thread 0x000055e8552c1800 58300       4       com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule::getModuleName (8 bytes)
 Event: 210.632 Thread 0x000055e8552c1800 nmethod 58300 0x00007f4a7d018590 code [0x00007f4a7d0186e0, 0x00007f4a7d018768]
-Event: 210.634 Thread 0x000055e8552c4800 58301       3       org.apache.camel.com.github.benmanes.caffeine.cache.WILMS::<init> (115 bytes)
 Event: 210.639 Thread 0x000055e8552c4800 nmethod 58301 0x00007f4a7e9ada90 code [0x00007f4a7e9ade20, 0x00007f4a7e9b0278]
-Event: 210.639 Thread 0x000055e8552c4800 58302       3       org.apache.camel.com.github.benmanes.caffeine.cache.SILMS::<init> (115 bytes)
 Event: 210.643 Thread 0x000055e8552c4800 nmethod 58302 0x00007f4a7fb89510 code [0x00007f4a7fb89860, 0x00007f4a7fb8b9f8]
 Event: 211.056 Thread 0x000055e8552bf000 58303       4       org.apache.camel.model.ProcessorDefinitionHelper$RestoreAction::run (70 bytes)
 Event: 211.066 Thread 0x000055e8552bf000 nmethod 58303 0x00007f4a79ed3890 code [0x00007f4a79ed3a60, 0x00007f4a79ed40a8]

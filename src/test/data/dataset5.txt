@@ -114,7 +114,7 @@ j  org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilte
 J 28416 C2 io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;)V (232 bytes) @ 0x00007fddf2cce164 [0x00007fddf2ccdec0+0x2a4]
 J 494317 C1 com.example.security.filter.GenericSecurityFilter.doFilter(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;Ljavax/servlet/FilterChain;)V (218 bytes) @ 0x00007fddf60ef14c [0x00007fddf60ecc80+0x24cc]
 J 28416 C2 io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;)V (232 bytes) @ 0x00007fddf2cce164 [0x00007fddf2ccdec0+0x2a4]
-J 119370 C2 com.example.security.JwtUpdateFilter.doFilter(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;Ljavax/servlet/FilterChain;)V (204 bytes) @ 0x00007fddef87667c [0x00007fddef873de0+0x289c]
+J 119370 C2 com.example.security.MyUpdateFilter.doFilter(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;Ljavax/servlet/FilterChain;)V (204 bytes) @ 0x00007fddef87667c [0x00007fddef873de0+0x289c]
 J 28416 C2 io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;)V (232 bytes) @ 0x00007fddf2cce164 [0x00007fddf2ccdec0+0x2a4]
 J 49317 C2 io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(Lio/undertow/server/HttpServerExchange;)V (25 bytes) @ 0x00007fddf270e010 [0x00007fddf270d960+0x6b0]
 J 49932 C2 org.wildfly.extension.undertow.security.SecurityContextAssociationHandler.handleRequest(Lio/undertow/server/HttpServerExchange;)V (154 bytes) @ 0x00007fddf303dde4 [0x00007fddf303d860+0x584]
