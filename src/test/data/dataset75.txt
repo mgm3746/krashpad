@@ -2788,7 +2788,7 @@ Dynamic libraries:
 
 VM Arguments:
 jvm_args: -D[Standalone] -verbose:gc -Xloggc:/path/to/gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -Xms1g -Xmx8G -XX:MetaspaceSize=256M -XX:MaxMetaspaceSize=2g -Dorg.jboss.boot.log.file=/path/to/server.log -Dlogging.configuration=file:/path/to/logging.properties 
-java_command: /path/to/jboss-eap-7.2/jboss-modules.jar -mp /path/to/jboss-eap-7.2/modules org.jboss.as.standalone -Djboss.home.dir=/path/to/jboss-eap-7.2 -Djboss.server.base.dir=/path/to/standalone -Djboss.server.base.dir=/path/to/standalone --server-config=standalone-full.xml -Djboss.node.name=api_node -b 0.0.0.0 -bmanagement 0.0.0.0 -Djboss.as.management.blocking.timeout=1200 -Djava.awt.headless=true -Dt24.security.context=ABCDEF/123456 -DLOG_HOME=/path/to/log
+java_command: /path/to/jboss-eap-7.2/jboss-modules.jar -mp /path/to/jboss-eap-7.2/modules org.jboss.as.standalone -Djboss.home.dir=/path/to/jboss-eap-7.2 -Djboss.server.base.dir=/path/to/standalone -Djboss.server.base.dir=/path/to/standalone --server-config=standalone-full.xml -Djboss.node.name=api_node -b 0.0.0.0 -bmanagement 0.0.0.0 -Djboss.as.management.blocking.timeout=1200 -Djava.awt.headless=true
 java_class_path (initial): /path/to/jboss-eap-7.2/jboss-modules.jar
 Launcher Type: SUN_STANDARD
 

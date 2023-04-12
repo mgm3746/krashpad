@@ -17,7 +17,7 @@
 #
 # JRE version:  (11.0.8+10) (build )
 # Java VM: OpenJDK 64-Bit Server VM (11.0.8+10-LTS, mixed mode, tiered, g1 gc, linux-amd64)
-# Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /home/mmillson/cases/02747473/PROD_Node1_101020/core.720881)
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /home/user123/core.720881)
 #
 
 ---------------  S U M M A R Y ------------

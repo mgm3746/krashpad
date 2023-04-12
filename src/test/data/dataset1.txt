@@ -8,7 +8,7 @@
 # Problematic frame:
 # C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4
 #
-# Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /home/mmillson/codereadystudio/studio/core.23171)
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /home/user123/codereadystudio/studio/core.23171)
 #
 # If you would like to submit a bug report, please visit:
 #   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-11-openjdk

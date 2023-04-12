@@ -240,7 +240,7 @@ Log output configuration:
  #1: stderr all=off uptime,level,tags
 
 Environment Variables:
-JAVA_HOME=/apps/java/jdk
+JAVA_HOME=/path/to/jdk
 PATH=/path
 USERNAME=userid
 LD_LIBRARY_PATH=/path
