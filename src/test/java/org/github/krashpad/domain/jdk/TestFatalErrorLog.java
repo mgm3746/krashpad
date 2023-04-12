@@ -91,6 +91,18 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testCodeCacheSizeSegmented() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvmArgs = "jvm_args: -XX:+SegmentedCodeCache -XX:NonNMethodCodeHeapSize=5825164 "
+                + "-XX:NonProfiledCodeHeapSize=122916538 -XX:ProfiledCodeHeapSize=122916538";
+        VmArguments vmArgumentsEvent = new VmArguments(jvmArgs);
+        fel.getVmArguments().add(vmArgumentsEvent);
+        fel.doAnalysis();
+        long codeCacheSize = JdkUtil.convertSize(240, 'M', org.github.joa.util.Constants.UNITS);
+        assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
+    }
+
+    @Test
     void testCollectorNoData() {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getAnalysis();
