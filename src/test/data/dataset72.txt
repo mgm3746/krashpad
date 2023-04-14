@@ -232,7 +232,7 @@ Launcher Type: SUN_STANDARD
 
 Environment Variables:
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-USERNAME=root
+USERNAME=username
 SHELL=/bin/bash
 
 Signal Handlers:

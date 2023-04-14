@@ -22,7 +22,6 @@ J 3285 c2 java.util.AbstractList.subListRangeCheck(III)V java.base@12.0.1 (110 b
 
 
 Dynamic libraries:
-
 7f68369b3000-7f6837b16000 r-xp 00000000 fd:00 888316                     /usr/share/elasticsearch/jdk/lib/server/libjvm.so
 
 ---------------  S Y S T E M  ---------------

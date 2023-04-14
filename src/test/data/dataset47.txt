@@ -8,7 +8,7 @@
 # Problematic frame:
 # V  [libjvm.so+0x8d63aa]  MetadataOnStackMark::~MetadataOnStackMark()+0xba
 #
-# Core dump written. Default location: /home/jboss/core or core.4694
+# Core dump written. Default location: /path/to/core or core.4694
 #
 # If you would like to submit a bug report, please visit:
 #   http://bugreport.java.com/bugreport/crash.jsp
@@ -198,8 +198,8 @@ Dynamic libraries:
 7f252c9fb000-7f252d7af000 r-xp 00000000 fd:4a 23202844                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.portable.jdk.el.x86_64/jre/lib/amd64/server/libjvm.so
 
 VM Arguments:
-jvm_args: -D[Standalone] -verbose:gc -Xloggc:/opt/eap/standalone/log/gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -Xms2007m -Xmx2867m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+PerfDisableSharedMem -XX:+AlwaysPreTouch -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:ParallelGCThreads=4 -Djava.util.concurrent.ForkJoinPool.common.parallelism=4 -XX:CICompilerCount=2 -XX:+ExitOnOutOfMemoryError  
-java_command: /opt/eap/jboss-modules.jar -mp /opt/eap/modules org.jboss.as.standalone
+jvm_args: -D[Standalone] -verbose:gc -Xloggc:/path/to/eap/standalone/log/gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -Xms2007m -Xmx2867m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+PerfDisableSharedMem -XX:+AlwaysPreTouch -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:ParallelGCThreads=4 -Djava.util.concurrent.ForkJoinPool.common.parallelism=4 -XX:CICompilerCount=2 -XX:+ExitOnOutOfMemoryError  
+java_command: /path/to/eap/jboss-modules.jar -mp /path/to/eap/modules org.jboss.as.standalone
 java_class_path (initial): /path/to/jboss-modules.jar:/path/to/container/jolokia/jolokia.jar:/path/to/appdynamics/javaagent.jar
 Launcher Type: SUN_STANDARD
 

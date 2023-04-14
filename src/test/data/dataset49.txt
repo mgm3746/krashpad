@@ -203,30 +203,12 @@ Heap after GC invocations=26 (full 6):
 }
 
 Deoptimization events (10 events):
-Event: 155.285 Thread 0x0000000047c01000 Uncommon trap: reason=speculate_class_check action=maybe_recompile pc=0x00000000079a454c method=java.lang.StringCoding.encode(Ljava/nio/charset/Charset;[CII)[B @ 91
-Event: 155.286 Thread 0x0000000047c01000 Uncommon trap: reason=speculate_class_check action=maybe_recompile pc=0x00000000079a454c method=java.lang.StringCoding.encode(Ljava/nio/charset/Charset;[CII)[B @ 91
-Event: 155.610 Thread 0x00000000454ae000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000000006011afc method=java.io.WinNTFileSystem.normalize(Ljava/lang/String;)Ljava/lang/String; @ 49
-Event: 157.457 Thread 0x00000000454b3800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000000007ca3fc8 method=com.sun.jmx.mbeanserver.Repository.addMBean(Ljavax/management/DynamicMBean;Ljavax/management/ObjectName;Lcom/sun/jmx/mbeanserver/Repository$RegistrationContext;)V @ 282
-Event: 157.457 Thread 0x00000000454b3800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000000000777c130 method=org.jboss.as.jmx.PluggableMBeanServerImpl.registerMBean(Ljava/lang/Object;Ljavax/management/ObjectName;)Ljavax/management/ObjectInstance; @ 101
-Event: 158.005 Thread 0x0000000062472800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000000000683af84 method=java.util.concurrent.atomic.LongAdder.add(J)V @ 24
-Event: 158.150 Thread 0x00000000494c1000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000000000604a280 method=java.util.concurrent.locks.AbstractQueuedSynchronizer.hasQueuedPredecessors()Z @ 21
-Event: 158.594 Thread 0x0000000062472800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000000000689c2b4 method=java.util.concurrent.ForkJoinPool.scan(Ljava/util/concurrent/ForkJoinPool$WorkQueue;I)Ljava/util/concurrent/ForkJoinTask; @ 392
-Event: 159.158 Thread 0x00000000454b3800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000000004b99b4c method=org.jboss.msc.service.ServiceControllerImpl.getTransition()Lorg/jboss/msc/service/ServiceController$Transition; @ 318
 Event: 159.158 Thread 0x00000000454b3800 Uncommon trap: reason=unloaded action=reinterpret pc=0x000000000497bf44 method=org.jboss.msc.service.ServiceControllerImpl.transition(Ljava/util/ArrayList;)V @ 787
 
 Classes redefined (0 events):
 No events
 
 Internal exceptions (10 events):
-Event: 159.489 Thread 0x00000000454a6000 Exception <a 'sun/nio/fs/WindowsException'> (0x00000007079cb738) thrown at [C:\re\workspace\8-2-build-windows-amd64-cygwin\jdk8u191\11896\hotspot\src\share\vm\prims\jni.cpp, line 709]
-Event: 159.489 Thread 0x00000000454a6000 Exception <a 'sun/nio/fs/WindowsException'> (0x00000007079cbfe0) thrown at [C:\re\workspace\8-2-build-windows-amd64-cygwin\jdk8u191\11896\hotspot\src\share\vm\prims\jni.cpp, line 709]
-Event: 159.489 Thread 0x0000000047c01000 Exception <a 'sun/nio/fs/WindowsException'> (0x0000000707af0dd0) thrown at [C:\re\workspace\8-2-build-windows-amd64-cygwin\jdk8u191\11896\hotspot\src\share\vm\prims\jni.cpp, line 709]
-Event: 159.489 Thread 0x0000000047c01000 Exception <a 'sun/nio/fs/WindowsException'> (0x0000000707af1648) thrown at [C:\re\workspace\8-2-build-windows-amd64-cygwin\jdk8u191\11896\hotspot\src\share\vm\prims\jni.cpp, line 709]
-Event: 159.490 Thread 0x00000000454a6000 Exception <a 'sun/nio/fs/WindowsException'> (0x00000007079f6ca8) thrown at [C:\re\workspace\8-2-build-windows-amd64-cygwin\jdk8u191\11896\hotspot\src\share\vm\prims\jni.cpp, line 709]
-Event: 159.490 Thread 0x00000000454a6000 Exception <a 'sun/nio/fs/WindowsException'> (0x00000007079f7520) thrown at [C:\re\workspace\8-2-build-windows-amd64-cygwin\jdk8u191\11896\hotspot\src\share\vm\prims\jni.cpp, line 709]
-Event: 159.491 Thread 0x00000000454a6000 Exception <a 'sun/nio/fs/WindowsException'> (0x0000000707a03a68) thrown at [C:\re\workspace\8-2-build-windows-amd64-cygwin\jdk8u191\11896\hotspot\src\share\vm\prims\jni.cpp, line 709]
-Event: 159.491 Thread 0x00000000454a6000 Exception <a 'sun/nio/fs/WindowsException'> (0x0000000707a04300) thrown at [C:\re\workspace\8-2-build-windows-amd64-cygwin\jdk8u191\11896\hotspot\src\share\vm\prims\jni.cpp, line 709]
-Event: 159.491 Thread 0x00000000454a6000 Exception <a 'sun/nio/fs/WindowsException'> (0x0000000707a058d8) thrown at [C:\re\workspace\8-2-build-windows-amd64-cygwin\jdk8u191\11896\hotspot\src\share\vm\prims\jni.cpp, line 709]
 Event: 159.491 Thread 0x00000000454a6000 Exception <a 'sun/nio/fs/WindowsException'> (0x0000000707a06180) thrown at [C:\re\workspace\8-2-build-windows-amd64-cygwin\jdk8u191\11896\hotspot\src\share\vm\prims\jni.cpp, line 709]
 
 Events (10 events):

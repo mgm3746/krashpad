@@ -18,7 +18,7 @@
 
 ---------------  S U M M A R Y ------------
 
-Command Line: -D[Standalone] -Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M -Xms8192m -Xmx8192m -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=1024m -XX:+UseStringDeduplication -XX:+UseLWPSynchronization -XX:StringTableSize=120121 -Djava.net.preferIPv4Stack=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -XX:ReservedCodeCacheSize=256m -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n
+Command Line: -D[Standalone] -Xlog:gc*:file=/path/to/gc.log:time,uptimemillis:filecount=5,filesize=3M -Xms8192m -Xmx8192m -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=1024m -XX:+UseStringDeduplication -XX:+UseLWPSynchronization -XX:StringTableSize=123456 -Djava.net.preferIPv4Stack=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -XX:ReservedCodeCacheSize=256m -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n
 Host: Intel(R) Xeon(R) Platinum 8160 CPU @ 2.10GHz, 8 cores, 15G, Red Hat Enterprise Linux release 8.1 (Ootpa)
 Time: Tue Dec 22 16:10:12 2020 IST elapsed time: 1409563 seconds (16d 7h 32m 43s)
 

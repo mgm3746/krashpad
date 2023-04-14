@@ -112,14 +112,7 @@ Java Threads: ( => current thread )
   0x00007f88540dc000 JavaThread "Thread-15516 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5096, stack(0x00007f87447ca000,0x00007f87448cb000)]
   0x00007f8818244800 JavaThread "Thread-15517 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5095, stack(0x00007f87472f3000,0x00007f87473f4000)]
   0x00007f90bc07b000 JavaThread "Thread-15519 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5094, stack(0x00007f87466e7000,0x00007f87467e8000)]
-  0x00007f87f07af000 JavaThread "Thread-15513 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5093, stack(0x00007f87439bc000,0x00007f8743abd000)]
-  0x00007f87a4031800 JavaThread "Old I/O client worker ([id: 0xe82c2b4f, /10.249.26.23:37696 => /10.249.23.17:5545]), runningThread=Thread-199 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20401, stack(0x00007f8768ba0000,0x00007f8768ca1000)]
-  0x00007f87a804b800 JavaThread "Old I/O client worker ([id: 0xb6f317b2, /10.249.26.23:37694 => /10.249.23.17:5545]), runningThread=Thread-198 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20400, stack(0x00007f8768ca1000,0x00007f8768da2000)]
-  0x00007f879c019000 JavaThread "Old I/O client worker ([id: 0x6e865b38, /10.249.26.23:37692 => /10.249.23.17:5545]), runningThread=Thread-197 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20399, stack(0x00007f8768da2000,0x00007f8768ea3000)]
-  0x00007f87a0008000 JavaThread "Old I/O client worker ([id: 0x9f157eff, /10.249.26.23:37690 => /10.249.23.17:5545]), runningThread=Thread-196 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20398, stack(0x00007f8768ea3000,0x00007f8768fa4000)]
-  0x00007f8794046000 JavaThread "Old I/O client worker ([id: 0xf0294379, /10.249.26.23:37688 => /10.249.23.17:5545]), runningThread=Thread-195 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20397, stack(0x00007f8768fa4000,0x00007f87690a5000)]
-  0x00007f879806b800 JavaThread "Old I/O client worker ([id: 0x76bf2744, /10.249.26.23:37686 => /10.249.23.17:5545]), runningThread=Thread-194 (HornetQ-client-global-threads-69955929)" daemon [_thread_in_native, id=20396, stack(0x00007f87690a5000,0x00007f87691a6000)]
-  
+  0x00007f87f07af000 JavaThread "Thread-15513 (HornetQ-client-global-threads-69955929)" daemon [_thread_blocked, id=5093, stack(0x00007f87439bc000,0x00007f8743abd000)]  
 
 Other Threads:
   0x00007f90e8138800 VMThread [stack: 0x00007f90eca87000,0x00007f90ecb87000] [id=19913]

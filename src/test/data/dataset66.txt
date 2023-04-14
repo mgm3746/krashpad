@@ -78,7 +78,7 @@ Launcher Type: SUN_STANDARD
 
 Environment Variables:
 PATH=
-USERNAME=root
+USERNAME=username
 SHELL=/bin/bash
 
 Signal Handlers:

@@ -47,7 +47,6 @@ J 1001  java.security.AccessController.doPrivileged(Ljava/security/PrivilegedAct
 
 
 Dynamic libraries:
-
 3fff8e6f0000-3fff8f1c0000 r-xp 00000000 fd:08 306305                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.181-7.b13.el7.ppc64le/jre/lib/ppc64le/server/libjvm.so
 
 

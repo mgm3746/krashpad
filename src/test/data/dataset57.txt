@@ -17,7 +17,7 @@
 #
 # JRE version: OpenJDK Runtime Environment (8.0_282-b08) (build 1.8.0_282-b08)
 # Java VM: OpenJDK 64-Bit Server VM (25.282-b08 mixed mode linux-amd64 )
-# Core dump written. Default location: /data/gtx/03/ui/core or core.3343939
+# Core dump written. Default location: /path/to/core or core.3343939
 #
 
 ---------------  T H R E A D  ---------------
@@ -298,7 +298,7 @@ Launcher Type: SUN_STANDARD
 Environment Variables:
 JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
 CLASSPATH=/path/to/bootstrap.jar:/path/to/tomcat-juli.jar
-LD_LIBRARY_PATH=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.x86_64/jre/lib/amd64/server:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.x86_64/jre/lib/amd64:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.x86_64/jre/../lib/amd64:/etc/httpd/lib:/data/gtx/03/server/oracle/client/lib:/data/gtx/03/lib:/data/gtx/03/server/tuxedo/lib:/usr/lib/jvm/java-1.8.0-openjdk/jre/lib/amd64/server::/opt/mqm/lib64:/opt/tivoli/tsm/client/api/bin64:/data/gtx/03/server/net-snmp/lib:/data/gtx/03/server/net-snmp/lib/.libs:/usr/local/lib
+LD_LIBRARY_PATH=/usr/local/lib
 SHELL=/bin/ksh
 DISPLAY=:0
 

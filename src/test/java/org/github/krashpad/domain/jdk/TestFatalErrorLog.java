@@ -452,7 +452,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
-        assertEquals(37, fel.getJavaThreadCount(), "Java thread count not correct.");
+        assertEquals(2, fel.getJavaThreadCount(), "Java thread count not correct.");
         assertEquals(168, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(7, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }

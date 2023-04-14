@@ -50,7 +50,6 @@ C  [ntdll.dll+0x6e871]
 
 
 Dynamic libraries:
-
 0x00007ffc25390000 - 0x00007ffc25ed6000         C:\Program Files\Java\java-11-openjdk-11.0.7-1\bin\server\jvm.dll
 
 ---------------  S Y S T E M  ---------------

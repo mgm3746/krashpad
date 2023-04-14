@@ -8,7 +8,7 @@
 # Problematic frame:
 # V  [libjvm.so+0xbe0634]  JavaThread::pd_get_top_frame_for_profiling(frame*, void*, bool)+0x1f4
 #
-# Core dump written. Default location: //core or core.105812
+# Core dump written. Default location: /path/to/core or core.105812
 #
 # If you would like to submit a bug report, please visit:
 #   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-1.8.0-openjdk
@@ -167,94 +167,6 @@ C  [libpthread.so.0+0x87c8]  start_thread+0xf8
 
 Java Threads: ( => current thread )
   0x00007ffd7c1da800 JavaThread "Timer-3" daemon [_thread_blocked, id=126013, stack(0x00007ffd34980000,0x00007ffd34b80000)]
-  0x00007ffeb4f02000 JavaThread "dd-profiler-http-dispatcher" daemon [_thread_blocked, id=125830, stack(0x00007ffe273c0000,0x00007ffe275c0000)]
-  0x00007ffec00a0800 JavaThread "StatsD-pool-98-thread-1" daemon [_thread_blocked, id=124920, stack(0x00007ffede660000,0x00007ffede860000)]
-  0x00007ffe7d0b4000 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=120590, stack(0x00007ffd0f9c0000,0x00007ffd0fbc0000)]
-  0x00007ffe7ca87800 JavaThread "Timer-2" daemon [_thread_blocked, id=119863, stack(0x00007ffd35600000,0x00007ffd35800000)]
-  0x00007ffd703a6800 JavaThread "Timer-1" daemon [_thread_blocked, id=109929, stack(0x00007ffd4eb80000,0x00007ffd4ed80000)]
-  0x00007ffd7c04d800 JavaThread "Timer-0" daemon [_thread_blocked, id=109867, stack(0x00007ffd4f3a0000,0x00007ffd4f5a0000)]
-  0x00007fff794a2000 JavaThread "ajp-nio-0.0.0.0-8015-AsyncTimeout" daemon [_thread_blocked, id=109765, stack(0x00007ffd4f9c0000,0x00007ffd4fbc0000)]
-  0x00007fff794a0800 JavaThread "ajp-nio-0.0.0.0-8015-Acceptor-0" daemon [_thread_in_native, id=109764, stack(0x00007ffd4fbe0000,0x00007ffd4fde0000)]
-  0x00007fff78faa000 JavaThread "ajp-nio-0.0.0.0-8015-ClientPoller-1" daemon [_thread_in_native, id=109763, stack(0x00007ffd4fe00000,0x00007ffd50000000)]
-  0x00007fff78fa8000 JavaThread "ajp-nio-0.0.0.0-8015-ClientPoller-0" daemon [_thread_in_native, id=109762, stack(0x00007ffdc00c0000,0x00007ffdc02c0000)]
-  0x00007fff78fa6000 JavaThread "ajp-nio-0.0.0.0-8015-exec-10" daemon [_thread_blocked, id=109761, stack(0x00007ffdc02e0000,0x00007ffdc04e0000)]
-  0x00007fff78fa5000 JavaThread "ajp-nio-0.0.0.0-8015-exec-9" daemon [_thread_blocked, id=109760, stack(0x00007ffdc0500000,0x00007ffdc0700000)]
-  0x00007fff78fa4000 JavaThread "ajp-nio-0.0.0.0-8015-exec-8" daemon [_thread_blocked, id=109759, stack(0x00007ffdc0720000,0x00007ffdc0920000)]
-  0x00007fff794f4000 JavaThread "ajp-nio-0.0.0.0-8015-exec-7" daemon [_thread_blocked, id=109758, stack(0x00007ffdc0940000,0x00007ffdc0b40000)]
-  0x00007fff794f3000 JavaThread "ajp-nio-0.0.0.0-8015-exec-6" daemon [_thread_blocked, id=109757, stack(0x00007ffdc0b60000,0x00007ffdc0d60000)]
-  0x00007fff794f2800 JavaThread "ajp-nio-0.0.0.0-8015-exec-5" daemon [_thread_blocked, id=109756, stack(0x00007ffdc0d80000,0x00007ffdc0f80000)]
-  0x00007fff794f1800 JavaThread "ajp-nio-0.0.0.0-8015-exec-4" daemon [_thread_blocked, id=109755, stack(0x00007ffdc0fa0000,0x00007ffdc11a0000)]
-  0x00007fff794f0800 JavaThread "ajp-nio-0.0.0.0-8015-exec-3" daemon [_thread_blocked, id=109754, stack(0x00007ffdc11c0000,0x00007ffdc13c0000)]
-  0x00007fff794f0000 JavaThread "ajp-nio-0.0.0.0-8015-exec-2" daemon [_thread_blocked, id=109753, stack(0x00007ffdc13e0000,0x00007ffdc15e0000)]
-  0x00007fff794ef000 JavaThread "ajp-nio-0.0.0.0-8015-exec-1" daemon [_thread_blocked, id=109752, stack(0x00007ffdc1600000,0x00007ffdc1800000)]
-  0x00007fff794ee800 JavaThread "http-nio-8086-AsyncTimeout" daemon [_thread_blocked, id=109751, stack(0x00007ffdc1820000,0x00007ffdc1a20000)]
-  0x00007fff794ed800 JavaThread "http-nio-8086-Acceptor-0" daemon [_thread_in_native, id=109750, stack(0x00007ffdc1a40000,0x00007ffdc1c40000)]
-  0x00007fff794ed000 JavaThread "http-nio-8086-ClientPoller-1" daemon [_thread_in_native, id=109749, stack(0x00007ffdc1c60000,0x00007ffdc1e60000)]
-  0x00007fff794b1800 JavaThread "http-nio-8086-ClientPoller-0" daemon [_thread_in_native, id=109748, stack(0x00007ffdc1e80000,0x00007ffdc2080000)]
-  0x00007fff794b0800 JavaThread "http-nio-8086-exec-10" daemon [_thread_blocked, id=109747, stack(0x00007ffdc20a0000,0x00007ffdc22a0000)]
-  0x00007fff794b0000 JavaThread "http-nio-8086-exec-9" daemon [_thread_blocked, id=109746, stack(0x00007ffdc22c0000,0x00007ffdc24c0000)]
-  0x00007fff794af000 JavaThread "http-nio-8086-exec-8" daemon [_thread_blocked, id=109745, stack(0x00007ffdc24e0000,0x00007ffdc26e0000)]
-  0x00007fff794ae800 JavaThread "http-nio-8086-exec-7" daemon [_thread_blocked, id=109744, stack(0x00007ffdc2700000,0x00007ffdc2900000)]
-  0x00007fff794ad800 JavaThread "http-nio-8086-exec-6" daemon [_thread_blocked, id=109743, stack(0x00007ffdc2920000,0x00007ffdc2b20000)]
-  0x00007fff794ad000 JavaThread "http-nio-8086-exec-5" daemon [_thread_blocked, id=109742, stack(0x00007ffdc2b40000,0x00007ffdc2d40000)]
-  0x00007fff794ac000 JavaThread "http-nio-8086-exec-4" daemon [_thread_blocked, id=109741, stack(0x00007ffdc2d60000,0x00007ffdc2f60000)]
-  0x00007fff794ab000 JavaThread "http-nio-8086-exec-3" daemon [_thread_blocked, id=109740, stack(0x00007ffdc2f80000,0x00007ffdc3180000)]
-  0x00007fff794aa800 JavaThread "http-nio-8086-exec-2" daemon [_thread_blocked, id=109739, stack(0x00007ffdc31a0000,0x00007ffdc33a0000)]
-  0x00007fff78fd3000 JavaThread "http-nio-8086-exec-1" daemon [_thread_blocked, id=109738, stack(0x00007ffdc33c0000,0x00007ffdc35c0000)]
-  0x00007fff7939d800 JavaThread "ContainerBackgroundProcessor[StandardEngine[Catalina]]" daemon [_thread_in_Java, id=109736, stack(0x00007ffdc35e0000,0x00007ffdc37e0000)]
-  0x00007ffdbc039800 JavaThread "pool-32-thread-1" [_thread_blocked, id=109732, stack(0x00007ffdc3800000,0x00007ffdc3a00000)]
-  0x00007ffe78022000 JavaThread "Thread-74" daemon [_thread_blocked, id=109352, stack(0x00007ffe96f80000,0x00007ffe97180000)]
-  0x00007ffe780f1000 JavaThread "Thread-73" daemon [_thread_blocked, id=109332, stack(0x00007ffe96d60000,0x00007ffe96f60000)]
-  0x00007ffdcc03b000 JavaThread "pool-29-thread-1" [_thread_blocked, id=109223, stack(0x00007ffdf0cc0000,0x00007ffdf0ec0000)]
-  0x00007ffdd8027800 JavaThread "pool-28-thread-1" [_thread_blocked, id=109203, stack(0x00007ffdf10e0000,0x00007ffdf12e0000)]
-  0x00007ffdd4050000 JavaThread "pool-27-thread-1" [_thread_blocked, id=109189, stack(0x00007ffdf1300000,0x00007ffdf1500000)]
-  0x00007ffe8074f800 JavaThread "Thread-57" daemon [_thread_blocked, id=109033, stack(0x00007ffdf2f80000,0x00007ffdf3180000)]
-  0x00007ffe740ff800 JavaThread "Thread-56" daemon [_thread_blocked, id=109026, stack(0x00007ffdf33a0000,0x00007ffdf35a0000)]
-  0x00007ffe808e9800 JavaThread "Thread-55" daemon [_thread_blocked, id=109023, stack(0x00007ffdf35c0000,0x00007ffdf37c0000)]
-  0x00007ffe78989000 JavaThread "Thread-54" daemon [_thread_blocked, id=109011, stack(0x00007ffdf37e0000,0x00007ffdf39e0000)]
-  0x00007ffe746d2000 JavaThread "Thread-53" daemon [_thread_blocked, id=108988, stack(0x00007ffdf3a00000,0x00007ffdf3c00000)]
-  0x00007ffe780be000 JavaThread "Thread-51" daemon [_thread_blocked, id=108969, stack(0x00007ffe242c0000,0x00007ffe244c0000)]
-  0x00007ffe0001c000 JavaThread "pool-20-thread-1" [_thread_blocked, id=108841, stack(0x00007ffe24ee0000,0x00007ffe250e0000)]
-  0x00007ffe10036800 JavaThread "pool-19-thread-1" [_thread_blocked, id=108617, stack(0x00007ffe25520000,0x00007ffe25720000)]
-  0x00007ffe1003c800 JavaThread "pool-18-thread-1" [_thread_blocked, id=108533, stack(0x00007ffe25b60000,0x00007ffe25d60000)]
-  0x00007ffe8094f800 JavaThread "Thread-35" daemon [_thread_blocked, id=108414, stack(0x00007ffe277e0000,0x00007ffe279e0000)]
-  0x00007ffe8028f800 JavaThread "Thread-34" daemon [_thread_blocked, id=108408, stack(0x00007ffe27c00000,0x00007ffe27e00000)]
-  0x00007ffe74932000 JavaThread "Thread-31" daemon [_thread_blocked, id=108394, stack(0x00007ffe58080000,0x00007ffe58280000)]
-  0x00007ffe7484f800 JavaThread "Thread-30" daemon [_thread_blocked, id=108355, stack(0x00007ffe582a0000,0x00007ffe584a0000)]
-  0x00007ffe78be0000 JavaThread "Thread-29" daemon [_thread_blocked, id=108335, stack(0x00007ffe584c0000,0x00007ffe586c0000)]
-  0x00007ffe78bb0800 JavaThread "Thread-28" daemon [_thread_blocked, id=108308, stack(0x00007ffe58ce0000,0x00007ffe58ee0000)]
-  0x00007ffe3c01a000 JavaThread "pool-11-thread-1" [_thread_blocked, id=107967, stack(0x00007ffe59900000,0x00007ffe59b00000)]
-  0x00007ffe4403b000 JavaThread "pool-10-thread-1" [_thread_blocked, id=107916, stack(0x00007ffe59d20000,0x00007ffe59f20000)]
-  0x00007ffe40046000 JavaThread "pool-9-thread-1" [_thread_blocked, id=107866, stack(0x00007ffe5a160000,0x00007ffe5a360000)]
-  0x00007ffe787b3000 JavaThread "Thread-15" daemon [_thread_blocked, id=107655, stack(0x00007ffe5b9c0000,0x00007ffe5bbc0000)]
-  0x00007ffe80602800 JavaThread "Thread-14" daemon [_thread_blocked, id=107653, stack(0x00007ffe5bbe0000,0x00007ffe5bde0000)]
-  0x00007ffe744c9800 JavaThread "Thread-13" daemon [_thread_blocked, id=107650, stack(0x00007ffe5be00000,0x00007ffe5c000000)]
-  0x00007ffe80575800 JavaThread "Thread-12" daemon [_thread_blocked, id=107609, stack(0x00007ffe94260000,0x00007ffe94460000)]
-  0x00007ffe74183000 JavaThread "Thread-11" daemon [_thread_blocked, id=107601, stack(0x00007ffe950a0000,0x00007ffe952a0000)]
-  0x00007ffe7845a000 JavaThread "Thread-10" daemon [_thread_blocked, id=107591, stack(0x00007ffe94e80000,0x00007ffe95080000)]
-  0x00007ffe64001800 JavaThread "JFR Recording Scheduler" daemon [_thread_blocked, id=107492, stack(0x00007ffe954c0000,0x00007ffe956c0000)]
-  0x00007ffeb4ec8000 JavaThread "JFR Periodic Tasks" daemon [_thread_blocked, id=107490, stack(0x00007ffe95900000,0x00007ffe95b00000)]
-  0x00007ffeb4e9a800 JavaThread "JFR Recorder Thread" daemon [_thread_blocked, id=107485, stack(0x00007ffe95b20000,0x00007ffe95d20000)]
-  0x00007fff7988c800 JavaThread "NioBlockingSelector.BlockPoller-1" daemon [_thread_in_native, id=107082, stack(0x00007ffe973c0000,0x00007ffe975c0000)]
-  0x00007fff7988a800 JavaThread "NioBlockingSelector.BlockPoller-0" daemon [_thread_in_native, id=107080, stack(0x00007ffe975e0000,0x00007ffe977e0000)]
-  0x00007fff797ee000 JavaThread "GC Daemon" daemon [_thread_blocked, id=107067, stack(0x00007ffe97a00000,0x00007ffe97c00000)]
-  0x00007fff79502000 JavaThread "RMI TCP Accept-0" daemon [_thread_in_native, id=106948, stack(0x00007ffedc2d0000,0x00007ffedc4d0000)]
-  0x00007fff794fc000 JavaThread "RMI TCP Accept-6672" daemon [_thread_in_native, id=106946, stack(0x00007ffedc790000,0x00007ffedc990000)]
-  0x00007fff794db800 JavaThread "RMI TCP Accept-0" daemon [_thread_in_native, id=106911, stack(0x00007ffedc4f0000,0x00007ffedc6f0000)]
-  0x00007fff7949b800 JavaThread "Service Thread" daemon [_thread_blocked, id=106840, stack(0x00007ffedca40000,0x00007ffedcc40000)]
-  0x00007fff79493000 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=106839, stack(0x00007ffedcc60000,0x00007ffedd060000)]
-  0x00007fff79496000 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=106838, stack(0x00007ffedd080000,0x00007ffedd480000)]
-  0x00007fff7949a800 JavaThread "dd-profiler-recording-scheduler" daemon [_thread_blocked, id=106836, stack(0x00007ffedd4a0000,0x00007ffedd6a0000)]
-  0x00007fff79389800 JavaThread "dd-trace-processor" daemon [_thread_blocked, id=106735, stack(0x00007ffeddbe0000,0x00007ffeddde0000)]
-  0x00007fff79346800 JavaThread "StatsD-pool-2-thread-1" daemon [_thread_blocked, id=106718, stack(0x00007ffedde00000,0x00007ffede000000)]
-  0x00007fff79332000 JavaThread "dd-trace-monitor" daemon [_thread_blocked, id=106675, stack(0x00007ffede020000,0x00007ffede220000)]
-  0x00007fff79320000 JavaThread "dd-jmx-collector" daemon [_thread_blocked, id=106669, stack(0x00007ffede440000,0x00007ffede640000)]
-  0x00007fff792ac800 JavaThread "AsyncFileHandlerWriter-1902801188" daemon [_thread_blocked, id=106621, stack(0x00007ffedead0000,0x00007ffedecd0000)]
-  0x00007fff79269800 JavaThread "dd-task-scheduler" daemon [_thread_blocked, id=106592, stack(0x00007ffeded40000,0x00007ffedef40000)]
-  0x00007fff78c54000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=106453, stack(0x00007ffedfb70000,0x00007ffedfd70000)]
-  0x00007fff78c52000 JavaThread "Surrogate Locker Thread (Concurrent GC)" daemon [_thread_blocked, id=106451, stack(0x00007ffedfd90000,0x00007ffedff90000)]
-  0x00007fff78c1d800 JavaThread "Finalizer" daemon [_thread_blocked, id=106221, stack(0x00007ffef8300000,0x00007ffef8500000)]
-  0x00007fff78c19000 JavaThread "Reference Handler" daemon [_thread_blocked, id=106196, stack(0x00007ffef8520000,0x00007ffef8720000)]
   0x00007fff78053000 JavaThread "main" [_thread_blocked, id=105915, stack(0x00007fff7ebb0000,0x00007fff7edb0000)]
 
 Other Threads:
@@ -293,7 +205,7 @@ Dynamic libraries:
 7fff7f150000-7fff80000000 r-xp 00000000 fd:00 1038095                    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-2.el8_3.ppc64le/jre/lib/ppc64le/server/libjvm.so
 
 VM Arguments:
-jvm_args: -Xmx8g -Xms7g -XX:MetaspaceSize=5g -XX:MaxMetaspaceSize=6g -XX:-UseCompressedClassPointers -Xss2m -XX:MaxJavaStackTraceDepth=50000 -XX:+UseG1GC -XX:MaxGCPauseMillis=500 -XX:G1HeapRegionSize=4m -XX:+UseStringDeduplication -Xloggc:/path/to/gc-v1-%t-%p.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintAdaptiveSizePolicy -XX:+PrintGCApplicationStoppedTime -XX:+DisableExplicitGC -XX:ParallelGCThreads=8 -XX:ConcGCThreads=2 -XX:ReservedCodeCacheSize=480m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to -XX:ErrorFile=/path/to/java_error%p.log -XX:OnOutOfMemoryError=/path/to/tomcatOutOfMemory.sh -Dsun.zip.disableMemoryMapping=true -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -XX:FlightRecorderOptions=stackdepth=256 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=6672 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcatalina.base=/opt/tomcat_g -Dcatalina.home=/path/to/tomcat -Djava.io.tmpdir=/path/to/tomcat/temp 
+jvm_args: -Xmx8g -Xms7g -XX:MetaspaceSize=5g -XX:MaxMetaspaceSize=6g -XX:-UseCompressedClassPointers -Xss2m -XX:MaxJavaStackTraceDepth=50000 -XX:+UseG1GC -XX:MaxGCPauseMillis=500 -XX:G1HeapRegionSize=4m -XX:+UseStringDeduplication -Xloggc:/path/to/gc-v1-%t-%p.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintAdaptiveSizePolicy -XX:+PrintGCApplicationStoppedTime -XX:+DisableExplicitGC -XX:ParallelGCThreads=8 -XX:ConcGCThreads=2 -XX:ReservedCodeCacheSize=480m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to -XX:ErrorFile=/path/to/java_error%p.log -XX:OnOutOfMemoryError=/path/to/tomcatOutOfMemory.sh -Dsun.zip.disableMemoryMapping=true -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -XX:FlightRecorderOptions=stackdepth=256 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1234 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcatalina.base=/opt/tomcat_g -Dcatalina.home=/path/to/tomcat -Djava.io.tmpdir=/path/to/tomcat/temp 
 java_command: org.apache.catalina.startup.Bootstrap start
 java_class_path (initial): /opt/tomcat_g/bin/bootstrap.jar:/opt/tomcat_g/bin/tomcat-juli.jar
 Launcher Type: SUN_STANDARD

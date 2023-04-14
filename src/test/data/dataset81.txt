@@ -98,8 +98,8 @@ Launcher Type: SUN_STANDARD
 
 Environment Variables:
 JAVA_HOME=/opt/path/java-1.8.0-openjdk/jre
-PATH=/opt/path/java-1.8.0-openjdk/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/somebody/.local/bin:/home/somebody/bin:/root/bin:/opt/path/java-1.8.0-openjdk/jre/bin
-USERNAME=root
+PATH=/opt/path/java-1.8.0-openjdk/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/somebody/.local/bin:/home/somebody/bin:/path/to/bin:/opt/path/java-1.8.0-openjdk/jre/bin
+USERNAME=username
 SHELL=/bin/bash
 
 Signal Handlers:

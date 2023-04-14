@@ -72,14 +72,6 @@ Java Threads: ( => current thread )
   0x00007f2ff009f000 JavaThread "http-executor-threads - 3" [_thread_blocked, id=31462, stack(0x00007f2f57036000,0x00007f2f57137000)]
   0x00007f2ff0019800 JavaThread "http-executor-threads - 2" [_thread_blocked, id=31430, stack(0x00007f2f54203000,0x00007f2f54304000)]
   0x00007f2ff009b000 JavaThread "http-executor-threads - 1" [_thread_blocked, id=28451, stack(0x00007f2f519ce000,0x00007f2f51acf000)]
-  0x00007f2f785e9000 JavaThread "CACHED_LOG_FILE_HEADERS" daemon [_thread_blocked, id=28327, stack(0x00007f2f51cf5000,0x00007f2f51df6000)]
-  0x00007f2f785e7800 JavaThread "CACHED_CODE_RESOLUTIONS" daemon [_thread_blocked, id=28326, stack(0x00007f2f51df6000,0x00007f2f51ef7000)]
-  0x00007f2f785e6800 JavaThread "CACHED_WORK_PROCESSES" daemon [_thread_blocked, id=28325, stack(0x00007f2f520f7000,0x00007f2f521f8000)]
-  0x00007f2f785e5000 JavaThread "CACHED_POA_DOCS" daemon [_thread_blocked, id=28324, stack(0x00007f2f521f8000,0x00007f2f522f9000)]
-  0x00007f2f785e3800 JavaThread "CACHED_MED_CERT_60_DOCS" daemon [_thread_blocked, id=28323, stack(0x00007f2f524f9000,0x00007f2f525fa000)]
-  0x00007f2f785e3000 JavaThread "CACHED_SYSTEM_PARAMETERS_TRIAL" daemon [_thread_blocked, id=28322, stack(0x00007f2f525fa000,0x00007f2f526fb000)]
-  0x00007f2f880ac800 JavaThread "Timer-2" daemon [_thread_blocked, id=28321, stack(0x00007f2f526fb000,0x00007f2f527fc000)]
-  0x00007f2f785e0800 JavaThread "CACHED_SYSTEM_PARAMETERS" daemon [_thread_blocked, id=28320, stack(0x00007f2f527fc000,0x00007f2f528fd000)]
   0x00007f2f785df800 JavaThread "Timer-1" [_thread_blocked, id=28319, stack(0x00007f2f52cfd000,0x00007f2f52dfe000)]
   0x00007f2f801dd000 JavaThread "Thread-63" [_thread_blocked, id=28304, stack(0x00007f2f559dd000,0x00007f2f55ade000)]
   0x00007f2f80195000 JavaThread "server-timer" daemon [_thread_blocked, id=28303, stack(0x00007f2f55ade000,0x00007f2f55bdf000)]
@@ -95,10 +87,6 @@ Java Threads: ( => current thread )
   0x00007f2f84003000 JavaThread "Timer-0" [_thread_blocked, id=28293, stack(0x00007f2f57221000,0x00007f2f57322000)]
   0x00007f2f9003d000 JavaThread "IdleRemover" daemon [_thread_blocked, id=28290, stack(0x00007f2f57dfe000,0x00007f2f57eff000)]
   0x00007f2f94077800 JavaThread "ConnectionValidator" daemon [_thread_blocked, id=28289, stack(0x00007f2f57eff000,0x00007f2f58000000)]
-  0x00007f2f94074000 JavaThread "Remoting "webservice" write-1" [_thread_in_native, id=28288, stack(0x00007f2fb404c000,0x00007f2fb414d000)]
-  0x00007f2f94073000 JavaThread "Remoting "webservice" read-1" [_thread_in_native, id=28287, stack(0x00007f2fb414d000,0x00007f2fb424e000)]
-  0x00007f2f84332800 JavaThread "Remoting "webservice:MANAGEMENT" write-1" [_thread_in_native, id=28263, stack(0x00007f2fb5b65000,0x00007f2fb5c66000)]
-  0x00007f2f842fc800 JavaThread "Remoting "webservice:MANAGEMENT" read-1" [_thread_in_native, id=28262, stack(0x00007f2fb5c66000,0x00007f2fb5d67000)]
   0x00007f2fa4004000 JavaThread "DeploymentScanner-threads - 2" [_thread_blocked, id=28261, stack(0x00007f2fb5d67000,0x00007f2fb5e68000)]
   0x00007f2f78121800 JavaThread "DeploymentScanner-threads - 1" [_thread_blocked, id=28260, stack(0x00007f2fb5e68000,0x00007f2fb5f69000)]
   0x00007f3010009800 JavaThread "DestroyJavaVM" [_thread_blocked, id=28212, stack(0x00007f30166ef000,0x00007f30167f0000)]
@@ -283,16 +271,16 @@ Event: 886181.665 Thread 0x00007f2fc0012000 Uncommon trap: reason=class_check ac
 Event: 976625.951 Thread 0x00007f2ff0287800 Uncommon trap: reason=class_check action=maybe_recompile pc=0x00007f300458d958 method=java.util.concurrent.ConcurrentHashMap.replaceNode(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; @ 147
 
 Internal exceptions (10 events):
-Event: 978077.147 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/wsf/stack/cxf/JBossWSInvoker> (0x0000000719ccc910) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
-Event: 978077.148 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/wsf/stack/cxf/RequestHandlerImpl> (0x0000000719cd8790) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
-Event: 978077.148 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/wsf/stack/cxf/transport/ServletHelper> (0x0000000719cdcb60) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
-Event: 978077.148 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/wsf/stack/cxf/CXFServletExt> (0x0000000719ce0d38) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
-Event: 978077.148 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/threads/SimpleDirectExecutor> (0x0000000719cf6a48) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
-Event: 978077.148 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/threads/QueueExecutor> (0x0000000719cfaa48) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
-Event: 978077.149 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/threads/QueueExecutor$Worker> (0x0000000719cfedb0) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
-Event: 978077.149 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/threads/JBossThread> (0x0000000719d03b90) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
+Event: 978077.147 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/wsf/stack/cxf/JBossWSInvoker> (0x0000000719ccc910) thrown at [/path/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
+Event: 978077.148 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/wsf/stack/cxf/RequestHandlerImpl> (0x0000000719cd8790) thrown at [/path/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
+Event: 978077.148 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/wsf/stack/cxf/transport/ServletHelper> (0x0000000719cdcb60) thrown at [/path/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
+Event: 978077.148 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/wsf/stack/cxf/CXFServletExt> (0x0000000719ce0d38) thrown at [/path/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
+Event: 978077.148 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/threads/SimpleDirectExecutor> (0x0000000719cf6a48) thrown at [/path/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
+Event: 978077.148 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/threads/QueueExecutor> (0x0000000719cfaa48) thrown at [/path/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
+Event: 978077.149 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/threads/QueueExecutor$Worker> (0x0000000719cfedb0) thrown at [/path/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
+Event: 978077.149 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/ClassNotFoundException': org/jboss/threads/JBossThread> (0x0000000719d03b90) thrown at [/path/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
 Event: 978077.152 Thread 0x00007f2ff01c0000 Implicit null exception at 0x00007f3002ec24d5 to 0x00007f3002ec6645
-Event: 978077.152 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/NullPointerException'> (0x0000000719d1f4c0) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 605]
+Event: 978077.152 Thread 0x00007f2ff01c0000 Exception <a 'java/lang/NullPointerException'> (0x0000000719d1f4c0) thrown at [/path/workspace/8-2-build-linux-amd64/jdk8u131/8869/hotspot/src/share/vm/runtime/sharedRuntime.cpp, line 605]
 
 Events (10 events):
 Event: 978077.149 loading class org/jboss/threads/QueueExecutor$Worker done

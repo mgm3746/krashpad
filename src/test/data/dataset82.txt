@@ -8,7 +8,7 @@
 # Problematic frame:
 # V  [jvm.dll+0x5abff0]
 #
-# Core dump will be written. Default location: D:\app\jboss\bin\hs_err_pid123.mdmp
+# Core dump will be written. Default location: D:\path\jboss\bin\hs_err_pid123.mdmp
 #
 # If you would like to submit a bug report, please visit:
 #   https://bugzilla.redhat.com/enter_bug.cgi
@@ -16,7 +16,7 @@
 
 ---------------  S U M M A R Y ------------
 
-Command Line: -Dprogram.name=standalone.bat -Xms8G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=400 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -Duser.language=en -Duser.region=US -Dfile.encoding=UTF-8 -Dclient.encoding.override=UTF-8 -Ddefault.client.encoding=UTF-8 -Djava.net.preferIPv4Stack=true -Djboss.modules.policy-permissions=true -Djboss.modules.system.pkgs=org.jboss.byteman -Dorg.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING=true -Djdk.tls.client.protocols=TLSv1,TLSv1.1,TLSv1.2 -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 -Dorg.apache.activemq.SERIALIZABLE_PACKAGES=* -Djboss.as.management.blocking.timeout=2700 -Djava.util.Arrays.useLegacyMergeSort=true -Dappli.log=D:\app\logs -Djboss.server.log.dir=D:\app\logs -Duser.home=D:\app -javaagent:D:\appdynamics\appagent\javaagent\javaagent.jar -Xlog:gc*:file="D:\app\logs\gc.log":time,uptimemillis:filecount=5,filesize=3M --add-exports=java.base/sun.nio.ch=ALL-UNNAMED --add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED --add-exports=jdk.unsupported/sun.reflect=ALL-UNNAMED -Dorg.jboss.boot.log.file=D:\app\logs\server.log -Dlogging.configuration=file:D:\app\jboss\standalone\configuration/logging.properties D:\App\jboss\jboss-modules.jar -mp D:\App\jboss\modules org.jboss.as.standalone -Djboss.home.dir=D:\App\jboss -Djboss.server.base.dir=D:\app\jboss\standalone --server-config=standalone.xml
+Command Line: -Dprogram.name=standalone.bat -Xms8G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=400 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -Duser.language=en -Duser.region=US -Dfile.encoding=UTF-8 -Dclient.encoding.override=UTF-8 -Ddefault.client.encoding=UTF-8 -Djava.net.preferIPv4Stack=true -Djboss.modules.policy-permissions=true -Djboss.modules.system.pkgs=org.jboss.byteman -Dorg.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING=true -Djdk.tls.client.protocols=TLSv1,TLSv1.1,TLSv1.2 -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 -Dorg.apache.activemq.SERIALIZABLE_PACKAGES=* -Djboss.as.management.blocking.timeout=2700 -Djava.util.Arrays.useLegacyMergeSort=true -Djboss.server.log.dir=D:\path\logs -Duser.home=D:\path -javaagent:D:\pathdynamics\appagent\javaagent\javaagent.jar -Xlog:gc*:file="D:\path\logs\gc.log":time,uptimemillis:filecount=5,filesize=3M --add-exports=java.base/sun.nio.ch=ALL-UNNAMED --add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED --add-exports=jdk.unsupported/sun.reflect=ALL-UNNAMED -Dorg.jboss.boot.log.file=D:\path\logs\server.log -Dlogging.configuration=file:D:\path\jboss\standalone\configuration/logging.properties D:\path\jboss\jboss-modules.jar -mp D:\path\jboss\modules org.jboss.as.standalone -Djboss.home.dir=D:\path\jboss -Djboss.server.base.dir=D:\path\jboss\standalone --server-config=standalone.xml
 
 Host: Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz, 4 cores, 13G,  Windows Server 2019 , 64 bit Build 17763 (10.0.17763.3287)
 Time: Wed Sep 28 11:06:07 2022 W. Australia Standard Time elapsed time: 49333 seconds (0d 13h 42m 13s)
@@ -399,13 +399,13 @@ Event: 49333.782 Executing VM operation: CGC_Operation
 
 
 Dynamic libraries:
-0x00007ff7598b0000 - 0x00007ff759912000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\java.exe
+0x00007ff7598b0000 - 0x00007ff759912000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\java.exe
 0x00007fff977e0000 - 0x00007fff979ce000 	C:\Windows\SYSTEM32\ntdll.dll
 0x00007fff94f90000 - 0x00007fff95043000 	C:\Windows\System32\KERNEL32.DLL
 0x00007fff93880000 - 0x00007fff93b1a000 	C:\Windows\System32\KERNELBASE.dll
 0x00007fff94500000 - 0x00007fff945fa000 	C:\Windows\System32\ucrtbase.dll
-0x00007fff7bd50000 - 0x00007fff7bd68000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\jli.dll
-0x00007fff7bc60000 - 0x00007fff7bc75000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\VCRUNTIME140.dll
+0x00007fff7bd50000 - 0x00007fff7bd68000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\jli.dll
+0x00007fff7bc60000 - 0x00007fff7bc75000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\VCRUNTIME140.dll
 0x00007fff94d90000 - 0x00007fff94f27000 	C:\Windows\System32\USER32.dll
 0x00007fff6fbc0000 - 0x00007fff6fe39000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.17763.3287_none_de7548d65347b682\COMCTL32.dll
 0x00007fff94600000 - 0x00007fff94620000 	C:\Windows\System32\win32u.dll
@@ -416,8 +416,8 @@ Dynamic libraries:
 0x00007fff95060000 - 0x00007fff9517d000 	C:\Windows\System32\RPCRT4.dll
 0x00007fff94300000 - 0x00007fff943a0000 	C:\Windows\System32\msvcp_win.dll
 0x00007fff93b20000 - 0x00007fff93ba2000 	C:\Windows\System32\bcryptPrimitives.dll
-0x00007fff72c10000 - 0x00007fff72cab000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\msvcp140.dll
-0x00007fff66550000 - 0x00007fff67080000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\server\jvm.dll
+0x00007fff72c10000 - 0x00007fff72cab000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\msvcp140.dll
+0x00007fff66550000 - 0x00007fff67080000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\server\jvm.dll
 0x00007fff951e0000 - 0x00007fff95287000 	C:\Windows\System32\ADVAPI32.dll
 0x00007fff97710000 - 0x00007fff977af000 	C:\Windows\System32\sechost.dll
 0x00007fff95050000 - 0x00007fff95058000 	C:\Windows\System32\PSAPI.DLL
@@ -428,13 +428,13 @@ Dynamic libraries:
 0x00007fff803a0000 - 0x00007fff803cd000 	C:\Windows\SYSTEM32\WINMMBASE.dll
 0x00007fff94450000 - 0x00007fff9449a000 	C:\Windows\System32\cfgmgr32.dll
 0x00007fff93860000 - 0x00007fff93871000 	C:\Windows\System32\kernel.appcore.dll
-0x00007fff843c0000 - 0x00007fff843d0000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\verify.dll
+0x00007fff843c0000 - 0x00007fff843d0000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\verify.dll
 0x00007fff88960000 - 0x00007fff88b4d000 	C:\Windows\SYSTEM32\DBGHELP.DLL
 0x00007fff88740000 - 0x00007fff8876a000 	C:\Windows\SYSTEM32\dbgcore.DLL
-0x00007fff7bc20000 - 0x00007fff7bc48000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\java.dll
-0x00007fff83980000 - 0x00007fff8398a000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\jimage.dll
-0x00007fff83930000 - 0x00007fff8393e000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\instrument.dll
-0x00007fff7bb20000 - 0x00007fff7bb37000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\zip.dll
+0x00007fff7bc20000 - 0x00007fff7bc48000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\java.dll
+0x00007fff83980000 - 0x00007fff8398a000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\jimage.dll
+0x00007fff83930000 - 0x00007fff8393e000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\instrument.dll
+0x00007fff7bb20000 - 0x00007fff7bb37000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\zip.dll
 0x00007fff95690000 - 0x00007fff96b86000 	C:\Windows\System32\SHELL32.dll
 0x00007fff95540000 - 0x00007fff955e7000 	C:\Windows\System32\shcore.dll
 0x00007fff93bb0000 - 0x00007fff942f7000 	C:\Windows\System32\windows.storage.dll
@@ -442,12 +442,12 @@ Dynamic libraries:
 0x00007fff93800000 - 0x00007fff9385d000 	C:\Windows\System32\powrprof.dll
 0x00007fff94f30000 - 0x00007fff94f82000 	C:\Windows\System32\shlwapi.dll
 0x00007fff94620000 - 0x00007fff94637000 	C:\Windows\System32\cryptsp.dll
-0x00007fff7d3f0000 - 0x00007fff7d3f9000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\management.dll
-0x00007fff7d370000 - 0x00007fff7d37b000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\management_ext.dll
-0x00007fff7b9d0000 - 0x00007fff7b9e9000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\net.dll
+0x00007fff7d3f0000 - 0x00007fff7d3f9000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\management.dll
+0x00007fff7d370000 - 0x00007fff7d37b000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\management_ext.dll
+0x00007fff7b9d0000 - 0x00007fff7b9e9000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\net.dll
 0x00007fff8f960000 - 0x00007fff8fa51000 	C:\Windows\SYSTEM32\WINHTTP.dll
 0x00007fff92fa0000 - 0x00007fff93007000 	C:\Windows\system32\mswsock.dll
-0x00007fff7b9b0000 - 0x00007fff7b9c2000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\nio.dll
+0x00007fff7b9b0000 - 0x00007fff7b9c2000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\nio.dll
 0x00007fff8b190000 - 0x00007fff8b1a6000 	C:\Windows\system32\napinsp.dll
 0x00007fff92cf0000 - 0x00007fff92db6000 	C:\Windows\SYSTEM32\DNSAPI.dll
 0x00007fff94c70000 - 0x00007fff94c78000 	C:\Windows\System32\NSI.dll
@@ -463,12 +463,12 @@ Dynamic libraries:
 0x00007fff93170000 - 0x00007fff9317c000 	C:\Windows\SYSTEM32\CRYPTBASE.dll
 0x00007fff8fe90000 - 0x00007fff8fea6000 	C:\Windows\SYSTEM32\dhcpcsvc6.DLL
 0x00007fff8fa60000 - 0x00007fff8fa7c000 	C:\Windows\SYSTEM32\dhcpcsvc.DLL
-0x00007fff7de80000 - 0x00007fff7de8e000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\sunmscapi.dll
+0x00007fff7de80000 - 0x00007fff7de8e000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\sunmscapi.dll
 0x00007fff94670000 - 0x00007fff94865000 	C:\Windows\System32\CRYPT32.dll
 0x00007fff937b0000 - 0x00007fff937c2000 	C:\Windows\System32\MSASN1.dll
 0x00007fff93270000 - 0x00007fff93296000 	C:\Windows\SYSTEM32\ncrypt.dll
 0x00007fff93230000 - 0x00007fff9326c000 	C:\Windows\SYSTEM32\NTASN1.dll
-0x00007fff7b990000 - 0x00007fff7b9a6000 	D:\app\java\java-11-openjdk-11.0.8.10-2\bin\sunec.dll
+0x00007fff7b990000 - 0x00007fff7b9a6000 	D:\path\java\java-11-openjdk-11.0.8.10-2\bin\sunec.dll
 0x00007fff77490000 - 0x00007fff774de000 	C:\Windows\System32\mssql-jdbc_auth-8.2.2.x64.dll
 0x00007fff970a0000 - 0x00007fff971f6000 	C:\Windows\System32\ole32.dll
 0x00007fff8f250000 - 0x00007fff8f25c000 	C:\Windows\system32\secur32.dll
@@ -481,12 +481,12 @@ Dynamic libraries:
 0x00007fff92780000 - 0x00007fff927b1000 	C:\Windows\SYSTEM32\ntmarta.dll
 
 dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
-symbol engine: initialized successfully - sym options: 0x614 - pdb patD: .;D:\app\java\java-11-openjdk-11.0.8.10-2\bin;C:\Windows\SYSTEM32;C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.17763.3287_none_de7548d65347b682;D:\app\java\java-11-openjdk-11.0.8.10-2\bin\server
+symbol engine: initialized successfully - sym options: 0x614 - pdb patD: .;D:\path\java\java-11-openjdk-11.0.8.10-2\bin;C:\Windows\SYSTEM32;C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.17763.3287_none_de7548d65347b682;D:\path\java\java-11-openjdk-11.0.8.10-2\bin\server
 
 VM Arguments:
-jvm_args: -Dprogram.name=standalone.bat -Xms8G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=400 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -Duser.language=en -Duser.region=US -Dfile.encoding=UTF-8 -Dclient.encoding.override=UTF-8 -Ddefault.client.encoding=UTF-8 -Djava.net.preferIPv4Stack=true -Djboss.modules.policy-permissions=true -Djboss.modules.system.pkgs=org.jboss.byteman -Dorg.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING=true -Djdk.tls.client.protocols=TLSv1,TLSv1.1,TLSv1.2 -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 -Dorg.apache.activemq.SERIALIZABLE_PACKAGES=* -Djboss.as.management.blocking.timeout=2700 -Djava.util.Arrays.useLegacyMergeSort=true -Dappli.log=D:\app\logs -Djboss.server.log.dir=D:\app\logs -Duser.home=D:\app -javaagent:D:\appdynamics\appagent\javaagent\javaagent.jar -Xlog:gc*:file="D:\app\logs\gc.log":time,uptimemillis:filecount=5,filesize=3M --add-exports=java.base/sun.nio.ch=ALL-UNNAMED --add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED --add-exports=jdk.unsupported/sun.reflect=ALL-UNNAMED -Dorg.jboss.boot.log.file=D:\app\logs\server.log -Dlogging.configuration=file:D:\app\jboss\standalone\configuration/logging.properties 
-java_command: D:\App\jboss\jboss-modules.jar -mp D:\App\jboss\modules org.jboss.as.standalone -Djboss.home.dir=D:\App\jboss -Djboss.server.base.dir=D:\app\jboss\standalone --server-config=standalone.xml
-java_class_path (initial): D:\App\jboss\jboss-modules.jar
+jvm_args: -Dprogram.name=standalone.bat -Xms8G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=400 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -Duser.language=en -Duser.region=US -Dfile.encoding=UTF-8 -Dclient.encoding.override=UTF-8 -Ddefault.client.encoding=UTF-8 -Djava.net.preferIPv4Stack=true -Djboss.modules.policy-permissions=true -Djboss.modules.system.pkgs=org.jboss.byteman -Dorg.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING=true -Djdk.tls.client.protocols=TLSv1,TLSv1.1,TLSv1.2 -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 -Dorg.apache.activemq.SERIALIZABLE_PACKAGES=* -Djboss.as.management.blocking.timeout=2700 -Djava.util.Arrays.useLegacyMergeSort=true -Dappli.log=D:\path\logs -Djboss.server.log.dir=D:\path\logs -Duser.home=D:\path -javaagent:D:\pathdynamics\appagent\javaagent\javaagent.jar -Xlog:gc*:file="D:\path\logs\gc.log":time,uptimemillis:filecount=5,filesize=3M --add-exports=java.base/sun.nio.ch=ALL-UNNAMED --add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED --add-exports=jdk.unsupported/sun.reflect=ALL-UNNAMED -Dorg.jboss.boot.log.file=D:\path\logs\server.log -Dlogging.configuration=file:D:\path\jboss\standalone\configuration/logging.properties 
+java_command: D:\path\jboss\jboss-modules.jar -mp D:\path\jboss\modules org.jboss.as.standalone -Djboss.home.dir=D:\path\jboss -Djboss.server.base.dir=D:\path\jboss\standalone --server-config=standalone.xml
+java_class_path (initial): D:\path\jboss\jboss-modules.jar
 Launcher Type: SUN_STANDARD
 
 [Global flags]
@@ -517,11 +517,11 @@ Logging:
 Log output configuration:
  #0: stdout all=warning uptime,level,tags
  #1: stderr all=off uptime,level,tags
- #2: file=D:\app\logs\gc.log all=off,gc*=info time,uptimemillis filecount=5,filesize=3072K
+ #2: file=D:\path\logs\gc.log all=off,gc*=info time,uptimemillis filecount=5,filesize=3072K
 
 Environment Variables:
-JAVA_HOME=D:\app\java\java-11-openjdk-11.0.8.10-2
-PATH=D:\app\java\java-11-openjdk-11.0.8.10-2\bin;D:\app\java\java-11-openjdk-11.0.8.10-2\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\system32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\rac\sysinternalssuite;C:\Users\myuser\AppData\Local\Microsoft\WindowsApps
+JAVA_HOME=D:\path\java\java-11-openjdk-11.0.8.10-2
+PATH=D:\path\java\java-11-openjdk-11.0.8.10-2\bin;D:\path\java\java-11-openjdk-11.0.8.10-2\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\system32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\rac\sysinternalssuite;C:\Users\myuser\AppData\Local\Microsoft\WindowsApps
 USERNAME=username
 OS=Windows_NT
 PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 85 Stepping 7, GenuineIntel

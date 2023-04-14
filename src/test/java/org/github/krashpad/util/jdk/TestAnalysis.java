@@ -961,8 +961,8 @@ class TestAnalysis {
         long directMemoryMax = JdkUtil.convertSize(0, 'G', org.github.joa.util.Constants.UNITS);
         assertEquals(directMemoryMax, fel.getDirectMemoryMaxSize(), "Direct Memory mx not correct.");
         assertEquals(1024, fel.getThreadStackSize(), "Thread stack size not correct.");
-        assertEquals(225, fel.getJavaThreadCount(), "Thread count not correct.");
-        long threadMemory = JdkUtil.convertSize(1024 * 225, 'K', org.github.joa.util.Constants.UNITS);
+        assertEquals(2, fel.getJavaThreadCount(), "Thread count not correct.");
+        long threadMemory = JdkUtil.convertSize(1024 * 2, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(threadMemory, fel.getThreadStackMemory(), "Thread memory not correct.");
         long codeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.UNITS);
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
@@ -1893,8 +1893,8 @@ class TestAnalysis {
         long directMemoryMax = JdkUtil.convertSize(0, 'G', org.github.joa.util.Constants.UNITS);
         assertEquals(directMemoryMax, fel.getDirectMemoryMaxSize(), "Direct Memory mx not correct.");
         assertEquals(1024, fel.getThreadStackSize(), "Thread stack size not correct.");
-        assertEquals(67, fel.getJavaThreadCount(), "Thread count not correct.");
-        long threadMemory = JdkUtil.convertSize(1024 * 67, 'K', org.github.joa.util.Constants.UNITS);
+        assertEquals(55, fel.getJavaThreadCount(), "Thread count not correct.");
+        long threadMemory = JdkUtil.convertSize(1024 * 55, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(threadMemory, fel.getThreadStackMemory(), "Thread memory not correct.");
         long codeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.UNITS);
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
