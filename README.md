@@ -94,18 +94,20 @@ Vendor: RED_HAT
 VM State: not at safepoint (normal execution)
 Crash Date: Tue Dec  1 14:30:22 2020 KST
 Run Time: 0d 0h 13m 8s
-Garbage Collector(s): PARALLEL_SCAVENGE, PARALLEL_OLD
+Garbage Collectors: PARALLEL_SCAVENGE, PARALLEL_OLD
 Heap Max: 1024M
 Heap Allocation: 972M (95% Heap Max)
+Heap Used: 513M (53% Heap Allocation)
 Heap Starting Address: 3072M
 Compressed oops mode: BIT32
 Metaspace Max: 256M
 Metaspace Allocation: 84M (33% Metaspace Max)
 Metaspace Used: 77M (92% Metaspace Allocation)
 Thread Stack Size: 1024K
-Thread Stack Memory: 136M
+# Java threads: 2
+Thread Stack Memory: 2M
 Code Cache Max: 420M
-JVM Memory Max: >1836M (7% OS Memory)
+JVM Memory Max: >1702M (7% OS Memory)
 ========================================
 Application:
 ----------------------------------------
@@ -115,9 +117,8 @@ JVM Args: -Dcall_P203 -Xms1024m -Xmx1024m -XX:MetaspaceSize=256m -XX:MaxMetaspac
 Threads:
 ----------------------------------------
 Current thread: JavaThread "domain-10" daemon [_thread_in_native, id=25945, stack(0x00007fa1bf03b000,0x00007fa1bf13c000)]
-# Java threads: 136
 ========================================
-Error(s):
+Errors:
 ----------------------------------------
 #  SIGSEGV (0xb) at pc=0x00007fa2a4353667, pid=25779, tid=0x00007fa1bf13b700
 # C  [libc.so.6+0x14d667]  __memcpy_ssse3+0xb57
@@ -140,26 +141,28 @@ ANALYSIS:
 ----------------------------------------
 error
 ----------------------------------------
-*There is an application or operations invalid use case resulting in an attempt to modify a file while Java has it open. A workaround to avoid the crash is to disable memory mapping in ZipFile with -Dsun.zip.disableMemoryMapping=true (at the cost of some loss in performance), or upgrade to JDK 11. Backporting a fix to JDK8 would not address the root cause, and the OpenJDK developers have determined it is too risky. References: (1) https://access.redhat.com/solutions/65104. (2) https://bugs.openjdk.java.net/browse/JDK-8142508.
+*There is an application or operations invalid use case resulting in an attempt to modify a file while Java has it open. A workaround to avoid the crash is to disable memory mapping in ZipFile with -Dsun.zip.disableMemoryMapping=true (at the cost of some loss in performance), or upgrade to JDK 11. Backporting a fix to JDK8 would not address the root cause, and the OpenJDK developers have determined it is too risky. References: (1) https://access.redhat.com/solutions/6983666. (2) https://bugs.openjdk.org/browse/JDK-8145260.
 ----------------------------------------
 warn
 ----------------------------------------
-*JDK is not the latest version. Latest version is 1.8.0_345-b01 (newer by 14 versions and 1169 days).
+*JDK is not the latest version. Latest version is 1.8.0_362-b08 (newer by 16 versions and 1332 days).
+*Unidentified log line(s). Please submit an issue so we can investigate: https://github.com/mgm3746/krashpad/issues. If attaching a fatal error log, be sure to review it and remove any sensitive information.
 *The fatal error log is very old (>30 days).
-*MaxMetaspaceSize is less than CompressedClassSpaceSize. MaxMetaspaceSize includes CompressedClassSpaceSize, so MaxMetaspaceSize should be larger than CompressedClassSpaceSize. If MaxMetaspaceSize is set smaller than CompressedClassSpaceSize, the JVM auto adjusts CompressedClassSpaceSize as follows: CompressedClassSpaceSize = MaxMetaspaceSize - (2 * InitialBootClassLoaderMetaspaceSize).
+*MaxMetaspaceSize < CompressedClassSpaceSize, resulting in the JVM adjusting down the Class Metadata and Compressed Class Space sizes as follows: CompressedClassSpaceSize' = MaxMetaspaceSize(256M) - [2 * InitialBootClassLoaderMetaspaceSize(4M)] = 248M. Class Metadata Size' = MaxMetaspaceSize(256M) - CompressedClassSpaceSize'(248M) = 8M.
 *The gc log file has a static name and will be overwritten on JVM startup. Enable log file rotation and/or include process id or datestamp in the file name (e.g. -Xloggc:gc_%p_%t.log).
+*Consider enabling gc log file rotation (-XX:+UseGCLogFileRotation -XX:GCLogFileSize=N[K|M|G] -XX:NumberOfGCLogFiles=N) to protect disk space.
 ----------------------------------------
 info
 ----------------------------------------
 *Red Hat build of OpenJDK rpm install.
-*The JDK is very old (>1 yr). Has the application been running without issue in production for a long time? Has something changed recently (e.g. application upgrade, load, etc.) that might have triggered the issue?
+*The JDK is very old (3.9 years). Has the application been running without issue in production for a long time? Has something changed recently (e.g. application upgrade, load, etc.) that might have triggered the issue?
+*Signal number SIGSEGV: Segmentation fault. Accessing valid memory in an invalid way.
 *Initial and/or max metaspace size is set. This is generally not recommended. Reference: https://access.redhat.com/solutions/1489263.
-*Metaspace includes class metadata plus compressed class space.
+*Metaspace(256M) = Class Metadata(8M) + Compressed Class Space(248M).
 *The -XX:+PrintHeapAtGC option is causing additional heap information to be output in the gc log. The additional data is not typically used for gc analysis. If there is not a good use case for enabling this option, remove it to reduce gc logging overhead.
-*Diagnostic JVM options are enabled with -XX:+UnlockDiagnosticVMOptions. Diagnostic options add additional overhead and are intended for troubleshooting issues, not general production use.
-*Consider enabling gc log file rotation with GC log file rotation (-XX:+UseGCLogFileRotation -XX:GCLogFileSize=N[K|M|G] -XX:NumberOfGCLogFiles=N) to protect disk space.
+*Diagnostic options. The following should be removed when relevant troubleshooting is completed, as they add additional overhead and are not recommended/supported for general production use: -XX:+UnlockDiagnosticVMOptions -XX:+LogVMOutput.
 ========================================
-1 UNIDENTIFIED LOG LINE(S):
+1 UNIDENTIFIED LOG LINES:
 ----------------------------------------
 MGM was here!
 ========================================
