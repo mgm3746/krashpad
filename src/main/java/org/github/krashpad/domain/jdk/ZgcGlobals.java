@@ -16,43 +16,44 @@ package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkRegEx;
+import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * VM_OPERATION_EVENT
+ * ZGC_GLOBALS
  * </p>
  * 
  * <p>
- * VM operations leading up to the crash.
+ * ZGC globals information.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * VM Operations (2 events):
- * Event: 31.627 Executing VM operation: HandshakeAllThreads done
+ * ZGC Globals:
+ *  GlobalPhase:       2 (Relocate)
+  * GlobalSeqNum:      753
+  * Offset Max:        16384G (0x0000100000000000)
+  * Page Size Small:   2M
+  * Page Size Medium:  32M
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class VmOperationEvent implements LogEvent, HeaderEvent {
+public class ZgcGlobals implements LogEvent, ThrowAwayEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "VM Operations \\(\\d{1,} events\\):";
-
-    private static final String _REGEX_OPERATIONS = "(Cleanup|FindDeadlocks|HandshakeAllThreads|ICBufferFull|PrintJNI|"
-            + "PrintThreads|ZMarkEnd|ZRelocateStart)";
+    private static final String _REGEX_HEADER = "ZGC Globals:";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
-            + " Executing VM operation: " + _REGEX_OPERATIONS + ".*|No [Ee]vents)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|"
+            + " (GlobalPhase|GlobalSeqNum|Offset Max|Page Size (Medium|Small)):.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -76,7 +77,7 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public VmOperationEvent(String logEntry) {
+    public ZgcGlobals(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -85,7 +86,7 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.VM_OPERATION_EVENT.toString();
+        return JdkUtil.LogEventType.ZGC_GLOBALS.toString();
     }
 
     @Override

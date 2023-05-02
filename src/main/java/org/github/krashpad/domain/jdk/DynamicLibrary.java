@@ -29,7 +29,8 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <p>
- * Virtual memory regions at the time of the crash.
+ * Virtual memory regions at the time of the crash. The number of lines is the number of memory map areas, limited by
+ * max_map_count ({@link org.github.krashpad.domain.jdk.MaxMapCount}).
  * </p>
  * 
  * <p>

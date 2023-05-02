@@ -1,0 +1,48 @@
+Register to memory mapping:
+RAX=0x00007f4f625c8000 points into unknown readable memory: 0x0000000000000058 | 58 00 00 00 00 00 00 00
+RBX=0x00007f3b815e8e74 is pointing into the stack for thread: 0x00007f2a3021a7f0
+RCX=0x00007f4f61ac5af7: mmap64+0x0000000000000047 in /lib64/libc.so.6 at 0x00007f4f6199b000
+RDX=0xffffffffffffff78 is an unknown value
+RSP=0x00007f3b815e8e70 is pointing into the stack for thread: 0x00007f2a3021a7f0
+RBP=0x00007f3b815e8e90 is pointing into the stack for thread: 0x00007f2a3021a7f0
+RSI=0x0000000000200000 is an unknown value
+RDI=0x00007f3b815e8e74 is pointing into the stack for thread: 0x00007f2a3021a7f0
+R8 =0x0000000000000006 is an unknown value
+R9 =0x0000032438800000 is an unknown value
+R10=0x0000000000000011 is an unknown value
+R11=0x0000000000000206 is an unknown value
+R12=0x00007f4f5803e8a0 points into unknown readable memory: 0x0000000000000006 | 06 00 00 00 00 00 00 00
+R13=0x00007f148f574498 points into unknown readable memory: 0x0000002000000013 | 13 00 00 00 20 00 00 00
+R14=0x000000000000000a is an unknown value
+R15=18874368 is a compressed pointer to class: 0x0000000801200000
+com.example.MyClass$anon$exportedDoer$macro$1234$1$$Lambda$5678/0x0000000801200000 {0x0000000801200000}
+ - instance size:     3
+ - klass size:        90
+ - access:            final synchronized synthetic
+ - state:             fully_initialized
+ - name:              'com.example.MyClass$anon$exportedDoer$macro$1234$1$$Lambda$5678+0x0000000801200000'
+ - super:             'java/lang/Object'
+ - sub:
+ - arrays:            NULL
+ - methods:           Array<T>(0x00007f4265243db0)
+ - method ordering:   Array<T>(0x00000008008fe850)
+ - default_methods:   Array<T>(0x00007f4265244060)
+ - default vtable indices:   Array<T>(0x00007f42652440b0)
+ - local interfaces:  Array<T>(0x00007f4265243d80)
+ - trans. interfaces: Array<T>(0x00007f4265244040)
+ - constants:         constant pool [43] {0x00007f4265243ba8} for 'com.example.MyClass$anon$exportedDoer$macro$1234$1$$Lambda$5678+0x0000000801200000' cache=0x00007f42652440d8
+ - class loader data:  loader data: 0x00007f4f583a6f50 for instance a 'org/springframework/boot/loader/LaunchedURLClassLoader'{0x00004fff66f00000}
+ - class annotations:       Array<T>(0x0000000000000000)
+ - class type annotations:  Array<T>(0x0000000000000000)
+ - field annotations:       Array<T>(0x0000000000000000)
+ - field type annotations:  Array<T>(0x0000000000000000)
+ - inner classes:     Array<T>(0x00000008005c70f8)
+ - nest members:     Array<T>(0x00000008005c70f8)
+ - permitted subclasses:     Array<T>(0x00000008005c70f8)
+ - java mirror:       a 'java/lang/Class'{0x00004c745fabebc0} = 'com.example.MyClass$anon$exportedDoer$macro$1234$1$$Lambda$5678+0x0000000801200000'
+ - vtable length      14  (start addr: 0x00000008012001d0)
+ - itable length      17 (start addr: 0x0000000801200240)
+ - ---- static fields (0 words):
+ - ---- non-static fields (1 words):
+ - private final 'arg$1' 'Lcom.example.MyClass$anon$exportedDoer$macro$1234$1;' @16
+ - non-static oop maps: 16-16

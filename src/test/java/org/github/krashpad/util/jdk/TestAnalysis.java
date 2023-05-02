@@ -35,6 +35,7 @@ import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.Header;
 import org.github.krashpad.domain.jdk.Heap;
 import org.github.krashpad.domain.jdk.LdPreloadFile;
+import org.github.krashpad.domain.jdk.MaxMapCount;
 import org.github.krashpad.domain.jdk.Meminfo;
 import org.github.krashpad.domain.jdk.Memory;
 import org.github.krashpad.domain.jdk.OsInfo;
@@ -1588,6 +1589,29 @@ class TestAnalysis {
         fel.getStackSlotToMemoryMappings().add(stackSlotToMemoryMappingEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_LUCENE.getKey()), Analysis.WARN_LUCENE + " analysis not identified.");
+    }
+
+    @Test
+    void testMaxMapCountLimit() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String maxMapCount = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 5";
+        MaxMapCount maxMapCountEvent = new MaxMapCount(maxMapCount);
+        fel.setMaxMapCount(maxMapCountEvent);
+        String dynamicLibrary1 = "800bb6000-800c00000 ---p 00000000 00:00 0";
+        DynamicLibrary dynamicLibraryEvent1 = new DynamicLibrary(dynamicLibrary1);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent1);
+        String dynamicLibrary2 = "800c00000-800c20000 rw-p 00000000 00:00 0";
+        DynamicLibrary dynamicLibraryEvent2 = new DynamicLibrary(dynamicLibrary2);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent2);
+        String dynamicLibrary3 = "800c20000-800c40000 rw-p 00000000 00:00 0";
+        DynamicLibrary dynamicLibraryEvent3 = new DynamicLibrary(dynamicLibrary3);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent3);
+        String dynamicLibrary4 = "800c40000-800cc0000 rw-p 00000000 00:00 0";
+        DynamicLibrary dynamicLibraryEvent4 = new DynamicLibrary(dynamicLibrary4);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent4);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_LIMIT + " analysis not identified.");
     }
 
     @Test

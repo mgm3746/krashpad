@@ -72,7 +72,7 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|[ ]{0,}(bool|ccstr|ccstrlist|intx|size_t|uint|uintx))(.*)$";
+            + "|[ ]{0,}(bool|ccstr|ccstrlist|double|intx|size_t|uint|uintx))(.*)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

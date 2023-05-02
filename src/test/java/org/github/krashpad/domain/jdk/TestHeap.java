@@ -87,6 +87,17 @@ class TestHeap {
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
         assertTrue(logLine.matches(JdkRegEx.G1), "G1 heap event not recognized.");
     }
+    
+    
+    @Test
+    void testZgc() {
+        Heap priorEvent = new Heap(null);
+        String logLine = " ZHeap           used 3999154M, capacity 4710400M, max capacity 4710400M";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
+                JdkUtil.LogEventType.HEAP.toString() + " not identified.");
+        assertTrue(logLine.matches(JdkRegEx.Z), "Z heap event not recognized.");
+    }
+    
 
     @Test
     void testG1Region() {

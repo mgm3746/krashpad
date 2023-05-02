@@ -95,4 +95,12 @@ class TestGlobalFlag {
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GlobalFlag,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not parsed.");
     }
+
+    @Test
+    void testSweeperThreshold() {
+        String logLine = "   double SweeperThreshold                         = 0.058594"
+                + "                                  {product} {ergonomic}";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
+                JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
+    }
 }

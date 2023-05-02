@@ -106,6 +106,9 @@ import org.github.krashpad.domain.jdk.VmMutex;
 import org.github.krashpad.domain.jdk.VmOperation;
 import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.domain.jdk.VmState;
+import org.github.krashpad.domain.jdk.ZgcGlobals;
+import org.github.krashpad.domain.jdk.ZgcMetadataBits;
+import org.github.krashpad.domain.jdk.ZgcPageTable;
 import org.github.krashpad.util.Constants.OsVersion;
 
 /**
@@ -234,7 +237,7 @@ public class JdkUtil {
         //
         TOP_OF_STACK, TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
         //
-        VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE
+        VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE
     }
 
     /**
@@ -1836,8 +1839,8 @@ public class JdkUtil {
             logEventType = LogEventType.PROCESS_MEMORY;
         } else if (Register.match(logLine)) {
             logEventType = LogEventType.REGISTER;
-        } else if (RegisterToMemoryMapping.match(logLine) || (priorEvent instanceof RegisterToMemoryMapping
-                && (logLine.matches(JdkRegEx.CLASS) || logLine.matches(JdkRegEx.MEMORY_MAPPING)))) {
+        } else if (RegisterToMemoryMapping.match(logLine) && (logLine.matches(RegisterToMemoryMapping._REGEX_HEADER)
+                || priorEvent instanceof RegisterToMemoryMapping)) {
             logEventType = LogEventType.REGISTER_TO_MEMORY_MAPPING;
         } else if (Rlimit.match(logLine)) {
             logEventType = LogEventType.RLIMIT;
@@ -1847,8 +1850,8 @@ public class JdkUtil {
             logEventType = LogEventType.SIGNAL_HANDLERS;
         } else if (Stack.match(logLine)) {
             logEventType = LogEventType.STACK;
-        } else if (StackSlotToMemoryMapping.match(logLine)
-                || (priorEvent instanceof StackSlotToMemoryMapping) && logLine.matches(JdkRegEx.MEMORY_MAPPING)) {
+        } else if (StackSlotToMemoryMapping.match(logLine) && (logLine.matches(StackSlotToMemoryMapping._REGEX_HEADER)
+                || priorEvent instanceof StackSlotToMemoryMapping)) {
             logEventType = LogEventType.STACK_SLOT_TO_MEMORY_MAPPING;
         } else if (Thread.match(logLine)) {
             logEventType = LogEventType.THREAD;
@@ -1887,8 +1890,19 @@ public class JdkUtil {
             logEventType = LogEventType.VM_OPERATION_EVENT;
         } else if (VmState.match(logLine)) {
             logEventType = LogEventType.VM_STATE;
-        } else if (VirtualizationInfo.match(logLine)) {
+        } else if (VirtualizationInfo.match(logLine)
+                && (logLine.matches(VirtualizationInfo._REGEX_HEADER) || priorEvent instanceof VirtualizationInfo)) {
             logEventType = LogEventType.VIRTUALIZATION_INFO;
+        } else if (ZgcGlobals.match(logLine)) {
+            logEventType = LogEventType.ZGC_GLOBALS;
+        } else if (ZgcMetadataBits.match(logLine)) {
+            logEventType = LogEventType.ZGC_METADATA_BITS;
+        } else if (ZgcGlobals.match(logLine)) {
+            logEventType = LogEventType.ZGC_GLOBALS;
+        } else if (ZgcMetadataBits.match(logLine)) {
+            logEventType = LogEventType.ZGC_METADATA_BITS;
+        } else if (ZgcPageTable.match(logLine)) {
+            logEventType = LogEventType.ZGC_PAGE_TABLE;
         }
         return logEventType;
     }
@@ -2232,6 +2246,15 @@ public class JdkUtil {
             break;
         case VIRTUALIZATION_INFO:
             event = new VirtualizationInfo(logLine);
+            break;
+        case ZGC_GLOBALS:
+            event = new ZgcGlobals(logLine);
+            break;
+        case ZGC_METADATA_BITS:
+            event = new ZgcMetadataBits(logLine);
+            break;
+        case ZGC_PAGE_TABLE:
+            event = new ZgcPageTable(logLine);
             break;
         default:
             throw new AssertionError("Unexpected event type value: " + eventType);

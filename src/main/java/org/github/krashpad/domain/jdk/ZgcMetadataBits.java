@@ -16,43 +16,43 @@ package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkRegEx;
+import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * VM_OPERATION_EVENT
+ * ZGC_METADAT_BITS
  * </p>
  * 
  * <p>
- * VM operations leading up to the crash.
+ * ZGC metadata bits information.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * VM Operations (2 events):
- * Event: 31.627 Executing VM operation: HandshakeAllThreads done
+ * ZGC Metadata Bits:
+ *  Good:              0x0000400000000000
+ *  Bad:               0x0000b00000000000
+ *  WeakBad:           0x0000300000000000
+ *  Marked:            0x0000100000000000
+ *  Remapped:          0x0000400000000000
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class VmOperationEvent implements LogEvent, HeaderEvent {
+public class ZgcMetadataBits implements LogEvent, ThrowAwayEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "VM Operations \\(\\d{1,} events\\):";
-
-    private static final String _REGEX_OPERATIONS = "(Cleanup|FindDeadlocks|HandshakeAllThreads|ICBufferFull|PrintJNI|"
-            + "PrintThreads|ZMarkEnd|ZRelocateStart)";
+    private static final String _REGEX_HEADER = "ZGC Metadata Bits:";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
-            + " Executing VM operation: " + _REGEX_OPERATIONS + ".*|No [Ee]vents)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + " (Bad|Good|Marked|Remapped|WeakBad):.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -76,7 +76,7 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public VmOperationEvent(String logEntry) {
+    public ZgcMetadataBits(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -85,7 +85,7 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.VM_OPERATION_EVENT.toString();
+        return JdkUtil.LogEventType.ZGC_METADATA_BITS.toString();
     }
 
     @Override

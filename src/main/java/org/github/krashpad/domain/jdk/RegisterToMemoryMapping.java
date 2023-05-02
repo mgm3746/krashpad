@@ -61,18 +61,22 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "Register to memory mapping:";
+    public static final String _REGEX_HEADER = "Register to memory mapping:";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.REGISTER
             + "|Adapter for signature:.+|\\[[BCIL]([a-z]{1,}\\..+)?|BufferBlob.+|\\[CodeBlob.+|Framesize.+|"
-            + " - (klass|length):.+|\\{" + JdkRegEx.ADDRESS
+            + " - (---- non-static fields \\(\\d{1,} words\\)|---- static fields \\(\\d{1,} words\\)|access|arrays|"
+            + "class annotations|class loader data|class type annotations|constants|default_methods|"
+            + "default vtable indices|field annotations|field type annotations|inner classes|instance size|java mirror|"
+            + "klass|klass size|length|local interfaces|method ordering|methods|name|nest members|non-static oop maps|"
+            + "permitted subclasses|state|sub|super|trans\\. interfaces):.*|\\{" + JdkRegEx.ADDRESS
             + "\\} - klass:.+|([R|r][ ]{0,1}\\d{1,2}[ ]{0,1}|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
             + "\\[error occurred during error reporting \\(printing register info\\).+|exception handling.+|"
-            + "invoke return entry points.+|method entry point.+|(i)?return.+|StubRoutines.+|"
-            + "([a-zA-Z]\\.{0,1}){1,})[ ]{0,}$";
+            + "invoke return entry points.+| - itable length.+|method entry point.+|(i)?return.+| - private final.+|"
+            + "StubRoutines.+| - vtable length.+|" + JdkRegEx.CLASS + ".*)[ ]{0,}$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

@@ -26,6 +26,27 @@ import org.junit.jupiter.api.Test;
 class TestGcPreciousLog {
 
     @Test
+    void testAddressSpaceSize() {
+        String logLine = " Address Space Size: 16777216M x 3 = 50331648M";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testAddressSpaceType() {
+        String logLine = " Address Space Type: Contiguous/Unrestricted/Complete";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testAvailableSpaceOnBackingFilesystem() {
+        String logLine = " Available space on backing filesystem: N/A";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testCompressedOops() {
         String logLine = " Compressed Oops: Enabled (Zero based)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
@@ -49,6 +70,20 @@ class TestGcPreciousLog {
     @Test
     void testCpus() {
         String logLine = " CPUs: 12 total, 12 available";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testHeapBackingFile() {
+        String logLine = " Heap Backing File: /memfd:java_heap.hugetlb";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testHeapBackingFilesystem() {
+        String logLine = " Heap Backing Filesystem: hugetlbfs (0x958458f6)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     }
@@ -89,6 +124,13 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testInitialCapacity() {
+        String logLine = " Initial Capacity: 471040M";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testLargePageSupport() {
         String logLine = " Large Page Support: Disabled";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
@@ -96,8 +138,36 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testMaxCapacity() {
+        String logLine = " Max Capacity: 4710400M";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testMediumPageSize() {
+        String logLine = " Medium Page Size: 32M";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testMemory() {
         String logLine = " Memory: 31907M";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testMinCapacity() {
+        String logLine = " Min Capacity: 471040M";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testNumaNodes() {
+        String logLine = " NUMA Nodes: 4";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     }
@@ -133,6 +203,20 @@ class TestGcPreciousLog {
     @Test
     void testPreTouch() {
         String logLine = " Pre-touch: Disabled";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testRuntimeWorkers() {
+        String logLine = " Runtime Workers: 135";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testUncommit() {
+        String logLine = " Uncommit: Implicitly Disabled (-Xms equals -Xmx)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     }

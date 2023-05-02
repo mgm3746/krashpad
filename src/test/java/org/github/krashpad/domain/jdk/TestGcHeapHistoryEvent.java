@@ -104,4 +104,12 @@ class TestGcHeapHistoryEvent {
         assertTrue(JdkUtil.parseLogLine(logLine, priorEvent) instanceof GcHeapHistoryEvent,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not parsed.");
     }
+
+    @Test
+    void testZgc() {
+        GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
+        String logLine = " ZHeap           used 3385840M, capacity 4710400M, max capacity 4710400M";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
+                JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
+    }
 }

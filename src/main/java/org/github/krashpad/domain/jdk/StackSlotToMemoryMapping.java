@@ -15,6 +15,7 @@
 package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
@@ -46,15 +47,17 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class StackSlotToMemoryMapping implements LogEvent {
 
     /**
-     * Regular expression defining the logging.
+     * Regular expression for the header.
+     * 
      */
-    private static final String REGEX = "^(" + StackSlotToMemoryMapping.REGEX_HEADER
-            + "|stack at sp|\\[error occurred during error reporting \\(inspecting top of stack\\)).*$";
+    public static final String _REGEX_HEADER = "Stack slot to memory mapping:";
 
     /**
-     * Regular expression for the header.
+     * Regular expression defining the logging.
      */
-    private static final String REGEX_HEADER = "Stack slot to memory mapping:";
+    private static final String REGEX = "^(" + StackSlotToMemoryMapping._REGEX_HEADER
+            + "|stack at sp|\\[error occurred during error reporting \\(inspecting top of stack\\)|method entry point|"
+            + JdkRegEx.CLASS + ").*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

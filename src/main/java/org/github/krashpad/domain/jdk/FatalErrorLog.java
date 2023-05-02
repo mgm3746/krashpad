@@ -1343,6 +1343,13 @@ public class FatalErrorLog {
         if (!getNativeLibrariesJBoss().isEmpty()) {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_JBOSS);
         }
+        // Check max_map_count limit
+        if (getMaxMapCountLimit() > 0 && !getDynamicLibraries().isEmpty()) {
+            // Using "5" to represent "close in value"
+            if (getMaxMapCountLimit() - getDynamicLibraries().size() < 5) {
+                analysis.add(Analysis.WARN_MAX_MAP_COUNT_LIMIT);
+            }
+        }
     }
 
     /**
@@ -2419,6 +2426,18 @@ public class FatalErrorLog {
                         }
                         heapAllocation += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
                     }
+                } else if (event.isZ()) {
+                    pattern = Pattern.compile(JdkRegEx.Z_SIZE);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(4));
+                        if (matcher.group(6) != null) {
+                            fromUnits = matcher.group(6).charAt(0);
+                        } else {
+                            fromUnits = 'B';
+                        }
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                    }
                 }
             }
         }
@@ -2607,6 +2626,22 @@ public class FatalErrorLog {
                         value = Long.parseLong(matcher.group(5));
                         if (matcher.group(7) != null) {
                             fromUnits = matcher.group(7).charAt(0);
+                        } else {
+                            fromUnits = 'B';
+                        }
+                        if (heapUsed == Long.MIN_VALUE) {
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                        } else {
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                        }
+                    }
+                } else if (event.isZ()) {
+                    pattern = Pattern.compile(JdkRegEx.Z);
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(1));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
                         } else {
                             fromUnits = 'B';
                         }

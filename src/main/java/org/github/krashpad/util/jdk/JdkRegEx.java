@@ -655,6 +655,7 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_DIR = "(" + JdkRegEx.RH_RPM_OPENJDK8_DIR + "|" + JdkRegEx.RH_RPM_OPENJDK11_DIR
             + "|" + JdkRegEx.RH_RPM_OPENJDK17_DIR + ")";
+
     /**
      * Red Hat OpenJDK 17 rpm directory.
      * 
@@ -672,7 +673,6 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d{1,2}\\.\\d{1,2}"
             + "(\\.\\d{1,2})?-\\d\\.el([789])(_(\\d{1,2}))?\\.x86_64)";
-
     /**
      * Red Hat OpenJDK 11 rpm libjvm.so file path.
      * 
@@ -904,4 +904,21 @@ public class JdkRegEx {
      */
     public static final String YOUNG_GEN_SIZE = " ((def|par) new generation|PSYoungGen)[ ]{1,6}total " + JdkRegEx.SIZE
             + ", used " + JdkRegEx.SIZE + ".+";
+
+    /**
+     * Regular expression for Z gc data.
+     * 
+     * <pre>
+     *  ZHeap           used 3999154M, capacity 4710400M, max capacity 4710400M
+     * </pre>
+     */
+    public static final String Z = " ZHeap[ ]{1,}used " + JdkRegEx.SIZE + ", capacity " + JdkRegEx.SIZE
+            + ", max capacity " + JdkRegEx.SIZE;
+
+    /**
+     * Regular expression for Z heap size data (convenience variable).
+     * 
+     */
+    public static final String Z_SIZE = Z;
+
 }

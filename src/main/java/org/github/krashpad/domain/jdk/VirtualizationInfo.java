@@ -52,8 +52,10 @@ public class VirtualizationInfo implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
+     * 
+     * When there is not header, use the first line output (e.g. 'Steal ticks...').
      */
-    private static final String _REGEX_HEADER = "(Hyper[-]{0,1}V|KVM|VMWare) virtualization detected";
+    public static final String _REGEX_HEADER = "((Hyper[-]{0,1}V|KVM|VMWare) virtualization detected|Steal ticks.+)";
 
     /**
      * Regular expression defining the logging.

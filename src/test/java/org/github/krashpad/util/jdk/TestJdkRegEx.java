@@ -416,6 +416,18 @@ class TestJdkRegEx {
     }
 
     @Test
+    void testSize2Kb() {
+        String address = "3.00 KB";
+        assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
+    }
+
+    @Test
+    void testSize2Mb() {
+        String address = "395.36 MB";
+        assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
+    }
+
+    @Test
     void testSizeGb() {
         String address = "1.00 GB";
         assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
@@ -428,15 +440,9 @@ class TestJdkRegEx {
     }
 
     @Test
-    void testSizeKb() {
-        String address = "3.00 KB";
-        assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
-    }
-
-    @Test
-    void testSizeMb() {
-        String address = "395.36 MB";
-        assertTrue(address.matches(JdkRegEx.SIZE2), "SIZE2 not recognized.");
+    void testSizeMbWholeNumber() {
+        String address = "4710400M";
+        assertTrue(address.matches(JdkRegEx.SIZE), "SIZE not recognized.");
     }
 
     @Test
@@ -479,5 +485,11 @@ class TestJdkRegEx {
     void testTimestampWithNoDecimal() {
         String timestamp = "11234";
         assertFalse(timestamp.matches(JdkRegEx.TIMESTAMP), "Timestamps have 3 decimal places.");
+    }
+
+    @Test
+    void testZ() {
+        String heap = " ZHeap           used 3999154M, capacity 4710400M, max capacity 4710400M";
+        assertTrue(heap.matches(JdkRegEx.Z), "Z heap data not recognized.");
     }
 }

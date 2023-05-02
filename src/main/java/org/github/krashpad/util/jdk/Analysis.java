@@ -807,6 +807,12 @@ public enum Analysis {
     WARN_LUCENE("warn.lucene"),
 
     /**
+     * Property key for the number of memory map areas (lines) output in the Dynamic Libraries section very close to the
+     * max_map_count limit.
+     */
+    WARN_MAX_MAP_COUNT_LIMIT("warn.max.map.count.limit"),
+
+    /**
      * Property key mmapped files in a deleted state.
      */
     WARN_MMAP_DELETED("warn.mmap.deleted"),

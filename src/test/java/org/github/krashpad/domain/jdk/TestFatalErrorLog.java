@@ -1400,4 +1400,18 @@ class TestFatalErrorLog {
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
+
+    @Test
+    void testZ() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String heap = " ZHeap           used 39991M, capacity 47104M, max capacity 47104M";
+        Heap heapEvent = new Heap(heap);
+        fel.getHeaps().add(heapEvent);
+        long heapUsed = JdkUtil.convertSize(39991, 'M', org.github.joa.util.Constants.UNITS);
+        assertEquals(heapUsed, fel.getHeapUsed(), "Heap used not correct.");
+        long heapAllocation = JdkUtil.convertSize(47104, 'M', org.github.joa.util.Constants.UNITS);
+        assertEquals(heapAllocation, fel.getHeapAllocation(), "Heap allocation not correct.");
+        long heapMax = JdkUtil.convertSize(47104, 'M', org.github.joa.util.Constants.UNITS);
+        assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
+    }
 }

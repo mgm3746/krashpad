@@ -34,6 +34,14 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testFindDeadlocks() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
+        String logLine = "Event: 31.306 Executing VM operation: FindDeadlocks";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
     void testHandshakeAllThreads() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
         String logLine = "Event: 31.627 Executing VM operation: HandshakeAllThreads done";
@@ -77,5 +85,37 @@ class TestVmOperationEvent {
         String logLine = "VM Operations (0 events):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
+    void testPrintJni() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        String logLine = "Event: 54166.258 Executing VM operation: PrintJNI";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testPrintThreads() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        String logLine = "Event: 54166.258 Executing VM operation: PrintThreads";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testZMarkEnd() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        String logLine = "Event: 54166.258 Executing VM operation: ZMarkEnd";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testZRelocateStart() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        String logLine = "Event: 54166.258 Executing VM operation: ZRelocateStart";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
     }
 }
