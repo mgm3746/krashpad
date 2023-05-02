@@ -21,37 +21,41 @@ import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * ENVIRONMENT_VARIABLES
+ * ACTIVE_LOCALE
  * </p>
  * 
  * <p>
- * Environment variable information.
+ * Active locale information.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * Environment Variables:
- * PATH=/path/to/bin
- * LD_LIBRARY_PATH=:/path/to/lib 
- * SHELL=/bin/ksh
+ * Active Locale:
+ * LC_ALL=C
+ * LC_COLLATE=C
+ * LC_CTYPE=C
+ * LC_MESSAGES=C
+ * LC_MONETARY=C
+ * LC_NUMERIC=C
+ * LC_TIME=C
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class EnvironmentVariable implements LogEvent, ThrowAwayEvent, HeaderEvent {
+public class ActiveLocale implements LogEvent, ThrowAwayEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "Environment Variables:";
+    public static final String _REGEX_HEADER = "Active Locale:";
+
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|ARCH|CLASSPATH|DISPLAY|DYLD_LIBRARY_PATH|_JAVA_OPTIONS|(JAVA|JRE)_HOME|HOSTTYPE|LANG|LC_ALL|"
-            + "LD_LIBRARY_PATH|LD_PRELOAD|MACHTYPE|OS=|OSTYPE|PATH|PROCESSOR_IDENTIFIER|SHELL|TERM|TZ|USERNAME).*$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|"
+            + "LC_(ALL|COLLATE|CTYPE|MESSAGES|MONETARY|NUMERIC|TIME)=.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -75,7 +79,7 @@ public class EnvironmentVariable implements LogEvent, ThrowAwayEvent, HeaderEven
      * @param logEntry
      *            The log entry for the event.
      */
-    public EnvironmentVariable(String logEntry) {
+    public ActiveLocale(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -84,7 +88,7 @@ public class EnvironmentVariable implements LogEvent, ThrowAwayEvent, HeaderEven
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString();
+        return JdkUtil.LogEventType.ACTIVE_LOCALE.toString();
     }
 
     @Override

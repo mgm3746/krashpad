@@ -29,6 +29,7 @@ import org.github.joa.util.Constants;
 import org.github.krashpad.domain.BlankLine;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.UnknownEvent;
+import org.github.krashpad.domain.jdk.ActiveLocale;
 import org.github.krashpad.domain.jdk.BitsEvent;
 import org.github.krashpad.domain.jdk.CardTable;
 import org.github.krashpad.domain.jdk.CdsArchive;
@@ -217,27 +218,29 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_REDEFINED_EVENT, CLASSES_UNLOADED_EVENT, CODE_CACHE,
+        ACTIVE_LOCALE, BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_REDEFINED_EVENT, CLASSES_UNLOADED_EVENT,
         //
-        COMMAND_LINE, COMPILATION_EVENT, COMPRESSED_CLASS_SPACE, CONTAINER_INFO, CPU, CPU_INFO, CURRENT_COMPILE_TASK,
+        CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT, COMPRESSED_CLASS_SPACE, CONTAINER_INFO, CPU, CPU_INFO,
         //
-        CURRENT_THREAD, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END,
+        CURRENT_COMPILE_TASK, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT, DYNAMIC_LIBRARY,
         //
-        ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT, GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER,
+        ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT, GC_PRECIOUS_LOG,
         //
-        HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, INTERNAL_EXCEPTION_EVENT,
+        GLOBAL_FLAGS, HEADER, HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER,
         //
-        INTERNAL_STATISTICS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE,
+        INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTICS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT,
         //
-        NARROW_KLASS, NATIVE_MEMORY_TRACKING, NUMBER, OS_INFO, OS_UPTIME, PID_MAX, POLLING_PAGE, PROCESS_MEMORY,
+        MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NUMBER, OS_INFO, OS_UPTIME, PID_MAX,
         //
-        REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING,
+        POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK,
         //
-        THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE,
+        STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME,
         //
-        TOP_OF_STACK, TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
+        TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN,
         //
-        VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE
+        VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS,
+        //
+        ZGC_METADATA_BITS, ZGC_PAGE_TABLE
     }
 
     /**
@@ -1245,7 +1248,12 @@ public class JdkUtil {
 
         // RHEL8 amd64 OpenJDK17 rpm
         JDK17_RHEL8_X86_64_RPMS = new HashMap<String, Release>();
-        JDK17_RHEL8_X86_64_RPMS.put("LATEST", new Release("Jan 14 2023 03:44:30", 8, "17.0.6+10-LTS"));
+
+        JDK17_RHEL8_X86_64_RPMS.put("LATEST", new Release("Apr 14 2023 16:37:06", 9, "17.0.7+7-LTS"));
+
+        JDK17_RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.7.0.7-1.el8_7.x86_64",
+                new Release("Apr 14 2023 16:37:06", 9, "17.0.7+7-LTS"));
+
         JDK17_RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.6.0.10-3.el8_7.x86_64",
                 new Release("Jan 14 2023 03:44:30", 8, "17.0.6+10-LTS"));
         JDK17_RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.6.0.10-2.el8_6.x86_64",
@@ -1726,7 +1734,10 @@ public class JdkUtil {
      */
     public static final LogEventType identifyEventType(String logLine, LogEvent priorEvent) {
         LogEventType logEventType = LogEventType.UNKNOWN;
-        if (BitsEvent.match(logLine)) {
+        if (ActiveLocale.match(logLine)
+                && (logLine.matches(ActiveLocale._REGEX_HEADER) || priorEvent instanceof ActiveLocale)) {
+            logEventType = LogEventType.ACTIVE_LOCALE;
+        } else if (BitsEvent.match(logLine)) {
             logEventType = LogEventType.BITS;
         } else if (BlankLine.match(logLine)) {
             logEventType = LogEventType.BLANK_LINE;
@@ -1770,7 +1781,8 @@ public class JdkUtil {
             logEventType = LogEventType.ELAPSED_TIME;
         } else if (End.match(logLine)) {
             logEventType = LogEventType.END;
-        } else if (EnvironmentVariable.match(logLine)) {
+        } else if (EnvironmentVariable.match(logLine)
+                && (logLine.matches(EnvironmentVariable._REGEX_HEADER) || priorEvent instanceof EnvironmentVariable)) {
             logEventType = LogEventType.ENVIRONMENT_VARIABLES;
         } else if (Event.match(logLine) && (logLine.matches(Event._REGEX_HEADER) || priorEvent instanceof Event)) {
             logEventType = LogEventType.EVENT;
@@ -2016,6 +2028,9 @@ public class JdkUtil {
         LogEventType eventType = identifyEventType(logLine, priorEvent);
         LogEvent event = null;
         switch (eventType) {
+        case ACTIVE_LOCALE:
+            event = new ActiveLocale(logLine);
+            break;
         case BITS:
             event = new BitsEvent(logLine);
             break;

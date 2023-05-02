@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -27,36 +28,41 @@ class TestEnvironmentVariable {
 
     @Test
     void testArch() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "ARCH=x86_64";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testClasspath() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "CLASSPATH=/usr/java/jdk1.8.0_241-amd64/lib/tools.jar";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testCommandLine() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "USERNAME=bob";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testDisplay() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "DISPLAY=:1";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testDyldLibraryPath() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "DYLD_LIBRARY_PATH=/opt/tibco/ftl5.4.2-x86_64/lib";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
@@ -69,127 +75,146 @@ class TestEnvironmentVariable {
 
     @Test
     void testHostType() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "HOSTTYPE=x86_64-linux";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testIdentity() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "PATH=/path/to/bin";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testJavaHome() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "JAVA_HOME=/etc/alternatives/jre_1.8.0";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testJavaOptions() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "_JAVA_OPTIONS=-XX:OnOutOfMemoryError='/bin/kill -ABRT %p'";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testJreHome() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "JRE_HOME=/usr/java/jdk1.8.0_241-amd64/jre";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testLang() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "LANG=en_US.UTF-8";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testLcAll() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "LC_ALL=POSIX";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testLdLibraryPath() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "LD_LIBRARY_PATH=:/path/to/lib";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testLdPreload() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "LD_PRELOAD=/home/jboss/libc_hooks3.so";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testMachType() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "MACHTYPE=x86_64";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testOs() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "OS=Windows_NT";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testOsType() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "OSTYPE=linux";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testParseLogLine() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "PATH=/path/to/bin";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof EnvironmentVariable,
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof EnvironmentVariable,
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not parsed.");
     }
 
     @Test
     void testProcessorIdentifier() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 62 Stepping 4, GenuineIntel";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testShell() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "SHELL=/bin/ksh";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testTerm() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "TERM=xterm";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 
     @Test
     void testTz() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "TZ=Asia/Hong_Kong";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+        ;
     }
 
     @Test
     void testUsername() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "USERNAME=bob";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ENVIRONMENT_VARIABLES,
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
 }
