@@ -574,7 +574,7 @@ public class ErrUtil {
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libnio.so");
         // java-(1.8.0|11|17)-openjdk
-        NATIVE_LIBRARIES_LINUX_JAVA.add("libspashscreen.so");
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libsplashscreen.so");
         // java-(1.8.0|11)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libsunec.so");
         // java-(1.8.0|11)-openjdk-headless
