@@ -80,6 +80,11 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("ld-2.28.so");
         // libaio
         NATIVE_LIBRARIES_LINUX.add("libaio.so.1.0.1");
+        // alsa-lib: library to interface with ALSA in the Linux kernel and virtual devices
+        NATIVE_LIBRARIES_LINUX.add("libasound.so.2.0.0");
+        // alsa-plugins-pulseaudio: library for accessing a PulseAudio sound daemon (to play and record sound across
+        // network)
+        NATIVE_LIBRARIES_LINUX.add("libasound_module_pcm_pulse.so");
         // aspell
         NATIVE_LIBRARIES_LINUX.add("libaspell.so.15.1.5");
         // atk
@@ -154,6 +159,9 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libepoxy.so.0.0.0");
         // expat
         NATIVE_LIBRARIES_LINUX.add("libexpat.so.1.6.7");
+        // flac-libs: reference implementation for FLAC (Free Lossless Audio Codec), an audio coding format for lossless
+        // compression of digital audio
+        NATIVE_LIBRARIES_LINUX.add("libFLAC.so.8.3.0");
         // libffi
         NATIVE_LIBRARIES_LINUX.add("libffi.so.6.0.1");
         NATIVE_LIBRARIES_LINUX.add("libffi.so.6.0.2");
@@ -216,6 +224,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libgpg-error.so.0.24.2");
         // graphite2
         NATIVE_LIBRARIES_LINUX.add("libgraphite2.so.3.0.1");
+        // gsm: library for lossy speech compression
+        NATIVE_LIBRARIES_LINUX.add("libgsm.so.1.0.17");
         // krb5-libs
         NATIVE_LIBRARIES_LINUX.add("libgssapi_krb5.so.2.2");
         // gstreamer1-plugins-base
@@ -335,6 +345,9 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libnss_sss.so.2");
         // numactl-libs
         NATIVE_LIBRARIES_LINUX.add("libnuma.so.1.0.0");
+        // libvogg: reference implementation to create, decode, and work with Ogg multimedia container
+        // format bitstreams
+        NATIVE_LIBRARIES_LINUX.add("libogg.so.0.8.2");
         // openjpeg2
         NATIVE_LIBRARIES_LINUX.add("libopenjp2.so.2.3.1");
         NATIVE_LIBRARIES_LINUX.add("libopenjp2.so.2.4.0");
@@ -351,6 +364,8 @@ public class ErrUtil {
         // pcre
         NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.0");
         NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.10");
+        // pcre2
+        NATIVE_LIBRARIES_LINUX.add("libpcre2-8.so.0.7.1");
         // pixman
         NATIVE_LIBRARIES_LINUX.add("libpixman-1.so.0.38.4");
         // nspr
@@ -370,6 +385,10 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.28.so");
+        // pulseaudio-libs: sound proxy server for sound applications
+        NATIVE_LIBRARIES_LINUX.add("libpulse.so.0.23.0");
+        // pulseaudio-libs: sound proxy server for sound applications
+        NATIVE_LIBRARIES_LINUX.add("libpulsecommon-14.0.so");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libresolv-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libresolv-2.28.so");
@@ -387,10 +406,12 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libsmime3.so");
         // softhsm
         NATIVE_LIBRARIES_LINUX.add("libsofthsm2.so");
-        // pcre2
-        NATIVE_LIBRARIES_LINUX.add("libpcre2-8.so.0.7.1");
+        // libasyncns: library for asynchronous name service queries
+        NATIVE_LIBRARIES_LINUX.add("libasyncns.so.0.3.1");
         // libselinux
         NATIVE_LIBRARIES_LINUX.add("libselinux.so.1");
+        // libsndfile: library for reading and writing files containing sampled audio data
+        NATIVE_LIBRARIES_LINUX.add("libsndfile.so.1.0.28");
         // nss-softokn
         NATIVE_LIBRARIES_LINUX.add("libsoftokn3.so");
         // libsoup
@@ -414,6 +435,10 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libutil-2.28.so");
         // libuuid
         NATIVE_LIBRARIES_LINUX.add("libuuid.so.1.3.0");
+        // libvorbis: reference implementation for the Vorbis codec
+        NATIVE_LIBRARIES_LINUX.add("libvorbis.so.0.4.8");
+        // libvorbis: reference implementation for the Vorbis codec
+        NATIVE_LIBRARIES_LINUX.add("libvorbisenc.so.2.0.11");
         // libwayland-client
         NATIVE_LIBRARIES_LINUX.add("libwayland-client.so.0.3.0");
         // libwayland-cursor
@@ -459,6 +484,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libXrender.so.1.3.0");
         // libXt
         NATIVE_LIBRARIES_LINUX.add("libXt.so.6.0.0");
+        // libXtst: X window system client interface
+        NATIVE_LIBRARIES_LINUX.add("libXtst.so.6.1.0");
         // libxcb
         NATIVE_LIBRARIES_LINUX.add("libxcb.so.1.1.0");
         // libxcb
@@ -499,12 +526,16 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libattach.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libawt.so");
+        // java-(1.8.0|11|17)-openjdk
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libawt_xawt.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libawt_headless.so");
         // java-(11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libextnet.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libfontmanager.so");
+        // java-(11|17)-openjdk-headless
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libfreetype.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libj2pkcs11.so");
         // java-(11|17)-openjdk-headless
@@ -523,6 +554,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjli.so");
         // java-8-openjdk-headless: Replaced by libjavajpeg.so in 11+?
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjpeg.so");
+        // java-(11|17)-openjdk-headless
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libjsound.so");
         // java-17-openjdk-headless: Vector API
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjsvml.so");
         // java-(1.8.0|11|17)-openjdk-headless
@@ -540,6 +573,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libnet.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libnio.so");
+        // java-(1.8.0|11|17)-openjdk
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libspashscreen.so");
         // java-(1.8.0|11)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libsunec.so");
         // java-(1.8.0|11)-openjdk-headless
