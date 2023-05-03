@@ -70,6 +70,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX = new ArrayList<String>();
         // glibc-gconv-extra
         NATIVE_LIBRARIES_LINUX.add("EUC-JP.so");
+        // glibc (/usr/lib64/gconv/) 
+        NATIVE_LIBRARIES_LINUX.add("ISO8859-1.so");
         // mesa-dri-drivers
         NATIVE_LIBRARIES_LINUX.add("i965_dri.so");
         // ibus-gtk*
