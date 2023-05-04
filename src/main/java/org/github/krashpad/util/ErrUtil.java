@@ -70,7 +70,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX = new ArrayList<String>();
         // glibc-gconv-extra
         NATIVE_LIBRARIES_LINUX.add("EUC-JP.so");
-        // glibc (/usr/lib64/gconv/) 
+        // glibc (/usr/lib64/gconv/)
         NATIVE_LIBRARIES_LINUX.add("ISO8859-1.so");
         // mesa-dri-drivers
         NATIVE_LIBRARIES_LINUX.add("i965_dri.so");
@@ -503,6 +503,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libxcb-sync.so.1.0.0");
         // libxcb
         NATIVE_LIBRARIES_LINUX.add("libxcb-xfixes.so.0.0.0");
+        // libxcrypt (/usr/lib64/): library for one-way hashing of passcodes
+        NATIVE_LIBRARIES_LINUX.add("libcrypt.so.1.1.0");
         // libxkbcommon
         NATIVE_LIBRARIES_LINUX.add("libxkbcommon.so.0.0.0");
         // libxml2
