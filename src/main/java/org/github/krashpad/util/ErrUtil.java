@@ -340,6 +340,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libnss_files-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libnss_files-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libnss_files-2.28.so");
+        // systemd-libs (/usr/lib64/):
+        NATIVE_LIBRARIES_LINUX.add("libnss_myhostname.so.2");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libnsl-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libnsl-2.28.so");
@@ -422,7 +424,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libsqlite3.so.0.8.6");
         // nss
         NATIVE_LIBRARIES_LINUX.add("libssl3.so");
-        // systemd-libs
+        // systemd-libs (/usr/lib64/):
         NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.6.0");
         NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.23.0");
         // libtasn1

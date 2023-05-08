@@ -1405,7 +1405,7 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC.getKey()),
                 Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC + " analysis not identified.");
         assertEquals(29, fel.getNativeLibraries().size(), "Native library count not correct.");
-        assertEquals(2, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+        assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
 
     @Test
