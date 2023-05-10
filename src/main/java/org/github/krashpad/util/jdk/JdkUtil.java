@@ -487,7 +487,9 @@ public class JdkUtil {
 
         // RHEL7 ppc64 OpenJDK8 rpm
         JDK8_RHEL7_PPC64_RPMS = new HashMap<String, Release>();
-        JDK8_RHEL7_PPC64_RPMS.put("LATEST", new Release("Jan 13 2023 00:00:00", 36, "1.8.0_362-b08"));
+        JDK8_RHEL7_PPC64_RPMS.put("LATEST", new Release("Apr 19 2023 00:00:00", 37, "1.8.0_372-b07"));
+        JDK8_RHEL7_PPC64_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el7_9.ppc64",
+                new Release("Apr 19 2023 00:00:00", 37, "1.8.0_372-b07"));
         JDK8_RHEL7_PPC64_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b08-1.el7_9.ppc64",
                 new Release("Jan 13 2023 00:00:00", 36, "1.8.0_362-b08"));
         JDK8_RHEL7_PPC64_RPMS.put("java-1.8.0-openjdk-1.8.0.352.b08-2.el7_9.ppc64",
@@ -521,7 +523,9 @@ public class JdkUtil {
 
         // RHEL7 ppc64le OpenJDK8 rpm
         JDK8_RHEL7_PPC64LE_RPMS = new HashMap<String, Release>();
-        JDK8_RHEL7_PPC64LE_RPMS.put("LATEST", new Release("Jan 13 2023 00:00:00", 37, "1.8.0_362-b08"));
+        JDK8_RHEL7_PPC64LE_RPMS.put("LATEST", new Release("Apr 19 2023 00:00:00", 38, "1.8.0_372-b07"));
+        JDK8_RHEL7_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el7_9.ppc64le",
+                new Release("Apr 19 2023 00:00:00", 38, "1.8.0_372-b07"));
         JDK8_RHEL7_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b08-1.el7_9.ppc64le",
                 new Release("Jan 13 2023 00:00:00", 37, "1.8.0_362-b08"));
         JDK8_RHEL7_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.352.b08-2.el7_9.ppc64le",
@@ -555,7 +559,9 @@ public class JdkUtil {
 
         // RHEL7 amd64 OpenJDK8 rpm
         JDK8_RHEL7_X86_64_RPMS = new HashMap<String, Release>();
-        JDK8_RHEL7_X86_64_RPMS.put("LATEST", new Release("Jan 13 2023 22:08:34", 37, "1.8.0_362-b08"));
+        JDK8_RHEL7_X86_64_RPMS.put("LATEST", new Release("Apr 19 2023 00:00:00", 38, "1.8.0_372-b07"));
+        JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el7_9.x86_64",
+                new Release("Apr 19 2023 00:00:00", 38, "1.8.0_372-b07"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b08-1.el7_9.x86_64",
                 new Release("Jan 13 2023 22:08:34", 37, "1.8.0_362-b08"));
         JDK8_RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.352.b08-2.el7_9.x86_64",
@@ -681,7 +687,17 @@ public class JdkUtil {
 
         // RHEL8 ppc64le OpenJDK8 rpm
         JDK8_RHEL8_PPC64LE_RPMS = new HashMap<String, Release>();
-        JDK8_RHEL8_PPC64LE_RPMS.put("LATEST", new Release("Jan 24 2023 00:00:00", 40, "1.8.0_362-b09"));
+        JDK8_RHEL8_PPC64LE_RPMS.put("LATEST", new Release("Apr 19 2023 00:00:00", 41, "1.8.0_372-b07"));
+        JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el8_7.ppc64le",
+                new Release("Apr 19 2023 00:00:00", 41, "1.8.0_372-b07"));
+        JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el8_6.ppc64le",
+                new Release("Apr 19 2023 00:00:00", 41, "1.8.0_372-b07"));
+        JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el8_4.ppc64le",
+                new Release("Apr 19 2023 00:00:00", 41, "1.8.0_372-b07"));
+        JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el8_2.ppc64le",
+                new Release("Apr 19 2023 00:00:00", 41, "1.8.0_372-b07"));
+        JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el8_1.ppc64le",
+                new Release("Apr 19 2023 00:00:00", 41, "1.8.0_372-b07"));
         JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b09-2.el8_7.ppc64le",
                 new Release("Jan 24 2023 00:00:00", 40, "1.8.0_362-b09"));
         JDK8_RHEL8_PPC64LE_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b08-1.el8_6.ppc64le",
@@ -767,16 +783,26 @@ public class JdkUtil {
 
         // RHEL8 amd64 OpenJDK8 rpm
         JDK8_RHEL8_X86_64_RPMS = new HashMap<String, Release>();
-        JDK8_RHEL8_X86_64_RPMS.put("LATEST", new Release("Jan 23 2023 22:00:01", 20, "1.8.0_362-b09"));
+        JDK8_RHEL8_X86_64_RPMS.put("LATEST", new Release("Apr 18 2023 22:30:07", 21, "1.8.0_372-b07"));
+        JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el8_7.x86_64",
+                new Release("Apr 18 2023 22:30:07", 21, "1.8.0_372-b07"));
+        JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el8_6.x86_64",
+                new Release("Apr 18 2023 00:00:00", 21, "1.8.0_372-b07"));
+        JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el8_4.x86_64",
+                new Release("Apr 18 2023 00:00:00", 21, "1.8.0_372-b07"));
+        JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el8_2.x86_64",
+                new Release("Apr 18 2023 00:00:00", 21, "1.8.0_372-b07"));
+        JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el8_1.x86_64",
+                new Release("Apr 18 2023 00:00:00", 21, "1.8.0_372-b07"));
         JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b09-2.el8_7.x86_64",
                 new Release("Jan 23 2023 22:00:01", 20, "1.8.0_362-b09"));
         JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b08-1.el8_6.x86_64",
                 new Release("Jan 23 2023 00:00:00", 20, "1.8.0_362-b08"));
-        JDK8_RHEL8_X86_64_RPMS.put(" java-1.8.0-openjdk-1.8.0.362.b08-1.el8_4.x86_64",
+        JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b08-1.el8_4.x86_64",
                 new Release("Jan 23 2023 00:00:00", 20, "1.8.0_362-b08"));
-        JDK8_RHEL8_X86_64_RPMS.put(" java-1.8.0-openjdk-1.8.0.362.b08-1.el8_2.x86_64",
+        JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b08-1.el8_2.x86_64",
                 new Release("Jan 23 2023 00:00:00", 20, "1.8.0_362-b08"));
-        JDK8_RHEL8_X86_64_RPMS.put(" java-1.8.0-openjdk-1.8.0.362.b08-1.el8_1.x86_64",
+        JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b08-1.el8_1.x86_64",
                 new Release("Jan 23 2023 00:00:00", 20, "1.8.0_362-b08"));
         JDK8_RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64",
                 new Release("Oct 17 2022 20:39:31", 19, "1.8.0_352-b08"));
@@ -907,7 +933,13 @@ public class JdkUtil {
 
         // RHEL9 amd64 OpenJDK8 rpm
         JDK8_RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        JDK8_RHEL9_X86_64_RPMS.put("LATEST", new Release("Jan 24 2023 00:00:00", 6, "1.8.0_362-b09"));
+        JDK8_RHEL9_X86_64_RPMS.put("LATEST", new Release("Apr 27 2023 02:51:51", 7, "1.8.0_372-b07"));
+        JDK8_RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-2.el9.x86_64",
+                new Release("Apr 27 2023 02:51:51", 7, "1.8.0_372-b07"));
+        JDK8_RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el9_1.x86_64",
+                new Release("Apr 19 2023 00:00:00", 7, "1.8.0_372-b07"));
+        JDK8_RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.372.b07-1.el9_0.x86_64",
+                new Release("Apr 19 2023 00:00:00", 7, "1.8.0_372-b07"));
         JDK8_RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b09-2.el9_1.x86_64",
                 new Release("Jan 24 2023 00:00:00", 6, "1.8.0_362-b09"));
         JDK8_RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.362.b08-2.el9_0.x86_64",
@@ -930,7 +962,8 @@ public class JdkUtil {
         // RHEL amd64 OpenJDK8 zip
         // First RHEL zip was 1.8.0_222.
         JDK8_RHEL_ZIPS = new HashMap<String, Release>();
-        JDK8_RHEL_ZIPS.put("LATEST", new Release("Jan 13 2023 23:03:15", 18, "1.8.0_362-b08"));
+        JDK8_RHEL_ZIPS.put("LATEST", new Release("Apr 19 2023 00:32:44", 19, "1.8.0_372-b07"));
+        JDK8_RHEL_ZIPS.put("1.8.0_372-b07", new Release("Apr 19 2023 00:32:44", 19, "1.8.0_372-b07"));
         JDK8_RHEL_ZIPS.put("1.8.0_362-b08", new Release("Jan 13 2023 23:03:15", 18, "1.8.0_362-b08"));
         JDK8_RHEL_ZIPS.put("1.8.0_352-b08", new Release("Oct 16 2022 05:58:04", 17, "1.8.0_352-b08"));
         JDK8_RHEL_ZIPS.put("1.8.0_345-b01", new Release("Aug 4 2022 05:08:02", 16, "1.8.0_345-b01"));
@@ -953,7 +986,8 @@ public class JdkUtil {
         // Windows amd64 OpenJDK8 zip
         // First RH Windows release was 1.8.0_191-1-redhat-b12. There was no RH Windows release for u202.
         JDK8_WINDOWS_ZIPS = new HashMap<String, Release>();
-        JDK8_WINDOWS_ZIPS.put("LATEST", new Release("Jan 13 2023 00:00:00", 23, "1.8.0_362-b08"));
+        JDK8_WINDOWS_ZIPS.put("LATEST", new Release("Apr 19 2023 00:00:00", 24, "1.8.0_372-b07"));
+        JDK8_WINDOWS_ZIPS.put("1.8.0_372-b07", new Release("Apr 19 2023 00:00:00", 24, "1.8.0_372-b07"));
         JDK8_WINDOWS_ZIPS.put("1.8.0_362-b08", new Release("Jan 13 2023 00:00:00", 23, "1.8.0_362-b08"));
         JDK8_WINDOWS_ZIPS.put("1.8.0_352-b08", new Release("Oct 16 2022 00:00:00", 22, "1.8.0_352-b08"));
         JDK8_WINDOWS_ZIPS.put("1.8.0_345-b01", new Release("Aug 4 2022 00:00:00", 21, "1.8.0_345-b01"));
@@ -985,7 +1019,9 @@ public class JdkUtil {
 
         // RHEL7 amd64 OpenJDK11 rpm
         JDK11_RHEL7_X86_64_RPMS = new HashMap<String, Release>();
-        JDK11_RHEL7_X86_64_RPMS.put("LATEST", new Release("Jan 11 2023 04:53:58", 21, "11.0.18+10-LTS"));
+        JDK11_RHEL7_X86_64_RPMS.put("LATEST", new Release("Apr 14 2023 00:00:00", 22, "11.0.19+7-LTS)"));
+        JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.19.0.7-1.el7_9.x86_64",
+                new Release("Apr 14 2023 00:00:00", 22, "11.0.19+7-LTS)"));
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.18.0.10-1.el7_9.x86_64",
                 new Release("Jan 11 2023 04:53:58", 21, "11.0.18+10-LTS"));
         JDK11_RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.17.0.8-2.el7_9.x86_64",
@@ -1039,7 +1075,17 @@ public class JdkUtil {
 
         // RHEL8 amd64 OpenJDK11 rpm
         JDK11_RHEL8_X86_64_RPMS = new HashMap<String, Release>();
-        JDK11_RHEL8_X86_64_RPMS.put("LATEST", new Release("Jan 10 2023 23:55:47", 21, "11.0.18+10-LTS"));
+        JDK11_RHEL8_X86_64_RPMS.put("LATEST", new Release("Apr 20 2023 03:44:32", 22, "11.0.19+7-LTS"));
+        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.19.0.7-1.el8_7.x86_64",
+                new Release("Apr 20 2023 03:44:32", 22, "11.0.19+7-LTS"));
+        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.19.0.7-1.el8_6.x86_64",
+                new Release("Apr 20 2023 00:00:00", 22, "11.0.19+7-LTS"));
+        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.19.0.7-1.el8_4.x86_64",
+                new Release("Apr 20 2023 00:00:00", 22, "11.0.19+7-LTS"));
+        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.19.0.7-1.el8_2.x86_64",
+                new Release("Apr 20 2023 00:00:00", 22, "11.0.19+7-LTS"));
+        JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.19.0.7-1.el8_1.x86_64",
+                new Release("Apr 20 2023 00:00:00", 22, "11.0.19+7-LTS"));
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.18.0.10-2.el8_7.x86_64",
                 new Release("Jan 10 2023 23:55:47", 21, "11.0.18+10-LTS"));
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.18.0.10-1.el8_6.x86_64",
@@ -1175,7 +1221,13 @@ public class JdkUtil {
 
         // RHEL9 amd64 OpenJDK11 rpm
         JDK11_RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        JDK11_RHEL9_X86_64_RPMS.put("LATEST", new Release("Jan 11 2023 00:00:00", 5, "11.0.18+10-LTS"));
+        JDK11_RHEL9_X86_64_RPMS.put("LATEST", new Release("Apr 28 2023 00:00:00", 6, "11.0.19+7-LTS"));
+        JDK11_RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.19.0.7-4.el9.x86_64",
+                new Release("Apr 28 2023 00:00:00", 6, "11.0.19+7-LTS"));
+        JDK11_RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.19.0.7-1.el9_1.x86_64",
+                new Release("Apr 14 2023 00:00:00", 6, "11.0.19+7-LTS"));
+        JDK11_RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.19.0.7-1.el9_0.x86_64",
+                new Release("Apr 14 2023 00:00:00", 6, "11.0.19+7-LTS"));
         JDK11_RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.18.0.10-2.el9_1.x86_64",
                 new Release("Jan 11 2023 00:00:00", 5, "11.0.18+10-LTS"));
         JDK11_RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.18.0.10-1.el9_0.x86_64",
@@ -1192,7 +1244,8 @@ public class JdkUtil {
         // RHEL amd64 OpenJDK11 zip
         // First RHEL zip was 11.0.4.11.
         JDK11_RHEL_ZIPS = new HashMap<String, Release>();
-        JDK11_RHEL_ZIPS.put("LATEST", new Release("Jan 13 2023 04:46:48", 18, "11.0.18+10-LTS"));
+        JDK11_RHEL_ZIPS.put("LATEST", new Release("Apr 14 2023 02:59:33", 19, "11.0.19+7-LTS"));
+        JDK11_RHEL_ZIPS.put("11.0.19+7-LTS", new Release("Apr 14 2023 02:59:33", 19, "11.0.19+7-LTS"));
         JDK11_RHEL_ZIPS.put("11.0.18+10-LTS", new Release("Jan 13 2023 04:46:48", 18, "11.0.18+10-LTS"));
         JDK11_RHEL_ZIPS.put("11.0.17+8-LTS", new Release("Oct 16 2022 03:03:26", 17, "11.0.17+8-LTS"));
         JDK11_RHEL_ZIPS.put("11.0.16.1+1-LTS", new Release("Aug 25 2022 17:29:35", 16, "11.0.16.1+1-LTS"));
@@ -1215,7 +1268,8 @@ public class JdkUtil {
         // Windows amd64 OpenJDK11 zip
         // First Windows zip was 11.0.1.13.
         JDK11_WINDOWS_ZIPS = new HashMap<String, Release>();
-        JDK11_WINDOWS_ZIPS.put("LATEST", new Release("Jan 13 2023 00:00:00", 25, "11.0.18+10-LTS"));
+        JDK11_WINDOWS_ZIPS.put("LATEST", new Release("Apr 14 2023 00:00:00", 26, "11.0.19+7-LTS"));
+        JDK11_WINDOWS_ZIPS.put("11.0.19+7-LTS", new Release("Apr 14 2023 00:00:00", 26, "11.0.19+7-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.18+10-LTS", new Release("Jan 13 2023 00:00:00", 25, "11.0.18+10-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.17+8-LTS", new Release("Oct 16 2022 00:00:00", 24, "11.0.17+8-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.16.1+1-LTS", new Release("Aug 25 2022 00:00:00", 23, "11.0.16.1+1-LTS"));
@@ -1248,12 +1302,17 @@ public class JdkUtil {
 
         // RHEL8 amd64 OpenJDK17 rpm
         JDK17_RHEL8_X86_64_RPMS = new HashMap<String, Release>();
-
         JDK17_RHEL8_X86_64_RPMS.put("LATEST", new Release("Apr 14 2023 16:37:06", 9, "17.0.7+7-LTS"));
-
         JDK17_RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.7.0.7-1.el8_7.x86_64",
                 new Release("Apr 14 2023 16:37:06", 9, "17.0.7+7-LTS"));
-
+        JDK17_RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.7.0.7-1.el8_6.x86_64",
+                new Release("Apr 14 2023 00:00:00", 9, "17.0.7+7-LTS"));
+        JDK17_RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.7.0.7-1.el8_4.x86_64",
+                new Release("Apr 14 2023 00:00:00", 9, "17.0.7+7-LTS"));
+        JDK17_RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.7.0.7-1.el8_2.x86_64",
+                new Release("Apr 14 2023 00:00:00", 9, "17.0.7+7-LTS"));
+        JDK17_RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.7.0.7-1.el8_1.x86_64",
+                new Release("Apr 14 2023 00:00:00", 9, "17.0.7+7-LTS"));
         JDK17_RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.6.0.10-3.el8_7.x86_64",
                 new Release("Jan 14 2023 03:44:30", 8, "17.0.6+10-LTS"));
         JDK17_RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.6.0.10-2.el8_6.x86_64",
@@ -1287,7 +1346,13 @@ public class JdkUtil {
 
         // RHEL9 amd64 OpenJDK17 rpm
         JDK17_RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        JDK17_RHEL9_X86_64_RPMS.put("LATEST", new Release("Jan 14 2023 00:00:00", 5, "17.0.6+10-LTS"));
+        JDK17_RHEL9_X86_64_RPMS.put("LATEST", new Release("Apr 27 2023 00:00:00", 6, "17.0.7+7-LTS"));
+        JDK17_RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.7.0.7-3.el9.x86_64",
+                new Release("Apr 27 2023 00:00:00", 6, "17.0.7+7-LTS"));
+        JDK17_RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.7.0.7-1.el9_1.x86_64",
+                new Release("Jan 14 2023 00:00:00", 6, "17.0.7+7-LTS"));
+        JDK17_RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.7.0.7-1.el9_0.x86_64",
+                new Release("Jan 14 2023 00:00:00", 6, "17.0.7+7-LTS"));
         JDK17_RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.6.0.10-3.el9_1.x86_64",
                 new Release("Jan 14 2023 00:00:00", 5, "17.0.6+10-LTS"));
         JDK17_RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.6.0.10-2.el9_0.x86_64",
@@ -1303,7 +1368,8 @@ public class JdkUtil {
 
         // RHEL amd64 OpenJDK17 zip
         JDK17_RHEL_ZIPS = new HashMap<String, Release>();
-        JDK17_RHEL_ZIPS.put("LATEST", new Release("Jan 14 2023 04:10:00", 7, "17.0.6+10-LTS"));
+        JDK17_RHEL_ZIPS.put("LATEST", new Release("Apr 13 2023 02:10:25", 8, "17.0.7+7-LTS"));
+        JDK17_RHEL_ZIPS.put("17.0.7+7-LTS", new Release("Apr 13 2023 02:10:25", 8, "17.0.7+7-LTS"));
         JDK17_RHEL_ZIPS.put("17.0.6+10-LTS", new Release("Jan 14 2023 04:10:00", 7, "17.0.6+10-LTS"));
         JDK17_RHEL_ZIPS.put("17.0.5+8-LTS", new Release("Oct 15 2022 02:39:47", 6, "17.0.5+8-LTS"));
         JDK17_RHEL_ZIPS.put("17.0.4.1+1-LTS", new Release("Aug 25 2022 06:03:13", 5, "17.0.4.1+1-LTS"));
@@ -1314,7 +1380,8 @@ public class JdkUtil {
 
         // Windows amd64 OpenJDK17 zip
         JDK17_WINDOWS_ZIPS = new HashMap<String, Release>();
-        JDK17_WINDOWS_ZIPS.put("LATEST", new Release("Jan 14 2023 00:00:00", 8, "17.0.6+10-LTS"));
+        JDK17_WINDOWS_ZIPS.put("LATEST", new Release("Apr 13 2023 00:00:00", 9, "17.0.7+7-LTS"));
+        JDK17_WINDOWS_ZIPS.put("17.0.7+7-LTS", new Release("Apr 13 2023 00:00:00", 9, "17.0.7+7-LTS"));        
         JDK17_WINDOWS_ZIPS.put("17.0.6+10-LTS", new Release("Jan 14 2023 00:00:00", 8, "17.0.6+10-LTS"));
         JDK17_WINDOWS_ZIPS.put("17.0.5+8-LTS", new Release("Oct 15 2022 00:00:00", 7, "17.0.5+8-LTS"));
         JDK17_WINDOWS_ZIPS.put("17.0.4.1+1-LTS", new Release("Aug 25 2022 00:00:00", 6, "17.0.4.1+1-LTS"));
