@@ -94,7 +94,7 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|C[12]:[ ]{1,}" + _TIMESTAMP + "[ ]{1,}" + _ID
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|C[12]:[ ]{0,}" + _TIMESTAMP + "[ ]{1,}" + _ID
             + "[ ]{1,}" + _METHOD_ATTRIBUTE + "{0,}[ ]{1,}" + _LEVEL + ".+)$";
 
     /**

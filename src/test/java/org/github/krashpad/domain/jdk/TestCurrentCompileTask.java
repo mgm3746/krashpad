@@ -60,4 +60,11 @@ class TestCurrentCompileTask {
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CurrentCompileTask,
                 JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not parsed.");
     }
+
+    @Test
+    void testTimestampHuge() {
+        String logLine = "C2:1234567890 178668       4       com.example.MyClass::doSomething (52 bytes)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
+                JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.");
+    }
 }
