@@ -20,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.github.joa.domain.Arch;
 import org.github.joa.domain.GarbageCollector;
@@ -105,7 +108,7 @@ class TestFatalErrorLog {
     @Test
     void testCollectorNoData() {
         FatalErrorLog fel = new FatalErrorLog();
-        fel.getAnalysis();
+        fel.doAnalysis();
         assertEquals(1, fel.getGarbageCollectors().size(), "Garbage collector count not correct.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN), "Garbage collector not correct.");
     }
@@ -119,7 +122,7 @@ class TestFatalErrorLog {
         String headerLine2 = "# Java VM: OpenJDK 64-Bit Server VM (25.322-b06 mixed mode linux-amd64 compressed oops)";
         Header headerEvent2 = new Header(headerLine2);
         fel.getHeaders().add(headerEvent2);
-        fel.getAnalysis();
+        fel.doAnalysis();
         assertEquals(1, fel.getGarbageCollectors().size(), "Garbage collector count not correct.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN), "Garbage collector not correct.");
     }

@@ -354,7 +354,7 @@ public class FatalErrorLog {
      * Convenience method to add <code>Analysis</code>.
      * 
      * @param key
-     *            The <code>Analysis</code> to dd.
+     *            The <code>Analysis</code> to add.
      */
     public void addAnalysis(Analysis key) {
         analysis.add(key);
@@ -884,11 +884,6 @@ public class FatalErrorLog {
         // "OutOfMemoryError: Compressed class space" caught and thrown
         if (haveOomeThrownCompressedClassSpace()) {
             analysis.add(Analysis.ERROR_OOME_THROWN_COMP_CLASS_SPACE);
-        }
-        // Stubroutines
-        if ((getStackFrameTop() != null && getStackFrameTop().matches("^v  ~BufferBlob::StubRoutines.*"))
-                || isError("v  ~BufferBlob::StubRoutines")) {
-            analysis.add(Analysis.ERROR_STUBROUTINES);
         }
         // ShenandoahConcurrentMark::mark_loop_work
         if ((getStackFrameTop() != null
@@ -2916,6 +2911,14 @@ public class FatalErrorLog {
     }
 
     /**
+     * The JDK release string. For example:
+     * 
+     * <pre>
+     * 1.8.0_332-b09-1
+     * 11.0.15+9-LTS-1
+     * 17.0.3+6-LTS-2
+     * </pre>
+     * 
      * @return JDK release string, or UNKNOWN if it cannot be determined.
      */
     public String getJdkReleaseString() {
