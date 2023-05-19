@@ -42,6 +42,14 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testG1CollectForAllocation() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        String logLine = "Event: 12.345 Executing VM operation: G1CollectForAllocation";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testHandshakeAllThreads() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
         String logLine = "Event: 31.627 Executing VM operation: HandshakeAllThreads done";
