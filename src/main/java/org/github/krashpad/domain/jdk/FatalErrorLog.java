@@ -704,18 +704,18 @@ public class FatalErrorLog {
                         || (getJvmMemoryMax() >= 0 && getJvmMemTotal() > 0
                                 && JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) < 50)) {
                     // Likely a limit when JVM memory < 1/2 total memory
-                    if (isInHeader("Java Heap may be blocking the growth of the native heap")
-                            || isInHeader("compressed oops")) {
+                    if ((isInHeader("Java Heap may be blocking the growth of the native heap")
+                            || isInHeader("compressed oops")) && isCompressedOops()) {
                         analysis.add(Analysis.ERROR_OOME_LIMIT_OOPS);
                     } else {
                         analysis.add(Analysis.ERROR_OOME_LIMIT);
                     }
                 } else {
-                    if (!(isTruncated() || isInHeader("Java Heap may be blocking the growth of the native heap")
-                            || isInHeader("compressed oops"))) {
-                        analysis.add(Analysis.ERROR_OOME);
-                    } else {
+                    if ((isTruncated() || isInHeader("Java Heap may be blocking the growth of the native heap")
+                            || isInHeader("compressed oops")) && isCompressedOops()) {
                         analysis.add(Analysis.ERROR_OOME_OOPS);
+                    } else {
+                        analysis.add(Analysis.ERROR_OOME);
                     }
                 }
             }
@@ -5651,6 +5651,23 @@ public class FatalErrorLog {
             isTruncated = true;
         }
         return isTruncated;
+    }
+
+    /**
+     * @return true if the JVM is using compressed object pointers, false otherwise.
+     */
+    public boolean isCompressedOops() {
+        boolean isCompressedOoops = true;
+        BigDecimal thirtyTwoGigabytes = new BigDecimal("32").multiply(org.github.joa.util.Constants.GIGABYTE);
+        long heapMaxSize = JdkUtil.convertSize(getHeapMaxSize(), org.github.joa.util.Constants.UNITS, 'b');
+        if (heapMaxSize >= thirtyTwoGigabytes.longValue()) {
+            isCompressedOoops = false;
+        } else if (jvmOptions != null && JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())) {
+            isCompressedOoops = false;
+        } else if (!isTruncated() && !headers.isEmpty() && !isInHeader("compressed oops")) {
+            isCompressedOoops = false;
+        }
+        return isCompressedOoops;
     }
 
     /**
