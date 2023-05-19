@@ -25,7 +25,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <p>
- * Classes unloaded information. JDK17+. Reported under <code>EventEvent</code> prior to JDK17.
+ * Classes unloaded information. JDK17+. Reported under generic <code>Event</code> prior to JDK17.
  * </p>
  * 
  * <h2>Example Logging</h2>

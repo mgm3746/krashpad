@@ -33,6 +33,7 @@ import org.github.krashpad.domain.jdk.ActiveLocale;
 import org.github.krashpad.domain.jdk.BitsEvent;
 import org.github.krashpad.domain.jdk.CardTable;
 import org.github.krashpad.domain.jdk.CdsArchive;
+import org.github.krashpad.domain.jdk.ClassesLoadedEvent;
 import org.github.krashpad.domain.jdk.ClassesRedefinedEvent;
 import org.github.krashpad.domain.jdk.ClassesUnloadedEvent;
 import org.github.krashpad.domain.jdk.CodeCache;
@@ -218,15 +219,15 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        ACTIVE_LOCALE, BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_REDEFINED_EVENT, CLASSES_UNLOADED_EVENT,
+        ACTIVE_LOCALE, BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_LOADED_EVENT, CLASSES_REDEFINED_EVENT,
         //
-        CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT, COMPRESSED_CLASS_SPACE, CONTAINER_INFO, CPU, CPU_INFO,
+        CLASSES_UNLOADED_EVENT, CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT, COMPRESSED_CLASS_SPACE, CONTAINER_INFO,
         //
-        CURRENT_COMPILE_TASK, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT, DYNAMIC_LIBRARY,
+        CPU, CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT,
         //
-        ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT, GC_PRECIOUS_LOG,
+        DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT,
         //
-        GLOBAL_FLAGS, HEADER, HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER,
+        GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER, HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER,
         //
         INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTICS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT,
         //
@@ -1381,7 +1382,7 @@ public class JdkUtil {
         // Windows amd64 OpenJDK17 zip
         JDK17_WINDOWS_ZIPS = new HashMap<String, Release>();
         JDK17_WINDOWS_ZIPS.put("LATEST", new Release("Apr 13 2023 00:00:00", 9, "17.0.7+7-LTS"));
-        JDK17_WINDOWS_ZIPS.put("17.0.7+7-LTS", new Release("Apr 13 2023 00:00:00", 9, "17.0.7+7-LTS"));        
+        JDK17_WINDOWS_ZIPS.put("17.0.7+7-LTS", new Release("Apr 13 2023 00:00:00", 9, "17.0.7+7-LTS"));
         JDK17_WINDOWS_ZIPS.put("17.0.6+10-LTS", new Release("Jan 14 2023 00:00:00", 8, "17.0.6+10-LTS"));
         JDK17_WINDOWS_ZIPS.put("17.0.5+8-LTS", new Release("Oct 15 2022 00:00:00", 7, "17.0.5+8-LTS"));
         JDK17_WINDOWS_ZIPS.put("17.0.4.1+1-LTS", new Release("Aug 25 2022 00:00:00", 6, "17.0.4.1+1-LTS"));
@@ -1812,6 +1813,9 @@ public class JdkUtil {
             logEventType = LogEventType.CARD_TABLE;
         } else if (CdsArchive.match(logLine)) {
             logEventType = LogEventType.CDS_ARCHIVE;
+        } else if (ClassesLoadedEvent.match(logLine)
+                && (logLine.matches(ClassesLoadedEvent._REGEX_HEADER) || priorEvent instanceof ClassesLoadedEvent)) {
+            logEventType = LogEventType.CLASSES_LOADED_EVENT;
         } else if (ClassesRedefinedEvent.match(logLine) && (logLine.matches(ClassesRedefinedEvent._REGEX_HEADER)
                 || priorEvent instanceof ClassesRedefinedEvent)) {
             logEventType = LogEventType.CLASSES_REDEFINED_EVENT;
@@ -1902,7 +1906,8 @@ public class JdkUtil {
             logEventType = LogEventType.METASPACE;
         } else if (NarrowKlass.match(logLine)) {
             logEventType = LogEventType.NARROW_KLASS;
-        } else if (NativeMemoryTracking.match(logLine)) {
+        } else if (NativeMemoryTracking.match(logLine) && (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
+                || priorEvent instanceof NativeMemoryTracking)) {
             logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
         } else if (NumberEvent.match(logLine)) {
             logEventType = LogEventType.NUMBER;
@@ -2109,6 +2114,9 @@ public class JdkUtil {
             break;
         case CDS_ARCHIVE:
             event = new CdsArchive(logLine);
+            break;
+        case CLASSES_LOADED_EVENT:
+            event = new ClassesLoadedEvent(logLine);
             break;
         case CLASSES_REDEFINED_EVENT:
             event = new ClassesRedefinedEvent(logLine);
