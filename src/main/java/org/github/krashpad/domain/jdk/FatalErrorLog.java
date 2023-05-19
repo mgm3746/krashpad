@@ -124,6 +124,11 @@ public class FatalErrorLog {
     private ElapsedTime elapsedTime;
 
     /**
+     * End line. Used to detect truncated log.
+     */
+    private End end;
+
+    /**
      * Environment variables information.
      */
     private List<EnvironmentVariable> environmentVariables;
@@ -2164,6 +2169,10 @@ public class FatalErrorLog {
             elapsedTimeLiteral = timeElapsedTime.getLiteral();
         }
         return elapsedTimeLiteral;
+    }
+
+    public End getEnd() {
+        return end;
     }
 
     public List<EnvironmentVariable> getEnvironmentVariables() {
@@ -5638,7 +5647,7 @@ public class FatalErrorLog {
      */
     public boolean isTruncated() {
         boolean isTruncated = false;
-        if (vmInfo == null) {
+        if (end == null) {
             isTruncated = true;
         }
         return isTruncated;
@@ -5708,6 +5717,10 @@ public class FatalErrorLog {
 
     public void setElapsedTime(ElapsedTime elapsedTime) {
         this.elapsedTime = elapsedTime;
+    }
+
+    public void setEnd(End end) {
+        this.end = end;
     }
 
     public void setHeapAddress(HeapAddress heapAddress) {

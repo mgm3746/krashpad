@@ -37,6 +37,7 @@ import org.github.krashpad.domain.jdk.DeoptimizationEvent;
 import org.github.krashpad.domain.jdk.DllOperationEvent;
 import org.github.krashpad.domain.jdk.DynamicLibrary;
 import org.github.krashpad.domain.jdk.ElapsedTime;
+import org.github.krashpad.domain.jdk.End;
 import org.github.krashpad.domain.jdk.EnvironmentVariable;
 import org.github.krashpad.domain.jdk.Event;
 import org.github.krashpad.domain.jdk.ExceptionCounts;
@@ -143,6 +144,8 @@ public class Manager {
                         fatalErrorLog.getEnvironmentVariables().add((EnvironmentVariable) event);
                     } else if (event instanceof ElapsedTime) {
                         fatalErrorLog.setElapsedTime((ElapsedTime) event);
+                    } else if (event instanceof End) {
+                        fatalErrorLog.setEnd((End) event);
                     } else if (event instanceof Event) {
                         fatalErrorLog.getEvents().add((Event) event);
                     } else if (event instanceof ExceptionCounts) {

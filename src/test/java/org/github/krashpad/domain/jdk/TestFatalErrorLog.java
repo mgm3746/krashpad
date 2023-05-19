@@ -20,9 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import org.github.joa.domain.Arch;
 import org.github.joa.domain.GarbageCollector;
@@ -1145,6 +1142,14 @@ class TestFatalErrorLog {
         fel.getVmArguments().add(event);
         fel.doAnalysis();
         assertEquals(0, fel.getThreadStackSize(), "Thread stack size not correct.");
+    }
+
+    @Test
+    void testTruncated() {
+        FatalErrorLog fel = new FatalErrorLog();
+        assertTrue(fel.isTruncated(), "Truncated log not identified.");
+        fel.setEnd(new End(""));
+        assertFalse(fel.isTruncated(), "Truncated log incorrectly identified.");
     }
 
     @Test
