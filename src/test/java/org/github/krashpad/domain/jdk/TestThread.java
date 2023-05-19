@@ -102,4 +102,20 @@ class TestThread {
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Thread,
                 JdkUtil.LogEventType.THREAD.toString() + " not parsed.");
     }
+
+    @Test
+    void testWorkerThreadRuntimeWorker() {
+        String logLine = "  0x00007fe6ec0cbaf0 WorkerThread \"RuntimeWorker#9\" [stack: 0x00007fdc63cfc000,"
+                + "0x00007fdc63dfc000] [id=3003234]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
+                JdkUtil.LogEventType.THREAD.toString() + " not identified.");
+    }
+
+    @Test
+    void testWorkerThreadZWorker() {
+        String logLine = "  0x00007fe6ec084ff0 WorkerThread \"ZWorker#54\" [stack: 0x00007fe660708000,"
+                + "0x00007fe660808000] [id=3001345]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
+                JdkUtil.LogEventType.THREAD.toString() + " not identified.");
+    }
 }
