@@ -202,6 +202,12 @@ class TestJdkRegEx {
     }
 
     @Test
+    void testJdk20BuildString() {
+        String release = "20.0.1+9";
+        assertTrue(release.matches(JdkRegEx.BUILD_STRING), "Build string not identified.");
+    }
+
+    @Test
     void testJdk8BuildString() {
         String release = "1.8.0_251-b08";
         assertTrue(release.matches(JdkRegEx.BUILD_STRING), "Build string not identified.");

@@ -86,9 +86,11 @@ public class JdkRegEx {
      * 1.8.0_131-b11
      * 11.0.9+11-LTS
      * 12.0.1+12
+     * 17.0.4+8
+     * 20.0.1+9
      * </pre>
      */
-    public static final String BUILD_STRING = "((1.6.0|1.7.0|1.8.0|9|10|11|12|13|14|15|16|17)[^\\)]{1,})";
+    public static final String BUILD_STRING = "((1.6.0|1.7.0|1.8.0|9|1\\d||20)[^\\)]{1,})";
 
     /**
      * Byte units identifier.
