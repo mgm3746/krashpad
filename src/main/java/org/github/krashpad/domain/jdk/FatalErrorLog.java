@@ -1345,8 +1345,7 @@ public class FatalErrorLog {
         }
         // Check max_map_count limit
         if (getMaxMapCountLimit() > 0 && !getDynamicLibraries().isEmpty()) {
-            // Using "5" to represent "close in value"
-            if (getMaxMapCountLimit() - getDynamicLibraries().size() < 5) {
+            if (JdkMath.calcPercent(getDynamicLibraries().size(), getMaxMapCountLimit()) >= 99) {
                 analysis.add(Analysis.WARN_MAX_MAP_COUNT_LIMIT);
             }
         }
@@ -1434,6 +1433,22 @@ public class FatalErrorLog {
                     s.append(")");
                 }
                 s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.WARN_MAX_MAP_COUNT_LIMIT.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                String replace = "memory map areas";
+                int position = s.toString().lastIndexOf(replace);
+                StringBuffer with = new StringBuffer("memory map areas (");
+                with.append(getDynamicLibraries().size());
+                with.append(")");
+                s.replace(position, position + replace.length(), with.toString());
+                replace = "max_map_count limit";
+                position = s.toString().lastIndexOf(replace);
+                with.setLength(0);
+                with.append("max_map_count limit (");
+                with.append(getMaxMapCountLimit());
+                with.append(")");
+                s.replace(position, position + replace.length(), with.toString());
                 a.add(new String[] { item.getKey(), s.toString() });
             } else {
                 a.add(new String[] { item.getKey(), item.getValue() });

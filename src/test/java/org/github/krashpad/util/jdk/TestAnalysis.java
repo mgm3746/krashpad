@@ -1594,24 +1594,19 @@ class TestAnalysis {
     @Test
     void testMaxMapCountLimit() {
         FatalErrorLog fel = new FatalErrorLog();
-        String maxMapCount = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 5";
+        String maxMapCount = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 100";
         MaxMapCount maxMapCountEvent = new MaxMapCount(maxMapCount);
         fel.setMaxMapCount(maxMapCountEvent);
-        String dynamicLibrary1 = "800bb6000-800c00000 ---p 00000000 00:00 0";
-        DynamicLibrary dynamicLibraryEvent1 = new DynamicLibrary(dynamicLibrary1);
-        fel.getDynamicLibraries().add(dynamicLibraryEvent1);
-        String dynamicLibrary2 = "800c00000-800c20000 rw-p 00000000 00:00 0";
-        DynamicLibrary dynamicLibraryEvent2 = new DynamicLibrary(dynamicLibrary2);
-        fel.getDynamicLibraries().add(dynamicLibraryEvent2);
-        String dynamicLibrary3 = "800c20000-800c40000 rw-p 00000000 00:00 0";
-        DynamicLibrary dynamicLibraryEvent3 = new DynamicLibrary(dynamicLibrary3);
-        fel.getDynamicLibraries().add(dynamicLibraryEvent3);
-        String dynamicLibrary4 = "800c40000-800cc0000 rw-p 00000000 00:00 0";
-        DynamicLibrary dynamicLibraryEvent4 = new DynamicLibrary(dynamicLibrary4);
-        fel.getDynamicLibraries().add(dynamicLibraryEvent4);
+        for (int i = 1; i <= 99; ++i) {
+            fel.getDynamicLibraries().add(new DynamicLibrary(""));
+        }
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_LIMIT + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
+                "The number of memory map areas (99) in the Dynamic Libraries section is within 1% of the "
+                        + "max_map_count limit (100).",
+                Analysis.WARN_MAX_MAP_COUNT_LIMIT + " not correct.");
     }
 
     @Test
