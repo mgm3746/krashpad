@@ -57,7 +57,8 @@ public class StackSlotToMemoryMapping implements LogEvent {
      */
     private static final String REGEX = "^(" + StackSlotToMemoryMapping._REGEX_HEADER
             + "|stack at sp|\\[error occurred during error reporting \\(inspecting top of stack\\)|\\[CodeBlob|"
-            + "method entry point|" + JdkRegEx.CLASS + "|BufferBlob|Framesize:).*$";
+            + "method entry point|\\{" + JdkRegEx.ADDRESS + "\\} \\- klass:|" + JdkRegEx.CLASS
+            + "|BufferBlob|Framesize:).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
