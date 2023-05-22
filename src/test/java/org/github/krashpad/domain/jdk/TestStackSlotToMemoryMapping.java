@@ -88,6 +88,15 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
+    void testLength() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " - length: 24";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testMethodEntryPoint() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = "method entry point (kind = native)  [0x00007fa9b48141c0, 0x00007fa9b4814a20]  2144 bytes";
