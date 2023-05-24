@@ -5662,7 +5662,8 @@ public class FatalErrorLog {
      */
     public boolean isTruncated() {
         boolean isTruncated = false;
-        if (end == null) {
+        // Don't consider it truncated if only "END." is missing.
+        if (end == null && elapsedTime == null) {
             isTruncated = true;
         }
         return isTruncated;

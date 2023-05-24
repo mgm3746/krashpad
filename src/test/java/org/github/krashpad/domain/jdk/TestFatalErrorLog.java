@@ -1148,6 +1148,18 @@ class TestFatalErrorLog {
     void testTruncated() {
         FatalErrorLog fel = new FatalErrorLog();
         assertTrue(fel.isTruncated(), "Truncated log not identified.");
+    }
+
+    @Test
+    void testTruncatedElapsedTimeEvent() {
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.setElapsedTime(new ElapsedTime(""));
+        assertFalse(fel.isTruncated(), "Truncated log incorrectly identified.");
+    }
+
+    @Test
+    void testTruncatedEndEvent() {
+        FatalErrorLog fel = new FatalErrorLog();
         fel.setEnd(new End(""));
         assertFalse(fel.isTruncated(), "Truncated log incorrectly identified.");
     }
