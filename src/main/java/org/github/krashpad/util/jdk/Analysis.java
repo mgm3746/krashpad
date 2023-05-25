@@ -103,6 +103,11 @@ public enum Analysis {
     ERROR_G1_PAR_SCAN_THREAD_STATE_COPY_TO_SURVIVOR_SPACE("error.g1_par_scan_thread_state.copy_to_survivor_space"),
 
     /**
+     * Property key for a crash in java.util.GregorianCalendar.computeTime().
+     */
+    ERROR_GREGORIANCALENDAR_COMPUTETIME("error.gregoriancalendar.computetime"),
+
+    /**
      * Property key for a crash in java.util.HashMap.
      */
     ERROR_HASHMAP("error.hashmap"),

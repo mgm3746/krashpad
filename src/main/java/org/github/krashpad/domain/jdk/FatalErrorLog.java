@@ -1240,15 +1240,9 @@ public class FatalErrorLog {
                 }
             }
         }
-        if (!analysis.contains(Analysis.INFO_APP_DYNAMICS_DETECTED) && compilationEvents != null) {
-            Iterator<CompilationEvent> iterator = compilationEvents.iterator();
-            while (iterator.hasNext()) {
-                CompilationEvent event = iterator.next();
-                if (event.getLogEntry().matches("^.*" + JdkRegEx.PACKAGE_APP_DYNAMICS + ".*$")) {
-                    analysis.add(Analysis.INFO_APP_DYNAMICS_DETECTED);
-                    break;
-                }
-            }
+        if (!analysis.contains(Analysis.INFO_APP_DYNAMICS_DETECTED) && compilationEvents != null
+                && isInCompilationEvents(JdkRegEx.PACKAGE_APP_DYNAMICS)) {
+            analysis.add(Analysis.INFO_APP_DYNAMICS_DETECTED);
         }
         if (!analysis.contains(Analysis.INFO_APP_DYNAMICS_DETECTED) && getJvmOptions() != null
                 && getJvmOptions().getJavaagent() != null) {
@@ -1347,6 +1341,18 @@ public class FatalErrorLog {
         if (getMaxMapCountLimit() > 0 && !getDynamicLibraries().isEmpty()) {
             if (JdkMath.calcPercent(getDynamicLibraries().size(), getMaxMapCountLimit()) >= 99) {
                 analysis.add(Analysis.WARN_MAX_MAP_COUNT_LIMIT);
+            }
+        }
+        if ((getJavaSpecification() == JavaSpecification.JDK8
+                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) == 372)
+                || (getJavaSpecification() == JavaSpecification.JDK11
+                        && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) == 19)
+                || (getJavaSpecification() == JavaSpecification.JDK17
+                        && JdkUtil.getJdk17UpdateNumber(getJdkReleaseString()) == 7)) {
+            if ((getStackFrameTopCompiledJavaCode() != null && getStackFrameTopCompiledJavaCode()
+                    .matches("^.+java\\.util\\.GregorianCalendar\\.computeTime\\(\\).+$"))
+                    || isInCompilationEvents("java\\.util\\.GregorianCalendar::computeTime")) {
+                analysis.add(Analysis.ERROR_GREGORIANCALENDAR_COMPUTETIME);
             }
         }
     }
@@ -4721,6 +4727,23 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return true if the JVM is using compressed object pointers, false otherwise.
+     */
+    public boolean isCompressedOops() {
+        boolean isCompressedOoops = true;
+        BigDecimal thirtyTwoGigabytes = new BigDecimal("32").multiply(org.github.joa.util.Constants.GIGABYTE);
+        long heapMaxSize = JdkUtil.convertSize(getHeapMaxSize(), org.github.joa.util.Constants.UNITS, 'b');
+        if (heapMaxSize >= thirtyTwoGigabytes.longValue()) {
+            isCompressedOoops = false;
+        } else if (jvmOptions != null && JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())) {
+            isCompressedOoops = false;
+        } else if (!isTruncated() && !headers.isEmpty() && !isInHeader("compressed oops")) {
+            isCompressedOoops = false;
+        }
+        return isCompressedOoops;
+    }
+
+    /**
      * @return true if there is evidence the crash happens in a container environment, false otherwise.
      */
     public boolean isContainer() {
@@ -4773,6 +4796,26 @@ public class FatalErrorLog {
             }
         }
         return isVMWareEnvironment;
+    }
+
+    /**
+     * @param regEx
+     *            A regular expression.
+     * @return true if the regex is in the compilation events, false otherwise.
+     */
+    public boolean isInCompilationEvents(String regEx) {
+        boolean isInCompilationEvents = false;
+        if (!compilationEvents.isEmpty()) {
+            Iterator<CompilationEvent> iterator = compilationEvents.iterator();
+            while (iterator.hasNext()) {
+                CompilationEvent event = iterator.next();
+                if (event.getLogEntry().matches("^.*" + regEx + ".*$")) {
+                    isInCompilationEvents = true;
+                    break;
+                }
+            }
+        }
+        return isInCompilationEvents;
     }
 
     /**
@@ -5667,23 +5710,6 @@ public class FatalErrorLog {
             isTruncated = true;
         }
         return isTruncated;
-    }
-
-    /**
-     * @return true if the JVM is using compressed object pointers, false otherwise.
-     */
-    public boolean isCompressedOops() {
-        boolean isCompressedOoops = true;
-        BigDecimal thirtyTwoGigabytes = new BigDecimal("32").multiply(org.github.joa.util.Constants.GIGABYTE);
-        long heapMaxSize = JdkUtil.convertSize(getHeapMaxSize(), org.github.joa.util.Constants.UNITS, 'b');
-        if (heapMaxSize >= thirtyTwoGigabytes.longValue()) {
-            isCompressedOoops = false;
-        } else if (jvmOptions != null && JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())) {
-            isCompressedOoops = false;
-        } else if (!isTruncated() && !headers.isEmpty() && !isInHeader("compressed oops")) {
-            isCompressedOoops = false;
-        }
-        return isCompressedOoops;
     }
 
     /**
