@@ -885,10 +885,12 @@ class TestAnalysis {
         String stack1 = "Stack: [0x00007f3d8974c000,0x00007f3d8984d000],  sp=0x00007f3d8984af90,  free space=1019k";
         Stack stackEvent1 = new Stack(stack1);
         fel.getStacks().add(stackEvent1);
-        String stack2 = "Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)";
+        String stack2 = "Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, "
+                + "C=native code)";
         Stack stackEvent2 = new Stack(stack2);
         fel.getStacks().add(stackEvent2);
-        String stack3 = "J 35755 c2 java.util.GregorianCalendar.computeTime()V java.base@11.0.19 (970 bytes) @ 0x00007f3dcdbc0433 [0x00007f3dcdbbf440+0x0000000000000ff3]";
+        String stack3 = "J 35755 c2 java.util.GregorianCalendar.computeTime()V java.base@11.0.19 (970 bytes) "
+                + "@ 0x00007f3dcdbc0433 [0x00007f3dcdbbf440+0x0000000000000ff3]";
         Stack stackEvent3 = new Stack(stack3);
         fel.getStacks().add(stackEvent3);
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.19+7-LTS) for linux-amd64 JRE (11.0.19+7-LTS), built "
