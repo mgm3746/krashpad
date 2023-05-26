@@ -1353,6 +1353,9 @@ public class FatalErrorLog {
                     .matches("^.+java\\.util\\.GregorianCalendar\\.computeTime\\(\\).+$"))
                     || isInCompilationEvents("java\\.util\\.GregorianCalendar::computeTime")) {
                 analysis.add(Analysis.ERROR_GREGORIANCALENDAR_COMPUTETIME);
+                if (hasAnalysis(Analysis.ERROR_POINTER_NULL.getKey())) {
+                    removeAnalysis(Analysis.ERROR_POINTER_NULL);
+                }
             }
         }
     }

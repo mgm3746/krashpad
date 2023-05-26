@@ -900,6 +900,9 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_GREGORIANCALENDAR_COMPUTETIME.getKey()),
                 Analysis.ERROR_GREGORIANCALENDAR_COMPUTETIME + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_POINTER_NULL.getKey()),
+                Analysis.ERROR_POINTER_NULL + " analysis incorrectly identified.");
+
     }
 
     @Test
