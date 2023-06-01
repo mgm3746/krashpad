@@ -55,7 +55,7 @@ public class ThreadsClassSmrInfo implements LogEvent, ThrowAwayEvent, HeaderEven
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", "
             + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "(,)?|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", "
             + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS
-            + "|_java_thread_list=.*|})$";
+            + "|_java_thread_list=.*|(" + JdkRegEx.ADDRESS + ", )?})$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

@@ -26,6 +26,14 @@ import org.junit.jupiter.api.Test;
 class TestThreadsClassSmrInfo {
 
     @Test
+    void testAddressClosingBrace() {
+        ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
+        String logLine = "0x00007fcbdc08c800, }";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
+                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testAdress1() {
         ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
         String logLine = "0x00007f66f00a8800";
