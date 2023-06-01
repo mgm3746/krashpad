@@ -1338,9 +1338,16 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_JBOSS);
         }
         // Check max_map_count limit
-        if (getMaxMapCountLimit() > 0 && !getDynamicLibraries().isEmpty()) {
-            if (JdkMath.calcPercent(getDynamicLibraries().size(), getMaxMapCountLimit()) >= 99) {
-                analysis.add(Analysis.WARN_MAX_MAP_COUNT_LIMIT);
+        if (!getDynamicLibraries().isEmpty()) {
+            if (getMaxMapCountLimit() > 0) {
+                if (JdkMath.calcPercent(getDynamicLibraries().size() - 1, getMaxMapCountLimit()) >= 99) {
+                    analysis.add(Analysis.WARN_MAX_MAP_COUNT_LIMIT);
+                }
+            } else {
+                int defaultMaxMapCountLimit = 65530;
+                if (JdkMath.calcPercent(getDynamicLibraries().size() - 1, defaultMaxMapCountLimit) >= 99) {
+                    analysis.add(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE);
+                }
             }
         }
         if ((getJavaSpecification() == JavaSpecification.JDK8
@@ -1448,7 +1455,7 @@ public class FatalErrorLog {
                 String replace = "memory map areas";
                 int position = s.toString().lastIndexOf(replace);
                 StringBuffer with = new StringBuffer("memory map areas (");
-                with.append(getDynamicLibraries().size());
+                with.append(getDynamicLibraries().size() - 1);
                 with.append(")");
                 s.replace(position, position + replace.length(), with.toString());
                 replace = "max_map_count limit";
@@ -1456,6 +1463,15 @@ public class FatalErrorLog {
                 with.setLength(0);
                 with.append("max_map_count limit (");
                 with.append(getMaxMapCountLimit());
+                with.append(")");
+                s.replace(position, position + replace.length(), with.toString());
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                String replace = "memory map areas";
+                int position = s.toString().lastIndexOf(replace);
+                StringBuffer with = new StringBuffer("memory map areas (");
+                with.append(getDynamicLibraries().size() - 1);
                 with.append(")");
                 s.replace(position, position + replace.length(), with.toString());
                 a.add(new String[] { item.getKey(), s.toString() });

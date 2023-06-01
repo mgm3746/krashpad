@@ -1632,7 +1632,7 @@ class TestAnalysis {
         String maxMapCount = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 100";
         MaxMapCount maxMapCountEvent = new MaxMapCount(maxMapCount);
         fel.setMaxMapCount(maxMapCountEvent);
-        for (int i = 1; i <= 99; ++i) {
+        for (int i = 1; i <= 100; ++i) {
             fel.getDynamicLibraries().add(new DynamicLibrary(""));
         }
         fel.doAnalysis();
@@ -1642,6 +1642,25 @@ class TestAnalysis {
                 "The number of memory map areas (99) in the Dynamic Libraries section is within 1% of the "
                         + "max_map_count limit (100).",
                 Analysis.WARN_MAX_MAP_COUNT_LIMIT + " not correct.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE + " analysis incorrectly identified.");
+    }
+
+    @Test
+    void testMaxMapCountLimitPossible() {
+        FatalErrorLog fel = new FatalErrorLog();
+        for (int i = 1; i <= 65530; ++i) {
+            fel.getDynamicLibraries().add(new DynamicLibrary(""));
+        }
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.getKey()),
+                "The number of memory map areas (65529) in the Dynamic Libraries section is very close to the default "
+                        + "max_map_count limit (65530).",
+                Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE + " not correct.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_LIMIT + " analysis incorrectly identified.");
     }
 
     @Test
@@ -1701,9 +1720,9 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS.getKey()),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
-                Analysis.ERROR_LIBJVM_SO + " analysis not identified.");
+                Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
-                Analysis.ERROR_JVM_DLL + " analysis not identified.");
+                Analysis.ERROR_JVM_DLL + " analysis incorrectly identified.");
     }
 
     @Test
