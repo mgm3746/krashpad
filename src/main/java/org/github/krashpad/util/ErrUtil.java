@@ -191,6 +191,7 @@ public class ErrUtil {
         // mesa-libglapi
         NATIVE_LIBRARIES_LINUX.add("libgbm.so.1.0.0");
         // libgcc
+        NATIVE_LIBRARIES_LINUX.add("libgcc_s-4.4.7-20120601.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-4.8.5-20150702.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20191121.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20210514.so.1");
@@ -524,6 +525,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libxslt.so.1.1.28");
         NATIVE_LIBRARIES_LINUX.add("libxslt.so.1.1.32");
         // zlib
+        NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.3");
         NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.7");
         NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.11");
         // p11-kit-trust
