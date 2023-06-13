@@ -33,8 +33,7 @@ class TestZgcMetadataBits {
         assertEquals(JdkUtil.LogEventType.ZGC_METADATA_BITS, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ZGC_METADATA_BITS.toString() + " not identified.");
     }
-    
-    
+
     @Test
     void testGood() {
         ZgcMetadataBits priorLogEvent = new ZgcMetadataBits("ZGC Metadata Bits:");
@@ -42,14 +41,14 @@ class TestZgcMetadataBits {
         assertEquals(JdkUtil.LogEventType.ZGC_METADATA_BITS, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ZGC_METADATA_BITS.toString() + " not identified.");
     }
-    
+
     @Test
     void testIdentity() {
         String logLine = "ZGC Metadata Bits:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ZGC_METADATA_BITS,
                 JdkUtil.LogEventType.ZGC_METADATA_BITS.toString() + " not identified.");
     }
-    
+
     @Test
     void testMarked() {
         ZgcMetadataBits priorLogEvent = new ZgcMetadataBits("ZGC Metadata Bits:");
@@ -57,15 +56,13 @@ class TestZgcMetadataBits {
         assertEquals(JdkUtil.LogEventType.ZGC_METADATA_BITS, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ZGC_METADATA_BITS.toString() + " not identified.");
     }
-    
+
     @Test
     void testParseLogLine() {
         String logLine = "ZGC Metadata Bits:";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ZgcMetadataBits,
                 JdkUtil.LogEventType.ZGC_METADATA_BITS.toString() + " not parsed.");
     }
-    
-    
 
     @Test
     void testRemapped() {
@@ -74,7 +71,6 @@ class TestZgcMetadataBits {
         assertEquals(JdkUtil.LogEventType.ZGC_METADATA_BITS, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ZGC_METADATA_BITS.toString() + " not identified.");
     }
-
 
     @Test
     void testWeakBad() {

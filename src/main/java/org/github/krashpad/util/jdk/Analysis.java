@@ -816,7 +816,7 @@ public enum Analysis {
      * max_map_count limit.
      */
     WARN_MAX_MAP_COUNT_LIMIT("warn.max.map.count.limit"),
-    
+
     /**
      * Property key for the number of memory map areas (lines) output in the Dynamic Libraries section very close to the
      * default max_map_count limit (65,530).

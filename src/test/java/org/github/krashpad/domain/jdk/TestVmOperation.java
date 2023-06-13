@@ -62,6 +62,17 @@ class TestVmOperation {
     }
 
     @Test
+    void testG1IncCollectionPause() {
+        String logLine = "VM_Operation (0x00007faa51471060): G1IncCollectionPause, mode: safepoint, requested by "
+                + "thread 0x000055e658aac800";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperation event = new VmOperation(logLine);
+        assertEquals("G1IncCollectionPause, mode: safepoint, requested by thread 0x000055e658aac800",
+                event.getVmOperationString(), "VM operation not correct.");
+    }
+
+    @Test
     void testGcHeapInspection() {
         String logLine = "VM_Operation (0x00007f0ab47f7b60): GC_HeapInspection, mode: safepoint, requested by thread "
                 + "0x000055b24a035800";

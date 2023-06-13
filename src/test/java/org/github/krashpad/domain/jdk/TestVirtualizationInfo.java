@@ -29,8 +29,7 @@ class TestVirtualizationInfo {
     void testHyperDashV() {
         VirtualizationInfo priorLogEvent = new VirtualizationInfo("Hyper-V virtualization detected");
         String logLine = "Hyper-V virtualization detected";
-        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     }
 
@@ -38,8 +37,7 @@ class TestVirtualizationInfo {
     void testHyperV() {
         VirtualizationInfo priorLogEvent = new VirtualizationInfo("Hyper-V virtualization detected");
         String logLine = "HyperV virtualization detected";
-        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     }
 
@@ -47,8 +45,7 @@ class TestVirtualizationInfo {
     void testIdentity() {
         VirtualizationInfo priorLogEvent = new VirtualizationInfo("Hyper-V virtualization detected");
         String logLine = "HyperV virtualization detected";
-        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     }
 
@@ -56,8 +53,7 @@ class TestVirtualizationInfo {
     void testKvm() {
         VirtualizationInfo priorLogEvent = new VirtualizationInfo("Hyper-V virtualization detected");
         String logLine = "KVM virtualization detected";
-        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     }
 
@@ -65,8 +61,7 @@ class TestVirtualizationInfo {
     void testKvmStealTicks() {
         VirtualizationInfo priorLogEvent = new VirtualizationInfo("Hyper-V virtualization detected");
         String logLine = "Steal ticks since vm start: 152";
-        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     }
 
@@ -74,13 +69,12 @@ class TestVirtualizationInfo {
     void testKvmStealTicksPercentage() {
         VirtualizationInfo priorLogEvent = new VirtualizationInfo("Hyper-V virtualization detected");
         String logLine = "Steal ticks percentage since vm start:  0.000";
-        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     }
 
     @Test
-    void testParseLogLine() {        
+    void testParseLogLine() {
         String logLine = "HyperV virtualization detected";
         assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, null),
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
@@ -90,8 +84,7 @@ class TestVirtualizationInfo {
     void testVmWare() {
         VirtualizationInfo priorLogEvent = new VirtualizationInfo("Hyper-V virtualization detected");
         String logLine = "VMWare virtualization detected";
-        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     }
 
@@ -99,8 +92,7 @@ class TestVirtualizationInfo {
     void testVmWareGuestMem() {
         VirtualizationInfo priorLogEvent = new VirtualizationInfo("Hyper-V virtualization detected");
         String logLine = "guest.mem.reserved = 0";
-        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     }
 
@@ -108,8 +100,7 @@ class TestVirtualizationInfo {
     void testVmWareHostCpu() {
         VirtualizationInfo priorLogEvent = new VirtualizationInfo("Hyper-V virtualization detected");
         String logLine = "host.cpu.processorMHz = 2095";
-        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     }
 
@@ -125,8 +116,7 @@ class TestVirtualizationInfo {
     void testVmWareVmCpu() {
         VirtualizationInfo priorLogEvent = new VirtualizationInfo("Hyper-V virtualization detected");
         String logLine = "vm.cpu.reserved = 0";
-        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
     }
 

@@ -42,8 +42,8 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class VmOperation implements LogEvent {
 
     private static final String __REGEX_OPERATIONS = "(BulkRevokeBias|CGC_Operation|CollectForMetadataAllocation|"
-            + "G1CollectFull|GC_HeapInspection|GetAllStackTraces|GetThreadListStackTraces|HeapDumper|"
-            + "ParallelGCFailedAllocation|PrintThreads|RedefineClasses|ShenandoahFullGC)";
+            + "G1CollectFull|G1IncCollectionPause|GC_HeapInspection|GetAllStackTraces|GetThreadListStackTraces|"
+            + "HeapDumper|ParallelGCFailedAllocation|PrintThreads|RedefineClasses|ShenandoahFullGC)";
 
     /**
      * Regular expression defining the logging.
