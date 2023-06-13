@@ -23,54 +23,20 @@ import org.junit.jupiter.api.Test;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestHeading {
-
-    @Test
-    void testDashes70() {
-        String logLine = "----------------------------------------------------------------------";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
-                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
-    }
-
-    @Test
-    void testDashes80() {
-        String logLine = "--------------------------------------------------------------------------------";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
-                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
-    }
+class TestConstantPool {
 
     @Test
     void testIdentity() {
-        String logLine = "---------------  T H R E A D  ---------------";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
-                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
+        String logLine = "[Constant Pool (empty)]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONSTANT_POOL,
+                JdkUtil.LogEventType.CONSTANT_POOL.toString() + " not identified.");
     }
 
     @Test
     void testParseLogLine() {
-        String logLine = "---------------  T H R E A D  ---------------";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Heading,
-                JdkUtil.LogEventType.HEADING.toString() + " not parsed.");
+        String logLine = "[Constant Pool (empty)]";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ConstantPool,
+                JdkUtil.LogEventType.CONSTANT_POOL.toString() + " not parsed.");
     }
 
-    @Test
-    void testProcess() {
-        String logLine = "---------------  S Y S T E M  ---------------";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
-                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
-    }
-
-    @Test
-    void testSummary() {
-        String logLine = "---------------  S U M M A R Y ------------";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
-                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
-    }
-
-    @Test
-    void testSystem() {
-        String logLine = "---------------  P R O C E S S  ---------------";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
-                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
-    }
 }

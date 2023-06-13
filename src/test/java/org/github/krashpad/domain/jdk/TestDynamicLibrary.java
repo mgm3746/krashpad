@@ -29,6 +29,14 @@ import org.junit.jupiter.api.Test;
 class TestDynamicLibrary {
 
     @Test
+    void testAllData() {
+        String logLine = "7f95d7f78000-7f95d7f79000 r--p 00015000 fd:0d 134366667                  "
+                + "/path/to/jdk/jre/lib/amd64/libnet.so";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+    }
+
+    @Test
     void testAws() {
         String logLine = "7ffafebb0000-7ffafedb0000 ---p 00d91000 103:03 51649                     "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
@@ -187,31 +195,16 @@ class TestDynamicLibrary {
     }
 
     @Test
-    void testLogLineAllData() {
-        String logLine = "7f95d7f78000-7f95d7f79000 r--p 00015000 fd:0d 134366667                  "
-                + "/path/to/jdk/jre/lib/amd64/libnet.so";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
-                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
-    }
-
-    @Test
-    void testLogLineMemoryRangeLength16() {
+    void testMemoryRangeLength16() {
         String logLine = "ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
     }
 
     @Test
-    void testLogLineMemoryRangeLength8() {
+    void testMemoryRangeLength8() {
         String logLine = "00400000-00401000 r-xp 00000000 fd:0d 201327127                          "
                 + "/path/to/jdk/bin/java";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
-                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
-    }
-
-    @Test
-    void testLogLineNoFile() {
-        String logLine = "6c0000000-7c1ab0000 rw-p 00000000 00:00 0 ";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
     }
@@ -238,6 +231,13 @@ class TestDynamicLibrary {
                 "File path not correct.");
         assertEquals(Device.NFS, event.getDevice(), "Device not correct.");
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
+    }
+
+    @Test
+    void testNoFile() {
+        String logLine = "6c0000000-7c1ab0000 rw-p 00000000 00:00 0 ";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
     }
 
     @Test

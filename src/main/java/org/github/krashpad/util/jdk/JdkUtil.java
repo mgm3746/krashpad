@@ -40,6 +40,7 @@ import org.github.krashpad.domain.jdk.CodeCache;
 import org.github.krashpad.domain.jdk.CommandLine;
 import org.github.krashpad.domain.jdk.CompilationEvent;
 import org.github.krashpad.domain.jdk.CompressedClassSpace;
+import org.github.krashpad.domain.jdk.ConstantPool;
 import org.github.krashpad.domain.jdk.ContainerInfo;
 import org.github.krashpad.domain.jdk.CpuInfo;
 import org.github.krashpad.domain.jdk.CurrentCompileTask;
@@ -69,6 +70,7 @@ import org.github.krashpad.domain.jdk.LdPreloadFile;
 import org.github.krashpad.domain.jdk.Libc;
 import org.github.krashpad.domain.jdk.LoadAverage;
 import org.github.krashpad.domain.jdk.Logging;
+import org.github.krashpad.domain.jdk.MachCode;
 import org.github.krashpad.domain.jdk.MaxMapCount;
 import org.github.krashpad.domain.jdk.Meminfo;
 import org.github.krashpad.domain.jdk.Memory;
@@ -221,21 +223,21 @@ public class JdkUtil {
         //
         ACTIVE_LOCALE, BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_LOADED_EVENT, CLASSES_REDEFINED_EVENT,
         //
-        CLASSES_UNLOADED_EVENT, CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT, COMPRESSED_CLASS_SPACE, CONTAINER_INFO,
+        CLASSES_UNLOADED_EVENT, CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT, COMPRESSED_CLASS_SPACE, CONSTANT_POOL,
         //
-        CPU, CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT,
+        CONTAINER_INFO, CPU, CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT,
         //
         DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT,
         //
         GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER, HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER,
         //
-        INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTICS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MAX_MAP_COUNT,
+        INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTICS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE,
         //
-        MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NUMBER, OS_INFO, OS_UPTIME, PID_MAX,
+        MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NUMBER, OS_INFO, OS_UPTIME,
         //
-        POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK,
+        PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS,
         //
-        STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME,
+        STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME,
         //
         TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN,
         //
@@ -1833,6 +1835,8 @@ public class JdkUtil {
             logEventType = LogEventType.COMPILATION_EVENT;
         } else if (CompressedClassSpace.match(logLine)) {
             logEventType = LogEventType.COMPRESSED_CLASS_SPACE;
+        } else if (ConstantPool.match(logLine)) {
+            logEventType = LogEventType.CONSTANT_POOL;
         } else if (ContainerInfo.match(logLine)) {
             logEventType = LogEventType.CONTAINER_INFO;
         } else if (CpuInfo.match(logLine)
@@ -1897,6 +1901,9 @@ public class JdkUtil {
             logEventType = LogEventType.LOAD_AVERAGE;
         } else if (Logging.match(logLine)) {
             logEventType = LogEventType.LOGGING;
+        } else if (MachCode.match(logLine)
+                && (logLine.matches(MachCode._REGEX_HEADER) || priorEvent instanceof MachCode)) {
+            logEventType = LogEventType.MACH_CODE;
         } else if (MaxMapCount.match(logLine)) {
             logEventType = LogEventType.MAX_MAP_COUNT;
         } else if (Meminfo.match(logLine)
@@ -2138,6 +2145,9 @@ public class JdkUtil {
         case COMPILATION_EVENT:
             event = new CompilationEvent(logLine);
             break;
+        case CONSTANT_POOL:
+            event = new ConstantPool(logLine);
+            break;
         case CONTAINER_INFO:
             event = new ContainerInfo(logLine);
             break;
@@ -2221,6 +2231,9 @@ public class JdkUtil {
             break;
         case LOGGING:
             event = new Logging(logLine);
+            break;
+        case MACH_CODE:
+            event = new MachCode(logLine);
             break;
         case MAX_MAP_COUNT:
             event = new MaxMapCount(logLine);

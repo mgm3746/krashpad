@@ -14,6 +14,8 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
@@ -22,63 +24,45 @@ import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * REGISTER_TO_MEMORY_MAPPING
+ * MACH_CODE
  * </p>
  * 
  * <p>
- * Register to memory mapping information.
+ * Machine code.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * Register to memory mapping:
- * 
- * RAX=0x0000000000000001 is an unknown value
- * RBX=0x00007f67383dc748 is an unknown value
- * RCX=0x0000000000000004 is an unknown value
- * RDX=0x00007f69b031f898 is an oop
- * java.util.LinkedList$Node 
-  * - klass: 'java/util/LinkedList$Node'
- * RSP=0x00007fcbcc676c50 is an unknown value
- * RBP=0x00007fcbcc676cb0 is an unknown value
- * RSI=0x0000000000000000 is an unknown value
- * RDI=0x00007f69b031f898 is an oop
- * java.util.LinkedList$Node 
-  * - klass: 'java/util/LinkedList$Node'
- * R8 =0x0000000000000005 is an unknown value
- * R9 =0x0000000000000010 is an unknown value
- * R10=0x0000000000000000 is an unknown value
- * R11=0x0000000000000000 is an unknown value
- * R12=0x00007f673d50bfe0 is pointing into metadata
+ * [MachCode]
+ *  0x00007ff4011cb4a0: 448b 5608 | 49bb 0000 | 0000 0800 | 0000 4d03 | d349 3bc2 | 0f85 c6b7 | f2f7 6690 | 0f1f 4000
+ * 0x00007ff4011cb4c0: 8984 2400 | c0fe ff55 | 4883 ec30 | 448b 5e0c | 4183 fb01 | 0f84 7e00 | 0000 448b | 4624 48c1
+ * 0x00007ff4011cb4e0: e203 4803 | 5628 488b | ea48 83c5 | 1047 8b54 | c408 4181 | fa20 3bf2 | 0075 3f4f | 8d14 c449
+ * 0x00007ff4011cb500: 2b52 4849 | 0352 1845 | 8b42 3848 | 8bea 4883 | c510 478b | 54c4 0841 | 81fa 305d | f000 7528
+ * 0x00007ff4011cb520: 4c8b d249 | 8b42 1048 | 83c4 305d | 493b a740 | 0300 000f | 874f 0000 | 00c3 bede | ffff ff44
+ * 0x00007ff4011cb540: 8904 24e8 | b842 f3f7 | bede ffff | ff44 8904 | 2466 90e8 | a842 f3f7 | 4889 1424 | 4889 7424
+ * 0x00007ff4011cb560: 0844 895c | 2410 be45 | ffff ffe8 | 9042 f3f7 | bef6 ffff | ff66 90e8 | 8442 f3f7 | bef6 ffff
+ * 0x00007ff4011cb580: ff66 90e8 | 7842 f3f7 | 49ba 2cb5 | 1c01 f47f | 0000 4d89 | 9758 0300 | 00e9 e230 | f3f7 f4f4
+ * 0x00007ff4011cb5a0: e95b 25fd | f7e8 0000 | 0000 4883 | 2c24 05e9 | 6c45 f3f7 | f4f4 f4f4
+ * [/MachCode]
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, HeaderEvent {
+public class MachCode implements LogEvent, HeaderEvent, ThrowAwayEvent {
 
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "Register to memory mapping:";
+    public static final String _REGEX_HEADER = "^\\[MachCode\\]$";
+
+    public static final Pattern PATTERN = Pattern.compile(MachCode.REGEX);
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.REGISTER
-            + "|Adapter for signature:.+|\\[[BCIL]([a-z]{1,}\\..+)?|BufferBlob.+|\\[CodeBlob.+|Framesize.+|"
-            + " - (---- fields \\(total size \\d{1,} words\\)|---- non-static fields \\(\\d{1,} words\\)|"
-            + "---- static fields \\(\\d{1,} words\\)|access|arrays|class annotations|class loader data|"
-            + "class type annotations|constants|default_methods|default vtable indices|field annotations|"
-            + "field type annotations|inner classes|instance size|java mirror|klass|klass size|length|local interfaces|"
-            + "method ordering|methods|name|nest members|non-static oop maps|permitted subclasses|state|sub|super|"
-            + "trans\\. interfaces):.*|\\{" + JdkRegEx.ADDRESS
-            + "\\} - klass:.+|([R|r][ ]{0,1}\\d{1,2}[ ]{0,1}|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
-            + "\\[error occurred during error reporting \\(printing register info\\).+|exception handling.+|"
-            + "invoke return entry points.+| - itable length.+|method entry point.+|(i)?return.+|"
-            + " - private .+| - protected .+|StubRoutines.+| - 'value' .+| - volatile .+| - vtable length.+|"
-            + JdkRegEx.CLASS + ".*)[ ]{0,}$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|\\[/MachCode\\]|  " + JdkRegEx.ADDRESS + ": .+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -102,7 +86,7 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
      * @param logEntry
      *            The log entry for the event.
      */
-    public RegisterToMemoryMapping(String logEntry) {
+    public MachCode(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -111,7 +95,7 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString();
+        return JdkUtil.LogEventType.MACH_CODE.toString();
     }
 
     @Override

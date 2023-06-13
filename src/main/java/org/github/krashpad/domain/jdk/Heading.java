@@ -54,7 +54,7 @@ public class Heading implements LogEvent, ThrowAwayEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^([-]{15}  (T H R E A D|P R O C E S S|S U M M A R Y|S Y S T E M)"
-            + "[ ]{1,2}[-]{12,15}|[-]{70})$";
+            + "[ ]{1,2}[-]{12,15}|[-]{70}|[-]{80})$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
