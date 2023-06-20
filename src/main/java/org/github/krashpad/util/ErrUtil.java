@@ -68,6 +68,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_JBOSS.add("libartemis-native-64.so");
 
         NATIVE_LIBRARIES_LINUX = new ArrayList<String>();
+        ;
         // glibc-gconv-extra
         NATIVE_LIBRARIES_LINUX.add("EUC-JP.so");
         // glibc (/usr/lib64/gconv/)
@@ -76,6 +77,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("i965_dri.so");
         // ibus-gtk*
         NATIVE_LIBRARIES_LINUX.add("im-ibus.so");
+        // mesa-dri-drivers
+        NATIVE_LIBRARIES_LINUX.add("iris_dri.so");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("ld-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("ld-2.17.so");
@@ -101,6 +104,10 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libatspi.so.0.0.1");
         // libattr
         NATIVE_LIBRARIES_LINUX.add("libattr.so.1.1.0");
+        // libavahi-client (DNS service discovery and multicast DNS)
+        NATIVE_LIBRARIES_LINUX.add("libavahi-client.so.3.2.9");
+        // avahi-libs (libraries need to run programs that use avahi)
+        NATIVE_LIBRARIES_LINUX.add("libavahi-common.so.3.5.3");
         // brotli (compression library)
         NATIVE_LIBRARIES_LINUX.add("libbrotlicommon.so.1.0.6");
         // brotli (compression library)
@@ -125,6 +132,9 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libcroco-0.6.so.3.0.1");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libcrypt-2.17.so");
+        // cups-libs (native cups)
+        NATIVE_LIBRARIES_LINUX.add("libcups.so.2");
+        NATIVE_LIBRARIES_LINUX.add("libcupsimage.so.2");
         // dconf
         NATIVE_LIBRARIES_LINUX.add("libdconfsettings.so");
         // libdatrie
@@ -229,6 +239,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libgpg-error.so.0.24.2");
         // graphite2
         NATIVE_LIBRARIES_LINUX.add("libgraphite2.so.3.0.1");
+        // libgs (ghostscript)
+        NATIVE_LIBRARIES_LINUX.add("libgs.so.9.27");
         // gsm: library for lossy speech compression
         NATIVE_LIBRARIES_LINUX.add("libgsm.so.1.0.17");
         // krb5-libs
@@ -281,13 +293,17 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libicui18n.so.60.3");
         // libicu
         NATIVE_LIBRARIES_LINUX.add("libicuuc.so.60.3");
-        // mesa-dri-drivers
-        NATIVE_LIBRARIES_LINUX.add("iris_dri.so");
+        // libijs (IJS raster image library)
+        NATIVE_LIBRARIES_LINUX.add("libijs-0.35.so");
         // glibc-gconv-extra
         NATIVE_LIBRARIES_LINUX.add("libJIS.so");
         // webkit2gtk3-jsc
         NATIVE_LIBRARIES_LINUX.add("libjavascriptcoregtk-4.0.so.18.13.7");
         NATIVE_LIBRARIES_LINUX.add("libjavascriptcoregtk-4.0.so.18.20.11");
+        // jbigkit-libs (compression/decompression)
+        NATIVE_LIBRARIES_LINUX.add("libjbig.so.2.1");
+        // jbig2dec-libs (JBIG2 image decompression format decoder)
+        NATIVE_LIBRARIES_LINUX.add("libjbig2dec.so.0.0.0");
         // libjpeg-turbo
         NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.1.0");
         NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.2.0");
@@ -320,6 +336,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libm-2.28.so");
         // libmount
         NATIVE_LIBRARIES_LINUX.add("libmount.so.1.1.0");
+        // libidn (international string handling)
+        NATIVE_LIBRARIES_LINUX.add("libidn.so.11.6.18");
         // libidn2
         NATIVE_LIBRARIES_LINUX.add("libidn2.so.0.3.6");
         // nettle
@@ -368,6 +386,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libpangocairo-1.0.so.0.4200.3");
         // pango
         NATIVE_LIBRARIES_LINUX.add("libpangoft2-1.0.so.0.4200.3");
+        // libpaper (getting information on page sizes)
+        NATIVE_LIBRARIES_LINUX.add("libpaper.so.1.1.2");
         // pcre
         NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.0");
         NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.10");
@@ -434,6 +454,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libtasn1.so.6.5.5");
         // libthai
         NATIVE_LIBRARIES_LINUX.add("libthai.so.0.3.0");
+        // libtiff (tiff image library)
+        NATIVE_LIBRARIES_LINUX.add("libtiff.so.5.3.0");
         // ncurses-libs
         NATIVE_LIBRARIES_LINUX.add("libtinfo.so.6.1");
         // libunistring
