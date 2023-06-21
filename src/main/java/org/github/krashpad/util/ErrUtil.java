@@ -173,8 +173,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libepoxy.so.0.0.0");
         // expat
         NATIVE_LIBRARIES_LINUX.add("libexpat.so.1.6.7");
-        // flac-libs: reference implementation for FLAC (Free Lossless Audio Codec), an audio coding format for lossless
-        // compression of digital audio
+        // flac-libs: reference implementation for FLAC (Free Lossless Audio Codec), an audio coding format for
+        // lossless compression of digital audio
         NATIVE_LIBRARIES_LINUX.add("libFLAC.so.8.3.0");
         // libffi
         NATIVE_LIBRARIES_LINUX.add("libffi.so.6.0.1");
