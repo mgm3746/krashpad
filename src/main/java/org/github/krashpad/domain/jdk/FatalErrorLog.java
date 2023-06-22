@@ -1065,12 +1065,12 @@ public class FatalErrorLog {
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
             } else if (getStackFrameTop() != null
                     && getStackFrameTop().matches("^.*MinINode::Ideal\\(PhaseGVN\\*, bool\\).*$")
-                    && (getJavaSpecification() == JavaSpecification.JDK8
+                    && ((getJavaSpecification() == JavaSpecification.JDK8
                             && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) > 0
-                            && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 275
-                            || getJavaSpecification() == JavaSpecification.JDK11
-                                    && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) > 0
-                                    && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 9)) {
+                            && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 275)
+                            || (getJavaSpecification() == JavaSpecification.JDK11
+                                    && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) > 0
+                                    && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) < 10))) {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);

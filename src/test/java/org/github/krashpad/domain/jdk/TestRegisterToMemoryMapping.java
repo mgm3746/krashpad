@@ -286,7 +286,6 @@ class TestRegisterToMemoryMapping {
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
 
-
     @Test
     void testProtected() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
@@ -294,7 +293,6 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-    
 
     @Test
     void testR8Space() {
@@ -305,7 +303,6 @@ class TestRegisterToMemoryMapping {
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
 
-    
     @Test
     void testRBP() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");

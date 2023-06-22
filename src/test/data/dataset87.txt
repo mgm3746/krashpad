@@ -1,0 +1,402 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f3fb393237e, pid=521953, tid=521964
+#
+# JRE version: OpenJDK Runtime Environment 18.9 (11.0.9+11) (build 11.0.9+11-LTS)
+# Java VM: OpenJDK 64-Bit Server VM 18.9 (11.0.9+11-LTS, mixed mode, sharing, tiered, compressed oops, concurrent mark sweep gc, linux-amd64)
+# Problematic frame:
+# V  [libjvm.so+0x42737e]  MinINode::Ideal(PhaseGVN*, bool)+0x15e
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e" (or dumping to /path/to/tomcat/core.521953)
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20Enterprise%20Linux%208&component=java-11-openjdk
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: org.apache.catalina.startup.Bootstrap start
+
+Host: Intel(R) Xeon(R) Gold 6230 CPU @ 2.10GHz, 8 cores, 15G, Red Hat Enterprise Linux release 8.2 (Ootpa)
+Time: Wed Jun 21 11:41:15 2023 JST elapsed time: 32631.337596 seconds (0d 9h 3m 51s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007f3fac09c000):  JavaThread "C2 CompilerThread0" daemon [_thread_in_native, id=521964, stack(0x00007f3f880f9000,0x00007f3f881fa000)]
+
+
+Current CompileTask:
+C2:32631337 58896       4       org.apache.http.message.AbstractHttpMessage::removeHeaders (52 bytes)
+
+Stack: [0x00007f3f880f9000,0x00007f3f881fa000],  sp=0x00007f3f881f5980,  free space=1010k
+Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0x42737e]  MinINode::Ideal(PhaseGVN*, bool)+0x15e
+V  [libjvm.so+0xc5a0bb]  PhaseIterGVN::transform_old(Node*)+0x9b
+V  [libjvm.so+0xc56a58]  PhaseIterGVN::optimize()+0xf8
+V  [libjvm.so+0x649f96]  Compile::Optimize()+0x556
+V  [libjvm.so+0x64b573]  Compile::Compile(ciEnv*, C2Compiler*, ciMethod*, int, bool, bool, bool, DirectiveSet*)+0xc93
+V  [libjvm.so+0x56ed24]  C2Compiler::compile_method(ciEnv*, ciMethod*, int, DirectiveSet*)+0xd4
+V  [libjvm.so+0x654e13]  CompileBroker::invoke_compiler_on_method(CompileTask*)+0x563
+V  [libjvm.so+0x656298]  CompileBroker::compiler_thread_loop()+0x468
+V  [libjvm.so+0xe51449]  JavaThread::thread_main_inner()+0x1e9
+V  [libjvm.so+0xe4cfec]  Thread::call_run()+0x15c
+V  [libjvm.so+0xc03256]  thread_native_entry(Thread*)+0xf6
+
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000014
+
+Register to memory mapping:
+
+RAX=0x0000000000000001 is an unknown value
+RBX=0x00007f3ecc054ae0 points into unknown readable memory: 50 a3 93 b4 3f 7f 00 00
+RCX=0x00007f3fb3b07b60: <offset 0x00000000005fcb60> in /usr/lib/jvm/java-11-openjdk-11.0.9.11-0.el8_2.x86_64/lib/server/libjvm.so at 0x00007f3fb350b000
+RDX=0x00007f3f707bb448 points into unknown readable memory: 08 59 93 b4 3f 7f 00 00
+RSP=0x00007f3f881f5980 is pointing into the stack for thread: 0x00007f3fac09c000
+RBP=0x00007f3f881f59d0 is pointing into the stack for thread: 0x00007f3fac09c000
+RSI=0x0 is NULL
+RDI=0x00007f3f707bb448 points into unknown readable memory: 08 59 93 b4 3f 7f 00 00
+R8 =0x0000000000000fed is an unknown value
+R9 =0x0 is NULL
+R10=0x00007f3fac09d920 points into unknown readable memory: 02 00 00 00 00 00 00 00
+R11=0x00007f3f70019d48 points into unknown readable memory: 08 63 8a b4 3f 7f 00 00
+R12=0x00007f3f707bb448 points into unknown readable memory: 08 59 93 b4 3f 7f 00 00
+R13=0x0 is NULL
+R14=0x00007f3f707bb448 points into unknown readable memory: 08 59 93 b4 3f 7f 00 00
+R15=0x00007f3f881f5c50 is pointing into the stack for thread: 0x00007f3fac09c000
+
+
+Registers:
+RAX=0x0000000000000001, RBX=0x00007f3ecc054ae0, RCX=0x00007f3fb3b07b60, RDX=0x00007f3f707bb448
+RSP=0x00007f3f881f5980, RBP=0x00007f3f881f59d0, RSI=0x0000000000000000, RDI=0x00007f3f707bb448
+R8 =0x0000000000000fed, R9 =0x0000000000000000, R10=0x00007f3fac09d920, R11=0x00007f3f70019d48
+R12=0x00007f3f707bb448, R13=0x0000000000000000, R14=0x00007f3f707bb448, R15=0x00007f3f881f5c50
+RIP=0x00007f3fb393237e, EFLAGS=0x0000000000010246, CSGSFS=0x002b000000000033, ERR=0x0000000000000004
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x00007f3f881f5980)
+0x00007f3f881f5980:   00007f3f881f59d0 00007f3f707bb448
+0x00007f3f881f5990:   0000000800000000 00007f3f00000000
+0x00007f3f881f59a0:   00007f3f881f59d0 00007f3f881f5c50
+0x00007f3f881f59b0:   00007f3ecc04f8e0 00007f3f881f5c50 
+
+Instructions: (pc=0x00007f3fb393237e)
+0x00007f3fb393227e:   10 48 89 da c7 45 c0 00 00 00 00 83 f8 15 0f 84
+
+
+Stack slot to memory mapping:
+stack at sp + 0 slots: 0x00007f3f881f59d0 is pointing into the stack for thread: 0x00007f3fac09c000
+stack at sp + 1 slots: 0x00007f3f707bb448 points into unknown readable memory: 08 59 93 b4 3f 7f 00 00
+stack at sp + 2 slots: 0x0000000800000000 is pointing into metadata
+stack at sp + 3 slots: 0x00007f3f00000000 points into unknown readable memory: 20 00 00 00 3f 7f 00 00
+stack at sp + 4 slots: 0x00007f3f881f59d0 is pointing into the stack for thread: 0x00007f3fac09c000
+stack at sp + 5 slots: 0x00007f3f881f5c50 is pointing into the stack for thread: 0x00007f3fac09c000
+stack at sp + 6 slots: 0x00007f3ecc04f8e0 points into unknown readable memory: 50 a3 93 b4 3f 7f 00 00
+stack at sp + 7 slots: 0x00007f3f881f5c50 is pointing into the stack for thread: 0x00007f3fac09c000
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00007f3f34001400, length=230, elements={
+0x00007f3fac018800, 0x00007f3fac08d800, 0x00007f3fac08f800, 0x00007f3fac09a000,
+0x00007f3f20048800, 0x00007f3f20036800
+}
+
+Java Threads: ( => current thread )
+  0x00007f3fac018800 JavaThread "main" [_thread_in_native, id=521957, stack(0x00007f3fb5705000,0x00007f3fb5806000)]
+  0x00007f3fac08d800 JavaThread "Reference Handler" daemon [_thread_blocked, id=521961, stack(0x00007f3f884fd000,0x00007f3f885fe000)]
+  0x00007f3fac08f800 JavaThread "Finalizer" daemon [_thread_blocked, id=521962, stack(0x00007f3f883fc000,0x00007f3f884fd000)]
+  0x00007f3fac09a000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=521963, stack(0x00007f3f881fa000,0x00007f3f882fb000)]
+=>0x00007f3fac09c000 JavaThread "C2 CompilerThread0" daemon [_thread_in_native, id=521964, stack(0x00007f3f880f9000,0x00007f3f881fa000)]
+  0x00007f3fac09e000 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=521965, stack(0x00007f3f836ff000,0x00007f3f83800000)]
+  0x00007f3fac09f800 JavaThread "Sweeper thread" daemon [_thread_blocked, id=521966, stack(0x00007f3f835fe000,0x00007f3f836ff000)]
+  0x00007f3fac0d8000 JavaThread "Common-Cleaner" daemon [_thread_blocked, id=521967, stack(0x00007f3f834fd000,0x00007f3f835fe000)]
+  0x00007f3fac109800 JavaThread "Service Thread" daemon [_thread_blocked, id=521969, stack(0x00007f3f832fb000,0x00007f3f833fc000)]
+
+Other Threads:
+  0x00007f3fac08a800 VMThread "VM Thread" [stack: 0x00007f3f94028000,0x00007f3f94128000] [id=521960]
+  0x00007f3fac287000 WatcherThread [stack: 0x00007f3f81f90000,0x00007f3f82090000] [id=521973]
+  0x00007f3fac02b800 GCTaskThread "GC Thread#0" [stack: 0x00007f3fb14a2000,0x00007f3fb15a2000] [id=521958]
+  0x00007f3f7c002000 GCTaskThread "GC Thread#1" [stack: 0x00007f3f80088000,0x00007f3f80188000] [id=521988]
+  0x00007f3fac059000 ConcurrentGCThread "CMS Main Thread" [stack: 0x00007f3f946a1000,0x00007f3f947a1000] [id=521959]
+
+Threads with active compile tasks:
+C2 CompilerThread032631344 58896       4       org.apache.http.message.AbstractHttpMessage::removeHeaders (52 bytes)
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap address: 0x0000000600000000, size: 8192 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+Narrow klass base: 0x0000000800000000, Narrow klass shift: 3
+Compressed class space size: 209715200 Address: 0x0000000840000000
+
+Heap:
+ par new generation   total 2831168K, used 2544297K [0x0000000600000000, 0x00000006c0000000, 0x00000006c0000000)
+  eden space 2516608K,  99% used [0x0000000600000000, 0x000000069851aea0, 0x00000006999a0000)
+  from space 314560K,  15% used [0x00000006999a0000, 0x000000069c92f5b0, 0x00000006accd0000)
+  to   space 314560K,   0% used [0x00000006accd0000, 0x00000006accd0000, 0x00000006c0000000)
+ concurrent mark-sweep generation total 5242880K, used 2956826K [0x00000006c0000000, 0x0000000800000000, 0x0000000800000000)
+ Metaspace       used 136101K, capacity 144960K, committed 146504K, reserved 333824K
+  class space    used 14280K, capacity 17537K, committed 18464K, reserved 204800K
+
+Card table byte_map: [0x00007f3fb049f000,0x00007f3fb14a0000] _byte_map_base: 0x00007f3fad49f000
+
+Marking Bits: (CMSBitMap*) 0x00007f3fac057fb0
+ Bits: [0x00007f3f8a5fe000, 0x00007f3f8f5fe000)
+
+Mod Union Table: (CMSBitMap*) 0x00007f3fac058050
+ Bits: [0x00007f3fb015c000, 0x00007f3fb029c000)
+
+Polling page: 0x00007f3fb5816000
+
+Metaspace:
+
+Usage:
+  Non-class:    124.44 MB capacity,   118.97 MB ( 96%) used,     4.43 MB (  4%) free+waste,     1.04 MB ( <1%) overhead. 
+      Class:     17.13 MB capacity,    13.95 MB ( 81%) used,     2.75 MB ( 16%) free+waste,   444.38 KB (  3%) overhead. 
+       Both:    141.56 MB capacity,   132.91 MB ( 94%) used,     7.17 MB (  5%) free+waste,     1.48 MB (  1%) overhead. 
+
+Virtual space:
+  Non-class space:      126.00 MB reserved,     125.04 MB (>99%) committed 
+      Class space:      200.00 MB reserved,      18.03 MB (  9%) committed 
+             Both:      326.00 MB reserved,     143.07 MB ( 44%) committed 
+
+Chunk freelists:
+   Non-Class:  413.00 KB
+       Class:  898.00 KB
+        Both:  1.28 MB
+
+MaxMetaspaceSize: 2.00 GB
+CompressedClassSpaceSize: 200.00 MB
+
+CodeHeap 'non-profiled nmethods': size=120032Kb used=45753Kb max_used=47530Kb free=74278Kb
+ bounds [0x00007f3f9c36a000, 0x00007f3f9f20a000, 0x00007f3fa38a2000]
+CodeHeap 'profiled nmethods': size=120028Kb used=30817Kb max_used=52780Kb free=89211Kb
+ bounds [0x00007f3f94e33000, 0x00007f3f983d3000, 0x00007f3f9c36a000]
+CodeHeap 'non-nmethods': size=5700Kb used=1471Kb max_used=1638Kb free=4229Kb
+ bounds [0x00007f3f948a2000, 0x00007f3f94b12000, 0x00007f3f94e33000]
+ total_blobs=22903 nmethods=22002 adapters=812
+ compilation: enabled
+              stopped_count=0, restarted_count=0
+ full_count=0
+
+Compilation events (20 events):
+Event: 32631.308 Thread 0x00007f3fac09c000 58896       4       org.apache.http.message.AbstractHttpMessage::removeHeaders (52 bytes)
+
+GC Heap History (20 events):
+Event: 32626.108 GC heap before
+{Heap before GC invocations=2915 (full 3):
+ par new generation   total 2831168K, used 2553133K [0x0000000600000000, 0x00000006c0000000, 0x00000006c0000000)
+  eden space 2516608K, 100% used [0x0000000600000000, 0x00000006999a0000, 0x00000006999a0000)
+  from space 314560K,  11% used [0x00000006accd0000, 0x00000006af07b480, 0x00000006c0000000)
+  to   space 314560K,   0% used [0x00000006999a0000, 0x00000006999a0000, 0x00000006accd0000)
+ concurrent mark-sweep generation total 5242880K, used 2956130K [0x00000006c0000000, 0x0000000800000000, 0x0000000800000000)
+ Metaspace       used 136101K, capacity 144960K, committed 146504K, reserved 333824K
+  class space    used 14280K, capacity 17537K, committed 18464K, reserved 204800K
+}
+Event: 32626.161 GC heap after
+{Heap after GC invocations=2916 (full 3):
+ par new generation   total 2831168K, used 48701K [0x0000000600000000, 0x00000006c0000000, 0x00000006c0000000)
+  eden space 2516608K,   0% used [0x0000000600000000, 0x0000000600000000, 0x00000006999a0000)
+  from space 314560K,  15% used [0x00000006999a0000, 0x000000069c92f5b0, 0x00000006accd0000)
+  to   space 314560K,   0% used [0x00000006accd0000, 0x00000006accd0000, 0x00000006c0000000)
+ concurrent mark-sweep generation total 5242880K, used 2956826K [0x00000006c0000000, 0x0000000800000000, 0x0000000800000000)
+ Metaspace       used 136101K, capacity 144960K, committed 146504K, reserved 333824K
+  class space    used 14280K, capacity 17537K, committed 18464K, reserved 204800K
+}
+
+Deoptimization events (20 events):
+Event: 32603.783 Thread 0x00007f3fadee2000 DEOPT UNPACKING pc=0x00007f3f948c984a sp=0x00007f3f32cf9570 mode 0
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (20 events):
+Event: 29766.051 Thread 0x00007f3fae21b800 Implicit null exception at 0x00007f3f9cad8134 to 0x00007f3f9cad81e8
+
+Events (20 events):
+Event: 32626.225 Executing VM operation: RevokeBias done
+
+
+Dynamic libraries:
+7f3fb350b000-7f3fb4691000 r-xp 00000000 fd:00 68884029                   /usr/lib/jvm/java-11-openjdk-11.0.9.11-0.el8_2.x86_64/lib/server/libjvm.so
+
+
+VM Arguments:
+jvm_args: --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED -Djava.util.logging.config.file=/path/to/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager --XX:MaxTenuringThreshold=15 -XX:CMSInitiatingOccupancyFraction=60 -XX:+UseCMSInitiatingOccupancyOnly -Xmx8g -Xms8g -XX:NewSize=3g -XX:MaxNewSize=3g -XX:SurvivorRatio=8 -XX:MaxMetaspaceSize=2g -XX:CompressedClassSpaceSize=200m -XX:+UseConcMarkSweepGC -Xlog:gc*=info:file=/path/to/tomcat/gc_%t.log:time,uptime,level,tags:filecount=10,filesize=10M -XX:+PrintClassHistogram -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/tomcat -Djava.security.egd=file:/dev/./urandom -XX:ParallelGCThreads=2 -XX:OnOutOfMemoryError=/bin/kill -ABRT %p -Dcom.sun.management.jmxremote.rmi.port=1234 -Dcom.sun.management.jmxremote.port=9012 -Dcom.sun.management.jmxremote.ssl=FALSE -Dcom.sun.management.jmxremote.authenticate=FALSE -Dignore.endorsed.dirs= -Dcatalina.base=/path/to/tomcat -Dcatalina.home=/path/to/tomcat -Djava.io.tmpdir=/path/to/tomcat/temp 
+java_command: org.apache.catalina.startup.Bootstrap start
+java_class_path (initial): /path/to/tomcat/bin/bootstrap.jar:/path/to/tomcat/bin/tomcat-juli.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     bool AlwaysTenure                             = false                                     {product} {command line}
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     bool CMSClassUnloadingEnabled                 = true                                      {product} {command line}
+     intx CMSInitiatingOccupancyFraction           = 60                                        {product} {command line}
+   size_t CompressedClassSpaceSize                 = 209715200                                 {product} {command line}
+     bool HeapDumpOnOutOfMemoryError               = true                                   {manageable} {command line}
+    ccstr HeapDumpPath                             = /path/to/tomcat                        {manageable} {command line}
+   size_t InitialHeapSize                          = 8589934592                                {product} {command line}
+     bool ManagementServer                         = true                                      {product} {command line}
+   size_t MaxHeapSize                              = 8589934592                                {product} {command line}
+   size_t MaxMetaspaceSize                         = 2147483648                                {product} {command line}
+   size_t MaxNewSize                               = 3221225472                                {product} {command line}
+    uintx MaxTenuringThreshold                     = 15                                        {product} {command line}
+   size_t MinHeapDeltaBytes                        = 196608                                    {product} {ergonomic}
+     bool NeverTenure                              = false                                     {product} {command line}
+   size_t NewSize                                  = 3221225472                                {product} {command line}
+    uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122910970                              {pd product} {ergonomic}
+   size_t OldSize                                  = 5368709120                                {product} {ergonomic}
+ccstrlist OnOutOfMemoryError                       = /bin/kill -ABRT %p                        {product} {command line}
+     uint ParallelGCThreads                        = 2                                         {product} {command line}
+     bool PrintClassHistogram                      = true                                   {manageable} {command line}
+    uintx ProfiledCodeHeapSize                     = 122910970                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+    uintx SurvivorRatio                            = 8                                         {product} {command line}
+     bool UseCMSInitiatingOccupancyOnly            = true                                      {product} {command line}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseConcMarkSweepGC                       = true                                      {product} {command line}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+ #2: file=/path/to/tomcat/gc_%t.log all=off,gc*=info time,uptime,level,tags filecount=10,filesize=10240K
+
+Environment Variables:
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0xeb6670], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xeb6670], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0xeb6670], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0xbf8d90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0xbf8d90], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0xeb6670], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGUSR2: [libjvm.so+0xbf8c00], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: [libjvm.so+0xbf90f0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGTERM: [libjvm.so+0xbf90f0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0xbf90f0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+---------------  S Y S T E M  ---------------
+
+OS:Red Hat Enterprise Linux release 8.2 (Ootpa)
+uname:Linux 4.18.0-193.el8.x86_64 #1 SMP Fri Mar 27 14:35:58 UTC 2020 x86_64
+OS uptime: 62 days 0:29 hours
+libc:glibc 2.28 NPTL 2.28 
+rlimit (soft/hard): STACK 8192k/infinity , CORE infinity/infinity , NPROC 8192/8192 , NOFILE 65536/65536 , AS infinity/infinity , CPU infinity/infinity , DATA infinity/infinity , FSIZE infinity/infinity , MEMLOCK 64k/64k
+load average:1.93 1.65 1.68
+
+/proc/meminfo:
+MemTotal:       16227792 kB
+MemFree:          312964 kB
+MemAvailable:    7327960 kB
+Buffers:            7440 kB
+Cached:          6239856 kB
+SwapCached:        31344 kB
+Active:          7502400 kB
+Inactive:        6574324 kB
+Active(anon):    6597908 kB
+Inactive(anon):  1267324 kB
+Active(file):     904492 kB
+Inactive(file):  5307000 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:      16392188 kB
+SwapFree:       15699964 kB
+Dirty:               920 kB
+Writeback:             0 kB
+AnonPages:       7811596 kB
+Mapped:           214264 kB
+Shmem:             51788 kB
+KReclaimable:    1141188 kB
+Slab:            1361212 kB
+SReclaimable:    1141188 kB
+SUnreclaim:       220024 kB
+KernelStack:       14624 kB
+PageTables:        34440 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    24506084 kB
+Committed_AS:   14698300 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
+Percpu:           168448 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:   6166528 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+DirectMap4k:     1465700 kB
+DirectMap2M:    15310848 kB
+DirectMap1G:     2097152 kB
+
+/sys/kernel/mm/transparent_hugepage/enabled:
+[always] madvise never
+/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter):
+always defer defer+madvise [madvise] never
+
+/proc/sys/kernel/threads-max (system-wide limit on the number of threads):
+126315
+/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):
+65530
+/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):
+4194304
+
+container (cgroup) information:
+container_type: cgroupv1
+cpu_cpuset_cpus: 0-7
+cpu_memory_nodes: 0
+active_processor_count: 8
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
+memory_usage_in_bytes: 10471710720
+memory_max_usage_in_bytes: 10471710720
+
+VMWare virtualization detected
+Steal ticks since vm start: 0
+Steal ticks percentage since vm start:  0.000
+
+CPU:total 8 (initial active 8) (1 cores per cpu, 1 threads per core) family 6 model 85 stepping 7, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, tsc, tscinvbit, bmi1, bmi2, adx, evex, fma
+CPU Model and flags from /proc/cpuinfo:
+model name	: Intel(R) Xeon(R) Gold 6230 CPU @ 2.10GHz
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 invpcid avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves arat pku ospke avx512_vnni md_clear flush_l1d arch_capabilities
+Online cpus:
+0-7
+Offline cpus:
+8-127
+BIOS frequency limitation:
+<Not Available>
+Frequency switch latency (ns):
+<Not Available>
+Available cpu frequencies:
+<Not Available>
+Current governor:
+<Not Available>
+Core performance/turbo boost:
+<Not Available>
+
+Memory: 4k page, physical 16227792k(312964k free), swap 16392188k(15699964k free)
+
+vm_info: OpenJDK 64-Bit Server VM (11.0.9+11-LTS) for linux-amd64 JRE (11.0.9+11-LTS), built on Oct 16 2020 04:18:29 by "mockbuild" with gcc 8.3.1 20191121 (Red Hat 8.3.1-5)
+
+END.

@@ -392,7 +392,20 @@ class TestAnalysis {
     }
 
     @Test
-    void testCompilerThreadC2MininodeIdeal() {
+    void testCompilerThreadC2MininodeIdealJdk11() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset87.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
+                Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL.getKey()),
+                Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
+    void testCompilerThreadC2MininodeIdealJdk8() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset76.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
