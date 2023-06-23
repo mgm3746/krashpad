@@ -57,6 +57,28 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testAmqRun() {
+        String logLine = "java_command: org.apache.activemq.artemis.boot.Artemis run";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
+        VmArguments event = new VmArguments(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getVmArguments().add(event);
+        assertFalse(Application.AMQ_CLI == fel.getApplication(), "AMQ CLI application incorrectly identified.");
+    }
+
+    @Test
+    void testAmqStart() {
+        String logLine = "java_command: org.apache.activemq.artemis.boot.Artemis start";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,
+                JdkUtil.LogEventType.VM_ARGUMENTS.toString() + " not identified.");
+        VmArguments event = new VmArguments(logLine);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getVmArguments().add(event);
+        assertFalse(Application.AMQ_CLI == fel.getApplication(), "AMQ CLI application incorrectly identified.");
+    }
+
+    @Test
     void testArchSparc() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset65.txt");
         Manager manager = new Manager();
@@ -533,7 +555,19 @@ class TestFatalErrorLog {
     }
 
     @Test
-    void testJeusThread() {
+    void testJeusThreadDomainAdminServer() {
+        String thread = "  0x00007f4168025000 JavaThread \"jeus.server.admin.DomainAdminServer\" [_thread_blocked, "
+                + "id=75, stack(0x00007f41715c9000,0x00007f41716ca000)]";
+        assertTrue(JdkUtil.identifyEventType(thread, null) == JdkUtil.LogEventType.THREAD,
+                JdkUtil.LogEventType.THREAD.toString() + " not identified.");
+        Thread event = new Thread(thread);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getThreads().add(event);
+        assertEquals(Application.JEUS, fel.getApplication(), "JEUS application not identified.");
+    }
+
+    @Test
+    void testJeusThreadServer() {
         String thread = "  0x00007ff434057000 JavaThread \"jeus.server.Server\" [_thread_blocked, id=2663909, "
                 + "stack(0x00007ff43b657000,0x00007ff43b757000)]";
         assertTrue(JdkUtil.identifyEventType(thread, null) == JdkUtil.LogEventType.THREAD,

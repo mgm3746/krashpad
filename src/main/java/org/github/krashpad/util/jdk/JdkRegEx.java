@@ -51,9 +51,19 @@ public class JdkRegEx {
      * 
      * <pre>
      * org.apache.activemq.artemis.boot.Artemis run
+     * org.apache.activemq.artemis.boot.Artemis start
      * </pre>
+     * 
+     * <p>
+     * "run" starts the process interactively (stdout output to console, ctl+c will send sigterm).
+     * </p>
+     * 
+     * <p>
+     * "start" starts the process headless and redirects std in/out.
+     * </p>
      */
-    public static final String ARTEMIS_COMMAND = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis run.*$";
+    public static final String ARTEMIS_COMMAND = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (run|"
+            + "start).*$";
 
     /**
      * Blank line.
@@ -119,7 +129,8 @@ public class JdkRegEx {
      * --user myuser --password mypassword
      * </pre>
      */
-    public static final String COMMAND_ARTEMIS_CLI = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!run).*$";
+    public static final String COMMAND_ARTEMIS_CLI = "^.*org\\.apache\\.activemq\\.artemis\\.boot\\.Artemis (?!(run|"
+            + "start)).*$";
 
     /**
      * Cassandra main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
@@ -148,11 +159,13 @@ public class JdkRegEx {
      * 
      * For example:
      * 
-     * <pre>
      * jeus.server.ServerBootstrapper -domain mydomain -u myuser -server myserver
-     * </pre>
+     * 
+     * jeus.server.admin.DomainAdminServerBootstrapper -u myuser -p mypass -domain mydomain -server myserver
+     * -Djeus.scf.group-id=myid -verbose -domain mydomain -server myserver
      */
-    public static final String COMMAND_JEUS = "^.*jeus\\.server\\.ServerBootstrapper.*$";
+    public static final String COMMAND_JEUS = "^.*jeus\\.server\\.(ServerBootstrapper|"
+            + "admin\\.DomainAdminServerBootstrapper).*$";
 
     /**
      * Kafka main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
@@ -805,8 +818,11 @@ public class JdkRegEx {
      * 
      * 0x00007ff434057000 JavaThread "jeus.server.Server" [_thread_blocked, id=2663909,
      * stack(0x00007ff43b657000,0x00007ff43b757000)]
+     * 
+     * 0x00007f4168025000 JavaThread "jeus.server.admin.DomainAdminServer" [_thread_blocked, id=75,
+     * stack(0x00007f41715c9000,0x00007f41716ca000)]
      */
-    public static final String THREAD_JEUS = "^.+\"jeus.server.Server\".+$";
+    public static final String THREAD_JEUS = "^.+\"jeus\\.server\\.(Server|admin\\.DomainAdminServer)\".+$";
 
     /**
      * Red Hat Certificate System (RHCS), Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or upstream Dogtag

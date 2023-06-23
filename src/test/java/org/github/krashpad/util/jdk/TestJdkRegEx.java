@@ -38,18 +38,17 @@ class TestJdkRegEx {
     }
 
     @Test
-    void testAmq() {
+    void testAmqRun() {
         String javaCommand = "java_command: org.apache.activemq.artemis.boot.Artemis run";
         assertTrue(javaCommand.matches(JdkRegEx.ARTEMIS_COMMAND), "AMQ not recognized.");
         assertFalse(javaCommand.matches(JdkRegEx.COMMAND_ARTEMIS_CLI), "AMQ CLI incorrectly recognized.");
     }
 
     @Test
-    void testAmqCli() {
-        String javaCommand = "java_command: org.apache.activemq.artemis.boot.Artemis queue purge --name ExpiryQueue "
-                + "--url tcp://mydomain:12345 --user myuser --password mypassword";
-        assertFalse(javaCommand.matches(JdkRegEx.ARTEMIS_COMMAND), "AMQ incorrectly recognized.");
-        assertTrue(javaCommand.matches(JdkRegEx.COMMAND_ARTEMIS_CLI), "AMQ CLI not recognized.");
+    void testAmqStart() {
+        String javaCommand = "java_command: org.apache.activemq.artemis.boot.Artemis start";
+        assertTrue(javaCommand.matches(JdkRegEx.ARTEMIS_COMMAND), "AMQ not recognized.");
+        assertFalse(javaCommand.matches(JdkRegEx.COMMAND_ARTEMIS_CLI), "AMQ CLI incorrectly recognized.");
     }
 
     @Test
@@ -104,6 +103,19 @@ class TestJdkRegEx {
     void testClassWithSpaceAtEnd() {
         String address = "java.util.HashMap$KeyIterator ";
         assertTrue(address.matches(JdkRegEx.CLASS), "CLASS not recognized.");
+    }
+
+    @Test
+    void testCommandJeusDomainAdminServerBootstrapper() {
+        String javaCommand = "java_command: jeus.server.admin.DomainAdminServerBootstrapper -u myuser -p mypass "
+                + "-domain mydomain -server myserver -verbose -domain mydomain -server myserver";
+        assertTrue(javaCommand.matches(JdkRegEx.COMMAND_JEUS), "JBoss version check not recognized.");
+    }
+
+    @Test
+    void testCommandJeusServerBootstrapper() {
+        String javaCommand = "java_command: jeus.server.ServerBootstrapper -domain mydomain -u myuser -server myserver";
+        assertTrue(javaCommand.matches(JdkRegEx.COMMAND_JEUS), "JBoss version check not recognized.");
     }
 
     @Test

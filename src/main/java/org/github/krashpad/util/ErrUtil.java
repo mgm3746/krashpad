@@ -204,6 +204,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-4.4.7-20120601.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-4.8.5-20150702.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20191121.so.1");
+        NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20200928.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20210514.so.1");
         // libgcrypt
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.11.8.2");
@@ -230,6 +231,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libgnome-keyring.so.0.2.0");
         // gnutls
         NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.24.0");
+        NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.28.0");
         NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.28.2");
         // glib2
         NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5600.1");
@@ -605,6 +607,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libnet.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libnio.so");
+        // java-(11|17)-openjdk
+        NATIVE_LIBRARIES_LINUX_JAVA.add("librmi.so");
         // java-(1.8.0|11|17)-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("libsplashscreen.so");
         // java-(1.8.0|11)-openjdk-headless
