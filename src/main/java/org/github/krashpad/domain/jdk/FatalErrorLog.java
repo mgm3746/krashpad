@@ -1365,6 +1365,10 @@ public class FatalErrorLog {
                 }
             }
         }
+        // Check for _JAVA_SR_SIGNUM environment variable
+        if (this.isInEnvironmentVariables("_JAVA_SR_SIGNUM")) {
+            analysis.add(Analysis.INFO_JAVA_SR_SIGNO);
+        }
     }
 
     /**
@@ -4835,6 +4839,26 @@ public class FatalErrorLog {
             }
         }
         return isInCompilationEvents;
+    }
+
+    /**
+     * @param regEx
+     *            A regular expression.
+     * @return true if the regex is in the environment variables, false otherwise.
+     */
+    public boolean isInEnvironmentVariables(String regEx) {
+        boolean isInEnvironmentVariables = false;
+        if (!environmentVariables.isEmpty()) {
+            Iterator<EnvironmentVariable> iterator = environmentVariables.iterator();
+            while (iterator.hasNext()) {
+                EnvironmentVariable event = iterator.next();
+                if (event.getLogEntry().matches("^.*" + regEx + ".*$")) {
+                    isInEnvironmentVariables = true;
+                    break;
+                }
+            }
+        }
+        return isInEnvironmentVariables;
     }
 
     /**

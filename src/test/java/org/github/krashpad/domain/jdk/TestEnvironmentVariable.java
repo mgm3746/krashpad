@@ -106,6 +106,14 @@ class TestEnvironmentVariable {
     }
 
     @Test
+    void testJavaSrSignum() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
+        String logLine = "_JAVA_SR_SIGNUM=30";
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    }
+
+    @Test
     void testJreHome() {
         EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "JRE_HOME=/usr/java/jdk1.8.0_241-amd64/jre";

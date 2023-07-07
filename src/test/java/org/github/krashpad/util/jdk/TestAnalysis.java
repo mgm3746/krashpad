@@ -1116,6 +1116,17 @@ class TestAnalysis {
     }
 
     @Test
+    void testJavaSrSignum() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String username = "_JAVA_SR_SIGNUM=30";
+        EnvironmentVariable environmentVariablesEvent = new EnvironmentVariable(username);
+        fel.getEnvironmentVariables().add(environmentVariablesEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JAVA_SR_SIGNO.getKey()),
+                Analysis.INFO_JAVA_SR_SIGNO + " analysis not identified.");
+    }
+
+    @Test
     void testJdk11AutomaticLogFileRotationDisabled() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -Xlog:gc*:file=/path/to/gc.log::filesize=0";

@@ -133,6 +133,14 @@ class TestSignalHandlers {
     }
 
     @Test
+    void testSigpwr() {
+        String logLine = "SIGPWR: [libjvm.so+0xc12340], sa_mask[0]=00000000000100000000000000000000, sa_flags="
+                + "SA_RESTART|SA_SIGINFO";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGNAL_HANDLERS,
+                JdkUtil.LogEventType.SIGNAL_HANDLERS.toString() + " not identified.");
+    }
+
+    @Test
     void testSigquit() {
         String logLine = "SIGQUIT: [libjvm.so+0x964430], sa_mask[0]=11111111011111111101111111111110, "
                 + "sa_flags=SA_RESTART|SA_SIGINFO";

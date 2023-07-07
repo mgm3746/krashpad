@@ -61,7 +61,7 @@ public class SignalHandlers implements LogEvent, ThrowAwayEvent, HeaderEvent {
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
             + "|[ ]{0,5}(\\*\\*\\* Expected: |\\*\\*\\* Handler was modified!|SIG39|SIG40|SIGSEGV|SIGBUS|SIGFPE|"
-            + "SIGPIPE|SIGXFSZ|SIGILL|SIGUSR1|SIGUSR2|SIGHUP|SIGINT|SIGTERM|SIGTRAP|SIGQUIT)).*$";
+            + "SIGPIPE|SIGXFSZ|SIGILL|SIGUSR1|SIGUSR2|SIGHUP|SIGINT|SIGPWR|SIGTERM|SIGTRAP|SIGQUIT)).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

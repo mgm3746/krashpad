@@ -467,6 +467,11 @@ public enum Analysis {
     INFO_ITEXT("info.itext"),
 
     /**
+     * Property key for the _JAVA_SR_SIGNUM environment variable being used to map a signal to SIGUSR1 (suspend/resume).
+     */
+    INFO_JAVA_SR_SIGNO("info.java.sr.signum"),
+
+    /**
      * Property key for a JDK that is more than 1 year older than the latest release.
      */
     INFO_JDK_ANCIENT("info.jdk.ancient"),
