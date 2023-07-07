@@ -365,9 +365,13 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libnss_files-2.28.so");
         // systemd-libs (/usr/lib64/):
         NATIVE_LIBRARIES_LINUX.add("libnss_myhostname.so.2");
-        // glibc
+        // glibc, libnsl (/usr/lib64/): the public client interface for NIS(YP). libnsl breaks out NIS library that used
+        // to be in glibc.
         NATIVE_LIBRARIES_LINUX.add("libnsl-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libnsl-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libnsl.so.2.0.0");
+        // nss_nis (/usr/lib64/): Name Service Switch (NSS) module using NIS.
+        NATIVE_LIBRARIES_LINUX.add("libnss_nis.so.2.0.0");
         // sssd-client
         NATIVE_LIBRARIES_LINUX.add("libnss_sss.so.2");
         // numactl-libs
@@ -460,6 +464,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libtiff.so.5.3.0");
         // ncurses-libs
         NATIVE_LIBRARIES_LINUX.add("libtinfo.so.6.1");
+        // libtirpc (/usr/lib64/): a port of Suns Transport-Independent RPC library.
+        NATIVE_LIBRARIES_LINUX.add("libtirpc.so.3.0.0");
         // libunistring
         NATIVE_LIBRARIES_LINUX.add("libunistring.so.2.1.0");
         // glibc
