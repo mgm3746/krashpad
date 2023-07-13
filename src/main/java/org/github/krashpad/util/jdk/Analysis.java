@@ -447,11 +447,6 @@ public enum Analysis {
     INFO_DYNATRACE("info.dynatrace"),
 
     /**
-     * Property key for GC log being sent to stdout.
-     */
-    INFO_GC_LOG_STDOUT("info.gc.log.stdout"),
-
-    /**
      * Property key for HyperV (Viridian) environment. Previously referred to as Windows Server Virtualization.
      */
     INFO_HYPERV("info.hyperv"),
