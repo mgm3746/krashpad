@@ -684,6 +684,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("ntmarta.dll");
         NATIVE_LIBRARIES_WINDOWS.add("NTASN1.dll");
         NATIVE_LIBRARIES_WINDOWS.add("OLEAUT32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("Ole32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("OleAut32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ole32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("opengl32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("PROPSYS.dll");
