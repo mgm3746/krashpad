@@ -104,6 +104,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libatspi.so.0.0.1");
         // libattr
         NATIVE_LIBRARIES_LINUX.add("libattr.so.1.1.0");
+        // lib-audit (audit framework)
+        NATIVE_LIBRARIES_LINUX.add("libaudit.so.1.0.0");
         // libavahi-client (DNS service discovery and multicast DNS)
         NATIVE_LIBRARIES_LINUX.add("libavahi-client.so.3.2.9");
         // avahi-libs (libraries need to run programs that use avahi)
@@ -126,6 +128,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libcap.so.2.22");
         NATIVE_LIBRARIES_LINUX.add("libcap.so.2.26");
         NATIVE_LIBRARIES_LINUX.add("libcap.so.2.48");
+        // libpcap-ng
+        NATIVE_LIBRARIES_LINUX.add("libcap-ng.so.0.0.0");
         // libcom-err
         NATIVE_LIBRARIES_LINUX.add("libcom_err.so.2.1");
         // libcroco
@@ -386,6 +390,9 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("liborc-0.4.so.0.28.0");
         // p11-kit
         NATIVE_LIBRARIES_LINUX.add("libp11-kit.so.0.3.0");
+        // pam (pluggable authentication modules)
+        NATIVE_LIBRARIES_LINUX.add("libpam.so.0");
+        NATIVE_LIBRARIES_LINUX.add("libpam.so.0.83.1");
         // pango
         NATIVE_LIBRARIES_LINUX.add("libpango-1.0.so.0.4200.3");
         // pango
@@ -399,18 +406,18 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.10");
         // pcre2
         NATIVE_LIBRARIES_LINUX.add("libpcre2-8.so.0.7.1");
-        // pixman
-        NATIVE_LIBRARIES_LINUX.add("libpixman-1.so.0.38.4");
-        // nspr
-        NATIVE_LIBRARIES_LINUX.add("libplc4.so");
-        // nspr
-        NATIVE_LIBRARIES_LINUX.add("libplds4.so");
         // gdk-pixbuf2-modules
         NATIVE_LIBRARIES_LINUX.add("libpixbufloader-bmp.so");
         // gdk-pixbuf2-modules
         NATIVE_LIBRARIES_LINUX.add("libpixbufloader-gif.so");
         // gdk-pixbuf2-modules
         NATIVE_LIBRARIES_LINUX.add("libpixbufloader-svg.so");
+        // pixman
+        NATIVE_LIBRARIES_LINUX.add("libpixman-1.so.0.38.4");
+        // nspr
+        NATIVE_LIBRARIES_LINUX.add("libplc4.so");
+        // nspr
+        NATIVE_LIBRARIES_LINUX.add("libplds4.so");
         // libpng
         NATIVE_LIBRARIES_LINUX.add("libpng15.so.15.13.0");
         NATIVE_LIBRARIES_LINUX.add("libpng16.so.16.34.0");
@@ -580,6 +587,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libj2pkcs11.so");
         // java-(11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjaas.so");
+        // java-1.8.0-openjdk
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libjaas_unix.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjava.so");
         // java-(11|17)-openjdk-headless. Replaces libjpeg.so in 1.8.0?
