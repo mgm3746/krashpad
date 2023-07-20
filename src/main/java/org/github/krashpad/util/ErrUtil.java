@@ -614,8 +614,7 @@ public class ErrUtil {
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libmanagement.so");
         // java-(11|17)-openjdk-headless
-        // uncomment when seen in crash
-        // NATIVE_LIBRARIES_LINUX_JAVA.add("libmanagement_agent.so");
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libmanagement_agent.so");
         // java-(11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libmanagement_ext.so");
         // java-(1.8.0|11|17)-openjdk-headless
