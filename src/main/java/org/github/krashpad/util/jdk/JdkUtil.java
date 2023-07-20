@@ -1275,8 +1275,8 @@ public class JdkUtil {
         // Windows amd64 OpenJDK11 zip
         // First Windows zip was 11.0.1.13.
         JDK11_WINDOWS_ZIPS = new HashMap<String, Release>();
-        JDK11_WINDOWS_ZIPS.put("LATEST", new Release("Apr 14 2023 00:00:00", 26, "11.0.19+7-LTS"));
-        JDK11_WINDOWS_ZIPS.put("11.0.19+7-LTS", new Release("Apr 14 2023 00:00:00", 26, "11.0.19+7-LTS"));
+        JDK11_WINDOWS_ZIPS.put("LATEST", new Release("Apr 14 2023 13:52:19", 26, "11.0.19+7-LTS"));
+        JDK11_WINDOWS_ZIPS.put("11.0.19+7-LTS", new Release("Apr 14 2023 13:52:19", 26, "11.0.19+7-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.18+10-LTS", new Release("Jan 13 2023 00:00:00", 25, "11.0.18+10-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.17+8-LTS", new Release("Oct 16 2022 00:00:00", 24, "11.0.17+8-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.16.1+1-LTS", new Release("Aug 25 2022 00:00:00", 23, "11.0.16.1+1-LTS"));

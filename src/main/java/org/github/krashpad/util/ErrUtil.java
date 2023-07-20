@@ -641,6 +641,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_ORACLE.add("libt2k.dll");
 
         NATIVE_LIBRARIES_WINDOWS = new ArrayList<String>();
+        NATIVE_LIBRARIES_WINDOWS.add("AcLayers.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("apphelp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ADVAPI32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("bcrypt.dll");
@@ -666,6 +667,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("GDI32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("GLU32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("gdiplus.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("gpapi.dll");
         NATIVE_LIBRARIES_WINDOWS.add("fwpuclnt.dll");
         NATIVE_LIBRARIES_WINDOWS.add("gdi32full.dll");
         NATIVE_LIBRARIES_WINDOWS.add("iertutil.dll");
@@ -707,10 +709,13 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("rasadhlp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("rsaenh.dll");
         NATIVE_LIBRARIES_WINDOWS.add("SHELL32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("SHLWAPI.dll");
         NATIVE_LIBRARIES_WINDOWS.add("SSPICLI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("sechost.dll");
         NATIVE_LIBRARIES_WINDOWS.add("Secur32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("secur32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("sfc.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("sfc_os.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("shcore.dll");
         NATIVE_LIBRARIES_WINDOWS.add("shlwapi.dll");
         NATIVE_LIBRARIES_WINDOWS.add("srvcli.dll");
@@ -723,6 +728,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("WINHTTP.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINMMBASE.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINMM.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("WINNSI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("WINSTA.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WSOCK32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WS2_32.dll");
@@ -733,12 +739,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("windows.storage.dll");
         NATIVE_LIBRARIES_WINDOWS.add("win32u.dll");
         NATIVE_LIBRARIES_WINDOWS.add("winrnr.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("WINTRUST.dll");
         NATIVE_LIBRARIES_WINDOWS.add("wshbth.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("ZDNdrv56.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("ZDNui56.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("ZDesignerdrv.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("ZDesignerui.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("ZDesignerui.res.dll");
 
         NATIVE_LIBRARIES_WINDOWS_JAVA = new ArrayList<String>();
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("attach.dll");
@@ -776,6 +778,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("net.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("nio.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("npt.dll");
+        NATIVE_LIBRARIES_WINDOWS_JAVA.add("prefs.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("sawindbg.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("spashscreen.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("sunec.dll");
