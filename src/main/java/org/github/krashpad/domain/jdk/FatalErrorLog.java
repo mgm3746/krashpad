@@ -3697,7 +3697,7 @@ public class FatalErrorLog {
     public String getNativeLibraryInCrash() {
         String nativeLibraryInCrash = null;
         if (getStackFrameTop() != null) {
-            Pattern pattern = Pattern.compile("^C[ ]{1,2}\\[(.+\\.(so|dll)).*\\]$");
+            Pattern pattern = Pattern.compile("^C[ ]{1,2}\\[(.+\\.(so|dll)).*\\].*$");
             Matcher matcher = pattern.matcher(getStackFrameTop());
             if (matcher.find()) {
                 nativeLibraryInCrash = matcher.group(1);

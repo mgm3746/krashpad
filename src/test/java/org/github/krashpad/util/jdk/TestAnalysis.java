@@ -447,6 +447,36 @@ class TestAnalysis {
     }
 
     @Test
+    void testCrashInUnknownNativeLibraryHeader() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header = "# C  [libpbul_aca-elf64.so+0x10319]  vfork+0x30c";
+        Header headerEvent = new Header(header);
+        fel.getHeaders().add(headerEvent);
+        String dynamicLibrary = "7fb6447c4000-7fb6447e8000 r-xp 00000000 08:05 525209                     "
+                + "/path/to/libpbul_aca-elf64.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN.getKey()),
+                Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN + " analysis not identified.");
+    }
+
+    @Test
+    void testCrashInUnknownNativeLibraryStack() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack = "C  [libpbul_aca-elf64.so+0x10319]  vfork+0x30c";
+        Stack stackEvent = new Stack(stack);
+        fel.getStacks().add(stackEvent);
+        String dynamicLibrary = "7fb6447c4000-7fb6447e8000 r-xp 00000000 08:05 525209                     "
+                + "/path/to/libpbul_aca-elf64.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN.getKey()),
+                Analysis.ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN + " analysis not identified.");
+    }
+
+    @Test
     void testCrashOnOomeHeap() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError "
