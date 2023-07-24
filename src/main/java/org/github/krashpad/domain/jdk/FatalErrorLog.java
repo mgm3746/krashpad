@@ -2900,10 +2900,16 @@ public class FatalErrorLog {
                 if (he.isJreVersion()) {
                     if (he.getLogEntry().matches("^.+AdoptOpenJDK.+$")) {
                         vendor = JavaVendor.ADOPTOPENJDK;
+                        break;
                     } else if (getOs() != Os.UNIDENTIFIED && !isRhVersion()) {
                         vendor = JavaVendor.NOT_RED_HAT;
+                        // continue checking
                     }
-                    break;
+                } else if (he.isVendorBugUrl()) {
+                    if (he.getLogEntry().matches("^#   https://github.com/adoptium/adoptium-support/issues$")) {
+                        vendor = JavaVendor.ADOPTIUM;
+                        break;
+                    }
                 }
             }
         }

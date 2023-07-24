@@ -1121,6 +1121,19 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testTemurin() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String headerLine = "#   https://github.com/adoptium/adoptium-support/issues";
+        Header headerEvent = new Header(headerLine);
+        fel.getHeaders().add(headerEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.19+7) for linux-amd64 JRE (11.0.19+7), built on "
+                + "Apr 18 2023 22:12:43 by \"\" with gcc 7.5.0";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        assertEquals(JavaVendor.ADOPTIUM, fel.getJavaVendor(), "Java vendor not correct.");
+    }
+
+    @Test
     void testTenuredGeneration() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset40.txt");
         Manager manager = new Manager();

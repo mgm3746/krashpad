@@ -256,4 +256,13 @@ class TestHeader {
         assertFalse(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " incorrectly identified.");
     }
+
+    @Test
+    void testVendorBugUrl() {
+        String logLine = "#   https://github.com/adoptium/adoptium-support/issues";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
+        Header headerEvent = new Header(logLine);
+        assertTrue(headerEvent.isVendorBugUrl(), "Vendor bug url not identified.");
+    }
 }

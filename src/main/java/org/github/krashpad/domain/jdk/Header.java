@@ -210,6 +210,13 @@ public class Header implements LogEvent {
     }
 
     /**
+     * @return True if the event is the vendor bug url, false otherwise.
+     */
+    public boolean isVendorBugUrl() {
+        return logEntry.matches("^#   http.+$");
+    }
+
+    /**
      * @return True if the event is a VM frame, false otherwise.
      */
     public boolean isVmFrame() {
