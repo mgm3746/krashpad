@@ -59,7 +59,7 @@ public class StackSlotToMemoryMapping implements LogEvent {
             + "|invoke return entry points|method entry point|return entry points|stack at sp|"
             + "\\[error occurred during error reporting \\(inspecting top of stack\\)|\\[CodeBlob|\\{"
             + JdkRegEx.ADDRESS + "\\} \\- klass:| - ---- fields | - final | - length:|"
-            + " - '(closeables|linearScanCount|sequence|writePosition)' | - private |" + JdkRegEx.CLASS
+            + " - '(closeables|linearScanCount|sequence|writePosition)' | - (private|protected) |" + JdkRegEx.CLASS
             + "|BufferBlob|Framesize:).*$";
 
     /**
