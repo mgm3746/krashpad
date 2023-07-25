@@ -82,6 +82,15 @@ class TestGcHeapHistoryEvent {
     }
 
     @Test
+    void testLocalityGroup() {
+        GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
+        String logLine = "    lgrp 0 space 262400K, 100% used [0x00000000d5580000,0x00000000e55c0000,"
+                + "0x00000000e55c0000)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
+                JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testNoEventsLowercaseE() {
         GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
         String logLine = "No events";

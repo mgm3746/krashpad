@@ -113,6 +113,15 @@ class TestHeap {
     }
 
     @Test
+    void testLocalityGroup() {
+        Heap priorEvent = new Heap(null);
+        String logLine = "    lgrp 0 space 262400K, 5% used [0x00000000d5580000,0x00000000d62cdd08,"
+                + "0x00000000e55c0000)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
+                JdkUtil.LogEventType.HEAP.toString() + " not identified.");
+    }
+
+    @Test
     void testMetaspace() {
         Heap priorEvent = new Heap(null);
         String logLine = " Metaspace       used 19510K, capacity 21116K, committed 21248K, reserved 1069056K";

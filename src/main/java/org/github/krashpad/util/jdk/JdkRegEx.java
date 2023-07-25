@@ -906,6 +906,17 @@ public class JdkRegEx {
     public static final String YOUNG_GEN = "(" + JdkRegEx.YOUNG_GEN_SIZE + "|  (eden|from|to).+)";
 
     /**
+     * Regular expression for locality group data.
+     * 
+     * <pre>
+     *   eden space 524800K, 3% used [0x00000000d5580000,0x00000000e5ae0020,0x00000000f5600000)
+     *   lgrp 0 space 262400K, 5% used [0x00000000d5580000,0x00000000d62cdd08,0x00000000e55c0000)
+     *   lgrp 1 space 262400K, 2% used [0x00000000e55c0000,0x00000000e5ae0020,0x00000000f5600000)
+     * </pre>
+     */
+    public static final String LOCALITY_GROUP = "(    lgrp \\d{1,} space .+)";
+
+    /**
      * Regular expression for a young generation heap size data.
      * 
      * 1) <code>GarbageCollection.PARALLEL_SCAVENGE</code>:

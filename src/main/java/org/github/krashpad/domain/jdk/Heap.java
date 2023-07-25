@@ -47,7 +47,24 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </pre>
  * 
  * <p>
- * 2) PAR_NEW + SERIAL_OLD:
+ * 2) PARALLEL_SCAVENGE + PARALLEL_OLD with locality groups:
+ * </p>
+ * 
+ * <pre>
+ *  PSYoungGen      total 611840K, used 18871K [0x00000000d5580000, 0x0000000100000000, 0x0000000100000000)
+ *   eden space 524800K, 3% used [0x00000000d5580000,0x00000000e5ae0020,0x00000000f5600000)
+ *     lgrp 0 space 262400K, 5% used [0x00000000d5580000,0x00000000d62cdd08,0x00000000e55c0000)
+ *     lgrp 1 space 262400K, 2% used [0x00000000e55c0000,0x00000000e5ae0020,0x00000000f5600000)
+ *   from space 87040K, 0% used [0x00000000fab00000,0x00000000fab00000,0x0000000100000000)
+ *   to   space 87040K, 0% used [0x00000000f5600000,0x00000000f5600000,0x00000000fab00000)
+ *  ParOldGen       total 1398272K, used 424317K [0x0000000080000000, 0x00000000d5580000, 0x00000000d5580000)
+ *   object space 1398272K, 30% used [0x0000000080000000,0x0000000099e5f4b0,0x00000000d5580000)
+ *  Metaspace       used 50266K, capacity 51856K, committed 54144K, reserved 1095680K
+ *   class space    used 5625K, capacity 6299K, committed 7040K, reserved 1048576K
+ * </pre>
+ * 
+ * <p>
+ * 3) PAR_NEW + SERIAL_OLD:
  * </p>
  *
  * <pre>
@@ -63,7 +80,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </pre>
  * 
  * <p>
- * 3) G1:
+ * 4) G1:
  * </p>
  *
  * <pre>
@@ -74,7 +91,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </pre>
  *
  * <p>
- * 4) SHENANDOAH:
+ * 5) SHENANDOAH:
  * </p>
  * 
  * <pre>
@@ -106,8 +123,9 @@ public class Heap implements LogEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.YOUNG_GEN + "|" + JdkRegEx.OLD_GEN + "|"
-            + JdkRegEx.SHENANDOAH + "|" + JdkRegEx.G1 + "|" + JdkRegEx.METASPACE + "|" + JdkRegEx.Z + ")$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.G1 + "|" + JdkRegEx.LOCALITY_GROUP + "|"
+            + JdkRegEx.METASPACE + "|" + JdkRegEx.OLD_GEN + "|" + JdkRegEx.SHENANDOAH + "|" + JdkRegEx.YOUNG_GEN + "|"
+            + JdkRegEx.Z + ")$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
