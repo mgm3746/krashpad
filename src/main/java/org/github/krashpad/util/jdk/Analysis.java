@@ -534,6 +534,11 @@ public enum Analysis {
     INFO_OPTS_NONE("info.opts.none"),
 
     /**
+     * Property key for JVM options unknown.
+     */
+    INFO_OPTS_UNKNOWN("info.opts.unknown"),
+
+    /**
      * Property key for Oracle JDBC OCI (native) driver detected.
      */
     INFO_ORACLE_JDBC_OCI("info.oracle.jdbc.oci"),

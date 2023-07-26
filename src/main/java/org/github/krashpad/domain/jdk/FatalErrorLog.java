@@ -396,8 +396,11 @@ public class FatalErrorLog {
             context.setMemory(getOsMemTotal());
             jvmOptions = new JvmOptions(context);
             jvmOptions.doAnalysis();
+            if (jvmOptions.getOptions().size() == 0) {
+                analysis.add(0, Analysis.INFO_OPTS_NONE);
+            }
         } else {
-            analysis.add(0, Analysis.INFO_OPTS_NONE);
+            analysis.add(0, Analysis.INFO_OPTS_UNKNOWN);
         }
         // Unidentified logging lines
         if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) >= 8 && !getUnidentifiedLogLines().isEmpty()) {
@@ -534,7 +537,8 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             }
         } else {
-            if ((vmInfo == null || isRhBuildString()) && isRhVersion() && (isRhBuildDate() || isRhBuildDateUnknown())) {
+            if (getJavaVendor() == JavaVendor.UNIDENTIFIED && isRhVersion()
+                    && (isRhBuildDate() || isRhBuildDateUnknown())) {
                 analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
             } else if (isAdoptOpenJdkBuildString()) {
                 analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
@@ -1138,7 +1142,7 @@ public class FatalErrorLog {
                 while (iterator.hasNext()) {
                     Header event = iterator.next();
                     if (event.isProblematicFrame() && event.getLogEntry().matches("^.+libc.+cfree\\+0x1c$")
-                            && getJvmOptions() != null && getJvmOptions().getUseGcLogFileRotation() != null
+                            && (getJvmOptions() == null || getJvmOptions().getUseGcLogFileRotation() != null)
                             && getCurrentThreadName() != null
                             && getCurrentThreadName().matches("^ConcurrentGCThread .+$")) {
                         analysis.add(Analysis.ERROR_JDK8_LIBC_CFREE);
@@ -2909,8 +2913,10 @@ public class FatalErrorLog {
                 } else if (he.isVendorBugUrl()) {
                     if (he.getLogEntry().matches("^#   https://github.com/adoptium/adoptium-support/issues$")) {
                         vendor = JavaVendor.ADOPTIUM;
-                        break;
+                    } else if (he.getLogEntry().matches("^#   http://www.azulsystems.com/support/$")) {
+                        vendor = JavaVendor.AZUL;
                     }
+                    break;
                 }
             }
         }

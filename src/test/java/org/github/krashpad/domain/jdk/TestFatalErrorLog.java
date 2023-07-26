@@ -113,6 +113,22 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testAzul() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String headerLine = "#   http://www.azulsystems.com/support/";
+        Header headerEvent = new Header(headerLine);
+        fel.getHeaders().add(headerEvent);
+        assertEquals(JavaVendor.AZUL, fel.getJavaVendor(), "Java vendor not correct.");
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
+                Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_OPTS_NONE.getKey()),
+                Analysis.INFO_OPTS_NONE + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_OPTS_UNKNOWN.getKey()),
+                Analysis.INFO_OPTS_UNKNOWN + " analysis not identified.");
+    }
+
+    @Test
     void testCodeCacheSizeSegmented() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvmArgs = "jvm_args: -XX:+SegmentedCodeCache -XX:NonNMethodCodeHeapSize=5825164 "
@@ -789,7 +805,12 @@ class TestFatalErrorLog {
     @Test
     void testNoJvmOptions() {
         FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "jvm_args: -D[Standalone]";
+        VmArguments jvmArgs = new VmArguments(logLine);
+        fel.getVmArguments().add(jvmArgs);
         fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.INFO_OPTS_UNKNOWN.getKey()),
+                Analysis.INFO_OPTS_UNKNOWN + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_OPTS_NONE.getKey()),
                 Analysis.INFO_OPTS_NONE + " analysis not identified.");
     }
