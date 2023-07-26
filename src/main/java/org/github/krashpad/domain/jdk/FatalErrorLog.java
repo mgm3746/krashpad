@@ -1138,7 +1138,8 @@ public class FatalErrorLog {
                 while (iterator.hasNext()) {
                     Header event = iterator.next();
                     if (event.isProblematicFrame() && event.getLogEntry().matches("^.+libc.+cfree\\+0x1c$")
-                            && getJvmOptions().getUseGcLogFileRotation() != null
+                            && getJvmOptions() != null && getJvmOptions().getUseGcLogFileRotation() != null
+                            && getCurrentThreadName() != null
                             && getCurrentThreadName().matches("^ConcurrentGCThread .+$")) {
                         analysis.add(Analysis.ERROR_JDK8_LIBC_CFREE);
                         break;
