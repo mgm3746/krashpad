@@ -141,6 +141,17 @@ class TestVmOperation {
     }
 
     @Test
+    void testParallelGCSystemGC() {
+        String logLine = "VM_Operation (0x00007f795525b400): ParallelGCSystemGC, mode: safepoint, requested by thread "
+                + "0x0000000011b1a800";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperation event = new VmOperation(logLine);
+        assertEquals("ParallelGCSystemGC, mode: safepoint, requested by thread 0x0000000011b1a800",
+                event.getVmOperationString(), "VM operation not correct.");
+    }
+
+    @Test
     void testParseLogLine() {
         String logLine = "VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread "
                 + "0x0000000001b2a";
