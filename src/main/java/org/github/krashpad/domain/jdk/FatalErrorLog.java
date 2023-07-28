@@ -1371,8 +1371,12 @@ public class FatalErrorLog {
             }
         }
         // Check for _JAVA_SR_SIGNUM environment variable
-        if (this.isInEnvironmentVariables("_JAVA_SR_SIGNUM")) {
+        if (isInEnvironmentVariables("_JAVA_SR_SIGNUM")) {
             analysis.add(Analysis.INFO_JAVA_SR_SIGNO);
+        }
+        // Check for experimental options being set by ergonomics
+        if (!getGlobalFlagsExperimentalErgonomic().isEmpty()) {
+            analysis.add(Analysis.WARN_EXPERIMENTAL_ERGONOMIC);
         }
     }
 
@@ -1431,6 +1435,22 @@ public class FatalErrorLog {
                         s.append(", ");
                     }
                     s.append(library);
+                    punctuate = true;
+                }
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.WARN_EXPERIMENTAL_ERGONOMIC.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                Iterator<GlobalFlag> iterator = getGlobalFlagsExperimentalErgonomic().iterator();
+                boolean punctuate = false;
+                while (iterator.hasNext()) {
+                    GlobalFlag globalFlag = iterator.next();
+                    if (punctuate) {
+                        s.append(", ");
+                    }
+                    s.append(globalFlag.getFlag());
+                    s.append("=");
+                    s.append(globalFlag.getValue());
                     punctuate = true;
                 }
                 s.append(".");
@@ -1542,7 +1562,7 @@ public class FatalErrorLog {
      * 
      * @param key
      *            The analysis identifier.
-     * @return The analysisis display literal, or null if it does not exist.
+     * @return The analysis display literal, or null if it does not exist.
      */
     public String getAnalysisLiteral(String key) {
         String literal = null;
@@ -1716,19 +1736,10 @@ public class FatalErrorLog {
     public long getCodeCacheSize() {
         long reservedCodeCacheSize = Long.MIN_VALUE;
         // 1st check [Global flags]
-        if (!globalFlags.isEmpty()) {
-            Iterator<GlobalFlag> iterator = globalFlags.iterator();
-            while (iterator.hasNext()) {
-                GlobalFlag event = iterator.next();
-                String regExReservedCodeCacheSize = "^.+uintx ReservedCodeCacheSize[ ]{1,}= (\\d{1,}).+$";
-                Pattern pattern = Pattern.compile(regExReservedCodeCacheSize);
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    reservedCodeCacheSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            org.github.joa.util.Constants.UNITS);
-                    break;
-                }
-            }
+        GlobalFlag globalFlagReservedCodeCacheSize = getGlobalFlag("ReservedCodeCacheSize");
+        if (globalFlagReservedCodeCacheSize != null) {
+            reservedCodeCacheSize = JdkUtil.convertSize(Long.parseLong(globalFlagReservedCodeCacheSize.getValue()), 'B',
+                    org.github.joa.util.Constants.UNITS);
         }
         // Next check JVM options
         if (reservedCodeCacheSize < 0) {
@@ -1939,19 +1950,17 @@ public class FatalErrorLog {
                     usingCompressedPointers = true;
                 }
             }
-        } else if (!globalFlags.isEmpty()) {
-            Iterator<GlobalFlag> iterator = globalFlags.iterator();
+        } else {
             boolean useCompressedOops = true;
             boolean useCompressedClassPointers = true;
-            while (iterator.hasNext()) {
-                GlobalFlag event = iterator.next();
-                String regExCompressedOopsDisabled = "^.+bool UseCompressedOops[ ]{1,}= false.+$";
-                String regExCompressedClassPointersDisabled = "^.+bool UseCompressedClassPointers[ ]{1,}= false.+$";
-                if (event.getLogEntry().matches(regExCompressedOopsDisabled)) {
-                    useCompressedOops = false;
-                } else if (event.getLogEntry().matches(regExCompressedClassPointersDisabled)) {
-                    useCompressedClassPointers = false;
-                }
+            GlobalFlag globalFlagUseCompressedOops = getGlobalFlag("UseCompressedOops");
+            if (globalFlagUseCompressedOops != null && globalFlagUseCompressedOops.getValue().equals("false")) {
+                useCompressedOops = false;
+            }
+            GlobalFlag globalFlagUseCompressedClassPointers = getGlobalFlag("UseCompressedClassPointers");
+            if (globalFlagUseCompressedClassPointers != null
+                    && globalFlagUseCompressedClassPointers.getValue().equals("false")) {
+                useCompressedClassPointers = false;
             }
             if (!useCompressedOops) {
                 usingCompressedPointers = false;
@@ -1970,19 +1979,11 @@ public class FatalErrorLog {
             // Default is 1g
             compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', org.github.joa.util.Constants.UNITS);
             // 1st check [Global flags]
-            if (!globalFlags.isEmpty()) {
-                Iterator<GlobalFlag> iterator = globalFlags.iterator();
-                while (iterator.hasNext()) {
-                    GlobalFlag event = iterator.next();
-                    String regExCompressedClassSpaceSize = "^.+uintx CompressedClassSpaceSize[ ]{1,}= (\\d{1,}).+$";
-                    Pattern pattern = Pattern.compile(regExCompressedClassSpaceSize);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        compressedClassSpaceSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                                org.github.joa.util.Constants.UNITS);
-                        break;
-                    }
-                }
+            GlobalFlag globalFlagCompressedClassSpaceSize = getGlobalFlag("CompressedClassSpaceSize");
+            if (globalFlagCompressedClassSpaceSize != null) {
+                compressedClassSpaceSize = JdkUtil.convertSize(
+                        Long.parseLong(globalFlagCompressedClassSpaceSize.getValue()), 'B',
+                        org.github.joa.util.Constants.UNITS);
             } else if (jvmOptions != null) {
                 if (JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())
                         || JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
@@ -2168,19 +2169,10 @@ public class FatalErrorLog {
     public long getDirectMemoryMaxSize() {
         long directMemorySize = 0;
         // 1st check [Global flags]
-        if (!globalFlags.isEmpty()) {
-            Iterator<GlobalFlag> iterator = globalFlags.iterator();
-            while (iterator.hasNext()) {
-                GlobalFlag event = iterator.next();
-                String regExMaxDirectMemorySize = "^.+uintx MaxDirectMemorySize[ ]{1,}= (\\d{1,}).+$";
-                Pattern pattern = Pattern.compile(regExMaxDirectMemorySize);
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    directMemorySize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            org.github.joa.util.Constants.UNITS);
-                    break;
-                }
-            }
+        GlobalFlag globalFlagMaxDirectMemorySize = getGlobalFlag("MaxDirectMemorySize");
+        if (globalFlagMaxDirectMemorySize != null) {
+            directMemorySize = JdkUtil.convertSize(Long.parseLong(globalFlagMaxDirectMemorySize.getValue()), 'B',
+                    org.github.joa.util.Constants.UNITS);
         } else if (jvmOptions != null && jvmOptions.getMaxDirectMemorySize() != null) {
             char fromUnits;
             long value;
@@ -2405,8 +2397,42 @@ public class FatalErrorLog {
         return gcPreciousLogs;
     }
 
+    /**
+     * @param flag
+     *            The flag to search for.
+     * @return The <code>GlobalFlag</code> if it exists, null otherwise.
+     */
+    public GlobalFlag getGlobalFlag(String flag) {
+        GlobalFlag globalFlag = null;
+        if (!globalFlags.isEmpty()) {
+            Iterator<GlobalFlag> iterator = globalFlags.iterator();
+            while (iterator.hasNext()) {
+                GlobalFlag event = iterator.next();
+                if (!event.isHeader() && event.getFlag().matches(flag)) {
+                    globalFlag = event;
+                    break;
+                }
+            }
+        }
+        return globalFlag;
+    }
+
     public List<GlobalFlag> getGlobalFlags() {
         return globalFlags;
+    }
+
+    public List<GlobalFlag> getGlobalFlagsExperimentalErgonomic() {
+        List<GlobalFlag> globalFlagsExperimentalErgonomic = new ArrayList<GlobalFlag>();
+        if (!globalFlags.isEmpty()) {
+            Iterator<GlobalFlag> iterator = globalFlags.iterator();
+            while (iterator.hasNext()) {
+                GlobalFlag event = iterator.next();
+                if (!event.isHeader() && event.getLogEntry().matches("^.+\\{experimental\\} \\{ergonomic\\}$")) {
+                    globalFlagsExperimentalErgonomic.add(event);
+                }
+            }
+        }
+        return globalFlagsExperimentalErgonomic;
     }
 
     public List<Header> getHeaders() {
@@ -2503,19 +2529,10 @@ public class FatalErrorLog {
     public long getHeapInitialSize() {
         long heapInitialSize = Long.MIN_VALUE;
         // 1st check [Global flags]
-        if (!globalFlags.isEmpty()) {
-            Iterator<GlobalFlag> iterator = globalFlags.iterator();
-            while (iterator.hasNext()) {
-                GlobalFlag event = iterator.next();
-                String regExInitialHeapSize = "^.+size_t InitialHeapSize[ ]{1,}= (\\d{1,}).+$";
-                Pattern pattern = Pattern.compile(regExInitialHeapSize);
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    heapInitialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            org.github.joa.util.Constants.UNITS);
-                    break;
-                }
-            }
+        GlobalFlag globalFlagInitialHeapSize = getGlobalFlag("InitialHeapSize");
+        if (globalFlagInitialHeapSize != null) {
+            heapInitialSize = JdkUtil.convertSize(Long.parseLong(globalFlagInitialHeapSize.getValue()), 'B',
+                    org.github.joa.util.Constants.UNITS);
         } else if (jvmOptions != null && jvmOptions.getInitialHeapSize() != null) {
             // Get from jvm_args
             char fromUnits;
@@ -2552,19 +2569,10 @@ public class FatalErrorLog {
     public long getHeapMaxSize() {
         long heapMaxSize = Long.MIN_VALUE;
         // 1st check [Global flags]
-        if (!globalFlags.isEmpty()) {
-            Iterator<GlobalFlag> iterator = globalFlags.iterator();
-            while (iterator.hasNext()) {
-                GlobalFlag event = iterator.next();
-                String regExMaxHeapSize = "^.+size_t MaxHeapSize[ ]{1,}= (\\d{1,}).+$";
-                Pattern pattern = Pattern.compile(regExMaxHeapSize);
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    heapMaxSize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'B',
-                            org.github.joa.util.Constants.UNITS);
-                    break;
-                }
-            }
+        GlobalFlag globalFlagMaxHeapSize = getGlobalFlag("MaxHeapSize");
+        if (globalFlagMaxHeapSize != null) {
+            heapMaxSize = JdkUtil.convertSize(Long.parseLong(globalFlagMaxHeapSize.getValue()), 'B',
+                    org.github.joa.util.Constants.UNITS);
         } else if (jvmOptions != null && jvmOptions.getMaxHeapSize() != null) {
             // Get from jvm_args
             char fromUnits;
@@ -4378,18 +4386,9 @@ public class FatalErrorLog {
             break;
         }
         // 1st check [Global flags]
-        if (!globalFlags.isEmpty()) {
-            Iterator<GlobalFlag> iterator = globalFlags.iterator();
-            while (iterator.hasNext()) {
-                GlobalFlag event = iterator.next();
-                String regExThreadStackSize = "^.+intx ThreadStackSize[ ]{1,}= (\\d{1,}).+$";
-                Pattern pattern = Pattern.compile(regExThreadStackSize);
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    stackSize = Long.parseLong(matcher.group(1));
-                    break;
-                }
-            }
+        GlobalFlag globalFlagThreadStackSize = getGlobalFlag("ThreadStackSize");
+        if (globalFlagThreadStackSize != null) {
+            stackSize = Long.parseLong(globalFlagThreadStackSize.getValue());
         } else if (jvmOptions != null && jvmOptions.getThreadStackSize() != null) {
             char fromUnits;
             long value;

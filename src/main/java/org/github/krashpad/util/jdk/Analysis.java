@@ -777,6 +777,11 @@ public enum Analysis {
     WARN_DYNATRACE("warn.dynatrace"),
 
     /**
+     * Property key for experimental options being set by ergonomics.
+     */
+    WARN_EXPERIMENTAL_ERGONOMIC("warn.experimental.ergonomic"),
+
+    /**
      * Property key for a fatal error log that is more than 30 days old.
      */
     WARN_FATAL_ERROR_LOG_ANCIENT("warn.fatal.error.log.ancient"),

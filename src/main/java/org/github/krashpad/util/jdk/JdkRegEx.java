@@ -444,6 +444,17 @@ public class JdkRegEx {
     public static final String KILOBYTES = "kK";
 
     /**
+     * Regular expression for locality group data.
+     * 
+     * <pre>
+     *   eden space 524800K, 3% used [0x00000000d5580000,0x00000000e5ae0020,0x00000000f5600000)
+     *   lgrp 0 space 262400K, 5% used [0x00000000d5580000,0x00000000d62cdd08,0x00000000e55c0000)
+     *   lgrp 1 space 262400K, 2% used [0x00000000e55c0000,0x00000000e5ae0020,0x00000000f5600000)
+     * </pre>
+     */
+    public static final String LOCALITY_GROUP = "(    lgrp \\d{1,} space .+)";
+
+    /**
      * Megabyte units identifier.
      */
     public static final String MEGABYTES = "mM";
@@ -670,7 +681,6 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_DIR = "(" + JdkRegEx.RH_RPM_OPENJDK8_DIR + "|" + JdkRegEx.RH_RPM_OPENJDK11_DIR
             + "|" + JdkRegEx.RH_RPM_OPENJDK17_DIR + ")";
-
     /**
      * Red Hat OpenJDK 17 rpm directory.
      * 
@@ -688,6 +698,7 @@ public class JdkRegEx {
      */
     public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d{1,2}\\.\\d{1,2}"
             + "(\\.\\d{1,2})?-\\d\\.el([789])(_(\\d{1,2}))?\\.x86_64)";
+
     /**
      * Red Hat OpenJDK 11 rpm libjvm.so file path.
      * 
@@ -904,17 +915,6 @@ public class JdkRegEx {
      * par new generation total 766784K, used 37193K [0x0000000261000000, 0x0000000295000000, 0x0000000295000000)
      */
     public static final String YOUNG_GEN = "(" + JdkRegEx.YOUNG_GEN_SIZE + "|  (eden|from|to).+)";
-
-    /**
-     * Regular expression for locality group data.
-     * 
-     * <pre>
-     *   eden space 524800K, 3% used [0x00000000d5580000,0x00000000e5ae0020,0x00000000f5600000)
-     *   lgrp 0 space 262400K, 5% used [0x00000000d5580000,0x00000000d62cdd08,0x00000000e55c0000)
-     *   lgrp 1 space 262400K, 2% used [0x00000000e55c0000,0x00000000e5ae0020,0x00000000f5600000)
-     * </pre>
-     */
-    public static final String LOCALITY_GROUP = "(    lgrp \\d{1,} space .+)";
 
     /**
      * Regular expression for a young generation heap size data.

@@ -530,7 +530,7 @@ jvm_args: -Xmx12G -Xms1G -Xss5m -XX:ReservedCodeCacheSize=256m -javaagent:/path/
      bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
      bool UseG1GC                                  = true                                      {product} {ergonomic}
     uintx CompressedClassSpaceSize                 = 805306368                                 {product}
-    uintx MaxDirectMemorySize                      = 1073741824                                {product}    
+    uintx MaxDirectMemorySize                      = 1073741824                                {product}
 
 Logging:
 Log output configuration:

@@ -72,7 +72,9 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|[ ]{0,}(bool|ccstr|ccstrlist|double|intx|size_t|uint|uintx))(.*)$";
+            + "|[ ]{0,}(bool|ccstr|ccstrlist|double|intx|size_t|uint|uintx) ([a-zA-Z0-9]+)[ ]{1,}= ([^ ]+)[ ]{1,}"
+            + "\\{(experimental|lp64_product|manageable|pd product|product|product lp64_product)\\}"
+            + "( \\{(command line|ergonomic)\\})?)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -100,6 +102,18 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
+    /**
+     * @return The flag (or null for the header).
+     */
+    public String getFlag() {
+        String flag = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            flag = matcher.group(3);
+        }
+        return flag;
+    }
+
     public String getLogEntry() {
         return logEntry;
     }
@@ -109,13 +123,13 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
     }
 
     /**
-     * @return The value of the VM argument.
+     * @return The flag value (or null for the header).
      */
     public String getValue() {
         String value = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            value = matcher.group(3);
+            value = matcher.group(4);
         }
         return value;
     }

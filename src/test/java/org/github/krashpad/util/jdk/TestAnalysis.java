@@ -32,6 +32,7 @@ import org.github.krashpad.domain.jdk.EnvironmentVariable;
 import org.github.krashpad.domain.jdk.Event;
 import org.github.krashpad.domain.jdk.ExceptionCounts;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
+import org.github.krashpad.domain.jdk.GlobalFlag;
 import org.github.krashpad.domain.jdk.Header;
 import org.github.krashpad.domain.jdk.Heap;
 import org.github.krashpad.domain.jdk.LdPreloadFile;
@@ -748,6 +749,23 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_EXCEPTION_STACK_OVERFLOW.getKey()),
                 Analysis.INFO_SIGNO_EXCEPTION_STACK_OVERFLOW + " analysis not identified.");
+    }
+
+    @Test
+    void testExperimentalErgonomic() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "     bool UseFastUnorderedTimeStamps               = true                                 "
+                + "{experimental} {ergonomic}";
+        GlobalFlag event = new GlobalFlag(logLine);
+        fel.getGlobalFlags().add(event);
+        fel.doAnalysis();
+        assertEquals(1, fel.getGlobalFlagsExperimentalErgonomic().size(),
+                "Global flags experimental ergonomic count not correct.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_EXPERIMENTAL_ERGONOMIC.getKey()),
+                Analysis.WARN_EXPERIMENTAL_ERGONOMIC + " analysis not identified.");
+        assertEquals("The following experimental options are being set by ergonomics: UseFastUnorderedTimeStamps=true.",
+                fel.getAnalysisLiteral(Analysis.WARN_EXPERIMENTAL_ERGONOMIC.getKey()),
+                Analysis.WARN_EXPERIMENTAL_ERGONOMIC + " not correct.");
     }
 
     /**
@@ -1692,9 +1710,10 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_LIMIT + " analysis not identified.");
-        assertEquals(fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
+        assertEquals(
                 "The number of memory map areas (99) in the Dynamic Libraries section is within 1% of the "
                         + "max_map_count limit (100).",
+                fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_LIMIT + " not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE + " analysis incorrectly identified.");
@@ -1709,9 +1728,10 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE + " analysis not identified.");
-        assertEquals(fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.getKey()),
+        assertEquals(
                 "The number of memory map areas (65529) in the Dynamic Libraries section is very close to the default "
                         + "max_map_count limit (65530).",
+                fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE + " not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_LIMIT + " analysis incorrectly identified.");

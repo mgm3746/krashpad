@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -94,6 +95,9 @@ class TestGlobalFlag {
                 + "                                         {product} {ergonomic}";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GlobalFlag,
                 JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not parsed.");
+        GlobalFlag globalFlag = new GlobalFlag(logLine);
+        assertEquals("CICompilerCount", globalFlag.getFlag(), "Flag not correct.");
+        assertEquals("4", globalFlag.getValue(), "Value not correct.");
     }
 
     @Test
