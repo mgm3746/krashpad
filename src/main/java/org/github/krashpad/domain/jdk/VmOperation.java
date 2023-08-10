@@ -30,6 +30,28 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * VM_Operation information.
  * </p>
  * 
+ * <ul>
+ * <li>BulkRevokeBias: Bulk operation when the compiler has to recompile previously compiled code due to the compiled
+ * code no longer being valid (e.g. a dynamic object has changed) or with tiered compilation when client compiled code
+ * is replaced with server compiled code.</li>
+ * <li>CGC_Operation: G1 cleanup or G1/CMS remark.</li>
+ * <li>CollectForMetadataAllocation: When the Metaspace is resized. The JVM has failed to allocate memory for something
+ * that should be stored in Metaspace and does a full collection before attempting to resize the Metaspace.</li>
+ * <li>G1CollectForAllocation: G1 young, prepare mixed, or mixed collection.</li>
+ * <li>G1CollectFull: G1 full GC.</li>
+ * <li>G1IncCollectionPause: G1 incremental collection.</li>
+ * <li>GC_HeapInspection: Prints class histogram on SIGBREAK if PrintClassHistogram is specified and also the attach
+ * "inspectheap" operation (e.g. jcmd &lt;pid&gt; GC.class_histogram).</li>
+ * <li>GetAllStackTraces: JVMTI method to get stack trace information in native code for all threads.</li>
+ * <li>GetThreadListStackTraces: JVMTI methods to get stack trace information in native code for a list of threads.</li>
+ * <li>HeapDumper: Full heap dump (a heap summary does not require a safepoint).</li>
+ * <li>ParallelGCFailedAllocation: Parallel collection.</li>
+ * <li>ParallelGCSystemGC: Parallel collection initiated by explicit gc.</li>
+ * <li>PrintThreads: Printing a stack trace.</li>
+ * <li>RedefineClasses: Redefine classes.</li>
+ * <li>ShenandoahFullGC: Shenandoah full GC.</li>
+ * </ul>
+ * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
@@ -42,9 +64,9 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class VmOperation implements LogEvent {
 
     private static final String __REGEX_OPERATIONS = "(BulkRevokeBias|CGC_Operation|CollectForMetadataAllocation|"
-            + "G1CollectFull|G1IncCollectionPause|GC_HeapInspection|GetAllStackTraces|GetThreadListStackTraces|"
-            + "HeapDumper|ParallelGCFailedAllocation|ParallelGCSystemGC|PrintThreads|RedefineClasses|"
-            + "ShenandoahFullGC)";
+            + "G1CollectForAllocation|G1CollectFull|G1IncCollectionPause|GC_HeapInspection|GetAllStackTraces|"
+            + "GetThreadListStackTraces|HeapDumper|ParallelGCFailedAllocation|ParallelGCSystemGC|PrintThreads|"
+            + "RedefineClasses|ShenandoahFullGC)";
 
     /**
      * Regular expression defining the logging.
