@@ -506,6 +506,20 @@ class TestJdkRegEx {
     }
 
     @Test
+    void testTomcatNativeConnectorLinux() {
+        String address = "libtcnative-1.so.0.2.30";
+        assertTrue(address.matches(JdkRegEx.NATIVE_LIBRARY_TOMCAT_CONNECTOR),
+                "NATIVE_LIBRARY_TOMCAT_CONNECTOR not recognized.");
+    }
+
+    @Test
+    void testTomcatNativeConnectorWindows() {
+        String address = "libtcnative-1.dll";
+        assertTrue(address.matches(JdkRegEx.NATIVE_LIBRARY_TOMCAT_CONNECTOR),
+                "NATIVE_LIBRARY_TOMCAT_CONNECTOR not recognized.");
+    }
+
+    @Test
     void testZ() {
         String heap = " ZHeap           used 3999154M, capacity 4710400M, max capacity 4710400M";
         assertTrue(heap.matches(JdkRegEx.Z), "Z heap data not recognized.");

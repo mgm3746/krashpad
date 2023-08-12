@@ -519,6 +519,11 @@ public enum Analysis {
     INFO_NATIVE_LIBRARIES_JBOSS("info.native.libraries.jboss"),
 
     /**
+     * Property key for tomcat native libraries detected.
+     */
+    INFO_NATIVE_LIBRARIES_TOMCAT("info.native.libraries.tomcat"),
+
+    /**
      * Property key for unknown native libraries detected.
      */
     INFO_NATIVE_LIBRARIES_UNKNOWN("info.native.libraries.unknown"),

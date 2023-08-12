@@ -2837,6 +2837,20 @@ class TestAnalysis {
     }
 
     @Test
+    void testTomcatNativeConnector() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String library = "7f15ba1b0000-7f15ba1b2000 rw-p 0002c000 fd:0b 17                         "
+                + "/path/to/tomcat/lib/libtcnative-1.so.0.2.30";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(library);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_TOMCAT.getKey()),
+                Analysis.INFO_NATIVE_LIBRARIES_TOMCAT + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
     void testTruncatedLog() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset48.txt");
         Manager manager = new Manager();

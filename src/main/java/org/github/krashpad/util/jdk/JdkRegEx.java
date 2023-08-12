@@ -537,6 +537,17 @@ public class JdkRegEx {
     public static final String NATIVE_LIBRARY_MICROSOFT_SQL_SERVER = "mssql-jdbc_auth-\\d\\.\\d\\.\\d\\.x64\\.dll";
 
     /**
+     * Tomcat native connector library.
+     * 
+     * For example:
+     * 
+     * <pre>
+     *  libtcnative-1.so.0.2.30
+     * </pre>
+     */
+    public static final String NATIVE_LIBRARY_TOMCAT_CONNECTOR = "libtcnative-1" + "\\.(DLL|dll|so)(\\..*)?";
+
+    /**
      * Wily/DX APM native library.
      * 
      * For example libIntroscopeLinuxIntelAmd64Stats.so

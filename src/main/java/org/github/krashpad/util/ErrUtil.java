@@ -39,6 +39,11 @@ public class ErrUtil {
     public static final List<String> NATIVE_LIBRARIES_JBOSS;
 
     /**
+     * Tomcat native libaries.
+     */
+    public static final List<String> NATIVE_LIBRARIES_TOMCAT;
+
+    /**
      * Linux native libraries
      */
     public static final List<String> NATIVE_LIBRARIES_LINUX;
@@ -638,6 +643,19 @@ public class ErrUtil {
         // proprietary T2K font library
         NATIVE_LIBRARIES_ORACLE.add("libt2k.so");
         NATIVE_LIBRARIES_ORACLE.add("libt2k.dll");
+
+        NATIVE_LIBRARIES_TOMCAT = new ArrayList<String>();
+        NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.dll");
+        NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0");
+        NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.17");
+        NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.21");
+        NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.23");
+        NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.25");
+        NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.26");
+        NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.30");
+        NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.31");
+        NATIVE_LIBRARIES_TOMCAT.add("libcrypto.so.1.1");
+        NATIVE_LIBRARIES_TOMCAT.add("libssl.so.1.1");
 
         NATIVE_LIBRARIES_WINDOWS = new ArrayList<String>();
         NATIVE_LIBRARIES_WINDOWS.add("AcLayers.DLL");

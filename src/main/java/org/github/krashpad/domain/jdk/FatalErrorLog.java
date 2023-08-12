@@ -1342,6 +1342,10 @@ public class FatalErrorLog {
         if (!getNativeLibrariesJBoss().isEmpty()) {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_JBOSS);
         }
+        // JBoss native library detection
+        if (!getNativeLibrariesTomcat().isEmpty()) {
+            analysis.add(Analysis.INFO_NATIVE_LIBRARIES_TOMCAT);
+        }
         // Check max_map_count limit
         if (!getDynamicLibraries().isEmpty()) {
             if (getMaxMapCountLimit() > 0) {
@@ -1414,6 +1418,20 @@ public class FatalErrorLog {
             } else if (item.getKey().equals(Analysis.INFO_NATIVE_LIBRARIES_JBOSS.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 Iterator<String> iterator = getNativeLibrariesJBoss().iterator();
+                boolean punctuate = false;
+                while (iterator.hasNext()) {
+                    String library = iterator.next();
+                    if (punctuate) {
+                        s.append(", ");
+                    }
+                    s.append(library);
+                    punctuate = true;
+                }
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.INFO_NATIVE_LIBRARIES_TOMCAT.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                Iterator<String> iterator = getNativeLibrariesTomcat().iterator();
                 boolean punctuate = false;
                 while (iterator.hasNext()) {
                     String library = iterator.next();
@@ -3684,6 +3702,30 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return Tomcat native libraries.
+     */
+    public List<String> getNativeLibrariesTomcat() {
+        List<String> tomcatNativeLibraries = new ArrayList<String>();
+        List<String> nativeLibraries = getNativeLibraries();
+        if (!nativeLibraries.isEmpty()) {
+            Iterator<String> iterator = nativeLibraries.iterator();
+            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Matcher matcher;
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                matcher = pattern.matcher(nativeLibraryPath);
+                if (matcher.find()) {
+                    String nativeLibrary = matcher.group(3);
+                    if (ErrUtil.NATIVE_LIBRARIES_TOMCAT.contains(nativeLibrary)) {
+                        tomcatNativeLibraries.add(nativeLibraryPath);
+                    }
+                }
+            }
+        }
+        return tomcatNativeLibraries;
+    }
+
+    /**
      * @return Unknown native libraries (not OS, not Java).
      */
     public List<String> getNativeLibrariesUnknown() {
@@ -3702,6 +3744,7 @@ public class FatalErrorLog {
                             && !ErrUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibrary)
                             && !ErrUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)
                             && !ErrUtil.NATIVE_LIBRARIES_ORACLE.contains(nativeLibrary)
+                            && !ErrUtil.NATIVE_LIBRARIES_TOMCAT.contains(nativeLibrary)
                             && !ErrUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibrary)
                             && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibrary)) {
                         unidentifiedNativeLibraries.add(nativeLibraryPath);
