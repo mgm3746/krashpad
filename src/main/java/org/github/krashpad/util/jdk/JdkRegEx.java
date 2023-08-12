@@ -286,29 +286,6 @@ public class JdkRegEx {
     public static final String DEVICE_IDS = "([0-9a-f]{2,3}:[0-9a-f]{2,4})";
 
     /**
-     * Memory map file path.
-     * 
-     * For example:
-     * 
-     * <p>
-     * 1) Linux/Unix:
-     * </p>
-     * 
-     * <pre>
-     * /usr/lib64/libaio.so.1.0.1
-     * </pre>
-     * 
-     * <p>
-     * 2) Windows:
-     * </p>
-     * 
-     * <pre>
-     * E:\path\java\bin\server\jvm.dll
-     * </pre>
-     */
-    public static final String FILE = "([A-Z]:)?(.*[/\\\\])*(.+)";
-
-    /**
      * File offset
      * 
      * For example: 00016000

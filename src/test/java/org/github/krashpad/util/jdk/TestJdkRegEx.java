@@ -149,21 +149,9 @@ class TestJdkRegEx {
     }
 
     @Test
-    void testFileLinux() {
-        String s = "/usr/lib64/libaio.so.1.0.1";
-        assertTrue(s.matches(JdkRegEx.FILE), "Inode not identified.");
-    }
-
-    @Test
     void testFileOffset() {
         String s = "0001a000";
         assertTrue(s.matches(JdkRegEx.FILE_OFFSET), "File offset not identified.");
-    }
-
-    @Test
-    void testFileWindows() {
-        String file = "E:\\path\\java\\bin\\server\\jvm.dll";
-        assertTrue(file.matches(JdkRegEx.FILE), "File not recognized.");
     }
 
     @Test

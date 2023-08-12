@@ -49,7 +49,7 @@ public class DllOperationEvent implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + DllOperationEvent._REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
-            + " Loaded shared library " + JdkRegEx.FILE + ")$";
+            + " Loaded shared library " + org.github.joa.util.JdkRegEx.FILE_PATH + ")$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

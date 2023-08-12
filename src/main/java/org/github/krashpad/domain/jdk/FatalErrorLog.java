@@ -1194,7 +1194,7 @@ public class FatalErrorLog {
         } else if (!getNativeLibrariesUnknown().isEmpty()) {
             // Dynatrace detected
             Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
-            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
             Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
@@ -1220,7 +1220,7 @@ public class FatalErrorLog {
         } else if (!getNativeLibrariesUnknown().isEmpty()) {
             // Wily detected
             Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
-            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
             Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
@@ -1292,7 +1292,7 @@ public class FatalErrorLog {
         } else if (!getNativeLibraries().isEmpty()) {
             // JSS detected
             Iterator<String> iterator = getNativeLibraries().iterator();
-            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
             Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
@@ -1309,7 +1309,7 @@ public class FatalErrorLog {
         // Microsoft SQL Server native driver
         if (!getNativeLibrariesUnknown().isEmpty()) {
             Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
-            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
             Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
@@ -3685,7 +3685,7 @@ public class FatalErrorLog {
         List<String> nativeLibraries = getNativeLibraries();
         if (!nativeLibraries.isEmpty()) {
             Iterator<String> iterator = nativeLibraries.iterator();
-            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
             Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
@@ -3709,7 +3709,7 @@ public class FatalErrorLog {
         List<String> nativeLibraries = getNativeLibraries();
         if (!nativeLibraries.isEmpty()) {
             Iterator<String> iterator = nativeLibraries.iterator();
-            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
             Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
@@ -3733,7 +3733,7 @@ public class FatalErrorLog {
         List<String> nativeLibraries = getNativeLibraries();
         if (!nativeLibraries.isEmpty()) {
             Iterator<String> iterator = nativeLibraries.iterator();
-            Pattern pattern = Pattern.compile(JdkRegEx.FILE);
+            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
             Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
