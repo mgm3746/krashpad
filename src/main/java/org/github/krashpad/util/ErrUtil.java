@@ -39,11 +39,6 @@ public class ErrUtil {
     public static final List<String> NATIVE_LIBRARIES_JBOSS;
 
     /**
-     * Tomcat native libaries.
-     */
-    public static final List<String> NATIVE_LIBRARIES_TOMCAT;
-
-    /**
      * Linux native libraries
      */
     public static final List<String> NATIVE_LIBRARIES_LINUX;
@@ -59,6 +54,11 @@ public class ErrUtil {
     public static final List<String> NATIVE_LIBRARIES_ORACLE;
 
     /**
+     * Tomcat native libaries.
+     */
+    public static final List<String> NATIVE_LIBRARIES_TOMCAT;
+
+    /**
      * Windows native libraries
      */
     public static final List<String> NATIVE_LIBRARIES_WINDOWS;
@@ -68,510 +68,514 @@ public class ErrUtil {
      */
     public static final List<String> NATIVE_LIBRARIES_WINDOWS_JAVA;
 
+    /**
+     * Linux native library home regular expression.
+     */
+    public static final String NATIVE_LIBRARY_LINUX_HOME = "/usr/lib64/";
+
     static {
         NATIVE_LIBRARIES_JBOSS = new ArrayList<String>();
         NATIVE_LIBRARIES_JBOSS.add("libartemis-native-64.so");
 
         NATIVE_LIBRARIES_LINUX = new ArrayList<String>();
-        ;
         // glibc-gconv-extra
-        NATIVE_LIBRARIES_LINUX.add("EUC-JP.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "EUC-JP.so");
         // glibc (/usr/lib64/gconv/)
-        NATIVE_LIBRARIES_LINUX.add("ISO8859-1.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "ISO8859-1.so");
         // mesa-dri-drivers
-        NATIVE_LIBRARIES_LINUX.add("i965_dri.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "dri/i965_dri.so");
         // ibus-gtk*
-        NATIVE_LIBRARIES_LINUX.add("im-ibus.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "gtk-3.0/3.0.0/immodules/im-ibus.so");
         // mesa-dri-drivers
-        NATIVE_LIBRARIES_LINUX.add("iris_dri.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "iris_dri.so");
         // glibc
-        NATIVE_LIBRARIES_LINUX.add("ld-2.12.so");
-        NATIVE_LIBRARIES_LINUX.add("ld-2.17.so");
-        NATIVE_LIBRARIES_LINUX.add("ld-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "ld-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "ld-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "ld-2.28.so");
         // libaio
-        NATIVE_LIBRARIES_LINUX.add("libaio.so.1.0.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libaio.so.1.0.1");
         // apr (/usr/lib64/):
-        NATIVE_LIBRARIES_LINUX.add("libapr-1.so.0.6.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libapr-1.so.0.6.3");
         // alsa-lib: library to interface with ALSA in the Linux kernel and virtual devices
-        NATIVE_LIBRARIES_LINUX.add("libasound.so.2.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libasound.so.2.0.0");
         // alsa-plugins-pulseaudio: library for accessing a PulseAudio sound daemon (to play and record sound across
         // network)
-        NATIVE_LIBRARIES_LINUX.add("libasound_module_pcm_pulse.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libasound_module_pcm_pulse.so");
         // aspell
-        NATIVE_LIBRARIES_LINUX.add("libaspell.so.15.1.5");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libaspell.so.15.1.5");
         // atk
-        NATIVE_LIBRARIES_LINUX.add("libatk-1.0.so.0.22810.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libatk-1.0.so.0.22810.1");
         // at-spi2-atk
-        NATIVE_LIBRARIES_LINUX.add("libatk-bridge-2.0.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libatk-bridge-2.0.so.0.0.0");
         // libatomic
-        NATIVE_LIBRARIES_LINUX.add("libatomic.so.1.2.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libatomic.so.1.2.0");
         // at-spi2-core
-        NATIVE_LIBRARIES_LINUX.add("libatspi.so.0.0.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libatspi.so.0.0.1");
         // libattr
-        NATIVE_LIBRARIES_LINUX.add("libattr.so.1.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libattr.so.1.1.0");
         // lib-audit (audit framework)
-        NATIVE_LIBRARIES_LINUX.add("libaudit.so.1.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libaudit.so.1.0.0");
         // libavahi-client (DNS service discovery and multicast DNS)
-        NATIVE_LIBRARIES_LINUX.add("libavahi-client.so.3.2.9");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libavahi-client.so.3.2.9");
         // avahi-libs (libraries need to run programs that use avahi)
-        NATIVE_LIBRARIES_LINUX.add("libavahi-common.so.3.5.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libavahi-common.so.3.5.3");
         // brotli (compression library)
-        NATIVE_LIBRARIES_LINUX.add("libbrotlicommon.so.1.0.6");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libbrotlicommon.so.1.0.6");
         // brotli (compression library)
-        NATIVE_LIBRARIES_LINUX.add("libbrotlidec.so.1.0.6");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libbrotlidec.so.1.0.6");
         // bzip2-libs
-        NATIVE_LIBRARIES_LINUX.add("libbz2.so.1.0.6");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libbz2.so.1.0.6");
         // glibc-devel
-        NATIVE_LIBRARIES_LINUX.add("libc-2.12.so");
-        NATIVE_LIBRARIES_LINUX.add("libc-2.17.so");
-        NATIVE_LIBRARIES_LINUX.add("libc-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libc-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libc-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libc-2.28.so");
         // cairo
-        NATIVE_LIBRARIES_LINUX.add("libcairo.so.2.11512.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcairo.so.2.11512.0");
         // cairo-gobject
-        NATIVE_LIBRARIES_LINUX.add("libcairo-gobject.so.2.11512.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcairo-gobject.so.2.11512.0");
         // libpcap
-        NATIVE_LIBRARIES_LINUX.add("libcap.so.2.22");
-        NATIVE_LIBRARIES_LINUX.add("libcap.so.2.26");
-        NATIVE_LIBRARIES_LINUX.add("libcap.so.2.48");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcap.so.2.22");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcap.so.2.26");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcap.so.2.48");
         // libpcap-ng
-        NATIVE_LIBRARIES_LINUX.add("libcap-ng.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcap-ng.so.0.0.0");
         // libcom-err
-        NATIVE_LIBRARIES_LINUX.add("libcom_err.so.2.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcom_err.so.2.1");
         // libcroco
-        NATIVE_LIBRARIES_LINUX.add("libcroco-0.6.so.3.0.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcroco-0.6.so.3.0.1");
         // glibc
-        NATIVE_LIBRARIES_LINUX.add("libcrypt-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcrypt-2.17.so");
         // cups-libs (native cups)
-        NATIVE_LIBRARIES_LINUX.add("libcups.so.2");
-        NATIVE_LIBRARIES_LINUX.add("libcupsimage.so.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcups.so.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcupsimage.so.2");
         // dconf
-        NATIVE_LIBRARIES_LINUX.add("libdconfsettings.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "gio/modules/libdconfsettings.so");
         // libdatrie
-        NATIVE_LIBRARIES_LINUX.add("libdatrie.so.1.3.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdatrie.so.1.3.2");
         // dbus-libs
-        NATIVE_LIBRARIES_LINUX.add("libdbus-1.so.3.14.14");
-        NATIVE_LIBRARIES_LINUX.add("libdbus-1.so.3.19.7");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdbus-1.so.3.14.14");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdbus-1.so.3.19.7");
         // glibc-devel
-        NATIVE_LIBRARIES_LINUX.add("libdl-2.12.so");
-        NATIVE_LIBRARIES_LINUX.add("libdl-2.17.so");
-        NATIVE_LIBRARIES_LINUX.add("libdl-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdl-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdl-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdl-2.28.so");
         // libblkid
-        NATIVE_LIBRARIES_LINUX.add("libblkid.so.1.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libblkid.so.1.1.0");
         // libdrm
-        NATIVE_LIBRARIES_LINUX.add("libdrm.so.2.4.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdrm.so.2.4.0");
         // libdrm
-        NATIVE_LIBRARIES_LINUX.add("libdrm_amdgpu.so.1.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdrm_amdgpu.so.1.0.0");
         // libdrm
-        NATIVE_LIBRARIES_LINUX.add("libdrm_nouveau.so.2.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdrm_nouveau.so.2.0.0");
         // libdrm
-        NATIVE_LIBRARIES_LINUX.add("libdrm_radeon.so.1.0.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdrm_radeon.so.1.0.1");
         // elfutils-devel
-        NATIVE_LIBRARIES_LINUX.add("libdw-0.160.so");
-        NATIVE_LIBRARIES_LINUX.add("libdw-0.176.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdw-0.160.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libdw-0.176.so");
         // libglvnd-egl
-        NATIVE_LIBRARIES_LINUX.add("libEGL.so.1.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libEGL.so.1.1.0");
         // mesa-libEGL
-        NATIVE_LIBRARIES_LINUX.add("libEGL_mesa.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libEGL_mesa.so.0.0.0");
         // elfutils-libelf-devel
-        NATIVE_LIBRARIES_LINUX.add("libelf-0.160.so");
-        NATIVE_LIBRARIES_LINUX.add("libelf-0.176.so");
-        NATIVE_LIBRARIES_LINUX.add("libelf-0.187.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libelf-0.160.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libelf-0.176.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libelf-0.187.so");
         // enchant2
-        NATIVE_LIBRARIES_LINUX.add("libenchant-2.so.2.2.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libenchant-2.so.2.2.3");
         // libepoxy
-        NATIVE_LIBRARIES_LINUX.add("libepoxy.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libepoxy.so.0.0.0");
         // expat
-        NATIVE_LIBRARIES_LINUX.add("libexpat.so.1.6.7");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libexpat.so.1.6.7");
         // flac-libs: reference implementation for FLAC (Free Lossless Audio Codec), an audio coding format for
         // lossless compression of digital audio
-        NATIVE_LIBRARIES_LINUX.add("libFLAC.so.8.3.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libFLAC.so.8.3.0");
         // libffi
-        NATIVE_LIBRARIES_LINUX.add("libffi.so.6.0.1");
-        NATIVE_LIBRARIES_LINUX.add("libffi.so.6.0.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libffi.so.6.0.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libffi.so.6.0.2");
         // fontconfig
-        NATIVE_LIBRARIES_LINUX.add("libfontconfig.so.1.12.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libfontconfig.so.1.12.0");
         // nss-softokn-freebl
-        NATIVE_LIBRARIES_LINUX.add("libfreebl3.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libfreebl3.so");
         // nss-softokn-freebl
-        NATIVE_LIBRARIES_LINUX.add("libfreeblpriv3.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libfreeblpriv3.so");
         // freetype
-        NATIVE_LIBRARIES_LINUX.add("libfreetype.so.6.14.0");
-        NATIVE_LIBRARIES_LINUX.add("libfreetype.so.6.16.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libfreetype.so.6.14.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libfreetype.so.6.16.1");
         // fribidi
-        NATIVE_LIBRARIES_LINUX.add("libfribidi.so.0.4.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libfribidi.so.0.4.0");
         // libglvnd-glx
-        NATIVE_LIBRARIES_LINUX.add("libGL.so.1.7.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libGL.so.1.7.0");
         // libglvnd-gles
-        NATIVE_LIBRARIES_LINUX.add("libGLESv2.so.2.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libGLESv2.so.2.1.0");
         // libglvnd-glx
-        NATIVE_LIBRARIES_LINUX.add("libGLX.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libGLX.so.0.0.0");
         // libglvnd
-        NATIVE_LIBRARIES_LINUX.add("libGLdispatch.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libGLdispatch.so.0.0.0");
         // mesa-libglapi
-        NATIVE_LIBRARIES_LINUX.add("libgbm.so.1.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgbm.so.1.0.0");
         // libgcc
-        NATIVE_LIBRARIES_LINUX.add("libgcc_s-4.4.7-20120601.so.1");
-        NATIVE_LIBRARIES_LINUX.add("libgcc_s-4.8.5-20150702.so.1");
-        NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20191121.so.1");
-        NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20200928.so.1");
-        NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20210514.so.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgcc_s-4.4.7-20120601.so.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgcc_s-4.8.5-20150702.so.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgcc_s-8-20191121.so.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgcc_s-8-20200928.so.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgcc_s-8-20210514.so.1");
         // libgcrypt
-        NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.11.8.2");
-        NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.3");
-        NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.5");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgcrypt.so.11.8.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgcrypt.so.20.2.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgcrypt.so.20.2.5");
         // gtk3
-        NATIVE_LIBRARIES_LINUX.add("libgdk-3.so.0.2200.30");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgdk-3.so.0.2200.30");
         // gdk-pixbuf2
-        NATIVE_LIBRARIES_LINUX.add("libgdk_pixbuf-2.0.so.0.3612.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgdk_pixbuf-2.0.so.0.3612.0");
         // glib2
-        NATIVE_LIBRARIES_LINUX.add("libgio-2.0.so.0.5600.4");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgio-2.0.so.0.5600.4");
         // mesa-libglapi
-        NATIVE_LIBRARIES_LINUX.add("libglapi.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libglapi.so.0.0.0");
         // glib2
-        NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.1");
-        NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.4");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libglib-2.0.so.0.5600.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libglib-2.0.so.0.5600.4");
         // libglvnd-opengl
-        NATIVE_LIBRARIES_LINUX.add("libOpenGL.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libOpenGL.so.0.0.0");
         // glib2
-        NATIVE_LIBRARIES_LINUX.add("libgmodule-2.0.so.0.5600.4");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgmodule-2.0.so.0.5600.4");
         // gmp
-        NATIVE_LIBRARIES_LINUX.add("libgmp.so.10.3.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgmp.so.10.3.2");
         // gnome-keyring
-        NATIVE_LIBRARIES_LINUX.add("libgnome-keyring.so.0.2.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgnome-keyring.so.0.2.0");
         // gnutls
-        NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.24.0");
-        NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.28.0");
-        NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.28.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgnutls.so.30.24.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgnutls.so.30.28.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgnutls.so.30.28.2");
         // glib2
-        NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5600.1");
-        NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5600.4");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgobject-2.0.so.0.5600.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgobject-2.0.so.0.5600.4");
         // libgpg-error
-        NATIVE_LIBRARIES_LINUX.add("libgpg-error.so.0.10.0");
-        NATIVE_LIBRARIES_LINUX.add("libgpg-error.so.0.24.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgpg-error.so.0.10.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgpg-error.so.0.24.2");
         // graphite2
-        NATIVE_LIBRARIES_LINUX.add("libgraphite2.so.3.0.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgraphite2.so.3.0.1");
         // libgs (ghostscript)
-        NATIVE_LIBRARIES_LINUX.add("libgs.so.9.27");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgs.so.9.27");
         // gsm: library for lossy speech compression
-        NATIVE_LIBRARIES_LINUX.add("libgsm.so.1.0.17");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgsm.so.1.0.17");
         // krb5-libs
-        NATIVE_LIBRARIES_LINUX.add("libgssapi_krb5.so.2.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgssapi_krb5.so.2.2");
         // gstreamer1-plugins-base
-        NATIVE_LIBRARIES_LINUX.add("libgstapp-1.0.so.0.1601.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgstapp-1.0.so.0.1601.0");
         // gstreamer1
-        NATIVE_LIBRARIES_LINUX.add("libgstbase-1.0.so.0.1601.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgstbase-1.0.so.0.1601.0");
         // gstreamer1-plugins-base
-        NATIVE_LIBRARIES_LINUX.add("libgstallocators-1.0.so.0.1601.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgstallocators-1.0.so.0.1601.0");
         // gstreamer1-plugins-base
-        NATIVE_LIBRARIES_LINUX.add("libgstaudio-1.0.so.0.1601.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgstaudio-1.0.so.0.1601.0");
         // gstreamer1
-        NATIVE_LIBRARIES_LINUX.add("libgstbase-1.0.so.0.1601.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgstbase-1.0.so.0.1601.0");
         // gstreamer1-plugins-base
-        NATIVE_LIBRARIES_LINUX.add("libgstfft-1.0.so.0.1601.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgstfft-1.0.so.0.1601.0");
         // gstreamer1-plugins-base
-        NATIVE_LIBRARIES_LINUX.add("libgstgl-1.0.so.0.1601.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgstgl-1.0.so.0.1601.0");
         // gstreamer1-plugins-base
-        NATIVE_LIBRARIES_LINUX.add("libgstpbutils-1.0.so.0.1601.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgstpbutils-1.0.so.0.1601.0");
         // gstreamer1
-        NATIVE_LIBRARIES_LINUX.add("libgstreamer-1.0.so.0.1601.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgstreamer-1.0.so.0.1601.0");
         // gstreamer1-plugins-base
-        NATIVE_LIBRARIES_LINUX.add("libgsttag-1.0.so.0.1601.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgsttag-1.0.so.0.1601.0");
         // gstreamer1-plugins-base
-        NATIVE_LIBRARIES_LINUX.add("libgstvideo-1.0.so.0.1601.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgstvideo-1.0.so.0.1601.0");
         // glib2
-        NATIVE_LIBRARIES_LINUX.add("libgthread-2.0.so.0.5600.4");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgthread-2.0.so.0.5600.4");
         // gtk3
-        NATIVE_LIBRARIES_LINUX.add("libgtk-3.so.0.2200.30");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libgtk-3.so.0.2200.30");
         // gvfs-client
-        NATIVE_LIBRARIES_LINUX.add("libgvfscommon.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "gvfs/libgvfscommon.so");
         // gvfs-client
-        NATIVE_LIBRARIES_LINUX.add("libgvfsdbus.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "gio/modules/libgvfsdbus.so");
         // harfbuzz
-        NATIVE_LIBRARIES_LINUX.add("libharfbuzz.so.0.10705.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libharfbuzz.so.0.10705.0");
         // harfbuzz-icu
-        NATIVE_LIBRARIES_LINUX.add("libharfbuzz-icu.so.0.10705.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libharfbuzz-icu.so.0.10705.0");
         // nettle
-        NATIVE_LIBRARIES_LINUX.add("libhogweed.so.4.5");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libhogweed.so.4.5");
         // hyphen
-        NATIVE_LIBRARIES_LINUX.add("libhyphen.so.0.3.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libhyphen.so.0.3.0");
         // libICE
-        NATIVE_LIBRARIES_LINUX.add("libICE.so.6.3.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libICE.so.6.3.0");
         // libibus
-        NATIVE_LIBRARIES_LINUX.add("libibus-1.0.so.5.0.519");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libibus-1.0.so.5.0.519");
         // libicu
-        NATIVE_LIBRARIES_LINUX.add("libicudata.so.60.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libicudata.so.60.3");
         // libicu
-        NATIVE_LIBRARIES_LINUX.add("libicui18n.so.60.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libicui18n.so.60.3");
         // libicu
-        NATIVE_LIBRARIES_LINUX.add("libicuuc.so.60.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libicuuc.so.60.3");
         // libijs (IJS raster image library)
-        NATIVE_LIBRARIES_LINUX.add("libijs-0.35.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libijs-0.35.so");
         // glibc-gconv-extra
-        NATIVE_LIBRARIES_LINUX.add("libJIS.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libJIS.so");
         // webkit2gtk3-jsc
-        NATIVE_LIBRARIES_LINUX.add("libjavascriptcoregtk-4.0.so.18.13.7");
-        NATIVE_LIBRARIES_LINUX.add("libjavascriptcoregtk-4.0.so.18.20.11");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libjavascriptcoregtk-4.0.so.18.13.7");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libjavascriptcoregtk-4.0.so.18.20.11");
         // jbigkit-libs (compression/decompression)
-        NATIVE_LIBRARIES_LINUX.add("libjbig.so.2.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libjbig.so.2.1");
         // jbig2dec-libs (JBIG2 image decompression format decoder)
-        NATIVE_LIBRARIES_LINUX.add("libjbig2dec.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libjbig2dec.so.0.0.0");
         // libjpeg-turbo
-        NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.1.0");
-        NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.2.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libjpeg.so.62.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libjpeg.so.62.2.0");
         // jss
-        NATIVE_LIBRARIES_LINUX.add("libjss4.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libjss4.so");
         // krb5-libs
-        NATIVE_LIBRARIES_LINUX.add("libk5crypto.so.3.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libk5crypto.so.3.1");
         // keyutils-libs
-        NATIVE_LIBRARIES_LINUX.add("libkeyutils.so.1.5");
-        NATIVE_LIBRARIES_LINUX.add("libkeyutils.so.1.6");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libkeyutils.so.1.5");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libkeyutils.so.1.6");
         // krb5-libs
-        NATIVE_LIBRARIES_LINUX.add("libkrb5.so.3.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libkrb5.so.3.3");
         // krb5-libs
-        NATIVE_LIBRARIES_LINUX.add("libkrb5support.so.0.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libkrb5support.so.0.1");
         // llvm-libs
-        NATIVE_LIBRARIES_LINUX.add("libLLVM-14.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libLLVM-14.so");
         // lcms2
-        NATIVE_LIBRARIES_LINUX.add("liblcms2.so.2.0.8");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "liblcms2.so.2.0.8");
         // libtool-ltdl
-        NATIVE_LIBRARIES_LINUX.add("libltdl.so.7.3.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libltdl.so.7.3.0");
         // xz-libs
-        NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.2");
-        NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.4");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "liblzma.so.5.2.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "liblzma.so.5.2.4");
         // lz4-libs
-        NATIVE_LIBRARIES_LINUX.add("liblz4.so.1.8.1");
-        NATIVE_LIBRARIES_LINUX.add("liblz4.so.1.8.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "liblz4.so.1.8.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "liblz4.so.1.8.3");
         // glibc-devel
-        NATIVE_LIBRARIES_LINUX.add("libm-2.12.so");
-        NATIVE_LIBRARIES_LINUX.add("libm-2.17.so");
-        NATIVE_LIBRARIES_LINUX.add("libm-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libm-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libm-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libm-2.28.so");
         // libmount
-        NATIVE_LIBRARIES_LINUX.add("libmount.so.1.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libmount.so.1.1.0");
         // libidn (international string handling)
-        NATIVE_LIBRARIES_LINUX.add("libidn.so.11.6.18");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libidn.so.11.6.18");
         // libidn2
-        NATIVE_LIBRARIES_LINUX.add("libidn2.so.0.3.6");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libidn2.so.0.3.6");
         // nettle
-        NATIVE_LIBRARIES_LINUX.add("libnettle.so.6.5");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnettle.so.6.5");
         // libnotify
-        NATIVE_LIBRARIES_LINUX.add("libnotify.so.4.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnotify.so.4.0.0");
         // nspr
-        NATIVE_LIBRARIES_LINUX.add("libnspr4.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnspr4.so");
         // nss
-        NATIVE_LIBRARIES_LINUX.add("libnss3.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss3.so");
         // nss-sysinit
-        NATIVE_LIBRARIES_LINUX.add("libnsssysinit.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnsssysinit.so");
         // nss-util
-        NATIVE_LIBRARIES_LINUX.add("libnssutil3.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnssutil3.so");
         // glibc
-        NATIVE_LIBRARIES_LINUX.add("libnss_compat-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_compat-2.17.so");
         // glibc
-        NATIVE_LIBRARIES_LINUX.add("libnss_dns-2.17.so");
-        NATIVE_LIBRARIES_LINUX.add("libnss_dns-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_dns-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_dns-2.28.so");
         // glibc
-        NATIVE_LIBRARIES_LINUX.add("libnss_files-2.12.so");
-        NATIVE_LIBRARIES_LINUX.add("libnss_files-2.17.so");
-        NATIVE_LIBRARIES_LINUX.add("libnss_files-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_files-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_files-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_files-2.28.so");
         // systemd-libs (/usr/lib64/):
-        NATIVE_LIBRARIES_LINUX.add("libnss_myhostname.so.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_myhostname.so.2");
         // glibc, libnsl (/usr/lib64/): the public client interface for NIS(YP). libnsl breaks out NIS library that used
         // to be in glibc.
-        NATIVE_LIBRARIES_LINUX.add("libnsl-2.17.so");
-        NATIVE_LIBRARIES_LINUX.add("libnsl-2.28.so");
-        NATIVE_LIBRARIES_LINUX.add("libnsl.so.2.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnsl-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnsl-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnsl.so.2.0.0");
         // nss_nis (/usr/lib64/): Name Service Switch (NSS) module using NIS.
-        NATIVE_LIBRARIES_LINUX.add("libnss_nis.so.2.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_nis.so.2.0.0");
         // sssd-client
-        NATIVE_LIBRARIES_LINUX.add("libnss_sss.so.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_sss.so.2");
         // numactl-libs
-        NATIVE_LIBRARIES_LINUX.add("libnuma.so.1.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnuma.so.1.0.0");
         // libvogg: reference implementation to create, decode, and work with Ogg multimedia container
         // format bitstreams
-        NATIVE_LIBRARIES_LINUX.add("libogg.so.0.8.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libogg.so.0.8.2");
         // openjpeg2
-        NATIVE_LIBRARIES_LINUX.add("libopenjp2.so.2.3.1");
-        NATIVE_LIBRARIES_LINUX.add("libopenjp2.so.2.4.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libopenjp2.so.2.3.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libopenjp2.so.2.4.0");
         // orc
-        NATIVE_LIBRARIES_LINUX.add("liborc-0.4.so.0.28.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "liborc-0.4.so.0.28.0");
         // p11-kit
-        NATIVE_LIBRARIES_LINUX.add("libp11-kit.so.0.3.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libp11-kit.so.0.3.0");
         // pam (pluggable authentication modules)
-        NATIVE_LIBRARIES_LINUX.add("libpam.so.0");
-        NATIVE_LIBRARIES_LINUX.add("libpam.so.0.83.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpam.so.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpam.so.0.83.1");
         // pango
-        NATIVE_LIBRARIES_LINUX.add("libpango-1.0.so.0.4200.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpango-1.0.so.0.4200.3");
         // pango
-        NATIVE_LIBRARIES_LINUX.add("libpangocairo-1.0.so.0.4200.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpangocairo-1.0.so.0.4200.3");
         // pango
-        NATIVE_LIBRARIES_LINUX.add("libpangoft2-1.0.so.0.4200.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpangoft2-1.0.so.0.4200.3");
         // libpaper (getting information on page sizes)
-        NATIVE_LIBRARIES_LINUX.add("libpaper.so.1.1.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpaper.so.1.1.2");
         // pcre
-        NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.0");
-        NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.10");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpcre.so.1.2.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpcre.so.1.2.10");
         // pcre2
-        NATIVE_LIBRARIES_LINUX.add("libpcre2-8.so.0.7.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpcre2-8.so.0.7.1");
         // gdk-pixbuf2-modules
-        NATIVE_LIBRARIES_LINUX.add("libpixbufloader-bmp.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-bmp.so");
         // gdk-pixbuf2-modules
-        NATIVE_LIBRARIES_LINUX.add("libpixbufloader-gif.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so");
         // gdk-pixbuf2-modules
-        NATIVE_LIBRARIES_LINUX.add("libpixbufloader-svg.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so");
         // pixman
-        NATIVE_LIBRARIES_LINUX.add("libpixman-1.so.0.38.4");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpixman-1.so.0.38.4");
         // nspr
-        NATIVE_LIBRARIES_LINUX.add("libplc4.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libplc4.so");
         // nspr
-        NATIVE_LIBRARIES_LINUX.add("libplds4.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libplds4.so");
         // libpng
-        NATIVE_LIBRARIES_LINUX.add("libpng15.so.15.13.0");
-        NATIVE_LIBRARIES_LINUX.add("libpng16.so.16.34.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpng15.so.15.13.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpng16.so.16.34.0");
         // glibc
-        NATIVE_LIBRARIES_LINUX.add("libpthread-2.12.so");
-        NATIVE_LIBRARIES_LINUX.add("libpthread-2.17.so");
-        NATIVE_LIBRARIES_LINUX.add("libpthread-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpthread-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpthread-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpthread-2.28.so");
         // pulseaudio-libs: sound proxy server for sound applications
-        NATIVE_LIBRARIES_LINUX.add("libpulse.so.0.23.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpulse.so.0.23.0");
         // pulseaudio-libs: sound proxy server for sound applications
-        NATIVE_LIBRARIES_LINUX.add("libpulsecommon-14.0.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libpulsecommon-14.0.so");
         // glibc
-        NATIVE_LIBRARIES_LINUX.add("libresolv-2.17.so");
-        NATIVE_LIBRARIES_LINUX.add("libresolv-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libresolv-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libresolv-2.28.so");
         // librsvg2
-        NATIVE_LIBRARIES_LINUX.add("librsvg-2.so.2.42.7");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "librsvg-2.so.2.42.7");
         // glibc
-        NATIVE_LIBRARIES_LINUX.add("librt-2.12.so");
-        NATIVE_LIBRARIES_LINUX.add("librt-2.17.so");
-        NATIVE_LIBRARIES_LINUX.add("librt-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "librt-2.12.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "librt-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "librt-2.28.so");
         // libSM
-        NATIVE_LIBRARIES_LINUX.add("libSM.so.6.0.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libSM.so.6.0.1");
         // libsecret
-        NATIVE_LIBRARIES_LINUX.add("libsecret-1.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libsecret-1.so.0.0.0");
         // nss
-        NATIVE_LIBRARIES_LINUX.add("libsmime3.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libsmime3.so");
         // softhsm
-        NATIVE_LIBRARIES_LINUX.add("libsofthsm2.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libsofthsm2.so");
         // libasyncns: library for asynchronous name service queries
-        NATIVE_LIBRARIES_LINUX.add("libasyncns.so.0.3.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libasyncns.so.0.3.1");
         // libselinux
-        NATIVE_LIBRARIES_LINUX.add("libselinux.so.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libselinux.so.1");
         // libsndfile: library for reading and writing files containing sampled audio data
-        NATIVE_LIBRARIES_LINUX.add("libsndfile.so.1.0.28");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libsndfile.so.1.0.28");
         // nss-softokn
-        NATIVE_LIBRARIES_LINUX.add("libsoftokn3.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libsoftokn3.so");
         // libsoup
-        NATIVE_LIBRARIES_LINUX.add("libsoup-2.4.so.1.8.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libsoup-2.4.so.1.8.0");
         // sqlite-libs
-        NATIVE_LIBRARIES_LINUX.add("libsqlite3.so.0.8.6");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libsqlite3.so.0.8.6");
         // nss
-        NATIVE_LIBRARIES_LINUX.add("libssl3.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libssl3.so");
         // systemd-libs (/usr/lib64/):
-        NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.6.0");
-        NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.23.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libsystemd.so.0.6.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libsystemd.so.0.23.0");
         // libtasn1
-        NATIVE_LIBRARIES_LINUX.add("libtasn1.so.6.5.5");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libtasn1.so.6.5.5");
         // libthai
-        NATIVE_LIBRARIES_LINUX.add("libthai.so.0.3.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libthai.so.0.3.0");
         // libtiff (tiff image library)
-        NATIVE_LIBRARIES_LINUX.add("libtiff.so.5.3.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libtiff.so.5.3.0");
         // ncurses-libs
-        NATIVE_LIBRARIES_LINUX.add("libtinfo.so.6.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libtinfo.so.6.1");
         // libtirpc (/usr/lib64/): a port of Suns Transport-Independent RPC library.
-        NATIVE_LIBRARIES_LINUX.add("libtirpc.so.3.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libtirpc.so.3.0.0");
         // libunistring
-        NATIVE_LIBRARIES_LINUX.add("libunistring.so.2.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libunistring.so.2.1.0");
         // glibc
-        NATIVE_LIBRARIES_LINUX.add("libutil-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libutil-2.28.so");
         // libuuid
-        NATIVE_LIBRARIES_LINUX.add("libuuid.so.1.3.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libuuid.so.1.3.0");
         // libvorbis: reference implementation for the Vorbis codec
-        NATIVE_LIBRARIES_LINUX.add("libvorbis.so.0.4.8");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libvorbis.so.0.4.8");
         // libvorbis: reference implementation for the Vorbis codec
-        NATIVE_LIBRARIES_LINUX.add("libvorbisenc.so.2.0.11");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libvorbisenc.so.2.0.11");
         // libwayland-client
-        NATIVE_LIBRARIES_LINUX.add("libwayland-client.so.0.3.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libwayland-client.so.0.3.0");
         // libwayland-cursor
-        NATIVE_LIBRARIES_LINUX.add("libwayland-cursor.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libwayland-cursor.so.0.0.0");
         // libwayland-egl
-        NATIVE_LIBRARIES_LINUX.add("libwayland-egl.so.1.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libwayland-egl.so.1.0.0");
         // libwayland-server
-        NATIVE_LIBRARIES_LINUX.add("libwayland-server.so.0.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libwayland-server.so.0.1.0");
         // webkit2gtk3
-        NATIVE_LIBRARIES_LINUX.add("libwebkit2gtk-4.0.so.37.37.6");
-        NATIVE_LIBRARIES_LINUX.add("libwebkit2gtk-4.0.so.37.56.11");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libwebkit2gtk-4.0.so.37.37.6");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libwebkit2gtk-4.0.so.37.56.11");
         // libwebp
-        NATIVE_LIBRARIES_LINUX.add("libwebp.so.7.0.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libwebp.so.7.0.2");
         // libwebp
-        NATIVE_LIBRARIES_LINUX.add("libwebpdemux.so.2.0.4");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libwebpdemux.so.2.0.4");
         // woff2 (library for converting fonts from TTF WOFF 2.0 format)
-        NATIVE_LIBRARIES_LINUX.add("libwoff2common.so.1.0.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libwoff2common.so.1.0.2");
         // woff2 (library for converting fonts from TTF WOFF 2.0 format)
-        NATIVE_LIBRARIES_LINUX.add("libwoff2dec.so.1.0.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libwoff2dec.so.1.0.2");
         // libX11
-        NATIVE_LIBRARIES_LINUX.add("libX11.so.6.3.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libX11.so.6.3.0");
         // libX11-xcb
-        NATIVE_LIBRARIES_LINUX.add("libX11-xcb.so.1.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libX11-xcb.so.1.0.0");
         // libXau
-        NATIVE_LIBRARIES_LINUX.add("libXau.so.6.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXau.so.6.0.0");
         // libXcomposite
-        NATIVE_LIBRARIES_LINUX.add("libXcomposite.so.1.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXcomposite.so.1.0.0");
         // libXcursor
-        NATIVE_LIBRARIES_LINUX.add("libXcursor.so.1.0.2");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXcursor.so.1.0.2");
         // libXdamage
-        NATIVE_LIBRARIES_LINUX.add("libXdamage.so.1.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXdamage.so.1.1.0");
         // libXext
-        NATIVE_LIBRARIES_LINUX.add("libXext.so.6.4.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXext.so.6.4.0");
         // libXfixes
-        NATIVE_LIBRARIES_LINUX.add("libXfixes.so.3.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXfixes.so.3.1.0");
         // libXinerama
-        NATIVE_LIBRARIES_LINUX.add("libXinerama.so.1.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXinerama.so.1.0.0");
         // libXi
-        NATIVE_LIBRARIES_LINUX.add("libXi.so.6.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXi.so.6.1.0");
         // libXrandr
-        NATIVE_LIBRARIES_LINUX.add("libXrandr.so.2.2.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXrandr.so.2.2.0");
         // libXrender
-        NATIVE_LIBRARIES_LINUX.add("libXrender.so.1.3.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXrender.so.1.3.0");
         // libXt
-        NATIVE_LIBRARIES_LINUX.add("libXt.so.6.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXt.so.6.0.0");
         // libXtst: X window system client interface
-        NATIVE_LIBRARIES_LINUX.add("libXtst.so.6.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libXtst.so.6.1.0");
         // libxcb
-        NATIVE_LIBRARIES_LINUX.add("libxcb.so.1.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxcb.so.1.1.0");
         // libxcb
-        NATIVE_LIBRARIES_LINUX.add("libxcb-dri2.so.0.0.0");
-        NATIVE_LIBRARIES_LINUX.add("libxcb-dri3.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxcb-dri2.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxcb-dri3.so.0.0.0");
         // libxcb
-        NATIVE_LIBRARIES_LINUX.add("libxcb-present.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxcb-present.so.0.0.0");
         // libxcb
-        NATIVE_LIBRARIES_LINUX.add("libxcb-render.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxcb-render.so.0.0.0");
         // libxcb
-        NATIVE_LIBRARIES_LINUX.add("libxcb-shm.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxcb-shm.so.0.0.0");
         // libxcb
-        NATIVE_LIBRARIES_LINUX.add("libxcb-sync.so.1.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxcb-sync.so.1.0.0");
         // libxcb
-        NATIVE_LIBRARIES_LINUX.add("libxcb-xfixes.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxcb-xfixes.so.0.0.0");
         // libxcrypt (/usr/lib64/): library for one-way hashing of passcodes
-        NATIVE_LIBRARIES_LINUX.add("libcrypt.so.1.1.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libcrypt.so.1.1.0");
         // libxkbcommon
-        NATIVE_LIBRARIES_LINUX.add("libxkbcommon.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxkbcommon.so.0.0.0");
         // libxml2
-        NATIVE_LIBRARIES_LINUX.add("libxml2.so.2.9.1");
-        NATIVE_LIBRARIES_LINUX.add("libxml2.so.2.9.7");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxml2.so.2.9.1");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxml2.so.2.9.7");
         // xmlsec1
-        NATIVE_LIBRARIES_LINUX.add("libxmlsec1.so.1.2.20");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxmlsec1.so.1.2.20");
         // xmlsec1-openssl
-        NATIVE_LIBRARIES_LINUX.add("libxmlsec1-openssl.so.1.2.20");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxmlsec1-openssl.so.1.2.20");
         // libxshmfence
-        NATIVE_LIBRARIES_LINUX.add("libxshmfence.so.1.0.0");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxshmfence.so.1.0.0");
         // libxslt
-        NATIVE_LIBRARIES_LINUX.add("libxslt.so.1.1.28");
-        NATIVE_LIBRARIES_LINUX.add("libxslt.so.1.1.32");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxslt.so.1.1.28");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libxslt.so.1.1.32");
         // zlib
-        NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.3");
-        NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.7");
-        NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.11");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libz.so.1.2.3");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libz.so.1.2.7");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libz.so.1.2.11");
         // p11-kit-trust
-        NATIVE_LIBRARIES_LINUX.add("p11-kit-trust.so");
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "p11-kit-trust.so");
 
         NATIVE_LIBRARIES_LINUX_JAVA = new ArrayList<String>();
         // java-(1.8.0|11|17)-openjdk

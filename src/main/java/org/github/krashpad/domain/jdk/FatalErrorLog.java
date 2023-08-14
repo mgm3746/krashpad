@@ -1194,17 +1194,12 @@ public class FatalErrorLog {
         } else if (!getNativeLibrariesUnknown().isEmpty()) {
             // Dynatrace detected
             Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
-            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
-            Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
-                matcher = pattern.matcher(nativeLibraryPath);
-                if (matcher.find()) {
-                    String nativeLibrary = matcher.group(3);
-                    if (nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_DYNATRACE)) {
-                        analysis.add(Analysis.INFO_DYNATRACE);
-                        break;
-                    }
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_DYNATRACE)) {
+                    analysis.add(Analysis.INFO_DYNATRACE);
+                    break;
                 }
             }
         }
@@ -1220,17 +1215,12 @@ public class FatalErrorLog {
         } else if (!getNativeLibrariesUnknown().isEmpty()) {
             // Wily detected
             Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
-            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
-            Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
-                matcher = pattern.matcher(nativeLibraryPath);
-                if (matcher.find()) {
-                    String nativeLibrary = matcher.group(3);
-                    if (nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_WILY)) {
-                        analysis.add(Analysis.INFO_WILY);
-                        break;
-                    }
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_WILY)) {
+                    analysis.add(Analysis.INFO_WILY);
+                    break;
                 }
             }
         }
@@ -1292,34 +1282,24 @@ public class FatalErrorLog {
         } else if (!getNativeLibraries().isEmpty()) {
             // JSS detected
             Iterator<String> iterator = getNativeLibraries().iterator();
-            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
-            Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
-                matcher = pattern.matcher(nativeLibraryPath);
-                if (matcher.find()) {
-                    String nativeLibrary = matcher.group(3);
-                    if (nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_JSS)) {
-                        analysis.add(Analysis.INFO_JSS);
-                        break;
-                    }
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_JSS)) {
+                    analysis.add(Analysis.INFO_JSS);
+                    break;
                 }
             }
         }
         // Microsoft SQL Server native driver
         if (!getNativeLibrariesUnknown().isEmpty()) {
             Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
-            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
-            Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
-                matcher = pattern.matcher(nativeLibraryPath);
-                if (matcher.find()) {
-                    String nativeLibrary = matcher.group(3);
-                    if (nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_MICROSOFT_SQL_SERVER)) {
-                        analysis.add(Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE);
-                        break;
-                    }
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_MICROSOFT_SQL_SERVER)) {
+                    analysis.add(Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE);
+                    break;
                 }
             }
         }
@@ -3685,16 +3665,11 @@ public class FatalErrorLog {
         List<String> nativeLibraries = getNativeLibraries();
         if (!nativeLibraries.isEmpty()) {
             Iterator<String> iterator = nativeLibraries.iterator();
-            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
-            Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
-                matcher = pattern.matcher(nativeLibraryPath);
-                if (matcher.find()) {
-                    String nativeLibrary = matcher.group(3);
-                    if (ErrUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibrary)) {
-                        jbossNativeLibraries.add(nativeLibraryPath);
-                    }
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && ErrUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibrary)) {
+                    jbossNativeLibraries.add(nativeLibraryPath);
                 }
             }
         }
@@ -3709,16 +3684,11 @@ public class FatalErrorLog {
         List<String> nativeLibraries = getNativeLibraries();
         if (!nativeLibraries.isEmpty()) {
             Iterator<String> iterator = nativeLibraries.iterator();
-            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
-            Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
-                matcher = pattern.matcher(nativeLibraryPath);
-                if (matcher.find()) {
-                    String nativeLibrary = matcher.group(3);
-                    if (ErrUtil.NATIVE_LIBRARIES_TOMCAT.contains(nativeLibrary)) {
-                        tomcatNativeLibraries.add(nativeLibraryPath);
-                    }
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && ErrUtil.NATIVE_LIBRARIES_TOMCAT.contains(nativeLibrary)) {
+                    tomcatNativeLibraries.add(nativeLibraryPath);
                 }
             }
         }
@@ -3733,22 +3703,21 @@ public class FatalErrorLog {
         List<String> nativeLibraries = getNativeLibraries();
         if (!nativeLibraries.isEmpty()) {
             Iterator<String> iterator = nativeLibraries.iterator();
-            Pattern pattern = Pattern.compile(org.github.joa.util.JdkRegEx.FILE_PATH);
-            Matcher matcher;
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
-                matcher = pattern.matcher(nativeLibraryPath);
-                if (matcher.find()) {
-                    String nativeLibrary = matcher.group(3);
-                    if (!ErrUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_ORACLE.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_TOMCAT.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibrary)
-                            && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibrary)) {
-                        unidentifiedNativeLibraries.add(nativeLibraryPath);
-                    }
+                if (!ErrUtil.NATIVE_LIBRARIES_JBOSS.contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                        && !ErrUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibraryPath)
+                        && !ErrUtil.NATIVE_LIBRARIES_LINUX_JAVA
+                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                        && !ErrUtil.NATIVE_LIBRARIES_ORACLE
+                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                        && !ErrUtil.NATIVE_LIBRARIES_TOMCAT
+                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                        && !ErrUtil.NATIVE_LIBRARIES_WINDOWS
+                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                        && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA
+                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))) {
+                    unidentifiedNativeLibraries.add(nativeLibraryPath);
                 }
             }
         }

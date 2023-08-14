@@ -320,9 +320,21 @@ class TestJdkRegEx {
     }
 
     @Test
-    void testRegion() {
+    void testRegionHeap() {
+        String s = "[heap]";
+        assertTrue(s.matches(JdkRegEx.AREA), "Area not identified.");
+    }
+
+    @Test
+    void testRegionVsyscall() {
         String s = "[vsyscall]";
-        assertTrue(s.matches(JdkRegEx.AREA), "Inode not identified.");
+        assertTrue(s.matches(JdkRegEx.AREA), "Area not identified.");
+    }
+
+    @Test
+    void testRegionVvar() {
+        String s = "[vvar]";
+        assertTrue(s.matches(JdkRegEx.AREA), "Area not identified.");
     }
 
     @Test

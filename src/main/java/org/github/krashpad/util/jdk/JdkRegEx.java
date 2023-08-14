@@ -42,7 +42,7 @@ public class JdkRegEx {
      * 
      * For example: [vsyscall]
      */
-    public static final String AREA = "(\\[(stack|vdso|vsyscall)\\])";
+    public static final String AREA = "(\\[(heap|stack|vdso|vsyscall|vvar)\\])";
 
     /**
      * ActiveMQ main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.

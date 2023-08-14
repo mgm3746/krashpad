@@ -16,6 +16,7 @@ package org.github.krashpad.domain.jdk;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.Constants.Device;
@@ -217,7 +218,7 @@ class TestDynamicLibrary {
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
         DynamicLibrary event = new DynamicLibrary(logLine);
         assertTrue(event.isNativeLibrary(), "Native library not identified.");
-        assertEquals("/path/to/mylib-jni.so (deleted)", event.getFilePath(), "File path not correct.");
+        assertEquals("/path/to/mylib-jni.so", event.getFilePath(), "File path not correct.");
     }
 
     @Test
@@ -289,7 +290,7 @@ class TestDynamicLibrary {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
         DynamicLibrary event = new DynamicLibrary(logLine);
-        assertEquals("[vdso]", event.getFilePath(), "File path not correct.");
+        assertNull(event.getFilePath(), "File path not correct.");
         assertEquals(Device.NFS, event.getDevice(), "Device not correct.");
         assertFalse(event.isNativeLibrary(), "Native library incorrectly identified.");
     }
