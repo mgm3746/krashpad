@@ -3169,8 +3169,8 @@ public class FatalErrorLog {
                 } else if (matcher.group(13) != null) {
                     // JDK17
                     jdkRhelVersion = matcher.group(15);
-                    if (matcher.group(16) != null) {
-                        jdkRhelVersion = jdkRhelVersion + "." + matcher.group(16);
+                    if (matcher.group(17) != null) {
+                        jdkRhelVersion = jdkRhelVersion + "." + matcher.group(17);
                     }
                 }
             }

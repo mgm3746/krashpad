@@ -707,7 +707,7 @@ public class JdkRegEx {
      * java-17-openjdk-17.0.1.0.12-2.el8_5.x86_64
      */
     public static final String RH_RPM_OPENJDK17_DIR = "(java\\-17\\-openjdk\\-17\\.0\\.\\d{1,2}\\.\\d{1,2}"
-            + "(\\.\\d{1,2})?-\\d\\.el([89])_(\\d{1,2})\\.x86_64)";
+            + "(\\.\\d{1,2})?-\\d\\.el([89])(_(\\d{1,2}))?\\.x86_64)";
 
     /**
      * Red Hat OpenJDK 17 rpm libjvm.so file path.

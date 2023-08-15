@@ -943,6 +943,27 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testRhel8RhBuildJdk17u8() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux release 8.8 (Ootpa)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        String dynamicLibrary = "7ff4c137c000-7ff4c2616000 r-xp 00000000 fd:01 67479981                   "
+                + "/usr/lib/jvm/java-17-openjdk-17.0.8.0.7-2.el8.x86_64/lib/server/libjvm.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.8+7-LTS) for linux-amd64 JRE (17.0.8+7-LTS), built on "
+                + "Jul 14 2023 17:37:12 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-18)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("java-17-openjdk-17.0.8.0.7-2.el8.x86_64", fel.getRpmDirectory(), "Rpm directory not correct.");
+        assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
+                Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
+    }
+
+    @Test
     void testRhel9Os() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
@@ -952,7 +973,7 @@ class TestFatalErrorLog {
     }
 
     @Test
-    void testRhel9RhBuildJdk17() {
+    void testRhel9RhBuildJdk11() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
         OsInfo osEvent = new OsInfo(os);
