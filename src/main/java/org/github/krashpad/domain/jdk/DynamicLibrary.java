@@ -83,8 +83,9 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
      */
     private static final String _REGEX = "^(" + __REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS
             + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE
-            + ")?[\\s]{1,}(((" + org.github.joa.util.JdkRegEx.FILE_PATH + ")( \\(deleted\\))?|" + JdkRegEx.AREA
-            + "))?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,})$";
+            + ")?[\\s]{1,}(((" + org.github.joa.util.JdkRegEx.FILE_PATH + ")( \\(deleted\\))?|[////]{0,}"
+            + JdkRegEx.AREA
+            + ")( \\(deleted\\))?)?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,})$";
 
     private static Pattern pattern = Pattern.compile(_REGEX);
 

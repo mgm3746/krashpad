@@ -46,6 +46,13 @@ class TestDynamicLibrary {
     }
 
     @Test
+    void testAreaAioDeleted() {
+        String logLine = "7f7b4d651000-7f7b4d692000 rw-s 00000000 00:12 145684686                  /[aio] (deleted)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+    }
+
+    @Test
     void testAws() {
         String logLine = "7ffafebb0000-7ffafedb0000 ---p 00d91000 103:03 51649                     "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";

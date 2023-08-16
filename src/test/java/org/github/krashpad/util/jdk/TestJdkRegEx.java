@@ -326,6 +326,12 @@ class TestJdkRegEx {
     }
 
     @Test
+    void testRegionAio() {
+        String s = "[aio]";
+        assertTrue(s.matches(JdkRegEx.AREA), "Area not identified.");
+    }
+    
+    @Test
     void testRegionHeap() {
         String s = "[heap]";
         assertTrue(s.matches(JdkRegEx.AREA), "Area not identified.");
