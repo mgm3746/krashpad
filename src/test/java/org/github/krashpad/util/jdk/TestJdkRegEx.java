@@ -155,6 +155,12 @@ class TestJdkRegEx {
     }
 
     @Test
+    void testFileOffset9() {
+        String s = "1011c7000";
+        assertTrue(s.matches(JdkRegEx.FILE_OFFSET), "File offset not identified.");
+    }
+
+    @Test
     void testInode() {
         String s = "135188646";
         assertTrue(s.matches(JdkRegEx.INODE), "Inode not identified.");

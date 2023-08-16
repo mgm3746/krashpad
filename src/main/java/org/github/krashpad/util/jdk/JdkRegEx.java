@@ -290,7 +290,7 @@ public class JdkRegEx {
      * 
      * For example: 00016000
      */
-    public static final String FILE_OFFSET = "([0-9a-f]{8})";
+    public static final String FILE_OFFSET = "([0-9a-f]{8,9})";
 
     /**
      * Regular expression for G1 gc data.

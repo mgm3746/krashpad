@@ -38,6 +38,14 @@ class TestDynamicLibrary {
     }
 
     @Test
+    void testAnonHugepageDeleted() {
+        String logLine = "7bf800000-800000000 rw-p 5bf800000 00:0f 7262262                         "
+                + "/anon_hugepage (deleted)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+    }
+
+    @Test
     void testAws() {
         String logLine = "7ffafebb0000-7ffafedb0000 ---p 00d91000 103:03 51649                     "
                 + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
