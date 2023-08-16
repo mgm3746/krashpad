@@ -294,4 +294,17 @@ class TestDynamicLibrary {
         assertEquals(Device.NFS, event.getDevice(), "Device not correct.");
         assertFalse(event.isNativeLibrary(), "Native library incorrectly identified.");
     }
+
+    @Test
+    void testWindowsShortFileName() {
+        String logLine = "0x00007ffa89b60000 - 0x00007ffa89b89000         "
+                + "C:\\Users\\MYUSER~1\\AppData\\Local\\Temp\\jna-1234\\jna5678.dll";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibrary event = new DynamicLibrary(logLine);
+        assertEquals("C:\\Users\\MYUSER~1\\AppData\\Local\\Temp\\jna-1234\\jna5678.dll", event.getFilePath(),
+                "File path not correct.");
+        assertEquals(Device.UNIDENTIFIED, event.getDevice(), "Device not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
+    }
 }
