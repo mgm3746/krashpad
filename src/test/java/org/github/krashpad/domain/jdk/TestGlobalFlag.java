@@ -90,6 +90,14 @@ class TestGlobalFlag {
     }
 
     @Test
+    void testOptionValueWithSpaces() {
+        String logLine = "ccstrlist OnOutOfMemoryError                       = "
+                + "/bin/kill -ABRT %p                        {product} {environment}";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAGS,
+                JdkUtil.LogEventType.GLOBAL_FLAGS.toString() + " not identified.");
+    }
+
+    @Test
     void testParseLogLine() {
         String logLine = "     intx CICompilerCount                          = 4"
                 + "                                         {product} {ergonomic}";

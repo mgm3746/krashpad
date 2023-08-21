@@ -72,9 +72,9 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|[ ]{0,}(bool|ccstr|ccstrlist|double|intx|size_t|uint|uintx) ([a-zA-Z0-9]+)[ ]{1,}= ([^ ]+)[ ]{1,}"
+            + "|[ ]{0,}(bool|ccstr|ccstrlist|double|intx|size_t|uint|uintx) ([a-zA-Z0-9]+)[ ]{1,}= ([^\\{]+)"
             + "\\{(experimental|lp64_product|manageable|pd product|product|product lp64_product)\\}"
-            + "( \\{(command line|ergonomic)\\})?)$";
+            + "( \\{(command line|environment|ergonomic)\\})?)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -130,6 +130,9 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             value = matcher.group(4);
+            if (value != null) {
+                value = value.trim();
+            }
         }
         return value;
     }
