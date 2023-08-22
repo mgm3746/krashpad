@@ -1120,7 +1120,7 @@ public class JdkUtil {
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.20.0.8-2.el8.x86_64",
                 new Release("Jul 15 2023 00:41:55", 23, "11.0.20+8-LTS"));
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.20.0.8-1.el8_6.x86_64",
-                new Release("Jul 12 2023 00:00:00", 23, "11.0.20+8-LTS"));
+                new Release("Jul 12 2023 16:19:58", 23, "11.0.20+8-LTS"));
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.20.0.8-1.el8_4.x86_64",
                 new Release("Jul 12 2023 00:00:00", 23, "11.0.20+8-LTS"));
         JDK11_RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.20.0.8-1.el8_2.x86_64",
