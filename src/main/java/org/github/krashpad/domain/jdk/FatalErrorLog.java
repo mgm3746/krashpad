@@ -3705,19 +3705,16 @@ public class FatalErrorLog {
             Iterator<String> iterator = nativeLibraries.iterator();
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
-                if (!ErrUtil.NATIVE_LIBRARIES_JBOSS.contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                String nativeLibary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (!ErrUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibary)
                         && !ErrUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibraryPath)
-                        && !ErrUtil.NATIVE_LIBRARIES_LINUX_JAVA
-                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
-                        && !ErrUtil.NATIVE_LIBRARIES_ORACLE
-                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                        && !ErrUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibary)
+                        && !ErrUtil.NATIVE_LIBRARIES_ORACLE.contains(nativeLibary)
                         && !ErrUtil.NATIVE_LIBRARIES_TOMCAT
                                 .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
-                        && !(ErrUtil.NATIVE_LIBRARIES_WINDOWS
-                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                        && !(ErrUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibary)
                                 && nativeLibraryPath.matches(ErrUtil.NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME + ".+"))
-                        && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA
-                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))) {
+                        && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibary)) {
                     unidentifiedNativeLibraries.add(nativeLibraryPath);
                 }
             }
