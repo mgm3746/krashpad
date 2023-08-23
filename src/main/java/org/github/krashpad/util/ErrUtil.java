@@ -69,9 +69,14 @@ public class ErrUtil {
     public static final List<String> NATIVE_LIBRARIES_WINDOWS_JAVA;
 
     /**
-     * Linux native library home regular expression.
+     * Linux native library home.
      */
     public static final String NATIVE_LIBRARY_LINUX_HOME = "/usr/lib64/";
+
+    /**
+     * Windows system native library home regular expression.
+     */
+    public static final String NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME = "C:\\\\Windows\\\\(system|System|SYSTEM)32\\\\";
 
     static {
         NATIVE_LIBRARIES_JBOSS = new ArrayList<String>();
@@ -692,6 +697,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("fwpuclnt.dll");
         NATIVE_LIBRARIES_WINDOWS.add("gdi32full.dll");
         NATIVE_LIBRARIES_WINDOWS.add("iertutil.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("IMM32.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("IPHLPAPI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("iphlpapi.dll");
         NATIVE_LIBRARIES_WINDOWS.add("KERNEL32.DLL");
@@ -720,6 +726,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("OleAut32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ole32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("opengl32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("pnrpnsp.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("POWRPROF.dll");
         NATIVE_LIBRARIES_WINDOWS.add("PROPSYS.dll");
         NATIVE_LIBRARIES_WINDOWS.add("PSAPI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("Pdh.dll");
@@ -738,12 +746,14 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("sfc.dll");
         NATIVE_LIBRARIES_WINDOWS.add("sfc_os.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("shcore.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("SHCORE.dll");
         NATIVE_LIBRARIES_WINDOWS.add("shlwapi.dll");
         NATIVE_LIBRARIES_WINDOWS.add("srvcli.dll");
         NATIVE_LIBRARIES_WINDOWS.add("USER32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("USERENV.dll");
         NATIVE_LIBRARIES_WINDOWS.add("UxTheme.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ucrtbase.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("UMPDC.dll");
         NATIVE_LIBRARIES_WINDOWS.add("urlmon.dll");
         NATIVE_LIBRARIES_WINDOWS.add("VERSION.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINHTTP.dll");
@@ -751,6 +761,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("WINMM.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINNSI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("WINSTA.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("wshunix.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WSOCK32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WS2_32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("Wtsapi32.dll");
@@ -761,6 +772,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("win32u.dll");
         NATIVE_LIBRARIES_WINDOWS.add("winrnr.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINTRUST.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("Wldp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("wshbth.dll");
 
         NATIVE_LIBRARIES_WINDOWS_JAVA = new ArrayList<String>();
@@ -789,6 +801,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("jsdt.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("jsound.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("jsoundds.dll");
+        NATIVE_LIBRARIES_WINDOWS_JAVA.add("jsvml.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("jvm.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("lcms.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("management.dll");
@@ -808,6 +821,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("unpack.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("vcruntime140.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("VCRUNTIME140.dll");
+        NATIVE_LIBRARIES_WINDOWS_JAVA.add("vcruntime140_1.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("verify.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("WindowsAccessBridge-64.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("w2k_lsa_auth.dll");

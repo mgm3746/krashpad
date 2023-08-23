@@ -3713,8 +3713,9 @@ public class FatalErrorLog {
                                 .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
                         && !ErrUtil.NATIVE_LIBRARIES_TOMCAT
                                 .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
-                        && !ErrUtil.NATIVE_LIBRARIES_WINDOWS
+                        && !(ErrUtil.NATIVE_LIBRARIES_WINDOWS
                                 .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                                && nativeLibraryPath.matches(ErrUtil.NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME + ".+"))
                         && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA
                                 .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))) {
                     unidentifiedNativeLibraries.add(nativeLibraryPath);

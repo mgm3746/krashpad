@@ -1844,7 +1844,7 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(Analysis.ERROR_POINTER_INVALID.getKey()),
                 Analysis.ERROR_POINTER_INVALID + " analysis not identified.");
         assertEquals(79, fel.getNativeLibraries().size(), "Native library count not correct.");
-        assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+        assertEquals(2, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
 
     @Test
@@ -2084,8 +2084,6 @@ class TestAnalysis {
         assertEquals(Application.JBOSS_VERSION, fel.getApplication(), "Application not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JBOSS_VERSION.getKey()),
                 Analysis.ERROR_OOME_JBOSS_VERSION + " analysis not identified.");
-        assertEquals(31, fel.getNativeLibraries().size(), "Native library count not correct.");
-        assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
 
     @Test
@@ -2871,9 +2869,12 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(31, fel.getNativeLibraries().size(), "Number of native libraries not correct.");
-        assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Number of unidentified native libraries not correct.");
+        assertEquals(2, fel.getNativeLibrariesUnknown().size(), "Number of unidentified native libraries not correct.");
         assertEquals("C:\\Program Files\\Cylance\\Desktop\\CyMemDef64.dll", fel.getNativeLibrariesUnknown().get(0),
                 "Unidentified native library not correct.");
+        assertEquals("C:\\Windows\\WinSxS\\"
+                + "amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.17763.2300_none_de6de3f4534e3b8d\\"
+                + "COMCTL32.dll", fel.getNativeLibrariesUnknown().get(1), "Unidentified native library not correct.");
     }
 
     @Test
