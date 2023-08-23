@@ -64,6 +64,15 @@ class TestCpuInfo {
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
     }
+    
+    @Test
+    void testMaxMhz() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "  Max Mhz: 3000, Current Mhz: 3000, Mhz Limit: 3000";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
 
     @Test
     void testAvailableGovernors() {
@@ -570,6 +579,14 @@ class TestCpuInfo {
     void testProcessor() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "processor       : 0";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testProcessorInformation() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "Processor Information for all 8 processors :";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
     }

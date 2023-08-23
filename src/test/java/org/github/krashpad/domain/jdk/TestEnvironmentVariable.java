@@ -138,6 +138,14 @@ class TestEnvironmentVariable {
     }
 
     @Test
+    void testLcCtype() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
+        String logLine = "LC_CTYPE=de_DE.UTF-8";
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    }
+
+    @Test
     void testLdLibraryPath() {
         EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "LD_LIBRARY_PATH=:/path/to/lib";
@@ -202,9 +210,33 @@ class TestEnvironmentVariable {
     }
 
     @Test
+    void testTemp() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
+        String logLine = "TEMP=C:\\Users\\myuser\\AppData\\Local\\Temp";
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    }
+
+    @Test
     void testTerm() {
         EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "TERM=xterm";
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    }
+
+    @Test
+    void testTmp() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
+        String logLine = "TMP=C:\\Users\\myuser\\AppData\\Local\\Temp";
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    }
+
+    @Test
+    void testTmpdir() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
+        String logLine = "TMPDIR=C:\\Users\\myuser\\AppData\\Local\\Temp";
         assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }

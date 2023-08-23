@@ -818,6 +818,19 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testOs2Line() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os1 = "OS:";
+        OsInfo osEvent1 = new OsInfo(os1);
+        fel.getOsInfos().add(osEvent1);
+        String os2 = " Windows 10 , 64 bit Build 19041 (10.0.19041.3155)";
+        OsInfo osEvent2 = new OsInfo(os2);
+        fel.getOsInfos().add(osEvent2);
+        assertEquals("Windows 10 , 64 bit Build 19041 (10.0.19041.3155)", fel.getOsString(), "OS string not correct.");
+        assertEquals(OsVersion.WINDOWS10, fel.getOsVersion(), "OS version not correct.");
+    }
+
+    @Test
     void testOsJustLinux() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Linux";

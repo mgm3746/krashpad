@@ -63,7 +63,8 @@ public class OsInfo implements LogEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|(CentOS|Oracle|Red Hat Enterprise) Linux.+|Windows|"
+    private static final String REGEX = "^(" + _REGEX_HEADER
+            + "|(CentOS|Oracle|Red Hat Enterprise) Linux.+|[ ]{0,1}Windows.+|"
             + "[ ]{0,}(Assembled|Copyright|ID|NAME|PATCHLEVEL|(BUG_REPORT|HOME|SUPPORT)_URL|VERSION(_(ID|CODENAME))?|"
             + "# Please check \\/etc\\/os-release|# This file is deprecated|"
             + "\\[error occurred during error reporting \\(printing OS information\\))(.+))$";

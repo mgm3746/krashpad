@@ -30,6 +30,10 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * 
  * <h2>Example Logging</h2>
  * 
+ * <p>
+ * Linux:
+ * </p>
+ * 
  * <pre>
  * CPU:total 160 (initial active 160) ppc64 fsqrt isel lxarxeh cmpb popcntb popcntw fcfids vand aes vpmsumb mfdscr vsx sha
  * </pre>
@@ -48,6 +52,16 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * model       : IBM,9008-22L
  * machine     : CHRP IBM,9008-22L
  * MMU     : Hash
+ * </pre>
+ * 
+ * <p>
+ * Windows:
+ * </p>
+ * 
+ * <pre>
+ * CPU: total 8 (initial active 8) (8 cores per cpu, 1 threads per core) family 6 model 158 stepping 13 microcode 0xf0, cx8, cmov, fxsr, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, erms, clmul, bmi1, bmi2, adx, fma, vzeroupper, clflush, clflushopt
+ * Processor Information for all 8 processors :
+ *  Max Mhz: 3000, Current Mhz: 3000, Mhz Limit: 3000
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -100,9 +114,9 @@ public class CpuInfo implements LogEvent, HeaderEvent {
             + "clock.+|core id.+|Core performance/turbo boost:.*|cpu.+|cpu cores|cpu family.+|"
             + "CPU Model and flags from \\/proc\\/cpuinfo:|cpuid level|cpu MHz|(Current|Maximum|"
             + "Minimum) cpu frequency:|flags.+|fpu.+|fpu_exception|Frequency switch latency \\(ns\\):.*|"
-            + "initial apicid.+|machine.+|microcode.+|model.+|model name|MMU.+|(Off|On)line cpus:.*|ondemand|"
-            + "performance|physical id.+|platform.+|power management:|\\/proc\\/cpuinfo:|processor.+|revision.+|"
-            + "siblings.+|stepping.+|timebase.+|TLB size.+|vendor_id.+|wp.+)$";
+            + "initial apicid.+|machine.+|  Max Mhz.+|microcode.+|model.+|model name|MMU.+|(Off|On)line cpus:.*|"
+            + "ondemand|performance|physical id.+|platform.+|power management:|\\/proc\\/cpuinfo:|[pP]rocessor.+|"
+            + "revision.+|siblings.+|stepping.+|timebase.+|TLB size.+|vendor_id.+|wp.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

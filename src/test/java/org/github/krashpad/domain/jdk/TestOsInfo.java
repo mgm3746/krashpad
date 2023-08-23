@@ -225,4 +225,12 @@ class TestOsInfo {
                 JdkUtil.LogEventType.OS_INFO.toString() + " not identified.");
 
     }
+    
+    @Test
+    void testWindowsLine2() {
+        String logLine = " Windows 10 , 64 bit Build 19041 (10.0.19041.3155)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_INFO,
+                JdkUtil.LogEventType.OS_INFO.toString() + " not identified.");
+
+    }
 }

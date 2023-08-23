@@ -77,8 +77,8 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
             + "\\} - klass:.+|([R|r][ ]{0,1}\\d{1,2}[ ]{0,1}|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
             + "\\[error occurred during error reporting \\(printing register info\\).+|exception handling.+|"
             + "invoke return entry points.+| - itable length.+|method entry point.+|(i)?return.+| - fake entry for .+|"
-            + " - (final|private|protected|transient|volatile) .+|StubRoutines.+| - signature: .+| - 'value' .+|"
-            + " - vtable length.+|" + JdkRegEx.CLASS + ".*)[ ]{0,}$";
+            + " - (final|private|protected|transient|volatile) .+|StubRoutines.+| - signature: .+|"
+            + " - '(next|size|value)' .+| - vtable length.+|" + JdkRegEx.CLASS + ".*)[ ]{0,}$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

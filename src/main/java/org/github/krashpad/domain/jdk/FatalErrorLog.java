@@ -3917,10 +3917,10 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         if (matcher.group(2) != null) {
                             osString = matcher.group(4).trim();
-                        } else {
+                        } else if (iterator.hasNext()) {
                             // OS is on separate line
                             event = iterator.next();
-                            osString = event.getLogEntry();
+                            osString = event.getLogEntry().trim();
                         }
                     }
                     break;
@@ -4047,7 +4047,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 OsInfo event = iterator.next();
                 if (event.isHeader()) {
-                    if (event.getLogEntry().matches("^OS:$")) {
+                    if (event.getLogEntry().matches("^OS:$") && iterator.hasNext()) {
                         // OS on next line
                         event = iterator.next();
                     }
@@ -4060,6 +4060,8 @@ public class FatalErrorLog {
                         osVersion = OsVersion.RHEL8;
                     } else if (event.getLogEntry().matches("^.*Red Hat Enterprise Linux release 9.+$")) {
                         osVersion = OsVersion.RHEL9;
+                    } else if (event.getLogEntry().matches("^.*Windows 10.+$")) {
+                        osVersion = OsVersion.WINDOWS10;
                     } else if (event.getLogEntry().matches("^.*CentOS Linux release 6.+$")) {
                         osVersion = OsVersion.CENTOS6;
                     } else if (event.getLogEntry().matches("^.*CentOS Linux release 7.+$")) {
@@ -5807,7 +5809,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 OsInfo event = iterator.next();
                 if (event.isHeader()) {
-                    if (event.getLogEntry().matches("^OS:$")) {
+                    if (event.getLogEntry().matches("^OS:$") && iterator.hasNext()) {
                         // OS string on next line
                         event = iterator.next();
                     }
