@@ -2348,6 +2348,28 @@ class TestAnalysis {
     }
 
     @Test
+    void testOverCommitDisabledRatio100OomeLimit() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset88.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.hasAnalysis(Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100.getKey()),
+                Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100 + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OOPS.getKey()),
+                Analysis.ERROR_OOME_OOPS + " analysis not identified.");
+    }
+
+    @Test
+    void testOverCommitDisabledRatio100OomeOvercommitLimit() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset89.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.hasAnalysis(Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100.getKey()),
+                Analysis.ERROR_OOME_OVERCOMMIT_LIMIT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT.getKey()),
+                Analysis.ERROR_OOME_OVERCOMMIT_LIMIT + " analysis not identified.");
+    }
+
+    @Test
     void testParallelCollector() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
         Manager manager = new Manager();

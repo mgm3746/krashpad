@@ -1,0 +1,95 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 12288 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Unscaled Compressed Oops mode in which the Java heap is
+#     placed in the first 4GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 4GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2798), pid=12345, tid=0x000000000000001
+#
+# JRE version: OpenJDK Runtime Environment (8.0_382-b05) (build 1.8.0_382-b05)
+# Java VM: OpenJDK 64-Bit Server VM (25.382-b05 mixed mode linux-amd64 compressed oops)
+# Core dump written. Default location: /path/to/core or core.12345
+#
+
+/proc/meminfo:
+MemTotal:        3880088 kB
+MemFree:          837908 kB
+MemAvailable:    1572004 kB
+Buffers:            3136 kB
+Cached:          1068148 kB
+SwapCached:            0 kB
+Active:          2400756 kB
+Inactive:         385516 kB
+Active(anon):    1715396 kB
+Inactive(anon):      260 kB
+Active(file):     685360 kB
+Inactive(file):   385256 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:               528 kB
+Writeback:             0 kB
+AnonPages:       1715180 kB
+Mapped:            56052 kB
+Shmem:               672 kB
+Slab:             136996 kB
+SReclaimable:      81548 kB
+SUnreclaim:        55448 kB
+KernelStack:       12656 kB
+PageTables:        10708 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     3880088 kB
+Committed_AS:    3672264 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       13764 kB
+VmallocChunk:   34359720444 kB
+Percpu:              400 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:   1431552 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:       88044 kB
+DirectMap2M:     2009088 kB
+DirectMap1G:     2097152 kB
+
+heap address: 0x000000008f800000, size: 1800 MB, Compressed Oops mode: 32-bit
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
+Compressed class space size: 1073741824 Address: 0x0000000100000000
+
+Heap:
+ par new generation   total 153344K, used 13342K [0x000000008f800000, 0x0000000099e60000, 0x0000000099e60000)
+  eden space 136320K,   2% used [0x000000008f800000, 0x000000008fb56108, 0x0000000097d20000)
+  from space 17024K,  58% used [0x0000000098dc0000, 0x0000000099771948, 0x0000000099e60000)
+  to   space 17024K,   0% used [0x0000000097d20000, 0x0000000097d20000, 0x0000000098dc0000)
+ concurrent mark-sweep generation total 1672832K, used 533190K [0x0000000099e60000, 0x0000000100000000, 0x0000000100000000)
+ Metaspace       used 191203K, capacity 208316K, committed 209792K, reserved 1228800K
+  class space    used 25299K, capacity 29849K, committed 30080K, reserved 1048576K
+  
+CodeCache: size=245760Kb used=58434Kb max_used=58622Kb free=187325Kb
+ bounds [0x00007f2b29000000, 0x00007f2b2c980000, 0x00007f2b38000000]
+ total_blobs=17473 nmethods=16389 adapters=996
+ compilation: enabled
+  
+Memory: 4k page, physical 3880088k(838204k free), swap 0k(0k free)

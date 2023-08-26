@@ -679,9 +679,16 @@ public class FatalErrorLog {
                         analysis.add(Analysis.ERROR_OOME_THREAD_LEAK);
                     }
                 } else if (getMemoryAllocation() >= 0 && getCommitLimit() >= 0 && getCommittedAs() >= 0
-                        && getMemoryAllocation() > (getCommitLimit() - getCommittedAs())
-                        && getCommitLimit() >= getCommittedAs()) {
-                    // Allocation > available commit limit and CommitLimit >= Committed_AS
+                        && getCommitLimit() >= getCommittedAs()
+                        && getMemoryAllocation() > (getCommitLimit() - getCommittedAs()) && !isOvercommitDisabled()) {
+                    // Allocation > available commit limit
+                    analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT);
+                } else if (getMemoryAllocation() >= 0 && getCommitLimit() >= 0 && getCommittedAs() >= 0
+                        && getCommitLimit() >= getCommittedAs() && isOvercommitDisabled()
+                        && getMemoryAllocation() > (getCommitLimit() - getCommittedAs() - JdkUtil
+                                .convertSize(Long.parseLong("136"), 'M', org.github.joa.util.Constants.UNITS))) {
+                    // Allocation > (available commit limit - user_reserve_kbytes [assume worse case 128M] -
+                    // admin_reserve_kbytes [assume worse case 8M])
                     analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT);
                 } else if (getMemoryAllocation() >= 0 && (getJvmMemFree() >= 0 || getJvmSwapFree() >= 0)
                         && getMemoryAllocation() >= (getJvmMemFree() + getJvmSwapFree())) {
@@ -1362,6 +1369,10 @@ public class FatalErrorLog {
         if (!getGlobalFlagsExperimentalErgonomic().isEmpty()) {
             analysis.add(Analysis.WARN_EXPERIMENTAL_ERGONOMIC);
         }
+        // Check for vm.overcommit_memory=2 and vm.overcommit_ratio=100
+        if (getMemTotal() > 0 && getCommitLimit() > 0 && getMemTotal() == getCommitLimit()) {
+            analysis.add(Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100);
+        }
     }
 
     /**
@@ -1855,7 +1866,11 @@ public class FatalErrorLog {
      * 
      * Formula: ([total RAM pages] - [total huge TLB pages]) * overcommit_ratio / 100 + [total swap pages]
      * 
-     * This limit is only adhered to if strict overcommit accounting is enabled (mode 2 in vm.overcommit_memory)
+     * This limit is only adhered to if strict overcommit accounting is enabled (mode 2 in vm.overcommit_memory), and
+     * then some memory is reserved: (1) user_reserve_kbytes defaults to min(3% of the current process size, 128MB).
+     * This is to prevent a single process from consuming all memory and tipping over the box. (2) admin_reserve_kbytes
+     * defaults to min(3% of free pages, 8MB) for users with the capability cap_sys_admin. It should be large enough to
+     * handle the full Virtual Memory Size of programs used to recover.
      * 
      * @return The total amount of memory currently available to be allocated by the system in
      *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
@@ -1863,8 +1878,8 @@ public class FatalErrorLog {
     public long getCommitLimit() {
         long commitLimit = Long.MIN_VALUE;
         if (!meminfos.isEmpty()) {
-            String regexMemTotal = "CommitLimit:[ ]{0,}(\\d{1,}) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
+            String regexCommitLimit = "CommitLimit:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regexCommitLimit);
             Iterator<Meminfo> iterator = meminfos.iterator();
             while (iterator.hasNext()) {
                 Meminfo event = iterator.next();
@@ -1898,8 +1913,8 @@ public class FatalErrorLog {
     public long getCommittedAs() {
         long committedAs = Long.MIN_VALUE;
         if (!meminfos.isEmpty()) {
-            String regexMemTotal = "Committed_AS:[ ]{0,}(\\d{1,}) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
+            String regexCommittedAs = "Committed_AS:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regexCommittedAs);
             Iterator<Meminfo> iterator = meminfos.iterator();
             while (iterator.hasNext()) {
                 Meminfo event = iterator.next();
@@ -3498,6 +3513,32 @@ public class FatalErrorLog {
     }
 
     /**
+     * The system total memory.
+     * 
+     * 
+     * @return The system total memory on the system in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code>
+     *         units.
+     */
+    public long getMemTotal() {
+        long memTotal = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regexMemTotal = "MemTotal:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<Meminfo> iterator = meminfos.iterator();
+            while (iterator.hasNext()) {
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
+                            org.github.joa.util.Constants.UNITS);
+                    break;
+                }
+            }
+        }
+        return memTotal;
+    }
+
+    /**
      * @return The total metaspace allocation in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getMetaspaceAllocation() {
@@ -3865,21 +3906,8 @@ public class FatalErrorLog {
      *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
      */
     public long getOsMemTotal() {
-        long memTotal = Long.MIN_VALUE;
-        if (!meminfos.isEmpty()) {
-            String regexMemTotal = "MemTotal:[ ]{0,}(\\d{1,}) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<Meminfo> iterator = meminfos.iterator();
-            while (iterator.hasNext()) {
-                Meminfo event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.UNITS);
-                    break;
-                }
-            }
-        } else if (!memories.isEmpty()) {
+        long memTotal = getMemTotal();
+        if (memTotal < 0 && !memories.isEmpty()) {
             Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
@@ -4999,6 +5027,21 @@ public class FatalErrorLog {
             isMemoryAllocationFail = true;
         }
         return isMemoryAllocationFail;
+    }
+
+    /**
+     * Try to determine if overcommit is disabled ((vm.overcommit_memory=2). This cannot be determined directly because
+     * kernel flags are not output to the fatal error log (i.e. there can be false negatives).
+     * 
+     * @return true if it has been determined that overcommit is disabled (vm.overcommit_memory=2), false otherwise.
+     */
+    public boolean isOvercommitDisabled() {
+        boolean isOvercommitDisabled = false;
+        // vm.overcommit_memory=2, vm.overcommit_ratio=100)
+        if (getMemTotal() > 0 && getCommitLimit() > 0 && getMemTotal() == getCommitLimit()) {
+            isOvercommitDisabled = true;
+        }
+        return isOvercommitDisabled;
     }
 
     /**

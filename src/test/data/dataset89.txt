@@ -1,0 +1,85 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 65536 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2798), pid=12345, tid=0x000000000000001
+#
+# JRE version: OpenJDK Runtime Environment (8.0_382-b05) (build 1.8.0_382-b05)
+# Java VM: OpenJDK 64-Bit Server VM (25.382-b05 mixed mode linux-amd64 )
+# Core dump written. Default location: /path/to/core or core.12345
+#
+
+/proc/meminfo:
+MemTotal:        3879968 kB
+MemFree:          607840 kB
+MemAvailable:    1072856 kB
+Buffers:            3136 kB
+Cached:           808148 kB
+SwapCached:            0 kB
+Active:          2627544 kB
+Inactive:         407204 kB
+Active(anon):    2223888 kB
+Inactive(anon):      296 kB
+Active(file):     403656 kB
+Inactive(file):   406908 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:              1976 kB
+Writeback:             0 kB
+AnonPages:       2223672 kB
+Mapped:            80400 kB
+Shmem:               724 kB
+Slab:             122956 kB
+SReclaimable:      67440 kB
+SUnreclaim:        55516 kB
+KernelStack:       12800 kB
+PageTables:        12556 kB
+NFS_Unstable:          8 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     3879968 kB
+Committed_AS:    3792676 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       13864 kB
+VmallocChunk:   34359720444 kB
+Percpu:              392 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:   1683456 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:      118636 kB
+DirectMap2M:     4075520 kB
+DirectMap1G:     2097152 kB
+
+Heap:
+ par new generation   total 153344K, used 42682K [0x00007fadb3800000, 0x00007fadbde60000, 0x00007fadbde60000)
+  eden space 136320K,  27% used [0x00007fadb3800000, 0x00007fadb5d1d858, 0x00007fadbbd20000)
+  from space 17024K,  27% used [0x00007fadbcdc0000, 0x00007fadbd251128, 0x00007fadbde60000)
+  to   space 17024K,   0% used [0x00007fadbbd20000, 0x00007fadbbd20000, 0x00007fadbcdc0000)
+ concurrent mark-sweep generation total 1672832K, used 690281K [0x00007fadbde60000, 0x00007fae24000000, 0x00007fae24000000)
+ Metaspace       used 190604K, capacity 207077K, committed 207104K, reserved 208896K
+ 
+ CodeCache: size=245760Kb used=50194Kb max_used=50207Kb free=195565Kb
+ bounds [0x00007fae29000000, 0x00007fae2c150000, 0x00007fae38000000]
+ total_blobs=15948 nmethods=14851 adapters=1009
+ compilation: enabled
+  
+Memory: 4k page, physical 3879968k(607716k free), swap 0k(0k free)

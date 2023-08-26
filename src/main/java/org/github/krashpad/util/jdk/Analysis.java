@@ -549,6 +549,11 @@ public enum Analysis {
     INFO_ORACLE_JDBC_OCI("info.oracle.jdbc.oci"),
 
     /**
+     * Property key for MemTotal = CommitLimit. This is true when vm.overcommit_memory=2 and vm.overcommit_ratio=100.
+     */
+    INFO_OVERCOMMIT_DISABLED_RATIO_100("info.overcommit.disabled.ratio.100"),
+
+    /**
      * Property key for Red Hat Certificate System, Red Hat Enterprise Linux (RHEL) Identity Management (IdM), or
      * upstream Dogtag Certificate System detected.
      */
