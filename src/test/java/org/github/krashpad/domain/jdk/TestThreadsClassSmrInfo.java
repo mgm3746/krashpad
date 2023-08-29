@@ -83,9 +83,8 @@ class TestThreadsClassSmrInfo {
 
     @Test
     void testHeader() {
-        ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
         String logLine = "Threads class SMR info:";
-        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
                 JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
     }
 

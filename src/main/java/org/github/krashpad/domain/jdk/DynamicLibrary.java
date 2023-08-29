@@ -65,7 +65,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <pre>
- * 7fb19f83e000-7fb1a04ab000 r-xp 00000000 fc:30 12596294                   /usr/local/clo/ven/jdk1.8.0_25-64/jre/lib/amd64/server/libjvm.so
+ * 7fb19f83e000-7fb1a04ab000 r-xp 00000000 fc:30 12596294                   /usr/local/jdk1.8.0_25-64/jre/lib/amd64/server/libjvm.so
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -76,18 +76,18 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String __REGEX_HEADER = "Dynamic libraries:";
+    public static final String _REGEX_HEADER = "Dynamic libraries:";
+
+    private static Pattern pattern = Pattern.compile(DynamicLibrary.REGEX);
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String _REGEX = "^(" + __REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS
             + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE
-            + ")?[\\s]{1,}(((" + org.github.joa.util.JdkRegEx.FILE_PATH + ")( \\(deleted\\))?|[////]{0,}"
+            + ")?[\\s]{0,}(((" + org.github.joa.util.JdkRegEx.FILE_PATH + ")( \\(deleted\\))?|[////]{0,}"
             + JdkRegEx.AREA
             + ")( \\(deleted\\))?)?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,})$";
-
-    private static Pattern pattern = Pattern.compile(_REGEX);
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -97,7 +97,7 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
      * @return true if the log line matches the event pattern, false otherwise.
      */
     public static final boolean match(String logLine) {
-        return logLine.matches(_REGEX);
+        return logLine.matches(REGEX);
     }
 
     /**
@@ -164,7 +164,7 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
-            isHeader = logEntry.matches(__REGEX_HEADER);
+            isHeader = logEntry.matches(_REGEX_HEADER);
         }
         return isHeader;
     }

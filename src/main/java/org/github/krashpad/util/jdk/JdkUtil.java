@@ -1922,7 +1922,8 @@ public class JdkUtil {
         } else if (DllOperationEvent.match(logLine)
                 && (logLine.matches(DllOperationEvent._REGEX_HEADER) || priorEvent instanceof DllOperationEvent)) {
             logEventType = LogEventType.DLL_OPERATION_EVENT;
-        } else if (DynamicLibrary.match(logLine)) {
+        } else if (DynamicLibrary.match(logLine)
+                && (logLine.matches(DynamicLibrary._REGEX_HEADER) || priorEvent instanceof DynamicLibrary)) {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
         } else if (ElapsedTime.match(logLine)) {
             logEventType = LogEventType.ELAPSED_TIME;
@@ -2020,7 +2021,8 @@ public class JdkUtil {
             logEventType = LogEventType.THREAD;
         } else if (ThreadsActiveCompile.match(logLine)) {
             logEventType = LogEventType.THREADS_ACTIVE_COMPILE;
-        } else if (ThreadsClassSmrInfo.match(logLine)) {
+        } else if (ThreadsClassSmrInfo.match(logLine)
+                && (logLine.matches(ThreadsClassSmrInfo._REGEX_HEADER) || priorEvent instanceof ThreadsClassSmrInfo)) {
             logEventType = LogEventType.THREADS_CLASS_SMR_INFO;
         } else if (ThreadsMax.match(logLine)) {
             logEventType = LogEventType.THREADS_MAX;

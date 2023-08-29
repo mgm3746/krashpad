@@ -88,4 +88,15 @@ class TestDeoptimizationEvent {
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.");
     }
 
+    @Test
+    void testThreadException() {
+        DeoptimizationEvent priorLogEvent = new DeoptimizationEvent("Deoptimization events (250 events):");
+        String logLine = "Event: 6446.059 Thread 0x00007ff0ac001800 Exception <a 'sun/nio/fs/UnixException'> "
+                + "(0x00000000ebbe2688) thrown at [/builddir/build/BUILD/"
+                + "java-1.8.0-openjdk-1.8.0.262.b10-0.el8_2.x86_64/openjdk/hotspot/src/share/vm/prims/jni.cpp, "
+                + "line 711]";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof DeoptimizationEvent,
+                JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not parsed.");
+    }
+
 }

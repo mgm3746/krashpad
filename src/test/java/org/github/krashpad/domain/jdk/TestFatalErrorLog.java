@@ -83,6 +83,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset65.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(Arch.SPARC, fel.getArch(), "Arch not correct.");
         // No vm_info, so not possible to determine vendor
         assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
@@ -99,6 +100,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset34.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals("java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64", fel.getRpmDirectory(),
                 "Rpm directory not correct.");
@@ -233,6 +235,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset20.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(
                 "JavaThread \"ajp-/hostname:8109-16\" daemon [_thread_in_native, id=112672, "
                         + "stack(0x00007f11e11a2000,0x00007f11e12a3000)]",
@@ -267,6 +270,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset5.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
         assertFalse(fel.isRhel(), "OS incorrectly identified as RHEL.");
@@ -286,6 +290,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset50.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long heapInitial = JdkUtil.convertSize(96, 'G', org.github.joa.util.Constants.UNITS);
         assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(96, 'G', org.github.joa.util.Constants.UNITS);
@@ -321,6 +326,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset32.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
         assertEquals("Tue May  5 18:32:04 2020 CEST", fel.getCrashTimeString(), "Crash time not correct.");
@@ -464,6 +470,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset41.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long heapInitial = JdkUtil.convertSize(32, 'G', org.github.joa.util.Constants.UNITS);
         assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(33554432, 'K', org.github.joa.util.Constants.UNITS);
@@ -481,6 +488,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset3.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         String causedBy = "#  Internal Error (ciEnv.hpp:172), pid=6570, tid=0x00007fe3d7dfd700"
                 + Constants.LINE_SEPARATOR + "#  Error: ShouldNotReachHere()";
         assertEquals(causedBy, fel.getError(), "Caused by incorrect.");
@@ -492,6 +500,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(2, fel.getJavaThreadCount(), "Java thread count not correct.");
         assertEquals(168, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(7, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
@@ -541,6 +550,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset6.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isRhel(), "OS not identified as RHEL.");
         assertTrue(fel.isRhRpmInstall(), "Red Hat rpm install not identified.");
         assertEquals(OsVersion.RHEL6, fel.getOsVersion(), "OS version not correct.");
@@ -562,9 +572,10 @@ class TestFatalErrorLog {
 
     @Test
     void testJeusDynamicLibrary() {
+        DynamicLibrary priorLogEvent = new DynamicLibrary(null);
         String dynamicLibrary = "7ff41c726000-7ff41c764000 r--s 004dd000 fd:02 9611207                    "
                 + "/path/to/jeus.jar";
-        assertTrue(JdkUtil.identifyEventType(dynamicLibrary, null) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+        assertTrue(JdkUtil.identifyEventType(dynamicLibrary, priorLogEvent) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
                 JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
         DynamicLibrary event = new DynamicLibrary(dynamicLibrary);
         FatalErrorLog fel = new FatalErrorLog();
@@ -623,6 +634,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals("user123", fel.getJvmUser(), "JVM user not correct.");
     }
 
@@ -687,6 +699,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset53.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(200, fel.getCpusLogical(), "CPU cores not correct.");
     }
 
@@ -695,6 +708,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset37.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long codeCacheSize = JdkUtil.convertSize(1024, 'm', org.github.joa.util.Constants.UNITS);
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -706,6 +720,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset38.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long physicalMemory = JdkUtil.convertSize(1584737884, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(physicalMemory, fel.getOsMemTotal(), "System physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(136528040, 'K', org.github.joa.util.Constants.UNITS);
@@ -738,6 +753,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long physicalMemory = JdkUtil.convertSize(16058700, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(1456096, 'K', org.github.joa.util.Constants.UNITS);
@@ -772,6 +788,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset80.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long physicalMemory = JdkUtil.convertSize(16383, 'M', org.github.joa.util.Constants.UNITS);
         assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(203, 'M', org.github.joa.util.Constants.UNITS);
@@ -855,6 +872,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset21.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         StringBuilder error = new StringBuilder();
         error.append("# There is insufficient memory for the Java Runtime Environment to continue.");
         error.append(Constants.LINE_SEPARATOR);
@@ -878,6 +896,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset8.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isRhel(), "OS not identified as RHEL.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS.getKey()),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
@@ -894,6 +913,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset10.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isRhel(), "OS not identified as RHEL.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS.getKey()),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
@@ -910,6 +930,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset9.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isRhel(), "OS not identified as RHEL.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS.getKey()),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
@@ -926,6 +947,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset70.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals("Red Hat Enterprise Linux release 8.5 (Ootpa)", fel.getOsString(), "OS string not correct.");
         assertEquals(OsVendor.REDHAT, fel.getOsVendor(), "OS vendor not correct.");
         assertEquals(OsVersion.RHEL8, fel.getOsVersion(), "OS version not correct.");
@@ -948,6 +970,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(Arch.PPC64LE, fel.getArch(), "Arch not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(Application.TOMCAT, fel.getApplication(), "Application not correct.");
@@ -1011,6 +1034,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset4.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
                 Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
         assertEquals("Thu May  7 17:24:12 2020 UTC", fel.getCrashTimeString(), "Time of crash not correct.");
@@ -1024,6 +1048,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset77.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
     }
@@ -1085,6 +1110,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset25.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isWindows(), "OS not identified as Windows.");
         assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_WINDOWS_ZIP.getKey()),
@@ -1096,6 +1122,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset31.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long physicalMemory = JdkUtil.convertSize(8388608, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(1334692, 'K', org.github.joa.util.Constants.UNITS);
@@ -1134,6 +1161,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset1.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         StringBuffer causedBy = new StringBuffer("#  SIGSEGV (0xb) at pc=0x00007fcd2af94e64, pid=23171, tid=23172");
         causedBy.append(Constants.LINE_SEPARATOR);
         causedBy.append("# C  [libcairo.so.2+0x66e64]  cairo_region_num_rectangles+0x4");
@@ -1145,6 +1173,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset2.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         StringBuffer causedBy = new StringBuffer(
                 "#  SIGSEGV (0xb) at pc=0x0000000000000000, pid=44768, tid=0x00007f368f18d700");
         causedBy.append(Constants.LINE_SEPARATOR);
@@ -1157,6 +1186,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset7.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(Arch.SPARC, fel.getArch(), "Arch not correct.");
         assertEquals("1.8.0_251-b08", fel.getJdkReleaseString(), "JDK release not correct.");
         // No vm_info, so not possible to determine vendor
@@ -1195,6 +1225,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset40.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long heapInitial = JdkUtil.convertSize(3172, 'M', org.github.joa.util.Constants.UNITS);
         assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(3172, 'M', org.github.joa.util.Constants.UNITS);
@@ -1285,6 +1316,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset64.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals("SunOS 5.11 11.4.32.88.3 sun4v  (T2 libthread)", fel.getUname().getUname(), "uname not correct.");
     }
 
@@ -1302,6 +1334,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset40.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals("username", fel.getUsername(), "USERNAME not correct.");
     }
 
@@ -1398,6 +1431,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset49.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long physicalMemory = JdkUtil.convertSize(16776740, 'K', org.github.joa.util.Constants.UNITS);
         assertEquals(physicalMemory, fel.getOsMemTotal(), "System physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(674168, 'K', org.github.joa.util.Constants.UNITS);
@@ -1496,6 +1530,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset12.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isWindows(), "OS not identified as Windows.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS.getKey()),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis not identified.");
@@ -1513,6 +1548,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset13.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isWindows(), "OS not identified as Windows.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS.getKey()),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis not identified.");

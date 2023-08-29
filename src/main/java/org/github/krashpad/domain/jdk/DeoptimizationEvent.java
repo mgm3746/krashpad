@@ -51,7 +51,7 @@ public class DeoptimizationEvent implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " (DEOPT|Uncommon trap).+|"
+            + JdkRegEx.ADDRESS + " (DEOPT|Exception|Uncommon trap).+|"
             + "\\[error occurred during error reporting \\(printing ring buffers\\), id 0x.+\\]|No [Ee]vents)$";
 
     /**
