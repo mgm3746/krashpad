@@ -844,6 +844,11 @@ public enum Analysis {
     WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE("warn.max.map.count.limit.possible"),
 
     /**
+     * Property key for MaxRAMPercentage being used without MaxRAM on a system with &gt;128g available memory.
+     */
+    WARN_MAX_RAM_LIMIT("warn.max.ram.limit"),
+
+    /**
      * Property key mmapped files in a deleted state.
      */
     WARN_MMAP_DELETED("warn.mmap.deleted"),

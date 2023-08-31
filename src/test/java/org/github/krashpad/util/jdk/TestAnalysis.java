@@ -1031,37 +1031,37 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.isRhBuildOpenJdk(), "RH build of OpenJDK incorrectly identified.");
-        long physicalMemory = JdkUtil.convertSize(15995796, 'K', org.github.joa.util.Constants.UNITS);
+        long physicalMemory = JdkUtil.convertSize(15995796, 'K', 'B');
         assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
-        long physicalMemoryFree = JdkUtil.convertSize(241892, 'K', org.github.joa.util.Constants.UNITS);
+        long physicalMemoryFree = JdkUtil.convertSize(241892, 'K', 'B');
         assertEquals(physicalMemoryFree, fel.getJvmMemFree(), "Physical memory free not correct.");
-        long swap = JdkUtil.convertSize(10592252, 'K', org.github.joa.util.Constants.UNITS);
+        long swap = JdkUtil.convertSize(10592252, 'K', 'B');
         assertEquals(swap, fel.getJvmSwap(), "Swap not correct.");
-        long swapFree = JdkUtil.convertSize(4, 'K', org.github.joa.util.Constants.UNITS);
+        long swapFree = JdkUtil.convertSize(4, 'K', 'B');
         assertEquals(swapFree, fel.getJvmSwapFree(), "Swap free not correct.");
-        long heapInitial = JdkUtil.convertSize(2048, 'M', org.github.joa.util.Constants.UNITS);
+        long heapInitial = JdkUtil.convertSize(2048, 'M', 'B');
         assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
-        long heapMax = JdkUtil.convertSize(8192, 'M', org.github.joa.util.Constants.UNITS);
+        long heapMax = JdkUtil.convertSize(8192, 'M', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
-        long heapAllocationYoung = JdkUtil.convertSize(2761728, 'K', org.github.joa.util.Constants.UNITS);
-        long heapAllocationOld = JdkUtil.convertSize(4838912, 'K', org.github.joa.util.Constants.UNITS);
+        long heapAllocationYoung = JdkUtil.convertSize(2761728, 'K', 'B');
+        long heapAllocationOld = JdkUtil.convertSize(4838912, 'K', 'B');
         long heapAllocation = heapAllocationYoung + heapAllocationOld;
         assertEquals(heapAllocation, fel.getHeapAllocation(), "Heap allocation not correct.");
-        long heapUsed = JdkUtil.convertSize(0 + 2671671, 'K', org.github.joa.util.Constants.UNITS);
+        long heapUsed = JdkUtil.convertSize(0 + 2671671, 'K', 'B');
         assertEquals(heapUsed, fel.getHeapUsed(), "Heap used not correct.");
-        long metaspaceMax = JdkUtil.convertSize(8192, 'M', org.github.joa.util.Constants.UNITS);
+        long metaspaceMax = JdkUtil.convertSize(8192, 'M', 'B');
         assertEquals(metaspaceMax, fel.getMetaspaceMaxSize(), "Metaspace max size not correct.");
-        long metaspaceAllocation = JdkUtil.convertSize(471808, 'K', org.github.joa.util.Constants.UNITS);
+        long metaspaceAllocation = JdkUtil.convertSize(471808, 'K', 'B');
         assertEquals(metaspaceAllocation, fel.getMetaspaceAllocation(), "Metaspace allocation not correct.");
-        long metaspaceUsed = JdkUtil.convertSize(347525, 'K', org.github.joa.util.Constants.UNITS);
+        long metaspaceUsed = JdkUtil.convertSize(347525, 'K', 'B');
         assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
-        long directMemoryMax = JdkUtil.convertSize(0, 'G', org.github.joa.util.Constants.UNITS);
+        long directMemoryMax = JdkUtil.convertSize(0, 'G', 'B');
         assertEquals(directMemoryMax, fel.getDirectMemoryMaxSize(), "Direct Memory mx not correct.");
         assertEquals(1024, fel.getThreadStackSize(), "Thread stack size not correct.");
         assertEquals(2, fel.getJavaThreadCount(), "Thread count not correct.");
-        long threadMemory = JdkUtil.convertSize(1024 * 2, 'K', org.github.joa.util.Constants.UNITS);
+        long threadMemory = JdkUtil.convertSize(1024 * 2, 'K', 'B');
         assertEquals(threadMemory, fel.getThreadStackMemory(), "Thread memory not correct.");
-        long codeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.UNITS);
+        long codeCacheSize = JdkUtil.convertSize(420, 'M', 'B');
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
                 "Jvm memory not correct.");
@@ -1738,6 +1738,81 @@ class TestAnalysis {
     }
 
     @Test
+    void testMaxRamLimit() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:MaxRAMPercentage=80";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String memory = "Memory: 4k page, physical 134217729k(92429972k free), swap 0k(0k free)";
+        Memory memoryEvent = new Memory(memory);
+        fel.getMemories().add(memoryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.20+8-LTS) for linux-amd64 JRE (11.0.20+8-LTS), built "
+                + "on Jul 15 2023 00:41:55 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-18)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_RAM_LIMIT.getKey()),
+                Analysis.WARN_MAX_RAM_LIMIT + " analysis not identified.");
+    }
+
+    @Test
+    void testMaxRamLimitJdk17() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:MaxRAMPercentage=80";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String memory = "Memory: 4k page, physical 134217729k(92429972k free), swap 0k(0k free)";
+        Memory memoryEvent = new Memory(memory);
+        fel.getMemories().add(memoryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.8+7-LTS) for linux-amd64 JRE (17.0.8+7-LTS), built on "
+                + "Jul 14 2023 15:48:52 by \"mockbuild\" with gcc 8.3.1 20190311 (Red Hat 8.3.1-3)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_RAM_LIMIT.getKey()),
+                Analysis.WARN_MAX_RAM_LIMIT + " analysis incorrectly identified.");
+    }
+
+    @Test
+    void testMaxRamLimitMaxHeap() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:MaxRAMPercentage=80 -Xmx256g";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String memory = "Memory: 4k page, physical 134217729k(92429972k free), swap 0k(0k free)";
+        Memory memoryEvent = new Memory(memory);
+        fel.getMemories().add(memoryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.20+8-LTS) for linux-amd64 JRE (11.0.20+8-LTS), built "
+                + "on Jul 15 2023 00:41:55 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-18)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        jvm_args = "jvm_args: -XX:MaxRAMPercentage=80 -Xmx256g";
+        event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_RAM_LIMIT.getKey()),
+                Analysis.WARN_MAX_RAM_LIMIT + " analysis incorrectly identified.");
+    }
+
+    @Test
+    void testMaxRamLimitMaxRam() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:MaxRAMPercentage=80 -XX:MaxRAM=134217729k";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String memory = "Memory: 4k page, physical 134217729k(92429972k free), swap 0k(0k free)";
+        Memory memoryEvent = new Memory(memory);
+        fel.getMemories().add(memoryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.20+8-LTS) for linux-amd64 JRE (11.0.20+8-LTS), built "
+                + "on Jul 15 2023 00:41:55 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-18)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_RAM_LIMIT.getKey()),
+                Analysis.WARN_MAX_RAM_LIMIT + " analysis incorrectly identified.");
+    }
+
+    @Test
     void testMetadataOnStackMark() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset73.txt");
         Manager manager = new Manager();
@@ -2029,21 +2104,21 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.isError("Out of Memory Error"), "Out Of Memory Error not identified.");
-        long physicalMemory = JdkUtil.convertSize(24609684, 'K', org.github.joa.util.Constants.UNITS);
+        long physicalMemory = JdkUtil.convertSize(24609684, 'K', 'B');
         assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
-        long heapInitial = JdkUtil.convertSize(1303, 'M', org.github.joa.util.Constants.UNITS);
+        long heapInitial = JdkUtil.convertSize(1303, 'M', 'B');
         assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
-        long heapMax = JdkUtil.convertSize(16000, 'M', org.github.joa.util.Constants.UNITS);
+        long heapMax = JdkUtil.convertSize(16000, 'M', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
-        long metaspaceMax = JdkUtil.convertSize(1148928, 'K', org.github.joa.util.Constants.UNITS);
+        long metaspaceMax = JdkUtil.convertSize(1148928, 'K', 'B');
         assertEquals(metaspaceMax, fel.getMetaspaceMaxSize(), "Metaspace max size not correct.");
-        long directMemoryMax = JdkUtil.convertSize(0, 'G', org.github.joa.util.Constants.UNITS);
+        long directMemoryMax = JdkUtil.convertSize(0, 'G', 'B');
         assertEquals(directMemoryMax, fel.getDirectMemoryMaxSize(), "Direct Memory mx not correct.");
         assertEquals(1024, fel.getThreadStackSize(), "Thread stack size not correct.");
         assertEquals(55, fel.getJavaThreadCount(), "Thread count not correct.");
-        long threadMemory = JdkUtil.convertSize(1024 * 55, 'K', org.github.joa.util.Constants.UNITS);
+        long threadMemory = JdkUtil.convertSize(1024 * 55, 'K', 'B');
         assertEquals(threadMemory, fel.getThreadStackMemory(), "Thread memory not correct.");
-        long codeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.UNITS);
+        long codeCacheSize = JdkUtil.convertSize(420, 'M', 'B');
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
         assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
                 "Jvm memory max not correct.");

@@ -34,7 +34,7 @@ class TestHeapAddress {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
                 JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
         HeapAddress event = new HeapAddress(logLine);
-        assertEquals(12288, event.getSize(), "Size not correct.");
+        assertEquals(12288L * 1024 * 1024, event.getSize(), "Size not correct.");
         assertEquals(CompressedOopMode.ZERO, event.getCompressedOopMode(), "Compressed oop mode not correct.");
     }
 
@@ -62,6 +62,6 @@ class TestHeapAddress {
                 JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not parsed.");
         HeapAddress heapAddressEvent = new HeapAddress(logLine);
         assertEquals(16106127360L, heapAddressEvent.getStartingAddress(), "Heap starting address not correct.");
-        assertEquals(16384L, heapAddressEvent.getSize(), "Heap size not correct.");
+        assertEquals(16384L * 1024 * 1024, heapAddressEvent.getSize(), "Heap size not correct.");
     }
 }

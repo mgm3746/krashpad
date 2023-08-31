@@ -685,8 +685,8 @@ public class FatalErrorLog {
                     analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT);
                 } else if (getMemoryAllocation() >= 0 && getCommitLimit() >= 0 && getCommittedAs() >= 0
                         && getCommitLimit() >= getCommittedAs() && isOvercommitDisabled()
-                        && getMemoryAllocation() > (getCommitLimit() - getCommittedAs() - JdkUtil
-                                .convertSize(Long.parseLong("136"), 'M', org.github.joa.util.Constants.UNITS))) {
+                        && getMemoryAllocation() > (getCommitLimit() - getCommittedAs()
+                                - JdkUtil.convertSize(Long.parseLong("136"), 'M', 'B'))) {
                     // Allocation > (available commit limit - user_reserve_kbytes [assume worse case 128M] -
                     // admin_reserve_kbytes [assume worse case 8M])
                     analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT);
@@ -1373,6 +1373,15 @@ public class FatalErrorLog {
         if (getMemTotal() > 0 && getCommitLimit() > 0 && getMemTotal() == getCommitLimit()) {
             analysis.add(Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100);
         }
+        // Check if MaxRAMPercentage is used without MaxRAM when available memory > 128g prior to JDK13
+        if (jvmOptions != null && jvmOptions.getMaxRAMPercentage() != null && jvmOptions.getMaxHeapSize() == null
+                && jvmOptions.getMaxRAM() == null && getJavaVersionMajor() > 0 && getJavaVersionMajor() < 13) {
+            BigDecimal oneHundredTwentyEightGigabytes = new BigDecimal("128")
+                    .multiply(org.github.joa.util.Constants.GIGABYTE);
+            if (getOsMemTotal() > oneHundredTwentyEightGigabytes.longValue()) {
+                analysis.add(Analysis.WARN_MAX_RAM_LIMIT);
+            }
+        }
     }
 
     /**
@@ -1700,10 +1709,9 @@ public class FatalErrorLog {
     }
 
     /**
-     * On Windows, the maximum amount of memory the current process can commit.
+     * On Windows, the maximum amount of memory the current process can commit, in byes.
      * 
-     * @return The maximum amount of memory the current process can commit, in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The maximum amount of memory the current process can commit, in bytes.
      */
     public long getAvailPageFile() {
         long availPageFile = Long.MIN_VALUE;
@@ -1715,8 +1723,7 @@ public class FatalErrorLog {
                 Memory event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    availPageFile = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M',
-                            org.github.joa.util.Constants.UNITS);
+                    availPageFile = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M', 'B');
                     break;
                 }
             }
@@ -1740,15 +1747,14 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The max code cache size in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The max code cache size in bytes.
      */
     public long getCodeCacheSize() {
         long reservedCodeCacheSize = Long.MIN_VALUE;
         // 1st check [Global flags]
         GlobalFlag globalFlagReservedCodeCacheSize = getGlobalFlag("ReservedCodeCacheSize");
         if (globalFlagReservedCodeCacheSize != null) {
-            reservedCodeCacheSize = JdkUtil.convertSize(Long.parseLong(globalFlagReservedCodeCacheSize.getValue()), 'B',
-                    org.github.joa.util.Constants.UNITS);
+            reservedCodeCacheSize = Long.parseLong(globalFlagReservedCodeCacheSize.getValue());
         }
         // Next check JVM options
         if (reservedCodeCacheSize < 0) {
@@ -1770,8 +1776,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.UNITS);
+                        reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, 'B');
                     }
                 } else if (JdkUtil.isOptionEnabled(getJvmOptions().getSegmentedCodeCache())
                         && jvmOptions.getNonNMethodCodeHeapSize() != null
@@ -1789,8 +1794,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.UNITS);
+                        reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, 'B');
                     }
                     matcher = pattern.matcher(jvmOptions.getNonProfiledCodeHeapSize());
                     if (matcher.find()) {
@@ -1800,8 +1804,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        reservedCodeCacheSize += JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.UNITS);
+                        reservedCodeCacheSize += JdkUtil.convertSize(value, fromUnits, 'B');
                     }
                     matcher = pattern.matcher(jvmOptions.getProfiledCodeHeapSize());
                     if (matcher.find()) {
@@ -1811,15 +1814,14 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        reservedCodeCacheSize += JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.UNITS);
+                        reservedCodeCacheSize += JdkUtil.convertSize(value, fromUnits, 'B');
                     }
                 }
             }
         }
         // Use default 420m
         if (reservedCodeCacheSize < 0) {
-            reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', org.github.joa.util.Constants.UNITS);
+            reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', 'B');
         }
         return reservedCodeCacheSize;
     }
@@ -1837,8 +1839,7 @@ public class FatalErrorLog {
      * 
      * Excludes memory mapped files (shared DLLs), but does not necessarily exclude the memory allocated by those files.
      * 
-     * @return the memory the process has asked for that cannot be shared with other processes, in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return the memory the process has asked for that cannot be shared with other processes, in bytes.
      */
     public long getCommitCharge() {
         long commitCharge = Long.MIN_VALUE;
@@ -1851,8 +1852,7 @@ public class FatalErrorLog {
                 Memory event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    commitCharge = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M',
-                            org.github.joa.util.Constants.UNITS);
+                    commitCharge = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M', 'B');
                     break;
                 }
             }
@@ -1872,8 +1872,7 @@ public class FatalErrorLog {
      * defaults to min(3% of free pages, 8MB) for users with the capability cap_sys_admin. It should be large enough to
      * handle the full Virtual Memory Size of programs used to recover.
      * 
-     * @return The total amount of memory currently available to be allocated by the system in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total amount of memory currently available to be allocated by the system in bytes.
      */
     public long getCommitLimit() {
         long commitLimit = Long.MIN_VALUE;
@@ -1885,8 +1884,7 @@ public class FatalErrorLog {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    commitLimit = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.UNITS);
+                    commitLimit = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
                     break;
                 }
             }
@@ -1907,8 +1905,7 @@ public class FatalErrorLog {
      * 
      * RHEL6/7/8: allocatable memory=(swap size + ((RAM size - huge tlb size) * overcommit ratio / 100))
      * 
-     * @return The amount of userspace virtual memory currently allocated on the system in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The amount of userspace virtual memory currently allocated on the system in bytes.
      */
     public long getCommittedAs() {
         long committedAs = Long.MIN_VALUE;
@@ -1920,8 +1917,7 @@ public class FatalErrorLog {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    committedAs = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.UNITS);
+                    committedAs = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
                     break;
                 }
             }
@@ -1938,8 +1934,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The max compressed class size reserved in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code>
-     *         units.
+     * @return The max compressed class size reserved in bytes.
      */
     public long getCompressedClassSpaceSize() {
         // 1) Determine if compressed pointers are being used.
@@ -1990,13 +1985,11 @@ public class FatalErrorLog {
 
         if (usingCompressedPointers) {
             // Default is 1g
-            compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', org.github.joa.util.Constants.UNITS);
+            compressedClassSpaceSize = JdkUtil.convertSize(1, 'G', 'B');
             // 1st check [Global flags]
             GlobalFlag globalFlagCompressedClassSpaceSize = getGlobalFlag("CompressedClassSpaceSize");
             if (globalFlagCompressedClassSpaceSize != null) {
-                compressedClassSpaceSize = JdkUtil.convertSize(
-                        Long.parseLong(globalFlagCompressedClassSpaceSize.getValue()), 'B',
-                        org.github.joa.util.Constants.UNITS);
+                compressedClassSpaceSize = Long.parseLong(globalFlagCompressedClassSpaceSize.getValue());
             } else if (jvmOptions != null) {
                 if (JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())
                         || JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedClassPointers())) {
@@ -2013,8 +2006,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.UNITS);
+                        compressedClassSpaceSize = JdkUtil.convertSize(value, fromUnits, 'B');
                     }
                 }
             }
@@ -2176,16 +2168,14 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The max direct memory size reserved in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code>
-     *         units.
+     * @return The max direct memory size reserved in bytes.
      */
     public long getDirectMemoryMaxSize() {
         long directMemorySize = 0;
         // 1st check [Global flags]
         GlobalFlag globalFlagMaxDirectMemorySize = getGlobalFlag("MaxDirectMemorySize");
         if (globalFlagMaxDirectMemorySize != null) {
-            directMemorySize = JdkUtil.convertSize(Long.parseLong(globalFlagMaxDirectMemorySize.getValue()), 'B',
-                    org.github.joa.util.Constants.UNITS);
+            directMemorySize = Long.parseLong(globalFlagMaxDirectMemorySize.getValue());
         } else if (jvmOptions != null && jvmOptions.getMaxDirectMemorySize() != null) {
             char fromUnits;
             long value;
@@ -2198,7 +2188,7 @@ public class FatalErrorLog {
                 } else {
                     fromUnits = 'B';
                 }
-                directMemorySize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                directMemorySize = JdkUtil.convertSize(value, fromUnits, 'B');
             }
         }
         return directMemorySize;
@@ -2457,7 +2447,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The total heap allocation in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total heap allocation in bytes.
      */
     public long getHeapAllocation() {
         long heapAllocation = Long.MIN_VALUE;
@@ -2480,7 +2470,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'B');
                     }
                 } else if (event.isOldGen()) {
                     pattern = Pattern.compile(JdkRegEx.OLD_GEN_SIZE);
@@ -2492,7 +2482,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'B');
                     }
                 } else if (event.isShenandoah()) {
                     pattern = Pattern.compile(JdkRegEx.SHENANDOAH_SIZE);
@@ -2504,7 +2494,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'B');
                     }
                 } else if (event.isG1()) {
                     pattern = Pattern.compile(JdkRegEx.G1_SIZE);
@@ -2516,7 +2506,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'B');
                     }
                 } else if (event.isZ()) {
                     pattern = Pattern.compile(JdkRegEx.Z_SIZE);
@@ -2528,7 +2518,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        heapAllocation += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                        heapAllocation += JdkUtil.convertSize(value, fromUnits, 'B');
                     }
                 }
             }
@@ -2537,15 +2527,14 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The heap initial size reserved in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The heap initial size reserved in bytes.
      */
     public long getHeapInitialSize() {
         long heapInitialSize = Long.MIN_VALUE;
         // 1st check [Global flags]
         GlobalFlag globalFlagInitialHeapSize = getGlobalFlag("InitialHeapSize");
         if (globalFlagInitialHeapSize != null) {
-            heapInitialSize = JdkUtil.convertSize(Long.parseLong(globalFlagInitialHeapSize.getValue()), 'B',
-                    org.github.joa.util.Constants.UNITS);
+            heapInitialSize = Long.parseLong(globalFlagInitialHeapSize.getValue());
         } else if (jvmOptions != null && jvmOptions.getInitialHeapSize() != null) {
             // Get from jvm_args
             char fromUnits;
@@ -2559,7 +2548,7 @@ public class FatalErrorLog {
                 } else {
                     fromUnits = 'B';
                 }
-                heapInitialSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                heapInitialSize = JdkUtil.convertSize(value, fromUnits, 'B');
             }
         } else if (heapAddress != null) {
             heapInitialSize = heapAddress.getSize();
@@ -2577,15 +2566,14 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The heap max size reserved in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The heap max size reserved in bytes.
      */
     public long getHeapMaxSize() {
         long heapMaxSize = Long.MIN_VALUE;
         // 1st check [Global flags]
         GlobalFlag globalFlagMaxHeapSize = getGlobalFlag("MaxHeapSize");
         if (globalFlagMaxHeapSize != null) {
-            heapMaxSize = JdkUtil.convertSize(Long.parseLong(globalFlagMaxHeapSize.getValue()), 'B',
-                    org.github.joa.util.Constants.UNITS);
+            heapMaxSize = Long.parseLong(globalFlagMaxHeapSize.getValue());
         } else if (jvmOptions != null && jvmOptions.getMaxHeapSize() != null) {
             // Get from jvm_args
             char fromUnits;
@@ -2599,7 +2587,7 @@ public class FatalErrorLog {
                 } else {
                     fromUnits = 'B';
                 }
-                heapMaxSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                heapMaxSize = JdkUtil.convertSize(value, fromUnits, 'B');
             }
         } else if (heapAddress != null) {
             heapMaxSize = heapAddress.getSize();
@@ -2621,19 +2609,18 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The heap starting address in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The heap starting address in bytes.
      */
     public long getHeapStartingAddress() {
         long heapStartingAddress = Long.MIN_VALUE;
         if (heapAddress != null) {
-            heapStartingAddress = JdkUtil.convertSize(heapAddress.getStartingAddress(), 'B',
-                    org.github.joa.util.Constants.UNITS);
+            heapStartingAddress = heapAddress.getStartingAddress();
         }
         return heapStartingAddress;
     }
 
     /**
-     * @return The total heap used in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total heap used in bytes.
      */
     public long getHeapUsed() {
         long heapUsed = Long.MIN_VALUE;
@@ -2656,9 +2643,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         }
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, 'B');
                         } else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, 'B');
                         }
                     }
                 } else if (event.isOldGen()) {
@@ -2672,9 +2659,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         }
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, 'B');
                         } else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, 'B');
                         }
                     }
                 } else if (event.isShenandoah()) {
@@ -2688,9 +2675,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         }
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, 'B');
                         } else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, 'B');
                         }
                     }
                 } else if (event.isG1()) {
@@ -2704,9 +2691,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         }
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, 'B');
                         } else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, 'B');
                         }
                     }
                 } else if (event.isZ()) {
@@ -2720,9 +2707,9 @@ public class FatalErrorLog {
                             fromUnits = 'B';
                         }
                         if (heapUsed == Long.MIN_VALUE) {
-                            heapUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                            heapUsed = JdkUtil.convertSize(value, fromUnits, 'B');
                         } else {
-                            heapUsed += JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                            heapUsed += JdkUtil.convertSize(value, fromUnits, 'B');
                         }
                     }
                 }
@@ -3217,8 +3204,7 @@ public class FatalErrorLog {
      * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
      * low free memory does not necessarily indicate swapping or out of memory is imminent.
      * 
-     * @return The total free physical memory as reported by the JVM in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total free physical memory as reported by the JVM in bytes.
      */
     public long getJvmMemFree() {
         long physicalMemoryFree = Long.MIN_VALUE;
@@ -3230,7 +3216,7 @@ public class FatalErrorLog {
                     Matcher matcher = Memory.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)),
-                                matcher.group(9).charAt(0), org.github.joa.util.Constants.UNITS);
+                                matcher.group(9).charAt(0), 'B');
                     }
                 }
             }
@@ -3239,7 +3225,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return Estimated JVM initial memory in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return Estimated JVM initial memory in bytes.
      */
     public long getJvmMemoryInitial() {
         long jvmMemoryInitial = Long.MIN_VALUE;
@@ -3277,7 +3263,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return Estimated JVM maximum memory in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return Estimated JVM maximum memory in bytes.
      */
     public long getJvmMemoryMax() {
         long jvmMemoryMax = Long.MIN_VALUE;
@@ -3315,8 +3301,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The total physical memory reported by the JVM in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total physical memory reported by the JVM in bytes.
      */
     public long getJvmMemTotal() {
         long physicalMemory = Long.MIN_VALUE;
@@ -3328,7 +3313,7 @@ public class FatalErrorLog {
                     Matcher matcher = Memory.PATTERN.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(4)),
-                                matcher.group(6).charAt(0), org.github.joa.util.Constants.UNITS);
+                                matcher.group(6).charAt(0), 'B');
                     }
                 }
             }
@@ -3341,8 +3326,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The total available swap as reported by the JVM in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total available swap as reported by the JVM in bytes.
      */
     public long getJvmSwap() {
         long swap = Long.MIN_VALUE;
@@ -3355,7 +3339,7 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         if (matcher.group(11) != null && matcher.group(13) != null) {
                             swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
-                                    org.github.joa.util.Constants.UNITS);
+                                    'B');
                         }
                     }
                 }
@@ -3365,8 +3349,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The total free swap as reported by the JVM in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total free swap as reported by the JVM in bytes.
      */
     public long getJvmSwapFree() {
         long swapFree = Long.MIN_VALUE;
@@ -3379,7 +3362,7 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         if (matcher.group(14) != null && matcher.group(16) != null) {
                             swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)),
-                                    matcher.group(16).charAt(0), org.github.joa.util.Constants.UNITS);
+                                    matcher.group(16).charAt(0), 'B');
                         }
                     }
                 }
@@ -3453,8 +3436,7 @@ public class FatalErrorLog {
      * 
      * guest.mem.ballooned = 2048
      * 
-     * @return The total amount of ballooned memory in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code>
-     *         units.
+     * @return The total amount of ballooned memory in bytes.
      */
     public long getMemBalloonedNow() {
         long memBallooned = Long.MIN_VALUE;
@@ -3468,8 +3450,7 @@ public class FatalErrorLog {
                 VirtualizationInfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (now && matcher.find()) {
-                    memBallooned = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.UNITS);
+                    memBallooned = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
                     break;
                 } else if (event.getLogEntry().equals("vSphere resource information available now:")) {
                     now = true;
@@ -3502,8 +3483,7 @@ public class FatalErrorLog {
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(he.getLogEntry());
                     if (matcher.find()) {
-                        memoryAllocation = JdkUtil.convertSize(Long.parseLong(matcher.group(2)), 'B',
-                                org.github.joa.util.Constants.UNITS);
+                        memoryAllocation = JdkUtil.convertSize(Long.parseLong(matcher.group(2)), 'B', 'B');
                         break;
                     }
                 }
@@ -3513,11 +3493,10 @@ public class FatalErrorLog {
     }
 
     /**
-     * The system total memory.
+     * The system total memory in bytes.
      * 
      * 
-     * @return The system total memory on the system in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code>
-     *         units.
+     * @return The system total memory in bytes.
      */
     public long getMemTotal() {
         long memTotal = Long.MIN_VALUE;
@@ -3529,8 +3508,7 @@ public class FatalErrorLog {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.UNITS);
+                    memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
                     break;
                 }
             }
@@ -3539,7 +3517,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The total metaspace allocation in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total metaspace allocation in bytes.
      */
     public long getMetaspaceAllocation() {
         long metaspaceAllocation = Long.MIN_VALUE;
@@ -3561,8 +3539,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        metaspaceAllocation = JdkUtil.convertSize(value, fromUnits,
-                                org.github.joa.util.Constants.UNITS);
+                        metaspaceAllocation = JdkUtil.convertSize(value, fromUnits, 'B');
                         break;
                     }
                 }
@@ -3572,7 +3549,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The metaspace max size reserved in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The metaspace max size reserved in bytes.
      */
     /**
      * @return The Metaspace maximum size.
@@ -3591,7 +3568,7 @@ public class FatalErrorLog {
                 } else {
                     fromUnits = 'B';
                 }
-                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, 'B');
             }
         }
         // If max metaspace size not set (recommended), get from <code>HeapEvent</code>
@@ -3614,8 +3591,7 @@ public class FatalErrorLog {
                             } else {
                                 fromUnits = 'B';
                             }
-                            metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits,
-                                    org.github.joa.util.Constants.UNITS);
+                            metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, 'B');
                             break;
                         }
                     }
@@ -3626,7 +3602,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The total metaspace used in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total metaspace used in bytes.
      */
     public long getMetaspaceUsed() {
         long metaspaceUsed = Long.MIN_VALUE;
@@ -3648,7 +3624,7 @@ public class FatalErrorLog {
                         } else {
                             fromUnits = 'B';
                         }
-                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits, org.github.joa.util.Constants.UNITS);
+                        metaspaceUsed = JdkUtil.convertSize(value, fromUnits, 'B');
                         break;
                     }
                 }
@@ -3852,8 +3828,7 @@ public class FatalErrorLog {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    memAvailable = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.UNITS);
+                    memAvailable = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
                     break;
                 }
             }
@@ -3865,8 +3840,7 @@ public class FatalErrorLog {
      * Free memory as reported by the OS. Free memory does not include Buffers or Cached memory, which can be reclaimed
      * at any time. Therefore, low free memory does not necessarily indicate swapping or out of memory is imminent.
      * 
-     * @return The total free physical memory as reported by the OS in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total free physical memory as reported by the OS in bytes.
      */
     public long getOsMemFree() {
         long memFree = Long.MIN_VALUE;
@@ -3878,8 +3852,7 @@ public class FatalErrorLog {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.UNITS);
+                    memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
                     break;
                 }
             }
@@ -3892,7 +3865,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         memFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0),
-                                org.github.joa.util.Constants.UNITS);
+                                'B');
                     }
                     break;
                 }
@@ -3902,8 +3875,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The total available physical memory reported by the OS in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total available physical memory reported by the OS in bytes.
      */
     public long getOsMemTotal() {
         long memTotal = getMemTotal();
@@ -3916,7 +3888,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         memTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0),
-                                org.github.joa.util.Constants.UNITS);
+                                'B');
                     }
                     break;
                 }
@@ -3959,8 +3931,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The total available swap as reported by the JVM in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total available swap as reported by the JVM in bytes.
      */
     public long getOsSwap() {
         long swap = Long.MIN_VALUE;
@@ -3972,8 +3943,7 @@ public class FatalErrorLog {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.UNITS);
+                    swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
                     break;
                 }
             }
@@ -3985,8 +3955,7 @@ public class FatalErrorLog {
                     Pattern pattern = Pattern.compile(Memory._REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find() && matcher.group(9) != null) {
-                        swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0),
-                                org.github.joa.util.Constants.UNITS);
+                        swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0), 'B');
                     }
                     break;
                 }
@@ -3996,8 +3965,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The total free swap as reported by the JVM in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The total free swap as reported by the JVM in bytes.
      */
     public long getOsSwapFree() {
         long swapFree = Long.MIN_VALUE;
@@ -4009,8 +3977,7 @@ public class FatalErrorLog {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K',
-                            org.github.joa.util.Constants.UNITS);
+                    swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
                     break;
                 }
             }
@@ -4023,7 +3990,7 @@ public class FatalErrorLog {
                     Matcher matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find() && matcher.group(9) != null) {
                         swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0),
-                                org.github.joa.util.Constants.UNITS);
+                                'B');
                     }
                     break;
                 }
@@ -4390,7 +4357,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The thread memory in <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
+     * @return The thread memory in bytes.
      */
     public long getThreadStackMemory() {
         long threadStackMemory = Long.MIN_VALUE;
@@ -4398,7 +4365,7 @@ public class FatalErrorLog {
             BigDecimal memoryPerThread = new BigDecimal(getThreadStackSize());
             BigDecimal threads = new BigDecimal(getJavaThreadCount());
             threadStackMemory = memoryPerThread.multiply(threads).longValue();
-            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K', org.github.joa.util.Constants.UNITS);
+            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K', 'B');
         }
         return threadStackMemory;
     }
@@ -4807,8 +4774,7 @@ public class FatalErrorLog {
     public boolean isCompressedOops() {
         boolean isCompressedOoops = true;
         BigDecimal thirtyTwoGigabytes = new BigDecimal("32").multiply(org.github.joa.util.Constants.GIGABYTE);
-        long heapMaxSize = JdkUtil.convertSize(getHeapMaxSize(), org.github.joa.util.Constants.UNITS, 'b');
-        if (heapMaxSize >= thirtyTwoGigabytes.longValue()) {
+        if (getHeapMaxSize() >= thirtyTwoGigabytes.longValue()) {
             isCompressedOoops = false;
         } else if (jvmOptions != null && JdkUtil.isOptionDisabled(jvmOptions.getUseCompressedOops())) {
             isCompressedOoops = false;

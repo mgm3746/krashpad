@@ -17,7 +17,6 @@ package org.github.krashpad.domain.jdk;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.github.joa.util.Constants;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkMath;
 import org.github.krashpad.util.jdk.JdkRegEx;
@@ -100,20 +99,20 @@ public class HeapAddress implements LogEvent {
     }
 
     /**
-     * @return The heap size reserved in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The heap size reserved in bytes.
      */
     public final Long getSize() {
         long initialSize = Long.MIN_VALUE;
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find() && matcher.group(1) != null) {
-            initialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(7)), 'M', Constants.UNITS);
+            initialSize = JdkUtil.convertSize(Long.parseLong(matcher.group(7)), 'M', 'B');
         }
         return initialSize;
     }
 
     /**
-     * @return The address the heap starts at in <code>Constants.PRECISION_REPORTING</code> units.
+     * @return The heap starting address in bytes.
      */
     public final Long getStartingAddress() {
         long startingAddress = Long.MIN_VALUE;

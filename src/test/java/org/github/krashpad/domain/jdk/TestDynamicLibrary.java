@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.Constants.Device;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.junit.jupiter.api.Test;
