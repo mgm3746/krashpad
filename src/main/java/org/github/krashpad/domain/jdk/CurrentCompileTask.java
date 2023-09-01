@@ -89,7 +89,7 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the compile timestamp.
      */
-    private static final String _TIMESTAMP = "\\d{1,}";
+    private static final String _TIMESTAMP = "(-)?\\d{1,}";
 
     /**
      * Regular expression defining the logging.

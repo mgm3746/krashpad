@@ -55,6 +55,13 @@ class TestCurrentCompileTask {
     }
 
     @Test
+    void testNegativeCompileTimestamp() {
+        String logLine = "C2:-913846888 246084       4       com.example.package.SomeClass::doSomething (52 bytes)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
+                JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.");
+    }
+
+    @Test
     void testParseLogLine() {
         String logLine = "C2:   1092  423       4       java.util.HashMap$KeyIterator::next (8 bytes)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CurrentCompileTask,
