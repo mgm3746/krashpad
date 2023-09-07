@@ -61,6 +61,20 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class GcHeapHistoryEvent implements LogEvent, HeaderEvent {
 
     /**
+     * Regular expression for the beginning of the GC. For example:
+     * 
+     * Event: 12775.544 GC heap before
+     */
+    public static final String _REGEX_BEGIN = "Event: " + JdkRegEx.TIMESTAMP + " GC heap before";
+
+    /**
+     * Regular expression for the end of the GC. For example:
+     * 
+     * Event: 12775.693 GC heap after
+     */
+    public static final String _REGEX_END = "Event: " + JdkRegEx.TIMESTAMP + " GC heap after";
+
+    /**
      * Regular expression for the header.
      */
     public static final String _REGEX_HEADER = "GC Heap History \\(\\d{1,} events\\):";
@@ -70,8 +84,8 @@ public class GcHeapHistoryEvent implements LogEvent, HeaderEvent {
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.G1 + "|" + JdkRegEx.LOCALITY_GROUP + "|"
             + JdkRegEx.METASPACE + "|" + JdkRegEx.OLD_GEN + "|" + JdkRegEx.SHENANDOAH + "|" + JdkRegEx.YOUNG_GEN + "|"
-            + JdkRegEx.Z + "|[\\{]{0,1}Heap (after|before) GC.+|Event: " + JdkRegEx.TIMESTAMP
-            + " GC heap (after|before)|\\}|No [Ee]vents)$";
+            + JdkRegEx.Z + "|[\\{]{0,1}Heap (after|before) GC.+|" + _REGEX_BEGIN + "|" + _REGEX_END
+            + "|\\}|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -105,6 +119,20 @@ public class GcHeapHistoryEvent implements LogEvent, HeaderEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString();
+    }
+
+    /**
+     * @return true if the log line is the beginning of a GC, false otherwise.
+     */
+    public boolean isBeginning() {
+        return logEntry.matches(_REGEX_BEGIN);
+    }
+
+    /**
+     * @return true if the log line is the end of a GC, false otherwise.
+     */
+    public boolean isEnd() {
+        return logEntry.matches(_REGEX_END);
     }
 
     /**

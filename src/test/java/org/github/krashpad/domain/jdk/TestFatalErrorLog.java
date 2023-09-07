@@ -507,6 +507,22 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testGarbageCollectionHydration() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(24, fel.getGarbageCollections().size(), "Garbage collection count not correct.");
+        assertEquals(1905, fel.getGarbageCollections().get(0).getTimestampStartGc(),
+                "First GC begin timestamp not correct.");
+        assertEquals(6669456,
+                fel.getGarbageCollections().get(fel.getGarbageCollections().size() - 1).getTimestampEndGc(),
+                "Last GC after timestamp not correct.");
+        assertEquals(317, fel.getGarbageCollectionDurationMax(), "GC duration max not correct.");
+        assertEquals(1599, fel.getGarbageCollectionDurationTotal(), "GC duration total not correct.");
+        assertEquals(100, fel.getGarbageCollectionThroughput(), "GC throughput not correct.");
+    }
+
+    @Test
     void testJBoss() {
         String logLine = "java_command: /path/to/jboss-modules.jar -Djboss.home.dir=/path/to/standalone";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_ARGUMENTS,

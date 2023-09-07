@@ -16,6 +16,7 @@
 package org.github.krashpad.domain.jdk;
 
 import static java.math.RoundingMode.HALF_EVEN;
+import static java.util.stream.Collectors.summingLong;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -24,8 +25,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import org.github.joa.JvmOptions;
 import org.github.joa.domain.Arch;
@@ -57,6 +61,10 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  * 
  */
 public class FatalErrorLog {
+
+    private static <T> Stream<Long> longs(List<T> list, Function<T, Long> function) {
+        return list.stream().map(function).filter(Objects::nonNull);
+    }
 
     /**
      * Analysis.
@@ -142,6 +150,11 @@ public class FatalErrorLog {
      * Exception counts information.
      */
     private List<ExceptionCounts> exceptionCounts;
+
+    /**
+     * Garbage collection events.
+     */
+    private List<GarbageCollection> garbageCollections = new ArrayList<>();
 
     /**
      * GC heap history information.
@@ -1385,6 +1398,37 @@ public class FatalErrorLog {
     }
 
     /**
+     * Do processing.
+     */
+    public void doProcessing() {
+        // Create {@link org.github.krashpad.domain.jdk.GarbageCollection}s from {@link
+        // org.github.krashpad.domain.jdk.GcHeapHistoryEvent}s.
+        if (!gcHeapHistoryEvents.isEmpty()) {
+            Iterator<GcHeapHistoryEvent> iterator = gcHeapHistoryEvents.iterator();
+            GarbageCollection gc = new GarbageCollection();
+            Pattern patternBegin = Pattern.compile(GcHeapHistoryEvent._REGEX_BEGIN);
+            Pattern patternEnd = Pattern.compile(GcHeapHistoryEvent._REGEX_END);
+            while (iterator.hasNext()) {
+                GcHeapHistoryEvent event = iterator.next();
+                if (event.isBeginning()) {
+                    Matcher matcher = patternBegin.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        gc.setTimestampStartGc(JdkMath.convertSecsToMillis(matcher.group(1)).longValue());
+                    }
+                } else if (event.isEnd()) {
+                    Matcher matcher = patternEnd.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        gc.setTimestampEndGc(JdkMath.convertSecsToMillis(matcher.group(1)).longValue());
+                    }
+                    garbageCollections.add(gc);
+                    gc = null;
+                    gc = new GarbageCollection();
+                }
+            }
+        }
+    }
+
+    /**
      * @return Analysis as a <code>List</code> of String arrays with 2 elements, the first the key, the second the
      *         display literal.
      */
@@ -2330,6 +2374,41 @@ public class FatalErrorLog {
             firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, JdkUtil.JDK17_WINDOWS_ZIPS);
         }
         return firstRelease;
+    }
+
+    /**
+     * The maximum {@link org.github.krashpad.domain.jdk.GarbageCollection} duration time.
+     * 
+     * @return maximum pause duration (milliseconds).
+     */
+    public synchronized long getGarbageCollectionDurationMax() {
+        return longs(this.garbageCollections, GarbageCollection::getDuration).mapToLong(Long::valueOf).max().orElse(0);
+    }
+
+    /**
+     * The total {@link org.github.krashpad.domain.jdk.GarbageCollection} pause time.
+     * 
+     * @return total pause duration (milliseconds).
+     */
+    public synchronized long getGarbageCollectionDurationTotal() {
+        return longs(this.garbageCollections, GarbageCollection::getDuration).collect(summingLong(Long::valueOf));
+    }
+
+    public List<GarbageCollection> getGarbageCollections() {
+        return garbageCollections;
+    }
+
+    /**
+     * @return Garbage collection throughput as a percent rounded to the nearest integer. CG throughput is the percent
+     *         of time not spent doing GC. 0 means all time was spent doing GC. 100 means no time was spent doing GC.
+     */
+    public long getGarbageCollectionThroughput() {
+        long gcTimeSpan = garbageCollections.get(garbageCollections.size() - 1).getTimestampEndGc()
+                - garbageCollections.get(0).getTimestampStartGc();
+        long timeNotGc = gcTimeSpan - getGarbageCollectionDurationTotal();
+        BigDecimal throughput = new BigDecimal(timeNotGc);
+        throughput = throughput.divide(new BigDecimal(gcTimeSpan), 2, HALF_EVEN);
+        return throughput.movePointRight(2).longValue();
     }
 
     /**

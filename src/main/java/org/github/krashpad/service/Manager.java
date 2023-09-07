@@ -267,6 +267,7 @@ public class Manager {
                 }
             }
         }
+        fatalErrorLog.doProcessing();
         fatalErrorLog.doAnalysis();
         return fatalErrorLog;
     }

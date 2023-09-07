@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -245,6 +246,22 @@ public class Main {
                     punctuate = true;
                 }
                 printWriter.write(Constants.LINE_SEPARATOR);
+            }
+            if (!fel.getGarbageCollections().isEmpty()) {
+                BigDecimal maxGcPause = JdkMath.convertMillisToSecs(fel.getGarbageCollectionDurationMax());
+                printWriter.write("GC Pause Max: ");
+                if (maxGcPause.compareTo(BigDecimal.ZERO) == 0) {
+                    // Provide rounding clue
+                    printWriter.write("~");
+                }
+                printWriter.write(maxGcPause.toString());
+                printWriter.write(" secs" + Constants.LINE_SEPARATOR);
+                printWriter.write("GC Throughput: ");
+                if (fel.getGarbageCollectionThroughput() == 100 || fel.getGarbageCollectionThroughput() == 0) {
+                    // Provide clue it's rounded to 100
+                    printWriter.write("~");
+                }
+                printWriter.write(fel.getGarbageCollectionThroughput() + "%" + Constants.LINE_SEPARATOR);
             }
             if (fel.getElapsedTime() != null && fel.getElapsedTime().matches("0d 0h 0m 0s")) {
                 // Display JVM initial memory if it fails to start

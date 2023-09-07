@@ -95,6 +95,36 @@ public class JdkMath {
     }
 
     /**
+     * Convert milliseconds to seconds.
+     * 
+     * For example: Convert 123456 to 123.456.
+     * 
+     * @param millis
+     *            Milliseconds as a whole number.
+     * @return Seconds rounded to 3 decimal places.
+     */
+    public static BigDecimal convertMillisToSecs(long millis) {
+        BigDecimal secs = new BigDecimal(millis);
+        return secs.movePointLeft(3).setScale(3, RoundingMode.HALF_EVEN);
+    }
+
+    /**
+     * Convert seconds to milliseconds.
+     * 
+     * For example: Convert 0.0225213 to 23.
+     * 
+     * @param secs
+     *            Seconds as a whole number or decimal.
+     * @return Milliseconds rounded to a whole number.
+     */
+    public static BigDecimal convertSecsToMillis(String secs) {
+        // BigDecimal does not accept decimal commas, only decimal periods
+        BigDecimal millis = new BigDecimal(secs.replace(",", ".")).movePointRight(3);
+        // Round down to avoid TimeWarpExceptions when events are spaced close together
+        return millis.setScale(0, RoundingMode.DOWN);
+    }
+
+    /**
      * Make default constructor private so the class cannot be instantiated.
      */
     private JdkMath() {
