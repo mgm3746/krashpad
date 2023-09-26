@@ -146,6 +146,7 @@ public class VmInfo implements LogEvent {
         } else if (logEntry.matches(".+\"buildslave\".+")) {
             builtBy = BuiltBy.BUILDSLAVE;
         } else if (logEntry.matches(".+\"\".+")) {
+            // Red Hat Windows
             builtBy = BuiltBy.EMPTY;
         } else if (logEntry.matches(".+\"jenkins\".+")) {
             // AdoptOpenJDK

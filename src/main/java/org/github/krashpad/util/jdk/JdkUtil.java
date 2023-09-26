@@ -1334,7 +1334,7 @@ public class JdkUtil {
         JDK11_WINDOWS_ZIPS.put("11.0.18+10-LTS", new Release("Jan 13 2023 00:00:00", 25, "11.0.18+10-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.17+8-LTS", new Release("Oct 16 2022 00:00:00", 24, "11.0.17+8-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.16.1+1-LTS", new Release("Aug 25 2022 00:00:00", 23, "11.0.16.1+1-LTS"));
-        JDK11_WINDOWS_ZIPS.put("11.0.16+8-LTS", new Release("Jul 19 2022 00:00:00", 22, "11.0.16+8-LTS"));
+        JDK11_WINDOWS_ZIPS.put("11.0.16+8-LTS", new Release("Jul 19 2022 12:27:55", 22, "11.0.16+8-LTS"));
         // 2 builds w/ the same release string
         JDK11_WINDOWS_ZIPS.put("11.0.15+9-LTS-2", new Release("Apr 27 2022 19:12:18", 21, "11.0.15+9-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.15+9-LTS-1", new Release("Apr 17 2022 13:56:34", 20, "11.0.15+9-LTS"));
