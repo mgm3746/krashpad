@@ -76,7 +76,8 @@ public class ErrUtil {
     /**
      * Windows system native library home regular expression.
      */
-    public static final String NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME = "C:\\\\Windows\\\\(system|System|SYSTEM)32\\\\";
+    public static final String NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME = "C:\\\\Windows\\\\((system|System|SYSTEM)32|"
+            + "WinSxS\\\\amd64_microsoft\\.windows\\.common\\-controls_.+)\\\\";
 
     static {
         NATIVE_LIBRARIES_JBOSS = new ArrayList<String>();
@@ -672,6 +673,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("ADVAPI32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("bcrypt.dll");
         NATIVE_LIBRARIES_WINDOWS.add("bcryptPrimitives.dll");
+        // Common control library
         NATIVE_LIBRARIES_WINDOWS.add("COMCTL32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("CRYPT32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("CRYPTBASE.dll");
@@ -690,6 +692,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("DNSAPI.dll");
         NATIVE_LIBRARIES_WINDOWS.add("DWMAPI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("fastprox.dll");
+        // Manage filters and search functions
+        NATIVE_LIBRARIES_WINDOWS.add("FLTLIB.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("GDI32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("GLU32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("gdiplus.dll");
