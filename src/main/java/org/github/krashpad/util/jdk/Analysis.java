@@ -56,7 +56,12 @@ public enum Analysis {
     ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS("error.compiler.thread.c2.beautify.loops"),
 
     /**
-     * Property key for a crash in MinINode::Ideal(PhaseGVN*, bool).
+     * Property key for a crash in C2 CompilerThread: in IfNode::fold_compares(PhaseIterGVN*)"
+     */
+    ERROR_COMPILER_THREAD_C2_IFNODE_FOLDCOMPARES("error.compiler.thread.c2.ifnode.foldcompares"),
+
+    /**
+     * Property key for a crash in C2 CompilerThread: in MinINode::Ideal(PhaseGVN*, bool).
      */
     ERROR_COMPILER_THREAD_C2_MININODE_IDEAL("error.compiler.thread.c2.mininode.ideal"),
 

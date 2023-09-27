@@ -393,6 +393,54 @@ class TestAnalysis {
     }
 
     @Test
+    void testCompilerThreadC2IfNodeFoldComparesJdk11Update7() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# Problematic frame:";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# V  [libjvm.so+0xe3d524]  SubINode::Ideal(PhaseGVN*, bool)+0x24";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        String currentThread = "Current thread (0x000055e5d82b1800):  JavaThread \"C2 CompilerThread0\" daemon "
+                + "[_thread_in_native, id=1226739, stack(0x00007f4c95bd6000,0x00007f4c95cd7000)]";
+        CurrentThread currentThreadEvent = new CurrentThread(currentThread);
+        fel.setCurrentThread(currentThreadEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.7+10-LTS) for linux-amd64 JRE (11.0.7+10-LTS), built "
+                + "on Apr 15 2020 12:25:53 by \"mockbuild\" with gcc 8.3.1 20190507 (Red Hat 8.3.1-4)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
+                Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_IFNODE_FOLDCOMPARES.getKey()),
+                Analysis.ERROR_COMPILER_THREAD_C2_IFNODE_FOLDCOMPARES + " analysis not identified.");
+    }
+
+    @Test
+    void testCompilerThreadC2IfNodeFoldComparesJdk11Update9() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# Problematic frame:";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# V  [libjvm.so+0xe3d524]  SubINode::Ideal(PhaseGVN*, bool)+0x24";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        String currentThread = "Current thread (0x000055e5d82b1800):  JavaThread \"C2 CompilerThread0\" daemon "
+                + "[_thread_in_native, id=1226739, stack(0x00007f4c95bd6000,0x00007f4c95cd7000)]";
+        CurrentThread currentThreadEvent = new CurrentThread(currentThread);
+        fel.setCurrentThread(currentThreadEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.9.1+1-LTS) for linux-amd64 JRE (11.0.9.1+1-LTS), "
+                + "built on Nov 11 2020 12:19:11 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
+                Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_IFNODE_FOLDCOMPARES.getKey()),
+                Analysis.ERROR_COMPILER_THREAD_C2_IFNODE_FOLDCOMPARES + " analysis incorrectly identified.");
+    }
+
+    @Test
     void testCompilerThreadC2MininodeIdealJdk11() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset87.txt");
         Manager manager = new Manager();

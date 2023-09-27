@@ -1098,6 +1098,15 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+            } else if ((isInHeader("ok_to_convert\\(Node\\*, Node\\*\\)")
+                    || isInHeader("SubINode::Ideal\\(PhaseGVN\\*, bool\\)")
+                    || isInStack("^.*IfNode::fold_compares\\(PhaseIterGVN\\*\\).*$"))
+                    && ((getJavaSpecification() == JavaSpecification.JDK11
+                            && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) > 0
+                            && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) < 9))) {
+                analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_IFNODE_FOLDCOMPARES);
+                // Don't double report
+                analysis.remove(Analysis.ERROR_COMPILER_THREAD);
             } else if (!getCurrentCompileTasks().isEmpty()) {
                 Iterator<CurrentCompileTask> iterator = getCurrentCompileTasks().iterator();
                 while (iterator.hasNext()) {

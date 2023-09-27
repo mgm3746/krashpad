@@ -367,6 +367,22 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testGarbageCollectionHydration() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(24, fel.getGarbageCollections().size(), "Garbage collection count not correct.");
+        assertEquals(1905, fel.getGarbageCollections().get(0).getTimestampStartGc(),
+                "First GC begin timestamp not correct.");
+        assertEquals(6669456,
+                fel.getGarbageCollections().get(fel.getGarbageCollections().size() - 1).getTimestampEndGc(),
+                "Last GC after timestamp not correct.");
+        assertEquals(317, fel.getGarbageCollectionDurationMax(), "GC duration max not correct.");
+        assertEquals(1599, fel.getGarbageCollectionDurationTotal(), "GC duration total not correct.");
+        assertEquals(100, fel.getGarbageCollectionThroughput(), "GC throughput not correct.");
+    }
+
+    @Test
     void testGetRhReleaseFromBuildString() {
         FatalErrorLog fel = new FatalErrorLog();
         String headerLine1 = "# JRE version: OpenJDK Runtime Environment (8.0_191-b12) (build 1.8.0_191-b12)";
@@ -504,22 +520,6 @@ class TestFatalErrorLog {
         assertEquals(2, fel.getJavaThreadCount(), "Java thread count not correct.");
         assertEquals(168, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(7, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    }
-
-    @Test
-    void testGarbageCollectionHydration() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(testFile);
-        assertEquals(24, fel.getGarbageCollections().size(), "Garbage collection count not correct.");
-        assertEquals(1905, fel.getGarbageCollections().get(0).getTimestampStartGc(),
-                "First GC begin timestamp not correct.");
-        assertEquals(6669456,
-                fel.getGarbageCollections().get(fel.getGarbageCollections().size() - 1).getTimestampEndGc(),
-                "Last GC after timestamp not correct.");
-        assertEquals(317, fel.getGarbageCollectionDurationMax(), "GC duration max not correct.");
-        assertEquals(1599, fel.getGarbageCollectionDurationTotal(), "GC duration total not correct.");
-        assertEquals(100, fel.getGarbageCollectionThroughput(), "GC throughput not correct.");
     }
 
     @Test
