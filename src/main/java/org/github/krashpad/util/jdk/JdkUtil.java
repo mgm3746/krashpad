@@ -1303,7 +1303,8 @@ public class JdkUtil {
         // RHEL amd64 OpenJDK11 zip
         // First RHEL zip was 11.0.4.11.
         JDK11_RHEL_ZIPS = new HashMap<String, Release>();
-        JDK11_RHEL_ZIPS.put("LATEST", new Release("Jul 17 2023 15:08:10", 20, "11.0.20+8-LTS"));
+        JDK11_RHEL_ZIPS.put("LATEST", new Release("Sep 7 2023 05:19:18", 21, "11.0.20.1+1-LTS"));
+        JDK11_RHEL_ZIPS.put("11.0.20.1+1-LTS", new Release("Sep 7 2023 05:19:18", 21, "11.0.20.1+1-LTS"));
         JDK11_RHEL_ZIPS.put("11.0.20+8-LTS", new Release("Jul 17 2023 15:08:10", 20, "11.0.20+8-LTS"));
         JDK11_RHEL_ZIPS.put("11.0.19+7-LTS", new Release("Apr 14 2023 02:59:33", 19, "11.0.19+7-LTS"));
         JDK11_RHEL_ZIPS.put("11.0.18+10-LTS", new Release("Jan 13 2023 04:46:48", 18, "11.0.18+10-LTS"));
@@ -1328,7 +1329,8 @@ public class JdkUtil {
         // Windows amd64 OpenJDK11 zip
         // First Windows zip was 11.0.1.13.
         JDK11_WINDOWS_ZIPS = new HashMap<String, Release>();
-        JDK11_WINDOWS_ZIPS.put("LATEST", new Release("Jul 17 2023 00:00:00", 27, "11.0.20+8-LTS"));
+        JDK11_WINDOWS_ZIPS.put("LATEST", new Release("Sep 7 2023 00:00:00", 28, "11.0.20.1+1-LTS"));
+        JDK11_WINDOWS_ZIPS.put("11.0.20.1+1-LTS", new Release("Sep 7 2023 00:00:00", 28, "11.0.20.1+1-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.20+8-LTS", new Release("Jul 17 2023 00:00:00", 27, "11.0.20+8-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.19+7-LTS", new Release("Apr 14 2023 13:52:19", 26, "11.0.19+7-LTS"));
         JDK11_WINDOWS_ZIPS.put("11.0.18+10-LTS", new Release("Jan 13 2023 00:00:00", 25, "11.0.18+10-LTS"));
@@ -1441,7 +1443,8 @@ public class JdkUtil {
 
         // RHEL amd64 OpenJDK17 zip
         JDK17_RHEL_ZIPS = new HashMap<String, Release>();
-        JDK17_RHEL_ZIPS.put("LATEST", new Release("Jul 14 2023 15:48:52", 9, "17.0.8+7-LTS"));
+        JDK17_RHEL_ZIPS.put("LATEST", new Release("Sep 4 2023 06:15:40", 10, "17.0.8.1+1-LTS"));
+        JDK17_RHEL_ZIPS.put("17.0.8.1+1-LTS", new Release("Sep 4 2023 06:15:40", 10, "17.0.8.1+1-LTS"));
         JDK17_RHEL_ZIPS.put("17.0.8+7-LTS", new Release("Jul 14 2023 15:48:52", 9, "17.0.8+7-LTS"));
         JDK17_RHEL_ZIPS.put("17.0.7+7-LTS", new Release("Apr 13 2023 02:10:25", 8, "17.0.7+7-LTS"));
         JDK17_RHEL_ZIPS.put("17.0.6+10-LTS", new Release("Jan 14 2023 04:10:00", 7, "17.0.6+10-LTS"));
@@ -1454,7 +1457,8 @@ public class JdkUtil {
 
         // Windows amd64 OpenJDK17 zip
         JDK17_WINDOWS_ZIPS = new HashMap<String, Release>();
-        JDK17_WINDOWS_ZIPS.put("LATEST", new Release("Jul 14 2023 00:00:00", 10, "17.0.8+7-LTS"));
+        JDK17_WINDOWS_ZIPS.put("LATEST", new Release("Sep 4 2023 00:00:00", 11, "17.0.8.1+1-LTS"));
+        JDK17_WINDOWS_ZIPS.put("17.0.8.1+1-LTS", new Release("Sep 4 2023 00:00:00", 11, "17.0.8.1+1-LTS"));
         JDK17_WINDOWS_ZIPS.put("17.0.8+7-LTS", new Release("Jul 14 2023 00:00:00", 10, "17.0.8+7-LTS"));
         JDK17_WINDOWS_ZIPS.put("17.0.7+7-LTS", new Release("Apr 13 2023 00:00:00", 9, "17.0.7+7-LTS"));
         JDK17_WINDOWS_ZIPS.put("17.0.6+10-LTS", new Release("Jan 14 2023 00:00:00", 8, "17.0.6+10-LTS"));
