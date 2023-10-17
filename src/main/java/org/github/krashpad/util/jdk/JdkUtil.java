@@ -1972,7 +1972,8 @@ public class JdkUtil {
         } else if (InternalStatistic.match(logLine)
                 && (logLine.matches(InternalStatistic._REGEX_HEADER) || priorEvent instanceof InternalStatistic)) {
             logEventType = LogEventType.INTERNAL_STATISTICS;
-        } else if (LdPreloadFile.match(logLine)) {
+        } else if (LdPreloadFile.match(logLine)
+                && (logLine.matches(LdPreloadFile._REGEX_HEADER) || priorEvent instanceof LdPreloadFile)) {
             logEventType = LogEventType.LD_PRELOAD_FILE;
         } else if (Libc.match(logLine)) {
             logEventType = LogEventType.LIBC;

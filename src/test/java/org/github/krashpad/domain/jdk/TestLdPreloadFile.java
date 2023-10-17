@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -26,13 +27,6 @@ import org.junit.jupiter.api.Test;
 class TestLdPreloadFile {
 
     @Test
-    void testDynatrace() {
-        String logLine = "/$LIB/liboneagentproc.so";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LD_PRELOAD_FILE,
-                JdkUtil.LogEventType.BITS.toString() + " not identified.");
-    }
-
-    @Test
     void testHeader() {
         String logLine = "/etc/ld.so.preload:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LD_PRELOAD_FILE,
@@ -41,15 +35,34 @@ class TestLdPreloadFile {
 
     @Test
     void testIdentity() {
+        LdPreloadFile priorLogEvent = new LdPreloadFile("/etc/ld.so.preload:");
         String logLine = "/$LIB/myagent.so";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LD_PRELOAD_FILE,
-                JdkUtil.LogEventType.BITS.toString() + " not identified.");
+        assertEquals(JdkUtil.LogEventType.LD_PRELOAD_FILE, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.LD_PRELOAD_FILE.toString() + " not identified.");
     }
 
     @Test
     void testParseLogLine() {
+        LdPreloadFile priorLogEvent = new LdPreloadFile("/etc/ld.so.preload:");
         String logLine = "/$LIB/myagent.so";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof LdPreloadFile,
-                JdkUtil.LogEventType.LD_PRELOAD_FILE.toString() + " not parsed.");
+        assertEquals(JdkUtil.LogEventType.LD_PRELOAD_FILE, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.LD_PRELOAD_FILE.toString() + " not identified.");
     }
+
+    @Test
+    void testPathEnvironmentVariable() {
+        LdPreloadFile priorLogEvent = new LdPreloadFile("/etc/ld.so.preload:");
+        String logLine = "/$LIB/liboneagentproc.so";
+        assertEquals(JdkUtil.LogEventType.LD_PRELOAD_FILE, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.LD_PRELOAD_FILE.toString() + " not identified.");
+    }
+
+    @Test
+    void testPathFull() {
+        LdPreloadFile priorLogEvent = new LdPreloadFile("/etc/ld.so.preload:");
+        String logLine = "/opt/dynatrace/oneagent/agent/bin/current/linux-x86-64/liboneagentproc.so";
+        assertEquals(JdkUtil.LogEventType.LD_PRELOAD_FILE, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.LD_PRELOAD_FILE.toString() + " not identified.");
+    }
+
 }

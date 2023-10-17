@@ -51,7 +51,8 @@ public class LdPreloadFile implements ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|/\\$LIB/.+)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|/\\$LIB/.+|" + org.github.joa.util.JdkRegEx.FILE_PATH
+            + ")$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
