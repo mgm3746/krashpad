@@ -69,7 +69,7 @@ public class StackSlotToMemoryMapping implements LogEvent {
             + "java mirror|klass size|length|local interfaces|methods|method ordering|name|nest members|"
             + "non-static oop maps|source file|state|sub|super|trans. interfaces):"
             //
-            + "| - '[a-zA-Z]+' |" + JdkRegEx.CLASS + "|BufferBlob|Framesize:|Runtime Stub).*$";
+            + "| - '[a-zA-Z]+' |" + JdkRegEx.CLASS + "|BufferBlob|Framesize:|Runtime Stub|StubRoutines::).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -79,7 +79,7 @@ public class StackSlotToMemoryMapping implements LogEvent {
      * @return true if the log line matches the event pattern, false otherwise.
      */
     public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+        return logLine.matches(REGEX) || logLine.matches(JdkRegEx.BLANK_LINE);
     }
 
     /**
