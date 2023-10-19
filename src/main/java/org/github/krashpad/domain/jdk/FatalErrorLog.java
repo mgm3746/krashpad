@@ -1762,29 +1762,6 @@ public class FatalErrorLog {
     }
 
     /**
-     * On Windows, the maximum amount of memory the current process can commit, in byes.
-     * 
-     * @return The maximum amount of memory the current process can commit, in bytes.
-     */
-    public long getAvailPageFile() {
-        long availPageFile = Long.MIN_VALUE;
-        if (!memories.isEmpty()) {
-            String regexTotalPageFile = "TotalPageFile size \\d{1,}M \\(AvailPageFile size (\\d{1,})M\\)";
-            Pattern pattern = Pattern.compile(regexTotalPageFile);
-            Iterator<Memory> iterator = memories.iterator();
-            while (iterator.hasNext()) {
-                Memory event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    availPageFile = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M', 'B');
-                    break;
-                }
-            }
-        }
-        return availPageFile;
-    }
-
-    /**
      * @return <code>Bit</code>
      */
     public Bit getBit() {
@@ -1894,12 +1871,12 @@ public class FatalErrorLog {
      * 
      * @return the memory the process has asked for that cannot be shared with other processes, in bytes.
      */
-    public long getCommitCharge() {
+    private long getCommitCharge() {
         long commitCharge = Long.MIN_VALUE;
         if (!memories.isEmpty()) {
-            String regexTotalPageFile = "current process commit charge \\(\"private bytes\"\\): (\\d{1,})M, peak: "
+            String regexCommitCharge = "current process commit charge \\(\"private bytes\"\\): (\\d{1,})M, peak: "
                     + "\\d{1,}M";
-            Pattern pattern = Pattern.compile(regexTotalPageFile);
+            Pattern pattern = Pattern.compile(regexCommitCharge);
             Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
@@ -4048,6 +4025,10 @@ public class FatalErrorLog {
                     break;
                 }
             }
+            if (swap == Long.MIN_VALUE) {
+                // Windows
+                swap = getPageFileTotal();
+            }
         }
         return swap;
     }
@@ -4082,6 +4063,10 @@ public class FatalErrorLog {
                     }
                     break;
                 }
+            }
+            if (swapFree == Long.MIN_VALUE) {
+                // Windows
+                swapFree = getPageFileAvailable();
             }
         }
         return swapFree;
@@ -4158,6 +4143,52 @@ public class FatalErrorLog {
             osVersion = uname.getOsVersion();
         }
         return osVersion;
+    }
+
+    /**
+     * On Windows, the maximum amount of memory the current process can page (swap), in bytes.
+     * 
+     * @return The maximum amount of memory the current process can page (swap), in bytes.
+     */
+    private long getPageFileAvailable() {
+        long availPageFile = Long.MIN_VALUE;
+        if (!memories.isEmpty()) {
+            String regexTotalPageFile = "TotalPageFile size \\d{1,}M \\(AvailPageFile size (\\d{1,})M\\)";
+            Pattern pattern = Pattern.compile(regexTotalPageFile);
+            Iterator<Memory> iterator = memories.iterator();
+            while (iterator.hasNext()) {
+                Memory event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    availPageFile = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M', 'B');
+                    break;
+                }
+            }
+        }
+        return availPageFile;
+    }
+
+    /**
+     * On Windows, the total paging (swap) space, in bytes.
+     * 
+     * @return The total paging (swap) space, in bytes.
+     */
+    public long getPageFileTotal() {
+        long availPageFile = Long.MIN_VALUE;
+        if (!memories.isEmpty()) {
+            String regexTotalPageFile = "TotalPageFile size (\\d{1,})M \\(AvailPageFile size \\d{1,}M\\)";
+            Pattern pattern = Pattern.compile(regexTotalPageFile);
+            Iterator<Memory> iterator = memories.iterator();
+            while (iterator.hasNext()) {
+                Memory event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    availPageFile = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M', 'B');
+                    break;
+                }
+            }
+        }
+        return availPageFile;
     }
 
     public PidMax getPidMax() {

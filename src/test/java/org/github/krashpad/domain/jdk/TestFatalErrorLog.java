@@ -809,10 +809,6 @@ class TestFatalErrorLog {
         assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(203, 'M', 'B');
         assertEquals(physicalMemoryFree, fel.getJvmMemFree(), "Physical memory free not correct.");
-        long availPageFile = JdkUtil.convertSize(1, 'M', 'B');
-        assertEquals(availPageFile, fel.getAvailPageFile(), "AvailPageFile not correct.");
-        long commitCharge = JdkUtil.convertSize(3288, 'M', 'B');
-        assertEquals(commitCharge, fel.getCommitCharge(), "Commit charge not correct.");
         long memBalloonedNow = JdkUtil.convertSize(0, 'K', 'B');
         assertEquals(memBalloonedNow, fel.getMemBalloonedNow(), "Memory ballooned now not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -1557,6 +1553,23 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
+    void testWindowsPageFile() {
+        FatalErrorLog fel = new FatalErrorLog();
+        Memory memory1 = new Memory("Memory: 4k page, system-wide physical 114687M (1028M free)");
+        Memory memory2 = new Memory("TotalPageFile size 229376M (AvailPageFile size 6785M)");
+        fel.getMemories().add(memory1);
+        fel.getMemories().add(memory2);
+        long physicalMemory = JdkUtil.convertSize(114687, 'M', 'B');
+        assertEquals(physicalMemory, fel.getOsMemTotal(), "System physical memory not correct.");
+        long physicalMemoryFree = JdkUtil.convertSize(1028, 'M', 'B');
+        assertEquals(physicalMemoryFree, fel.getOsMemFree(), "System physical memory free not correct.");
+        long swap = JdkUtil.convertSize(229376, 'M', 'B');
+        assertEquals(swap, fel.getOsSwap(), "System swap not correct.");
+        long swapFree = JdkUtil.convertSize(6785, 'M', 'B');
+        assertEquals(swapFree, fel.getOsSwapFree(), "System swap free not correct.");
     }
 
     @Test

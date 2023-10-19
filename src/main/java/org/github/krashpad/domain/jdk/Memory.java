@@ -64,6 +64,13 @@ public class Memory implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression defining the logging.
+     * 
+     * commit charge: On Windows, the memory allocated to a process that cannot be shared with other processes. A good
+     * approximation of process size.
+     * 
+     * WorkingSet: On Windows, the set of process pages in the virtual address space that is in physical memory (RAM).
+     * 
+     * PageFile: On Windows, swap (disk) memory.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
             + "|current process (commit charge|WorkingSet).+|Page Sizes:.+|TotalPageFile.+)$";
