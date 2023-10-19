@@ -15,6 +15,7 @@
 package org.github.krashpad.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -49,7 +50,8 @@ class TestErrUtil {
 
     @Test
     void testWindowsNativeLibrary() {
-
+        String library = "rmi.dll";
+        assertTrue(ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains("rmi.dll"), library + " not found");
     }
 
 }

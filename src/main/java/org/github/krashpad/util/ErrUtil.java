@@ -817,6 +817,8 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("nio.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("npt.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("prefs.dll");
+        // JDK(11|17|21)
+        NATIVE_LIBRARIES_WINDOWS_JAVA.add("rmi.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("sawindbg.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("spashscreen.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("sunec.dll");
