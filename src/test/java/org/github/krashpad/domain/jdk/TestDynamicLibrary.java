@@ -330,6 +330,14 @@ class TestDynamicLibrary {
     }
 
     @Test
+    void testStack() {
+        DynamicLibrary priorLogEvent = new DynamicLibrary(null);
+        String logLine = "7ff34869c000-7ff34879a000 rw-p 00000000 00:00 0                          [stack:47945]";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+    }
+
+    @Test
     void testSymbolEngine() {
         DynamicLibrary priorLogEvent = new DynamicLibrary(null);
         String logLine = "symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;"
