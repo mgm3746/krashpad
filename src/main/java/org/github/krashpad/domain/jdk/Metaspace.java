@@ -144,7 +144,7 @@ public class Metaspace implements LogEvent, HeaderEvent {
             + " - handle_deallocations:| - new_chunks_are_fully_committed:|[ ]{1,}Non-[c|C]lass( space)?:|Usage:|"
             + " - uncommit_free_chunks:| - use_allocation_guard:| - virtual_space_node_default_size:|Virtual space:|"
             + JdkRegEx.SIZE2 + "|[ ]+" + JdkRegEx.SIZE2 + " reserved,[ ]+" + JdkRegEx.SIZE2 + " \\([>]{0,1}"
-            + JdkRegEx.PERCENT + "\\) committed|  " + JdkRegEx.SIZE2 + " capacity,[ ]+" + JdkRegEx.SIZE2
+            + JdkRegEx.PERCENT + "\\) committed|[ ]{0,}" + JdkRegEx.SIZE2 + " capacity,[ ]+" + JdkRegEx.SIZE2
             + " \\([ ]{0,2}" + JdkRegEx.PERCENT + "\\) used,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2}" + JdkRegEx.PERCENT
             + "\\) free\\+waste,[ ]+" + JdkRegEx.SIZE2 + " \\( <" + JdkRegEx.PERCENT + "\\) overhead\\.)" + ".*$";
 
