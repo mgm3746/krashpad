@@ -145,6 +145,11 @@ public class Main {
                             + Constants.LINE_SEPARATOR);
                 }
             }
+            if (fel.getHugetlb() > 0) {
+                printWriter.write(
+                        "Huge Pages: " + JdkUtil.convertSize(fel.getHugetlb(), 'B', org.github.joa.util.Constants.UNITS)
+                                + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
+            }
             if (fel.getOsSwap() >= 0) {
                 printWriter
                         .write("Swap: " + JdkUtil.convertSize(fel.getOsSwap(), 'B', org.github.joa.util.Constants.UNITS)

@@ -500,6 +500,16 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testHugetlb() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String meminfo = "Hugetlb:         4194304 kB";
+        Meminfo meminfoEvent = new Meminfo(meminfo);
+        fel.getMeminfos().add(meminfoEvent);
+        long hugetlb = JdkUtil.convertSize(4194304, 'K', 'B');
+        assertEquals(hugetlb, fel.getHugetlb(), "Hugetlb not correct.");
+    }
+
+    @Test
     void testInternalError() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset3.txt");
         Manager manager = new Manager();

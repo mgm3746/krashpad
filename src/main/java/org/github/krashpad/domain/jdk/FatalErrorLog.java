@@ -2787,6 +2787,29 @@ public class FatalErrorLog {
         return host;
     }
 
+    /**
+     * The total amount of memory consumed by huge pages in bytes.
+     * 
+     * @return The total amount of memory consumed by huge pages in bytes.
+     */
+    public long getHugetlb() {
+        long hugetlb = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regexCommitLimit = "Hugetlb:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regexCommitLimit);
+            Iterator<Meminfo> iterator = meminfos.iterator();
+            while (iterator.hasNext()) {
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    hugetlb = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    break;
+                }
+            }
+        }
+        return hugetlb;
+    }
+
     public List<InternalExceptionEvent> getInternalExceptionEvents() {
         return internalExceptionEvents;
     }
