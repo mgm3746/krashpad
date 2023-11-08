@@ -329,7 +329,7 @@ public class JdkRegEx {
      * 
      * For example catalina.jar
      */
-    public static final String JAR = "[a-zA-Z\\d-_\\.]{1,}\\.jar";
+    public static final String JAR = "[a-zA-Z\\d-_\\.\\(\\)]{1,}\\.jar";
 
     /**
      * AppDynamics jar.
@@ -477,6 +477,15 @@ public class JdkRegEx {
      */
     public static final String METASPACE_SIZE = " Metaspace[ ]{1,7}used " + JdkRegEx.SIZE + ", (capacity "
             + JdkRegEx.SIZE + ", )?committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE;
+
+    /**
+     * mmapped file in a deleted state.
+     * 
+     * For example:
+     * 
+     * mylib.so (deleted)
+     */
+    public static final String MMAPPED_FILE_DELETED = "^(.)+ \\(deleted\\)$";
 
     /**
      * Native library.

@@ -148,6 +148,14 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
         if (matcher.find()) {
             int filePathIndex = 18;
             filePath = matcher.group(filePathIndex);
+            // Directories and file names can include spaces and parenthesis, but assume any file name that ends with "
+            // (deleted)" indicates an mmapped file in a deleted state and should be removed from the file name.
+            if (filePath != null && filePath.matches(JdkRegEx.MMAPPED_FILE_DELETED)) {
+                int position = filePath.lastIndexOf(" (deleted)");
+                if (position != -1) {
+                    filePath = filePath.substring(0, position);
+                }
+            }
         }
         return filePath;
     }

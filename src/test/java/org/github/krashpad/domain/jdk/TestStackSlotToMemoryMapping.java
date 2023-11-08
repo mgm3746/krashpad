@@ -44,15 +44,6 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
-    void testStubRoutines() {
-        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
-        String logLine = "StubRoutines::jbyte_disjoint_arraycopy [0x00007fe5a5a2f160, 0x00007fe5a5a2f208[ (168 bytes)";
-        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
-                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
-    }
-
-    @Test
     void testBufferBlob() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = "BufferBlob (0x00007f486c4e8f10) used for C1 temporary CodeBuffer";
@@ -474,6 +465,15 @@ class TestStackSlotToMemoryMapping {
     void testStaticFinal() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = " - static final 'COMPACT_STRINGS' 'Z' @136";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testStubRoutines() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = "StubRoutines::jbyte_disjoint_arraycopy [0x00007fe5a5a2f160, 0x00007fe5a5a2f208[ (168 bytes)";
         assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
                 JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");

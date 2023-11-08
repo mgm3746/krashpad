@@ -166,6 +166,22 @@ class TestDynamicLibrary {
     }
 
     @Test
+    void testFilePathParenthesis() {
+        DynamicLibrary priorLogEvent = new DynamicLibrary(null);
+        String logLine = "7fff99cf0000-7fff9a950000 r-xp 00000000 fd:00 1275071932                 "
+                + "/path/to/myapp/tmp/vfs/deployment/deployment0123456789123456/myjar(abc).jar-abc123/myjar(abc).jar";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibrary event = new DynamicLibrary(logLine);
+        assertEquals(
+                "/path/to/myapp/tmp/vfs/deployment/deployment0123456789123456/myjar(abc).jar-abc123/myjar(abc).jar",
+                event.getFilePath(), "File path not correct.");
+        assertEquals(Device.FIXED_DISK, event.getDevice(), "Device not correct.");
+        assertFalse(event.isNativeLibrary(), "Native library incorrectly identified.");
+        assertTrue(event.isJar(), "Jar not identified.");
+    }
+
+    @Test
     void testFilePathPpc64le() {
         DynamicLibrary priorLogEvent = new DynamicLibrary(null);
         String logLine = "7fff99cf0000-7fff9a950000 r-xp 00000000 fd:00 1275071932                 "

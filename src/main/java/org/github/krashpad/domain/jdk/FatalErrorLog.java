@@ -3727,11 +3727,10 @@ public class FatalErrorLog {
     public int getMmapDeletedCount() {
         int mmapDeletedCount = 0;
         if (!dynamicLibraries.isEmpty()) {
-            String regExMmapDeleted = "^.+ \\(deleted\\)$";
             Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
-                if (event.getLogEntry().matches(regExMmapDeleted)) {
+                if (event.getLogEntry().matches(JdkRegEx.MMAPPED_FILE_DELETED)) {
                     mmapDeletedCount++;
                 }
             }
