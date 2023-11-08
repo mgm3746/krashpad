@@ -2126,6 +2126,11 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset42.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
+        assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
+        assertEquals(Long.MIN_VALUE, fel.getMemoryAllocation(), "Memory allocation not correct.");
+        assertEquals(32593993728L, fel.getJvmMemFree(), "JVM reported free memory not correct.");
+        assertEquals(Long.MIN_VALUE, fel.getJvmSwapFree(), "JVM reported swap not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey()),
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -2233,7 +2238,7 @@ class TestAnalysis {
     }
 
     @Test
-    void testOomLimit() {
+    void testOomLimit1() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset57.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
@@ -2241,6 +2246,58 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
+    void testOomLimit2() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# There is insufficient memory for the Java Runtime Environment to continue.";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# Native memory allocation (mmap) failed to map 12288 bytes for committing reserved memory.";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        String header3 = "#  Out of Memory Error (os_linux.cpp:2749), pid=115777, tid=0x00007f544c72a700";
+        Header headerEvent3 = new Header(header3);
+        fel.getHeaders().add(headerEvent3);
+        String heap1 = "Heap:";
+        Heap heapEvent1 = new Heap(heap1);
+        fel.getHeaps().add(heapEvent1);
+        String heap2 = " garbage-first heap   total 33120256K, used 20387191K [0x00007f5cb7800000, 0x00007f5cb8007e58, "
+                + "0x00007f64b7800000)";
+        Heap heapEvent2 = new Heap(heap2);
+        fel.getHeaps().add(heapEvent2);
+        String heap3 = "  region size 8192K, 1110 young (9093120K), 88 survivors (720896K)";
+        Heap heapEvent3 = new Heap(heap3);
+        fel.getHeaps().add(heapEvent3);
+        String heap4 = " Metaspace       used 901044K, capacity 1070727K, committed 1070848K, reserved 1071104K";
+        Heap heapEvent4 = new Heap(heap4);
+        fel.getHeaps().add(heapEvent4);
+        String meminfo1 = "MemTotal:       65803904 kB";
+        Meminfo meminfoEvent1 = new Meminfo(meminfo1);
+        fel.getMeminfos().add(meminfoEvent1);
+        String meminfo2 = "MemFree:        18818296 kB";
+        Meminfo meminfoEvent2 = new Meminfo(meminfo2);
+        fel.getMeminfos().add(meminfoEvent2);
+        String meminfo3 = "MemAvailable:   25213784 kB";
+        Meminfo meminfoEvent3 = new Meminfo(meminfo3);
+        fel.getMeminfos().add(meminfoEvent3);
+        String meminfo4 = "CommitLimit:    39193404 kB";
+        Meminfo meminfoEvent4 = new Meminfo(meminfo4);
+        fel.getMeminfos().add(meminfoEvent4);
+        String memory = "Memory: 4k page, physical 65803904k(18818296k free), swap 6291452k(6291452k free)";
+        Memory memoryEvent = new Memory(memory);
+        fel.getMemories().add(memoryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
+        assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
+        assertEquals(12288, fel.getMemoryAllocation(), "Memory allocation not correct.");
+        assertEquals(19269935104L, fel.getJvmMemFree(), "JVM reported free memory not correct.");
+        assertEquals(6442446848L, fel.getJvmSwapFree(), "JVM reported swap not correct.");
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME.getKey()),
+                Analysis.ERROR_OOME + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT.getKey()),
+                Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
     }
 
     @Test
@@ -2475,10 +2532,15 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset88.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
+        assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
+        assertEquals(12288, fel.getMemoryAllocation(), "Memory allocation not correct.");
+        assertEquals(858320896L, fel.getJvmMemFree(), "JVM reported free memory not correct.");
+        assertEquals(0, fel.getJvmSwapFree(), "JVM reported swap not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100.getKey()),
                 Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100 + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OOPS.getKey()),
-                Analysis.ERROR_OOME_OOPS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey()),
+                Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
     }
 
     @Test

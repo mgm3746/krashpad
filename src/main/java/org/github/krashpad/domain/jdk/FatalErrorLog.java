@@ -723,11 +723,13 @@ public class FatalErrorLog {
                             }
                         }
                     }
-                } else if ((getJvmMemFree() >= 0 && getJvmMemTotal() > 0
-                        && JdkMath.calcPercent(getJvmMemFree(), getJvmMemTotal()) >= 50)
-                        || (getJvmMemoryMax() >= 0 && getJvmMemTotal() > 0
-                                && JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) < 50)) {
-                    // Likely a limit when JVM memory < 1/2 total memory
+                } else if ((getMemoryAllocation() >= 0 && (getJvmMemFree() >= 0 || getJvmSwapFree() >= 0)
+                        && getMemoryAllocation() < (getJvmMemFree() + getJvmSwapFree()))
+                        || ((getJvmMemFree() >= 0 && getJvmMemTotal() > 0
+                                && JdkMath.calcPercent(getJvmMemFree(), getJvmMemTotal()) >= 50)
+                                || (getJvmMemoryMax() >= 0 && getJvmMemTotal() > 0
+                                        && JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) < 50))) {
+                    // Likely a limit if: (1) allocation < available physical memory. (2) JVM memory < 1/2 total memory.
                     if ((isInHeader("Java Heap may be blocking the growth of the native heap")
                             || isInHeader("compressed oops")) && isCompressedOops()) {
                         analysis.add(Analysis.ERROR_OOME_LIMIT_OOPS);
@@ -3287,7 +3289,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * Free memory as reported by the JVM <code>MemoryEvent</code>.
+     * Free memory in bytes as reported by the JVM <code>Memory</code>.
      * 
      * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
      * low free memory does not necessarily indicate swapping or out of memory is imminent.
