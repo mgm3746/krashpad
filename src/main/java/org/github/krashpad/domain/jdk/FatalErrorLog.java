@@ -3661,7 +3661,7 @@ public class FatalErrorLog {
                 metaspaceMaxSize = JdkUtil.convertSize(value, fromUnits, 'B');
             }
         }
-        // If max metaspace size not set (recommended), get from <code>HeapEvent</code>
+        // If max metaspace size not set (recommended), get from <code>HeapEvent</code> "committed".
         if (metaspaceMaxSize == Long.MIN_VALUE) {
             if (!heaps.isEmpty()) {
                 Iterator<Heap> iterator = heaps.iterator();
@@ -3675,9 +3675,11 @@ public class FatalErrorLog {
                         pattern = Pattern.compile(JdkRegEx.METASPACE_SIZE);
                         matcher = pattern.matcher(event.getLogEntry());
                         if (matcher.find()) {
-                            value = Long.parseLong(matcher.group(11));
-                            if (matcher.group(13) != null) {
-                                fromUnits = matcher.group(13).charAt(0);
+                            int committedBlock = 11;
+                            int committedIndex = 13;
+                            value = Long.parseLong(matcher.group(committedBlock));
+                            if (matcher.group(committedIndex) != null) {
+                                fromUnits = matcher.group(committedIndex).charAt(0);
                             } else {
                                 fromUnits = 'B';
                             }
