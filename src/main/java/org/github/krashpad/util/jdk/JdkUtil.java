@@ -962,9 +962,14 @@ public class JdkUtil {
         HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
         if (releases != null && !releases.isEmpty()) {
             Release latest = releases.get("LATEST");
-            if (latest != null && latest.getVersion() != null
-                    && !latest.getVersion().equals(fatalErrorLog.getJdkReleaseString())) {
-                isLatestRelease = false;
+            if (latest != null) {
+                if (latest.getVersion() != null && !latest.getVersion().equals(fatalErrorLog.getJdkReleaseString())) {
+                    isLatestRelease = false;
+                } else if (latest.getBuildDate() != null
+                        && !latest.getBuildDate().equals(fatalErrorLog.getJdkReleaseDate())) {
+                    // There is a newer release with the same release string
+                    isLatestRelease = false;
+                }
             }
         }
         return isLatestRelease;

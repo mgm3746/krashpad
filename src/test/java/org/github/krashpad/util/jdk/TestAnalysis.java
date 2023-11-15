@@ -3151,7 +3151,7 @@ class TestAnalysis {
 
     @Test
     void testWarnNotLatestJdkValue() {
-        assertEquals("JDK is not the latest version. Latest version is ", Analysis.WARN_JDK_NOT_LATEST.getValue(),
+        assertEquals("JDK is not the latest release", Analysis.WARN_JDK_NOT_LATEST.getValue(),
                 Analysis.WARN_JDK_NOT_LATEST + "value not correct.");
     }
 

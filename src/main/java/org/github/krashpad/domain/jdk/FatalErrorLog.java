@@ -1545,15 +1545,13 @@ public class FatalErrorLog {
                 a.add(new String[] { item.getKey(), s.toString() });
             } else if (item.getKey().equals(Analysis.WARN_JDK_NOT_LATEST.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
-                s.append(JdkUtil.getLatestJdkReleaseString(this));
                 // Add latest release info
                 int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this),
                         JdkUtil.getLatestJdkReleaseDate(this));
                 int releaseNumberDiff = JdkUtil.getLatestJdkReleaseNumber(this) - JdkUtil.getJdkReleaseNumber(this);
                 if (releaseDayDiff > 0 && releaseNumberDiff > 0) {
-                    s.append(" (newer by ");
-                    s.append("" + releaseNumberDiff);
-                    s.append(" version");
+                    s.append(", which is newer by " + releaseNumberDiff);
+                    s.append(" release");
                     if (releaseNumberDiff > 1) {
                         s.append("s");
                     }
@@ -1563,7 +1561,6 @@ public class FatalErrorLog {
                     if (releaseDayDiff > 1) {
                         s.append("s");
                     }
-                    s.append(")");
                 }
                 s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() });
