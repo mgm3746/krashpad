@@ -76,6 +76,36 @@ class TestJdkRegEx {
     }
 
     @Test
+    void testBuildDateTime21() {
+        String buildDateTime = "2023-08-27T04:16:29Z";
+        assertTrue(buildDateTime.matches(JdkRegEx.BUILD_DATE_TIME_21), "Build date/time JDK21 not recognized.");
+    }
+
+    @Test
+    void testBuildStringJdk20() {
+        String release = "20.0.1+9";
+        assertTrue(release.matches(JdkRegEx.BUILD_STRING), "Build string not identified.");
+    }
+
+    @Test
+    void testBuildStringJdk21Long() {
+        String release = "21.0.1+12-LTS";
+        assertTrue(release.matches(JdkRegEx.BUILD_STRING), "Build string not identified.");
+    }
+
+    @Test
+    void testBuildStringJdk21Short() {
+        String release = "21+35-LTS";
+        assertTrue(release.matches(JdkRegEx.BUILD_STRING), "Build string not identified.");
+    }
+
+    @Test
+    void testBuildStringJdk8() {
+        String release = "1.8.0_251-b08";
+        assertTrue(release.matches(JdkRegEx.BUILD_STRING), "Build string not identified.");
+    }
+
+    @Test
     void testClass() {
         String address = "com.example.MyClass";
         assertTrue(address.matches(JdkRegEx.CLASS), "CLASS not recognized.");
@@ -199,24 +229,6 @@ class TestJdkRegEx {
         String javaCommand = "java_command: C:\\path\\to\\jboss-modules.jar -mp "
                 + "C:\\path\\to\\modules org.jboss.as.standalone -Djboss.home.dir=C:\\path\\to -V";
         assertTrue(javaCommand.matches(JdkRegEx.COMMAND_JBOSS_VERSION), "JBoss version check not recognized.");
-    }
-
-    @Test
-    void testJdk12ReleaseString() {
-        String release = "12.0.1+12";
-        assertTrue(release.matches(JdkRegEx.VERSION_STRING), "Version string not identified.");
-    }
-
-    @Test
-    void testJdk20BuildString() {
-        String release = "20.0.1+9";
-        assertTrue(release.matches(JdkRegEx.BUILD_STRING), "Build string not identified.");
-    }
-
-    @Test
-    void testJdk8BuildString() {
-        String release = "1.8.0_251-b08";
-        assertTrue(release.matches(JdkRegEx.BUILD_STRING), "Build string not identified.");
     }
 
     @Test
@@ -347,6 +359,12 @@ class TestJdkRegEx {
     void testRegionVvar() {
         String s = "[vvar]";
         assertTrue(s.matches(JdkRegEx.AREA), "Area not identified.");
+    }
+
+    @Test
+    void testReleaseStringJdk12() {
+        String release = "12.0.1+12";
+        assertTrue(release.matches(JdkRegEx.VERSION_STRING), "Version string not identified.");
     }
 
     @Test

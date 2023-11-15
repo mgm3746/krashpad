@@ -47,6 +47,22 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testCardSetContainerConfiguration() {
+        String logLine = " Card Set container configuration: InlinePtr #cards 4 size 8 Array Of Cards #cards 32 size "
+                + "80 Howl #buckets 8 coarsen threshold 7372 Howl Bitmap #cards 1024 size 144 coarsen threshold 921 "
+                + "Card regions per heap region 1 cards per card region 8192";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testCardTableEntrySize() {
+        String logLine = " CardTable entry size: 512";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testCompressedOops() {
         String logLine = " Compressed Oops: Enabled (Zero based)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,

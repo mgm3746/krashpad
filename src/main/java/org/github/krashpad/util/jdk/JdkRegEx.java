@@ -72,8 +72,8 @@ public class JdkRegEx {
 
     /**
      * <p>
-     * Regular expression for JDK build date/time in MMM d yyyy HH:mm:ss format (see <code>SimpleDateFormat</code> for
-     * date and time pattern definitions).
+     * Regular expression for JDK build date/time in MMM d yyyy HH:mm:ss format. See <code>SimpleDateFormat</code> for
+     * date and time pattern definitions.
      * </p>
      * 
      * For example:
@@ -83,6 +83,24 @@ public class JdkRegEx {
      * </pre>
      */
     public static final String BUILD_DATE_TIME = "([a-zA-Z]{3})[ ]{1,2}(\\d{1,2}) (\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})";
+
+    /**
+     * <p>
+     * Regular expression for JDK build date/time in YYYY-MM-DD'T'HH:mm:ssZ format. First observed in JDK21 LTS release.
+     * See <code>SimpleDateFormat</code> for date and time pattern definitions.
+     * </p>
+     * 
+     * For example:
+     * 
+     * <pre>
+     * 2023-08-27T04:16:29Z
+     * </pre>
+     * 
+     * <p>
+     * Note: "Z" = 0 (GMT).
+     * </p>
+     */
+    public static final String BUILD_DATE_TIME_21 = "(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})Z";
 
     /**
      * <p>
@@ -98,9 +116,11 @@ public class JdkRegEx {
      * 12.0.1+12
      * 17.0.4+8
      * 20.0.1+9
+     * 21+35-LTS
+     * 21.0.1+12-LTS
      * </pre>
      */
-    public static final String BUILD_STRING = "((1.6.0|1.7.0|1.8.0|9|1\\d||20)[^\\)]{1,})";
+    public static final String BUILD_STRING = "((1.6.0|1.7.0|1.8.0|9|1\\d|2[01])[^\\)]{1,})";
 
     /**
      * Byte units identifier.
@@ -726,6 +746,28 @@ public class JdkRegEx {
      * /usr/lib/jvm/java-17-openjdk-17.0.1.0.12-2.el8_5.x86_64/lib/server/libjvm.so
      */
     public static final String RH_RPM_OPENJDK17_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK17_DIR
+            + "\\/lib\\/server\\/libjvm\\.so$";
+
+    /**
+     * Red Hat OpenJDK 21 rpm directory.
+     * 
+     * For example:
+     * 
+     * java-21-openjdk-21.0.0.0.35-2.el8.x86_64
+     * 
+     * java-21-openjdk-21.0.1.0.12-2.el8.x86_64
+     */
+    public static final String RH_RPM_OPENJDK21_DIR = "(java\\-21\\-openjdk\\-21\\.0\\.\\d{1,2}\\.\\d{1,2}"
+            + "(\\.\\d{1,2})?-\\d\\.el([89])(_(\\d{1,2}))?\\.x86_64)";
+
+    /**
+     * Red Hat OpenJDK 21 rpm libjvm.so file path.
+     * 
+     * For example:
+     * 
+     * /usr/lib/jvm/java-21-openjdk-21.0.1.0.12-2.el8.x86_64/lib/server/libjvm.so
+     */
+    public static final String RH_RPM_OPENJDK21_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK21_DIR
             + "\\/lib\\/server\\/libjvm\\.so$";
 
     /**

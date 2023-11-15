@@ -196,6 +196,14 @@ class TestDynamicLibrary {
     }
 
     @Test
+    void testFooter() {
+        DynamicLibrary priorLogEvent = new DynamicLibrary(null);
+        String logLine = "Total number of mappings: 197";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+    }
+
+    @Test
     void testIdentity() {
         DynamicLibrary priorLogEvent = new DynamicLibrary(null);
         String logLine = "Dynamic libraries:";

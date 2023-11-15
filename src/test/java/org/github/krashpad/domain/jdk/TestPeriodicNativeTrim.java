@@ -14,56 +14,28 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import java.util.Date;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.github.krashpad.util.ErrUtil;
-import org.github.krashpad.util.jdk.JdkRegEx;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
- * <p>
- * JDK release information.
- * </p>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class Release {
+class TestPeriodicNativeTrim {
 
-    /**
-     * Release build date.
-     */
-    private Date buildDate;
-
-    /**
-     * Release number (1..x).
-     */
-    private int number;
-
-    /**
-     * The release version string.
-     */
-    private String version;
-
-    public Release(String buildDate, int number, String version) {
-        super();
-        if (buildDate.matches(JdkRegEx.BUILD_DATE_TIME)) {
-            this.buildDate = ErrUtil.getDate(buildDate);
-        } else if (buildDate.matches(JdkRegEx.BUILD_DATE_TIME_21)) {
-            this.buildDate = ErrUtil.getDate21(buildDate);
-        }
-        this.number = number;
-        this.version = version;
+    @Test
+    void testIdentity() {
+        String logLine = "Periodic native trim disabled";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.PERIODIC_NATIVE_TRIM,
+                JdkUtil.LogEventType.PERIODIC_NATIVE_TRIM.toString() + " not identified.");
     }
 
-    public Date getBuildDate() {
-        return buildDate;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public String getVersion() {
-        return version;
+    @Test
+    void testParseLogLine() {
+        String logLine = "Periodic native trim disabled";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof PeriodicNativeTrim,
+                JdkUtil.LogEventType.PERIODIC_NATIVE_TRIM.toString() + " not parsed.");
     }
 }

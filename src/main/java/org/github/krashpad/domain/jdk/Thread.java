@@ -41,14 +41,19 @@ public class Thread implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + Thread.REGEX_HEADER + "|(  |=>)" + JdkRegEx.ADDRESS
-            + "( \\(exited\\))? ((ConcurrentGC|GCTask|Java|VM|Watcher|Worker)?Thread)|"
+    private static final String REGEX = "^(" + Thread.REGEX_HEADER + "|" + Thread.REGEX_FOOTER + "|(  |=>)"
+            + JdkRegEx.ADDRESS + "( \\(exited\\))? ((ConcurrentGC|GCTask|Java|VM|Watcher|Worker)?Thread)|"
             + "\\[error occurred during error reporting \\(printing all threads\\)).*$";
 
     /**
      * Regular expression for the header.
      */
-    private static final String REGEX_HEADER = "(Java Threads: \\( => current thread \\)|Other Threads:)";
+    public static final String REGEX_FOOTER = "Total:[ ]{1,}\\d{1,}";
+
+    /**
+     * Regular expression for the header.
+     */
+    public static final String REGEX_HEADER = "(Java Threads: \\( => current thread \\)|Other Threads:)";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

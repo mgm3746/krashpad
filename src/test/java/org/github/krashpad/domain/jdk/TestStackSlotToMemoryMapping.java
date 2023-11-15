@@ -335,6 +335,16 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
+    void testNativeMethodEntryPoint() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = "native method entry point (kind = native)  [0x00007fc733a8b560, 0x00007fc733a8bfd0]  2672 "
+                + "bytes";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testNestMembers() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = " - nest members:     Array<T>(0x00007fe5c160a9d8)";

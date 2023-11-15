@@ -15,61 +15,28 @@
 package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * STACK_SLOT_TO_MEMORY_MAPPING
- * </p>
- * 
- * <p>
- * Stack slot to memory mapping information.
+ * PERIODIC_NATIVE_TRIM
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * Stack slot to memory mapping:
- * stack at sp + 0 slots: 0x00007ffff684e68d: &lt;offset 0x0000000000c1968d&gt; in /usr/lib/jvm/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/lib/server/libjvm.so at 0x00007ffff5c35000
- * stack at sp + 1 slots: 0x000000000000000a is an unknown value
- * stack at sp + 2 slots: 0x00007fffb71a2950 points into unknown readable memory: 20 ac 62 aa ff 7f 00 00
- * stack at sp + 3 slots: 0x00007ffff0ca3800 is a thread
- * stack at sp + 4 slots: 0x00007fffaa62ac20 is pointing into the stack for thread: 0x0000000001b2a000
- * stack at sp + 5 slots: 0x0 is NULL
- * stack at sp + 6 slots: 0xe6e5c734e3f75200 is an unknown value
- * stack at sp + 7 slots: 0x00007fffb71a2970 points into unknown readable memory: a0 29 1a b7 ff 7f 00 00
+ * Periodic native trim disabled
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class StackSlotToMemoryMapping implements LogEvent {
-
-    /**
-     * Regular expression for the header.
-     * 
-     */
-    public static final String _REGEX_HEADER = "Stack slot to memory mapping:";
+public class PeriodicNativeTrim implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + StackSlotToMemoryMapping._REGEX_HEADER
-            + "|invoke return entry points|method entry point|native method entry point|return entry points|"
-            + "stack at sp|\\[error occurred during error reporting \\(inspecting top of stack\\)|\\[CodeBlob|\\{"
-            + JdkRegEx.ADDRESS + "\\} - klass:|"
-            // Header
-            + " - ---- (non-static |static )?fields |"
-            // No trailing colon
-            + " - (final|itable length|private|protected|public static final|static final|vtable length) |"
-            // Trailing colon
-            + " - (access|arrays|class annotations|class loader data|class type annotations|constants|default_methods|"
-            + "field annotations|field type annotations|generic signature|host class|inner classes|instance size|"
-            + "java mirror|klass size|length|local interfaces|methods|method ordering|name|nest members|"
-            + "non-static oop maps|source file|state|sub|super|trans. interfaces):"
-            //
-            + "| - '[a-zA-Z]+' |" + JdkRegEx.CLASS + "|BufferBlob|Framesize:|Runtime Stub|StubRoutines::).*$";
+    private static final String REGEX = "^Periodic native trim disabled$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -79,7 +46,7 @@ public class StackSlotToMemoryMapping implements LogEvent {
      * @return true if the log line matches the event pattern, false otherwise.
      */
     public static final boolean match(String logLine) {
-        return logLine.matches(REGEX) || logLine.matches(JdkRegEx.BLANK_LINE);
+        return logLine.matches(REGEX);
     }
 
     /**
@@ -93,7 +60,7 @@ public class StackSlotToMemoryMapping implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public StackSlotToMemoryMapping(String logEntry) {
+    public PeriodicNativeTrim(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -102,6 +69,6 @@ public class StackSlotToMemoryMapping implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString();
+        return JdkUtil.LogEventType.PERIODIC_NATIVE_TRIM.toString();
     }
 }

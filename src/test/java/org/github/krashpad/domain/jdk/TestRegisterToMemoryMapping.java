@@ -263,6 +263,15 @@ class TestRegisterToMemoryMapping {
     }
 
     @Test
+    void testNativeMethodEntryPoint() {
+        RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
+        String logLine = "native method entry point (kind = native)  [0x00007f1c63a8b560, 0x00007f1c63a8bfd0]  2672 "
+                + "bytes";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testNext() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = " - 'next' 'Ljava/util/HashMap$Node;' @24  a 'java/util/HashMap$Node'{0x00000000e9acd048} "
@@ -315,6 +324,14 @@ class TestRegisterToMemoryMapping {
     void testProtected() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = " - protected 'offset' 'J' @40  2820145160 (a8180008 0)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testR10() {
+        RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
+        String logLine = "R10=0x00007fc733a8b951 is at code_begin+1009 in an Interpreter codelet";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }

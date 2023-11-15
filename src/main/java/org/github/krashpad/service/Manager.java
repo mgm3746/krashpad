@@ -59,6 +59,7 @@ import org.github.krashpad.domain.jdk.NarrowKlass;
 import org.github.krashpad.domain.jdk.NativeMemoryTracking;
 import org.github.krashpad.domain.jdk.NumberEvent;
 import org.github.krashpad.domain.jdk.OsInfo;
+import org.github.krashpad.domain.jdk.PeriodicNativeTrim;
 import org.github.krashpad.domain.jdk.PidMax;
 import org.github.krashpad.domain.jdk.RegisterToMemoryMapping;
 import org.github.krashpad.domain.jdk.Rlimit;
@@ -76,6 +77,7 @@ import org.github.krashpad.domain.jdk.VmArguments;
 import org.github.krashpad.domain.jdk.VmInfo;
 import org.github.krashpad.domain.jdk.VmOperation;
 import org.github.krashpad.domain.jdk.VmState;
+import org.github.krashpad.domain.jdk.ZgcPhaseSwitchEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
@@ -195,6 +197,8 @@ public class Manager {
                         }
                     } else if (event instanceof OsInfo) {
                         fatalErrorLog.getOsInfos().add((OsInfo) event);
+                    } else if (event instanceof PeriodicNativeTrim) {
+                        fatalErrorLog.setPeriodicNativeTrim((PeriodicNativeTrim) event);
                     } else if (event instanceof PidMax) {
                         fatalErrorLog.setPidMax((PidMax) event);
                     } else if (event instanceof RegisterToMemoryMapping) {
@@ -245,6 +249,8 @@ public class Manager {
                         fatalErrorLog.setVmOperation((VmOperation) event);
                     } else if (event instanceof VmState) {
                         fatalErrorLog.setVmState((VmState) event);
+                    } else if (event instanceof ZgcPhaseSwitchEvent) {
+                        fatalErrorLog.getZgcPhaseSwitchEvents().add((ZgcPhaseSwitchEvent) event);
                     }
                     if (!(event instanceof BlankLine)) {
                         // throw away blank lines

@@ -962,6 +962,33 @@ class TestAnalysis {
     }
 
     @Test
+    void testGarbageCollectorsJvmOptionsMismatch() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UseG1GC";
+        VmArguments vmArgumentEvent = new VmArguments(jvm_args);
+        fel.getVmArguments().add(vmArgumentEvent);
+        // Test a combination not yet seen
+        Heap heapEvent1 = new Heap("Shenandoah Heap");
+        fel.getHeaps().add(heapEvent1);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_GC_IGNORED.getKey()),
+                org.github.joa.util.Analysis.INFO_GC_IGNORED + " analysis not identified.");
+        // Test real world
+        fel.getAnalysis().clear();
+        fel.getHeaps().clear();
+        Heap heapEvent2 = new Heap(
+                " PSYoungGen      total 611840K, used 524800K [0x00000000d5580000, 0x0000000100000000, "
+                        + "0x0000000100000000)");
+        fel.getHeaps().add(heapEvent2);
+        Heap heapEvent3 = new Heap(" ParOldGen       total 1398272K, used 16K [0x0000000080000000, 0x00000000d5580000, "
+                + "0x00000000d5580000)");
+        fel.getHeaps().add(heapEvent3);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_GC_IGNORED.getKey()),
+                org.github.joa.util.Analysis.INFO_GC_IGNORED + " analysis not identified.");
+    }
+
+    @Test
     void testGregorianCalendarComputeTimeJdk11() {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "Stack: [0x00007f3d8974c000,0x00007f3d8984d000],  sp=0x00007f3d8984af90,  free space=1019k";
@@ -2786,33 +2813,6 @@ class TestAnalysis {
         assertEquals("8.6", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
                 Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
-    }
-
-    @Test
-    void testGarbageCollectorsJvmOptionsMismatch() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xss128k -XX:+UseG1GC";
-        VmArguments vmArgumentEvent = new VmArguments(jvm_args);
-        fel.getVmArguments().add(vmArgumentEvent);
-        // Test a combination not yet seen
-        Heap heapEvent1 = new Heap("Shenandoah Heap");
-        fel.getHeaps().add(heapEvent1);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_GC_IGNORED.getKey()),
-                org.github.joa.util.Analysis.INFO_GC_IGNORED + " analysis not identified.");
-        // Test real world
-        fel.getAnalysis().clear();
-        fel.getHeaps().clear();
-        Heap heapEvent2 = new Heap(
-                " PSYoungGen      total 611840K, used 524800K [0x00000000d5580000, 0x0000000100000000, "
-                        + "0x0000000100000000)");
-        fel.getHeaps().add(heapEvent2);
-        Heap heapEvent3 = new Heap(" ParOldGen       total 1398272K, used 16K [0x0000000080000000, 0x00000000d5580000, "
-                + "0x00000000d5580000)");
-        fel.getHeaps().add(heapEvent3);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_GC_IGNORED.getKey()),
-                org.github.joa.util.Analysis.INFO_GC_IGNORED + " analysis not identified.");
     }
 
     @Test

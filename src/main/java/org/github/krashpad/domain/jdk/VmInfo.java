@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -74,7 +75,7 @@ public class VmInfo implements LogEvent {
      */
     private static final String REGEX = "^vm_info: (Java HotSpot\\(TM\\)|OpenJDK)( 64-Bit)? Server VM \\(.+\\) for "
             + "(linux|windows|solaris)-(amd64|ppc64|ppc64le|sparc|x86) JRE (\\(Zulu.+\\) )?\\(" + JdkRegEx.BUILD_STRING
-            + "\\).+ built on " + JdkRegEx.BUILD_DATE_TIME + ".+$";
+            + "\\).+ built on (" + JdkRegEx.BUILD_DATE_TIME + "|" + JdkRegEx.BUILD_DATE_TIME_21 + ").+$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -130,8 +131,20 @@ public class VmInfo implements LogEvent {
         Date date = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            date = ErrUtil.getDate(matcher.group(8), matcher.group(9), matcher.group(10), matcher.group(11),
-                    matcher.group(12), matcher.group(13));
+            if (matcher.group(8).matches(JdkRegEx.BUILD_DATE_TIME)) {
+                date = ErrUtil.getDate(matcher.group(9), matcher.group(10), matcher.group(11), matcher.group(12),
+                        matcher.group(13), matcher.group(14));
+            } else if (matcher.group(8).matches(JdkRegEx.BUILD_DATE_TIME_21)) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, Integer.valueOf(matcher.group(15)).intValue());
+                calendar.set(Calendar.MONTH, Integer.valueOf(matcher.group(16)).intValue() - 1);
+                calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(17)).intValue());
+                calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(matcher.group(18)).intValue());
+                calendar.set(Calendar.MINUTE, Integer.valueOf(matcher.group(19)).intValue());
+                calendar.set(Calendar.SECOND, Integer.valueOf(matcher.group(20)).intValue());
+                calendar.set(Calendar.MILLISECOND, 0);
+                date = calendar.getTime();
+            }
         }
         return date;
     }
@@ -184,7 +197,9 @@ public class VmInfo implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             int indexJdkVersion = 7;
-            if (matcher.group(indexJdkVersion).equals("17")) {
+            if (matcher.group(indexJdkVersion).equals("21")) {
+                version = JavaSpecification.JDK21;
+            } else if (matcher.group(indexJdkVersion).equals("17")) {
                 version = JavaSpecification.JDK17;
             } else if (matcher.group(indexJdkVersion).equals("12")) {
                 version = JavaSpecification.JDK12;

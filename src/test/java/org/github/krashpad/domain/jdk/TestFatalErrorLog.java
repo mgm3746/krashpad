@@ -544,6 +544,17 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testJdk21Lts() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (21.0.1+12-LTS) for linux-amd64 JRE (21.0.1+12-LTS), built "
+                + "on 2023-10-30T00:33:46Z by \"mockbuild\" with gcc 10.2.1 20210130 (Red Hat 10.2.1-11)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        assertEquals(JavaSpecification.JDK21, fel.getJavaSpecification(), "Java specification not correct.");
+        assertTrue(fel.isJdkLts(), "LTS release not identified.");
+    }
+
+    @Test
     void testJdk8NotRhVersion() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS: Windows 10.0 , 64 bit Build 17763 (10.0.17763.2028)";
@@ -1016,6 +1027,30 @@ class TestFatalErrorLog {
         fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("java-17-openjdk-17.0.8.0.7-2.el8.x86_64", fel.getRpmDirectory(), "Rpm directory not correct.");
+        assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
+                Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
+    }
+
+    @Test
+    void testRhel8RhBuildJdk21() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os1 = "OS:";
+        OsInfo osEvent1 = new OsInfo(os1);
+        fel.getOsInfos().add(osEvent1);
+        String os2 = "Red Hat Enterprise Linux release 8.9 (Ootpa)";
+        OsInfo osEvent2 = new OsInfo(os2);
+        fel.getOsInfos().add(osEvent2);
+        String dynamicLibrary = "7fc74b1ef000-7fc74b487000 r--p 00000000 fd:01 100949751                  "
+                + "/usr/lib/jvm/java-21-openjdk-21.0.1.0.12-2.el8.x86_64/lib/server/libjvm.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (21.0.1+12-LTS) for linux-amd64 JRE (21.0.1+12-LTS), built "
+                + "on 2023-10-30T00:33:46Z by \"mockbuild\" with gcc 10.2.1 20210130 (Red Hat 10.2.1-11)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("java-21-openjdk-21.0.1.0.12-2.el8.x86_64", fel.getRpmDirectory(), "Rpm directory not correct.");
         assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");

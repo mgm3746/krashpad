@@ -858,7 +858,13 @@ public class ErrUtil {
         return days.divideToIntegralValue(new BigDecimal(1000 * 60 * 60 * 24)).intValue();
     }
 
+    /**
+     * @param buildDate
+     *            The build date in {@link org.github.krashpad.util.jdk.JdkRegEx#BUILD_DATE_TIME} format.
+     * @return The build <code>Date</code>.
+     */
     public static final Date getDate(String buildDate) {
+        Date date = null;
         String MMM = null;
         String d = null;
         String yyyy = null;
@@ -874,8 +880,9 @@ public class ErrUtil {
             HH = matcher.group(4);
             mm = matcher.group(5);
             ss = matcher.group(6);
+            date = getDate(MMM, d, yyyy, HH, mm, ss);
         }
-        return getDate(MMM, d, yyyy, HH, mm, ss);
+        return date;
     }
 
     /**
@@ -899,7 +906,6 @@ public class ErrUtil {
         if (MMM == null || d == null || yyyy == null || HH == null || mm == null || ss == null) {
             throw new IllegalArgumentException("One or more date parts are missing.");
         }
-
         Calendar calendar = Calendar.getInstance();
         // Java Calendar month is 0 based
         switch (MMM) {
@@ -943,12 +949,35 @@ public class ErrUtil {
             throw new IllegalArgumentException("Unexpected month: " + MMM);
         }
         calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(d).intValue());
-        calendar.set(Calendar.YEAR, Integer.valueOf(yyyy));
+        calendar.set(Calendar.YEAR, Integer.valueOf(yyyy).intValue());
         calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(HH).intValue());
         calendar.set(Calendar.MINUTE, Integer.valueOf(mm).intValue());
         calendar.set(Calendar.SECOND, Integer.valueOf(ss).intValue());
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
+    }
+
+    /**
+     * @param buildDate
+     *            The build date in {@link org.github.krashpad.util.jdk.JdkRegEx#BUILD_DATE_TIME_21} format.
+     * @return The build <code>Date</code>.
+     */
+    public static final Date getDate21(String buildDate) {
+        Date date = null;
+        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATE_TIME_21);
+        Matcher matcher = pattern.matcher(buildDate);
+        if (matcher.find()) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, Integer.valueOf(matcher.group(1)).intValue());
+            calendar.set(Calendar.MONTH, Integer.valueOf(matcher.group(2)).intValue() - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(3)).intValue());
+            calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(matcher.group(4)).intValue());
+            calendar.set(Calendar.MINUTE, Integer.valueOf(matcher.group(5)).intValue());
+            calendar.set(Calendar.SECOND, Integer.valueOf(matcher.group(6)).intValue());
+            calendar.set(Calendar.MILLISECOND, 0);
+            date = calendar.getTime();
+        }
+        return date;
     }
 
     /**

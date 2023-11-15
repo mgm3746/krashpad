@@ -14,56 +14,45 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import java.util.Date;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.github.krashpad.util.ErrUtil;
-import org.github.krashpad.util.jdk.JdkRegEx;
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
- * <p>
- * JDK release information.
- * </p>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class Release {
+class TestZgcPhaseSwitchEvent {
 
-    /**
-     * Release build date.
-     */
-    private Date buildDate;
-
-    /**
-     * Release number (1..x).
-     */
-    private int number;
-
-    /**
-     * The release version string.
-     */
-    private String version;
-
-    public Release(String buildDate, int number, String version) {
-        super();
-        if (buildDate.matches(JdkRegEx.BUILD_DATE_TIME)) {
-            this.buildDate = ErrUtil.getDate(buildDate);
-        } else if (buildDate.matches(JdkRegEx.BUILD_DATE_TIME_21)) {
-            this.buildDate = ErrUtil.getDate21(buildDate);
-        }
-        this.number = number;
-        this.version = version;
+    @Test
+    void testHeader() {
+        String logLine = "ZGC Phase Switch (0 events):";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT,
+                JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT.toString() + " not identified.");
     }
 
-    public Date getBuildDate() {
-        return buildDate;
+    @Test
+    void testIdentity() {
+        ZgcPhaseSwitchEvent priorLogEvent = new ZgcPhaseSwitchEvent("ZGC Phase Switch (0 events):");
+        String logLine = "No events";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT,
+                JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT.toString() + " not identified.");
     }
 
-    public int getNumber() {
-        return number;
+    @Test
+    void testNoEventsLowercaseE() {
+        ZgcPhaseSwitchEvent priorLogEvent = new ZgcPhaseSwitchEvent("ZGC Phase Switch (0 events):");
+        String logLine = "No events";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT,
+                JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT.toString() + " not identified.");
     }
 
-    public String getVersion() {
-        return version;
+    @Test
+    void testParseLogLine() {
+        ZgcPhaseSwitchEvent priorLogEvent = new ZgcPhaseSwitchEvent("Internal exceptions (250 events):");
+        String logLine = "No events";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof ZgcPhaseSwitchEvent,
+                JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT.toString() + " not parsed.");
     }
 }

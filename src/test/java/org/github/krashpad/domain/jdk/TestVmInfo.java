@@ -184,6 +184,27 @@ class TestVmInfo {
     }
 
     @Test
+    void testJdk21() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (21.0.1+12-LTS) for linux-amd64 JRE (21.0.1+12-LTS), built "
+                + "on 2023-10-30T00:33:46Z by \"mockbuild\" with gcc 10.2.1 20210130 (Red Hat 10.2.1-11)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
+                JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(JavaSpecification.JDK21, ((VmInfo) event).getJavaSpecification(),
+                "Java specification not correct.");
+        Date buildDate = ((VmInfo) event).getBuildDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(buildDate);
+        // Java Calendar month is 0 based
+        assertEquals(9, calendar.get(Calendar.MONTH), "Start month not parsed correctly.");
+        assertEquals(30, calendar.get(Calendar.DAY_OF_MONTH), "Start day not parsed correctly.");
+        assertEquals(2023, calendar.get(Calendar.YEAR), "Start year not parsed correctly.");
+        assertEquals(0, calendar.get(Calendar.HOUR_OF_DAY), "Start hour not parsed correctly.");
+        assertEquals(33, calendar.get(Calendar.MINUTE), "Start minute not parsed correctly.");
+        assertEquals(46, calendar.get(Calendar.SECOND), "Start second not parsed correctly.");
+    }
+
+    @Test
     void testJdk7() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (24.51-b03) for linux-amd64 JRE (1.7.0_55-b13), built on "
                 + "Apr  9 2014 12:07:12 by \"mockbuild\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-4)";
@@ -195,13 +216,23 @@ class TestVmInfo {
     }
 
     @Test
-    void testJdkReleaseString() {
+    void testJdkReleaseStringJdk11() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (11.0.5+10-LTS) for linux-amd64 JRE (11.0.5+10-LTS), "
                 + "built on Oct  9 2019 18:41:22 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
                 JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
-        assertEquals("11.0.5+10-LTS", ((VmInfo) event).getJdkReleaseString(), "Version not correct.");
+        assertEquals("11.0.5+10-LTS", ((VmInfo) event).getJdkReleaseString(), "JDKrelease string not correct.");
+    }
+
+    @Test
+    void testJdkReleaseStringJdk21() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (21.0.1+12-LTS) for linux-amd64 JRE (21.0.1+12-LTS), built "
+                + "on 2023-10-30T00:33:46Z by \"mockbuild\" with gcc 10.2.1 20210130 (Red Hat 10.2.1-11)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
+                JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals("21.0.1+12-LTS", ((VmInfo) event).getJdkReleaseString(), "JDK release string not correct.");
     }
 
     @Test

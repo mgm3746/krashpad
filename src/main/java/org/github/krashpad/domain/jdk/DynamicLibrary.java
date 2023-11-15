@@ -74,6 +74,11 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class DynamicLibrary implements LogEvent, HeaderEvent {
 
     /**
+     * Regular expression for the footer.
+     */
+    public static final String _REGEX_FOOTER = "Total number of mappings: \\d{1,}";
+
+    /**
      * Regular expression for the header.
      */
     public static final String _REGEX_HEADER = "Dynamic libraries:";
@@ -83,10 +88,10 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS
-            + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE
-            + ")?[\\s]{0,}(((" + org.github.joa.util.JdkRegEx.FILE_PATH + ")( \\(deleted\\))?|[////]{0,}"
-            + JdkRegEx.AREA
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_FOOTER + "|(" + JdkRegEx.MEMORY_REGION + "|"
+            + JdkRegEx.ADDRESS + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS
+            + " " + JdkRegEx.INODE + ")?[\\s]{0,}(((" + org.github.joa.util.JdkRegEx.FILE_PATH
+            + ")( \\(deleted\\))?|[////]{0,}" + JdkRegEx.AREA
             + ")( \\(deleted\\))?)?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,})$";
 
     /**
