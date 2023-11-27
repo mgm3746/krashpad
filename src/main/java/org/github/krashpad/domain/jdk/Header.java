@@ -30,6 +30,10 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  * 
  * <h2>Example Logging</h2>
  * 
+ * <p>
+ * 1) Standard:
+ * </p>
+ * 
  * <pre>
  * #
  * # A fatal error has been detected by the Java Runtime Environment:
@@ -47,6 +51,10 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  * #   http://bugreport.java.com/bugreport/crash.jsp
  * #
  * </pre>
+ * 
+ * <p>
+ * 2) Insufficient memory:
+ * </p>
  * 
  * <pre>
  * #
@@ -73,6 +81,30 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  * #
  * </pre>
  * 
+ * <p>
+ * 3) Timeout:
+ * </p>
+ * 
+ * <pre>
+ * #
+ * # A fatal error has been detected by the Java Runtime Environment:
+ * #
+ * #  SIGSEGV (0xb) at pc=0x00007f8b949f02e3, pid=18099, tid=21918
+ * #
+ * # JRE version: Java(TM) SE Runtime Environment 18.9 (11.0.15.1+2) (build 11.0.15.1+2-LTS-10)
+ * # Java VM: Java HotSpot(TM) 64-Bit Server VM 18.9 (11.0.15.1+2-LTS-10, mixed mode, tiered, compressed oops, g1 gc, linux-amd64)
+ * # Problematic frame:
+ * # C  [libc.so.6+0x822e3]
+ * [timeout occurred during error reporting in step "printing problematic frame"] after 30 s.
+ * # No core dump will be written. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+ * #
+ * # If you would like to submit a bug report, please visit:
+ * #   https://bugreport.java.com/bugreport/crash.jsp
+ * # The crash happened outside the Java Virtual Machine in native code.
+ * # See problematic frame for where to report the bug.
+ * #
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -81,8 +113,9 @@ public class Header implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(#|\\[error occurred during error reporting \\(printing problematic "
-            + "frame\\), id 0x[a-z0-9]\\])(.*)?$";
+    private static final String REGEX = "^(#|\\[error occurred during error reporting \\(printing "
+            + "problematic frame\\), id 0x[a-z0-9]\\]|\\[timeout occurred during error reporting in step \"printing "
+            + "problematic frame\"] after \\d{1,} s)(.*)?$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -207,6 +240,13 @@ public class Header implements LogEvent {
         return logEntry.matches("^#  (" + SignalNumber.EXCEPTION_ACCESS_VIOLATION + "|"
                 + SignalNumber.EXCEPTION_STACK_OVERFLOW + "|" + SignalNumber.SIGBUS + "|" + SignalNumber.SIGFPE + "|"
                 + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV + ").+$");
+    }
+
+    /**
+     * @return True if the event is a timeout, false otherwise.
+     */
+    public boolean isTimeout() {
+        return logEntry.matches("^\\[timeout occurred during error reporting in step.+$");
     }
 
     /**

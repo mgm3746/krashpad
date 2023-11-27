@@ -206,7 +206,7 @@ public class FatalErrorLog {
     private List<InternalStatistic> internalStatistics;
 
     /**
-     * JVMOptions object.
+     * JvmOptions object.
      */
     private JvmOptions jvmOptions;
 
@@ -301,6 +301,11 @@ public class FatalErrorLog {
     private TimeElapsedTime timeElapsedTime;
 
     /**
+     * Timeout.
+     */
+    private List<Timeout> timeouts;
+
+    /**
      * JVM crash time timezone information in JDK8.
      */
     private Timezone timezone;
@@ -377,6 +382,7 @@ public class FatalErrorLog {
         stacks = new ArrayList<Stack>();
         stackSlotToMemoryMappings = new ArrayList<StackSlotToMemoryMapping>();
         threads = new ArrayList<Thread>();
+        timeouts = new ArrayList<Timeout>();
         unidentifiedLogLines = new ArrayList<String>();
         virtualizationInfos = new ArrayList<VirtualizationInfo>();
         vmArguments = new ArrayList<VmArguments>();
@@ -1419,6 +1425,20 @@ public class FatalErrorLog {
                     .multiply(org.github.joa.util.Constants.GIGABYTE);
             if (getOsMemTotal() > oneHundredTwentyEightGigabytes.longValue()) {
                 analysis.add(Analysis.WARN_MAX_RAM_LIMIT);
+            }
+        }
+        // Check for timeouts occurring during error reporting
+        if (!timeouts.isEmpty()) {
+            analysis.add(Analysis.ERROR_TIMEOUT);
+        } else if (!headers.isEmpty()) {
+            // Check header
+            Iterator<Header> iterator = headers.iterator();
+            while (iterator.hasNext()) {
+                Header he = iterator.next();
+                if (he.isTimeout()) {
+                    analysis.add(Analysis.ERROR_TIMEOUT);
+                    break;
+                }
             }
         }
     }
@@ -3305,6 +3325,10 @@ public class FatalErrorLog {
                     break;
                 }
             }
+        } else if (commandLine != null) {
+            if (commandLine.getJvmOptions() != null) {
+                jvmArgs = commandLine.getJvmOptions();
+            }
         }
         return jvmArgs;
     }
@@ -4615,6 +4639,10 @@ public class FatalErrorLog {
 
     public TimeElapsedTime getTimeElapsedTime() {
         return timeElapsedTime;
+    }
+
+    public List<Timeout> getTimeouts() {
+        return timeouts;
     }
 
     public Uname getUname() {

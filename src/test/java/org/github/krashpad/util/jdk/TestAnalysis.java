@@ -47,6 +47,7 @@ import org.github.krashpad.domain.jdk.StackSlotToMemoryMapping;
 import org.github.krashpad.domain.jdk.Thread;
 import org.github.krashpad.domain.jdk.Time;
 import org.github.krashpad.domain.jdk.TimeElapsedTime;
+import org.github.krashpad.domain.jdk.Timeout;
 import org.github.krashpad.domain.jdk.VmArguments;
 import org.github.krashpad.domain.jdk.VmInfo;
 import org.github.krashpad.domain.jdk.VmOperation;
@@ -3039,6 +3040,29 @@ class TestAnalysis {
                 Analysis.WARN_SWAPPING + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
                 Analysis.ERROR_JVM_DLL + " analysis not identified.");
+    }
+
+    @Test
+    void testTimeout() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String timeout = "[timeout occurred during error reporting in step \"printing summary machine and OS info\"] "
+                + "after 30 s.";
+        Timeout timeoutEvent = new Timeout(timeout);
+        fel.getTimeouts().add(timeoutEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_TIMEOUT.getKey()),
+                Analysis.ERROR_TIMEOUT + " analysis not identified.");
+    }
+
+    @Test
+    void testTimeoutHeader() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header = "[timeout occurred during error reporting in step \"printing problematic frame\"] after 30 s.";
+        Header headerEvent = new Header(header);
+        fel.getHeaders().add(headerEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_TIMEOUT.getKey()),
+                Analysis.ERROR_TIMEOUT + " analysis not identified.");
     }
 
     @Test

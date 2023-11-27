@@ -43,8 +43,16 @@ class TestVmOperationEvent {
 
     @Test
     void testG1CollectForAllocation() {
-        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 12.345 Executing VM operation: G1CollectForAllocation";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testGetAllStackTraces() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 70710.290 Executing VM operation: GetAllStackTraces";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
     }
@@ -67,14 +75,14 @@ class TestVmOperationEvent {
 
     @Test
     void testIdentity() {
-        String logLine = "VM Operations (0 events):";
+        String logLine = "VM Operations (1 events):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
     }
 
     @Test
     void testNoEventsLowercaseE() {
-        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "No events";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
@@ -82,7 +90,7 @@ class TestVmOperationEvent {
 
     @Test
     void testNoEventsUppercaseE() {
-        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "No Events";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
@@ -90,14 +98,14 @@ class TestVmOperationEvent {
 
     @Test
     void testParseLogLine() {
-        String logLine = "VM Operations (0 events):";
+        String logLine = "VM Operations (1 events):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
     }
 
     @Test
     void testPrintJni() {
-        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 54166.258 Executing VM operation: PrintJNI";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
@@ -105,15 +113,15 @@ class TestVmOperationEvent {
 
     @Test
     void testPrintThreads() {
-        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 54166.258 Executing VM operation: PrintThreads";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
     }
-
+    
     @Test
     void testZMarkEnd() {
-        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 54166.258 Executing VM operation: ZMarkEnd";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
@@ -121,7 +129,7 @@ class TestVmOperationEvent {
 
     @Test
     void testZRelocateStart() {
-        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (0 events):");
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 54166.258 Executing VM operation: ZRelocateStart";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");

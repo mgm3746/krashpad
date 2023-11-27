@@ -50,4 +50,11 @@ class TestHost {
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Host,
                 JdkUtil.LogEventType.HOST.toString() + " not parsed.");
     }
+
+    @Test
+    void testTruncated() {
+        String logLine = "Host: ";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HOST,
+                JdkUtil.LogEventType.HOST.toString() + " not identified.");
+    }
 }

@@ -667,6 +667,17 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testJvmArgsFromCommandLine() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvmArgs = "-Xmx2048m -Xmx12G -Xms1G";
+        String javaCommand = "";
+        String logLine = "Command Line: " + jvmArgs + " " + javaCommand;
+        CommandLine commandLineEvent = new CommandLine(logLine);
+        fel.setCommandLine(commandLineEvent);
+        assertEquals(jvmArgs, fel.getJvmArgs(), "JVM options not correct.");
+    }
+
+    @Test
     void testJvmUser() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
         Manager manager = new Manager();

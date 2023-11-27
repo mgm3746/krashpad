@@ -14,6 +14,9 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
@@ -36,6 +39,8 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * 
  */
 public class CommandLine implements LogEvent {
+
+    private static Pattern pattern = Pattern.compile(CommandLine.REGEX);
 
     /**
      * Regular expression defining the logging.
@@ -68,11 +73,50 @@ public class CommandLine implements LogEvent {
         this.logEntry = logEntry;
     }
 
+    /**
+     * @return The JVM options, or null if none exist.
+     */
+    public String getJvmOptions() {
+        String jvmArgs = null;
+        if (getValue() != null) {
+            String[] options = getValue().split(org.github.joa.util.JdkRegEx.JVM_OPTIONS);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < options.length; i++) {
+                if (i < options.length - 1) {
+                    sb.append(options[i]);
+                } else {
+                    // strip java command from last option
+                    Pattern opt = Pattern.compile("^( " + org.github.joa.util.JdkRegEx.JVM_OPTION + "[^ ]*)");
+                    Matcher matcher = opt.matcher(options[i]);
+                    if (matcher.find()) {
+                        sb.append(matcher.group(1));
+                    }
+                }
+            }
+            if (sb.length() > 0) {
+                jvmArgs = sb.toString();
+            }
+        }
+        return jvmArgs;
+    }
+
     public String getLogEntry() {
         return logEntry;
     }
 
     public String getName() {
         return JdkUtil.LogEventType.COMMAND_LINE.toString();
+    }
+
+    /**
+     * @return The value of the VM argument.
+     */
+    public String getValue() {
+        String value = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            value = matcher.group(1);
+        }
+        return value;
     }
 }

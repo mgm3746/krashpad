@@ -110,6 +110,14 @@ class TestHeader {
     }
 
     @Test
+    void testNoCoreDumpWillBeWritten() {
+        String logLine = "# No core dump will be written. Core dumps have been disabled. To enable core dumping, try "
+                + "\"ulimit -c unlimited\" before starting Java again";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
+    }
+
+    @Test
     void testOomeHeap() {
         String logLine = "#  fatal error: OutOfMemory encountered: Java heap space";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
@@ -157,7 +165,7 @@ class TestHeader {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);
-        assertTrue(headerEvent.isOutOf(), "Out of not identified.");
+        assertTrue(headerEvent.isOutOf(), "'Out of' not identified.");
     }
 
     @Test
@@ -255,6 +263,18 @@ class TestHeader {
         String logLine = "# This file is deprecated and will be removed in a future service pack or release.";
         assertFalse(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " incorrectly identified.");
+    }
+
+    @Test
+    void testTimeout() {
+        String priorLogLine = "# C  [libc.so.6+0x822e3]";
+        LogEvent priorEvent = new Header(priorLogLine);
+        String logLine = "[timeout occurred during error reporting in step \"printing problematic frame\"] after "
+                + "30 s.";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
+        Header headerEvent = new Header(logLine);
+        assertTrue(headerEvent.isTimeout(), "Timeout not identified.");
     }
 
     @Test

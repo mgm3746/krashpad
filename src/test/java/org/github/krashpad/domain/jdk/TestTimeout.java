@@ -14,81 +14,30 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
- * <p>
- * HOST
- * </p>
- * 
- * <p>
- * Host information.
- * </p>
- * 
- * <h2>Example Logging</h2>
- * 
- * <pre>
- * Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation release 7.4 (Maipo)
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class Host implements LogEvent {
+class TestTimeout {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^Host: (.+,.+,.+,(.+))?$";
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    @Test
+    void testIdentity() {
+        String logLine = "[timeout occurred during error reporting in step \"printing summary machine and OS info\"] "
+                + "after 30 s.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TIMEOUT,
+                JdkUtil.LogEventType.TIMEOUT.toString() + " not identified.");
     }
 
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public Host(String logEntry) {
-        this.logEntry = logEntry;
+    @Test
+    void testParseLogLine() {
+        String logLine = "[timeout occurred during error reporting in step \"printing summary machine and OS info\"] "
+                + "after 30 s.";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Timeout,
+                JdkUtil.LogEventType.TIMEOUT.toString() + " not parsed.");
     }
-
-    public String getLogEntry() {
-        return logEntry;
-    }
-
-    public String getName() {
-        return JdkUtil.LogEventType.HOST.toString();
-    }
-
-    public String getOsString() {
-        String osString = null;
-        if (logEntry != null) {
-            Pattern pattern = Pattern.compile(REGEX);
-            Matcher matcher = pattern.matcher(logEntry);
-            if (matcher.find() && matcher.group(2) != null) {
-                osString = matcher.group(2).trim();
-            }
-        }
-        return osString;
-    }
-
 }

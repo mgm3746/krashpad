@@ -98,6 +98,7 @@ import org.github.krashpad.domain.jdk.ThreadsClassSmrInfo;
 import org.github.krashpad.domain.jdk.ThreadsMax;
 import org.github.krashpad.domain.jdk.Time;
 import org.github.krashpad.domain.jdk.TimeElapsedTime;
+import org.github.krashpad.domain.jdk.Timeout;
 import org.github.krashpad.domain.jdk.Timezone;
 import org.github.krashpad.domain.jdk.TopOfStack;
 import org.github.krashpad.domain.jdk.TransparentHugepage;
@@ -240,11 +241,13 @@ public class JdkUtil {
         //
         SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE,
         //
-        THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE,
+        THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK,
         //
-        UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION,
+        TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX,
         //
-        VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
+        VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE,
+        //
+        ZGC_PHASE_SWITCH_EVENT
     }
 
     /**
@@ -879,6 +882,8 @@ public class JdkUtil {
             logEventType = LogEventType.THREADS_MAX;
         } else if (Time.match(logLine)) {
             logEventType = LogEventType.TIME;
+        } else if (Timeout.match(logLine)) {
+            logEventType = LogEventType.TIMEOUT;
         } else if (TimeElapsedTime.match(logLine)) {
             logEventType = LogEventType.TIME_ELAPSED_TIME;
         } else if (Timezone.match(logLine)) {
@@ -1239,6 +1244,9 @@ public class JdkUtil {
             break;
         case TIME:
             event = new Time(logLine);
+            break;
+        case TIMEOUT:
+            event = new Timeout(logLine);
             break;
         case TIME_ELAPSED_TIME:
             event = new TimeElapsedTime(logLine);

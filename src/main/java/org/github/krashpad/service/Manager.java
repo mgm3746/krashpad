@@ -70,6 +70,7 @@ import org.github.krashpad.domain.jdk.Thread;
 import org.github.krashpad.domain.jdk.ThreadsMax;
 import org.github.krashpad.domain.jdk.Time;
 import org.github.krashpad.domain.jdk.TimeElapsedTime;
+import org.github.krashpad.domain.jdk.Timeout;
 import org.github.krashpad.domain.jdk.Timezone;
 import org.github.krashpad.domain.jdk.Uname;
 import org.github.krashpad.domain.jdk.VirtualizationInfo;
@@ -225,6 +226,8 @@ public class Manager {
                         fatalErrorLog.setTime((Time) event);
                     } else if (event instanceof TimeElapsedTime) {
                         fatalErrorLog.setTimeElapsedTime((TimeElapsedTime) event);
+                    } else if (event instanceof Timeout) {
+                        fatalErrorLog.getTimeouts().add((Timeout) event);
                     } else if (event instanceof Timezone) {
                         fatalErrorLog.setTimezone((Timezone) event);
                     } else if (event instanceof Uname) {

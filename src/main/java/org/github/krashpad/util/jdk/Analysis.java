@@ -407,6 +407,11 @@ public enum Analysis {
     ERROR_STUBROUTINES("error.stubroutines"),
 
     /**
+     * Property key for timeout occurring during error reporting.
+     */
+    ERROR_TIMEOUT("error.timeout"),
+
+    /**
      * Property key for crash in Wily/DX APM code.
      */
     ERROR_WILY("error.wily"),

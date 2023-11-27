@@ -14,36 +14,40 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * HOST
+ * TIMEOUT
  * </p>
  * 
  * <p>
- * Host information.
+ * Timeout creating fatal error log.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
+ * <p>
+ * At end of truncated fatal error log:
+ * </p>
+ * 
  * <pre>
- * Host: Intel Core Processor (Skylake), 8 cores, 31G, Red Hat Enterprise Linux Workstation release 7.4 (Maipo)
+ * [timeout occurred during error reporting in step "printing summary machine and OS info"] after 30 s. 
+ * 
+ * ------ Timeout during error reporting after 120 s. ------
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class Host implements LogEvent {
+public class Timeout implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^Host: (.+,.+,.+,(.+))?$";
+    private static final String REGEX = "^(\\[timeout occurred during error reporting in step|"
+            + "------ Timeout during error reporting after).+$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -67,7 +71,7 @@ public class Host implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public Host(String logEntry) {
+    public Timeout(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -76,19 +80,6 @@ public class Host implements LogEvent {
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.HOST.toString();
+        return JdkUtil.LogEventType.TIMEOUT.toString();
     }
-
-    public String getOsString() {
-        String osString = null;
-        if (logEntry != null) {
-            Pattern pattern = Pattern.compile(REGEX);
-            Matcher matcher = pattern.matcher(logEntry);
-            if (matcher.find() && matcher.group(2) != null) {
-                osString = matcher.group(2).trim();
-            }
-        }
-        return osString;
-    }
-
 }
