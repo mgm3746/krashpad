@@ -34,6 +34,13 @@ class TestCdsArchive {
     }
 
     @Test
+    void testNotMapped() {
+        String logLine = "CDS archive(s) not mapped";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CdsArchive,
+                JdkUtil.LogEventType.CDS_ARCHIVE.toString() + " not parsed.");
+    }
+
+    @Test
     void testParseLogLine() {
         String logLine = "CDS archive(s) mapped at: [0x0000000800000000-0x0000000800be2000-0x0000000800be2000), size "
                 + "12460032, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.";

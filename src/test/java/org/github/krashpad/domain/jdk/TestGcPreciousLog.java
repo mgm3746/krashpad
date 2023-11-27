@@ -231,6 +231,13 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testStringDeduplication() {
+        String logLine = " String Deduplication is enabled";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testUncommit() {
         String logLine = " Uncommit: Implicitly Disabled (-Xms equals -Xmx)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,

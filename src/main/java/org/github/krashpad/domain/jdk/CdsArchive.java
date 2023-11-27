@@ -44,7 +44,7 @@ public class CdsArchive implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^CDS archive\\(s\\) mapped at:.*$";
+    private static final String REGEX = "^CDS archive\\(s\\) (mapped at:.*|not mapped)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

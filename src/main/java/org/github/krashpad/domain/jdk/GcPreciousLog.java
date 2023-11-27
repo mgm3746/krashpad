@@ -69,7 +69,7 @@ public class GcPreciousLog implements LogEvent, HeaderEvent {
             + "Card Set container configuration|Compressed Oops|CPUs|Heap Backing File(system)?|"
             + "Heap ((Initial|Min|Max) Capacity|Region Size)|Initial Capacity|Large Page Support|Max Capacity|"
             + "Medium Page Size|Memory|Min Capacity|NUMA Nodes|NUMA Support|Periodic GC|Pre-touch|"
-            + "(Concurrent( Refinement)?|Parallel) Workers|Runtime Workers|Uncommit):)).*$";
+            + "(Concurrent( Refinement)?|Parallel) Workers|Runtime Workers|Uncommit):| String Deduplication)).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

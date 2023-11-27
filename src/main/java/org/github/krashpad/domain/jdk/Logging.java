@@ -50,7 +50,9 @@ public class Logging implements LogEvent, ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|Log output configuration:| #\\d).*$";
+    private static final String REGEX = "^(" + _REGEX_HEADER
+            + "|(Available log decorators|Available log levels|Available log tags|Described tag sets|"
+            + "Log output configuration| logging):| #\\d).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
