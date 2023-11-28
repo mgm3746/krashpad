@@ -3077,6 +3077,9 @@ public class FatalErrorLog {
                 }
             }
         }
+        if (vendor == JavaVendor.UNIDENTIFIED && isRhVersion() && isOracleLinux()) {
+            vendor = JavaVendor.ORACLE;
+        }
         return vendor;
     }
 
@@ -5534,6 +5537,28 @@ public class FatalErrorLog {
             }
         }
         return isRhel;
+    }
+
+    /**
+     * @return true if the fatal error log was created on RHEL, false otherwise.
+     */
+    public boolean isOracleLinux() {
+        boolean isOracleLinux = false;
+        if (!osInfos.isEmpty()) {
+            Iterator<OsInfo> iterator = osInfos.iterator();
+            while (iterator.hasNext()) {
+                OsInfo event = iterator.next();
+                if (event.isHeader()) {
+                    if (event.getLogEntry().matches("^OS:$")) {
+                        // OS string on next line
+                        event = iterator.next();
+                    }
+                    isOracleLinux = event.getLogEntry().matches("^.*Oracle Linux Server release.+$");
+                    break;
+                }
+            }
+        }
+        return isOracleLinux;
     }
 
     /**

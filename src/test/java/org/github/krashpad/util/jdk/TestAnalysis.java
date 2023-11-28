@@ -53,6 +53,7 @@ import org.github.krashpad.domain.jdk.VmInfo;
 import org.github.krashpad.domain.jdk.VmOperation;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
+import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
 import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
@@ -1695,7 +1696,7 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
-        assertEquals(1188, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
+        assertEquals(1190, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
                 "Release days diff not correct.");
         assertEquals(15, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
                 "Release # diff not correct.");
@@ -2382,6 +2383,27 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
         assertEquals(17, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
+    void testOracleEnterpriseLinux() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Oracle Linux Server release 7.9";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.392-b08) for linux-amd64 JRE (1.8.0_392-b08), built on "
+                + "Oct 18 2023 15:26:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44.0.3)";
+        VmInfo vmEvent = new VmInfo(vm_info);
+        fel.setVmInfo(vmEvent);
+        String dynamicLibrary = "7f47f522b000-7f47f5fce000 r-xp 00000000 00:22 5274776                    "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.392.b08-2.el7_9.x86_64/jre/lib/amd64/server/libjvm.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
+                Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
+        assertTrue(fel.isOracleLinux(), "Oracle linux not identified.");
+        assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "Java vendor not correct.");
     }
 
     @Test
