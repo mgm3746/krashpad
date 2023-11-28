@@ -539,6 +539,11 @@ public enum Analysis {
     INFO_NATIVE_LIBRARIES_UNKNOWN("info.native.libraries.unknown"),
 
     /**
+     * Property key for VMware native libraries detected.
+     */
+    INFO_NATIVE_LIBRARIES_VMWARE("info.native.libraries.vmware"),
+
+    /**
      * Property key for OOME on startup when initial heap size equal to maximum heap size.
      */
     INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX("info.oome.startup.heap.min.equal.max"),

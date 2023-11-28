@@ -1378,6 +1378,10 @@ public class FatalErrorLog {
         if (!getNativeLibrariesTomcat().isEmpty()) {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_TOMCAT);
         }
+        // VMware native library detection
+        if (!getNativeLibrariesVmWare().isEmpty()) {
+            analysis.add(Analysis.INFO_NATIVE_LIBRARIES_VMWARE);
+        }
         // Check max_map_count limit
         if (!getDynamicLibraries().isEmpty()) {
             if (getMaxMapCountLimit() > 0) {
@@ -1536,6 +1540,20 @@ public class FatalErrorLog {
             } else if (item.getKey().equals(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
+                boolean punctuate = false;
+                while (iterator.hasNext()) {
+                    String library = iterator.next();
+                    if (punctuate) {
+                        s.append(", ");
+                    }
+                    s.append(library);
+                    punctuate = true;
+                }
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.INFO_NATIVE_LIBRARIES_VMWARE.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                Iterator<String> iterator = getNativeLibrariesVmWare().iterator();
                 boolean punctuate = false;
                 while (iterator.hasNext()) {
                     String library = iterator.next();
@@ -3882,6 +3900,8 @@ public class FatalErrorLog {
                         && !ErrUtil.NATIVE_LIBRARIES_ORACLE.contains(nativeLibary)
                         && !ErrUtil.NATIVE_LIBRARIES_TOMCAT
                                 .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                        && !ErrUtil.NATIVE_LIBRARIES_VMWARE
+                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
                         && !(ErrUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibary)
                                 && nativeLibraryPath.matches(ErrUtil.NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME + ".+"))
                         && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibary)) {
@@ -3890,6 +3910,25 @@ public class FatalErrorLog {
             }
         }
         return unidentifiedNativeLibraries;
+    }
+
+    /**
+     * @return VMware native libraries.
+     */
+    public List<String> getNativeLibrariesVmWare() {
+        List<String> vmWareNativeLibraries = new ArrayList<String>();
+        List<String> nativeLibraries = getNativeLibraries();
+        if (!nativeLibraries.isEmpty()) {
+            Iterator<String> iterator = nativeLibraries.iterator();
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && ErrUtil.NATIVE_LIBRARIES_VMWARE.contains(nativeLibrary)) {
+                    vmWareNativeLibraries.add(nativeLibraryPath);
+                }
+            }
+        }
+        return vmWareNativeLibraries;
     }
 
     /**
@@ -6125,6 +6164,9 @@ public class FatalErrorLog {
                     break;
                 }
             }
+        }
+        if (!isVMWareEnvironment && !getNativeLibrariesVmWare().isEmpty()) {
+            isVMWareEnvironment = true;
         }
         return isVMWareEnvironment;
     }

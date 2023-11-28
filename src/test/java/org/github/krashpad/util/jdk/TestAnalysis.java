@@ -1880,6 +1880,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE.getKey()),
                 Analysis.INFO_MICROSOFT_SQL_SERVER_NATIVE + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
 
     @Test
@@ -3171,6 +3172,22 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_HEAP_DUMP.getKey()),
                 Analysis.INFO_VM_OPERATION_HEAP_DUMP + " analysis not identified.");
+    }
+
+    @Test
+    void testVmWareNativeLibraries() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary1 = "0x0000000062a40000 - 0x0000000062aa1000         C:\\Windows\\SYSTEM32\\"
+                + "vmGuestLib.DLL";
+        DynamicLibrary dynamicLibraryEvent1 = new DynamicLibrary(dynamicLibrary1);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent1);
+        String dynamicLibrary2 = "0x00007ffaab4f0000 - 0x00007ffaab4fa000         C:\\Windows\\system32\\vsocklib.dll";
+        DynamicLibrary dynamicLibraryEvent2 = new DynamicLibrary(dynamicLibrary2);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VMWARE.getKey()), Analysis.INFO_VMWARE + " analysis not identified.");
+        assertEquals(2, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
 
     @Test

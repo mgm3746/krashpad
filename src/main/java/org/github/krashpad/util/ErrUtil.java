@@ -34,7 +34,7 @@ import org.github.krashpad.util.jdk.JdkRegEx;
 public class ErrUtil {
 
     /**
-     * JBoss native libaries.
+     * JBoss native libraries.
      */
     public static final List<String> NATIVE_LIBRARIES_JBOSS;
 
@@ -49,14 +49,19 @@ public class ErrUtil {
     public static final List<String> NATIVE_LIBRARIES_LINUX_JAVA;
 
     /**
-     * Oracle JDK native libaries.
+     * Oracle JDK native libraries.
      */
     public static final List<String> NATIVE_LIBRARIES_ORACLE;
 
     /**
-     * Tomcat native libaries.
+     * Tomcat native libraries.
      */
     public static final List<String> NATIVE_LIBRARIES_TOMCAT;
+
+    /**
+     * VMware native libraries.
+     */
+    public static final List<String> NATIVE_LIBRARIES_VMWARE;
 
     /**
      * Windows native libraries
@@ -64,7 +69,7 @@ public class ErrUtil {
     public static final List<String> NATIVE_LIBRARIES_WINDOWS;
 
     /**
-     * Java windows native libaries.
+     * Java windows native libraries.
      */
     public static final List<String> NATIVE_LIBRARIES_WINDOWS_JAVA;
 
@@ -80,9 +85,11 @@ public class ErrUtil {
             + "WinSxS\\\\amd64_microsoft\\.windows\\.common\\-controls_.+)\\\\";
 
     static {
+        // ***** JBOSS *****
         NATIVE_LIBRARIES_JBOSS = new ArrayList<String>();
         NATIVE_LIBRARIES_JBOSS.add("libartemis-native-64.so");
 
+        // ***** LINUX OS *****
         NATIVE_LIBRARIES_LINUX = new ArrayList<String>();
         // glibc-gconv-extra
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "EUC-JP.so");
@@ -583,6 +590,7 @@ public class ErrUtil {
         // p11-kit-trust
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "p11-kit-trust.so");
 
+        // ***** LINUX JAVA *****
         NATIVE_LIBRARIES_LINUX_JAVA = new ArrayList<String>();
         // java-(1.8.0|11|17)-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("libattach.so");
@@ -649,11 +657,13 @@ public class ErrUtil {
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libzip.so");
 
+        // ***** ORACLE *****
         NATIVE_LIBRARIES_ORACLE = new ArrayList<String>();
         // proprietary T2K font library
         NATIVE_LIBRARIES_ORACLE.add("libt2k.so");
         NATIVE_LIBRARIES_ORACLE.add("libt2k.dll");
 
+        // ***** TOMCAT *****
         NATIVE_LIBRARIES_TOMCAT = new ArrayList<String>();
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.dll");
         NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0");
@@ -667,6 +677,12 @@ public class ErrUtil {
         NATIVE_LIBRARIES_TOMCAT.add("libcrypto.so.1.1");
         NATIVE_LIBRARIES_TOMCAT.add("libssl.so.1.1");
 
+        // ***** VMWARE *****
+        NATIVE_LIBRARIES_VMWARE = new ArrayList<String>();
+        NATIVE_LIBRARIES_VMWARE.add("vmGuestLib.DLL");
+        NATIVE_LIBRARIES_VMWARE.add("vsocklib.dll");
+
+        // ***** WINDOWS OS *****
         NATIVE_LIBRARIES_WINDOWS = new ArrayList<String>();
         NATIVE_LIBRARIES_WINDOWS.add("AcLayers.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("apphelp.dll");
@@ -779,6 +795,7 @@ public class ErrUtil {
         NATIVE_LIBRARIES_WINDOWS.add("Wldp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("wshbth.dll");
 
+        // ***** WINDOWS JAVA *****
         NATIVE_LIBRARIES_WINDOWS_JAVA = new ArrayList<String>();
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("attach.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("awt.dll");
