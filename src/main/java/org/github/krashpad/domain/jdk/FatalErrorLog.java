@@ -2459,7 +2459,7 @@ public class FatalErrorLog {
         if (getGarbageCollectorsFromHeapEvents().size() > 0) {
             return getGarbageCollectorsFromHeapEvents();
         } else if (jvmOptions != null) {
-            return jvmOptions.getGarbageCollectors();
+            return jvmOptions.getExpectedGarbageCollectors();
         } else {
             ArrayList<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
             garbageCollectors.add(GarbageCollector.UNKNOWN);
