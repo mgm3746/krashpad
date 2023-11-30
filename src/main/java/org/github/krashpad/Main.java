@@ -145,10 +145,10 @@ public class Main {
                             + Constants.LINE_SEPARATOR);
                 }
             }
-            if (fel.getHugetlb() > 0) {
-                printWriter.write(
-                        "Huge Pages: " + JdkUtil.convertSize(fel.getHugetlb(), 'B', org.github.joa.util.Constants.UNITS)
-                                + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
+            if (fel.getHugePagesPoolSize() > 0) {
+                printWriter.write("Huge Pages Pool: "
+                        + JdkUtil.convertSize(fel.getHugePagesPoolSize(), 'B', org.github.joa.util.Constants.UNITS)
+                        + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
             }
             if (fel.getOsSwap() >= 0) {
                 printWriter
@@ -161,6 +161,11 @@ public class Main {
                             + JdkMath.calcPercent(fel.getOsSwapFree(), fel.getOsSwap()) + "%)"
                             + Constants.LINE_SEPARATOR);
                 }
+            }
+            if (fel.getAnonHugePages() >= 0) {
+                printWriter.write(
+                        "THP: " + JdkUtil.convertSize(fel.getAnonHugePages(), 'B', org.github.joa.util.Constants.UNITS)
+                                + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
             }
             if (fel.hasAnalysis(Analysis.INFO_CGROUP.getKey())) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);

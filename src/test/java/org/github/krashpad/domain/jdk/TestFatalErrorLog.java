@@ -79,6 +79,16 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testAnonHugePages() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String meminfo = "AnonHugePages:   5965824 kB";
+        Meminfo meminfoEvent = new Meminfo(meminfo);
+        fel.getMeminfos().add(meminfoEvent);
+        long anonHugePages = JdkUtil.convertSize(5965824, 'K', 'B');
+        assertEquals(anonHugePages, fel.getAnonHugePages(), "AnonHugePages not correct.");
+    }
+
+    @Test
     void testArchSparc() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset65.txt");
         Manager manager = new Manager();
@@ -497,6 +507,58 @@ class TestFatalErrorLog {
         assertEquals(jvmMemoryMax, fel.getJvmMemoryMax(), "Jvm memory max not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
+    void testHugepagesize() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String meminfo = "Hugepagesize:       2048 kB";
+        Meminfo meminfoEvent = new Meminfo(meminfo);
+        fel.getMeminfos().add(meminfoEvent);
+        long hugepagesize = JdkUtil.convertSize(2048, 'K', 'B');
+        assertEquals(hugepagesize, fel.getHugepagesize(), "Hugepagesize not correct.");
+    }
+
+    @Test
+    void testHugepagesize0() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String meminfo = "Hugepagesize:       0 kB";
+        Meminfo meminfoEvent = new Meminfo(meminfo);
+        fel.getMeminfos().add(meminfoEvent);
+        assertEquals(0, fel.getHugepagesize(), "Hugepagesize not correct.");
+    }
+
+    @Test
+    void testHugePagesPoolSize0Rhel7() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String meminfo1 = "Hugepagesize:       2048 kB";
+        Meminfo meminfoEvent1 = new Meminfo(meminfo1);
+        fel.getMeminfos().add(meminfoEvent1);
+        String meminfo2 = "HugePages_Total:   0";
+        Meminfo meminfoEvent2 = new Meminfo(meminfo2);
+        fel.getMeminfos().add(meminfoEvent2);
+        assertEquals(0, fel.getHugePagesPoolSize(), "Huge Pages Pool Size not correct.");
+    }
+
+    @Test
+    void testHugePagesPoolSizeRhel7() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String meminfo1 = "Hugepagesize:       2048 kB";
+        Meminfo meminfoEvent1 = new Meminfo(meminfo1);
+        fel.getMeminfos().add(meminfoEvent1);
+        String meminfo2 = "HugePages_Total:   696418";
+        Meminfo meminfoEvent2 = new Meminfo(meminfo2);
+        fel.getMeminfos().add(meminfoEvent2);
+        assertEquals(696418L * 2048L * 1024L, fel.getHugePagesPoolSize(), "Huge Pages Pool Size not correct.");
+    }
+
+    @Test
+    void testHugePagesTotal() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String meminfo = "HugePages_Total:   696418";
+        Meminfo meminfoEvent = new Meminfo(meminfo);
+        fel.getMeminfos().add(meminfoEvent);
+        assertEquals(696418L, fel.getHugePagesTotal(), "HugePages_Total not correct.");
     }
 
     @Test

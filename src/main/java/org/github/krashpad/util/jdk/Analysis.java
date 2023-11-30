@@ -118,6 +118,11 @@ public enum Analysis {
     ERROR_HASHMAP("error.hashmap"),
 
     /**
+     * Property key for the JVM configured to use huge pages, but the OS is not.
+     */
+    ERROR_HUGE_PAGES_JVM_OS_NONE("error.huge.pages.jvm.os.none"),
+
+    /**
      * Property key for a crash in iText I/O.
      */
     ERROR_ITEXT_IO("error.itext.io"),
@@ -820,6 +825,11 @@ public enum Analysis {
      * Property key for heap + metaspace &gt; physical memory (including swap).
      */
     WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP("warn.heap.plus.metaspace.gt.physical.memory.swap"),
+
+    /**
+     * Property key for the OS configured to use huge pages, but the JVM is not.
+     */
+    WARN_HUGE_PAGES_OS_JVM_NONE("warn.huge.pages.os.jvm.none"),
 
     /**
      * Property key for iText code in stack.

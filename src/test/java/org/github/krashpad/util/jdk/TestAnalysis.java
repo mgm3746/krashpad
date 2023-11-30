@@ -1064,6 +1064,31 @@ class TestAnalysis {
     }
 
     @Test
+    void testHugesPagesJvmOsNone() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G -XX:+UseLargePages";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_HUGE_PAGES_JVM_OS_NONE.getKey()),
+                Analysis.ERROR_HUGE_PAGES_JVM_OS_NONE + " analysis not identified.");
+    }
+
+    @Test
+    void testHugesPagesOsJvmNone() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String meminfo = "Hugetlb:         4194304 kB";
+        Meminfo meminfoEvent = new Meminfo(meminfo);
+        fel.getMeminfos().add(meminfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_HUGE_PAGES_OS_JVM_NONE.getKey()),
+                Analysis.WARN_HUGE_PAGES_OS_JVM_NONE + " analysis not identified.");
+    }
+
+    @Test
     void testIbmToolkit() {
         FatalErrorLog fel = new FatalErrorLog();
         String dynamicLibrary = "7fff46c40000-7fff46c80000 r--s 00520000 fd:0a 67109322                   "

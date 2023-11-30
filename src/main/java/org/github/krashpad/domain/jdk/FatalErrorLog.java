@@ -1445,6 +1445,19 @@ public class FatalErrorLog {
                 }
             }
         }
+        // Large pages mismatch between JVM and OS
+        if (getJvmOptions() != null && (JdkUtil.isOptionEnabled(getJvmOptions().getUseLargePages())
+                || JdkUtil.isOptionEnabled(getJvmOptions().getUseHugeTLBFS()))) {
+            // JVM is configured to use huge pages
+            if (getHugePagesPoolSize() <= 0) {
+                analysis.add(Analysis.ERROR_HUGE_PAGES_JVM_OS_NONE);
+            }
+        } else {
+            // JVM is not configured to use huge pages
+            if (getHugePagesPoolSize() > 0) {
+                analysis.add(Analysis.WARN_HUGE_PAGES_OS_JVM_NONE);
+            }
+        }
     }
 
     /**
@@ -1698,6 +1711,29 @@ public class FatalErrorLog {
             }
         }
         return literal;
+    }
+
+    /**
+     * The total Transparent Huge Pages (THP) used in bytes.
+     * 
+     * @return The total Transparent Huge Pages (THP) used in bytes.
+     */
+    public long getAnonHugePages() {
+        long anonHugePages = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regex = "AnonHugePages:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regex);
+            Iterator<Meminfo> iterator = meminfos.iterator();
+            while (iterator.hasNext()) {
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    anonHugePages = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    break;
+                }
+            }
+        }
+        return anonHugePages;
     }
 
     /**
@@ -2843,15 +2879,79 @@ public class FatalErrorLog {
     }
 
     /**
-     * The total amount of memory consumed by huge pages in bytes.
+     * The huge page size.
      * 
-     * @return The total amount of memory consumed by huge pages in bytes.
+     * @return The huge page size in bytes.
+     */
+    public long getHugepagesize() {
+        long hugepagesize = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regex = "Hugepagesize:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regex);
+            Iterator<Meminfo> iterator = meminfos.iterator();
+            while (iterator.hasNext()) {
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    hugepagesize = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    break;
+                }
+            }
+        }
+        return hugepagesize;
+    }
+
+    /**
+     * The huge pages memory pool size in bytes.
+     * 
+     * 
+     * @return The huge pages memory pool size in bytes.
+     */
+    public long getHugePagesPoolSize() {
+        long hugePagesPoolSize = Long.MIN_VALUE;
+        if (getHugetlb() > 0) {
+            hugePagesPoolSize = getHugetlb();
+        } else if (getHugePagesTotal() >= 0 && getHugepagesize() >= 0) {
+            BigDecimal calc = new BigDecimal(getHugePagesTotal());
+            calc = calc.multiply(new BigDecimal(getHugepagesize()));
+            hugePagesPoolSize = calc.longValue();
+        }
+        return hugePagesPoolSize;
+    }
+
+    /**
+     * The total number of huge pages.
+     * 
+     * @return The total number of huge pages.
+     */
+    public long getHugePagesTotal() {
+        long hugePagesTotal = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regex = "HugePages_Total:[ ]{0,}(\\d{1,})";
+            Pattern pattern = Pattern.compile(regex);
+            Iterator<Meminfo> iterator = meminfos.iterator();
+            while (iterator.hasNext()) {
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    hugePagesTotal = Long.parseLong(matcher.group(1));
+                    break;
+                }
+            }
+        }
+        return hugePagesTotal;
+    }
+
+    /**
+     * The huge pages pool size in bytes. A convenience field in RHEL8 that is not available in earlier RHEL.
+     * 
+     * @return The huge pages pool size in bytes.
      */
     public long getHugetlb() {
         long hugetlb = Long.MIN_VALUE;
         if (!meminfos.isEmpty()) {
-            String regexCommitLimit = "Hugetlb:[ ]{0,}(\\d{1,}) kB";
-            Pattern pattern = Pattern.compile(regexCommitLimit);
+            String regex = "Hugetlb:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regex);
             Iterator<Meminfo> iterator = meminfos.iterator();
             while (iterator.hasNext()) {
                 Meminfo event = iterator.next();
@@ -5268,6 +5368,28 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return true if the fatal error log was created on RHEL, false otherwise.
+     */
+    public boolean isOracleLinux() {
+        boolean isOracleLinux = false;
+        if (!osInfos.isEmpty()) {
+            Iterator<OsInfo> iterator = osInfos.iterator();
+            while (iterator.hasNext()) {
+                OsInfo event = iterator.next();
+                if (event.isHeader()) {
+                    if (event.getLogEntry().matches("^OS:$")) {
+                        // OS string on next line
+                        event = iterator.next();
+                    }
+                    isOracleLinux = event.getLogEntry().matches("^.*Oracle Linux Server release.+$");
+                    break;
+                }
+            }
+        }
+        return isOracleLinux;
+    }
+
+    /**
      * Try to determine if overcommit is disabled ((vm.overcommit_memory=2). This cannot be determined directly because
      * kernel flags are not output to the fatal error log (i.e. there can be false negatives).
      * 
@@ -5537,28 +5659,6 @@ public class FatalErrorLog {
             }
         }
         return isRhel;
-    }
-
-    /**
-     * @return true if the fatal error log was created on RHEL, false otherwise.
-     */
-    public boolean isOracleLinux() {
-        boolean isOracleLinux = false;
-        if (!osInfos.isEmpty()) {
-            Iterator<OsInfo> iterator = osInfos.iterator();
-            while (iterator.hasNext()) {
-                OsInfo event = iterator.next();
-                if (event.isHeader()) {
-                    if (event.getLogEntry().matches("^OS:$")) {
-                        // OS string on next line
-                        event = iterator.next();
-                    }
-                    isOracleLinux = event.getLogEntry().matches("^.*Oracle Linux Server release.+$");
-                    break;
-                }
-            }
-        }
-        return isOracleLinux;
     }
 
     /**
