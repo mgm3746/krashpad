@@ -53,7 +53,6 @@ import org.github.krashpad.domain.jdk.VmInfo;
 import org.github.krashpad.domain.jdk.VmOperation;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
-import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
 import org.github.krashpad.util.ErrUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
