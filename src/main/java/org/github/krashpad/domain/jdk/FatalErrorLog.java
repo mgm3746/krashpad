@@ -1447,7 +1447,8 @@ public class FatalErrorLog {
         }
         // Large pages mismatch between JVM and OS
         if (getJvmOptions() != null && (JdkUtil.isOptionEnabled(getJvmOptions().getUseLargePages())
-                || JdkUtil.isOptionEnabled(getJvmOptions().getUseHugeTLBFS()))) {
+                || JdkUtil.isOptionEnabled(getJvmOptions().getUseHugeTLBFS())
+                || JdkUtil.isOptionEnabled(getJvmOptions().getUseLargePagesInMetaspace()))) {
             // JVM is configured to use explicit huge pages
             if (getExplicitHugePagesPoolSize() <= 0) {
                 analysis.add(Analysis.ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO);

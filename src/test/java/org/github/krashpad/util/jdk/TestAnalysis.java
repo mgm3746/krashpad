@@ -818,9 +818,20 @@ class TestAnalysis {
     }
 
     @Test
-    void testExplicitHugePagesJvmYesOsNo() {
+    void testExplicitHugePagesJvmYesOsNoHeap() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xmx10G -XX:+UseLargePages";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO.getKey()),
+                Analysis.ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO + " analysis not identified.");
+    }
+
+    @Test
+    void testExplicitHugePagesJvmYesOsNoMetaspace() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G -XX:+UseLargePagesInMetaspace";
         VmArguments event = new VmArguments(jvm_args);
         fel.getVmArguments().add(event);
         fel.doAnalysis();
