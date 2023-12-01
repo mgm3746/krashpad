@@ -750,6 +750,21 @@ public enum Analysis {
     INFO_SWAPPING("info.swapping"),
 
     /**
+     * Property key for Linux kernel Transparent Huge Pages (THP) support set to 'always'.
+     */
+    INFO_THP_ALWAYS("info.thp.always"),
+
+    /**
+     * Property key for Linux kernel Transparent Huge Pages (THP) support set to 'madvise'.
+     */
+    INFO_THP_MADVISE("info.thp.madvise"),
+
+    /**
+     * Property key for Linux kernel Transparent Huge Pages (THP) support disabled.
+     */
+    INFO_THP_NEVER("info.thp.never"),
+
+    /**
      * Property key for many threads (&gt;1,000).
      */
     INFO_THREADS_MANY("info.threads.many"),
@@ -914,6 +929,11 @@ public enum Analysis {
     WARN_SWAPPING("warn.swapping"),
 
     /**
+     * Property key forthe OS configured to use Transparent Huge Pages (THP), but the JVM is not.
+     */
+    WARN_THP_OS_YES_JVM_NO("warn.thp.os.yes.jvm.no"),
+
+    /**
      * Property key for many threads (&gt;5,000).
      */
     WARN_THREADS_MANY("warn.threads.many"),
@@ -922,6 +942,12 @@ public enum Analysis {
      * Property key for unidentified line(s) needing reporting.
      */
     WARN_UNIDENTIFIED_LOG_LINE("warn.unidentified.log.line"),
+
+    /**
+     * Property key for -XX:+UseTransparentHugePages ignored because Transparent Huge Pages (THP) support is not set to
+     * 'madvise' in the Linux kernel.
+     */
+    WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED("warn.use.transparent.huge.pages.ignored"),
 
     /**
      * Property key for a crash happening during a thread dump operation initiated by an external tool calling the JVM

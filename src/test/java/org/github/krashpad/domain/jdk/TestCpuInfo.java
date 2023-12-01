@@ -154,6 +154,14 @@ class TestCpuInfo {
     }
 
     @Test
+    void testCitextacheAlignment() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "citextache_alignment  : 64";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testClflushSize() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "clflush size    : 64";

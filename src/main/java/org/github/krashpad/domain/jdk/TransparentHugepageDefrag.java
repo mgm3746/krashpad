@@ -16,24 +16,20 @@ package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * TRANSPARENT_HUGEPAGE
+ * TRANSPARENT_HUGEPAGE_DEFRAG
  * </p>
  * 
  * <p>
- * Transparent hugepage information.
+ * Transparent hugepage defrag information.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * /sys/kernel/mm/transparent_hugepage/enabled:
- * [always] madvise never
- * 
  * /sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter):
  * always defer defer+madvise [madvise] never
  * </pre>
@@ -41,19 +37,21 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class TransparentHugepage implements LogEvent, ThrowAwayEvent, HeaderEvent {
+public class TransparentHugepageDefrag implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "/sys/kernel/mm/transparent_hugepage/"
-            + "(defrag \\(defrag/compaction efforts parameter\\)|enabled):";
+    public static final String _REGEX_HEADER = "/sys/kernel/mm/transparent_hugepage/defrag "
+            + "\\(defrag/compaction efforts parameter\\):";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_HEADER
-            + " [\\[]{0,1}always\\]{0,1} .+|[\\[]{0,1}always\\]{0,1} .+)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|(" + _REGEX_HEADER
+            + " )?(\\[always\\] defer defer\\+madvise madvise never|always \\[defer\\] defer\\+madvise madvise never|"
+            + "always defer \\[defer\\+madvise\\] madvise never|always defer defer\\+madvise \\[madvise\\] never|"
+            + "always defer defer\\+madvise madvise \\[never\\]))$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -77,7 +75,7 @@ public class TransparentHugepage implements LogEvent, ThrowAwayEvent, HeaderEven
      * @param logEntry
      *            The log entry for the event.
      */
-    public TransparentHugepage(String logEntry) {
+    public TransparentHugepageDefrag(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -86,7 +84,7 @@ public class TransparentHugepage implements LogEvent, ThrowAwayEvent, HeaderEven
     }
 
     public String getName() {
-        return JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE.toString();
+        return JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG.toString();
     }
 
     @Override
@@ -97,4 +95,5 @@ public class TransparentHugepage implements LogEvent, ThrowAwayEvent, HeaderEven
         }
         return isHeader;
     }
+
 }

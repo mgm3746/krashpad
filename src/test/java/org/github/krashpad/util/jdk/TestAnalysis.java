@@ -48,6 +48,7 @@ import org.github.krashpad.domain.jdk.Thread;
 import org.github.krashpad.domain.jdk.Time;
 import org.github.krashpad.domain.jdk.TimeElapsedTime;
 import org.github.krashpad.domain.jdk.Timeout;
+import org.github.krashpad.domain.jdk.TransparentHugepageEnabled;
 import org.github.krashpad.domain.jdk.VmArguments;
 import org.github.krashpad.domain.jdk.VmInfo;
 import org.github.krashpad.domain.jdk.VmOperation;
@@ -70,6 +71,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset17.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_LINUX_ZIP.getKey()),
                 Analysis.INFO_RH_BUILD_LINUX_ZIP + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_ADOPTOPENJDK_POSSIBLE.getKey()),
@@ -219,6 +221,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset34.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_STORAGE_AWS.getKey()),
                 Analysis.INFO_STORAGE_AWS + " analysis not identified.");
     }
@@ -297,6 +300,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset35.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.PAR_NEW),
@@ -385,6 +389,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset72.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS.getKey()),
@@ -446,6 +451,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset87.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL.getKey()),
@@ -459,6 +465,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset76.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL.getKey()),
@@ -472,6 +479,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset47.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP.getKey()), Analysis.INFO_CGROUP + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_MEMORY_JVM_NE_SYSTEM.getKey()),
                 Analysis.INFO_MEMORY_JVM_NE_SYSTEM + " analysis not identified.");
@@ -551,6 +559,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset33.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_JVM_STARTUP_FAILS.getKey()),
                 Analysis.INFO_JVM_STARTUP_FAILS + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGSEGV.getKey()),
@@ -682,6 +691,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset24.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(Application.JBOSS_EAP7, fel.getApplication(), "Application not correct.");
         assertEquals("v  ~StubRoutines::jbyte_disjoint_arraycopy", fel.getStackFrameTop(),
                 "To stack frame not correct.");
@@ -724,6 +734,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_DYNATRACE.getKey()),
                 Analysis.WARN_DYNATRACE + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -735,6 +746,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset78.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_LIBC_CFREE.getKey()),
                 Analysis.ERROR_JDK8_LIBC_CFREE + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -876,6 +888,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset58.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey()),
                 Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -887,6 +900,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset75.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JVM.getKey()),
                 Analysis.ERROR_OOME_JVM + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP.getKey()),
@@ -927,6 +941,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset54.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE.getKey()),
                 Analysis.ERROR_FREETYPE_FONT_SCALER_GET_GLYPH_IMAGE_NATIVE + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -938,6 +953,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset60.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         String stackFrame1 = "V  [libjvm.so+0x5b4ab3]  G1ParScanThreadState::copy_to_survivor_space(InCSetState, "
                 + "oopDesc*, markOopDesc*)+0x2e3";
         String stackFrame2 = "V  [libjvm.so+0x5b54ae]  G1ParScanThreadState::trim_queue()+0x59e";
@@ -1056,6 +1072,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset86.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_GREGORIANCALENDAR_COMPUTETIME.getKey()),
                 Analysis.ERROR_GREGORIANCALENDAR_COMPUTETIME + " analysis not identified.");
     }
@@ -1092,6 +1109,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset56.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING.getKey()),
                 org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -1115,6 +1133,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset27.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.isRhBuildOpenJdk(), "RH build of OpenJDK incorrectly identified.");
         long physicalMemory = JdkUtil.convertSize(15995796, 'K', 'B');
         assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
@@ -1195,6 +1214,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset43.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
                 Analysis.ERROR_ITEXT_IO + " analysis not identified.");
@@ -1207,6 +1227,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset17.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
                 Analysis.ERROR_ITEXT_IO + " analysis not identified.");
@@ -1355,6 +1376,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset59.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         String stackFrameTopCompiledJavaCode = "J 3602  java.util.zip.Deflater.deflateBytes(J[BIII)I (0 bytes) @ "
                 + "0x00007f641d41accd [0x00007f641d41ac00+0xcd]";
@@ -1433,6 +1455,8 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset23.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        // "MGM was here!" used for testing purposes
+        assertEquals(1, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         String stackFrameTopCompiledJavaCode = "J 302  java.util.zip.ZipFile.getEntry(J[BZ)J (0 bytes) @ "
                 + "0x00007fa287303dce [0x00007fa287303d00+0xce]";
@@ -1480,6 +1504,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset18.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_LINUX_ZIP.getKey()),
                 Analysis.INFO_RH_BUILD_LINUX_ZIP + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS.getKey()),
@@ -1519,6 +1544,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_JFR.getKey()),
                 org.github.joa.util.Analysis.INFO_JFR + " analysis not identified.");
     }
@@ -1551,6 +1577,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset52.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JFR_PD_GET_TOP_FRAME.getKey()),
                 Analysis.ERROR_JFR_PD_GET_TOP_FRAME + " analysis not identified.");
     }
@@ -1592,6 +1619,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset84.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(Application.CASSANDRA, fel.getApplication(), "Application not correct.");
         assertTrue(fel.isJnaCrash(), "JNA crash not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JNA_FFI_PREP_CLOSURE_LOC.getKey()),
@@ -1632,6 +1660,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset22.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         String stackFrame1 = "C  [jna8588255081773605818.tmp+0x13c480]  CkMultiByteBase::nextIdx()+0x10";
         String stackFrame2 = "j  com.sun.jna.Native.invokePointer(Lcom/sun/jna/Function;JI[Ljava/lang/Object;)J+0";
         assertEquals(stackFrame1, fel.getStackFrame(1), "Stack frame 1 not correct.");
@@ -1729,6 +1758,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset14.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
         assertEquals(1190, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
@@ -1755,6 +1785,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset46.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_LIBAIO_CONTEXT_DONE.getKey()),
                 Analysis.ERROR_LIBAIO_CONTEXT_DONE + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -1902,6 +1933,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset73.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK.getKey()),
                 Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK + " analysis not identified.");
     }
@@ -1994,6 +2026,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset82.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS.getKey()),
                 Analysis.ERROR_MODULE_ENTRY_PURGE_READS + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE.getKey()),
@@ -2056,6 +2089,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset1.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_SWAP_DISABLED.getKey()),
                 Analysis.INFO_SWAP_DISABLED + " analysis incorrectly identified.");
     }
@@ -2065,6 +2099,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset49.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_STACK_NO_VM_CODE.getKey()),
                 Analysis.INFO_STACK_NO_VM_CODE + " analysis incorrectly identified.");
     }
@@ -2074,6 +2109,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset16.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(JavaSpecification.JDK12, fel.getJavaSpecification(), "Java specification not correct.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LTS.getKey()),
                 Analysis.WARN_JDK_NOT_LTS + " analysis not identified.");
@@ -2086,6 +2122,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset51.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_POINTER_NULL.getKey()),
                 Analysis.ERROR_POINTER_NULL + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -2129,6 +2166,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset67.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_AMQ_CLI.getKey()),
                 Analysis.ERROR_OOME_AMQ_CLI + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -2140,6 +2178,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset79.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE.getKey()),
                 Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL.getKey()),
@@ -2153,6 +2192,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset80.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL.getKey()),
@@ -2164,6 +2204,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset42.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
         assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
         assertEquals(Long.MIN_VALUE, fel.getMemoryAllocation(), "Memory allocation not correct.");
@@ -2179,6 +2220,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset36.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_THROWN_JAVA_HEAP.getKey()),
                 Analysis.ERROR_OOME_THROWN_JAVA_HEAP + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGSEGV.getKey()),
@@ -2194,6 +2236,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset29.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isError("Out of Memory Error"), "Out Of Memory Error not identified.");
         long physicalMemory = JdkUtil.convertSize(24609684, 'K', 'B');
         assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
@@ -2226,6 +2269,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset83.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(Application.WILDFLY, fel.getApplication(), "Application not correct.");
         assertEquals(8304, fel.getJavaThreadCount(JdkRegEx.WILDFLY_EXECUTOR_POOL_THREAD),
                 "JBoss EAP executor pool thread count not correct.");
@@ -2246,6 +2290,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset71.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(JavaVendor.AZUL, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(Application.JBOSS_VERSION, fel.getApplication(), "Application not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JBOSS_VERSION.getKey()),
@@ -2257,6 +2302,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset61.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         StringBuilder error = new StringBuilder();
         error.append("# There is insufficient memory for the Java Runtime Environment to continue.");
         error.append(Constants.LINE_SEPARATOR);
@@ -2280,6 +2326,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset57.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT.getKey()),
                 Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -2343,6 +2390,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis not identified.");
     }
@@ -2352,6 +2400,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset56.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_OPTS_NONE.getKey()),
                 Analysis.INFO_OPTS_NONE + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL_STARTUP.getKey()),
@@ -2363,6 +2412,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset66.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()),
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
@@ -2376,6 +2426,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset81.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()),
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
@@ -2391,6 +2442,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset62.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_OOM_G1.getKey()), Analysis.WARN_OOM_G1 + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_SWAP_DISABLED_G1.getKey()),
                 Analysis.WARN_SWAP_DISABLED_G1 + " analysis not identified.");
@@ -2403,6 +2455,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset68.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN.getKey()),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -2414,6 +2467,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset63.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN.getKey()),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
         assertEquals(17, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -2591,6 +2645,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset88.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
         assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
         assertEquals(12288, fel.getMemoryAllocation(), "Memory allocation not correct.");
@@ -2607,6 +2662,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset89.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100.getKey()),
                 Analysis.ERROR_OOME_OVERCOMMIT_LIMIT + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT.getKey()),
@@ -2618,6 +2674,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.PARALLEL_SCAVENGE),
@@ -2631,6 +2688,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset30.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isError("Out of Memory Error"), "Out Of Memory Error not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_STARTUP.getKey()),
                 Analysis.ERROR_OOME_LIMIT_STARTUP + " analysis not identified.");
@@ -2750,6 +2808,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset32.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_PTHREAD_GETCPUCLOCKID.getKey()),
                 Analysis.ERROR_PTHREAD_GETCPUCLOCKID + " analysis not identified.");
     }
@@ -2759,6 +2818,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset45.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED.getKey()),
                 org.github.joa.util.Analysis.ERROR_REMOTE_DEBUGGING_ENABLED + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_VMWARE.getKey()), Analysis.INFO_VMWARE + " analysis not identified.");
@@ -2809,6 +2869,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset19.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -2879,6 +2940,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset69.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le", fel.getRpmDirectory(),
                 "Rpm directory not correct.");
         assertEquals("8.4", fel.getRhelVersion(), "RHEL version not correct.");
@@ -2940,6 +3002,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset15.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
@@ -2971,6 +3034,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset31.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH),
@@ -2986,6 +3050,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset44.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK.getKey()),
                 Analysis.ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -2997,6 +3062,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset39.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_SI_KERNEL.getKey()),
                 Analysis.INFO_SIGCODE_SI_KERNEL + " analysis not identified.");
     }
@@ -3045,6 +3111,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset37.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE.getKey()),
                 Analysis.INFO_STACK_FREESPACE_GT_STACK_SIZE + " analysis not identified.");
     }
@@ -3054,6 +3121,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset35.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_STACKOVERFLOW.getKey()),
                 Analysis.ERROR_STACKOVERFLOW + " analysis not identified.");
     }
@@ -3071,6 +3139,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset28.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.isRhBuildOpenJdk(), "RH build of OpenJDK incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_SWAP_DISABLED.getKey()),
                 Analysis.INFO_SWAP_DISABLED + " analysis not identified.");
@@ -3083,6 +3152,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset11.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_SWAPPING.getKey()),
                 Analysis.INFO_SWAPPING + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -3094,6 +3164,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset12.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_SWAPPING.getKey()),
                 Analysis.WARN_SWAPPING + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
@@ -3138,10 +3209,60 @@ class TestAnalysis {
     }
 
     @Test
+    void testTransparentHugePagesAlways() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String transparentHugepageEnabled = "[always] madvise never";
+        TransparentHugepageEnabled event = new TransparentHugepageEnabled(transparentHugepageEnabled);
+        fel.getTransparentHugepageEnableds().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_THP_ALWAYS.getKey()),
+                Analysis.INFO_THP_ALWAYS + " analysis not identified.");
+    }
+
+    @Test
+    void testTransparentHugePagesMadvise() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String transparentHugepageEnabled = "always [madvise] never";
+        TransparentHugepageEnabled event = new TransparentHugepageEnabled(transparentHugepageEnabled);
+        fel.getTransparentHugepageEnableds().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_THP_MADVISE.getKey()),
+                Analysis.INFO_THP_MADVISE + " analysis not identified.");
+    }
+
+    @Test
+    void testTransparentHugePagesNever() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String transparentHugepageEnabled = "always madvise [never]";
+        TransparentHugepageEnabled event = new TransparentHugepageEnabled(transparentHugepageEnabled);
+        fel.getTransparentHugepageEnableds().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_THP_NEVER.getKey()),
+                Analysis.INFO_THP_NEVER + " analysis not identified.");
+    }
+
+    @Test
+    void testTransparentHugePagesOsYesJvmNo() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G";
+        VmArguments eventVmArguments = new VmArguments(jvm_args);
+        fel.getVmArguments().add(eventVmArguments);
+        String transparentHugepageEnabled = "always [madvise] never";
+        TransparentHugepageEnabled eventTransparentHugepageEnabled = new TransparentHugepageEnabled(
+                transparentHugepageEnabled);
+        fel.getTransparentHugepageEnableds().add(eventTransparentHugepageEnabled);
+
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_THP_OS_YES_JVM_NO.getKey()),
+                Analysis.WARN_THP_OS_YES_JVM_NO + " analysis not identified.");
+    }
+
+    @Test
     void testTruncatedLog() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset48.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL.getKey()),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
@@ -3157,6 +3278,7 @@ class TestAnalysis {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset71.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(31, fel.getNativeLibraries().size(), "Number of native libraries not correct.");
         assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Number of unidentified native libraries not correct.");
         assertEquals("C:\\Program Files\\Cylance\\Desktop\\CyMemDef64.dll", fel.getNativeLibrariesUnknown().get(0),
@@ -3186,6 +3308,36 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         assertFalse(fel.hasAnalysis(Analysis.INFO_STORAGE_UNKNOWN.getKey()),
                 Analysis.INFO_STORAGE_UNKNOWN + " analysis incorrectly identified.");
+    }
+
+    @Test
+    void testUseTransparentHugePagesThpAlways() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+UseTransparentHugePages";
+        VmArguments eventVmArguments = new VmArguments(jvm_args);
+        fel.getVmArguments().add(eventVmArguments);
+        String transparentHugepageEnabled = "[always] madvise never";
+        TransparentHugepageEnabled eventTransparentHugepageEnabled = new TransparentHugepageEnabled(
+                transparentHugepageEnabled);
+        fel.getTransparentHugepageEnableds().add(eventTransparentHugepageEnabled);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED.getKey()),
+                Analysis.WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED + " analysis not identified.");
+    }
+
+    @Test
+    void testUseTransparentHugePagesThpNever() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+UseTransparentHugePages";
+        VmArguments eventVmArguments = new VmArguments(jvm_args);
+        fel.getVmArguments().add(eventVmArguments);
+        String transparentHugepageEnabled = "always madvise [never]";
+        TransparentHugepageEnabled eventTransparentHugepageEnabled = new TransparentHugepageEnabled(
+                transparentHugepageEnabled);
+        fel.getTransparentHugepageEnableds().add(eventTransparentHugepageEnabled);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED.getKey()),
+                Analysis.WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED + " analysis not identified.");
     }
 
     @Test

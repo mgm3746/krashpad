@@ -311,6 +311,16 @@ public class FatalErrorLog {
     private Timezone timezone;
 
     /**
+     * Transparent Huge Pages (THP) defrag (/sys/kernel/mm/transparent_hugepage/defrag) information.
+     */
+    private List<TransparentHugepageDefrag> transparentHugepageDefrags;
+
+    /**
+     * Transparent Huge Pages (THP) enabled (/sys/kernel/mm/transparent_hugepage/enabled) information.
+     */
+    private List<TransparentHugepageEnabled> transparentHugepageEnableds;
+
+    /**
      * uname information.
      */
     private Uname uname;
@@ -383,6 +393,8 @@ public class FatalErrorLog {
         stackSlotToMemoryMappings = new ArrayList<StackSlotToMemoryMapping>();
         threads = new ArrayList<Thread>();
         timeouts = new ArrayList<Timeout>();
+        transparentHugepageDefrags = new ArrayList<TransparentHugepageDefrag>();
+        transparentHugepageEnableds = new ArrayList<TransparentHugepageEnabled>();
         unidentifiedLogLines = new ArrayList<String>();
         virtualizationInfos = new ArrayList<VirtualizationInfo>();
         vmArguments = new ArrayList<VmArguments>();
@@ -1457,6 +1469,23 @@ public class FatalErrorLog {
             // JVM is not configured to use explicit huge pages
             if (getExplicitHugePagesPoolSize() > 0) {
                 analysis.add(Analysis.WARN_EXPLICIT_HUGE_PAGES_OS_YES_JVM_NO);
+            }
+        }
+        // Transparent Huge Pages
+        if (getTransparentHugePagesMode() != TransparentHugepageEnabled.MODE.UNKNOWN) {
+            if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.ALWAYS) {
+                analysis.add(Analysis.INFO_THP_ALWAYS);
+            } else if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.MADVISE) {
+                analysis.add(Analysis.INFO_THP_MADVISE);
+                if (getJvmOptions() != null && !JdkUtil.isOptionEnabled(getJvmOptions().getUseTransparentHugePages())) {
+                    analysis.add(Analysis.WARN_THP_OS_YES_JVM_NO);
+                }
+            } else if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.NEVER) {
+                analysis.add(Analysis.INFO_THP_NEVER);
+            }
+            if (getTransparentHugePagesMode() != TransparentHugepageEnabled.MODE.MADVISE && getJvmOptions() != null
+                    && JdkUtil.isOptionEnabled(getJvmOptions().getUseTransparentHugePages())) {
+                analysis.add(Analysis.WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED);
             }
         }
     }
@@ -4786,6 +4815,35 @@ public class FatalErrorLog {
 
     public List<Timeout> getTimeouts() {
         return timeouts;
+    }
+
+    public List<TransparentHugepageDefrag> getTransparentHugepageDefrags() {
+        return transparentHugepageDefrags;
+    }
+
+    public List<TransparentHugepageEnabled> getTransparentHugepageEnableds() {
+        return transparentHugepageEnableds;
+    }
+
+    /**
+     * The Transparent Huge Pages (THP) mode.
+     * 
+     * 
+     * @return The Transparent Huge Pages (THP) mode.
+     */
+    public TransparentHugepageEnabled.MODE getTransparentHugePagesMode() {
+        TransparentHugepageEnabled.MODE transparentHugePageMode = TransparentHugepageEnabled.MODE.UNKNOWN;
+        if (!transparentHugepageEnableds.isEmpty()) {
+            Iterator<TransparentHugepageEnabled> iterator = transparentHugepageEnableds.iterator();
+            while (iterator.hasNext()) {
+                TransparentHugepageEnabled event = iterator.next();
+                if (event.isMode()) {
+                    transparentHugePageMode = event.getMode();
+                }
+                break;
+            }
+        }
+        return transparentHugePageMode;
     }
 
     public Uname getUname() {

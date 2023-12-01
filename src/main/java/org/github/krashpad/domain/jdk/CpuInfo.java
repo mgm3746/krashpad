@@ -110,10 +110,10 @@ public class CpuInfo implements LogEvent, HeaderEvent {
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_VALUE
             + "|<Not Available>|address sizes.+|apicid.+|Available cpu frequencies:.*|"
             + "(Available|Current) governor[s]{0,1}:.*|BIOS frequency limitation:.*|bogomips.+|bugs.+|"
-            + "cache_alignment.+|cache coherency line size:|cache level:|cache size.+|cache type:|clflush size.+|"
-            + "clock.+|core id.+|Core performance/turbo boost:.*|cpu.+|cpu cores|cpu family.+|"
-            + "CPU Model and flags from \\/proc\\/cpuinfo:|cpuid level|cpu MHz|(Current|Maximum|"
-            + "Minimum) cpu frequency:|flags.+|fpu.+|fpu_exception|Frequency switch latency \\(ns\\):.*|"
+            + "cache_alignment.+|cache coherency line size:|cache level:|cache size.+|cache type:|"
+            + "citextache_alignment.+|clflush size.+|clock.+|core id.+|Core performance/turbo boost:.*|cpu.+|"
+            + "cpu cores|cpu family.+|CPU Model and flags from \\/proc\\/cpuinfo:|cpuid level|cpu MHz|(Current|"
+            + "Maximum|Minimum) cpu frequency:|flags.+|fpu.+|fpu_exception|Frequency switch latency \\(ns\\):.*|"
             + "initial apicid.+|machine.+|  Max Mhz.+|microcode.+|model.+|model name|MMU.+|(Off|On)line cpus:.*|"
             + "ondemand|performance|physical id.+|platform.+|power management:|\\/proc\\/cpuinfo:|[pP]rocessor.+|"
             + "revision.+|siblings.+|stepping.+|timebase.+|TLB size.+|vendor_id.+|wp.+)$";

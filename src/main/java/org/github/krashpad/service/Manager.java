@@ -72,6 +72,8 @@ import org.github.krashpad.domain.jdk.Time;
 import org.github.krashpad.domain.jdk.TimeElapsedTime;
 import org.github.krashpad.domain.jdk.Timeout;
 import org.github.krashpad.domain.jdk.Timezone;
+import org.github.krashpad.domain.jdk.TransparentHugepageDefrag;
+import org.github.krashpad.domain.jdk.TransparentHugepageEnabled;
 import org.github.krashpad.domain.jdk.Uname;
 import org.github.krashpad.domain.jdk.VirtualizationInfo;
 import org.github.krashpad.domain.jdk.VmArguments;
@@ -230,6 +232,10 @@ public class Manager {
                         fatalErrorLog.getTimeouts().add((Timeout) event);
                     } else if (event instanceof Timezone) {
                         fatalErrorLog.setTimezone((Timezone) event);
+                    } else if (event instanceof TransparentHugepageDefrag) {
+                        fatalErrorLog.getTransparentHugepageDefrags().add((TransparentHugepageDefrag) event);
+                    } else if (event instanceof TransparentHugepageEnabled) {
+                        fatalErrorLog.getTransparentHugepageEnableds().add((TransparentHugepageEnabled) event);
                     } else if (event instanceof Uname) {
                         // some uname information is split across 2 lines
                         if (fatalErrorLog.getUname() == null) {

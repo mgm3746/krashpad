@@ -14,88 +14,51 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
  * <p>
- * CURRENT_COMPILE_TASK
+ * TRANSPARENT_HUGEPAGE_ENABLED
  * </p>
  * 
  * <p>
- * Current compile information
+ * Transparent hugepage enabled information.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * Current CompileTask:
- * C2:   1092  423       4       java.util.HashMap$KeyIterator::next (8 bytes)
- * </pre>
- * 
- * <pre>
- * C2:   1360 2202 % !   4       org.jboss.modules.Module::addExportedPaths @ 1224 (1429 bytes)
+ * /sys/kernel/mm/transparent_hugepage/enabled:
+ * [always] madvise never
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class CurrentCompileTask implements LogEvent, HeaderEvent {
+public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
 
     /**
-     * Regular expression for the compile id, sequentially incremented with every new compile.
+     * Defined THP modes.
      */
-    private static final String _ID = "\\d{1,}";
-
-    /**
-     * Regular expression for the compilation level (0-4).
-     * 
-     * 0: interpreted (not compiled).
-     * 
-     * 1: C1 compiler without profiling information.
-     * 
-     * 2: C1 compiler with light profiling.
-     * 
-     * 3: C1 compiler with full profiling.
-     * 
-     * 4: C2 compiler (maximum performance).
-     */
-    private static final String _LEVEL = "[01234]";
-
-    /**
-     * Regular expression for the attributes of the method being compiled.
-     * 
-     * https://github.com/openjdk/jdk/blob/6d30bbe62c10af0f2c80cb1eaac3d171fb7bffcb/src/hotspot/share/compiler/
-     * compileTask.cpp#L227-L260
-     * 
-     * %: osr compilation (compilation was triggered by some loop rather than on method entry).
-     * 
-     * !: A method with exception handlers.
-     * 
-     * b: A blocking method.
-     * 
-     * n: A native method.
-     * 
-     * s: A synchronized method.
-     */
-    private static final String _METHOD_ATTRIBUTE = "[%!bns ]";
+    public enum MODE {
+        ALWAYS, MADVISE, NEVER, UNKNOWN
+    }
 
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "Current CompileTask:";
-
-    /**
-     * Regular expression for the compile timestamp.
-     */
-    private static final String _TIMESTAMP = "(-)?\\d{1,}";
+    public static final String _REGEX_HEADER = "/sys/kernel/mm/transparent_hugepage/enabled:";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|C[12]:[ ]{0,}" + _TIMESTAMP + "[ ]{1,}" + _ID
-            + "[ ]{1,}" + _METHOD_ATTRIBUTE + "{0,3}[ ]{1,}" + _LEVEL + "{0,}.+)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|(" + _REGEX_HEADER + " )?(\\[always\\] madvise never|"
+            + "always \\[madvise\\] never|always madvise \\[never\\]))$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -119,7 +82,7 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public CurrentCompileTask(String logEntry) {
+    public TransparentHugepageEnabled(String logEntry) {
         this.logEntry = logEntry;
     }
 
@@ -127,8 +90,29 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
         return logEntry;
     }
 
+    /**
+     * @return THP mode.
+     */
+    public MODE getMode() {
+        MODE mode = MODE.UNKNOWN;
+        Pattern pattern = Pattern.compile(TransparentHugepageEnabled.REGEX);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(3) != null) {
+                if (matcher.group(3).matches("^\\[always\\] madvise never$")) {
+                    mode = MODE.ALWAYS;
+                } else if (matcher.group(3).matches("^always \\[madvise\\] never$")) {
+                    mode = MODE.MADVISE;
+                } else if (matcher.group(3).matches("^always madvise \\[never\\]$")) {
+                    mode = MODE.NEVER;
+                }
+            }
+        }
+        return mode;
+    }
+
     public String getName() {
-        return JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString();
+        return JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED.toString();
     }
 
     @Override
@@ -138,5 +122,20 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
             isHeader = logEntry.matches(_REGEX_HEADER);
         }
         return isHeader;
+    }
+
+    /**
+     * @return True if mode setting, false otherwise.
+     */
+    public boolean isMode() {
+        boolean isMode = false;
+        Pattern pattern = Pattern.compile(TransparentHugepageEnabled.REGEX);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(3) != null) {
+                isMode = true;
+            }
+        }
+        return isMode;
     }
 }

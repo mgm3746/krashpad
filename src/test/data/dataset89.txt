@@ -77,7 +77,7 @@ Heap:
  concurrent mark-sweep generation total 1672832K, used 690281K [0x00007fadbde60000, 0x00007fae24000000, 0x00007fae24000000)
  Metaspace       used 190604K, capacity 207077K, committed 207104K, reserved 208896K
  
- CodeCache: size=245760Kb used=50194Kb max_used=50207Kb free=195565Kb
+CodeCache: size=245760Kb used=50194Kb max_used=50207Kb free=195565Kb
  bounds [0x00007fae29000000, 0x00007fae2c150000, 0x00007fae38000000]
  total_blobs=15948 nmethods=14851 adapters=1009
  compilation: enabled

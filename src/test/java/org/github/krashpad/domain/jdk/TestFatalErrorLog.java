@@ -381,6 +381,7 @@ class TestFatalErrorLog {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(24, fel.getGarbageCollections().size(), "Garbage collection count not correct.");
         assertEquals(1905, fel.getGarbageCollections().get(0).getTimestampStartGc(),
                 "First GC begin timestamp not correct.");

@@ -101,7 +101,8 @@ import org.github.krashpad.domain.jdk.TimeElapsedTime;
 import org.github.krashpad.domain.jdk.Timeout;
 import org.github.krashpad.domain.jdk.Timezone;
 import org.github.krashpad.domain.jdk.TopOfStack;
-import org.github.krashpad.domain.jdk.TransparentHugepage;
+import org.github.krashpad.domain.jdk.TransparentHugepageDefrag;
+import org.github.krashpad.domain.jdk.TransparentHugepageEnabled;
 import org.github.krashpad.domain.jdk.Uid;
 import org.github.krashpad.domain.jdk.Umask;
 import org.github.krashpad.domain.jdk.Uname;
@@ -243,11 +244,11 @@ public class JdkUtil {
         //
         THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK,
         //
-        TRANSPARENT_HUGEPAGE, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX,
+        TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO,
         //
-        VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE,
+        VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS,
         //
-        ZGC_PHASE_SWITCH_EVENT
+        ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
     }
 
     /**
@@ -890,8 +891,10 @@ public class JdkUtil {
             logEventType = LogEventType.TIMEZONE;
         } else if (TopOfStack.match(logLine)) {
             logEventType = LogEventType.TOP_OF_STACK;
-        } else if (TransparentHugepage.match(logLine)) {
-            logEventType = LogEventType.TRANSPARENT_HUGEPAGE;
+        } else if (TransparentHugepageDefrag.match(logLine)) {
+            logEventType = LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG;
+        } else if (TransparentHugepageEnabled.match(logLine)) {
+            logEventType = LogEventType.TRANSPARENT_HUGEPAGE_ENABLED;
         } else if (Uid.match(logLine)) {
             logEventType = LogEventType.UID;
         } else if (Umask.match(logLine)) {
@@ -1257,8 +1260,11 @@ public class JdkUtil {
         case TOP_OF_STACK:
             event = new TopOfStack(logLine);
             break;
-        case TRANSPARENT_HUGEPAGE:
-            event = new TransparentHugepage(logLine);
+        case TRANSPARENT_HUGEPAGE_DEFRAG:
+            event = new TransparentHugepageDefrag(logLine);
+            break;
+        case TRANSPARENT_HUGEPAGE_ENABLED:
+            event = new TransparentHugepageEnabled(logLine);
             break;
         case UID:
             event = new Uid(logLine);

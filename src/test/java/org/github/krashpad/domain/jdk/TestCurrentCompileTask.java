@@ -55,6 +55,20 @@ class TestCurrentCompileTask {
     }
 
     @Test
+    void testMethodAttributesNoneLevelNone() {
+        String logLine = "C2:    595   73             sun.nio.cs.UTF_8$Encoder::encode (359 bytes)]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
+                JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.");
+    }
+
+    @Test
+    void testMethodAttributesSynchronized() {
+        String logLine = "C2:147541338 34397 %s!   4       com.example.DoSomthing::run @ 2888 (3436 bytes)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
+                JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString() + " not identified.");
+    }
+
+    @Test
     void testNegativeCompileTimestamp() {
         String logLine = "C2:-913846888 246084       4       com.example.package.SomeClass::doSomething (52 bytes)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CURRENT_COMPILE_TASK,
