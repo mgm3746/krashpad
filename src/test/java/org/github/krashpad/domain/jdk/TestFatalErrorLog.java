@@ -537,7 +537,7 @@ class TestFatalErrorLog {
         String meminfo2 = "HugePages_Total:   0";
         Meminfo meminfoEvent2 = new Meminfo(meminfo2);
         fel.getMeminfos().add(meminfoEvent2);
-        assertEquals(0, fel.getHugePagesPoolSize(), "Huge Pages Pool Size not correct.");
+        assertEquals(0, fel.getExplicitHugePagesPoolSize(), "Explicit Huge Pages Pool Size not correct.");
     }
 
     @Test
@@ -549,7 +549,8 @@ class TestFatalErrorLog {
         String meminfo2 = "HugePages_Total:   696418";
         Meminfo meminfoEvent2 = new Meminfo(meminfo2);
         fel.getMeminfos().add(meminfoEvent2);
-        assertEquals(696418L * 2048L * 1024L, fel.getHugePagesPoolSize(), "Huge Pages Pool Size not correct.");
+        assertEquals(696418L * 2048L * 1024L, fel.getExplicitHugePagesPoolSize(),
+                "Explicit Huge Pages Pool Size not correct.");
     }
 
     @Test

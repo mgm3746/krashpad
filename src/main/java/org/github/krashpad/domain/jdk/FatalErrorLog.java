@@ -1448,14 +1448,14 @@ public class FatalErrorLog {
         // Large pages mismatch between JVM and OS
         if (getJvmOptions() != null && (JdkUtil.isOptionEnabled(getJvmOptions().getUseLargePages())
                 || JdkUtil.isOptionEnabled(getJvmOptions().getUseHugeTLBFS()))) {
-            // JVM is configured to use huge pages
-            if (getHugePagesPoolSize() <= 0) {
-                analysis.add(Analysis.ERROR_HUGE_PAGES_JVM_OS_NONE);
+            // JVM is configured to use explicit huge pages
+            if (getExplicitHugePagesPoolSize() <= 0) {
+                analysis.add(Analysis.ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO);
             }
         } else {
-            // JVM is not configured to use huge pages
-            if (getHugePagesPoolSize() > 0) {
-                analysis.add(Analysis.WARN_HUGE_PAGES_OS_JVM_NONE);
+            // JVM is not configured to use explicit huge pages
+            if (getExplicitHugePagesPoolSize() > 0) {
+                analysis.add(Analysis.WARN_EXPLICIT_HUGE_PAGES_OS_YES_JVM_NO);
             }
         }
     }
@@ -2395,6 +2395,24 @@ public class FatalErrorLog {
     }
 
     /**
+     * The explicit huge pages memory pool size in bytes.
+     * 
+     * 
+     * @return The explicit huge pages memory pool size in bytes.
+     */
+    public long getExplicitHugePagesPoolSize() {
+        long explicityHugePagesPoolSize = Long.MIN_VALUE;
+        if (getHugetlb() > 0) {
+            explicityHugePagesPoolSize = getHugetlb();
+        } else if (getHugePagesTotal() >= 0 && getHugepagesize() >= 0) {
+            BigDecimal calc = new BigDecimal(getHugePagesTotal());
+            calc = calc.multiply(new BigDecimal(getHugepagesize()));
+            explicityHugePagesPoolSize = calc.longValue();
+        }
+        return explicityHugePagesPoolSize;
+    }
+
+    /**
      * @param releaseString
      *            The JDK release string (e.g. 17.0.4.1+1-LTS).
      * @return The first release that matches a Red Hat build string, or null if none found. Used to get a an
@@ -2879,9 +2897,9 @@ public class FatalErrorLog {
     }
 
     /**
-     * The huge page size.
+     * The explicit huge page size.
      * 
-     * @return The huge page size in bytes.
+     * @return The explicit huge page size in bytes.
      */
     public long getHugepagesize() {
         long hugepagesize = Long.MIN_VALUE;
@@ -2902,27 +2920,9 @@ public class FatalErrorLog {
     }
 
     /**
-     * The huge pages memory pool size in bytes.
+     * The total number of explicit huge pages.
      * 
-     * 
-     * @return The huge pages memory pool size in bytes.
-     */
-    public long getHugePagesPoolSize() {
-        long hugePagesPoolSize = Long.MIN_VALUE;
-        if (getHugetlb() > 0) {
-            hugePagesPoolSize = getHugetlb();
-        } else if (getHugePagesTotal() >= 0 && getHugepagesize() >= 0) {
-            BigDecimal calc = new BigDecimal(getHugePagesTotal());
-            calc = calc.multiply(new BigDecimal(getHugepagesize()));
-            hugePagesPoolSize = calc.longValue();
-        }
-        return hugePagesPoolSize;
-    }
-
-    /**
-     * The total number of huge pages.
-     * 
-     * @return The total number of huge pages.
+     * @return The total number of explicit huge pages.
      */
     public long getHugePagesTotal() {
         long hugePagesTotal = Long.MIN_VALUE;
@@ -2943,9 +2943,9 @@ public class FatalErrorLog {
     }
 
     /**
-     * The huge pages pool size in bytes. A convenience field in RHEL8 that is not available in earlier RHEL.
+     * The explicit huge pages pool size in bytes. A convenience field in RHEL8 that is not available in earlier RHEL.
      * 
-     * @return The huge pages pool size in bytes.
+     * @return The explicit huge pages pool size in bytes.
      */
     public long getHugetlb() {
         long hugetlb = Long.MIN_VALUE;

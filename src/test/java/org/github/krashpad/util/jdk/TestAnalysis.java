@@ -817,6 +817,31 @@ class TestAnalysis {
                 Analysis.WARN_EXPERIMENTAL_ERGONOMIC + " not correct.");
     }
 
+    @Test
+    void testExplicitHugePagesJvmYesOsNo() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G -XX:+UseLargePages";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO.getKey()),
+                Analysis.ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO + " analysis not identified.");
+    }
+
+    @Test
+    void testExplicitHugePagesOsYesJvmNo() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String meminfo = "Hugetlb:         4194304 kB";
+        Meminfo meminfoEvent = new Meminfo(meminfo);
+        fel.getMeminfos().add(meminfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_EXPLICIT_HUGE_PAGES_OS_YES_JVM_NO.getKey()),
+                Analysis.WARN_EXPLICIT_HUGE_PAGES_OS_YES_JVM_NO + " analysis not identified.");
+    }
+
     /**
      * Test if explicit not GC handled concurrently.
      */
@@ -1060,31 +1085,6 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_HEAP_MAX_MISSING + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
-    }
-
-    @Test
-    void testHugesPagesJvmOsNone() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xmx10G -XX:+UseLargePages";
-        VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArguments().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_HUGE_PAGES_JVM_OS_NONE.getKey()),
-                Analysis.ERROR_HUGE_PAGES_JVM_OS_NONE + " analysis not identified.");
-    }
-
-    @Test
-    void testHugesPagesOsJvmNone() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xmx10G";
-        VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArguments().add(event);
-        String meminfo = "Hugetlb:         4194304 kB";
-        Meminfo meminfoEvent = new Meminfo(meminfo);
-        fel.getMeminfos().add(meminfoEvent);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_HUGE_PAGES_OS_JVM_NONE.getKey()),
-                Analysis.WARN_HUGE_PAGES_OS_JVM_NONE + " analysis not identified.");
     }
 
     @Test

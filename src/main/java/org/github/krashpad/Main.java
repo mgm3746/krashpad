@@ -145,9 +145,10 @@ public class Main {
                             + Constants.LINE_SEPARATOR);
                 }
             }
-            if (fel.getHugePagesPoolSize() > 0) {
-                printWriter.write("Huge Pages Pool: "
-                        + JdkUtil.convertSize(fel.getHugePagesPoolSize(), 'B', org.github.joa.util.Constants.UNITS)
+            if (fel.getExplicitHugePagesPoolSize() > 0) {
+                printWriter.write("Explicit Huge Pages Pool: "
+                        + JdkUtil.convertSize(fel.getExplicitHugePagesPoolSize(), 'B',
+                                org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
             }
             if (fel.getOsSwap() >= 0) {

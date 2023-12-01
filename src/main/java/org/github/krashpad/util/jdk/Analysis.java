@@ -92,6 +92,11 @@ public enum Analysis {
     ERROR_EXPLICIT_GC_DISABLED_EAP7("error.explicit.gc.disabled.eap7"),
 
     /**
+     * Property key for the JVM configured to use explicit huge pages, but the OS is not.
+     */
+    ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO("error.explicit.huge.pages.jvm.yes.os.no"),
+
+    /**
      * Property key for floating point error.
      */
     ERROR_FPE("error.fpe"),
@@ -116,11 +121,6 @@ public enum Analysis {
      * Property key for a crash in java.util.HashMap.
      */
     ERROR_HASHMAP("error.hashmap"),
-
-    /**
-     * Property key for the JVM configured to use huge pages, but the OS is not.
-     */
-    ERROR_HUGE_PAGES_JVM_OS_NONE("error.huge.pages.jvm.os.none"),
 
     /**
      * Property key for a crash in iText I/O.
@@ -812,6 +812,11 @@ public enum Analysis {
     WARN_EXPERIMENTAL_ERGONOMIC("warn.experimental.ergonomic"),
 
     /**
+     * Property key for the OS configured to use explicit huge pages, but the JVM is not.
+     */
+    WARN_EXPLICIT_HUGE_PAGES_OS_YES_JVM_NO("warn.explicit.huge.pages.os.yes.jvm.no"),
+
+    /**
      * Property key for a fatal error log that is more than 30 days old.
      */
     WARN_FATAL_ERROR_LOG_ANCIENT("warn.fatal.error.log.ancient"),
@@ -825,11 +830,6 @@ public enum Analysis {
      * Property key for heap + metaspace &gt; physical memory (including swap).
      */
     WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP("warn.heap.plus.metaspace.gt.physical.memory.swap"),
-
-    /**
-     * Property key for the OS configured to use huge pages, but the JVM is not.
-     */
-    WARN_HUGE_PAGES_OS_JVM_NONE("warn.huge.pages.os.jvm.none"),
 
     /**
      * Property key for iText code in stack.
