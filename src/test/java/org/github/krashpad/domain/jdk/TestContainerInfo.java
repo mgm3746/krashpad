@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -37,6 +38,16 @@ class TestContainerInfo {
         String logLine = "cpu_cpuset_cpus: 0-7";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testContainerType() {
+        String logLine = "container_type: cgroupv1";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+        ContainerInfo event = new ContainerInfo(logLine);
+        assertEquals("container_type", event.getSetting(), "Setting not correct.");
+        assertEquals("cgroupv1", event.getSettingValue(), "Setting value not correct.");
     }
 
     @Test

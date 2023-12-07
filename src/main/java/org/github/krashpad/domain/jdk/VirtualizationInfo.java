@@ -30,19 +30,10 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * container (cgroup) information:
- * container_type: cgroupv1
- * cpu_cpuset_cpus: 0-7
- * cpu_memory_nodes: 0
- * active_processor_count: 8
- * cpu_quota: -1
- * cpu_period: 100000
- * cpu_shares: -1
- * memory_limit_in_bytes: -1
- * memory_and_swap_limit_in_bytes: -1
- * memory_soft_limit_in_bytes: -1
- * memory_usage_in_bytes: 3469758464
- * memory_max_usage_in_bytes: 0
+ * VMWare virtualization detected
+ * vSphere host information:
+ * host.cpu.processorMHz = 2593
+ * host.cpu.coresPerPkg = 14
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>

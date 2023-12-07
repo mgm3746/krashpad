@@ -284,7 +284,7 @@ class TestAnalysis {
         String jvm_args = "jvm_args: -Xss512 -Xmx2048M";
         VmArguments event = new VmArguments(jvm_args);
         fel.getVmArguments().add(event);
-        ContainerInfo containerInfoEvent = new ContainerInfo("TEST");
+        ContainerInfo containerInfoEvent = new ContainerInfo("container (cgroup) information:");
         fel.getContainerInfos().add(containerInfoEvent);
         Meminfo meminfoEvent = new Meminfo("SwapTotal:       0 kB");
         fel.getMeminfos().add(meminfoEvent);
@@ -480,7 +480,10 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP.getKey()), Analysis.INFO_CGROUP + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP_VERSION.getKey()),
+                Analysis.INFO_CGROUP_VERSION + " analysis not identified.");
+        assertEquals("cgroup version: cgroupv1.", fel.getAnalysisLiteral(Analysis.INFO_CGROUP_VERSION.getKey()),
+                Analysis.INFO_CGROUP_VERSION + " not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_MEMORY_JVM_NE_SYSTEM.getKey()),
                 Analysis.INFO_MEMORY_JVM_NE_SYSTEM + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP_MEMORY_LIMIT.getKey()),

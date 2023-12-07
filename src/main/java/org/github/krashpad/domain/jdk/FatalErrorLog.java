@@ -959,9 +959,9 @@ public class FatalErrorLog {
                 .matches("^.+ org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done().+"))) {
             analysis.add(Analysis.ERROR_LIBAIO_CONTEXT_DONE);
         }
-        // container
-        if (!getContainerInfos().isEmpty() && getJvmSwap() == 0) {
-            analysis.add(Analysis.INFO_CGROUP);
+        // cgroup version
+        if (getCgroupVersion() != null) {
+            analysis.add(Analysis.INFO_CGROUP_VERSION);
         }
         if (getJvmMemTotal() > 0 && getOsMemTotal() > 0 && getJvmMemTotal() != getOsMemTotal()) {
             analysis.add(Analysis.INFO_MEMORY_JVM_NE_SYSTEM);
@@ -1541,6 +1541,11 @@ public class FatalErrorLog {
                 s.append(getJvmOptions().getHeapDumpPath());
                 s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.INFO_CGROUP_VERSION.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                s.append(getCgroupVersion());
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() });
             } else if (item.getKey().equals(Analysis.INFO_JDK_ANCIENT.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 String replace = ">1 yr";
@@ -1741,6 +1746,26 @@ public class FatalErrorLog {
             }
         }
         return literal;
+    }
+
+    /**
+     * The cgroup version.
+     * 
+     * @return The cgroup version, or null if it cannot be determined.
+     */
+    public String getCgroupVersion() {
+        String cgroupVersion = null;
+        if (!containerInfos.isEmpty()) {
+            Iterator<ContainerInfo> iterator = containerInfos.iterator();
+            while (iterator.hasNext()) {
+                ContainerInfo event = iterator.next();
+                if (!event.isHeader() && event.getSetting().matches("container_type")) {
+                    cgroupVersion = event.getSettingValue();
+                    break;
+                }
+            }
+        }
+        return cgroupVersion;
     }
 
     /**

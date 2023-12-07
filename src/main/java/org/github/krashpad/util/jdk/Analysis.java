@@ -437,14 +437,14 @@ public enum Analysis {
     INFO_APP_DYNAMICS_POSSIBLE("info.app.dynamics.possible"),
 
     /**
-     * Property key for cgroup environment.
-     */
-    INFO_CGROUP("info.cgroup"),
-
-    /**
      * Property key for cgroup memory limit.
      */
     INFO_CGROUP_MEMORY_LIMIT("info.cgroup.memory.limit"),
+
+    /**
+     * Property key for cgroup version.
+     */
+    INFO_CGROUP_VERSION("info.cgroup.version"),
 
     /**
      * Property key for a crash in Java code compiled with the AVX2 instruction set.

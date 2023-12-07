@@ -14,6 +14,9 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -53,13 +56,16 @@ public class ContainerInfo implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "container \\(cgroup\\) information:";
+    private static final String _REGEX_HEADER = "^container \\(cgroup\\) information:$";
 
     /**
-     * Regular expression defining the logging.
+     * Regular expression for a setting.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|active_processor|container_type|cpu_|(current|maximum) number of tasks|kernel_|memory_).*$";
+    private static final String _SETTING = "^(active_processor_count|container_type|"
+            + "cpu_(cpuset_cpus|memory_nodes|period|shares|quota)|current number of tasks|"
+            + "kernel_memory_(limit_in_bytes|max_usage_in_bytes|usage_in_bytes)|maximum number of tasks|"
+            + "memory_(and_swap_limit_in_bytes|limit_in_bytes|max_usage_in_bytes|soft_limit_in_bytes|usage_in_bytes)):"
+            + " (.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -69,7 +75,7 @@ public class ContainerInfo implements LogEvent, HeaderEvent {
      * @return true if the log line matches the event pattern, false otherwise.
      */
     public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+        return logLine.matches(_REGEX_HEADER) || logLine.matches(_SETTING);
     }
 
     /**
@@ -93,6 +99,36 @@ public class ContainerInfo implements LogEvent, HeaderEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.CONTAINER_INFO.toString();
+    }
+
+    /**
+     * @return The setting name, or null if the log line is not a setting.
+     */
+    public String getSetting() {
+        String setting = null;
+        if (logEntry.matches(_SETTING)) {
+            Pattern pattern = Pattern.compile(_SETTING);
+            Matcher matcher = pattern.matcher(logEntry);
+            if (matcher.find()) {
+                setting = matcher.group(1);
+            }
+        }
+        return setting;
+    }
+
+    /**
+     * @return The setting value, or null if the log line is not a setting.
+     */
+    public String getSettingValue() {
+        String value = null;
+        if (logEntry.matches(_SETTING)) {
+            Pattern pattern = Pattern.compile(_SETTING);
+            Matcher matcher = pattern.matcher(logEntry);
+            if (matcher.find()) {
+                value = matcher.group(5);
+            }
+        }
+        return value;
     }
 
     @Override
