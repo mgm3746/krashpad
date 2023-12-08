@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.ErrUtil;
+import org.github.krashpad.util.KrashUtil;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 
@@ -67,7 +67,7 @@ public class Time implements LogEvent {
             mm = matcher.group(5);
             ss = matcher.group(6);
         }
-        return ErrUtil.getDate(MMM, d, yyyy, HH, mm, ss);
+        return KrashUtil.getDate(MMM, d, yyyy, HH, mm, ss);
     }
 
     /**

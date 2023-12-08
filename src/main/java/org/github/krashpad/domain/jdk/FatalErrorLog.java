@@ -42,7 +42,7 @@ import org.github.krashpad.util.Constants.CpuArch;
 import org.github.krashpad.util.Constants.Device;
 import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
-import org.github.krashpad.util.ErrUtil;
+import org.github.krashpad.util.KrashUtil;
 import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.Jdk11;
 import org.github.krashpad.util.jdk.Jdk17;
@@ -519,11 +519,11 @@ public class FatalErrorLog {
             }
         }
         // Check for ancient fatal error log
-        if (ErrUtil.dayDiff(getCrashDate(), new Date()) > 30) {
+        if (KrashUtil.dayDiff(getCrashDate(), new Date()) > 30) {
             analysis.add(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT);
         }
         // Check for ancient JDK
-        if (getJdkReleaseDate() != null && ErrUtil.dayDiff(getJdkReleaseDate(), new Date()) > 365) {
+        if (getJdkReleaseDate() != null && KrashUtil.dayDiff(getJdkReleaseDate(), new Date()) > 365) {
             analysis.add(Analysis.INFO_JDK_ANCIENT);
         }
         // Check for unknown JDK version
@@ -1551,7 +1551,7 @@ public class FatalErrorLog {
                 String replace = ">1 yr";
                 int position = s.toString().lastIndexOf(replace);
                 StringBuffer with = new StringBuffer();
-                BigDecimal years = new BigDecimal(ErrUtil.dayDiff(getJdkReleaseDate(), new Date()));
+                BigDecimal years = new BigDecimal(KrashUtil.dayDiff(getJdkReleaseDate(), new Date()));
                 years = years.divide(new BigDecimal(365), 1, HALF_EVEN);
                 with.append(years.toString());
                 with.append(" years");
@@ -1632,7 +1632,7 @@ public class FatalErrorLog {
             } else if (item.getKey().equals(Analysis.WARN_JDK_NOT_LATEST.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 // Add latest release info
-                int releaseDayDiff = ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(this),
+                int releaseDayDiff = KrashUtil.dayDiff(JdkUtil.getJdkReleaseDate(this),
                         JdkUtil.getLatestJdkReleaseDate(this));
                 int releaseNumberDiff = JdkUtil.getLatestJdkReleaseNumber(this) - JdkUtil.getJdkReleaseNumber(this);
                 if (releaseDayDiff > 0 && releaseNumberDiff > 0) {
@@ -2294,7 +2294,7 @@ public class FatalErrorLog {
                 ss = matcher.group(6);
                 yyyy = matcher.group(7);
             }
-            crashDate = ErrUtil.getDate(MMM, d, yyyy, HH, mm, ss);
+            crashDate = KrashUtil.getDate(MMM, d, yyyy, HH, mm, ss);
         }
         return crashDate;
     }
@@ -3310,23 +3310,23 @@ public class FatalErrorLog {
             if (vmInfo.getOs() == Os.WINDOWS) {
                 if (vmInfo.getJavaSpecification() == JavaSpecification.JDK8
                         && jdkReleaseString.equals("1.8.0_332-b09")) {
-                    if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 19 2022 13:36:53"))) {
+                    if (vmInfo.getBuildDate().equals(KrashUtil.getDate("Apr 19 2022 13:36:53"))) {
                         jdkReleaseString = "1.8.0_332-b09-1";
-                    } else if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 21:29:19"))) {
+                    } else if (vmInfo.getBuildDate().equals(KrashUtil.getDate("Apr 27 2022 21:29:19"))) {
                         jdkReleaseString = "1.8.0_332-b09-2";
                     }
                 } else if (vmInfo.getJavaSpecification() == JavaSpecification.JDK11
                         && jdkReleaseString.equals("11.0.15+9-LTS")) {
-                    if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 17 2022 13:56:34"))) {
+                    if (vmInfo.getBuildDate().equals(KrashUtil.getDate("Apr 17 2022 13:56:34"))) {
                         jdkReleaseString = "11.0.15+9-LTS-1";
-                    } else if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 19:12:18"))) {
+                    } else if (vmInfo.getBuildDate().equals(KrashUtil.getDate("Apr 27 2022 19:12:18"))) {
                         jdkReleaseString = "11.0.15+9-LTS-2";
                     }
                 } else if (vmInfo.getJavaSpecification() == JavaSpecification.JDK17
                         && jdkReleaseString.equals("17.0.3+6-LTS")) {
-                    if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 17 2022 12:11:44"))) {
+                    if (vmInfo.getBuildDate().equals(KrashUtil.getDate("Apr 17 2022 12:11:44"))) {
                         jdkReleaseString = "17.0.3+6-LTS-1";
-                    } else if (vmInfo.getBuildDate().equals(ErrUtil.getDate("Apr 27 2022 11:51:42"))) {
+                    } else if (vmInfo.getBuildDate().equals(KrashUtil.getDate("Apr 27 2022 11:51:42"))) {
                         jdkReleaseString = "17.0.3+6-LTS-2";
                     }
                 }
@@ -4014,7 +4014,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
                 String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
-                if (nativeLibrary != null && ErrUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibrary)) {
+                if (nativeLibrary != null && KrashUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibrary)) {
                     jbossNativeLibraries.add(nativeLibraryPath);
                 }
             }
@@ -4033,7 +4033,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
                 String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
-                if (nativeLibrary != null && ErrUtil.NATIVE_LIBRARIES_TOMCAT.contains(nativeLibrary)) {
+                if (nativeLibrary != null && KrashUtil.NATIVE_LIBRARIES_TOMCAT.contains(nativeLibrary)) {
                     tomcatNativeLibraries.add(nativeLibraryPath);
                 }
             }
@@ -4052,17 +4052,17 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
                 String nativeLibary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
-                if (!ErrUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibary)
-                        && !ErrUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibraryPath)
-                        && !ErrUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibary)
-                        && !ErrUtil.NATIVE_LIBRARIES_ORACLE.contains(nativeLibary)
-                        && !ErrUtil.NATIVE_LIBRARIES_TOMCAT
+                if (!KrashUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibary)
+                        && !KrashUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibraryPath)
+                        && !KrashUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibary)
+                        && !KrashUtil.NATIVE_LIBRARIES_ORACLE.contains(nativeLibary)
+                        && !KrashUtil.NATIVE_LIBRARIES_TOMCAT
                                 .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
-                        && !ErrUtil.NATIVE_LIBRARIES_VMWARE
+                        && !KrashUtil.NATIVE_LIBRARIES_VMWARE
                                 .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
-                        && !(ErrUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibary)
-                                && nativeLibraryPath.matches(ErrUtil.NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME + ".+"))
-                        && !ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibary)) {
+                        && !(KrashUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibary)
+                                && nativeLibraryPath.matches(KrashUtil.NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME + ".+"))
+                        && !KrashUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibary)) {
                     unidentifiedNativeLibraries.add(nativeLibraryPath);
                 }
             }
@@ -4081,7 +4081,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
                 String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
-                if (nativeLibrary != null && ErrUtil.NATIVE_LIBRARIES_VMWARE.contains(nativeLibrary)) {
+                if (nativeLibrary != null && KrashUtil.NATIVE_LIBRARIES_VMWARE.contains(nativeLibrary)) {
                     vmWareNativeLibraries.add(nativeLibraryPath);
                 }
             }

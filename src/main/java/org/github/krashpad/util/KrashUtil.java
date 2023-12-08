@@ -31,7 +31,7 @@ import org.github.krashpad.util.jdk.JdkRegEx;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class ErrUtil {
+public class KrashUtil {
 
     /**
      * JBoss native libraries.
@@ -1042,7 +1042,7 @@ public class ErrUtil {
     /**
      * Make default constructor private so the class cannot be instantiated.
      */
-    private ErrUtil() {
+    private KrashUtil() {
 
     }
 }

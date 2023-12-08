@@ -29,7 +29,7 @@ import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.Device;
 import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
-import org.github.krashpad.util.ErrUtil;
+import org.github.krashpad.util.KrashUtil;
 import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
@@ -406,7 +406,7 @@ class TestFatalErrorLog {
         fel.doAnalysis();
         Release release = fel.getFirstRelease(fel.getJdkReleaseString());
         assertNotNull(release, "Red Hat release not identified.");
-        assertEquals(ErrUtil.getDate("Oct 09 2018 00:00:00"), release.getBuildDate(), "Build date not correct.");
+        assertEquals(KrashUtil.getDate("Oct 09 2018 00:00:00"), release.getBuildDate(), "Build date not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT.getKey()),
                 Analysis.INFO_JDK_ANCIENT + " analysis not identified.");
         assertTrue(
@@ -1595,9 +1595,9 @@ class TestFatalErrorLog {
         felJdk11u15_2.getOsInfos().add(osEvent);
         assertEquals("11.0.15+9-LTS-1", felJdk11u15_1.getJdkReleaseString(), "JDK release not correct.");
         assertEquals("11.0.15+9-LTS-2", felJdk11u15_2.getJdkReleaseString(), "JDK release not correct.");
-        assertEquals(ErrUtil.getDate("Apr 17 2022 13:56:34"), felJdk11u15_1.getJdkBuildDate(),
+        assertEquals(KrashUtil.getDate("Apr 17 2022 13:56:34"), felJdk11u15_1.getJdkBuildDate(),
                 "Build date not correct.");
-        assertEquals(ErrUtil.getDate("Apr 27 2022 19:12:18"), felJdk11u15_2.getJdkBuildDate(),
+        assertEquals(KrashUtil.getDate("Apr 27 2022 19:12:18"), felJdk11u15_2.getJdkBuildDate(),
                 "Build date not correct.");
         assertTrue(felJdk11u15_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
         assertTrue(felJdk11u15_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
@@ -1622,9 +1622,9 @@ class TestFatalErrorLog {
         felJdk17u3_2.getOsInfos().add(osEvent);
         assertEquals("17.0.3+6-LTS-1", felJdk17u3_1.getJdkReleaseString(), "JDK release not correct.");
         assertEquals("17.0.3+6-LTS-2", felJdk17u3_2.getJdkReleaseString(), "JDK release not correct.");
-        assertEquals(ErrUtil.getDate("Apr 17 2022 12:11:44"), felJdk17u3_1.getJdkBuildDate(),
+        assertEquals(KrashUtil.getDate("Apr 17 2022 12:11:44"), felJdk17u3_1.getJdkBuildDate(),
                 "Build date not correct.");
-        assertEquals(ErrUtil.getDate("Apr 27 2022 11:51:42"), felJdk17u3_2.getJdkBuildDate(),
+        assertEquals(KrashUtil.getDate("Apr 27 2022 11:51:42"), felJdk17u3_2.getJdkBuildDate(),
                 "Build date not correct.");
         assertTrue(felJdk17u3_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
         assertTrue(felJdk17u3_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");
@@ -1649,9 +1649,9 @@ class TestFatalErrorLog {
         felJdk8u332_2.getOsInfos().add(osEvent);
         assertEquals("1.8.0_332-b09-1", felJdk8u332_1.getJdkReleaseString(), "JDK release not correct.");
         assertEquals("1.8.0_332-b09-2", felJdk8u332_2.getJdkReleaseString(), "JDK release not correct.");
-        assertEquals(ErrUtil.getDate("Apr 19 2022 13:36:53"), felJdk8u332_1.getJdkBuildDate(),
+        assertEquals(KrashUtil.getDate("Apr 19 2022 13:36:53"), felJdk8u332_1.getJdkBuildDate(),
                 "Build date not correct.");
-        assertEquals(ErrUtil.getDate("Apr 27 2022 21:29:19"), felJdk8u332_2.getJdkBuildDate(),
+        assertEquals(KrashUtil.getDate("Apr 27 2022 21:29:19"), felJdk8u332_2.getJdkBuildDate(),
                 "Build date not correct.");
         assertTrue(felJdk8u332_1.isRhBuildDate(), "Red Hat build date incorrectly identified.");
         assertTrue(felJdk8u332_2.isRhBuildDate(), "Red Hat build date incorrectly identified.");

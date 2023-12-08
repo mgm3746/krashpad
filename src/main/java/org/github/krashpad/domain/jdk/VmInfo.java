@@ -23,7 +23,7 @@ import org.github.joa.domain.Arch;
 import org.github.joa.domain.BuiltBy;
 import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.ErrUtil;
+import org.github.krashpad.util.KrashUtil;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
@@ -132,7 +132,7 @@ public class VmInfo implements LogEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             if (matcher.group(8).matches(JdkRegEx.BUILD_DATE_TIME)) {
-                date = ErrUtil.getDate(matcher.group(9), matcher.group(10), matcher.group(11), matcher.group(12),
+                date = KrashUtil.getDate(matcher.group(9), matcher.group(10), matcher.group(11), matcher.group(12),
                         matcher.group(13), matcher.group(14));
             } else if (matcher.group(8).matches(JdkRegEx.BUILD_DATE_TIME_21)) {
                 Calendar calendar = Calendar.getInstance();

@@ -15,7 +15,7 @@
 package org.github.krashpad.util.jdk;
 
 import org.github.krashpad.util.Constants;
-import org.github.krashpad.util.ErrUtil;
+import org.github.krashpad.util.KrashUtil;
 
 /**
  * Analysis constants.
@@ -977,7 +977,7 @@ public enum Analysis {
      * @return Analysis property file value.
      */
     public String getValue() {
-        return ErrUtil.getPropertyValue(Constants.ANALYSIS_PROPERTY_FILE, key);
+        return KrashUtil.getPropertyValue(Constants.ANALYSIS_PROPERTY_FILE, key);
     }
 
     @Override

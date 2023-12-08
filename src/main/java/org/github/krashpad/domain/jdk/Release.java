@@ -16,7 +16,7 @@ package org.github.krashpad.domain.jdk;
 
 import java.util.Date;
 
-import org.github.krashpad.util.ErrUtil;
+import org.github.krashpad.util.KrashUtil;
 import org.github.krashpad.util.jdk.JdkRegEx;
 
 /**
@@ -47,9 +47,9 @@ public class Release {
     public Release(String buildDate, int number, String version) {
         super();
         if (buildDate.matches(JdkRegEx.BUILD_DATE_TIME)) {
-            this.buildDate = ErrUtil.getDate(buildDate);
+            this.buildDate = KrashUtil.getDate(buildDate);
         } else if (buildDate.matches(JdkRegEx.BUILD_DATE_TIME_21)) {
-            this.buildDate = ErrUtil.getDate21(buildDate);
+            this.buildDate = KrashUtil.getDate21(buildDate);
         }
         this.number = number;
         this.version = version;

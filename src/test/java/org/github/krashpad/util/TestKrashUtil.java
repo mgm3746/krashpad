@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestErrUtil {
+class TestKrashUtil {
 
     @Test
     void testConvertStringToDate() {
@@ -36,7 +36,7 @@ class TestErrUtil {
         String HH = "18";
         String mm = "55";
         String ss = "08";
-        Date date = ErrUtil.getDate(MMM, d, yyyy, HH, mm, ss);
+        Date date = KrashUtil.getDate(MMM, d, yyyy, HH, mm, ss);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         // Java Calendar month is 0 based
@@ -51,7 +51,7 @@ class TestErrUtil {
     @Test
     void testWindowsNativeLibrary() {
         String library = "rmi.dll";
-        assertTrue(ErrUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains("rmi.dll"), library + " not found");
+        assertTrue(KrashUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains("rmi.dll"), library + " not found");
     }
 
 }

@@ -55,7 +55,7 @@ import org.github.krashpad.domain.jdk.VmOperation;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.OsVersion;
-import org.github.krashpad.util.ErrUtil;
+import org.github.krashpad.util.KrashUtil;
 import org.github.krashpad.util.jdk.JdkUtil.Application;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 import org.github.krashpad.util.jdk.JdkUtil.JavaVendor;
@@ -243,7 +243,7 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.isRhBuildString(), "Red Hat build string not identified.");
         assertTrue(fel.isRhVersion(), "Red Hat version not identified.");
-        assertEquals(ErrUtil.getDate("Jan 27 2022 17:54:59"), fel.getJdkBuildDate(), "Build date not correct.");
+        assertEquals(KrashUtil.getDate("Jan 27 2022 17:54:59"), fel.getJdkBuildDate(), "Build date not correct.");
         assertFalse(fel.isRhBuildDate(), "Red Hat build date incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
@@ -1764,7 +1764,7 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
-        assertEquals(1190, ErrUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
+        assertEquals(1190, KrashUtil.dayDiff(JdkUtil.getJdkReleaseDate(fel), JdkUtil.getLatestJdkReleaseDate(fel)),
                 "Release days diff not correct.");
         assertEquals(15, JdkUtil.getLatestJdkReleaseNumber(fel) - JdkUtil.getJdkReleaseNumber(fel),
                 "Release # diff not correct.");
@@ -2858,7 +2858,7 @@ class TestAnalysis {
         assertTrue(fel.isRhBuildOpenJdk(), "Red Hat build of OpenJDK not identified.");
         assertTrue(fel.isRhBuildString(), "Red Hat build string not identified.");
         assertTrue(fel.isRhVersion(), "Red Hat version not identified.");
-        assertEquals(ErrUtil.getDate("Jan 13 2016 21:08:08"), fel.getJdkBuildDate(), "Build date not correct.");
+        assertEquals(KrashUtil.getDate("Jan 13 2016 21:08:08"), fel.getJdkBuildDate(), "Build date not correct.");
         assertTrue(fel.isRhBuildDate(), "Red Hat build date not identified.");
         assertFalse(fel.isRhBuildDateUnknown(), "Red Hat build of OpenJDK date unknown incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
