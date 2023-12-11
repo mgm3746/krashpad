@@ -51,6 +51,11 @@ import org.github.krashpad.util.jdk.JdkUtil;
  *  Periodic GC: Disabled
  * </pre>
  * 
+ * <pre>
+ * GC Precious Log:
+ * &lt;Empty&gt;
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -65,8 +70,8 @@ public class GcPreciousLog implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|( (Address Space Size|Address Space Type|Available space on backing filesystem|CardTable entry size|"
-            + "Card Set container configuration|Compressed Oops|CPUs|Heap Backing File(system)?|"
+            + "|<Empty>|( (Address Space Size|Address Space Type|Available space on backing filesystem|"
+            + "CardTable entry size|Card Set container configuration|Compressed Oops|CPUs|Heap Backing File(system)?|"
             + "Heap ((Initial|Min|Max) Capacity|Region Size)|Initial Capacity|Large Page Support|Max Capacity|"
             + "Medium Page Size|Memory|Min Capacity|NUMA Nodes|NUMA Support|Periodic GC|Pre-touch|"
             + "(Concurrent( Refinement)?|Parallel) Workers|Runtime Workers|Uncommit):| String Deduplication)).*$";

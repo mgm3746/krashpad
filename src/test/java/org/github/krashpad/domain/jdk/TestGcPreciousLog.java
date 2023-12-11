@@ -91,6 +91,13 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testEmpty() {
+        String logLine = "<Empty>";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testHeapBackingFile() {
         String logLine = " Heap Backing File: /memfd:java_heap.hugetlb";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
@@ -124,7 +131,7 @@ class TestGcPreciousLog {
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     }
-
+    
     @Test
     void testHeapRegionSize() {
         String logLine = " Heap Region Size: 4M";
