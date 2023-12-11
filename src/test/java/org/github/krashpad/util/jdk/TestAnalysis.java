@@ -2289,6 +2289,66 @@ class TestAnalysis {
     }
 
     @Test
+    void testOomExternalStartupSwap() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# There is insufficient memory for the Java Runtime Environment to continue.";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# Native memory allocation (mmap) failed to map 2147483648 bytes for committing reserved "
+                + "memory.";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        String header3 = "#  Out of Memory Error (os_linux.cpp:2749), pid=123456, tid=0x00007f544c72a700";
+        Header headerEvent3 = new Header(header3);
+        fel.getHeaders().add(headerEvent3);
+        String timeElapsedTime = "Time: Mon Dec 11 11:15:36 2023 EST elapsed time: 0.021790 seconds (0d 0h 0m 0s)";
+        TimeElapsedTime timeElapsedTimeEvent = new TimeElapsedTime(timeElapsedTime);
+        fel.setTimeElapsedTime(timeElapsedTimeEvent);
+        String heap1 = "Heap:";
+        Heap heapEvent1 = new Heap(heap1);
+        fel.getHeaps().add(heapEvent1);
+        String heap2 = " garbage-first heap   total 0K, used 0K [0x0000000680000000, 0x0000000800000000)";
+        Heap heapEvent2 = new Heap(heap2);
+        fel.getHeaps().add(heapEvent2);
+        String meminfo1 = "MemTotal:        7881824 kB";
+        Meminfo meminfoEvent1 = new Meminfo(meminfo1);
+        fel.getMeminfos().add(meminfoEvent1);
+        String meminfo2 = "MemFree:          190220 kB";
+        Meminfo meminfoEvent2 = new Meminfo(meminfo2);
+        fel.getMeminfos().add(meminfoEvent2);
+        String meminfo3 = "MemAvailable:     273300 kB";
+        Meminfo meminfoEvent3 = new Meminfo(meminfo3);
+        fel.getMeminfos().add(meminfoEvent3);
+        String meminfo4 = "CommitLimit:    12149292 kB";
+        Meminfo meminfoEvent4 = new Meminfo(meminfo4);
+        fel.getMeminfos().add(meminfoEvent4);
+        String meminfo5 = "Committed_AS:    1798952 kB";
+        Meminfo meminfoEvent5 = new Meminfo(meminfo5);
+        fel.getMeminfos().add(meminfoEvent5);
+        String memory = "Memory: 4k page, physical 7881824k(190220k free), swap 8208380k(520828k free)";
+        Memory memoryEvent = new Memory(memory);
+        fel.getMemories().add(memoryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
+        assertTrue(fel.isCrashOnStartup(), "Crash on startup not identified.");
+        assertEquals(2147483648L, fel.getMemoryAllocation(), "Memory allocation not correct.");
+        assertEquals(194785280L, fel.getJvmMemFree(), "JVM reported free memory not correct.");
+        assertEquals(533327872L, fel.getJvmSwapFree(), "JVM reported swap not correct.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL_STARTUP.getKey()),
+                Analysis.ERROR_OOME_EXTERNAL_STARTUP + " analysis not identified.");
+    }
+
+    @Test
+    void testOomExternalStartupSwapDisabled() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL_STARTUP.getKey()),
+                Analysis.ERROR_OOME_EXTERNAL_STARTUP + " analysis not identified.");
+    }
+
+    @Test
     void testOomJBossVersion() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset71.txt");
         Manager manager = new Manager();
@@ -2386,16 +2446,6 @@ class TestAnalysis {
                 Analysis.ERROR_OOME + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT.getKey()),
                 Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
-    }
-
-    @Test
-    void testOomStartup() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset55.txt");
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(testFile);
-        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
-                Analysis.ERROR_OOME_JVM_STARTUP + " analysis not identified.");
     }
 
     @Test

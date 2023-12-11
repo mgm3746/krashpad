@@ -662,53 +662,54 @@ public class FatalErrorLog {
         // OOME
         if (isMemoryAllocationFail()) {
             if (isCrashOnStartup()) {
+                long allocation = Long.MIN_VALUE;
+                allocation = getMemoryAllocation();
+                if (allocation < 0) {
+                    // Use JVM estimated initial process size
+                    allocation = getJvmMemoryInitial();
+                }
                 if (getApplication() == Application.TOMCAT_SHUTDOWN) {
                     analysis.add(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN);
                 } else if (getApplication() == Application.JBOSS_VERSION) {
                     analysis.add(Analysis.ERROR_OOME_JBOSS_VERSION);
                 } else if (getApplication() == Application.AMQ_CLI) {
                     analysis.add(Analysis.ERROR_OOME_AMQ_CLI);
-                } else if (getCommitLimit() >= 0 && getCommittedAs() >= 0) {
-                    long allocation = Long.MIN_VALUE;
-                    allocation = getMemoryAllocation();
-                    if (allocation < 0) {
-                        // Use JVM estimated initial process size
-                        allocation = getJvmMemoryInitial();
+                } else if (allocation > 0 && getOsCommitLimit() >= 0 && getOsCommittedAs() >= 0
+                        && allocation > (getOsCommitLimit() - getOsCommittedAs()) && !isOvercommitted()) {
+                    // Strong evidence for vm.overcommit_memory=2, but possible resource limit
+                    analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP);
+                    if (jvmOptions == null
+                            || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
+                                    && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
+                                            jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
+                                                    JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
+                        analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
                     }
-                    if (allocation > 0 && allocation > (getCommitLimit() - getCommittedAs()) && !isOvercommitted()) {
-                        // Strong evidence for vm.overcommit_memory=2, but possible resource limit
-                        analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP);
-                        if (jvmOptions == null
-                                || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
-                                        && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
-                                                jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
-                                                        JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
-                            analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
-                        }
+                } else if (allocation >= 0 && getOsCommitLimit() >= 0 && getOsCommittedAs() >= 0
+                        && getOsCommitLimit() >= getOsCommittedAs() && isOvercommitDisabled()
+                        && allocation > (getOsCommitLimit() - getOsCommittedAs()
+                                - JdkUtil.convertSize(Long.parseLong("136"), 'M', 'B'))) {
+                    // Allocation > (available commit limit - user_reserve_kbytes [assume worse case 128M] -
+                    // admin_reserve_kbytes [assume worse case 8M])
+                    analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP);
+                } else if (allocation >= 0 && (getJvmMemFree() >= 0 || getJvmSwapFree() >= 0)
+                        && allocation >= (getJvmMemFree() + getJvmSwapFree())) {
+                    // Allocation > available physical memory
+                    if (JdkMath.calcPercent(allocation, getOsMemTotal()) < 50) {
+                        analysis.add(Analysis.ERROR_OOME_EXTERNAL_STARTUP);
                     } else {
-                        // Resource limit
-                        analysis.add(Analysis.ERROR_OOME_LIMIT_STARTUP);
+                        analysis.add(Analysis.ERROR_OOME_JVM_STARTUP);
                     }
-                } else if (getJvmMemoryInitial() >= 0 && (getJvmMemFree() >= 0 || getOsMemAvailable() >= 0)
-                        && getJvmSwapFree() >= 0) {
-                    if (getJvmMemoryInitial() > (Math.max(getJvmMemFree(), getOsMemAvailable()) + getJvmSwapFree())) {
-                        // Insufficient physical memory for JVM estimated initial process size
-                        if (JdkMath.calcPercent(getJvmMemoryInitial(), getOsMemTotal()) < 50) {
-                            analysis.add(Analysis.ERROR_OOME_EXTERNAL_STARTUP);
-                        } else {
-                            analysis.add(Analysis.ERROR_OOME_JVM_STARTUP);
-                        }
-                        if (jvmOptions == null
-                                || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
-                                        && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
-                                                jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
-                                                        JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
-                            analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
-                        }
-                    } else {
-                        // Resource limit
-                        analysis.add(Analysis.ERROR_OOME_LIMIT_STARTUP);
+                    if (jvmOptions == null
+                            || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
+                                    && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
+                                            jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
+                                                    JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
+                        analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
                     }
+                } else {
+                    // Resource limit
+                    analysis.add(Analysis.ERROR_OOME_LIMIT_STARTUP);
                 }
                 // Don't double report the JVM failing to start
                 analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
@@ -724,14 +725,15 @@ public class FatalErrorLog {
                     } else {
                         analysis.add(Analysis.ERROR_OOME_THREAD_LEAK);
                     }
-                } else if (getMemoryAllocation() >= 0 && getCommitLimit() >= 0 && getCommittedAs() >= 0
-                        && getCommitLimit() >= getCommittedAs()
-                        && getMemoryAllocation() > (getCommitLimit() - getCommittedAs()) && !isOvercommitDisabled()) {
+                } else if (getMemoryAllocation() >= 0 && getOsCommitLimit() >= 0 && getOsCommittedAs() >= 0
+                        && getOsCommitLimit() >= getOsCommittedAs()
+                        && getMemoryAllocation() > (getOsCommitLimit() - getOsCommittedAs())
+                        && !isOvercommitDisabled()) {
                     // Allocation > available commit limit
                     analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT);
-                } else if (getMemoryAllocation() >= 0 && getCommitLimit() >= 0 && getCommittedAs() >= 0
-                        && getCommitLimit() >= getCommittedAs() && isOvercommitDisabled()
-                        && getMemoryAllocation() > (getCommitLimit() - getCommittedAs()
+                } else if (getMemoryAllocation() >= 0 && getOsCommitLimit() >= 0 && getOsCommittedAs() >= 0
+                        && getOsCommitLimit() >= getOsCommittedAs() && isOvercommitDisabled()
+                        && getMemoryAllocation() > (getOsCommitLimit() - getOsCommittedAs()
                                 - JdkUtil.convertSize(Long.parseLong("136"), 'M', 'B'))) {
                     // Allocation > (available commit limit - user_reserve_kbytes [assume worse case 128M] -
                     // admin_reserve_kbytes [assume worse case 8M])
@@ -743,8 +745,8 @@ public class FatalErrorLog {
                         if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) >= 95) {
                             analysis.add(Analysis.ERROR_OOME_JVM);
                         } else {
-                            if (getCommitCharge() > 0
-                                    && JdkMath.calcPercent(getCommitCharge(), getJvmMemTotal()) < 95) {
+                            if (getOsCommitCharge() > 0
+                                    && JdkMath.calcPercent(getOsCommitCharge(), getJvmMemTotal()) < 95) {
                                 // Windows has a good process size approximation
                                 if (getMemBalloonedNow() > 0) {
                                     analysis.add(Analysis.ERROR_OOME_EXTERNAL_OR_HYPERVISOR);
@@ -1431,7 +1433,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.WARN_EXPERIMENTAL_ERGONOMIC);
         }
         // Check for vm.overcommit_memory=2 and vm.overcommit_ratio=100
-        if (getMemTotal() > 0 && getCommitLimit() > 0 && getMemTotal() == getCommitLimit()) {
+        if (getMemTotal() > 0 && getOsCommitLimit() > 0 && getMemTotal() == getOsCommitLimit()) {
             analysis.add(Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100);
         }
         // Check if MaxRAMPercentage is used without MaxRAM when available memory > 128g prior to JDK13
@@ -1749,26 +1751,6 @@ public class FatalErrorLog {
     }
 
     /**
-     * The cgroup version.
-     * 
-     * @return The cgroup version, or null if it cannot be determined.
-     */
-    public String getCgroupVersion() {
-        String cgroupVersion = null;
-        if (!containerInfos.isEmpty()) {
-            Iterator<ContainerInfo> iterator = containerInfos.iterator();
-            while (iterator.hasNext()) {
-                ContainerInfo event = iterator.next();
-                if (!event.isHeader() && event.getSetting().matches("container_type")) {
-                    cgroupVersion = event.getSettingValue();
-                    break;
-                }
-            }
-        }
-        return cgroupVersion;
-    }
-
-    /**
      * The total Transparent Huge Pages (THP) used in bytes.
      * 
      * @return The total Transparent Huge Pages (THP) used in bytes.
@@ -1915,6 +1897,26 @@ public class FatalErrorLog {
         return bit;
     }
 
+    /**
+     * The cgroup version.
+     * 
+     * @return The cgroup version, or null if it cannot be determined.
+     */
+    public String getCgroupVersion() {
+        String cgroupVersion = null;
+        if (!containerInfos.isEmpty()) {
+            Iterator<ContainerInfo> iterator = containerInfos.iterator();
+            while (iterator.hasNext()) {
+                ContainerInfo event = iterator.next();
+                if (!event.isHeader() && event.getSetting().matches("container_type")) {
+                    cgroupVersion = event.getSettingValue();
+                    break;
+                }
+            }
+        }
+        return cgroupVersion;
+    }
+
     public List<ClassesUnloadedEvent> getClassesUnloadedEvents() {
         return classesUnloadedEvents;
     }
@@ -2001,101 +2003,6 @@ public class FatalErrorLog {
 
     public CommandLine getCommandLine() {
         return commandLine;
-    }
-
-    /**
-     * On Windows, the memory the process has asked for that cannot be shared with other processes. A good approximation
-     * of the process size.
-     * 
-     * Can be physical memory, memory paged to disk, or memory in the standby page list (no longer in use, but not yet
-     * paged to disk).
-     * 
-     * Excludes memory mapped files (shared DLLs), but does not necessarily exclude the memory allocated by those files.
-     * 
-     * @return the memory the process has asked for that cannot be shared with other processes, in bytes.
-     */
-    private long getCommitCharge() {
-        long commitCharge = Long.MIN_VALUE;
-        if (!memories.isEmpty()) {
-            String regexCommitCharge = "current process commit charge \\(\"private bytes\"\\): (\\d{1,})M, peak: "
-                    + "\\d{1,}M";
-            Pattern pattern = Pattern.compile(regexCommitCharge);
-            Iterator<Memory> iterator = memories.iterator();
-            while (iterator.hasNext()) {
-                Memory event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    commitCharge = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M', 'B');
-                    break;
-                }
-            }
-        }
-        return commitCharge;
-    }
-
-    /**
-     * The total amount of memory that can be allocated by the system, based on the overcommit ratio (vm.
-     * overcommit_ratio).
-     * 
-     * Formula: ([total RAM pages] - [total huge TLB pages]) * overcommit_ratio / 100 + [total swap pages]
-     * 
-     * This limit is only adhered to if strict overcommit accounting is enabled (mode 2 in vm.overcommit_memory), and
-     * then some memory is reserved: (1) user_reserve_kbytes defaults to min(3% of the current process size, 128MB).
-     * This is to prevent a single process from consuming all memory and tipping over the box. (2) admin_reserve_kbytes
-     * defaults to min(3% of free pages, 8MB) for users with the capability cap_sys_admin. It should be large enough to
-     * handle the full Virtual Memory Size of programs used to recover.
-     * 
-     * @return The total amount of memory currently available to be allocated by the system in bytes.
-     */
-    public long getCommitLimit() {
-        long commitLimit = Long.MIN_VALUE;
-        if (!meminfos.isEmpty()) {
-            String regexCommitLimit = "CommitLimit:[ ]{0,}(\\d{1,}) kB";
-            Pattern pattern = Pattern.compile(regexCommitLimit);
-            Iterator<Meminfo> iterator = meminfos.iterator();
-            while (iterator.hasNext()) {
-                Meminfo event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    commitLimit = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
-                    break;
-                }
-            }
-        }
-        return commitLimit;
-    }
-
-    /**
-     * The amount of userspace virtual memory currently allocated on the system.
-     * 
-     * The committed memory is a sum of all of the memory which has been allocated by processes, even if it has not been
-     * "used" by them yet.
-     * 
-     * When vm.overcommit_memory=2, the cumulative VSS of all userspace processes is limited to overcomit_ratio percent
-     * of ram + swap.
-     * 
-     * RHEL5: allocatable memory=(swap size + (RAM size * overcommit ratio / 100))
-     * 
-     * RHEL6/7/8: allocatable memory=(swap size + ((RAM size - huge tlb size) * overcommit ratio / 100))
-     * 
-     * @return The amount of userspace virtual memory currently allocated on the system in bytes.
-     */
-    public long getCommittedAs() {
-        long committedAs = Long.MIN_VALUE;
-        if (!meminfos.isEmpty()) {
-            String regexCommittedAs = "Committed_AS:[ ]{0,}(\\d{1,}) kB";
-            Pattern pattern = Pattern.compile(regexCommittedAs);
-            Iterator<Meminfo> iterator = meminfos.iterator();
-            while (iterator.hasNext()) {
-                Meminfo event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    committedAs = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
-                    break;
-                }
-            }
-        }
-        return committedAs;
     }
 
     public List<CompilationEvent> getCompilationEvents() {
@@ -4157,6 +4064,101 @@ public class FatalErrorLog {
         return osType;
     }
 
+    /**
+     * On Windows, the memory the process has asked for that cannot be shared with other processes. A good approximation
+     * of the process size.
+     * 
+     * Can be physical memory, memory paged to disk, or memory in the standby page list (no longer in use, but not yet
+     * paged to disk).
+     * 
+     * Excludes memory mapped files (shared DLLs), but does not necessarily exclude the memory allocated by those files.
+     * 
+     * @return the memory the process has asked for that cannot be shared with other processes, in bytes.
+     */
+    private long getOsCommitCharge() {
+        long commitCharge = Long.MIN_VALUE;
+        if (!memories.isEmpty()) {
+            String regexCommitCharge = "current process commit charge \\(\"private bytes\"\\): (\\d{1,})M, peak: "
+                    + "\\d{1,}M";
+            Pattern pattern = Pattern.compile(regexCommitCharge);
+            Iterator<Memory> iterator = memories.iterator();
+            while (iterator.hasNext()) {
+                Memory event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    commitCharge = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M', 'B');
+                    break;
+                }
+            }
+        }
+        return commitCharge;
+    }
+
+    /**
+     * The total amount of memory that can be allocated by the system, based on the overcommit ratio (vm.
+     * overcommit_ratio).
+     * 
+     * Formula: ([total RAM pages] - [total huge TLB pages]) * overcommit_ratio / 100 + [total swap pages]
+     * 
+     * This limit is only adhered to if strict overcommit accounting is enabled (mode 2 in vm.overcommit_memory), and
+     * then some memory is reserved: (1) user_reserve_kbytes defaults to min(3% of the current process size, 128MB).
+     * This is to prevent a single process from consuming all memory and tipping over the box. (2) admin_reserve_kbytes
+     * defaults to min(3% of free pages, 8MB) for users with the capability cap_sys_admin. It should be large enough to
+     * handle the full Virtual Memory Size of programs used to recover.
+     * 
+     * @return The total amount of memory currently available to be allocated by the system in bytes.
+     */
+    public long getOsCommitLimit() {
+        long commitLimit = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regexCommitLimit = "CommitLimit:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regexCommitLimit);
+            Iterator<Meminfo> iterator = meminfos.iterator();
+            while (iterator.hasNext()) {
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    commitLimit = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    break;
+                }
+            }
+        }
+        return commitLimit;
+    }
+
+    /**
+     * The amount of userspace virtual memory currently allocated on the system.
+     * 
+     * The committed memory is a sum of all of the memory which has been allocated by processes, even if it has not been
+     * "used" by them yet.
+     * 
+     * When vm.overcommit_memory=2, the cumulative VSS of all userspace processes is limited to overcomit_ratio percent
+     * of ram + swap.
+     * 
+     * RHEL5: allocatable memory=(swap size + (RAM size * overcommit ratio / 100))
+     * 
+     * RHEL6/7/8: allocatable memory=(swap size + ((RAM size - huge tlb size) * overcommit ratio / 100))
+     * 
+     * @return The amount of userspace virtual memory currently allocated on the system in bytes.
+     */
+    public long getOsCommittedAs() {
+        long committedAs = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regexCommittedAs = "Committed_AS:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regexCommittedAs);
+            Iterator<Meminfo> iterator = meminfos.iterator();
+            while (iterator.hasNext()) {
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    committedAs = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    break;
+                }
+            }
+        }
+        return committedAs;
+    }
+
     public List<OsInfo> getOsInfos() {
         return osInfos;
     }
@@ -5482,7 +5484,7 @@ public class FatalErrorLog {
     public boolean isOvercommitDisabled() {
         boolean isOvercommitDisabled = false;
         // vm.overcommit_memory=2, vm.overcommit_ratio=100)
-        if (getMemTotal() > 0 && getCommitLimit() > 0 && getMemTotal() == getCommitLimit()) {
+        if (getMemTotal() > 0 && getOsCommitLimit() > 0 && getMemTotal() == getOsCommitLimit()) {
             isOvercommitDisabled = true;
         }
         return isOvercommitDisabled;
@@ -5493,7 +5495,7 @@ public class FatalErrorLog {
      */
     private boolean isOvercommitted() {
         boolean isOvercommitted = false;
-        if (getCommitLimit() > 0 && getCommittedAs() > 0 && (getCommittedAs() > getCommitLimit())) {
+        if (getOsCommitLimit() > 0 && getOsCommittedAs() > 0 && (getOsCommittedAs() > getOsCommitLimit())) {
             isOvercommitted = true;
         }
         return isOvercommitted;
