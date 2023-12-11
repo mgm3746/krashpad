@@ -2580,6 +2580,20 @@ class TestAnalysis {
     }
 
     @Test
+    void testOracleJdbcDriverOciClientInRegisterToMemoryMapping() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String mapping = "RSI=0x00007f893ffec848: kpummgl+0x1728 in /opt/oraclient/latest/lib/libclntsh.so.19.1 at "
+                + "0x00007f893be59000";
+        RegisterToMemoryMapping registerToMemoryMappingEvent = new RegisterToMemoryMapping(mapping);
+        fel.getRegisterToMemoryMappings().add(registerToMemoryMappingEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER.getKey()),
+                Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION.getKey()),
+                Analysis.WARN_ORACLE_JDBC_OCI_CONNECION + " analysis not identified.");
+    }
+
+    @Test
     void testOracleJdbcJdkIncompatible() {
         FatalErrorLog fel = new FatalErrorLog();
         String vm_info = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), built "

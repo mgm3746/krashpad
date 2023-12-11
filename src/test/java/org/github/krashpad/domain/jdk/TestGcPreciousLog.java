@@ -131,7 +131,7 @@ class TestGcPreciousLog {
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     }
-    
+
     @Test
     void testHeapRegionSize() {
         String logLine = " Heap Region Size: 4M";

@@ -461,7 +461,8 @@ public class FatalErrorLog {
                         "^Event: (\\d{1,}\\.\\d{3}) Loaded shared library .+libocijdbc.+.(dll|so)$") <= 1000) {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_OCI_LOADING);
         }
-        if (getStackFrame(2) != null && getStackFrame(2).matches("^C  \\[libocijdbc.+$")) {
+        if ((getStackFrame(2) != null && getStackFrame(2).matches("^C  \\[libocijdbc.+$"))
+                || isInStack("libclntsh.(dll|so)")) {
             analysis.add(Analysis.WARN_ORACLE_JDBC_OCI_CONNECION);
         }
         // Check Oracle JDBC driver / JDK compatibility

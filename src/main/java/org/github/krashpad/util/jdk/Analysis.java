@@ -285,11 +285,6 @@ public enum Analysis {
      * Property key for failing to allocate memory due to a resource limit (rlimit).
      */
     ERROR_OOME_LIMIT("error.oome.limit"),
-    
-    /**
-     * Property key for the JVM failing to start due to a resource limit (rlimit).
-     */
-    ERROR_OOME_LIMIT_STARTUP("error.oome.limit.startup"),
 
     /**
      * Property key for failing to allocate memory due to a resource limit (rlimit) being reached or the native heap
@@ -302,6 +297,11 @@ public enum Analysis {
      * reaching the java heap base address.
      */
     ERROR_OOME_LIMIT_OOPS_STARTUP("error.oome.limit.oops.startup"),
+
+    /**
+     * Property key for the JVM failing to start due to a resource limit (rlimit).
+     */
+    ERROR_OOME_LIMIT_STARTUP("error.oome.limit.startup"),
 
     /**
      * Property key for insufficient physical memory due to JVM native memory, an external process, or hypervisor
