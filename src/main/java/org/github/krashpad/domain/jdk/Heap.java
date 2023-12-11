@@ -125,7 +125,7 @@ public class Heap implements LogEvent, HeaderEvent {
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.G1 + "|" + JdkRegEx.LOCALITY_GROUP + "|"
             + JdkRegEx.METASPACE + "|" + JdkRegEx.OLD_GEN + "|" + JdkRegEx.SHENANDOAH + "|" + JdkRegEx.YOUNG_GEN + "|"
-            + JdkRegEx.Z + ")$";
+            + JdkRegEx.Z + "|\\[error occurred during error reporting \\(printing heap information\\).+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

@@ -72,6 +72,15 @@ class TestHeap {
     }
 
     @Test
+    void testError() {
+        Heap priorEvent = new Heap(null);
+        String logLine = "[error occurred during error reporting (printing heap information), id 0xb, SIGSEGV (0xb) "
+                + "at pc=0x00007f256fdc78aa]";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
+                JdkUtil.LogEventType.HEAP.toString() + " not identified.");
+    }
+
+    @Test
     void testFrom() {
         Heap priorEvent = new Heap(null);
         String logLine = "  from space 21504K, 0% used [0x00000000f4080000,0x00000000f4080000,0x00000000f5580000)";
