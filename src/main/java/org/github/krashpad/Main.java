@@ -164,9 +164,9 @@ public class Main {
                 }
             }
             if (fel.getAnonHugePages() >= 0) {
-                printWriter.write(
-                        "THP: " + JdkUtil.convertSize(fel.getAnonHugePages(), 'B', org.github.joa.util.Constants.UNITS)
-                                + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
+                printWriter.write("Transparent Huge Pages (THP): "
+                        + JdkUtil.convertSize(fel.getAnonHugePages(), 'B', org.github.joa.util.Constants.UNITS)
+                        + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
             }
             if (!fel.getContainerInfos().isEmpty()) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
