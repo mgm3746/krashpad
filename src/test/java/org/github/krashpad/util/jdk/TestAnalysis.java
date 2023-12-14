@@ -2977,8 +2977,11 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("8.5", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.4", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
-                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
+                Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+        assertEquals("RHEL/JDK rpm version mismatch: RHEL 8.5 + java-11-openjdk-11.0.13.0.8-1.el8_4.x86_64.",
+                fel.getAnalysisLiteral(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
+                Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " not correct.");
     }
 
     @Test
@@ -2998,8 +3001,8 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("8.5", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.6", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
-                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
+                Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
     }
 
     @Test
@@ -3012,8 +3015,8 @@ class TestAnalysis {
                 "Rpm directory not correct.");
         assertEquals("8.4", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.5", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
-                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
+                Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -3037,8 +3040,8 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("7.1", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("7", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
-                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
+                Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis incorrectly identified.");
     }
 
     @Test
@@ -3058,8 +3061,8 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("7.6", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("7.9", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL_JDK_RPM_MISMATCH.getKey()),
-                Analysis.ERROR_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
+                Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL7_POWER9.getKey()),
                 Analysis.WARN_RHEL7_POWER9 + " analysis not identified.");
     }

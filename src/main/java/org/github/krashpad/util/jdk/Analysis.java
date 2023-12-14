@@ -397,11 +397,6 @@ public enum Analysis {
     ERROR_PTHREAD_GETCPUCLOCKID("error.pthread.getcpuclockid"),
 
     /**
-     * Property key RHEL/JDK rpm version mismatch.
-     */
-    ERROR_RHEL_JDK_RPM_MISMATCH("error.rhel.jdk.rpm.mismatch"),
-
-    /**
      * Property key for StackOverflowError.
      */
     ERROR_STACKOVERFLOW("error.stackoverflow"),
@@ -902,6 +897,11 @@ public enum Analysis {
      * Property key for crash when connecting to Oracle database using the JDBC OCI (native) driver.
      */
     WARN_ORACLE_JDBC_OCI_CONNECION("warn.oracle.jdbc.oci.connection"),
+
+    /**
+     * Property key RHEL/JDK rpm version mismatch.
+     */
+    WARN_RHEL_JDK_RPM_MISMATCH("warn.rhel.jdk.rpm.mismatch"),
 
     /**
      * Property key for a JDK that is deployed on RHEL6.

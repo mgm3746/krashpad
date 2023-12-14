@@ -1109,7 +1109,7 @@ public class FatalErrorLog {
             if ((getJdkRhelVersion().indexOf('.') != -1 && !getRhelVersion().matches(getJdkRhelVersion()))
                     || (getJdkRhelVersion().indexOf('.') == -1
                             && !getRhelVersion().startsWith((getJdkRhelVersion())))) {
-                analysis.add(0, Analysis.ERROR_RHEL_JDK_RPM_MISMATCH);
+                analysis.add(0, Analysis.WARN_RHEL_JDK_RPM_MISMATCH);
                 if (analysis.contains(Analysis.WARN_JDK_NOT_LATEST)) {
                     analysis.remove(Analysis.WARN_JDK_NOT_LATEST);
                 }
@@ -1677,6 +1677,14 @@ public class FatalErrorLog {
                 with.append(getDynamicLibraries().size() - 1);
                 with.append(")");
                 s.replace(position, position + replace.length(), with.toString());
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                s.append("RHEL ");
+                s.append(getRhelVersion());
+                s.append(" + ");
+                s.append(getRpmDirectory());
+                s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() });
             } else {
                 a.add(new String[] { item.getKey(), item.getValue() });
