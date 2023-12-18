@@ -1460,35 +1460,29 @@ public class FatalErrorLog {
                 }
             }
         }
-        // Large pages mismatch between JVM and OS
-        if (getJvmOptions() != null && (JdkUtil.isOptionEnabled(getJvmOptions().getUseLargePages())
-                || JdkUtil.isOptionEnabled(getJvmOptions().getUseHugeTLBFS())
-                || JdkUtil.isOptionEnabled(getJvmOptions().getUseLargePagesInMetaspace()))) {
-            // JVM is configured to use explicit huge pages
-            if (getExplicitHugePagesPoolSize() <= 0) {
-                analysis.add(Analysis.ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO);
-            }
+        // Large pages JVM/OS HugeTLB configuration analysis
+        if (hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_LINUX_HUGETLBFS.toString())
+                && getExplicitHugePagesPoolSize() <= 0) {
+            analysis.add(Analysis.ERROR_LARGE_PAGES_HUGETLBFS_EXPLICIT_JVM_YES_OS_NO);
         } else {
             // JVM is not configured to use explicit huge pages
             if (getExplicitHugePagesPoolSize() > 0) {
                 analysis.add(Analysis.WARN_EXPLICIT_HUGE_PAGES_OS_YES_JVM_NO);
             }
         }
-        // Transparent Huge Pages
-        if (getTransparentHugePagesMode() != TransparentHugepageEnabled.MODE.UNKNOWN) {
-            if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.ALWAYS) {
-                analysis.add(Analysis.INFO_THP_ALWAYS);
-            } else if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.MADVISE) {
-                analysis.add(Analysis.INFO_THP_MADVISE);
-                if (getJvmOptions() != null && !JdkUtil.isOptionEnabled(getJvmOptions().getUseTransparentHugePages())) {
-                    analysis.add(Analysis.WARN_THP_OS_YES_JVM_NO);
+        // Large pages JVM/OS Transparent Huge Pages configuration analysis
+        if (hasAnalysis(org.github.joa.util.Analysis.ERROR_LARGE_PAGES_LINUX_HUGETLB_THP.toString())
+                || hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_LINUX_THPS.toString())) {
+            if (getTransparentHugePagesMode() != TransparentHugepageEnabled.MODE.UNKNOWN) {
+                if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.ALWAYS) {
+                    analysis.add(Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_ALWAYS);
+                } else if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.MADVISE) {
+                    analysis.add(Analysis.INFO_LARGE_PAGES_THP_JVM_YES_OS_MADVISE);
+                } else if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.NEVER) {
+                    analysis.add(Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_NEVER);
                 }
-            } else if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.NEVER) {
-                analysis.add(Analysis.INFO_THP_NEVER);
-            }
-            if (getTransparentHugePagesMode() != TransparentHugepageEnabled.MODE.MADVISE && getJvmOptions() != null
-                    && JdkUtil.isOptionEnabled(getJvmOptions().getUseTransparentHugePages())) {
-                analysis.add(Analysis.WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED);
+            } else {
+                analysis.add(Analysis.INFO_LARGE_PAGES_THP_JVM_YES_OS_UNDETERMINED);
             }
         }
     }

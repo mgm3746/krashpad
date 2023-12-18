@@ -832,42 +832,6 @@ class TestAnalysis {
                 Analysis.WARN_EXPERIMENTAL_ERGONOMIC + " not correct.");
     }
 
-    @Test
-    void testExplicitHugePagesJvmYesOsNoHeap() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xmx10G -XX:+UseLargePages";
-        VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArguments().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO.getKey()),
-                Analysis.ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO + " analysis not identified.");
-    }
-
-    @Test
-    void testExplicitHugePagesJvmYesOsNoMetaspace() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xmx10G -XX:+UseLargePagesInMetaspace";
-        VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArguments().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO.getKey()),
-                Analysis.ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO + " analysis not identified.");
-    }
-
-    @Test
-    void testExplicitHugePagesOsYesJvmNo() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xmx10G";
-        VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArguments().add(event);
-        String meminfo = "Hugetlb:         4194304 kB";
-        Meminfo meminfoEvent = new Meminfo(meminfo);
-        fel.getMeminfos().add(meminfoEvent);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_EXPLICIT_HUGE_PAGES_OS_YES_JVM_NO.getKey()),
-                Analysis.WARN_EXPLICIT_HUGE_PAGES_OS_YES_JVM_NO + " analysis not identified.");
-    }
-
     /**
      * Test if explicit not GC handled concurrently.
      */
@@ -1729,7 +1693,35 @@ class TestAnalysis {
     }
 
     @Test
-    void testLargePageSizeInBytesLinux() {
+    void testJvmYesOsNoUseLargePages() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G -XX:+UseLargePages";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LARGE_PAGES_HUGETLBFS_EXPLICIT_JVM_YES_OS_NO.getKey()),
+                Analysis.ERROR_LARGE_PAGES_HUGETLBFS_EXPLICIT_JVM_YES_OS_NO + " analysis not identified.");
+    }
+
+    @Test
+    void testLargePagesJvmYesOsNoMetaspace() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G -XX:+UseLargePagesInMetaspace";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LARGE_PAGES_HUGETLBFS_EXPLICIT_JVM_YES_OS_NO.getKey()),
+                Analysis.ERROR_LARGE_PAGES_HUGETLBFS_EXPLICIT_JVM_YES_OS_NO + " analysis incorrectly identified.");
+    }
+
+    @Test
+    void testLargePagesLargePageSizeInBytesLinux() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:+UseLargePages -XX:LargePageSizeInBytes=4m";
         VmArguments event = new VmArguments(jvm_args);
@@ -1738,12 +1730,14 @@ class TestAnalysis {
         OsInfo osEvent = new OsInfo(os);
         fel.getOsInfos().add(osEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX.getKey()),
-                org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_LINUX + " analysis not identified.");
+        assertTrue(
+                fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_LARGE_PAGE_SIZE_IN_BYTES_LINUX.getKey()),
+                org.github.joa.util.Analysis.INFO_LARGE_PAGES_LARGE_PAGE_SIZE_IN_BYTES_LINUX
+                        + " analysis not identified.");
     }
 
     @Test
-    void testLargePageSizeInBytesWindows() {
+    void testLargePagesLargePageSizeInBytesWindows() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -Xmx33g -XX:+UseLargePages -XX:LargePageSizeInBytes=4m";
         VmArguments event = new VmArguments(jvm_args);
@@ -1752,8 +1746,81 @@ class TestAnalysis {
         OsInfo osEvent = new OsInfo(os);
         fel.getOsInfos().add(osEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS.getKey()),
-                org.github.joa.util.Analysis.INFO_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS + " analysis not identified.");
+        assertTrue(
+                fel.hasAnalysis(
+                        org.github.joa.util.Analysis.INFO_LARGE_PAGES_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS.getKey()),
+                org.github.joa.util.Analysis.INFO_LARGE_PAGES_LARGE_PAGE_SIZE_IN_BYTES_WINDOWS
+                        + " analysis not identified.");
+    }
+
+    @Test
+    void testLargePagesOsYesJvmNoMeminfo() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String meminfo = "Hugetlb:         4194304 kB";
+        Meminfo meminfoEvent = new Meminfo(meminfo);
+        fel.getMeminfos().add(meminfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_EXPLICIT_HUGE_PAGES_OS_YES_JVM_NO.getKey()),
+                Analysis.WARN_EXPLICIT_HUGE_PAGES_OS_YES_JVM_NO + " analysis not identified.");
+    }
+
+    @Test
+    void testLargePagesThpJvmYesOsAlways() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G -XX:+UseTransparentHugePages";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String transparentHugepageEnabled = "[always] madvise never";
+        TransparentHugepageEnabled transparentHugePageEnabledEvent = new TransparentHugepageEnabled(
+                transparentHugepageEnabled);
+        fel.getTransparentHugepageEnableds().add(transparentHugePageEnabledEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_ALWAYS.getKey()),
+                Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_ALWAYS + " analysis not identified.");
+    }
+
+    @Test
+    void testLargePagesThpJvmYesOsMadvise() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G -XX:+UseTransparentHugePages";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String transparentHugepageEnabled = "always [madvise] never";
+        TransparentHugepageEnabled transparentHugePageEnabledEvent = new TransparentHugepageEnabled(
+                transparentHugepageEnabled);
+        fel.getTransparentHugepageEnableds().add(transparentHugePageEnabledEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_LARGE_PAGES_THP_JVM_YES_OS_MADVISE.getKey()),
+                Analysis.INFO_LARGE_PAGES_THP_JVM_YES_OS_MADVISE + " analysis not identified.");
+    }
+
+    @Test
+    void testLargePagesThpJvmYesOsNever() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G -XX:+UseTransparentHugePages";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String transparentHugepageEnabled = "always madvise [never]";
+        TransparentHugepageEnabled transparentHugePageEnabledEvent = new TransparentHugepageEnabled(
+                transparentHugepageEnabled);
+        fel.getTransparentHugepageEnableds().add(transparentHugePageEnabledEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_NEVER.getKey()),
+                Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_NEVER + " analysis not identified.");
+    }
+
+    @Test
+    void testLargePagesThpJvmYesOsUndetermined() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G -XX:+UseTransparentHugePages";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_LARGE_PAGES_THP_JVM_YES_OS_UNDETERMINED.getKey()),
+                Analysis.INFO_LARGE_PAGES_THP_JVM_YES_OS_UNDETERMINED + " analysis not identified.");
     }
 
     @Test
@@ -3279,55 +3346,6 @@ class TestAnalysis {
     }
 
     @Test
-    void testTransparentHugePagesAlways() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String transparentHugepageEnabled = "[always] madvise never";
-        TransparentHugepageEnabled event = new TransparentHugepageEnabled(transparentHugepageEnabled);
-        fel.getTransparentHugepageEnableds().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_THP_ALWAYS.getKey()),
-                Analysis.INFO_THP_ALWAYS + " analysis not identified.");
-    }
-
-    @Test
-    void testTransparentHugePagesMadvise() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String transparentHugepageEnabled = "always [madvise] never";
-        TransparentHugepageEnabled event = new TransparentHugepageEnabled(transparentHugepageEnabled);
-        fel.getTransparentHugepageEnableds().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_THP_MADVISE.getKey()),
-                Analysis.INFO_THP_MADVISE + " analysis not identified.");
-    }
-
-    @Test
-    void testTransparentHugePagesNever() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String transparentHugepageEnabled = "always madvise [never]";
-        TransparentHugepageEnabled event = new TransparentHugepageEnabled(transparentHugepageEnabled);
-        fel.getTransparentHugepageEnableds().add(event);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_THP_NEVER.getKey()),
-                Analysis.INFO_THP_NEVER + " analysis not identified.");
-    }
-
-    @Test
-    void testTransparentHugePagesOsYesJvmNo() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -Xmx10G";
-        VmArguments eventVmArguments = new VmArguments(jvm_args);
-        fel.getVmArguments().add(eventVmArguments);
-        String transparentHugepageEnabled = "always [madvise] never";
-        TransparentHugepageEnabled eventTransparentHugepageEnabled = new TransparentHugepageEnabled(
-                transparentHugepageEnabled);
-        fel.getTransparentHugepageEnableds().add(eventTransparentHugepageEnabled);
-
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_THP_OS_YES_JVM_NO.getKey()),
-                Analysis.WARN_THP_OS_YES_JVM_NO + " analysis not identified.");
-    }
-
-    @Test
     void testTruncatedLog() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset48.txt");
         Manager manager = new Manager();
@@ -3378,36 +3396,6 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         assertFalse(fel.hasAnalysis(Analysis.INFO_STORAGE_UNKNOWN.getKey()),
                 Analysis.INFO_STORAGE_UNKNOWN + " analysis incorrectly identified.");
-    }
-
-    @Test
-    void testUseTransparentHugePagesThpAlways() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+UseTransparentHugePages";
-        VmArguments eventVmArguments = new VmArguments(jvm_args);
-        fel.getVmArguments().add(eventVmArguments);
-        String transparentHugepageEnabled = "[always] madvise never";
-        TransparentHugepageEnabled eventTransparentHugepageEnabled = new TransparentHugepageEnabled(
-                transparentHugepageEnabled);
-        fel.getTransparentHugepageEnableds().add(eventTransparentHugepageEnabled);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED.getKey()),
-                Analysis.WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED + " analysis not identified.");
-    }
-
-    @Test
-    void testUseTransparentHugePagesThpNever() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+UseTransparentHugePages";
-        VmArguments eventVmArguments = new VmArguments(jvm_args);
-        fel.getVmArguments().add(eventVmArguments);
-        String transparentHugepageEnabled = "always madvise [never]";
-        TransparentHugepageEnabled eventTransparentHugepageEnabled = new TransparentHugepageEnabled(
-                transparentHugepageEnabled);
-        fel.getTransparentHugepageEnableds().add(eventTransparentHugepageEnabled);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED.getKey()),
-                Analysis.WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED + " analysis not identified.");
     }
 
     @Test

@@ -92,11 +92,6 @@ public enum Analysis {
     ERROR_EXPLICIT_GC_DISABLED_EAP7("error.explicit.gc.disabled.eap7"),
 
     /**
-     * Property key for the JVM configured to use explicit huge pages, but the OS is not.
-     */
-    ERROR_EXPLICIT_HUGE_PAGES_JVM_YES_OS_NO("error.explicit.huge.pages.jvm.yes.os.no"),
-
-    /**
      * Property key for floating point error.
      */
     ERROR_FPE("error.fpe"),
@@ -209,6 +204,25 @@ public enum Analysis {
      * Property key for a crash in jvm.dll.
      */
     ERROR_JVM_DLL("error.jvm.dll"),
+
+    /**
+     * Property key for the JVM configured to use explicit hugepages, but the Linux OS is not.
+     */
+    ERROR_LARGE_PAGES_HUGETLBFS_EXPLICIT_JVM_YES_OS_NO("error.large.pages.hugetlbfs.explicit.jvm.yes.os.no"),
+
+    /**
+     * Property key for the JVM configured to use Transparent Huge Page (THP) large pages for JVM calls using madvise()
+     * with the MADV_HUGEPAGE flag, but the Linux kernel is configured to do this for all memory (every 'mmap' of every
+     * process) with /sys/kernel/mm/transparent_hugepage/enabled = 'always'.
+     */
+    ERROR_LARGE_PAGES_THP_JVM_YES_OS_ALWAYS("error.large.pages.thp.jvm.yes.os.always"),
+
+    /**
+     * Property key for the JVM configured to use Transparent Huge Page (THP) large pages for JVM calls using madvise()
+     * with the MADV_HUGEPAGE flag, but THPs are disabled in the Linux kernel
+     * (/sys/kernel/mm/transparent_hugepage/enabled = 'never').
+     */
+    ERROR_LARGE_PAGES_THP_JVM_YES_OS_NEVER("error.large.pages.thp.jvm.yes.os.never"),
 
     /**
      * Property key for a crash in org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done() method.
@@ -507,6 +521,19 @@ public enum Analysis {
     INFO_JVM_USER_NE_USERNAME("info.jvm.user.ne.username"),
 
     /**
+     * Property key for the JVM configured to use Transparent Huge Page (THP) large pages for JVM calls using madvise()
+     * with the MADV_HUGEPAGE flag, and Linux kernel support is properly configured
+     * (/sys/kernel/mm/transparent_hugepage/enabled = 'madvise').
+     */
+    INFO_LARGE_PAGES_THP_JVM_YES_OS_MADVISE("info.large.pages.thp.jvm.yes.os.madvise"),
+
+    /**
+     * Property key for the JVM configured to use Transparent Huge Page (THP) large pages for JVM calls using madvise()
+     * with the MADV_HUGEPAGE flag, and the Linux kernel support is undetermined.
+     */
+    INFO_LARGE_PAGES_THP_JVM_YES_OS_UNDETERMINED("info.large.pages.thp.jvm.yes.os.undetermined"),
+
+    /**
      * Property key for /etc/ld.so.preload being used to preload libraries.
      */
     INFO_LD_SO_PRELOAD("info.ld.so.preload"),
@@ -745,21 +772,6 @@ public enum Analysis {
     INFO_SWAPPING("info.swapping"),
 
     /**
-     * Property key for Linux kernel Transparent Huge Pages (THP) support set to 'always'.
-     */
-    INFO_THP_ALWAYS("info.thp.always"),
-
-    /**
-     * Property key for Linux kernel Transparent Huge Pages (THP) support set to 'madvise'.
-     */
-    INFO_THP_MADVISE("info.thp.madvise"),
-
-    /**
-     * Property key for Linux kernel Transparent Huge Pages (THP) support disabled.
-     */
-    INFO_THP_NEVER("info.thp.never"),
-
-    /**
      * Property key for many threads (&gt;1,000).
      */
     INFO_THREADS_MANY("info.threads.many"),
@@ -929,11 +941,6 @@ public enum Analysis {
     WARN_SWAPPING("warn.swapping"),
 
     /**
-     * Property key forthe OS configured to use Transparent Huge Pages (THP), but the JVM is not.
-     */
-    WARN_THP_OS_YES_JVM_NO("warn.thp.os.yes.jvm.no"),
-
-    /**
      * Property key for many threads (&gt;5,000).
      */
     WARN_THREADS_MANY("warn.threads.many"),
@@ -942,12 +949,6 @@ public enum Analysis {
      * Property key for unidentified line(s) needing reporting.
      */
     WARN_UNIDENTIFIED_LOG_LINE("warn.unidentified.log.line"),
-
-    /**
-     * Property key for -XX:+UseTransparentHugePages ignored because Transparent Huge Pages (THP) support is not set to
-     * 'madvise' in the Linux kernel.
-     */
-    WARN_USE_TRANSPARENT_HUGE_PAGES_IGNORED("warn.use.transparent.huge.pages.ignored"),
 
     /**
      * Property key for a crash happening during a thread dump operation initiated by an external tool calling the JVM
