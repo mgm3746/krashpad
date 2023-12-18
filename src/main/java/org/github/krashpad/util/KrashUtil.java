@@ -138,6 +138,16 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libbrotlidec.so.1.0.6");
         // bzip2-libs
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libbz2.so.1.0.6");
+        // boost-date-time (C++ date/time library)
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libboost_date_time.so.1.66.0");
+        // boost-regex (C++ regex library)
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libboost_regex.so.1.66.0");
+        // boost-serialization (C++ serialization library)
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libboost_serialization.so.1.66.0");
+        // boost-system (C++ error reporting library)
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libboost_system.so.1.66.0");
+        // boost-thread (C++ multi-threading library)
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libboost_thread.so.1.66.0");
         // glibc-devel
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libc-2.12.so");
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libc-2.17.so");
