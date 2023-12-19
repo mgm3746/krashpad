@@ -943,6 +943,19 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testOracleEnterpriseLinuxJdk8u392() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS: Oracle Linux Server release 7.9";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.392-b08) for linux-amd64 JRE (1.8.0_392-b08), built on "
+                + "Oct 18 2023 15:26:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44.0.3)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "Java vendor not correct.");
+    }
+
+    @Test
     void testOs2Line() {
         FatalErrorLog fel = new FatalErrorLog();
         String os1 = "OS:";

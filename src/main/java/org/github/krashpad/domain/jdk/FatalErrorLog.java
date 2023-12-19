@@ -3097,10 +3097,6 @@ public class FatalErrorLog {
                 case JENKINS:
                     vendor = JavaVendor.ADOPTOPENJDK;
                     break;
-                case MOCKBUILD:
-                    // Some other OpenJDK
-                    vendor = JavaVendor.UNIDENTIFIED;
-                    break;
                 case VSTS:
                     vendor = JavaVendor.MICROSOFT;
                     break;
@@ -3111,8 +3107,10 @@ public class FatalErrorLog {
                 case ZULU_RE:
                     vendor = JavaVendor.AZUL;
                     break;
+                // Indeterminate
                 case BUILD:
                 case EMPTY:
+                case MOCKBUILD:
                 case UNKNOWN:
                 default:
                     break;
