@@ -1707,6 +1707,23 @@ class TestAnalysis {
     }
 
     @Test
+    void testLargePagesConsidierThpOsAlways() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String transparentHugepageEnabled = "[always] madvise never";
+        TransparentHugepageEnabled transparentHugePageEnabledEvent = new TransparentHugepageEnabled(
+                transparentHugepageEnabled);
+        fel.getTransparentHugepageEnableds().add(transparentHugePageEnabledEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER.getKey()),
+                org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS.getKey()),
+                Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS + " analysis not identified.");
+    }
+
+    @Test
     void testLargePagesJvmYesOsNoMetaspace() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xmx10G -XX:+UseLargePagesInMetaspace";

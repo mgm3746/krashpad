@@ -1485,6 +1485,13 @@ public class FatalErrorLog {
                 analysis.add(Analysis.INFO_LARGE_PAGES_THP_JVM_YES_OS_UNDETERMINED);
             }
         }
+        // Consider explicit large pages configuration for large heaps when Linux kernel THP = "all"
+        if (hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER.toString())
+                && getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.ALWAYS) {
+            analysis.add(Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS);
+            // Remove generic analysis
+            jvmOptions.removeAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER);
+        }
     }
 
     /**

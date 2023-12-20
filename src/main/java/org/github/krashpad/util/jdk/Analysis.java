@@ -49,7 +49,7 @@ public enum Analysis {
      * Property key for a crash in CompilerThread.
      */
     ERROR_COMPILER_THREAD("error.compiler.thread"),
-
+    
     /**
      * Property key for a crash in C2 CompilerThread: "guarantee(n != NULL) failed: No Node."
      */
@@ -519,6 +519,13 @@ public enum Analysis {
      * Property key for the USERNAME environment variable different than the user the JVM process is running under.
      */
     INFO_JVM_USER_NE_USERNAME("info.jvm.user.ne.username"),
+
+    /**
+     * Property key for a large heap (> 4GB), the JVM not configured to use large pages, and the Linux kernel configured
+     * for all memory (every 'mmap' of every process) to use Transparent Hugepage (THP) large pages
+     * (/sys/kernel/mm/transparent_hugepage/enabled = 'always').
+     */
+    INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS("info.large.pages.consider.thp.os.always"),
 
     /**
      * Property key for the JVM configured to use Transparent Huge Page (THP) large pages for JVM calls using madvise()
