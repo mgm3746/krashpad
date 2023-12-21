@@ -1707,7 +1707,7 @@ class TestAnalysis {
     }
 
     @Test
-    void testLargePagesConsidierThpOsAlways() {
+    void testLargePagesConsiderThpOsAlwaysJdkVersionUnknown() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xmx10G";
         VmArguments event = new VmArguments(jvm_args);
@@ -1721,6 +1721,8 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS.getKey()),
                 Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_THP_OS_ALWAYS.getKey()),
+                Analysis.WARN_THP_OS_ALWAYS + " analysis not identified.");
     }
 
     @Test

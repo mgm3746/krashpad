@@ -1492,6 +1492,11 @@ public class FatalErrorLog {
             // Remove generic analysis
             jvmOptions.removeAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER);
         }
+        if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.ALWAYS
+                && !((getJavaVersionMajor() == 17 && getJavaVersionMinor() >= 10)
+                        || (getJavaVersionMajor() == 21 && getJavaVersionMinor() >= 1))) {
+            analysis.add(Analysis.WARN_THP_OS_ALWAYS);
+        }
     }
 
     /**

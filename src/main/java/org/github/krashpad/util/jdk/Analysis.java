@@ -49,7 +49,7 @@ public enum Analysis {
      * Property key for a crash in CompilerThread.
      */
     ERROR_COMPILER_THREAD("error.compiler.thread"),
-    
+
     /**
      * Property key for a crash in C2 CompilerThread: "guarantee(n != NULL) failed: No Node."
      */
@@ -530,7 +530,8 @@ public enum Analysis {
     /**
      * Property key for the JVM configured to use Transparent Huge Page (THP) large pages for JVM calls using madvise()
      * with the MADV_HUGEPAGE flag, and Linux kernel support is properly configured
-     * (/sys/kernel/mm/transparent_hugepage/enabled = 'madvise').
+     * (/sys/kernel/mm/transparent_hugepage/enabled = 'madvise'). This can cause memory bloat and performance issues
+     * prior to JDK17u10 and JDK21u1. Reference: https://bugs.openjdk.org/browse/JDK-8312182.
      */
     INFO_LARGE_PAGES_THP_JVM_YES_OS_MADVISE("info.large.pages.thp.jvm.yes.os.madvise"),
 
@@ -946,6 +947,14 @@ public enum Analysis {
      * Property key for swapping &gt;= 20%.
      */
     WARN_SWAPPING("warn.swapping"),
+
+    /**
+     * Property key for the Linux kernel is configured for all memory (every 'mmap' of every process) to use Transparent
+     * Hugepage (THP) large pages (/sys/kernel/mm/transparent_hugepage/enabled = 'always') on a JDK version known to
+     * cause memory bloat and performance issues or JDK version undetermined. Fixed in JDK17u10 and JDK21u1. Reference:
+     * https://bugs.openjdk.org/browse/JDK-8312182.
+     */
+    WARN_THP_OS_ALWAYS("warn.thp.os.always"),
 
     /**
      * Property key for many threads (&gt;5,000).
