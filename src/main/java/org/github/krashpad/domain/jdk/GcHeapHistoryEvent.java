@@ -25,7 +25,8 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <p>
- * GC heap history information.
+ * GC heap history information. "GC invocations" is the number of minor collections since JVM startup. "full" is the
+ * number of full GCs.
  * </p>
  * 
  * <h2>Example Logging</h2>
@@ -84,8 +85,8 @@ public class GcHeapHistoryEvent implements LogEvent, HeaderEvent {
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.G1 + "|" + JdkRegEx.LOCALITY_GROUP + "|"
             + JdkRegEx.METASPACE + "|" + JdkRegEx.OLD_GEN + "|" + JdkRegEx.SHENANDOAH + "|" + JdkRegEx.YOUNG_GEN + "|"
-            + JdkRegEx.Z + "|[\\{]{0,1}Heap (after|before) GC.+|" + _REGEX_BEGIN + "|" + _REGEX_END
-            + "|\\}|No [Ee]vents)$";
+            + JdkRegEx.Z + "|[\\{]{0,1}Heap (after|before) GC invocations=\\d{1,} \\(full \\d{1,}\\):|" + _REGEX_BEGIN
+            + "|" + _REGEX_END + "|\\}|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

@@ -399,6 +399,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_files-2.12.so");
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_files-2.17.so");
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_files-2.28.so");
+        // nss-pam-ldap
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_ldap.so.2.");
         // systemd-libs (/usr/lib64/):
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libnss_myhostname.so.2");
         // glibc, libnsl (/usr/lib64/): the public client interface for NIS(YP). libnsl breaks out NIS library that used
