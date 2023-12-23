@@ -66,6 +66,12 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  */
 public class FatalErrorLog {
 
+    /**
+     * @param <T>
+     * @param list
+     * @param function
+     * @return
+     */
     private static <T> Stream<Long> longs(List<T> list, Function<T, Long> function) {
         return list.stream().map(function).filter(Objects::nonNull);
     }
@@ -126,9 +132,17 @@ public class FatalErrorLog {
     private List<DllOperationEvent> dllOperationEvents;
 
     /**
-     * Dynamic library information.
+     * Dynamic library information. Only "interesting" mappings (e.g. jars and native libraries) to improve the
+     * performance processing crashes caused by thread leaks, which can have tens of thousands of "uninteresting"
+     * mappings (e.g. a memory range).
      */
     private List<DynamicLibrary> dynamicLibraries;
+
+    /**
+     * Convenience field for the number of {@link org.github.krashpad.domain.jdk.DynamicLibrary} mappings to allow
+     * retaining only "interesting" mappings in @{link {@link #dynamicLibraries}.
+     */
+    private int dynamicLibrariesMappingCount;
 
     /**
      * JVM run duration information in JDK8.
@@ -1398,14 +1412,14 @@ public class FatalErrorLog {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_VMWARE);
         }
         // Check max_map_count limit
-        if (!getDynamicLibraries().isEmpty()) {
+        if (dynamicLibrariesMappingCount > 0) {
             if (getMaxMapCountLimit() > 0) {
-                if (JdkMath.calcPercent(getMappingCount(), getMaxMapCountLimit()) >= 99) {
+                if (JdkMath.calcPercent(dynamicLibrariesMappingCount, getMaxMapCountLimit()) >= 99) {
                     analysis.add(Analysis.WARN_MAX_MAP_COUNT_LIMIT);
                 }
             } else {
                 int defaultMaxMapCountLimit = 65530;
-                if (JdkMath.calcPercent(getMappingCount(), defaultMaxMapCountLimit) >= 99) {
+                if (JdkMath.calcPercent(dynamicLibrariesMappingCount, defaultMaxMapCountLimit) >= 99) {
                     analysis.add(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE);
                 }
             }
@@ -1664,7 +1678,7 @@ public class FatalErrorLog {
                 String replace = "memory map areas";
                 int position = s.toString().lastIndexOf(replace);
                 StringBuffer with = new StringBuffer("memory map areas (");
-                with.append(getDynamicLibraries().size() - 1);
+                with.append(getDynamicLibrariesMappingCount());
                 with.append(")");
                 s.replace(position, position + replace.length(), with.toString());
                 replace = "max_map_count limit";
@@ -1680,7 +1694,7 @@ public class FatalErrorLog {
                 String replace = "memory map areas";
                 int position = s.toString().lastIndexOf(replace);
                 StringBuffer with = new StringBuffer("memory map areas (");
-                with.append(getDynamicLibraries().size() - 1);
+                with.append(getDynamicLibrariesMappingCount());
                 with.append(")");
                 s.replace(position, position + replace.length(), with.toString());
                 a.add(new String[] { item.getKey(), s.toString() });
@@ -2295,6 +2309,10 @@ public class FatalErrorLog {
 
     public List<DynamicLibrary> getDynamicLibraries() {
         return dynamicLibraries;
+    }
+
+    public int getDynamicLibrariesMappingCount() {
+        return dynamicLibrariesMappingCount;
     }
 
     /**
@@ -3643,27 +3661,6 @@ public class FatalErrorLog {
             vmStateState = vmState.getState();
         }
         return vmStateState;
-    }
-
-    /**
-     * @return The number of <code>DynamicLibrary</code> mappings.
-     */
-    public int getMappingCount() {
-        int mappingCount = 0;
-        if (!dynamicLibraries.isEmpty()) {
-            mappingCount = dynamicLibraries.size();
-            if (dynamicLibraries.get(0).getLogEntry().matches(DynamicLibrary._REGEX_HEADER)) {
-                mappingCount--;
-            }
-            if (dynamicLibraries.get(0).getLogEntry().matches(DynamicLibrary._REGEX_FOOTER)) {
-                mappingCount--;
-            }
-        }
-        return mappingCount;
-    }
-
-    public MaxMapCount getMaxMapCount() {
-        return maxMapCount;
     }
 
     /**
@@ -6437,6 +6434,10 @@ public class FatalErrorLog {
 
     public void setCurrentThread(CurrentThread currentThread) {
         this.currentThread = currentThread;
+    }
+
+    public void setDynamicLibrariesMappingCount(int dynamicLibrariesMappingCount) {
+        this.dynamicLibrariesMappingCount = dynamicLibrariesMappingCount;
     }
 
     public void setElapsedTime(ElapsedTime elapsedTime) {

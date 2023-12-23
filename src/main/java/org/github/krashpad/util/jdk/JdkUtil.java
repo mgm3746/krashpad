@@ -76,6 +76,7 @@ import org.github.krashpad.domain.jdk.Meminfo;
 import org.github.krashpad.domain.jdk.Memory;
 import org.github.krashpad.domain.jdk.Metaspace;
 import org.github.krashpad.domain.jdk.NarrowKlass;
+import org.github.krashpad.domain.jdk.NativeDecoderState;
 import org.github.krashpad.domain.jdk.NativeMemoryTracking;
 import org.github.krashpad.domain.jdk.NumberEvent;
 import org.github.krashpad.domain.jdk.OsInfo;
@@ -236,19 +237,19 @@ public class JdkUtil {
         //
         INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTICS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE,
         //
-        MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_MEMORY_TRACKING, NUMBER, OS_INFO, OS_UPTIME,
+        MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING, NUMBER,
         //
-        PERIODIC_NATIVE_TRIM, PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT,
+        OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER,
         //
-        SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE,
+        REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD,
         //
-        THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK,
+        THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE,
         //
-        TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO,
+        TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED, UID, UMASK, UNAME, UNKNOWN,
         //
-        VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS,
+        VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS,
         //
-        ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
+        ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
     }
 
     /**
@@ -839,6 +840,8 @@ public class JdkUtil {
             logEventType = LogEventType.METASPACE;
         } else if (NarrowKlass.match(logLine)) {
             logEventType = LogEventType.NARROW_KLASS;
+        } else if (NativeDecoderState.match(logLine)) {
+            logEventType = LogEventType.NATIVE_DECODER_STATE;
         } else if (NativeMemoryTracking.match(logLine) && (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
                 || priorEvent instanceof NativeMemoryTracking)) {
             logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
@@ -1187,6 +1190,9 @@ public class JdkUtil {
             break;
         case NARROW_KLASS:
             event = new NarrowKlass(logLine);
+            break;
+        case NATIVE_DECODER_STATE:
+            event = new NativeDecoderState(logLine);
             break;
         case NATIVE_MEMORY_TRACKING:
             event = new NativeMemoryTracking(logLine);

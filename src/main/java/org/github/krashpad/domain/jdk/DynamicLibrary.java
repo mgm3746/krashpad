@@ -74,6 +74,11 @@ import org.github.krashpad.util.jdk.JdkUtil;
 public class DynamicLibrary implements LogEvent, HeaderEvent {
 
     /**
+     * Regular expression for errors.
+     */
+    public static final String _REGEX_ERROR = "Can not get library information for pid = \\d{1,}";
+
+    /**
      * Regular expression for the footer.
      */
     public static final String _REGEX_FOOTER = "Total number of mappings: \\d{1,}";
@@ -88,11 +93,10 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_FOOTER + "|(" + JdkRegEx.MEMORY_REGION + "|"
-            + JdkRegEx.ADDRESS + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS
-            + " " + JdkRegEx.INODE + ")?[\\s]{0,}(((" + org.github.joa.util.JdkRegEx.FILE_PATH
-            + ")( \\(deleted\\))?|[////]{0,}" + JdkRegEx.AREA
-            + ")( \\(deleted\\))?)?|(dbghelp|symbol engine):.+|Can not get library information for pid = \\d{1,})$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_FOOTER + "|" + _REGEX_ERROR + "|("
+            + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET
+            + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE + ")?[ \\t]{1,}("
+            + org.github.joa.util.JdkRegEx.FILE_PATH + ")?)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -151,7 +155,7 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
         String filePath = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int filePathIndex = 18;
+            int filePathIndex = 16;
             filePath = matcher.group(filePathIndex);
             // Directories and file names can include spaces and parenthesis, but assume any file name that ends with "
             // (deleted)" indicates an mmapped file in a deleted state and should be removed from the file name.
@@ -173,6 +177,22 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
         return JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString();
     }
 
+    public boolean isError() {
+        boolean isError = false;
+        if (this.logEntry != null) {
+            isError = logEntry.matches(_REGEX_ERROR);
+        }
+        return isError;
+    }
+
+    public boolean isFooter() {
+        boolean isFooter = false;
+        if (this.logEntry != null) {
+            isFooter = logEntry.matches(_REGEX_FOOTER);
+        }
+        return isFooter;
+    }
+
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
@@ -183,10 +203,28 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
     }
 
     /**
+     * @return True if the mapping is "interesting" (i.e. includes details useful for analysis vs. memory ranges without
+     *         any details), false otherwise.
+     */
+    public boolean isInteresting() {
+        boolean isInteresting = false;
+        if (this.isHeader() || this.isFooter()) {
+            isInteresting = true;
+        } else if (logEntry != null) {
+            isInteresting = (getFilePath() != null);
+        }
+        return isInteresting;
+    }
+
+    /**
      * @return True if a jar, false otherwise.
      */
     public boolean isJar() {
         return logEntry.matches(".+" + JdkRegEx.JAR + "$");
+    }
+
+    public boolean isMapping() {
+        return !(isHeader() || isFooter() || isError());
     }
 
     /**

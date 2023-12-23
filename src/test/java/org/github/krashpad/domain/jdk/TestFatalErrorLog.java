@@ -332,6 +332,15 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testDynamicLibraryMappings() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset26.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(1314, fel.getDynamicLibrariesMappingCount(), "Mappings count not correct.");
+        assertEquals(874, fel.getDynamicLibraries().size(), "Dynamic library count not correct.");
+    }
+
+    @Test
     void testG1() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset32.txt");
         Manager manager = new Manager();

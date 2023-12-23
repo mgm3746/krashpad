@@ -1909,9 +1909,7 @@ class TestAnalysis {
         String maxMapCount = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 100";
         MaxMapCount maxMapCountEvent = new MaxMapCount(maxMapCount);
         fel.setMaxMapCount(maxMapCountEvent);
-        for (int i = 1; i <= 100; ++i) {
-            fel.getDynamicLibraries().add(new DynamicLibrary(""));
-        }
+        fel.setDynamicLibrariesMappingCount(99);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_LIMIT + " analysis not identified.");
@@ -1927,9 +1925,7 @@ class TestAnalysis {
     @Test
     void testMaxMapCountLimitPossible() {
         FatalErrorLog fel = new FatalErrorLog();
-        for (int i = 1; i <= 65530; ++i) {
-            fel.getDynamicLibraries().add(new DynamicLibrary(""));
-        }
+        fel.setDynamicLibrariesMappingCount(65529);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE + " analysis not identified.");

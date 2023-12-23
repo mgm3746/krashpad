@@ -144,7 +144,15 @@ public class Manager {
                     } else if (event instanceof DllOperationEvent) {
                         fatalErrorLog.getDllOperationEvents().add((DllOperationEvent) event);
                     } else if (event instanceof DynamicLibrary) {
-                        fatalErrorLog.getDynamicLibraries().add((DynamicLibrary) event);
+                        if (!(((DynamicLibrary) event).isHeader() || ((DynamicLibrary) event).isFooter()
+                                || ((DynamicLibrary) event).isError())) {
+                            fatalErrorLog.setDynamicLibrariesMappingCount(
+                                    fatalErrorLog.getDynamicLibrariesMappingCount() + 1);
+                        }
+                        // Only keep "interesting" mappings
+                        if (((DynamicLibrary) event).isInteresting()) {
+                            fatalErrorLog.getDynamicLibraries().add((DynamicLibrary) event);
+                        }
                     } else if (event instanceof EnvironmentVariable) {
                         fatalErrorLog.getEnvironmentVariables().add((EnvironmentVariable) event);
                     } else if (event instanceof ElapsedTime) {
