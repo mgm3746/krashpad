@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.util.Date;
 
 import org.github.joa.domain.GarbageCollector;
 import org.github.krashpad.domain.jdk.CompilationEvent;
@@ -3011,6 +3012,50 @@ class TestAnalysis {
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
+    }
+
+    @Test
+    void testRhel7ElsHasBegunVersionLastMinorRelease() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        String time = "time: Mon Jul 1 00:00:00 2024";
+        Time timeEvent = new Time(time);
+        fel.setTime(timeEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION.getKey()),
+                Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION + " incorrectly not identified.");
+    }
+
+    @Test
+    void testRhel7ElsHasBegunVersionUnsupported() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux Server release 7.1 (Maipo)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        String time = "time: Mon Jul 1 00:00:00 2024";
+        Time timeEvent = new Time(time);
+        fel.setTime(timeEvent);
+        fel.doAnalysis();
+        assertFalse((new Date()).compareTo(KrashUtil.RHEL7_ELS_START) >= 0,
+                "TODO: Remove this line and uncomment the one below.");
+        // assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION.getKey()),
+        // Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION + " analysis not identified.");
+    }
+
+    @Test
+    void testRhel7ElsHasNotBegun() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux Server release 7.1 (Maipo)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        String time = "time: Sun Jun 30 23:59:59 2024";
+        Time timeEvent = new Time(time);
+        fel.setTime(timeEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION.getKey()),
+                Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION + " analysis incorrectly identified.");
     }
 
     @Test

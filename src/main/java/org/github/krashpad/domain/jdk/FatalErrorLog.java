@@ -1511,6 +1511,12 @@ public class FatalErrorLog {
                         || (getJavaVersionMajor() == 21 && getJavaVersionMinor() >= 1))) {
             analysis.add(Analysis.WARN_THP_OS_ALWAYS);
         }
+        // RHEL7 ELS
+        Date today = new Date();
+        if (today.compareTo(KrashUtil.RHEL7_ELS_START) >= 0 && getOsVersion() == OsVersion.RHEL7
+                && !getRhelVersion().equals("7.9")) {
+            analysis.add(Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION);
+        }
     }
 
     /**

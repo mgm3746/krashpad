@@ -929,6 +929,11 @@ public enum Analysis {
     WARN_RHEL6("warn.rhel6"),
 
     /**
+     * Property key for RHEL7 not last minor release 7.9.
+     */
+    WARN_RHEL7_ELS_UNSUPPORTED_VERSION("warn.rhel7.els.unsupported.version"),
+
+    /**
      * Property key for RHEL7 Power9 Extended Life Phase.
      */
     WARN_RHEL7_POWER9("warn.rhel7.power9"),

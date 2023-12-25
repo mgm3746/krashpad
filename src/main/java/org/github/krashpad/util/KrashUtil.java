@@ -84,6 +84,11 @@ public class KrashUtil {
     public static final String NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME = "C:\\\\Windows\\\\((system|System|SYSTEM)32|"
             + "WinSxS\\\\amd64_microsoft\\.windows\\.common\\-controls_.+)\\\\";
 
+    /**
+     * RHEL7 extended life cycle support (ELS) phase start date.
+     */
+    public static final Date RHEL7_ELS_START = KrashUtil.getDate("Jul 1 2024 00:00:00");
+
     static {
         // ***** JBOSS *****
         NATIVE_LIBRARIES_JBOSS = new ArrayList<String>();
