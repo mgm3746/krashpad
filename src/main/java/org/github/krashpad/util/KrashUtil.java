@@ -102,6 +102,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "ISO8859-1.so");
         // mesa-dri-drivers
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "dri/i965_dri.so");
+        // glibc
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "gconv/ISO8859-1.so");
         // ibus-gtk*
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "gtk-3.0/3.0.0/immodules/im-ibus.so");
         // mesa-dri-drivers
