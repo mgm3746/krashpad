@@ -41,6 +41,14 @@ class TestMetaspace {
     }
 
     @Test
+    void testCapacity() {
+        String logLine = "    1.74 GB capacity,     1.06 GB ( 61%) used,   677.69 MB ( 38%) free+waste,    24.97 MB "
+                + "(  1%) overhead.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    }
+
+    @Test
     void testCapacity2LeadingSpaces() {
         String logLine = "  414.40 MB capacity,   395.36 MB ( 95%) used,    17.73 MB (  4%) free+waste,     1.30 MB "
                 + "( <1%) overhead.";
