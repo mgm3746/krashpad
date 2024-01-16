@@ -58,6 +58,7 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  * 
  * <pre>
  * siginfo: si_signo: 11 (SIGSEGV), si_code: 0 (SI_USER), sent from pid: 107614 (uid: 1000)
+ * siginfo: si_signo: 7 (SIGBUS), si_code: 0 (SI_USER), si_pid: 1008245, si_uid: 0
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -76,7 +77,7 @@ public class SigInfo implements LogEvent {
             + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|" + SignalCode.SEGV_ACCERR + "|"
             + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|" + SignalCode.SI_USER + "|"
             + SignalCode.FPE_INTDIV + ")\\), (si_addr: " + JdkRegEx.ADDRESS
-            + "|sent from pid: \\d{1,} \\(uid: \\d{1,}\\)))|ExceptionCode=("
+            + "|(sent from pid|si_pid): \\d{1,}[,]{0,1} [\\(]{0,1}(uid|si_uid): \\d{1,}[\\)]{0,1}))|ExceptionCode=("
             + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW
             + "), ((reading|writing) " + "address " + JdkRegEx.ADDRESS + "|ExceptionInformation=" + JdkRegEx.ADDRESS
             + " " + JdkRegEx.ADDRESS + ")|" + SignalNumber.EXCEPTION_ACCESS_VIOLATION + " \\(("
@@ -130,9 +131,9 @@ public class SigInfo implements LogEvent {
             if (matcher.group(6) != null) {
                 // linux
                 address = matcher.group(6);
-            } else if (matcher.group(30) != null) {
+            } else if (matcher.group(32) != null) {
                 // windows
-                address = matcher.group(30);
+                address = matcher.group(32);
             }
         }
         return address;
@@ -189,16 +190,16 @@ public class SigInfo implements LogEvent {
                 } else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {
                     number = SignalNumber.SIGSEGV;
                 }
-            } else if (matcher.group(11) != null) {
+            } else if (matcher.group(13) != null) {
                 // Windows format 1
-                if (matcher.group(11).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
+                if (matcher.group(13).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
                     number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
-                } else if (matcher.group(11).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW)) {
+                } else if (matcher.group(13).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW)) {
                     number = SignalNumber.EXCEPTION_STACK_OVERFLOW;
                 }
-            } else if (matcher.group(29) != null) {
+            } else if (matcher.group(31) != null) {
                 // Windows format 2
-                if (matcher.group(29).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
+                if (matcher.group(31).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
                     number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
                 }
             }
