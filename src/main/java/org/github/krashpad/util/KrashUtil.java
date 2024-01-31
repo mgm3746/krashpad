@@ -479,6 +479,12 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "librt-2.12.so");
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "librt-2.17.so");
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "librt-2.28.so");
+        // libasyncns: library for asynchronous name service queries
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libasyncns.so.0.3.1");
+        // open-vm-tools: loaded to provide extended VMWare/vSphere virtualization information in the fatal error log.
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libguestlib.so.0.0.0");
+        // open-vm-tools: loaded to provide extended VMWare/vSphere virtualization information in the fatal error log.
+        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libvmtools.so.0.0.0");
         // libSM
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libSM.so.6.0.1");
         // libsecret
@@ -487,8 +493,6 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libsmime3.so");
         // softhsm
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libsofthsm2.so");
-        // libasyncns: library for asynchronous name service queries
-        NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libasyncns.so.0.3.1");
         // libselinux
         NATIVE_LIBRARIES_LINUX.add(NATIVE_LIBRARY_LINUX_HOME + "libselinux.so.1");
         // libsndfile: library for reading and writing files containing sampled audio data
