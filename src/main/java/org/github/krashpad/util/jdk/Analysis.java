@@ -589,7 +589,7 @@ public enum Analysis {
     INFO_OPTS_NONE("info.opts.none"),
 
     /**
-     * Property key for JVM options unknown.
+     * Property key for JVM options unknown (missing).
      */
     INFO_OPTS_UNKNOWN("info.opts.unknown"),
 

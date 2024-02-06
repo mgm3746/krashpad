@@ -939,6 +939,16 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testNoJvmArgs() {
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_OPTS_UNKNOWN.getKey()),
+                Analysis.INFO_OPTS_UNKNOWN + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_OPTS_NONE.getKey()),
+                Analysis.INFO_OPTS_NONE + " analysis incorrectly identified.");
+    }
+
+    @Test
     void testNoJvmOptions() {
         FatalErrorLog fel = new FatalErrorLog();
         String logLine = "jvm_args: -D[Standalone]";
