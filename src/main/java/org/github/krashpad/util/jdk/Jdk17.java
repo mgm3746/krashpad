@@ -98,9 +98,15 @@ public class Jdk17 {
                 new Release("Jan 14 2023 03:44:30", 8, "17.0.6+10-LTS"));
         RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.6.0.10-2.el8_1.x86_64",
                 new Release("Jan 14 2023 03:44:30", 8, "17.0.6+10-LTS"));
-        RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.4.1.1-2.el8_6.x86_64",
+        RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.5.0.8-3.el8_6.x86_64",
                 new Release("Oct 15 2022 01:52:55", 7, "17.0.5+8-LTS"));
-        RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.4.1.1-2.el8_4.x86_64",
+        RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.5.0.8-2.el8_6.x86_64",
+                new Release("Oct 15 2022 01:52:55", 7, "17.0.5+8-LTS"));
+        RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.5.0.8-2.el8_6.x86_64",
+                new Release("Oct 15 2022 01:52:55", 7, "17.0.5+8-LTS"));
+        RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.5.0.8-2.el8_4.x86_64",
+                new Release("Oct 15 2022 01:52:55", 7, "17.0.5+8-LTS"));
+        RHEL8_X86_64_RPMS.put(" java-17-openjdk-17.0.5.0.8-1.el8_7.x86_64",
                 new Release("Oct 15 2022 00:00:00", 7, "17.0.5+8-LTS"));
         RHEL8_X86_64_RPMS.put("java-17-openjdk-17.0.4.1.1-2.el8_6.x86_64",
                 new Release("Sep 2 2022 02:21:07", 6, "17.0.4.1+1-LTS"));
