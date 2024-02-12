@@ -164,6 +164,18 @@ public class JdkRegEx {
     public static final String COMMAND_CASSANDRA = "^.*org\\.apache\\.cassandra\\.service\\.CassandraDaemon.*$";
 
     /**
+     * EAP cli main class used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
+     * 
+     * For example:
+     * 
+     * <pre>
+     * /path/to/jboss-modules.jar -mp /path/to/modules org.jboss.as.cli --connect --command=ls 
+     * profile=path/to/subsystem=datasources/data-source
+     * </pre>
+     */
+    public static final String COMMAND_EAP_CLI = "^.*org.jboss.as.cli --connect.*$";
+
+    /**
      * JBoss version check string used for {@link org.github.krashpad.util.jdk.JdkUtil.Application} identification.
      * 
      * For example:

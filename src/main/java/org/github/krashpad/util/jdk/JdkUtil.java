@@ -140,6 +140,8 @@ public class JdkUtil {
         //
         CASSANDRA,
         //
+        EAP_CLI,
+        //
         JBOSS_EAP6,
         //
         JBOSS_EAP7,

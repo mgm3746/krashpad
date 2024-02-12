@@ -1865,6 +1865,8 @@ public class FatalErrorLog {
                     application = Application.AMQ_CLI;
                 } else if (javaCommand.matches(JdkRegEx.COMMAND_CASSANDRA)) {
                     application = Application.CASSANDRA;
+                } else if (javaCommand.matches(JdkRegEx.COMMAND_EAP_CLI)) {
+                    application = Application.EAP_CLI;
                 } else if (javaCommand.matches(JdkRegEx.COMMAND_JBOSS_VERSION)) {
                     application = Application.JBOSS_VERSION;
                 } else if (javaCommand.matches(JdkRegEx.COMMAND_JEUS)) {

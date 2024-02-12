@@ -136,10 +136,18 @@ class TestJdkRegEx {
     }
 
     @Test
+    void testCommandEapCli() {
+        String javaCommand = "java_command: E:\\path\\to\\jboss-eap\\jboss-modules.jar -mp "
+                + "E:\\path\\to\\jboss-eap\\modules org.jboss.as.cli --connect --command=ls "
+                + "profile=path/subsystem=datasources/data-source";
+        assertTrue(javaCommand.matches(JdkRegEx.COMMAND_EAP_CLI), "Command not recognized.");
+    }
+
+    @Test
     void testCommandJeusDomainAdminServerBootstrapper() {
         String javaCommand = "java_command: jeus.server.admin.DomainAdminServerBootstrapper -u myuser -p mypass "
                 + "-domain mydomain -server myserver -verbose -domain mydomain -server myserver";
-        assertTrue(javaCommand.matches(JdkRegEx.COMMAND_JEUS), "JBoss version check not recognized.");
+        assertTrue(javaCommand.matches(JdkRegEx.COMMAND_JEUS), "Command not recognized.");
     }
 
     @Test
