@@ -4124,7 +4124,7 @@ public class FatalErrorLog {
      * defaults to min(3% of free pages, 8MB) for users with the capability cap_sys_admin. It should be large enough to
      * handle the full Virtual Memory Size of programs used to recover.
      * 
-     * @return The total amount of memory currently available to be allocated by the system in bytes.
+     * @return The total amount of memory currently available to be allocated by the system, in bytes.
      */
     public long getOsCommitLimit() {
         long commitLimit = Long.MIN_VALUE;
@@ -4157,7 +4157,7 @@ public class FatalErrorLog {
      * 
      * RHEL6/7/8: allocatable memory=(swap size + ((RAM size - huge tlb size) * overcommit ratio / 100))
      * 
-     * @return The amount of userspace virtual memory currently allocated on the system in bytes.
+     * @return The amount of userspace virtual memory currently allocated on the system, in bytes.
      */
     public long getOsCommittedAs() {
         long committedAs = Long.MIN_VALUE;
@@ -4317,7 +4317,7 @@ public class FatalErrorLog {
                     break;
                 }
             }
-        } else if (!memories.isEmpty()) {
+        } else if (!memories.isEmpty() && getOs() != Os.WINDOWS) {
             Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
@@ -4355,7 +4355,7 @@ public class FatalErrorLog {
                     break;
                 }
             }
-        } else if (!memories.isEmpty()) {
+        } else if (!memories.isEmpty() && getOs() != Os.WINDOWS) {
             Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();

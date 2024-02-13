@@ -41,7 +41,30 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </pre>
  * 
  * <p>
- * 2) Windows:
+ * 2) Windows JDK8:
+ * </p>
+ * 
+ * <p>
+ * Oddly enough, "swap" total is _not_ the swap (Windows page file) size. It is `ullTotalPageFile`, the current
+ * committed memory limit for the system or the current process, whichever is smaller (i.e. total virtual memory).
+ * </p>
+ * 
+ * <p>
+ * Oddly enough, "swap" free is _not_ the swap (Windows page file) free space. It is `ullAvailPageFile`, the maximum
+ * amount of memory the current process can commit, equal to or smaller than the system-wide commit limit (i.e. free
+ * virtual memory).
+ * <p>
+ * 
+ * <p>
+ * See <a href="https://bugs.openjdk.org/browse/JDK-8202427">JDK-8202427: Enhance os::print_memory_info on Windows</a>
+ * </p>
+ * 
+ * <pre>
+ * Memory: 4k page, physical 83885040k(45900432k free), swap 85982192k(42352392k free)
+ * </pre>
+ * 
+ * <p>
+ * 3) Windows JDK11+:
  * </p>
  * 
  * <pre>
@@ -55,6 +78,8 @@ public class Memory implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
+     * 
+     * On Windows, the swap total value includes physical memory, but
      */
     public static final String _REGEX_HEADER = "^Memory: (4|8|64)k page,( system-wide)? physical " + JdkRegEx.SIZE
             + "[ ]{0,1}\\(" + JdkRegEx.SIZE + " free\\)(, swap " + JdkRegEx.SIZE + "\\(" + JdkRegEx.SIZE

@@ -1600,10 +1600,8 @@ class TestFatalErrorLog {
         assertEquals(physicalMemory, fel.getOsMemTotal(), "System physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(674168, 'K', 'B');
         assertEquals(physicalMemoryFree, fel.getOsMemFree(), "System physical memory free not correct.");
-        long swap = JdkUtil.convertSize(20970784, 'K', 'B');
-        assertEquals(swap, fel.getOsSwap(), "System swap not correct.");
-        long swapFree = JdkUtil.convertSize(5252, 'K', 'B');
-        assertEquals(swapFree, fel.getOsSwapFree(), "System swap free not correct.");
+        assertEquals(Long.MIN_VALUE, fel.getOsSwap(), "System swap not correct.");
+        assertEquals(Long.MIN_VALUE, fel.getOsSwapFree(), "System swap free not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
