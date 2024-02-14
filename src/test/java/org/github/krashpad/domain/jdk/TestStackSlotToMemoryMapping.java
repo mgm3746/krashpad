@@ -236,6 +236,15 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
+    void testInvokevirtual() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = "invokevirtual  182 invokevirtual";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testItableLength() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = " - itable length      13 (start addr: 0x0000000800001a00)";
