@@ -47,12 +47,13 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <p>
  * Oddly enough, "swap" total is _not_ the swap (Windows page file) size. It is `ullTotalPageFile`, the current
  * committed memory limit for the system or the current process, whichever is smaller (i.e. total virtual memory).
+ * Corresponds to the linux `CommitLimit`.
  * </p>
  * 
  * <p>
  * Oddly enough, "swap" free is _not_ the swap (Windows page file) free space. It is `ullAvailPageFile`, the maximum
  * amount of memory the current process can commit, equal to or smaller than the system-wide commit limit (i.e. free
- * virtual memory).
+ * virtual memory). Corresponds to the linux `CommitLimit` - `Commit_AS`.
  * <p>
  * 
  * <p>
