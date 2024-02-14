@@ -96,10 +96,25 @@ public class Memory implements LogEvent, HeaderEvent {
      * 
      * WorkingSet: On Windows, the set of process pages in the virtual address space that is in physical memory (RAM).
      * 
-     * PageFile: On Windows, swap (disk) memory.
+     * <pre>
+     * TotalPageFile size 20479M (AvailPageFile size 7532M)
+     * </pre>
+     * 
+     * <p>
+     * TotalPageFile: Oddly enough, this is _not_ the swap (Windows page file) size. It is `ullTotalPageFile`, the
+     * current committed memory limit for the system or the current process, whichever is smaller (i.e. total virtual
+     * memory). Corresponds to the linux `CommitLimit`.`ullTotalPageFile` On Windows, swap (disk) memory.
+     * </p>
+     * 
+     * <p>
+     * AvailPageFile: Oddly enough, this is _not_ the swap (Windows page file) free space. It is `ullAvailPageFile`, the
+     * maximum amount of memory the current process can commit, equal to or smaller than the system-wide commit limit
+     * (i.e. free virtual memory). Corresponds to the linux `CommitLimit` - `Commit_AS`.
+     * </p>
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|current process (commit charge|WorkingSet).+|Page Sizes:.+|TotalPageFile.+)$";
+            + "|current process (commit charge|WorkingSet).+|Page Sizes:.+|TotalPageFile size (\\d{1,})M "
+            + "\\(AvailPageFile size (\\d{1,})M\\))$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
