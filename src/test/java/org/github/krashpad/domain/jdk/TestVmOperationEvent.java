@@ -120,6 +120,22 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testThreadDump() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 1204492.867 Executing VM operation: ThreadDump";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testThreadDumpDone() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("Event: 1204492.867 Executing VM operation: ThreadDump");
+        String logLine = "Event: 1204492.867 Executing VM operation: ThreadDump done";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testZMarkEnd() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 54166.258 Executing VM operation: ZMarkEnd";

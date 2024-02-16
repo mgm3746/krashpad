@@ -46,7 +46,7 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
     public static final String _REGEX_HEADER = "VM Operations \\(\\d{1,} events\\):";
 
     private static final String _REGEX_OPERATIONS = "(Cleanup|FindDeadlocks|G1CollectForAllocation|GetAllStackTraces|"
-            + "HandshakeAllThreads|ICBufferFull|PrintJNI|PrintThreads|ZMarkEnd|ZRelocateStart)";
+            + "HandshakeAllThreads|ICBufferFull|PrintJNI|PrintThreads|ThreadDump|ZMarkEnd|ZRelocateStart)";
 
     /**
      * Regular expression defining the logging.
