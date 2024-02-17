@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.HeaderEvent;
@@ -43,23 +44,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * <p>
  * 2) Windows JDK8:
  * </p>
- * 
- * <p>
- * Oddly enough, "swap" total is _not_ the swap (Windows page file) size. It is `ullTotalPageFile`, the current
- * committed memory limit for the system or the current process, whichever is smaller (i.e. total virtual memory).
- * Corresponds to the linux `CommitLimit`.
- * </p>
- * 
- * <p>
- * Oddly enough, "swap" free is _not_ the swap (Windows page file) free space. It is `ullAvailPageFile`, the maximum
- * amount of memory the current process can commit, equal to or smaller than the system-wide commit limit (i.e. free
- * virtual memory). Corresponds to the linux `CommitLimit` - `Commit_AS`.
- * <p>
- * 
- * <p>
- * See <a href="https://bugs.openjdk.org/browse/JDK-8202427">JDK-8202427: Enhance os::print_memory_info on Windows</a>
- * </p>
- * 
+ *
  * <pre>
  * Memory: 4k page, physical 83885040k(45900432k free), swap 85982192k(42352392k free)
  * </pre>
@@ -70,6 +55,7 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * 
  * <pre>
  * Memory: 4k page, system-wide physical 16383M (5994M free)
+ * TotalPageFile size 18943M (AvailPageFile size 1M)
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -80,11 +66,36 @@ public class Memory implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      * 
-     * On Windows, the swap total value includes physical memory, but
+     * On Windows, oddly enough, "swap" is _not_ the swap (Windows page file) size.
+     * 
+     * "swap" toal is `ullTotalPageFile`, the commit limit for the system or the current process, whichever is smaller
+     * (i.e. total virtual memory), which corresponds to the linux `CommitLimit`.
+     * 
+     * "swap" free is `ullAvailPageFile`, the maximum amount of memory the current process can commit (i.e. free virtual
+     * memory), which corresponds to the linux `CommitLimit` - `Commit_AS`.
+     * 
+     * Reference: https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-memorystatusex
      */
     public static final String _REGEX_HEADER = "^Memory: (4|8|64)k page,( system-wide)? physical " + JdkRegEx.SIZE
             + "[ ]{0,1}\\(" + JdkRegEx.SIZE + " free\\)(, swap " + JdkRegEx.SIZE + "\\(" + JdkRegEx.SIZE
             + " free\\))?$";
+
+    /**
+     * Regular expression for Windows page file information in JDK11+.
+     * 
+     * The oddness in JDK8, where "swap" is not actually swap (Windows page file), has been carried forward, and now
+     * "PageFile" is not actually the Windows page file.
+     * 
+     * "TotalPageFile" is `ullTotalPageFile`, the commit limit for the system or the current process, whichever is
+     * smaller (i.e. total virtual memory), which corresponds to the linux `CommitLimit`.
+     * 
+     * "AvailPageFile" is `ullAvailPageFile`, the maximum amount of memory the current process can commit (i.e. free
+     * virtual memory), which corresponds to the linux `CommitLimit` - `Commit_AS`.
+     * 
+     * Reference: https://bugs.openjdk.org/browse/JDK-8202427
+     */
+    public static final String _REGEX_PAGE_FILE = "^TotalPageFile size " + JdkRegEx.SIZE + " \\(AvailPageFile size "
+            + JdkRegEx.SIZE + "\\)$";
 
     public static final Pattern PATTERN = Pattern.compile(Memory.REGEX);
 
@@ -112,9 +123,8 @@ public class Memory implements LogEvent, HeaderEvent {
      * (i.e. free virtual memory). Corresponds to the linux `CommitLimit` - `Commit_AS`.
      * </p>
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|current process (commit charge|WorkingSet).+|Page Sizes:.+|TotalPageFile size (\\d{1,})M "
-            + "\\(AvailPageFile size (\\d{1,})M\\))$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_PAGE_FILE
+            + "|current process (commit charge|WorkingSet).+|Page Sizes: .+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -148,6 +158,68 @@ public class Memory implements LogEvent, HeaderEvent {
 
     public String getName() {
         return JdkUtil.LogEventType.MEMORY.toString();
+    }
+
+    /**
+     * The Windows "AvailPageFile" value. Oddly enough, this is the available commit limit, not free page file space.
+     * 
+     * @return The "AvailPageFile" value, in bytes, or Long.MIN_VALUE if it cannot be determined.
+     */
+    public long getPageFileFree() {
+        long pageFileFree = Long.MIN_VALUE;
+        Pattern pattern = Pattern.compile(_REGEX_PAGE_FILE);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find() && matcher.group(4) != null && matcher.group(6) != null) {
+            pageFileFree = JdkUtil.convertSize(Long.parseLong(matcher.group(4)), matcher.group(6).charAt(0), 'B');
+        }
+        return pageFileFree;
+    }
+
+    /**
+     * The Windows "TotalPageFile" value. Oddly enough, this is the commit limit, not the Windows page file size.
+     * 
+     * @return The "TotalPageFile" value, in bytes, or Long.MIN_VALUE if it cannot be determined.
+     */
+    public long getPageFileTotal() {
+        long pageFileTotal = Long.MIN_VALUE;
+        Pattern pattern = Pattern.compile(_REGEX_PAGE_FILE);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find() && matcher.group(1) != null && matcher.group(3) != null) {
+            pageFileTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), matcher.group(3).charAt(0), 'B');
+        }
+        return pageFileTotal;
+    }
+
+    /**
+     * The "swap free" value. This is the actual free swap space, except on Windows, where it is, oddly enough, the
+     * available commit limit.
+     * 
+     * @return The "swap" "free" value, in bytes, or Long.MIN_VALUE if it cannot be determined.
+     */
+    public long getSwapFree() {
+        long swapFree = Long.MIN_VALUE;
+        Pattern pattern = Pattern.compile(_REGEX_HEADER);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find() && matcher.group(13) != null && matcher.group(15) != null) {
+            swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0), 'B');
+        }
+        return swapFree;
+    }
+
+    /**
+     * The "swap" value. This is the actual total swap size, except on Windows, where it is, oddly enough, the commit
+     * limit.
+     * 
+     * @return The "swap" value, in bytes, or Long.MIN_VALUE if it cannot be determined.
+     */
+    public long getSwapTotal() {
+        long swap = Long.MIN_VALUE;
+        Pattern pattern = Pattern.compile(_REGEX_HEADER);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find() && matcher.group(10) != null && matcher.group(12) != null) {
+            swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0), 'B');
+        }
+        return swap;
     }
 
     @Override

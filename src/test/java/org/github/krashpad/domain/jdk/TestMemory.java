@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -60,6 +61,9 @@ class TestMemory {
         String logLine = "Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
                 JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+        Memory event = new Memory(logLine);
+        assertEquals(8097788L * 1024, event.getSwapTotal(), "swap not correct.");
+        assertEquals(7612768L * 1024, event.getSwapFree(), "swap free not correct.");
     }
 
     @Test
@@ -88,6 +92,8 @@ class TestMemory {
         String logLine = "Memory: 8k page, physical 267386880k(88275744k free)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
                 JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+        Memory event = new Memory(logLine);
+        assertEquals(Long.MIN_VALUE, event.getSwapTotal(), "swap not correct.");
     }
 
     @Test
@@ -111,6 +117,9 @@ class TestMemory {
         String logLine = "TotalPageFile size 20479M (AvailPageFile size 7532M)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMORY,
                 JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+        Memory event = new Memory(logLine);
+        assertEquals(20479L * 1024 * 1024, event.getPageFileTotal(), "TotalPageFile not correct.");
+        assertEquals(7532L * 1024 * 1024, event.getPageFileFree(), "AvailPageFile free not correct.");
     }
 
 }

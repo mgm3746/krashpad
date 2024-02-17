@@ -857,8 +857,8 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey()),
-                Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_OOPS.getKey()),
+                Analysis.ERROR_OOME_RLIMIT_OOPS + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
@@ -1108,7 +1108,7 @@ class TestAnalysis {
         long physicalMemoryFree = JdkUtil.convertSize(241892, 'K', 'B');
         assertEquals(physicalMemoryFree, fel.getJvmMemFree(), "Physical memory free not correct.");
         long swap = JdkUtil.convertSize(10592252, 'K', 'B');
-        assertEquals(swap, fel.getJvmSwap(), "Swap not correct.");
+        assertEquals(swap, fel.getJvmSwapTotal(), "Swap not correct.");
         long swapFree = JdkUtil.convertSize(4, 'K', 'B');
         assertEquals(swapFree, fel.getJvmSwapFree(), "Swap free not correct.");
         long heapInitial = JdkUtil.convertSize(2048, 'M', 'B');
@@ -1907,20 +1907,23 @@ class TestAnalysis {
     @Test
     void testMaxMapCountLimit() {
         FatalErrorLog fel = new FatalErrorLog();
+        String os = "Red Hat Enterprise Linux release 8.5 (Ootpa)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
         String maxMapCount = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 100";
         MaxMapCount maxMapCountEvent = new MaxMapCount(maxMapCount);
         fel.setMaxMapCount(maxMapCountEvent);
         fel.setDynamicLibrariesMappingCount(99);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
-                Analysis.WARN_MAX_MAP_COUNT_LIMIT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_RLIMIT.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT + " analysis not identified.");
         assertEquals(
                 "The number of memory map areas (99) in the Dynamic Libraries section is within 1% of the "
                         + "max_map_count limit (100).",
-                fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
-                Analysis.WARN_MAX_MAP_COUNT_LIMIT + " not correct.");
-        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.getKey()),
-                Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE + " analysis incorrectly identified.");
+                fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_RLIMIT.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT + " not correct.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE + " analysis incorrectly identified.");
     }
 
     @Test
@@ -1928,15 +1931,15 @@ class TestAnalysis {
         FatalErrorLog fel = new FatalErrorLog();
         fel.setDynamicLibrariesMappingCount(65529);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.getKey()),
-                Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE + " analysis not identified.");
         assertEquals(
                 "The number of memory map areas (65529) in the Dynamic Libraries section is very close to the default "
                         + "max_map_count limit (65530).",
-                fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.getKey()),
-                Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE + " not correct.");
-        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_LIMIT.getKey()),
-                Analysis.WARN_MAX_MAP_COUNT_LIMIT + " analysis incorrectly identified.");
+                fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE + " not correct.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_RLIMIT.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT + " analysis incorrectly identified.");
     }
 
     @Test
@@ -2281,8 +2284,8 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL.getKey()),
-                Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_WLIMIT_OOPS.getKey()),
+                Analysis.ERROR_OOME_WLIMIT_OOPS + " analysis not identified.");
     }
 
     @Test
@@ -2296,8 +2299,8 @@ class TestAnalysis {
         assertEquals(Long.MIN_VALUE, fel.getMemoryAllocation(), "Memory allocation not correct.");
         assertEquals(32593993728L, fel.getJvmMemFree(), "JVM reported free memory not correct.");
         assertEquals(Long.MIN_VALUE, fel.getJvmSwapFree(), "JVM reported swap not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey()),
-                Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_OOPS.getKey()),
+                Analysis.ERROR_OOME_RLIMIT_OOPS + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
@@ -2384,6 +2387,9 @@ class TestAnalysis {
         String header3 = "#  Out of Memory Error (os_linux.cpp:2749), pid=123456, tid=0x00007f544c72a700";
         Header headerEvent3 = new Header(header3);
         fel.getHeaders().add(headerEvent3);
+        String os = "OS: Red Hat Enterprise Linux release 8.5 (Ootpa)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
         String timeElapsedTime = "Time: Mon Dec 11 11:15:36 2023 EST elapsed time: 0.021790 seconds (0d 0h 0m 0s)";
         TimeElapsedTime timeElapsedTimeEvent = new TimeElapsedTime(timeElapsedTime);
         fel.setTimeElapsedTime(timeElapsedTimeEvent);
@@ -2461,8 +2467,8 @@ class TestAnalysis {
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()),
-                Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP.getKey()),
+                Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
@@ -2473,8 +2479,8 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT.getKey()),
-                Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT.getKey()),
+                Analysis.ERROR_OOME_RLIMIT + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
@@ -2527,8 +2533,8 @@ class TestAnalysis {
         assertEquals(6442446848L, fel.getJvmSwapFree(), "JVM reported swap not correct.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME.getKey()),
                 Analysis.ERROR_OOME + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT.getKey()),
-                Analysis.ERROR_OOME_LIMIT + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT.getKey()),
+                Analysis.ERROR_OOME_RLIMIT + " analysis not identified.");
     }
 
     @Test
@@ -2549,8 +2555,8 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()),
-                Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP.getKey()),
+                Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -2563,8 +2569,8 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()),
-                Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP.getKey()),
+                Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_JVM_STARTUP.getKey()),
                 Analysis.ERROR_OOME_JVM_STARTUP + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX.getKey()),
@@ -2803,8 +2809,8 @@ class TestAnalysis {
         assertEquals(0, fel.getJvmSwapFree(), "JVM reported swap not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100.getKey()),
                 Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100 + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey()),
-                Analysis.ERROR_OOME_LIMIT_OOPS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_OOPS.getKey()),
+                Analysis.ERROR_OOME_RLIMIT_OOPS + " analysis not identified.");
     }
 
     @Test
@@ -2814,9 +2820,9 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100.getKey()),
-                Analysis.ERROR_OOME_OVERCOMMIT_LIMIT + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT.getKey()),
-                Analysis.ERROR_OOME_OVERCOMMIT_LIMIT + " analysis not identified.");
+                Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100 + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT.getKey()),
+                Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT + " analysis not identified.");
     }
 
     @Test
@@ -2840,8 +2846,8 @@ class TestAnalysis {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isError("Out of Memory Error"), "Out Of Memory Error not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_STARTUP.getKey()),
-                Analysis.ERROR_OOME_LIMIT_STARTUP + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_STARTUP.getKey()),
+                Analysis.ERROR_OOME_RLIMIT_STARTUP + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
                 Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -3090,7 +3096,7 @@ class TestAnalysis {
     @Test
     void testRhelJdkRpmMismatchJdk11() {
         FatalErrorLog fel = new FatalErrorLog();
-        String os = "OS:Red Hat Enterprise Linux release 8.5 (Ootpa)";
+        String os = "OS: Red Hat Enterprise Linux release 8.5 (Ootpa)";
         OsInfo osEvent = new OsInfo(os);
         fel.getOsInfos().add(osEvent);
         String library = "7ff001124000-7ff001ecf000 r-xp 00000000 fd:00 17385                      "
@@ -3357,18 +3363,6 @@ class TestAnalysis {
     }
 
     @Test
-    void testSwappingWarn() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset12.txt");
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(testFile);
-        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_SWAPPING.getKey()),
-                Analysis.WARN_SWAPPING + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
-                Analysis.ERROR_JVM_DLL + " analysis not identified.");
-    }
-
-    @Test
     void testTimeout() {
         FatalErrorLog fel = new FatalErrorLog();
         String timeout = "[timeout occurred during error reporting in step \"printing summary machine and OS info\"] "
@@ -3560,6 +3554,16 @@ class TestAnalysis {
         fel.getStacks().add(stackEvent2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_WILY.getKey()), Analysis.WARN_WILY + " analysis not identified.");
+    }
+
+    @Test
+    void testWindowsCrashInJvmDll() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset12.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
+                Analysis.ERROR_JVM_DLL + " analysis not identified.");
     }
 
     @Test

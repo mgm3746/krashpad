@@ -151,15 +151,15 @@ public class Main {
                                 org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
             }
-            if (fel.getOsSwap() >= 0) {
-                printWriter
-                        .write("Swap: " + JdkUtil.convertSize(fel.getOsSwap(), 'B', org.github.joa.util.Constants.UNITS)
+            if (fel.getOsSwapTotal() >= 0) {
+                printWriter.write(
+                        "Swap: " + JdkUtil.convertSize(fel.getOsSwapTotal(), 'B', org.github.joa.util.Constants.UNITS)
                                 + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
-                if (fel.getOsSwap() > 0) {
+                if (fel.getOsSwapTotal() > 0 && fel.getOsSwapFree() >= 0) {
                     printWriter.write("Swap Free: "
                             + JdkUtil.convertSize(fel.getOsSwapFree(), 'B', org.github.joa.util.Constants.UNITS)
                             + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                            + JdkMath.calcPercent(fel.getOsSwapFree(), fel.getOsSwap()) + "%)"
+                            + JdkMath.calcPercent(fel.getOsSwapFree(), fel.getOsSwapTotal()) + "%)"
                             + Constants.LINE_SEPARATOR);
                 }
             }
@@ -184,25 +184,25 @@ public class Main {
                             + JdkMath.calcPercent(fel.getJvmMemFree(), fel.getJvmMemTotal()) + "%)"
                             + Constants.LINE_SEPARATOR);
                 }
-                if (fel.getOsSwap() > 0) {
-                    printWriter.write(
-                            "Swap: " + JdkUtil.convertSize(fel.getJvmSwap(), 'B', org.github.joa.util.Constants.UNITS)
-                                    + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                                    + JdkMath.calcPercent(fel.getJvmSwap(), fel.getOsSwap()) + "% OS Swap)"
-                                    + Constants.LINE_SEPARATOR);
+                if (fel.getOsSwapTotal() > 0) {
+                    printWriter.write("Swap: "
+                            + JdkUtil.convertSize(fel.getJvmSwapTotal(), 'B', org.github.joa.util.Constants.UNITS)
+                            + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
+                            + JdkMath.calcPercent(fel.getJvmSwapTotal(), fel.getOsSwapTotal()) + "% OS Swap)"
+                            + Constants.LINE_SEPARATOR);
                     printWriter.write("Swap Free: "
                             + JdkUtil.convertSize(fel.getJvmSwapFree(), 'B', org.github.joa.util.Constants.UNITS)
                             + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                            + JdkMath.calcPercent(fel.getJvmSwapFree(), fel.getJvmSwap()) + "%)"
+                            + JdkMath.calcPercent(fel.getJvmSwapFree(), fel.getJvmSwapTotal()) + "%)"
                             + Constants.LINE_SEPARATOR);
                 }
             }
-            if ((fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT.getKey())
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_STARTUP.getKey())
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS.getKey())
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_LIMIT_OOPS_STARTUP.getKey())
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT.getKey())
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP.getKey()))) {
+            if ((fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT.getKey())
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_STARTUP.getKey())
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_OOPS.getKey())
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_OOPS_STARTUP.getKey())
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT.getKey())
+                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP.getKey()))) {
                 if (fel.getRlimit() != null) {
                     printWriter.write(fel.getRlimit().getLogEntry() + Constants.LINE_SEPARATOR);
                 }

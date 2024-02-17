@@ -663,7 +663,7 @@ public class FatalErrorLog {
         // Check for insufficient physical memory
         if (getHeapMaxSize() > 0 && getMetaspaceMaxSize() > 0 && getJvmMemTotal() > 0
                 && (getHeapMaxSize() + getMetaspaceMaxSize()) > getJvmMemTotal()) {
-            if (getOsSwap() == 0 || getJvmSwap() == 0) {
+            if (getOsSwapTotal() == 0 || getJvmSwapTotal() == 0) {
                 analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP);
             } else {
                 analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP);
@@ -677,54 +677,59 @@ public class FatalErrorLog {
         // OOME
         if (isMemoryAllocationFail()) {
             if (isCrashOnStartup()) {
-                long allocation = Long.MIN_VALUE;
-                allocation = getMemoryAllocation();
-                if (allocation < 0) {
-                    // Use JVM estimated initial process size
-                    allocation = getJvmMemoryInitial();
-                }
                 if (getApplication() == Application.TOMCAT_SHUTDOWN) {
                     analysis.add(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN);
                 } else if (getApplication() == Application.JBOSS_VERSION) {
                     analysis.add(Analysis.ERROR_OOME_JBOSS_VERSION);
                 } else if (getApplication() == Application.AMQ_CLI) {
                     analysis.add(Analysis.ERROR_OOME_AMQ_CLI);
-                } else if (allocation > 0 && getOsCommitLimit() >= 0 && getOsCommittedAs() >= 0
-                        && allocation > (getOsCommitLimit() - getOsCommittedAs()) && !isOvercommitted()) {
-                    // Strong evidence for vm.overcommit_memory=2, but possible resource limit
-                    analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP);
-                    if (jvmOptions == null
-                            || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
-                                    && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
-                                            jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
-                                                    JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
-                        analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
-                    }
-                } else if (allocation >= 0 && getOsCommitLimit() >= 0 && getOsCommittedAs() >= 0
-                        && getOsCommitLimit() >= getOsCommittedAs() && isOvercommitDisabled()
-                        && allocation > (getOsCommitLimit() - getOsCommittedAs()
-                                - JdkUtil.convertSize(Long.parseLong("136"), 'M', 'B'))) {
-                    // Allocation > (available commit limit - user_reserve_kbytes [assume worse case 128M] -
-                    // admin_reserve_kbytes [assume worse case 8M])
-                    analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP);
-                } else if (allocation >= 0 && (getJvmMemFree() >= 0 || getJvmSwapFree() >= 0)
-                        && allocation >= (getJvmMemFree() + getJvmSwapFree())) {
-                    // Allocation > available physical memory
-                    if (JdkMath.calcPercent(allocation, getOsMemTotal()) < 50) {
-                        analysis.add(Analysis.ERROR_OOME_EXTERNAL_STARTUP);
-                    } else {
-                        analysis.add(Analysis.ERROR_OOME_JVM_STARTUP);
-                    }
-                    if (jvmOptions == null
-                            || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
-                                    && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
-                                            jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
-                                                    JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
-                        analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
-                    }
                 } else {
-                    // Resource limit
-                    analysis.add(Analysis.ERROR_OOME_LIMIT_STARTUP);
+                    long allocation = Long.MIN_VALUE;
+                    allocation = getMemoryAllocation();
+                    if (allocation < 0) {
+                        // Use JVM estimated initial process size
+                        allocation = getJvmMemoryInitial();
+                    }
+                    if (allocation > 0 && getOsCommitLimit() >= 0 && getOsCommitLimitUsed() >= 0
+                            && allocation > (getOsCommitLimit() - getOsCommitLimitUsed()) && !isOvercommitted()) {
+                        // Strong evidence for vm.overcommit_memory=2, but possible resource limit
+                        analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP);
+                        if (jvmOptions == null
+                                || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
+                                        && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
+                                                jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
+                                                        JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
+                            analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
+                        }
+                    } else if (allocation >= 0 && getOsCommitLimit() >= 0 && getOsCommitLimitUsed() >= 0
+                            && getOsCommitLimit() >= getOsCommitLimitUsed() && isOvercommitDisabled()
+                            && allocation > (getOsCommitLimit() - getOsCommitLimitUsed()
+                                    - JdkUtil.convertSize(Long.parseLong("136"), 'M', 'B'))) {
+                        // Allocation > (available commit limit - user_reserve_kbytes [assume worse case 128M] -
+                        // admin_reserve_kbytes [assume worse case 8M])
+                        analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP);
+                    } else if (allocation >= 0 && (getJvmMemFree() >= 0 || getJvmSwapFree() >= 0)
+                            && allocation >= (Math.max(getJvmMemFree(), 0) + Math.max(getJvmSwapFree(), 0))) {
+                        if (JdkMath.calcPercent(allocation, getOsMemTotal()) < 50) {
+                            analysis.add(Analysis.ERROR_OOME_EXTERNAL_STARTUP);
+                        } else {
+                            analysis.add(Analysis.ERROR_OOME_JVM_STARTUP);
+                        }
+                        if (jvmOptions == null
+                                || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
+                                        && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
+                                                jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
+                                                        JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
+                            analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
+                        }
+                    } else {
+                        // Resource limit
+                        if (Os.WINDOWS == getOs()) {
+                            analysis.add(Analysis.ERROR_OOME_WLIMIT_STARTUP);
+                        } else {
+                            analysis.add(Analysis.ERROR_OOME_RLIMIT_STARTUP);
+                        }
+                    }
                 }
                 // Don't double report the JVM failing to start
                 analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
@@ -740,58 +745,71 @@ public class FatalErrorLog {
                     } else {
                         analysis.add(Analysis.ERROR_OOME_THREAD_LEAK);
                     }
-                } else if (getMemoryAllocation() >= 0 && getOsCommitLimit() >= 0 && getOsCommittedAs() >= 0
-                        && getOsCommitLimit() >= getOsCommittedAs()
-                        && getMemoryAllocation() > (getOsCommitLimit() - getOsCommittedAs())
-                        && !isOvercommitDisabled()) {
-                    // Allocation > available commit limit
-                    analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT);
-                } else if (getMemoryAllocation() >= 0 && getOsCommitLimit() >= 0 && getOsCommittedAs() >= 0
-                        && getOsCommitLimit() >= getOsCommittedAs() && isOvercommitDisabled()
-                        && getMemoryAllocation() > (getOsCommitLimit() - getOsCommittedAs()
-                                - JdkUtil.convertSize(Long.parseLong("136"), 'M', 'B'))) {
-                    // Allocation > (available commit limit - user_reserve_kbytes [assume worse case 128M] -
-                    // admin_reserve_kbytes [assume worse case 8M])
-                    analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_LIMIT);
-                } else if (getMemoryAllocation() >= 0 && (getJvmMemFree() >= 0 || getJvmSwapFree() >= 0)
-                        && getMemoryAllocation() >= (getJvmMemFree() + getJvmSwapFree())) {
-                    // Allocation > available physical memory
-                    if (getJvmMemoryMax() > 0 && getJvmMemTotal() > 0) {
-                        if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) >= 95) {
-                            analysis.add(Analysis.ERROR_OOME_JVM);
-                        } else {
-                            if (getOsCommitCharge() > 0
-                                    && JdkMath.calcPercent(getOsCommitCharge(), getJvmMemTotal()) < 95) {
-                                // Windows has a good process size approximation
-                                if (getMemBalloonedNow() > 0) {
-                                    analysis.add(Analysis.ERROR_OOME_EXTERNAL_OR_HYPERVISOR);
-                                } else {
-                                    analysis.add(Analysis.ERROR_OOME_EXTERNAL);
-                                }
+                } else {
+                    if (Os.LINUX == getOs() && getMemoryAllocation() >= 0 && getOsCommitLimit() >= 0
+                            && getOsCommitLimitUsed() >= 0 && getOsCommitLimit() >= getOsCommitLimitUsed()
+                            && getMemoryAllocation() > (getOsCommitLimit() - getOsCommitLimitUsed())
+                            && !isOvercommitDisabled()) {
+                        // Allocation > available commit limit
+                        analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT);
+                    } else if (Os.LINUX == getOs() && getMemoryAllocation() >= 0 && getOsCommitLimit() >= 0
+                            && getOsCommitLimitUsed() >= 0 && getOsCommitLimit() >= getOsCommitLimitUsed()
+                            && isOvercommitDisabled() && getMemoryAllocation() > (getOsCommitLimit()
+                                    - getOsCommitLimitUsed() - JdkUtil.convertSize(Long.parseLong("136"), 'M', 'B'))) {
+                        // Allocation > (available commit limit - user_reserve_kbytes [assume worse case 128M] -
+                        // admin_reserve_kbytes [assume worse case 8M])
+                        analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT);
+                    } else if (getMemoryAllocation() >= 0 && (getJvmMemFree() >= 0 || getJvmSwapFree() >= 0)
+                            && getMemoryAllocation() >= (Math.max(getJvmMemFree(), 0)
+                                    + Math.max(getJvmSwapFree(), 0))) {
+                        // Allocation > available physical memory
+                        if (getJvmMemoryMax() > 0 && getJvmMemTotal() > 0) {
+                            if (JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) >= 95) {
+                                analysis.add(Analysis.ERROR_OOME_JVM);
                             } else {
-                                analysis.add(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL);
+                                if (getOsCommitCharge() > 0
+                                        && JdkMath.calcPercent(getOsCommitCharge(), getJvmMemTotal()) < 95) {
+                                    // Windows has a good process size approximation
+                                    if (getMemBalloonedNow() > 0) {
+                                        analysis.add(Analysis.ERROR_OOME_EXTERNAL_OR_HYPERVISOR);
+                                    } else {
+                                        analysis.add(Analysis.ERROR_OOME_EXTERNAL);
+                                    }
+                                } else {
+                                    analysis.add(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL);
+                                }
                             }
                         }
-                    }
-                } else if ((getMemoryAllocation() >= 0 && (getJvmMemFree() >= 0 || getJvmSwapFree() >= 0)
-                        && getMemoryAllocation() < (getJvmMemFree() + getJvmSwapFree()))
-                        || ((getJvmMemFree() >= 0 && getJvmMemTotal() > 0
-                                && JdkMath.calcPercent(getJvmMemFree(), getJvmMemTotal()) >= 50)
-                                || (getJvmMemoryMax() >= 0 && getJvmMemTotal() > 0
-                                        && JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) < 50))) {
-                    // Likely a limit if: (1) allocation < available physical memory. (2) JVM memory < 1/2 total memory.
-                    if ((isInHeader("Java Heap may be blocking the growth of the native heap")
-                            || isInHeader("compressed oops")) && isCompressedOops()) {
-                        analysis.add(Analysis.ERROR_OOME_LIMIT_OOPS);
+                    } else if ((getMemoryAllocation() >= 0 && (getJvmMemFree() >= 0 || getJvmSwapFree() >= 0)
+                            && getMemoryAllocation() < (Math.max(getJvmMemFree(), 0) + Math.max(getJvmSwapFree(), 0)))
+                            || ((getJvmMemFree() >= 0 && getJvmMemTotal() > 0
+                                    && JdkMath.calcPercent(getJvmMemFree(), getJvmMemTotal()) >= 50)
+                                    || (getJvmMemoryMax() >= 0 && getJvmMemTotal() > 0
+                                            && JdkMath.calcPercent(getJvmMemoryMax(), getJvmMemTotal()) < 50))) {
+                        // Likely a limit if: (1) allocation < available physical memory. (2) JVM memory < 1/2 total
+                        // memory.
+                        if (Os.WINDOWS == getOs()) {
+                            if ((isInHeader("Java Heap may be blocking the growth of the native heap")
+                                    || isInHeader("compressed oops")) && isCompressedOops()) {
+                                analysis.add(Analysis.ERROR_OOME_WLIMIT_OOPS);
+                            } else {
+                                analysis.add(Analysis.ERROR_OOME_WLIMIT);
+                            }
+                        } else {
+                            if ((isInHeader("Java Heap may be blocking the growth of the native heap")
+                                    || isInHeader("compressed oops")) && isCompressedOops()) {
+                                analysis.add(Analysis.ERROR_OOME_RLIMIT_OOPS);
+                            } else {
+                                analysis.add(Analysis.ERROR_OOME_RLIMIT);
+                            }
+                        }
                     } else {
-                        analysis.add(Analysis.ERROR_OOME_LIMIT);
-                    }
-                } else {
-                    if ((isTruncated() || isInHeader("Java Heap may be blocking the growth of the native heap")
-                            || isInHeader("compressed oops")) && isCompressedOops()) {
-                        analysis.add(Analysis.ERROR_OOME_OOPS);
-                    } else {
-                        analysis.add(Analysis.ERROR_OOME);
+                        if ((isTruncated() || isInHeader("Java Heap may be blocking the growth of the native heap")
+                                || isInHeader("compressed oops")) && isCompressedOops()) {
+                            analysis.add(Analysis.ERROR_OOME_OOPS);
+                        } else {
+                            analysis.add(Analysis.ERROR_OOME);
+                        }
                     }
                 }
             }
@@ -801,9 +819,9 @@ public class FatalErrorLog {
             }
         }
         // swap
-        if (getJvmSwap() > 0) {
+        if (getJvmSwapTotal() > 0 && getJvmSwapFree() >= 0) {
             // Check for excessive swap usage
-            int swapUsedPercent = 100 - JdkMath.calcPercent(getJvmSwapFree(), getJvmSwap());
+            int swapUsedPercent = 100 - JdkMath.calcPercent(getJvmSwapFree(), getJvmSwapTotal());
             if (swapUsedPercent > 5 && swapUsedPercent < 20) {
                 analysis.add(Analysis.INFO_SWAPPING);
             } else if (swapUsedPercent >= 20) {
@@ -811,12 +829,12 @@ public class FatalErrorLog {
             }
         }
         // Check for swap disabled
-        if (getJvmSwap() == 0) {
+        if (getJvmSwapTotal() == 0) {
             analysis.add(Analysis.INFO_SWAP_DISABLED);
             // Check if collector is appropriate for no-swap (e.g. container) use cases
-            if (getGarbageCollectors().contains(GarbageCollector.G1) && getJvmSwap() == 0) {
+            if (getGarbageCollectors().contains(GarbageCollector.G1) && getJvmSwapTotal() == 0) {
                 analysis.add(Analysis.WARN_SWAP_DISABLED_G1);
-            } else if (getGarbageCollectors().contains(GarbageCollector.CMS) && getJvmSwap() == 0) {
+            } else if (getGarbageCollectors().contains(GarbageCollector.CMS) && getJvmSwapTotal() == 0) {
                 analysis.add(Analysis.WARN_SWAP_DISABLED_CMS);
             }
         }
@@ -1415,12 +1433,12 @@ public class FatalErrorLog {
         if (dynamicLibrariesMappingCount > 0) {
             if (getMaxMapCountLimit() > 0) {
                 if (JdkMath.calcPercent(dynamicLibrariesMappingCount, getMaxMapCountLimit()) >= 99) {
-                    analysis.add(Analysis.WARN_MAX_MAP_COUNT_LIMIT);
+                    analysis.add(Analysis.WARN_MAX_MAP_COUNT_RLIMIT);
                 }
             } else {
                 int defaultMaxMapCountLimit = 65530;
                 if (JdkMath.calcPercent(dynamicLibrariesMappingCount, defaultMaxMapCountLimit) >= 99) {
-                    analysis.add(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE);
+                    analysis.add(Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE);
                 }
             }
         }
@@ -1516,6 +1534,10 @@ public class FatalErrorLog {
         if (today.compareTo(KrashUtil.RHEL7_ELS_START) >= 0 && getOsVersion() == OsVersion.RHEL7
                 && !getRhelVersion().equals("7.9")) {
             analysis.add(Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION);
+        }
+        // Windows small page file size
+        if (Os.WINDOWS == getOs() && getOsSwapTotal() < getOsMemTotal()) {
+            analysis.add(Analysis.WARN_PAGE_FILE_SMALL);
         }
     }
 
@@ -1679,7 +1701,7 @@ public class FatalErrorLog {
                 }
                 s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() });
-            } else if (item.getKey().equals(Analysis.WARN_MAX_MAP_COUNT_LIMIT.toString())) {
+            } else if (item.getKey().equals(Analysis.WARN_MAX_MAP_COUNT_RLIMIT.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 String replace = "memory map areas";
                 int position = s.toString().lastIndexOf(replace);
@@ -1695,7 +1717,7 @@ public class FatalErrorLog {
                 with.append(")");
                 s.replace(position, position + replace.length(), with.toString());
                 a.add(new String[] { item.getKey(), s.toString() });
-            } else if (item.getKey().equals(Analysis.WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE.toString())) {
+            } else if (item.getKey().equals(Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 String replace = "memory map areas";
                 int position = s.toString().lastIndexOf(replace);
@@ -3456,6 +3478,52 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return The JVM commit limit, in bytes.
+     */
+    public long getJvmCommitLimit() {
+        long jvmCommitLimit = Long.MIN_VALUE;
+        if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
+            while (iterator.hasNext()) {
+                Memory event = iterator.next();
+                if (getOs() == Os.WINDOWS && event.getSwapTotal() > 0) {
+                    jvmCommitLimit = event.getSwapTotal();
+                    break;
+                } else if (event.getPageFileTotal() > 0) {
+                    jvmCommitLimit = event.getPageFileTotal();
+                    break;
+                }
+            }
+        }
+        return jvmCommitLimit;
+    }
+
+    /**
+     * @return The JVM commit limit used, in bytes.
+     */
+    public long getJvmCommitLimitUsed() {
+        long swapTotal = Long.MIN_VALUE;
+        if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
+            while (iterator.hasNext()) {
+                Memory event = iterator.next();
+                if (event.getSwapTotal() >= 0) {
+                    if (getOs() == Os.WINDOWS && getJvmMemTotal() >= 0) {
+                        swapTotal = event.getSwapTotal() - getJvmMemTotal();
+                    } else {
+                        swapTotal = event.getSwapTotal();
+                    }
+                    break;
+                } else if (event.getPageFileTotal() >= 0 && getJvmMemTotal() >= 0) {
+                    swapTotal = event.getPageFileTotal() - getJvmMemTotal();
+                    break;
+                }
+            }
+        }
+        return swapTotal;
+    }
+
+    /**
      * Free memory in bytes as reported by the JVM <code>Memory</code>.
      * 
      * Note that free memory does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore,
@@ -3571,6 +3639,7 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         physicalMemory = JdkUtil.convertSize(Long.parseLong(matcher.group(4)),
                                 matcher.group(6).charAt(0), 'B');
+                        break;
                     }
                 }
             }
@@ -3583,29 +3652,6 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The total available swap as reported by the JVM in bytes.
-     */
-    public long getJvmSwap() {
-        long swap = Long.MIN_VALUE;
-        if (!memories.isEmpty()) {
-            Iterator<Memory> iterator = memories.iterator();
-            while (iterator.hasNext()) {
-                Memory event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = Memory.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        if (matcher.group(11) != null && matcher.group(13) != null) {
-                            swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0),
-                                    'B');
-                        }
-                    }
-                }
-            }
-        }
-        return swap;
-    }
-
-    /**
      * @return The total free swap as reported by the JVM in bytes.
      */
     public long getJvmSwapFree() {
@@ -3614,18 +3660,52 @@ public class FatalErrorLog {
             Iterator<Memory> iterator = memories.iterator();
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
-                if (event.isHeader()) {
-                    Matcher matcher = Memory.PATTERN.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        if (matcher.group(14) != null && matcher.group(16) != null) {
+                if (event.getSwapFree() >= 0) {
+                    if (getOs() == Os.WINDOWS && getJvmMemFree() >= 0) {
+                        // Assume page file becomes full before physical memory?
+                        swapFree = Math.max(event.getSwapFree() - getJvmMemFree(), 0);
+                    } else {
+                        Matcher matcher = Memory.PATTERN.matcher(event.getLogEntry());
+                        if (matcher.find() && matcher.group(14) != null && matcher.group(16) != null) {
                             swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)),
                                     matcher.group(16).charAt(0), 'B');
                         }
+                        break;
                     }
+                    break;
+                } else if (event.getPageFileFree() >= 0 && getJvmMemFree() >= 0) {
+                    // Assume page file becomes full before physical memory?
+                    swapFree = Math.max(event.getPageFileFree() - getJvmMemFree(), 0);
+                    break;
                 }
             }
         }
         return swapFree;
+    }
+
+    /**
+     * @return The total available swap as reported by the JVM in bytes.
+     */
+    public long getJvmSwapTotal() {
+        long swapTotal = Long.MIN_VALUE;
+        if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
+            while (iterator.hasNext()) {
+                Memory event = iterator.next();
+                if (event.getSwapTotal() >= 0) {
+                    if (getOs() == Os.WINDOWS && getJvmMemTotal() >= 0) {
+                        swapTotal = event.getSwapTotal() - getJvmMemTotal();
+                    } else {
+                        swapTotal = event.getSwapTotal();
+                    }
+                    break;
+                } else if (event.getPageFileTotal() >= 0 && getJvmMemTotal() >= 0) {
+                    swapTotal = event.getPageFileTotal() - getJvmMemTotal();
+                    break;
+                }
+            }
+        }
+        return swapTotal;
     }
 
     /**
@@ -4127,7 +4207,7 @@ public class FatalErrorLog {
      * @return The total amount of memory currently available to be allocated by the system, in bytes.
      */
     public long getOsCommitLimit() {
-        long commitLimit = Long.MIN_VALUE;
+        long osCommitLimit = Long.MIN_VALUE;
         if (!meminfos.isEmpty()) {
             String regexCommitLimit = "CommitLimit:[ ]{0,}(\\d{1,}) kB";
             Pattern pattern = Pattern.compile(regexCommitLimit);
@@ -4136,12 +4216,15 @@ public class FatalErrorLog {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    commitLimit = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    osCommitLimit = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
                     break;
                 }
             }
+        } else {
+            // get from JVM
+            getJvmCommitLimit();
         }
-        return commitLimit;
+        return osCommitLimit;
     }
 
     /**
@@ -4150,8 +4233,8 @@ public class FatalErrorLog {
      * The committed memory is a sum of all of the memory which has been allocated by processes, even if it has not been
      * "used" by them yet.
      * 
-     * When vm.overcommit_memory=2, the cumulative VSS of all userspace processes is limited to overcomit_ratio percent
-     * of ram + swap.
+     * On Linux, when vm.overcommit_memory=2, the cumulative VSS of all userspace processes is limited to
+     * overcomit_ratio percent of ram + swap.
      * 
      * RHEL5: allocatable memory=(swap size + (RAM size * overcommit ratio / 100))
      * 
@@ -4159,9 +4242,9 @@ public class FatalErrorLog {
      * 
      * @return The amount of userspace virtual memory currently allocated on the system, in bytes.
      */
-    public long getOsCommittedAs() {
-        long committedAs = Long.MIN_VALUE;
-        if (!meminfos.isEmpty()) {
+    public long getOsCommitLimitUsed() {
+        long osCommitLimitUsed = Long.MIN_VALUE;
+        if (Os.LINUX == getOs() && !meminfos.isEmpty()) {
             String regexCommittedAs = "Committed_AS:[ ]{0,}(\\d{1,}) kB";
             Pattern pattern = Pattern.compile(regexCommittedAs);
             Iterator<Meminfo> iterator = meminfos.iterator();
@@ -4169,12 +4252,15 @@ public class FatalErrorLog {
                 Meminfo event = iterator.next();
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
-                    committedAs = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    osCommitLimitUsed = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
                     break;
                 }
             }
+        } else {
+            // get from JVM
+            getJvmCommitLimitUsed();
         }
-        return committedAs;
+        return osCommitLimitUsed;
     }
 
     public List<OsInfo> getOsInfos() {
@@ -4301,44 +4387,6 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The total available swap as reported by the JVM in bytes.
-     */
-    public long getOsSwap() {
-        long swap = Long.MIN_VALUE;
-        if (!meminfos.isEmpty()) {
-            String regexMemTotal = "SwapTotal:[ ]{0,}(\\d{1,}) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<Meminfo> iterator = meminfos.iterator();
-            while (iterator.hasNext()) {
-                Meminfo event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    swap = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
-                    break;
-                }
-            }
-        } else if (!memories.isEmpty() && getOs() != Os.WINDOWS) {
-            Iterator<Memory> iterator = memories.iterator();
-            while (iterator.hasNext()) {
-                Memory event = iterator.next();
-                if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(Memory._REGEX_HEADER);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find() && matcher.group(9) != null) {
-                        swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0), 'B');
-                    }
-                    break;
-                }
-            }
-            if (swap == Long.MIN_VALUE) {
-                // Windows
-                swap = getPageFileTotal();
-            }
-        }
-        return swap;
-    }
-
-    /**
      * @return The total free swap as reported by the JVM in bytes.
      */
     public long getOsSwapFree() {
@@ -4355,26 +4403,35 @@ public class FatalErrorLog {
                     break;
                 }
             }
-        } else if (!memories.isEmpty() && getOs() != Os.WINDOWS) {
-            Iterator<Memory> iterator = memories.iterator();
+        } else {
+            // get from JVM
+            swapFree = getJvmSwapFree();
+        }
+        return swapFree;
+    }
+
+    /**
+     * @return The total available swap as reported by the JVM in bytes.
+     */
+    public long getOsSwapTotal() {
+        long swapTotal = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regexMemTotal = "SwapTotal:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<Meminfo> iterator = meminfos.iterator();
             while (iterator.hasNext()) {
-                Memory event = iterator.next();
-                if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(Memory._REGEX_HEADER);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find() && matcher.group(9) != null) {
-                        swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0),
-                                'B');
-                    }
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    swapTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
                     break;
                 }
             }
-            if (swapFree == Long.MIN_VALUE) {
-                // Windows
-                swapFree = getPageFileAvailable();
-            }
+        } else {
+            // get from JVM
+            swapTotal = getJvmSwapTotal();
         }
-        return swapFree;
+        return swapTotal;
     }
 
     /**
@@ -4448,52 +4505,6 @@ public class FatalErrorLog {
             osVersion = uname.getOsVersion();
         }
         return osVersion;
-    }
-
-    /**
-     * On Windows, the maximum amount of memory the current process can page (swap), in bytes.
-     * 
-     * @return The maximum amount of memory the current process can page (swap), in bytes.
-     */
-    private long getPageFileAvailable() {
-        long availPageFile = Long.MIN_VALUE;
-        if (!memories.isEmpty()) {
-            String regexTotalPageFile = "TotalPageFile size \\d{1,}M \\(AvailPageFile size (\\d{1,})M\\)";
-            Pattern pattern = Pattern.compile(regexTotalPageFile);
-            Iterator<Memory> iterator = memories.iterator();
-            while (iterator.hasNext()) {
-                Memory event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    availPageFile = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M', 'B');
-                    break;
-                }
-            }
-        }
-        return availPageFile;
-    }
-
-    /**
-     * On Windows, the total paging (swap) space, in bytes.
-     * 
-     * @return The total paging (swap) space, in bytes.
-     */
-    public long getPageFileTotal() {
-        long availPageFile = Long.MIN_VALUE;
-        if (!memories.isEmpty()) {
-            String regexTotalPageFile = "TotalPageFile size (\\d{1,})M \\(AvailPageFile size \\d{1,}M\\)";
-            Pattern pattern = Pattern.compile(regexTotalPageFile);
-            Iterator<Memory> iterator = memories.iterator();
-            while (iterator.hasNext()) {
-                Memory event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    availPageFile = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M', 'B');
-                    break;
-                }
-            }
-        }
-        return availPageFile;
     }
 
     public PeriodicNativeTrim getPeriodicNativeTrim() {
@@ -5261,7 +5272,7 @@ public class FatalErrorLog {
      */
     public boolean isContainer() {
         boolean isContainer = false;
-        if (!containerInfos.isEmpty() && (getOsSwap() == 0 || getJvmSwap() == 0)) {
+        if (!containerInfos.isEmpty() && (getOsSwapTotal() == 0 || getJvmSwapTotal() == 0)) {
             isContainer = true;
         }
         return isContainer;
@@ -5513,7 +5524,7 @@ public class FatalErrorLog {
      */
     private boolean isOvercommitted() {
         boolean isOvercommitted = false;
-        if (getOsCommitLimit() > 0 && getOsCommittedAs() > 0 && (getOsCommittedAs() > getOsCommitLimit())) {
+        if (getOsCommitLimit() > 0 && getOsCommitLimitUsed() > 0 && (getOsCommitLimitUsed() > getOsCommitLimit())) {
             isOvercommitted = true;
         }
         return isOvercommitted;

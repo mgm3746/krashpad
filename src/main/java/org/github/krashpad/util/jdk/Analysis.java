@@ -296,28 +296,6 @@ public enum Analysis {
     ERROR_OOME_JVM_STARTUP("error.oome.jvm.startup"),
 
     /**
-     * Property key for failing to allocate memory due to a resource limit (rlimit).
-     */
-    ERROR_OOME_LIMIT("error.oome.limit"),
-
-    /**
-     * Property key for failing to allocate memory due to a resource limit (rlimit) being reached or the native heap
-     * reaching the java heap base address.
-     */
-    ERROR_OOME_LIMIT_OOPS("error.oome.limit.oops"),
-
-    /**
-     * Property key for the JVM failing to start due to a resource limit (rlimit) being reached or the native heap
-     * reaching the java heap base address.
-     */
-    ERROR_OOME_LIMIT_OOPS_STARTUP("error.oome.limit.oops.startup"),
-
-    /**
-     * Property key for the JVM failing to start due to a resource limit (rlimit).
-     */
-    ERROR_OOME_LIMIT_STARTUP("error.oome.limit.startup"),
-
-    /**
      * Property key for insufficient physical memory due to JVM native memory, an external process, or hypervisor
      * ballooning.
      */
@@ -332,13 +310,35 @@ public enum Analysis {
      * Property key for the JVM failing to allocate memory with strong evidence it is due to vm.overcommit_memory=2, but
      * a resource limit cannot be ruled out.
      */
-    ERROR_OOME_OVERCOMMIT_LIMIT("error.oome.overcommit.limit"),
+    ERROR_OOME_OVERCOMMIT_RLIMIT("error.oome.overcommit.rlimit"),
 
     /**
      * Property key for the JVM failing to start with strong evidence it is due to vm.overcommit_memory=2, but a
      * resource limit cannot be ruled out.
      */
-    ERROR_OOME_OVERCOMMIT_LIMIT_STARTUP("error.oome.overcommit.limit.startup"),
+    ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP("error.oome.overcommit.rlimit.startup"),
+
+    /**
+     * Property key for failing to allocate memory due to a resource limit (rlimit).
+     */
+    ERROR_OOME_RLIMIT("error.oome.rlimit"),
+
+    /**
+     * Property key for failing to allocate memory due to a resource limit (rlimit) being reached or the native heap
+     * reaching the java heap base address.
+     */
+    ERROR_OOME_RLIMIT_OOPS("error.oome.rlimit.oops"),
+
+    /**
+     * Property key for the JVM failing to start due to a resource limit (rlimit) being reached or the native heap
+     * reaching the java heap base address.
+     */
+    ERROR_OOME_RLIMIT_OOPS_STARTUP("error.oome.rlimit.oops.startup"),
+
+    /**
+     * Property key for the JVM failing to start due to a resource limit (rlimit).
+     */
+    ERROR_OOME_RLIMIT_STARTUP("error.oome.rlimit.startup"),
 
     /**
      * Property key for a thread leak causing a limit to be reached.
@@ -369,6 +369,22 @@ public enum Analysis {
      * Property key for the tomcat shutdown JVM failing to start due to insufficient physical memory.
      */
     ERROR_OOME_TOMCAT_SHUTDOWN("error.oome.tomcat.shutdown"),
+
+    /**
+     * Property key for failing to allocate memory due to a windows limit.
+     */
+    ERROR_OOME_WLIMIT("error.oome.wlimit"),
+
+    /**
+     * Property key for failing to allocate memory due to a windows limit being reached or the native heap reaching the
+     * java heap base address.
+     */
+    ERROR_OOME_WLIMIT_OOPS("error.oome.wlimit.oops"),
+
+    /**
+     * Property key for the JVM failing to start due to hitting some windows memory limit.
+     */
+    ERROR_OOME_WLIMIT_STARTUP("error.oome.wlimit.startup"),
 
     /**
      * Property key for incompatible Oracle JDBC driver / JDK versions.
@@ -890,13 +906,13 @@ public enum Analysis {
      * Property key for the number of memory map areas (lines) output in the Dynamic Libraries section very close to the
      * max_map_count limit.
      */
-    WARN_MAX_MAP_COUNT_LIMIT("warn.max.map.count.limit"),
+    WARN_MAX_MAP_COUNT_RLIMIT("warn.max.map.count.rlimit"),
 
     /**
      * Property key for the number of memory map areas (lines) output in the Dynamic Libraries section very close to the
      * default max_map_count limit (65,530).
      */
-    WARN_MAX_MAP_COUNT_LIMIT_POSSIBLE("warn.max.map.count.limit.possible"),
+    WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE("warn.max.map.count.rlimit.possible"),
 
     /**
      * Property key for MaxRAMPercentage being used without MaxRAM on a system with &gt;128g available memory.
@@ -917,6 +933,11 @@ public enum Analysis {
      * Property key for crash when connecting to Oracle database using the JDBC OCI (native) driver.
      */
     WARN_ORACLE_JDBC_OCI_CONNECION("warn.oracle.jdbc.oci.connection"),
+
+    /**
+     * Property key Windows small page file.
+     */
+    WARN_PAGE_FILE_SMALL("warn.page.file.small"),
 
     /**
      * Property key RHEL/JDK rpm version mismatch.
