@@ -466,6 +466,26 @@ public class FatalErrorLog {
         if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) >= 8 && !getUnidentifiedLogLines().isEmpty()) {
             analysis.add(0, Analysis.WARN_UNIDENTIFIED_LOG_LINE);
         }
+        // swap
+        if (getJvmSwapTotal() > 0 && getJvmSwapFree() >= 0) {
+            // Check for excessive swap usage
+            int swapUsedPercent = 100 - JdkMath.calcPercent(getJvmSwapFree(), getJvmSwapTotal());
+            if (swapUsedPercent > 5 && swapUsedPercent < 20) {
+                analysis.add(Analysis.INFO_SWAPPING);
+            } else if (swapUsedPercent >= 20) {
+                analysis.add(Analysis.WARN_SWAPPING);
+            }
+        }
+        // Check for swap disabled
+        if (getJvmSwapTotal() == 0) {
+            analysis.add(Analysis.INFO_SWAP_DISABLED);
+            // Check if collector is appropriate for no-swap (e.g. container) use cases
+            if (getGarbageCollectors().contains(GarbageCollector.G1) && getJvmSwapTotal() == 0) {
+                analysis.add(Analysis.WARN_SWAP_DISABLED_G1);
+            } else if (getGarbageCollectors().contains(GarbageCollector.CMS) && getJvmSwapTotal() == 0) {
+                analysis.add(Analysis.WARN_SWAP_DISABLED_CMS);
+            }
+        }
         // Crashes related to Oracle JDBC OCI (native) driver
         if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER);
@@ -725,7 +745,13 @@ public class FatalErrorLog {
                     } else {
                         // Resource limit
                         if (Os.WINDOWS == getOs()) {
-                            analysis.add(Analysis.ERROR_OOME_WLIMIT_STARTUP);
+                            if (getOsSwapFree() == 0) {
+                                analysis.add(Analysis.ERROR_OOME_WLIMIT_PAGE_FILE_STARTUP);
+                                // Don't double report
+                                analysis.remove(Analysis.WARN_SWAPPING);
+                            } else {
+                                analysis.add(Analysis.ERROR_OOME_WLIMIT_STARTUP);
+                            }
                         } else {
                             analysis.add(Analysis.ERROR_OOME_RLIMIT_STARTUP);
                         }
@@ -789,11 +815,17 @@ public class FatalErrorLog {
                         // Likely a limit if: (1) allocation < available physical memory. (2) JVM memory < 1/2 total
                         // memory.
                         if (Os.WINDOWS == getOs()) {
-                            if ((isInHeader("Java Heap may be blocking the growth of the native heap")
-                                    || isInHeader("compressed oops")) && isCompressedOops()) {
-                                analysis.add(Analysis.ERROR_OOME_WLIMIT_OOPS);
+                            if (getOsSwapFree() == 0) {
+                                analysis.add(Analysis.ERROR_OOME_WLIMIT_PAGE_FILE);
+                                // Don't double report
+                                analysis.remove(Analysis.WARN_SWAPPING);
                             } else {
-                                analysis.add(Analysis.ERROR_OOME_WLIMIT);
+                                if ((isInHeader("Java Heap may be blocking the growth of the native heap")
+                                        || isInHeader("compressed oops")) && isCompressedOops()) {
+                                    analysis.add(Analysis.ERROR_OOME_WLIMIT_OOPS);
+                                } else {
+                                    analysis.add(Analysis.ERROR_OOME_WLIMIT);
+                                }
                             }
                         } else {
                             if ((isInHeader("Java Heap may be blocking the growth of the native heap")
@@ -816,26 +848,6 @@ public class FatalErrorLog {
             // G1 collector is not good when memory is tight
             if (getGarbageCollectors().contains(GarbageCollector.G1)) {
                 analysis.add(Analysis.WARN_OOM_G1);
-            }
-        }
-        // swap
-        if (getJvmSwapTotal() > 0 && getJvmSwapFree() >= 0) {
-            // Check for excessive swap usage
-            int swapUsedPercent = 100 - JdkMath.calcPercent(getJvmSwapFree(), getJvmSwapTotal());
-            if (swapUsedPercent > 5 && swapUsedPercent < 20) {
-                analysis.add(Analysis.INFO_SWAPPING);
-            } else if (swapUsedPercent >= 20) {
-                analysis.add(Analysis.WARN_SWAPPING);
-            }
-        }
-        // Check for swap disabled
-        if (getJvmSwapTotal() == 0) {
-            analysis.add(Analysis.INFO_SWAP_DISABLED);
-            // Check if collector is appropriate for no-swap (e.g. container) use cases
-            if (getGarbageCollectors().contains(GarbageCollector.G1) && getJvmSwapTotal() == 0) {
-                analysis.add(Analysis.WARN_SWAP_DISABLED_G1);
-            } else if (getGarbageCollectors().contains(GarbageCollector.CMS) && getJvmSwapTotal() == 0) {
-                analysis.add(Analysis.WARN_SWAP_DISABLED_CMS);
             }
         }
         // libjvm.so/jvm.dll

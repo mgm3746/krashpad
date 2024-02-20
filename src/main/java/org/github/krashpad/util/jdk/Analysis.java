@@ -382,6 +382,16 @@ public enum Analysis {
     ERROR_OOME_WLIMIT_OOPS("error.oome.wlimit.oops"),
 
     /**
+     * Property key for a crash due to Windows page file exhaustion.
+     */
+    ERROR_OOME_WLIMIT_PAGE_FILE("error.oome.wlimit.page.file"),
+
+    /**
+     * Property key for the JVM failing to start due to Windows page file exhaustion.
+     */
+    ERROR_OOME_WLIMIT_PAGE_FILE_STARTUP("error.oome.wlimit.page.file.startup"),
+
+    /**
      * Property key for the JVM failing to start due to hitting some windows memory limit.
      */
     ERROR_OOME_WLIMIT_STARTUP("error.oome.wlimit.startup"),

@@ -2284,8 +2284,10 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_WLIMIT_OOPS.getKey()),
-                Analysis.ERROR_OOME_WLIMIT_OOPS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_WLIMIT_PAGE_FILE.getKey()),
+                Analysis.ERROR_OOME_WLIMIT_PAGE_FILE + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_SWAPPING.getKey()),
+                Analysis.WARN_SWAPPING + " analysis incorrectly identified.");
     }
 
     @Test

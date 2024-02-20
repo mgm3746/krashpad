@@ -921,20 +921,69 @@ class TestFatalErrorLog {
     }
 
     @Test
-    void testMemoryWindowsOom() {
+    void testMemoryWindowsOomAllocationFailure() {
         FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# There is insufficient memory for the Java Runtime Environment to continue.";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# Native memory allocation (malloc) failed to allocate 1048576 bytes for AllocateHeap";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        String header3 = "#  Out of Memory Error (memory/allocation.inline.hpp:61), pid=1234, tid=0x0000000000003ab3";
+        Header headerEvent3 = new Header(header3);
+        fel.getHeaders().add(headerEvent3);
         String os = "OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.5786)";
         OsInfo osEvent = new OsInfo(os);
         fel.getOsInfos().add(osEvent);
         Memory memory = new Memory(
-                "Memory: 4k page, physical 83885040k(45900432k free), swap 85982192k(42352392k " + "free)");
+                "Memory: 4k page, physical 83885040k(45900432k free), swap 85982192k(42352392k free)");
         fel.getMemories().add(memory);
         assertEquals(83885040L * 1024, fel.getJvmMemTotal(), "Physical memory not correct.");
         assertEquals(45900432L * 1024, fel.getJvmMemFree(), "Physical memory free not correct.");
         assertEquals((85982192L - 83885040L) * 1024, fel.getJvmSwapTotal(), "swap not correct.");
         assertEquals(0L, fel.getJvmSwapFree(), "swap free not correct.");
-        assertFalse(fel.hasAnalysis(Analysis.WARN_PAGE_FILE_SMALL.getKey()),
-                Analysis.WARN_PAGE_FILE_SMALL + " analysis incorrectly identified.");
+        assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_PAGE_FILE_SMALL.getKey()),
+                Analysis.WARN_PAGE_FILE_SMALL + " analysis not identified.");
+        assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_WLIMIT_PAGE_FILE.getKey()),
+                Analysis.ERROR_OOME_WLIMIT_PAGE_FILE + " analysis not identified.");
+    }
+
+    @Test
+    void testMemoryWindowsOomAllocationFailureStartup() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# There is insufficient memory for the Java Runtime Environment to continue.";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# Native memory allocation (malloc) failed to allocate 1048576 bytes for AllocateHeap";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        String header3 = "#  Out of Memory Error (memory/allocation.inline.hpp:61), pid=1234, tid=0x0000000000003ab3";
+        Header headerEvent3 = new Header(header3);
+        fel.getHeaders().add(headerEvent3);
+        String os = "OS: Windows Server 2016 , 64 bit Build 14393 (10.0.14393.5786)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        Memory memory = new Memory(
+                "Memory: 4k page, physical 83885040k(45900432k free), swap 85982192k(42352392k free)");
+        fel.getMemories().add(memory);
+        assertEquals(83885040L * 1024, fel.getJvmMemTotal(), "Physical memory not correct.");
+        assertEquals(45900432L * 1024, fel.getJvmMemFree(), "Physical memory free not correct.");
+        assertEquals((85982192L - 83885040L) * 1024, fel.getJvmSwapTotal(), "swap not correct.");
+        assertEquals(0L, fel.getJvmSwapFree(), "swap free not correct.");
+        assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
+        ElapsedTime event = new ElapsedTime("elapsed time: 0.038211 seconds (0d 0h 0m 0s)");
+        fel.setElapsedTime(event);
+        assertTrue(fel.isCrashOnStartup(), "Crash on startup not identified.");
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_PAGE_FILE_SMALL.getKey()),
+                Analysis.WARN_PAGE_FILE_SMALL + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME_WLIMIT_PAGE_FILE.getKey()),
+                Analysis.ERROR_OOME_WLIMIT_PAGE_FILE + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_WLIMIT_PAGE_FILE_STARTUP.getKey()),
+                Analysis.ERROR_OOME_WLIMIT_PAGE_FILE_STARTUP + " analysis not identified.");
     }
 
     @Test
