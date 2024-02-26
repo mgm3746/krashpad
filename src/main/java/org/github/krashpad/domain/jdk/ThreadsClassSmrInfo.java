@@ -26,7 +26,8 @@ import org.github.krashpad.util.jdk.JdkUtil;
  * </p>
  * 
  * <p>
- * Threads class SMR information.
+ * Thread class Self Memory Reclamation (SMR) information. A list of thread addresses for all "Java Threads"
+ * <code>Thread</code>s (not "Other Threads").
  * </p>
  * 
  * <h2>Example Logging</h2>
@@ -55,7 +56,7 @@ public class ThreadsClassSmrInfo implements LogEvent, ThrowAwayEvent, HeaderEven
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", "
             + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "(,)?|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + ", "
             + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS + ", " + JdkRegEx.ADDRESS + "|" + JdkRegEx.ADDRESS
-            + "|_java_thread_list=.*|(" + JdkRegEx.ADDRESS + ", )?})$";
+            + "|_(java_thread|to_delete)_list=.*|(" + JdkRegEx.ADDRESS + ", )?})$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

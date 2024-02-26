@@ -103,4 +103,12 @@ class TestThreadsClassSmrInfo {
         assertTrue(JdkUtil.parseLogLine(logLine, priorEvent) instanceof ThreadsClassSmrInfo,
                 JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not parsed.");
     }
+
+    @Test
+    void testToDeleteList() {
+        ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
+        String logLine = "_to_delete_list=0x00007fd0c40057c0, length=1933, elements={";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
+                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
+    }
 }
