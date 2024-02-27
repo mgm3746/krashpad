@@ -50,17 +50,6 @@ class TestUname {
     }
 
     @Test
-    void testJdk17() {
-        String logLine = "uname: Linux 4.18.0-348.2.1.el8_5.x86_64 #1 SMP Mon Nov 8 13:30:15 EST 2021 x86_64";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
-                JdkUtil.LogEventType.UNAME.toString() + " not identified.");
-        LogEvent event = JdkUtil.parseLogLine(logLine, null);
-        assertEquals(Arch.X86_64, ((Uname) event).getArch(), "Arch not correct.");
-        assertEquals(Os.LINUX, ((Uname) event).getOsType(), "Version not correct.");
-        assertEquals(OsVendor.REDHAT, ((Uname) event).getOsVendor(), "Vendor not correct.");
-    }
-
-    @Test
     void testParseLogLine() {
         String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 #1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Uname,
@@ -77,6 +66,18 @@ class TestUname {
         assertEquals(Os.LINUX, ((Uname) event).getOsType(), "Version not correct.");
         assertEquals(OsVendor.REDHAT, ((Uname) event).getOsVendor(), "Vendor not correct.");
         assertEquals(OsVersion.RHEL7, ((Uname) event).getOsVersion(), "Version not correct.");
+    }
+
+    @Test
+    void testRhel79() {
+        String logLine = "uname:Linux 3.10.0-1160.62.1.rt56.1203.el7.x86_64 #1 SMP PREEMPT RT Thu Mar 24 08:20:30 UTC "
+                + "2022 x86_64";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
+                JdkUtil.LogEventType.UNAME.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(Arch.X86_64, ((Uname) event).getArch(), "Arch not correct.");
+        assertEquals(Os.LINUX, ((Uname) event).getOsType(), "Version not correct.");
+        assertEquals(OsVendor.REDHAT, ((Uname) event).getOsVendor(), "Vendor not correct.");
     }
 
     @Test
@@ -113,6 +114,17 @@ class TestUname {
         assertEquals(Os.LINUX, ((Uname) event).getOsType(), "Version not correct.");
         assertEquals(OsVendor.REDHAT, ((Uname) event).getOsVendor(), "Vendor not correct.");
         assertEquals(OsVersion.RHEL8, ((Uname) event).getOsVersion(), "Version not correct.");
+    }
+
+    @Test
+    void testRhel85() {
+        String logLine = "uname: Linux 4.18.0-348.2.1.el8_5.x86_64 #1 SMP Mon Nov 8 13:30:15 EST 2021 x86_64";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
+                JdkUtil.LogEventType.UNAME.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(Arch.X86_64, ((Uname) event).getArch(), "Arch not correct.");
+        assertEquals(Os.LINUX, ((Uname) event).getOsType(), "Version not correct.");
+        assertEquals(OsVendor.REDHAT, ((Uname) event).getOsVendor(), "Vendor not correct.");
     }
 
     @Test

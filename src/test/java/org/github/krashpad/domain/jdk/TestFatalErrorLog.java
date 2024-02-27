@@ -94,7 +94,7 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertEquals(Arch.SPARC, fel.getArch(), "Arch not correct.");
+        assertEquals(Arch.SPARC, fel.getArchOs(), "Arch not correct.");
         // No vm_info, so not possible to determine vendor
         assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
@@ -450,7 +450,7 @@ class TestFatalErrorLog {
                 + "oops)";
         Header he = new Header(headerLine);
         fel.getHeaders().add(he);
-        assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
+        assertEquals(Arch.X86_64, fel.getArchOs(), "Arch not correct.");
     }
 
     @Test
@@ -602,7 +602,7 @@ class TestFatalErrorLog {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(2, fel.getJavaThreadCount(), "Java thread count not correct.");
         assertEquals(168, fel.getNativeLibraries().size(), "Native library count not correct.");
-        assertEquals(7, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+        assertEquals(15, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
 
     @Test
@@ -794,7 +794,7 @@ class TestFatalErrorLog {
         fel.setUname(unameEvent);
         fel.doAnalysis();
         assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
-        assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
+        assertEquals(Arch.X86_64, fel.getArchOs(), "Arch not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64", fel.getRpmDirectory(),
                 "RPM directory not correct.");
@@ -1054,6 +1054,44 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testOs64BitJvm32Bit() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        String uname = "uname:Linux 3.10.0-1160.62.1.rt56.1203.el7.x86_64 #1 SMP PREEMPT RT Thu Mar 24 08:20:30 UTC "
+                + "2022 x86_64";
+        Uname unameEvent = new Uname(uname);
+        fel.setUname(unameEvent);
+        String dynamicLibrary1 = "f642b000-f70c6000 r-xp 00000000 fd:00 10479392                           "
+                + "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.i386/jre/lib/i386/server/libjvm.so";
+        DynamicLibrary dynamicLibraryEvent1 = new DynamicLibrary(dynamicLibrary1);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent1);
+        String dynamicLibrary2 = "f60ed000-f60f8000 r-xp 00000000 fd:00 13739509                           "
+                + "/usr/lib/libnss_files-2.17.so";
+        DynamicLibrary dynamicLibraryEvent2 = new DynamicLibrary(dynamicLibrary2);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent2);
+        String vmInfo = "vm_info: OpenJDK Server VM (25.322-b06) for linux-x86 JRE (1.8.0_322-b06), built on "
+                + "Jan 21 2022 06:03:23 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.i386", fel.getRpmDirectory(),
+                "Rpm directory not correct.");
+        assertEquals(Arch.X86_64, fel.getArchOs(), "OS arch not correct.");
+        assertEquals(Arch.X86, fel.getArchJdk(), "JDK arch not correct.");
+        assertTrue(fel.isRhBuildString(), "RH build string not identified.");
+        assertTrue(fel.isRhVersion(), "RH build version not identified.");
+        // 32-bit rpms are not tracked
+        assertFalse(fel.isRhRpmInstall(), "RH rpm install incorrectly identified.");
+        assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "Java vendor not correct.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
+                Analysis.INFO_RH_BUILD_POSSIBLE + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_32.getKey()), Analysis.INFO_JDK_32 + " analysis not identified.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
     void testOsJustLinux() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Linux";
@@ -1177,7 +1215,7 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertEquals(Arch.PPC64LE, fel.getArch(), "Arch not correct.");
+        assertEquals(Arch.PPC64LE, fel.getArchOs(), "Arch not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(Application.TOMCAT, fel.getApplication(), "Application not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -1342,7 +1380,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isWindows(), "OS not identified as Windows.");
-        assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
+        assertEquals(Arch.X86_64, fel.getArchOs(), "Arch not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_WINDOWS_ZIP.getKey()),
                 Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis not identified.");
     }
@@ -1417,7 +1455,7 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertEquals(Arch.SPARC, fel.getArch(), "Arch not correct.");
+        assertEquals(Arch.SPARC, fel.getArchOs(), "Arch not correct.");
         assertEquals("1.8.0_251-b08", fel.getJdkReleaseString(), "JDK release not correct.");
         // No vm_info, so not possible to determine vendor
         assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
@@ -1765,7 +1803,7 @@ class TestFatalErrorLog {
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_WINDOWS_ZIP.getKey()),
                 Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis incorrectly identified.");
-        assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
+        assertEquals(Arch.X86_64, fel.getArchOs(), "Arch not correct.");
         assertEquals("1.8.0_25-b18", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -1799,7 +1837,7 @@ class TestFatalErrorLog {
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_WINDOWS_ZIP.getKey()),
                 Analysis.INFO_RH_BUILD_WINDOWS_ZIP + " analysis not identified.");
-        assertEquals(Arch.X86_64, fel.getArch(), "Arch not correct.");
+        assertEquals(Arch.X86_64, fel.getArchOs(), "Arch not correct.");
         assertEquals("11.0.7+10-LTS", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");

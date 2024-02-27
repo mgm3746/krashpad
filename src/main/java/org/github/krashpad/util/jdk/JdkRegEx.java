@@ -709,7 +709,7 @@ public class JdkRegEx {
      * java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le
      */
     public static final String RH_RPM_DIR = "(" + JdkRegEx.RH_RPM_OPENJDK8_DIR + "|" + JdkRegEx.RH_RPM_OPENJDK11_DIR
-            + "|" + JdkRegEx.RH_RPM_OPENJDK17_DIR + ")";
+            + "|" + JdkRegEx.RH_RPM_OPENJDK17_DIR + "|" + JdkRegEx.RH_RPM_OPENJDK21_DIR + ")";
     /**
      * Red Hat OpenJDK 17 rpm directory.
      * 
@@ -726,7 +726,7 @@ public class JdkRegEx {
      * java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64
      */
     public static final String RH_RPM_OPENJDK11_DIR = "(java\\-11\\-openjdk\\-11\\.0\\.\\d{1,2}\\.\\d{1,2}"
-            + "(\\.\\d{1,2})?-\\d\\.el([789])(_(\\d{1,2}))?\\.x86_64)";
+            + "(\\.\\d{1,2})?-\\d\\.el([789])(_(\\d{1,2}))?\\.(i386|x86_64))";
 
     /**
      * Red Hat OpenJDK 11 rpm libjvm.so file path.
@@ -794,7 +794,7 @@ public class JdkRegEx {
      * java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le
      */
     public static final String RH_RPM_OPENJDK8_DIR = "(java\\-1\\.8\\.0\\-openjdk\\-1\\.8\\.0\\..+\\.el([678])"
-            + "(_(\\d{1,2}))?\\.(ppc64(le)?|x86_64))";
+            + "(_(\\d{1,2}))?\\.(i386|ppc64(le)?|x86_64))";
 
     /**
      * Red Hat OpenJDK 8 rpm file path.
@@ -812,7 +812,7 @@ public class JdkRegEx {
      * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so
      */
     public static final String RH_RPM_OPENJDK8_LIBJVM_PATH = "\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK8_DIR
-            + "\\/jre\\/lib\\/(amd64|ppc64(le)?)\\/server\\/libjvm\\.so";
+            + "\\/jre\\/lib\\/(amd64|i386|ppc64(le)?)\\/server\\/libjvm\\.so";
 
     /**
      * Regular expression for Shenandoah gc data.

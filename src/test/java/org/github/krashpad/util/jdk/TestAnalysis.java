@@ -3203,6 +3203,30 @@ class TestAnalysis {
     }
 
     @Test
+    void testRhelVersionJdk21() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os1 = "OS:";
+        OsInfo osEvent1 = new OsInfo(os1);
+        fel.getOsInfos().add(osEvent1);
+        String os2 = "Red Hat Enterprise Linux release 8.9 (Ootpa)";
+        OsInfo osEvent2 = new OsInfo(os2);
+        fel.getOsInfos().add(osEvent2);
+        String library = "7ff4e3851000-7ff4e3ae9000 r--p 00000000 fd:01 67416842                   "
+                + "/usr/lib/jvm/java-21-openjdk-21.0.1.0.12-3.el8.x86_64/lib/server/libjvm.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(library);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (21.0.1+12-LTS) for linux-amd64 JRE (21.0.1+12-LTS), "
+                + "built on 2023-11-06T21:59:41Z by \"mockbuild\" with gcc 10.2.1 20210130 (Red Hat 10.2.1-11)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("8.9", fel.getRhelVersion(), "RHEL version not correct.");
+        assertEquals("8", fel.getJdkRhelVersion(), "RHEL version not correct.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
+                Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+    }
+
+    @Test
     void testRpmPpc64le() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset15.txt");
         Manager manager = new Manager();

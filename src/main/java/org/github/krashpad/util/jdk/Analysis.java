@@ -517,6 +517,11 @@ public enum Analysis {
     INFO_JAVA_SR_SIGNO("info.java.sr.signum"),
 
     /**
+     * Property key for 32-bit JDK.
+     */
+    INFO_JDK_32("info.jdk.32"),
+
+    /**
      * Property key for a JDK that is more than 1 year older than the latest release.
      */
     INFO_JDK_ANCIENT("info.jdk.ancient"),

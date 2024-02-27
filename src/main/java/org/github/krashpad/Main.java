@@ -121,7 +121,7 @@ public class Main {
             } else {
                 printWriter.write("Version: " + fel.getOsVersion() + Constants.LINE_SEPARATOR);
             }
-            printWriter.write("ARCH: " + fel.getArch() + Constants.LINE_SEPARATOR);
+            printWriter.write("ARCH: " + fel.getArchOs() + Constants.LINE_SEPARATOR);
             if (fel.getCpusLogical() > Integer.MIN_VALUE) {
                 printWriter.write(
                         "CPUs (cpu x cpu cores x hyperthreading): " + fel.getCpusLogical() + Constants.LINE_SEPARATOR);
