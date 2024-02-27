@@ -212,6 +212,18 @@ class TestDynamicLibrary {
     }
 
     @Test
+    void testIsInteresting() {
+        DynamicLibrary priorLogEvent = new DynamicLibrary(null);
+        String logLine = "7f680ddd2001-7f680ded3001 rw-s 15abc000 00:29 4075807                    "
+                + "/path/to/data/AAA.BBB.CCC.TEMP%420";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibrary event = new DynamicLibrary(logLine);
+        assertEquals("/path/to/data/AAA.BBB.CCC.TEMP%420", event.getFilePath(), "File path not correct.");
+        assertTrue(event.isInteresting(), "Interesting native libary not identified.");
+    }
+
+    @Test
     void testJar() {
         DynamicLibrary priorLogEvent = new DynamicLibrary(null);
         String logLine = "7f2a4f8bc000-7f2a4f8be000 r--s 00000000 08:02 6976                       /path/to/modules/"
