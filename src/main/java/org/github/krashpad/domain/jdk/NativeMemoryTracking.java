@@ -96,9 +96,11 @@ public class NativeMemoryTracking implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|[-]{0,1}[ ]{0,}(\\(arena=|Arena Chunk|\\(classes|Class|Code|Compiler|GC|Internal \\(|Java Heap|"
-            + "Native Memory Tracking|\\(malloc|\\(mmap:|\\(stack|Symbol|\\(thread|Thread \\(|Total: reserved|"
-            + "\\(tracking|Unknown)).*$";
+            + "|[-]{0,1}[ ]{0,}(\\(arena=|Arena Chunk|\\(classes|Class|\\(  Class space|Code|Compiler|GC|"
+            + "\\(  instance classes|Internal \\(|Java Heap|\\(  Metadata|Metaspace|Module|Native Memory Tracking|"
+            + "[\\(]{0,1}malloc|[\\(]{0,1}mmap:|\\(Omitting categories|Other|Preinit state:|pre-init mallocs:|"
+            + "\\(    reserved|Safepoint|Serviceability|Shared class space|\\(stack|String Deduplication|Symbol|"
+            + "Synchronization|\\(thread|Thread \\(|Total: reserved|\\(tracking|Unknown|\\(    used|\\(    waste)).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
