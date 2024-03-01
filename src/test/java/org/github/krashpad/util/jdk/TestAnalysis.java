@@ -2257,6 +2257,8 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_AMQ_CLI.getKey()),
                 Analysis.ERROR_OOME_AMQ_CLI + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_OOM_G1.getKey()),
+                Analysis.WARN_OOM_G1 + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
@@ -2448,6 +2450,8 @@ class TestAnalysis {
         assertEquals(Application.JBOSS_VERSION, fel.getApplication(), "Application not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_JBOSS_VERSION.getKey()),
                 Analysis.ERROR_OOME_JBOSS_VERSION + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_OOM_G1.getKey()),
+                Analysis.WARN_OOM_G1 + " analysis incorrectly identified.");
     }
 
     @Test
@@ -2601,6 +2605,8 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN.getKey()),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_OOM_G1.getKey()),
+                Analysis.WARN_OOM_G1 + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
@@ -2613,6 +2619,8 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_TOMCAT_SHUTDOWN.getKey()),
                 Analysis.ERROR_OOME_TOMCAT_SHUTDOWN + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_OOM_G1.getKey()),
+                Analysis.WARN_OOM_G1 + " analysis incorrectly identified.");
         assertEquals(17, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
