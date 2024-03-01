@@ -457,11 +457,6 @@ public enum Analysis {
     ERROR_WILY("error.wily"),
 
     /**
-     * Property key for AdoptOpenJDK build of OpenJDK.
-     */
-    INFO_ADOPTOPENJDK_POSSIBLE("info.adoptopenjdk.possible"),
-
-    /**
      * Property key for AppDynamics instrumentation detected.
      */
     INFO_APP_DYNAMICS_DETECTED("info.app.dynamics.detected"),

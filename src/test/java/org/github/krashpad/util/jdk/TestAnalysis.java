@@ -75,8 +75,7 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_LINUX_ZIP.getKey()),
                 Analysis.INFO_RH_BUILD_LINUX_ZIP + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_ADOPTOPENJDK_POSSIBLE.getKey()),
-                Analysis.INFO_ADOPTOPENJDK_POSSIBLE + " analysis not identified.");
+        assertEquals(JavaVendor.ADOPTOPENJDK, fel.getJavaVendor(), "Java vendor not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX.getKey()),
                 Analysis.INFO_SIGCODE_BUS_ADDERR_LINUX + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -248,8 +247,8 @@ class TestAnalysis {
         assertFalse(fel.isRhBuildDate(), "Red Hat build date incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
-                Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
+                Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
     }
 
     @Test
@@ -2633,8 +2632,8 @@ class TestAnalysis {
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
         fel.getDynamicLibraries().add(dynamicLibraryEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
-                Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
+                Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
         assertTrue(fel.isOracleLinux(), "Oracle linux not identified.");
         assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "Java vendor not correct.");
     }

@@ -42,7 +42,7 @@ load average:5.60 6.67 8.03
 
 Memory: 4k page, physical 65807424k(21787160k free), swap 16777212k(16777212k free)
 
-vm_info: Java HotSpot(TM) 64-Bit Server VM (25.192-b26) for linux-amd64 JRE (1.8.0_192-b26), built on Oct  8 2018 12:04:34 by "java_re" with gcc 7.3.0
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.192-b26) for linux-amd64 JRE (1.8.0_192-b26), built on Oct  8 2018 12:04:34 by "bob" with gcc 7.3.0
 
 time: Thu May  7 17:24:12 2020
 timezone: UTC

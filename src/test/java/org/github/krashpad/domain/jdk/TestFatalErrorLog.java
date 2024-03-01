@@ -96,7 +96,7 @@ class TestFatalErrorLog {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(Arch.SPARC, fel.getArchOs(), "Arch not correct.");
         // No vm_info, so not possible to determine vendor
-        assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "Java vendor not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS.getKey()),
@@ -283,7 +283,7 @@ class TestFatalErrorLog {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
-        assertFalse(fel.isRhel(), "OS incorrectly identified as RHEL.");
+        assertFalse(fel.isRhel(), "RHEL incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_DEBUG_SYMBOLS.getKey()),
                 Analysis.WARN_DEBUG_SYMBOLS + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
@@ -291,6 +291,7 @@ class TestFatalErrorLog {
         // It's a CentOS build, not a RH build.
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_CENTOS.getKey()),
                 Analysis.INFO_RH_BUILD_CENTOS + " analysis incorrectly identified.");
+        assertEquals(JavaVendor.CENTOS, fel.getJavaVendor(), "Java vendor not correct.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_STACK_NO_VM_CODE.getKey()),
                 Analysis.INFO_STACK_NO_VM_CODE + " analysis incorrectly identified.");
     }
@@ -475,7 +476,7 @@ class TestFatalErrorLog {
         fel.getHeaders().add(he2);
         assertEquals(Os.LINUX, fel.getOs(), "OS type not correct.");
         assertEquals("1.8.0_301-b09", fel.getJdkReleaseString(), "Java release not correct.");
-        assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "Java vendor not correct.");
     }
 
     @Test
@@ -800,6 +801,7 @@ class TestFatalErrorLog {
                 "RPM directory not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals(Constants.PROPERTY_UNKNOWN, fel.getCurrentThreadName(), "Current thread not correct.");
+        assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "Java vendor not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis not identified.");
     }
@@ -1033,6 +1035,7 @@ class TestFatalErrorLog {
         String os = "OS: Oracle Linux Server release 7.9";
         OsInfo osEvent = new OsInfo(os);
         fel.getOsInfos().add(osEvent);
+        // Oracle rebuilds the Red Hat source
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.392-b08) for linux-amd64 JRE (1.8.0_392-b08), built on "
                 + "Oct 18 2023 15:26:17 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44.0.3)";
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
@@ -1303,6 +1306,8 @@ class TestFatalErrorLog {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
+        assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "Java vendor not correct.");
+        assertFalse(fel.isRhVersion(), "RH JDK version incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
                 Analysis.INFO_RH_BUILD_NOT + " analysis not identified.");
         assertEquals("Thu May  7 17:24:12 2020 UTC", fel.getCrashTimeString(), "Time of crash not correct.");
@@ -1458,7 +1463,7 @@ class TestFatalErrorLog {
         assertEquals(Arch.SPARC, fel.getArchOs(), "Arch not correct.");
         assertEquals("1.8.0_251-b08", fel.getJdkReleaseString(), "JDK release not correct.");
         // No vm_info, so not possible to determine vendor
-        assertEquals(JavaVendor.NOT_RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "Java vendor not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
     }

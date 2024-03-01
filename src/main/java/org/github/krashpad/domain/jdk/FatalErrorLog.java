@@ -617,14 +617,12 @@ public class FatalErrorLog {
             } else if (isWindows()) {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             }
-        } else {
-            if (getJavaVendor() == JavaVendor.UNIDENTIFIED && isRhVersion()
-                    && (isRhBuildDate() || isRhBuildDateUnknown())) {
-                analysis.add(Analysis.INFO_RH_BUILD_POSSIBLE);
-            } else if (isAdoptOpenJdkBuildString()) {
-                analysis.add(Analysis.INFO_ADOPTOPENJDK_POSSIBLE);
-            } else if (vmInfo != null || getJavaVendor() == JavaVendor.NOT_RED_HAT) {
+        } else if (getJavaVendor() == JavaVendor.UNIDENTIFIED) {
+            if (!isRhVersion()
+                    || (isRhVersion() && !isRhBuildString() && !isRhBuildDateUnknown() && !isRhBuildDate())) {
                 analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
+            } else if (isRhVersion() && (vmInfo == null || isRhBuildString())) {
+                analysis.add(0, Analysis.INFO_RH_BUILD_POSSIBLE);
             }
         }
         // Check if there is vm code in the stack
@@ -3174,7 +3172,7 @@ public class FatalErrorLog {
      */
     public JavaVendor getJavaVendor() {
         JavaVendor vendor = JavaVendor.UNIDENTIFIED;
-        if (isRhBuildOpenJdk()) {
+        if (isRhBuildString() && isRhBuildOpenJdk()) {
             vendor = JavaVendor.RED_HAT;
         } else {
             if (vmInfo != null) {
@@ -3215,9 +3213,6 @@ public class FatalErrorLog {
                     if (he.getLogEntry().matches("^.+AdoptOpenJDK.+$")) {
                         vendor = JavaVendor.ADOPTOPENJDK;
                         break;
-                    } else if (getOs() != Os.UNIDENTIFIED && !isRhVersion()) {
-                        vendor = JavaVendor.NOT_RED_HAT;
-                        // continue checking
                     }
                 } else if (he.isVendorBugUrl()) {
                     if (he.getLogEntry().matches("^#   https://github.com/adoptium/adoptium-support/issues$")) {
@@ -3229,8 +3224,15 @@ public class FatalErrorLog {
                 }
             }
         }
-        if (vendor == JavaVendor.UNIDENTIFIED && isRhVersion() && isOracleLinux()) {
-            vendor = JavaVendor.ORACLE;
+        if (vendor == JavaVendor.UNIDENTIFIED) {
+            if (isRhVersion()) {
+                // Vendors who rebuild RH source
+                if (isOracleLinux()) {
+                    vendor = JavaVendor.ORACLE;
+                } else if (isCentOs()) {
+                    vendor = JavaVendor.CENTOS;
+                }
+            }
         }
         return vendor;
     }
@@ -4174,15 +4176,15 @@ public class FatalErrorLog {
      * @return <code>Os</code>
      */
     public Os getOs() {
-        Os osType = Os.UNIDENTIFIED;
+        Os os = Os.UNIDENTIFIED;
         String osString = getOsString();
         if (osString != null) {
             if (osString.matches(".*Linux.*")) {
-                osType = Os.LINUX;
+                os = Os.LINUX;
             } else if (osString.matches("^Windows.+$")) {
-                osType = Os.WINDOWS;
+                os = Os.WINDOWS;
             } else if (osString.matches(".+Solaris.+")) {
-                osType = Os.SOLARIS;
+                os = Os.SOLARIS;
             }
         } else if (!headers.isEmpty()) {
             // Check header
@@ -4190,12 +4192,14 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 Header he = iterator.next();
                 if (he.isJavaVm()) {
-                    osType = he.getOsType();
+                    os = he.getOsType();
                     break;
                 }
             }
+        } else if (vmInfo != null) {
+            os = vmInfo.getOs();
         }
-        return osType;
+        return os;
     }
 
     /**
@@ -5278,13 +5282,25 @@ public class FatalErrorLog {
     }
 
     /**
-     * AdoptOpenJDK has the same release versions as the RH build of OpenJDK but have a different build date/time and
-     * builder string ("jenkins").
-     * 
-     * @return true if the fatal error log was created by a JDK build string used by AdoptOpenJDK, false otherwise.
+     * @return true if the fatal error log was created on CentOS, false otherwise.
      */
-    public boolean isAdoptOpenJdkBuildString() {
-        return vmInfo != null && (vmInfo.getBuiltBy() == BuiltBy.JENKINS);
+    public boolean isCentOs() {
+        boolean isCentOs = false;
+        if (!osInfos.isEmpty()) {
+            Iterator<OsInfo> iterator = osInfos.iterator();
+            while (iterator.hasNext()) {
+                OsInfo event = iterator.next();
+                if (event.isHeader()) {
+                    if (event.getLogEntry().matches("^OS:$")) {
+                        // OS string on next line
+                        event = iterator.next();
+                    }
+                    isCentOs = event.getLogEntry().matches("^.*CentOS Linux release.+$");
+                    break;
+                }
+            }
+        }
+        return isCentOs;
     }
 
     /**
