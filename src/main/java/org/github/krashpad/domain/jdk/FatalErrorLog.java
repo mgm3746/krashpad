@@ -754,6 +754,10 @@ public class FatalErrorLog {
                             analysis.add(Analysis.ERROR_OOME_RLIMIT_STARTUP);
                         }
                     }
+                    // G1 collector is not good when memory is tight
+                    if (getGarbageCollectors().contains(GarbageCollector.G1)) {
+                        analysis.add(Analysis.WARN_OOM_G1);
+                    }
                 }
                 // Don't double report the JVM failing to start
                 analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
@@ -842,10 +846,10 @@ public class FatalErrorLog {
                         }
                     }
                 }
-            }
-            // G1 collector is not good when memory is tight
-            if (getGarbageCollectors().contains(GarbageCollector.G1)) {
-                analysis.add(Analysis.WARN_OOM_G1);
+                // G1 collector is not good when memory is tight
+                if (getGarbageCollectors().contains(GarbageCollector.G1)) {
+                    analysis.add(Analysis.WARN_OOM_G1);
+                }
             }
         }
         // libjvm.so/jvm.dll
