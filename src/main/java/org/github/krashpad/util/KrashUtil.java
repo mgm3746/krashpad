@@ -159,6 +159,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libc-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libc-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libc-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libc.so.6");
         // cairo
         NATIVE_LIBRARIES_LINUX.add("libcairo.so.2.11512.0");
         // cairo-gobject
@@ -189,6 +190,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libdl-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libdl-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libdl-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libdl.so.2");
         // libblkid
         NATIVE_LIBRARIES_LINUX.add("libblkid.so.1.1.0");
         // libdrm
@@ -249,6 +251,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20191121.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20200928.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20210514.so.1");
+        NATIVE_LIBRARIES_LINUX.add("libgcc_s-11-20230605.so.1");
         // libgcrypt
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.11.8.2");
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.3");
@@ -379,6 +382,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libm-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libm-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libm-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libm.so.6");        
         // libmount
         NATIVE_LIBRARIES_LINUX.add("libmount.so.1.1.0");
         // libidn (international string handling)
@@ -466,6 +470,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libpthread.so.0");
         // pulseaudio-libs: sound proxy server for sound applications
         NATIVE_LIBRARIES_LINUX.add("libpulse.so.0.23.0");
         // pulseaudio-libs: sound proxy server for sound applications
@@ -479,6 +484,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("librt-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("librt-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("librt-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("librt.so.1");
         // libasyncns: library for asynchronous name service queries
         NATIVE_LIBRARIES_LINUX.add("libasyncns.so.0.3.1");
         // open-vm-tools: loaded to provide extended VMWare/vSphere virtualization information in the fatal error log.
