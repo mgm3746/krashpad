@@ -98,6 +98,14 @@ class TestCpuInfo {
     }
 
     @Test
+    void testBogoMips() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "BogoMIPS        : 50.00";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testBugs() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "bugs            : cpu_meltdown spectre_v1 spectre_v2";
@@ -210,6 +218,14 @@ class TestCpuInfo {
     }
 
     @Test
+    void testCpuArchitecture() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "CPU architecture: 8";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testCpuCores() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "cpu cores       : 2";
@@ -276,6 +292,14 @@ class TestCpuInfo {
     }
 
     @Test
+    void testCpuImplementer() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "CPU implementer : 0x41:";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testCpuInfo() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "/proc/cpuinfo:";
@@ -324,6 +348,30 @@ class TestCpuInfo {
     void testCpuModelName() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "model name      : Intel(R) Core(TM) i7-7600U CPU @ 2.80GHz";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testCpuPart() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "CPU part        : 0xd0c";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testCpuRevision() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "CPU revision    : 1";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testCpuVariant() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "CPU variant     : 0x3";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
     }
@@ -386,6 +434,15 @@ class TestCpuInfo {
         FatalErrorLog fel = manager.parse(testFile);
         assertFalse(fel.hasAnalysis(Analysis.WARN_UNIDENTIFIED_LOG_LINE.getKey()),
                 Analysis.WARN_UNIDENTIFIED_LOG_LINE + " analysis incorrectly identified.");
+    }
+
+    @Test
+    void testFeatures() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid "
+                + "asimdrdm lrcpc dcpop asimddp ssbs";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
     }
 
     @Test
@@ -585,7 +642,7 @@ class TestCpuInfo {
     @Test
     void testProcessor() {
         LogEvent priorEvent = new CpuInfo("");
-        String logLine = "processor       : 0";
+        String logLine = "processor       : 2";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
     }

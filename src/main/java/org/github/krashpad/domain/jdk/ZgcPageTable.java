@@ -18,7 +18,7 @@ import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -53,7 +53,8 @@ public class ZgcPageTable implements LogEvent, ThrowAwayEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + " (Large|Medium|Small)[ ]{1,}" + JdkRegEx.ADDRESS
-            + " " + JdkRegEx.ADDRESS + " " + JdkRegEx.ADDRESS + "  (Allocating|Relocatable)|ZBarrierSet)$";
+            + " " + JdkRegEx.ADDRESS + " " + JdkRegEx.ADDRESS
+            + "( [OY]/\\d{1,})?[ ]{1,}(Allocating|Relocatable)|ZBarrierSet)[ ]{0,}$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -81,12 +82,13 @@ public class ZgcPageTable implements LogEvent, ThrowAwayEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.ZGC_PAGE_TABLE;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.ZGC_PAGE_TABLE.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

@@ -37,7 +37,6 @@ j  com.itextpdf.text.pdf.PdfStamper.close()V+30
 
 
 Dynamic libraries:
-
 7f825ad07000-7f825b9bc000 r-xp 00000000 08:21 524725                     /sdo/jdk8u265-b01/jre/lib/amd64/server/libjvm.so
 
 

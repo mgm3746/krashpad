@@ -32,7 +32,6 @@ C  [libc.so.6+0x127f14]  clone+0xe4
 
 
 Dynamic libraries:
-
 7fff99cf0000-7fff9a950000 r-xp 00000000 fd:00 1275071932                 /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so
 
 ---------------  S Y S T E M  ---------------

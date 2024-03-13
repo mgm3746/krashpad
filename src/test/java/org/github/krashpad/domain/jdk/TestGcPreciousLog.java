@@ -98,6 +98,27 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testGcWorkersForOldGeneration() {
+        String logLine = " GC Workers for Old Generation: 32 (dynamic)";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testGcWorkersForYoungGeneration() {
+        String logLine = " GC Workers for Young Generation: 32 (dynamic)";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testGcWorkersMax() {
+        String logLine = " GC Workers Max: 32 (dynamic)";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testHeapBackingFile() {
         String logLine = " Heap Backing File: /memfd:java_heap.hugetlb";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
@@ -231,8 +252,22 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testProbingAddressSpaceForTheHighestValidBit() {
+        String logLine = " Probing address space for the highest valid bit: 47";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testRuntimeWorkers() {
         String logLine = " Runtime Workers: 135";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testSoftMaxCapacity() {
+        String logLine = " Soft Max Capacity: 860160M";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     }

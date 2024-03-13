@@ -18,7 +18,7 @@ import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -85,12 +85,13 @@ public class Instructions implements LogEvent, ThrowAwayEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.INSTRUCTIONS;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.INSTRUCTIONS.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

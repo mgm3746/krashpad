@@ -15,7 +15,6 @@
 #
 
 Dynamic libraries:
-
 2b41e6246000-2b41e6fd2000 r-xp 00000000 fd:09 269880629                  /path/to/java/jre/lib/amd64/server/libjvm.so
 
 ---------------  S Y S T E M  ---------------

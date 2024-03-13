@@ -23,7 +23,7 @@ import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.Constants.OsVendor;
 import org.github.krashpad.util.Constants.OsVersion;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -77,7 +77,8 @@ public class Uname implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "uname:[ ]{0,1}((Linux|SunOS) .+(i86pc|sun4v|ppc64(le)?|x86_64).*)";
+    public static final String _REGEX_HEADER = "uname:[ ]{0,1}((Linux|SunOS) .+(aarch64|i86pc|sun4v|ppc64(le)?|x86_64)"
+            + ".*)";
 
     private static Pattern pattern = Pattern.compile(Uname.REGEX);
 
@@ -130,17 +131,20 @@ public class Uname implements LogEvent, HeaderEvent {
                 arch = Arch.SPARC;
             } else if (matcher.group(indexArch).equals("i86pc")) {
                 arch = Arch.I86PC;
+            } else if (matcher.group(indexArch).equals("aarch64")) {
+                arch = Arch.AARCH64;
             }
         }
         return arch;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.UNAME;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.UNAME.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     /**
@@ -161,7 +165,7 @@ public class Uname implements LogEvent, HeaderEvent {
      */
     public OsVendor getOsVendor() {
         OsVendor osVendor = OsVendor.UNIDENTIFIED;
-        if (getUname().matches("Linux.+\\.el(6|7|8_\\d)\\..+")) {
+        if (getUname().matches("Linux.+\\.el(6|7|(8|9)_\\d)\\..+")) {
             osVendor = OsVendor.REDHAT;
         } else if (getUname().matches("SunOS.+")) {
             osVendor = OsVendor.ORACLE;
@@ -180,6 +184,8 @@ public class Uname implements LogEvent, HeaderEvent {
             osVersion = OsVersion.RHEL7;
         } else if (getUname().matches("Linux.+\\.el8_\\d\\..+")) {
             osVersion = OsVersion.RHEL8;
+        } else if (getUname().matches("Linux.+\\.el9_\\d\\..+")) {
+            osVersion = OsVersion.RHEL9;
         }
         return osVersion;
     }

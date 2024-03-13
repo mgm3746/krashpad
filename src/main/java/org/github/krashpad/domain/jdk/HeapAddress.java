@@ -22,6 +22,7 @@ import org.github.krashpad.util.jdk.JdkMath;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.CompressedOopMode;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -90,12 +91,13 @@ public class HeapAddress implements LogEvent {
         return compressedOopMode;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.HEAP_ADDRESS;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.HEAP_ADDRESS.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     /**

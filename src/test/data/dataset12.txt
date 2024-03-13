@@ -27,7 +27,6 @@ C  [ntdll.dll+0xa960a]
 C  0x0000000001fd4750
 
 Dynamic libraries:
-
 0x0000000052380000 - 0x0000000052bda000         E:\path\java\bin\server\jvm.dll
 
 ---------------  S Y S T E M  ---------------

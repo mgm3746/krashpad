@@ -58,6 +58,14 @@ class TestZgcGlobals {
     }
 
     @Test
+    void testOldCollection() {
+        ZgcGlobals priorLogEvent = new ZgcGlobals("ZGC Globals:");
+        String logLine = " Old Collection:     Mark/10";
+        assertEquals(JdkUtil.LogEventType.ZGC_GLOBALS, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ZGC_GLOBALS.toString() + " not identified.");
+    }
+
+    @Test
     void testPageSizeMedium() {
         ZgcGlobals priorLogEvent = new ZgcGlobals("ZGC Globals:");
         String logLine = " Page Size Medium:  32M";
@@ -78,6 +86,14 @@ class TestZgcGlobals {
         String logLine = "ZGC Globals:";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ZgcGlobals,
                 JdkUtil.LogEventType.ZGC_GLOBALS.toString() + " not parsed.");
+    }
+
+    @Test
+    void testYoungCollection() {
+        ZgcGlobals priorLogEvent = new ZgcGlobals("ZGC Globals:");
+        String logLine = " Young Collection:   Mark/138";
+        assertEquals(JdkUtil.LogEventType.ZGC_GLOBALS, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ZGC_GLOBALS.toString() + " not identified.");
     }
 
 }

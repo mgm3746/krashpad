@@ -17,11 +17,12 @@ package org.github.krashpad.domain.jdk;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.github.krashpad.domain.BlankLine;
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.Constants.Device;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -88,15 +89,20 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
      */
     public static final String _REGEX_HEADER = "Dynamic libraries:";
 
+    /**
+     * Regular expression for the header.
+     */
+    public static final String _REGEX_LIBRARY = "(" + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS + ")( "
+            + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE
+            + ")?[ \\t]{1,}(" + org.github.joa.util.JdkRegEx.FILE_PATH + ")?";
+
     private static Pattern pattern = Pattern.compile(DynamicLibrary.REGEX);
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_FOOTER + "|" + _REGEX_ERROR + "|("
-            + JdkRegEx.MEMORY_REGION + "|" + JdkRegEx.ADDRESS + ")( " + JdkRegEx.PERMISION + " " + JdkRegEx.FILE_OFFSET
-            + " " + JdkRegEx.DEVICE_IDS + " " + JdkRegEx.INODE + ")?[ \\t]{1,}("
-            + org.github.joa.util.JdkRegEx.FILE_PATH + ")?)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_FOOTER + "|" + _REGEX_ERROR + "|"
+            + _REGEX_LIBRARY + ")$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -107,6 +113,17 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
      */
     public static final boolean match(String logLine) {
         return logLine.matches(REGEX);
+    }
+
+    /**
+     * @param logLine
+     *            The log line to test.
+     * @param priorEventType
+     *            The prior log line <code>LogEventType</code>.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine, LogEventType priorEventType) {
+        return priorEventType != null && priorEventType == LogEventType.DYNAMIC_LIBRARY && !BlankLine.match(logLine);
     }
 
     /**
@@ -148,18 +165,24 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
         return device;
     }
 
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.DYNAMIC_LIBRARY;
+    }
+
     /**
      * @return Dynamic library file path.
      */
     public String getFilePath() {
         String filePath = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            int filePathIndex = 16;
-            filePath = matcher.group(filePathIndex);
+        Pattern p = Pattern.compile(_REGEX_LIBRARY);
+        Matcher m = p.matcher(logEntry);
+        if (m.find()) {
+            int filePathIndex = 15;
+            filePath = m.group(filePathIndex);
             // Directories and file names can include spaces and parenthesis, but assume any file name that ends with "
             // (deleted)" indicates an mmapped file in a deleted state and should be removed from the file name.
-            if (filePath != null && filePath.matches(JdkRegEx.MMAPPED_FILE_DELETED)) {
+            if (filePath != null) {
                 int position = filePath.lastIndexOf(" (deleted)");
                 if (position != -1) {
                     filePath = filePath.substring(0, position);
@@ -171,10 +194,6 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
 
     public String getLogEntry() {
         return logEntry;
-    }
-
-    public String getName() {
-        return JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString();
     }
 
     public boolean isError() {

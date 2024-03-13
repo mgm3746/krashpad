@@ -49,10 +49,58 @@ class TestZgcPhaseSwitchEvent {
     }
 
     @Test
+    void testOldMarkEnd() {
+        ZgcPhaseSwitchEvent priorLogEvent = new ZgcPhaseSwitchEvent("ZGC Phase Switch (0 events):");
+        String logLine = "Event: 1855.374 Old Mark End             9";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT,
+                JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testOldMarkStart() {
+        ZgcPhaseSwitchEvent priorLogEvent = new ZgcPhaseSwitchEvent("ZGC Phase Switch (0 events):");
+        String logLine = "Event: 1836.404 Old Mark Start           9";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT,
+                JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testOldRelocateStart() {
+        ZgcPhaseSwitchEvent priorLogEvent = new ZgcPhaseSwitchEvent("ZGC Phase Switch (0 events):");
+        String logLine = "Event: 1855.888 Old Relocate Start       9";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT,
+                JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testParseLogLine() {
         ZgcPhaseSwitchEvent priorLogEvent = new ZgcPhaseSwitchEvent("Internal exceptions (250 events):");
         String logLine = "No events";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof ZgcPhaseSwitchEvent,
                 JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
+    void testYoungMarkEnd() {
+        ZgcPhaseSwitchEvent priorLogEvent = new ZgcPhaseSwitchEvent("ZGC Phase Switch (0 events):");
+        String logLine = "Event: 1241.265 Young Mark End          56";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT,
+                JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testYoungMarkStart() {
+        ZgcPhaseSwitchEvent priorLogEvent = new ZgcPhaseSwitchEvent("ZGC Phase Switch (0 events):");
+        String logLine = "Event: 1247.596 Young Mark Start        57";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT,
+                JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testYoungRelocateStart() {
+        ZgcPhaseSwitchEvent priorLogEvent = new ZgcPhaseSwitchEvent("ZGC Phase Switch (0 events):");
+        String logLine = "Event: 1241.569 Young Relocate Start    56";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT,
+                JdkUtil.LogEventType.ZGC_PHASE_SWITCH_EVENT.toString() + " not identified.");
     }
 }

@@ -20,7 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -76,6 +76,11 @@ public class TimeElapsedTime implements LogEvent {
         this.logEntry = logEntry;
     }
 
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.TIME_ELAPSED_TIME;
+    }
+
     /**
      * @return The elapsed time for display purposes in #d #h #m #s format.
      */
@@ -92,10 +97,6 @@ public class TimeElapsedTime implements LogEvent {
 
     public String getLogEntry() {
         return logEntry;
-    }
-
-    public String getName() {
-        return JdkUtil.LogEventType.TIME_ELAPSED_TIME.toString();
     }
 
     /**

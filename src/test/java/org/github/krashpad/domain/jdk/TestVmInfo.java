@@ -35,6 +35,17 @@ import org.junit.jupiter.api.Test;
 class TestVmInfo {
 
     @Test
+    void testArchAarch64() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (21.0.2+13-LTS) for linux-aarch64 JRE (21.0.2+13-LTS), "
+                + "built on 2024-01-10T00:37:42Z by \"mockbuild\" with gcc 10.2.1 20210130 (Red Hat 10.2.1-11)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
+                JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(Arch.AARCH64, ((VmInfo) event).getArch(), "Arch not correct.");
+        assertEquals(Os.LINUX, ((VmInfo) event).getOs(), "OS not correct.");
+    }
+
+    @Test
     void testArchPpc64() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.181-b13) for linux-ppc64 JRE (1.8.0_181-b13), "
                 + "built on Jul 16 2018 11:33:43 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-28)";

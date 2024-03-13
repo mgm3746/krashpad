@@ -178,7 +178,6 @@ Heap after GC invocations=220724 (full 94):
 
 
 Dynamic libraries:
-
 7fa014f59000-7fa015c60000 r-xp 00000000 fd:05 8527393                    /opt/java/zulu8.46.0.52-sa-jre8.0.252-linux_x64_tu04/lib/amd64/server/libjvm.so
 
 

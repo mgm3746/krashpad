@@ -17,7 +17,7 @@ package org.github.krashpad.domain.jdk;
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -109,14 +109,15 @@ public class CpuInfo implements LogEvent, HeaderEvent {
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_VALUE
             + "|<Not Available>|address sizes.+|apicid.+|Available cpu frequencies:.*|"
-            + "(Available|Current) governor[s]{0,1}:.*|BIOS frequency limitation:.*|bogomips.+|bugs.+|"
+            + "(Available|Current) governor[s]{0,1}:.*|BIOS frequency limitation:.*|(bogomips|BogoMIPS).+|bugs.+|"
             + "cache_alignment.+|cache coherency line size:|cache level:|cache size.+|cache type:|"
-            + "citextache_alignment.+|clflush size.+|clock.+|core id.+|Core performance/turbo boost:.*|cpu.+|"
+            + "citextache_alignment.+|clflush size.+|clock.+|core id.+|Core performance/turbo boost:.*|(cpu|CPU).+|"
             + "cpu cores|cpu family.+|CPU Model and flags from \\/proc\\/cpuinfo:|cpuid level|cpu MHz|(Current|"
-            + "Maximum|Minimum) cpu frequency:|flags.+|fpu.+|fpu_exception|Frequency switch latency \\(ns\\):.*|"
-            + "initial apicid.+|machine.+|  Max Mhz.+|microcode.+|model.+|model name|MMU.+|(Off|On)line cpus:.*|"
-            + "ondemand|performance|physical id.+|platform.+|power management:|\\/proc\\/cpuinfo:|[pP]rocessor.+|"
-            + "revision.+|siblings.+|stepping.+|timebase.+|TLB size.+|vendor_id.+|wp.+)$";
+            + "Maximum|Minimum) cpu frequency:|Features.+|flags.+|fpu.+|fpu_exception|"
+            + "Frequency switch latency \\(ns\\):.*|initial apicid.+|machine.+|  Max Mhz.+|microcode.+|model.+|"
+            + "model name|MMU.+|(Off|On)line cpus:.*|ondemand|performance|physical id.+|platform.+|power management:|"
+            + "\\/proc\\/cpuinfo:|[pP]rocessor.+|revision.+|siblings.+|stepping.+|timebase.+|TLB size.+|vendor_id.+|"
+            + "wp.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -144,12 +145,13 @@ public class CpuInfo implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.CPU_INFO;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.CPU_INFO.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     /**

@@ -17,7 +17,7 @@ package org.github.krashpad.domain.jdk;
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -53,7 +53,7 @@ public class ZgcGlobals implements LogEvent, ThrowAwayEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|"
-            + " (GlobalPhase|GlobalSeqNum|Offset Max|Page Size (Medium|Small)):.+)$";
+            + " (GlobalPhase|GlobalSeqNum|Offset Max|Old Collection|Page Size (Medium|Small)|Young Collection):.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -81,12 +81,13 @@ public class ZgcGlobals implements LogEvent, ThrowAwayEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.ZGC_GLOBALS;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.ZGC_GLOBALS.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

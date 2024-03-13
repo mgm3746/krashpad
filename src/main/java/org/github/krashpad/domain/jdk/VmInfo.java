@@ -25,8 +25,8 @@ import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.KrashUtil;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -74,8 +74,9 @@ public class VmInfo implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^vm_info: (Java HotSpot\\(TM\\)|OpenJDK)( 64-Bit)? Server VM \\(.+\\) for "
-            + "(linux|windows|solaris)-(amd64|ppc64|ppc64le|sparc|x86) JRE (\\(Zulu.+\\) )?\\(" + JdkRegEx.BUILD_STRING
-            + "\\).+ built on (" + JdkRegEx.BUILD_DATE_TIME + "|" + JdkRegEx.BUILD_DATE_TIME_21 + ").+$";
+            + "(linux|windows|solaris)-(aarch64|amd64|ppc64|ppc64le|sparc|x86) JRE (\\(Zulu.+\\) )?\\("
+            + JdkRegEx.BUILD_STRING + "\\).+ built on (" + JdkRegEx.BUILD_DATE_TIME + "|" + JdkRegEx.BUILD_DATE_TIME_21
+            + ").+$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -119,6 +120,8 @@ public class VmInfo implements LogEvent {
                 arch = Arch.PPC64;
             } else if (matcher.group(indexArch).equals("x86")) {
                 arch = Arch.X86;
+            } else if (matcher.group(indexArch).equals("aarch64")) {
+                arch = Arch.AARCH64;
             }
         }
         return arch;
@@ -189,6 +192,11 @@ public class VmInfo implements LogEvent {
         return builtBy;
     }
 
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.VM_INFO;
+    }
+
     /**
      * @return The JDK version.
      */
@@ -238,10 +246,6 @@ public class VmInfo implements LogEvent {
 
     public String getLogEntry() {
         return logEntry;
-    }
-
-    public String getName() {
-        return JdkUtil.LogEventType.VM_INFO.toString();
     }
 
     /**

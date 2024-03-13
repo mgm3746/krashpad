@@ -149,6 +149,20 @@ class TestContainerInfo {
     }
 
     @Test
+    void testMemorySwapCurrentInBytes() {
+        String logLine = "memory_swap_current_in_bytes: unlimited";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testMemorySwapMaxLimitInBytes() {
+        String logLine = "memory_swap_max_limit_in_bytes: unlimited";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testMemoryUsage() {
         String logLine = "memory_usage_in_bytes: 3469758464";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,

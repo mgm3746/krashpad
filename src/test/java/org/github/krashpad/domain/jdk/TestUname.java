@@ -128,6 +128,19 @@ class TestUname {
     }
 
     @Test
+    void testRhel93Aarch64() {
+        String logLine = "uname: Linux 5.14.0-362.18.1.el9_3.aarch64 #1 SMP PREEMPT_DYNAMIC Wed Jan 3 18:51:55 EST "
+                + "2024 aarch64";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
+                JdkUtil.LogEventType.UNAME.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(Arch.AARCH64, ((Uname) event).getArch(), "Arch not correct.");
+        assertEquals(Os.LINUX, ((Uname) event).getOsType(), "Version not correct.");
+        assertEquals(OsVendor.REDHAT, ((Uname) event).getOsVendor(), "Vendor not correct.");
+        assertEquals(OsVersion.RHEL9, ((Uname) event).getOsVersion(), "Version not correct.");
+    }
+
+    @Test
     void testSolaris() {
         String logLine = "uname:SunOS 5.11 11.4.23.69.3 sun4v";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,

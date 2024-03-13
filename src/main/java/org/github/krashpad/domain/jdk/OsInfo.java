@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -95,12 +95,13 @@ public class OsInfo implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.OS_INFO;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.OS_INFO.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

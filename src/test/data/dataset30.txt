@@ -68,7 +68,6 @@ No events
 
 
 Dynamic libraries:
-
 7f1778675000-7f1779326000 r-xp 00000000 fd:02 152814                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64/jre/lib/amd64/server/libjvm.so
 
 VM Arguments:

@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -85,12 +85,13 @@ public class ProcessMemory implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.PROCESS_MEMORY;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.PROCESS_MEMORY.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

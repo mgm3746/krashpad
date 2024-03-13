@@ -15,7 +15,7 @@
 package org.github.krashpad.domain;
 
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -58,11 +58,13 @@ public class BlankLine implements ThrowAwayEvent {
         this.logEntry = logEntry;
     }
 
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.BLANK_LINE;
+    }
+
     public String getLogEntry() {
         return logEntry;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.BLANK_LINE.toString();
-    }
 }

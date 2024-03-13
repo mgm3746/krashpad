@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -92,6 +92,11 @@ public class ThreadsMax implements LogEvent, ThrowAwayEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.THREADS_MAX;
+    }
+
     /**
      * @return true if the log line matches the event pattern, false otherwise.
      */
@@ -109,10 +114,6 @@ public class ThreadsMax implements LogEvent, ThrowAwayEvent, HeaderEvent {
 
     public String getLogEntry() {
         return logEntry;
-    }
-
-    public String getName() {
-        return JdkUtil.LogEventType.THREADS_MAX.toString();
     }
 
     @Override

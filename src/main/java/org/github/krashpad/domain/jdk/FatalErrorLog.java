@@ -4018,7 +4018,8 @@ public class FatalErrorLog {
             Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
             while (iterator.hasNext()) {
                 DynamicLibrary event = iterator.next();
-                if (event.getLogEntry().matches(JdkRegEx.MMAPPED_FILE_DELETED)) {
+                int position = event.getLogEntry().lastIndexOf(" (deleted)");
+                if (position != -1) {
                     mmapDeletedCount++;
                 }
             }

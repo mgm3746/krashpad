@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -128,12 +128,13 @@ public class NativeMemoryTracking implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.NATIVE_MEMORY_TRACKING;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

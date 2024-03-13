@@ -61,7 +61,6 @@ Heap:
 
 
 Dynamic libraries:
-
 7fcbcff5e000-7fcbd0c42000 r-xp 00000000 ca:01 1190110                    /home/user123/.i4j_jres/1.8.0_192_64/jre/lib/amd64/server/libjvm.so
 
 VM Arguments:

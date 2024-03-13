@@ -169,11 +169,8 @@ No events
 
 
 Dynamic libraries:
-
 7ffb9040f000-7ffb911c3000 r-xp 00000000 fd:7f 23226396                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-0.portable.jdk.el.x86_64/jre/lib/amd64/server/libjvm.so
-
 7ffb6ef62000-7ffb6ef8c000 r--s 00202000 fd:7f 23073810                   /opt/eap/modules/system/layers/base/.overlays/layer-base-jboss-eap-7.2.3.CP/io/undertow/core/main/undertow-core-2.0.22.Final-redhat-00001.jar
-
 7ffb91f4a000-7ffb91f52000 r--s 0006e000 fd:7f 4199521                    /opt/eap/jboss-modules.jar
 
 

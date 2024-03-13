@@ -269,7 +269,7 @@ public class Manager {
                     } else if (event instanceof ZgcPhaseSwitchEvent) {
                         fatalErrorLog.getZgcPhaseSwitchEvents().add((ZgcPhaseSwitchEvent) event);
                     }
-                    if (!(event instanceof BlankLine)) {
+                    if (!(event instanceof BlankLine) || priorEvent instanceof DynamicLibrary) {
                         // throw away blank lines
                         priorEvent = event;
                     }

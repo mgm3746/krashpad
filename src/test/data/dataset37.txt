@@ -104,7 +104,6 @@ CodeCache: size=1048576Kb used=405664Kb max_used=405673Kb free=642911Kb
 
 
 Dynamic libraries:
-
 7fd181e2d000-7fd182bd3000 r-xp 00000000 fd:00 262798                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so
 
 

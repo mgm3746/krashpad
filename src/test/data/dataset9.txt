@@ -43,7 +43,6 @@ V  [libjvm.so+0x907855]  JNI_CreateJavaVM+0x65
 C  [libjli.so+0x431b]  JavaMain+0x9b
 
 Dynamic libraries:
-
 7fc88a31f000-7fc88b482000 r-xp 00000000 fd:01 67566282                   /usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64/lib/server/libjvm.so
 
 ---------------  S Y S T E M  ---------------

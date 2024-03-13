@@ -18,7 +18,7 @@ import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -81,12 +81,13 @@ public class ClassesRedefinedEvent implements LogEvent, ThrowAwayEvent, HeaderEv
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.CLASSES_REDEFINED_EVENT;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.CLASSES_REDEFINED_EVENT.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

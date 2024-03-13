@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -80,6 +80,11 @@ public class MaxMapCount implements LogEvent, ThrowAwayEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.MAX_MAP_COUNT;
+    }
+
     /**
      * @return true if the log line matches the event pattern, false otherwise.
      */
@@ -97,10 +102,6 @@ public class MaxMapCount implements LogEvent, ThrowAwayEvent, HeaderEvent {
 
     public String getLogEntry() {
         return logEntry;
-    }
-
-    public String getName() {
-        return JdkUtil.LogEventType.MAX_MAP_COUNT.toString();
     }
 
     @Override

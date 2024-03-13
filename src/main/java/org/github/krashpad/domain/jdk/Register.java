@@ -18,7 +18,7 @@ import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -68,8 +68,8 @@ public class Register implements LogEvent, ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.REGISTER + "[, ] " + JdkRegEx.REGISTER
-            + "([, ])?( " + JdkRegEx.REGISTER + ")?(, " + JdkRegEx.REGISTER + ")?|[ ]{1,}TRAPNO=" + JdkRegEx.ADDRESS
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.REGISTER + "([, ] " + JdkRegEx.REGISTER
+            + "()?[, ])?( " + JdkRegEx.REGISTER + ")?(, " + JdkRegEx.REGISTER + ")?|[ ]{1,}TRAPNO=" + JdkRegEx.ADDRESS
             + ")[ ]{0,}$";
 
     /**
@@ -98,12 +98,13 @@ public class Register implements LogEvent, ThrowAwayEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.REGISTER;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.REGISTER.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

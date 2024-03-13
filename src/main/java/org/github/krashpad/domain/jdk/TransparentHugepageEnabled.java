@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -86,6 +86,11 @@ public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.TRANSPARENT_HUGEPAGE_ENABLED;
+    }
+
     public String getLogEntry() {
         return logEntry;
     }
@@ -109,10 +114,6 @@ public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
             }
         }
         return mode;
-    }
-
-    public String getName() {
-        return JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED.toString();
     }
 
     @Override

@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -64,8 +64,8 @@ public class ContainerInfo implements LogEvent, HeaderEvent {
     private static final String _SETTING = "^(active_processor_count|container_type|"
             + "cpu_(cpuset_cpus|memory_nodes|period|shares|quota)|current number of tasks|"
             + "kernel_memory_(limit_in_bytes|max_usage_in_bytes|usage_in_bytes)|maximum number of tasks|"
-            + "memory_(and_swap_limit_in_bytes|limit_in_bytes|max_usage_in_bytes|soft_limit_in_bytes|usage_in_bytes)):"
-            + " (.+)$";
+            + "memory_(and_swap_limit_in_bytes|limit_in_bytes|max_usage_in_bytes|soft_limit_in_bytes|"
+            + "swap_current_in_bytes|swap_max_limit_in_bytes|usage_in_bytes)): (.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -93,12 +93,13 @@ public class ContainerInfo implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.CONTAINER_INFO;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.CONTAINER_INFO.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     /**

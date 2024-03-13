@@ -108,7 +108,6 @@ Event: 66898.579 Thread 0x00007fd17c626f90 Exception <a 'java/lang/StackOverflow
 
 
 Dynamic libraries:
-
 7fd181e2d000-7fd182bd3000 r-xp 00000000 fd:00 262798                     /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so
 
 

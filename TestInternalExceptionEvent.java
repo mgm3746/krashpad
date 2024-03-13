@@ -121,4 +121,12 @@ class TestInternalExceptionEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT,
                 JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT.toString() + " not identified.");
     }
+
+    @Test
+    void testThrownNoDetails() {
+        InternalExceptionEvent priorLogEvent = new InternalExceptionEvent("Internal exceptions (250 events):");
+        String logLine = "thrown";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT,
+                JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT.toString() + " not identified.");
+    }
 }

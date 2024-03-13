@@ -14,7 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain;
 
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * Logging event that could not be identified.
@@ -39,11 +39,13 @@ public class UnknownEvent implements LogEvent {
         this.logEntry = logEntry;
     }
 
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.UNKNOWN;
+    }
+
     public String getLogEntry() {
         return logEntry;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.UNKNOWN.toString();
-    }
 }

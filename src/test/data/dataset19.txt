@@ -33,7 +33,6 @@ V  [libjvm.so+0xc1a878]  thread_native_entry(Thread*)+0xf8
 
 
 Dynamic libraries:
-
 7ffff5c35000-7ffff6e6a000 r-xp 00000000 fd:00 823041892                  /usr/lib/jvm/java-11-openjdk-11.0.5.10-0.el7_7.x86_64/lib/server/libjvm.so
 
 

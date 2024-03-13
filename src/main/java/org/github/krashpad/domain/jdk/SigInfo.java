@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 import org.github.krashpad.util.jdk.JdkUtil.SignalCode;
 import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
 
@@ -113,12 +113,13 @@ public class SigInfo implements LogEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.SIGINFO;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.SIGINFO.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     /**

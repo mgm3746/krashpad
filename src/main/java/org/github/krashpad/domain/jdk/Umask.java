@@ -15,7 +15,7 @@
 package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -68,11 +68,13 @@ public class Umask implements LogEvent {
         this.logEntry = logEntry;
     }
 
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.UMASK;
+    }
+
     public String getLogEntry() {
         return logEntry;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.UMASK.toString();
-    }
 }

@@ -17,7 +17,7 @@ package org.github.krashpad.domain.jdk;
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -52,7 +52,9 @@ public class ZgcMetadataBits implements LogEvent, ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + " (Bad|Good|Marked|Remapped|WeakBad):.+)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|"
+            + " (Bad|Good|Load(Bad|Good)|Mark(Bad|Good)|Marked|Marked(Old|Young)|Remapped|Remapped(Old|Young)|"
+            + "Remembered|Store(Bad|Good)|WeakBad):.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -80,12 +82,13 @@ public class ZgcMetadataBits implements LogEvent, ThrowAwayEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.ZGC_METADATA_BITS;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.ZGC_METADATA_BITS.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

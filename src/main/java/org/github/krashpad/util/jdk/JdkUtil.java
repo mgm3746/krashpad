@@ -235,9 +235,9 @@ public class JdkUtil {
         //
         DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT,
         //
-        GC_PRECIOUS_LOG, GLOBAL_FLAGS, HEADER, HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER,
+        GC_PRECIOUS_LOG, GLOBAL_FLAG, HEADER, HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER,
         //
-        INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTICS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE,
+        INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTIC, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE,
         //
         MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING, NUMBER,
         //
@@ -731,209 +731,217 @@ public class JdkUtil {
      */
     public static final LogEventType identifyEventType(String logLine, LogEvent priorEvent) {
         LogEventType logEventType = LogEventType.UNKNOWN;
-        if (ActiveLocale.match(logLine)
-                && (logLine.matches(ActiveLocale._REGEX_HEADER) || priorEvent instanceof ActiveLocale)) {
-            logEventType = LogEventType.ACTIVE_LOCALE;
-        } else if (BitsEvent.match(logLine)) {
-            logEventType = LogEventType.BITS;
-        } else if (BlankLine.match(logLine)) {
-            logEventType = LogEventType.BLANK_LINE;
-        } else if (CardTable.match(logLine)) {
-            logEventType = LogEventType.CARD_TABLE;
-        } else if (CdsArchive.match(logLine)) {
-            logEventType = LogEventType.CDS_ARCHIVE;
-        } else if (ClassesLoadedEvent.match(logLine)
-                && (logLine.matches(ClassesLoadedEvent._REGEX_HEADER) || priorEvent instanceof ClassesLoadedEvent)) {
-            logEventType = LogEventType.CLASSES_LOADED_EVENT;
-        } else if (ClassesRedefinedEvent.match(logLine) && (logLine.matches(ClassesRedefinedEvent._REGEX_HEADER)
-                || priorEvent instanceof ClassesRedefinedEvent)) {
-            logEventType = LogEventType.CLASSES_REDEFINED_EVENT;
-        } else if (ClassesUnloadedEvent.match(logLine) && (logLine.matches(ClassesUnloadedEvent._REGEX_HEADER)
-                || priorEvent instanceof ClassesUnloadedEvent)) {
-            logEventType = LogEventType.CLASSES_UNLOADED_EVENT;
-        } else if (CodeCache.match(logLine)) {
-            logEventType = LogEventType.CODE_CACHE;
-        } else if (CommandLine.match(logLine)) {
-            logEventType = LogEventType.COMMAND_LINE;
-        } else if (CompilationEvent.match(logLine)
-                && (logLine.matches(CompilationEvent._REGEX_HEADER) || priorEvent instanceof CompilationEvent)) {
-            logEventType = LogEventType.COMPILATION_EVENT;
-        } else if (CompressedClassSpace.match(logLine)) {
-            logEventType = LogEventType.COMPRESSED_CLASS_SPACE;
-        } else if (ConstantPool.match(logLine)) {
-            logEventType = LogEventType.CONSTANT_POOL;
-        } else if (ContainerInfo.match(logLine)) {
-            logEventType = LogEventType.CONTAINER_INFO;
-        } else if (CpuInfo.match(logLine)
-                && (logLine.matches(CpuInfo._REGEX_HEADER) || priorEvent instanceof CpuInfo)) {
-            logEventType = LogEventType.CPU_INFO;
-        } else if (CurrentCompileTask.match(logLine)) {
-            logEventType = LogEventType.CURRENT_COMPILE_TASK;
-        } else if (CurrentThread.match(logLine)) {
-            logEventType = LogEventType.CURRENT_THREAD;
-        } else if (DeoptimizationEvent.match(logLine)
-                && (logLine.matches(DeoptimizationEvent._REGEX_HEADER) || priorEvent instanceof DeoptimizationEvent)) {
-            logEventType = LogEventType.DEOPTIMIZATION_EVENT;
-        } else if (DllOperationEvent.match(logLine)
-                && (logLine.matches(DllOperationEvent._REGEX_HEADER) || priorEvent instanceof DllOperationEvent)) {
-            logEventType = LogEventType.DLL_OPERATION_EVENT;
-        } else if (DynamicLibrary.match(logLine)
-                && (logLine.matches(DynamicLibrary._REGEX_HEADER) || priorEvent instanceof DynamicLibrary)) {
+        // Optimization for huge memory maps
+        if (priorEvent != null && priorEvent.getEventType() == LogEventType.DYNAMIC_LIBRARY
+                && DynamicLibrary.match(logLine, priorEvent.getEventType())) {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
-        } else if (ElapsedTime.match(logLine)) {
-            logEventType = LogEventType.ELAPSED_TIME;
-        } else if (End.match(logLine)) {
-            logEventType = LogEventType.END;
-        } else if (EnvironmentVariable.match(logLine)
-                && (logLine.matches(EnvironmentVariable._REGEX_HEADER) || priorEvent instanceof EnvironmentVariable)) {
-            logEventType = LogEventType.ENVIRONMENT_VARIABLES;
-        } else if (Event.match(logLine) && (logLine.matches(Event._REGEX_HEADER) || priorEvent instanceof Event)) {
-            logEventType = LogEventType.EVENT;
-        } else if (ExceptionCounts.match(logLine)) {
-            logEventType = LogEventType.EXCEPTION_COUNTS;
-        } else if (GcHeapHistoryEvent.match(logLine)
-                && (logLine.matches(GcHeapHistoryEvent._REGEX_HEADER) || priorEvent instanceof GcHeapHistoryEvent)) {
-            logEventType = LogEventType.GC_HEAP_HISTORY_EVENT;
-        } else if (GcPreciousLog.match(logLine)) {
-            logEventType = LogEventType.GC_PRECIOUS_LOG;
-        } else if (GlobalFlag.match(logLine)) {
-            logEventType = LogEventType.GLOBAL_FLAGS;
-        } else if (Header.match(logLine)
-                && (priorEvent == null || priorEvent instanceof UnknownEvent || priorEvent instanceof Header)) {
-            logEventType = LogEventType.HEADER;
-        } else if (Heading.match(logLine)) {
-            logEventType = LogEventType.HEADING;
-        } else if (Heap.match(logLine) && (logLine.matches(Heap._REGEX_HEADER) || priorEvent instanceof Heap)) {
-            logEventType = LogEventType.HEAP;
-        } else if (HeapAddress.match(logLine)) {
-            logEventType = LogEventType.HEAP_ADDRESS;
-        } else if (HeapRegions.match(logLine)) {
-            logEventType = LogEventType.HEAP_REGIONS;
-        } else if (Host.match(logLine)) {
-            logEventType = LogEventType.HOST;
-        } else if (Instructions.match(logLine)) {
-            logEventType = LogEventType.INSTRUCTIONS;
-        } else if (InternalExceptionEvent.match(logLine) && (logLine.matches(InternalExceptionEvent._REGEX_HEADER)
-                || priorEvent instanceof InternalExceptionEvent)) {
-            logEventType = LogEventType.INTERNAL_EXCEPTION_EVENT;
-        } else if (InternalStatistic.match(logLine)
-                && (logLine.matches(InternalStatistic._REGEX_HEADER) || priorEvent instanceof InternalStatistic)) {
-            logEventType = LogEventType.INTERNAL_STATISTICS;
-        } else if (LdPreloadFile.match(logLine)
-                && (logLine.matches(LdPreloadFile._REGEX_HEADER) || priorEvent instanceof LdPreloadFile)) {
-            logEventType = LogEventType.LD_PRELOAD_FILE;
-        } else if (Libc.match(logLine)) {
-            logEventType = LogEventType.LIBC;
-        } else if (LoadAverage.match(logLine)) {
-            logEventType = LogEventType.LOAD_AVERAGE;
-        } else if (Logging.match(logLine)) {
-            logEventType = LogEventType.LOGGING;
-        } else if (MachCode.match(logLine)
-                && (logLine.matches(MachCode._REGEX_HEADER) || priorEvent instanceof MachCode)) {
-            logEventType = LogEventType.MACH_CODE;
-        } else if (MaxMapCount.match(logLine)) {
-            logEventType = LogEventType.MAX_MAP_COUNT;
-        } else if (Meminfo.match(logLine)
-                && (logLine.matches(Meminfo._REGEX_HEADER) || priorEvent instanceof Meminfo)) {
-            logEventType = LogEventType.MEMINFO;
-        } else if (Memory.match(logLine) && (logLine.matches(Memory._REGEX_HEADER) || priorEvent instanceof Memory)) {
-            logEventType = LogEventType.MEMORY;
-        } else if (Metaspace.match(logLine)) {
-            logEventType = LogEventType.METASPACE;
-        } else if (NarrowKlass.match(logLine)) {
-            logEventType = LogEventType.NARROW_KLASS;
-        } else if (NativeDecoderState.match(logLine)) {
-            logEventType = LogEventType.NATIVE_DECODER_STATE;
-        } else if (NativeMemoryTracking.match(logLine) && (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
-                || priorEvent instanceof NativeMemoryTracking)) {
-            logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
-        } else if (NumberEvent.match(logLine)) {
-            logEventType = LogEventType.NUMBER;
-        } else if (OsInfo.match(logLine)) {
-            logEventType = LogEventType.OS_INFO;
-        } else if (OsUptime.match(logLine)) {
-            logEventType = LogEventType.OS_UPTIME;
-        } else if (PeriodicNativeTrim.match(logLine)) {
-            logEventType = LogEventType.PERIODIC_NATIVE_TRIM;
-        } else if (PidMax.match(logLine)) {
-            logEventType = LogEventType.PID_MAX;
-        } else if (PollingPage.match(logLine)) {
-            logEventType = LogEventType.POLLING_PAGE;
-        } else if (ProcessMemory.match(logLine)) {
-            logEventType = LogEventType.PROCESS_MEMORY;
-        } else if (Register.match(logLine)) {
-            logEventType = LogEventType.REGISTER;
-        } else if (RegisterToMemoryMapping.match(logLine) && (logLine.matches(RegisterToMemoryMapping._REGEX_HEADER)
-                || priorEvent instanceof RegisterToMemoryMapping)) {
-            logEventType = LogEventType.REGISTER_TO_MEMORY_MAPPING;
-        } else if (Rlimit.match(logLine)) {
-            logEventType = LogEventType.RLIMIT;
-        } else if (SigInfo.match(logLine)) {
-            logEventType = LogEventType.SIGINFO;
-        } else if (SignalHandlers.match(logLine)) {
-            logEventType = LogEventType.SIGNAL_HANDLERS;
-        } else if (Stack.match(logLine)) {
-            logEventType = LogEventType.STACK;
-        } else if (StackSlotToMemoryMapping.match(logLine) && (logLine.matches(StackSlotToMemoryMapping._REGEX_HEADER)
-                || priorEvent instanceof StackSlotToMemoryMapping)) {
-            logEventType = LogEventType.STACK_SLOT_TO_MEMORY_MAPPING;
-        } else if (Thread.match(logLine)) {
-            logEventType = LogEventType.THREAD;
-        } else if (ThreadsActiveCompile.match(logLine)) {
-            logEventType = LogEventType.THREADS_ACTIVE_COMPILE;
-        } else if (ThreadsClassSmrInfo.match(logLine)
-                && (logLine.matches(ThreadsClassSmrInfo._REGEX_HEADER) || priorEvent instanceof ThreadsClassSmrInfo)) {
-            logEventType = LogEventType.THREADS_CLASS_SMR_INFO;
-        } else if (ThreadsMax.match(logLine)) {
-            logEventType = LogEventType.THREADS_MAX;
-        } else if (Time.match(logLine)) {
-            logEventType = LogEventType.TIME;
-        } else if (Timeout.match(logLine)) {
-            logEventType = LogEventType.TIMEOUT;
-        } else if (TimeElapsedTime.match(logLine)) {
-            logEventType = LogEventType.TIME_ELAPSED_TIME;
-        } else if (Timezone.match(logLine)) {
-            logEventType = LogEventType.TIMEZONE;
-        } else if (TopOfStack.match(logLine)) {
-            logEventType = LogEventType.TOP_OF_STACK;
-        } else if (TransparentHugepageDefrag.match(logLine)) {
-            logEventType = LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG;
-        } else if (TransparentHugepageEnabled.match(logLine)) {
-            logEventType = LogEventType.TRANSPARENT_HUGEPAGE_ENABLED;
-        } else if (Uid.match(logLine)) {
-            logEventType = LogEventType.UID;
-        } else if (Umask.match(logLine)) {
-            logEventType = LogEventType.UMASK;
-        } else if (Uname.match(logLine)) {
-            logEventType = LogEventType.UNAME;
-        } else if (VmArguments.match(logLine)) {
-            logEventType = LogEventType.VM_ARGUMENTS;
-        } else if (VmInfo.match(logLine)) {
-            logEventType = LogEventType.VM_INFO;
-        } else if (VmMutex.match(logLine)) {
-            logEventType = LogEventType.VM_MUTEX;
-        } else if (VmOperation.match(logLine)) {
-            logEventType = LogEventType.VM_OPERATION;
-        } else if (VmOperationEvent.match(logLine)
-                && (logLine.matches(VmOperationEvent._REGEX_HEADER) || priorEvent instanceof VmOperationEvent)) {
-            logEventType = LogEventType.VM_OPERATION_EVENT;
-        } else if (VmState.match(logLine)) {
-            logEventType = LogEventType.VM_STATE;
-        } else if (VirtualizationInfo.match(logLine)
-                && (logLine.matches(VirtualizationInfo._REGEX_HEADER) || priorEvent instanceof VirtualizationInfo)) {
-            logEventType = LogEventType.VIRTUALIZATION_INFO;
-        } else if (ZgcGlobals.match(logLine)) {
-            logEventType = LogEventType.ZGC_GLOBALS;
-        } else if (ZgcMetadataBits.match(logLine)) {
-            logEventType = LogEventType.ZGC_METADATA_BITS;
-        } else if (ZgcGlobals.match(logLine)) {
-            logEventType = LogEventType.ZGC_GLOBALS;
-        } else if (ZgcMetadataBits.match(logLine)) {
-            logEventType = LogEventType.ZGC_METADATA_BITS;
-        } else if (ZgcPageTable.match(logLine)) {
-            logEventType = LogEventType.ZGC_PAGE_TABLE;
-        } else if (ZgcPhaseSwitchEvent.match(logLine)) {
-            logEventType = LogEventType.ZGC_PHASE_SWITCH_EVENT;
+        } else {
+            if (ActiveLocale.match(logLine)
+                    && (logLine.matches(ActiveLocale._REGEX_HEADER) || priorEvent instanceof ActiveLocale)) {
+                logEventType = LogEventType.ACTIVE_LOCALE;
+            } else if (BitsEvent.match(logLine)) {
+                logEventType = LogEventType.BITS;
+            } else if (BlankLine.match(logLine)) {
+                logEventType = LogEventType.BLANK_LINE;
+            } else if (CardTable.match(logLine)) {
+                logEventType = LogEventType.CARD_TABLE;
+            } else if (CdsArchive.match(logLine)) {
+                logEventType = LogEventType.CDS_ARCHIVE;
+            } else if (ClassesLoadedEvent.match(logLine) && (logLine.matches(ClassesLoadedEvent._REGEX_HEADER)
+                    || priorEvent instanceof ClassesLoadedEvent)) {
+                logEventType = LogEventType.CLASSES_LOADED_EVENT;
+            } else if (ClassesRedefinedEvent.match(logLine) && (logLine.matches(ClassesRedefinedEvent._REGEX_HEADER)
+                    || priorEvent instanceof ClassesRedefinedEvent)) {
+                logEventType = LogEventType.CLASSES_REDEFINED_EVENT;
+            } else if (ClassesUnloadedEvent.match(logLine) && (logLine.matches(ClassesUnloadedEvent._REGEX_HEADER)
+                    || priorEvent instanceof ClassesUnloadedEvent)) {
+                logEventType = LogEventType.CLASSES_UNLOADED_EVENT;
+            } else if (CodeCache.match(logLine)) {
+                logEventType = LogEventType.CODE_CACHE;
+            } else if (CommandLine.match(logLine)) {
+                logEventType = LogEventType.COMMAND_LINE;
+            } else if (CompilationEvent.match(logLine)
+                    && (logLine.matches(CompilationEvent._REGEX_HEADER) || priorEvent instanceof CompilationEvent)) {
+                logEventType = LogEventType.COMPILATION_EVENT;
+            } else if (CompressedClassSpace.match(logLine)) {
+                logEventType = LogEventType.COMPRESSED_CLASS_SPACE;
+            } else if (ConstantPool.match(logLine)) {
+                logEventType = LogEventType.CONSTANT_POOL;
+            } else if (ContainerInfo.match(logLine)) {
+                logEventType = LogEventType.CONTAINER_INFO;
+            } else if (CpuInfo.match(logLine)
+                    && (logLine.matches(CpuInfo._REGEX_HEADER) || priorEvent instanceof CpuInfo)) {
+                logEventType = LogEventType.CPU_INFO;
+            } else if (CurrentCompileTask.match(logLine)) {
+                logEventType = LogEventType.CURRENT_COMPILE_TASK;
+            } else if (CurrentThread.match(logLine)) {
+                logEventType = LogEventType.CURRENT_THREAD;
+            } else if (DeoptimizationEvent.match(logLine) && (logLine.matches(DeoptimizationEvent._REGEX_HEADER)
+                    || priorEvent instanceof DeoptimizationEvent)) {
+                logEventType = LogEventType.DEOPTIMIZATION_EVENT;
+            } else if (DllOperationEvent.match(logLine)
+                    && (logLine.matches(DllOperationEvent._REGEX_HEADER) || priorEvent instanceof DllOperationEvent)) {
+                logEventType = LogEventType.DLL_OPERATION_EVENT;
+            } else if (DynamicLibrary.match(logLine)
+                    && (logLine.matches(DynamicLibrary._REGEX_HEADER) || priorEvent instanceof DynamicLibrary)) {
+                logEventType = LogEventType.DYNAMIC_LIBRARY;
+            } else if (ElapsedTime.match(logLine)) {
+                logEventType = LogEventType.ELAPSED_TIME;
+            } else if (End.match(logLine)) {
+                logEventType = LogEventType.END;
+            } else if (EnvironmentVariable.match(logLine) && (logLine.matches(EnvironmentVariable._REGEX_HEADER)
+                    || priorEvent instanceof EnvironmentVariable)) {
+                logEventType = LogEventType.ENVIRONMENT_VARIABLES;
+            } else if (Event.match(logLine) && (logLine.matches(Event._REGEX_HEADER) || priorEvent instanceof Event)) {
+                logEventType = LogEventType.EVENT;
+            } else if (ExceptionCounts.match(logLine)) {
+                logEventType = LogEventType.EXCEPTION_COUNTS;
+            } else if (GcHeapHistoryEvent.match(logLine) && (logLine.matches(GcHeapHistoryEvent._REGEX_HEADER)
+                    || priorEvent instanceof GcHeapHistoryEvent)) {
+                logEventType = LogEventType.GC_HEAP_HISTORY_EVENT;
+            } else if (GcPreciousLog.match(logLine)) {
+                logEventType = LogEventType.GC_PRECIOUS_LOG;
+            } else if (GlobalFlag.match(logLine)) {
+                logEventType = LogEventType.GLOBAL_FLAG;
+            } else if (Header.match(logLine)
+                    && (priorEvent == null || priorEvent instanceof UnknownEvent || priorEvent instanceof Header)) {
+                logEventType = LogEventType.HEADER;
+            } else if (Heading.match(logLine)) {
+                logEventType = LogEventType.HEADING;
+            } else if (Heap.match(logLine) && (logLine.matches(Heap._REGEX_HEADER) || priorEvent instanceof Heap)) {
+                logEventType = LogEventType.HEAP;
+            } else if (HeapAddress.match(logLine)) {
+                logEventType = LogEventType.HEAP_ADDRESS;
+            } else if (HeapRegions.match(logLine)) {
+                logEventType = LogEventType.HEAP_REGIONS;
+            } else if (Host.match(logLine)) {
+                logEventType = LogEventType.HOST;
+            } else if (Instructions.match(logLine)) {
+                logEventType = LogEventType.INSTRUCTIONS;
+            } else if (InternalExceptionEvent.match(logLine) && (logLine.matches(InternalExceptionEvent._REGEX_HEADER)
+                    || priorEvent instanceof InternalExceptionEvent)) {
+                logEventType = LogEventType.INTERNAL_EXCEPTION_EVENT;
+            } else if (InternalStatistic.match(logLine)
+                    && (logLine.matches(InternalStatistic._REGEX_HEADER) || priorEvent instanceof InternalStatistic)) {
+                logEventType = LogEventType.INTERNAL_STATISTIC;
+            } else if (LdPreloadFile.match(logLine)
+                    && (logLine.matches(LdPreloadFile._REGEX_HEADER) || priorEvent instanceof LdPreloadFile)) {
+                logEventType = LogEventType.LD_PRELOAD_FILE;
+            } else if (Libc.match(logLine)) {
+                logEventType = LogEventType.LIBC;
+            } else if (LoadAverage.match(logLine)) {
+                logEventType = LogEventType.LOAD_AVERAGE;
+            } else if (Logging.match(logLine)) {
+                logEventType = LogEventType.LOGGING;
+            } else if (MachCode.match(logLine)
+                    && (logLine.matches(MachCode._REGEX_HEADER) || priorEvent instanceof MachCode)) {
+                logEventType = LogEventType.MACH_CODE;
+            } else if (MaxMapCount.match(logLine)) {
+                logEventType = LogEventType.MAX_MAP_COUNT;
+            } else if (Meminfo.match(logLine)
+                    && (logLine.matches(Meminfo._REGEX_HEADER) || priorEvent instanceof Meminfo)) {
+                logEventType = LogEventType.MEMINFO;
+            } else if (Memory.match(logLine)
+                    && (logLine.matches(Memory._REGEX_HEADER) || priorEvent instanceof Memory)) {
+                logEventType = LogEventType.MEMORY;
+            } else if (Metaspace.match(logLine)) {
+                logEventType = LogEventType.METASPACE;
+            } else if (NarrowKlass.match(logLine)) {
+                logEventType = LogEventType.NARROW_KLASS;
+            } else if (NativeDecoderState.match(logLine)) {
+                logEventType = LogEventType.NATIVE_DECODER_STATE;
+            } else if (NativeMemoryTracking.match(logLine) && (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
+                    || priorEvent instanceof NativeMemoryTracking)) {
+                logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
+            } else if (NumberEvent.match(logLine)) {
+                logEventType = LogEventType.NUMBER;
+            } else if (OsInfo.match(logLine)) {
+                logEventType = LogEventType.OS_INFO;
+            } else if (OsUptime.match(logLine)) {
+                logEventType = LogEventType.OS_UPTIME;
+            } else if (PeriodicNativeTrim.match(logLine)) {
+                logEventType = LogEventType.PERIODIC_NATIVE_TRIM;
+            } else if (PidMax.match(logLine)) {
+                logEventType = LogEventType.PID_MAX;
+            } else if (PollingPage.match(logLine)) {
+                logEventType = LogEventType.POLLING_PAGE;
+            } else if (ProcessMemory.match(logLine)) {
+                logEventType = LogEventType.PROCESS_MEMORY;
+            } else if (Register.match(logLine)) {
+                logEventType = LogEventType.REGISTER;
+            } else if (RegisterToMemoryMapping.match(logLine) && (logLine.matches(RegisterToMemoryMapping._REGEX_HEADER)
+                    || priorEvent instanceof RegisterToMemoryMapping)) {
+                logEventType = LogEventType.REGISTER_TO_MEMORY_MAPPING;
+            } else if (Rlimit.match(logLine)) {
+                logEventType = LogEventType.RLIMIT;
+            } else if (SigInfo.match(logLine)) {
+                logEventType = LogEventType.SIGINFO;
+            } else if (SignalHandlers.match(logLine)) {
+                logEventType = LogEventType.SIGNAL_HANDLERS;
+            } else if (Stack.match(logLine)) {
+                logEventType = LogEventType.STACK;
+            } else if (StackSlotToMemoryMapping.match(logLine)
+                    && (logLine.matches(StackSlotToMemoryMapping._REGEX_HEADER)
+                            || priorEvent instanceof StackSlotToMemoryMapping)) {
+                logEventType = LogEventType.STACK_SLOT_TO_MEMORY_MAPPING;
+            } else if (Thread.match(logLine)) {
+                logEventType = LogEventType.THREAD;
+            } else if (ThreadsActiveCompile.match(logLine)) {
+                logEventType = LogEventType.THREADS_ACTIVE_COMPILE;
+            } else if (ThreadsClassSmrInfo.match(logLine) && (logLine.matches(ThreadsClassSmrInfo._REGEX_HEADER)
+                    || priorEvent instanceof ThreadsClassSmrInfo)) {
+                logEventType = LogEventType.THREADS_CLASS_SMR_INFO;
+            } else if (ThreadsMax.match(logLine)) {
+                logEventType = LogEventType.THREADS_MAX;
+            } else if (Time.match(logLine)) {
+                logEventType = LogEventType.TIME;
+            } else if (Timeout.match(logLine)) {
+                logEventType = LogEventType.TIMEOUT;
+            } else if (TimeElapsedTime.match(logLine)) {
+                logEventType = LogEventType.TIME_ELAPSED_TIME;
+            } else if (Timezone.match(logLine)) {
+                logEventType = LogEventType.TIMEZONE;
+            } else if (TopOfStack.match(logLine)) {
+                logEventType = LogEventType.TOP_OF_STACK;
+            } else if (TransparentHugepageDefrag.match(logLine)) {
+                logEventType = LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG;
+            } else if (TransparentHugepageEnabled.match(logLine)) {
+                logEventType = LogEventType.TRANSPARENT_HUGEPAGE_ENABLED;
+            } else if (Uid.match(logLine)) {
+                logEventType = LogEventType.UID;
+            } else if (Umask.match(logLine)) {
+                logEventType = LogEventType.UMASK;
+            } else if (Uname.match(logLine)) {
+                logEventType = LogEventType.UNAME;
+            } else if (VmArguments.match(logLine)) {
+                logEventType = LogEventType.VM_ARGUMENTS;
+            } else if (VmInfo.match(logLine)) {
+                logEventType = LogEventType.VM_INFO;
+            } else if (VmMutex.match(logLine)) {
+                logEventType = LogEventType.VM_MUTEX;
+            } else if (VmOperation.match(logLine)) {
+                logEventType = LogEventType.VM_OPERATION;
+            } else if (VmOperationEvent.match(logLine)
+                    && (logLine.matches(VmOperationEvent._REGEX_HEADER) || priorEvent instanceof VmOperationEvent)) {
+                logEventType = LogEventType.VM_OPERATION_EVENT;
+            } else if (VmState.match(logLine)) {
+                logEventType = LogEventType.VM_STATE;
+            } else if (VirtualizationInfo.match(logLine) && (logLine.matches(VirtualizationInfo._REGEX_HEADER)
+                    || priorEvent instanceof VirtualizationInfo)) {
+                logEventType = LogEventType.VIRTUALIZATION_INFO;
+            } else if (ZgcGlobals.match(logLine)) {
+                logEventType = LogEventType.ZGC_GLOBALS;
+            } else if (ZgcMetadataBits.match(logLine)) {
+                logEventType = LogEventType.ZGC_METADATA_BITS;
+            } else if (ZgcGlobals.match(logLine)) {
+                logEventType = LogEventType.ZGC_GLOBALS;
+            } else if (ZgcMetadataBits.match(logLine)) {
+                logEventType = LogEventType.ZGC_METADATA_BITS;
+            } else if (ZgcPageTable.match(logLine)) {
+                logEventType = LogEventType.ZGC_PAGE_TABLE;
+            } else if (ZgcPhaseSwitchEvent.match(logLine)) {
+                logEventType = LogEventType.ZGC_PHASE_SWITCH_EVENT;
+            }
         }
         return logEventType;
     }
@@ -1133,7 +1141,7 @@ public class JdkUtil {
         case GC_PRECIOUS_LOG:
             event = new GcPreciousLog(logLine);
             break;
-        case GLOBAL_FLAGS:
+        case GLOBAL_FLAG:
             event = new GlobalFlag(logLine);
             break;
         case HEADER:
@@ -1160,7 +1168,7 @@ public class JdkUtil {
         case INTERNAL_EXCEPTION_EVENT:
             event = new InternalExceptionEvent(logLine);
             break;
-        case INTERNAL_STATISTICS:
+        case INTERNAL_STATISTIC:
             event = new InternalStatistic(logLine);
             break;
         case LD_PRELOAD_FILE:

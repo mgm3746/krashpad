@@ -17,7 +17,7 @@ package org.github.krashpad.domain.jdk;
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -175,12 +175,13 @@ public class Metaspace implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.METASPACE;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.METASPACE.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

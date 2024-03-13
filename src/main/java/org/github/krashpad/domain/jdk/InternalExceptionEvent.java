@@ -17,7 +17,7 @@ package org.github.krashpad.domain.jdk;
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -54,7 +54,7 @@ public class InternalExceptionEvent implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP + " Thread "
-            + JdkRegEx.ADDRESS + " (Exception|Implicit|NullPointerException|StackOverflow).+|<meta name.+|thrown.+|"
+            + JdkRegEx.ADDRESS + " (Exception|Implicit|NullPointerException|StackOverflow).+|<meta name.+|thrown.*|"
             + "No [Ee]vents)$";
 
     /**
@@ -83,12 +83,13 @@ public class InternalExceptionEvent implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.INTERNAL_EXCEPTION_EVENT;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.INTERNAL_EXCEPTION_EVENT.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

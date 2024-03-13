@@ -18,7 +18,7 @@ import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -73,8 +73,8 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
             + "class type annotations|constants|default_methods|default vtable indices|field annotations|"
             + "field type annotations|inner classes|instance size|java mirror|klass|klass size|length|local interfaces|"
             + "method ordering|methods|name|nest members|non-static oop maps|permitted subclasses|state|sub|super|"
-            + "trans\\. interfaces):.*|\\{" + JdkRegEx.ADDRESS
-            + "\\} - klass:.+|([R|r][ ]{0,1}\\d{1,2}[ ]{0,1}|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
+            + "trans\\. interfaces):.*|\\{" + JdkRegEx.ADDRESS + "\\} - klass:.+|" + JdkRegEx.ADDRESS
+            + " is an unknown value|([R|r][ ]{0,1}\\d{1,2}[ ]{0,1}|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
             + "\\[error occurred during error reporting \\(printing register info\\).+|exception handling.+|"
             + "invoke return entry points.+| - itable length.+|method entry point.+|native method entry point.+|"
             + "(i)?return.+| - fake entry for .+| - (final|private|protected|transient|volatile) .+|StubRoutines.+|"
@@ -106,12 +106,13 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.REGISTER_TO_MEMORY_MAPPING;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

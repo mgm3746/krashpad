@@ -17,7 +17,7 @@ package org.github.krashpad.domain.jdk;
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -46,7 +46,8 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
     public static final String _REGEX_HEADER = "VM Operations \\(\\d{1,} events\\):";
 
     private static final String _REGEX_OPERATIONS = "(Cleanup|FindDeadlocks|G1CollectForAllocation|GetAllStackTraces|"
-            + "HandshakeAllThreads|ICBufferFull|PrintJNI|PrintThreads|ThreadDump|ZMarkEnd|ZRelocateStart)";
+            + "HandshakeAllThreads|ICBufferFull|PrintJNI|PrintThreads|RendezvousGCThreads|ThreadDump|ZMarkEnd|"
+            + "ZMarkFlushOperation|ZMarkStartYoungAndOld|ZRelocateStart|ZRendezvousGCThreads)";
 
     /**
      * Regular expression defining the logging.
@@ -80,12 +81,13 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.VM_OPERATION_EVENT;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.VM_OPERATION_EVENT.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

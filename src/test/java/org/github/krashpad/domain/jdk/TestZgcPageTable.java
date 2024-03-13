@@ -65,9 +65,33 @@ class TestZgcPageTable {
     }
 
     @Test
+    void testSmallOldFractionRelocatable() {
+        ZgcPageTable priorLogEvent = new ZgcPageTable("ZGC Page Table:");
+        String logLine = " Small   0x0000000000200000 0x00000000003ffff8 0x0000000000400000 O/4     Relocatable";
+        assertEquals(JdkUtil.LogEventType.ZGC_PAGE_TABLE, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ZGC_PAGE_TABLE.toString() + " not identified.");
+    }
+
+    @Test
     void testSmallRelocatable() {
         ZgcPageTable priorLogEvent = new ZgcPageTable("ZGC Page Table:");
         String logLine = " Small   0x0000000007200000 0x00000000073fffa8 0x0000000007400000  Relocatable";
+        assertEquals(JdkUtil.LogEventType.ZGC_PAGE_TABLE, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ZGC_PAGE_TABLE.toString() + " not identified.");
+    }
+
+    @Test
+    void testSmallYoungFractionAllocatingSpaceEnd() {
+        ZgcPageTable priorLogEvent = new ZgcPageTable("ZGC Page Table:");
+        String logLine = " Small   0x0000000ff6c00000 0x0000000ff6c80000 0x0000000ff6e00000 Y/138   Allocating ";
+        assertEquals(JdkUtil.LogEventType.ZGC_PAGE_TABLE, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ZGC_PAGE_TABLE.toString() + " not identified.");
+    }
+
+    @Test
+    void testSmallYoungFractionRelocatable() {
+        ZgcPageTable priorLogEvent = new ZgcPageTable("ZGC Page Table:");
+        String logLine = " Small   0x000000009e600000 0x000000009e800000 0x000000009e800000 Y/137   Relocatable";
         assertEquals(JdkUtil.LogEventType.ZGC_PAGE_TABLE, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ZGC_PAGE_TABLE.toString() + " not identified.");
     }

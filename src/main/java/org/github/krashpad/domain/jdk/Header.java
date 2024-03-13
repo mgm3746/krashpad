@@ -16,7 +16,7 @@ package org.github.krashpad.domain.jdk;
 
 import org.github.joa.domain.Os;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
 
 /**
@@ -143,12 +143,13 @@ public class Header implements LogEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.HEADER;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.OS_INFO.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     /**

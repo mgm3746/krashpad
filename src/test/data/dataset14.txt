@@ -27,7 +27,6 @@ V  [libjvm.so+0x93a382]  java_start(Thread*)+0xf2
 
 
 Dynamic libraries:
-
 7fe1cd591000-7fe1ce31d000 r-xp 00000000 fd:02 71413                      /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/jre/lib/amd64/server/libjvm.so
 
 ---------------  S Y S T E M  ---------------

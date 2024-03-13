@@ -92,7 +92,6 @@ Event: 0.001 Loaded shared library /usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_
 
 
 Dynamic libraries:
-
 7fc88bd9a000-7fc88bda9000 r-xp 00000000 fd:01 36973795                   /usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64/lib/jli/libjli.so
 
 

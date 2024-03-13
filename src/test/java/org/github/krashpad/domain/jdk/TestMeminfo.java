@@ -209,6 +209,14 @@ class TestMeminfo {
     }
 
     @Test
+    void testSecPageTables() {
+        Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");
+        String logLine = "SecPageTables:         0 kB";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    }
+
+    @Test
     void testShmem() {
         Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");
         String logLine = "Shmem:             48464 kB";
@@ -268,6 +276,22 @@ class TestMeminfo {
     void testWriteback() {
         Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");
         String logLine = "Writeback:             0 kB";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testZswap() {
+        Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");
+        String logLine = "Zswap:                 0 kB";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testZswapped() {
+        Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");
+        String logLine = "Zswapped:              0 kB";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     }

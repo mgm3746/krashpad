@@ -183,7 +183,6 @@ Event: 4.815 Thread 0x00007f7a3005d000 Uncommon trap: reason=range_check action=
 [error occurred during error reporting (printing ring buffers), id 0xb]
 
 Dynamic libraries:
-
 7f7a388ea000-7f7a388f8000 r-xp 00000000 fd:00 20972572                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.242.b08-1.el7.x86_64/jre/lib/amd64/jli/libjli.so
 
 VM Arguments:

@@ -16,7 +16,7 @@ package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -54,7 +54,7 @@ public class Heading implements LogEvent, ThrowAwayEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^([-]{15}  (T H R E A D|P R O C E S S|S U M M A R Y|S Y S T E M)"
-            + "[ ]{1,2}[-]{12,15}|[-]{70}|[-]{80})$";
+            + "[ ]{1,2}[-]{12,15}| [-]{19} |[-]{70}|[-]{80})$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -82,11 +82,13 @@ public class Heading implements LogEvent, ThrowAwayEvent {
         this.logEntry = logEntry;
     }
 
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.HEADING;
+    }
+
     public String getLogEntry() {
         return logEntry;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.HEADING.toString();
-    }
 }

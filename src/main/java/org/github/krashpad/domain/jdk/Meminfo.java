@@ -15,7 +15,7 @@
 package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -92,8 +92,9 @@ public class Meminfo implements LogEvent {
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
             + "|Active|Anon|Bounce|Buffers|Cached|Cma|Commit|Direct|Dirty|FileHugePages|FilePmdMapped|Hardware|Huge|"
-            + "Inactive|Kernel|Mapped|MemAvailable|MemFree|MemTotal|Mlocked|NFS|Page|Percpu|[KS]Reclaimable|Shmem|Slab|"
-            + "SUnreclaim|SwapCached|SwapFree|SwapTotal|Unevictable|Vmalloc|Write).*$";
+            + "Inactive|Kernel|KReclaimable|Mapped|MemAvailable|MemFree|MemTotal|Mlocked|NFS|Page|Percpu|"
+            + "SecPageTables|SReclaimable|Shmem|Slab|SUnreclaim|SwapCached|SwapFree|SwapTotal|Unevictable|Vmalloc|"
+            + "Write|Zswap).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -121,11 +122,13 @@ public class Meminfo implements LogEvent {
         this.logEntry = logEntry;
     }
 
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.MEMINFO;
+    }
+
     public String getLogEntry() {
         return logEntry;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.MEMINFO.toString();
-    }
 }

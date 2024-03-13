@@ -16,7 +16,7 @@ package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
@@ -123,12 +123,13 @@ public class CurrentCompileTask implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
-    public String getLogEntry() {
-        return logEntry;
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.CURRENT_COMPILE_TASK;
     }
 
-    public String getName() {
-        return JdkUtil.LogEventType.CURRENT_COMPILE_TASK.toString();
+    public String getLogEntry() {
+        return logEntry;
     }
 
     @Override

@@ -26,6 +26,14 @@ import org.junit.jupiter.api.Test;
 class TestRegister {
 
     @Test
+    void test2R0() {
+        Register priorEvent = new Register("Registers:");
+        String logLine = "R0=0x0000229851cd4000";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER,
+                JdkUtil.LogEventType.REGISTER.toString() + " not identified.");
+    }
+
+    @Test
     void test2RegistersNoSpacesAtEnd() {
         String logLine = "RIP=0x00007ff8193e0c3b, EFLAGS=0x0000000000010202";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.REGISTER,

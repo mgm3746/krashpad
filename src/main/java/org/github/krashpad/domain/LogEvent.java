@@ -15,6 +15,8 @@
 
 package org.github.krashpad.domain;
 
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
+
 /**
  * Base logging event.
  * 
@@ -24,12 +26,12 @@ package org.github.krashpad.domain;
 public interface LogEvent {
 
     /**
+     * @return The log entry <code>LogEventType</code>.
+     */
+    LogEventType getEventType();
+
+    /**
      * @return The log entry for the event.
      */
     String getLogEntry();
-
-    /**
-     * @return The event identifier.
-     */
-    String getName();
 }

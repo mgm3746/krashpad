@@ -179,7 +179,6 @@ Event: 119789.514 Thread 0x00000001201fc800 Thread added: 0x00000001201fc800
 
 
 Dynamic libraries:
-
 0xffffffff7d400000 	/path/to/jdk1.8.0_231/jre/lib/sparcv9/server/libjvm.so
 
 VM Arguments:

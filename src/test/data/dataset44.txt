@@ -165,7 +165,6 @@ Event: 557593.041 Concurrent marking
 
 
 Dynamic libraries:
-
 7f90f07fb000-7f90f1587000 r-xp 00000000 fd:02 4216592                    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/jre/lib/amd64/server/libjvm.so
 
 

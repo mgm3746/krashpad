@@ -268,7 +268,6 @@ Heap after GC invocations=1300 (full 6):
 
 
 Dynamic libraries:
-
 7f95fc25c000-7f95fcf40000 r-xp 00000000 fd:0d 15528                      /path/to/jdk/jre/lib/amd64/server/libjvm.so
 
 VM Arguments:

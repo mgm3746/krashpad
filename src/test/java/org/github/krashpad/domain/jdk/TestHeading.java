@@ -26,6 +26,13 @@ import org.junit.jupiter.api.Test;
 class TestHeading {
 
     @Test
+    void testDashes19SpaceBeforeAndAfter() {
+        String logLine = " ------------------- ";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,
+                JdkUtil.LogEventType.HEADING.toString() + " not identified.");
+    }
+
+    @Test
     void testDashes70() {
         String logLine = "----------------------------------------------------------------------";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADING,

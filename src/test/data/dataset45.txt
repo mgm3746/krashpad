@@ -445,7 +445,6 @@ Event: 1409563.637 Thread 0x000055ed9f573000 Thread added: 0x000055ed9f573000
 
 
 Dynamic libraries:
-
 7fd57d654000-7fd57e824000 r-xp 00000000 fd:02 571545                     /usr/lib/jvm/java-11-openjdk-11.0.6.10-0.el8_1.x86_64/lib/server/libjvm.so
 
 

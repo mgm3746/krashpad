@@ -511,15 +511,6 @@ public class JdkRegEx {
             + JdkRegEx.SIZE + ", )?committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE;
 
     /**
-     * mmapped file in a deleted state.
-     * 
-     * For example:
-     * 
-     * mylib.so (deleted)
-     */
-    public static final String MMAPPED_FILE_DELETED = "^(.)+ \\(deleted\\)$";
-
-    /**
      * Native library.
      * 
      * For example:
@@ -697,7 +688,7 @@ public class JdkRegEx {
      * A 32-bit or 64-bit register.
      */
     public static final String REGISTER = "(CR2|CSGSFS|ctr|EAX|EBP|EBX|ECX|EDI|EDX|EFLAGS|EIP|ERR|ESI|ESP|lr |pc |RAX|"
-            + "RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|[Rr]" + "\\d{1,2}[ ]{0,1})=(" + ADDRESS32 + "|" + ADDRESS64 + ")";
+            + "RBP|RBX|RCX|RDI|RDX|RIP|RSI|RSP|[Rr]\\d{1,2}[ ]{0,1})=(" + ADDRESS32 + "|" + ADDRESS64 + ")";
 
     /**
      * Red Hat OpenJDK rpm directory.
