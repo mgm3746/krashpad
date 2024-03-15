@@ -37,7 +37,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * </pre>
  * 
  * <p>
- * Generational:
+ * JD17 Non-generational, JDK21+ Generational:
  * </p>
  * 
  * <pre>

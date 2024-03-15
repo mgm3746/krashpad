@@ -2623,11 +2623,15 @@ public class FatalErrorLog {
                     garbageCollectors.add(GarbageCollector.CMS);
                 } else if (event.getLogEntry().matches("^[ ]{0,}ZHeap.+$")) {
                     // generational and non-generational look the same
-                    if (getBarrierSet() != null && getBarrierSet().getLogEntry() != null
-                            && getBarrierSet().getLogEntry().equals("ZBarrierSet")) {
-                        garbageCollectors.add(GarbageCollector.ZGC_GENERATIONAL);
-                    } else {
+                    if (getJavaVersionMajor() < 21) {
                         garbageCollectors.add(GarbageCollector.ZGC_NON_GENERATIONAL);
+                    } else {
+                        if (getBarrierSet() != null && getBarrierSet().getLogEntry() != null
+                                && getBarrierSet().getLogEntry().equals("ZBarrierSet")) {
+                            garbageCollectors.add(GarbageCollector.ZGC_GENERATIONAL);
+                        } else {
+                            garbageCollectors.add(GarbageCollector.ZGC_NON_GENERATIONAL);
+                        }
                     }
                     break;
                 } else if (event.getLogEntry().matches("^[ ]{0,}def new.+$")

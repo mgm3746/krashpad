@@ -3612,6 +3612,10 @@ class TestAnalysis {
         String barrierSet = "ZBarrierSet";
         BarrierSet barrierSetEvent = new BarrierSet(barrierSet);
         fel.setBarrierSet(barrierSetEvent);
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (21.0.2+13-LTS) for linux-amd64 JRE (21.0.2+13-LTS), built "
+                + "on 2024-01-09T22:49:35Z by \"mockbuild\" with gcc 10.2.1 20210130 (Red Hat 10.2.1-11)";
+        VmInfo vmEvent = new VmInfo(vm_info);
+        fel.setVmInfo(vmEvent);
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC_GENERATIONAL),
                 GarbageCollector.ZGC_GENERATIONAL + " collector not identified.");
     }
