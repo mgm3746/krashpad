@@ -869,6 +869,8 @@ public class FatalErrorLog {
                             if ((isInHeader("Java Heap may be blocking the growth of the native heap")
                                     || isInHeader("compressed oops")) && isCompressedOops()) {
                                 analysis.add(Analysis.ERROR_OOME_RLIMIT_OOPS);
+                            } else if (isInHeader("Failed to map memory")) {
+                                analysis.add(Analysis.ERROR_OOME_RLIMIT_MAX_MAP_COUNT);
                             } else {
                                 analysis.add(Analysis.ERROR_OOME_RLIMIT);
                             }
@@ -1622,6 +1624,13 @@ public class FatalErrorLog {
                 s.append(" Check the following location for a heap dump: ");
                 s.append(getJvmOptions().getHeapDumpPath());
                 s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.ERROR_OOME_RLIMIT_MAX_MAP_COUNT.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                if (getGcPreciousLogWarning() != null) {
+                    s.append(" ");
+                    s.append(getGcPreciousLogWarning());
+                }
                 a.add(new String[] { item.getKey(), s.toString() });
             } else if (item.getKey().equals(Analysis.INFO_CGROUP_VERSION.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
@@ -2653,6 +2662,28 @@ public class FatalErrorLog {
 
     public List<GcPreciousLog> getGcPreciousLogs() {
         return gcPreciousLogs;
+    }
+
+    /**
+     * @return A <code>String</code> with the GC Precious Log warning, or null, if none.
+     */
+    public String getGcPreciousLogWarning() {
+        String gcPreciousLogWarning = null;
+        if (!gcPreciousLogs.isEmpty()) {
+            StringBuilder warning = new StringBuilder();
+            Iterator<GcPreciousLog> iterator = gcPreciousLogs.iterator();
+            while (iterator.hasNext()) {
+                GcPreciousLog gpl = iterator.next();
+                if (gpl.getLogEntry().matches("^ (The system limit|least|limit|max).+")) {
+                    if (warning.length() > 0) {
+                        warning.append(" ");
+                    }
+                    warning.append(gpl.getLogEntry().trim());
+                }
+            }
+            gcPreciousLogWarning = warning.toString();
+        }
+        return gcPreciousLogWarning;
     }
 
     /**
@@ -5590,7 +5621,8 @@ public class FatalErrorLog {
      */
     public boolean isMemoryAllocationFail() {
         boolean isMemoryAllocationFail = false;
-        if (isError("There is insufficient memory for the Java Runtime Environment to continue.")) {
+        if (isError("There is insufficient memory for the Java Runtime Environment to continue.")
+                || isError("Failed to map memory")) {
             isMemoryAllocationFail = true;
         }
         return isMemoryAllocationFail;

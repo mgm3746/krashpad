@@ -56,6 +56,15 @@ class TestHeader {
     }
 
     @Test
+    void testFailedToMapMemory() {
+        String logLine = "#  fatal error: Failed to map memory (Not enough space)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
+        Header headerEvent = new Header(logLine);
+        assertTrue(headerEvent.isError(), "Error not identified.");
+    }
+
+    @Test
     void testIdentity() {
         String logLine = "#";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,

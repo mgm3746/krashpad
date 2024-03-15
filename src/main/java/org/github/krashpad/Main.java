@@ -577,7 +577,6 @@ public class Main {
                 }
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             }
-            // }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

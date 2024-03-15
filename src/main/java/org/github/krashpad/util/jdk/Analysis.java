@@ -324,6 +324,11 @@ public enum Analysis {
     ERROR_OOME_RLIMIT("error.oome.rlimit"),
 
     /**
+     * Property key for failing to allocate memory due to max_map_count being reached. .
+     */
+    ERROR_OOME_RLIMIT_MAX_MAP_COUNT("error.oome.rlimit.max.map.count"),
+
+    /**
      * Property key for failing to allocate memory due to a resource limit (rlimit) being reached or the native heap
      * reaching the java heap base address.
      */
