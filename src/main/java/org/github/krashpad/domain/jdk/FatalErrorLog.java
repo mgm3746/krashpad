@@ -1596,11 +1596,11 @@ public class FatalErrorLog {
      * Hydrate values. A performance optimization (e.g. to avoid iterating multiple times over huge collections).
      */
     private void doHydrate() {
-        setGarbageCollections();
-        setJvmUser();
-        setNativeLibraries();
-        setNativeLibrariesUnknown();
-        setRpmDirectory();
+        hydrateGarbageCollections();
+        hydrateJvmUser();
+        hydrateNativeLibraries();
+        hydrateNativeLibrariesUnknown();
+        hydrateRpmDirectory();
     }
 
     /**
@@ -5187,6 +5187,159 @@ public class FatalErrorLog {
     }
 
     /**
+     * Create {@link org.github.krashpad.domain.jdk.GarbageCollection}s from
+     * {@link org.github.krashpad.domain.jdk.GcHeapHistoryEvent}s.
+     */
+    private void hydrateGarbageCollections() {
+        if (!gcHeapHistoryEvents.isEmpty()) {
+            Iterator<GcHeapHistoryEvent> iterator = gcHeapHistoryEvents.iterator();
+            GarbageCollection gc = new GarbageCollection();
+            Pattern patternBegin = Pattern.compile(GcHeapHistoryEvent._REGEX_BEGIN);
+            Pattern patternEnd = Pattern.compile(GcHeapHistoryEvent._REGEX_END);
+            while (iterator.hasNext()) {
+                GcHeapHistoryEvent event = iterator.next();
+                if (event.isBeginning()) {
+                    Matcher matcher = patternBegin.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        gc.setTimestampStartGc(JdkMath.convertSecsToMillis(matcher.group(1)).longValue());
+                    }
+                } else if (event.isEnd()) {
+                    Matcher matcher = patternEnd.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        gc.setTimestampEndGc(JdkMath.convertSecsToMillis(matcher.group(1)).longValue());
+                    }
+                    garbageCollections.add(gc);
+                    gc = null;
+                    gc = new GarbageCollection();
+                }
+            }
+        }
+    }
+
+    /**
+     * Populate JVM user from hsperfdata string. For example, the following user is jb_admin:
+     * 
+     * 7ff0f61d2000-7ff0f61da000 rw-s 00000000 fd:01 33563495 /tmp/hsperfdata_jb_admin/92333
+     */
+    public void hydrateJvmUser() {
+        String jvmUser = null;
+        if (!dynamicLibraries.isEmpty()) {
+            String regExHsPerfData = System.getProperty("file.separator") + "hsperfdata_([^"
+                    + System.getProperty("file.separator") + "]+)";
+            Pattern pattern = Pattern.compile(regExHsPerfData);
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibrary event = iterator.next();
+                if (event.getFilePath() != null) {
+                    Matcher matcher = pattern.matcher(event.getFilePath());
+                    if (matcher.find()) {
+                        jvmUser = matcher.group(1);
+                        break;
+                    }
+                }
+            }
+        }
+        this.jvmUser = jvmUser;
+    }
+
+    /**
+     * Populate native libraries list (unique entries).
+     */
+    private void hydrateNativeLibraries() {
+        List<String> nativeLibraries = new ArrayList<String>();
+        if (!dynamicLibraries.isEmpty()) {
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibrary event = iterator.next();
+                if (event.isNativeLibrary()) {
+                    if (!nativeLibraries.contains(event.getFilePath())) {
+                        nativeLibraries.add(event.getFilePath());
+                    }
+                }
+            }
+        }
+        this.nativeLibraries = nativeLibraries;
+    }
+
+    /**
+     * Populate unknown native libraries.
+     */
+    private void hydrateNativeLibrariesUnknown() {
+        List<String> nativeLibrariesUnknown = new ArrayList<String>();
+        if (!nativeLibraries.isEmpty()) {
+            Iterator<String> iterator = nativeLibraries.iterator();
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (!KrashUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibrary)
+                        && !(KrashUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibrary)
+                                && nativeLibraryPath.matches(KrashUtil.NATIVE_LIBRARY_LINUX_HOME + ".+"))
+                        && !KrashUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)
+                        && !KrashUtil.NATIVE_LIBRARIES_ORACLE.contains(nativeLibrary)
+                        && !KrashUtil.NATIVE_LIBRARIES_TOMCAT
+                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                        && !KrashUtil.NATIVE_LIBRARIES_VMWARE
+                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                        && !(KrashUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibrary)
+                                && nativeLibraryPath.matches(KrashUtil.NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME + ".+"))
+                        && !KrashUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibrary)) {
+                    nativeLibrariesUnknown.add(nativeLibraryPath);
+                }
+            }
+        }
+        this.nativeLibrariesUnknown = nativeLibrariesUnknown;
+    }
+
+    /**
+     * Populate rpm directory.
+     */
+    private void hydrateRpmDirectory() {
+        String rpmDirectory = null;
+        if (getOs() == Os.LINUX) {
+            if (!dynamicLibraries.isEmpty()) {
+                Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
+                while (iterator.hasNext()) {
+                    DynamicLibrary event = iterator.next();
+                    if (event.getFilePath() != null) {
+                        Pattern pattern = null;
+                        Matcher matcher = null;
+                        if (event.getFilePath().matches(JdkRegEx.RH_RPM_OPENJDK8_LIBJVM_PATH)) {
+                            pattern = Pattern.compile(JdkRegEx.RH_RPM_OPENJDK8_LIBJVM_PATH);
+                            matcher = pattern.matcher(event.getFilePath());
+                            if (matcher.find()) {
+                                rpmDirectory = matcher.group(1);
+                            }
+                            break;
+                        } else if (event.getFilePath().matches(JdkRegEx.RH_RPM_OPENJDK11_LIBJVM_PATH)) {
+                            pattern = Pattern.compile(JdkRegEx.RH_RPM_OPENJDK11_LIBJVM_PATH);
+                            matcher = pattern.matcher(event.getFilePath());
+                            if (matcher.find()) {
+                                rpmDirectory = matcher.group(1);
+                            }
+                            break;
+                        } else if (event.getFilePath().matches(JdkRegEx.RH_RPM_OPENJDK17_LIBJVM_PATH)) {
+                            pattern = Pattern.compile(JdkRegEx.RH_RPM_OPENJDK17_LIBJVM_PATH);
+                            matcher = pattern.matcher(event.getFilePath());
+                            if (matcher.find()) {
+                                rpmDirectory = matcher.group(1);
+                            }
+                            break;
+                        } else if (event.getFilePath().matches(JdkRegEx.RH_RPM_OPENJDK21_LIBJVM_PATH)) {
+                            pattern = Pattern.compile(JdkRegEx.RH_RPM_OPENJDK21_LIBJVM_PATH);
+                            matcher = pattern.matcher(event.getFilePath());
+                            if (matcher.find()) {
+                                rpmDirectory = matcher.group(1);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        this.rpmDirectory = rpmDirectory;
+    }
+
+    /**
      * @return true if the fatal error log was created on CentOS, false otherwise.
      */
     public boolean isCentOs() {
@@ -6432,36 +6585,6 @@ public class FatalErrorLog {
         this.end = end;
     }
 
-    /**
-     * Create {@link org.github.krashpad.domain.jdk.GarbageCollection}s from
-     * {@link org.github.krashpad.domain.jdk.GcHeapHistoryEvent}s.
-     */
-    private void setGarbageCollections() {
-        if (!gcHeapHistoryEvents.isEmpty()) {
-            Iterator<GcHeapHistoryEvent> iterator = gcHeapHistoryEvents.iterator();
-            GarbageCollection gc = new GarbageCollection();
-            Pattern patternBegin = Pattern.compile(GcHeapHistoryEvent._REGEX_BEGIN);
-            Pattern patternEnd = Pattern.compile(GcHeapHistoryEvent._REGEX_END);
-            while (iterator.hasNext()) {
-                GcHeapHistoryEvent event = iterator.next();
-                if (event.isBeginning()) {
-                    Matcher matcher = patternBegin.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        gc.setTimestampStartGc(JdkMath.convertSecsToMillis(matcher.group(1)).longValue());
-                    }
-                } else if (event.isEnd()) {
-                    Matcher matcher = patternEnd.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        gc.setTimestampEndGc(JdkMath.convertSecsToMillis(matcher.group(1)).longValue());
-                    }
-                    garbageCollections.add(gc);
-                    gc = null;
-                    gc = new GarbageCollection();
-                }
-            }
-        }
-    }
-
     public void setHeapAddress(HeapAddress heapAddress) {
         this.heapAddress = heapAddress;
     }
@@ -6470,86 +6593,12 @@ public class FatalErrorLog {
         this.host = host;
     }
 
-    /**
-     * Populate JVM user from hsperfdata string. For example, the following user is jb_admin:
-     * 
-     * 7ff0f61d2000-7ff0f61da000 rw-s 00000000 fd:01 33563495 /tmp/hsperfdata_jb_admin/92333
-     */
-    public void setJvmUser() {
-        String jvmUser = null;
-        if (!dynamicLibraries.isEmpty()) {
-            String regExHsPerfData = System.getProperty("file.separator") + "hsperfdata_([^"
-                    + System.getProperty("file.separator") + "]+)";
-            Pattern pattern = Pattern.compile(regExHsPerfData);
-            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
-            while (iterator.hasNext()) {
-                DynamicLibrary event = iterator.next();
-                if (event.getFilePath() != null) {
-                    Matcher matcher = pattern.matcher(event.getFilePath());
-                    if (matcher.find()) {
-                        jvmUser = matcher.group(1);
-                        break;
-                    }
-                }
-            }
-        }
-        this.jvmUser = jvmUser;
-    }
-
     public void setMaxMapCount(MaxMapCount maxMapCount) {
         this.maxMapCount = maxMapCount;
     }
 
     public void setNarrowKlass(NarrowKlass narrowKlass) {
         this.narrowKlass = narrowKlass;
-    }
-
-    /**
-     * Populate native libraries list (unique entries).
-     */
-    private void setNativeLibraries() {
-        List<String> nativeLibraries = new ArrayList<String>();
-        if (!dynamicLibraries.isEmpty()) {
-            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
-            while (iterator.hasNext()) {
-                DynamicLibrary event = iterator.next();
-                if (event.isNativeLibrary()) {
-                    if (!nativeLibraries.contains(event.getFilePath())) {
-                        nativeLibraries.add(event.getFilePath());
-                    }
-                }
-            }
-        }
-        this.nativeLibraries = nativeLibraries;
-    }
-
-    /**
-     * Populate unknown native libraries.
-     */
-    private void setNativeLibrariesUnknown() {
-        List<String> nativeLibrariesUnknown = new ArrayList<String>();
-        if (!nativeLibraries.isEmpty()) {
-            Iterator<String> iterator = nativeLibraries.iterator();
-            while (iterator.hasNext()) {
-                String nativeLibraryPath = iterator.next();
-                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
-                if (!KrashUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibrary)
-                        && !(KrashUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibrary)
-                                && nativeLibraryPath.matches(KrashUtil.NATIVE_LIBRARY_LINUX_HOME + ".+"))
-                        && !KrashUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)
-                        && !KrashUtil.NATIVE_LIBRARIES_ORACLE.contains(nativeLibrary)
-                        && !KrashUtil.NATIVE_LIBRARIES_TOMCAT
-                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
-                        && !KrashUtil.NATIVE_LIBRARIES_VMWARE
-                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
-                        && !(KrashUtil.NATIVE_LIBRARIES_WINDOWS.contains(nativeLibrary)
-                                && nativeLibraryPath.matches(KrashUtil.NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME + ".+"))
-                        && !KrashUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(nativeLibrary)) {
-                    nativeLibrariesUnknown.add(nativeLibraryPath);
-                }
-            }
-        }
-        this.nativeLibrariesUnknown = nativeLibrariesUnknown;
     }
 
     public void setPeriodicNativeTrim(PeriodicNativeTrim periodicNativeTrim) {
@@ -6562,55 +6611,6 @@ public class FatalErrorLog {
 
     public void setRlimit(Rlimit rlimit) {
         this.rlimit = rlimit;
-    }
-
-    /**
-     * Populate rpm directory.
-     */
-    private void setRpmDirectory() {
-        String rpmDirectory = null;
-        if (getOs() == Os.LINUX) {
-            if (!dynamicLibraries.isEmpty()) {
-                Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
-                while (iterator.hasNext()) {
-                    DynamicLibrary event = iterator.next();
-                    if (event.getFilePath() != null) {
-                        Pattern pattern = null;
-                        Matcher matcher = null;
-                        if (event.getFilePath().matches(JdkRegEx.RH_RPM_OPENJDK8_LIBJVM_PATH)) {
-                            pattern = Pattern.compile(JdkRegEx.RH_RPM_OPENJDK8_LIBJVM_PATH);
-                            matcher = pattern.matcher(event.getFilePath());
-                            if (matcher.find()) {
-                                rpmDirectory = matcher.group(1);
-                            }
-                            break;
-                        } else if (event.getFilePath().matches(JdkRegEx.RH_RPM_OPENJDK11_LIBJVM_PATH)) {
-                            pattern = Pattern.compile(JdkRegEx.RH_RPM_OPENJDK11_LIBJVM_PATH);
-                            matcher = pattern.matcher(event.getFilePath());
-                            if (matcher.find()) {
-                                rpmDirectory = matcher.group(1);
-                            }
-                            break;
-                        } else if (event.getFilePath().matches(JdkRegEx.RH_RPM_OPENJDK17_LIBJVM_PATH)) {
-                            pattern = Pattern.compile(JdkRegEx.RH_RPM_OPENJDK17_LIBJVM_PATH);
-                            matcher = pattern.matcher(event.getFilePath());
-                            if (matcher.find()) {
-                                rpmDirectory = matcher.group(1);
-                            }
-                            break;
-                        } else if (event.getFilePath().matches(JdkRegEx.RH_RPM_OPENJDK21_LIBJVM_PATH)) {
-                            pattern = Pattern.compile(JdkRegEx.RH_RPM_OPENJDK21_LIBJVM_PATH);
-                            matcher = pattern.matcher(event.getFilePath());
-                            if (matcher.find()) {
-                                rpmDirectory = matcher.group(1);
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        this.rpmDirectory = rpmDirectory;
     }
 
     public void setSigInfo(SigInfo sigInfo) {
