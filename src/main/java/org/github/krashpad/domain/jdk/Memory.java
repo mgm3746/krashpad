@@ -69,7 +69,7 @@ public class Memory implements LogEvent, HeaderEvent {
      * 
      * On Windows, oddly enough, "swap" is _not_ the swap (Windows page file) size.
      * 
-     * "swap" toal is `ullTotalPageFile`, the commit limit for the system or the current process, whichever is smaller
+     * "swap" total is `ullTotalPageFile`, the commit limit for the system or the current process, whichever is smaller
      * (i.e. total virtual memory), which corresponds to the linux `CommitLimit`.
      * 
      * "swap" free is `ullAvailPageFile`, the maximum amount of memory the current process can commit (i.e. free virtual
