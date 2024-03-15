@@ -767,6 +767,7 @@ class TestFatalErrorLog {
                 + "/tmp/hsperfdata_first.last@location/12345";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(hsperfdata);
         fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        fel.doAnalysis();
         assertEquals("first.last@location", fel.getJvmUser(), "JVM user not correct.");
     }
 
@@ -777,6 +778,7 @@ class TestFatalErrorLog {
                 + "/tmp/hsperfdata_jb_admin/92333";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(hsperfdata);
         fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        fel.doAnalysis();
         assertEquals("jb_admin", fel.getJvmUser(), "JVM user not correct.");
     }
 
