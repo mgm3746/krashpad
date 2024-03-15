@@ -14,48 +14,45 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.domain.BlankLine;
-import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.domain.ThrowAwayEvent;
-import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
- * ZGC_PAGE_TABLE
+ * BARRIER_SET
  * </p>
  * 
  * <p>
- * ZGC page table information.
+ * BarrierSet information (indicates whether ZGC is running in generational or non-generational mode).
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
- * <pre>
- * ZGC Page Table:
- * Small   0x0000000007200000 0x00000000073fffa8 0x0000000007400000  Relocatable
- * Small   0x000000001de00000 0x000000001e000000 0x000000001e000000  Allocating
+ * <p>
+ * Non-generational:
+ * </p>
  * 
+ * <pre>
+ * XBarrierSet
+ * </pre>
+ * 
+ * <p>
+ * Generational:
+ * </p>
+ * 
+ * <pre>
  * ZBarrierSet
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class ZgcPageTable implements LogEvent, ThrowAwayEvent, HeaderEvent {
-
-    /**
-     * Regular expression for the header.
-     */
-    public static final String _REGEX_HEADER = "ZGC Page Table:";
+public class BarrierSet implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + " (Large|Medium|Small)[ ]{1,}" + JdkRegEx.ADDRESS
-            + " " + JdkRegEx.ADDRESS + " " + JdkRegEx.ADDRESS
-            + "( [OY]/\\d{1,})?[ ]{1,}(Allocating|Relocatable))[ ]{0,}$";
+    private static final String REGEX = "^[X|Z]BarrierSet$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -69,17 +66,6 @@ public class ZgcPageTable implements LogEvent, ThrowAwayEvent, HeaderEvent {
     }
 
     /**
-     * @param logLine
-     *            The log line to test.
-     * @param priorEventType
-     *            The prior log line <code>LogEventType</code>.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine, LogEventType priorEventType) {
-        return priorEventType != null && priorEventType == LogEventType.ZGC_PAGE_TABLE && !BlankLine.match(logLine);
-    }
-
-    /**
      * The log entry for the event.
      */
     private String logEntry;
@@ -90,25 +76,17 @@ public class ZgcPageTable implements LogEvent, ThrowAwayEvent, HeaderEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public ZgcPageTable(String logEntry) {
+    public BarrierSet(String logEntry) {
         this.logEntry = logEntry;
     }
 
     @Override
     public LogEventType getEventType() {
-        return LogEventType.ZGC_PAGE_TABLE;
+        return LogEventType.BARRIER_SET;
     }
 
     public String getLogEntry() {
         return logEntry;
     }
 
-    @Override
-    public boolean isHeader() {
-        boolean isHeader = false;
-        if (this.logEntry != null) {
-            isHeader = logEntry.matches(_REGEX_HEADER);
-        }
-        return isHeader;
-    }
 }

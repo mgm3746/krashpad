@@ -25,6 +25,7 @@ import org.github.krashpad.domain.BlankLine;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.domain.UnknownEvent;
+import org.github.krashpad.domain.jdk.BarrierSet;
 import org.github.krashpad.domain.jdk.ClassesUnloadedEvent;
 import org.github.krashpad.domain.jdk.CommandLine;
 import org.github.krashpad.domain.jdk.CompilationEvent;
@@ -80,6 +81,7 @@ import org.github.krashpad.domain.jdk.VmArguments;
 import org.github.krashpad.domain.jdk.VmInfo;
 import org.github.krashpad.domain.jdk.VmOperation;
 import org.github.krashpad.domain.jdk.VmState;
+import org.github.krashpad.domain.jdk.ZgcPageTable;
 import org.github.krashpad.domain.jdk.ZgcPhaseSwitchEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 
@@ -125,6 +127,8 @@ public class Manager {
                     LogEvent event = JdkUtil.parseLogLine(logLine, priorEvent);
                     if (event instanceof ClassesUnloadedEvent) {
                         fatalErrorLog.getClassesUnloadedEvents().add((ClassesUnloadedEvent) event);
+                    } else if (event instanceof BarrierSet) {
+                        fatalErrorLog.setBarrierSet((BarrierSet) event);
                     } else if (event instanceof CommandLine) {
                         fatalErrorLog.setCommandLine((CommandLine) event);
                     } else if (event instanceof CompilationEvent) {
@@ -269,8 +273,14 @@ public class Manager {
                     } else if (event instanceof ZgcPhaseSwitchEvent) {
                         fatalErrorLog.getZgcPhaseSwitchEvents().add((ZgcPhaseSwitchEvent) event);
                     }
-                    if (!(event instanceof BlankLine) || priorEvent instanceof DynamicLibrary) {
-                        // throw away blank lines
+                    if (!(event instanceof BlankLine) || priorEvent instanceof DynamicLibrary
+                            || priorEvent instanceof ZgcPageTable) {
+                        // Blank lines are treated in one of two ways: (1) The event can include blank lines, so they
+                        // are thrown away (prior event is not updated). (2) The event cannot include blank lines (so
+                        // prior event is updated to {@link org.github.krashpad.domain.BlankLine}. Using {@link
+                        // org.github.krashpad.domain.BlankLine} as an event boundary is an optimization for events that
+                        // can contain huge numbers of entries.
+                        // TODO: Add an event method to determine if the event can include blank lines.
                         priorEvent = event;
                     }
                     logLine = bufferedReader.readLine();

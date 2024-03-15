@@ -382,7 +382,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libm-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libm-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libm-2.28.so");
-        NATIVE_LIBRARIES_LINUX.add("libm.so.6");        
+        NATIVE_LIBRARIES_LINUX.add("libm.so.6");
         // libmount
         NATIVE_LIBRARIES_LINUX.add("libmount.so.1.1.0");
         // libidn (international string handling)

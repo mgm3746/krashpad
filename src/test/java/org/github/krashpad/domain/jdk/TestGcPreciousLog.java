@@ -98,6 +98,13 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testGcWorkers() {
+        String logLine = " GC Workers: 32 (dynamic)";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testGcWorkersForOldGeneration() {
         String logLine = " GC Workers for Old Generation: 32 (dynamic)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
@@ -282,6 +289,42 @@ class TestGcPreciousLog {
     @Test
     void testUncommit() {
         String logLine = " Uncommit: Implicitly Disabled (-Xms equals -Xmx)";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testWarningHeader() {
+        String logLine = " ***** WARNING! INCORRECT SYSTEM CONFIGURATION DETECTED! *****";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testWarningMaxMapCountLine1() {
+        String logLine = " The system limit on number of memory mappings per process might be too low for the given";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testWarningMaxMapCountLine2() {
+        String logLine = " max Java heap size (1228800M). Please adjust /proc/sys/vm/max_map_count to allow for at";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testWarningMaxMapCountLine3() {
+        String logLine = " least 2211840 mappings (current limit is 65530). Continuing execution with the current";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
+    void testWarningMaxMapCountLine4() {
+        String logLine = " limit could lead to a premature OutOfMemoryError being thrown, due to failure to map "
+                + "memory.";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     }

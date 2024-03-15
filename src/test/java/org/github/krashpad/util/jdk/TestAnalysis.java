@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.Date;
 
 import org.github.joa.domain.GarbageCollector;
+import org.github.krashpad.domain.jdk.BarrierSet;
 import org.github.krashpad.domain.jdk.CompilationEvent;
 import org.github.krashpad.domain.jdk.ContainerInfo;
 import org.github.krashpad.domain.jdk.CpuInfo;
@@ -3600,23 +3601,47 @@ class TestAnalysis {
     }
 
     @Test
-    void testZGcHeapEvent() {
+    void testZGcGenerationalEvent() {
         FatalErrorLog fel = new FatalErrorLog();
         String zHeap = " ZHeap           used 4M, capacity 500M, max capacity 7978M";
         Heap heapEvent = new Heap(zHeap);
         fel.getHeaps().add(heapEvent);
-        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC),
-                GarbageCollector.ZGC + " collector not identified.");
+        String barrierSet = "ZBarrierSet";
+        BarrierSet barrierSetEvent = new BarrierSet(barrierSet);
+        fel.setBarrierSet(barrierSetEvent);
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC_GENERATIONAL),
+                GarbageCollector.ZGC_GENERATIONAL + " collector not identified.");
     }
 
     @Test
-    void testZGcJvmOptions() {
+    void testZGcGenerationalJvmOptions() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UseZGC -XX:+ZGenerational -Xmx2048M";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC_GENERATIONAL),
+                GarbageCollector.ZGC_GENERATIONAL + " collector not identified.");
+    }
+
+    @Test
+    void testZGcNonGenerationalEvent() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String zHeap = " ZHeap           used 4M, capacity 500M, max capacity 7978M";
+        Heap heapEvent = new Heap(zHeap);
+        fel.getHeaps().add(heapEvent);
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC_NON_GENERATIONAL),
+                GarbageCollector.ZGC_NON_GENERATIONAL + " collector not identified.");
+    }
+
+    @Test
+    void testZGcNonGenerationalJvmOptions() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:+UseZGC -Xmx2048M";
         VmArguments event = new VmArguments(jvm_args);
         fel.getVmArguments().add(event);
         fel.doAnalysis();
-        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC),
-                GarbageCollector.ZGC + " collector not identified.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC_NON_GENERATIONAL),
+                GarbageCollector.ZGC_NON_GENERATIONAL + " collector not identified.");
     }
 }

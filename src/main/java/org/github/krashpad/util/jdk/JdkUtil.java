@@ -30,6 +30,7 @@ import org.github.krashpad.domain.BlankLine;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.UnknownEvent;
 import org.github.krashpad.domain.jdk.ActiveLocale;
+import org.github.krashpad.domain.jdk.BarrierSet;
 import org.github.krashpad.domain.jdk.BitsEvent;
 import org.github.krashpad.domain.jdk.CardTable;
 import org.github.krashpad.domain.jdk.CdsArchive;
@@ -227,31 +228,33 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        ACTIVE_LOCALE, BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_LOADED_EVENT, CLASSES_REDEFINED_EVENT,
+        ACTIVE_LOCALE, BARRIER_SET, BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_LOADED_EVENT,
         //
-        CLASSES_UNLOADED_EVENT, CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT, COMPRESSED_CLASS_SPACE, CONSTANT_POOL,
+        CLASSES_REDEFINED_EVENT, CLASSES_UNLOADED_EVENT, CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT,
         //
-        CONTAINER_INFO, CPU, CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT,
+        COMPRESSED_CLASS_SPACE, CONSTANT_POOL, CONTAINER_INFO, CPU, CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD,
         //
-        DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT,
+        DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT,
         //
-        GC_PRECIOUS_LOG, GLOBAL_FLAG, HEADER, HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER,
+        EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT, GC_PRECIOUS_LOG, GLOBAL_FLAG, HEADER, HEADING, HEAP, HEAP_ADDRESS,
         //
-        INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTIC, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE,
+        HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTIC,
         //
-        MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE, NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING, NUMBER,
+        LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE,
         //
-        OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER,
+        NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING, NUMBER, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM,
         //
-        REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD,
+        PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS,
         //
-        THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE,
+        STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX,
         //
-        TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED, UID, UMASK, UNAME, UNKNOWN,
+        TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG,
         //
-        VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS,
+        TRANSPARENT_HUGEPAGE_ENABLED, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
         //
-        ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
+        VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE,
+        //
+        ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
     }
 
     /**
@@ -731,14 +734,18 @@ public class JdkUtil {
      */
     public static final LogEventType identifyEventType(String logLine, LogEvent priorEvent) {
         LogEventType logEventType = LogEventType.UNKNOWN;
-        // Optimization for huge memory maps
-        if (priorEvent != null && priorEvent.getEventType() == LogEventType.DYNAMIC_LIBRARY
-                && DynamicLibrary.match(logLine, priorEvent.getEventType())) {
+        // Optimizations for events with the possibility of huge numbers (regex in a loop can be very expensive).
+        // Assume the same event type until there is a blank line.
+        if (priorEvent != null && DynamicLibrary.match(logLine, priorEvent.getEventType())) {
             logEventType = LogEventType.DYNAMIC_LIBRARY;
+        } else if (priorEvent != null && ZgcPageTable.match(logLine, priorEvent.getEventType())) {
+            logEventType = LogEventType.ZGC_PAGE_TABLE;
         } else {
             if (ActiveLocale.match(logLine)
                     && (logLine.matches(ActiveLocale._REGEX_HEADER) || priorEvent instanceof ActiveLocale)) {
                 logEventType = LogEventType.ACTIVE_LOCALE;
+            } else if (BarrierSet.match(logLine)) {
+                logEventType = LogEventType.BARRIER_SET;
             } else if (BitsEvent.match(logLine)) {
                 logEventType = LogEventType.BITS;
             } else if (BlankLine.match(logLine)) {
@@ -937,7 +944,8 @@ public class JdkUtil {
                 logEventType = LogEventType.ZGC_GLOBALS;
             } else if (ZgcMetadataBits.match(logLine)) {
                 logEventType = LogEventType.ZGC_METADATA_BITS;
-            } else if (ZgcPageTable.match(logLine)) {
+            } else if (ZgcPageTable.match(logLine)
+                    && (logLine.matches(ZgcPageTable._REGEX_HEADER) || priorEvent instanceof ZgcPageTable)) {
                 logEventType = LogEventType.ZGC_PAGE_TABLE;
             } else if (ZgcPhaseSwitchEvent.match(logLine)) {
                 logEventType = LogEventType.ZGC_PHASE_SWITCH_EVENT;
@@ -1062,6 +1070,9 @@ public class JdkUtil {
         switch (eventType) {
         case ACTIVE_LOCALE:
             event = new ActiveLocale(logLine);
+            break;
+        case BARRIER_SET:
+            event = new BarrierSet(logLine);
             break;
         case BITS:
             event = new BitsEvent(logLine);

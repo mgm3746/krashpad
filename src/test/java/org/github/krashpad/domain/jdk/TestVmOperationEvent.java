@@ -144,6 +144,14 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testXMarkStart() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 8365.455 Executing VM operation: XMarkStart";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testZMarkEnd() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 54166.258 Executing VM operation: ZMarkEnd";

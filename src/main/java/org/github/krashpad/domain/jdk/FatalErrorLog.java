@@ -82,6 +82,11 @@ public class FatalErrorLog {
     private List<Analysis> analysis;
 
     /**
+     * ZGC barrier set information.
+     */
+    private BarrierSet barrierSet;
+
+    /**
      * Classes unloaded information.
      */
     private List<ClassesUnloadedEvent> classesUnloadedEvents;
@@ -448,7 +453,7 @@ public class FatalErrorLog {
         String opts = getJvmArgs();
         if (opts != null) {
             JvmContext context = new JvmContext(opts, getJavaVersionMajor(), getJavaVersionMinor());
-            context.setGarbageCollectors(getGarbageCollectorsFromHeapEvents());
+            context.setGarbageCollectors(getGarbageCollectorsFromEvents());
             context.setContainer(isContainer());
             context.setOs(getOs());
             context.setBit(getBit());
@@ -1976,6 +1981,10 @@ public class FatalErrorLog {
         return arch;
     }
 
+    public BarrierSet getBarrierSet() {
+        return barrierSet;
+    }
+
     /**
      * @return <code>Bit</code>
      */
@@ -2566,8 +2575,8 @@ public class FatalErrorLog {
      * @return The list of garbage collectors identified from events, JVM options, or JDK defaults.
      */
     public List<GarbageCollector> getGarbageCollectors() {
-        if (getGarbageCollectorsFromHeapEvents().size() > 0) {
-            return getGarbageCollectorsFromHeapEvents();
+        if (getGarbageCollectorsFromEvents().size() > 0) {
+            return getGarbageCollectorsFromEvents();
         } else if (jvmOptions != null) {
             return jvmOptions.getExpectedGarbageCollectors();
         } else {
@@ -2578,20 +2587,18 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The list of garbage collectors as determined by inspecting the <code>HeapEvent</code>s.
+     * @return The list of garbage collectors as determined by inspecting events.
      */
-    public List<GarbageCollector> getGarbageCollectorsFromHeapEvents() {
+    public List<GarbageCollector> getGarbageCollectorsFromEvents() {
         List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
         if (!heaps.isEmpty()) {
             Iterator<Heap> iterator = heaps.iterator();
             while (iterator.hasNext()) {
                 Heap event = iterator.next();
-                if (event.getLogEntry().matches("^[ ]{0,}Shenandoah.+$")
-                        && !garbageCollectors.contains(GarbageCollector.SHENANDOAH)) {
+                if (event.getLogEntry().matches("^[ ]{0,}Shenandoah.+$")) {
                     garbageCollectors.add(GarbageCollector.SHENANDOAH);
                     break;
-                } else if (event.getLogEntry().matches("^[ ]{0,}garbage-first.+$")
-                        && !garbageCollectors.contains(GarbageCollector.G1)) {
+                } else if (event.getLogEntry().matches("^[ ]{0,}garbage-first.+$")) {
                     garbageCollectors.add(GarbageCollector.G1);
                     break;
                 } else if (event.getLogEntry().matches("^[ ]{0,}PSYoungGen.+$")
@@ -2606,9 +2613,15 @@ public class FatalErrorLog {
                 } else if (event.getLogEntry().matches("^[ ]{0,}concurrent mark-sweep.+$")
                         && !garbageCollectors.contains(GarbageCollector.CMS)) {
                     garbageCollectors.add(GarbageCollector.CMS);
-                } else if (event.getLogEntry().matches("^[ ]{0,}ZHeap.+$")
-                        && !garbageCollectors.contains(GarbageCollector.ZGC)) {
-                    garbageCollectors.add(GarbageCollector.ZGC);
+                } else if (event.getLogEntry().matches("^[ ]{0,}ZHeap.+$")) {
+                    // generational and non-generational look the same
+                    if (getBarrierSet() != null && getBarrierSet().getLogEntry() != null
+                            && getBarrierSet().getLogEntry().equals("ZBarrierSet")) {
+                        garbageCollectors.add(GarbageCollector.ZGC_GENERATIONAL);
+                    } else {
+                        garbageCollectors.add(GarbageCollector.ZGC_NON_GENERATIONAL);
+                    }
+                    break;
                 } else if (event.getLogEntry().matches("^[ ]{0,}def new.+$")
                         && !garbageCollectors.contains(GarbageCollector.SERIAL_NEW)) {
                     garbageCollectors.add(GarbageCollector.SERIAL_NEW);
@@ -6502,6 +6515,10 @@ public class FatalErrorLog {
      */
     public void removeAnalysis(Analysis key) {
         analysis.remove(key);
+    }
+
+    public void setBarrierSet(BarrierSet barrierSet) {
+        this.barrierSet = barrierSet;
     }
 
     public void setCommandLine(CommandLine commandLine) {

@@ -72,11 +72,12 @@ public class GcPreciousLog implements LogEvent, HeaderEvent {
     private static final String REGEX = "^(" + _REGEX_HEADER
             + "|<Empty>|( (Address Space Size|Address Space Type|Available space on backing filesystem|"
             + "CardTable entry size|Card Set container configuration|Compressed Oops|CPUs|"
-            + "GC Workers for (Old|Young) Generation|GC Workers Max|Heap Backing File(system)?|"
+            + "GC Workers|GC Workers for (Old|Young) Generation|GC Workers Max|Heap Backing File(system)?|"
             + "Heap ((Initial|Min|Max) Capacity|Region Size)|Initial Capacity|Large Page Support|Max Capacity|"
             + "Medium Page Size|Memory|Min Capacity|NUMA Nodes|NUMA Support|Periodic GC|Pre-touch|"
             + "Probing address space for the highest valid bit|(Concurrent( Refinement)?|Parallel) Workers|"
-            + "Runtime Workers|Soft Max Capacity|Uncommit):| String Deduplication)).*$";
+            + "Runtime Workers|Soft Max Capacity|Uncommit):| String Deduplication)| \\*\\*\\*\\*\\* WARNING!|"
+            + " The system limit| max Java heap size| least \\d{1,} mappings| limit could lead to).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

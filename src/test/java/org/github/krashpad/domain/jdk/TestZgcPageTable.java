@@ -95,12 +95,4 @@ class TestZgcPageTable {
         assertEquals(JdkUtil.LogEventType.ZGC_PAGE_TABLE, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ZGC_PAGE_TABLE.toString() + " not identified.");
     }
-
-    @Test
-    void testZBarrierSet() {
-        ZgcPageTable priorLogEvent = new ZgcPageTable("ZGC Page Table:");
-        String logLine = "ZBarrierSet";
-        assertEquals(JdkUtil.LogEventType.ZGC_PAGE_TABLE, JdkUtil.identifyEventType(logLine, priorLogEvent),
-                JdkUtil.LogEventType.ZGC_PAGE_TABLE.toString() + " not identified.");
-    }
 }
