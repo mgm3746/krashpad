@@ -1139,14 +1139,11 @@ public class FatalErrorLog {
         }
 
         // Cannot get library information
-        if (!dynamicLibraries.isEmpty()) {
-            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
-            while (iterator.hasNext()) {
-                DynamicLibrary event = iterator.next();
-                if (event.getLogEntry().matches("^Can not get library information for pid = \\d{1,}$")) {
-                    analysis.add(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION);
-                    break;
-                }
+        if (!dynamicLibraries.isEmpty() && dynamicLibraries.size() >= 2 && dynamicLibraries.size() <= 3) {
+            // 3 because later JDKs include a footer that may be populated
+            DynamicLibrary event = dynamicLibraries.get(1);
+            if (event.getLogEntry().matches("^Can not get library information for pid = \\d{1,}$")) {
+                analysis.add(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION);
             }
         }
         // Check for G1ParScanThreadState::copy_to_survivor_space

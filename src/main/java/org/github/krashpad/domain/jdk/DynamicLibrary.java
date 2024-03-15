@@ -127,6 +127,11 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
     }
 
     /**
+     * The dynamic library file path.
+     */
+    private String filePath;
+
+    /**
      * The log entry for the event.
      */
     private String logEntry;
@@ -139,6 +144,7 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
      */
     public DynamicLibrary(String logEntry) {
         this.logEntry = logEntry;
+        setFilePath();
     }
 
     /**
@@ -170,25 +176,7 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
         return LogEventType.DYNAMIC_LIBRARY;
     }
 
-    /**
-     * @return Dynamic library file path.
-     */
     public String getFilePath() {
-        String filePath = null;
-        Pattern p = Pattern.compile(_REGEX_LIBRARY);
-        Matcher m = p.matcher(logEntry);
-        if (m.find()) {
-            int filePathIndex = 15;
-            filePath = m.group(filePathIndex);
-            // Directories and file names can include spaces and parenthesis, but assume any file name that ends with "
-            // (deleted)" indicates an mmapped file in a deleted state and should be removed from the file name.
-            if (filePath != null) {
-                int position = filePath.lastIndexOf(" (deleted)");
-                if (position != -1) {
-                    filePath = filePath.substring(0, position);
-                }
-            }
-        }
         return filePath;
     }
 
@@ -251,5 +239,30 @@ public class DynamicLibrary implements LogEvent, HeaderEvent {
      */
     public boolean isNativeLibrary() {
         return logEntry.matches(".+" + JdkRegEx.NATIVE_LIBRARY + "( \\(deleted\\))?$");
+    }
+
+    /**
+     * Populate dynamic library file path.
+     */
+    private void setFilePath() {
+        if (logEntry != null) {
+            String filePath = null;
+            Pattern p = Pattern.compile(_REGEX_LIBRARY);
+            Matcher m = p.matcher(logEntry);
+            if (m.find()) {
+                int filePathIndex = 15;
+                filePath = m.group(filePathIndex);
+                // Directories and file names can include spaces and parenthesis, but assume any file name that ends
+                // with "
+                // (deleted)" indicates an mmapped file in a deleted state and should be removed from the file name.
+                if (filePath != null) {
+                    int position = filePath.lastIndexOf(" (deleted)");
+                    if (position != -1) {
+                        filePath = filePath.substring(0, position);
+                    }
+                }
+            }
+            this.filePath = filePath;
+        }
     }
 }

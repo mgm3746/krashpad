@@ -255,9 +255,12 @@ class TestAnalysis {
     @Test
     void testCannotGetLibraryInformation() {
         FatalErrorLog fel = new FatalErrorLog();
-        String logline = "Can not get library information for pid = 123456";
-        DynamicLibrary event = new DynamicLibrary(logline);
-        fel.getDynamicLibraries().add(event);
+        String logline1 = "Dynamic libraries:";
+        DynamicLibrary event1 = new DynamicLibrary(logline1);
+        fel.getDynamicLibraries().add(event1);
+        String logline2 = "Can not get library information for pid = 123456";
+        DynamicLibrary event2 = new DynamicLibrary(logline2);
+        fel.getDynamicLibraries().add(event2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION.getKey()),
                 Analysis.ERROR_CANNOT_GET_LIBRARY_INFORMATION + " analysis not identified.");
