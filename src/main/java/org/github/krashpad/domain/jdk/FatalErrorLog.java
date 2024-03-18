@@ -5397,6 +5397,24 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return true if there is analysis related to rlimits, false otherwise.
+     */
+    public boolean hasRlimitAnalysis() {
+        boolean hasRlimitAnalysis = false;
+        if ((hasAnalysis(Analysis.ERROR_OOME_RLIMIT.getKey())
+                || hasAnalysis(Analysis.ERROR_OOME_RLIMIT_STARTUP.getKey())
+                || hasAnalysis(Analysis.ERROR_OOME_RLIMIT_OOPS.getKey())
+                || hasAnalysis(Analysis.ERROR_OOME_RLIMIT_OOPS_STARTUP.getKey())
+                || hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT.getKey())
+                || hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP.getKey())
+                || hasAnalysis(Analysis.ERROR_OOME_THREAD_LEAK.getKey())
+                || hasAnalysis(Analysis.ERROR_OOME_THREAD_LEAK_EAP_EXECUTOR_POOL.getKey()))) {
+            hasRlimitAnalysis = true;
+        }
+        return hasRlimitAnalysis;
+    }
+
+    /**
      * @return true if the JVM is using compressed object pointers, false otherwise.
      */
     public boolean isCompressedOops() {

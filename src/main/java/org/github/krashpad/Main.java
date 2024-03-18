@@ -39,7 +39,6 @@ import org.github.krashpad.domain.jdk.FatalErrorLog;
 import org.github.krashpad.domain.jdk.Stack;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
-import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.JdkMath;
 import org.github.krashpad.util.jdk.JdkUtil;
 
@@ -197,12 +196,7 @@ public class Main {
                             + Constants.LINE_SEPARATOR);
                 }
             }
-            if ((fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT.getKey())
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_STARTUP.getKey())
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_OOPS.getKey())
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_OOPS_STARTUP.getKey())
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT.getKey())
-                    || fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP.getKey()))) {
+            if (fel.hasRlimitAnalysis()) {
                 if (fel.getRlimit() != null) {
                     printWriter.write(fel.getRlimit().getLogEntry() + Constants.LINE_SEPARATOR);
                 }
