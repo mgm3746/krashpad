@@ -114,7 +114,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("ld-2.28.so");
         // libaio
         NATIVE_LIBRARIES_LINUX.add("libaio.so.1.0.1");
-        // apr (/usr/lib64/):
+        // apr:
         NATIVE_LIBRARIES_LINUX.add("libapr-1.so.0.6.3");
         // alsa-lib: library to interface with ALSA in the Linux kernel and virtual devices
         NATIVE_LIBRARIES_LINUX.add("libasound.so.2.0.0");
@@ -123,6 +123,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libasound_module_pcm_pulse.so");
         // aspell
         NATIVE_LIBRARIES_LINUX.add("libaspell.so.15.1.5");
+        // libasyncns: library for asynchronous name service queries
+        NATIVE_LIBRARIES_LINUX.add("libasyncns.so.0.3.1");
         // atk
         NATIVE_LIBRARIES_LINUX.add("libatk-1.0.so.0.22810.1");
         // at-spi2-atk
@@ -172,10 +174,14 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libcap-ng.so.0.0.0");
         // libcom-err
         NATIVE_LIBRARIES_LINUX.add("libcom_err.so.2.1");
+        // cracklib
+        NATIVE_LIBRARIES_LINUX.add("libcrack.so.2.9.0");
         // libcroco
         NATIVE_LIBRARIES_LINUX.add("libcroco-0.6.so.3.0.1");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libcrypt-2.17.so");
+        // libxcrypt: library for one-way hashing of passcodes
+        NATIVE_LIBRARIES_LINUX.add("libcrypt.so.1.1.0");
         // cups-libs (native cups)
         NATIVE_LIBRARIES_LINUX.add("libcups.so.2");
         NATIVE_LIBRARIES_LINUX.add("libcupsimage.so.2");
@@ -267,8 +273,6 @@ public class KrashUtil {
         // glib2
         NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.1");
         NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.4");
-        // libglvnd-opengl
-        NATIVE_LIBRARIES_LINUX.add("libOpenGL.so.0.0.0");
         // glib2
         NATIVE_LIBRARIES_LINUX.add("libgmodule-2.0.so.0.5600.4");
         // gmp
@@ -412,19 +416,21 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libnss_files-2.28.so");
         // nss-pam-ldap
         NATIVE_LIBRARIES_LINUX.add("libnss_ldap.so.2");
-        // systemd-libs (/usr/lib64/):
+        // systemd-libs:
         NATIVE_LIBRARIES_LINUX.add("libnss_myhostname.so.2");
-        // glibc, libnsl (/usr/lib64/): the public client interface for NIS(YP). libnsl breaks out NIS library that used
+        // glibc, libnsl: the public client interface for NIS(YP). libnsl breaks out NIS library that used
         // to be in glibc.
         NATIVE_LIBRARIES_LINUX.add("libnsl-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libnsl-2.28.so");
         NATIVE_LIBRARIES_LINUX.add("libnsl.so.2.0.0");
-        // nss_nis (/usr/lib64/): Name Service Switch (NSS) module using NIS.
+        // nss_nis: Name Service Switch (NSS) module using NIS.
         NATIVE_LIBRARIES_LINUX.add("libnss_nis.so.2.0.0");
         // sssd-client
         NATIVE_LIBRARIES_LINUX.add("libnss_sss.so.2");
         // numactl-libs
         NATIVE_LIBRARIES_LINUX.add("libnuma.so.1.0.0");
+        // libglvnd-opengl
+        NATIVE_LIBRARIES_LINUX.add("libOpenGL.so.0.0.0");
         // libvogg: reference implementation to create, decode, and work with Ogg multimedia container
         // format bitstreams
         NATIVE_LIBRARIES_LINUX.add("libogg.so.0.8.2");
@@ -466,6 +472,9 @@ public class KrashUtil {
         // libpng
         NATIVE_LIBRARIES_LINUX.add("libpng15.so.15.13.0");
         NATIVE_LIBRARIES_LINUX.add("libpng16.so.16.34.0");
+        // libpwquality
+        NATIVE_LIBRARIES_LINUX.add("libpwquality.so.1.0.2");
+        NATIVE_LIBRARIES_LINUX.add("security/pam_pwquality.so");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.17.so");
@@ -485,12 +494,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("librt-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("librt-2.28.so");
         NATIVE_LIBRARIES_LINUX.add("librt.so.1");
-        // libasyncns: library for asynchronous name service queries
-        NATIVE_LIBRARIES_LINUX.add("libasyncns.so.0.3.1");
         // open-vm-tools: loaded to provide extended VMWare/vSphere virtualization information in the fatal error log.
         NATIVE_LIBRARIES_LINUX.add("libguestlib.so.0.0.0");
-        // open-vm-tools: loaded to provide extended VMWare/vSphere virtualization information in the fatal error log.
-        NATIVE_LIBRARIES_LINUX.add("libvmtools.so.0.0.0");
         // libSM
         NATIVE_LIBRARIES_LINUX.add("libSM.so.6.0.1");
         // libsecret
@@ -511,7 +516,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libsqlite3.so.0.8.6");
         // nss
         NATIVE_LIBRARIES_LINUX.add("libssl3.so");
-        // systemd-libs (/usr/lib64/):
+        // systemd-libs:
         NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.6.0");
         NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.23.0");
         // libtasn1
@@ -522,7 +527,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libtiff.so.5.3.0");
         // ncurses-libs
         NATIVE_LIBRARIES_LINUX.add("libtinfo.so.6.1");
-        // libtirpc (/usr/lib64/): a port of Suns Transport-Independent RPC library.
+        // libtirpc: a port of Suns Transport-Independent RPC library.
         NATIVE_LIBRARIES_LINUX.add("libtirpc.so.3.0.0");
         // libunistring
         NATIVE_LIBRARIES_LINUX.add("libunistring.so.2.1.0");
@@ -596,28 +601,36 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libxcb-sync.so.1.0.0");
         // libxcb
         NATIVE_LIBRARIES_LINUX.add("libxcb-xfixes.so.0.0.0");
-        // libxcrypt (/usr/lib64/): library for one-way hashing of passcodes
-        NATIVE_LIBRARIES_LINUX.add("libcrypt.so.1.1.0");
         // libxkbcommon
         NATIVE_LIBRARIES_LINUX.add("libxkbcommon.so.0.0.0");
         // libxml2
         NATIVE_LIBRARIES_LINUX.add("libxml2.so.2.9.1");
         NATIVE_LIBRARIES_LINUX.add("libxml2.so.2.9.7");
-        // xmlsec1
-        NATIVE_LIBRARIES_LINUX.add("libxmlsec1.so.1.2.20");
-        // xmlsec1-openssl
-        NATIVE_LIBRARIES_LINUX.add("libxmlsec1-openssl.so.1.2.20");
         // libxshmfence
         NATIVE_LIBRARIES_LINUX.add("libxshmfence.so.1.0.0");
         // libxslt
         NATIVE_LIBRARIES_LINUX.add("libxslt.so.1.1.28");
         NATIVE_LIBRARIES_LINUX.add("libxslt.so.1.1.32");
+        // xmlsec1
+        NATIVE_LIBRARIES_LINUX.add("libxmlsec1.so.1.2.20");
+        // xmlsec1-openssl
+        NATIVE_LIBRARIES_LINUX.add("libxmlsec1-openssl.so.1.2.20");
         // zlib
         NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.3");
         NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.7");
         NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.11");
         // p11-kit-trust
         NATIVE_LIBRARIES_LINUX.add("p11-kit-trust.so");
+        // pam
+        NATIVE_LIBRARIES_LINUX.add("pam_keyinit.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_lastlog.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_limits.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_mkhomedir.so");
+        NATIVE_LIBRARIES_LINUX.add("security/pam_nologin.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_pwhistory.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_succeed_if.so");
+        // systemd-pam
+        NATIVE_LIBRARIES_LINUX.add("pam_systemd.so");
 
         // ***** LINUX JAVA *****
         NATIVE_LIBRARIES_LINUX_JAVA = new ArrayList<String>();
