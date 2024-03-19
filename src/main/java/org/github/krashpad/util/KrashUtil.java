@@ -101,11 +101,11 @@ public class KrashUtil {
         // glibc (/usr/lib64/gconv/)
         NATIVE_LIBRARIES_LINUX.add("ISO8859-1.so");
         // mesa-dri-drivers
-        NATIVE_LIBRARIES_LINUX.add("dri/i965_dri.so");
+        NATIVE_LIBRARIES_LINUX.add("i965_dri.so");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("gconv/ISO8859-1.so");
         // ibus-gtk*
-        NATIVE_LIBRARIES_LINUX.add("gtk-3.0/3.0.0/immodules/im-ibus.so");
+        NATIVE_LIBRARIES_LINUX.add("im-ibus.so");
         // mesa-dri-drivers
         NATIVE_LIBRARIES_LINUX.add("iris_dri.so");
         // glibc
@@ -186,7 +186,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libcups.so.2");
         NATIVE_LIBRARIES_LINUX.add("libcupsimage.so.2");
         // dconf
-        NATIVE_LIBRARIES_LINUX.add("gio/modules/libdconfsettings.so");
+        NATIVE_LIBRARIES_LINUX.add("libdconfsettings.so");
         // libdatrie
         NATIVE_LIBRARIES_LINUX.add("libdatrie.so.1.3.2");
         // dbus-libs
@@ -324,9 +324,9 @@ public class KrashUtil {
         // gtk3
         NATIVE_LIBRARIES_LINUX.add("libgtk-3.so.0.2200.30");
         // gvfs-client
-        NATIVE_LIBRARIES_LINUX.add("gvfs/libgvfscommon.so");
+        NATIVE_LIBRARIES_LINUX.add("libgvfscommon.so");
         // gvfs-client
-        NATIVE_LIBRARIES_LINUX.add("gio/modules/libgvfsdbus.so");
+        NATIVE_LIBRARIES_LINUX.add("libgvfsdbus.so");
         // harfbuzz
         NATIVE_LIBRARIES_LINUX.add("libharfbuzz.so.0.10705.0");
         // harfbuzz-icu
@@ -427,6 +427,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libnss_nis.so.2.0.0");
         // sssd-client
         NATIVE_LIBRARIES_LINUX.add("libnss_sss.so.2");
+        NATIVE_LIBRARIES_LINUX.add("pam_sss.so");
         // numactl-libs
         NATIVE_LIBRARIES_LINUX.add("libnuma.so.1.0.0");
         // libglvnd-opengl
@@ -441,9 +442,6 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("liborc-0.4.so.0.28.0");
         // p11-kit
         NATIVE_LIBRARIES_LINUX.add("libp11-kit.so.0.3.0");
-        // pam (pluggable authentication modules)
-        NATIVE_LIBRARIES_LINUX.add("libpam.so.0");
-        NATIVE_LIBRARIES_LINUX.add("libpam.so.0.83.1");
         // pango
         NATIVE_LIBRARIES_LINUX.add("libpango-1.0.so.0.4200.3");
         // pango
@@ -458,11 +456,11 @@ public class KrashUtil {
         // pcre2
         NATIVE_LIBRARIES_LINUX.add("libpcre2-8.so.0.7.1");
         // gdk-pixbuf2-modules
-        NATIVE_LIBRARIES_LINUX.add("gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-bmp.so");
+        NATIVE_LIBRARIES_LINUX.add("libpixbufloader-bmp.so");
         // gdk-pixbuf2-modules
-        NATIVE_LIBRARIES_LINUX.add("gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.so");
+        NATIVE_LIBRARIES_LINUX.add("libpixbufloader-gif.so");
         // gdk-pixbuf2-modules
-        NATIVE_LIBRARIES_LINUX.add("gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so");
+        NATIVE_LIBRARIES_LINUX.add("libpixbufloader-svg.so");
         // pixman
         NATIVE_LIBRARIES_LINUX.add("libpixman-1.so.0.38.4");
         // nspr
@@ -474,7 +472,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libpng16.so.16.34.0");
         // libpwquality
         NATIVE_LIBRARIES_LINUX.add("libpwquality.so.1.0.2");
-        NATIVE_LIBRARIES_LINUX.add("security/pam_pwquality.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_pwquality.so");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libpthread-2.17.so");
@@ -621,14 +619,24 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.11");
         // p11-kit-trust
         NATIVE_LIBRARIES_LINUX.add("p11-kit-trust.so");
-        // pam
+        // pam (pluggable authentication modules)
+        NATIVE_LIBRARIES_LINUX.add("libpam.so.0");
+        NATIVE_LIBRARIES_LINUX.add("libpam.so.0.83.1");
+        NATIVE_LIBRARIES_LINUX.add("libpam.so.0.84.2");
+        NATIVE_LIBRARIES_LINUX.add("libpam_misc.so.0.82.1");        
+        NATIVE_LIBRARIES_LINUX.add("pam_deny.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_echo.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_env.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_faildelay.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_faillock.so");
         NATIVE_LIBRARIES_LINUX.add("pam_keyinit.so");
         NATIVE_LIBRARIES_LINUX.add("pam_lastlog.so");
         NATIVE_LIBRARIES_LINUX.add("pam_limits.so");
         NATIVE_LIBRARIES_LINUX.add("pam_mkhomedir.so");
-        NATIVE_LIBRARIES_LINUX.add("security/pam_nologin.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_nologin.so");
         NATIVE_LIBRARIES_LINUX.add("pam_pwhistory.so");
         NATIVE_LIBRARIES_LINUX.add("pam_succeed_if.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_unix.so");
         // systemd-pam
         NATIVE_LIBRARIES_LINUX.add("pam_systemd.so");
 

@@ -342,6 +342,21 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testDynamicLibraryWithPath() {
+        DynamicLibrary priorLogEvent = new DynamicLibrary(null);
+        String dynamicLibrary = "7fd96d4fb000-7fd96d4fd000 r-xp 00000000 fd:00 727674                     "
+                + "/usr/lib64/security/pam_pwquality.so";
+        assertTrue(JdkUtil.identifyEventType(dynamicLibrary, priorLogEvent) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibrary event = new DynamicLibrary(dynamicLibrary);
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getDynamicLibraries().add(event);
+        fel.doAnalysis();
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
     void testFailedToMapMemory() {
         FatalErrorLog fel = new FatalErrorLog();
         String header = "#  fatal error: Failed to map memory (Not enough space)";
@@ -652,7 +667,7 @@ class TestFatalErrorLog {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(2, fel.getJavaThreadCount(), "Java thread count not correct.");
         assertEquals(168, fel.getNativeLibraries().size(), "Native library count not correct.");
-        assertEquals(15, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+        assertEquals(7, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
 
     @Test
