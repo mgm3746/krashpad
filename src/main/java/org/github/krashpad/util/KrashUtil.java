@@ -623,7 +623,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libpam.so.0");
         NATIVE_LIBRARIES_LINUX.add("libpam.so.0.83.1");
         NATIVE_LIBRARIES_LINUX.add("libpam.so.0.84.2");
-        NATIVE_LIBRARIES_LINUX.add("libpam_misc.so.0.82.1");        
+        NATIVE_LIBRARIES_LINUX.add("libpam_misc.so.0.82.1");
         NATIVE_LIBRARIES_LINUX.add("pam_deny.so");
         NATIVE_LIBRARIES_LINUX.add("pam_echo.so");
         NATIVE_LIBRARIES_LINUX.add("pam_env.so");

@@ -56,8 +56,8 @@ public class ProcessMemory implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|glibc malloc tunables|C-Heap outstanding allocations:|Resident Set Size:|Swapped out:|"
-            + "Virtual Size:).*$";
+            + "|glibc malloc tunables|C-Heap outstanding allocations:|Resident Set Size: \\d{1,}K |"
+            + "Swapped out: \\d{1,}K|Virtual Size:).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -101,6 +101,20 @@ public class ProcessMemory implements LogEvent, HeaderEvent {
             isHeader = logEntry.matches(_REGEX_HEADER);
         }
         return isHeader;
+    }
+
+    /**
+     * @return True if the event is RSS information, false otherwise.
+     */
+    public boolean isRss() {
+        return logEntry.matches("^Resident Set Size:.+$");
+    }
+
+    /**
+     * @return True if the event is swapped information, false otherwise.
+     */
+    public boolean isSwapped() {
+        return logEntry.matches("^Swapped out:.+$");
     }
 
 }

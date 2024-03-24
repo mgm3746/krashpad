@@ -303,19 +303,19 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long heapInitial = JdkUtil.convertSize(96, 'G', 'B');
-        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
+        assertEquals(heapInitial, fel.getJvmMemoryHeapReserved(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(96, 'G', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(96, 'G', 'B');
-        assertEquals(heapAllocation, fel.getHeapAllocation(), "Heap allocation not correct.");
+        assertEquals(heapAllocation, fel.getJvmMemoryHeapCommitted(), "Heap allocation not correct.");
         long heapUsed = JdkUtil.convertSize(78973, 'M', 'B');
-        assertEquals(heapUsed, fel.getHeapUsed(), "Heap used not correct.");
-        long metaspaceMax = JdkUtil.convertSize(182272, 'K', 'B');
-        assertEquals(metaspaceMax, fel.getMetaspaceMaxSize(), "Metaspace max size not correct.");
-        long metaspaceAllocation = JdkUtil.convertSize(180428, 'K', 'B');
-        assertEquals(metaspaceAllocation, fel.getMetaspaceAllocation(), "Metaspace allocation not correct.");
+        assertEquals(heapUsed, fel.getJvmMemoryHeapUsed(), "Heap used not correct.");
+        long metaspaceReserved = JdkUtil.convertSize(182272, 'K', 'B');
+        assertEquals(metaspaceReserved, fel.getJvmMemoryMetaspaceReserved(), "Metaspace max size not correct.");
+        long metaspaceCommitted = JdkUtil.convertSize(180428, 'K', 'B');
+        assertEquals(metaspaceCommitted, fel.getJvmMemoryMetaspaceCommitted(), "Metaspace allocation not correct.");
         long metaspaceUsed = JdkUtil.convertSize(176392, 'K', 'B');
-        assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
+        assertEquals(metaspaceUsed, fel.getJvmMemoryMetaspaceUsed(), "Metaspace used not correct.");
         long directMemoryMax = JdkUtil.convertSize(8, 'G', 'B');
         assertEquals(directMemoryMax, fel.getDirectMemoryMaxSize(), "Direct Memory max not correct.");
         assertEquals(1024, fel.getThreadStackSize(), "Thread stack size not correct.");
@@ -324,10 +324,10 @@ class TestFatalErrorLog {
         assertEquals(threadMemory, fel.getThreadStackMemory(), "Thread memory not correct.");
         long codeCacheSize = JdkUtil.convertSize(420, 'M', 'B');
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
-        assertEquals(heapInitial + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize,
+        assertEquals(heapInitial + metaspaceReserved + directMemoryMax + threadMemory + codeCacheSize,
                 fel.getJvmMemoryInitial(), "Jvm memory max not correct.");
-        assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
-                "Jvm memory max not correct.");
+        assertEquals(heapMax + metaspaceReserved + directMemoryMax + threadMemory + codeCacheSize,
+                fel.getJvmMemoryMax(), "Jvm memory max not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
@@ -387,10 +387,10 @@ class TestFatalErrorLog {
                 + "map memory.";
         GcPreciousLog gcPreciousLogEvent5 = new GcPreciousLog(gcPreciousLog5);
         fel.getGcPreciousLogs().add(gcPreciousLogEvent5);
-        assertEquals(137917840L * 1024, fel.getJvmMemTotal(), "Physical memory not correct.");
-        assertEquals(64251580L * 1024, fel.getJvmMemFree(), "Physical memory free not correct.");
-        assertEquals(10485756L * 1024, fel.getJvmSwapTotal(), "swap not correct.");
-        assertEquals(10485756L * 1024, fel.getJvmSwapFree(), "swap free not correct.");
+        assertEquals(137917840L * 1024, fel.getMemoryTotal(), "Physical memory not correct.");
+        assertEquals(64251580L * 1024, fel.getMemoryFree(), "Physical memory free not correct.");
+        assertEquals(10485756L * 1024, fel.getSwapTotal(), "Swap not correct.");
+        assertEquals(10485756L * 1024, fel.getSwapFree(), "Swap free not correct.");
         assertEquals(
                 "The system limit on number of memory mappings per process might be too low for the given max Java "
                         + "heap size (49152M). Please adjust /proc/sys/vm/max_map_count to allow for at least 88473 "
@@ -416,27 +416,27 @@ class TestFatalErrorLog {
         assertEquals("Tue May  5 18:32:04 2020 CEST", fel.getCrashTimeString(), "Crash time not correct.");
         assertEquals("0d 0h 15m 56s", fel.getElapsedTime(), "Elapsed time not correct.");
         long physicalMemory = JdkUtil.convertSize(32780544, 'K', 'B');
-        assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
+        assertEquals(physicalMemory, fel.getMemoryTotal(), "Physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(2698868, 'K', 'B');
-        assertEquals(physicalMemoryFree, fel.getJvmMemFree(), "Physical memory free not correct.");
+        assertEquals(physicalMemoryFree, fel.getMemoryFree(), "Physical memory free not correct.");
         long swap = JdkUtil.convertSize(8191996, 'K', 'B');
-        assertEquals(swap, fel.getJvmSwapTotal(), "Swap not correct.");
+        assertEquals(swap, fel.getSwapTotal(), "Swap not correct.");
         long swapFree = JdkUtil.convertSize(8190972, 'K', 'B');
-        assertEquals(swapFree, fel.getJvmSwapFree(), "Swap free not correct.");
+        assertEquals(swapFree, fel.getSwapFree(), "Swap free not correct.");
         long heapInitial = JdkUtil.convertSize(1073741824, 'B', 'B');
-        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
+        assertEquals(heapInitial, fel.getJvmMemoryHeapReserved(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(12884901888L, 'B', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(1933312, 'K', 'B');
-        assertEquals(heapAllocation, fel.getHeapAllocation(), "Heap allocation not correct.");
+        assertEquals(heapAllocation, fel.getJvmMemoryHeapCommitted(), "Heap allocation not correct.");
         long heapUsed = JdkUtil.convertSize(1030565, 'K', 'B');
-        assertEquals(heapUsed, fel.getHeapUsed(), "Heap used not correct.");
-        long metaspaceMax = JdkUtil.convertSize(1189888, 'K', 'B');
-        assertEquals(metaspaceMax, fel.getMetaspaceMaxSize(), "Metaspace max size not correct.");
-        long metaspaceAllocation = JdkUtil.convertSize(159168, 'K', 'B');
-        assertEquals(metaspaceAllocation, fel.getMetaspaceAllocation(), "Metaspace allocation not correct.");
+        assertEquals(heapUsed, fel.getJvmMemoryHeapUsed(), "Heap used not correct.");
+        long metaspaceReserved = JdkUtil.convertSize(1189888, 'K', 'B');
+        assertEquals(metaspaceReserved, fel.getJvmMemoryMetaspaceReserved(), "Metaspace max size not correct.");
+        long metaspaceCommitted = JdkUtil.convertSize(159168, 'K', 'B');
+        assertEquals(metaspaceCommitted, fel.getJvmMemoryMetaspaceCommitted(), "Metaspace allocation not correct.");
         long metaspaceUsed = JdkUtil.convertSize(147896, 'K', 'B');
-        assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
+        assertEquals(metaspaceUsed, fel.getJvmMemoryMetaspaceUsed(), "Metaspace used not correct.");
         assertEquals(8, fel.getCpusLogical(), "CPU cores not correct.");
         assertEquals(5 * 1024, fel.getThreadStackSize(), "Thread stack size not correct.");
         assertEquals(805306368L, fel.getCompressedClassSpaceSize(), "CompressedClassSpaceSize not correct.");
@@ -563,7 +563,7 @@ class TestFatalErrorLog {
         String event2 = " 3456M max, 3456M soft max, 3200M committed, 2325M used";
         Heap heapEvent2 = new Heap(event2);
         fel.getHeaps().add(heapEvent2);
-        assertEquals(3200L * 1024 * 1024, fel.getHeapAllocation(), "Heap allocation not correct.");
+        assertEquals(3200L * 1024 * 1024, fel.getJvmMemoryHeapCommitted(), "Heap allocation not correct.");
     }
 
     @Test
@@ -573,7 +573,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long heapInitial = JdkUtil.convertSize(32, 'G', 'B');
-        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
+        assertEquals(heapInitial, fel.getJvmMemoryHeapReserved(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(33554432, 'K', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long codeCacheSize = JdkUtil.convertSize(251658240, 'B', 'B');
@@ -911,27 +911,27 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long physicalMemory = JdkUtil.convertSize(1584737884, 'K', 'B');
-        assertEquals(physicalMemory, fel.getOsMemTotal(), "System physical memory not correct.");
+        assertEquals(physicalMemory, fel.getMemoryTotal(), "System physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(136528040, 'K', 'B');
-        assertEquals(physicalMemoryFree, fel.getOsMemFree(), "System physical memory free not correct.");
+        assertEquals(physicalMemoryFree, fel.getMemoryFree(), "System physical memory free not correct.");
         long swap = JdkUtil.convertSize(33554428, 'K', 'B');
-        assertEquals(swap, fel.getOsSwapTotal(), "System swap not correct.");
+        assertEquals(swap, fel.getSwapTotal(), "System swap not correct.");
         long swapFree = JdkUtil.convertSize(33554428, 'K', 'B');
-        assertEquals(swapFree, fel.getOsSwapFree(), "System swap free not correct.");
+        assertEquals(swapFree, fel.getSwapFree(), "System swap free not correct.");
         long heapInitial = JdkUtil.convertSize(220000, 'M', 'B');
-        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
+        assertEquals(heapInitial, fel.getJvmMemoryHeapReserved(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(220000, 'M', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(225041472, 'K', 'B');
-        assertEquals(heapAllocation, fel.getHeapAllocation(), "Heap allocation not correct.");
+        assertEquals(heapAllocation, fel.getJvmMemoryHeapCommitted(), "Heap allocation not correct.");
         long heapUsed = JdkUtil.convertSize(1908416, 'K', 'B');
-        assertEquals(heapUsed, fel.getHeapUsed(), "Heap used not correct.");
-        long metaspaceMax = JdkUtil.convertSize(43008, 'K', 'B');
-        assertEquals(metaspaceMax, fel.getMetaspaceMaxSize(), "Metaspace max size not correct.");
-        long metaspaceAllocation = JdkUtil.convertSize(41268, 'K', 'B');
-        assertEquals(metaspaceAllocation, fel.getMetaspaceAllocation(), "Metaspace allocation not correct.");
+        assertEquals(heapUsed, fel.getJvmMemoryHeapUsed(), "Heap used not correct.");
+        long metaspaceReserved = JdkUtil.convertSize(43008, 'K', 'B');
+        assertEquals(metaspaceReserved, fel.getJvmMemoryMetaspaceReserved(), "Metaspace max size not correct.");
+        long metaspaceCommitted = JdkUtil.convertSize(41268, 'K', 'B');
+        assertEquals(metaspaceCommitted, fel.getJvmMemoryMetaspaceCommitted(), "Metaspace allocation not correct.");
         long metaspaceUsed = JdkUtil.convertSize(40246, 'K', 'B');
-        assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
+        assertEquals(metaspaceUsed, fel.getJvmMemoryMetaspaceUsed(), "Metaspace used not correct.");
         assertEquals(256, fel.getThreadStackSize(), "Thread stack size not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
@@ -944,27 +944,27 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long physicalMemory = JdkUtil.convertSize(16058700, 'K', 'B');
-        assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
+        assertEquals(physicalMemory, fel.getMemoryTotal(), "Physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(1456096, 'K', 'B');
-        assertEquals(physicalMemoryFree, fel.getJvmMemFree(), "Physical memory free not correct.");
+        assertEquals(physicalMemoryFree, fel.getMemoryFree(), "Physical memory free not correct.");
         long swap = JdkUtil.convertSize(8097788, 'K', 'B');
-        assertEquals(swap, fel.getJvmSwapTotal(), "Swap not correct.");
+        assertEquals(swap, fel.getSwapTotal(), "Swap not correct.");
         long swapFree = JdkUtil.convertSize(7612768, 'K', 'B');
-        assertEquals(swapFree, fel.getJvmSwapFree(), "Swap free not correct.");
+        assertEquals(swapFree, fel.getSwapFree(), "Swap free not correct.");
         long heapInitial = JdkUtil.convertSize(512, 'M', 'B');
-        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
+        assertEquals(heapInitial, fel.getJvmMemoryHeapReserved(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(1024, 'M', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(244736 + 699392, 'K', 'B');
-        assertEquals(heapAllocation, fel.getHeapAllocation(), "Heap allocation not correct.");
+        assertEquals(heapAllocation, fel.getJvmMemoryHeapCommitted(), "Heap allocation not correct.");
         long heapUsed = JdkUtil.convertSize(103751 + 91187, 'K', 'B');
-        assertEquals(heapUsed, fel.getHeapUsed(), "Heap used not correct.");
-        long metaspaceMax = JdkUtil.convertSize(1183744, 'K', 'B');
-        assertEquals(metaspaceMax, fel.getMetaspaceMaxSize(), "Metaspace max size not correct.");
-        long metaspaceAllocation = JdkUtil.convertSize(155992, 'K', 'B');
-        assertEquals(metaspaceAllocation, fel.getMetaspaceAllocation(), "Metaspace allocation not correct.");
+        assertEquals(heapUsed, fel.getJvmMemoryHeapUsed(), "Heap used not correct.");
+        long metaspaceReserved = JdkUtil.convertSize(1183744, 'K', 'B');
+        assertEquals(metaspaceReserved, fel.getJvmMemoryMetaspaceReserved(), "Metaspace max size not correct.");
+        long metaspaceCommitted = JdkUtil.convertSize(155992, 'K', 'B');
+        assertEquals(metaspaceCommitted, fel.getJvmMemoryMetaspaceCommitted(), "Metaspace allocation not correct.");
         long metaspaceUsed = JdkUtil.convertSize(139716, 'K', 'B');
-        assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
+        assertEquals(metaspaceUsed, fel.getJvmMemoryMetaspaceUsed(), "Metaspace used not correct.");
         assertEquals(16, fel.getCpusLogical(), "CPU cores not correct.");
         long commitLimit = JdkUtil.convertSize(16127136, 'K', 'B');
         assertEquals(commitLimit, fel.getOsCommitLimit(), "CommitLimit not correct.");
@@ -979,9 +979,9 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long physicalMemory = JdkUtil.convertSize(16383, 'M', 'B');
-        assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
+        assertEquals(physicalMemory, fel.getMemoryTotal(), "Physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(203, 'M', 'B');
-        assertEquals(physicalMemoryFree, fel.getJvmMemFree(), "Physical memory free not correct.");
+        assertEquals(physicalMemoryFree, fel.getMemoryFree(), "Physical memory free not correct.");
         long memBalloonedNow = JdkUtil.convertSize(0, 'K', 'B');
         assertEquals(memBalloonedNow, fel.getMemBalloonedNow(), "Memory ballooned now not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -1006,10 +1006,10 @@ class TestFatalErrorLog {
         Memory memory = new Memory(
                 "Memory: 4k page, physical 83885040k(45900432k free), swap 85982192k(42352392k free)");
         fel.getMemories().add(memory);
-        assertEquals(83885040L * 1024, fel.getJvmMemTotal(), "Physical memory not correct.");
-        assertEquals(45900432L * 1024, fel.getJvmMemFree(), "Physical memory free not correct.");
-        assertEquals((85982192L - 83885040L) * 1024, fel.getJvmSwapTotal(), "swap not correct.");
-        assertEquals(0L, fel.getJvmSwapFree(), "swap free not correct.");
+        assertEquals(83885040L * 1024, fel.getMemoryTotal(), "Physical memory not correct.");
+        assertEquals(45900432L * 1024, fel.getMemoryFree(), "Physical memory free not correct.");
+        assertEquals((85982192L - 83885040L) * 1024, fel.getSwapTotal(), "Swap not correct.");
+        assertEquals(0L, fel.getSwapFree(), "Swap free not correct.");
         assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_PAGE_FILE_SMALL.getKey()),
@@ -1037,10 +1037,10 @@ class TestFatalErrorLog {
         Memory memory = new Memory(
                 "Memory: 4k page, physical 83885040k(45900432k free), swap 85982192k(42352392k free)");
         fel.getMemories().add(memory);
-        assertEquals(83885040L * 1024, fel.getJvmMemTotal(), "Physical memory not correct.");
-        assertEquals(45900432L * 1024, fel.getJvmMemFree(), "Physical memory free not correct.");
-        assertEquals((85982192L - 83885040L) * 1024, fel.getJvmSwapTotal(), "swap not correct.");
-        assertEquals(0L, fel.getJvmSwapFree(), "swap free not correct.");
+        assertEquals(83885040L * 1024, fel.getMemoryTotal(), "Physical memory not correct.");
+        assertEquals(45900432L * 1024, fel.getMemoryFree(), "Physical memory free not correct.");
+        assertEquals((85982192L - 83885040L) * 1024, fel.getSwapTotal(), "Swap not correct.");
+        assertEquals(0L, fel.getSwapFree(), "Swap free not correct.");
         assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
         ElapsedTime event = new ElapsedTime("elapsed time: 0.038211 seconds (0d 0h 0m 0s)");
         fel.setElapsedTime(event);
@@ -1193,6 +1193,34 @@ class TestFatalErrorLog {
         error.append(Constants.LINE_SEPARATOR);
         error.append("#  Out of Memory Error (os_linux.cpp:2749), pid=25305, tid=0x00007f5ab28b7700");
         assertEquals(error.toString(), fel.getError());
+    }
+
+    @Test
+    void testProcessMemory() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String processMemory1 = "Process Memory:";
+        ProcessMemory processMemoryEvent1 = new ProcessMemory(processMemory1);
+        fel.getProcessMemories().add(processMemoryEvent1);
+        String processMemory2 = "Virtual Size: 11272940K (peak: 12259627K)";
+        ProcessMemory processMemoryEvent2 = new ProcessMemory(processMemory2);
+        fel.getProcessMemories().add(processMemoryEvent2);
+        String processMemory3 = "Resident Set Size: 755832K (peak: 756012K) (anon: 751315K, file: 3236K, shmem: 1280K)";
+        ProcessMemory processMemoryEvent3 = new ProcessMemory(processMemory3);
+        fel.getProcessMemories().add(processMemoryEvent3);
+        String processMemory4 = "Swapped out: 307K";
+        ProcessMemory processMemoryEvent4 = new ProcessMemory(processMemory4);
+        fel.getProcessMemories().add(processMemoryEvent4);
+        String processMemory5 = "C-Heap outstanding allocations: 167819K, retained: 338359K";
+        ProcessMemory processMemoryEvent5 = new ProcessMemory(processMemory5);
+        fel.getProcessMemories().add(processMemoryEvent5);
+        String processMemory6 = "glibc malloc tunables: (default)";
+        ProcessMemory processMemoryEvent6 = new ProcessMemory(processMemory6);
+        fel.getProcessMemories().add(processMemoryEvent6);
+        fel.doAnalysis();
+        long rss = JdkUtil.convertSize(755832, 'K', 'B');
+        assertEquals(rss, fel.getJvmMemoryRss(), "RSS not correct.");
+        long swapped = JdkUtil.convertSize(307, 'K', 'B');
+        assertEquals(swapped, fel.getJvmMemorySwapped(), "Swapped not correct.");
     }
 
     @Test
@@ -1463,27 +1491,27 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long physicalMemory = JdkUtil.convertSize(8388608, 'K', 'B');
-        assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
+        assertEquals(physicalMemory, fel.getMemoryTotal(), "Physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(1334692, 'K', 'B');
-        assertEquals(physicalMemoryFree, fel.getJvmMemFree(), "Physical memory free not correct.");
+        assertEquals(physicalMemoryFree, fel.getMemoryFree(), "Physical memory free not correct.");
         long swap = JdkUtil.convertSize(0, 'K', 'B');
-        assertEquals(swap, fel.getJvmSwapTotal(), "Swap not correct.");
+        assertEquals(swap, fel.getSwapTotal(), "Swap not correct.");
         long swapFree = JdkUtil.convertSize(0, 'K', 'B');
-        assertEquals(swapFree, fel.getJvmSwapFree(), "Swap free not correct.");
+        assertEquals(swapFree, fel.getSwapFree(), "Swap free not correct.");
         long heapInitial = JdkUtil.convertSize(4014, 'M', 'B');
-        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
+        assertEquals(heapInitial, fel.getJvmMemoryHeapReserved(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(5734, 'M', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(5734, 'M', 'B');
-        assertEquals(heapAllocation, fel.getHeapAllocation(), "Heap allocation not correct.");
+        assertEquals(heapAllocation, fel.getJvmMemoryHeapCommitted(), "Heap allocation not correct.");
         long heapUsed = JdkUtil.convertSize(3795, 'M', 'B');
-        assertEquals(heapUsed, fel.getHeapUsed(), "Heap used not correct.");
-        long metaspaceMax = JdkUtil.convertSize(512, 'M', 'B');
-        assertEquals(metaspaceMax, fel.getMetaspaceMaxSize(), "Metaspace max size not correct.");
-        long metaspaceAllocation = JdkUtil.convertSize(277632, 'K', 'B');
-        assertEquals(metaspaceAllocation, fel.getMetaspaceAllocation(), "Metaspace allocation not correct.");
+        assertEquals(heapUsed, fel.getJvmMemoryHeapUsed(), "Heap used not correct.");
+        long metaspaceReserved = JdkUtil.convertSize(512, 'M', 'B');
+        assertEquals(metaspaceReserved, fel.getJvmMemoryMetaspaceReserved(), "Metaspace max size not correct.");
+        long metaspaceCommitted = JdkUtil.convertSize(277632, 'K', 'B');
+        assertEquals(metaspaceCommitted, fel.getJvmMemoryMetaspaceCommitted(), "Metaspace allocation not correct.");
         long metaspaceUsed = JdkUtil.convertSize(257753, 'K', 'B');
-        assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
+        assertEquals(metaspaceUsed, fel.getJvmMemoryMetaspaceUsed(), "Metaspace used not correct.");
         assertEquals(Application.JBOSS_EAP7, fel.getApplication(), "Application not correct.");
         assertEquals(16, fel.getCpusLogical(), "CPU cores not correct.");
         assertEquals("at safepoint (normal execution)", fel.getLiteral(), "State not correct.");
@@ -1566,19 +1594,19 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long heapInitial = JdkUtil.convertSize(3172, 'M', 'B');
-        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
+        assertEquals(heapInitial, fel.getJvmMemoryHeapReserved(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(3172, 'M', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocation = JdkUtil.convertSize(947392 + 2165440, 'K', 'B');
-        assertEquals(heapAllocation, fel.getHeapAllocation(), "Heap allocation not correct.");
+        assertEquals(heapAllocation, fel.getJvmMemoryHeapCommitted(), "Heap allocation not correct.");
         long heapUsed = JdkUtil.convertSize(396580 + 937560, 'K', 'B');
-        assertEquals(heapUsed, fel.getHeapUsed(), "Heap used not correct.");
-        long metaspaceMax = JdkUtil.convertSize(1275904, 'K', 'B');
-        assertEquals(metaspaceMax, fel.getMetaspaceMaxSize(), "Metaspace max size not correct.");
-        long metaspaceAllocation = JdkUtil.convertSize(262244, 'K', 'B');
-        assertEquals(metaspaceAllocation, fel.getMetaspaceAllocation(), "Metaspace allocation not correct.");
+        assertEquals(heapUsed, fel.getJvmMemoryHeapUsed(), "Heap used not correct.");
+        long metaspaceReserved = JdkUtil.convertSize(1275904, 'K', 'B');
+        assertEquals(metaspaceReserved, fel.getJvmMemoryMetaspaceReserved(), "Metaspace max size not correct.");
+        long metaspaceCommitted = JdkUtil.convertSize(262244, 'K', 'B');
+        assertEquals(metaspaceCommitted, fel.getJvmMemoryMetaspaceCommitted(), "Metaspace allocation not correct.");
         long metaspaceUsed = JdkUtil.convertSize(243180, 'K', 'B');
-        assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
+        assertEquals(metaspaceUsed, fel.getJvmMemoryMetaspaceUsed(), "Metaspace used not correct.");
         assertEquals(512, fel.getThreadStackSize(), "Thread stack size not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
@@ -1772,12 +1800,12 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long physicalMemory = JdkUtil.convertSize(16776740, 'K', 'B');
-        assertEquals(physicalMemory, fel.getOsMemTotal(), "System physical memory not correct.");
+        assertEquals(physicalMemory, fel.getMemoryTotal(), "System physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(674168, 'K', 'B');
-        assertEquals(physicalMemoryFree, fel.getOsMemFree(), "System physical memory free not correct.");
+        assertEquals(physicalMemoryFree, fel.getMemoryFree(), "System physical memory free not correct.");
         long commitLimit = JdkUtil.convertSize(20970784, 'K', 'B');
-        assertEquals(commitLimit - physicalMemory, fel.getOsSwapTotal(), "System swap not correct.");
-        assertEquals(0, fel.getOsSwapFree(), "System swap free not correct.");
+        assertEquals(commitLimit - physicalMemory, fel.getSwapTotal(), "System swap not correct.");
+        assertEquals(0, fel.getSwapFree(), "System swap free not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
@@ -1889,12 +1917,12 @@ class TestFatalErrorLog {
         fel.getMemories().add(memory1);
         fel.getMemories().add(memory2);
         long physicalMemory = JdkUtil.convertSize(114687, 'M', 'B');
-        assertEquals(physicalMemory, fel.getOsMemTotal(), "System physical memory not correct.");
+        assertEquals(physicalMemory, fel.getMemoryTotal(), "System physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(1028, 'M', 'B');
-        assertEquals(physicalMemoryFree, fel.getOsMemFree(), "System physical memory free not correct.");
+        assertEquals(physicalMemoryFree, fel.getMemoryFree(), "System physical memory free not correct.");
         long commitLimit = JdkUtil.convertSize(229376, 'M', 'B');
-        assertEquals(commitLimit - physicalMemory, fel.getOsSwapTotal(), "System swap not correct.");
-        assertEquals((6785L - 1028L) * 1024 * 1024, fel.getOsSwapFree(), "System swap free not correct.");
+        assertEquals(commitLimit - physicalMemory, fel.getSwapTotal(), "System swap not correct.");
+        assertEquals((6785L - 1028L) * 1024 * 1024, fel.getSwapFree(), "System swap free not correct.");
     }
 
     @Test
@@ -1922,9 +1950,9 @@ class TestFatalErrorLog {
         Heap heapEvent = new Heap(heap);
         fel.getHeaps().add(heapEvent);
         long heapUsed = JdkUtil.convertSize(39991, 'M', 'B');
-        assertEquals(heapUsed, fel.getHeapUsed(), "Heap used not correct.");
+        assertEquals(heapUsed, fel.getJvmMemoryHeapUsed(), "Heap used not correct.");
         long heapAllocation = JdkUtil.convertSize(47104, 'M', 'B');
-        assertEquals(heapAllocation, fel.getHeapAllocation(), "Heap allocation not correct.");
+        assertEquals(heapAllocation, fel.getJvmMemoryHeapCommitted(), "Heap allocation not correct.");
         long heapMax = JdkUtil.convertSize(47104, 'M', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
     }

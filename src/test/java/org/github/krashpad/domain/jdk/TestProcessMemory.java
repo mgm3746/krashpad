@@ -58,6 +58,9 @@ class TestProcessMemory {
         String logLine = "Resident Set Size: 9169564K (peak: 9198848K) (anon: 9144372K, file: 25192K, shmem: 0K)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ProcessMemory,
                 JdkUtil.LogEventType.PROCESS_MEMORY.toString() + " not parsed.");
+        ProcessMemory processMemoryEvent = new ProcessMemory(logLine);
+        assertTrue(processMemoryEvent.isRss(), "RSS not identified.");
+
     }
 
     @Test
@@ -65,6 +68,8 @@ class TestProcessMemory {
         String logLine = "Swapped out: 0K";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ProcessMemory,
                 JdkUtil.LogEventType.PROCESS_MEMORY.toString() + " not parsed.");
+        ProcessMemory processMemoryEvent = new ProcessMemory(logLine);
+        assertTrue(processMemoryEvent.isSwapped(), "Swapped not identified.");
     }
 
     @Test

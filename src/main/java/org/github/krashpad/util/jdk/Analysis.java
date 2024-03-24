@@ -578,13 +578,6 @@ public enum Analysis {
     INFO_LD_SO_PRELOAD("info.ld.so.preload"),
 
     /**
-     * Property key for JVM memory not equal to system memory.
-     * 
-     * TODO: Remove this? It's basically a duplicate of INFO_CGROUP_MEMORY_LIMIT?
-     */
-    INFO_MEMORY_JVM_NE_SYSTEM("info.memory.jvm.ne.system"),
-
-    /**
      * Property key for Microsoft SQL Server native driver detected.
      */
     INFO_MICROSOFT_SQL_SERVER_NATIVE("info.microsoft.sql.server.native"),

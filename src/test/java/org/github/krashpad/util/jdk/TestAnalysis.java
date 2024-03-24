@@ -488,8 +488,16 @@ class TestAnalysis {
                 Analysis.INFO_CGROUP_VERSION + " analysis not identified.");
         assertEquals("cgroup version: cgroupv1.", fel.getAnalysisLiteral(Analysis.INFO_CGROUP_VERSION.getKey()),
                 Analysis.INFO_CGROUP_VERSION + " not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_MEMORY_JVM_NE_SYSTEM.getKey()),
-                Analysis.INFO_MEMORY_JVM_NE_SYSTEM + " analysis not identified.");
+        long osMemoryTotal = JdkUtil.convertSize(396080512, 'K', 'B');
+        assertEquals(osMemoryTotal, fel.getOsMemoryTotal(), "OS memory total not correct.");
+        long memoryLimitInBytes = 4294967296L;
+        assertEquals(memoryLimitInBytes, fel.getMemoryTotal(), "Container memory total not correct.");
+        long containerMemoryTotal = JdkUtil.convertSize(4194304, 'K', 'B');
+        assertEquals(containerMemoryTotal, fel.getMemoryTotal(), "Container memory total not correct.");
+        long osMemoryFree = JdkUtil.convertSize(226763360, 'K', 'B');
+        assertEquals(osMemoryFree, fel.getOsMemoryFree(), "OS memory free not correct.");
+        long containerMemoryFree = JdkUtil.convertSize(11736, 'K', 'B');
+        assertEquals(containerMemoryFree, fel.getMemoryFree(), "Container memory free not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP_MEMORY_LIMIT.getKey()),
                 Analysis.INFO_CGROUP_MEMORY_LIMIT + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -1107,29 +1115,29 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.isRhBuildOpenJdk(), "RH build of OpenJDK incorrectly identified.");
         long physicalMemory = JdkUtil.convertSize(15995796, 'K', 'B');
-        assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
+        assertEquals(physicalMemory, fel.getMemoryTotal(), "Physical memory not correct.");
         long physicalMemoryFree = JdkUtil.convertSize(241892, 'K', 'B');
-        assertEquals(physicalMemoryFree, fel.getJvmMemFree(), "Physical memory free not correct.");
+        assertEquals(physicalMemoryFree, fel.getMemoryFree(), "Physical memory free not correct.");
         long swap = JdkUtil.convertSize(10592252, 'K', 'B');
-        assertEquals(swap, fel.getJvmSwapTotal(), "Swap not correct.");
+        assertEquals(swap, fel.getSwapTotal(), "Swap not correct.");
         long swapFree = JdkUtil.convertSize(4, 'K', 'B');
-        assertEquals(swapFree, fel.getJvmSwapFree(), "Swap free not correct.");
+        assertEquals(swapFree, fel.getSwapFree(), "Swap free not correct.");
         long heapInitial = JdkUtil.convertSize(2048, 'M', 'B');
-        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
+        assertEquals(heapInitial, fel.getJvmMemoryHeapReserved(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(8192, 'M', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
         long heapAllocationYoung = JdkUtil.convertSize(2761728, 'K', 'B');
         long heapAllocationOld = JdkUtil.convertSize(4838912, 'K', 'B');
         long heapAllocation = heapAllocationYoung + heapAllocationOld;
-        assertEquals(heapAllocation, fel.getHeapAllocation(), "Heap allocation not correct.");
+        assertEquals(heapAllocation, fel.getJvmMemoryHeapCommitted(), "Heap allocation not correct.");
         long heapUsed = JdkUtil.convertSize(0 + 2671671, 'K', 'B');
-        assertEquals(heapUsed, fel.getHeapUsed(), "Heap used not correct.");
-        long metaspaceMax = JdkUtil.convertSize(8192, 'M', 'B');
-        assertEquals(metaspaceMax, fel.getMetaspaceMaxSize(), "Metaspace max size not correct.");
-        long metaspaceAllocation = JdkUtil.convertSize(471808, 'K', 'B');
-        assertEquals(metaspaceAllocation, fel.getMetaspaceAllocation(), "Metaspace allocation not correct.");
+        assertEquals(heapUsed, fel.getJvmMemoryHeapUsed(), "Heap used not correct.");
+        long metaspaceReserved = JdkUtil.convertSize(8192, 'M', 'B');
+        assertEquals(metaspaceReserved, fel.getJvmMemoryMetaspaceReserved(), "Metaspace max size not correct.");
+        long metaspaceCommitted = JdkUtil.convertSize(471808, 'K', 'B');
+        assertEquals(metaspaceCommitted, fel.getJvmMemoryMetaspaceCommitted(), "Metaspace allocation not correct.");
         long metaspaceUsed = JdkUtil.convertSize(347525, 'K', 'B');
-        assertEquals(metaspaceUsed, fel.getMetaspaceUsed(), "Metaspace used not correct.");
+        assertEquals(metaspaceUsed, fel.getJvmMemoryMetaspaceUsed(), "Metaspace used not correct.");
         long directMemoryMax = JdkUtil.convertSize(0, 'G', 'B');
         assertEquals(directMemoryMax, fel.getDirectMemoryMaxSize(), "Direct Memory mx not correct.");
         assertEquals(1024, fel.getThreadStackSize(), "Thread stack size not correct.");
@@ -1138,8 +1146,8 @@ class TestAnalysis {
         assertEquals(threadMemory, fel.getThreadStackMemory(), "Thread memory not correct.");
         long codeCacheSize = JdkUtil.convertSize(420, 'M', 'B');
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
-        assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
-                "Jvm memory not correct.");
+        assertEquals(heapMax + metaspaceReserved + directMemoryMax + threadMemory + codeCacheSize,
+                fel.getJvmMemoryMax(), "Jvm memory not correct.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP.getKey()),
                 Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_SWAP + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
@@ -2303,9 +2311,9 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
         assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
-        assertEquals(Long.MIN_VALUE, fel.getMemoryAllocation(), "Memory allocation not correct.");
-        assertEquals(32593993728L, fel.getJvmMemFree(), "JVM reported free memory not correct.");
-        assertEquals(Long.MIN_VALUE, fel.getJvmSwapFree(), "JVM reported swap not correct.");
+        assertEquals(Long.MIN_VALUE, fel.getFailedMemoryAllocation(), "Memory allocation not correct.");
+        assertEquals(32593993728L, fel.getMemoryFree(), "Free memory not correct.");
+        assertEquals(Long.MIN_VALUE, fel.getSwapFree(), "Swap not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_OOPS.getKey()),
                 Analysis.ERROR_OOME_RLIMIT_OOPS + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -2335,13 +2343,13 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isError("Out of Memory Error"), "Out Of Memory Error not identified.");
         long physicalMemory = JdkUtil.convertSize(24609684, 'K', 'B');
-        assertEquals(physicalMemory, fel.getJvmMemTotal(), "Physical memory not correct.");
+        assertEquals(physicalMemory, fel.getMemoryTotal(), "Physical memory not correct.");
         long heapInitial = JdkUtil.convertSize(1303, 'M', 'B');
-        assertEquals(heapInitial, fel.getHeapInitialSize(), "Heap initial size not correct.");
+        assertEquals(heapInitial, fel.getJvmMemoryHeapReserved(), "Heap initial size not correct.");
         long heapMax = JdkUtil.convertSize(16000, 'M', 'B');
         assertEquals(heapMax, fel.getHeapMaxSize(), "Heap max size not correct.");
-        long metaspaceMax = JdkUtil.convertSize(1148928, 'K', 'B');
-        assertEquals(metaspaceMax, fel.getMetaspaceMaxSize(), "Metaspace max size not correct.");
+        long metaspaceReserved = JdkUtil.convertSize(1148928, 'K', 'B');
+        assertEquals(metaspaceReserved, fel.getJvmMemoryMetaspaceReserved(), "Metaspace max size not correct.");
         long directMemoryMax = JdkUtil.convertSize(0, 'G', 'B');
         assertEquals(directMemoryMax, fel.getDirectMemoryMaxSize(), "Direct Memory mx not correct.");
         assertEquals(1024, fel.getThreadStackSize(), "Thread stack size not correct.");
@@ -2350,8 +2358,8 @@ class TestAnalysis {
         assertEquals(threadMemory, fel.getThreadStackMemory(), "Thread memory not correct.");
         long codeCacheSize = JdkUtil.convertSize(420, 'M', 'B');
         assertEquals(codeCacheSize, fel.getCodeCacheSize(), "Code cache size not correct.");
-        assertEquals(heapMax + metaspaceMax + directMemoryMax + threadMemory + codeCacheSize, fel.getJvmMemoryMax(),
-                "Jvm memory max not correct.");
+        assertEquals(heapMax + metaspaceReserved + directMemoryMax + threadMemory + codeCacheSize,
+                fel.getJvmMemoryMax(), "Jvm memory max not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL.getKey()),
                 Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
@@ -2427,9 +2435,9 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
         assertTrue(fel.isCrashOnStartup(), "Crash on startup not identified.");
-        assertEquals(2147483648L, fel.getMemoryAllocation(), "Memory allocation not correct.");
-        assertEquals(194785280L, fel.getJvmMemFree(), "JVM reported free memory not correct.");
-        assertEquals(533327872L, fel.getJvmSwapFree(), "JVM reported swap not correct.");
+        assertEquals(2147483648L, fel.getFailedMemoryAllocation(), "Memory allocation not correct.");
+        assertEquals(194785280L, fel.getMemoryFree(), "Free memory not correct.");
+        assertEquals(533327872L, fel.getSwapFree(), "Swap not correct.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL_STARTUP.getKey()),
                 Analysis.ERROR_OOME_EXTERNAL_STARTUP + " analysis not identified.");
     }
@@ -2537,9 +2545,9 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
         assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
-        assertEquals(12288, fel.getMemoryAllocation(), "Memory allocation not correct.");
-        assertEquals(19269935104L, fel.getJvmMemFree(), "JVM reported free memory not correct.");
-        assertEquals(6442446848L, fel.getJvmSwapFree(), "JVM reported swap not correct.");
+        assertEquals(12288, fel.getFailedMemoryAllocation(), "Memory allocation not correct.");
+        assertEquals(19269935104L, fel.getMemoryFree(), "Free memory not correct.");
+        assertEquals(6442446848L, fel.getSwapFree(), "Swap not correct.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_OOME.getKey()),
                 Analysis.ERROR_OOME + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT.getKey()),
@@ -2817,9 +2825,9 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
         assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
-        assertEquals(12288, fel.getMemoryAllocation(), "Memory allocation not correct.");
-        assertEquals(858320896L, fel.getJvmMemFree(), "JVM reported free memory not correct.");
-        assertEquals(0, fel.getJvmSwapFree(), "JVM reported swap not correct.");
+        assertEquals(12288, fel.getFailedMemoryAllocation(), "Memory allocation not correct.");
+        assertEquals(858320896L, fel.getMemoryFree(), "Free memory not correct.");
+        assertEquals(0, fel.getSwapFree(), "Swap not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100.getKey()),
                 Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100 + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_OOPS.getKey()),

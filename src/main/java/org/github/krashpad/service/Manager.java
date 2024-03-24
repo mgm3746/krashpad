@@ -62,6 +62,7 @@ import org.github.krashpad.domain.jdk.NumberEvent;
 import org.github.krashpad.domain.jdk.OsInfo;
 import org.github.krashpad.domain.jdk.PeriodicNativeTrim;
 import org.github.krashpad.domain.jdk.PidMax;
+import org.github.krashpad.domain.jdk.ProcessMemory;
 import org.github.krashpad.domain.jdk.RegisterToMemoryMapping;
 import org.github.krashpad.domain.jdk.Rlimit;
 import org.github.krashpad.domain.jdk.SigInfo;
@@ -216,6 +217,8 @@ public class Manager {
                         fatalErrorLog.setPeriodicNativeTrim((PeriodicNativeTrim) event);
                     } else if (event instanceof PidMax) {
                         fatalErrorLog.setPidMax((PidMax) event);
+                    } else if (event instanceof ProcessMemory) {
+                        fatalErrorLog.getProcessMemories().add((ProcessMemory) event);
                     } else if (event instanceof RegisterToMemoryMapping) {
                         fatalErrorLog.getRegisterToMemoryMappings().add((RegisterToMemoryMapping) event);
                     } else if (event instanceof Rlimit) {
