@@ -1220,7 +1220,11 @@ class TestFatalErrorLog {
         long rss = JdkUtil.convertSize(755832, 'K', 'B');
         assertEquals(rss, fel.getJvmMemoryRss(), "RSS not correct.");
         long swapped = JdkUtil.convertSize(307, 'K', 'B');
-        assertEquals(swapped, fel.getJvmMemorySwapped(), "Swapped not correct.");
+        assertEquals(swapped, fel.getJvmMemorySwappedOut(), "Swapped not correct.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_SWAPPED_OUT.getKey()),
+                Analysis.WARN_SWAPPED_OUT + " analysis not identified.");
+        assertEquals("JVM process swapped out memory: ~0M.", fel.getAnalysisLiteral(Analysis.WARN_SWAPPED_OUT.getKey()),
+                Analysis.WARN_SWAPPED_OUT + " not correct.");
     }
 
     @Test

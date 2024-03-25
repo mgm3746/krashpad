@@ -978,7 +978,12 @@ public enum Analysis {
     WARN_SWAP_DISABLED_G1("warn.swap.disabled.g1"),
 
     /**
-     * Property key for swapping &gt;= 20%.
+     * Property key for JVM process swapped out memory.
+     */
+    WARN_SWAPPED_OUT("warn.swapped.out"),
+
+    /**
+     * Property key for OS/container swapping &gt;= 20%.
      */
     WARN_SWAPPING("warn.swapping"),
 

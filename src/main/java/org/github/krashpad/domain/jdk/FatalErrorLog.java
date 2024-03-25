@@ -528,6 +528,10 @@ public class FatalErrorLog {
                 analysis.add(Analysis.WARN_SWAP_DISABLED_CMS);
             }
         }
+        // Check if JVM process has memory swapped out
+        if (getJvmMemorySwappedOut() > 0) {
+            analysis.add(Analysis.WARN_SWAPPED_OUT);
+        }
         // Crashes related to Oracle JDBC OCI (native) driver
         if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libocijdbc.+$")) {
             analysis.add(Analysis.ERROR_ORACLE_JDBC_OCI_DRIVER);
@@ -837,9 +841,8 @@ public class FatalErrorLog {
                             if (JdkMath.calcPercent(getJvmMemoryMax(), getMemoryTotal()) >= 95) {
                                 analysis.add(Analysis.ERROR_OOME_JVM);
                             } else {
-                                if (getOsCommitCharge() > 0
-                                        && JdkMath.calcPercent(getOsCommitCharge(), getMemoryTotal()) < 95) {
-                                    // Windows has a good process size approximation
+                                long processSize = Math.max(getOsCommitCharge(), getJvmMemoryRss());
+                                if (processSize > 0 && JdkMath.calcPercent(processSize, getMemoryTotal()) < 95) {
                                     if (getMemBalloonedNow() > 0) {
                                         analysis.add(Analysis.ERROR_OOME_EXTERNAL_OR_HYPERVISOR);
                                     } else {
@@ -1776,6 +1779,16 @@ public class FatalErrorLog {
                 s.append(getRhelVersion());
                 s.append(" + ");
                 s.append(getRpmDirectory());
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.WARN_SWAPPED_OUT.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                if (JdkUtil.convertSize(getJvmMemorySwappedOut(), 'B', org.github.joa.util.Constants.UNITS) == 0) {
+                    // Provide rounding clue
+                    s.append("~");
+                }
+                s.append(JdkUtil.convertSize(getJvmMemorySwappedOut(), 'B', org.github.joa.util.Constants.UNITS));
+                s.append(Character.toString(org.github.joa.util.Constants.UNITS));
                 s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() });
             } else {
@@ -3687,44 +3700,6 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return Estimated JVM maximum memory in bytes.
-     */
-    public long getJvmMemoryMax() {
-        long jvmMemoryMax = Long.MIN_VALUE;
-        if (getHeapMaxSize() > 0) {
-            jvmMemoryMax = getHeapMaxSize();
-        }
-        if (getJvmMemoryMetaspaceReserved() > 0) {
-            if (jvmMemoryMax > 0) {
-                jvmMemoryMax += getJvmMemoryMetaspaceReserved();
-            } else {
-                jvmMemoryMax = getJvmMemoryMetaspaceReserved();
-            }
-        }
-        // Thread stack space
-        if (getThreadStackMemory() > 0) {
-            if (jvmMemoryMax > 0) {
-                jvmMemoryMax += getThreadStackMemory();
-            } else {
-                jvmMemoryMax = getThreadStackMemory();
-            }
-        }
-        // code cache
-        if (jvmMemoryMax > 0) {
-            jvmMemoryMax += getCodeCacheSize();
-        } else {
-            jvmMemoryMax = getCodeCacheSize();
-        }
-        // Direct memory
-        if (jvmMemoryMax > 0) {
-            jvmMemoryMax += getDirectMemoryMaxSize();
-        } else {
-            jvmMemoryMax = getDirectMemoryMaxSize();
-        }
-        return jvmMemoryMax;
-    }
-
-    /**
      * @return The total metaspace committed (allocated) in bytes, or Long.MIN_VALUE if it cannot be determined.
      */
     public long getJvmMemoryMetaspaceCommitted() {
@@ -3844,6 +3819,44 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return Estimated JVM reserved memory in bytes.
+     */
+    public long getJvmMemoryMax() {
+        long jvmMemoryMax = Long.MIN_VALUE;
+        if (getHeapMaxSize() > 0) {
+            jvmMemoryMax = getHeapMaxSize();
+        }
+        if (getJvmMemoryMetaspaceReserved() > 0) {
+            if (jvmMemoryMax > 0) {
+                jvmMemoryMax += getJvmMemoryMetaspaceReserved();
+            } else {
+                jvmMemoryMax = getJvmMemoryMetaspaceReserved();
+            }
+        }
+        // Thread stack space
+        if (getThreadStackMemory() > 0) {
+            if (jvmMemoryMax > 0) {
+                jvmMemoryMax += getThreadStackMemory();
+            } else {
+                jvmMemoryMax = getThreadStackMemory();
+            }
+        }
+        // code cache
+        if (jvmMemoryMax > 0) {
+            jvmMemoryMax += getCodeCacheSize();
+        } else {
+            jvmMemoryMax = getCodeCacheSize();
+        }
+        // Direct memory
+        if (jvmMemoryMax > 0) {
+            jvmMemoryMax += getDirectMemoryMaxSize();
+        } else {
+            jvmMemoryMax = getDirectMemoryMaxSize();
+        }
+        return jvmMemoryMax;
+    }
+
+    /**
      * @return The JVM process RSS, or Long.MIN_VALUE if it cannot be determined.
      */
     public long getJvmMemoryRss() {
@@ -3870,10 +3883,10 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The JVM process memory swapped out, or Long.MIN_VALUE if it cannot be determined.
+     * @return The JVM process memory swapped out in bytes, or Long.MIN_VALUE if it cannot be determined.
      */
-    public long getJvmMemorySwapped() {
-        long jvmMemorySwapped = Long.MIN_VALUE;
+    public long getJvmMemorySwappedOut() {
+        long jvmMemorySwappedOut = Long.MIN_VALUE;
         if (!processMemories.isEmpty()) {
             Iterator<ProcessMemory> iterator = processMemories.iterator();
             long value;
@@ -3886,13 +3899,13 @@ public class FatalErrorLog {
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         value = Long.parseLong(matcher.group(1));
-                        jvmMemorySwapped = JdkUtil.convertSize(value, 'K', 'B');
+                        jvmMemorySwappedOut = JdkUtil.convertSize(value, 'K', 'B');
                         break;
                     }
                 }
             }
         }
-        return jvmMemorySwapped;
+        return jvmMemorySwappedOut;
     }
 
     public JvmOptions getJvmOptions() {

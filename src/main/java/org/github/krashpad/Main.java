@@ -102,6 +102,8 @@ public class Main {
     private static void createReport(FatalErrorLog fel, boolean reportConsole, File reportFile, String logFileName) {
         FileWriter fileWriter = null;
         PrintWriter printWriter = null;
+        boolean isMemoryLimitedByContainer = fel.getOsMemoryTotal() > 0 && fel.getMemoryTotal() > 0
+                && fel.getOsMemoryTotal() != fel.getMemoryTotal();
         try {
             fileWriter = new FileWriter(reportFile);
             if (reportConsole) {
@@ -167,8 +169,7 @@ public class Main {
                         + JdkUtil.convertSize(fel.getAnonHugePages(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
             }
-            if (fel.getOsMemoryTotal() > 0 && fel.getMemoryTotal() > 0
-                    && fel.getOsMemoryTotal() != fel.getMemoryTotal()) {
+            if (isMemoryLimitedByContainer) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
@@ -354,31 +355,20 @@ public class Main {
             if (fel.isCrashOnStartup()) {
                 // Display JVM initial memory if it fails to start
                 if (fel.getJvmMemoryInitial() > 0) {
-                    long percentMemory;
-                    if (!fel.getContainerInfos().isEmpty()) {
-                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getMemoryTotal());
-                    } else {
-                        percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getMemoryTotal());
-                    }
+                    long percentMemory = JdkMath.calcPercent(fel.getJvmMemoryInitial(), fel.getMemoryTotal());
+
                     printWriter.write("JVM Memory Initial: >"
                             + JdkUtil.convertSize(fel.getJvmMemoryInitial(), 'B', org.github.joa.util.Constants.UNITS)
                             + Character.toString(org.github.joa.util.Constants.UNITS));
                     if (fel.getMemoryTotal() > 0) {
                         printWriter.write(" (");
                         // provide rounding indicator
-                        if (!fel.getContainerInfos().isEmpty()) {
-                            if (percentMemory == 0
-                                    || (percentMemory == 100 && fel.getJvmMemoryInitial() != fel.getMemoryTotal())) {
-                                printWriter.write("~");
-                            }
-                        } else {
-                            if (percentMemory == 0
-                                    || (percentMemory == 100 && fel.getJvmMemoryInitial() != fel.getMemoryTotal())) {
-                                printWriter.write("~");
-                            }
+                        if (percentMemory == 0
+                                || (percentMemory == 100 && fel.getJvmMemoryInitial() != fel.getMemoryTotal())) {
+                            printWriter.write("~");
                         }
                         printWriter.write(percentMemory + "% ");
-                        if (!fel.getContainerInfos().isEmpty()) {
+                        if (isMemoryLimitedByContainer) {
                             printWriter.write("Container Memory");
                         } else {
                             printWriter.write("OS Memory");
@@ -400,33 +390,18 @@ public class Main {
                     printWriter.write(Constants.LINE_SEPARATOR);
                 }
             } else if (fel.getJvmMemoryMax() > 0) {
-                long percentMemory = Long.MIN_VALUE;
-                if (!fel.getContainerInfos().isEmpty() && fel.getMemoryTotal() >= 0) {
-                    percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getMemoryTotal());
-
-                } else if (fel.getMemoryTotal() >= 0) {
-                    percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getMemoryTotal());
-
-                }
+                long percentMemory = JdkMath.calcPercent(fel.getJvmMemoryMax(), fel.getMemoryTotal());
                 printWriter.write("JVM Memory Max: >"
                         + JdkUtil.convertSize(fel.getJvmMemoryMax(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS));
                 if (fel.getMemoryTotal() > 0) {
                     printWriter.write(" (");
                     // provide rounding indicator
-                    if (!fel.getContainerInfos().isEmpty()) {
-                        if (percentMemory == 0
-                                || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getMemoryTotal())) {
-                            printWriter.write("~");
-                        }
-                    } else {
-                        if (percentMemory == 0
-                                || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getMemoryTotal())) {
-                            printWriter.write("~");
-                        }
+                    if (percentMemory == 0 || (percentMemory == 100 && fel.getJvmMemoryMax() != fel.getMemoryTotal())) {
+                        printWriter.write("~");
                     }
                     printWriter.write(percentMemory + "% ");
-                    if (!fel.getContainerInfos().isEmpty()) {
+                    if (isMemoryLimitedByContainer) {
                         printWriter.write("Container Memory");
                     } else {
                         printWriter.write("OS Memory");
