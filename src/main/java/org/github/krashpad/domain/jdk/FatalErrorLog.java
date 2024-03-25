@@ -725,8 +725,8 @@ public class FatalErrorLog {
             }
         }
         // Check for insufficient physical memory
-        if (getHeapMaxSize() > 0 && getJvmMemoryMetaspaceReserved() > 0 && getMemoryTotal() > 0
-                && (getHeapMaxSize() + getJvmMemoryMetaspaceReserved()) > getMemoryTotal()) {
+        if (getJvmMemoryHeapReserved() > 0 && getJvmMemoryMetaspaceReserved() > 0 && getMemoryTotal() > 0
+                && (getJvmMemoryHeapReserved() + getJvmMemoryMetaspaceReserved()) > getMemoryTotal()) {
             if (getSwapTotal() == 0) {
                 analysis.add(Analysis.WARN_HEAP_PLUS_METASPACE_GT_PHYSICAL_MEMORY_NOSWAP);
             } else {
@@ -752,7 +752,7 @@ public class FatalErrorLog {
                     allocation = getFailedMemoryAllocation();
                     if (allocation < 0) {
                         // Use JVM estimated initial process size
-                        allocation = getJvmMemoryInitial();
+                        allocation = getJvmMemoryTotalCommitted();
                     }
                     if (allocation > 0 && getOsCommitLimit() >= 0 && getOsCommitLimitUsed() >= 0
                             && allocation > (getOsCommitLimit() - getOsCommitLimitUsed()) && !isOvercommitted()) {
@@ -809,8 +809,8 @@ public class FatalErrorLog {
                 analysis.remove(Analysis.INFO_JVM_STARTUP_FAILS);
             } else {
                 // Crash after startup
-                if (getThreadStackMemory() > 0 && getMemoryTotal() > 0
-                        && JdkMath.calcPercent(getThreadStackMemory(), getMemoryTotal()) > 50) {
+                if (getJvmMemoryThreadStackReserved() > 0 && getMemoryTotal() > 0
+                        && JdkMath.calcPercent(getJvmMemoryThreadStackReserved(), getMemoryTotal()) > 50) {
                     // thread leak
                     int executorPoolThreadCount = getJavaThreadCount(JdkRegEx.WILDFLY_EXECUTOR_POOL_THREAD);
                     if (executorPoolThreadCount > 0 && getJavaThreadCount() > 0
@@ -837,12 +837,12 @@ public class FatalErrorLog {
                             && getFailedMemoryAllocation() >= (Math.max(getMemoryFree(), 0)
                                     + Math.max(getSwapFree(), 0))) {
                         // Allocation > available physical memory
-                        if (getJvmMemoryMax() > 0 && getMemoryTotal() > 0) {
-                            if (JdkMath.calcPercent(getJvmMemoryMax(), getMemoryTotal()) >= 95) {
+                        if (getJvmMemoryTotalReserved() > 0 && getMemoryTotal() > 0) {
+                            if (JdkMath.calcPercent(getJvmMemoryTotalReserved(), getMemoryTotal()) >= 95) {
                                 analysis.add(Analysis.ERROR_OOME_JVM);
                             } else {
-                                long processSize = Math.max(getOsCommitCharge(), getJvmMemoryRss());
-                                if (processSize > 0 && JdkMath.calcPercent(processSize, getMemoryTotal()) < 95) {
+                                if (getJvmMemoryTotalUsed() > 0
+                                        && JdkMath.calcPercent(getJvmMemoryTotalUsed(), getMemoryTotal()) < 95) {
                                     if (getMemBalloonedNow() > 0) {
                                         analysis.add(Analysis.ERROR_OOME_EXTERNAL_OR_HYPERVISOR);
                                     } else {
@@ -858,8 +858,8 @@ public class FatalErrorLog {
                                     + Math.max(getSwapFree(), 0)))
                             || ((getMemoryFree() >= 0 && getMemoryTotal() > 0
                                     && JdkMath.calcPercent(getMemoryFree(), getMemoryTotal()) >= 50)
-                                    || (getJvmMemoryMax() >= 0 && getMemoryTotal() > 0
-                                            && JdkMath.calcPercent(getJvmMemoryMax(), getMemoryTotal()) < 50))) {
+                                    || (getJvmMemoryTotalCommitted() >= 0 && getMemoryTotal() > 0 && JdkMath
+                                            .calcPercent(getJvmMemoryTotalCommitted(), getMemoryTotal()) < 50))) {
                         // Likely a limit if: (1) allocation < available physical memory. (2) JVM memory < 1/2 total
                         // memory.
                         if (Os.WINDOWS == getOs()) {
@@ -2054,86 +2054,6 @@ public class FatalErrorLog {
         return classesUnloadedEvents;
     }
 
-    /**
-     * @return The max code cache size in bytes.
-     */
-    public long getCodeCacheSize() {
-        long reservedCodeCacheSize = Long.MIN_VALUE;
-        // 1st check [Global flags]
-        GlobalFlag globalFlagReservedCodeCacheSize = getGlobalFlag("ReservedCodeCacheSize");
-        if (globalFlagReservedCodeCacheSize != null) {
-            reservedCodeCacheSize = Long.parseLong(globalFlagReservedCodeCacheSize.getValue());
-        }
-        // Next check JVM options
-        if (reservedCodeCacheSize < 0) {
-            if (jvmOptions != null) {
-                if (jvmOptions.getReservedCodeCacheSize() != null || jvmOptions.getMaxjitcodesize() != null) {
-                    char fromUnits;
-                    long value;
-                    Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-                    Matcher matcher;
-                    if (jvmOptions.getReservedCodeCacheSize() != null) {
-                        matcher = pattern.matcher(jvmOptions.getReservedCodeCacheSize());
-                    } else {
-                        matcher = pattern.matcher(jvmOptions.getMaxjitcodesize());
-                    }
-                    if (matcher.find()) {
-                        value = Long.parseLong(matcher.group(2));
-                        if (matcher.group(3) != null) {
-                            fromUnits = matcher.group(3).charAt(0);
-                        } else {
-                            fromUnits = 'B';
-                        }
-                        reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, 'B');
-                    }
-                } else if (JdkUtil.isOptionEnabled(getJvmOptions().getSegmentedCodeCache())
-                        && jvmOptions.getNonNMethodCodeHeapSize() != null
-                        && jvmOptions.getNonProfiledCodeHeapSize() != null
-                        && jvmOptions.getProfiledCodeHeapSize() != null) {
-                    char fromUnits;
-                    long value;
-                    Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-                    Matcher matcher;
-                    matcher = pattern.matcher(jvmOptions.getNonNMethodCodeHeapSize());
-                    if (matcher.find()) {
-                        value = Long.parseLong(matcher.group(2));
-                        if (matcher.group(3) != null) {
-                            fromUnits = matcher.group(3).charAt(0);
-                        } else {
-                            fromUnits = 'B';
-                        }
-                        reservedCodeCacheSize = JdkUtil.convertSize(value, fromUnits, 'B');
-                    }
-                    matcher = pattern.matcher(jvmOptions.getNonProfiledCodeHeapSize());
-                    if (matcher.find()) {
-                        value = Long.parseLong(matcher.group(2));
-                        if (matcher.group(3) != null) {
-                            fromUnits = matcher.group(3).charAt(0);
-                        } else {
-                            fromUnits = 'B';
-                        }
-                        reservedCodeCacheSize += JdkUtil.convertSize(value, fromUnits, 'B');
-                    }
-                    matcher = pattern.matcher(jvmOptions.getProfiledCodeHeapSize());
-                    if (matcher.find()) {
-                        value = Long.parseLong(matcher.group(2));
-                        if (matcher.group(3) != null) {
-                            fromUnits = matcher.group(3).charAt(0);
-                        } else {
-                            fromUnits = 'B';
-                        }
-                        reservedCodeCacheSize += JdkUtil.convertSize(value, fromUnits, 'B');
-                    }
-                }
-            }
-        }
-        // Use default 420m
-        if (reservedCodeCacheSize < 0) {
-            reservedCodeCacheSize = JdkUtil.convertSize(420, 'M', 'B');
-        }
-        return reservedCodeCacheSize;
-    }
-
     public CommandLine getCommandLine() {
         return commandLine;
     }
@@ -2378,33 +2298,6 @@ public class FatalErrorLog {
 
     public List<DeoptimizationEvent> getDeoptimizationEvents() {
         return deoptimizationEvents;
-    }
-
-    /**
-     * @return The max direct memory size reserved in bytes.
-     */
-    public long getDirectMemoryMaxSize() {
-        long directMemorySize = 0;
-        // 1st check [Global flags]
-        GlobalFlag globalFlagMaxDirectMemorySize = getGlobalFlag("MaxDirectMemorySize");
-        if (globalFlagMaxDirectMemorySize != null) {
-            directMemorySize = Long.parseLong(globalFlagMaxDirectMemorySize.getValue());
-        } else if (jvmOptions != null && jvmOptions.getMaxDirectMemorySize() != null) {
-            char fromUnits;
-            long value;
-            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(jvmOptions.getMaxDirectMemorySize());
-            if (matcher.find()) {
-                value = Long.parseLong(matcher.group(2));
-                if (matcher.group(3) != null) {
-                    fromUnits = matcher.group(3).charAt(0);
-                } else {
-                    fromUnits = 'B';
-                }
-                directMemorySize = JdkUtil.convertSize(value, fromUnits, 'B');
-            }
-        }
-        return directMemorySize;
     }
 
     public List<DllOperationEvent> getDllOperationEvents() {
@@ -2774,9 +2667,45 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The heap max size reserved in bytes.
+     * @return The heap initial size in bytes, or Long.MIN_VALUE if undetermined.
      */
-    public long getHeapMaxSize() {
+    private long getHeapInitialSize() {
+        long heapInitialSize = Long.MIN_VALUE;
+        // 1st check [Global flags]
+        GlobalFlag globalFlagInitialHeapSize = getGlobalFlag("InitialHeapSize");
+        if (globalFlagInitialHeapSize != null) {
+            heapInitialSize = Long.parseLong(globalFlagInitialHeapSize.getValue());
+        } else if (jvmOptions != null && jvmOptions.getInitialHeapSize() != null) {
+            // Get from jvm_args
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher = pattern.matcher(jvmOptions.getInitialHeapSize());
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                } else {
+                    fromUnits = 'B';
+                }
+                heapInitialSize = JdkUtil.convertSize(value, fromUnits, 'B');
+            }
+        } else if (heapAddress != null) {
+            heapInitialSize = heapAddress.getSize();
+        } else if (getMemoryTotal() > 0) {
+            // Use JVM default = 1/64 system memory
+            BigDecimal systemPhysicalMemory = new BigDecimal(getMemoryTotal());
+            systemPhysicalMemory = systemPhysicalMemory.divide(new BigDecimal(64));
+            systemPhysicalMemory = systemPhysicalMemory.setScale(0, RoundingMode.HALF_EVEN);
+            heapInitialSize = systemPhysicalMemory.longValue();
+        }
+        return heapInitialSize;
+    }
+
+    /**
+     * @return The heap max size in bytes, or Long.MIN_VALUE if undetermined.
+     */
+    private long getHeapMaxSize() {
         long heapMaxSize = Long.MIN_VALUE;
         // 1st check [Global flags]
         GlobalFlag globalFlagMaxHeapSize = getGlobalFlag("MaxHeapSize");
@@ -2805,9 +2734,6 @@ public class FatalErrorLog {
             systemPhysicalMemory = systemPhysicalMemory.divide(new BigDecimal(4));
             systemPhysicalMemory = systemPhysicalMemory.setScale(0, RoundingMode.HALF_EVEN);
             heapMaxSize = systemPhysicalMemory.longValue();
-        } else if (getJvmMemoryHeapCommitted() > 0) {
-            // Use allocation
-            heapMaxSize = getJvmMemoryHeapCommitted();
         }
         return heapMaxSize;
     }
@@ -2817,7 +2743,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The heap starting address in bytes.
+     * @return The heap starting address byte.
      */
     public long getHeapStartingAddress() {
         long heapStartingAddress = Long.MIN_VALUE;
@@ -3444,6 +3370,130 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return The code cache reserved in bytes, or Long.MIN_VALUE if undetermined.
+     */
+    public long getJvmMemoryCodeCacheCommitted() {
+        // TODO: Get the real committed value from <code>CodeCache</code>.
+        return getJvmMemoryCodeCacheReserved();
+
+    }
+
+    /**
+     * @return The code cache reserved in bytes, or Long.MIN_VALUE if undetermined.
+     */
+    public long getJvmMemoryCodeCacheReserved() {
+        long jvmMemoryCodeCacheReserved = Long.MIN_VALUE;
+        // 1st check [Global flags]
+        GlobalFlag globalFlagReservedCodeCacheSize = getGlobalFlag("ReservedCodeCacheSize");
+        if (globalFlagReservedCodeCacheSize != null) {
+            jvmMemoryCodeCacheReserved = Long.parseLong(globalFlagReservedCodeCacheSize.getValue());
+        }
+        // Next check JVM options
+        if (jvmMemoryCodeCacheReserved < 0) {
+            if (jvmOptions != null) {
+                if (jvmOptions.getReservedCodeCacheSize() != null || jvmOptions.getMaxjitcodesize() != null) {
+                    char fromUnits;
+                    long value;
+                    Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+                    Matcher matcher;
+                    if (jvmOptions.getReservedCodeCacheSize() != null) {
+                        matcher = pattern.matcher(jvmOptions.getReservedCodeCacheSize());
+                    } else {
+                        matcher = pattern.matcher(jvmOptions.getMaxjitcodesize());
+                    }
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(2));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
+                        } else {
+                            fromUnits = 'B';
+                        }
+                        jvmMemoryCodeCacheReserved = JdkUtil.convertSize(value, fromUnits, 'B');
+                    }
+                } else if (JdkUtil.isOptionEnabled(getJvmOptions().getSegmentedCodeCache())
+                        && jvmOptions.getNonNMethodCodeHeapSize() != null
+                        && jvmOptions.getNonProfiledCodeHeapSize() != null
+                        && jvmOptions.getProfiledCodeHeapSize() != null) {
+                    char fromUnits;
+                    long value;
+                    Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+                    Matcher matcher;
+                    matcher = pattern.matcher(jvmOptions.getNonNMethodCodeHeapSize());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(2));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
+                        } else {
+                            fromUnits = 'B';
+                        }
+                        jvmMemoryCodeCacheReserved = JdkUtil.convertSize(value, fromUnits, 'B');
+                    }
+                    matcher = pattern.matcher(jvmOptions.getNonProfiledCodeHeapSize());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(2));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
+                        } else {
+                            fromUnits = 'B';
+                        }
+                        jvmMemoryCodeCacheReserved += JdkUtil.convertSize(value, fromUnits, 'B');
+                    }
+                    matcher = pattern.matcher(jvmOptions.getProfiledCodeHeapSize());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(2));
+                        if (matcher.group(3) != null) {
+                            fromUnits = matcher.group(3).charAt(0);
+                        } else {
+                            fromUnits = 'B';
+                        }
+                        jvmMemoryCodeCacheReserved += JdkUtil.convertSize(value, fromUnits, 'B');
+                    }
+                }
+            }
+        }
+        // Use default 420m
+        if (jvmMemoryCodeCacheReserved < 0) {
+            jvmMemoryCodeCacheReserved = JdkUtil.convertSize(420, 'M', 'B');
+        }
+        return jvmMemoryCodeCacheReserved;
+    }
+
+    /**
+     * @return The max direct memory committed in bytes, or Long.MIN_VALUE if undetermined.
+     */
+    public long getJvmMemoryDirectMemoryCommitted() {
+        // TODO: Can committed be determined?
+        return getJvmMemoryDirectMemoryReserved();
+    }
+
+    /**
+     * @return The max direct memory reserved in bytes, or Long.MIN_VALUE if undetermined.
+     */
+    public long getJvmMemoryDirectMemoryReserved() {
+        long jvmMemoryDirectMemoryReserved = Long.MIN_VALUE;
+        // 1st check [Global flags]
+        GlobalFlag globalFlagMaxDirectMemorySize = getGlobalFlag("MaxDirectMemorySize");
+        if (globalFlagMaxDirectMemorySize != null) {
+            jvmMemoryDirectMemoryReserved = Long.parseLong(globalFlagMaxDirectMemorySize.getValue());
+        } else if (jvmOptions != null && jvmOptions.getMaxDirectMemorySize() != null) {
+            char fromUnits;
+            long value;
+            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
+            Matcher matcher = pattern.matcher(jvmOptions.getMaxDirectMemorySize());
+            if (matcher.find()) {
+                value = Long.parseLong(matcher.group(2));
+                if (matcher.group(3) != null) {
+                    fromUnits = matcher.group(3).charAt(0);
+                } else {
+                    fromUnits = 'B';
+                }
+                jvmMemoryDirectMemoryReserved = JdkUtil.convertSize(value, fromUnits, 'B');
+            }
+        }
+        return jvmMemoryDirectMemoryReserved;
+    }
+
+    /**
      * @return The total heap committed in bytes, or Long.MIN_VALUE if it cannot be determined.
      */
     public long getJvmMemoryHeapCommitted() {
@@ -3520,6 +3570,12 @@ public class FatalErrorLog {
                 }
             }
         }
+        if (jvmMemoryHeapCommitted < 0) {
+            jvmMemoryHeapCommitted = getHeapInitialSize();
+        }
+        if (jvmMemoryHeapCommitted < 0) {
+            jvmMemoryHeapCommitted = getJvmMemoryHeapUsed();
+        }
         return jvmMemoryHeapCommitted;
     }
 
@@ -3527,35 +3583,8 @@ public class FatalErrorLog {
      * @return The heap reserved in bytes, or Long.MIN_VALUE if it cannot be determined.
      */
     public long getJvmMemoryHeapReserved() {
-        long jvmMemoryHeapReserved = Long.MIN_VALUE;
-        // 1st check [Global flags]
-        GlobalFlag globalFlagInitialHeapSize = getGlobalFlag("InitialHeapSize");
-        if (globalFlagInitialHeapSize != null) {
-            jvmMemoryHeapReserved = Long.parseLong(globalFlagInitialHeapSize.getValue());
-        } else if (jvmOptions != null && jvmOptions.getInitialHeapSize() != null) {
-            // Get from jvm_args
-            char fromUnits;
-            long value;
-            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(jvmOptions.getInitialHeapSize());
-            if (matcher.find()) {
-                value = Long.parseLong(matcher.group(2));
-                if (matcher.group(3) != null) {
-                    fromUnits = matcher.group(3).charAt(0);
-                } else {
-                    fromUnits = 'B';
-                }
-                jvmMemoryHeapReserved = JdkUtil.convertSize(value, fromUnits, 'B');
-            }
-        } else if (heapAddress != null) {
-            jvmMemoryHeapReserved = heapAddress.getSize();
-        } else if (getMemoryTotal() > 0) {
-            // Use JVM default = 1/64 system memory
-            BigDecimal systemPhysicalMemory = new BigDecimal(getMemoryTotal());
-            systemPhysicalMemory = systemPhysicalMemory.divide(new BigDecimal(64));
-            systemPhysicalMemory = systemPhysicalMemory.setScale(0, RoundingMode.HALF_EVEN);
-            jvmMemoryHeapReserved = systemPhysicalMemory.longValue();
-        } else if (getJvmMemoryHeapCommitted() > 0) {
+        long jvmMemoryHeapReserved = getHeapMaxSize();
+        if (jvmMemoryHeapReserved < 0) {
             // Use committed
             jvmMemoryHeapReserved = getJvmMemoryHeapCommitted();
         }
@@ -3659,44 +3688,6 @@ public class FatalErrorLog {
             }
         }
         return jvmMemoryHeapUsed;
-    }
-
-    /**
-     * @return Estimated JVM initial memory in bytes.
-     */
-    public long getJvmMemoryInitial() {
-        long jvmMemoryInitial = Long.MIN_VALUE;
-        if (getHeapMaxSize() > 0) {
-            jvmMemoryInitial = getJvmMemoryHeapReserved();
-        }
-        if (getJvmMemoryMetaspaceReserved() > 0) {
-            if (jvmMemoryInitial > 0) {
-                jvmMemoryInitial += getJvmMemoryMetaspaceReserved();
-            } else {
-                jvmMemoryInitial = getJvmMemoryMetaspaceReserved();
-            }
-        }
-        // Thread stack space
-        if (getThreadStackMemory() > 0) {
-            if (jvmMemoryInitial > 0) {
-                jvmMemoryInitial += getThreadStackMemory();
-            } else {
-                jvmMemoryInitial = getThreadStackMemory();
-            }
-        }
-        // code cache
-        if (jvmMemoryInitial > 0) {
-            jvmMemoryInitial += getCodeCacheSize();
-        } else {
-            jvmMemoryInitial = getCodeCacheSize();
-        }
-        // Direct memory
-        if (jvmMemoryInitial > 0) {
-            jvmMemoryInitial += getDirectMemoryMaxSize();
-        } else {
-            jvmMemoryInitial = getDirectMemoryMaxSize();
-        }
-        return jvmMemoryInitial;
     }
 
     /**
@@ -3819,47 +3810,9 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return Estimated JVM reserved memory in bytes.
-     */
-    public long getJvmMemoryMax() {
-        long jvmMemoryMax = Long.MIN_VALUE;
-        if (getHeapMaxSize() > 0) {
-            jvmMemoryMax = getHeapMaxSize();
-        }
-        if (getJvmMemoryMetaspaceReserved() > 0) {
-            if (jvmMemoryMax > 0) {
-                jvmMemoryMax += getJvmMemoryMetaspaceReserved();
-            } else {
-                jvmMemoryMax = getJvmMemoryMetaspaceReserved();
-            }
-        }
-        // Thread stack space
-        if (getThreadStackMemory() > 0) {
-            if (jvmMemoryMax > 0) {
-                jvmMemoryMax += getThreadStackMemory();
-            } else {
-                jvmMemoryMax = getThreadStackMemory();
-            }
-        }
-        // code cache
-        if (jvmMemoryMax > 0) {
-            jvmMemoryMax += getCodeCacheSize();
-        } else {
-            jvmMemoryMax = getCodeCacheSize();
-        }
-        // Direct memory
-        if (jvmMemoryMax > 0) {
-            jvmMemoryMax += getDirectMemoryMaxSize();
-        } else {
-            jvmMemoryMax = getDirectMemoryMaxSize();
-        }
-        return jvmMemoryMax;
-    }
-
-    /**
      * @return The JVM process RSS, or Long.MIN_VALUE if it cannot be determined.
      */
-    public long getJvmMemoryRss() {
+    private long getJvmMemoryRss() {
         long jvmMemoryRss = Long.MIN_VALUE;
         if (!processMemories.isEmpty()) {
             Iterator<ProcessMemory> iterator = processMemories.iterator();
@@ -3906,6 +3859,152 @@ public class FatalErrorLog {
             }
         }
         return jvmMemorySwappedOut;
+    }
+
+    /**
+     * @return The thread memory committed in bytes, or Long.MIN_VALUE if undetermined.
+     */
+    public long getJvmMemoryThreadStackCommitted() {
+        // TODO: Is there a way to get committed?
+        return getJvmMemoryThreadStackReserved();
+    }
+
+    /**
+     * @return The thread memory reserved in bytes, or Long.MIN_VALUE if undetermined.
+     */
+    public long getJvmMemoryThreadStackReserved() {
+        long jvmMemoryThreadStackReserved = Long.MIN_VALUE;
+        if (getJavaThreadCount() > 0) {
+            BigDecimal memoryPerThread = new BigDecimal(getThreadStackSize());
+            BigDecimal threads = new BigDecimal(getJavaThreadCount());
+            jvmMemoryThreadStackReserved = memoryPerThread.multiply(threads).longValue();
+            jvmMemoryThreadStackReserved = JdkUtil.convertSize(jvmMemoryThreadStackReserved, 'K', 'B');
+        }
+        return jvmMemoryThreadStackReserved;
+    }
+
+    /**
+     * @return Estimated JVM memory committed in bytes, or Long.MIN_VALUE if undetermined.
+     */
+    public long getJvmMemoryTotalCommitted() {
+        long jvmMemoryTotalCommitted = Long.MIN_VALUE;
+        if (getJvmMemoryHeapCommitted() > 0) {
+            jvmMemoryTotalCommitted = getJvmMemoryHeapCommitted();
+        }
+        if (getJvmMemoryMetaspaceCommitted() > 0) {
+            if (jvmMemoryTotalCommitted > 0) {
+                jvmMemoryTotalCommitted += getJvmMemoryMetaspaceCommitted();
+            } else {
+                jvmMemoryTotalCommitted = getJvmMemoryMetaspaceCommitted();
+            }
+        }
+        // Thread stack space
+        if (getJvmMemoryThreadStackCommitted() > 0) {
+            if (jvmMemoryTotalCommitted > 0) {
+                jvmMemoryTotalCommitted += getJvmMemoryThreadStackCommitted();
+            } else {
+                jvmMemoryTotalCommitted = getJvmMemoryThreadStackCommitted();
+            }
+        }
+        // code cache
+        if (getJvmMemoryCodeCacheCommitted() > 0) {
+            if (jvmMemoryTotalCommitted > 0) {
+                jvmMemoryTotalCommitted += getJvmMemoryCodeCacheCommitted();
+            } else {
+                jvmMemoryTotalCommitted = getJvmMemoryCodeCacheCommitted();
+            }
+        }
+        // Direct memory
+        if (getJvmMemoryDirectMemoryCommitted() > 0) {
+            if (jvmMemoryTotalCommitted > 0) {
+                jvmMemoryTotalCommitted += getJvmMemoryDirectMemoryCommitted();
+            } else {
+                jvmMemoryTotalCommitted = getJvmMemoryDirectMemoryCommitted();
+            }
+        }
+        return jvmMemoryTotalCommitted;
+    }
+
+    /**
+     * @return Estimated JVM memory reserved in bytes, or Long.MIN_VALUE if undetermined.
+     */
+    public long getJvmMemoryTotalReserved() {
+        long jvmMemoryTotalReserved = Long.MIN_VALUE;
+        if (getJvmMemoryVirtual() > 0) {
+            jvmMemoryTotalReserved = getJvmMemoryVirtual();
+        }
+        if (jvmMemoryTotalReserved < 0) {
+            if (getJvmMemoryHeapReserved() > 0) {
+                jvmMemoryTotalReserved = getJvmMemoryHeapReserved();
+            }
+            if (getJvmMemoryMetaspaceReserved() > 0) {
+                if (jvmMemoryTotalReserved > 0) {
+                    jvmMemoryTotalReserved += getJvmMemoryMetaspaceReserved();
+                } else {
+                    jvmMemoryTotalReserved = getJvmMemoryMetaspaceReserved();
+                }
+            }
+            // Thread stack space
+            if (getJvmMemoryThreadStackReserved() > 0) {
+                if (jvmMemoryTotalReserved > 0) {
+                    jvmMemoryTotalReserved += getJvmMemoryThreadStackReserved();
+                } else {
+                    jvmMemoryTotalReserved = getJvmMemoryThreadStackReserved();
+                }
+            }
+            // code cache
+            if (getJvmMemoryCodeCacheReserved() > 0) {
+                if (jvmMemoryTotalReserved > 0) {
+                    jvmMemoryTotalReserved += getJvmMemoryCodeCacheReserved();
+                } else {
+                    jvmMemoryTotalReserved = getJvmMemoryCodeCacheReserved();
+                }
+            }
+            // Direct memory
+            if (getJvmMemoryDirectMemoryReserved() > 0) {
+                if (jvmMemoryTotalReserved > 0) {
+                    jvmMemoryTotalReserved += getJvmMemoryDirectMemoryReserved();
+                } else {
+                    jvmMemoryTotalReserved = getJvmMemoryDirectMemoryReserved();
+                }
+            }
+        }
+        return jvmMemoryTotalReserved;
+    }
+
+    /**
+     * @return Estimated JVM memory used in bytes, or Long.MIN_VALUE if undetermined.
+     */
+    public long getJvmMemoryTotalUsed() {
+        long jvmMemoryTotalUsed = Long.MIN_VALUE;
+        jvmMemoryTotalUsed = Math.max(getJvmMemoryRss(), getOsCommitCharge());
+        return jvmMemoryTotalUsed;
+    }
+
+    /**
+     * @return The JVM process virtual memory, or Long.MIN_VALUE if it cannot be determined.
+     */
+    private long getJvmMemoryVirtual() {
+        long jvmMemoryVirtual = Long.MIN_VALUE;
+        if (!processMemories.isEmpty()) {
+            Iterator<ProcessMemory> iterator = processMemories.iterator();
+            long value;
+            Pattern pattern = null;
+            Matcher matcher = null;
+            while (iterator.hasNext()) {
+                ProcessMemory event = iterator.next();
+                if (event.isVirtual()) {
+                    pattern = Pattern.compile("^Virtual Size: (\\d{1,})K .+$");
+                    matcher = pattern.matcher(event.getLogEntry());
+                    if (matcher.find()) {
+                        value = Long.parseLong(matcher.group(1));
+                        jvmMemoryVirtual = JdkUtil.convertSize(value, 'K', 'B');
+                        break;
+                    }
+                }
+            }
+        }
+        return jvmMemoryVirtual;
     }
 
     public JvmOptions getJvmOptions() {
@@ -3982,35 +4081,8 @@ public class FatalErrorLog {
     }
 
     /**
-     * Available memory is an estimate of how much physical memory is available without swapping. It does not include
-     * the memory used by the JVM process, as it is before the JVM process exits and its memory is freed.
-     * 
-     * @return The total available physical memory as reported by the OS in
-     *         <code>org.github.joa.util.Constants.PRECISION_REPORTING</code> units.
-     */
-    public long getMemoryAvailable() {
-        long memoryAvailable = Long.MIN_VALUE;
-        if (!meminfos.isEmpty()) {
-            String regexMemTotal = "MemAvailable:[ ]{0,}(\\d{1,}) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<Meminfo> iterator = meminfos.iterator();
-            while (iterator.hasNext()) {
-                Meminfo event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    memoryAvailable = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
-                    break;
-                }
-            }
-        }
-        return memoryAvailable;
-    }
-
-    /**
-     * Free memory. Free memory does not include Buffers or Cached memory, which can be reclaimed at any time.
-     * Therefore, low free memory does not necessarily indicate swapping or out of memory is imminent.
-     * 
-     * @return The total free physical memory in bytes.
+     * @return Estimated memory available for allocations without causing swapping in bytes, or Long.MIN_VALUE if
+     *         undetermined.
      */
     public long getMemoryFree() {
         long memoryFree = Long.MIN_VALUE;
@@ -4321,25 +4393,15 @@ public class FatalErrorLog {
     }
 
     /**
-     * Free memory. Free memory does not include Buffers or Cached memory, which can be reclaimed at any time.
-     * Therefore, low free memory does not necessarily indicate swapping or out of memory is imminent.
-     * 
-     * @return The total free physical memory in bytes.
+     * @return The free OS physical memory in bytes.
      */
     public long getOsMemoryFree() {
         long osMemoryFree = Long.MIN_VALUE;
-        if (!meminfos.isEmpty()) {
-            String regexMemTotal = "MemFree:[ ]{0,}(\\d{1,}) kB";
-            Pattern pattern = Pattern.compile(regexMemTotal);
-            Iterator<Meminfo> iterator = meminfos.iterator();
-            while (iterator.hasNext()) {
-                Meminfo event = iterator.next();
-                Matcher matcher = pattern.matcher(event.getLogEntry());
-                if (matcher.find()) {
-                    osMemoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
-                    break;
-                }
-            }
+        if (osMemoryFree < 0) {
+            osMemoryFree = getRhelMemAvailable();
+        }
+        if (osMemoryFree < 0) {
+            osMemoryFree = getRhelMemFree();
         }
         return osMemoryFree;
     }
@@ -4538,6 +4600,54 @@ public class FatalErrorLog {
 
     public List<RegisterToMemoryMapping> getRegisterToMemoryMappings() {
         return registerToMemoryMappings;
+    }
+
+    /**
+     * MemAvailable is an estimate of how much physical memory is available without swapping. It does not include the
+     * memory used by the JVM process, as it is before the JVM process exits and its memory is freed.
+     * 
+     * @return The total available physical memory as reported by RHEL in bytes, or Long.MIN_VALUE if undetermined.
+     */
+    private long getRhelMemAvailable() {
+        long rhelMemAvailable = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regexMemTotal = "MemAvailable:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<Meminfo> iterator = meminfos.iterator();
+            while (iterator.hasNext()) {
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    rhelMemAvailable = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    break;
+                }
+            }
+        }
+        return rhelMemAvailable;
+    }
+
+    /**
+     * MemFreeF does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore, low free
+     * memory does not necessarily indicate swapping or out of memory is imminent.
+     * 
+     * @return The total free physical memory in bytes.
+     */
+    private long getRhelMemFree() {
+        long rhelMemFree = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regexMemTotal = "MemFree:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regexMemTotal);
+            Iterator<Meminfo> iterator = meminfos.iterator();
+            while (iterator.hasNext()) {
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    rhelMemFree = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    break;
+                }
+            }
+        }
+        return rhelMemFree;
     }
 
     /**
@@ -4820,20 +4930,6 @@ public class FatalErrorLog {
             }
         }
         return stackFreeSpace;
-    }
-
-    /**
-     * @return The thread memory in bytes.
-     */
-    public long getThreadStackMemory() {
-        long threadStackMemory = Long.MIN_VALUE;
-        if (getJavaThreadCount() > 0) {
-            BigDecimal memoryPerThread = new BigDecimal(getThreadStackSize());
-            BigDecimal threads = new BigDecimal(getJavaThreadCount());
-            threadStackMemory = memoryPerThread.multiply(threads).longValue();
-            threadStackMemory = JdkUtil.convertSize(threadStackMemory, 'K', 'B');
-        }
-        return threadStackMemory;
     }
 
     /**

@@ -117,4 +117,11 @@ public class ProcessMemory implements LogEvent, HeaderEvent {
         return logEntry.matches("^Swapped out:.+$");
     }
 
+    /**
+     * @return True if the event is virtual information, false otherwise.
+     */
+    public boolean isVirtual() {
+        return logEntry.matches("^Virtual Size:.+$");
+    }
+
 }
