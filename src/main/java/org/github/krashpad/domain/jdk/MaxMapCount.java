@@ -51,8 +51,8 @@ public class MaxMapCount implements LogEvent, HeaderEvent {
     /**
      * Regular expression for a single line (JDK17+).
      */
-    public static final String _REGEX_SINGLE_LINE = "/proc/sys/vm/max_map_count \\(maximum number of memory map areas a "
-            + "process may have\\): " + LogEvent.NUMBER;
+    public static final String _REGEX_SINGLE_LINE = "/proc/sys/vm/max_map_count \\(maximum number of memory map areas "
+            + "a process may have\\): " + LogEvent.NUMBER;
 
     /**
      * Regular expression defining the logging.

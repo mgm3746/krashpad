@@ -63,8 +63,8 @@ public class ThreadsMax implements LogEvent, HeaderEvent {
     /**
      * Regular expression for a single line (JDK17+).
      */
-    public static final String _REGEX_SINGLE_LINE = "/proc/sys/kernel/threads-max \\(system-wide limit on the number of "
-            + "threads\\): " + LogEvent.NUMBER;
+    public static final String _REGEX_SINGLE_LINE = "/proc/sys/kernel/threads-max \\(system-wide limit on the number "
+            + "of threads\\): " + LogEvent.NUMBER;
 
     /**
      * Regular expression defining the logging.

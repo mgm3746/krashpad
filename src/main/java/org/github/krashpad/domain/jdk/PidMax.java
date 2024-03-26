@@ -51,8 +51,8 @@ public class PidMax implements LogEvent, HeaderEvent {
     /**
      * Regular expression for a single line (JDK17+).
      */
-    public static final String _REGEX_SINGLE_LINE = "/proc/sys/kernel/pid_max \\(system-wide limit on number of process "
-            + "identifiers\\): " + LogEvent.NUMBER;
+    public static final String _REGEX_SINGLE_LINE = "/proc/sys/kernel/pid_max \\(system-wide limit on number of "
+            + "process identifiers\\): " + LogEvent.NUMBER;
     /**
      * Regular expression defining the logging.
      */
