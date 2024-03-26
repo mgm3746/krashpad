@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -33,10 +34,23 @@ class TestMaxMapCount {
     }
 
     @Test
-    void testJdk17() {
-        String logLine = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 65530";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MAX_MAP_COUNT,
+    void testJdk11() {
+        MaxMapCount priorEvent = new MaxMapCount("");
+        String logLine = "65530";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.MAX_MAP_COUNT,
                 JdkUtil.LogEventType.MAX_MAP_COUNT.toString() + " not identified.");
+        MaxMapCount event = new MaxMapCount(logLine);
+        assertEquals(65530L, event.getLimit(), "max_map_count not correct.");
+    }
+
+    @Test
+    void testJdk17() {
+        MaxMapCount priorEvent = new MaxMapCount("");
+        String logLine = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 65530";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.MAX_MAP_COUNT,
+                JdkUtil.LogEventType.MAX_MAP_COUNT.toString() + " not identified.");
+        MaxMapCount event = new MaxMapCount(logLine);
+        assertEquals(65530L, event.getLimit(), "max_map_count not correct.");
     }
 
     @Test

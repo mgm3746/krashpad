@@ -1913,14 +1913,39 @@ class TestAnalysis {
     }
 
     @Test
-    void testMaxMapCountLimit() {
+    void testMaxMapCountLimitLines1() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "Red Hat Enterprise Linux release 8.5 (Ootpa)";
         OsInfo osEvent = new OsInfo(os);
         fel.getOsInfos().add(osEvent);
         String maxMapCount = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): 100";
         MaxMapCount maxMapCountEvent = new MaxMapCount(maxMapCount);
-        fel.setMaxMapCount(maxMapCountEvent);
+        fel.getMaxMapCounts().add(maxMapCountEvent);
+        fel.setDynamicLibrariesMappingCount(99);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_RLIMIT.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT + " analysis not identified.");
+        assertEquals(
+                "The number of memory map areas (99) in the Dynamic Libraries section is within 1% of the "
+                        + "max_map_count limit (100).",
+                fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_RLIMIT.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT + " not correct.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE.getKey()),
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE + " analysis incorrectly identified.");
+    }
+
+    @Test
+    void testMaxMapCountLimitLines2() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "Red Hat Enterprise Linux release 8.5 (Ootpa)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        String maxMapCount1 = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):";
+        MaxMapCount maxMapCountEvent1 = new MaxMapCount(maxMapCount1);
+        fel.getMaxMapCounts().add(maxMapCountEvent1);
+        String maxMapCount2 = "100";
+        MaxMapCount maxMapCountEvent2 = new MaxMapCount(maxMapCount2);
+        fel.getMaxMapCounts().add(maxMapCountEvent2);
         fel.setDynamicLibrariesMappingCount(99);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_RLIMIT.getKey()),

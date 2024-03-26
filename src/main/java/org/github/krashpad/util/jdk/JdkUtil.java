@@ -28,7 +28,6 @@ import org.github.joa.domain.Arch;
 import org.github.joa.util.Constants;
 import org.github.krashpad.domain.BlankLine;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.domain.Number;
 import org.github.krashpad.domain.UnknownEvent;
 import org.github.krashpad.domain.jdk.ActiveLocale;
 import org.github.krashpad.domain.jdk.BarrierSet;
@@ -242,19 +241,17 @@ public class JdkUtil {
         //
         LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE,
         //
-        NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING, NUMBER, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM,
+        NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID_MAX,
         //
-        PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS,
+        POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK,
         //
-        STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX,
+        STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME,
         //
-        TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG,
+        TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED,
         //
-        TRANSPARENT_HUGEPAGE_ENABLED, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
+        UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION,
         //
-        VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE,
-        //
-        ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
+        VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
     }
 
     /**
@@ -843,7 +840,8 @@ public class JdkUtil {
             } else if (MachCode.match(logLine)
                     && (logLine.matches(MachCode._REGEX_HEADER) || priorEvent instanceof MachCode)) {
                 logEventType = LogEventType.MACH_CODE;
-            } else if (MaxMapCount.match(logLine)) {
+            } else if (MaxMapCount.match(logLine) && (logLine.matches(MaxMapCount._REGEX_HEADER)
+                    || logLine.matches(MaxMapCount._REGEX_SINGLE_LINE) || priorEvent instanceof MaxMapCount)) {
                 logEventType = LogEventType.MAX_MAP_COUNT;
             } else if (Meminfo.match(logLine)
                     && (logLine.matches(Meminfo._REGEX_HEADER) || priorEvent instanceof Meminfo)) {
@@ -860,15 +858,14 @@ public class JdkUtil {
             } else if (NativeMemoryTracking.match(logLine) && (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
                     || priorEvent instanceof NativeMemoryTracking)) {
                 logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
-            } else if (Number.match(logLine)) {
-                logEventType = LogEventType.NUMBER;
             } else if (OsInfo.match(logLine)) {
                 logEventType = LogEventType.OS_INFO;
             } else if (OsUptime.match(logLine)) {
                 logEventType = LogEventType.OS_UPTIME;
             } else if (PeriodicNativeTrim.match(logLine)) {
                 logEventType = LogEventType.PERIODIC_NATIVE_TRIM;
-            } else if (PidMax.match(logLine)) {
+            } else if (PidMax.match(logLine) && (logLine.matches(PidMax._REGEX_HEADER)
+                    || logLine.matches(PidMax._REGEX_SINGLE_LINE) || priorEvent instanceof PidMax)) {
                 logEventType = LogEventType.PID_MAX;
             } else if (PollingPage.match(logLine)) {
                 logEventType = LogEventType.POLLING_PAGE;
@@ -898,7 +895,8 @@ public class JdkUtil {
             } else if (ThreadsClassSmrInfo.match(logLine) && (logLine.matches(ThreadsClassSmrInfo._REGEX_HEADER)
                     || priorEvent instanceof ThreadsClassSmrInfo)) {
                 logEventType = LogEventType.THREADS_CLASS_SMR_INFO;
-            } else if (ThreadsMax.match(logLine)) {
+            } else if (ThreadsMax.match(logLine) && (logLine.matches(ThreadsMax._REGEX_HEADER)
+                    || logLine.matches(ThreadsMax._REGEX_SINGLE_LINE) || priorEvent instanceof ThreadsMax)) {
                 logEventType = LogEventType.THREADS_MAX;
             } else if (Time.match(logLine)) {
                 logEventType = LogEventType.TIME;
@@ -1217,9 +1215,6 @@ public class JdkUtil {
             break;
         case NATIVE_MEMORY_TRACKING:
             event = new NativeMemoryTracking(logLine);
-            break;
-        case NUMBER:
-            event = new Number(logLine);
             break;
         case OS_INFO:
             event = new OsInfo(logLine);

@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -33,10 +34,23 @@ class TestPidMax {
     }
 
     @Test
-    void testJdk17() {
-        String logLine = "/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers): 4194304";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.PID_MAX,
+    void testJdk11() {
+        PidMax priorEvent = new PidMax("");
+        String logLine = "4194304";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.PID_MAX,
                 JdkUtil.LogEventType.PID_MAX.toString() + " not identified.");
+        PidMax event = new PidMax(logLine);
+        assertEquals(4194304L, event.getLimit(), "pid_max not correct.");
+    }
+
+    @Test
+    void testJdk17() {
+        PidMax priorEvent = new PidMax("");
+        String logLine = "/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers): 4194304";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.PID_MAX,
+                JdkUtil.LogEventType.PID_MAX.toString() + " not identified.");
+        PidMax event = new PidMax(logLine);
+        assertEquals(4194304L, event.getLimit(), "pid_max not correct.");
     }
 
     @Test

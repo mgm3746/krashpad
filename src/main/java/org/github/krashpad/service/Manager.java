@@ -23,7 +23,6 @@ import java.io.IOException;
 import org.github.krashpad.Main;
 import org.github.krashpad.domain.BlankLine;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.domain.Number;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.domain.UnknownEvent;
 import org.github.krashpad.domain.jdk.BarrierSet;
@@ -185,7 +184,7 @@ public class Manager {
                     } else if (event instanceof Host) {
                         fatalErrorLog.setHost((Host) event);
                     } else if (event instanceof MaxMapCount) {
-                        fatalErrorLog.setMaxMapCount((MaxMapCount) event);
+                        fatalErrorLog.getMaxMapCounts().add((MaxMapCount) event);
                     } else if (event instanceof Meminfo) {
                         fatalErrorLog.getMeminfos().add((Meminfo) event);
                     } else if (event instanceof Memory) {
@@ -194,29 +193,12 @@ public class Manager {
                         fatalErrorLog.getNativeMemoryTrackings().add((NativeMemoryTracking) event);
                     } else if (event instanceof NarrowKlass) {
                         fatalErrorLog.setNarrowKlass((NarrowKlass) event);
-                    } else if (event instanceof Number) {
-                        // Add number to prior event
-                        String combinedLogLine = priorEvent.getLogEntry() + " " + event.getLogEntry();
-                        if (priorEvent instanceof CpuInfo) {
-                            fatalErrorLog.getCpuInfos().remove(priorEvent);
-                            CpuInfo combinedCpuInfoEvent = new CpuInfo(combinedLogLine);
-                            fatalErrorLog.getCpuInfos().add(combinedCpuInfoEvent);
-                        } else if (priorEvent instanceof MaxMapCount) {
-                            fatalErrorLog.setMaxMapCount(new MaxMapCount(combinedLogLine));
-                        } else if (priorEvent instanceof PidMax) {
-                            fatalErrorLog.setPidMax(new PidMax(combinedLogLine));
-                        } else if (priorEvent instanceof ThreadsMax) {
-                            fatalErrorLog.setThreadsMax(new ThreadsMax(combinedLogLine));
-                        } else if (fatalErrorLog.getUnidentifiedLogLines().size() < Main.REJECT_LIMIT) {
-                            // catch for future handling
-                            fatalErrorLog.getUnidentifiedLogLines().add(logLine);
-                        }
                     } else if (event instanceof OsInfo) {
                         fatalErrorLog.getOsInfos().add((OsInfo) event);
                     } else if (event instanceof PeriodicNativeTrim) {
                         fatalErrorLog.setPeriodicNativeTrim((PeriodicNativeTrim) event);
                     } else if (event instanceof PidMax) {
-                        fatalErrorLog.setPidMax((PidMax) event);
+                        fatalErrorLog.getPidMaxes().add((PidMax) event);
                     } else if (event instanceof ProcessMemory) {
                         fatalErrorLog.getProcessMemories().add((ProcessMemory) event);
                     } else if (event instanceof RegisterToMemoryMapping) {
@@ -236,7 +218,7 @@ public class Manager {
                     } else if (event instanceof Thread) {
                         fatalErrorLog.getThreads().add((Thread) event);
                     } else if (event instanceof ThreadsMax) {
-                        fatalErrorLog.setThreadsMax((ThreadsMax) event);
+                        fatalErrorLog.getThreadsMaxes().add((ThreadsMax) event);
                     } else if (event instanceof ThrowAwayEvent) {
                         // ThrowAwayEvents are ignored
                     } else if (event instanceof Time) {

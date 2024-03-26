@@ -26,6 +26,11 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 public interface LogEvent {
 
     /**
+     * Regular expression for a log line that is a single number.
+     */
+    public static final String NUMBER = "(\\d{1,})";
+
+    /**
      * @return The log entry <code>LogEventType</code>.
      */
     LogEventType getEventType();

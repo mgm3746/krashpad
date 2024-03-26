@@ -242,7 +242,7 @@ public class FatalErrorLog {
     /**
      * max_map_count information.
      */
-    private MaxMapCount maxMapCount;
+    private List<MaxMapCount> maxMapCounts;
 
     /**
      * Memory information.
@@ -287,7 +287,7 @@ public class FatalErrorLog {
     /**
      * pid_max information.
      */
-    private PidMax pidMax;
+    private List<PidMax> pidMaxes;
 
     /**
      * Process memory information.
@@ -340,7 +340,7 @@ public class FatalErrorLog {
     /**
      * threads-max information.
      */
-    private ThreadsMax threadsMax;
+    private List<ThreadsMax> threadsMaxes;
 
     /**
      * JVM crash time information.
@@ -436,17 +436,20 @@ public class FatalErrorLog {
         internalExceptionEvents = new ArrayList<InternalExceptionEvent>();
         internalStatistics = new ArrayList<InternalStatistic>();
         ldPreloadFiles = new ArrayList<LdPreloadFile>();
+        maxMapCounts = new ArrayList<MaxMapCount>();
         meminfos = new ArrayList<Meminfo>();
         memories = new ArrayList<Memory>();
         nativeLibraries = new ArrayList<String>();
         nativeLibrariesUnknown = new ArrayList<String>();
         nativeMemoryTrackings = new ArrayList<NativeMemoryTracking>();
         osInfos = new ArrayList<OsInfo>();
+        pidMaxes = new ArrayList<PidMax>();
         processMemories = new ArrayList<ProcessMemory>();
         registerToMemoryMappings = new ArrayList<RegisterToMemoryMapping>();
         stacks = new ArrayList<Stack>();
         stackSlotToMemoryMappings = new ArrayList<StackSlotToMemoryMapping>();
         threads = new ArrayList<Thread>();
+        threadsMaxes = new ArrayList<ThreadsMax>();
         timeouts = new ArrayList<Timeout>();
         transparentHugepageDefrags = new ArrayList<TransparentHugepageDefrag>();
         transparentHugepageEnableds = new ArrayList<TransparentHugepageEnabled>();
@@ -4035,10 +4038,21 @@ public class FatalErrorLog {
      */
     public Long getMaxMapCountLimit() {
         Long maxMapCountLimit = Long.MIN_VALUE;
-        if (maxMapCount != null) {
-            maxMapCountLimit = maxMapCount.getLimit();
+        if (!maxMapCounts.isEmpty()) {
+            Iterator<MaxMapCount> iterator = maxMapCounts.iterator();
+            while (iterator.hasNext()) {
+                MaxMapCount event = iterator.next();
+                if (!event.isHeader()) {
+                    maxMapCountLimit = event.getLimit();
+                    break;
+                }
+            }
         }
         return maxMapCountLimit;
+    }
+
+    public List<MaxMapCount> getMaxMapCounts() {
+        return maxMapCounts;
     }
 
     /**
@@ -4579,8 +4593,8 @@ public class FatalErrorLog {
         return periodicNativeTrim;
     }
 
-    public PidMax getPidMax() {
-        return pidMax;
+    public List<PidMax> getPidMaxes() {
+        return pidMaxes;
     }
 
     /**
@@ -4588,8 +4602,15 @@ public class FatalErrorLog {
      */
     public Long getPidMaxLimit() {
         Long pidMaxLimit = Long.MIN_VALUE;
-        if (pidMax != null) {
-            pidMaxLimit = pidMax.getLimit();
+        if (!pidMaxes.isEmpty()) {
+            Iterator<PidMax> iterator = pidMaxes.iterator();
+            while (iterator.hasNext()) {
+                PidMax event = iterator.next();
+                if (!event.isHeader()) {
+                    pidMaxLimit = event.getLimit();
+                    break;
+                }
+            }
         }
         return pidMaxLimit;
     }
@@ -4896,8 +4917,8 @@ public class FatalErrorLog {
         return threads;
     }
 
-    public ThreadsMax getThreadsMax() {
-        return threadsMax;
+    public List<ThreadsMax> getThreadsMaxes() {
+        return threadsMaxes;
     }
 
     /**
@@ -4905,8 +4926,15 @@ public class FatalErrorLog {
      */
     public Long getThreadsMaxLimit() {
         Long threadsMaxLimit = Long.MIN_VALUE;
-        if (threadsMax != null) {
-            threadsMaxLimit = threadsMax.getLimit();
+        if (!threadsMaxes.isEmpty()) {
+            Iterator<ThreadsMax> iterator = threadsMaxes.iterator();
+            while (iterator.hasNext()) {
+                ThreadsMax event = iterator.next();
+                if (!event.isHeader()) {
+                    threadsMaxLimit = event.getLimit();
+                    break;
+                }
+            }
         }
         return threadsMaxLimit;
     }
@@ -6783,10 +6811,6 @@ public class FatalErrorLog {
         this.host = host;
     }
 
-    public void setMaxMapCount(MaxMapCount maxMapCount) {
-        this.maxMapCount = maxMapCount;
-    }
-
     public void setNarrowKlass(NarrowKlass narrowKlass) {
         this.narrowKlass = narrowKlass;
     }
@@ -6795,20 +6819,12 @@ public class FatalErrorLog {
         this.periodicNativeTrim = periodicNativeTrim;
     }
 
-    public void setPidMax(PidMax pidMax) {
-        this.pidMax = pidMax;
-    }
-
     public void setRlimit(Rlimit rlimit) {
         this.rlimit = rlimit;
     }
 
     public void setSigInfo(SigInfo sigInfo) {
         this.sigInfo = sigInfo;
-    }
-
-    public void setThreadsMax(ThreadsMax threadsMax) {
-        this.threadsMax = threadsMax;
     }
 
     public void setTime(Time time) {

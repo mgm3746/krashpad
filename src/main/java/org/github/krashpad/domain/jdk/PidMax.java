@@ -49,9 +49,14 @@ public class PidMax implements LogEvent, HeaderEvent {
             + "identifiers\\):";
 
     /**
+     * Regular expression for a single line (JDK17+).
+     */
+    public static final String _REGEX_SINGLE_LINE = "/proc/sys/kernel/pid_max \\(system-wide limit on number of process "
+            + "identifiers\\): " + LogEvent.NUMBER;
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_HEADER + " (\\d{1,}))$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_SINGLE_LINE + "|" + LogEvent.NUMBER + ")$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -92,8 +97,10 @@ public class PidMax implements LogEvent, HeaderEvent {
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(1) != null) {
+            if (matcher.group(2) != null) {
                 limit = Long.parseLong(matcher.group(2));
+            } else {
+                limit = Long.parseLong(matcher.group(3));
             }
         }
         return limit;
@@ -107,7 +114,7 @@ public class PidMax implements LogEvent, HeaderEvent {
     public boolean isHeader() {
         boolean isHeader = false;
         if (this.logEntry != null) {
-            isHeader = logEntry.matches(_REGEX_HEADER);
+            isHeader = logEntry.matches("^" + _REGEX_HEADER + "$");
         }
         return isHeader;
     }

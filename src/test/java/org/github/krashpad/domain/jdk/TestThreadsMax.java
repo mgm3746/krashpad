@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -33,10 +34,23 @@ class TestThreadsMax {
     }
 
     @Test
+    void testJdk11() {
+        ThreadsMax priorEvent = new ThreadsMax("");
+        String logLine = "254790";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_MAX,
+                JdkUtil.LogEventType.THREADS_MAX.toString() + " not identified.");
+        ThreadsMax event = new ThreadsMax(logLine);
+        assertEquals(254790L, event.getLimit(), "threads-max not correct.");
+    }
+
+    @Test
     void testJdk17() {
+        ThreadsMax priorEvent = new ThreadsMax("");
         String logLine = "/proc/sys/kernel/threads-max (system-wide limit on the number of threads): 254790";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ThreadsMax,
+        assertTrue(JdkUtil.parseLogLine(logLine, priorEvent) instanceof ThreadsMax,
                 JdkUtil.LogEventType.THREADS_MAX.toString() + " not parsed.");
+        ThreadsMax event = new ThreadsMax(logLine);
+        assertEquals(254790L, event.getLimit(), "threads-max not correct.");
     }
 
     @Test
