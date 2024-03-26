@@ -12,61 +12,30 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
-package org.github.krashpad.domain.jdk;
+package org.github.krashpad.domain;
 
-import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
- * TODO: Remove (move to associated events).
- * 
- * <p>
- * NUMBER
- * </p>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class NumberEvent implements LogEvent {
+class TestNumber {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^\\d{1,}$";
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    @Test
+    void testIdentity() {
+        String logLine = "44";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NUMBER,
+                JdkUtil.LogEventType.NUMBER.toString() + " not identified.");
     }
 
-    /**
-     * The log entry for the event. Can be used for debugging purposes.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public NumberEvent(String logEntry) {
-        this.logEntry = logEntry;
+    @Test
+    void testParseLogLine() {
+        String logLine = "44";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Number,
+                JdkUtil.LogEventType.NUMBER.toString() + " not parsed.");
     }
-
-    @Override
-    public LogEventType getEventType() {
-        return LogEventType.NUMBER;
-    }
-
-    public String getLogEntry() {
-        return logEntry;
-    }
-
 }

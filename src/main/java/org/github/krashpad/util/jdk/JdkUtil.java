@@ -28,6 +28,7 @@ import org.github.joa.domain.Arch;
 import org.github.joa.util.Constants;
 import org.github.krashpad.domain.BlankLine;
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.domain.Number;
 import org.github.krashpad.domain.UnknownEvent;
 import org.github.krashpad.domain.jdk.ActiveLocale;
 import org.github.krashpad.domain.jdk.BarrierSet;
@@ -79,7 +80,6 @@ import org.github.krashpad.domain.jdk.Metaspace;
 import org.github.krashpad.domain.jdk.NarrowKlass;
 import org.github.krashpad.domain.jdk.NativeDecoderState;
 import org.github.krashpad.domain.jdk.NativeMemoryTracking;
-import org.github.krashpad.domain.jdk.NumberEvent;
 import org.github.krashpad.domain.jdk.OsInfo;
 import org.github.krashpad.domain.jdk.OsUptime;
 import org.github.krashpad.domain.jdk.PeriodicNativeTrim;
@@ -860,7 +860,7 @@ public class JdkUtil {
             } else if (NativeMemoryTracking.match(logLine) && (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
                     || priorEvent instanceof NativeMemoryTracking)) {
                 logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
-            } else if (NumberEvent.match(logLine)) {
+            } else if (Number.match(logLine)) {
                 logEventType = LogEventType.NUMBER;
             } else if (OsInfo.match(logLine)) {
                 logEventType = LogEventType.OS_INFO;
@@ -1219,7 +1219,7 @@ public class JdkUtil {
             event = new NativeMemoryTracking(logLine);
             break;
         case NUMBER:
-            event = new NumberEvent(logLine);
+            event = new Number(logLine);
             break;
         case OS_INFO:
             event = new OsInfo(logLine);

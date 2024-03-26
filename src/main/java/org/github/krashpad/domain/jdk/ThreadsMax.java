@@ -19,7 +19,6 @@ import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
@@ -53,7 +52,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class ThreadsMax implements LogEvent, ThrowAwayEvent, HeaderEvent {
+public class ThreadsMax implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.

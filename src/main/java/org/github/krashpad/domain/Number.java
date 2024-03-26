@@ -12,30 +12,71 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
-package org.github.krashpad.domain.jdk;
+package org.github.krashpad.domain;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.jupiter.api.Test;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
+ * TODO: Move to the associated events and remove this class.
+ * 
+ * <p>
+ * NUMBER
+ * </p>
+ * 
+ * <p>
+ * A log line with a single number which belongs to the heading in the previous log line.
+ * </p>
+ * 
+ * <h2>Example Logging</h2>
+ * 
+ * <pre>
+ * /proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):
+ * 32768
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestNumberEvent {
+public class Number implements LogEvent {
 
-    @Test
-    void testIdentity() {
-        String logLine = "44";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NUMBER,
-                JdkUtil.LogEventType.NUMBER.toString() + " not identified.");
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^\\d{1,}$";
+
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
     }
 
-    @Test
-    void testParseLogLine() {
-        String logLine = "44";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof NumberEvent,
-                JdkUtil.LogEventType.NUMBER.toString() + " not parsed.");
+    /**
+     * The log entry for the event. Can be used for debugging purposes.
+     */
+    private String logEntry;
+
+    /**
+     * Create event from log entry.
+     * 
+     * @param logEntry
+     *            The log entry for the event.
+     */
+    public Number(String logEntry) {
+        this.logEntry = logEntry;
     }
+
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.NUMBER;
+    }
+
+    public String getLogEntry() {
+        return logEntry;
+    }
+
 }

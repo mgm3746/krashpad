@@ -23,6 +23,7 @@ import java.io.IOException;
 import org.github.krashpad.Main;
 import org.github.krashpad.domain.BlankLine;
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.domain.Number;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.domain.UnknownEvent;
 import org.github.krashpad.domain.jdk.BarrierSet;
@@ -58,7 +59,6 @@ import org.github.krashpad.domain.jdk.Meminfo;
 import org.github.krashpad.domain.jdk.Memory;
 import org.github.krashpad.domain.jdk.NarrowKlass;
 import org.github.krashpad.domain.jdk.NativeMemoryTracking;
-import org.github.krashpad.domain.jdk.NumberEvent;
 import org.github.krashpad.domain.jdk.OsInfo;
 import org.github.krashpad.domain.jdk.PeriodicNativeTrim;
 import org.github.krashpad.domain.jdk.PidMax;
@@ -194,7 +194,7 @@ public class Manager {
                         fatalErrorLog.getNativeMemoryTrackings().add((NativeMemoryTracking) event);
                     } else if (event instanceof NarrowKlass) {
                         fatalErrorLog.setNarrowKlass((NarrowKlass) event);
-                    } else if (event instanceof NumberEvent) {
+                    } else if (event instanceof Number) {
                         // Add number to prior event
                         String combinedLogLine = priorEvent.getLogEntry() + " " + event.getLogEntry();
                         if (priorEvent instanceof CpuInfo) {
