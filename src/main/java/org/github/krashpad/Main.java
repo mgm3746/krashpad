@@ -374,7 +374,7 @@ public class Main {
                     }
                     printWriter.write(Constants.LINE_SEPARATOR);
                 }
-            } else if (fel.getJvmMemoryTotalReserved() > 0) {
+            } else if (fel.getJvmMemoryTotalReserved() > 0 && fel.getMemoryTotal() > 0) {
                 long percentMemory = JdkMath.calcPercent(fel.getJvmMemoryTotalReserved(), fel.getMemoryTotal());
                 printWriter.write("JVM Memory Reserved: "
                         + JdkUtil.convertSize(fel.getJvmMemoryTotalReserved(), 'B', org.github.joa.util.Constants.UNITS)
