@@ -5413,6 +5413,7 @@ public class FatalErrorLog {
             GarbageCollection gc = new GarbageCollection();
             Pattern patternBegin = Pattern.compile(GcHeapHistoryEvent._REGEX_BEGIN);
             Pattern patternEnd = Pattern.compile(GcHeapHistoryEvent._REGEX_END);
+            boolean haveBeginning = false;
             while (iterator.hasNext()) {
                 GcHeapHistoryEvent event = iterator.next();
                 if (event.isBeginning()) {
@@ -5420,7 +5421,8 @@ public class FatalErrorLog {
                     if (matcher.find()) {
                         gc.setTimestampStartGc(JdkMath.convertSecsToMillis(matcher.group(1)).longValue());
                     }
-                } else if (event.isEnd()) {
+                    haveBeginning = true;
+                } else if (event.isEnd() && haveBeginning) {
                     Matcher matcher = patternEnd.matcher(event.getLogEntry());
                     if (matcher.find()) {
                         gc.setTimestampEndGc(JdkMath.convertSecsToMillis(matcher.group(1)).longValue());
