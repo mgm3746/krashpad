@@ -135,9 +135,11 @@ public class Main {
             if (fel.getMemoryFree() > 0) {
                 printWriter.write("Memory Free: "
                         + JdkUtil.convertSize(fel.getMemoryFree(), 'B', org.github.joa.util.Constants.UNITS)
-                        + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                        + JdkMath.calcPercent(fel.getMemoryFree(), fel.getOsMemoryTotal()) + "%)"
-                        + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.UNITS));
+                if (fel.getOsMemoryTotal() > 0) {
+                    printPercentage(printWriter, fel.getMemoryFree(), fel.getOsMemoryTotal(), null);
+                    printWriter.write(Constants.LINE_SEPARATOR);
+                }
             }
             if (fel.getExplicitHugePagesPoolSize() > 0) {
                 printWriter.write("Explicit Huge Pages Pool: "
@@ -152,9 +154,9 @@ public class Main {
                 if (fel.getOsSwapTotal() > 0 && fel.getOsSwapFree() >= 0) {
                     printWriter.write("Swap Free: "
                             + JdkUtil.convertSize(fel.getOsSwapFree(), 'B', org.github.joa.util.Constants.UNITS)
-                            + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                            + JdkMath.calcPercent(fel.getOsSwapFree(), fel.getOsSwapTotal()) + "%)"
-                            + Constants.LINE_SEPARATOR);
+                            + Character.toString(org.github.joa.util.Constants.UNITS));
+                    printPercentage(printWriter, fel.getOsSwapFree(), fel.getOsSwapTotal(), null);
+                    printWriter.write(Constants.LINE_SEPARATOR);
                 }
             }
             if (fel.getAnonHugePages() >= 0) {
@@ -166,30 +168,36 @@ public class Main {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
-                printWriter.write(
-                        "Memory: " + JdkUtil.convertSize(fel.getMemoryTotal(), 'B', org.github.joa.util.Constants.UNITS)
-                                + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                                + JdkMath.calcPercent(fel.getMemoryTotal(), fel.getOsMemoryTotal()) + "% OS Memory)"
-                                + Constants.LINE_SEPARATOR);
-                if (fel.getMemoryFree() >= 0) {
-                    printWriter.write("Memory Free: "
-                            + JdkUtil.convertSize(fel.getMemoryFree(), 'B', org.github.joa.util.Constants.UNITS)
-                            + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                            + JdkMath.calcPercent(fel.getMemoryFree(), fel.getMemoryTotal()) + "%)"
-                            + Constants.LINE_SEPARATOR);
+                if (fel.getMemoryTotal() > 0) {
+                    printWriter.write("Memory: "
+                            + JdkUtil.convertSize(fel.getMemoryTotal(), 'B', org.github.joa.util.Constants.UNITS)
+                            + Character.toString(org.github.joa.util.Constants.UNITS));
+                    if (fel.getOsMemoryTotal() > 0) {
+                        printPercentage(printWriter, fel.getMemoryTotal(), fel.getOsMemoryTotal(), "OS Memory");
+                    }
+                    printWriter.write(Constants.LINE_SEPARATOR);
+                    if (fel.getMemoryFree() >= 0) {
+                        printWriter.write("Memory Free: "
+                                + JdkUtil.convertSize(fel.getMemoryFree(), 'B', org.github.joa.util.Constants.UNITS)
+                                + Character.toString(org.github.joa.util.Constants.UNITS));
+                        if (fel.getOsMemoryTotal() > 0) {
+                            printPercentage(printWriter, fel.getMemoryFree(), fel.getOsMemoryTotal(), "OS Memory");
+                        }
+                        printWriter.write(Constants.LINE_SEPARATOR);
+                    }
                 }
-                if (fel.getOsSwapTotal() > 0 && fel.getSwapTotal() >= 0) {
+                if (fel.getSwapTotal() >= 0) {
                     printWriter.write(
                             "Swap: " + JdkUtil.convertSize(fel.getSwapTotal(), 'B', org.github.joa.util.Constants.UNITS)
-                                    + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                                    + JdkMath.calcPercent(fel.getSwapTotal(), fel.getOsSwapTotal()) + "% OS Swap)"
-                                    + Constants.LINE_SEPARATOR);
-                    if (fel.getSwapTotal() > 0) {
+                                    + Character.toString(org.github.joa.util.Constants.UNITS));
+                    printPercentage(printWriter, fel.getSwapTotal(), fel.getOsSwapTotal(), "OS Swap");
+                    printWriter.write(Constants.LINE_SEPARATOR);
+                    if (fel.getSwapTotal() > 0 && fel.getSwapFree() >= 0) {
                         printWriter.write("Swap Free: "
                                 + JdkUtil.convertSize(fel.getSwapFree(), 'B', org.github.joa.util.Constants.UNITS)
-                                + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                                + JdkMath.calcPercent(fel.getSwapFree(), fel.getSwapTotal()) + "%)"
-                                + Constants.LINE_SEPARATOR);
+                                + Character.toString(org.github.joa.util.Constants.UNITS));
+                        printPercentage(printWriter, fel.getSwapFree(), fel.getSwapTotal(), null);
+                        printWriter.write(Constants.LINE_SEPARATOR);
                     }
                 }
             }
@@ -273,19 +281,16 @@ public class Main {
             if (fel.getJvmMemoryHeapCommitted() > 0) {
                 printWriter.write("Heap Committed: "
                         + JdkUtil.convertSize(fel.getJvmMemoryHeapCommitted(), 'B', org.github.joa.util.Constants.UNITS)
-                        + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                        + JdkMath.calcPercent(fel.getJvmMemoryHeapCommitted(), fel.getJvmMemoryHeapReserved())
-                        + "% Reserved)" + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.UNITS));
+                printPercentage(printWriter, fel.getJvmMemoryHeapCommitted(), fel.getJvmMemoryHeapReserved(),
+                        "Reserved");
+                printWriter.write(Constants.LINE_SEPARATOR);
             }
             if (fel.getJvmMemoryHeapUsed() >= 0) {
                 printWriter.write("Heap Used: "
                         + JdkUtil.convertSize(fel.getJvmMemoryHeapUsed(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS));
-                if (fel.getJvmMemoryHeapCommitted() > 0) {
-                    printWriter.write(
-                            " (" + JdkMath.calcPercent(fel.getJvmMemoryHeapUsed(), fel.getJvmMemoryHeapCommitted())
-                                    + "% Committed)");
-                }
+                printPercentage(printWriter, fel.getJvmMemoryHeapUsed(), fel.getJvmMemoryHeapCommitted(), "Committed");
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
             if (fel.getHeapStartingAddress() > 0) {
@@ -304,16 +309,18 @@ public class Main {
                 printWriter.write("Metaspace Committed: "
                         + JdkUtil.convertSize(fel.getJvmMemoryMetaspaceCommitted(), 'B',
                                 org.github.joa.util.Constants.UNITS)
-                        + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                        + JdkMath.calcPercent(fel.getJvmMemoryMetaspaceCommitted(), fel.getJvmMemoryMetaspaceReserved())
-                        + "% Reserved)" + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.UNITS));
+                printPercentage(printWriter, fel.getJvmMemoryMetaspaceCommitted(), fel.getJvmMemoryMetaspaceReserved(),
+                        "Reserved");
+                printWriter.write(Constants.LINE_SEPARATOR);
             }
             if (fel.getJvmMemoryMetaspaceUsed() >= 0) {
                 printWriter.write("Metaspace Used: "
                         + JdkUtil.convertSize(fel.getJvmMemoryMetaspaceUsed(), 'B', org.github.joa.util.Constants.UNITS)
-                        + Character.toString(org.github.joa.util.Constants.UNITS) + " ("
-                        + JdkMath.calcPercent(fel.getJvmMemoryMetaspaceUsed(), fel.getJvmMemoryMetaspaceCommitted())
-                        + "% Committed)" + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.UNITS));
+                printPercentage(printWriter, fel.getJvmMemoryMetaspaceUsed(), fel.getJvmMemoryMetaspaceCommitted(),
+                        "Committed");
+                printWriter.write(Constants.LINE_SEPARATOR);
             }
             if (fel.getThreadStackSize() > 0) {
                 printWriter.write("Thread Stack Size: " + fel.getThreadStackSize() + "K" + Constants.LINE_SEPARATOR);
@@ -340,66 +347,38 @@ public class Main {
             if (fel.isCrashOnStartup()) {
                 // Display JVM initial memory if it fails to start
                 if (fel.getJvmMemoryTotalCommitted() > 0) {
-                    long percentMemory = JdkMath.calcPercent(fel.getJvmMemoryTotalCommitted(), fel.getMemoryTotal());
-
                     printWriter.write("JVM Memory Committed: >"
                             + JdkUtil.convertSize(fel.getJvmMemoryTotalCommitted(), 'B',
                                     org.github.joa.util.Constants.UNITS)
                             + Character.toString(org.github.joa.util.Constants.UNITS));
                     if (fel.getMemoryTotal() > 0) {
-                        printWriter.write(" (");
-                        // provide rounding indicator
-                        if (percentMemory == 0
-                                || (percentMemory == 100 && fel.getJvmMemoryTotalCommitted() != fel.getMemoryTotal())) {
-                            printWriter.write("~");
-                        }
-                        printWriter.write(percentMemory + "% ");
-                        if (isMemoryLimitedByContainer) {
-                            printWriter.write("Container Memory");
-                        } else {
-                            printWriter.write("OS Memory");
-                        }
-                        if (fel.getMemoryFree() >= 0) {
-                            long percentMemoryAvailable = JdkMath.calcPercent(fel.getJvmMemoryTotalCommitted(),
-                                    fel.getMemoryFree());
-                            printWriter.write(", ");
-                            // provide rounding indicator
-                            if (percentMemoryAvailable == 0 || (percentMemoryAvailable == 100
-                                    && fel.getJvmMemoryTotalCommitted() != fel.getMemoryFree())) {
-                                printWriter.write("~");
-                            }
-                            printWriter.write(percentMemoryAvailable + "% OS Memory Free");
-                        }
-                        printWriter.write(")");
+                        String literal = isMemoryLimitedByContainer ? "Container Memory" : "OS Memory";
+                        printPercentage(printWriter, fel.getJvmMemoryTotalCommitted(), fel.getMemoryTotal(), literal);
                     }
                     printWriter.write(Constants.LINE_SEPARATOR);
                 }
-            } else if (fel.getJvmMemoryTotalReserved() > 0 && fel.getMemoryTotal() > 0) {
-                long percentMemory = JdkMath.calcPercent(fel.getJvmMemoryTotalReserved(), fel.getMemoryTotal());
-                printWriter.write("JVM Memory Reserved: "
-                        + JdkUtil.convertSize(fel.getJvmMemoryTotalReserved(), 'B', org.github.joa.util.Constants.UNITS)
-                        + Character.toString(org.github.joa.util.Constants.UNITS));
-                if (fel.getMemoryTotal() > 0) {
-                    printWriter.write(" (");
-                    // provide rounding indicator
-                    if (percentMemory == 0
-                            || (percentMemory == 100 && fel.getJvmMemoryTotalReserved() != fel.getMemoryTotal())) {
-                        printWriter.write("~");
+            } else if (fel.getJvmMemoryTotalReserved() > 0) {
+                if (fel.getJvmMemoryTotalReserved() > 0) {
+                    printWriter.write("JVM Memory Reserved: "
+                            + JdkUtil.convertSize(fel.getJvmMemoryTotalReserved(), 'B',
+                                    org.github.joa.util.Constants.UNITS)
+                            + Character.toString(org.github.joa.util.Constants.UNITS));
+                    if (fel.getMemoryTotal() > 0) {
+                        String literal = isMemoryLimitedByContainer ? "Container Memory" : "OS Memory";
+                        printPercentage(printWriter, fel.getJvmMemoryTotalReserved(), fel.getMemoryTotal(), literal);
                     }
-                    printWriter.write(percentMemory + "% ");
-                    if (isMemoryLimitedByContainer) {
-                        printWriter.write("Container Memory");
-                    } else {
-                        printWriter.write("OS Memory");
-                    }
-                    printWriter.write(")");
+                    printWriter.write(Constants.LINE_SEPARATOR);
                 }
-                printWriter.write(Constants.LINE_SEPARATOR);
             }
             if (fel.getJvmMemoryTotalUsed() > 0) {
                 printWriter.write("JVM Process Size: "
                         + JdkUtil.convertSize(fel.getJvmMemoryTotalUsed(), 'B', org.github.joa.util.Constants.UNITS)
-                        + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
+                        + Character.toString(org.github.joa.util.Constants.UNITS));
+                if (fel.getMemoryTotal() > 0) {
+                    String literal = isMemoryLimitedByContainer ? "Container Memory" : "OS Memory";
+                    printPercentage(printWriter, fel.getJvmMemoryTotalUsed(), fel.getMemoryTotal(), literal);
+                }
+                printWriter.write(Constants.LINE_SEPARATOR);
             }
 
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
@@ -586,6 +565,35 @@ public class Main {
             System.out.println(pe.getMessage());
             usage();
         }
+    }
+
+    /**
+     * Output percentage block " ([part/whole] of [literal])"
+     * 
+     * For example: " (2870% OS Memory)"
+     * 
+     * @param printWriter
+     *            The PrintWrite.
+     * @param part
+     *            Percent fraction numerator.
+     * @param whole
+     *            Percent fraction denominator.
+     * @param literal
+     *            The "whole" literal, or null if none.
+     */
+    private static void printPercentage(PrintWriter printWriter, long part, long whole, String literal) {
+        long percentMemory = JdkMath.calcPercent(part, whole);
+        printWriter.write(" (");
+        // provide rounding indicator
+        if ((percentMemory == 0 || percentMemory == 100) && part != whole) {
+            printWriter.write("~");
+        }
+        printWriter.write(percentMemory + "%");
+        if (literal != null) {
+            printWriter.write(" ");
+            printWriter.write(literal);
+        }
+        printWriter.write(")");
     }
 
     /**
