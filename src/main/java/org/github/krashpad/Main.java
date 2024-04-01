@@ -132,20 +132,33 @@ public class Main {
                         + JdkUtil.convertSize(fel.getOsMemoryTotal(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
             }
+            if (fel.getAnonHugePages() >= 0) {
+                printWriter.write("Transparent Huge Pages (THP): "
+                        + JdkUtil.convertSize(fel.getAnonHugePages(), 'B', org.github.joa.util.Constants.UNITS)
+                        + Character.toString(org.github.joa.util.Constants.UNITS));
+                if (fel.getOsMemoryTotal() > 0) {
+                    printPercentage(printWriter, fel.getAnonHugePages(), fel.getOsMemoryTotal(), null);
+                }
+                printWriter.write(Constants.LINE_SEPARATOR);
+            }
+            if (fel.getExplicitHugePagesPoolSize() > 0) {
+                printWriter.write("Explicit Huge Pages Pool: "
+                        + JdkUtil.convertSize(fel.getExplicitHugePagesPoolSize(), 'B',
+                                org.github.joa.util.Constants.UNITS)
+                        + Character.toString(org.github.joa.util.Constants.UNITS));
+                if (fel.getOsMemoryTotal() > 0) {
+                    printPercentage(printWriter, fel.getExplicitHugePagesPoolSize(), fel.getOsMemoryTotal(), null);
+                }
+                printWriter.write(Constants.LINE_SEPARATOR);
+            }
             if (fel.getMemoryFree() > 0) {
                 printWriter.write("Memory Free: "
                         + JdkUtil.convertSize(fel.getMemoryFree(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS));
                 if (fel.getOsMemoryTotal() > 0) {
                     printPercentage(printWriter, fel.getMemoryFree(), fel.getOsMemoryTotal(), null);
-                    printWriter.write(Constants.LINE_SEPARATOR);
                 }
-            }
-            if (fel.getExplicitHugePagesPoolSize() > 0) {
-                printWriter.write("Explicit Huge Pages Pool: "
-                        + JdkUtil.convertSize(fel.getExplicitHugePagesPoolSize(), 'B',
-                                org.github.joa.util.Constants.UNITS)
-                        + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
+                printWriter.write(Constants.LINE_SEPARATOR);
             }
             if (fel.getOsSwapTotal() >= 0) {
                 printWriter.write(
@@ -158,11 +171,6 @@ public class Main {
                     printPercentage(printWriter, fel.getOsSwapFree(), fel.getOsSwapTotal(), null);
                     printWriter.write(Constants.LINE_SEPARATOR);
                 }
-            }
-            if (fel.getAnonHugePages() >= 0) {
-                printWriter.write("Transparent Huge Pages (THP): "
-                        + JdkUtil.convertSize(fel.getAnonHugePages(), 'B', org.github.joa.util.Constants.UNITS)
-                        + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
             }
             if (isMemoryLimitedByContainer) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
