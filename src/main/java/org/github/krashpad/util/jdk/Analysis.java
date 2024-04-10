@@ -225,6 +225,13 @@ public enum Analysis {
     ERROR_LARGE_PAGES_THP_JVM_YES_OS_NEVER("error.large.pages.thp.jvm.yes.os.never"),
 
     /**
+     * Property key for the JVM configured to use large pages with the ZGC collector, but the Linux kernel is not
+     * properly configured to provide the large page backing. ZGC uses shmem huge pages for the heap, and none are
+     * available (ShmemHugePages = 0).
+     */
+    ERROR_LARGE_PAGES_ZGC_SHMEM_ZERO("error.large.pages.zgc.shmem.zero"),
+
+    /**
      * Property key for a crash in org.apache.activemq.artemis.nativo.jlibaio.LibaioContext.done() method.
      */
     ERROR_LIBAIO_CONTEXT_DONE("error.libaio.context.done"),

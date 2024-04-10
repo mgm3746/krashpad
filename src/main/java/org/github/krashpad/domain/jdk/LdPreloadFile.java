@@ -46,13 +46,14 @@ public class LdPreloadFile implements ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "/etc/ld.so.preload:";
+    public static final String _REGEX_HEADER = "^/etc/ld\\.so\\.preload:$";
 
     /**
      * Regular expression defining the logging.
+     * 
+     * It's not necessary to include the header because it matches {@link org.github.joa.util.JdkRegEx#FILE_PATH}.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|/\\$LIB/.+|" + org.github.joa.util.JdkRegEx.FILE_PATH
-            + ")$";
+    private static final String REGEX = "^" + org.github.joa.util.JdkRegEx.FILE_PATH + "$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

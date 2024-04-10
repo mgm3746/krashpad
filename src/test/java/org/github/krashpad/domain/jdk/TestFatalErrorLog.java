@@ -460,7 +460,7 @@ class TestFatalErrorLog {
         assertEquals(1599, fel.getGarbageCollectionDurationTotal(), "GC duration total not correct.");
         assertEquals(100, fel.getGarbageCollectionThroughput(), "GC throughput not correct.");
     }
-    
+
     @Test
     void testGarbageCollectionPauseMax() {
         FatalErrorLog fel = new FatalErrorLog();
@@ -477,9 +477,9 @@ class TestFatalErrorLog {
         GcHeapHistoryEvent gcHeapHistoryEvent4 = new GcHeapHistoryEvent(gcHeapHistory4);
         fel.getGcHeapHistoryEvents().add(gcHeapHistoryEvent4);
         fel.doAnalysis();
-        assertEquals(115, fel.getGarbageCollectionDurationMax(), "GC duration max not correct.");        
+        assertEquals(115, fel.getGarbageCollectionDurationMax(), "GC duration max not correct.");
     }
-    
+
     @Test
     void testGetRhReleaseFromBuildString() {
         FatalErrorLog fel = new FatalErrorLog();

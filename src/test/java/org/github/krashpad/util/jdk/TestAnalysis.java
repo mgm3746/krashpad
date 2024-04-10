@@ -3682,4 +3682,18 @@ class TestAnalysis {
         assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.ZGC_NON_GENERATIONAL),
                 GarbageCollector.ZGC_NON_GENERATIONAL + " collector not identified.");
     }
+
+    @Test
+    void testZgcUseLargePagesShmemZero() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G -XX:+UseZGC -XX:+UseLargePages -XX:+UseTransparentHugePages";
+        VmArguments vmArgumentEvent = new VmArguments(jvm_args);
+        fel.getVmArguments().add(vmArgumentEvent);
+        String meminfo = "ShmemHugePages:        0 kB";
+        Meminfo meminfoEvent = new Meminfo(meminfo);
+        fel.getMeminfos().add(meminfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LARGE_PAGES_ZGC_SHMEM_ZERO.getKey()),
+                Analysis.ERROR_LARGE_PAGES_ZGC_SHMEM_ZERO + " analysis not identified.");
+    }
 }

@@ -1588,6 +1588,11 @@ public class FatalErrorLog {
                         || (getJavaVersionMajor() == 21 && getJavaVersionMinor() >= 1))) {
             analysis.add(Analysis.WARN_THP_OS_ALWAYS);
         }
+        // ZGC large pages analysis
+        if ((getGarbageCollectors().contains(GarbageCollector.ZGC_NON_GENERATIONAL)
+                || getGarbageCollectors().contains(GarbageCollector.ZGC_GENERATIONAL)) && getShmemHugePages() == 0) {
+            analysis.add(Analysis.ERROR_LARGE_PAGES_ZGC_SHMEM_ZERO);
+        }
         // RHEL7 ELS
         Date today = new Date();
         if (today.compareTo(KrashUtil.RHEL7_ELS_START) >= 0 && getOsVersion() == OsVersion.RHEL7
@@ -4694,6 +4699,29 @@ public class FatalErrorLog {
 
     public String getRpmDirectory() {
         return rpmDirectory;
+    }
+
+    /**
+     * The total shmem huge pages available in bytes.
+     * 
+     * @return The total shmem huge pages available in bytes.
+     */
+    public long getShmemHugePages() {
+        long shmemHugePages = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regex = "ShmemHugePages:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regex);
+            Iterator<Meminfo> iterator = meminfos.iterator();
+            while (iterator.hasNext()) {
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    shmemHugePages = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    break;
+                }
+            }
+        }
+        return shmemHugePages;
     }
 
     public SigInfo getSigInfo() {

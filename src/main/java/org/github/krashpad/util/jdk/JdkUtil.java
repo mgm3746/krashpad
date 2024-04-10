@@ -751,21 +751,21 @@ public class JdkUtil {
                 logEventType = LogEventType.CARD_TABLE;
             } else if (CdsArchive.match(logLine)) {
                 logEventType = LogEventType.CDS_ARCHIVE;
-            } else if (ClassesLoadedEvent.match(logLine) && (logLine.matches(ClassesLoadedEvent._REGEX_HEADER)
-                    || priorEvent instanceof ClassesLoadedEvent)) {
+            } else if (logLine.matches(ClassesLoadedEvent._REGEX_HEADER)
+                    || (priorEvent instanceof ClassesLoadedEvent && ClassesLoadedEvent.match(logLine))) {
                 logEventType = LogEventType.CLASSES_LOADED_EVENT;
-            } else if (ClassesRedefinedEvent.match(logLine) && (logLine.matches(ClassesRedefinedEvent._REGEX_HEADER)
-                    || priorEvent instanceof ClassesRedefinedEvent)) {
+            } else if (logLine.matches(ClassesRedefinedEvent._REGEX_HEADER)
+                    || (priorEvent instanceof ClassesRedefinedEvent && ClassesRedefinedEvent.match(logLine))) {
                 logEventType = LogEventType.CLASSES_REDEFINED_EVENT;
-            } else if (ClassesUnloadedEvent.match(logLine) && (logLine.matches(ClassesUnloadedEvent._REGEX_HEADER)
-                    || priorEvent instanceof ClassesUnloadedEvent)) {
+            } else if (logLine.matches(ClassesUnloadedEvent._REGEX_HEADER)
+                    || (priorEvent instanceof ClassesUnloadedEvent && ClassesUnloadedEvent.match(logLine))) {
                 logEventType = LogEventType.CLASSES_UNLOADED_EVENT;
             } else if (CodeCache.match(logLine)) {
                 logEventType = LogEventType.CODE_CACHE;
             } else if (CommandLine.match(logLine)) {
                 logEventType = LogEventType.COMMAND_LINE;
-            } else if (CompilationEvent.match(logLine)
-                    && (logLine.matches(CompilationEvent._REGEX_HEADER) || priorEvent instanceof CompilationEvent)) {
+            } else if (logLine.matches(CompilationEvent._REGEX_HEADER)
+                    || (priorEvent instanceof CompilationEvent && CompilationEvent.match(logLine))) {
                 logEventType = LogEventType.COMPILATION_EVENT;
             } else if (CompressedClassSpace.match(logLine)) {
                 logEventType = LogEventType.COMPRESSED_CLASS_SPACE;
@@ -773,35 +773,35 @@ public class JdkUtil {
                 logEventType = LogEventType.CONSTANT_POOL;
             } else if (ContainerInfo.match(logLine)) {
                 logEventType = LogEventType.CONTAINER_INFO;
-            } else if (CpuInfo.match(logLine)
-                    && (logLine.matches(CpuInfo._REGEX_HEADER) || priorEvent instanceof CpuInfo)) {
+            } else if (logLine.matches(CpuInfo._REGEX_HEADER)
+                    || (priorEvent instanceof CpuInfo && CpuInfo.match(logLine))) {
                 logEventType = LogEventType.CPU_INFO;
             } else if (CurrentCompileTask.match(logLine)) {
                 logEventType = LogEventType.CURRENT_COMPILE_TASK;
             } else if (CurrentThread.match(logLine)) {
                 logEventType = LogEventType.CURRENT_THREAD;
-            } else if (DeoptimizationEvent.match(logLine) && (logLine.matches(DeoptimizationEvent._REGEX_HEADER)
-                    || priorEvent instanceof DeoptimizationEvent)) {
+            } else if (logLine.matches(DeoptimizationEvent._REGEX_HEADER)
+                    || (priorEvent instanceof DeoptimizationEvent && DeoptimizationEvent.match(logLine))) {
                 logEventType = LogEventType.DEOPTIMIZATION_EVENT;
-            } else if (DllOperationEvent.match(logLine)
-                    && (logLine.matches(DllOperationEvent._REGEX_HEADER) || priorEvent instanceof DllOperationEvent)) {
+            } else if (logLine.matches(DllOperationEvent._REGEX_HEADER)
+                    || (priorEvent instanceof DllOperationEvent && DllOperationEvent.match(logLine))) {
                 logEventType = LogEventType.DLL_OPERATION_EVENT;
-            } else if (DynamicLibrary.match(logLine)
-                    && (logLine.matches(DynamicLibrary._REGEX_HEADER) || priorEvent instanceof DynamicLibrary)) {
+            } else if (logLine.matches(DynamicLibrary._REGEX_HEADER)
+                    || (priorEvent instanceof DynamicLibrary && DynamicLibrary.match(logLine))) {
                 logEventType = LogEventType.DYNAMIC_LIBRARY;
             } else if (ElapsedTime.match(logLine)) {
                 logEventType = LogEventType.ELAPSED_TIME;
             } else if (End.match(logLine)) {
                 logEventType = LogEventType.END;
-            } else if (EnvironmentVariable.match(logLine) && (logLine.matches(EnvironmentVariable._REGEX_HEADER)
-                    || priorEvent instanceof EnvironmentVariable)) {
+            } else if (logLine.matches(EnvironmentVariable._REGEX_HEADER)
+                    || (priorEvent instanceof EnvironmentVariable && EnvironmentVariable.match(logLine))) {
                 logEventType = LogEventType.ENVIRONMENT_VARIABLES;
-            } else if (Event.match(logLine) && (logLine.matches(Event._REGEX_HEADER) || priorEvent instanceof Event)) {
+            } else if (logLine.matches(Event._REGEX_HEADER) || (priorEvent instanceof Event && Event.match(logLine))) {
                 logEventType = LogEventType.EVENT;
             } else if (ExceptionCounts.match(logLine)) {
                 logEventType = LogEventType.EXCEPTION_COUNTS;
-            } else if (GcHeapHistoryEvent.match(logLine) && (logLine.matches(GcHeapHistoryEvent._REGEX_HEADER)
-                    || priorEvent instanceof GcHeapHistoryEvent)) {
+            } else if (logLine.matches(GcHeapHistoryEvent._REGEX_HEADER)
+                    || (priorEvent instanceof GcHeapHistoryEvent && GcHeapHistoryEvent.match(logLine))) {
                 logEventType = LogEventType.GC_HEAP_HISTORY_EVENT;
             } else if (GcPreciousLog.match(logLine)) {
                 logEventType = LogEventType.GC_PRECIOUS_LOG;
@@ -812,7 +812,7 @@ public class JdkUtil {
                 logEventType = LogEventType.HEADER;
             } else if (Heading.match(logLine)) {
                 logEventType = LogEventType.HEADING;
-            } else if (Heap.match(logLine) && (logLine.matches(Heap._REGEX_HEADER) || priorEvent instanceof Heap)) {
+            } else if (logLine.matches(Heap._REGEX_HEADER) || (priorEvent instanceof Heap && Heap.match(logLine))) {
                 logEventType = LogEventType.HEAP;
             } else if (HeapAddress.match(logLine)) {
                 logEventType = LogEventType.HEAP_ADDRESS;
@@ -822,14 +822,14 @@ public class JdkUtil {
                 logEventType = LogEventType.HOST;
             } else if (Instructions.match(logLine)) {
                 logEventType = LogEventType.INSTRUCTIONS;
-            } else if (InternalExceptionEvent.match(logLine) && (logLine.matches(InternalExceptionEvent._REGEX_HEADER)
-                    || priorEvent instanceof InternalExceptionEvent)) {
+            } else if (logLine.matches(InternalExceptionEvent._REGEX_HEADER)
+                    || (priorEvent instanceof InternalExceptionEvent && InternalExceptionEvent.match(logLine))) {
                 logEventType = LogEventType.INTERNAL_EXCEPTION_EVENT;
-            } else if (InternalStatistic.match(logLine)
-                    && (logLine.matches(InternalStatistic._REGEX_HEADER) || priorEvent instanceof InternalStatistic)) {
+            } else if (logLine.matches(InternalStatistic._REGEX_HEADER)
+                    || (priorEvent instanceof InternalStatistic && InternalStatistic.match(logLine))) {
                 logEventType = LogEventType.INTERNAL_STATISTIC;
-            } else if (LdPreloadFile.match(logLine)
-                    && (logLine.matches(LdPreloadFile._REGEX_HEADER) || priorEvent instanceof LdPreloadFile)) {
+            } else if (logLine.matches(LdPreloadFile._REGEX_HEADER)
+                    || (priorEvent instanceof LdPreloadFile && LdPreloadFile.match(logLine))) {
                 logEventType = LogEventType.LD_PRELOAD_FILE;
             } else if (Libc.match(logLine)) {
                 logEventType = LogEventType.LIBC;
@@ -837,17 +837,17 @@ public class JdkUtil {
                 logEventType = LogEventType.LOAD_AVERAGE;
             } else if (Logging.match(logLine)) {
                 logEventType = LogEventType.LOGGING;
-            } else if (MachCode.match(logLine)
-                    && (logLine.matches(MachCode._REGEX_HEADER) || priorEvent instanceof MachCode)) {
+            } else if (logLine.matches(MachCode._REGEX_HEADER)
+                    || (priorEvent instanceof MachCode && MachCode.match(logLine))) {
                 logEventType = LogEventType.MACH_CODE;
-            } else if (MaxMapCount.match(logLine) && (logLine.matches(MaxMapCount._REGEX_HEADER)
-                    || logLine.matches(MaxMapCount._REGEX_SINGLE_LINE) || priorEvent instanceof MaxMapCount)) {
+            } else if (logLine.matches(MaxMapCount._REGEX_HEADER) || logLine.matches(MaxMapCount._REGEX_SINGLE_LINE)
+                    || (priorEvent instanceof MaxMapCount && MaxMapCount.match(logLine))) {
                 logEventType = LogEventType.MAX_MAP_COUNT;
-            } else if (Meminfo.match(logLine)
-                    && (logLine.matches(Meminfo._REGEX_HEADER) || priorEvent instanceof Meminfo)) {
+            } else if (logLine.matches(Meminfo._REGEX_HEADER)
+                    || (priorEvent instanceof Meminfo && Meminfo.match(logLine))) {
                 logEventType = LogEventType.MEMINFO;
-            } else if (Memory.match(logLine)
-                    && (logLine.matches(Memory._REGEX_HEADER) || priorEvent instanceof Memory)) {
+            } else if (logLine.matches(Memory._REGEX_HEADER)
+                    || (priorEvent instanceof Memory && Memory.match(logLine))) {
                 logEventType = LogEventType.MEMORY;
             } else if (Metaspace.match(logLine)) {
                 logEventType = LogEventType.METASPACE;
@@ -855,8 +855,8 @@ public class JdkUtil {
                 logEventType = LogEventType.NARROW_KLASS;
             } else if (NativeDecoderState.match(logLine)) {
                 logEventType = LogEventType.NATIVE_DECODER_STATE;
-            } else if (NativeMemoryTracking.match(logLine) && (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
-                    || priorEvent instanceof NativeMemoryTracking)) {
+            } else if (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
+                    || (priorEvent instanceof NativeMemoryTracking && NativeMemoryTracking.match(logLine))) {
                 logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
             } else if (OsInfo.match(logLine)) {
                 logEventType = LogEventType.OS_INFO;
@@ -864,8 +864,8 @@ public class JdkUtil {
                 logEventType = LogEventType.OS_UPTIME;
             } else if (PeriodicNativeTrim.match(logLine)) {
                 logEventType = LogEventType.PERIODIC_NATIVE_TRIM;
-            } else if (PidMax.match(logLine) && (logLine.matches(PidMax._REGEX_HEADER)
-                    || logLine.matches(PidMax._REGEX_SINGLE_LINE) || priorEvent instanceof PidMax)) {
+            } else if (logLine.matches(PidMax._REGEX_HEADER) || logLine.matches(PidMax._REGEX_SINGLE_LINE)
+                    || (priorEvent instanceof PidMax && PidMax.match(logLine))) {
                 logEventType = LogEventType.PID_MAX;
             } else if (PollingPage.match(logLine)) {
                 logEventType = LogEventType.POLLING_PAGE;
@@ -873,8 +873,8 @@ public class JdkUtil {
                 logEventType = LogEventType.PROCESS_MEMORY;
             } else if (Register.match(logLine)) {
                 logEventType = LogEventType.REGISTER;
-            } else if (RegisterToMemoryMapping.match(logLine) && (logLine.matches(RegisterToMemoryMapping._REGEX_HEADER)
-                    || priorEvent instanceof RegisterToMemoryMapping)) {
+            } else if (logLine.matches(RegisterToMemoryMapping._REGEX_HEADER)
+                    || (priorEvent instanceof RegisterToMemoryMapping && RegisterToMemoryMapping.match(logLine))) {
                 logEventType = LogEventType.REGISTER_TO_MEMORY_MAPPING;
             } else if (Rlimit.match(logLine)) {
                 logEventType = LogEventType.RLIMIT;
@@ -884,19 +884,18 @@ public class JdkUtil {
                 logEventType = LogEventType.SIGNAL_HANDLERS;
             } else if (Stack.match(logLine)) {
                 logEventType = LogEventType.STACK;
-            } else if (StackSlotToMemoryMapping.match(logLine)
-                    && (logLine.matches(StackSlotToMemoryMapping._REGEX_HEADER)
-                            || priorEvent instanceof StackSlotToMemoryMapping)) {
+            } else if (logLine.matches(StackSlotToMemoryMapping._REGEX_HEADER)
+                    || (priorEvent instanceof StackSlotToMemoryMapping && StackSlotToMemoryMapping.match(logLine))) {
                 logEventType = LogEventType.STACK_SLOT_TO_MEMORY_MAPPING;
             } else if (Thread.match(logLine)) {
                 logEventType = LogEventType.THREAD;
             } else if (ThreadsActiveCompile.match(logLine)) {
                 logEventType = LogEventType.THREADS_ACTIVE_COMPILE;
-            } else if (ThreadsClassSmrInfo.match(logLine) && (logLine.matches(ThreadsClassSmrInfo._REGEX_HEADER)
-                    || priorEvent instanceof ThreadsClassSmrInfo)) {
+            } else if (logLine.matches(ThreadsClassSmrInfo._REGEX_HEADER)
+                    || (priorEvent instanceof ThreadsClassSmrInfo && ThreadsClassSmrInfo.match(logLine))) {
                 logEventType = LogEventType.THREADS_CLASS_SMR_INFO;
-            } else if (ThreadsMax.match(logLine) && (logLine.matches(ThreadsMax._REGEX_HEADER)
-                    || logLine.matches(ThreadsMax._REGEX_SINGLE_LINE) || priorEvent instanceof ThreadsMax)) {
+            } else if (logLine.matches(ThreadsMax._REGEX_HEADER) || logLine.matches(ThreadsMax._REGEX_SINGLE_LINE)
+                    || (priorEvent instanceof ThreadsMax && ThreadsMax.match(logLine))) {
                 logEventType = LogEventType.THREADS_MAX;
             } else if (Time.match(logLine)) {
                 logEventType = LogEventType.TIME;
@@ -926,13 +925,13 @@ public class JdkUtil {
                 logEventType = LogEventType.VM_MUTEX;
             } else if (VmOperation.match(logLine)) {
                 logEventType = LogEventType.VM_OPERATION;
-            } else if (VmOperationEvent.match(logLine)
-                    && (logLine.matches(VmOperationEvent._REGEX_HEADER) || priorEvent instanceof VmOperationEvent)) {
+            } else if (logLine.matches(VmOperationEvent._REGEX_HEADER)
+                    || (priorEvent instanceof VmOperationEvent && VmOperationEvent.match(logLine))) {
                 logEventType = LogEventType.VM_OPERATION_EVENT;
             } else if (VmState.match(logLine)) {
                 logEventType = LogEventType.VM_STATE;
-            } else if (VirtualizationInfo.match(logLine) && (logLine.matches(VirtualizationInfo._REGEX_HEADER)
-                    || priorEvent instanceof VirtualizationInfo)) {
+            } else if (logLine.matches(VirtualizationInfo._REGEX_HEADER)
+                    || (priorEvent instanceof VirtualizationInfo && VirtualizationInfo.match(logLine))) {
                 logEventType = LogEventType.VIRTUALIZATION_INFO;
             } else if (ZgcGlobals.match(logLine)) {
                 logEventType = LogEventType.ZGC_GLOBALS;
@@ -942,8 +941,8 @@ public class JdkUtil {
                 logEventType = LogEventType.ZGC_GLOBALS;
             } else if (ZgcMetadataBits.match(logLine)) {
                 logEventType = LogEventType.ZGC_METADATA_BITS;
-            } else if (ZgcPageTable.match(logLine)
-                    && (logLine.matches(ZgcPageTable._REGEX_HEADER) || priorEvent instanceof ZgcPageTable)) {
+            } else if (logLine.matches(ZgcPageTable._REGEX_HEADER)
+                    || (priorEvent instanceof ZgcPageTable && ZgcPageTable.match(logLine))) {
                 logEventType = LogEventType.ZGC_PAGE_TABLE;
             } else if (ZgcPhaseSwitchEvent.match(logLine)) {
                 logEventType = LogEventType.ZGC_PHASE_SWITCH_EVENT;

@@ -30,7 +30,9 @@ class TestLdPreloadFile {
     void testHeader() {
         String logLine = "/etc/ld.so.preload:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LD_PRELOAD_FILE,
-                JdkUtil.LogEventType.BITS.toString() + " not identified.");
+                JdkUtil.LogEventType.LD_PRELOAD_FILE.toString() + " not identified.");
+        LdPreloadFile event = new LdPreloadFile(logLine);
+        assertTrue(event.isHeader(), "Header not correct.");
     }
 
     @Test
