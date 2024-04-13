@@ -294,4 +294,12 @@ class TestHeader {
         Header headerEvent = new Header(logLine);
         assertTrue(headerEvent.isVendorBugUrl(), "Vendor bug url not identified.");
     }
+
+    @Test
+    void testVmInfoOutput() {
+        LogEvent priorEvent = new Pid("12345:");
+        String logLine = "#";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
+    }
 }

@@ -82,6 +82,7 @@ import org.github.krashpad.domain.jdk.NativeMemoryTracking;
 import org.github.krashpad.domain.jdk.OsInfo;
 import org.github.krashpad.domain.jdk.OsUptime;
 import org.github.krashpad.domain.jdk.PeriodicNativeTrim;
+import org.github.krashpad.domain.jdk.Pid;
 import org.github.krashpad.domain.jdk.PidMax;
 import org.github.krashpad.domain.jdk.PollingPage;
 import org.github.krashpad.domain.jdk.ProcessMemory;
@@ -241,11 +242,11 @@ public class JdkUtil {
         //
         LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE,
         //
-        NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID_MAX,
+        NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID,
         //
-        POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK,
+        PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS,
         //
-        STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME,
+        STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME,
         //
         TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED,
         //
@@ -807,8 +808,8 @@ public class JdkUtil {
                 logEventType = LogEventType.GC_PRECIOUS_LOG;
             } else if (GlobalFlag.match(logLine)) {
                 logEventType = LogEventType.GLOBAL_FLAG;
-            } else if (Header.match(logLine)
-                    && (priorEvent == null || priorEvent instanceof UnknownEvent || priorEvent instanceof Header)) {
+            } else if (Header.match(logLine) && (priorEvent == null || priorEvent instanceof UnknownEvent
+                    || priorEvent instanceof Header || priorEvent instanceof Pid)) {
                 logEventType = LogEventType.HEADER;
             } else if (Heading.match(logLine)) {
                 logEventType = LogEventType.HEADING;
@@ -864,6 +865,8 @@ public class JdkUtil {
                 logEventType = LogEventType.OS_UPTIME;
             } else if (PeriodicNativeTrim.match(logLine)) {
                 logEventType = LogEventType.PERIODIC_NATIVE_TRIM;
+            } else if (Pid.match(logLine)) {
+                logEventType = LogEventType.PID;
             } else if (logLine.matches(PidMax._REGEX_HEADER) || logLine.matches(PidMax._REGEX_SINGLE_LINE)
                     || (priorEvent instanceof PidMax && PidMax.match(logLine))) {
                 logEventType = LogEventType.PID_MAX;
@@ -1223,6 +1226,9 @@ public class JdkUtil {
             break;
         case PERIODIC_NATIVE_TRIM:
             event = new PeriodicNativeTrim(logLine);
+            break;
+        case PID:
+            event = new Pid(logLine);
             break;
         case PID_MAX:
             event = new PidMax(logLine);
