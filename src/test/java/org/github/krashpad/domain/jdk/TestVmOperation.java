@@ -95,6 +95,17 @@ class TestVmOperation {
     }
 
     @Test
+    void testGenCollectForAllocation() {
+        String logLine = "VM_Operation (0x00007fad352ba070): GenCollectForAllocation, mode: safepoint, requested by "
+                + "thread 0x00007fad4c676000";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperation event = new VmOperation(logLine);
+        assertEquals("GenCollectForAllocation, mode: safepoint, requested by thread 0x00007fad4c676000",
+                event.getVmOperationString(), "VM operation not correct.");
+    }
+
+    @Test
     void testGetAllStackTraces() {
         String logLine = "VM_Operation (0x0000000003a5f250): GetAllStackTraces, mode: safepoint, requested by thread "
                 + "0x0000000018af9800";
