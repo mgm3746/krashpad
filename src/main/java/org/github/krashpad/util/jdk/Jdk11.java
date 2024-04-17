@@ -292,11 +292,13 @@ public class Jdk11 {
         RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.7.10-1.el8_1.x86_64",
                 new Release("Apr 15 2020 12:25:53", 6, "11.0.7+10-LTS"));
         RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.7.10-1.el8_0.x86_64",
-                new Release("Apr 15 2020 00:00:00", 6, "11.0.7+10-LTS"));
+                new Release("Apr 15 2020 00:00:00", 6, "11.0.7+10-LTS"));        
+        RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.6.10-4.el8.x86_64",
+                new Release("Mar 27 2020 04:27:09", 5, "11.0.6+10-LTS"));        
         RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.6.10-0.el8_1.x86_64",
                 new Release("Jan 11 2020 04:53:43", 5, "11.0.6+10-LTS"));
         RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.6.10-0.el8_0.x86_64",
-                new Release("Jan 11 2020 00:00:00", 5, "11.0.6+10-LTS"));
+                new Release("Jan 11 2020 00:00:00", 5, "11.0.6+10-LTS"));                        
         RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.5.10-2.el8_1.x86_64",
                 new Release("Oct 25 2019 00:00:00", 4, "11.0.5+10-LTS"));
         RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.5.10-0.el8_0.x86_64",
