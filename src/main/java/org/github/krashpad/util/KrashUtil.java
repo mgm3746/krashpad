@@ -356,7 +356,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libjbig.so.2.1");
         // jbig2dec-libs (JBIG2 image decompression format decoder)
         NATIVE_LIBRARIES_LINUX.add("libjbig2dec.so.0.0.0");
-        // libjpeg-turbo
+        // libjpeg-turbo:
         NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.1.0");
         NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.2.0");
         // jss
@@ -664,9 +664,9 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjaas_unix.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjava.so");
-        // java-(11|17)-openjdk-headless. Replaces libjpeg.so in 1.8.0?
+        // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjavajpeg.so");
-        // java-(1.8.0-openjdk-headless
+        // java-1.8.0-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjava_crw_demo.so");
         // java-(11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjimage.so");
@@ -674,7 +674,10 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libinstrument.so");
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjli.so");
-        // java-8-openjdk-headless: Replaced by libjavajpeg.so in 11+?
+        // RHEL7: libjpeg-turbo
+        // RHEL8+: java-(1.8.0|11|17)-openjdk-headless
+        // Why does RHEL7 have libjavajpeg.so provided by java-(11|17)-openjdk-headless? Is the functionality
+        // in libjpeg.so in RHEL8+ rpm installs and portable builds split between libjpeg.so and libjavajpeg.so?
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjpeg.so");
         // java-(11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjsound.so");
