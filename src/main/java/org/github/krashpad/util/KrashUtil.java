@@ -675,9 +675,9 @@ public class KrashUtil {
         // java-(1.8.0|11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjli.so");
         // RHEL7: libjpeg-turbo
-        // RHEL8+: java-(1.8.0|11|17)-openjdk-headless
-        // Why does RHEL7 have libjavajpeg.so provided by java-(11|17)-openjdk-headless? Is the functionality
-        // in libjpeg.so in RHEL8+ rpm installs and portable builds split between libjpeg.so and libjavajpeg.so?
+        // RHEL8+: java-1.8.0-openjdk-headless
+        // Why does RHEL7 have 2 jpeg libraries (libjavajpeg.so and libjavajpeg.so) spit into 2 packages (libjpeg-turbo
+        // and java-1.8.0-openjdk-headless)?
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjpeg.so");
         // java-(11|17)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjsound.so");
