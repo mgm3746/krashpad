@@ -3078,6 +3078,9 @@ public class FatalErrorLog {
         case JDK17:
             javaVersionMinor = JdkUtil.getJdk17UpdateNumber(getJdkReleaseString());
             break;
+        case JDK21:
+            javaVersionMinor = JdkUtil.getJdk21UpdateNumber(getJdkReleaseString());
+            break;
         case JDK6:
         case JDK7:
         case UNKNOWN:

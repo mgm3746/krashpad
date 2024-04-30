@@ -1716,6 +1716,31 @@ class TestAnalysis {
     }
 
     @Test
+    void testLargePagesConsiderThpOsAlwaysJdk21Update2() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (21.0.2+13-LTS) for linux-amd64 JRE (21.0.2+13-LTS), "
+                + "built on 2024-01-09T22:49:35Z by \"mockbuild\" with gcc 10.2.1 20210130 (Red Hat 10.2.1-11)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        assertEquals(21, fel.getJavaVersionMajor(), "Java version major not correct");
+        assertEquals(2, fel.getJavaVersionMinor(), "Java version minor not correct");
+        String jvm_args = "jvm_args: -Xmx10G";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String transparentHugepageEnabled = "[always] madvise never";
+        TransparentHugepageEnabled transparentHugePageEnabledEvent = new TransparentHugepageEnabled(
+                transparentHugepageEnabled);
+        fel.getTransparentHugepageEnableds().add(transparentHugePageEnabledEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER.getKey()),
+                org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS.getKey()),
+                Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_THP_OS_ALWAYS.getKey()),
+                Analysis.WARN_THP_OS_ALWAYS + " analysis incorrectly identified.");
+    }
+
+    @Test
     void testLargePagesConsiderThpOsAlwaysJdkVersionUnknown() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xmx10G";

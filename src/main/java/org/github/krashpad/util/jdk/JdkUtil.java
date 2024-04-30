@@ -492,6 +492,22 @@ public class JdkUtil {
     }
 
     /**
+     * @param jdk21ReleaseString
+     *            The JDK21 release string (e.g. 21.0.2+13-LTS).
+     * @return The JDK update number (e.g. 2).
+     */
+    public static final int getJdk21UpdateNumber(String jdk21ReleaseString) {
+        int jdk21UpdateNumber = Integer.MIN_VALUE;
+        String regEx = "21.0.(\\d{1,}).+";
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(jdk21ReleaseString);
+        if (matcher.find()) {
+            jdk21UpdateNumber = Integer.parseInt(matcher.group(1));
+        }
+        return jdk21UpdateNumber;
+    }
+
+    /**
      * @param jdk8ReleaseString
      *            The JDK8 release string (e.g. 1.8.0_222-b10).
      * @return The JDK8 update number (e.g. 222).
