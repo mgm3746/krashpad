@@ -47,7 +47,7 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
 
     private static final String _REGEX_OPERATIONS = "(Cleanup|FindDeadlocks|G1CollectForAllocation|GetAllStackTraces|"
             + "HandshakeAllThreads|ICBufferFull|PrintJNI|PrintThreads|RendezvousGCThreads|ThreadDump|XMarkStart|"
-            + "ZMarkEnd|ZMarkFlushOperation|ZMarkStartYoungAndOld|ZRelocateStart|ZRendezvousGCThreads)";
+            + "ZMarkEnd|ZMarkFlushOperation|ZMarkStartYoung|ZMarkStartYoungAndOld|ZRelocateStart|ZRendezvousGCThreads)";
 
     /**
      * Regular expression defining the logging.

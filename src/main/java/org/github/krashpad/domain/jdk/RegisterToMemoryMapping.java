@@ -67,8 +67,8 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.REGISTER
-            + "|Adapter for signature:.+|\\[[BCIL]([a-z]{1,}\\..+)?|BufferBlob.+|\\[CodeBlob.+|Framesize.+|"
-            + " - (---- fields \\(total size \\d{1,} words\\)|---- non-static fields \\(\\d{1,} words\\)|"
+            + "|Adapter for signature:.+|\\[[BCIL]([a-z]{1,}\\..+)?|BufferBlob.+|\\[CodeBlob.+|Compiled method .+|"
+            + "Framesize.+| - (---- fields \\(total size \\d{1,} words\\)|---- non-static fields \\(\\d{1,} words\\)|"
             + "---- static fields \\(\\d{1,} words\\)|access|arrays|class annotations|class loader data|"
             + "class type annotations|constants|default_methods|default vtable indices|field annotations|"
             + "field type annotations|inner classes|instance size|java mirror|klass|klass size|length|local interfaces|"
@@ -78,7 +78,9 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
             + "\\[error occurred during error reporting \\(printing register info\\).+|exception handling.+|"
             + "invoke return entry points.+| - itable length.+|method entry point.+|native method entry point.+|"
             + "(i)?return.+| - fake entry for .+| - (final|private|protected|transient|volatile) .+|StubRoutines.+|"
-            + " - signature: .+| - '(next|size|value)' .+| - vtable length.+|" + JdkRegEx.CLASS + ".*)[ ]{0,}$";
+            + " - signature: .+| - '(next|size|value)' .+| (dependencies|handler table|main code|metadata|"
+            + "nul chk table|oops|relocation|scopes data|scopes pcs|stub code|total in heap) .+| - vtable length.+|"
+            + JdkRegEx.CLASS + ".*)[ ]{0,}$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

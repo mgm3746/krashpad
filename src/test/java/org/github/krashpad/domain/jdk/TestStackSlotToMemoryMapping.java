@@ -15,6 +15,8 @@
 package org.github.krashpad.domain.jdk;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.junit.jupiter.api.Test;
@@ -99,6 +101,17 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
+    void testCompiledMethod() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = "Compiled method (c1)   58655 23686   !   3       "
+                + "uri_3a_classloader_3a_.META_minus_INF.jruby_dot_home.lib.ruby.stdlib.rubygems::RUBY$block$open_file"
+                + "$1 (324 bytes)";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testConstants() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = " - constants:         constant pool [878] {0x00007fe5c1601308} for 'java/lang/String' "
@@ -112,6 +125,15 @@ class TestStackSlotToMemoryMapping {
     void testDefaultMethods() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = " - default_methods:   Array<T>(0x0000000000000000)";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testDependencies() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " dependencies   [0x00007f1c49d5f768,0x00007f1c49d5f7d0] = 104";
         assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
                 JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
@@ -178,6 +200,15 @@ class TestStackSlotToMemoryMapping {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = " - generic signature: 'Ljava/lang/Object;Ljava/io/Serializable;"
                 + "Ljava/lang/Comparable<Ljava/lang/String;>;Ljava/lang/CharSequence;'";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testHandlerTable() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " handler table  [0x00007f1c49d5f7d0,0x00007f1c49d5fc68] = 1176";
         assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
                 JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
@@ -308,6 +339,24 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
+    void testMainCode() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " main code      [0x00007f1c49d5a520,0x00007f1c49d5d570] = 1236";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testMetadata() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " metadata       [0x00007f1c49d5d7f0,0x00007f1c49d5d9a8] = 440";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testMethodEntryPoint() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = "method entry point (kind = native)  [0x00007fa9b48141c0, 0x00007fa9b4814a20]  2144 bytes";
@@ -381,9 +430,27 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
+    void testNulChkTable() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " nul chk table  [0x00007f1c49d5fc68,0x00007f1c49d5fd08] = 160";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testObject() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = "org.xnio.nio.WorkerThread {0x0000000800c89d28}";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testOops() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " oops           [0x00007f1c49d5d740,0x00007f1c49d5d7f0] = 176";
         assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
                 JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
@@ -426,6 +493,15 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
+    void testReclocation() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " relocation     [0x00007f1c49d5a068,0x00007f1c49d5a520] = 1208";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testReturnEntryPoints() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = "return entry points  [0x00007ff3f90b2de0, 0x00007ff3f90b38e0]  2816 bytes";
@@ -438,6 +514,24 @@ class TestStackSlotToMemoryMapping {
     void testRuntimeStub() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = "Runtime Stub (0x00007fe5a5af9590): _new_array_nozero_Java";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testScopesData() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " scopes data    [0x00007f1c49d5d9a8,0x00007f1c49d5e998] = 4080";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testScopesPcs() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " scopes pcs     [0x00007f1c49d5e998,0x00007f1c49d5f768] = 3536";
         assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
                 JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
@@ -490,6 +584,15 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
+    void testStubCode() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " stub code      [0x00007f1c49d5d570,0x00007f1c49d5d740] = 464";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testStubRoutines() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = "StubRoutines::jbyte_disjoint_arraycopy [0x00007fe5a5a2f160, 0x00007fe5a5a2f208[ (168 bytes)";
@@ -517,6 +620,15 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
+    void testTotalInHeap() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " total in heap  [0x00007f1c49d59f10,0x00007f1c49d5fd08] = 24056";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testTransient() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = " - transient 'areAllFieldsSet' 'Z' @38  true";
@@ -532,6 +644,18 @@ class TestStackSlotToMemoryMapping {
         assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
                 JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testVmOperation() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("");
+        String logLine = "VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread "
+                + "0x0000000001b2a000";
+        assertFalse(StackSlotToMemoryMapping.match(logLine),
+                "Logging incorrectly identified as StackSlotToMemoryMapping.");
+        assertNotEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " incorrectly identified.");
     }
 
     @Test

@@ -56,7 +56,7 @@ public class StackSlotToMemoryMapping implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + StackSlotToMemoryMapping._REGEX_HEADER
-            + "|invokevirtual|invoke return entry points|method entry point|native method entry point|"
+            + "|Compiled method |invokevirtual|invoke return entry points|method entry point|native method entry point|"
             + "return entry points|stack at sp|\\[error occurred during error reporting \\(inspecting top of stack\\)|"
             + "\\[CodeBlob|\\{" + JdkRegEx.ADDRESS + "\\} - klass:|"
             // Header
@@ -67,9 +67,12 @@ public class StackSlotToMemoryMapping implements LogEvent {
             + " - (access|arrays|class annotations|class loader data|class type annotations|constants|default_methods|"
             + "field annotations|field type annotations|generic signature|host class|inner classes|instance size|"
             + "java mirror|klass size|length|local interfaces|methods|method ordering|name|nest members|"
-            + "non-static oop maps|source file|state|sub|super|trans. interfaces):"
+            + "non-static oop maps|source file|state|sub|super|trans. interfaces):|"
+            // beginning space
+            + " (dependencies|handler table|main code|metadata|nul chk table|oops|relocation|scopes data|scopes pcs|"
+            + "stub code|total in heap) |"
             //
-            + "| - '[a-zA-Z]+' |" + JdkRegEx.CLASS + "|BufferBlob|Framesize:|Runtime Stub|StubRoutines::).*$";
+            + " - '[a-zA-Z]+' |" + JdkRegEx.CLASS + "|BufferBlob|Framesize:|Runtime Stub|StubRoutines::).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

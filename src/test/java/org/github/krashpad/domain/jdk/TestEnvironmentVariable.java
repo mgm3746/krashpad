@@ -162,6 +162,14 @@ class TestEnvironmentVariable {
     }
 
     @Test
+    void testLibPath() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
+        String logLine = "LIBPATH=/opt/path/lib:";
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    }
+
+    @Test
     void testMachType() {
         EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "MACHTYPE=x86_64";

@@ -126,6 +126,24 @@ class TestRegisterToMemoryMapping {
     }
 
     @Test
+    void testCompiledMethod() {
+        RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
+        String logLine = "Compiled method (c1)   58653 23686   !   3       "
+                + "uri_3a_classloader_3a_.META_minus_INF.jruby_dot_home.lib.ruby.stdlib.rubygems::RUBY$block"
+                + "$open_file$1 (324 bytes)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testDependencies() {
+        RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
+        String logLine = " dependencies   [0x00007f1c49d5f768,0x00007f1c49d5f7d0] = 104";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testErrorReportingRegisterInfo() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = "[error occurred during error reporting (printing register info), id 0xb]";
@@ -170,6 +188,14 @@ class TestRegisterToMemoryMapping {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = "Framesize: 0";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testHandlerTable() {
+        RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
+        String logLine = " handler table  [0x00007f1c49d5f7d0,0x00007f1c49d5fc68] = 1176";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
 
@@ -244,7 +270,7 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-
+    
     @Test
     void testLength() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
@@ -252,7 +278,23 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-
+    
+    @Test
+    void testMainCode() {
+        RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
+        String logLine = " main code      [0x00007f1c49d5a520,0x00007f1c49d5d570] = 12368";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+    
+    @Test
+    void testMetadata() {
+        RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
+        String logLine = " metadata       [0x00007f1c49d5d7f0,0x00007f1c49d5d9a8] = 440";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+    
     @Test
     void testMethodEntryPointNative() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
@@ -260,7 +302,7 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-
+    
     @Test
     void testMethodEntryPointZerolocals() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
@@ -269,7 +311,7 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-
+    
     @Test
     void testNativeMethodEntryPoint() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
@@ -277,8 +319,8 @@ class TestRegisterToMemoryMapping {
                 + "bytes";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
-    }
-
+    }    
+    
     @Test
     void testNext() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
@@ -305,10 +347,26 @@ class TestRegisterToMemoryMapping {
     }
 
     @Test
+    void testNulChkTable() {
+        RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
+        String logLine = " nul chk table  [0x00007f1c49d5fc68,0x00007f1c49d5fd08] = 160";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testObject() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = "org.xnio.nio.WorkerThread {0x0000000800c89d28}";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testOops() {
+        RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
+        String logLine = " oops           [0x00007f1c49d5d740,0x00007f1c49d5d7f0] = 176";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
 
@@ -386,6 +444,14 @@ class TestRegisterToMemoryMapping {
     }
 
     @Test
+    void testRelocation() {
+        RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
+        String logLine = " relocation     [0x00007f1c49d5a068,0x00007f1c49d5a520] = 1208";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testReturn() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = "return  177 return  [0x00003fff79024b80, 0x00003fff79024f80]  1024 bytes";
@@ -418,6 +484,22 @@ class TestRegisterToMemoryMapping {
     }
 
     @Test
+    void testScopesData() {
+        RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
+        String logLine = " scopes data    [0x00007f1c49d5d9a8,0x00007f1c49d5e998] = 4080";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testScopesPcs() {
+        RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
+        String logLine = " scopes pcs     [0x00007f1c49d5e998,0x00007f1c49d5f768] = 3536";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testSignature() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = " - signature: Lcom/example/MyClass$$AnotherClass$$98c697a5";
@@ -444,10 +526,26 @@ class TestRegisterToMemoryMapping {
     }
 
     @Test
+    void testStubCode() {
+        RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
+        String logLine = " stub code      [0x00007f1c49d5d570,0x00007f1c49d5d740] = 464";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testStubroutines() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = "StubRoutines::unsafe_arraycopy [0x00007feac1053080, 0x00007feac10530bb[ (59 bytes)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+    
+    @Test
+    void testTotalInHeap() {
+        RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
+        String logLine = " total in heap  [0x00007f1c49d59f10,0x00007f1c49d5fd08] = 24056";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
 
