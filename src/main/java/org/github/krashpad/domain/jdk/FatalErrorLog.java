@@ -1589,8 +1589,10 @@ public class FatalErrorLog {
             analysis.add(Analysis.WARN_THP_OS_ALWAYS);
         }
         // ZGC large pages analysis
-        if ((getGarbageCollectors().contains(GarbageCollector.ZGC_NON_GENERATIONAL)
-                || getGarbageCollectors().contains(GarbageCollector.ZGC_GENERATIONAL)) && getShmemHugePages() == 0) {
+        if (getJvmOptions() != null && JdkUtil.isOptionEnabled(getJvmOptions().getUseLargePages())
+                && (getGarbageCollectors().contains(GarbageCollector.ZGC_NON_GENERATIONAL)
+                        || getGarbageCollectors().contains(GarbageCollector.ZGC_GENERATIONAL))
+                && getShmemHugePages() == 0) {
             analysis.add(Analysis.ERROR_LARGE_PAGES_ZGC_SHMEM_ZERO);
         }
         // RHEL7 ELS
