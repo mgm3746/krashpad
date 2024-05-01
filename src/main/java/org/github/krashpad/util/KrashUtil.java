@@ -81,7 +81,7 @@ public class KrashUtil {
     /**
      * Windows system native library home regular expression.
      */
-    public static final String NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME = "C:\\\\Windows\\\\((system|System|SYSTEM)32|"
+    public static final String NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME = "C:\\\\[Ww]indows\\\\((system|System|SYSTEM)32|"
             + "WinSxS\\\\amd64_microsoft\\.windows\\.common\\-controls_.+)\\\\";
 
     /**
@@ -756,6 +756,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("CRYPTSP.dll");
         NATIVE_LIBRARIES_WINDOWS.add("DBGHELP.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("dbgcore.DLL");
+        NATIVE_LIBRARIES_WINDOWS.add("DEVOBJ.dll");
         NATIVE_LIBRARIES_WINDOWS.add("dhcpcsvc.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("dhcpcsvc6.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("DNSAPI.dll");
@@ -807,12 +808,15 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("perfproc.dll");
         NATIVE_LIBRARIES_WINDOWS.add("powrprof.dll");
         NATIVE_LIBRARIES_WINDOWS.add("profapi.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("prntvpt.dll");
         NATIVE_LIBRARIES_WINDOWS.add("RPCRT4.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("RpcRtRemote.dll");
         NATIVE_LIBRARIES_WINDOWS.add("rasadhlp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("rsaenh.dll");
         NATIVE_LIBRARIES_WINDOWS.add("SHELL32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("SHLWAPI.dll");
         NATIVE_LIBRARIES_WINDOWS.add("SSPICLI.DLL");
+        NATIVE_LIBRARIES_WINDOWS.add("SETUPAPI.dll");
         NATIVE_LIBRARIES_WINDOWS.add("sechost.dll");
         NATIVE_LIBRARIES_WINDOWS.add("Secur32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("secur32.dll");
@@ -830,10 +834,12 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("urlmon.dll");
         NATIVE_LIBRARIES_WINDOWS.add("VERSION.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINHTTP.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("WININET.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINMMBASE.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINMM.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINNSI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("WINSTA.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("WinSCard.dll");
         NATIVE_LIBRARIES_WINDOWS.add("wshunix.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WSOCK32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WS2_32.dll");

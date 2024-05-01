@@ -3589,7 +3589,7 @@ class TestAnalysis {
     }
 
     @Test
-    void testVmWareNativeLibraries() {
+    void testVmWareNativeLibrary() {
         FatalErrorLog fel = new FatalErrorLog();
         String dynamicLibrary1 = "0x0000000062a40000 - 0x0000000062aa1000         C:\\Windows\\SYSTEM32\\"
                 + "vmGuestLib.DLL";
@@ -3603,7 +3603,7 @@ class TestAnalysis {
         assertEquals(2, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
-
+    
     @Test
     void testWarnNotLatestJdkValue() {
         assertEquals("JDK is not the latest release", Analysis.WARN_JDK_NOT_LATEST.getValue(),
@@ -3657,6 +3657,17 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_JVM_DLL.getKey()),
                 Analysis.ERROR_JVM_DLL + " analysis not identified.");
+    }
+
+    @Test
+    void testWindowsNativeLibraryNtdll() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "0x00007ffac0a40000 - 0x00007ffac0c2e000         C:\\windows\\SYSTEM32\\ntdll.dll";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
 
     @Test
