@@ -127,10 +127,10 @@ public class Main {
                 printWriter.write(
                         "CPUs (cpu x cpu cores x hyperthreading): " + fel.getCpusLogical() + Constants.LINE_SEPARATOR);
             }
-            if (fel.getOsMemoryTotal() > 0) {
-                printWriter.write("Memory: "
-                        + JdkUtil.convertSize(fel.getOsMemoryTotal(), 'B', org.github.joa.util.Constants.UNITS)
-                        + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
+            if (fel.getMemoryTotal() > 0) {
+                printWriter.write(
+                        "Memory: " + JdkUtil.convertSize(fel.getMemoryTotal(), 'B', org.github.joa.util.Constants.UNITS)
+                                + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
             }
             if (fel.getAnonHugePages() >= 0) {
                 printWriter.write("Transparent Huge Pages (THP): "
@@ -155,8 +155,8 @@ public class Main {
                 printWriter.write("Memory Free: "
                         + JdkUtil.convertSize(fel.getMemoryFree(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS));
-                if (fel.getOsMemoryTotal() > 0) {
-                    printPercentage(printWriter, fel.getMemoryFree(), fel.getOsMemoryTotal(), null);
+                if (fel.getMemoryTotal() > 0) {
+                    printPercentage(printWriter, fel.getMemoryFree(), fel.getMemoryTotal(), null);
                 }
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
