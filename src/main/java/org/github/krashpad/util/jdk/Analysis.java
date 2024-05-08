@@ -29,7 +29,7 @@ public enum Analysis {
      * Property key for a crash in String.compareTo(Object) compiled with the AVX2 instruction set.
      */
     ERROR_AVX2_STRING_COMPARE_TO("error.avx2.string.compare.to"),
-
+    
     /**
      * Property key for a crash in BufferBlob::flush_icache_stub.
      */
@@ -502,6 +502,11 @@ public enum Analysis {
      * Property key for Dynatrace detected.
      */
     INFO_DYNATRACE("info.dynatrace"),
+
+    /**
+     * Property key for RHEL fips mode.
+     */
+    INFO_FIPS_MODE("info.fips.mode"),
 
     /**
      * Property key for HyperV (Viridian) environment. Previously referred to as Windows Server Virtualization.

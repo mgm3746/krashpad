@@ -902,6 +902,18 @@ class TestAnalysis {
     }
 
     @Test
+    void testFipsMode() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logline = "7f97280a6000-7f97280ac000 r--p 00000000 fd:00 67157723                   "
+                + "/usr/lib64/libsoftokn3.so";
+        DynamicLibrary event = new DynamicLibrary(logline);
+        fel.getDynamicLibraries().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_FIPS_MODE.getKey()),
+                Analysis.INFO_FIPS_MODE + " analysis not identified.");
+    }
+
+    @Test
     void testFpe() {
         FatalErrorLog fel = new FatalErrorLog();
         String siginfo = "siginfo: si_signo: 8 (SIGFPE), si_code: 1 (FPE_INTDIV), si_addr: 0x00007fdfe95e789f";
@@ -3603,7 +3615,7 @@ class TestAnalysis {
         assertEquals(2, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
-    
+
     @Test
     void testWarnNotLatestJdkValue() {
         assertEquals("JDK is not the latest release", Analysis.WARN_JDK_NOT_LATEST.getValue(),

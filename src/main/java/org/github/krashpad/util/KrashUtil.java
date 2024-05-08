@@ -506,7 +506,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libselinux.so.1");
         // libsndfile: library for reading and writing files containing sampled audio data
         NATIVE_LIBRARIES_LINUX.add("libsndfile.so.1.0.28");
-        // nss-softokn
+        // nss-softokn: loaded when RHEL running in FIPS mode
         NATIVE_LIBRARIES_LINUX.add("libsoftokn3.so");
         // libsoup
         NATIVE_LIBRARIES_LINUX.add("libsoup-2.4.so.1.8.0");

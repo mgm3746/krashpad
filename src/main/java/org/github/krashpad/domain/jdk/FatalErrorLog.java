@@ -1609,6 +1609,17 @@ public class FatalErrorLog {
         if (Arch.X86 == getArchJdk()) {
             analysis.add(Analysis.INFO_JDK_32);
         }
+        // FIPS mode
+        if (!dynamicLibraries.isEmpty()) {
+            Iterator<DynamicLibrary> iterator = dynamicLibraries.iterator();
+            while (iterator.hasNext()) {
+                DynamicLibrary event = iterator.next();
+                if (event.getLogEntry() != null && event.getLogEntry().matches("^.+libsoftokn3\\.so$")) {
+                    analysis.add(Analysis.INFO_FIPS_MODE);
+                    break;
+                }
+            }
+        }
     }
 
     /**
