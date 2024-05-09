@@ -5140,6 +5140,10 @@ public class FatalErrorLog {
         return vmArguments;
     }
 
+    public VmInfo getVmInfo() {
+        return vmInfo;
+    }
+
     public VmOperation getVmOperation() {
         return vmOperation;
     }

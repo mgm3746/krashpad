@@ -824,8 +824,7 @@ public class JdkUtil {
                 logEventType = LogEventType.GC_PRECIOUS_LOG;
             } else if (GlobalFlag.match(logLine)) {
                 logEventType = LogEventType.GLOBAL_FLAG;
-            } else if (Header.match(logLine) && (priorEvent == null || priorEvent instanceof UnknownEvent
-                    || priorEvent instanceof Header || priorEvent instanceof Pid)) {
+            } else if (Header.match(logLine) && !OsInfo.match(logLine)) {
                 logEventType = LogEventType.HEADER;
             } else if (Heading.match(logLine)) {
                 logEventType = LogEventType.HEADING;

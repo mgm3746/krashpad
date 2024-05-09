@@ -1939,6 +1939,16 @@ class TestAnalysis {
     }
 
     @Test
+    void testLoggingMultiple() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset91.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LOGGING_MULTIPLE.getKey()),
+                Analysis.ERROR_LOGGING_MULTIPLE + " analysis not identified.");
+    }
+
+    @Test
     void testLuceneInStackSlotToMemoryMapping() {
         FatalErrorLog fel = new FatalErrorLog();
         String stackSlotToMemoryMapping = "stack at sp + 2 slots: 0x00000007abcf3808 is an oop: org.apache.lucene."

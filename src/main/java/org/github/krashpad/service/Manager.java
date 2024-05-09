@@ -83,6 +83,7 @@ import org.github.krashpad.domain.jdk.VmOperation;
 import org.github.krashpad.domain.jdk.VmState;
 import org.github.krashpad.domain.jdk.ZgcPageTable;
 import org.github.krashpad.domain.jdk.ZgcPhaseSwitchEvent;
+import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.JdkUtil;
 
 /**
@@ -174,7 +175,12 @@ public class Manager {
                     } else if (event instanceof GlobalFlag) {
                         fatalErrorLog.getGlobalFlags().add((GlobalFlag) event);
                     } else if (event instanceof Header) {
-                        fatalErrorLog.getHeaders().add((Header) event);
+                        if (fatalErrorLog.getEnd() == null && fatalErrorLog.getVmInfo() == null) {
+                            fatalErrorLog.getHeaders().add((Header) event);
+                        } else {
+                            fatalErrorLog.addAnalysis(Analysis.ERROR_LOGGING_MULTIPLE);
+                            break;
+                        }
                     } else if (event instanceof HeapAddress) {
                         fatalErrorLog.setHeapAddress((HeapAddress) event);
                     } else if (event instanceof Heap) {
@@ -258,14 +264,14 @@ public class Manager {
                     } else if (event instanceof ZgcPhaseSwitchEvent) {
                         fatalErrorLog.getZgcPhaseSwitchEvents().add((ZgcPhaseSwitchEvent) event);
                     }
+                    // Blank lines are treated in one of two ways: (1) The event can include blank lines, so they
+                    // are thrown away (prior event is not updated). (2) The event cannot include blank lines (so
+                    // prior event is updated to {@link org.github.krashpad.domain.BlankLine}. Using {@link
+                    // org.github.krashpad.domain.BlankLine} as an event boundary is an optimization for events that
+                    // can contain huge numbers of entries.
+                    // TODO: Add an event method to determine if the event can include blank lines.
                     if (!(event instanceof BlankLine) || priorEvent instanceof DynamicLibrary
                             || priorEvent instanceof ZgcPageTable) {
-                        // Blank lines are treated in one of two ways: (1) The event can include blank lines, so they
-                        // are thrown away (prior event is not updated). (2) The event cannot include blank lines (so
-                        // prior event is updated to {@link org.github.krashpad.domain.BlankLine}. Using {@link
-                        // org.github.krashpad.domain.BlankLine} as an event boundary is an optimization for events that
-                        // can contain huge numbers of entries.
-                        // TODO: Add an event method to determine if the event can include blank lines.
                         priorEvent = event;
                     }
                     logLine = bufferedReader.readLine();

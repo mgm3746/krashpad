@@ -270,7 +270,7 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-    
+
     @Test
     void testLength() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
@@ -278,7 +278,7 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-    
+
     @Test
     void testMainCode() {
         RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
@@ -286,7 +286,7 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-    
+
     @Test
     void testMetadata() {
         RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);
@@ -294,7 +294,7 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-    
+
     @Test
     void testMethodEntryPointNative() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
@@ -302,7 +302,7 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-    
+
     @Test
     void testMethodEntryPointZerolocals() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
@@ -311,7 +311,7 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-    
+
     @Test
     void testNativeMethodEntryPoint() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
@@ -319,8 +319,8 @@ class TestRegisterToMemoryMapping {
                 + "bytes";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
-    }    
-    
+    }
+
     @Test
     void testNext() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
@@ -540,7 +540,7 @@ class TestRegisterToMemoryMapping {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }
-    
+
     @Test
     void testTotalInHeap() {
         RegisterToMemoryMapping priorEvent = new RegisterToMemoryMapping(null);

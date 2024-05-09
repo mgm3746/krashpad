@@ -29,7 +29,7 @@ public enum Analysis {
      * Property key for a crash in String.compareTo(Object) compiled with the AVX2 instruction set.
      */
     ERROR_AVX2_STRING_COMPARE_TO("error.avx2.string.compare.to"),
-    
+
     /**
      * Property key for a crash in BufferBlob::flush_icache_stub.
      */
@@ -245,6 +245,11 @@ public enum Analysis {
      * Property key for LinkageError.
      */
     ERROR_LINKAGE("error.linkage"),
+
+    /**
+     * Property key for multiple and/or mixed logging.
+     */
+    ERROR_LOGGING_MULTIPLE("error.logging.multiple"),
 
     /**
      * Property key for JVM crash in ModuleEntry::purge_reads.
