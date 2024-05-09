@@ -145,9 +145,9 @@ public class Metaspace implements LogEvent, HeaderEvent {
             + " - uncommit_free_chunks:| - use_allocation_guard:| - virtual_space_node_default_size:|Virtual space:|"
             + JdkRegEx.SIZE2 + "|[ ]+" + JdkRegEx.SIZE2 + " reserved,[ ]+" + JdkRegEx.SIZE2 + " \\([>]{0,1}"
             + JdkRegEx.PERCENT + "\\) committed|[ ]{0,}" + JdkRegEx.SIZE2 + " capacity,[ ]+" + JdkRegEx.SIZE2
-            + " \\([ ]{0,2}" + JdkRegEx.PERCENT + "\\) used,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2}" + JdkRegEx.PERCENT
-            + "\\) free\\+waste,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2}(<)?" + JdkRegEx.PERCENT + "\\) overhead\\.)"
-            + ".*$";
+            + " \\([ ]{0,2}(>)?" + JdkRegEx.PERCENT + "\\) used,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2}(<)?"
+            + JdkRegEx.PERCENT + "\\) free\\+waste,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2}(<)?" + JdkRegEx.PERCENT
+            + "\\) overhead\\.)" + ".*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

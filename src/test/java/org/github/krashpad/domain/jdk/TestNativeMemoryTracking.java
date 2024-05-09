@@ -44,6 +44,14 @@ class TestNativeMemoryTracking {
     }
 
     @Test
+    void testArguments() {
+        NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
+        String logLine = "-                 Arguments (reserved=29KB, committed=29KB)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
+    }
+    
+    @Test
     void testClass() {
         NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
         String logLine = "-                     Class (reserved=1236886KB, committed=214626KB)";
@@ -89,6 +97,14 @@ class TestNativeMemoryTracking {
         String logLine = "-                  Compiler (reserved=26862KB, committed=26862KB)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
                 JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
+    }
+
+    @Test
+    void testFree() {
+        NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
+        String logLine = "                            (    free=5775KB)";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof NativeMemoryTracking,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not parsed.");
     }
 
     @Test
@@ -142,6 +158,14 @@ class TestNativeMemoryTracking {
     void testJavaHeap() {
         NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
         String logLine = "-                 Java Heap (reserved=8388608KB, committed=8388608KB)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
+    }
+
+    @Test
+    void testLogging() {
+        NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
+        String logLine = "-                   Logging (reserved=7KB, committed=7KB)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
                 JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     }
@@ -311,6 +335,14 @@ class TestNativeMemoryTracking {
     void testSynchronization() {
         NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
         String logLine = "-           Synchronization (reserved=67KB, committed=67KB)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
+    }
+
+    @Test
+    void testSynchronizer() {
+        NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
+        String logLine = "-              Synchronizer (reserved=614KB, committed=614KB)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
                 JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
     }

@@ -243,9 +243,11 @@ class TestMetaspace {
     }
 
     @Test
-    void testUseAllocationGuard() {
-        String logLine = " - use_allocation_guard: 0.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+    void testUsageDetails() {
+        Metaspace priorLogEvent = new Metaspace("Usage:");
+        String logLine = "  263.14 MB capacity,   260.61 MB (>99%) used,     1.76 MB ( <1%) free+waste,   791.06 KB "
+                + "( <1%) overhead.";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.METASPACE,
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     }
 
