@@ -28,6 +28,15 @@ import org.junit.jupiter.api.Test;
 class TestCommandLine {
 
     @Test
+    void testEmpty() {
+        String logLine = "Command Line:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMMAND_LINE,
+                JdkUtil.LogEventType.COMMAND_LINE.toString() + " not identified.");
+        CommandLine event = new CommandLine(logLine);
+        assertNull(event.getValue(), "CommandLine value not correct.");
+    }
+
+    @Test
     void testIdentity() {
         String logLine = "Command Line: -Xmx2048m -Xmx12G -Xms1G";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMMAND_LINE,

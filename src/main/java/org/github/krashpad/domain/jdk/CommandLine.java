@@ -45,7 +45,7 @@ public class CommandLine implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^Command Line: (.*)$";
+    private static final String REGEX = "^Command Line:( (.*))?$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -116,7 +116,7 @@ public class CommandLine implements LogEvent {
         String value = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            value = matcher.group(1);
+            value = matcher.group(2);
         }
         return value;
     }
