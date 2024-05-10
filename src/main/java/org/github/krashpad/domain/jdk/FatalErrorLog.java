@@ -1620,6 +1620,13 @@ public class FatalErrorLog {
                 }
             }
         }
+        // External processes consuming significant memory
+        if (getMemoryTotal() > 0 && getJvmMemoryTotalUsed() > 0) {
+            long memoryExternal = getMemoryTotal() - getJvmMemoryTotalUsed();
+            if (JdkMath.calcPercent(memoryExternal, getMemoryTotal()) >= 10) {
+                analysis.add(Analysis.WARN_MEMORY_EXTERNAL);
+            }
+        }
     }
 
     /**

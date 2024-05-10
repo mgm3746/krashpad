@@ -945,6 +945,11 @@ public enum Analysis {
     WARN_MAX_RAM_LIMIT("warn.max.ram.limit"),
 
     /**
+     * Property key for external processes consuming significant amounts of memory (>10%).
+     */
+    WARN_MEMORY_EXTERNAL("warn.memory.external"),
+
+    /**
      * Property key mmapped files in a deleted state.
      */
     WARN_MMAP_DELETED("warn.mmap.deleted"),

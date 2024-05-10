@@ -2098,6 +2098,18 @@ class TestAnalysis {
     }
 
     @Test
+    void testMemoryExternal() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset92.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP.getKey()),
+                Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_MEMORY_EXTERNAL.getKey()),
+                Analysis.WARN_MEMORY_EXTERNAL + " analysis not identified.");
+    }
+
+    @Test
     void testMetadataOnStackMark() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset73.txt");
         Manager manager = new Manager();
