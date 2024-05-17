@@ -160,15 +160,15 @@ public class Main {
                 }
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
-            if (fel.getOsSwapTotal() >= 0) {
+            if (fel.getSwapTotal() >= 0) {
                 printWriter.write(
-                        "Swap: " + JdkUtil.convertSize(fel.getOsSwapTotal(), 'B', org.github.joa.util.Constants.UNITS)
+                        "Swap: " + JdkUtil.convertSize(fel.getSwapTotal(), 'B', org.github.joa.util.Constants.UNITS)
                                 + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
-                if (fel.getOsSwapTotal() > 0 && fel.getOsSwapFree() >= 0) {
+                if (fel.getSwapTotal() > 0 && fel.getSwapFree() >= 0) {
                     printWriter.write("Swap Free: "
-                            + JdkUtil.convertSize(fel.getOsSwapFree(), 'B', org.github.joa.util.Constants.UNITS)
+                            + JdkUtil.convertSize(fel.getSwapFree(), 'B', org.github.joa.util.Constants.UNITS)
                             + Character.toString(org.github.joa.util.Constants.UNITS));
-                    printPercentage(printWriter, fel.getOsSwapFree(), fel.getOsSwapTotal(), null);
+                    printPercentage(printWriter, fel.getSwapFree(), fel.getSwapTotal(), null);
                     printWriter.write(Constants.LINE_SEPARATOR);
                 }
             }
