@@ -81,8 +81,8 @@ public class KrashUtil {
     /**
      * Windows system native library home regular expression.
      */
-    public static final String NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME = "C:\\\\[Ww]indows\\\\((system|System|SYSTEM)32|"
-            + "WinSxS\\\\amd64_microsoft\\.windows\\.common\\-controls_.+)\\\\";
+    public static final String NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME = "C:\\\\(WINDOWS|Windows|windows)\\\\"
+            + "((system|System|SYSTEM)32|WinSxS\\\\amd64_microsoft\\.windows\\.common\\-controls_.+)\\\\";
 
     /**
      * RHEL7 extended life cycle support (ELS) phase start date.
