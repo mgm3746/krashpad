@@ -74,7 +74,8 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
     private static final String REGEX = "^(" + _REGEX_HEADER
             + "|[ ]{0,}(bool|ccstr|ccstrlist|double|intx|size_t|uint||uint64_t|uintx) ([a-zA-Z0-9]+)[ ]{1,}= ([^\\{]+)"
             + "\\{(C2 product|diagnostic|experimental|lp64_product|manageable|pd product|product|"
-            + "product lp64_product)\\}( \\{(command line|command line, ergonomic|environment|ergonomic)\\})?)$";
+            + "product lp64_product)\\}( \\{(command line|command line, ergonomic|environment|ergonomic|management)"
+            + "\\})?)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

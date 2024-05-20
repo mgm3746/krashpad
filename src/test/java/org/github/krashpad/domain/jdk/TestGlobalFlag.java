@@ -75,6 +75,14 @@ class TestGlobalFlag {
     }
 
     @Test
+    void testFlightRecorder() {
+        String logLine = "     bool FlightRecorder                           = true"
+                + "                                      {product} {management}";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAG,
+                JdkUtil.LogEventType.GLOBAL_FLAG.toString() + " not identified.");
+    }
+
+    @Test
     void testHeader() {
         String logLine = "[Global flags]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAG,
