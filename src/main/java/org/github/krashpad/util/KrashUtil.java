@@ -738,6 +738,7 @@ public class KrashUtil {
         // ***** WINDOWS OS *****
         NATIVE_LIBRARIES_WINDOWS = new ArrayList<String>();
         NATIVE_LIBRARIES_WINDOWS.add("AcLayers.DLL");
+        NATIVE_LIBRARIES_WINDOWS.add("amsi.dll");
         NATIVE_LIBRARIES_WINDOWS.add("apphelp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ADVAPI32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("bcrypt.dll");
@@ -754,6 +755,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("cryptdll.dll");
         NATIVE_LIBRARIES_WINDOWS.add("cryptsp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("CRYPTSP.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("d2d1.dll");                
         NATIVE_LIBRARIES_WINDOWS.add("DBGHELP.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("dbgcore.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("DEVOBJ.dll");
@@ -789,6 +791,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("ncrypt.dll");
         NATIVE_LIBRARIES_WINDOWS.add("netutils.dll");
         NATIVE_LIBRARIES_WINDOWS.add("NLAapi.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("nlansp_c.dll");
         NATIVE_LIBRARIES_WINDOWS.add("NSI.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ntdll.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ntdsapi.dll");
@@ -800,12 +803,14 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("OleAut32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ole32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("opengl32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("perfos.dll");
         NATIVE_LIBRARIES_WINDOWS.add("pnrpnsp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("POWRPROF.dll");
         NATIVE_LIBRARIES_WINDOWS.add("PROPSYS.dll");
         NATIVE_LIBRARIES_WINDOWS.add("PSAPI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("Pdh.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("perfproc.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("perfproc.dll");        
+        NATIVE_LIBRARIES_WINDOWS.add("pfclient.dll");        
         NATIVE_LIBRARIES_WINDOWS.add("powrprof.dll");
         NATIVE_LIBRARIES_WINDOWS.add("profapi.dll");
         NATIVE_LIBRARIES_WINDOWS.add("prntvpt.dll");
