@@ -757,6 +757,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("CRYPTSP.dll");
         NATIVE_LIBRARIES_WINDOWS.add("d2d1.dll");                
         NATIVE_LIBRARIES_WINDOWS.add("DBGHELP.DLL");
+        NATIVE_LIBRARIES_WINDOWS.add("dbghelp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("dbgcore.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("DEVOBJ.dll");
         NATIVE_LIBRARIES_WINDOWS.add("dhcpcsvc.DLL");
@@ -809,6 +810,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("PROPSYS.dll");
         NATIVE_LIBRARIES_WINDOWS.add("PSAPI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("Pdh.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("pdh.dll");
         NATIVE_LIBRARIES_WINDOWS.add("perfproc.dll");        
         NATIVE_LIBRARIES_WINDOWS.add("pfclient.dll");        
         NATIVE_LIBRARIES_WINDOWS.add("powrprof.dll");
