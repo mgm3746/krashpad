@@ -67,13 +67,18 @@ public class Memory implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      * 
-     * On Windows, oddly enough, "swap" is _not_ the swap (Windows page file) size.
+     * On Windows, oddly enough, "swap" is _not_ the swap (Windows page file) size:
      * 
-     * "swap" total is `ullTotalPageFile`, the commit limit for the system or the current process, whichever is smaller
-     * (i.e. total virtual memory), which corresponds to the linux `CommitLimit`.
+     * 1) "swap" total is `ullTotalPageFile`, the commit limit for the system or the current process, whichever is
+     * smaller (i.e. total virtual memory), which corresponds to the linux `CommitLimit`.
      * 
-     * "swap" free is `ullAvailPageFile`, the maximum amount of memory the current process can commit (i.e. free virtual
-     * memory), which corresponds to the linux `CommitLimit` - `Commit_AS`.
+     * 2) "swap" free is `ullAvailPageFile`, the maximum amount of memory the current process can commit (i.e. free
+     * virtual memory), which corresponds to the linux `CommitLimit` - `Commit_AS`.
+     * 
+     * By default, the Windows page file size is not fixed, but managed dynamically based on needs. Therefore, it is not
+     * a hard limit (as it is with Linux, where swap space is fixed). It is possible to override the default behavior
+     * and set a fixed page file size, or disable it entirely. The JVM has no way of knowing if the page file is dynamic
+     * (default), fixed, or disabled.
      * 
      * Reference: https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-memorystatusex
      */
