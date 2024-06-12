@@ -67,7 +67,7 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.REGISTER
-            + "|Adapter for signature:.+|\\[[BCIL]([a-z]{1,}\\..+)?|BufferBlob.+|\\[CodeBlob.+|Compiled method .+|"
+            + "|Adapter for signature:.+|\\[[BCILZ]([a-z]{1,}\\..+)?|BufferBlob.+|\\[CodeBlob.+|Compiled method .+|"
             + "Framesize.+| - (---- fields \\(total size \\d{1,} words\\)|---- non-static fields \\(\\d{1,} words\\)|"
             + "---- static fields \\(\\d{1,} words\\)|access|arrays|class annotations|class loader data|"
             + "class type annotations|constants|default_methods|default vtable indices|field annotations|"
