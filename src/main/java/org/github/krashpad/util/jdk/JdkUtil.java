@@ -16,7 +16,6 @@ package org.github.krashpad.util.jdk;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -527,55 +526,34 @@ public class JdkUtil {
      *            The fatal error log.
      * @return The known release date for the JDK build that produced the fatal error log.
      */
-    public static final Date getJdkReleaseDate(FatalErrorLog fatalErrorLog) {
-        Date date = null;
-        if (fatalErrorLog != null) {
-            Release release = null;
-            HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-            if (releases != null && !releases.isEmpty()) {
-                if (fatalErrorLog.isRhRpmInstall()) {
-                    release = releases.get(fatalErrorLog.getRpmDirectory());
-                } else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
-                    release = releases.get(fatalErrorLog.getJdkReleaseString());
-                }
-            } else {
-                // Approximate release
-                release = fatalErrorLog.getFirstJdkRelease(fatalErrorLog.getJdkReleaseString());
-            }
-            if (release != null) {
-                date = release.getBuildDate();
-            }
-        }
-        return date;
-    }
-
+    /*
+     * public static final Date getJdkReleaseDate(FatalErrorLog fatalErrorLog) { Date date = null; if (fatalErrorLog !=
+     * null) { Release release = null; HashMap<String, Release> releases = getJdkReleases(fatalErrorLog); if (releases
+     * != null && !releases.isEmpty()) { if (fatalErrorLog.isRhRpmInstall()) { release =
+     * releases.get(fatalErrorLog.getRpmDirectory()); } else if (fatalErrorLog.isRhLinuxZipInstall() ||
+     * fatalErrorLog.isRhWindowsZipInstall()) { release = releases.get(fatalErrorLog.getJdkReleaseString()); } } else {
+     * // Approximate release release = fatalErrorLog.getFirstJdkRelease(fatalErrorLog.getJdkReleaseString()); } if
+     * (release != null) { date = release.getBuildDate(); } } return date; }
+     * 
+     */
     /**
      * @param fatalErrorLog
      *            The fatal error log.
      * @return The release number for the JDK that produced the fatal error log.
      */
-    public static final int getJdkReleaseNumber(FatalErrorLog fatalErrorLog) {
-        int number = 0;
-        if (fatalErrorLog != null) {
-            HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-            if (releases != null && !releases.isEmpty()) {
-                Release release = null;
-                if (fatalErrorLog.isRhRpmInstall()) {
-                    release = releases.get(fatalErrorLog.getRpmDirectory());
-                } else if (fatalErrorLog.isRhLinuxZipInstall() || fatalErrorLog.isRhWindowsZipInstall()) {
-                    release = releases.get(fatalErrorLog.getJdkReleaseString());
-                }
-                if (release != null) {
-                    number = release.getNumber();
-                }
-            }
-        }
-        return number;
-    }
-
-    /**
-     * @param fatalErrorLog
-     *            The fatal error log.
+    /*
+     * public static final int getJdkReleaseNumber(FatalErrorLog fatalErrorLog) { int number = 0; if (fatalErrorLog !=
+     * null) { HashMap<String, Release> releases = getJdkReleases(fatalErrorLog); if (releases != null &&
+     * !releases.isEmpty()) { Release release = null; if (fatalErrorLog.isRhRpmInstall()) { release =
+     * releases.get(fatalErrorLog.getRpmDirectory()); } else if (fatalErrorLog.isRhLinuxZipInstall() ||
+     * fatalErrorLog.isRhWindowsZipInstall()) { release = releases.get(fatalErrorLog.getJdkReleaseString()); } if
+     * (release != null) { number = release.getNumber(); } } } return number; }
+     *
+     * 
+     * /**
+     * 
+     * @param fatalErrorLog The fatal error log.
+     * 
      * @return The JDK releases for the JDK that produced the fatal error log.
      */
     public static final HashMap<String, Release> getJdkReleases(FatalErrorLog fatalErrorLog) {
@@ -670,42 +648,13 @@ public class JdkUtil {
     /**
      * @param fatalErrorLog
      *            The fatal error log.
-     * @return Latest JDK release date for the JDK that produced the fatal error log.
+     * @return Latest JDK <code>Release</code> for the JDK that produced the fatal error log.
      */
-    public static final Date getLatestJdkReleaseDate(FatalErrorLog fatalErrorLog) {
-        Date date = null;
+    public static final Release getLatestJdkRelease(FatalErrorLog fatalErrorLog) {
+        Release release = null;
         HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
         if (releases != null && releases.get("LATEST") != null) {
-            date = releases.get("LATEST").getBuildDate();
-        }
-        return date;
-    }
-
-    /**
-     * @param fatalErrorLog
-     *            The fatal error log.
-     * @return Latest JDK release number for the JDK that produced the fatal error log.
-     */
-    public static final int getLatestJdkReleaseNumber(FatalErrorLog fatalErrorLog) {
-        int number = 0;
-        HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-        if (releases != null && !releases.isEmpty()) {
-            Release latest = releases.get("LATEST");
-            number = latest.getNumber();
-        }
-        return number;
-    }
-
-    /**
-     * @param fatalErrorLog
-     *            The fatal error log.
-     * @return Latest JDK release string for the JDK that produced the fatal error log.
-     */
-    public static final String getLatestJdkReleaseString(FatalErrorLog fatalErrorLog) {
-        String release = null;
-        HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-        if (releases != null && !releases.isEmpty()) {
-            release = releases.get("LATEST").getVersion();
+            release = releases.get("LATEST");
         }
         return release;
     }
@@ -969,47 +918,20 @@ public class JdkUtil {
     }
 
     /**
-     * Determine if a build date is a known date/time or an estimate. Estimate have 0 for hh:mm:ss.
-     * 
-     * The following build date/time is a known date/time:
-     * 
-     * Apr 19 2022 00:14:41
-     * 
-     * The following build date/time is an estimate:
-     * 
-     * Apr 19 2022 00:00:00
-     * 
-     * @param buildDate
-     *            The JDK build date/time, or an estimate if unknown.
-     * 
-     * @return true if the JDK build date is known, false otherwise.
-     */
-    // public static final boolean isBuildDateKnown(Date buildDate) {
-    // boolean isBuildDateKnown = false;
-    // Calendar calendar = Calendar.getInstance();
-    // calendar.setTime(buildDate);
-    // if (!(calendar.get(Calendar.HOUR) == 0 && calendar.get(Calendar.MINUTE) == 0
-    // && calendar.get(Calendar.SECOND) == 0)) {
-    // isBuildDateKnown = true;
-    // }
-    // return isBuildDateKnown;
-    // }
-
-    /**
      * @param fatalErrorLog
      *            The fatal error log.
      * @return true if the JDK that produced the fatal error log is the latest release, false otherwise.
      */
     public static final boolean isLatestJdkRelease(FatalErrorLog fatalErrorLog) {
         boolean isLatestRelease = true;
-        HashMap<String, Release> releases = getJdkReleases(fatalErrorLog);
-        if (releases != null && !releases.isEmpty()) {
-            Release latest = releases.get("LATEST");
+        Release release = fatalErrorLog.getJdkRelease();
+        if (release != null) {
+            Release latest = getLatestJdkRelease(fatalErrorLog);
             if (latest != null) {
                 if (latest.getVersion() != null && !latest.getVersion().equals(fatalErrorLog.getJdkReleaseString())) {
                     isLatestRelease = false;
                 } else if (latest.getBuildDate() != null
-                        && !latest.getBuildDate().equals(fatalErrorLog.getJdkReleaseDate())) {
+                        && !latest.getBuildDate().equals(fatalErrorLog.getJdkRelease().getBuildDate())) {
                     // There is a newer release with the same release string
                     isLatestRelease = false;
                 }

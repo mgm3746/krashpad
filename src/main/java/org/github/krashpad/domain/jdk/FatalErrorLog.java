@@ -608,7 +608,8 @@ public class FatalErrorLog {
             analysis.add(Analysis.WARN_FATAL_ERROR_LOG_ANCIENT);
         }
         // Check for ancient JDK
-        if (getJdkReleaseDate() != null && KrashUtil.dayDiff(getJdkReleaseDate(), new Date()) > 365) {
+        if (getJdkRelease() != null && getJdkRelease().getBuildDate() != null
+                && KrashUtil.dayDiff(getJdkRelease().getBuildDate(), new Date()) > 365) {
             analysis.add(Analysis.INFO_JDK_ANCIENT);
         }
         // Check for unknown JDK version
@@ -1679,7 +1680,7 @@ public class FatalErrorLog {
                 String replace = ">1 yr";
                 int position = s.toString().lastIndexOf(replace);
                 StringBuffer with = new StringBuffer();
-                BigDecimal years = new BigDecimal(KrashUtil.dayDiff(getJdkReleaseDate(), new Date()));
+                BigDecimal years = new BigDecimal(KrashUtil.dayDiff(getJdkRelease().getBuildDate(), new Date()));
                 years = years.divide(new BigDecimal(365), 1, HALF_EVEN);
                 with.append(years.toString());
                 with.append(" years");
@@ -1760,9 +1761,9 @@ public class FatalErrorLog {
             } else if (item.getKey().equals(Analysis.WARN_JDK_NOT_LATEST.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 // Add latest release info
-                int releaseDayDiff = KrashUtil.dayDiff(JdkUtil.getJdkReleaseDate(this),
-                        JdkUtil.getLatestJdkReleaseDate(this));
-                int releaseNumberDiff = JdkUtil.getLatestJdkReleaseNumber(this) - JdkUtil.getJdkReleaseNumber(this);
+                int releaseDayDiff = KrashUtil.dayDiff(getJdkRelease().getBuildDate(),
+                        JdkUtil.getLatestJdkRelease(this).getBuildDate());
+                int releaseNumberDiff = JdkUtil.getLatestJdkRelease(this).getNumber() - getJdkRelease().getNumber();
                 if (releaseDayDiff > 0 && releaseNumberDiff > 0) {
                     s.append(", which is newer by " + releaseNumberDiff);
                     s.append(" release");
@@ -3122,7 +3123,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return JDK <code>BuiltBy</code>.
+     * @return JDK <code>BuiltBy</code> in <code>VmInfo</code>.
      */
     public BuiltBy getJdkBuiltBy() {
         BuiltBy builtBy = BuiltBy.UNKNOWN;
@@ -3133,7 +3134,8 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The JDK <code>Release</code>, or null if unknown/undetermined.
+     * @return The JDK <code>Release</code> (or approximate based on release string) that produced the fatal error log,
+     *         or null if unknown/undetermined.
      */
     public Release getJdkRelease() {
         Release release = null;
@@ -3149,17 +3151,6 @@ public class FatalErrorLog {
             release = getFirstJdkRelease(getJdkReleaseString());
         }
         return release;
-    }
-
-    /**
-     * @return The JDK actual or estimated release date.
-     */
-    public Date getJdkReleaseDate() {
-        Date date = getJdkBuildDate();
-        if (date == null) {
-            date = JdkUtil.getJdkReleaseDate(this);
-        }
-        return date;
     }
 
     /**
