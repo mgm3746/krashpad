@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.github.krashpad.util.KrashUtil;
 import org.github.krashpad.util.jdk.JdkUtil.JavaSpecification;
 import org.junit.jupiter.api.Test;
 
@@ -27,20 +26,6 @@ import org.junit.jupiter.api.Test;
  * 
  */
 class TestJdkUtil {
-
-    @Test
-    void testBuildDateEstimate() {
-        String buildDate = "Apr 19 2022 00:00:00";
-        assertFalse(JdkUtil.isBuildDateKnown(KrashUtil.getDate(buildDate)),
-                buildDate + " not identified as an estimated build date.");
-    }
-
-    @Test
-    void testBuildDateKnown() {
-        String buildDate = "Apr 19 2022 00:14:41";
-        assertTrue(JdkUtil.isBuildDateKnown(KrashUtil.getDate(buildDate)),
-                buildDate + " not identified as a known build date.");
-    }
 
     @Test
     void testByteOptionBytes() {

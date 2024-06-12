@@ -755,7 +755,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("cryptdll.dll");
         NATIVE_LIBRARIES_WINDOWS.add("cryptsp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("CRYPTSP.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("d2d1.dll");                
+        NATIVE_LIBRARIES_WINDOWS.add("d2d1.dll");
         NATIVE_LIBRARIES_WINDOWS.add("DBGHELP.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("dbghelp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("dbgcore.DLL");
@@ -811,8 +811,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("PSAPI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("Pdh.dll");
         NATIVE_LIBRARIES_WINDOWS.add("pdh.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("perfproc.dll");        
-        NATIVE_LIBRARIES_WINDOWS.add("pfclient.dll");        
+        NATIVE_LIBRARIES_WINDOWS.add("perfproc.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("pfclient.dll");
         NATIVE_LIBRARIES_WINDOWS.add("powrprof.dll");
         NATIVE_LIBRARIES_WINDOWS.add("profapi.dll");
         NATIVE_LIBRARIES_WINDOWS.add("prntvpt.dll");
@@ -943,7 +943,7 @@ public class KrashUtil {
 
     /**
      * @param buildDate
-     *            The build date in {@link org.github.krashpad.util.jdk.JdkRegEx#BUILD_DATE_TIME} format.
+     *            The build date in {@link org.github.krashpad.util.jdk.JdkRegEx#BUILD_DATETIME} format.
      * @return The build <code>Date</code>.
      */
     public static final Date getDate(String buildDate) {
@@ -954,7 +954,7 @@ public class KrashUtil {
         String HH = null;
         String mm = null;
         String ss = null;
-        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATE_TIME);
+        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATETIME);
         Matcher matcher = pattern.matcher(buildDate);
         if (matcher.find()) {
             MMM = matcher.group(1);
@@ -1042,12 +1042,12 @@ public class KrashUtil {
 
     /**
      * @param buildDate
-     *            The build date in {@link org.github.krashpad.util.jdk.JdkRegEx#BUILD_DATE_TIME_21} format.
+     *            The build date in {@link org.github.krashpad.util.jdk.JdkRegEx#BUILD_DATETIME_21} format.
      * @return The build <code>Date</code>.
      */
     public static final Date getDate21(String buildDate) {
         Date date = null;
-        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATE_TIME_21);
+        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATETIME_21);
         Matcher matcher = pattern.matcher(buildDate);
         if (matcher.find()) {
             Calendar calendar = Calendar.getInstance();

@@ -491,7 +491,7 @@ class TestFatalErrorLog {
         fel.getHeaders().add(headerEvent2);
         assertEquals("1.8.0_191-b12", fel.getJdkReleaseString(), "JDK release string not correct.");
         fel.doAnalysis();
-        Release release = fel.getFirstRelease(fel.getJdkReleaseString());
+        Release release = fel.getFirstJdkRelease(fel.getJdkReleaseString());
         assertNotNull(release, "Red Hat release not identified.");
         assertEquals(KrashUtil.getDate("Oct 09 2018 00:00:00"), release.getBuildDate(), "Build date not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_ANCIENT.getKey()),
@@ -881,6 +881,8 @@ class TestFatalErrorLog {
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals(Constants.PROPERTY_UNKNOWN, fel.getCurrentThreadName(), "Current thread not correct.");
         assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "Java vendor not correct.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
+                Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis not identified.");
     }
@@ -1163,6 +1165,8 @@ class TestFatalErrorLog {
         // 32-bit rpms are not tracked
         assertFalse(fel.isRhRpmInstall(), "RH rpm install incorrectly identified.");
         assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "Java vendor not correct.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
+                Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
                 Analysis.INFO_RH_BUILD_POSSIBLE + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_JDK_32.getKey()), Analysis.INFO_JDK_32 + " analysis not identified.");

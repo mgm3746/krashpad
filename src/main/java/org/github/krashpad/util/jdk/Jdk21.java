@@ -56,9 +56,10 @@ public class Jdk21 {
          * 
          * 2) Zip key is build version.
          * 
-         * 3) Jan 1 2000 00:00:00 means build date/time unknown/TBD.
+         * 3) Jan 1 2000 means build date/time unknown.
          * 
-         * 4) Time 00:00:00 means build date/time is estimate
+         * 4) Jan 1 2000 00:00:00 means build date/time unspecified (e.g. to support reproducible builds).
+         * 
          */
 
         // RHEL8 amd64 OpenJDK21 rpm

@@ -14,73 +14,29 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import java.util.Date;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.github.krashpad.util.KrashUtil;
-import org.github.krashpad.util.jdk.JdkRegEx;
+import org.junit.jupiter.api.Test;
 
 /**
- * <p>
- * JDK release information.
- * </p>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class Release {
+class TestRelease {
 
-    /**
-     * Release build date.
-     */
-    private Date buildDate;
-
-    /**
-     * Flag to indicate if build date is an estimate (unknown).
-     */
-    private boolean isBuildDateEstimate;
-
-    /**
-     * Release number (1..x).
-     */
-    private int number;
-
-    /**
-     * The release version string.
-     */
-    private String version;
-
-    public Release(String buildDate, int number, String version) {
-        super();
-        if (buildDate.matches(JdkRegEx.BUILD_DATE)) {
-            this.buildDate = KrashUtil.getDate(buildDate + " 00:00:00");
-            this.isBuildDateEstimate = true;
-        } else if (buildDate.matches(JdkRegEx.BUILD_DATETIME)) {
-            this.buildDate = KrashUtil.getDate(buildDate);
-            this.isBuildDateEstimate = false;
-        } else if (buildDate.matches(JdkRegEx.BUILD_DATE_21)) {
-            this.buildDate = KrashUtil.getDate21(buildDate + "T00:00:00Z");
-            this.isBuildDateEstimate = true;
-        } else if (buildDate.matches(JdkRegEx.BUILD_DATETIME_21)) {
-            this.buildDate = KrashUtil.getDate21(buildDate);
-            this.isBuildDateEstimate = false;
-        }
-        this.number = number;
-        this.version = version;
+    @Test
+    void testBuildDateEstimateOrUnknown() {
+        String buildDate = "Apr 12 2024";
+        Release release = new Release(buildDate, 26, "11.0.23+9-LTS");
+        assertTrue(release.isBuildDateEstimate(), buildDate + " not identified as an estimated build date.");
     }
 
-    public Date getBuildDate() {
-        return buildDate;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public boolean isBuildDateEstimate() {
-        return isBuildDateEstimate;
+    @Test
+    void testBuildDateMidnight() {
+        String buildDate = "Apr 12 2024 00:00:00 ";
+        Release release = new Release(buildDate, 26, "11.0.23+9-LTS");
+        assertFalse(release.isBuildDateEstimate(),
+                buildDate + " incorrectly identified as an estimated/unknown build date.");
     }
 }

@@ -57,7 +57,7 @@ public class Time implements LogEvent {
         String HH = null;
         String mm = null;
         String ss = null;
-        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATE_TIME);
+        Pattern pattern = Pattern.compile(JdkRegEx.BUILD_DATETIME);
         Matcher matcher = pattern.matcher(buildDate);
         if (matcher.find()) {
             MMM = matcher.group(1);

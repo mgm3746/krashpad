@@ -16,7 +16,6 @@ package org.github.krashpad.util.jdk;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -541,7 +540,7 @@ public class JdkUtil {
                 }
             } else {
                 // Approximate release
-                release = fatalErrorLog.getFirstRelease(fatalErrorLog.getJdkReleaseString());
+                release = fatalErrorLog.getFirstJdkRelease(fatalErrorLog.getJdkReleaseString());
             }
             if (release != null) {
                 date = release.getBuildDate();
@@ -985,16 +984,16 @@ public class JdkUtil {
      * 
      * @return true if the JDK build date is known, false otherwise.
      */
-    public static final boolean isBuildDateKnown(Date buildDate) {
-        boolean isBuildDateKnown = false;
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(buildDate);
-        if (!(calendar.get(Calendar.HOUR) == 0 && calendar.get(Calendar.MINUTE) == 0
-                && calendar.get(Calendar.SECOND) == 0)) {
-            isBuildDateKnown = true;
-        }
-        return isBuildDateKnown;
-    }
+    // public static final boolean isBuildDateKnown(Date buildDate) {
+    // boolean isBuildDateKnown = false;
+    // Calendar calendar = Calendar.getInstance();
+    // calendar.setTime(buildDate);
+    // if (!(calendar.get(Calendar.HOUR) == 0 && calendar.get(Calendar.MINUTE) == 0
+    // && calendar.get(Calendar.SECOND) == 0)) {
+    // isBuildDateKnown = true;
+    // }
+    // return isBuildDateKnown;
+    // }
 
     /**
      * @param fatalErrorLog

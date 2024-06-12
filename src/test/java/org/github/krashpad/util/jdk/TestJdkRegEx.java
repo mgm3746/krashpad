@@ -78,7 +78,7 @@ class TestJdkRegEx {
     @Test
     void testBuildDateTime21() {
         String buildDateTime = "2023-08-27T04:16:29Z";
-        assertTrue(buildDateTime.matches(JdkRegEx.BUILD_DATE_TIME_21), "Build date/time JDK21 not recognized.");
+        assertTrue(buildDateTime.matches(JdkRegEx.BUILD_DATETIME_21), "Build date/time JDK21 not recognized.");
     }
 
     @Test

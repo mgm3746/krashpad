@@ -75,7 +75,7 @@ public class VmInfo implements LogEvent {
      */
     private static final String REGEX = "^vm_info: (Java HotSpot\\(TM\\)|OpenJDK)( 64-Bit)? Server VM \\(.+\\) for "
             + "(linux|windows|solaris)-(aarch64|amd64|ppc64|ppc64le|sparc|x86) JRE (\\(Zulu.+\\) )?\\("
-            + JdkRegEx.BUILD_STRING + "\\).+ built on (" + JdkRegEx.BUILD_DATE_TIME + "|" + JdkRegEx.BUILD_DATE_TIME_21
+            + JdkRegEx.BUILD_STRING + "\\).+ built on (" + JdkRegEx.BUILD_DATETIME + "|" + JdkRegEx.BUILD_DATETIME_21
             + ").+$";
 
     /**
@@ -134,10 +134,10 @@ public class VmInfo implements LogEvent {
         Date date = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(8).matches(JdkRegEx.BUILD_DATE_TIME)) {
+            if (matcher.group(8).matches(JdkRegEx.BUILD_DATETIME)) {
                 date = KrashUtil.getDate(matcher.group(9), matcher.group(10), matcher.group(11), matcher.group(12),
                         matcher.group(13), matcher.group(14));
-            } else if (matcher.group(8).matches(JdkRegEx.BUILD_DATE_TIME_21)) {
+            } else if (matcher.group(8).matches(JdkRegEx.BUILD_DATETIME_21)) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.YEAR, Integer.valueOf(matcher.group(15)).intValue());
                 calendar.set(Calendar.MONTH, Integer.valueOf(matcher.group(16)).intValue() - 1);

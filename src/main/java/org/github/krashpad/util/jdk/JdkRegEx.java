@@ -72,6 +72,34 @@ public class JdkRegEx {
 
     /**
      * <p>
+     * Regular expression for JDK build date in MMM d yyyy format. See <code>SimpleDateFormat</code> for date and time
+     * pattern definitions.
+     * </p>
+     * 
+     * For example:
+     * 
+     * <pre>
+     * Oct  6 2018
+     * </pre>
+     */
+    public static final String BUILD_DATE = "([a-zA-Z]{3})[ ]{1,2}(\\d{1,2}) (\\d{4})";
+
+    /**
+     * <p>
+     * Regular expression for JDK build date in YYYY-MM-DD format. First observed in JDK21 LTS release. See
+     * <code>SimpleDateFormat</code> for date and time pattern definitions.
+     * </p>
+     * 
+     * For example:
+     * 
+     * <pre>
+     * 2023 - 08 - 27
+     * </pre>
+     */
+    public static final String BUILD_DATE_21 = "(\\d{4})-(\\d{2})-(\\d{2})";
+
+    /**
+     * <p>
      * Regular expression for JDK build date/time in MMM d yyyy HH:mm:ss format. See <code>SimpleDateFormat</code> for
      * date and time pattern definitions.
      * </p>
@@ -82,7 +110,7 @@ public class JdkRegEx {
      * Oct  6 2018 06:46:09
      * </pre>
      */
-    public static final String BUILD_DATE_TIME = "([a-zA-Z]{3})[ ]{1,2}(\\d{1,2}) (\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})";
+    public static final String BUILD_DATETIME = "([a-zA-Z]{3})[ ]{1,2}(\\d{1,2}) (\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})";
 
     /**
      * <p>
@@ -100,7 +128,7 @@ public class JdkRegEx {
      * Note: "Z" = 0 (GMT).
      * </p>
      */
-    public static final String BUILD_DATE_TIME_21 = "(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})Z";
+    public static final String BUILD_DATETIME_21 = "(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})Z";
 
     /**
      * <p>
