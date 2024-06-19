@@ -48,7 +48,7 @@ public class HeapAddress implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^([h|H]eap address: " + JdkRegEx.ADDRESS + ", size: (\\d{1,}) MB|"
-            + "\\[error occurred during error reporting \\(printing compressed oops mode\\), id 0x).*$";
+            + "\\[error occurred during error reporting \\(printing compressed oops mode[\\)]{0,1}, id 0x).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
