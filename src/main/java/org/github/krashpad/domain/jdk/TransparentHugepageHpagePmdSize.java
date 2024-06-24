@@ -14,6 +14,9 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
@@ -46,7 +49,7 @@ public class TransparentHugepageHpagePmdSize implements LogEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_HEADER + " \\d{1,})$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_HEADER + " (\\d{1,}))$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -83,6 +86,21 @@ public class TransparentHugepageHpagePmdSize implements LogEvent, HeaderEvent {
         return logEntry;
     }
 
+    /**
+     * @return THP hpage_pmd_size.
+     */
+    public long getSize() {
+        long size = Long.MIN_VALUE;
+        Pattern pattern = Pattern.compile(TransparentHugepageHpagePmdSize.REGEX);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(2) != null) {
+                size = Long.parseLong(matcher.group(2));
+            }
+        }
+        return size;
+    }
+
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
@@ -90,6 +108,21 @@ public class TransparentHugepageHpagePmdSize implements LogEvent, HeaderEvent {
             isHeader = logEntry.matches(_REGEX_HEADER);
         }
         return isHeader;
+    }
+
+    /**
+     * @return True if size setting, false otherwise.
+     */
+    public boolean isSize() {
+        boolean isSize = false;
+        Pattern pattern = Pattern.compile(TransparentHugepageHpagePmdSize.REGEX);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(2) != null) {
+                isSize = true;
+            }
+        }
+        return isSize;
     }
 
 }

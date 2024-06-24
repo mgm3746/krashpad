@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -37,5 +38,15 @@ class TestTransparentHugepageHpagePmdSize {
         String logLine = "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size: 1234567";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TransparentHugepageHpagePmdSize,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE.toString() + " not parsed.");
+    }
+
+    @Test
+    void testSize() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size: 1234567";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE.toString() + " not identified.");
+        TransparentHugepageHpagePmdSize event = new TransparentHugepageHpagePmdSize(logLine);
+        assertTrue(event.isSize(), "THP hpage_pmd_mode not identified.");
+        assertEquals(1234567L, event.getSize(), "THP hpage_pmd_size not correct.");
     }
 }

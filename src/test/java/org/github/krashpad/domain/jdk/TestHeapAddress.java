@@ -44,7 +44,7 @@ class TestHeapAddress {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
                 JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
     }
-    
+
     @Test
     void testErrorPrintingCompressedOopsModeAtPc() {
         String logLine = "[error occurred during error reporting (printing compressed oops mode), id 0xb, SIGSEGV "

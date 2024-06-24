@@ -376,7 +376,7 @@ public class FatalErrorLog {
     /**
      * Transparent Huge Pages (THP) hpage_pmd_size (/sys/kernel/mm/transparent_hugepage/hpage_pmd_size) information.
      */
-    private List<TransparentHugepageHpagePmdSize> transparentHugepageHpagePmdSize;
+    private List<TransparentHugepageHpagePmdSize> transparentHugepageHpagePmdSizes;
 
     /**
      * uname information.
@@ -459,7 +459,7 @@ public class FatalErrorLog {
         timeouts = new ArrayList<Timeout>();
         transparentHugepageDefrags = new ArrayList<TransparentHugepageDefrag>();
         transparentHugepageEnableds = new ArrayList<TransparentHugepageEnabled>();
-        transparentHugepageHpagePmdSize = new ArrayList<TransparentHugepageHpagePmdSize>();
+        transparentHugepageHpagePmdSizes = new ArrayList<TransparentHugepageHpagePmdSize>();
         unidentifiedLogLines = new ArrayList<String>();
         virtualizationInfos = new ArrayList<VirtualizationInfo>();
         vmArguments = new ArrayList<VmArguments>();
@@ -5124,6 +5124,27 @@ public class FatalErrorLog {
             }
         }
         return transparentHugePageMode;
+    }
+
+    /**
+     * The Transparent Huge Pages (THP) pmd size.
+     * 
+     * 
+     * @return The Transparent Huge Pages (THP) size.
+     */
+    public long getTransparentHugePagesPmdSize() {
+        long transparentHugePagesPmdSize = Long.MIN_VALUE;
+        if (!transparentHugepageHpagePmdSizes.isEmpty()) {
+            Iterator<TransparentHugepageHpagePmdSize> iterator = transparentHugepageHpagePmdSizes.iterator();
+            while (iterator.hasNext()) {
+                TransparentHugepageHpagePmdSize event = iterator.next();
+                if (event.isSize()) {
+                    transparentHugePagesPmdSize = event.getSize();
+                }
+                break;
+            }
+        }
+        return transparentHugePagesPmdSize;
     }
 
     public Uname getUname() {
