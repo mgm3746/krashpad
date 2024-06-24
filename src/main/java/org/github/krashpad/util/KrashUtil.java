@@ -112,6 +112,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("ld-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("ld-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("ld-2.28.so");
+        // glibc
+        NATIVE_LIBRARIES_LINUX.add("ld-linux-x86-64.so.2");
         // libaio
         NATIVE_LIBRARIES_LINUX.add("libaio.so.1.0.1");
         // apr:
@@ -257,7 +259,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20191121.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20200928.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20210514.so.1");
-        NATIVE_LIBRARIES_LINUX.add("libgcc_s-11-20230605.so.1");
+        NATIVE_LIBRARIES_LINUX.add("libgcc_s-11-20230605.so.1");        
+        NATIVE_LIBRARIES_LINUX.add("libgcc_s-11-20231218.so.1");
         // libgcrypt
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.11.8.2");
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.3");
@@ -422,6 +425,7 @@ public class KrashUtil {
         // to be in glibc.
         NATIVE_LIBRARIES_LINUX.add("libnsl-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libnsl-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libnsl.so.1");
         NATIVE_LIBRARIES_LINUX.add("libnsl.so.2.0.0");
         // nss_nis: Name Service Switch (NSS) module using NIS.
         NATIVE_LIBRARIES_LINUX.add("libnss_nis.so.2.0.0");
@@ -485,6 +489,7 @@ public class KrashUtil {
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libresolv-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libresolv-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("libresolv.so.2");
         // librsvg2
         NATIVE_LIBRARIES_LINUX.add("librsvg-2.so.2.42.7");
         // glibc
