@@ -103,6 +103,7 @@ import org.github.krashpad.domain.jdk.Timezone;
 import org.github.krashpad.domain.jdk.TopOfStack;
 import org.github.krashpad.domain.jdk.TransparentHugepageDefrag;
 import org.github.krashpad.domain.jdk.TransparentHugepageEnabled;
+import org.github.krashpad.domain.jdk.TransparentHugepageHpagePmdSize;
 import org.github.krashpad.domain.jdk.Uid;
 import org.github.krashpad.domain.jdk.Umask;
 import org.github.krashpad.domain.jdk.Uname;
@@ -248,9 +249,11 @@ public class JdkUtil {
         //
         TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED,
         //
-        UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION,
+        TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
         //
-        VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
+        VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE,
+        //
+        ZGC_PHASE_SWITCH_EVENT
     }
 
     /**
@@ -877,6 +880,8 @@ public class JdkUtil {
                 logEventType = LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG;
             } else if (TransparentHugepageEnabled.match(logLine)) {
                 logEventType = LogEventType.TRANSPARENT_HUGEPAGE_ENABLED;
+            } else if (TransparentHugepageHpagePmdSize.match(logLine)) {
+                logEventType = LogEventType.TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE;
             } else if (Uid.match(logLine)) {
                 logEventType = LogEventType.UID;
             } else if (Umask.match(logLine)) {
@@ -1228,6 +1233,9 @@ public class JdkUtil {
             break;
         case TRANSPARENT_HUGEPAGE_ENABLED:
             event = new TransparentHugepageEnabled(logLine);
+            break;
+        case TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE:
+            event = new TransparentHugepageHpagePmdSize(logLine);
             break;
         case UID:
             event = new Uid(logLine);

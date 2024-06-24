@@ -374,6 +374,11 @@ public class FatalErrorLog {
     private List<TransparentHugepageEnabled> transparentHugepageEnableds;
 
     /**
+     * Transparent Huge Pages (THP) hpage_pmd_size (/sys/kernel/mm/transparent_hugepage/hpage_pmd_size) information.
+     */
+    private List<TransparentHugepageHpagePmdSize> transparentHugepageHpagePmdSize;
+
+    /**
      * uname information.
      */
     private Uname uname;
@@ -454,6 +459,7 @@ public class FatalErrorLog {
         timeouts = new ArrayList<Timeout>();
         transparentHugepageDefrags = new ArrayList<TransparentHugepageDefrag>();
         transparentHugepageEnableds = new ArrayList<TransparentHugepageEnabled>();
+        transparentHugepageHpagePmdSize = new ArrayList<TransparentHugepageHpagePmdSize>();
         unidentifiedLogLines = new ArrayList<String>();
         virtualizationInfos = new ArrayList<VirtualizationInfo>();
         vmArguments = new ArrayList<VmArguments>();

@@ -56,7 +56,7 @@ class TestMeminfo {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     }
-
+    
     @Test
     void testCommitLimit() {
         Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");
@@ -252,6 +252,14 @@ class TestMeminfo {
     void testSwapCached() {
         Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");
         String logLine = "SwapCached:            0 kB";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testUnaccepted() {
+        Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");
+        String logLine = "Unaccepted:            0 kB";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMINFO,
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     }
