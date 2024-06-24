@@ -273,6 +273,13 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testSkipped() {
+        String logLine = "<Skipped>";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testSoftMaxCapacity() {
         String logLine = " Soft Max Capacity: 860160M";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,

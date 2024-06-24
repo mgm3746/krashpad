@@ -70,7 +70,7 @@ public class GcPreciousLog implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|<Empty>|( (Address Space Size|Address Space Type|Available space on backing filesystem|"
+            + "|<Empty>|<Skipped>|( (Address Space Size|Address Space Type|Available space on backing filesystem|"
             + "CardTable entry size|Card Set container configuration|Compressed Oops|CPUs|"
             + "GC Workers|GC Workers for (Old|Young) Generation|GC Workers Max|Heap Backing File(system)?|"
             + "Heap ((Initial|Min|Max) Capacity|Region Size)|Initial Capacity|Large Page Support|Max Capacity|"
