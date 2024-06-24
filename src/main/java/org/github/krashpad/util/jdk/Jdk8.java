@@ -802,7 +802,7 @@ public class Jdk8 {
         WINDOWS_ZIPS.put("1.8.0_412-b08", new Release("Apr 9 2024", 28, "1.8.0_412-b08"));
         WINDOWS_ZIPS.put("1.8.0_402-b06", new Release("Jan 11 2024 13:24:11", 27, "1.8.0_402-b06"));
         WINDOWS_ZIPS.put("1.8.0_392-b08", new Release("Oct 11 2023 14:51:24", 26, "1.8.0_392-b08"));
-        WINDOWS_ZIPS.put("1.8.0_382-b05", new Release("Jul 14 2023", 25, "1.8.0_382-b05"));
+        WINDOWS_ZIPS.put("1.8.0_382-b05", new Release("Jul 14 2023 13:16:05", 25, "1.8.0_382-b05"));
         WINDOWS_ZIPS.put("1.8.0_372-b07", new Release("Apr 19 2023", 24, "1.8.0_372-b07"));
         WINDOWS_ZIPS.put("1.8.0_362-b08", new Release("Jan 13 2023", 23, "1.8.0_362-b08"));
         WINDOWS_ZIPS.put("1.8.0_352-b08", new Release("Oct 16 2022", 22, "1.8.0_352-b08"));
