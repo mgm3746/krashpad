@@ -49,9 +49,21 @@ class TestKrashUtil {
     }
 
     @Test
-    void testWindowsNativeLibrary() {
+    void testWindowsNativeLibraryJava() {
         String library = "rmi.dll";
-        assertTrue(KrashUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains("rmi.dll"), library + " not found");
+        assertTrue(KrashUtil.NATIVE_LIBRARIES_WINDOWS_JAVA.contains(library), library + " not found");
+    }
+
+    @Test
+    void testWindowsNativeLibrarySystem() {
+        String library = "MSWSOCK.dll";
+        assertTrue(KrashUtil.NATIVE_LIBRARIES_WINDOWS.contains(library), library + " not found");
+    }
+
+    @Test
+    void testWindowsNativeLibrarySystemHome() {
+        String dir = "C:\\Windows\\SYSTEM32\\";
+        assertTrue(dir.matches(KrashUtil.NATIVE_LIBRARY_WINDOWS_SYSTEM_HOME), dir + " not matched.");
     }
 
 }

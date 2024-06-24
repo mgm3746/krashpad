@@ -781,20 +781,26 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("KERNELBASE.dll");
         NATIVE_LIBRARIES_WINDOWS.add("kerberos.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("kernel.appcore.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("LOGONCLI.DLL");
+        NATIVE_LIBRARIES_WINDOWS.add("MPR.dll");
         NATIVE_LIBRARIES_WINDOWS.add("MSASN1.dll");
         NATIVE_LIBRARIES_WINDOWS.add("mscms.dll");
         NATIVE_LIBRARIES_WINDOWS.add("msv1_0.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("msvcp_win.dll");
         NATIVE_LIBRARIES_WINDOWS.add("msvcrt.dll");
         NATIVE_LIBRARIES_WINDOWS.add("MSWSOCK.DLL");
+        NATIVE_LIBRARIES_WINDOWS.add("MSWSOCK.dll");
         NATIVE_LIBRARIES_WINDOWS.add("mswsock.dll");
         NATIVE_LIBRARIES_WINDOWS.add("napinsp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ncrypt.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("NETAPI32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("NETUTILS.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("netutils.dll");
         NATIVE_LIBRARIES_WINDOWS.add("NLAapi.dll");
         NATIVE_LIBRARIES_WINDOWS.add("nlansp_c.dll");
         NATIVE_LIBRARIES_WINDOWS.add("NSI.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ntdll.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("NTDSAPI.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ntdsapi.dll");
         NATIVE_LIBRARIES_WINDOWS.add("NtlmShared.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ntmarta.dll");
@@ -820,6 +826,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("RpcRtRemote.dll");
         NATIVE_LIBRARIES_WINDOWS.add("rasadhlp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("rsaenh.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("SAMCLI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("SHELL32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("SHLWAPI.dll");
         NATIVE_LIBRARIES_WINDOWS.add("SSPICLI.DLL");
@@ -832,6 +839,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("shcore.dll");
         NATIVE_LIBRARIES_WINDOWS.add("SHCORE.dll");
         NATIVE_LIBRARIES_WINDOWS.add("shlwapi.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("SRVCLI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("srvcli.dll");
         NATIVE_LIBRARIES_WINDOWS.add("USER32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("USERENV.dll");
@@ -847,9 +855,11 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("WINNSI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("WINSTA.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WinSCard.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("WLDAP32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("wshunix.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WSOCK32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WS2_32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("WTSAPI32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("Wtsapi32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("wbemcomn.dll");
         NATIVE_LIBRARIES_WINDOWS.add("wbemprox.dll");
@@ -858,6 +868,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("win32u.dll");
         NATIVE_LIBRARIES_WINDOWS.add("winrnr.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINTRUST.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("WKSCLI.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("Wldp.dll");
         NATIVE_LIBRARIES_WINDOWS.add("wshbth.dll");
 
