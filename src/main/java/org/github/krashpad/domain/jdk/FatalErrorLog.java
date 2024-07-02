@@ -4706,7 +4706,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * MemFreeF does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore, low free
+     * MemFree does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore, low free
      * memory does not necessarily indicate swapping or out of memory is imminent.
      * 
      * @return The total free physical memory in bytes.

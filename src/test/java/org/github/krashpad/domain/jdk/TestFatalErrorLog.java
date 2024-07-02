@@ -1184,6 +1184,19 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testOsMemFreeRhel8() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String meminfo1 = "MemFree:          953396 kB";
+        Meminfo meminfoEvent1 = new Meminfo(meminfo1);
+        fel.getMeminfos().add(meminfoEvent1);
+        String meminfo2 = "MemAvailable:   58020584 kB";
+        Meminfo meminfoEvent2 = new Meminfo(meminfo2);
+        fel.getMeminfos().add(meminfoEvent2);
+        long memAvailable = JdkUtil.convertSize(58020584, 'K', 'B');
+        assertEquals(memAvailable, fel.getOsMemoryFree(), "OsMemoryFree not correct.");
+    }
+
+    @Test
     void testOsRhel() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.8 (Maipo)";
