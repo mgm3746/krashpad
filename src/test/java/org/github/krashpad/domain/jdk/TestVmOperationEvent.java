@@ -58,6 +58,14 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testGetThreadListStackTraces() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 14.340 Executing VM operation: GetThreadListStackTraces";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testHandshakeAllThreads() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
         String logLine = "Event: 31.627 Executing VM operation: HandshakeAllThreads done";
