@@ -1109,13 +1109,15 @@ public class FatalErrorLog {
                 && JdkUtil.isOptionEnabled(jvmOptions.getCmsIncrementalMode())) {
             analysis.add(Analysis.WARN_CMS_INCREMENTAL_MODE);
         }
-        // Check for crash caused trying to dereference a null pointer.
-        if (sigInfo != null && sigInfo.getSignalAddress() != null) {
-            if (sigInfo.getSignalAddress().matches(JdkRegEx.POINTER_NULL)) {
-                analysis.add(Analysis.ERROR_POINTER_NULL);
-            } else if (sigInfo.getSignalAddress().matches(JdkRegEx.POINTER_INVALID)) {
-                analysis.add(Analysis.ERROR_POINTER_INVALID);
-            }
+        // Memory corruption
+        if (sigInfo != null && sigInfo.getSignalAddress() != null
+                && sigInfo.getSignalAddress().matches(JdkRegEx.POINTER_NULL)) {
+            analysis.add(Analysis.ERROR_POINTER_NULL);
+        } else if (sigInfo != null && sigInfo.getSignalAddress() != null
+                && sigInfo.getSignalAddress().matches(JdkRegEx.POINTER_INVALID)) {
+            analysis.add(Analysis.ERROR_POINTER_INVALID);
+        } else if (isMemoryCorruption()) {
+            analysis.add(Analysis.ERROR_MEMORY_CORRUPTION);
         }
         if (getStackFrameTop() != null && getStackFrameTop()
                 .matches("J \\d{1,} C2 java\\.lang\\.String\\.compareTo\\(Ljava/lang/Object;\\)I")) {
@@ -5914,6 +5916,18 @@ public class FatalErrorLog {
             isMemoryAllocationFail = true;
         }
         return isMemoryAllocationFail;
+    }
+
+    /**
+     * @return true if the crash is due to memory corruption, false otherwise.
+     */
+    public boolean isMemoryCorruption() {
+        boolean isMemoryCorruption = false;
+        if (getSignalNumber() == SignalNumber.EXCEPTION_ACCESS_VIOLATION || getSignalNumber() == SignalNumber.SIGSEGV
+                || getSignalNumber() == SignalNumber.SIGBUS || getSignalCode() == SignalCode.SEGV_MAPERR) {
+            isMemoryCorruption = true;
+        }
+        return isMemoryCorruption;
     }
 
     /**

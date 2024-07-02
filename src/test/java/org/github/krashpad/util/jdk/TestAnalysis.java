@@ -578,6 +578,8 @@ class TestAnalysis {
                 Analysis.INFO_JVM_STARTUP_FAILS + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_SIGSEGV.getKey()),
                 Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_MEMORY_CORRUPTION.getKey()),
+                Analysis.ERROR_MEMORY_CORRUPTION + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
                 Analysis.ERROR_COMPILER_THREAD + " analysis not identified.");
         assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
@@ -789,6 +791,8 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION.getKey()),
                 Analysis.INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_MEMORY_CORRUPTION.getKey()),
+                Analysis.ERROR_MEMORY_CORRUPTION + " analysis not identified.");
     }
 
     @Test
@@ -2412,6 +2416,8 @@ class TestAnalysis {
                 Analysis.INFO_SIGNO_SIGSEGV + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_SIGCODE_SEGV_MAPERR.getKey()),
                 Analysis.INFO_SIGCODE_SEGV_MAPERR + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_MEMORY_CORRUPTION.getKey()),
+                Analysis.ERROR_MEMORY_CORRUPTION + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }

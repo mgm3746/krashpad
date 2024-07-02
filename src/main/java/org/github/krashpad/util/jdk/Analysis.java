@@ -252,6 +252,11 @@ public enum Analysis {
     ERROR_LOGGING_MULTIPLE("error.logging.multiple"),
 
     /**
+     * Property key for memory corruption.
+     */
+    ERROR_MEMORY_CORRUPTION("error.memory.corruption"),
+
+    /**
      * Property key for JVM crash in ModuleEntry::purge_reads.
      */
     ERROR_MODULE_ENTRY_PURGE_READS("error.module.entry.purge.reads"),
@@ -356,7 +361,7 @@ public enum Analysis {
      * Property key for the JVM failing to start due to a resource limit (rlimit).
      */
     ERROR_OOME_RLIMIT_STARTUP("error.oome.rlimit.startup"),
-
+    
     /**
      * Property key for a thread leak causing a limit to be reached.
      */
