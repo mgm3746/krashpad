@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.util.Date;
 
 import org.github.joa.domain.GarbageCollector;
 import org.github.krashpad.domain.jdk.BarrierSet;

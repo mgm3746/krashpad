@@ -143,12 +143,12 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libavahi-client.so.3.2.9");
         // avahi-libs (libraries need to run programs that use avahi)
         NATIVE_LIBRARIES_LINUX.add("libavahi-common.so.3.5.3");
+        // blas (Basic Linear Algebra Subpackage)
+        NATIVE_LIBRARIES_LINUX.add("libblas.so.3.8.0");
         // brotli (compression library)
         NATIVE_LIBRARIES_LINUX.add("libbrotlicommon.so.1.0.6");
         // brotli (compression library)
         NATIVE_LIBRARIES_LINUX.add("libbrotlidec.so.1.0.6");
-        // bzip2-libs
-        NATIVE_LIBRARIES_LINUX.add("libbz2.so.1.0.6");
         // boost-date-time (C++ date/time library)
         NATIVE_LIBRARIES_LINUX.add("libboost_date_time.so.1.66.0");
         // boost-regex (C++ regex library)
@@ -159,6 +159,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libboost_system.so.1.66.0");
         // boost-thread (C++ multi-threading library)
         NATIVE_LIBRARIES_LINUX.add("libboost_thread.so.1.66.0");
+        // bzip2-libs
+        NATIVE_LIBRARIES_LINUX.add("libbz2.so.1.0.6");
         // glibc-devel
         NATIVE_LIBRARIES_LINUX.add("libc-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libc-2.17.so");
@@ -168,6 +170,10 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libcairo.so.2.11512.0");
         // cairo-gobject
         NATIVE_LIBRARIES_LINUX.add("libcairo-gobject.so.2.11512.0");
+        // libcanberra (event sounds)
+        NATIVE_LIBRARIES_LINUX.add("libcanberra.so.0.2.5");
+        // libcanberra-gtk3 (translate gtk widget signals to event sounds)
+        NATIVE_LIBRARIES_LINUX.add("libcanberra-gtk3.so.0.1.9");
         // libpcap
         NATIVE_LIBRARIES_LINUX.add("libcap.so.2.22");
         NATIVE_LIBRARIES_LINUX.add("libcap.so.2.26");
@@ -220,6 +226,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libelf-0.160.so");
         NATIVE_LIBRARIES_LINUX.add("libelf-0.176.so");
         NATIVE_LIBRARIES_LINUX.add("libelf-0.187.so");
+        NATIVE_LIBRARIES_LINUX.add("libelf-0.190.so");
         // enchant2
         NATIVE_LIBRARIES_LINUX.add("libenchant-2.so.2.2.3");
         // libepoxy
@@ -249,6 +256,10 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libGLESv2.so.2.1.0");
         // libglvnd-glx
         NATIVE_LIBRARIES_LINUX.add("libGLX.so.0.0.0");
+        // mesa-libGL (Mesa implementation GLU OpenGL API)
+        NATIVE_LIBRARIES_LINUX.add("libGLX_mesa.so.0.0.0");
+        // mesa-libGLU (Mesa implementation GLU OpenGL API)
+        NATIVE_LIBRARIES_LINUX.add("libGLU.so.1.3.1");
         // libglvnd
         NATIVE_LIBRARIES_LINUX.add("libGLdispatch.so.0.0.0");
         // mesa-libglapi
@@ -259,7 +270,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20191121.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20200928.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-8-20210514.so.1");
-        NATIVE_LIBRARIES_LINUX.add("libgcc_s-11-20230605.so.1");        
+        NATIVE_LIBRARIES_LINUX.add("libgcc_s-11-20230605.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-11-20231218.so.1");
         // libgcrypt
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.11.8.2");
@@ -269,6 +280,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libgdk-3.so.0.2200.30");
         // gdk-pixbuf2
         NATIVE_LIBRARIES_LINUX.add("libgdk_pixbuf-2.0.so.0.3612.0");
+        // libgfortran
+        NATIVE_LIBRARIES_LINUX.add("libgfortran.so.5.0.0");
         // glib2
         NATIVE_LIBRARIES_LINUX.add("libgio-2.0.so.0.5600.4");
         // mesa-libglapi
@@ -373,12 +386,16 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libkrb5.so.3.3");
         // krb5-libs
         NATIVE_LIBRARIES_LINUX.add("libkrb5support.so.0.1");
+        // lapack (Linear Algebra Package)
+        NATIVE_LIBRARIES_LINUX.add("liblapack.so.3.8.0");
         // llvm-libs
         NATIVE_LIBRARIES_LINUX.add("libLLVM-14.so");
+        NATIVE_LIBRARIES_LINUX.add("libLLVM-17.so");
         // lcms2
         NATIVE_LIBRARIES_LINUX.add("liblcms2.so.2.0.8");
         // libtool-ltdl
         NATIVE_LIBRARIES_LINUX.add("libltdl.so.7.3.0");
+        NATIVE_LIBRARIES_LINUX.add("libltdl.so.7.3.1");
         // xz-libs
         NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.2");
         NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.4");
@@ -486,6 +503,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libpulse.so.0.23.0");
         // pulseaudio-libs: sound proxy server for sound applications
         NATIVE_LIBRARIES_LINUX.add("libpulsecommon-14.0.so");
+        // libquadmath
+        NATIVE_LIBRARIES_LINUX.add("libquadmath.so.0.0.0");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libresolv-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libresolv-2.28.so");
@@ -524,6 +543,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.23.0");
         // libtasn1
         NATIVE_LIBRARIES_LINUX.add("libtasn1.so.6.5.5");
+        // libtdb (Trivial Database)
+        NATIVE_LIBRARIES_LINUX.add("libtdb.so.1.4.9");
         // libthai
         NATIVE_LIBRARIES_LINUX.add("libthai.so.0.3.0");
         // libtiff (tiff image library)
@@ -542,12 +563,17 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libvorbis.so.0.4.8");
         // libvorbis: reference implementation for the Vorbis codec
         NATIVE_LIBRARIES_LINUX.add("libvorbisenc.so.2.0.11");
+        // libvorbis: reference implementation for the Vorbis codec
+        NATIVE_LIBRARIES_LINUX.add("libvorbisfile.so.3.3.7");
         // libwayland-client
         NATIVE_LIBRARIES_LINUX.add("libwayland-client.so.0.3.0");
+        NATIVE_LIBRARIES_LINUX.add("libwayland-client.so.0.21.0");
         // libwayland-cursor
         NATIVE_LIBRARIES_LINUX.add("libwayland-cursor.so.0.0.0");
+        NATIVE_LIBRARIES_LINUX.add("libwayland-cursor.so.0.21.0");
         // libwayland-egl
         NATIVE_LIBRARIES_LINUX.add("libwayland-egl.so.1.0.0");
+        NATIVE_LIBRARIES_LINUX.add("libwayland-egl.so.1.21.0");
         // libwayland-server
         NATIVE_LIBRARIES_LINUX.add("libwayland-server.so.0.1.0");
         // webkit2gtk3
@@ -589,13 +615,19 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libXt.so.6.0.0");
         // libXtst: X window system client interface
         NATIVE_LIBRARIES_LINUX.add("libXtst.so.6.1.0");
+        // libXxf86vm
+        NATIVE_LIBRARIES_LINUX.add("libXxf86vm.so.1.0.0");
         // libxcb
         NATIVE_LIBRARIES_LINUX.add("libxcb.so.1.1.0");
         // libxcb
         NATIVE_LIBRARIES_LINUX.add("libxcb-dri2.so.0.0.0");
         NATIVE_LIBRARIES_LINUX.add("libxcb-dri3.so.0.0.0");
         // libxcb
+        NATIVE_LIBRARIES_LINUX.add("libxcb-glx.so.0.0.0");
+        // libxcb
         NATIVE_LIBRARIES_LINUX.add("libxcb-present.so.0.0.0");
+        // libxcb
+        NATIVE_LIBRARIES_LINUX.add("libxcb-randr.so.0.1.0");
         // libxcb
         NATIVE_LIBRARIES_LINUX.add("libxcb-render.so.0.0.0");
         // libxcb
@@ -622,6 +654,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.3");
         NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.7");
         NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.11");
+        // libzstd-devel
+        NATIVE_LIBRARIES_LINUX.add("libzstd.so.1.4.4");
         // p11-kit-trust
         NATIVE_LIBRARIES_LINUX.add("p11-kit-trust.so");
         // pam (pluggable authentication modules)
@@ -647,72 +681,76 @@ public class KrashUtil {
 
         // ***** LINUX JAVA *****
         NATIVE_LIBRARIES_LINUX_JAVA = new ArrayList<String>();
-        // java-(1.8.0|11|17)-openjdk
+        // java-(1.8.0|11|17|21)-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("libattach.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libawt.so");
-        // java-(1.8.0|11|17)-openjdk
+        // java-(1.8.0|11|17|21)-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("libawt_xawt.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libawt_headless.so");
-        // java-(11|17)-openjdk-headless
+        // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libextnet.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libfontmanager.so");
-        // java-(11|17)-openjdk-headless
+        // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libfreetype.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libj2pkcs11.so");
-        // java-(11|17)-openjdk-headless
+        // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjaas.so");
         // java-1.8.0-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjaas_unix.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjava.so");
         // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjavajpeg.so");
         // java-1.8.0-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjava_crw_demo.so");
-        // java-(11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libjawt.so");
+        // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjimage.so");
         // java-(1.8.0-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("libinstrument.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjli.so");
         // RHEL7: libjpeg-turbo
         // RHEL8+: java-1.8.0-openjdk-headless
         // Why does RHEL7 have 2 jpeg libraries (libjavajpeg.so and libjavajpeg.so) spit into 2 packages (libjpeg-turbo
         // and java-1.8.0-openjdk-headless)?
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjpeg.so");
-        // java-(11|17)-openjdk-headless
+        // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjsound.so");
         // java-17-openjdk-headless: Vector API
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjsvml.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjvm.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("liblcms.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libmanagement.so");
-        // java-(11|17)-openjdk-headless
+        // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libmanagement_agent.so");
-        // java-(11|17)-openjdk-headless
+        // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libmanagement_ext.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libnet.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libnio.so");
-        // java-(11|17)-openjdk
+        // java-(11|17|21)-openjdk-headless
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libprefs.so");
+        // java-(11|17|21)-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("librmi.so");
-        // java-(1.8.0|11|17)-openjdk
+        // java-(1.8.0|11|17|21)-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("libsplashscreen.so");
         // java-(1.8.0|11)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libsunec.so");
         // java-(1.8.0|11)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libsystemconf.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libverify.so");
-        // java-(1.8.0|11|17)-openjdk-headless
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libzip.so");
 
         // ***** ORACLE *****
