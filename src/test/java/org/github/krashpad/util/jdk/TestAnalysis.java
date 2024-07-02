@@ -3148,10 +3148,8 @@ class TestAnalysis {
         Time timeEvent = new Time(time);
         fel.setTime(timeEvent);
         fel.doAnalysis();
-        assertFalse((new Date()).compareTo(KrashUtil.RHEL7_ELS_START) >= 0,
-                "TODO: Remove this line and uncomment the one below.");
-        // assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION.getKey()),
-        // Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION.getKey()),
+                Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION + " analysis not identified.");
     }
 
     @Test

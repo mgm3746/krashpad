@@ -1605,9 +1605,8 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_LARGE_PAGES_ZGC_SHMEM_ZERO);
         }
         // RHEL7 ELS
-        Date today = new Date();
-        if (today.compareTo(KrashUtil.RHEL7_ELS_START) >= 0 && getOsVersion() == OsVersion.RHEL7
-                && !getRhelVersion().equals("7.9")) {
+        if (getCrashDate() != null && getCrashDate().compareTo(KrashUtil.RHEL7_ELS_START) >= 0
+                && getOsVersion() == OsVersion.RHEL7 && getRhelVersion() != null && !getRhelVersion().equals("7.9")) {
             analysis.add(Analysis.WARN_RHEL7_ELS_UNSUPPORTED_VERSION);
         }
         // Windows small page file size
