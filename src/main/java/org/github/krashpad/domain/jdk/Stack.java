@@ -99,7 +99,7 @@ public class Stack implements LogEvent, HeaderEvent {
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
             + "|([CjJvV]) |(Java|Native) frames:|JavaThread|\\[error occurred during error reporting \\(printing "
-            + "(native stack|stack bounds)\\)|...<more frames>...).*$";
+            + "(Java stack|native stack|stack bounds)\\)|...<more frames>...).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
