@@ -2111,6 +2111,13 @@ class TestAnalysis {
                 Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_MEMORY_EXTERNAL.getKey()),
                 Analysis.WARN_MEMORY_EXTERNAL + " analysis not identified.");
+        long memoryTotal = JdkUtil.convertSize(16265996, 'K', 'B');
+        assertEquals(memoryTotal, fel.getMemoryTotal(), "Memory total not correct.");
+        long memoryFree = JdkUtil.convertSize(4007516, 'K', 'B');
+        assertEquals(memoryFree, fel.getMemoryFree(), "Memory free not correct.");
+        assertEquals("External processes are consuming significant amounts of memory: 75%.",
+                fel.getAnalysisLiteral(Analysis.WARN_MEMORY_EXTERNAL.getKey()),
+                Analysis.WARN_MEMORY_EXTERNAL + " not correct.");
     }
 
     @Test

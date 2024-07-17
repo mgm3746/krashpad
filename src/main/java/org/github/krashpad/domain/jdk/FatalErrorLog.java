@@ -1631,10 +1631,10 @@ public class FatalErrorLog {
             }
         }
         // External processes consuming significant memory
-        if (getMemoryTotal() > 0 && getJvmMemoryTotalUsed() > 0) {
-            long memoryExternal = getMemoryTotal() - getJvmMemoryTotalUsed();
+        if (getMemoryTotal() > 0 && getMemoryTotal() > 0) {
+            long memoryExternal = getMemoryTotal() - getMemoryFree();
             if (JdkMath.calcPercent(memoryExternal, getMemoryTotal()) >= 10) {
-                analysis.add(Analysis.WARN_MEMORY_EXTERNAL);
+                analysis.add(0, Analysis.WARN_MEMORY_EXTERNAL);
             }
         }
     }
@@ -1828,6 +1828,17 @@ public class FatalErrorLog {
                 s.append(JdkUtil.convertSize(getJvmMemorySwappedOut(), 'B', org.github.joa.util.Constants.UNITS));
                 s.append(Character.toString(org.github.joa.util.Constants.UNITS));
                 s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.WARN_MEMORY_EXTERNAL.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                long memoryExternal = getMemoryTotal() - getMemoryFree();
+                int percent = JdkMath.calcPercent(memoryExternal, getMemoryTotal());
+                if ((percent == 0 && memoryExternal > 0) || (percent == 100 && memoryExternal < getMemoryTotal())) {
+                    // Provide rounding clue
+                    s.append("~");
+                }
+                s.append(percent);
+                s.append("%.");
                 a.add(new String[] { item.getKey(), s.toString() });
             } else {
                 a.add(new String[] { item.getKey(), item.getValue() });
@@ -4468,10 +4479,7 @@ public class FatalErrorLog {
      * @return The free OS physical memory in bytes.
      */
     public long getOsMemoryFree() {
-        long osMemoryFree = Long.MIN_VALUE;
-        if (osMemoryFree < 0) {
-            osMemoryFree = getRhelMemAvailable();
-        }
+        long osMemoryFree = getRhelMemAvailable();
         if (osMemoryFree < 0) {
             osMemoryFree = getRhelMemFree();
         }
@@ -4706,8 +4714,8 @@ public class FatalErrorLog {
     }
 
     /**
-     * MemFree does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore, low free
-     * memory does not necessarily indicate swapping or out of memory is imminent.
+     * MemFree does not include Buffers or Cached memory, which can be reclaimed at any time. Therefore, low free memory
+     * does not necessarily indicate swapping or out of memory is imminent.
      * 
      * @return The total free physical memory in bytes.
      */

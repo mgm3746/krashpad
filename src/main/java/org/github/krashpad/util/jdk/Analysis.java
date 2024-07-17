@@ -361,7 +361,7 @@ public enum Analysis {
      * Property key for the JVM failing to start due to a resource limit (rlimit).
      */
     ERROR_OOME_RLIMIT_STARTUP("error.oome.rlimit.startup"),
-    
+
     /**
      * Property key for a thread leak causing a limit to be reached.
      */
