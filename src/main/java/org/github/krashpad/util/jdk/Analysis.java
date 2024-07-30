@@ -574,8 +574,8 @@ public enum Analysis {
     INFO_JVM_USER_NE_USERNAME("info.jvm.user.ne.username"),
 
     /**
-     * Property key for a large heap (> 4GB), the JVM not configured to use large pages, and the Linux kernel configured
-     * for all memory (every 'mmap' of every process) to use Transparent Hugepage (THP) large pages
+     * Property key for a large heap (&gt; 4GB), the JVM not configured to use large pages, and the Linux kernel
+     * configured for all memory (every 'mmap' of every process) to use Transparent Hugepage (THP) large pages
      * (/sys/kernel/mm/transparent_hugepage/enabled = 'always').
      */
     INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS("info.large.pages.consider.thp.os.always"),
@@ -950,7 +950,7 @@ public enum Analysis {
     WARN_MAX_RAM_LIMIT("warn.max.ram.limit"),
 
     /**
-     * Property key for external processes consuming significant amounts of memory (>10%).
+     * Property key for external processes consuming significant amounts of memory (&gt;10%).
      */
     WARN_MEMORY_EXTERNAL("warn.memory.external"),
 
