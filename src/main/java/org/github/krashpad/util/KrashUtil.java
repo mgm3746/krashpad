@@ -118,6 +118,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libaio.so.1.0.1");
         // apr:
         NATIVE_LIBRARIES_LINUX.add("libapr-1.so.0.6.3");
+        NATIVE_LIBRARIES_LINUX.add("libapr-1.so.0.7.4");
         // alsa-lib: library to interface with ALSA in the Linux kernel and virtual devices
         NATIVE_LIBRARIES_LINUX.add("libasound.so.2.0.0");
         // alsa-plugins-pulseaudio: library for accessing a PulseAudio sound daemon (to play and record sound across
