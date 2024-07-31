@@ -24,7 +24,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * </p>
  * 
  * <p>
- * Consant pool information.
+ * Constant pool information.
  * </p>
  * 
  * <h2>Example Logging</h2>
