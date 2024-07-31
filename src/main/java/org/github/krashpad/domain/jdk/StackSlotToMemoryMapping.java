@@ -56,9 +56,10 @@ public class StackSlotToMemoryMapping implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + StackSlotToMemoryMapping._REGEX_HEADER
-            + "|Compiled method |invokevirtual|invoke return entry points|method entry point|native method entry point|"
-            + "return entry points|stack at sp|\\[error occurred during error reporting \\(inspecting top of stack\\)|"
-            + "\\[CodeBlob|\\{" + JdkRegEx.ADDRESS + "\\} - klass:|"
+            + "|Adapter for signature: |Compiled method |invokevirtual|invoke return entry points|method entry point|"
+            + "native method entry point|return entry points|stack at sp|"
+            + "\\[error occurred during error reporting \\(inspecting top of stack\\)|\\[CodeBlob|\\{"
+            + JdkRegEx.ADDRESS + "\\} - klass:|"
             // Header
             + " - ---- (non-static |static )?fields |"
             // No trailing colon
