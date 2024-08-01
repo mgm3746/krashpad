@@ -56,15 +56,17 @@ public class Jdk21 {
          * 
          * 2) Zip key is build version.
          * 
-         * 3) Jan 1 2000 means build date/time unknown.
+         * 3) 2024-07-16 means build date/time unknown.
          * 
-         * 4) Jan 1 2000 00:00:00 means build date/time unspecified (e.g. to support reproducible builds).
+         * 4) 2024-07-16T00:00:00Z means build date/time unspecified (e.g. to support reproducible builds).
          * 
          */
 
         // RHEL8 amd64 OpenJDK21 rpm
         RHEL8_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL8_X86_64_RPMS.put("LATEST", new Release("2024-04-16T00:00:00Z", 5, "21.0.3+9-LTS"));
+        RHEL8_X86_64_RPMS.put("LATEST", new Release("2024-07-16T00:00:00Z", 6, "21.0.4+7-LTS"));
+        RHEL8_X86_64_RPMS.put("java-21-openjdk-21.0.4.0.7-1.el8.x86_64",
+                new Release("2024-07-16T00:00:00Z", 6, "21.0.4+7-LTS"));
         RHEL8_X86_64_RPMS.put("java-21-openjdk-21.0.3.0.9-1.el8.x86_64",
                 new Release("2024-04-16T00:00:00Z", 5, "21.0.3+9-LTS"));
         RHEL8_X86_64_RPMS.put("java-21-openjdk-21.0.2.0.13-1.el8.x86_64",
@@ -78,7 +80,8 @@ public class Jdk21 {
 
         // RHEL9 amd64 OpenJDK21 rpm
         RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL9_X86_64_RPMS.put("LATEST", new Release("2024-04-16T00:00:00Z", 5, "21.0.3+9-LTS"));
+        RHEL9_X86_64_RPMS.put("LATEST", new Release("2024-07-13", 6, "21.0.4+7-LTS"));
+        RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.4.0.7-1.el9.x86_64", new Release("2024-07-13", 6, "21.0.4+7-LTS"));
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.3.0.9-1.el9.x86_64",
                 new Release("2024-04-16T00:00:00Z", 5, "21.0.3+9-LTS"));
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.2.0.13-1.el9.x86_64",
@@ -92,14 +95,16 @@ public class Jdk21 {
 
         // RHEL amd64 OpenJDK21 zip
         RHEL_ZIPS = new HashMap<String, Release>();
-        RHEL_ZIPS.put("LATEST", new Release("2024-04-16T00:00:00Z", 3, "21.0.3+9-LTS"));
+        RHEL_ZIPS.put("LATEST", new Release("2024-07-16T00:00:00Z", 4, "21.0.4+7-LTS"));
+        RHEL_ZIPS.put("21.0.4+7-LTS", new Release("2024-07-16T00:00:00Z", 4, "21.0.4+7-LTS"));
         RHEL_ZIPS.put("21.0.3+9-LTS", new Release("2024-04-16T00:00:00Z", 3, "21.0.3+9-LTS"));
         RHEL_ZIPS.put("21.0.2+13-LTS", new Release("2024-01-09T22:49:35Z", 2, "21.0.2+13-LTS"));
         RHEL_ZIPS.put("21.0.1+12-LTS", new Release("2023-10-30T00:33:46Z", 1, "21.0.1+12-LTS"));
 
         // Windows amd64 OpenJDK21 zip
         WINDOWS_ZIPS = new HashMap<String, Release>();
-        WINDOWS_ZIPS.put("LATEST", new Release("2024-04-16T00:00:00Z", 3, "21.0.3+9-LTS"));
+        WINDOWS_ZIPS.put("LATEST", new Release("2024-07-16", 4, "21.0.4+7-LTS"));
+        WINDOWS_ZIPS.put("21.0.4+7-LTS", new Release("2024-07-16", 4, "21.0.4+7-LTS"));
         WINDOWS_ZIPS.put("21.0.3+9-LTS", new Release("2024-04-16T00:00:00Z", 3, "21.0.3+9-LTS"));
         // The release actually happened at 2024-01-16T00:00:00Z
         // TODO: Come up with a better way to represent an estimate so it doesn't conflict with a real datetime.
