@@ -62,7 +62,11 @@ public class MachCode implements LogEvent, HeaderEvent, ThrowAwayEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|\\[/MachCode\\]|  " + JdkRegEx.ADDRESS + ": .+)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER
+            + "|  # .+|[ ]{22};.+|Compiled method .+|\\[Entry Point\\]|\\[Exception Handler\\]| dependencies .+|"
+            + " handler table .+|\\[/MachCode\\]| main code .+| metadata .+| nul chk table .+| relocation .+|"
+            + " scopes (data|pcs) .+||\\[Stub Code\\]| stub code .+| total in heap .+|\\[Verified Entry Point\\]|  "
+            + JdkRegEx.ADDRESS + ": .+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
