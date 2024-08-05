@@ -46,12 +46,22 @@ public class TransparentHugepageDefrag implements LogEvent, HeaderEvent {
             + "\\(defrag/compaction efforts parameter\\):";
 
     /**
+     * Regular expression for data.
+     */
+    private static final String _REGEX_DATA = "(\\[always\\] defer defer\\+madvise madvise never|"
+            + "always \\[defer\\] defer\\+madvise madvise never|always defer \\[defer\\+madvise\\] madvise never|"
+            + "always defer defer\\+madvise \\[madvise\\] never|always defer defer\\+madvise madvise \\[never\\]|"
+            + "\\[always\\] madvise never)";
+
+    /**
+     * Regular expression for a single line (JDK17+).
+     */
+    public static final String _REGEX_SINGLE_LINE = _REGEX_HEADER + " " + _REGEX_DATA;
+
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|(" + _REGEX_HEADER
-            + " )?(\\[always\\] defer defer\\+madvise madvise never|always \\[defer\\] defer\\+madvise madvise never|"
-            + "always defer \\[defer\\+madvise\\] madvise never|always defer defer\\+madvise \\[madvise\\] never|"
-            + "always defer defer\\+madvise madvise \\[never\\]))$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_DATA + "|" + _REGEX_SINGLE_LINE + ")$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

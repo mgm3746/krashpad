@@ -876,9 +876,14 @@ public class JdkUtil {
                 logEventType = LogEventType.TIMEZONE;
             } else if (TopOfStack.match(logLine)) {
                 logEventType = LogEventType.TOP_OF_STACK;
-            } else if (TransparentHugepageDefrag.match(logLine)) {
+            } else if (logLine.matches(TransparentHugepageDefrag._REGEX_HEADER)
+                    || logLine.matches(TransparentHugepageDefrag._REGEX_SINGLE_LINE)
+                    || (priorEvent instanceof TransparentHugepageDefrag && TransparentHugepageDefrag.match(logLine))) {
                 logEventType = LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG;
-            } else if (TransparentHugepageEnabled.match(logLine)) {
+            } else if (logLine.matches(TransparentHugepageEnabled._REGEX_HEADER)
+                    || logLine.matches(TransparentHugepageEnabled._REGEX_SINGLE_LINE)
+                    || (priorEvent instanceof TransparentHugepageEnabled
+                            && TransparentHugepageEnabled.match(logLine))) {
                 logEventType = LogEventType.TRANSPARENT_HUGEPAGE_ENABLED;
             } else if (TransparentHugepageHpagePmdSize.match(logLine)) {
                 logEventType = LogEventType.TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE;

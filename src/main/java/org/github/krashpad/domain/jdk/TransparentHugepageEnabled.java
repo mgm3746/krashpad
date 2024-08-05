@@ -55,10 +55,20 @@ public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
     public static final String _REGEX_HEADER = "/sys/kernel/mm/transparent_hugepage/enabled:";
 
     /**
+     * Regular expression for data.
+     */
+    private static final String _REGEX_DATA = "(\\[always\\] madvise never|always \\[madvise\\] never|"
+            + "always madvise \\[never\\])";
+
+    /**
+     * Regular expression for a single line (JDK17+).
+     */
+    public static final String _REGEX_SINGLE_LINE = _REGEX_HEADER + " " + _REGEX_DATA;
+
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|(" + _REGEX_HEADER + " )?(\\[always\\] madvise never|"
-            + "always \\[madvise\\] never|always madvise \\[never\\]))$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_DATA + "|" + _REGEX_SINGLE_LINE + ")$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -100,16 +110,23 @@ public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
      */
     public MODE getMode() {
         MODE mode = MODE.UNKNOWN;
-        Pattern pattern = Pattern.compile(TransparentHugepageEnabled.REGEX);
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            if (matcher.group(3) != null) {
-                if (matcher.group(3).matches("^\\[always\\] madvise never$")) {
-                    mode = MODE.ALWAYS;
-                } else if (matcher.group(3).matches("^always \\[madvise\\] never$")) {
-                    mode = MODE.MADVISE;
-                } else if (matcher.group(3).matches("^always madvise \\[never\\]$")) {
-                    mode = MODE.NEVER;
+        Pattern pattern = null;
+        if (logEntry.matches(_REGEX_DATA)) {
+            pattern = Pattern.compile(TransparentHugepageEnabled._REGEX_DATA);
+        } else if (logEntry.matches(_REGEX_SINGLE_LINE)) {
+            pattern = Pattern.compile(TransparentHugepageEnabled._REGEX_SINGLE_LINE);
+        }
+        if (pattern != null) {
+            Matcher matcher = pattern.matcher(logEntry);
+            if (matcher.find()) {
+                if (matcher.group(1) != null) {
+                    if (matcher.group(1).matches("^\\[always\\] madvise never$")) {
+                        mode = MODE.ALWAYS;
+                    } else if (matcher.group(1).matches("^always \\[madvise\\] never$")) {
+                        mode = MODE.MADVISE;
+                    } else if (matcher.group(1).matches("^always madvise \\[never\\]$")) {
+                        mode = MODE.NEVER;
+                    }
                 }
             }
         }
@@ -129,14 +146,7 @@ public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
      * @return True if mode setting, false otherwise.
      */
     public boolean isMode() {
-        boolean isMode = false;
-        Pattern pattern = Pattern.compile(TransparentHugepageEnabled.REGEX);
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            if (matcher.group(3) != null) {
-                isMode = true;
-            }
-        }
-        return isMode;
+        return logEntry.matches(_REGEX_DATA) || logEntry.matches(_REGEX_SINGLE_LINE);
+
     }
 }

@@ -45,15 +45,21 @@ class TestTransparentHugepageEnabled {
 
     @Test
     void testModeAlwaysSeparateLine() {
+        TransparentHugepageEnabled priorLogEvent = new TransparentHugepageEnabled(
+                TransparentHugepageEnabled._REGEX_HEADER);
         String logLine = "[always] madvise never";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED,
+        assertTrue(
+                JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED.toString() + " not identified.");
     }
 
     @Test
     void testModeMadvise() {
+        TransparentHugepageEnabled priorLogEvent = new TransparentHugepageEnabled(
+                TransparentHugepageEnabled._REGEX_HEADER);
         String logLine = "always [madvise] never";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED,
+        assertTrue(
+                JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED.toString() + " not identified.");
         TransparentHugepageEnabled event = new TransparentHugepageEnabled(logLine);
         assertTrue(event.isMode(), "THP mode not identified.");
@@ -62,8 +68,11 @@ class TestTransparentHugepageEnabled {
 
     @Test
     void testModeNever() {
+        TransparentHugepageEnabled priorLogEvent = new TransparentHugepageEnabled(
+                TransparentHugepageEnabled._REGEX_HEADER);
         String logLine = "always madvise [never]";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED,
+        assertTrue(
+                JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED.toString() + " not identified.");
         TransparentHugepageEnabled event = new TransparentHugepageEnabled(logLine);
         assertTrue(event.isMode(), "THP mode not identified.");

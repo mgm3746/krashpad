@@ -26,6 +26,14 @@ import org.junit.jupiter.api.Test;
 class TestTransparentHugepageDefrag {
 
     @Test
+    void testAlwaysSingleLine() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter): [always] "
+                + "madvise never";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG.toString() + " not identified.");
+    }
+
+    @Test
     void testIdentity() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG,
@@ -42,8 +50,11 @@ class TestTransparentHugepageDefrag {
 
     @Test
     void testMadviseSingleLine() {
+        TransparentHugepageDefrag priorLogEvent = new TransparentHugepageDefrag(
+                TransparentHugepageDefrag._REGEX_HEADER);
         String logLine = "always defer defer+madvise [madvise] never";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG,
+        assertTrue(
+                JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG.toString() + " not identified.");
     }
 
