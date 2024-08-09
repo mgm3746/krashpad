@@ -153,6 +153,7 @@ public class KrashUtil {
         // boost-date-time (C++ date/time library)
         NATIVE_LIBRARIES_LINUX.add("libboost_date_time.so.1.66.0");
         // boost-regex (C++ regex library)
+        NATIVE_LIBRARIES_LINUX.add("libboost_regex.so.1.53.0");
         NATIVE_LIBRARIES_LINUX.add("libboost_regex.so.1.66.0");
         // boost-serialization (C++ serialization library)
         NATIVE_LIBRARIES_LINUX.add("libboost_serialization.so.1.66.0");
@@ -357,10 +358,13 @@ public class KrashUtil {
         // libibus
         NATIVE_LIBRARIES_LINUX.add("libibus-1.0.so.5.0.519");
         // libicu
+        NATIVE_LIBRARIES_LINUX.add("libicudata.so.50.2");
         NATIVE_LIBRARIES_LINUX.add("libicudata.so.60.3");
         // libicu
+        NATIVE_LIBRARIES_LINUX.add("libicui18n.so.50.2");
         NATIVE_LIBRARIES_LINUX.add("libicui18n.so.60.3");
         // libicu
+        NATIVE_LIBRARIES_LINUX.add("libicuuc.so.50.2");
         NATIVE_LIBRARIES_LINUX.add("libicuuc.so.60.3");
         // libijs (IJS raster image library)
         NATIVE_LIBRARIES_LINUX.add("libijs-0.35.so");
@@ -376,6 +380,8 @@ public class KrashUtil {
         // libjpeg-turbo:
         NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.1.0");
         NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.2.0");
+        // json-c
+        NATIVE_LIBRARIES_LINUX.add("libjson-c.so.2.0.1");
         // jss
         NATIVE_LIBRARIES_LINUX.add("libjss4.so");
         // krb5-libs
@@ -672,11 +678,14 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("pam_keyinit.so");
         NATIVE_LIBRARIES_LINUX.add("pam_lastlog.so");
         NATIVE_LIBRARIES_LINUX.add("pam_limits.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_localuser.so");
         NATIVE_LIBRARIES_LINUX.add("pam_mkhomedir.so");
         NATIVE_LIBRARIES_LINUX.add("pam_nologin.so");
+        NATIVE_LIBRARIES_LINUX.add("pam_permit.so");
         NATIVE_LIBRARIES_LINUX.add("pam_pwhistory.so");
         NATIVE_LIBRARIES_LINUX.add("pam_succeed_if.so");
         NATIVE_LIBRARIES_LINUX.add("pam_unix.so");
+
         // systemd-pam
         NATIVE_LIBRARIES_LINUX.add("pam_systemd.so");
 

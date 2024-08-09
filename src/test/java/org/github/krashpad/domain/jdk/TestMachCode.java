@@ -49,7 +49,7 @@ class TestMachCode {
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
                 JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
     }
-    
+
     @Test
     void testExceptionHandler() {
         MachCode priorLogEvent = new MachCode("[MachCode]");
