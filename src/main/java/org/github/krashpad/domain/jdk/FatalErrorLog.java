@@ -1487,6 +1487,10 @@ public class FatalErrorLog {
                 }
             }
         }
+        // Google native library detection
+        if (!getNativeLibrariesGoogle().isEmpty()) {
+            analysis.add(Analysis.INFO_NATIVE_LIBRARIES_GOOGLE);
+        }
         // JBoss native library detection
         if (!getNativeLibrariesJBoss().isEmpty()) {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_JBOSS);
@@ -1692,6 +1696,20 @@ public class FatalErrorLog {
                 with.append(years.toString());
                 with.append(" years");
                 s.replace(position, position + replace.length(), with.toString());
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.INFO_NATIVE_LIBRARIES_GOOGLE.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                Iterator<String> iterator = getNativeLibrariesGoogle().iterator();
+                boolean punctuate = false;
+                while (iterator.hasNext()) {
+                    String library = iterator.next();
+                    if (punctuate) {
+                        s.append(", ");
+                    }
+                    s.append(library);
+                    punctuate = true;
+                }
+                s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() });
             } else if (item.getKey().equals(Analysis.INFO_NATIVE_LIBRARIES_JBOSS.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
@@ -4243,6 +4261,24 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return Google native libraries.
+     */
+    public List<String> getNativeLibrariesGoogle() {
+        List<String> googleNativeLibraries = new ArrayList<String>();
+        if (!nativeLibraries.isEmpty()) {
+            Iterator<String> iterator = nativeLibraries.iterator();
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && KrashUtil.NATIVE_LIBRARIES_GOOGLE.contains(nativeLibrary)) {
+                    googleNativeLibraries.add(nativeLibraryPath);
+                }
+            }
+        }
+        return googleNativeLibraries;
+    }
+
+    /**
      * @return JBoss native libraries.
      */
     public List<String> getNativeLibrariesJBoss() {
@@ -5604,7 +5640,8 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 String nativeLibraryPath = iterator.next();
                 String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
-                if (!KrashUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibrary)
+                if (!KrashUtil.NATIVE_LIBRARIES_GOOGLE.contains(nativeLibrary)
+                        && !KrashUtil.NATIVE_LIBRARIES_JBOSS.contains(nativeLibrary)
                         && !(KrashUtil.NATIVE_LIBRARIES_LINUX.contains(nativeLibrary)
                                 && nativeLibraryPath.matches(KrashUtil.NATIVE_LIBRARY_LINUX_HOME + ".+"))
                         && !KrashUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)

@@ -605,6 +605,11 @@ public enum Analysis {
     INFO_MICROSOFT_SQL_SERVER_NATIVE("info.microsoft.sql.server.native"),
 
     /**
+     * Property key for Google native libraries detected.
+     */
+    INFO_NATIVE_LIBRARIES_GOOGLE("info.native.libraries.google"),
+
+    /**
      * Property key for JBoss native libraries detected.
      */
     INFO_NATIVE_LIBRARIES_JBOSS("info.native.libraries.jboss"),

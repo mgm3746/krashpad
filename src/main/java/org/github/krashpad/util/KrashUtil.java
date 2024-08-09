@@ -59,6 +59,11 @@ public class KrashUtil {
     public static final List<String> NATIVE_LIBRARIES_TOMCAT;
 
     /**
+     * Google native libraries.
+     */
+    public static final List<String> NATIVE_LIBRARIES_GOOGLE;
+
+    /**
      * VMware native libraries.
      */
     public static final List<String> NATIVE_LIBRARIES_VMWARE;
@@ -93,6 +98,12 @@ public class KrashUtil {
         // ***** JBOSS *****
         NATIVE_LIBRARIES_JBOSS = new ArrayList<String>();
         NATIVE_LIBRARIES_JBOSS.add("libartemis-native-64.so");
+
+        // ***** GOOGLE *****
+        NATIVE_LIBRARIES_GOOGLE = new ArrayList<String>();
+        // google-compute-engine-oslogin
+        NATIVE_LIBRARIES_GOOGLE.add("libnss_cache_oslogin-20191014.00.so");
+        NATIVE_LIBRARIES_GOOGLE.add("libnss_oslogin-20191014.00.so");
 
         // ***** LINUX OS *****
         NATIVE_LIBRARIES_LINUX = new ArrayList<String>();

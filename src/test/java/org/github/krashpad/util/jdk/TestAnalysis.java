@@ -2234,6 +2234,20 @@ class TestAnalysis {
     }
 
     @Test
+    void testNativeLibraryGoogle() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7efd5140d000-7efd5142b000 r-xp 00000000 fd:01 2330553                    "
+                + "/usr/lib64/libnss_oslogin-20191014.00.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_GOOGLE.getKey()),
+                Analysis.INFO_NATIVE_LIBRARIES_GOOGLE + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN.getKey()),
+                Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN + " analysis incorrectly identified.");
+    }
+
+    @Test
     void testNativeLibraryJBoss() {
         FatalErrorLog fel = new FatalErrorLog();
         String dynamicLibrary = "7f8a71051000-7f8a71052000 rw-p 00004000 08:01 1852476                    "
