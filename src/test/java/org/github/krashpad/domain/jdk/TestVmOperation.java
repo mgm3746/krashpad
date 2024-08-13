@@ -40,6 +40,17 @@ class TestVmOperation {
     }
 
     @Test
+    void testCmsFinalRemark() {
+        String logLine = "VM_Operation (0x00007f81bf8a9cd0): CMS_Final_Remark, mode: safepoint, requested by "
+                + "thread 0x0000000001691000";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperation event = new VmOperation(logLine);
+        assertEquals("CMS_Final_Remark, mode: safepoint, requested by thread 0x0000000001691000",
+                event.getVmOperationString(), "VM operation not correct.");
+    }
+
+    @Test
     void testCollectForMetadataAllocation() {
         String logLine = "VM_Operation (0x00007f7d9cd68720): CollectForMetadataAllocation, mode: safepoint, requested "
                 + "by thread 0x00007f7dc1c44000";
