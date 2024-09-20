@@ -881,6 +881,18 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testJvmVendorJvmArgsOnly() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "jvm_args: -DTest";
+        VmArguments jvmArgs = new VmArguments(logLine);
+        fel.getVmArguments().add(jvmArgs);
+        fel.doAnalysis();
+        assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "Java vendor not correct.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
+                Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
+    }
+
+    @Test
     void testJvmVersionFromRpmPath() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";

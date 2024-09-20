@@ -675,12 +675,14 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.INFO_RH_BUILD_WINDOWS_ZIP);
             }
         } else if (getJavaVendor() == JavaVendor.UNIDENTIFIED) {
-            if (!isRhVersion() || (isRhVersion() && getJdkBuiltBy() != BuiltBy.UNKNOWN && !isRhBuildString()
-                    && getJdkBuildDate() != null && !isRhBuildDate())) {
-                analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
-            } else if (isRhVersion() && (getJdkBuiltBy() == BuiltBy.UNKNOWN
-                    || (getJdkBuiltBy() != BuiltBy.UNKNOWN && isRhBuildString()))) {
-                analysis.add(0, Analysis.INFO_RH_BUILD_POSSIBLE);
+            if (getJdkReleaseString() != org.github.krashpad.util.Constants.PROPERTY_UNKNOWN) {
+                if (!isRhVersion() || (isRhVersion() && getJdkBuiltBy() != BuiltBy.UNKNOWN && !isRhBuildString()
+                        && getJdkBuildDate() != null && !isRhBuildDate())) {
+                    analysis.add(0, Analysis.INFO_RH_BUILD_NOT);
+                } else if (isRhVersion() && (getJdkBuiltBy() == BuiltBy.UNKNOWN
+                        || (getJdkBuiltBy() != BuiltBy.UNKNOWN && isRhBuildString()))) {
+                    analysis.add(0, Analysis.INFO_RH_BUILD_POSSIBLE);
+                }
             }
         }
         // Check if there is vm code in the stack
