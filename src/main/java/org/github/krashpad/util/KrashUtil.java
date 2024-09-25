@@ -756,6 +756,8 @@ public class KrashUtil {
         // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libmanagement_ext.so");
         // java-(1.8.0|11|17|21)-openjdk-headless
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libmlib_image.so");
+        // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libnet.so");
         // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libnio.so");
