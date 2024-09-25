@@ -125,4 +125,8 @@ public class HeapAddress implements LogEvent {
         }
         return startingAddress;
     }
+
+    public boolean isErrorOccurredDuringErrorReporting() {
+        return logEntry.startsWith("[error occurred during error reporting");
+    }
 }

@@ -63,6 +63,8 @@ class TestThread {
                 + "pc=0x00007fc88aaa9a74]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
+        Thread logEvent = new Thread(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
     }
 
     @Test

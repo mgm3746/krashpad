@@ -57,6 +57,8 @@ class TestStack {
         String logLine = "[error occurred during error reporting (printing stack bounds), id 0xc0000005]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK,
                 JdkUtil.LogEventType.STACK.toString() + " not identified.");
+        Stack logEvent = new Stack(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
     }
 
     @Test

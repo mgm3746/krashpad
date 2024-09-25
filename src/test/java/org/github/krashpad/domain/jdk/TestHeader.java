@@ -53,6 +53,8 @@ class TestHeader {
         String logLine = "[error occurred during error reporting (printing problematic frame), id 0x7]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
+        Header logEvent = new Header(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
     }
 
     @Test

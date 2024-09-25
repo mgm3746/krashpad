@@ -174,6 +174,10 @@ public class Header implements LogEvent {
         return logEntry.matches("^#  (Error|fatal error):.+$");
     }
 
+    public boolean isErrorOccurredDuringErrorReporting() {
+        return logEntry.startsWith("[error occurred during error reporting");
+    }
+
     /**
      * @return True if the event involves a failure, false otherwise.
      */
@@ -189,7 +193,7 @@ public class Header implements LogEvent {
     }
 
     /**
-     * @return True if the event is an itnernal error, false otherwise.
+     * @return True if the event is an internal error, false otherwise.
      */
     public boolean isInternalError() {
         return logEntry.matches("^#  Internal Error.+$");

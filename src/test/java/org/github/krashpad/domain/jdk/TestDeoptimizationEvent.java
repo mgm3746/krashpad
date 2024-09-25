@@ -43,6 +43,8 @@ class TestDeoptimizationEvent {
         String logLine = "[error occurred during error reporting (printing ring buffers), id 0xb]";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DEOPTIMIZATION_EVENT,
                 JdkUtil.LogEventType.DEOPTIMIZATION_EVENT.toString() + " not identified.");
+        DeoptimizationEvent logEvent = new DeoptimizationEvent(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
     }
 
     @Test

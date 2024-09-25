@@ -117,6 +117,10 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
         return logEntry;
     }
 
+    public boolean isErrorOccurredDuringErrorReporting() {
+        return logEntry.startsWith("[error occurred during error reporting");
+    }
+
     @Override
     public boolean isHeader() {
         boolean isHeader = false;

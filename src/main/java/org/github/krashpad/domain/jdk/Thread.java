@@ -90,4 +90,8 @@ public class Thread implements LogEvent {
         return logEntry;
     }
 
+    public boolean isErrorOccurredDuringErrorReporting() {
+        return logEntry.startsWith("[error occurred during error reporting");
+    }
+
 }

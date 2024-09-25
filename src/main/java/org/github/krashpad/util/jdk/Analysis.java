@@ -51,6 +51,61 @@ public enum Analysis {
     ERROR_COMPILER_THREAD("error.compiler.thread"),
 
     /**
+     * Property key for an error inspection to of stack.
+     */
+    ERROR_INSPECTING_TOP_OF_STACK("error.inspecting.top.of.stack"),
+
+    /**
+     * Property key for an error printing all threads.
+     */
+    ERROR_PRINTING_ALL_THREADS("error.printing.all.threads"),
+
+    /**
+     * Property key for an error printing compressed oops mode.
+     */
+    ERROR_PRINTING_COMPRESSED_OOPS_MODE("error.printing.compressed.oops.mode"),
+
+    /**
+     * Property key for an error printing date and time.
+     */
+    ERROR_PRINTING_DATE_AND_TIME("error.printing.date.and.time"),
+
+    /**
+     * Property key for an error printing heap information.
+     */
+    ERROR_PRINTING_HEAP_INFORMATION("error.printing.heap.information"),
+
+    /**
+     * Property key for an error printing memory info.
+     */
+    ERROR_PRINTING_MEMORY_INFO("error.printing.memory.info"),
+
+    /**
+     * Property key for an error printing os information.
+     */
+    ERROR_PRINTING_OS_INFORMATION("error.printing.os.information"),
+
+    /**
+     * Property key for an error printing problematic frame.
+     */
+    ERROR_PRINTING_PROBLEMATIC_FRAME("error.printing.problematic.frame"),
+
+    /**
+     * Property key for an error printing register info.
+     */
+    ERROR_PRINTING_REGISTER_INFO("error.printing.register.info"),
+
+    /**
+     * Property key for an error printing ring buffers.
+     */
+    ERROR_PRINTING_RING_BUFFERS("error.printing.ring.buffers"),
+
+    /**
+     * Property key for an error printing stack.
+     */
+    ERROR_PRINTING_STACK("error.printing.stack"),
+
+    /**
      * Property key for a crash in C2 CompilerThread: "guarantee(n != NULL) failed: No Node."
      */
     ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS("error.compiler.thread.c2.beautify.loops"),

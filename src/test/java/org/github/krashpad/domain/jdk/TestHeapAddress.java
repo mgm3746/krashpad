@@ -43,6 +43,8 @@ class TestHeapAddress {
         String logLine = "[error occurred during error reporting (printing compressed oops mode, id 0xb]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
                 JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
+        HeapAddress logEvent = new HeapAddress(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
     }
 
     @Test
@@ -51,6 +53,8 @@ class TestHeapAddress {
                 + "(0xb) at pc=0x00007f769228928f]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_ADDRESS,
                 JdkUtil.LogEventType.HEAP_ADDRESS.toString() + " not identified.");
+        HeapAddress logEvent = new HeapAddress(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
     }
 
     @Test

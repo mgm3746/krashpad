@@ -104,6 +104,10 @@ public class OsInfo implements LogEvent, HeaderEvent {
         return logEntry;
     }
 
+    public boolean isErrorOccurredDuringErrorReporting() {
+        return logEntry.startsWith("[error occurred during error reporting");
+    }
+
     @Override
     public boolean isHeader() {
         boolean isHeader = false;

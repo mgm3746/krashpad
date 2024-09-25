@@ -67,8 +67,8 @@ public class ElapsedTime implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^elapsed time: ((\\d{1,10}(\\.\\d{6})?) seconds)( \\((\\d{1,4}d \\d{1,2}h "
-            + "\\d{1,2}m \\d{1,2}s)\\))?$";
+    private static final String REGEX = "^(elapsed time: ((\\d{1,10}(\\.\\d{6})?) seconds)( \\((\\d{1,4}d \\d{1,2}h "
+            + "\\d{1,2}m \\d{1,2}s)\\))?|\\[error occurred during error reporting \\(printing date and time\\).+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -108,10 +108,10 @@ public class ElapsedTime implements LogEvent {
         String time = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(5) != null) {
-                time = matcher.group(5);
+            if (matcher.group(6) != null) {
+                time = matcher.group(6);
             } else {
-                time = matcher.group(1);
+                time = matcher.group(2);
             }
         }
         return time;
@@ -128,12 +128,16 @@ public class ElapsedTime implements LogEvent {
         Long uptime = Long.MIN_VALUE;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(2) != null) {
-                BigDecimal millis = new BigDecimal(matcher.group(2)).movePointRight(3);
+            if (matcher.group(3) != null) {
+                BigDecimal millis = new BigDecimal(matcher.group(3)).movePointRight(3);
                 millis.setScale(0, RoundingMode.HALF_EVEN);
                 uptime = millis.longValue();
             }
         }
         return uptime;
+    }
+
+    public boolean isErrorOccurredDuringErrorReporting() {
+        return logEntry.startsWith("[error occurred during error reporting");
     }
 }

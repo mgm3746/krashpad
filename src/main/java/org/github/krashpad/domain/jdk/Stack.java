@@ -152,6 +152,10 @@ public class Stack implements LogEvent, HeaderEvent {
         return stackFreeSpace;
     }
 
+    public boolean isErrorOccurredDuringErrorReporting() {
+        return logEntry.startsWith("[error occurred during error reporting");
+    }
+
     /**
      * @return true if the stack frame is a Java or native frame, false otherwise.
      * 

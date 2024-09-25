@@ -1646,6 +1646,94 @@ public class FatalErrorLog {
                 analysis.add(0, Analysis.WARN_MEMORY_EXTERNAL);
             }
         }
+        // Inspection/printing errors
+        if (!stackSlotToMemoryMappings.isEmpty()) {
+            Iterator<StackSlotToMemoryMapping> iterator = stackSlotToMemoryMappings.iterator();
+            while (iterator.hasNext()) {
+                StackSlotToMemoryMapping event = iterator.next();
+                if (event.isErrorOccurredDuringErrorReporting()) {
+                    analysis.add(Analysis.ERROR_INSPECTING_TOP_OF_STACK);
+                }
+            }
+        }
+        if (!threads.isEmpty()) {
+            Iterator<Thread> iterator = threads.iterator();
+            while (iterator.hasNext()) {
+                Thread event = iterator.next();
+                if (event.isErrorOccurredDuringErrorReporting()) {
+                    analysis.add(Analysis.ERROR_PRINTING_ALL_THREADS);
+                }
+            }
+        }
+        if (heapAddress != null && heapAddress.isErrorOccurredDuringErrorReporting()) {
+            analysis.add(Analysis.ERROR_PRINTING_COMPRESSED_OOPS_MODE);
+        }
+        if (elapsedTime != null && elapsedTime.isErrorOccurredDuringErrorReporting()) {
+            analysis.add(Analysis.ERROR_PRINTING_DATE_AND_TIME);
+        }
+        if (!heaps.isEmpty()) {
+            Iterator<Heap> iterator = heaps.iterator();
+            while (iterator.hasNext()) {
+                Heap event = iterator.next();
+                if (event.isErrorOccurredDuringErrorReporting()) {
+                    analysis.add(Analysis.ERROR_PRINTING_HEAP_INFORMATION);
+                }
+            }
+        }
+        if (!memories.isEmpty()) {
+            Iterator<Memory> iterator = memories.iterator();
+            while (iterator.hasNext()) {
+                Memory event = iterator.next();
+                if (event.isErrorOccurredDuringErrorReporting()) {
+                    analysis.add(Analysis.ERROR_PRINTING_MEMORY_INFO);
+                }
+            }
+        }
+        if (!osInfos.isEmpty()) {
+            Iterator<OsInfo> iterator = osInfos.iterator();
+            while (iterator.hasNext()) {
+                OsInfo event = iterator.next();
+                if (event.isErrorOccurredDuringErrorReporting()) {
+                    analysis.add(Analysis.ERROR_PRINTING_OS_INFORMATION);
+                }
+            }
+        }
+        if (!headers.isEmpty()) {
+            Iterator<Header> iterator = headers.iterator();
+            while (iterator.hasNext()) {
+                Header event = iterator.next();
+                if (event.isErrorOccurredDuringErrorReporting()) {
+                    analysis.add(Analysis.ERROR_PRINTING_PROBLEMATIC_FRAME);
+                }
+            }
+        }
+        if (!registerToMemoryMappings.isEmpty()) {
+            Iterator<RegisterToMemoryMapping> iterator = registerToMemoryMappings.iterator();
+            while (iterator.hasNext()) {
+                RegisterToMemoryMapping event = iterator.next();
+                if (event.isErrorOccurredDuringErrorReporting()) {
+                    analysis.add(Analysis.ERROR_PRINTING_REGISTER_INFO);
+                }
+            }
+        }
+        if (!deoptimizationEvents.isEmpty()) {
+            Iterator<DeoptimizationEvent> iterator = deoptimizationEvents.iterator();
+            while (iterator.hasNext()) {
+                DeoptimizationEvent event = iterator.next();
+                if (event.isErrorOccurredDuringErrorReporting()) {
+                    analysis.add(Analysis.ERROR_PRINTING_RING_BUFFERS);
+                }
+            }
+        }
+        if (!stacks.isEmpty()) {
+            Iterator<Stack> iterator = stacks.iterator();
+            while (iterator.hasNext()) {
+                Stack event = iterator.next();
+                if (event.isErrorOccurredDuringErrorReporting()) {
+                    analysis.add(Analysis.ERROR_PRINTING_STACK);
+                }
+            }
+        }
     }
 
     /**
@@ -1679,6 +1767,83 @@ public class FatalErrorLog {
                 s.append(getJvmOptions().getHeapDumpPath());
                 s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.ERROR_INSPECTING_TOP_OF_STACK.toString())) {
+                Iterator<StackSlotToMemoryMapping> iterator = stackSlotToMemoryMappings.iterator();
+                while (iterator.hasNext()) {
+                    StackSlotToMemoryMapping event = iterator.next();
+                    if (event.isErrorOccurredDuringErrorReporting()) {
+                        a.add(new String[] { item.getKey(), event.getLogEntry() });
+                    }
+                }
+            } else if (item.getKey().equals(Analysis.ERROR_PRINTING_ALL_THREADS.toString())) {
+                Iterator<Thread> iterator = threads.iterator();
+                while (iterator.hasNext()) {
+                    Thread event = iterator.next();
+                    if (event.isErrorOccurredDuringErrorReporting()) {
+                        a.add(new String[] { item.getKey(), event.getLogEntry() });
+                    }
+                }
+            } else if (item.getKey().equals(Analysis.ERROR_PRINTING_COMPRESSED_OOPS_MODE.toString())) {
+                a.add(new String[] { item.getKey(), heapAddress.getLogEntry() });
+            } else if (item.getKey().equals(Analysis.ERROR_PRINTING_DATE_AND_TIME.toString())) {
+                a.add(new String[] { item.getKey(), elapsedTime.getLogEntry() });
+            } else if (item.getKey().equals(Analysis.ERROR_PRINTING_HEAP_INFORMATION.toString())) {
+                Iterator<Heap> iterator = heaps.iterator();
+                while (iterator.hasNext()) {
+                    Heap event = iterator.next();
+                    if (event.isErrorOccurredDuringErrorReporting()) {
+                        a.add(new String[] { item.getKey(), event.getLogEntry() });
+                    }
+                }
+            } else if (item.getKey().equals(Analysis.ERROR_PRINTING_MEMORY_INFO.toString())) {
+                Iterator<Memory> iterator = memories.iterator();
+                while (iterator.hasNext()) {
+                    Memory event = iterator.next();
+                    if (event.isErrorOccurredDuringErrorReporting()) {
+                        a.add(new String[] { item.getKey(), event.getLogEntry() });
+                    }
+                }
+            } else if (item.getKey().equals(Analysis.ERROR_PRINTING_OS_INFORMATION.toString())) {
+                Iterator<OsInfo> iterator = osInfos.iterator();
+                while (iterator.hasNext()) {
+                    OsInfo event = iterator.next();
+                    if (event.isErrorOccurredDuringErrorReporting()) {
+                        a.add(new String[] { item.getKey(), event.getLogEntry() });
+                    }
+                }
+            } else if (item.getKey().equals(Analysis.ERROR_PRINTING_PROBLEMATIC_FRAME.toString())) {
+                Iterator<Header> iterator = headers.iterator();
+                while (iterator.hasNext()) {
+                    Header event = iterator.next();
+                    if (event.isErrorOccurredDuringErrorReporting()) {
+                        a.add(new String[] { item.getKey(), event.getLogEntry() });
+                    }
+                }
+            } else if (item.getKey().equals(Analysis.ERROR_PRINTING_REGISTER_INFO.toString())) {
+                Iterator<RegisterToMemoryMapping> iterator = registerToMemoryMappings.iterator();
+                while (iterator.hasNext()) {
+                    RegisterToMemoryMapping event = iterator.next();
+                    if (event.isErrorOccurredDuringErrorReporting()) {
+                        a.add(new String[] { item.getKey(), event.getLogEntry() });
+                    }
+                }
+            } else if (item.getKey().equals(Analysis.ERROR_PRINTING_RING_BUFFERS.toString())) {
+                Iterator<DeoptimizationEvent> iterator = deoptimizationEvents.iterator();
+                while (iterator.hasNext()) {
+                    DeoptimizationEvent event = iterator.next();
+                    if (event.isErrorOccurredDuringErrorReporting()) {
+                        a.add(new String[] { item.getKey(), event.getLogEntry() });
+                    }
+                }
+            } else if (item.getKey().equals(Analysis.ERROR_PRINTING_STACK.toString())) {
+                Iterator<Stack> iterator = stacks.iterator();
+                while (iterator.hasNext()) {
+                    Stack event = iterator.next();
+                    if (event.isErrorOccurredDuringErrorReporting()) {
+                        a.add(new String[] { item.getKey(), event.getLogEntry() });
+                    }
+                }
+
             } else if (item.getKey().equals(Analysis.ERROR_OOME_RLIMIT_MAX_MAP_COUNT.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 if (getGcPreciousLogWarning() != null) {
@@ -2762,7 +2927,7 @@ public class FatalErrorLog {
                 }
                 heapInitialSize = JdkUtil.convertSize(value, fromUnits, 'B');
             }
-        } else if (heapAddress != null) {
+        } else if (heapAddress != null && !heapAddress.isErrorOccurredDuringErrorReporting()) {
             heapInitialSize = heapAddress.getSize();
         } else if (getMemoryTotal() > 0) {
             // Use JVM default = 1/64 system memory
@@ -2798,7 +2963,7 @@ public class FatalErrorLog {
                 }
                 heapMaxSize = JdkUtil.convertSize(value, fromUnits, 'B');
             }
-        } else if (heapAddress != null) {
+        } else if (heapAddress != null && !heapAddress.isErrorOccurredDuringErrorReporting()) {
             heapMaxSize = heapAddress.getSize();
         } else if (getMemoryTotal() > 0) {
             // Use JVM default = 1/4 system memory
@@ -4199,8 +4364,8 @@ public class FatalErrorLog {
                 if (event.isHeader()) {
                     Pattern pattern = Pattern.compile(Memory._REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        memoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(6)), matcher.group(8).charAt(0),
+                    if (matcher.find() && matcher.group(7) != null && matcher.group(9) != null) {
+                        memoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)), matcher.group(9).charAt(0),
                                 'B');
                     }
                     break;
@@ -4225,8 +4390,8 @@ public class FatalErrorLog {
                 if (event.isHeader()) {
                     Pattern pattern = Pattern.compile(Memory._REGEX_HEADER);
                     Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find()) {
-                        memoryTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(3)), matcher.group(5).charAt(0),
+                    if (matcher.find() && matcher.group(4) != null && matcher.group(6) != null) {
+                        memoryTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(4)), matcher.group(6).charAt(0),
                                 'B');
                     }
                     break;
@@ -4995,9 +5160,9 @@ public class FatalErrorLog {
                         swapFree = Math.max(event.getSwapFree() - getMemoryFree(), 0);
                     } else {
                         Matcher matcher = Memory.PATTERN.matcher(event.getLogEntry());
-                        if (matcher.find() && matcher.group(14) != null && matcher.group(16) != null) {
-                            swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)),
-                                    matcher.group(16).charAt(0), 'B');
+                        if (matcher.find() && matcher.group(15) != null && matcher.group(17) != null) {
+                            swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(15)),
+                                    matcher.group(17).charAt(0), 'B');
                         }
                         break;
                     }

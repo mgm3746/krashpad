@@ -110,4 +110,8 @@ public class StackSlotToMemoryMapping implements LogEvent {
         return logEntry;
     }
 
+    public boolean isErrorOccurredDuringErrorReporting() {
+        return logEntry.startsWith("[error occurred during error reporting");
+    }
+
 }

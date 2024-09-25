@@ -353,6 +353,152 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testErrorInspectingTopOfStack() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "[error occurred during error reporting (inspecting top of stack), id 0xb, SIGSEGV (0xb) at "
+                + "pc=0x00007f68376aea9e]";
+        StackSlotToMemoryMapping event = new StackSlotToMemoryMapping(logLine);
+        fel.getStackSlotToMemoryMappings().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_INSPECTING_TOP_OF_STACK.getKey()),
+                Analysis.ERROR_INSPECTING_TOP_OF_STACK + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.ERROR_INSPECTING_TOP_OF_STACK.getKey()), logLine,
+                Analysis.ERROR_INSPECTING_TOP_OF_STACK + " not correct.");
+    }
+
+    @Test
+    void testErrorPrintingAllThreads() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "[error occurred during error reporting (printing register info), id 0xb]";
+        Thread event = new Thread(logLine);
+        fel.getThreads().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PRINTING_ALL_THREADS.getKey()),
+                Analysis.ERROR_PRINTING_ALL_THREADS + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.ERROR_PRINTING_ALL_THREADS.getKey()), logLine,
+                Analysis.ERROR_PRINTING_ALL_THREADS + " not correct.");
+    }
+
+    @Test
+    void testErrorPrintingCompressedOopsMode() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "[error occurred during error reporting (printing compressed oops mode), id 0xb, SIGSEGV "
+                + "(0xb) at pc=0x00007f769228928f]";
+        HeapAddress event = new HeapAddress(logLine);
+        fel.setHeapAddress(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PRINTING_COMPRESSED_OOPS_MODE.getKey()),
+                Analysis.ERROR_PRINTING_COMPRESSED_OOPS_MODE + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.ERROR_PRINTING_COMPRESSED_OOPS_MODE.getKey()), logLine,
+                Analysis.ERROR_PRINTING_COMPRESSED_OOPS_MODE + " not correct.");
+    }
+
+    @Test
+    void testErrorPrintingDateAndTime() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "[error occurred during error reporting (printing date and time), id 0xb]";
+        ElapsedTime event = new ElapsedTime(logLine);
+        fel.setElapsedTime(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PRINTING_DATE_AND_TIME.getKey()),
+                Analysis.ERROR_PRINTING_DATE_AND_TIME + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.ERROR_PRINTING_DATE_AND_TIME.getKey()), logLine,
+                Analysis.ERROR_PRINTING_DATE_AND_TIME + " not correct.");
+    }
+
+    @Test
+    void testErrorPrintingHeapInformation() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "[error occurred during error reporting (printing heap information), id 0xb, SIGSEGV (0xb) "
+                + "at pc=0x00007f256fdc78aa]";
+        Heap event = new Heap(logLine);
+        fel.getHeaps().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PRINTING_HEAP_INFORMATION.getKey()),
+                Analysis.ERROR_PRINTING_HEAP_INFORMATION + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.ERROR_PRINTING_HEAP_INFORMATION.getKey()), logLine,
+                Analysis.ERROR_PRINTING_HEAP_INFORMATION + " not correct.");
+    }
+
+    @Test
+    void testErrorPrintingMemoryInfo() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "[error occurred during error reporting (printing memory info), id 0xb]";
+        Memory event = new Memory(logLine);
+        fel.getMemories().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PRINTING_MEMORY_INFO.getKey()),
+                Analysis.ERROR_PRINTING_MEMORY_INFO + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.ERROR_PRINTING_MEMORY_INFO.getKey()), logLine,
+                Analysis.ERROR_PRINTING_MEMORY_INFO + " not correct.");
+    }
+
+    @Test
+    void testErrorPrintingOsInformation() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "[error occurred during error reporting (printing OS information), id 0xb]";
+        OsInfo event = new OsInfo(logLine);
+        fel.getOsInfos().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PRINTING_OS_INFORMATION.getKey()),
+                Analysis.ERROR_PRINTING_OS_INFORMATION + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.ERROR_PRINTING_OS_INFORMATION.getKey()), logLine,
+                Analysis.ERROR_PRINTING_OS_INFORMATION + " not correct.");
+    }
+
+    @Test
+    void testErrorPrintingProblematicFrame() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "[error occurred during error reporting (printing problematic frame), id 0x7]";
+        Header event = new Header(logLine);
+        fel.getHeaders().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PRINTING_PROBLEMATIC_FRAME.getKey()),
+                Analysis.ERROR_PRINTING_PROBLEMATIC_FRAME + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.ERROR_PRINTING_PROBLEMATIC_FRAME.getKey()), logLine,
+                Analysis.ERROR_PRINTING_PROBLEMATIC_FRAME + " not correct.");
+    }
+
+    @Test
+    void testErrorPrintingRegisterInfo() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "[error occurred during error reporting (printing register info), id 0xb]";
+        RegisterToMemoryMapping event = new RegisterToMemoryMapping(logLine);
+        fel.getRegisterToMemoryMappings().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PRINTING_REGISTER_INFO.getKey()),
+                Analysis.ERROR_PRINTING_REGISTER_INFO + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.ERROR_PRINTING_REGISTER_INFO.getKey()), logLine,
+                Analysis.ERROR_PRINTING_REGISTER_INFO + " not correct.");
+    }
+
+    @Test
+    void testErrorPrintingRingBuffers() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "[error occurred during error reporting (printing ring buffers), id 0xb]";
+        DeoptimizationEvent event = new DeoptimizationEvent(logLine);
+        fel.getDeoptimizationEvents().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PRINTING_RING_BUFFERS.getKey()),
+                Analysis.ERROR_PRINTING_RING_BUFFERS + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.ERROR_PRINTING_RING_BUFFERS.getKey()), logLine,
+                Analysis.ERROR_PRINTING_RING_BUFFERS + " not correct.");
+    }
+
+    @Test
+    void testErrorPrintingStack() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String logLine = "[error occurred during error reporting (printing Java stack), id 0xb]";
+        Stack event = new Stack(logLine);
+        fel.getStacks().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_PRINTING_STACK.getKey()),
+                Analysis.ERROR_PRINTING_STACK + " analysis not identified.");
+        assertEquals(fel.getAnalysisLiteral(Analysis.ERROR_PRINTING_STACK.getKey()), logLine,
+                Analysis.ERROR_PRINTING_STACK + " not correct.");
+    }
+
+    @Test
     void testFailedToMapMemory() {
         FatalErrorLog fel = new FatalErrorLog();
         String header = "#  fatal error: Failed to map memory (Not enough space)";

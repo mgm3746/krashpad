@@ -17,6 +17,7 @@ package org.github.krashpad.domain.jdk;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.junit.jupiter.api.Test;
@@ -156,6 +157,8 @@ class TestStackSlotToMemoryMapping {
         assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
                 JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+        StackSlotToMemoryMapping logEvent = new StackSlotToMemoryMapping(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
     }
 
     @Test

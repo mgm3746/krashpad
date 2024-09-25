@@ -162,6 +162,10 @@ public class Heap implements LogEvent, HeaderEvent {
         return logEntry;
     }
 
+    public boolean isErrorOccurredDuringErrorReporting() {
+        return logEntry.startsWith("[error occurred during error reporting");
+    }
+
     /**
      * @return true if the log line contains G1 heap information, false otherwise.
      */

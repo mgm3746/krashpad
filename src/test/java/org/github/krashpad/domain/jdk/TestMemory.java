@@ -50,6 +50,16 @@ class TestMemory {
     }
 
     @Test
+    void testError() {
+        Memory priorLogEvent = new Memory("");
+        String logLine = "[error occurred during error reporting (printing memory info), id 0xb]";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMORY,
+                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
+        Memory logEvent = new Memory(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
+    }
+
+    @Test
     void testIdentity() {
         String logLine = "Memory: 4k page, physical 16058700k(1456096k free), swap 8097788k(7612768k free)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
@@ -120,6 +130,13 @@ class TestMemory {
         Memory event = new Memory(logLine);
         assertEquals(20479L * 1024 * 1024, event.getPageFileTotal(), "TotalPageFile not correct.");
         assertEquals(7532L * 1024 * 1024, event.getPageFileFree(), "AvailPageFile free not correct.");
+    }
+
+    @Test
+    void testTruncatedErrorOccurredPrintingMemoryInfo() {
+        String logLine = "Memory: 4k page";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
+                JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
     }
 
 }

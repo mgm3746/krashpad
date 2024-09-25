@@ -78,6 +78,8 @@ class TestHeap {
                 + "at pc=0x00007f256fdc78aa]";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
+        Heap logEvent = new Heap(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
     }
 
     @Test

@@ -59,6 +59,8 @@ class TestOsInfo {
         String logLine = "[error occurred during error reporting (printing OS information), id 0xb]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_INFO,
                 JdkUtil.LogEventType.OS_INFO.toString() + " not identified.");
+        OsInfo logEvent = new OsInfo(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
     }
 
     @Test

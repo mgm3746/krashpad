@@ -149,6 +149,8 @@ class TestRegisterToMemoryMapping {
         String logLine = "[error occurred during error reporting (printing register info), id 0xb]";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+        RegisterToMemoryMapping logEvent = new RegisterToMemoryMapping(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
     }
 
     @Test

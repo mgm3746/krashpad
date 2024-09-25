@@ -82,8 +82,8 @@ public class Memory implements LogEvent, HeaderEvent {
      * 
      * Reference: https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-memorystatusex
      */
-    public static final String _REGEX_HEADER = "^Memory: (4|8|64)k page,( system-wide)? physical " + JdkRegEx.SIZE
-            + "[ ]{0,1}\\(" + JdkRegEx.SIZE + " free\\)(, swap " + JdkRegEx.SIZE + "\\(" + JdkRegEx.SIZE
+    public static final String _REGEX_HEADER = "^Memory: (4|8|64)k page(,( system-wide)? physical " + JdkRegEx.SIZE
+            + "[ ]{0,1}\\(" + JdkRegEx.SIZE + " free\\))?(, swap " + JdkRegEx.SIZE + "\\(" + JdkRegEx.SIZE
             + " free\\))?$";
 
     /**
@@ -130,7 +130,8 @@ public class Memory implements LogEvent, HeaderEvent {
      * </p>
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_PAGE_FILE
-            + "|current process (commit charge|WorkingSet).+|Page Sizes: .+)$";
+            + "|current process (commit charge|WorkingSet).+|Page Sizes: .+|"
+            + "\\[error occurred during error reporting \\(printing memory info\\).+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -207,8 +208,8 @@ public class Memory implements LogEvent, HeaderEvent {
         long swapFree = Long.MIN_VALUE;
         Pattern pattern = Pattern.compile(_REGEX_HEADER);
         Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find() && matcher.group(13) != null && matcher.group(15) != null) {
-            swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(13)), matcher.group(15).charAt(0), 'B');
+        if (matcher.find() && matcher.group(14) != null && matcher.group(16) != null) {
+            swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(14)), matcher.group(16).charAt(0), 'B');
         }
         return swapFree;
     }
@@ -223,10 +224,14 @@ public class Memory implements LogEvent, HeaderEvent {
         long swap = Long.MIN_VALUE;
         Pattern pattern = Pattern.compile(_REGEX_HEADER);
         Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find() && matcher.group(10) != null && matcher.group(12) != null) {
-            swap = JdkUtil.convertSize(Long.parseLong(matcher.group(10)), matcher.group(12).charAt(0), 'B');
+        if (matcher.find() && matcher.group(11) != null && matcher.group(13) != null) {
+            swap = JdkUtil.convertSize(Long.parseLong(matcher.group(11)), matcher.group(13).charAt(0), 'B');
         }
         return swap;
+    }
+
+    public boolean isErrorOccurredDuringErrorReporting() {
+        return logEntry.startsWith("[error occurred during error reporting");
     }
 
     @Override

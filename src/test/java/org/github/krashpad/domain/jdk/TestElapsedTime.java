@@ -36,6 +36,15 @@ class TestElapsedTime {
     }
 
     @Test
+    void testError() {
+        String logLine = "[error occurred during error reporting (printing date and time), id 0xb]";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
+                JdkUtil.LogEventType.ELAPSED_TIME.toString() + " not identified.");
+        ElapsedTime logEvent = new ElapsedTime(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
+    }
+
+    @Test
     void testIdentity() {
         String logLine = "elapsed time: 855185 seconds (9d 21h 33m 5s)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.ELAPSED_TIME,
