@@ -58,6 +58,14 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testGenCollectForAllocation() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
+        String logLine = "Event: 884.592 Executing VM operation: GenCollectForAllocation";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
     void testGetAllStackTraces() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 70710.290 Executing VM operation: GetAllStackTraces";
