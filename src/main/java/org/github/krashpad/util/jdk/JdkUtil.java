@@ -278,13 +278,15 @@ public class JdkUtil {
      * 
      * SI_KERNEL: Sent by the kernel.
      * 
-     * SI_USER: A process or thread in the current process is raising the signal by calling kill.
+     * SI_TKILL: Sent by the kernel.
+     * 
+     * SI_USER: Sent by the tkill system command (sends a signal to a thread ID).
      */
     public enum SignalCode {
         //
-        BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, FPE_INTDIV, ILL_ILLOPN, SEGV_ACCERR, SEGV_MAPERR, SI_KERNEL, SI_USER,
+        BUS_ADRALN, BUS_ADRERR, BUS_OBJERR, FPE_INTDIV, ILL_ILLOPN, SEGV_ACCERR, SEGV_MAPERR, SI_KERNEL, SI_TKILL,
         //
-        UNKNOWN
+        SI_USER, UNKNOWN
     }
 
     /**

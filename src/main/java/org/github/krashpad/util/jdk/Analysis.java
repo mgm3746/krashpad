@@ -761,6 +761,11 @@ public enum Analysis {
     INFO_SIGCODE_SI_KERNEL("info.sigcode.si.kernel"),
 
     /**
+     * Property key for SI_TKILL crash.
+     */
+    INFO_SIGCODE_SI_TKILL("info.sigcode.si.tkill"),
+
+    /**
      * Property key for SI_USER crash.
      */
     INFO_SIGCODE_SI_USER("info.sigcode.si.user"),

@@ -1001,6 +1001,9 @@ public class FatalErrorLog {
         case SI_KERNEL:
             analysis.add(Analysis.INFO_SIGCODE_SI_KERNEL);
             break;
+        case SI_TKILL:
+            analysis.add(Analysis.INFO_SIGCODE_SI_TKILL);
+            break;
         case SI_USER:
             analysis.add(Analysis.INFO_SIGCODE_SI_USER);
             break;

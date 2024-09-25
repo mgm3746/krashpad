@@ -73,10 +73,10 @@ public class SigInfo implements LogEvent {
      */
     private static final String REGEX = "^siginfo: ((si_signo: \\d{1,2} \\((" + SignalNumber.SIGBUS + "|"
             + SignalNumber.SIGFPE + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV
-            + ")\\), si_code: \\d{1,3} \\((" + SignalCode.BUS_ADRALN + "|" + SignalCode.BUS_ADRERR + "|"
+            + ")\\), si_code: [-]{0,1}\\d{1,3} \\((" + SignalCode.BUS_ADRALN + "|" + SignalCode.BUS_ADRERR + "|"
             + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|" + SignalCode.SEGV_ACCERR + "|"
-            + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|" + SignalCode.SI_USER + "|"
-            + SignalCode.FPE_INTDIV + ")\\), (si_addr: " + JdkRegEx.ADDRESS
+            + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|" + SignalCode.SI_TKILL + "|" + SignalCode.SI_USER
+            + "|" + SignalCode.FPE_INTDIV + ")\\), (si_addr: " + JdkRegEx.ADDRESS
             + "|(sent from pid|si_pid): \\d{1,}[,]{0,1} [\\(]{0,1}(uid|si_uid): \\d{1,}[\\)]{0,1}))|ExceptionCode=("
             + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW
             + "), ((reading|writing) " + "address " + JdkRegEx.ADDRESS + "|ExceptionInformation=" + JdkRegEx.ADDRESS
@@ -165,6 +165,8 @@ public class SigInfo implements LogEvent {
                     code = SignalCode.SEGV_MAPERR;
                 } else if (matcher.group(4).matches(SignalCode.SI_KERNEL.toString())) {
                     code = SignalCode.SI_KERNEL;
+                } else if (matcher.group(4).matches(SignalCode.SI_TKILL.toString())) {
+                    code = SignalCode.SI_TKILL;
                 } else if (matcher.group(4).matches(SignalCode.SI_USER.toString())) {
                     code = SignalCode.SI_USER;
                 }
