@@ -6,7 +6,7 @@ A command line tool to parse Java fatal error logs.
 OpenJDK derivatives:
 * Adoptium/AdoptOpenJDK
 * Azul
-* Microsoft Build of OpenJDK
+* Microsoft build of OpenJDK
 * Oracle JDK
 * Red Hat build of OpenJDK
 * etc.
