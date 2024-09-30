@@ -121,6 +121,14 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testParallelGcFailedAllocation() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
+        String logLine = "Event: 7218.065 Executing VM operation: ParallelGCFailedAllocation";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
     void testParseLogLine() {
         String logLine = "VM Operations (1 events):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,

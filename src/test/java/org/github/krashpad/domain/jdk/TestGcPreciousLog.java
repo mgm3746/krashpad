@@ -40,6 +40,13 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testAlignments() {
+        String logLine = " Alignments: Space 512K, Generation 512K, Heap 2M";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testAvailableSpaceOnBackingFilesystem() {
         String logLine = " Available space on backing filesystem: N/A";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
@@ -75,7 +82,7 @@ class TestGcPreciousLog {
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     }
-
+    
     @Test
     void testConcurrentWorkers() {
         String logLine = " Concurrent Workers: 3";
