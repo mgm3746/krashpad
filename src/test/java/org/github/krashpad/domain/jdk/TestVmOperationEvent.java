@@ -129,6 +129,14 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testParallelGcSystemGc() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
+        String logLine = "Event: 5621.396 Executing VM operation: ParallelGCSystemGC";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
     void testParseLogLine() {
         String logLine = "VM Operations (1 events):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperationEvent,
