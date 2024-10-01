@@ -51,61 +51,6 @@ public enum Analysis {
     ERROR_COMPILER_THREAD("error.compiler.thread"),
 
     /**
-     * Property key for an error inspection to of stack.
-     */
-    ERROR_INSPECTING_TOP_OF_STACK("error.inspecting.top.of.stack"),
-
-    /**
-     * Property key for an error printing all threads.
-     */
-    ERROR_PRINTING_ALL_THREADS("error.printing.all.threads"),
-
-    /**
-     * Property key for an error printing compressed oops mode.
-     */
-    ERROR_PRINTING_COMPRESSED_OOPS_MODE("error.printing.compressed.oops.mode"),
-
-    /**
-     * Property key for an error printing date and time.
-     */
-    ERROR_PRINTING_DATE_AND_TIME("error.printing.date.and.time"),
-
-    /**
-     * Property key for an error printing heap information.
-     */
-    ERROR_PRINTING_HEAP_INFORMATION("error.printing.heap.information"),
-
-    /**
-     * Property key for an error printing memory info.
-     */
-    ERROR_PRINTING_MEMORY_INFO("error.printing.memory.info"),
-
-    /**
-     * Property key for an error printing os information.
-     */
-    ERROR_PRINTING_OS_INFORMATION("error.printing.os.information"),
-
-    /**
-     * Property key for an error printing problematic frame.
-     */
-    ERROR_PRINTING_PROBLEMATIC_FRAME("error.printing.problematic.frame"),
-
-    /**
-     * Property key for an error printing register info.
-     */
-    ERROR_PRINTING_REGISTER_INFO("error.printing.register.info"),
-
-    /**
-     * Property key for an error printing ring buffers.
-     */
-    ERROR_PRINTING_RING_BUFFERS("error.printing.ring.buffers"),
-
-    /**
-     * Property key for an error printing stack.
-     */
-    ERROR_PRINTING_STACK("error.printing.stack"),
-
-    /**
      * Property key for a crash in C2 CompilerThread: "guarantee(n != NULL) failed: No Node."
      */
     ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS("error.compiler.thread.c2.beautify.loops"),
@@ -171,6 +116,11 @@ public enum Analysis {
      * Property key for a crash in java.util.HashMap.
      */
     ERROR_HASHMAP("error.hashmap"),
+
+    /**
+     * Property key for an error inspection to of stack.
+     */
+    ERROR_INSPECTING_TOP_OF_STACK("error.inspecting.top.of.stack"),
 
     /**
      * Property key for a crash in iText I/O.
@@ -502,6 +452,55 @@ public enum Analysis {
      * Property key for PostgreSQL JDBC driver incompatible with JDK8.
      */
     ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE("error.postgresql.jdbc.jdk8.incompatible"),
+    /**
+     * Property key for an error printing all threads.
+     */
+    ERROR_PRINTING_ALL_THREADS("error.printing.all.threads"),
+
+    /**
+     * Property key for an error printing compressed oops mode.
+     */
+    ERROR_PRINTING_COMPRESSED_OOPS_MODE("error.printing.compressed.oops.mode"),
+
+    /**
+     * Property key for an error printing date and time.
+     */
+    ERROR_PRINTING_DATE_AND_TIME("error.printing.date.and.time"),
+
+    /**
+     * Property key for an error printing heap information.
+     */
+    ERROR_PRINTING_HEAP_INFORMATION("error.printing.heap.information"),
+
+    /**
+     * Property key for an error printing memory info.
+     */
+    ERROR_PRINTING_MEMORY_INFO("error.printing.memory.info"),
+
+    /**
+     * Property key for an error printing os information.
+     */
+    ERROR_PRINTING_OS_INFORMATION("error.printing.os.information"),
+
+    /**
+     * Property key for an error printing problematic frame.
+     */
+    ERROR_PRINTING_PROBLEMATIC_FRAME("error.printing.problematic.frame"),
+
+    /**
+     * Property key for an error printing register info.
+     */
+    ERROR_PRINTING_REGISTER_INFO("error.printing.register.info"),
+
+    /**
+     * Property key for an error printing ring buffers.
+     */
+    ERROR_PRINTING_RING_BUFFERS("error.printing.ring.buffers"),
+
+    /**
+     * Property key for an error printing stack.
+     */
+    ERROR_PRINTING_STACK("error.printing.stack"),
 
     /**
      * Property key for a crash in PSPromotionManager::copy_to_survivor_space&lt;false&gt;(oopDesc*).
@@ -512,6 +511,11 @@ public enum Analysis {
      * Property key for error calling pthread_getcpuclockid
      */
     ERROR_PTHREAD_GETCPUCLOCKID("error.pthread.getcpuclockid"),
+
+    /**
+     * Property key for an unsupported JDK running on RHEL7.
+     */
+    ERROR_RHEL7_JDK_VERSION("error.rhel7.jdk.version"),
 
     /**
      * Property key for StackOverflowError.

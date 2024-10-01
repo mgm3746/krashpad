@@ -82,7 +82,7 @@ class TestGcPreciousLog {
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
                 JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
     }
-    
+
     @Test
     void testConcurrentWorkers() {
         String logLine = " Concurrent Workers: 3";

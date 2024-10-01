@@ -486,7 +486,7 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP_VERSION.getKey()),
                 Analysis.INFO_CGROUP_VERSION + " analysis not identified.");
         assertEquals("cgroup version: cgroupv1.", fel.getAnalysisLiteral(Analysis.INFO_CGROUP_VERSION.getKey()),
-                Analysis.INFO_CGROUP_VERSION + " not correct.");
+                Analysis.INFO_CGROUP_VERSION + " analysis literal not correct.");
         long osMemoryTotal = JdkUtil.convertSize(396080512, 'K', 'B');
         assertEquals(osMemoryTotal, fel.getOsMemoryTotal(), "OS memory total not correct.");
         long memoryLimitInBytes = 4294967296L;
@@ -844,7 +844,7 @@ class TestAnalysis {
                 Analysis.WARN_EXPERIMENTAL_ERGONOMIC + " analysis not identified.");
         assertEquals("The following experimental options are being set by ergonomics: UseFastUnorderedTimeStamps=true.",
                 fel.getAnalysisLiteral(Analysis.WARN_EXPERIMENTAL_ERGONOMIC.getKey()),
-                Analysis.WARN_EXPERIMENTAL_ERGONOMIC + " not correct.");
+                Analysis.WARN_EXPERIMENTAL_ERGONOMIC + " analysis literal not correct.");
     }
 
     /**
@@ -1980,7 +1980,7 @@ class TestAnalysis {
                 "The number of memory map areas (99) in the Dynamic Libraries section is within 1% of the "
                         + "max_map_count limit (100).",
                 fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_RLIMIT.getKey()),
-                Analysis.WARN_MAX_MAP_COUNT_RLIMIT + " not correct.");
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT + " analysis literal not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE + " analysis incorrectly identified.");
     }
@@ -2005,7 +2005,7 @@ class TestAnalysis {
                 "The number of memory map areas (99) in the Dynamic Libraries section is within 1% of the "
                         + "max_map_count limit (100).",
                 fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_RLIMIT.getKey()),
-                Analysis.WARN_MAX_MAP_COUNT_RLIMIT + " not correct.");
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT + " analysis literal not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE + " analysis incorrectly identified.");
     }
@@ -2021,7 +2021,7 @@ class TestAnalysis {
                 "The number of memory map areas (65529) in the Dynamic Libraries section is very close to the default "
                         + "max_map_count limit (65530).",
                 fel.getAnalysisLiteral(Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE.getKey()),
-                Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE + " not correct.");
+                Analysis.WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE + " analysis literal not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_MAP_COUNT_RLIMIT.getKey()),
                 Analysis.WARN_MAX_MAP_COUNT_RLIMIT + " analysis incorrectly identified.");
     }
@@ -2117,7 +2117,7 @@ class TestAnalysis {
         assertEquals(memoryFree, fel.getMemoryFree(), "Memory free not correct.");
         assertEquals("External processes are consuming significant amounts of memory: 75%.",
                 fel.getAnalysisLiteral(Analysis.WARN_MEMORY_EXTERNAL.getKey()),
-                Analysis.WARN_MEMORY_EXTERNAL + " not correct.");
+                Analysis.WARN_MEMORY_EXTERNAL + " analysis literal not correct.");
     }
 
     @Test
@@ -3193,6 +3193,24 @@ class TestAnalysis {
     }
 
     @Test
+    void testRhel7Jdk17() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (17.0.7+7-LTS) for linux-amd64 JRE (17.0.7+7-LTS), built "
+                + "on Apr 13 2023 02:10:25 by \"mockbuild\" with gcc 8.3.1 20190311 (Red Hat 8.3.1-3)";
+        VmInfo vmEvent = new VmInfo(vm_info);
+        fel.setVmInfo(vmEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_RHEL7_JDK_VERSION.getKey()),
+                Analysis.ERROR_RHEL7_JDK_VERSION + " analysis not identified.");
+        assertEquals("JDK17 is not supported on RHEL7.",
+                fel.getAnalysisLiteral(Analysis.ERROR_RHEL7_JDK_VERSION.getKey()),
+                Analysis.ERROR_RHEL7_JDK_VERSION + " analysis literal not correct.");
+    }
+
+    @Test
     void testRhel7WorkstationrRpm() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset19.txt");
         Manager manager = new Manager();
@@ -3242,7 +3260,7 @@ class TestAnalysis {
                 Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
         assertEquals("RHEL/JDK rpm version mismatch: RHEL 8.5 + java-11-openjdk-11.0.13.0.8-1.el8_4.x86_64.",
                 fel.getAnalysisLiteral(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
-                Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " not correct.");
+                Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis literal not correct.");
     }
 
     @Test
@@ -3592,7 +3610,7 @@ class TestAnalysis {
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED.getKey()),
                 org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED + " analysis not identified.");
         assertEquals(undefined, fel.getAnalysisLiteral(org.github.joa.util.Analysis.INFO_OPTS_UNDEFINED.getKey()),
-                org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED + " not correct.");
+                org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED + " analysis literal not correct.");
         assertFalse(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED.getKey()),
                 org.github.joa.util.Analysis.INFO_UNACCOUNTED_OPTIONS_DISABLED + " analysis incorrectly identified.");
     }

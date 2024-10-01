@@ -1734,6 +1734,12 @@ public class FatalErrorLog {
                 }
             }
         }
+        // RHEL7 is only supported on JDK8/11.
+        if (getOsVersion() == OsVersion.RHEL7 && getJavaVersionMajor() > 0
+                && !(getJavaVersionMajor() == 8 || getJavaVersionMajor() == 11)) {
+            analysis.add(Analysis.ERROR_RHEL7_JDK_VERSION);
+
+        }
     }
 
     /**
@@ -1775,6 +1781,13 @@ public class FatalErrorLog {
                         a.add(new String[] { item.getKey(), event.getLogEntry() });
                     }
                 }
+            } else if (item.getKey().equals(Analysis.ERROR_OOME_RLIMIT_MAX_MAP_COUNT.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                if (getGcPreciousLogWarning() != null) {
+                    s.append(" ");
+                    s.append(getGcPreciousLogWarning());
+                }
+                a.add(new String[] { item.getKey(), s.toString() });
             } else if (item.getKey().equals(Analysis.ERROR_PRINTING_ALL_THREADS.toString())) {
                 Iterator<Thread> iterator = threads.iterator();
                 while (iterator.hasNext()) {
@@ -1843,13 +1856,14 @@ public class FatalErrorLog {
                         a.add(new String[] { item.getKey(), event.getLogEntry() });
                     }
                 }
-
-            } else if (item.getKey().equals(Analysis.ERROR_OOME_RLIMIT_MAX_MAP_COUNT.toString())) {
+            } else if (item.getKey().equals(Analysis.ERROR_RHEL7_JDK_VERSION.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
-                if (getGcPreciousLogWarning() != null) {
-                    s.append(" ");
-                    s.append(getGcPreciousLogWarning());
-                }
+                String replace = "JDK version";
+                int position = s.toString().lastIndexOf(replace);
+                StringBuffer with = new StringBuffer();
+                with.append("JDK");
+                with.append(getJavaVersionMajor());
+                s.replace(position, position + replace.length(), with.toString());
                 a.add(new String[] { item.getKey(), s.toString() });
             } else if (item.getKey().equals(Analysis.INFO_CGROUP_VERSION.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
