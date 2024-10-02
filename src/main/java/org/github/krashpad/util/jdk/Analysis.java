@@ -272,6 +272,11 @@ public enum Analysis {
     ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE("error.module.entry.purge.reads.possible"),
 
     /**
+     * Property key for using a multi-thread garbage collector where there are less than 2 cpu/core.
+     */
+    ERROR_MULTITHREADED_COLLECTOR_LT_2_CPU("error.multithread.collector.lt.2.cpu"),
+
+    /**
      * Property key for generic insufficient physical memory.
      */
     ERROR_OOME("error.oome"),
@@ -995,6 +1000,11 @@ public enum Analysis {
      * Property key for Java Security Services (JSS) code in stack.
      */
     WARN_JSS("warn.jss"),
+
+    /**
+     * Property key for Kubernetes Quality of Service (QoS) not Guaranteed.
+     */
+    WARN_KUBERNETES_QOS_GUARANTEED_NOT("warn.kubernetes.qos.guaranteed.not"),
 
     /**
      * Property key for Lucene code in stack.

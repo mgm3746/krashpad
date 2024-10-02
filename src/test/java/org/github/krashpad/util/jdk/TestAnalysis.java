@@ -1731,6 +1731,18 @@ class TestAnalysis {
     }
 
     @Test
+    void testKubernetesQosGuaranteedNot() {
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getContainerInfos().add(new ContainerInfo("cpu_quota: 100000"));
+        assertEquals(100000, fel.getCpuQuota(), "cpu_quota not correct");
+        fel.getContainerInfos().add(new ContainerInfo("cpu_shares: 102"));
+        assertEquals(102, fel.getCpuShares(), "cpu_shares not correct");
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_KUBERNETES_QOS_GUARANTEED_NOT.getKey()),
+                Analysis.WARN_KUBERNETES_QOS_GUARANTEED_NOT + " analysis not identified.");
+    }
+
+    @Test
     void testLargePagesConsiderThpOsAlwaysJdk21Update2() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (21.0.2+13-LTS) for linux-amd64 JRE (21.0.2+13-LTS), "
@@ -2231,6 +2243,24 @@ class TestAnalysis {
                 Analysis.ERROR_POINTER_INVALID + " analysis not identified.");
         assertEquals(79, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(1, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
+    void testMultithreadedCollectorLt2Cpu() {
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getContainerInfos().add(new ContainerInfo("active_processor_count: 1"));
+        assertEquals(1, fel.getActiveProcessorCount(), "active_processor_count not correct");
+        String heap1 = "Heap:";
+        Heap heapEvent1 = new Heap(heap1);
+        fel.getHeaps().add(heapEvent1);
+        String heap2 = " PSYoungGen      total 2213888K, used 918734K [0x0000000777780000, 0x0000000800000000, "
+                + "0x0000000800000000)";
+        Heap heapEvent2 = new Heap(heap2);
+        fel.getHeaps().add(heapEvent2);
+        assertTrue(fel.isMultithreadedGc(), "multithread gc not identified");
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_MULTITHREADED_COLLECTOR_LT_2_CPU.getKey()),
+                Analysis.ERROR_MULTITHREADED_COLLECTOR_LT_2_CPU + " analysis not identified.");
     }
 
     @Test

@@ -1740,6 +1740,14 @@ public class FatalErrorLog {
             analysis.add(Analysis.ERROR_RHEL7_JDK_VERSION);
 
         }
+        // kubernets Qos Guaranteed
+        if (getCpuQuota() > 0 && getCpuShares() > 0 && getCpuQuota() != getCpuShares()) {
+            analysis.add(Analysis.WARN_KUBERNETES_QOS_GUARANTEED_NOT);
+        }
+        // multi-thread collector < 2 cpu/cores
+        if (isMultithreadedGc() && getActiveProcessorCount() > 0 && getActiveProcessorCount() < 2) {
+            analysis.add(Analysis.ERROR_MULTITHREADED_COLLECTOR_LT_2_CPU);
+        }
     }
 
     /**
@@ -1751,6 +1759,24 @@ public class FatalErrorLog {
         hydrateNativeLibraries();
         hydrateNativeLibrariesUnknown();
         hydrateRpmDirectory();
+    }
+
+    /**
+     * @return The active processor count.
+     */
+    public int getActiveProcessorCount() {
+        int activeProcessorCount = Integer.MIN_VALUE;
+        if (!containerInfos.isEmpty()) {
+            Iterator<ContainerInfo> iterator = containerInfos.iterator();
+            while (iterator.hasNext()) {
+                ContainerInfo event = iterator.next();
+                if (!event.isHeader() && event.getSetting().matches("active_processor_count")) {
+                    activeProcessorCount = Integer.parseInt(event.getSettingValue());
+                    break;
+                }
+            }
+        }
+        return activeProcessorCount;
     }
 
     /**
@@ -2445,6 +2471,44 @@ public class FatalErrorLog {
 
     public List<CpuInfo> getCpuInfos() {
         return cpuInfos;
+    }
+
+    /**
+     * @return The cpu quota.
+     */
+    public int getCpuQuota() {
+        int cpuQuota = Integer.MIN_VALUE;
+        if (!containerInfos.isEmpty()) {
+            Iterator<ContainerInfo> iterator = containerInfos.iterator();
+            while (iterator.hasNext()) {
+                ContainerInfo event = iterator.next();
+                if (!event.isHeader() && event.getSetting().matches("cpu_quota")
+                        && !event.getSettingValue().equals("no quota")) {
+                    cpuQuota = Integer.parseInt(event.getSettingValue());
+                    break;
+                }
+            }
+        }
+        return cpuQuota;
+    }
+
+    /**
+     * @return The cpu shares.
+     */
+    public int getCpuShares() {
+        int cpuShares = Integer.MIN_VALUE;
+        if (!containerInfos.isEmpty()) {
+            Iterator<ContainerInfo> iterator = containerInfos.iterator();
+            while (iterator.hasNext()) {
+                ContainerInfo event = iterator.next();
+                if (!event.isHeader() && event.getSetting().matches("cpu_shares")
+                        && !event.getSettingValue().equals("no shares")) {
+                    cpuShares = Integer.parseInt(event.getSettingValue());
+                    break;
+                }
+            }
+        }
+        return cpuShares;
     }
 
     /**
@@ -6157,6 +6221,36 @@ public class FatalErrorLog {
             isMemoryCorruption = true;
         }
         return isMemoryCorruption;
+    }
+
+    /**
+     * @return true if garbage collection is multithreaded, false otherwise.
+     */
+    public boolean isMultithreadedGc() {
+        boolean isMultithreadedGc = false;
+        Iterator<GarbageCollector> iterator = getGarbageCollectors().iterator();
+        while (iterator.hasNext()) {
+            GarbageCollector gc = iterator.next();
+            switch (gc) {
+            case CMS:
+            case G1:
+            case PARALLEL_OLD:
+            case PARALLEL_SCAVENGE:
+            case PAR_NEW:
+            case SHENANDOAH:
+            case ZGC_GENERATIONAL:
+            case ZGC_NON_GENERATIONAL:
+                isMultithreadedGc = true;
+                break;
+            case SERIAL_NEW:
+            case SERIAL_OLD:
+            case PARALLEL_SERIAL_OLD:
+            case UNKNOWN:
+            default:
+                break;
+            }
+        }
+        return isMultithreadedGc;
     }
 
     /**
