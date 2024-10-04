@@ -73,10 +73,12 @@ import org.github.krashpad.domain.jdk.MachCode;
 import org.github.krashpad.domain.jdk.MaxMapCount;
 import org.github.krashpad.domain.jdk.Meminfo;
 import org.github.krashpad.domain.jdk.Memory;
+import org.github.krashpad.domain.jdk.MemoryProtectionEvent;
 import org.github.krashpad.domain.jdk.Metaspace;
 import org.github.krashpad.domain.jdk.NarrowKlass;
 import org.github.krashpad.domain.jdk.NativeDecoderState;
 import org.github.krashpad.domain.jdk.NativeMemoryTracking;
+import org.github.krashpad.domain.jdk.NmethodFlushesEvent;
 import org.github.krashpad.domain.jdk.OsInfo;
 import org.github.krashpad.domain.jdk.OsUptime;
 import org.github.krashpad.domain.jdk.PeriodicNativeTrim;
@@ -92,6 +94,7 @@ import org.github.krashpad.domain.jdk.SigInfo;
 import org.github.krashpad.domain.jdk.SignalHandlers;
 import org.github.krashpad.domain.jdk.Stack;
 import org.github.krashpad.domain.jdk.StackSlotToMemoryMapping;
+import org.github.krashpad.domain.jdk.Swappiness;
 import org.github.krashpad.domain.jdk.Thread;
 import org.github.krashpad.domain.jdk.ThreadsActiveCompile;
 import org.github.krashpad.domain.jdk.ThreadsClassSmrInfo;
@@ -239,15 +242,17 @@ public class JdkUtil {
         //
         HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTIC,
         //
-        LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY, METASPACE,
+        LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY,
         //
-        NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID,
+        MEMORY_PROTECTION_EVENT, METASPACE, NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING,
         //
-        PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS,
+        NMETHOD_FLUSHES_EVENT, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID, PID_MAX, POLLING_PAGE, PROCESS_MEMORY,
         //
-        STACK, STACK_SLOT_TO_MEMORY_MAPPING, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME,
+        REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING,
         //
-        TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED,
+        SWAPPINESS, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME,
+        //
+        TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED,
         //
         TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
         //
@@ -818,6 +823,9 @@ public class JdkUtil {
             } else if (logLine.matches(Memory._REGEX_HEADER)
                     || (priorEvent instanceof Memory && Memory.match(logLine))) {
                 logEventType = LogEventType.MEMORY;
+            } else if (logLine.matches(MemoryProtectionEvent._REGEX_HEADER)
+                    || (priorEvent instanceof MemoryProtectionEvent && MemoryProtectionEvent.match(logLine))) {
+                logEventType = LogEventType.MEMORY_PROTECTION_EVENT;
             } else if (Metaspace.match(logLine)) {
                 logEventType = LogEventType.METASPACE;
             } else if (NarrowKlass.match(logLine)) {
@@ -827,6 +835,9 @@ public class JdkUtil {
             } else if (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
                     || (priorEvent instanceof NativeMemoryTracking && NativeMemoryTracking.match(logLine))) {
                 logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
+            } else if (logLine.matches(NmethodFlushesEvent._REGEX_HEADER)
+                    || (priorEvent instanceof NmethodFlushesEvent && NmethodFlushesEvent.match(logLine))) {
+                logEventType = LogEventType.NMETHOD_FLUSHES_EVENT;
             } else if (OsInfo.match(logLine)) {
                 logEventType = LogEventType.OS_INFO;
             } else if (OsUptime.match(logLine)) {
@@ -858,6 +869,8 @@ public class JdkUtil {
             } else if (logLine.matches(StackSlotToMemoryMapping._REGEX_HEADER)
                     || (priorEvent instanceof StackSlotToMemoryMapping && StackSlotToMemoryMapping.match(logLine))) {
                 logEventType = LogEventType.STACK_SLOT_TO_MEMORY_MAPPING;
+            } else if (Swappiness.match(logLine)) {
+                logEventType = LogEventType.SWAPPINESS;
             } else if (Thread.match(logLine)) {
                 logEventType = LogEventType.THREAD;
             } else if (ThreadsActiveCompile.match(logLine)) {
@@ -1154,6 +1167,9 @@ public class JdkUtil {
         case MEMORY:
             event = new Memory(logLine);
             break;
+        case MEMORY_PROTECTION_EVENT:
+            event = new MemoryProtectionEvent(logLine);
+            break;
         case METASPACE:
             event = new Metaspace(logLine);
             break;
@@ -1165,6 +1181,9 @@ public class JdkUtil {
             break;
         case NATIVE_MEMORY_TRACKING:
             event = new NativeMemoryTracking(logLine);
+            break;
+        case NMETHOD_FLUSHES_EVENT:
+            event = new NmethodFlushesEvent(logLine);
             break;
         case OS_INFO:
             event = new OsInfo(logLine);
@@ -1207,6 +1226,9 @@ public class JdkUtil {
             break;
         case STACK_SLOT_TO_MEMORY_MAPPING:
             event = new StackSlotToMemoryMapping(logLine);
+            break;
+        case SWAPPINESS:
+            event = new Swappiness(logLine);
             break;
         case THREAD:
             event = new Thread(logLine);
