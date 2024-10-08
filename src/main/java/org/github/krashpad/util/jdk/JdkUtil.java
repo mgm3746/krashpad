@@ -38,12 +38,14 @@ import org.github.krashpad.domain.jdk.ClassesUnloadedEvent;
 import org.github.krashpad.domain.jdk.CodeCache;
 import org.github.krashpad.domain.jdk.CommandLine;
 import org.github.krashpad.domain.jdk.CompilationEvent;
+import org.github.krashpad.domain.jdk.CompiledMethod;
 import org.github.krashpad.domain.jdk.CompressedClassSpace;
 import org.github.krashpad.domain.jdk.ConstantPool;
 import org.github.krashpad.domain.jdk.ContainerInfo;
 import org.github.krashpad.domain.jdk.CpuInfo;
 import org.github.krashpad.domain.jdk.CurrentCompileTask;
 import org.github.krashpad.domain.jdk.CurrentThread;
+import org.github.krashpad.domain.jdk.DecodingCodeBlob;
 import org.github.krashpad.domain.jdk.DeoptimizationEvent;
 import org.github.krashpad.domain.jdk.DllOperationEvent;
 import org.github.krashpad.domain.jdk.DynamicLibrary;
@@ -232,17 +234,17 @@ public class JdkUtil {
         //
         ACTIVE_LOCALE, BARRIER_SET, BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_LOADED_EVENT,
         //
-        CLASSES_REDEFINED_EVENT, CLASSES_UNLOADED_EVENT, CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT,
+        CLASSES_REDEFINED_EVENT, CLASSES_UNLOADED_EVENT, CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT, COMPILED_METHOD,
         //
         COMPRESSED_CLASS_SPACE, CONSTANT_POOL, CONTAINER_INFO, CPU, CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD,
         //
-        DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT,
+        DECODING_CODE_BLOB, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END,
         //
-        EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT, GC_PRECIOUS_LOG, GLOBAL_FLAG, HEADER, HEADING, HEAP, HEAP_ADDRESS,
+        ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT, GC_PRECIOUS_LOG, GLOBAL_FLAG, HEADER,
         //
-        HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTIC,
+        HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, INTERNAL_EXCEPTION_EVENT,
         //
-        LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY,
+        INTERNAL_STATISTIC, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY,
         //
         MEMORY_PROTECTION_EVENT, METASPACE, NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING,
         //
@@ -742,6 +744,9 @@ public class JdkUtil {
             } else if (logLine.matches(CompilationEvent._REGEX_HEADER)
                     || (priorEvent instanceof CompilationEvent && CompilationEvent.match(logLine))) {
                 logEventType = LogEventType.COMPILATION_EVENT;
+            } else if (logLine.matches(CompiledMethod._REGEX_HEADER) && !(priorEvent instanceof RegisterToMemoryMapping)
+                    || (priorEvent instanceof CompiledMethod && CompiledMethod.match(logLine))) {
+                logEventType = LogEventType.COMPILED_METHOD;
             } else if (CompressedClassSpace.match(logLine)) {
                 logEventType = LogEventType.COMPRESSED_CLASS_SPACE;
             } else if (ConstantPool.match(logLine)) {
@@ -755,6 +760,8 @@ public class JdkUtil {
                 logEventType = LogEventType.CURRENT_COMPILE_TASK;
             } else if (CurrentThread.match(logLine)) {
                 logEventType = LogEventType.CURRENT_THREAD;
+            } else if (DecodingCodeBlob.match(logLine)) {
+                logEventType = LogEventType.DECODING_CODE_BLOB;
             } else if (logLine.matches(DeoptimizationEvent._REGEX_HEADER)
                     || (priorEvent instanceof DeoptimizationEvent && DeoptimizationEvent.match(logLine))) {
                 logEventType = LogEventType.DEOPTIMIZATION_EVENT;
@@ -1068,6 +1075,9 @@ public class JdkUtil {
         case COMPILATION_EVENT:
             event = new CompilationEvent(logLine);
             break;
+        case COMPILED_METHOD:
+            event = new CompiledMethod(logLine);
+            break;
         case CONSTANT_POOL:
             event = new ConstantPool(logLine);
             break;
@@ -1082,6 +1092,9 @@ public class JdkUtil {
             break;
         case CURRENT_THREAD:
             event = new CurrentThread(logLine);
+            break;
+        case DECODING_CODE_BLOB:
+            event = new DecodingCodeBlob(logLine);
             break;
         case DEOPTIMIZATION_EVENT:
             event = new DeoptimizationEvent(logLine);

@@ -111,17 +111,6 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
-    void testCompiledMethod() {
-        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
-        String logLine = "Compiled method (c1)   58655 23686   !   3       "
-                + "uri_3a_classloader_3a_.META_minus_INF.jruby_dot_home.lib.ruby.stdlib.rubygems::RUBY$block$open_file"
-                + "$1 (324 bytes)";
-        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
-                JdkUtil.identifyEventType(logLine, priorLogEvent),
-                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
-    }
-
-    @Test
     void testConstants() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = " - constants:         constant pool [878] {0x00007fe5c1601308} for 'java/lang/String' "

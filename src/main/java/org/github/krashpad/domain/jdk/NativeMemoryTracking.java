@@ -98,8 +98,8 @@ public class NativeMemoryTracking implements LogEvent, HeaderEvent {
     private static final String REGEX = "^(" + _REGEX_HEADER
             + "|[-]{0,1}[ ]{0,}(\\(arena=|Arena Chunk|Arguments|\\(classes|Class|\\(  Class space|Code|Compiler|"
             + "\\(    free|GC|\\(  instance classes|Internal \\(|Java Heap|Logging|\\(  Metadata|Metaspace|Module|"
-            + "Native Memory Tracking|[\\(]{0,1}malloc|[\\(]{0,1}mmap:|\\(Omitting categories|Other|Preinit state:|"
-            + "pre-init mallocs:|\\(    reserved|Safepoint|Serviceability|Shared class space|\\(stack|"
+            + "Native Memory Tracking|[\\(]{0,1}malloc|[\\(]{0,1}mmap:|Object Monitors|\\(Omitting categories|Other|"
+            + "Preinit state:|pre-init mallocs:|\\(    reserved|Safepoint|Serviceability|Shared class space|\\(stack|"
             + "String Deduplication|Symbol|Synchronization|Synchronizer|\\(thread|Thread \\(|Total: reserved|"
             + "\\(tracking|Unknown|\\(    used|\\(    waste)).*$";
 

@@ -128,9 +128,8 @@ class TestRegisterToMemoryMapping {
     @Test
     void testCompiledMethod() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
-        String logLine = "Compiled method (c1)   58653 23686   !   3       "
-                + "uri_3a_classloader_3a_.META_minus_INF.jruby_dot_home.lib.ruby.stdlib.rubygems::RUBY$block"
-                + "$open_file$1 (324 bytes)";
+        String logLine = "Compiled method (c1)   58653 23686   !   3       uri_3a_classloader_3a_.META_minus_INF."
+                + "jruby_dot_home.lib.ruby.stdlib.rubygems::RUBY$block$open_file$1 (324 bytes)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
                 JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
     }

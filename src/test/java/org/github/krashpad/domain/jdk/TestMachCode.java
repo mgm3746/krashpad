@@ -25,19 +25,9 @@ import org.junit.jupiter.api.Test;
  */
 class TestMachCode {
 
-    @Test
-    void testCompiledMethod() {
+    void testDeoptHandlerCode() {
         MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = "Compiled method (c1)   20567 9656   !   3       "
-                + "jdk.internal.reflect.NativeMethodAccessorImpl::invoke (137 bytes)";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
-    void testDependencies() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = " dependencies   [0x00007fd021c161c0,0x00007fd021c161c8] = 8";
+        String logLine = "[Deopt Handler Code]";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
                 JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
     }
@@ -67,23 +57,6 @@ class TestMachCode {
     }
 
     @Test
-    void testFullLine() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = "  0x00007ff4011cb4a0: 448b 5608 | 49bb 0000 | 0000 0800 | 0000 4d03 | d349 3bc2 | 0f85 c6b7 |"
-                + " f2f7 6690 | 0f1f 4000";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
-    void testHandlerTable() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = " handler table  [0x00007fd021c161c8,0x00007fd021c16300] = 312";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
     void testHash() {
         MachCode priorLogEvent = new MachCode("[MachCode]");
         String logLine = "  #           [sp+0x50]  (sp of caller)";
@@ -99,42 +72,10 @@ class TestMachCode {
     }
 
     @Test
-    void testMainCode() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = " main code      [0x00007fd021c15200,0x00007fd021c15e00] = 3072";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
-    void testMetadata() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = " metadata       [0x00007fd021c15e80,0x00007fd021c15ec8] = 72";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
     void testMethod() {
         MachCode priorLogEvent = new MachCode("[MachCode]");
         String logLine = "  # {method} {0x00007fcfed1c5dd8} 'invoke' '(Ljava/lang/Object;[Ljava/lang/Object;)"
                 + "Ljava/lang/Object;' in 'jdk/internal/reflect/NativeMethodAccessorImpl'";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
-    void testNulChkTable() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = " nul chk table  [0x00007fd021c16300,0x00007fd021c16348] = 72";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
-    void testParm() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = "  # parm0:    rsi:rsi   = 'java/lang/reflect/Method'";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
                 JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
     }
@@ -155,41 +96,9 @@ class TestMachCode {
     }
 
     @Test
-    void testRelocation() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = " relocation     [0x00007fd021c150f0,0x00007fd021c151e8] = 248";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
-    void testScopesData() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = " scopes data    [0x00007fd021c15ec8,0x00007fd021c16020] = 344";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
-    void testScopesPcs() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = " scopes pcs     [0x00007fd021c16020,0x00007fd021c161c0] = 416";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
     void testSemicolon() {
         MachCode priorLogEvent = new MachCode("[MachCode]");
         String logLine = "                      ;*invokevirtual isHidden {reexecute=0 rethrow=0 return_oop=0}";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
-    void testStubCode() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = " stub code      [0x00007fd021c15e00,0x00007fd021c15e80] = 128";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
                 JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
     }
@@ -203,18 +112,11 @@ class TestMachCode {
     }
 
     @Test
-    void testTotalInHeap() {
-        MachCode priorLogEvent = new MachCode("[MachCode]");
-        String logLine = " total in heap  [0x00007fd021c14f90,0x00007fd021c16348] = 5048";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
-                JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
-    }
-
-    @Test
     void testVerifiedEntryPoint() {
         MachCode priorLogEvent = new MachCode("[MachCode]");
         String logLine = "[Verified Entry Point]";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof MachCode,
                 JdkUtil.LogEventType.MACH_CODE.toString() + " not parsed.");
     }
+
 }

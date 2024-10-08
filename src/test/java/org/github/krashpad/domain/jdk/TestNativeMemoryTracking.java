@@ -235,6 +235,14 @@ class TestNativeMemoryTracking {
     }
 
     @Test
+    void testObjectMonitors() {
+        NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
+        String logLine = "-           Object Monitors (reserved=215KB, committed=215KB)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
+    }
+
+    @Test
     void testOmittingCategories() {
         NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
         String logLine = "(Omitting categories weighting less than 1KB)";
