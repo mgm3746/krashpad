@@ -63,7 +63,7 @@ public class StackSlotToMemoryMapping implements LogEvent {
             // Header
             + " - ---- (non-static |static )?fields |"
             // No trailing colon
-            + " - (final|itable length|private|protected|public static final|static final|transient|vtable length) |"
+            + " - (final|itable length|private|protected|public|static final|strict|transient|volatile|vtable length) |"
             // Trailing colon
             + " - (access|arrays|class annotations|class loader data|class type annotations|constants|default_methods|"
             + "field annotations|field type annotations|generic signature|host class|inner classes|instance size|"

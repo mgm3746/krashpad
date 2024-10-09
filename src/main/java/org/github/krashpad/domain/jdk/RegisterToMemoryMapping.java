@@ -68,19 +68,25 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.REGISTER
             + "|Adapter for signature:.+|\\[[BCILZ]([a-z]{1,}\\..+)?|BufferBlob.+|\\[CodeBlob.+|Compiled method .+|"
-            + "Framesize.+| - (---- fields \\(total size \\d{1,} words\\)|---- non-static fields \\(\\d{1,} words\\)|"
+            + "Framesize.+|"
+            // dash, ending semi-colon
+            + " - (---- fields \\(total size \\d{1,} words\\)|---- non-static fields \\(\\d{1,} words\\)|"
             + "---- static fields \\(\\d{1,} words\\)|access|arrays|class annotations|class loader data|"
             + "class type annotations|constants|default_methods|default vtable indices|field annotations|"
             + "field type annotations|inner classes|instance size|java mirror|klass|klass size|length|local interfaces|"
-            + "method ordering|methods|name|nest members|non-static oop maps|permitted subclasses|state|sub|super|"
-            + "trans\\. interfaces):.*|\\{" + JdkRegEx.ADDRESS + "\\} - klass:.+|" + JdkRegEx.ADDRESS
+            + "method ordering|methods|name|nest members|non-static oop maps|permitted subclasses|signature|state|"
+            + "string|sub|super|trans\\. interfaces):.*|"
+            // dash, no ending semi-colon
+            + " - (fake entry for|final|itable length|private|protected|strict|transient|volatile|vtable length) .+|"
+            // dash apostrophe
+            + " - '[a-zA-Z]+' .+|"
+            //
+            + "\\{" + JdkRegEx.ADDRESS + "\\} - klass:.+|" + JdkRegEx.ADDRESS
             + " is an unknown value|([R|r][ ]{0,1}\\d{1,2}[ ]{0,1}|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
             + "\\[error occurred during error reporting \\(printing register info\\).+|exception handling.+|"
-            + "invoke return entry points.+| - itable length.+|method entry point.+|native method entry point.+|"
-            + "(i)?return.+| - fake entry for .+| - (final|private|protected|strict|transient|volatile) .+|"
-            + "StubRoutines.+| - signature: .+| - '[a-zA-Z]+' .+| (dependencies|handler table|main code|metadata|"
-            + "nul chk table|oops|relocation|scopes data|scopes pcs|stub code|total in heap) .+| - vtable length.+|"
-            + JdkRegEx.CLASS + ".*)[ ]{0,}$";
+            + "invoke return entry points.+|method entry point.+|native method entry point.+|"
+            + "(i)?return.+|StubRoutines.+| (dependencies|handler table|main code|metadata|nul chk table|oops|"
+            + "relocation|scopes data|scopes pcs|stub code|total in heap) .+|" + JdkRegEx.CLASS + ".*)[ ]{0,}$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
