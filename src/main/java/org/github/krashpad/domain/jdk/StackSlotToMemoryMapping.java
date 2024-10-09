@@ -68,7 +68,7 @@ public class StackSlotToMemoryMapping implements LogEvent {
             + " - (access|arrays|class annotations|class loader data|class type annotations|constants|default_methods|"
             + "field annotations|field type annotations|generic signature|host class|inner classes|instance size|"
             + "java mirror|klass size|length|local interfaces|methods|method ordering|name|nest members|"
-            + "non-static oop maps|source file|state|sub|super|trans. interfaces):|"
+            + "non-static oop maps|source file|state|string|sub|super|trans. interfaces):|"
             // beginning space
             + " (dependencies|handler table|main code|metadata|nul chk table|oops|relocation|scopes data|scopes pcs|"
             + "stub code|total in heap) |"
