@@ -105,6 +105,14 @@ class TestThreadsClassSmrInfo {
     }
 
     @Test
+    void testSkippingToDeleteList() {
+        ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
+        String logLine = "Skipping _to_delete_list fields and contents for safety.";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
+                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testToDeleteList() {
         ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
         String logLine = "_to_delete_list=0x00007fd0c40057c0, length=1933, elements={";
