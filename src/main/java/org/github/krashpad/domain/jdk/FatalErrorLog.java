@@ -1814,10 +1814,15 @@ public class FatalErrorLog {
                 s.append(getNativeLibraryInCrash());
                 s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() });
-            } else if (item.getKey().equals(Analysis.ERROR_CRASH_ON_OOME_HEAP.toString())) {
+            } else if (item.getKey().equals(Analysis.ERROR_CRASH_ON_OOME_HEAP.toString())
+                    && JdkUtil.isOptionEnabled(getJvmOptions().getHeapDumpOnOutOfMemoryError())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 s.append(" Check the following location for a heap dump: ");
-                s.append(getJvmOptions().getHeapDumpPath());
+                if (getJvmOptions().getHeapDumpPath() != null) {
+                    s.append(getJvmOptions().getHeapDumpPath());
+                } else {
+                    s.append("user.dir");
+                }
                 s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() });
             } else if (item.getKey().equals(Analysis.ERROR_INSPECTING_TOP_OF_STACK.toString())) {

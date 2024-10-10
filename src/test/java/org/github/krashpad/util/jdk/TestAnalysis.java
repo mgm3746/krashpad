@@ -549,7 +549,7 @@ class TestAnalysis {
     }
 
     @Test
-    void testCrashOnOomeHeap() {
+    void testCrashOnOomeHeapPathDefined() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError "
                 + "-XX:HeapDumpPath=/path/to/mydir";
@@ -558,14 +558,33 @@ class TestAnalysis {
         String header = "#  fatal error: OutOfMemory encountered: Java heap space";
         Header headerEvent = new Header(header);
         fel.getHeaders().add(headerEvent);
-        String stack = "V  [libjvm.so+0xb2caf6]  TypeArrayKlass::allocate_common(int, bool, Thread*)+0x796";
-        Stack stackEvent = new Stack(stack);
-        fel.getStacks().add(stackEvent);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey()),
                 Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.ERROR_LIBJVM_SO.getKey()),
-                Analysis.ERROR_LIBJVM_SO + " analysis incorrectly identified.");
+        assertEquals("Crash due to \"java.lang.OutOfMemoryError: Java heap space\" in combination with "
+                + "-XX:+CrashOnOutOfMemoryError. Reference: https://access.redhat.com/solutions/37055. Check the "
+                + "following location for a heap dump: -XX:HeapDumpPath=/path/to/mydir.",
+                fel.getAnalysisLiteral(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey()),
+                Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis literal not correct.");
+    }
+
+    @Test
+    void testCrashOnOomeHeapPathDefault() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String header = "#  fatal error: OutOfMemory encountered: Java heap space";
+        Header headerEvent = new Header(header);
+        fel.getHeaders().add(headerEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey()),
+                Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis not identified.");
+        assertEquals("Crash due to \"java.lang.OutOfMemoryError: Java heap space\" in combination with "
+                + "-XX:+CrashOnOutOfMemoryError. Reference: https://access.redhat.com/solutions/37055. Check the "
+                + "following location for a heap dump: user.dir.",
+                fel.getAnalysisLiteral(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey()),
+                Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis literal not correct.");
     }
 
     @Test
