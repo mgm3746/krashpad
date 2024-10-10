@@ -1748,6 +1748,27 @@ public class FatalErrorLog {
         if (isMultithreadedGc() && getActiveProcessorCount() > 0 && getActiveProcessorCount() < 2) {
             analysis.add(Analysis.ERROR_MULTITHREADED_COLLECTOR_LT_2_CPU);
         }
+        // Check for jvm options and system properties being passed as command line options
+        if (getJavaCommand() != null) {
+            String args = null;
+            // remove beginning and ending jar references
+            String regex = "^([^ ]+\\.jar)?(.+?(?=-jar))-jar .+$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(getJavaCommand());
+            if (matcher.find()) {
+                args = matcher.group(2);
+            }
+            if (args != null) {
+                JvmContext jvmContext = new JvmContext(args);
+                JvmOptions jvmOptions = new JvmOptions(jvmContext);
+                if (jvmOptions.getOptions().size() > 0) {
+                    analysis.add(Analysis.ERROR_JAVA_COMMAND_HAS_JVM_OPTIONS);
+                }
+                if (jvmOptions.getSystemProperties().size() > 0) {
+                    analysis.add(Analysis.ERROR_JAVA_COMMAND_HAS_SYSTEM_PROPERTIES);
+                }
+            }
+        }
     }
 
     /**
@@ -1806,6 +1827,56 @@ public class FatalErrorLog {
                     if (event.isErrorOccurredDuringErrorReporting()) {
                         a.add(new String[] { item.getKey(), event.getLogEntry() });
                     }
+                }
+            } else if (item.getKey().equals(Analysis.ERROR_JAVA_COMMAND_HAS_JVM_OPTIONS.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                JvmContext jvmContext = new JvmContext(getJavaCommand());
+                JvmOptions jvmOptions = new JvmOptions(jvmContext);
+                Iterator<Entry<String, ArrayList<String>>> iteratorOptions = jvmOptions.getOptions().entrySet()
+                        .iterator();
+                boolean punctuate = false;
+                while (iteratorOptions.hasNext()) {
+                    Entry<String, ArrayList<String>> option = iteratorOptions.next();
+                    if (!option.getKey().equals("undefined")) {
+                        ArrayList<String> opt = option.getValue();
+                        Iterator<String> iteratorOption = opt.iterator();
+                        while (iteratorOption.hasNext()) {
+                            if (punctuate) {
+                                s.append(" ");
+                            }
+                            s.append(iteratorOption.next());
+                            punctuate = true;
+                        }
+                    }
+                }
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.ERROR_JAVA_COMMAND_HAS_SYSTEM_PROPERTIES.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                String args = null;
+                // remove beginning and ending jar references
+                String regex = "^([^ ]+\\.jar)?(.+?(?=-jar))-jar .+$";
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(getJavaCommand());
+                if (matcher.find()) {
+                    args = matcher.group(2);
+                }
+                if (args != null) {
+                    JvmContext jvmContext = new JvmContext(args);
+                    JvmOptions jvmOptions = new JvmOptions(jvmContext);
+                    ArrayList<String> systemProperties = jvmOptions.getSystemProperties();
+                    Iterator<String> iterator = systemProperties.iterator();
+                    boolean punctuate = false;
+                    while (iterator.hasNext()) {
+                        String systemProperty = iterator.next();
+                        if (punctuate) {
+                            s.append(" ");
+                        }
+                        s.append(systemProperty);
+                        punctuate = true;
+                    }
+                    s.append(".");
+                    a.add(new String[] { item.getKey(), s.toString() });
                 }
             } else if (item.getKey().equals(Analysis.ERROR_OOME_RLIMIT_MAX_MAP_COUNT.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());

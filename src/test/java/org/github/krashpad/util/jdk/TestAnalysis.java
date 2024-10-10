@@ -1261,6 +1261,30 @@ class TestAnalysis {
     }
 
     @Test
+    void testJavaCommandHasJvmArgss() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "java_command: /deployments/quarkus-run.jar -XX:-UseParallelGC -XX:+UseSerialGC "
+                + "-Djava.util.logging.manager=org.jboss.logmanager.LogManager -jar /deployments/quarkus-run.jar";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JAVA_COMMAND_HAS_JVM_OPTIONS.getKey()),
+                Analysis.ERROR_JAVA_COMMAND_HAS_JVM_OPTIONS + " analysis not identified.");
+        assertEquals(
+                "The following JVM options are being passed as command line arguments and being ignored: "
+                        + "-XX:-UseParallelGC -XX:+UseSerialGC.",
+                fel.getAnalysisLiteral(Analysis.ERROR_JAVA_COMMAND_HAS_JVM_OPTIONS.getKey()),
+                Analysis.ERROR_JAVA_COMMAND_HAS_JVM_OPTIONS + " analysis literal not correct.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JAVA_COMMAND_HAS_SYSTEM_PROPERTIES.getKey()),
+                Analysis.ERROR_JAVA_COMMAND_HAS_SYSTEM_PROPERTIES + " analysis not identified.");
+        assertEquals(
+                "The following system properties are being passed as command line arguments and being ignored: "
+                        + "-Djava.util.logging.manager=org.jboss.logmanager.LogManager.",
+                fel.getAnalysisLiteral(Analysis.ERROR_JAVA_COMMAND_HAS_SYSTEM_PROPERTIES.getKey()),
+                Analysis.ERROR_JAVA_COMMAND_HAS_SYSTEM_PROPERTIES + " analysis literal not correct.");
+    }
+
+    @Test
     void testJavaSrSignum() {
         FatalErrorLog fel = new FatalErrorLog();
         String username = "_JAVA_SR_SIGNUM=30";

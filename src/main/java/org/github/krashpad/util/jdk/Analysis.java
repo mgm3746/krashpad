@@ -128,6 +128,16 @@ public enum Analysis {
     ERROR_ITEXT_IO("error.itext.io"),
 
     /**
+     * Property key for JVM options being passed as command line options (and being ignored).
+     */
+    ERROR_JAVA_COMMAND_HAS_JVM_OPTIONS("error.java.command.has.jvm.options"),
+
+    /**
+     * Property key for system properties being passed as command line options (and being ignored).
+     */
+    ERROR_JAVA_COMMAND_HAS_SYSTEM_PROPERTIES("error.java.command.has.system.properties"),
+
+    /**
      * Property key for an unknown JDK version.
      */
     ERROR_JDK_VERSION_UNKNOWN("error.jdk.version.unknown"),
