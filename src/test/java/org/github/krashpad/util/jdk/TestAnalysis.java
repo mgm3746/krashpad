@@ -549,6 +549,25 @@ class TestAnalysis {
     }
 
     @Test
+    void testCrashOnOomeHeapPathDefault() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String header = "#  fatal error: OutOfMemory encountered: Java heap space";
+        Header headerEvent = new Header(header);
+        fel.getHeaders().add(headerEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey()),
+                Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis not identified.");
+        assertEquals("Crash due to \"java.lang.OutOfMemoryError: Java heap space\" in combination with "
+                + "-XX:+CrashOnOutOfMemoryError. Reference: https://access.redhat.com/solutions/37055. Check the "
+                + "following location for a heap dump: user.dir.",
+                fel.getAnalysisLiteral(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey()),
+                Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis literal not correct.");
+    }
+
+    @Test
     void testCrashOnOomeHeapPathDefined() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError "
@@ -564,25 +583,6 @@ class TestAnalysis {
         assertEquals("Crash due to \"java.lang.OutOfMemoryError: Java heap space\" in combination with "
                 + "-XX:+CrashOnOutOfMemoryError. Reference: https://access.redhat.com/solutions/37055. Check the "
                 + "following location for a heap dump: -XX:HeapDumpPath=/path/to/mydir.",
-                fel.getAnalysisLiteral(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey()),
-                Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis literal not correct.");
-    }
-
-    @Test
-    void testCrashOnOomeHeapPathDefault() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError";
-        VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArguments().add(event);
-        String header = "#  fatal error: OutOfMemory encountered: Java heap space";
-        Header headerEvent = new Header(header);
-        fel.getHeaders().add(headerEvent);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey()),
-                Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis not identified.");
-        assertEquals("Crash due to \"java.lang.OutOfMemoryError: Java heap space\" in combination with "
-                + "-XX:+CrashOnOutOfMemoryError. Reference: https://access.redhat.com/solutions/37055. Check the "
-                + "following location for a heap dump: user.dir.",
                 fel.getAnalysisLiteral(Analysis.ERROR_CRASH_ON_OOME_HEAP.getKey()),
                 Analysis.ERROR_CRASH_ON_OOME_HEAP + " analysis literal not correct.");
     }
@@ -2330,6 +2330,24 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_JBOSS.getKey()),
                 Analysis.INFO_NATIVE_LIBRARIES_JBOSS + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN.getKey()),
+                Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN + " analysis incorrectly identified.");
+    }
+
+    @Test
+    void testNativeLibraryNetty() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7f776430c000-7f776431e000 r-xp 00000000 08:04 170058737                  "
+                + "/tmp/libnetty_transport_native_epoll_x86_646976255022127440505.so (deleted)";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_NETTY.getKey()),
+                Analysis.INFO_NATIVE_LIBRARIES_NETTY + " analysis not identified.");
+        assertEquals(
+                "Netty native libraries detected: /tmp/libnetty_transport_native_epoll_x86_646976255022127440505.so.",
+                fel.getAnalysisLiteral(Analysis.INFO_NATIVE_LIBRARIES_NETTY.getKey()),
+                Analysis.INFO_NATIVE_LIBRARIES_NETTY + " analysis literal not correct.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN.getKey()),
                 Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN + " analysis incorrectly identified.");
     }

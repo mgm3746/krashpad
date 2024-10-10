@@ -1500,13 +1500,21 @@ public class FatalErrorLog {
         if (!getNativeLibrariesJBoss().isEmpty()) {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_JBOSS);
         }
-        // JBoss native library detection
+        // Netty native library detection
+        if (!getNativeLibrariesNetty().isEmpty()) {
+            analysis.add(Analysis.INFO_NATIVE_LIBRARIES_NETTY);
+        }
+        // Tomcat native library detection
         if (!getNativeLibrariesTomcat().isEmpty()) {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_TOMCAT);
         }
         // VMware native library detection
         if (!getNativeLibrariesVmWare().isEmpty()) {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_VMWARE);
+        }
+        // Netty native transport library detection
+        if (!getNativeLibrariesGoogle().isEmpty()) {
+            analysis.add(Analysis.INFO_NATIVE_LIBRARIES_GOOGLE);
         }
         // Check max_map_count limit
         if (dynamicLibrariesMappingCount > 0) {
@@ -2000,6 +2008,20 @@ public class FatalErrorLog {
             } else if (item.getKey().equals(Analysis.INFO_NATIVE_LIBRARIES_JBOSS.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 Iterator<String> iterator = getNativeLibrariesJBoss().iterator();
+                boolean punctuate = false;
+                while (iterator.hasNext()) {
+                    String library = iterator.next();
+                    if (punctuate) {
+                        s.append(", ");
+                    }
+                    s.append(library);
+                    punctuate = true;
+                }
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.INFO_NATIVE_LIBRARIES_NETTY.toString())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                Iterator<String> iterator = getNativeLibrariesNetty().iterator();
                 boolean punctuate = false;
                 while (iterator.hasNext()) {
                     String library = iterator.next();
@@ -4603,6 +4625,24 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return Netty native transport libraries.
+     */
+    public List<String> getNativeLibrariesNetty() {
+        List<String> nettyeNativeLibraries = new ArrayList<String>();
+        if (!nativeLibraries.isEmpty()) {
+            Iterator<String> iterator = nativeLibraries.iterator();
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && KrashUtil.NATIVE_LIBRARIES_NETTY.contains(nativeLibrary)) {
+                    nettyeNativeLibraries.add(nativeLibraryPath);
+                }
+            }
+        }
+        return nettyeNativeLibraries;
+    }
+
+    /**
      * @return JBoss native libraries.
      */
     public List<String> getNativeLibrariesJBoss() {
@@ -5970,6 +6010,8 @@ public class FatalErrorLog {
                                 && nativeLibraryPath.matches(KrashUtil.NATIVE_LIBRARY_LINUX_HOME + ".+"))
                         && !KrashUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)
                         && !KrashUtil.NATIVE_LIBRARIES_ORACLE.contains(nativeLibrary)
+                        && !KrashUtil.NATIVE_LIBRARIES_NETTY
+                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
                         && !KrashUtil.NATIVE_LIBRARIES_TOMCAT
                                 .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
                         && !KrashUtil.NATIVE_LIBRARIES_VMWARE

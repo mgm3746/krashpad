@@ -554,7 +554,7 @@ public class JdkRegEx {
     /**
      * Dynatrace native library.
      * 
-     * For example liboneagentjava.so, liboneagentloader.so, liboneagentproc.so, dtagent.dll, dtagentcore.dll
+     * For example: liboneagentjava.so, liboneagentloader.so, liboneagentproc.so, dtagent.dll, dtagentcore.dll.
      */
     public static final String NATIVE_LIBRARY_DYNATRACE = "(liboneagent(java|loader|proc)|dtagent(core)?)"
             + "\\.(DLL|dll|so)";

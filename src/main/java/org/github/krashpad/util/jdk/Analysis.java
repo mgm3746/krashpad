@@ -689,6 +689,11 @@ public enum Analysis {
     INFO_NATIVE_LIBRARIES_JBOSS("info.native.libraries.jboss"),
 
     /**
+     * Property key for Netty native libraries detected.
+     */
+    INFO_NATIVE_LIBRARIES_NETTY("info.native.libraries.netty"),
+
+    /**
      * Property key for tomcat native libraries detected.
      */
     INFO_NATIVE_LIBRARIES_TOMCAT("info.native.libraries.tomcat"),

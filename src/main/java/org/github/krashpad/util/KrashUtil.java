@@ -69,6 +69,11 @@ public class KrashUtil {
     public static final List<String> NATIVE_LIBRARIES_VMWARE;
 
     /**
+     * Netty native transport libraries.
+     */
+    public static final List<String> NATIVE_LIBRARIES_NETTY;
+
+    /**
      * Windows native libraries
      */
     public static final List<String> NATIVE_LIBRARIES_WINDOWS;
@@ -775,6 +780,10 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libverify.so");
         // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libzip.so");
+
+        // ***** NETTY *****
+        NATIVE_LIBRARIES_NETTY = new ArrayList<String>();
+        NATIVE_LIBRARIES_NETTY.add("libnetty_transport_native_epoll_x86_646976255022127440505.so");
 
         // ***** ORACLE *****
         NATIVE_LIBRARIES_ORACLE = new ArrayList<String>();
