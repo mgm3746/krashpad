@@ -783,7 +783,8 @@ public class KrashUtil {
 
         // ***** NETTY *****
         NATIVE_LIBRARIES_NETTY = new ArrayList<String>();
-        NATIVE_LIBRARIES_NETTY.add("libnetty_transport_native_epoll_x86_646976255022127440505.so");
+        NATIVE_LIBRARIES_NETTY.add("libnetty_transport_native_epoll_x86_644245394420183123460.so");
+        NATIVE_LIBRARIES_NETTY.add("libnetty_transport_native_epoll_x86_646976255022127440505.so");        
 
         // ***** ORACLE *****
         NATIVE_LIBRARIES_ORACLE = new ArrayList<String>();
