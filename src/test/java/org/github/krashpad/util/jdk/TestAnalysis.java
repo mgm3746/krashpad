@@ -504,6 +504,15 @@ class TestAnalysis {
     }
 
     @Test
+    void testCpuContainerInformationNotSupported() {
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getContainerInfos().add(new ContainerInfo("cpu_quota: not supported"));
+        assertEquals(Integer.MIN_VALUE, fel.getCpuQuota(), "cpu_quota not correct");
+        fel.getContainerInfos().add(new ContainerInfo("cpu_shares: not supported"));
+        assertEquals(Integer.MIN_VALUE, fel.getCpuShares(), "cpu_shares not correct");
+    }
+
+    @Test
     void testCrash3rdPartyLibrary() {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "C  [my-library_123.so+0x22c30d]";

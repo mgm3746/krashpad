@@ -2581,7 +2581,8 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 ContainerInfo event = iterator.next();
                 if (!event.isHeader() && event.getSetting().matches("cpu_quota")
-                        && !event.getSettingValue().equals("no quota")) {
+                        && !event.getSettingValue().equals("no quota")
+                        && !event.getSettingValue().equals("not supported")) {
                     cpuQuota = Integer.parseInt(event.getSettingValue());
                     break;
                 }
@@ -2600,7 +2601,8 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 ContainerInfo event = iterator.next();
                 if (!event.isHeader() && event.getSetting().matches("cpu_shares")
-                        && !event.getSettingValue().equals("no shares")) {
+                        && !event.getSettingValue().equals("no shares")
+                        && !event.getSettingValue().equals("not supported")) {
                     cpuShares = Integer.parseInt(event.getSettingValue());
                     break;
                 }
