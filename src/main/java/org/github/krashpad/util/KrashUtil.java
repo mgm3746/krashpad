@@ -796,7 +796,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_TOMCAT = new ArrayList<String>();
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.dll");
         NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0");
-        NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0.7.0");       
+        NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0.6.3");       
+        NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0.7.0");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.17");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.21");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.23");
