@@ -4627,24 +4627,6 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return Netty native transport libraries.
-     */
-    public List<String> getNativeLibrariesNetty() {
-        List<String> nettyeNativeLibraries = new ArrayList<String>();
-        if (!nativeLibraries.isEmpty()) {
-            Iterator<String> iterator = nativeLibraries.iterator();
-            while (iterator.hasNext()) {
-                String nativeLibraryPath = iterator.next();
-                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
-                if (nativeLibrary != null && KrashUtil.NATIVE_LIBRARIES_NETTY.contains(nativeLibrary)) {
-                    nettyeNativeLibraries.add(nativeLibraryPath);
-                }
-            }
-        }
-        return nettyeNativeLibraries;
-    }
-
-    /**
      * @return JBoss native libraries.
      */
     public List<String> getNativeLibrariesJBoss() {
@@ -4660,6 +4642,24 @@ public class FatalErrorLog {
             }
         }
         return jbossNativeLibraries;
+    }
+
+    /**
+     * @return Netty native transport library.
+     */
+    public List<String> getNativeLibrariesNetty() {
+        List<String> nettyNativeLibraries = new ArrayList<String>();
+        if (!nativeLibraries.isEmpty()) {
+            Iterator<String> iterator = nativeLibraries.iterator();
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && nativeLibrary.matches(KrashUtil.NATIVE_LIBRARY_NETTY)) {
+                    nettyNativeLibraries.add(nativeLibraryPath);
+                }
+            }
+        }
+        return nettyNativeLibraries;
     }
 
     /**
@@ -6012,8 +6012,7 @@ public class FatalErrorLog {
                                 && nativeLibraryPath.matches(KrashUtil.NATIVE_LIBRARY_LINUX_HOME + ".+"))
                         && !KrashUtil.NATIVE_LIBRARIES_LINUX_JAVA.contains(nativeLibrary)
                         && !KrashUtil.NATIVE_LIBRARIES_ORACLE.contains(nativeLibrary)
-                        && !KrashUtil.NATIVE_LIBRARIES_NETTY
-                                .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
+                        && !nativeLibrary.matches(KrashUtil.NATIVE_LIBRARY_NETTY)
                         && !KrashUtil.NATIVE_LIBRARIES_TOMCAT
                                 .contains(org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath))
                         && !KrashUtil.NATIVE_LIBRARIES_VMWARE
