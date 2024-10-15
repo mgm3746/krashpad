@@ -436,6 +436,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libidn.so.11.6.18");
         // libidn2
         NATIVE_LIBRARIES_LINUX.add("libidn2.so.0.3.6");
+        // ncurses-devl
+        NATIVE_LIBRARIES_LINUX.add("libncurses.so.5.9");
         // nettle
         NATIVE_LIBRARIES_LINUX.add("libnettle.so.6.5");
         // libnotify
@@ -573,6 +575,7 @@ public class KrashUtil {
         // libtiff (tiff image library)
         NATIVE_LIBRARIES_LINUX.add("libtiff.so.5.3.0");
         // ncurses-libs
+        NATIVE_LIBRARIES_LINUX.add("libtinfo.so.5.9");
         NATIVE_LIBRARIES_LINUX.add("libtinfo.so.6.1");
         // libtirpc: a port of Suns Transport-Independent RPC library.
         NATIVE_LIBRARIES_LINUX.add("libtirpc.so.3.0.0");
@@ -784,7 +787,7 @@ public class KrashUtil {
         // ***** NETTY *****
         NATIVE_LIBRARIES_NETTY = new ArrayList<String>();
         NATIVE_LIBRARIES_NETTY.add("libnetty_transport_native_epoll_x86_644245394420183123460.so");
-        NATIVE_LIBRARIES_NETTY.add("libnetty_transport_native_epoll_x86_646976255022127440505.so");        
+        NATIVE_LIBRARIES_NETTY.add("libnetty_transport_native_epoll_x86_646976255022127440505.so");
 
         // ***** ORACLE *****
         NATIVE_LIBRARIES_ORACLE = new ArrayList<String>();
@@ -796,7 +799,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_TOMCAT = new ArrayList<String>();
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.dll");
         NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0");
-        NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0.6.3");       
+        NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0.6.3");
         NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0.7.0");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.17");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.21");
