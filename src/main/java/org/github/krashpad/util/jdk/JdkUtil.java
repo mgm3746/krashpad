@@ -744,7 +744,9 @@ public class JdkUtil {
             } else if (logLine.matches(CompilationEvent._REGEX_HEADER)
                     || (priorEvent instanceof CompilationEvent && CompilationEvent.match(logLine))) {
                 logEventType = LogEventType.COMPILATION_EVENT;
-            } else if (logLine.matches(CompiledMethod._REGEX_HEADER) && !(priorEvent instanceof RegisterToMemoryMapping)
+            } else if ((logLine.matches(CompiledMethod._REGEX_HEADER)
+                    && !(priorEvent instanceof RegisterToMemoryMapping)
+                    && !(priorEvent instanceof StackSlotToMemoryMapping))
                     || (priorEvent instanceof CompiledMethod && CompiledMethod.match(logLine))) {
                 logEventType = LogEventType.COMPILED_METHOD;
             } else if (CompressedClassSpace.match(logLine)) {

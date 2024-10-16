@@ -56,6 +56,15 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
+    void testCompiledMethod() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = "Compiled method (n/a)   16787  744     n 0       jdk.internal.misc.Unsafe::putLong (native)";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testDashAccess() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = " - access:            public final synchronized";
