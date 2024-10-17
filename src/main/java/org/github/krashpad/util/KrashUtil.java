@@ -803,6 +803,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.26");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.30");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.31");
+        NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.36");
         NATIVE_LIBRARIES_TOMCAT.add("libcrypto.so.1.1");
         NATIVE_LIBRARIES_TOMCAT.add("libssl.so.1.1");
 

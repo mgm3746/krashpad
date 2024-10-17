@@ -3656,7 +3656,21 @@ class TestAnalysis {
     }
 
     @Test
-    void testTomcatNativeConnector() {
+    void testTomcatNativeConnectorJsw60() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String library = "7f8217278000-7f82172a6000 r-xp 00000000 fd:0f 524321                     "
+                + "/path/to/tomcat/lib/libtcnative-1.so.0.2.36";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(library);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NATIVE_LIBRARIES_TOMCAT.getKey()),
+                Analysis.INFO_NATIVE_LIBRARIES_TOMCAT + " analysis not identified.");
+        assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
+    void testTomcatNativeConnectorJws56() {
         FatalErrorLog fel = new FatalErrorLog();
         String library = "7f15ba1b0000-7f15ba1b2000 rw-p 0002c000 fd:0b 17                         "
                 + "/path/to/tomcat/lib/libtcnative-1.so.0.2.30";
