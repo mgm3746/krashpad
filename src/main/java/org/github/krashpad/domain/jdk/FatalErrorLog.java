@@ -514,6 +514,10 @@ public class FatalErrorLog {
         } else {
             analysis.add(0, Analysis.INFO_OPTS_UNKNOWN);
         }
+        // Check if the crash is due to crashtestdummy.war, an app used by support for testing.
+        if (isInStack("org\\.apache\\.jsp\\.thismaycrash_jsp")) {
+            analysis.add(Analysis.INFO_CRASHTESTDUMMY);
+        }
         // Unidentified logging lines
         if (JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) >= 8 && !getUnidentifiedLogLines().isEmpty()) {
             analysis.add(0, Analysis.WARN_UNIDENTIFIED_LOG_LINE);

@@ -578,6 +578,11 @@ public enum Analysis {
     INFO_COMPILED_JAVA_CODE_AVX2("info.compiled.java.code.avx2"),
 
     /**
+     * Property key for crashtestdummy.war forced crash.
+     */
+    INFO_CRASHTESTDUMMY("info.crashtestdummy"),
+
+    /**
      * Property key for Apache Commons Database Database Connection Pool 2.
      */
     INFO_DBCP2("info.dbcp2"),

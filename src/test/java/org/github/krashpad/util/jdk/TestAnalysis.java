@@ -617,6 +617,18 @@ class TestAnalysis {
     }
 
     @Test
+    void testCrashtestdummy() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack = "j  org.apache.jsp.thismaycrash_jsp._jspService(Ljakarta/servlet/http/HttpServletRequest;"
+                + "Ljakarta/servlet/http/HttpServletResponse;)V+296]";
+        Stack stackEvent = new Stack(stack);
+        fel.getStacks().add(stackEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_CRASHTESTDUMMY.getKey()),
+                Analysis.INFO_CRASHTESTDUMMY + " analysis not identified.");
+    }
+
+    @Test
     void testD64Flag32Bit() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -d64 -Xmx2048M";
