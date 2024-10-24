@@ -923,6 +923,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("UxTheme.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ucrtbase.dll");
         NATIVE_LIBRARIES_WINDOWS.add("UMPDC.dll");
+        // Related to SQL Server
+        NATIVE_LIBRARIES_WINDOWS.add("umppc18514.dll");
         NATIVE_LIBRARIES_WINDOWS.add("urlmon.dll");
         NATIVE_LIBRARIES_WINDOWS.add("VERSION.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINHTTP.dll");
@@ -994,6 +996,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("spashscreen.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("sunec.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("sunmscapi.dll");
+        NATIVE_LIBRARIES_WINDOWS_JAVA.add("t2k.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("ucrtbase.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("unpack.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("vcruntime140.dll");
