@@ -619,10 +619,13 @@ class TestAnalysis {
     @Test
     void testCrashtestdummy() {
         FatalErrorLog fel = new FatalErrorLog();
-        String stack = "j  org.apache.jsp.thismaycrash_jsp._jspService(Ljakarta/servlet/http/HttpServletRequest;"
+        String stack1 = "Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)";
+        Stack stackEvent1 = new Stack(stack1);
+        fel.getStacks().add(stackEvent1);
+        String stack2 = "j  org.apache.jsp.thismaycrash_jsp._jspService(Ljakarta/servlet/http/HttpServletRequest;"
                 + "Ljakarta/servlet/http/HttpServletResponse;)V+296]";
-        Stack stackEvent = new Stack(stack);
-        fel.getStacks().add(stackEvent);
+        Stack stackEvent2 = new Stack(stack2);
+        fel.getStacks().add(stackEvent2);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_CRASHTESTDUMMY.getKey()),
                 Analysis.INFO_CRASHTESTDUMMY + " analysis not identified.");
@@ -648,13 +651,16 @@ class TestAnalysis {
     @Test
     void testDbcp2Postgresql() {
         FatalErrorLog fel = new FatalErrorLog();
-        String stack1 = "j  org.postgresql.Driver.connect(Ljava/lang/String;Ljava/util/Properties;)Ljava/sql/"
-                + "Connection;+222";
+        String stack1 = "Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)";
         Stack stackEvent1 = new Stack(stack1);
         fel.getStacks().add(stackEvent1);
-        String stack2 = "j  org.apache.commons.dbcp2.BasicDataSource.getConnection()Ljava/sql/Connection;+55";
+        String stack2 = "j  org.postgresql.Driver.connect(Ljava/lang/String;Ljava/util/Properties;)Ljava/sql/"
+                + "Connection;+222";
         Stack stackEvent2 = new Stack(stack2);
         fel.getStacks().add(stackEvent2);
+        String stack3 = "j  org.apache.commons.dbcp2.BasicDataSource.getConnection()Ljava/sql/Connection;+55";
+        Stack stackEvent3 = new Stack(stack3);
+        fel.getStacks().add(stackEvent3);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.INFO_DBCP2.getKey()), Analysis.INFO_DBCP2 + " analysis not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_POSTGRESQL_CONNECTION.getKey()),
@@ -1226,13 +1232,16 @@ class TestAnalysis {
                 + "/path/to/itextpdf-5.5.13.1.jar";
         DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
         fel.getDynamicLibraries().add(dynamicLibraryEvent);
-        String stack1 = "v  ~BufferBlob::StubRoutines (2)";
+        String stack1 = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)";
         Stack stackEvent1 = new Stack(stack1);
         fel.getStacks().add(stackEvent1);
-        String stack2 = "J 42480 C2 com.itextpdf.text.pdf.RandomAccessFileOrArray.readFully([B)V (9 bytes) @ "
-                + "0x00007f8d2057c449 [0x00007f8d2057c2c0+0x189]";
+        String stack2 = "v  ~BufferBlob::StubRoutines (2)";
         Stack stackEvent2 = new Stack(stack2);
         fel.getStacks().add(stackEvent2);
+        String stack3 = "J 42480 C2 com.itextpdf.text.pdf.RandomAccessFileOrArray.readFully([B)V (9 bytes) @ "
+                + "0x00007f8d2057c449 [0x00007f8d2057c2c0+0x189]";
+        Stack stackEvent3 = new Stack(stack3);
+        fel.getStacks().add(stackEvent3);
         fel.getAnalysis().clear();
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_ITEXT.getKey()), Analysis.WARN_ITEXT + " analysis not identified.");
@@ -1284,17 +1293,20 @@ class TestAnalysis {
         String header = "v  ~StubRoutines::jint_disjoint_arraycopy";
         Header headerEvent = new Header(header);
         fel.getHeaders().add(headerEvent);
-        String stack1 = "v  ~StubRoutines::jint_disjoint_arraycopy";
+        String stack1 = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)";
         Stack stackEvent1 = new Stack(stack1);
         fel.getStacks().add(stackEvent1);
-        String stack2 = "J 23636 C2 java.nio.Bits.copyToArray(JLjava/lang/Object;JJJ)V (68 bytes) @ "
-                + "0x00007f59389b1201 [0x00007f59389b11a0+0x61]";
+        String stack2 = "v  ~StubRoutines::jint_disjoint_arraycopy";
         Stack stackEvent2 = new Stack(stack2);
         fel.getStacks().add(stackEvent2);
-        String stack3 = "J 25959 C2 com.itextpdf.text.pdf.RandomAccessFileOrArray.read([BII)I (97 bytes) @ "
-                + "0x00007f5936737800 [0x00007f5936737500+0x300]";
+        String stack3 = "J 23636 C2 java.nio.Bits.copyToArray(JLjava/lang/Object;JJJ)V (68 bytes) @ "
+                + "0x00007f59389b1201 [0x00007f59389b11a0+0x61]";
         Stack stackEvent3 = new Stack(stack3);
         fel.getStacks().add(stackEvent3);
+        String stack4 = "J 25959 C2 com.itextpdf.text.pdf.RandomAccessFileOrArray.read([BII)I (97 bytes) @ "
+                + "0x00007f5936737800 [0x00007f5936737500+0x300]";
+        Stack stackEvent4 = new Stack(stack4);
+        fel.getStacks().add(stackEvent4);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_ITEXT_IO.getKey()),
                 Analysis.ERROR_ITEXT_IO + " analysis not identified.");
@@ -1646,9 +1658,12 @@ class TestAnalysis {
         String stack1 = "Stack: [0x00007fff14ecc000,0x00007fff156ca000],  sp=0x00007fff156c50c0,  free space=8164k";
         Stack stackEvent1 = new Stack(stack1);
         fel.getStacks().add(stackEvent1);
-        String stack2 = "C  [libjli.so+0x877f]  JLI_Launch+0x15bf";
+        String stack2 = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)";
         Stack stackEvent2 = new Stack(stack2);
         fel.getStacks().add(stackEvent2);
+        String stack3 = "C  [libjli.so+0x877f]  JLI_Launch+0x15bf";
+        Stack stackEvent3 = new Stack(stack3);
+        fel.getStacks().add(stackEvent3);
         String currentThread = "Current thread (0x000055c487db2800):  JavaThread \"Unknown thread\" [_thread_in_vm, "
                 + "id=11, stack(0x00007fff14ecc000,0x00007fff156ca000)]";
         CurrentThread currentThreadEvent = new CurrentThread(currentThread);
@@ -1754,13 +1769,16 @@ class TestAnalysis {
     @Test
     void testJssInStack() {
         FatalErrorLog fel = new FatalErrorLog();
-        String stack1 = "J  12345 com.example.MyClass";
+        String stack1 = "Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)";
         Stack stackEvent1 = new Stack(stack1);
         fel.getStacks().add(stackEvent1);
-        String stack2 = "J 13417  org.mozilla.jss.nss.PR.Shutdown(Lorg/mozilla/jss/nss/PRFDProxy;I)I (0 bytes) "
-                + "@ 0x00007f47ea93da92 [0x00007f47ea93da40+0x52]";
+        String stack2 = "J  12345 com.example.MyClass";
         Stack stackEvent2 = new Stack(stack2);
         fel.getStacks().add(stackEvent2);
+        String stack3 = "J 13417  org.mozilla.jss.nss.PR.Shutdown(Lorg/mozilla/jss/nss/PRFDProxy;I)I (0 bytes) "
+                + "@ 0x00007f47ea93da92 [0x00007f47ea93da40+0x52]";
+        Stack stackEvent3 = new Stack(stack3);
+        fel.getStacks().add(stackEvent3);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_JSS.getKey()), Analysis.WARN_JSS + " analysis not identified.");
     }
@@ -3668,6 +3686,61 @@ class TestAnalysis {
     }
 
     @Test
+    void testTomcatNativeConnectorCrashLibApr() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)";
+        Stack stackEvent1 = new Stack(stack1);
+        fel.getStacks().add(stackEvent1);
+        String stack2 = "C  [libapr-1.so.0+0x188d0]  signed char+0x20";
+        Stack stackEvent2 = new Stack(stack2);
+        fel.getStacks().add(stackEvent2);
+        String stack3 = "Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)";
+        Stack stackEvent3 = new Stack(stack3);
+        fel.getStacks().add(stackEvent3);
+        String stack4 = "j  org.apache.tomcat.jni.Pool.destroy(J)V+0";
+        Stack stackEvent4 = new Stack(stack4);
+        fel.getStacks().add(stackEvent4);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_TOMCAT_NATIVE.getKey()),
+                Analysis.ERROR_CRASH_TOMCAT_NATIVE + " analysis not identified.");
+    }
+
+    @Test
+    void testTomcatNativeConnectorCrashLibC() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)";
+        Stack stackEvent1 = new Stack(stack1);
+        fel.getStacks().add(stackEvent1);
+        String stack2 = "C  [libc.so.6+0x8112a]  _int_free+0x31";
+        Stack stackEvent2 = new Stack(stack2);
+        fel.getStacks().add(stackEvent2);
+        String stack3 = "Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)";
+        Stack stackEvent3 = new Stack(stack3);
+        fel.getStacks().add(stackEvent3);
+        String stack4 = "J 18439  org.apache.tomcat.jni.Socket.destroy(J)V (0 bytes) @ 0x00007f9fa5dfb901 "
+                + "[0x00007f9fa5dfb8c0+0x41]";
+        Stack stackEvent4 = new Stack(stack4);
+        fel.getStacks().add(stackEvent4);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_TOMCAT_NATIVE.getKey()),
+                Analysis.ERROR_CRASH_TOMCAT_NATIVE + " analysis not identified.");
+    }
+
+    @Test
+    void testTomcatNativeConnectorCrashLibTcnative() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)";
+        Stack stackEvent1 = new Stack(stack1);
+        fel.getStacks().add(stackEvent1);
+        String stack2 = "C  [libtcnative-1.so+0x12a9a]  Java_org_apache_tomcat_jni_Socket_sendbb+0x5a";
+        Stack stackEvent2 = new Stack(stack2);
+        fel.getStacks().add(stackEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_TOMCAT_NATIVE.getKey()),
+                Analysis.ERROR_CRASH_TOMCAT_NATIVE + " analysis not identified.");
+    }
+
+    @Test
     void testTomcatNativeConnectorJsw60() {
         FatalErrorLog fel = new FatalErrorLog();
         String library = "7f8217278000-7f82172a6000 r-xp 00000000 fd:0f 524321                     "
@@ -3841,13 +3914,16 @@ class TestAnalysis {
     @Test
     void testWilyInStack() {
         FatalErrorLog fel = new FatalErrorLog();
-        String stack1 = "J  12345 com.example.MyClass";
+        String stack1 = "Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)";
         Stack stackEvent1 = new Stack(stack1);
         fel.getStacks().add(stackEvent1);
-        String stack2 = "J 16666  com.wily.introscope.agent.platform.linux.LinuxPlatformStatisticsBackEnd."
-                + "getAggregateCPUUsage(Ljava/lang/String;)[J (0 bytes) @ 0x00007f6dabd0e7fc [0x00007f6dabd0e740+0xbc]";
+        String stack2 = "J  12345 com.example.MyClass";
         Stack stackEvent2 = new Stack(stack2);
         fel.getStacks().add(stackEvent2);
+        String stack3 = "J 16666  com.wily.introscope.agent.platform.linux.LinuxPlatformStatisticsBackEnd."
+                + "getAggregateCPUUsage(Ljava/lang/String;)[J (0 bytes) @ 0x00007f6dabd0e7fc [0x00007f6dabd0e740+0xbc]";
+        Stack stackEvent3 = new Stack(stack3);
+        fel.getStacks().add(stackEvent3);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_WILY.getKey()), Analysis.WARN_WILY + " analysis not identified.");
     }

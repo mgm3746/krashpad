@@ -92,14 +92,28 @@ public class Stack implements LogEvent, HeaderEvent {
     private static final String _REGEX_HEADER = "Stack: \\[" + JdkRegEx.ADDRESS + "," + JdkRegEx.ADDRESS + "\\](,  sp="
             + JdkRegEx.ADDRESS + ",  free space=(\\d{1,})k)?";
 
+    /**
+     * Regular expression for the native stack header.
+     * 
+     * Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+     * 
+     * Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
+     */
+    public static final String _REGEX_HEADER_NATIVE = "Native frames: ";
+
+    /**
+     * Regular expression for the native stack header.
+     */
+    public static final String _REGEX_HEADER_JAVA = "Java frames: ";
+
     private static Pattern pattern = Pattern.compile(Stack.REGEX);
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|([CjJvV]) |(Java|Native) frames:|JavaThread|\\[error occurred during error reporting \\(printing "
-            + "(Java stack|native stack|stack bounds)\\)|...<more frames>...).*$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_HEADER_NATIVE + "|" + _REGEX_HEADER_JAVA
+            + "|([CjJvV]) |JavaThread|\\[error occurred during error reporting \\(printing (Java stack|native stack|"
+            + "stack bounds)\\)|...<more frames>...).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

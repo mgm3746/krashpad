@@ -141,7 +141,15 @@ class TestStack {
 
     @Test
     void testNativeFrames() {
-        String logLine = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code";
+        String logLine = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK,
+                JdkUtil.LogEventType.STACK.toString() + " not identified.");
+    }
+
+    @Test
+    void testNativeFramesAotCompiledJavaCode() {
+        String logLine = "Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, "
+                + "C=native code)";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK,
                 JdkUtil.LogEventType.STACK.toString() + " not identified.");
     }

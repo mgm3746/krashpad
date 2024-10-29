@@ -77,6 +77,11 @@ public enum Analysis {
     ERROR_CRASH_ON_OOME_HEAP("error.crash.on.oome.heap"),
 
     /**
+     * Property key for a crash triggered by the tomcat native connector.
+     */
+    ERROR_CRASH_TOMCAT_NATIVE("error.crash.tomcat.native"),
+
+    /**
      * Property key for a crash due to multiple threads access DirectByteBuffer at the same time.
      */
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),

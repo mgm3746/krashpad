@@ -1781,6 +1781,13 @@ public class FatalErrorLog {
                 }
             }
         }
+        // Crash in tomcat native connector
+        if ((getStackFrameTop() != null
+                && (getStackFrameTop().matches("^.+" + JdkRegEx.NATIVE_LIBRARY_TOMCAT_CONNECTOR + ".+$"))
+                || (getStackFrameTopJava() != null && getStackFrameTopJava()
+                        .matches("^.+org\\.apache\\.tomcat\\.jni\\.(Pool|Socket)\\.destroy.+$")))) {
+            analysis.add(Analysis.ERROR_CRASH_TOMCAT_NATIVE);
+        }
     }
 
     /**
