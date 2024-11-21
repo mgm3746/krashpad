@@ -26,6 +26,14 @@ import org.junit.jupiter.api.Test;
 class TestVmOperationEvent {
 
     @Test
+    void testClassLoaderStatsOperation() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 123.456 Executing VM operation: ClassLoaderStatsOperation";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testCleanClassLoaderDataMetaspaces() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 163.426 Executing VM operation: CleanClassLoaderDataMetaspaces";
@@ -117,6 +125,14 @@ class TestVmOperationEvent {
     void testIdentity() {
         String logLine = "VM Operations (1 events):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testJfrCheckpoint() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 123.456 Executing VM operation: JFRCheckpoint";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
     }
 
