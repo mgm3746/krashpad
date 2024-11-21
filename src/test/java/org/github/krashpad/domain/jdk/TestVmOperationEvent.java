@@ -66,6 +66,14 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testG1CollectFull() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
+        String logLine = "Event: 123.105 Executing VM operation: G1CollectFull";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
     void testG1PauseCleanupk() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 509237.156 Executing VM operation: G1PauseCleanup";
