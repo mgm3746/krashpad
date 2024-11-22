@@ -116,6 +116,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("EUC-JP.so");
         // glibc (/usr/lib64/gconv/)
         NATIVE_LIBRARIES_LINUX.add("ISO8859-1.so");
+        NATIVE_LIBRARIES_LINUX.add("ISO8859-15.so");
         // mesa-dri-drivers
         NATIVE_LIBRARIES_LINUX.add("i965_dri.so");
         // glibc
@@ -132,6 +133,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("ld-linux-x86-64.so.2");
         // libaio
         NATIVE_LIBRARIES_LINUX.add("libaio.so.1.0.1");
+        // cyrus-sasl-lib (/usr/lib64/sasl2/)
+        NATIVE_LIBRARIES_LINUX.add("libanonymous.so.3.0.0");
         // apr:
         NATIVE_LIBRARIES_LINUX.add("libapr-1.so.0.6.3");
         NATIVE_LIBRARIES_LINUX.add("libapr-1.so.0.7.4");
@@ -198,6 +201,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libcap.so.2.48");
         // libpcap-ng
         NATIVE_LIBRARIES_LINUX.add("libcap-ng.so.0.0.0");
+        // c-ares
+        NATIVE_LIBRARIES_LINUX.add("libcares.so.2.2.0");
         // libcom-err
         NATIVE_LIBRARIES_LINUX.add("libcom_err.so.2.1");
         // cracklib
@@ -215,6 +220,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libdconfsettings.so");
         // libdatrie
         NATIVE_LIBRARIES_LINUX.add("libdatrie.so.1.3.2");
+        // libdb
+        NATIVE_LIBRARIES_LINUX.add("libdb-5.3.so");
         // dbus-libs
         NATIVE_LIBRARIES_LINUX.add("libdbus-1.so.3.14.14");
         NATIVE_LIBRARIES_LINUX.add("libdbus-1.so.3.19.7");
@@ -331,6 +338,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libgsm.so.1.0.17");
         // krb5-libs
         NATIVE_LIBRARIES_LINUX.add("libgssapi_krb5.so.2.2");
+        // cyrus-sasl-gssapi (/usr/lib64/sasl2/)
+        NATIVE_LIBRARIES_LINUX.add("libgssapiv2.so.3.0.0");
         // gstreamer1-plugins-base
         NATIVE_LIBRARIES_LINUX.add("libgstapp-1.0.so.0.1601.0");
         // gstreamer1
@@ -357,6 +366,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libgthread-2.0.so.0.5600.4");
         // gtk3
         NATIVE_LIBRARIES_LINUX.add("libgtk-3.so.0.2200.30");
+        // open-vm-tools: loaded to provide extended VMWare/vSphere virtualization information in the fatal error log.
+        NATIVE_LIBRARIES_LINUX.add("libguestlib.so.0.0.0");
         // gvfs-client
         NATIVE_LIBRARIES_LINUX.add("libgvfscommon.so");
         // gvfs-client
@@ -379,6 +390,8 @@ public class KrashUtil {
         // libicu
         NATIVE_LIBRARIES_LINUX.add("libicui18n.so.50.2");
         NATIVE_LIBRARIES_LINUX.add("libicui18n.so.60.3");
+        // libicu
+        NATIVE_LIBRARIES_LINUX.add("libicuio.so.60.3");
         // libicu
         NATIVE_LIBRARIES_LINUX.add("libicuuc.so.50.2");
         NATIVE_LIBRARIES_LINUX.add("libicuuc.so.60.3");
@@ -409,13 +422,19 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libkrb5.so.3.3");
         // krb5-libs
         NATIVE_LIBRARIES_LINUX.add("libkrb5support.so.0.1");
-        // lapack (Linear Algebra Package)
-        NATIVE_LIBRARIES_LINUX.add("liblapack.so.3.8.0");
         // llvm-libs
         NATIVE_LIBRARIES_LINUX.add("libLLVM-14.so");
         NATIVE_LIBRARIES_LINUX.add("libLLVM-17.so");
+        // lapack (Linear Algebra Package)
+        NATIVE_LIBRARIES_LINUX.add("liblapack.so.3.8.0");
+        // openldap
+        NATIVE_LIBRARIES_LINUX.add("liblber-2.4.so.2.10.9");
         // lcms2
         NATIVE_LIBRARIES_LINUX.add("liblcms2.so.2.0.8");
+        // openldap
+        NATIVE_LIBRARIES_LINUX.add("libldap-2.4.so.2.10.9");
+        // cyrus-sasl-plain (/usr/lib64/sasl2/)
+        NATIVE_LIBRARIES_LINUX.add("liblogin.so.3.0.0");
         // libtool-ltdl
         NATIVE_LIBRARIES_LINUX.add("libltdl.so.7.3.0");
         NATIVE_LIBRARIES_LINUX.add("libltdl.so.7.3.1");
@@ -501,6 +520,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.10");
         // pcre2
         NATIVE_LIBRARIES_LINUX.add("libpcre2-8.so.0.7.1");
+        // pcre2-utf16
+        NATIVE_LIBRARIES_LINUX.add("libpcre2-16.so.0.7.1");
         // gdk-pixbuf2-modules
         NATIVE_LIBRARIES_LINUX.add("libpixbufloader-bmp.so");
         // gdk-pixbuf2-modules
@@ -509,6 +530,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libpixbufloader-svg.so");
         // pixman
         NATIVE_LIBRARIES_LINUX.add("libpixman-1.so.0.38.4");
+        // cyrus-sasl-plain (/usr/lib64/sasl2/)
+        NATIVE_LIBRARIES_LINUX.add("libplain.so.3.0.0");
         // nspr
         NATIVE_LIBRARIES_LINUX.add("libplc4.so");
         // nspr
@@ -541,8 +564,10 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("librt-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("librt-2.28.so");
         NATIVE_LIBRARIES_LINUX.add("librt.so.1");
-        // open-vm-tools: loaded to provide extended VMWare/vSphere virtualization information in the fatal error log.
-        NATIVE_LIBRARIES_LINUX.add("libguestlib.so.0.0.0");
+        // cyrus-sasl-lib (/usr/lib64/sasl2/)
+        NATIVE_LIBRARIES_LINUX.add("libsasl2.so.3.0.0");
+        // cyrus-sasl-lib (/usr/lib64/sasl2/)
+        NATIVE_LIBRARIES_LINUX.add("libsasldb.so.3.0.0");
         // libSM
         NATIVE_LIBRARIES_LINUX.add("libSM.so.6.0.1");
         // libsecret
@@ -704,9 +729,10 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("pam_pwhistory.so");
         NATIVE_LIBRARIES_LINUX.add("pam_succeed_if.so");
         NATIVE_LIBRARIES_LINUX.add("pam_unix.so");
-
         // systemd-pam
         NATIVE_LIBRARIES_LINUX.add("pam_systemd.so");
+        // glibc (/usr/lib64/gconv/)
+        NATIVE_LIBRARIES_LINUX.add("UTF-16.so");
 
         // ***** LINUX JAVA *****
         NATIVE_LIBRARIES_LINUX_JAVA = new ArrayList<String>();
@@ -773,6 +799,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libprefs.so");
         // java-(11|17|21)-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("librmi.so");
+        // java-(1.8.0|11|17|21)-openjdk-headless
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libjsig.so");
         // java-(1.8.0|11|17|21)-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("libsplashscreen.so");
         // java-(1.8.0|11)-openjdk-headless
