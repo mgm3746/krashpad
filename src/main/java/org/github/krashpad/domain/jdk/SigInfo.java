@@ -77,7 +77,8 @@ public class SigInfo implements LogEvent {
             + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|" + SignalCode.SEGV_ACCERR + "|"
             + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|" + SignalCode.SI_TKILL + "|" + SignalCode.SI_USER
             + "|" + SignalCode.FPE_INTDIV + ")\\), (si_addr: " + JdkRegEx.ADDRESS
-            + "|(sent from pid|si_pid): \\d{1,}[,]{0,1} [\\(]{0,1}(uid|si_uid): \\d{1,}[\\)]{0,1}))|ExceptionCode=("
+            + "|(sent from pid|si_pid): \\d{1,}( \\(current process\\))?[,]{0,1} "
+            + "[\\(]{0,1}(uid|si_uid): \\d{1,}[\\)]{0,1}))|ExceptionCode=("
             + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW
             + "), ((reading|writing) " + "address " + JdkRegEx.ADDRESS + "|ExceptionInformation=" + JdkRegEx.ADDRESS
             + " " + JdkRegEx.ADDRESS + ")|" + SignalNumber.EXCEPTION_ACCESS_VIOLATION + " \\(("
@@ -132,9 +133,9 @@ public class SigInfo implements LogEvent {
             if (matcher.group(6) != null) {
                 // linux
                 address = matcher.group(6);
-            } else if (matcher.group(32) != null) {
+            } else if (matcher.group(33) != null) {
                 // windows
-                address = matcher.group(32);
+                address = matcher.group(33);
             }
         }
         return address;
@@ -193,16 +194,16 @@ public class SigInfo implements LogEvent {
                 } else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {
                     number = SignalNumber.SIGSEGV;
                 }
-            } else if (matcher.group(13) != null) {
+            } else if (matcher.group(14) != null) {
                 // Windows format 1
-                if (matcher.group(13).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
+                if (matcher.group(14).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
                     number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
-                } else if (matcher.group(13).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW)) {
+                } else if (matcher.group(14).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW)) {
                     number = SignalNumber.EXCEPTION_STACK_OVERFLOW;
                 }
-            } else if (matcher.group(31) != null) {
+            } else if (matcher.group(32) != null) {
                 // Windows format 2
-                if (matcher.group(31).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
+                if (matcher.group(32).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
                     number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
                 }
             }

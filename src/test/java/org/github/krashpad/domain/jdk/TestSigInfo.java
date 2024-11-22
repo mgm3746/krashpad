@@ -134,8 +134,19 @@ class TestSigInfo {
     }
 
     @Test
-    void testSigSegvSiTkill() {
+    void testSigSegvSiTkillSiAddr() {
         String logLine = "siginfo: si_signo: 11 (SIGSEGV), si_code: -6 (SI_TKILL), si_addr: 0x0001b167000cd050";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
+        SigInfo event = new SigInfo(logLine);
+        assertEquals(SignalNumber.SIGSEGV, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.SI_TKILL, event.getSignalCode(), "Signal code not correct.");
+    }
+
+    @Test
+    void testSigSegvSiTkilSiPidl() {
+        String logLine = "siginfo: si_signo: 11 (SIGSEGV), si_code: -6 (SI_TKILL), si_pid: 1828868 (current process), "
+                + "si_uid: 110951";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
                 JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
         SigInfo event = new SigInfo(logLine);
