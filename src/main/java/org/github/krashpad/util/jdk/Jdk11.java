@@ -69,7 +69,9 @@ public class Jdk11 {
 
         // RHEL7 amd64 OpenJDK11 rpm
         RHEL7_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL7_X86_64_RPMS.put("LATEST", new Release("Jul 12 2024", 27, "11.0.24+8-LTS"));
+        RHEL7_X86_64_RPMS.put("TEST", new Release("Oct 10 2024", 28, "11.0.25+9-LTS"));
+        RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.25.0.9-1.el7_9.x86_64",
+                new Release("Oct 10 2024", 28, "11.0.25+9-LTS"));
         RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.24.0.8-1.el7_9.x86_64",
                 new Release("Jul 12 2024", 27, "11.0.24+8-LTS"));
         RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.23.0.9-2.el7_9.x86_64",
@@ -130,7 +132,15 @@ public class Jdk11 {
 
         // RHEL8 amd64 OpenJDK11 rpm
         RHEL8_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL8_X86_64_RPMS.put("LATEST", new Release("Jul 11 2024 09:53:31", 28, "11.0.24+8-LTS"));
+        RHEL8_X86_64_RPMS.put("LATEST", new Release("Oct 10 2024 11:15:47", 29, "11.0.25+9-LTS"));
+        RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.25.0.9-2.el8.x86_64",
+                new Release("Oct 10 2024 11:15:47", 29, "11.0.25+9-LTS"));
+        RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.25.0.9-1.el8_6.x86_64",
+                new Release("Oct 10 2024", 29, "11.0.25+9-LTS"));
+        RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.25.0.9-1.el8_4.x86_64",
+                new Release("Oct 10 2024", 29, "11.0.25+9-LTS"));
+        RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.25.0.9-1.el8_2.x86_64",
+                new Release("Oct 10 2024", 29, "11.0.25+9-LTS"));
         RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.24.0.8-3.el8.x86_64",
                 new Release("Jul 11 2024 09:53:31", 28, "11.0.24+8-LTS"));
         RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.24.0.8-1.el8_6.x86_64",
@@ -326,7 +336,13 @@ public class Jdk11 {
 
         // RHEL9 amd64 OpenJDK11 rpm
         RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL9_X86_64_RPMS.put("LATEST", new Release("Jul 11 2024", 11, "11.0.24+8-LTS"));
+        RHEL9_X86_64_RPMS.put("LATEST", new Release("Oct 18 2024", 12, "11.0.25+9-LTS"));
+        RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.25.0.9-3.el9.x86_64",
+                new Release("Oct 18 2024", 12, "11.0.25+9-LTS"));
+        RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.25.0.9-2.el9.x86_64",
+                new Release("Oct 18 2024", 12, "11.0.25+9-LTS"));
+        RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.25.0.9-1.el9_0.x86_64",
+                new Release("Oct 18 2024", 12, "11.0.25+9-LTS"));
         RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.24.0.8-2.el9.x86_64",
                 new Release("Jul 11 2024", 11, "11.0.24+8-LTS"));
         RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.24.0.8-1.el9_0.x86_64",
@@ -370,8 +386,9 @@ public class Jdk11 {
         // RHEL amd64 OpenJDK11 zip
         // First RHEL zip was 11.0.4.11.
         RHEL_ZIPS = new HashMap<String, Release>();
-        RHEL_ZIPS.put("LATEST", new Release("Jul 11 2024 09:54:04", 24, "11.0.24+8-LTS"));
-        RHEL_ZIPS.put("11.0.24+8-LTS", new Release("Jul 11 2024 09:54:04", 24, "11.0.24+8-LTS"));
+        RHEL_ZIPS.put("LATEST", new Release("Oct 10 2024 10:26:43", 26, "11.0.25+9-LTS"));
+        RHEL_ZIPS.put("11.0.25+9-LTS", new Release("Oct 10 2024 10:26:43", 26, "11.0.25+9-LTS"));
+        RHEL_ZIPS.put("11.0.24+8-LTS", new Release("Jul 11 2024 09:54:04", 25, "11.0.24+8-LTS"));
         RHEL_ZIPS.put("11.0.23+9-LTS", new Release("Apr 12 2024 14:33:51", 24, "11.0.23+9-LTS"));
         // Newer RHEL7 compatible download
         RHEL_ZIPS.put("11.0.22+7-LTS", new Release("Jan 10 2024 17:22:41", 23, "11.0.22+7-LTS"));
@@ -403,7 +420,8 @@ public class Jdk11 {
         // Windows amd64 OpenJDK11 zip
         // First Windows zip was 11.0.1.13.
         WINDOWS_ZIPS = new HashMap<String, Release>();
-        WINDOWS_ZIPS.put("LATEST", new Release("Jul 11 2024", 32, "11.0.24+8-LTS"));
+        WINDOWS_ZIPS.put("LATEST", new Release("Oct 10 2024", 33, "11.0.25+9-LTS"));
+        WINDOWS_ZIPS.put("11.0.25+9-LTS", new Release("Oct 10 2024", 33, "11.0.25+9-LTS"));
         WINDOWS_ZIPS.put("11.0.24+8-LTS", new Release("Jul 11 2024", 32, "11.0.24+8-LTS"));
         WINDOWS_ZIPS.put("11.0.23+9-LTS", new Release("Apr 12 2024", 31, "11.0.23+9-LTS"));
         WINDOWS_ZIPS.put("11.0.22+7-LTS", new Release("Jan 10 2024 18:51:53", 30, "11.0.22+7-LTS"));
