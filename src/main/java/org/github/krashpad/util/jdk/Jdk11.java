@@ -347,7 +347,8 @@ public class Jdk11 {
                 new Release("Jul 11 2024", 11, "11.0.24+8-LTS"));
         RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.24.0.8-1.el9_0.x86_64",
                 new Release("Jul 11 2024", 11, "11.0.24+8-LTS"));
-        RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.23.0.9-3.el9", new Release("Apr 12 2024", 10, "11.0.23+9-LTS"));
+        RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.23.0.9-3.el9.x86_64",
+                new Release("Apr 11 2024 22:34:11", 10, "11.0.23+9-LTS"));
         RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.23.0.9-2.el9_0.x86_64",
                 new Release("Apr 12 2024", 10, "11.0.23+9-LTS"));
         RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.22.0.7-2.el9.x86_64",
