@@ -548,6 +548,40 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testFailedToProtectMemory() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# Native memory allocation (mprotect) failed to protect 16384 bytes for memory to guard "
+                + "stack page";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "#  Error: memory to guard stack pages";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        String os = "OS:Red Hat Enterprise Linux release 9.4 (Plow)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        Memory memory = new Memory("Memory: 4k page, physical 32604624k(246236k free), swap 9768956k(8337916k free)");
+        fel.getMemories().add(memory);
+        String maxMapCount1 = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have)";
+        MaxMapCount maxMapCountEvent1 = new MaxMapCount(maxMapCount1);
+        fel.getMaxMapCounts().add(maxMapCountEvent1);
+        String maxMapCount2 = "65530";
+        MaxMapCount maxMapCountEvent2 = new MaxMapCount(maxMapCount2);
+        fel.getMaxMapCounts().add(maxMapCountEvent2);
+        fel.setDynamicLibrariesMappingCount(65532);
+        assertEquals(32604624L * 1024, fel.getMemoryTotal(), "Physical memory not correct.");
+        assertEquals(246236L * 1024, fel.getMemoryFree(), "Physical memory free not correct.");
+        assertEquals(9768956L * 1024, fel.getSwapTotal(), "Swap not correct.");
+        assertEquals(8337916L * 1024, fel.getSwapFree(), "Swap free not correct.");
+        assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
+        fel.doAnalysis();
+        assertEquals(header1 + Constants.LINE_SEPARATOR + header2, fel.getError(), "Error not identified.");
+        assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT.getKey()),
+                Analysis.ERROR_OOME_RLIMIT + " analysis not identified.");
+    }
+
+    @Test
     void testG1() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset32.txt");
         Manager manager = new Manager();

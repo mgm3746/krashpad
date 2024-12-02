@@ -74,7 +74,7 @@ class TestHeader {
     }
 
     @Test
-    void testInsufficientMemoroy() {
+    void testInsufficientMemory() {
         String logLine = "# There is insufficient memory for the Java Runtime Environment to continue.";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
@@ -111,9 +111,19 @@ class TestHeader {
     }
 
     @Test
-    void testNativeMemoryAllocationFailed() {
+    void testNativeMemoryAllocationFailedToMap() {
         String logLine = "# Native memory allocation (mmap) failed to map 754974720 bytes for committing reserved "
                 + "memory.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
+                JdkUtil.LogEventType.HEADER.toString() + " not identified.");
+        Header headerEvent = new Header(logLine);
+        assertTrue(headerEvent.isFailed(), "Failed not identified.");
+    }
+
+    @Test
+    void testNativeMemoryAllocationFailedToProtect() {
+        String logLine = "# Native memory allocation (mprotect) failed to protect 16384 bytes for memory to guard "
+                + "stack pages";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEADER,
                 JdkUtil.LogEventType.HEADER.toString() + " not identified.");
         Header headerEvent = new Header(logLine);

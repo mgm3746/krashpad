@@ -941,8 +941,7 @@ public class FatalErrorLog {
                 && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 282 && getStackFrameTop() != null
                 && getStackFrameTop().matches("^V.+JfrEventClassTransformer::on_klass_creation.+$")) {
             analysis.add(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED);
-        } else if (getStackFrameTop() != null
-                && !isError("There is insufficient memory for the Java Runtime Environment to continue")
+        } else if (getStackFrameTop() != null && !isMemoryAllocationFail()
                 && !isError("#  fatal error: OutOfMemory encountered: Java heap space")) {
             // Other libjvm.so/jvm.dll analysis
             if (getStackFrameTop().matches("^V  \\[libjvm\\.so.+\\](.+)?$")) {
@@ -2838,7 +2837,7 @@ public class FatalErrorLog {
         long memoryAllocation = Long.MIN_VALUE;
         if (!headers.isEmpty()) {
             Iterator<Header> iterator = headers.iterator();
-            String regex = "^.+failed to (allocate|map) (\\d{1,}) bytes.+$";
+            String regex = "^.+failed to (allocate|map|protect) (\\d{1,}) bytes.+$";
             while (iterator.hasNext()) {
                 Header he = iterator.next();
                 if (he.getLogEntry().matches(regex)) {
@@ -6335,7 +6334,7 @@ public class FatalErrorLog {
     public boolean isMemoryAllocationFail() {
         boolean isMemoryAllocationFail = false;
         if (isError("There is insufficient memory for the Java Runtime Environment to continue.")
-                || isError("Failed to map memory")) {
+                || isError("Failed to map memory") || isError("failed to protect")) {
             isMemoryAllocationFail = true;
         }
         return isMemoryAllocationFail;
