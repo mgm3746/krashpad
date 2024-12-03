@@ -62,6 +62,16 @@ class TestSigInfo {
     }
 
     @Test
+    void testSiCodeUnknown() {
+        String logLine = "siginfo: si_signo: 11 (SIGSEGV), si_code: 3 (unknown), si_addr: 0x0020002000200020";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
+        SigInfo event = new SigInfo(logLine);
+        assertEquals(SignalNumber.SIGSEGV, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.UNKNOWN, event.getSignalCode(), "Signal code not correct.");
+    }
+
+    @Test
     void testSigBusSiUser() {
         String logLine = "siginfo: si_signo: 7 (SIGBUS), si_code: 0 (SI_USER), si_pid: 1008245, si_uid: 0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,

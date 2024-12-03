@@ -76,7 +76,7 @@ public class SigInfo implements LogEvent {
             + ")\\), si_code: [-]{0,1}\\d{1,3} \\((" + SignalCode.BUS_ADRALN + "|" + SignalCode.BUS_ADRERR + "|"
             + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|" + SignalCode.SEGV_ACCERR + "|"
             + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|" + SignalCode.SI_TKILL + "|" + SignalCode.SI_USER
-            + "|" + SignalCode.FPE_INTDIV + ")\\), (si_addr: " + JdkRegEx.ADDRESS
+            + "|" + SignalCode.FPE_INTDIV + "|unknown)\\), (si_addr: " + JdkRegEx.ADDRESS
             + "|(sent from pid|si_pid): \\d{1,}( \\(current process\\))?[,]{0,1} "
             + "[\\(]{0,1}(uid|si_uid): \\d{1,}[\\)]{0,1}))|ExceptionCode=("
             + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW

@@ -483,6 +483,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libnss_ldap.so.2");
         // systemd-libs:
         NATIVE_LIBRARIES_LINUX.add("libnss_myhostname.so.2");
+        // systemd-libs:
+        NATIVE_LIBRARIES_LINUX.add("libnss_systemd.so.2");
         // glibc, libnsl: the public client interface for NIS(YP). libnsl breaks out NIS library that used
         // to be in glibc.
         NATIVE_LIBRARIES_LINUX.add("libnsl-2.17.so");
