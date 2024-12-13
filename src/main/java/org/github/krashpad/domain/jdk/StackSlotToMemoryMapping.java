@@ -63,7 +63,8 @@ public class StackSlotToMemoryMapping implements LogEvent {
             // Header
             + " - ---- (non-static |static )?fields |"
             // No trailing colon
-            + " - (final|itable length|private|protected|public|static final|strict|transient|volatile|vtable length) |"
+            + " - (final|injected|itable length|private|protected|public|static final|strict|transient|volatile|"
+            + "vtable length) |"
             // Trailing colon
             + " - (access|arrays|class annotations|class loader data|class type annotations|constants|default_methods|"
             + "field annotations|field type annotations|generic signature|host class|inner classes|instance size|"
@@ -72,8 +73,9 @@ public class StackSlotToMemoryMapping implements LogEvent {
             // beginning space
             + " (dependencies|handler table|main code|metadata|nul chk table|oops|relocation|scopes data|scopes pcs|"
             + "stub code|total in heap) |"
-            //
-            + " - '[a-zA-Z]+' |" + JdkRegEx.CLASS + "|BufferBlob|Framesize:|Runtime Stub|StubRoutines::).*$";
+            // other
+            + " - '[a-zA-Z]+' |" + JdkRegEx.ADDRESS + " is a zaddress: .+|" + JdkRegEx.CLASS
+            + "|BufferBlob|Framesize:|Runtime Stub|StubRoutines::).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
