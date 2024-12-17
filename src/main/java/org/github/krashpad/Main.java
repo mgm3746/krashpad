@@ -265,7 +265,10 @@ public class Main {
                 }
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
-            if (!fel.getGarbageCollections().isEmpty()) {
+            // ZGC collects concurrently, so GC time is not pause time
+            if (!fel.getGarbageCollectors().contains(GarbageCollector.ZGC_GENERATIONAL)
+                    && !fel.getGarbageCollectors().contains(GarbageCollector.ZGC_NON_GENERATIONAL)
+                    && !fel.getGarbageCollections().isEmpty()) {
                 BigDecimal maxGcPause = JdkMath.convertMillisToSecs(fel.getGarbageCollectionDurationMax());
                 printWriter.write("GC Pause Max: ");
                 if (maxGcPause.compareTo(BigDecimal.ZERO) == 0) {
