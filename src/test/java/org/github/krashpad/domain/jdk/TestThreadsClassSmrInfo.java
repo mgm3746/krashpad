@@ -113,6 +113,15 @@ class TestThreadsClassSmrInfo {
     }
 
     @Test
+    void testTheJavaThreadListHasChanged() {
+        ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
+        String logLine = "The _java_thread_list has changed from 0x00001547e81e3de0 to "
+                + "\0x00001547b80dc7f0 so some of the above information may be stale.";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
+                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testToDeleteList() {
         ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
         String logLine = "_to_delete_list=0x00007fd0c40057c0, length=1933, elements={";
