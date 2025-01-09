@@ -1993,7 +1993,7 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
-        assertEquals(1551,
+        assertEquals(1552,
                 KrashUtil.dayDiff(fel.getJdkRelease().getBuildDate(), JdkUtil.getLatestJdkRelease(fel).getBuildDate()),
                 "Release days diff not correct.");
         assertEquals(19, JdkUtil.getLatestJdkRelease(fel).getNumber() - fel.getJdkRelease().getNumber(),
