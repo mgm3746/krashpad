@@ -26,6 +26,14 @@ import org.junit.jupiter.api.Test;
 class TestVmOperationEvent {
 
     @Test
+    void testBulkRevokeBias() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
+        String logLine = "Event: 738.677 Executing VM operation: BulkRevokeBias";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
     void testClassLoaderStatsOperation() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 123.456 Executing VM operation: ClassLoaderStatsOperation";

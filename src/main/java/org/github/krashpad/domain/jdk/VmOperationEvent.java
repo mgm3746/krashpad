@@ -45,12 +45,12 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
      */
     public static final String _REGEX_HEADER = "VM Operations \\(\\d{1,} events\\):";
 
-    private static final String _REGEX_OPERATIONS = "(ClassLoaderStatsOperation|CleanClassLoaderDataMetaspaces|Cleanup|"
-            + "FindDeadlocks|G1CollectForAllocation|G1CollectFull|G1PauseCleanup|G1PauseRemark|"
-            + "GenCollectForAllocation|GetAllStackTraces|GetThreadListStackTraces|HandshakeAllThreads|ICBufferFull|"
-            + "JFRCheckpoint|ParallelGCFailedAllocation|ParallelGCSystemGC|PrintJNI|PrintThreads|RendezvousGCThreads|"
-            + "ThreadDump|XMarkStart|ZMarkEnd|ZMarkFlushOperation|ZMarkStartYoung|ZMarkStartYoungAndOld|"
-            + "ZRelocateStart|ZRendezvousGCThreads)";
+    private static final String _REGEX_OPERATIONS = "(BulkRevokeBias|ClassLoaderStatsOperation|"
+            + "CleanClassLoaderDataMetaspaces|Cleanup|FindDeadlocks|G1CollectForAllocation|G1CollectFull|"
+            + "G1PauseCleanup|G1PauseRemark|GenCollectForAllocation|GetAllStackTraces|GetThreadListStackTraces|"
+            + "HandshakeAllThreads|ICBufferFull|JFRCheckpoint|ParallelGCFailedAllocation|ParallelGCSystemGC|PrintJNI|"
+            + "PrintThreads|RendezvousGCThreads|ThreadDump|XMarkStart|ZMarkEnd|ZMarkFlushOperation|ZMarkStartYoung|"
+            + "ZMarkStartYoungAndOld|ZRelocateStart|ZRendezvousGCThreads)";
 
     /**
      * Regular expression defining the logging.
