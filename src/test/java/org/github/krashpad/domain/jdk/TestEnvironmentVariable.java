@@ -114,6 +114,14 @@ class TestEnvironmentVariable {
     }
 
     @Test
+    void testJavaToolOptions() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
+        String logLine = "JAVA_TOOL_OPTIONS=-Dspring.config.location=/path/to/application.yaml";
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    }
+
+    @Test
     void testJreHome() {
         EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "JRE_HOME=/usr/java/jdk1.8.0_241-amd64/jre";
