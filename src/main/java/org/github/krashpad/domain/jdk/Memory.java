@@ -29,7 +29,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * </p>
  * 
  * <p>
- * Memory information.
+ * Memory information for container (if memory limited) or OS.
  * </p>
  * 
  * <h2>Example Logging</h2>

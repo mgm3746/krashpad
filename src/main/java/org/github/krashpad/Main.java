@@ -127,10 +127,10 @@ public class Main {
                 printWriter.write(
                         "CPUs (cpu x cpu cores x hyperthreading): " + fel.getCpusLogical() + Constants.LINE_SEPARATOR);
             }
-            if (fel.getMemoryTotal() > 0) {
-                printWriter.write(
-                        "Memory: " + JdkUtil.convertSize(fel.getMemoryTotal(), 'B', org.github.joa.util.Constants.UNITS)
-                                + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
+            if (fel.getOsMemoryTotal() > 0) {
+                printWriter.write("Memory: "
+                        + JdkUtil.convertSize(fel.getOsMemoryTotal(), 'B', org.github.joa.util.Constants.UNITS)
+                        + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
             }
             if (fel.getAnonHugePages() >= 0) {
                 printWriter.write("Transparent Huge Pages (THP): "
@@ -151,24 +151,24 @@ public class Main {
                 }
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
-            if (fel.getMemoryFree() > 0) {
+            if (fel.getOsMemoryFree() > 0) {
                 printWriter.write("Memory Free: "
-                        + JdkUtil.convertSize(fel.getMemoryFree(), 'B', org.github.joa.util.Constants.UNITS)
+                        + JdkUtil.convertSize(fel.getOsMemoryFree(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS));
-                if (fel.getMemoryTotal() > 0) {
-                    printPercentage(printWriter, fel.getMemoryFree(), fel.getMemoryTotal(), null);
+                if (fel.getOsMemoryTotal() > 0) {
+                    printPercentage(printWriter, fel.getOsMemoryFree(), fel.getOsMemoryTotal(), null);
                 }
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
-            if (fel.getSwapTotal() >= 0) {
+            if (fel.getOsSwapTotal() >= 0) {
                 printWriter.write(
-                        "Swap: " + JdkUtil.convertSize(fel.getSwapTotal(), 'B', org.github.joa.util.Constants.UNITS)
+                        "Swap: " + JdkUtil.convertSize(fel.getOsSwapTotal(), 'B', org.github.joa.util.Constants.UNITS)
                                 + Character.toString(org.github.joa.util.Constants.UNITS) + Constants.LINE_SEPARATOR);
-                if (fel.getSwapTotal() > 0 && fel.getSwapFree() >= 0) {
+                if (fel.getOsSwapTotal() > 0 && fel.getOsSwapFree() >= 0) {
                     printWriter.write("Swap Free: "
-                            + JdkUtil.convertSize(fel.getSwapFree(), 'B', org.github.joa.util.Constants.UNITS)
+                            + JdkUtil.convertSize(fel.getOsSwapFree(), 'B', org.github.joa.util.Constants.UNITS)
                             + Character.toString(org.github.joa.util.Constants.UNITS));
-                    printPercentage(printWriter, fel.getSwapFree(), fel.getSwapTotal(), null);
+                    printPercentage(printWriter, fel.getOsSwapFree(), fel.getOsSwapTotal(), null);
                     printWriter.write(Constants.LINE_SEPARATOR);
                 }
             }
@@ -188,8 +188,8 @@ public class Main {
                         printWriter.write("Memory Free: "
                                 + JdkUtil.convertSize(fel.getMemoryFree(), 'B', org.github.joa.util.Constants.UNITS)
                                 + Character.toString(org.github.joa.util.Constants.UNITS));
-                        if (fel.getOsMemoryTotal() > 0) {
-                            printPercentage(printWriter, fel.getMemoryFree(), fel.getOsMemoryTotal(), "OS Memory");
+                        if (fel.getMemoryTotal() > 0) {
+                            printPercentage(printWriter, fel.getMemoryFree(), fel.getMemoryTotal(), null);
                         }
                         printWriter.write(Constants.LINE_SEPARATOR);
                     }
@@ -198,7 +198,9 @@ public class Main {
                     printWriter.write(
                             "Swap: " + JdkUtil.convertSize(fel.getSwapTotal(), 'B', org.github.joa.util.Constants.UNITS)
                                     + Character.toString(org.github.joa.util.Constants.UNITS));
-                    printPercentage(printWriter, fel.getSwapTotal(), fel.getOsSwapTotal(), "OS Swap");
+                    if (fel.getOsSwapTotal() > 0) {
+                        printPercentage(printWriter, fel.getSwapTotal(), fel.getOsSwapTotal(), "OS Swap");
+                    }
                     printWriter.write(Constants.LINE_SEPARATOR);
                     if (fel.getSwapTotal() > 0 && fel.getSwapFree() >= 0) {
                         printWriter.write("Swap Free: "
