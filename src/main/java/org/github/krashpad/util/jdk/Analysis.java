@@ -169,13 +169,6 @@ public enum Analysis {
     ERROR_JDK8_LIBC_CFREE("error.jdk8.libc.cfree"),
 
     /**
-     * Property key for a crash on RHEL7 where a power8 rpm is deployed on power9. Power8 support is through the
-     * rhel-7-for-power-le-rpms repo (least release 7.9). Power9 support is through the rhel-7-for-power-9-rpms repo
-     * (last release 7.6).
-     */
-    ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9("error.jdk8.rhel7.power8.rpm.on.power9"),
-
-    /**
      * Property key for ShenandoahConcurrentMark::mark_loop_work.
      */
     ERROR_JDK8_SHENANDOAH_MARK_LOOP_WORK("error.jdk8.shenandoah.mark.loop.work"),
@@ -1092,11 +1085,6 @@ public enum Analysis {
      * Property key for RHEL7 not last minor release 7.9.
      */
     WARN_RHEL7_ELS_UNSUPPORTED_VERSION("warn.rhel7.els.unsupported.version"),
-
-    /**
-     * Property key for RHEL7 Power9 Extended Life Phase.
-     */
-    WARN_RHEL7_POWER9("warn.rhel7.power9"),
 
     /**
      * Property key for using the CMS collector when swap is disabled.

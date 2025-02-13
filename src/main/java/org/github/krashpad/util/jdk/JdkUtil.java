@@ -583,10 +583,6 @@ public class JdkUtil {
                         if (fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
                             if (fatalErrorLog.getArchOs() == Arch.X86_64) {
                                 releases = Jdk8.RHEL7_X86_64_RPMS;
-                            } else if (fatalErrorLog.getArchOs() == Arch.PPC64) {
-                                releases = Jdk8.RHEL7_PPC64_RPMS;
-                            } else if (fatalErrorLog.getArchOs() == Arch.PPC64LE) {
-                                releases = Jdk8.RHEL7_PPC64LE_RPMS;
                             }
                         } else if (fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK11) {
                             releases = Jdk11.RHEL7_X86_64_RPMS;

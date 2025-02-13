@@ -3424,10 +3424,6 @@ class TestAnalysis {
                 "Rpm directory not correct.");
         assertEquals("8.4", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.5", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
-                Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
-                Analysis.WARN_JDK_NOT_LATEST + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
@@ -3470,10 +3466,6 @@ class TestAnalysis {
         fel.doAnalysis();
         assertEquals("7.6", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("7.9", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
-                Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL7_POWER9.getKey()),
-                Analysis.WARN_RHEL7_POWER9 + " analysis not identified.");
     }
 
     @Test
@@ -3506,12 +3498,8 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
-                Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
-                Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9.getKey()),
-                Analysis.ERROR_JDK8_RHEL7_POWER8_RPM_ON_POWER9 + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
+                Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis incorrectly identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
