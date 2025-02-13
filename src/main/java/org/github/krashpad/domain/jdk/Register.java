@@ -63,14 +63,15 @@ public class Register implements LogEvent, ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "Registers:";
+    public static final String _REGEX_HEADER = "Registers:";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.REGISTER + "([, ] " + JdkRegEx.REGISTER
-            + "()?[, ])?( " + JdkRegEx.REGISTER + ")?(, " + JdkRegEx.REGISTER + ")?|[ ]{1,}TRAPNO=" + JdkRegEx.ADDRESS
-            + ")[ ]{0,}$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.BLANK_LINE + "|" + JdkRegEx.REGISTER
+            + "([, ] " + JdkRegEx.REGISTER + "()?[, ])?( " + JdkRegEx.REGISTER + ")?(, " + JdkRegEx.REGISTER
+            + ")?|[ ]{1,}(MXCSR|TRAPNO)=" + JdkRegEx.ADDRESS + "|XMM\\[\\d{1,}\\]=" + JdkRegEx.ADDRESS + " "
+            + JdkRegEx.ADDRESS + ")[ ]{0,}$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

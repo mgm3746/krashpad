@@ -718,8 +718,6 @@ public class JdkUtil {
                 logEventType = LogEventType.BARRIER_SET;
             } else if (BitsEvent.match(logLine)) {
                 logEventType = LogEventType.BITS;
-            } else if (BlankLine.match(logLine)) {
-                logEventType = LogEventType.BLANK_LINE;
             } else if (CardTable.match(logLine)) {
                 logEventType = LogEventType.CARD_TABLE;
             } else if (CdsArchive.match(logLine)) {
@@ -858,7 +856,8 @@ public class JdkUtil {
                 logEventType = LogEventType.POLLING_PAGE;
             } else if (ProcessMemory.match(logLine)) {
                 logEventType = LogEventType.PROCESS_MEMORY;
-            } else if (Register.match(logLine)) {
+            } else if (logLine.matches(Register._REGEX_HEADER)
+                    || (priorEvent instanceof Register && Register.match(logLine))) {
                 logEventType = LogEventType.REGISTER;
             } else if (logLine.matches(RegisterToMemoryMapping._REGEX_HEADER)
                     || (priorEvent instanceof RegisterToMemoryMapping && RegisterToMemoryMapping.match(logLine))) {
@@ -942,6 +941,8 @@ public class JdkUtil {
                 logEventType = LogEventType.ZGC_PAGE_TABLE;
             } else if (ZgcPhaseSwitchEvent.match(logLine)) {
                 logEventType = LogEventType.ZGC_PHASE_SWITCH_EVENT;
+            } else if (BlankLine.match(logLine)) {
+                logEventType = LogEventType.BLANK_LINE;
             }
         }
         return logEventType;
