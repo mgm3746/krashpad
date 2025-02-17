@@ -298,6 +298,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-11-20220421.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-11-20230605.so.1");
         NATIVE_LIBRARIES_LINUX.add("libgcc_s-11-20231218.so.1");
+        NATIVE_LIBRARIES_LINUX.add("libgcc_s-11-20240719.so.1");
         // libgcrypt
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.11.8.2");
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.3");
