@@ -118,6 +118,11 @@ public enum Analysis {
     ERROR_GREGORIANCALENDAR_COMPUTETIME("error.gregoriancalendar.computetime"),
 
     /**
+     * Property key for memory identified as corrupted/not working.
+     */
+    ERROR_HARDWARE_CORRUPTED("error.hardware.corrupted"),
+
+    /**
      * Property key for a crash in java.util.HashMap.
      */
     ERROR_HASHMAP("error.hashmap"),
@@ -945,7 +950,12 @@ public enum Analysis {
     INFO_VM_OPERATION_HEAP_DUMP("info.vm.operation.heap.dump"),
 
     /**
-     * Property key for a crash happening during a thread dump operation.
+     * Property key for a crash happening during a thread dump initiated by jcmd, jstack, or "kill -3".
+     */
+    INFO_VM_OPERATION_PRINT_THREADS("info.vm.operation.print.threads"),
+
+    /**
+     * Property key for a crash during a thread dump initiated by ThreadMXBean.dumpAllThreads().
      */
     INFO_VM_OPERATION_THREAD_DUMP("info.vm.operation.thread.dump"),
 

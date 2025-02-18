@@ -47,9 +47,10 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * <li>HeapDumper: Full heap dump (a heap summary does not require a safepoint).</li>
  * <li>ParallelGCFailedAllocation: Parallel collection.</li>
  * <li>ParallelGCSystemGC: Parallel collection initiated by explicit gc.</li>
- * <li>PrintThreads: Printing a stack trace.</li>
+ * <li>PrintThreads: A thread dump initiated by jcmd, jstack, or "kill -3".</li>
  * <li>RedefineClasses: Redefine classes.</li>
  * <li>ShenandoahFullGC: Shenandoah full GC.</li>
+ * <li>ThreadDump: A thread dump initiated with ThreadMXBean.dumpAllThreads().</li>
  * </ul>
  * 
  * <h2>Example Logging</h2>
@@ -66,7 +67,8 @@ public class VmOperation implements LogEvent {
     private static final String __REGEX_OPERATIONS = "(BulkRevokeBias|CGC_Operation|CMS_Final_Remark|"
             + "CollectForMetadataAllocation|G1CollectForAllocation|G1CollectFull|G1IncCollectionPause|"
             + "GC_HeapInspection|GenCollectForAllocation|GetAllStackTraces|GetThreadListStackTraces|HeapDumper|"
-            + "ParallelGCFailedAllocation|ParallelGCSystemGC|PrintThreads|RedefineClasses|ShenandoahFullGC)";
+            + "ParallelGCFailedAllocation|ParallelGCSystemGC|PrintThreads|RedefineClasses|ShenandoahFullGC|"
+            + "ThreadDump)";
 
     /**
      * Regular expression defining the logging.

@@ -618,8 +618,8 @@ class TestFatalErrorLog {
         assertEquals(255838, fel.getThreadsMaxLimit(), "threads-max not correct.");
         assertEquals(32768, fel.getPidMaxLimit(), "pid_max not correct.");
         assertEquals(65530, fel.getMaxMapCountLimit(), "max_map_count not correct.");
-        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_THREAD_DUMP.getKey()),
-                Analysis.INFO_VM_OPERATION_THREAD_DUMP + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_PRINT_THREADS.getKey()),
+                Analysis.INFO_VM_OPERATION_PRINT_THREADS + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
@@ -690,6 +690,18 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         assertFalse(fel.isRhBuildString(), "RH build string identified.");
+    }
+
+    @Test
+    void testHardwareCorrupted() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String meminfo = "HardwareCorrupted:    56 kB";
+        Meminfo meminfoEvent = new Meminfo(meminfo);
+        fel.getMeminfos().add(meminfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_HARDWARE_CORRUPTED.getKey()),
+                Analysis.ERROR_HARDWARE_CORRUPTED + " analysis not identified.");
+        assertEquals(56 * 1024L, fel.getHardwareCorrupted(), "HardwareCorrrupted not correct.");
     }
 
     @Test
@@ -1863,6 +1875,18 @@ class TestFatalErrorLog {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI.getKey()),
                 Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI + " analysis not identified.");
+    }
+
+    @Test
+    void testThreadDumpThreadMXBean() {
+        FatalErrorLog fel = new FatalErrorLog();
+        VmOperation vmOperation = new VmOperation(
+                "VM_Operation (0x00002a22003015c0): ThreadDump, mode: safepoint, requested by thread "
+                        + "0x00002a216014e800");
+        fel.setVmOperation(vmOperation);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_THREAD_DUMP.getKey()),
+                Analysis.INFO_VM_OPERATION_THREAD_DUMP + " analysis not identified.");
     }
 
     @Test

@@ -1322,15 +1322,17 @@ public class FatalErrorLog {
         // VM operations
         if (vmOperation != null) {
             if (vmOperation.getVmOperation().equals("BulkRevokeBias")) {
-                analysis.add(Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS);
+                analysis.add(0, Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS);
             } else if (vmOperation.getVmOperation().equals("CGC_Operation")) {
-                analysis.add(Analysis.INFO_VM_OPERATION_CONCURRENT_GC);
+                analysis.add(0, Analysis.INFO_VM_OPERATION_CONCURRENT_GC);
             } else if (vmOperation.getVmOperation().equals("GetThreadListStackTraces")) {
-                analysis.add(Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI);
+                analysis.add(0, Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI);
             } else if (vmOperation.getVmOperation().equals("HeapDumper")) {
-                analysis.add(Analysis.INFO_VM_OPERATION_HEAP_DUMP);
+                analysis.add(0, Analysis.INFO_VM_OPERATION_HEAP_DUMP);
             } else if (vmOperation.getVmOperation().equals("PrintThreads")) {
-                analysis.add(Analysis.INFO_VM_OPERATION_THREAD_DUMP);
+                analysis.add(0, Analysis.INFO_VM_OPERATION_PRINT_THREADS);
+            } else if (vmOperation.getVmOperation().equals("ThreadDump")) {
+                analysis.add(0, Analysis.INFO_VM_OPERATION_THREAD_DUMP);
             }
         }
         // DBCP2
@@ -1777,6 +1779,10 @@ public class FatalErrorLog {
                 || (getStackFrameTopJava() != null && getStackFrameTopJava()
                         .matches("^.+org\\.apache\\.tomcat\\.jni\\.(Pool|Socket)\\.destroy.+$")))) {
             analysis.add(Analysis.ERROR_CRASH_TOMCAT_NATIVE);
+        }
+        // HardwareCorrupted
+        if (getHardwareCorrupted() > 0) {
+            analysis.add(Analysis.ERROR_HARDWARE_CORRUPTED);
         }
     }
 
@@ -3072,6 +3078,29 @@ public class FatalErrorLog {
             }
         }
         return globalFlagsExperimentalErgonomic;
+    }
+
+    /**
+     * The amount of RAM the kernel has identified as corrupted/not working in bytes.
+     * 
+     * @return The amount of RAM the kernel has identified as corrupted/not working in bytes.
+     */
+    public long getHardwareCorrupted() {
+        long hardwareCorrupted = Long.MIN_VALUE;
+        if (!meminfos.isEmpty()) {
+            String regex = "HardwareCorrupted:[ ]{0,}(\\d{1,}) kB";
+            Pattern pattern = Pattern.compile(regex);
+            Iterator<Meminfo> iterator = meminfos.iterator();
+            while (iterator.hasNext()) {
+                Meminfo event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    hardwareCorrupted = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    break;
+                }
+            }
+        }
+        return hardwareCorrupted;
     }
 
     public List<Header> getHeaders() {

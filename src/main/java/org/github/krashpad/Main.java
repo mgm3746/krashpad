@@ -172,6 +172,17 @@ public class Main {
                     printWriter.write(Constants.LINE_SEPARATOR);
                 }
             }
+            if (fel.getHardwareCorrupted() > 0) {
+                printWriter.write("HardwareCorrupted: ");
+                long hardwareCorrupted = JdkUtil.convertSize(fel.getHardwareCorrupted(), 'B',
+                        org.github.joa.util.Constants.UNITS);
+                if (hardwareCorrupted == 0) {
+                    // Provide rounding clue
+                    printWriter.write("~");
+                }
+                printWriter.write(hardwareCorrupted + Character.toString(org.github.joa.util.Constants.UNITS)
+                        + Constants.LINE_SEPARATOR);
+            }
             if (isMemoryLimitedByContainer) {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 printWriter.write("Container:" + Constants.LINE_SEPARATOR);

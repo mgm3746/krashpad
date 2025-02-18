@@ -226,4 +226,15 @@ class TestVmOperation {
         assertEquals("ShenandoahFullGC, mode: safepoint, requested by thread 0x0000560e86b75800",
                 event.getVmOperationString(), "VM operation not correct.");
     }
+
+    @Test
+    void testThreadDump() {
+        String logLine = "VM_Operation (0x00002122003015c0): ThreadDump, mode: safepoint, requested by thread "
+                + "0x000021216014e800";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperation event = new VmOperation(logLine);
+        assertEquals("ThreadDump, mode: safepoint, requested by thread 0x000021216014e800",
+                event.getVmOperationString(), "VM operation not correct.");
+    }
 }
