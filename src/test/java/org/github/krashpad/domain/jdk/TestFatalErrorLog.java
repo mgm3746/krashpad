@@ -1027,6 +1027,10 @@ class TestFatalErrorLog {
                 "   size_t MaxHeapSize                              = 17179869184                               "
                         + "{product} {command line}");
         fel.getGlobalFlags().add(globalFlagMaxHeapSize);
+        GlobalFlag globalFlagThreadStackSize = new GlobalFlag(
+                "     intx ThreadStackSize                          = 1048576                                "
+                        + "{pd product} {command line}");
+        fel.getGlobalFlags().add(globalFlagThreadStackSize);
         assertEquals(17179869184L, fel.getJvmMemoryHeapReserved(), "Heap reserved not correct.");
         assertEquals(Long.MIN_VALUE, fel.getJvmMemoryMetaspaceReserved(), "Metaspace reserved not correct.");
         assertEquals(Long.MIN_VALUE, fel.getJvmMemoryDirectMemoryReserved(), "Direct Memory reserved not correct.");
