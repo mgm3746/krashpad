@@ -1034,7 +1034,7 @@ class TestFatalErrorLog {
         assertEquals(17179869184L, fel.getJvmMemoryHeapReserved(), "Heap reserved not correct.");
         assertEquals(Long.MIN_VALUE, fel.getJvmMemoryMetaspaceReserved(), "Metaspace reserved not correct.");
         assertEquals(Long.MIN_VALUE, fel.getJvmMemoryDirectMemoryReserved(), "Direct Memory reserved not correct.");
-        assertEquals(1024, fel.getThreadStackSize(), "Thread stack size not correct.");
+        assertEquals(1048576L, fel.getThreadStackSize(), "Thread stack size not correct.");
         assertEquals(Long.MIN_VALUE, fel.getJvmMemoryThreadStackReserved(), "Thread memory reserved not correct.");
         GlobalFlag globalFlagReservedCodeCacheSize = new GlobalFlag(
                 "    uintx ReservedCodeCacheSize                    = 251658240                              "

@@ -5480,7 +5480,6 @@ public class FatalErrorLog {
         GlobalFlag globalFlagThreadStackSize = getGlobalFlag("ThreadStackSize");
         if (globalFlagThreadStackSize != null) {
             stackSize = Long.parseLong(globalFlagThreadStackSize.getValue());
-            stackSize = JdkUtil.convertSize(stackSize, 'B', 'K');
         } else if (jvmOptions != null && jvmOptions.getThreadStackSize() != null) {
             char fromUnits;
             long value;
