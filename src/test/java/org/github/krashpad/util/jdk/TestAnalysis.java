@@ -1536,6 +1536,21 @@ class TestAnalysis {
     }
 
     @Test
+    void testJdk8ZipFileContentionNewEntryHeaderOnly() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# JRE version: OpenJDK Runtime Environment (8.0_422-b05) (build 1.8.0_422-b05)";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# C  [libzip.so+0x12f60]  newEntry.isra.4+0x60";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        fel.doAnalysis();
+        assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION.getKey()),
+                Analysis.ERROR_JDK8_ZIPFILE_CONTENTION + " analysis not identified.");
+    }
+
+    @Test
     void testJdk8ZipFileContentionReadCen() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.342-b07) for linux-amd64 JRE (1.8.0_342-b07), built on "

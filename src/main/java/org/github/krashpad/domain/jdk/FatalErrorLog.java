@@ -711,8 +711,8 @@ public class FatalErrorLog {
                 && JdkUtil.getJavaSpecificationNumber(getJavaSpecification()) <= 8) {
             if ((getStackFrameTopCompiledJavaCode() != null && getStackFrameTopCompiledJavaCode()
                     .matches("^.+java\\.util\\.zip\\.ZipFile\\.(getEntry|open).+$"))
-                    || (getStackFrameTop() != null
-                            && getStackFrameTop().matches("^C[ ]{1,}\\[libzip\\.so.*\\][ ]{1,}readCEN.*$"))) {
+                    || (getStackFrameTop() != null && getStackFrameTop()
+                            .matches("^C[ ]{1,}\\[libzip\\.so.*\\][ ]{1,}(newEntry|readCEN).*$"))) {
                 analysis.add(Analysis.ERROR_JDK8_ZIPFILE_CONTENTION);
             }
         }
