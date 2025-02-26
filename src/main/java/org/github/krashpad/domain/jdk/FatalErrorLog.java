@@ -7080,7 +7080,7 @@ public class FatalErrorLog {
                         // OS string on next line
                         event = iterator.next();
                     }
-                    isWindows = event.getLogEntry().matches("^OS: Windows.+$");
+                    isWindows = event.getLogEntry().matches("^.*Windows.+$");
                     break;
                 }
             }

@@ -1746,6 +1746,36 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testRhWindowsZipInstall() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# Java VM: OpenJDK 64-Bit Server VM (Red_Hat-17.0.11.0+9-1) (17.0.11+9-LTS, mixed mode, "
+                + "sharing, compressed class ptrs, shenandoah gc, windows-amd64)";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# JRE version: OpenJDK Runtime Environment (Red_Hat-17.0.11.0+9-1) (17.0.11+9) "
+                + "(build 17.0.11+9-LTS)";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        String oss1 = "OS:";
+        OsInfo osEvent1 = new OsInfo(oss1);
+        fel.getOsInfos().add(osEvent1);
+        String oss2 = " Windows Server 2019 , 64 bit Build 17763 (10.0.17763.6292)";
+        OsInfo osEvent2 = new OsInfo(oss2);
+        fel.getOsInfos().add(osEvent2);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.11+9-LTS) for windows-amd64 JRE (17.0.11+9-LTS), "
+                + "built on Apr 10 2024 18:27:01 by \"\" with MS VC++ 16.10 / 16.11 (VS2019)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertTrue(fel.isWindows(), "Windows not identified.");
+        assertEquals(Arch.X86_64, fel.getArchOs(), "Arch not correct.");
+        assertEquals("17.0.11+9-LTS", fel.getJdkReleaseString(), "JDK release not correct.");
+        assertEquals(JavaSpecification.JDK17, fel.getJavaSpecification(), "Java specification not correct.");
+        assertEquals(KrashUtil.getDate("Apr 10 2024 18:27:01"), fel.getJdkBuildDate(), "Build date not correct.");
+        assertTrue(fel.isRhWindowsZipInstall(), "RH Windows zip install not identified.");
+    }
+
+    @Test
     void testShenandoah() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset31.txt");
         Manager manager = new Manager();

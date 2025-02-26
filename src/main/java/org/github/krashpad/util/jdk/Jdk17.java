@@ -233,7 +233,7 @@ public class Jdk17 {
         WINDOWS_ZIPS.put("17.0.14+7-LTS", new Release("Jan 21 2025", 17, "17.0.14+7-LTS"));
         WINDOWS_ZIPS.put("17.0.13+11-LTS", new Release("Oct 15 2024", 16, "17.0.13+11-LTS"));
         WINDOWS_ZIPS.put("17.0.12+7-LTS", new Release("Jul 16 2024", 15, "17.0.12+7-LTS"));
-        WINDOWS_ZIPS.put("17.0.11+9-LTS", new Release("Apr 16 2024", 14, "17.0.11+9-LTS"));
+        WINDOWS_ZIPS.put("17.0.11+9-LTS", new Release("Apr 10 2024 18:27:01", 14, "17.0.11+9-LTS"));
         WINDOWS_ZIPS.put("17.0.10+7-LTS", new Release("Jan 15 2024 10:20:35", 13, "17.0.10+7-LTS"));
         WINDOWS_ZIPS.put("17.0.9+9-LTS", new Release("Oct 12 2023", 12, "17.0.9+9-LTS"));
         WINDOWS_ZIPS.put("17.0.8.1+1-LTS", new Release("Sep 4 2023", 11, "17.0.8.1+1-LTS"));
