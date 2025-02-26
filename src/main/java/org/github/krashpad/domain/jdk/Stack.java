@@ -113,7 +113,7 @@ public class Stack implements LogEvent, HeaderEvent {
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_HEADER_NATIVE + "|" + _REGEX_HEADER_JAVA
             + "|([CjJvV]) |JavaThread|\\[error occurred during error reporting \\(printing (Java stack|native stack|"
-            + "stack bounds)\\)|...<more frames>...).*$";
+            + "stack bounds)\\)|...<more frames>...|The last pc belongs to nmethod \\(printed below\\)\\.).*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

@@ -73,12 +73,12 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
             + " - (---- fields \\(total size \\d{1,} words\\)|---- non-static fields \\(\\d{1,} words\\)|"
             + "---- static fields \\(\\d{1,} words\\)|access|arrays|class annotations|class loader data|"
             + "class type annotations|constants|default_methods|default vtable indices|field annotations|"
-            + "field type annotations|inner classes|instance size|java mirror|klass|klass size|length|local interfaces|"
-            + "method ordering|methods|name|nest members|non-static oop maps|permitted subclasses|signature|state|"
-            + "string|sub|super|trans\\. interfaces):.*|"
+            + "field type annotations|generic signature|inner classes|instance size|java mirror|klass|klass size|"
+            + "length|local interfaces|method ordering|methods|name|nest members|non-static oop maps|"
+            + "permitted subclasses|signature|source file|state|string|sub|super|trans\\. interfaces):.*|"
             // dash w/o ending semi-colon
-            + " - (fake entry for|injected|final|itable length|private|protected|strict|transient|volatile|"
-            + "vtable length) .+|"
+            + " - (fake entry for|injected|final|itable length|private|protected|public|static final|strict|transient|"
+            + "volatile|vtable length) .+|"
             // dash apostrophe
             + " - '[a-zA-Z]+' .+|"
             // other (no beginning dash)

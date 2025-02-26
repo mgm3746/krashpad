@@ -48,9 +48,24 @@ class TestHeapRegions {
     }
 
     @Test
+    void testCp() {
+        String logLine = "CP=critical pins";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_REGIONS,
+                JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.");
+    }
+
+    @Test
     void testEu() {
         String logLine = "EU=empty-uncommitted, EC=empty-committed, R=regular, H=humongous start, HC=humongous "
                 + "continuation, CS=collection set, T=trash, P=pinned";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_REGIONS,
+                JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.");
+    }
+
+    @Test
+    void testHc() {
+        String logLine = "              HC=humongous continuation, CS=collection set, TR=trash, P=pinned, "
+                + "CSP=pinned collection set";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_REGIONS,
                 JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.");
     }
@@ -86,8 +101,37 @@ class TestHeapRegions {
     }
 
     @Test
+    void testRegionState() {
+        String logLine = "Region state: EU=empty-uncommitted, EC=empty-committed, R=regular, H=humongous start, "
+                + "HP=pinned humongous start";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_REGIONS,
+                JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.");
+    }
+
+    @Test
+    void testS() {
+        String logLine = "S=shared allocs, L=live data";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_REGIONS,
+                JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.");
+    }
+
+    @Test
     void testSn() {
         String logLine = "SN=alloc sequence number";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_REGIONS,
+                JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.");
+    }
+
+    @Test
+    void testT() {
+        String logLine = "T=TLAB allocs, G=GCLAB allocs";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_REGIONS,
+                JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.");
+    }
+
+    @Test
+    void testUwm() {
+        String logLine = "UWM=update watermark, U=used";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.HEAP_REGIONS,
                 JdkUtil.LogEventType.HEAP_REGIONS.toString() + " not identified.");
     }

@@ -162,6 +162,13 @@ class TestStack {
     }
 
     @Test
+    void testTheLastPcBelongsToNmethod() {
+        String logLine = "The last pc belongs to nmethod (printed below).";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK,
+                JdkUtil.LogEventType.STACK.toString() + " not identified.");
+    }
+
+    @Test
     void testVmFrameLargeV() {
         String logLine = "V  [libjvm.so+0x93a382]  java_start(Thread*)+0xf2";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.STACK,

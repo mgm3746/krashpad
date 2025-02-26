@@ -52,7 +52,8 @@ public class HeapRegions implements LogEvent, ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|AC   |BTE=|R=|ShenandoahBarrierSet|SN=|EU=|\\|)(.*)";
+    private static final String REGEX = "^(" + _REGEX_HEADER
+            + "|AC   |BTE=|CP=|              HC=|R=|Region state:|ShenandoahBarrierSet|SN=|EU=|S=|T=|UWM=|\\|)(.*)";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

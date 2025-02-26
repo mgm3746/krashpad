@@ -74,4 +74,13 @@ class TestDllOperationEvent {
                 JdkUtil.LogEventType.EVENT.toString() + " incorrectly identified.");
     }
 
+    @Test
+    void testUnloadedDll() {
+        DllOperationEvent priorLogEvent = new DllOperationEvent("");
+        String logLine = "Event: 426.716 Unloaded dll \"C:\\Users\\myuser\\AppData\\Local\\Temp\\my.dll\" "
+                + "[0x00007fffb7530000]";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DLL_OPERATION_EVENT,
+                JdkUtil.LogEventType.DLL_OPERATION_EVENT.toString() + " not identified.");
+    }
+
 }

@@ -49,8 +49,10 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
             + "CleanClassLoaderDataMetaspaces|Cleanup|FindDeadlocks|G1CollectForAllocation|G1CollectFull|"
             + "G1PauseCleanup|G1PauseRemark|GenCollectForAllocation|GetAllStackTraces|GetThreadListStackTraces|"
             + "HandshakeAllThreads|ICBufferFull|JFRCheckpoint|ParallelGCFailedAllocation|ParallelGCSystemGC|PrintJNI|"
-            + "PrintThreads|RendezvousGCThreads|ThreadDump|XMarkStart|ZMarkEnd|ZMarkFlushOperation|ZMarkStartYoung|"
-            + "ZMarkStartYoungAndOld|ZRelocateStart|ZRendezvousGCThreads)";
+            + "PrintThreads|RendezvousGCThreads|Shenandoah Final Mark and Start Evacuation|"
+            + "Shenandoah Final Update References|Shenandoah Init Marking|Shenandoah Init Update References|ThreadDump|"
+            + "XMarkStart|ZMarkEnd|ZMarkFlushOperation|ZMarkStartYoung|ZMarkStartYoungAndOld|ZRelocateStart|"
+            + "ZRendezvousGCThreads)";
 
     /**
      * Regular expression defining the logging.
