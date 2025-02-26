@@ -944,6 +944,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("Secur32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("secur32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("sfc.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("Sfc.dll");
         NATIVE_LIBRARIES_WINDOWS.add("sfc_os.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("shcore.dll");
         NATIVE_LIBRARIES_WINDOWS.add("SHCORE.dll");
@@ -989,6 +990,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("awt.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("dt_shmem.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("dt_socket.dll");
+        // JDK17+
+        NATIVE_LIBRARIES_WINDOWS_JAVA.add("extnet.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("fontmanager.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("freetype.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("harfbuzz.dll");
