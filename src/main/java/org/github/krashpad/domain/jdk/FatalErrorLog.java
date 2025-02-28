@@ -1646,7 +1646,7 @@ public class FatalErrorLog {
         // External processes consuming significant memory
         if (getMemoryTotal() > 0 && getMemoryTotal() > 0) {
             long memoryExternal = getMemoryTotal() - getMemoryFree();
-            if (JdkMath.calcPercent(memoryExternal, getMemoryTotal()) >= 10) {
+            if (memoryExternal >= 0 && JdkMath.calcPercent(memoryExternal, getMemoryTotal()) >= 10) {
                 analysis.add(0, Analysis.WARN_MEMORY_EXTERNAL);
             }
         }
@@ -4905,6 +4905,19 @@ public class FatalErrorLog {
                 Matcher matcher = pattern.matcher(event.getLogEntry());
                 if (matcher.find()) {
                     osMemoryTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'K', 'B');
+                    break;
+                }
+            }
+        }
+        if (osMemoryTotal < 0 && !gcPreciousLogs.isEmpty()) {
+            String regexMemory = "Memory: (\\d{1,})M";
+            Pattern pattern = Pattern.compile(regexMemory);
+            Iterator<GcPreciousLog> iterator = gcPreciousLogs.iterator();
+            while (iterator.hasNext()) {
+                GcPreciousLog event = iterator.next();
+                Matcher matcher = pattern.matcher(event.getLogEntry());
+                if (matcher.find()) {
+                    osMemoryTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(1)), 'M', 'B');
                     break;
                 }
             }

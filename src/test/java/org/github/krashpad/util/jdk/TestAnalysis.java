@@ -33,6 +33,7 @@ import org.github.krashpad.domain.jdk.EnvironmentVariable;
 import org.github.krashpad.domain.jdk.Event;
 import org.github.krashpad.domain.jdk.ExceptionCounts;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
+import org.github.krashpad.domain.jdk.GcPreciousLog;
 import org.github.krashpad.domain.jdk.GlobalFlag;
 import org.github.krashpad.domain.jdk.Header;
 import org.github.krashpad.domain.jdk.Heap;
@@ -3195,6 +3196,20 @@ class TestAnalysis {
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE.getKey()),
                 Analysis.ERROR_POSTGRESQL_JDBC_JDK8_INCOMPATIBLE + " analysis not identified.");
+    }
+
+    @Test
+    void testPreciousLogMemory() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String gcPreciousLog1 = "GC Precious Log:";
+        GcPreciousLog gcPreciousLogEvent1 = new GcPreciousLog(gcPreciousLog1);
+        fel.getGcPreciousLogs().add(gcPreciousLogEvent1);
+        String gcPreciousLog2 = " Memory: 96991M";
+        GcPreciousLog gcPreciousLogEvent2 = new GcPreciousLog(gcPreciousLog2);
+        fel.getGcPreciousLogs().add(gcPreciousLogEvent2);
+        fel.doAnalysis();
+        long osMemoryTotal = JdkUtil.convertSize(96991, 'M', 'B');
+        assertEquals(osMemoryTotal, fel.getOsMemoryTotal(), "OS memory total not correct.");
     }
 
     /**
