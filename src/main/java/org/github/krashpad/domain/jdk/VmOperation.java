@@ -40,6 +40,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * <li>G1CollectForAllocation: G1 young, prepare mixed, or mixed collection.</li>
  * <li>G1CollectFull: G1 full GC.</li>
  * <li>G1IncCollectionPause: G1 incremental collection.</li>
+ * <li>G1PauseRemark: G1 remark pause.</li>
  * <li>GC_HeapInspection: Prints class histogram on SIGBREAK if PrintClassHistogram is specified and also the attach
  * "inspectheap" operation (e.g. jcmd &lt;pid&gt; GC.class_histogram).</li>
  * <li>GetAllStackTraces: JVMTI method to get stack trace information in native code for all threads.</li>
@@ -65,7 +66,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 public class VmOperation implements LogEvent {
 
     private static final String __REGEX_OPERATIONS = "(BulkRevokeBias|CGC_Operation|CMS_Final_Remark|"
-            + "CollectForMetadataAllocation|G1CollectForAllocation|G1CollectFull|G1IncCollectionPause|"
+            + "CollectForMetadataAllocation|G1CollectForAllocation|G1CollectFull|G1IncCollectionPause|G1PauseRemark|"
             + "GC_HeapInspection|GenCollectForAllocation|GetAllStackTraces|GetThreadListStackTraces|HeapDumper|"
             + "ParallelGCFailedAllocation|ParallelGCSystemGC|PrintThreads|RedefineClasses|ShenandoahFullGC|"
             + "ThreadDump)";
