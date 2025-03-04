@@ -306,15 +306,20 @@ public class Main {
                 printWriter.write("Heap Committed: "
                         + JdkUtil.convertSize(fel.getJvmMemoryHeapCommitted(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS));
-                printPercentage(printWriter, fel.getJvmMemoryHeapCommitted(), fel.getJvmMemoryHeapReserved(),
-                        "Reserved");
+                if (fel.getJvmMemoryHeapReserved() > 0) {
+                    printPercentage(printWriter, fel.getJvmMemoryHeapCommitted(), fel.getJvmMemoryHeapReserved(),
+                            "Reserved");
+                }
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
             if (fel.getJvmMemoryHeapUsed() >= 0) {
                 printWriter.write("Heap Used: "
                         + JdkUtil.convertSize(fel.getJvmMemoryHeapUsed(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS));
-                printPercentage(printWriter, fel.getJvmMemoryHeapUsed(), fel.getJvmMemoryHeapCommitted(), "Committed");
+                if (fel.getJvmMemoryHeapCommitted() > 0) {
+                    printPercentage(printWriter, fel.getJvmMemoryHeapUsed(), fel.getJvmMemoryHeapCommitted(),
+                            "Committed");
+                }
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
             if (fel.getHeapStartingAddress() > 0) {
