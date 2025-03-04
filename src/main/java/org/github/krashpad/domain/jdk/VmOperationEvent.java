@@ -35,6 +35,10 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * Event: 31.627 Executing VM operation: HandshakeAllThreads done
  * </pre>
  * 
+ * <p>
+ * See {@link org.github.krashpad.domain.jdk.VmOperation} for operation definitions.
+ * </p>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
