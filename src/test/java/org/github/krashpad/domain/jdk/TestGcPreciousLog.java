@@ -70,6 +70,14 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testClassPointerCheck() {
+        String logLine = " Class pointer check: Updated min and max addresses: 0x00007dfdb700e740 - 0x00007dfdb700e740 "
+                + "CompressedKlassPointers::decode_raw result";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testCompressedOops() {
         String logLine = " Compressed Oops: Enabled (Zero based)";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof GcPreciousLog,
