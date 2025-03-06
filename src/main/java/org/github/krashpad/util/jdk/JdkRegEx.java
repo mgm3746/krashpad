@@ -355,12 +355,27 @@ public class JdkRegEx {
     /**
      * Regular expression for G1 gc data.
      * 
+     * <p>
+     * 1) Standard:
+     * </p>
+     * 
      * <pre>
      *  garbage-first heap   total 33554432K, used 22395212K [0x00007f56fc000000, 0x00007f5efc000000)
      *   region size 16384K, 182 young (2981888K), 19 survivors (311296K)
      * </pre>
+     * 
+     * <p>
+     * 2) With NUMA information:
+     * </p>
+     * 
+     * <pre>
+     *  garbage-first heap   total 1258291200K, used 821934523K [0x00007e040a000000, 0x00007f300a000000)
+     *   region size 32768K, 11769 young (385646592K), 1203 survivors (39419904K)
+     *   remaining free region(s) on each NUMA node: 0=3029 1=3027 2=3028 3=3026
+     * </pre>
      */
-    public static final String G1 = "(" + JdkRegEx.G1_SIZE + "|  region size.+)";
+    public static final String G1 = "(" + JdkRegEx.G1_SIZE
+            + "|  region size.+|  remaining free region\\(s\\) on each NUMA node:.+)";
 
     /**
      * Regular expression for G1 heap size data.

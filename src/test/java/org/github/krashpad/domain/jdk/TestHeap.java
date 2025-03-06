@@ -108,6 +108,14 @@ class TestHeap {
     }
 
     @Test
+    void testG1RemainingFreeRegionsOnEachNumaNode() {
+        Heap priorEvent = new Heap(null);
+        String logLine = "  remaining free region(s) on each NUMA node: 0=3029 1=3027 2=3028 3=3026";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
+                JdkUtil.LogEventType.HEAP.toString() + " not identified.");
+    }
+
+    @Test
     void testHeaderHeap() {
         Heap priorEvent = null;
         String logLine = "Heap:";
