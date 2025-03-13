@@ -49,4 +49,14 @@ class TestTransparentHugepageHpagePmdSize {
         assertTrue(event.isSize(), "THP hpage_pmd_mode not identified.");
         assertEquals(1234567L, event.getSize(), "THP hpage_pmd_size not correct.");
     }
+
+    @Test
+    void testSizeNotAvailable() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size: <Not Available>";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE.toString() + " not identified.");
+        TransparentHugepageHpagePmdSize event = new TransparentHugepageHpagePmdSize(logLine);
+        assertTrue(event.isSize(), "THP hpage_pmd_mode not identified.");
+        assertEquals(Long.MIN_VALUE, event.getSize(), "THP hpage_pmd_size not correct.");
+    }
 }

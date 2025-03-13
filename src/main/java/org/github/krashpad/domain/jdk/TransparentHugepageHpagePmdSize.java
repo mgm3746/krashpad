@@ -49,7 +49,7 @@ public class TransparentHugepageHpagePmdSize implements LogEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_HEADER + " (\\d{1,}))$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_HEADER + " ((\\d{1,})|<Not Available>))$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -94,8 +94,8 @@ public class TransparentHugepageHpagePmdSize implements LogEvent, HeaderEvent {
         Pattern pattern = Pattern.compile(TransparentHugepageHpagePmdSize.REGEX);
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(2) != null) {
-                size = Long.parseLong(matcher.group(2));
+            if (matcher.group(3) != null) {
+                size = Long.parseLong(matcher.group(3));
             }
         }
         return size;
