@@ -185,6 +185,15 @@ class TestRegisterToMemoryMapping {
     }
 
     @Test
+    void testDashFlags() {
+        RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
+        String logLine = " - flags:             rewritten has_localvariable_table has_vanilla_constructor "
+                + "has_final_method has_resolved_methods'";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testDashKlass() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = " - klass: 'java/util/LinkedList$Node'";
