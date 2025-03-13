@@ -2482,6 +2482,17 @@ class TestAnalysis {
     }
 
     @Test
+    void testNumaEnabled() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UseNUMA";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NUMA_ENABLED.getKey()),
+                Analysis.INFO_NUMA_ENABLED + " analysis not identified.");
+    }
+
+    @Test
     void testOnOutOfMemoryErrorKillJdk8u101() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:OnOutOfMemoryError=\"kill -9 %p\" -Xms2048M";

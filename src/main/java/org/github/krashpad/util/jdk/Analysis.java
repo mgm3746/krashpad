@@ -717,6 +717,11 @@ public enum Analysis {
     INFO_NATIVE_LIBRARIES_VMWARE("info.native.libraries.vmware"),
 
     /**
+     * Property key for NUMA support enabled with -XX:+UseNUMA.
+     */
+    INFO_NUMA_ENABLED("info.numa.enabled"),
+
+    /**
      * Property key for OOME on startup when initial heap size equal to maximum heap size.
      */
     INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX("info.oome.startup.heap.min.equal.max"),

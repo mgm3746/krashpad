@@ -1784,6 +1784,10 @@ public class FatalErrorLog {
         if (getHardwareCorrupted() > 0) {
             analysis.add(Analysis.ERROR_HARDWARE_CORRUPTED);
         }
+        // NUMA support enabled
+        if (getJvmOptions() != null && JdkUtil.isOptionEnabled(getJvmOptions().getUseNUMA())) {
+            analysis.add(Analysis.INFO_NUMA_ENABLED);
+        }
     }
 
     /**
