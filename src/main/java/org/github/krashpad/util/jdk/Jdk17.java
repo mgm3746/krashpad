@@ -177,7 +177,7 @@ public class Jdk17 {
         RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.11.0.9-1.el9_0.x86_64",
                 new Release("Apr 16 2024 00:00:00", 10, "17.0.11+9-LTS"));
         RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.10.0.7-2.el9.x86_64",
-                new Release("Jan 12 2024", 9, "17.0.10+7-LTS"));
+                new Release("Jan 11 2024 20:53:13", 9, "17.0.10+7-LTS"));
         RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.10.0.7-1.el9_0.x86_64",
                 new Release("Jan 12 2024", 9, "17.0.10+7-LTS"));
         RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.9.0.9-2.el9.x86_64", new Release("Oct 14 2023", 8, "17.0.9+9-LTS"));
