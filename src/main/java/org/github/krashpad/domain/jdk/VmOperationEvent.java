@@ -52,8 +52,8 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
     private static final String _REGEX_OPERATIONS = "(BulkRevokeBias|ClassLoaderStatsOperation|"
             + "CleanClassLoaderDataMetaspaces|Cleanup|FindDeadlocks|G1CollectForAllocation|G1CollectFull|"
             + "G1PauseCleanup|G1PauseRemark|G1TryInitiateConcMark|GenCollectForAllocation|GetAllStackTraces|"
-            + "GetThreadListStackTraces|HandshakeAllThreads|ICBufferFull|JFRCheckpoint|ParallelGCFailedAllocation|"
-            + "ParallelGCSystemGC|PrintJNI|PrintThreads|RendezvousGCThreads|"
+            + "GetThreadListStackTraces|HandshakeAllThreads|HeapDumper|ICBufferFull|JFRCheckpoint|"
+            + "ParallelGCFailedAllocation|ParallelGCSystemGC|PrintJNI|PrintThreads|RendezvousGCThreads|"
             + "Shenandoah Final Mark and Start Evacuation|Shenandoah Final Update References|Shenandoah Init Marking|"
             + "Shenandoah Init Update References|ThreadDump|XMarkStart|ZMarkEnd|ZMarkFlushOperation|ZMarkStartYoung|"
             + "ZMarkStartYoungAndOld|ZRelocateStart|ZRendezvousGCThreads)";

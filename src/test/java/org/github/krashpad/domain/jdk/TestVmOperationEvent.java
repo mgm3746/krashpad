@@ -48,7 +48,6 @@ class TestVmOperationEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
     }
-    
 
     @Test
     void testCleanup() {
@@ -134,6 +133,14 @@ class TestVmOperationEvent {
     void testHandshakeAllThreads() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
         String logLine = "Event: 31.627 Executing VM operation: HandshakeAllThreads done";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
+    void testHeapDumper() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
+        String logLine = "Event: 338630.102 Executing VM operation: HeapDumper";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
     }
