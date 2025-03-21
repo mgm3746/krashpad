@@ -72,6 +72,8 @@ class TestMemory {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.MEMORY,
                 JdkUtil.LogEventType.MEMORY.toString() + " not identified.");
         Memory event = new Memory(logLine);
+        assertEquals(16058700L * 1024, event.getPhysicalTotal(), "physical not correct.");
+        assertEquals(1456096L * 1024, event.getPhysicalFree(), "physical free not correct.");
         assertEquals(8097788L * 1024, event.getSwapTotal(), "swap not correct.");
         assertEquals(7612768L * 1024, event.getSwapFree(), "swap free not correct.");
     }

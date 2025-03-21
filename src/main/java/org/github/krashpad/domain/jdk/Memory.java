@@ -199,10 +199,40 @@ public class Memory implements LogEvent, HeaderEvent {
     }
 
     /**
-     * The "swap free" value. This is the actual free swap space, except on Windows, where it is, oddly enough, the
+     * The physical "free" value. This is the total physical free memory (e.g. meminfo MemTotal).
+     * 
+     * @return The physical "free" value, in bytes, or Long.MIN_VALUE if it cannot be determined.
+     */
+    public long getPhysicalFree() {
+        long swapFree = Long.MIN_VALUE;
+        Pattern pattern = Pattern.compile(_REGEX_HEADER);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find() && matcher.group(7) != null && matcher.group(9) != null) {
+            swapFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)), matcher.group(9).charAt(0), 'B');
+        }
+        return swapFree;
+    }
+
+    /**
+     * The "physical" value. This is the total physical memory (e.g. meminfo MemTotal).
+     * 
+     * @return The "physical" value, in bytes, or Long.MIN_VALUE if it cannot be determined.
+     */
+    public long getPhysicalTotal() {
+        long swap = Long.MIN_VALUE;
+        Pattern pattern = Pattern.compile(_REGEX_HEADER);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find() && matcher.group(4) != null && matcher.group(6) != null) {
+            swap = JdkUtil.convertSize(Long.parseLong(matcher.group(4)), matcher.group(6).charAt(0), 'B');
+        }
+        return swap;
+    }
+
+    /**
+     * The swap "free" value. This is the actual free swap space, except on Windows, where it is, oddly enough, the
      * available commit limit.
      * 
-     * @return The "swap" "free" value, in bytes, or Long.MIN_VALUE if it cannot be determined.
+     * @return The swap "free" value, in bytes, or Long.MIN_VALUE if it cannot be determined.
      */
     public long getSwapFree() {
         long swapFree = Long.MIN_VALUE;

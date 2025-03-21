@@ -1644,8 +1644,8 @@ public class FatalErrorLog {
             }
         }
         // External processes consuming significant memory
-        if (getMemoryTotal() > 0 && getMemoryTotal() > 0) {
-            long memoryExternal = getMemoryTotal() - getMemoryFree();
+        if (getMemoryTotal() > 0 && getMemoryFree() >= 0 && getJvmMemoryTotalUsed() >= 0) {
+            long memoryExternal = getMemoryTotal() - getMemoryFree() - getJvmMemoryTotalUsed();
             if (memoryExternal >= 0 && JdkMath.calcPercent(memoryExternal, getMemoryTotal()) >= 10) {
                 analysis.add(0, Analysis.WARN_MEMORY_EXTERNAL);
             }
@@ -2168,7 +2168,7 @@ public class FatalErrorLog {
                 a.add(new String[] { item.getKey(), s.toString() });
             } else if (item.getKey().equals(Analysis.WARN_MEMORY_EXTERNAL.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
-                long memoryExternal = getMemoryTotal() - getMemoryFree();
+                long memoryExternal = getMemoryTotal() - getMemoryFree() - getJvmMemoryTotalUsed();
                 int percent = JdkMath.calcPercent(memoryExternal, getMemoryTotal());
                 if ((percent == 0 && memoryExternal > 0) || (percent == 100 && memoryExternal < getMemoryTotal())) {
                     // Provide rounding clue
@@ -4547,12 +4547,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(Memory._REGEX_HEADER);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find() && matcher.group(7) != null && matcher.group(9) != null) {
-                        memoryFree = JdkUtil.convertSize(Long.parseLong(matcher.group(7)), matcher.group(9).charAt(0),
-                                'B');
-                    }
+                    memoryFree = event.getPhysicalFree();
                     break;
                 }
             }
@@ -4573,12 +4568,7 @@ public class FatalErrorLog {
             while (iterator.hasNext()) {
                 Memory event = iterator.next();
                 if (event.isHeader()) {
-                    Pattern pattern = Pattern.compile(Memory._REGEX_HEADER);
-                    Matcher matcher = pattern.matcher(event.getLogEntry());
-                    if (matcher.find() && matcher.group(4) != null && matcher.group(6) != null) {
-                        memoryTotal = JdkUtil.convertSize(Long.parseLong(matcher.group(4)), matcher.group(6).charAt(0),
-                                'B');
-                    }
+                    memoryTotal = event.getPhysicalTotal();
                     break;
                 }
             }
