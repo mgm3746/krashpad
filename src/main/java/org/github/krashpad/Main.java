@@ -396,17 +396,14 @@ public class Main {
                     printWriter.write(Constants.LINE_SEPARATOR);
                 }
             } else if (fel.getJvmMemoryTotalReserved() > 0) {
-                if (fel.getJvmMemoryTotalReserved() > 0) {
-                    printWriter.write("JVM Memory Reserved: "
-                            + JdkUtil.convertSize(fel.getJvmMemoryTotalReserved(), 'B',
-                                    org.github.joa.util.Constants.UNITS)
-                            + Character.toString(org.github.joa.util.Constants.UNITS));
-                    if (fel.getMemoryTotal() > 0) {
-                        String literal = isMemoryLimitedByContainer ? "Container Memory" : "OS Memory";
-                        printPercentage(printWriter, fel.getJvmMemoryTotalReserved(), fel.getMemoryTotal(), literal);
-                    }
-                    printWriter.write(Constants.LINE_SEPARATOR);
+                printWriter.write("JVM Memory Reserved: "
+                        + JdkUtil.convertSize(fel.getJvmMemoryTotalReserved(), 'B', org.github.joa.util.Constants.UNITS)
+                        + Character.toString(org.github.joa.util.Constants.UNITS));
+                if (fel.getMemoryTotal() > 0) {
+                    String literal = isMemoryLimitedByContainer ? "Container Memory" : "OS Memory";
+                    printPercentage(printWriter, fel.getJvmMemoryTotalReserved(), fel.getMemoryTotal(), literal);
                 }
+                printWriter.write(Constants.LINE_SEPARATOR);
             }
             if (fel.getJvmMemoryTotalUsed() > 0) {
                 printWriter.write("JVM Process Size: "
