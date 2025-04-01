@@ -160,6 +160,15 @@ public class Main {
                 }
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
+            if (fel.getOsMemoryAvailable() > 0) {
+                printWriter.write("Memory Available: "
+                        + JdkUtil.convertSize(fel.getOsMemoryAvailable(), 'B', org.github.joa.util.Constants.UNITS)
+                        + Character.toString(org.github.joa.util.Constants.UNITS));
+                if (fel.getOsMemoryTotal() > 0) {
+                    printPercentage(printWriter, fel.getOsMemoryAvailable(), fel.getOsMemoryTotal(), null);
+                }
+                printWriter.write(Constants.LINE_SEPARATOR);
+            }
             if (fel.getOsSwapTotal() >= 0) {
                 printWriter.write(
                         "Swap: " + JdkUtil.convertSize(fel.getOsSwapTotal(), 'B', org.github.joa.util.Constants.UNITS)

@@ -1156,8 +1156,11 @@ class TestFatalErrorLog {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         long physicalMemory = JdkUtil.convertSize(1584737884, 'K', 'B');
         assertEquals(physicalMemory, fel.getMemoryTotal(), "System physical memory not correct.");
-        long physicalMemoryFree = JdkUtil.convertSize(135975020, 'K', 'B');
+        long physicalMemoryFree = JdkUtil.convertSize(136528040, 'K', 'B');
         assertEquals(physicalMemoryFree, fel.getOsMemoryFree(), "System physical memory free not correct.");
+        long physicalMemoryAvailable = JdkUtil.convertSize(135975020, 'K', 'B');
+        assertEquals(physicalMemoryAvailable, fel.getOsMemoryAvailable(),
+                "System physical memory available not correct.");
         long swap = JdkUtil.convertSize(33554428, 'K', 'B');
         assertEquals(swap, fel.getSwapTotal(), "System swap not correct.");
         long swapFree = JdkUtil.convertSize(33554428, 'K', 'B');
@@ -1421,8 +1424,9 @@ class TestFatalErrorLog {
         String meminfo2 = "MemAvailable:   58020584 kB";
         Meminfo meminfoEvent2 = new Meminfo(meminfo2);
         fel.getMeminfos().add(meminfoEvent2);
-        long memAvailable = JdkUtil.convertSize(58020584, 'K', 'B');
-        assertEquals(memAvailable, fel.getOsMemoryFree(), "OsMemoryFree not correct.");
+        assertEquals(JdkUtil.convertSize(953396, 'K', 'B'), fel.getOsMemoryFree(), "OsMemoryFree not correct.");
+        assertEquals(JdkUtil.convertSize(58020584, 'K', 'B'), fel.getOsMemoryAvailable(),
+                "OsMemoryAvailable not correct.");
     }
 
     @Test

@@ -494,8 +494,10 @@ class TestAnalysis {
         assertEquals(memoryLimitInBytes, fel.getMemoryTotal(), "Container memory total not correct.");
         long containerMemoryTotal = JdkUtil.convertSize(4194304, 'K', 'B');
         assertEquals(containerMemoryTotal, fel.getMemoryTotal(), "Container memory total not correct.");
-        long osMemoryFree = JdkUtil.convertSize(267723592, 'K', 'B');
+        long osMemoryFree = JdkUtil.convertSize(226763360, 'K', 'B');
         assertEquals(osMemoryFree, fel.getOsMemoryFree(), "OS memory free not correct.");
+        long osMemoryAvailable = JdkUtil.convertSize(267723592, 'K', 'B');
+        assertEquals(osMemoryAvailable, fel.getOsMemoryAvailable(), "OS memory available not correct.");
         long containerMemoryFree = JdkUtil.convertSize(11736, 'K', 'B');
         assertEquals(containerMemoryFree, fel.getMemoryFree(), "Container memory free not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP_MEMORY_LIMIT.getKey()),

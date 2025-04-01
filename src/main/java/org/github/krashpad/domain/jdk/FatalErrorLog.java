@@ -1646,6 +1646,9 @@ public class FatalErrorLog {
         // External processes consuming significant memory
         if (getMemoryTotal() > 0 && getMemoryFree() >= 0 && getJvmMemoryTotalUsed() >= 0) {
             long memoryExternal = getMemoryTotal() - getMemoryFree() - getJvmMemoryTotalUsed();
+            if (getJvmMemorySwappedOut() > 0) {
+                memoryExternal = memoryExternal - getJvmMemorySwappedOut();
+            }
             if (memoryExternal >= 0 && JdkMath.calcPercent(memoryExternal, getMemoryTotal()) >= 10) {
                 analysis.add(0, Analysis.WARN_MEMORY_EXTERNAL);
             }
@@ -2169,6 +2172,9 @@ public class FatalErrorLog {
             } else if (item.getKey().equals(Analysis.WARN_MEMORY_EXTERNAL.toString())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 long memoryExternal = getMemoryTotal() - getMemoryFree() - getJvmMemoryTotalUsed();
+                if (getJvmMemorySwappedOut() > 0) {
+                    memoryExternal = memoryExternal - getJvmMemorySwappedOut();
+                }
                 int percent = JdkMath.calcPercent(memoryExternal, getMemoryTotal());
                 if ((percent == 0 && memoryExternal > 0) || (percent == 100 && memoryExternal < getMemoryTotal())) {
                     // Provide rounding clue
@@ -4875,14 +4881,17 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return The available OS physical memory in bytes.
+     */
+    public long getOsMemoryAvailable() {
+        return getRhelMemAvailable();
+    }
+
+    /**
      * @return The free OS physical memory in bytes.
      */
     public long getOsMemoryFree() {
-        long osMemoryFree = getRhelMemAvailable();
-        if (osMemoryFree < 0) {
-            osMemoryFree = getRhelMemFree();
-        }
-        return osMemoryFree;
+        return getRhelMemFree();
     }
 
     /**
@@ -6128,6 +6137,17 @@ public class FatalErrorLog {
      * @return true if there is evidence the crash happens in a container environment, false otherwise.
      */
     public boolean isContainer() {
+        boolean isContainer = false;
+        if (!containerInfos.isEmpty() && getSwapTotal() == 0) {
+            isContainer = true;
+        }
+        return isContainer;
+    }
+    
+    /**
+     * @return true if there is evidence the crash happens in a container environment, false otherwise.
+     */
+    public boolean isMemoryLimited() {
         boolean isContainer = false;
         if (!containerInfos.isEmpty() && getSwapTotal() == 0) {
             isContainer = true;
