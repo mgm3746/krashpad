@@ -855,6 +855,7 @@ public class KrashUtil {
         // Common control library
         NATIVE_LIBRARIES_WINDOWS.add("COMCTL32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("CRYPT32.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("CRYPTBASE.DLL");
         NATIVE_LIBRARIES_WINDOWS.add("CRYPTBASE.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ColorAdapterClient.dll");
         NATIVE_LIBRARIES_WINDOWS.add("cfgmgr32.dll");
