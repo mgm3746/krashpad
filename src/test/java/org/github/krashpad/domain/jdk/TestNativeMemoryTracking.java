@@ -372,6 +372,14 @@ class TestNativeMemoryTracking {
     }
 
     @Test
+    void testTracing() {
+        NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
+        String logLine = "-                   Tracing (reserved=64KB, committed=64KB)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
+    }
+
+    @Test
     void testTracking() {
         NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
         String logLine = "                            (tracking overhead=12618KB)";

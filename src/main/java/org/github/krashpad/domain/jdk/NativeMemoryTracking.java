@@ -100,7 +100,7 @@ public class NativeMemoryTracking implements LogEvent, HeaderEvent {
             + "\\(    free|GC|\\(  instance classes|Internal \\(|Java Heap|Logging|\\(  Metadata|Metaspace|Module|"
             + "Native Memory Tracking|[\\(]{0,1}malloc|[\\(]{0,1}mmap:|Object Monitors|\\(Omitting categories|Other|"
             + "Preinit state:|pre-init mallocs:|\\(    reserved|Safepoint|Serviceability|Shared class space|\\(stack|"
-            + "String Deduplication|Symbol|Synchronization|Synchronizer|\\(thread|Thread \\(|Total: reserved|"
+            + "String Deduplication|Symbol|Synchronization|Synchronizer|\\(thread|Thread \\(|Total: reserved|Tracing|"
             + "\\(tracking|Unknown|\\(    used|\\(    waste)).*$";
 
     /**
