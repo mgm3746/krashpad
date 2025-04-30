@@ -748,6 +748,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libawt_xawt.so");
         // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libawt_headless.so");
+        // java-(1.8.0|11|17|21)-openjdk-headless
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libdt_socket.so");
         // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libextnet.so");
         // java-(1.8.0|11|17|21)-openjdk-headless
@@ -768,6 +770,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjava_crw_demo.so");
         // java-(1.8.0|11|17|21)-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjawt.so");
+        // java-(1.8.0|11|17|21)-openjdk-headless
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libjdwp.so");
         // java-(11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjimage.so");
         // java-(1.8.0-openjdk
