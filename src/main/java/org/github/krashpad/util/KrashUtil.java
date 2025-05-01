@@ -507,6 +507,8 @@ public class KrashUtil {
         // openjpeg2
         NATIVE_LIBRARIES_LINUX.add("libopenjp2.so.2.3.1");
         NATIVE_LIBRARIES_LINUX.add("libopenjp2.so.2.4.0");
+        // opensc (OpenSC: libraries and utilities for smart cards)
+        NATIVE_LIBRARIES_LINUX.add("libopensc.so.6.0.0");
         // orc
         NATIVE_LIBRARIES_LINUX.add("liborc-0.4.so.0.28.0");
         // p11-kit
@@ -526,6 +528,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libpcre2-8.so.0.7.1");
         // pcre2-utf16
         NATIVE_LIBRARIES_LINUX.add("libpcre2-16.so.0.7.1");
+        // pcsc-lite-libs (PCSC lite: Middleware to access a smart card using SCard API)
+        NATIVE_LIBRARIES_LINUX.add("libpcsclite.so.1.0.0");
         // gdk-pixbuf2-modules
         NATIVE_LIBRARIES_LINUX.add("libpixbufloader-bmp.so");
         // gdk-pixbuf2-modules
@@ -718,6 +722,9 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libpam.so.0.83.1");
         NATIVE_LIBRARIES_LINUX.add("libpam.so.0.84.2");
         NATIVE_LIBRARIES_LINUX.add("libpam_misc.so.0.82.1");
+        // opensc (OpenSC: libraries and utilities for smart cards)
+        NATIVE_LIBRARIES_LINUX.add("opensc-pkcs11.so");
+        // pam (pluggable authentication modules)
         NATIVE_LIBRARIES_LINUX.add("pam_deny.so");
         NATIVE_LIBRARIES_LINUX.add("pam_echo.so");
         NATIVE_LIBRARIES_LINUX.add("pam_env.so");
