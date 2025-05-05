@@ -972,6 +972,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("umppc18514.dll");
         NATIVE_LIBRARIES_WINDOWS.add("urlmon.dll");
         NATIVE_LIBRARIES_WINDOWS.add("VERSION.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("verifier.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINHTTP.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WININET.dll");
         NATIVE_LIBRARIES_WINDOWS.add("WINMMBASE.dll");
