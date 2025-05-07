@@ -895,9 +895,12 @@ public class FatalErrorLog {
                             }
                         }
                     } else {
+                        // Allocation unknown, JVM memory >/ 1/2 total memory.
                         if ((isTruncated() || isInHeader("Java Heap may be blocking the growth of the native heap")
                                 || isInHeader("compressed oops")) && isCompressedOops()) {
                             analysis.add(Analysis.ERROR_OOME_OOPS);
+                        } else if (isInHeader("Failed to map memory")) {
+                            analysis.add(Analysis.ERROR_OOME_RLIMIT_MAX_MAP_COUNT);
                         } else {
                             analysis.add(Analysis.ERROR_OOME);
                         }
@@ -6143,7 +6146,7 @@ public class FatalErrorLog {
         }
         return isContainer;
     }
-    
+
     /**
      * @return true if there is evidence the crash happens in a container environment, false otherwise.
      */

@@ -499,7 +499,69 @@ class TestFatalErrorLog {
     }
 
     @Test
-    void testFailedToMapMemory() {
+    void testFailedToMapMemoryJvmProcessSizeLarge() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header = "#  fatal error: Failed to map memory (Not enough space)";
+        Header headerEvent = new Header(header);
+        fel.getHeaders().add(headerEvent);
+        String os = "OS: Red Hat Enterprise Linux release 8.4 (Ootpa)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        Memory memory = new Memory(
+                "Memory: 4k page, physical 239072600k(32696996k free), swap 10485756k(10480892k free)");
+        fel.getMemories().add(memory);
+        String gcPreciousLog1 = " ***** WARNING! INCORRECT SYSTEM CONFIGURATION DETECTED! *****";
+        GcPreciousLog gcPreciousLogEvent1 = new GcPreciousLog(gcPreciousLog1);
+        fel.getGcPreciousLogs().add(gcPreciousLogEvent1);
+        String gcPreciousLog2 = " The system limit on number of memory mappings per process might be too low for the "
+                + "given";
+        GcPreciousLog gcPreciousLogEvent2 = new GcPreciousLog(gcPreciousLog2);
+        fel.getGcPreciousLogs().add(gcPreciousLogEvent2);
+        String gcPreciousLog3 = " max Java heap size (184320M). Please adjust /proc/sys/vm/max_map_count to allow for "
+                + "at";
+        GcPreciousLog gcPreciousLogEvent3 = new GcPreciousLog(gcPreciousLog3);
+        fel.getGcPreciousLogs().add(gcPreciousLogEvent3);
+        String gcPreciousLog4 = " least 331776 mappings (current limit is 65530). Continuing execution with the "
+                + "current";
+        GcPreciousLog gcPreciousLogEvent4 = new GcPreciousLog(gcPreciousLog4);
+        fel.getGcPreciousLogs().add(gcPreciousLogEvent4);
+        String gcPreciousLog5 = " limit could lead to a premature OutOfMemoryError being thrown, due to failure to map "
+                + "memory.";
+        GcPreciousLog gcPreciousLogEvent5 = new GcPreciousLog(gcPreciousLog5);
+        fel.getGcPreciousLogs().add(gcPreciousLogEvent5);
+        String processMemory1 = "Process Memory:";
+        ProcessMemory processMemoryEvent1 = new ProcessMemory(processMemory1);
+        fel.getProcessMemories().add(processMemoryEvent1);
+        String processMemory2 = "Virtual Size: 3049561448K (peak: 3049836740K)";
+        ProcessMemory processMemoryEvent2 = new ProcessMemory(processMemory2);
+        fel.getProcessMemories().add(processMemoryEvent2);
+        String processMemory3 = "Resident Set Size: 202855256K (peak: 202855256K) (anon: 12850796K, file: 26708K, "
+                + "shmem: 189977752K)";
+        ProcessMemory processMemoryEvent3 = new ProcessMemory(processMemory3);
+        fel.getProcessMemories().add(processMemoryEvent3);
+        String processMemory4 = "Swapped out: 0K";
+        ProcessMemory processMemoryEvent4 = new ProcessMemory(processMemory4);
+        fel.getProcessMemories().add(processMemoryEvent4);
+        assertEquals(239072600L * 1024, fel.getMemoryTotal(), "Physical memory not correct.");
+        assertEquals(32696996L * 1024, fel.getMemoryFree(), "Physical memory free not correct.");
+        assertEquals(10485756L * 1024, fel.getSwapTotal(), "Swap not correct.");
+        assertEquals(10480892L * 1024, fel.getSwapFree(), "Swap free not correct.");
+        assertEquals(
+                "The system limit on number of memory mappings per process might be too low for the given max Java "
+                        + "heap size (184320M). Please adjust /proc/sys/vm/max_map_count to allow for at least 331776 "
+                        + "mappings (current limit is 65530). Continuing execution with the current limit could lead "
+                        + "to a premature OutOfMemoryError being thrown, due to failure to map memory.",
+                fel.getGcPreciousLogWarning(), "GC Precious Log warning not correct.");
+        assertFalse(fel.isCrashOnStartup(), "Crash on startup incorrectly identified.");
+        fel.doAnalysis();
+        assertEquals(header, fel.getError(), "Error not identified.");
+        assertTrue(fel.isMemoryAllocationFail(), "Memory allocation failure not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_RLIMIT_MAX_MAP_COUNT.getKey()),
+                Analysis.ERROR_OOME_RLIMIT_MAX_MAP_COUNT + " analysis not identified.");
+    }
+
+    @Test
+    void testFailedToMapMemoryJvmProcessSizeSmall() {
         FatalErrorLog fel = new FatalErrorLog();
         String header = "#  fatal error: Failed to map memory (Not enough space)";
         Header headerEvent = new Header(header);
