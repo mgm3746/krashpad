@@ -717,9 +717,22 @@ public enum Analysis {
     INFO_NATIVE_LIBRARIES_VMWARE("info.native.libraries.vmware"),
 
     /**
-     * Property key for NUMA support enabled with -XX:+UseNUMA.
+     * Property key for NUMA support conditionally enabled with -XX:+UseNUMA, but hardware checks to confirm NUMA
+     * support (e.g. more than one node) failed and UseNUMA is set back to "false".
      */
-    INFO_NUMA_ENABLED("info.numa.enabled"),
+    INFO_NUMA_ENABLED_OS_CHECK_FAILED("info.numa.enabled.os.check.failed"),
+
+    /**
+     * Property key for NUMA support conditionally enabled with -XX:+UseNUMA and hardware checks confirm NUMA support
+     * (e.g. more than one node).
+     */
+    INFO_NUMA_ENABLED_OS_CHECK_PASSED("info.numa.enabled.os.check.passed"),
+
+    /**
+     * Property key for NUMA support conditionally enabled with -XX:+UseNUMA, but the result of the hardware checks to
+     * confirm NUMA support (e.g. more than one node) is unknown.
+     */
+    INFO_NUMA_ENABLED_OS_CHECK_UNKNOWN("info.numa.enabled.os.check.unknown"),
 
     /**
      * Property key for OOME on startup when initial heap size equal to maximum heap size.

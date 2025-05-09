@@ -1792,7 +1792,16 @@ public class FatalErrorLog {
         }
         // NUMA support enabled
         if (getJvmOptions() != null && JdkUtil.isOptionEnabled(getJvmOptions().getUseNUMA())) {
-            analysis.add(Analysis.INFO_NUMA_ENABLED);
+            GlobalFlag useNuma = getGlobalFlag("UseNUMA");
+            if (useNuma != null) {
+                if (useNuma.getValue().equals("true")) {
+                    analysis.add(Analysis.INFO_NUMA_ENABLED_OS_CHECK_PASSED);
+                } else {
+                    analysis.add(Analysis.INFO_NUMA_ENABLED_OS_CHECK_FAILED);
+                }
+            } else {
+                analysis.add(Analysis.INFO_NUMA_ENABLED_OS_CHECK_UNKNOWN);
+            }
         }
     }
 
@@ -6148,17 +6157,6 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return true if there is evidence the crash happens in a container environment, false otherwise.
-     */
-    public boolean isMemoryLimited() {
-        boolean isContainer = false;
-        if (!containerInfos.isEmpty() && getSwapTotal() == 0) {
-            isContainer = true;
-        }
-        return isContainer;
-    }
-
-    /**
      * @return true if the crash happens when the JVM starts, false otherwise.
      */
     public boolean isCrashOnStartup() {
@@ -6373,6 +6371,17 @@ public class FatalErrorLog {
             isMemoryCorruption = true;
         }
         return isMemoryCorruption;
+    }
+
+    /**
+     * @return true if there is evidence the crash happens in a container environment, false otherwise.
+     */
+    public boolean isMemoryLimited() {
+        boolean isContainer = false;
+        if (!containerInfos.isEmpty() && getSwapTotal() == 0) {
+            isContainer = true;
+        }
+        return isContainer;
     }
 
     /**

@@ -497,7 +497,9 @@ public class KrashUtil {
         // sssd-client
         NATIVE_LIBRARIES_LINUX.add("libnss_sss.so.2");
         NATIVE_LIBRARIES_LINUX.add("pam_sss.so");
-        // numactl-libs
+        // numactl-libs: -XX:+UseNUMA causes os::Linux::libnuma_init() to be invoked, which does some checks if the
+        // hardware supports NUMA (e.g. more than one node). If the hardware checks fail, UseNUMA is set back to "false"
+        // (default). The presence of the library does not indicate NUMA support, only that the check was made.
         NATIVE_LIBRARIES_LINUX.add("libnuma.so.1.0.0");
         // libglvnd-opengl
         NATIVE_LIBRARIES_LINUX.add("libOpenGL.so.0.0.0");

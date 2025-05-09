@@ -24,7 +24,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * </p>
  * 
  * <p>
- * GC precious information.
+ * GC precious information. JDK17+.
  * </p>
  * 
  * <p>

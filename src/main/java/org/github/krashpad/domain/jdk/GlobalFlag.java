@@ -27,7 +27,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * </p>
  * 
  * <p>
- * Global flags information.
+ * Global flags information. JDK11+.
  * </p>
  * 
  * <h2>Example Logging</h2>

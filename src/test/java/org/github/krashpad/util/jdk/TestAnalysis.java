@@ -2484,14 +2484,50 @@ class TestAnalysis {
     }
 
     @Test
-    void testNumaEnabled() {
+    void testNumaEnabledOsCheckFailed() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UseNUMA";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String globalFlag1 = "[Global flags]";
+        GlobalFlag globalFlagEvent1 = new GlobalFlag(globalFlag1);
+        fel.getGlobalFlags().add(globalFlagEvent1);
+        String globalFlag2 = "     bool UseNUMA                                  "
+                + "= false                                     {product} {command line}";
+        GlobalFlag globalFlagEvent2 = new GlobalFlag(globalFlag2);
+        fel.getGlobalFlags().add(globalFlagEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NUMA_ENABLED_OS_CHECK_FAILED.getKey()),
+                Analysis.INFO_NUMA_ENABLED_OS_CHECK_FAILED + " analysis not identified.");
+    }
+
+    @Test
+    void testNumaEnabledOsCheckPassed() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xss128k -XX:+UseNUMA";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String globalFlag1 = "[Global flags]";
+        GlobalFlag globalFlagEvent1 = new GlobalFlag(globalFlag1);
+        fel.getGlobalFlags().add(globalFlagEvent1);
+        String globalFlag2 = "     bool UseNUMA                                  "
+                + "= true                                    {product} {command line}";
+        GlobalFlag globalFlagEvent2 = new GlobalFlag(globalFlag2);
+        fel.getGlobalFlags().add(globalFlagEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NUMA_ENABLED_OS_CHECK_PASSED.getKey()),
+                Analysis.INFO_NUMA_ENABLED_OS_CHECK_PASSED + " analysis not identified.");
+    }
+
+    @Test
+    void testNumaEnabledOsCheckUnknown() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss128k -XX:+UseNUMA";
         VmArguments event = new VmArguments(jvm_args);
         fel.getVmArguments().add(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_NUMA_ENABLED.getKey()),
-                Analysis.INFO_NUMA_ENABLED + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_NUMA_ENABLED_OS_CHECK_UNKNOWN.getKey()),
+                Analysis.INFO_NUMA_ENABLED_OS_CHECK_UNKNOWN + " analysis not identified.");
     }
 
     @Test
