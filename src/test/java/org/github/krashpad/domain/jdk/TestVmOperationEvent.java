@@ -232,6 +232,14 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testSetNotifyJvmtiEventsMode() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
+        String logLine = "Event: 2381475,680 Executing VM operation: SetNotifyJvmtiEventsMode";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
     void testShenandoahFinalMarkAndStartEvacuation() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
         String logLine = "Event: 35135.563 Executing VM operation: Shenandoah Final Mark and Start Evacuation";

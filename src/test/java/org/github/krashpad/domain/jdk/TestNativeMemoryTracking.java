@@ -179,6 +179,14 @@ class TestNativeMemoryTracking {
     }
 
     @Test
+    void testMallocLimit() {
+        NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
+        String logLine = "MallocLimit: unset";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING,
+                JdkUtil.LogEventType.NATIVE_MEMORY_TRACKING.toString() + " not identified.");
+    }
+
+    @Test
     void testMallocNoParenthesis() {
         NativeMemoryTracking priorLogEvent = new NativeMemoryTracking("Native Memory Tracking:");
         String logLine = "       malloc: 29364KB #216192";

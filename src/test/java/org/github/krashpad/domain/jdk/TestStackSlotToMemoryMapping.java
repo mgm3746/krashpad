@@ -495,10 +495,22 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
-    void testError() {
+    void testErrorInspectingTopOfStack() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = "[error occurred during error reporting (inspecting top of stack), id 0xb, SIGSEGV (0xb) at "
                 + "pc=0x00007f68376aea9e]";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+        StackSlotToMemoryMapping logEvent = new StackSlotToMemoryMapping(logLine);
+        assertTrue(logEvent.isErrorOccurredDuringErrorReporting(), "Error not identified.");
+    }
+
+    @Test
+    void testErrorPrintingCodeBlobs() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = "[error occurred during error reporting (printing code blobs if possible), id 0xb, SIGSEGV "
+                + "(0xb) at pc=0x00007f418afc1350]";
         assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
                 JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
