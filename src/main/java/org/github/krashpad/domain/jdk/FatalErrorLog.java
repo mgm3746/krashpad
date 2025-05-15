@@ -1783,7 +1783,7 @@ public class FatalErrorLog {
         if ((getStackFrameTop() != null
                 && (getStackFrameTop().matches("^.+" + JdkRegEx.NATIVE_LIBRARY_TOMCAT_CONNECTOR + ".+$"))
                 || (getStackFrameTopJava() != null && getStackFrameTopJava()
-                        .matches("^.+org\\.apache\\.tomcat\\.jni\\.(Pool|Socket)\\.destroy.+$")))) {
+                        .matches("^.+org\\.apache\\.tomcat\\.jni\\.(Pool|Socket)\\.(destroy|sendb).+$")))) {
             analysis.add(Analysis.ERROR_CRASH_TOMCAT_NATIVE);
         }
         // HardwareCorrupted

@@ -3753,7 +3753,7 @@ class TestAnalysis {
     }
 
     @Test
-    void testTomcatNativeConnectorCrashLibApr() {
+    void testTomcatNativeConnectorCrashLibAprPoolDestroy() {
         FatalErrorLog fel = new FatalErrorLog();
         String stack1 = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)";
         Stack stackEvent1 = new Stack(stack1);
@@ -3767,6 +3767,32 @@ class TestAnalysis {
         String stack4 = "j  org.apache.tomcat.jni.Pool.destroy(J)V+0";
         Stack stackEvent4 = new Stack(stack4);
         fel.getStacks().add(stackEvent4);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_TOMCAT_NATIVE.getKey()),
+                Analysis.ERROR_CRASH_TOMCAT_NATIVE + " analysis not identified.");
+    }
+
+    @Test
+    void testTomcatNativeConnectorCrashLibAprSocketSendb() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)";
+        Stack stackEvent1 = new Stack(stack1);
+        fel.getStacks().add(stackEvent1);
+        String stack2 = "C  0x00007fda40026fe0";
+        Stack stackEvent2 = new Stack(stack2);
+        fel.getStacks().add(stackEvent2);
+
+        String stack3 = "C  0x95a5763291b6a900";
+        Stack stackEvent3 = new Stack(stack3);
+        fel.getStacks().add(stackEvent3);
+
+        String stack4 = "Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)";
+        Stack stackEvent4 = new Stack(stack4);
+        fel.getStacks().add(stackEvent4);
+        String stack5 = "J 9163  org.apache.tomcat.jni.Socket.sendb(JLjava/nio/ByteBuffer;II)I (0 bytes) "
+                + "@ 0x00007fda0282081b [0x00007fda028207c0+0x5b]";
+        Stack stackEvent5 = new Stack(stack5);
+        fel.getStacks().add(stackEvent5);
         fel.doAnalysis();
         assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_TOMCAT_NATIVE.getKey()),
                 Analysis.ERROR_CRASH_TOMCAT_NATIVE + " analysis not identified.");
