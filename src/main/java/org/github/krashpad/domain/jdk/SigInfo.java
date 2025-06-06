@@ -61,6 +61,14 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  * siginfo: si_signo: 7 (SIGBUS), si_code: 0 (SI_USER), si_pid: 1008245, si_uid: 0
  * </pre>
  * 
+ * <p>
+ * 4) JDK8u0
+ * </p>
+ * 
+ * <pre>
+ * siginfo:si_signo=SIGSEGV: si_errno=0, si_code=1 (SEGV_MAPERR), si_addr=0x0000000000000000
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -69,20 +77,31 @@ public class SigInfo implements LogEvent {
     private static final Pattern PATTERN;
 
     /**
+     * Regular expression for linux.
+     */
+    private static final String REGEX_LINUX = "si_signo(: |=)(\\d{1,2} \\()?(" + SignalNumber.SIGBUS + "|"
+            + SignalNumber.SIGFPE + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV
+            + ")(\\))?(: si_errno=\\d{1,3})?, si_code(: |=)[-]{0,1}\\d{1,3} \\((" + SignalCode.BUS_ADRALN + "|"
+            + SignalCode.BUS_ADRERR + "|" + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|"
+            + SignalCode.SEGV_ACCERR + "|" + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|"
+            + SignalCode.SI_TKILL + "|" + SignalCode.SI_USER + "|" + SignalCode.FPE_INTDIV
+            + "|unknown)\\), (si_addr(: |=)" + JdkRegEx.ADDRESS
+            + "|(sent from pid|si_pid): \\d{1,}( \\(current process\\))?[,]{0,1} "
+            + "[\\(]{0,1}(uid|si_uid): \\d{1,}[\\)]{0,1})";
+
+    /**
+     * Regular expression for windows.
+     */
+    private static final String REGEX_WINDOWS = "ExceptionCode=(" + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION
+            + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW + "), ((reading|writing) " + "address "
+            + JdkRegEx.ADDRESS + "|ExceptionInformation=" + JdkRegEx.ADDRESS + " " + JdkRegEx.ADDRESS + ")|"
+            + SignalNumber.EXCEPTION_ACCESS_VIOLATION + " \\((" + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION
+            + ")\\), reading address " + JdkRegEx.ADDRESS;
+
+    /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^siginfo: ((si_signo: \\d{1,2} \\((" + SignalNumber.SIGBUS + "|"
-            + SignalNumber.SIGFPE + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV
-            + ")\\), si_code: [-]{0,1}\\d{1,3} \\((" + SignalCode.BUS_ADRALN + "|" + SignalCode.BUS_ADRERR + "|"
-            + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|" + SignalCode.SEGV_ACCERR + "|"
-            + SignalCode.SEGV_MAPERR + "|" + SignalCode.SI_KERNEL + "|" + SignalCode.SI_TKILL + "|" + SignalCode.SI_USER
-            + "|" + SignalCode.FPE_INTDIV + "|unknown)\\), (si_addr: " + JdkRegEx.ADDRESS
-            + "|(sent from pid|si_pid): \\d{1,}( \\(current process\\))?[,]{0,1} "
-            + "[\\(]{0,1}(uid|si_uid): \\d{1,}[\\)]{0,1}))|ExceptionCode=("
-            + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW
-            + "), ((reading|writing) " + "address " + JdkRegEx.ADDRESS + "|ExceptionInformation=" + JdkRegEx.ADDRESS
-            + " " + JdkRegEx.ADDRESS + ")|" + SignalNumber.EXCEPTION_ACCESS_VIOLATION + " \\(("
-            + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION + ")\\), reading address " + JdkRegEx.ADDRESS + ")[ ]*$";
+    private static final String REGEX = "^siginfo:[ ]{0,1}(" + REGEX_LINUX + "|" + REGEX_WINDOWS + ")[ ]*$";
 
     static {
         PATTERN = Pattern.compile(SigInfo.REGEX);
@@ -130,12 +149,10 @@ public class SigInfo implements LogEvent {
         String address = null;
         Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(6) != null) {
-                // linux
-                address = matcher.group(6);
-            } else if (matcher.group(33) != null) {
-                // windows
-                address = matcher.group(33);
+            if (matcher.group(1).matches(REGEX_LINUX)) {
+                address = matcher.group(11);
+            } else if (matcher.group(1).matches(REGEX_WINDOWS)) {
+                address = matcher.group(38);
             }
         }
         return address;
@@ -148,27 +165,26 @@ public class SigInfo implements LogEvent {
         SignalCode code = SignalCode.UNKNOWN;
         Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
-            // Linux
-            if (matcher.group(4) != null) {
-                if (matcher.group(4).matches(SignalCode.BUS_ADRALN.toString())) {
+            if (matcher.group(1).matches(REGEX_LINUX)) {
+                if (matcher.group(8).matches(SignalCode.BUS_ADRALN.toString())) {
                     code = SignalCode.BUS_ADRALN;
-                } else if (matcher.group(4).matches(SignalCode.BUS_ADRERR.toString())) {
+                } else if (matcher.group(8).matches(SignalCode.BUS_ADRERR.toString())) {
                     code = SignalCode.BUS_ADRERR;
-                } else if (matcher.group(4).matches(SignalCode.BUS_OBJERR.toString())) {
+                } else if (matcher.group(8).matches(SignalCode.BUS_OBJERR.toString())) {
                     code = SignalCode.BUS_OBJERR;
-                } else if (matcher.group(4).matches(SignalCode.FPE_INTDIV.toString())) {
+                } else if (matcher.group(8).matches(SignalCode.FPE_INTDIV.toString())) {
                     code = SignalCode.FPE_INTDIV;
-                } else if (matcher.group(4).matches(SignalCode.ILL_ILLOPN.toString())) {
+                } else if (matcher.group(8).matches(SignalCode.ILL_ILLOPN.toString())) {
                     code = SignalCode.ILL_ILLOPN;
-                } else if (matcher.group(4).matches(SignalCode.SEGV_ACCERR.toString())) {
+                } else if (matcher.group(8).matches(SignalCode.SEGV_ACCERR.toString())) {
                     code = SignalCode.SEGV_ACCERR;
-                } else if (matcher.group(4).matches(SignalCode.SEGV_MAPERR.toString())) {
+                } else if (matcher.group(8).matches(SignalCode.SEGV_MAPERR.toString())) {
                     code = SignalCode.SEGV_MAPERR;
-                } else if (matcher.group(4).matches(SignalCode.SI_KERNEL.toString())) {
+                } else if (matcher.group(8).matches(SignalCode.SI_KERNEL.toString())) {
                     code = SignalCode.SI_KERNEL;
-                } else if (matcher.group(4).matches(SignalCode.SI_TKILL.toString())) {
+                } else if (matcher.group(8).matches(SignalCode.SI_TKILL.toString())) {
                     code = SignalCode.SI_TKILL;
-                } else if (matcher.group(4).matches(SignalCode.SI_USER.toString())) {
+                } else if (matcher.group(8).matches(SignalCode.SI_USER.toString())) {
                     code = SignalCode.SI_USER;
                 }
             }
@@ -183,28 +199,29 @@ public class SigInfo implements LogEvent {
         SignalNumber number = SignalNumber.UNKNOWN;
         Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
-            // Linux
-            if (matcher.group(3) != null) {
-                if (matcher.group(3).matches(SignalNumber.SIGBUS.toString())) {
+            if (matcher.group(1).matches(REGEX_LINUX)) {
+                if (matcher.group(4).matches(SignalNumber.SIGBUS.toString())) {
                     number = SignalNumber.SIGBUS;
-                } else if (matcher.group(3).matches(SignalNumber.SIGFPE.toString())) {
+                } else if (matcher.group(4).matches(SignalNumber.SIGFPE.toString())) {
                     number = SignalNumber.SIGFPE;
-                } else if (matcher.group(3).matches(SignalNumber.SIGILL.toString())) {
+                } else if (matcher.group(4).matches(SignalNumber.SIGILL.toString())) {
                     number = SignalNumber.SIGILL;
-                } else if (matcher.group(3).matches(SignalNumber.SIGSEGV.toString())) {
+                } else if (matcher.group(4).matches(SignalNumber.SIGSEGV.toString())) {
                     number = SignalNumber.SIGSEGV;
                 }
-            } else if (matcher.group(14) != null) {
-                // Windows format 1
-                if (matcher.group(14).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
-                    number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
-                } else if (matcher.group(14).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW)) {
-                    number = SignalNumber.EXCEPTION_STACK_OVERFLOW;
-                }
-            } else if (matcher.group(32) != null) {
-                // Windows format 2
-                if (matcher.group(32).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
-                    number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
+            } else if (matcher.group(1).matches(REGEX_WINDOWS)) {
+                if (matcher.group(19) != null) {
+                    // Windows format 1
+                    if (matcher.group(19).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
+                        number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
+                    } else if (matcher.group(19).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW)) {
+                        number = SignalNumber.EXCEPTION_STACK_OVERFLOW;
+                    }
+                } else if (matcher.group(37) != null) {
+                    // Windows format 2
+                    if (matcher.group(37).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
+                        number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
+                    }
                 }
             }
         }

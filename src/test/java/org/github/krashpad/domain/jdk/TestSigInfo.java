@@ -55,6 +55,17 @@ class TestSigInfo {
     }
 
     @Test
+    void testOracleJdk8u0() {
+        String logLine = "siginfo:si_signo=SIGSEGV: si_errno=0, si_code=1 (SEGV_MAPERR), si_addr=0x0000000122246bf2";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
+        SigInfo event = new SigInfo(logLine);
+        assertEquals(SignalNumber.SIGSEGV, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.SEGV_MAPERR, event.getSignalCode(), "Signal code not correct.");
+        assertEquals("0x0000000122246bf2", event.getSignalAddress(), "Signal address not correct.");
+    }
+
+    @Test
     void testParseLogLine() {
         String logLine = "siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000008";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof SigInfo,

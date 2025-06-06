@@ -364,6 +364,14 @@ class TestRegisterToMemoryMapping {
     }
 
     @Test
+    void testInvokevirtual() {
+        RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
+        String logLine = "invokevirtual  182 invokevirtual  [0x00007fd49aa02300, 0x00007fd49aa02520]  544 bytes";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testIReturn() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = "ireturn  172 ireturn  [0x00007fff4c023000, 0x00007fff4c023400]  1024 bytes";

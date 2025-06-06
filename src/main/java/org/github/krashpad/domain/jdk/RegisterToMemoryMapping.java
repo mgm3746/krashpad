@@ -85,7 +85,7 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
             + "\\{" + JdkRegEx.ADDRESS + "\\} - klass:.+|" + JdkRegEx.ADDRESS + " is a zaddress: .+|" + JdkRegEx.ADDRESS
             + " is an unknown value|([R|r][ ]{0,1}\\d{1,2}[ ]{0,1}|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"
             + "\\[error occurred during error reporting \\(printing register info.+|exception handling.+|"
-            + "invoke return entry points.+|method entry point.+|native method entry point.+|"
+            + "invoke return entry points.+|invokevirtual.+|method entry point.+|native method entry point.+|"
             + "(i)?return.+|StubRoutines.+| (dependencies|handler table|main code|metadata|nul chk table|oops|"
             + "relocation|scopes data|scopes pcs|stub code|total in heap) .+|" + JdkRegEx.CLASS + ".*)[ ]{0,}$";
 
