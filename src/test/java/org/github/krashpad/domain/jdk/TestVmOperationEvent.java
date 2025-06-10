@@ -65,6 +65,7 @@ class TestVmOperationEvent {
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
     }
 
+    
     @Test
     void testG1CollectForAllocation() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
@@ -221,6 +222,14 @@ class TestVmOperationEvent {
         String logLine = "Event: 54166.258 Executing VM operation: PrintThreads";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testRedefineClasses() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
+        String logLine = "Event: 102.736 Executing VM operation: RedefineClasses";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
     }
 
     @Test

@@ -55,6 +55,34 @@ class TestOsInfo {
     }
 
     @Test
+    void testDistribCodename() {
+        String logLine = "DISTRIB_CODENAME=noble";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_INFO,
+                JdkUtil.LogEventType.OS_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testDistribDescription() {
+        String logLine = "DISTRIB_DESCRIPTION=\"Ubuntu 24.04.2 LTS\"";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_INFO,
+                JdkUtil.LogEventType.OS_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testDistribId() {
+        String logLine = "DISTRIB_ID=Ubuntu";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_INFO,
+                JdkUtil.LogEventType.OS_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testDistribRelease() {
+        String logLine = "DISTRIB_RELEASE=24.04";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_INFO,
+                JdkUtil.LogEventType.OS_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testError() {
         String logLine = "[error occurred during error reporting (printing OS information), id 0xb]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_INFO,
