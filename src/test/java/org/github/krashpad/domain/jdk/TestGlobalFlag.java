@@ -27,6 +27,13 @@ import org.junit.jupiter.api.Test;
 class TestGlobalFlag {
 
     @Test
+    void tesPlusEquals() {
+        String logLine = "ccstrlist CompileCommand                           += exclude,com/example/MyClass.myMethod";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAG,
+                JdkUtil.LogEventType.GLOBAL_FLAG.toString() + " not identified.");
+    }
+
+    @Test
     void testBool() {
         String logLine = "     bool SegmentedCodeCache                       = true"
                 + "                                      {product} {ergonomic}";
@@ -54,6 +61,13 @@ class TestGlobalFlag {
     void testCcstrlist() {
         String logLine = "ccstrlist OnOutOfMemoryError                       = /u/search/bin/on-oom.sh"
                 + "                   {product} {command line}";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAG,
+                JdkUtil.LogEventType.GLOBAL_FLAG.toString() + " not identified.");
+    }
+
+    @Test
+    void testCcstrlistCompileCommand() {
+        String logLine = "ccstrlist CompileCommand                           = exclude,com/example/MyClass.myMethod";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAG,
                 JdkUtil.LogEventType.GLOBAL_FLAG.toString() + " not identified.");
     }

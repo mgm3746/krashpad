@@ -52,6 +52,17 @@ class TestDllOperationEvent {
     }
 
     @Test
+    void testLoadingSharedLibraryFailed() {
+        DllOperationEvent priorLogEvent = new DllOperationEvent("");
+        String logLine = "Event: 104.601 Loading shared library "
+                + "/tmp/libnetty_transport_native_epoll_x86_644090812002064709562.so failed, "
+                + "/tmp/libnetty_transport_native_epoll_x86_644090812002064709562.so: failed to map segment from "
+                + "shared object";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DLL_OPERATION_EVENT,
+                JdkUtil.LogEventType.DLL_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testParseLogLine() {
         String logLine = "Dll operation events (18 events):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof DllOperationEvent,
