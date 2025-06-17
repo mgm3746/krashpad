@@ -781,6 +781,12 @@ public enum Analysis {
     INFO_RH_BUILD_LINUX_ZIP("info.rh.build.linux.zip"),
 
     /**
+     * Property key for Red Hat build of OpenJDK Linux zip install or build from rpm (e.g. jlink custom runtime).
+     * Indistinguishable in recent builds due to both being built on the same day with "00:00:00" timestamp.
+     */
+    INFO_RH_BUILD_LINUX_ZIP_OR_RPM_BASED("info.rh.build.linux.zip.or.rpm.based"),
+
+    /**
      * Property key for a JDK that is not a RH build.
      */
     INFO_RH_BUILD_NOT("info.rh.build.not"),

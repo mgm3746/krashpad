@@ -250,7 +250,7 @@ public class Main {
             printWriter.write("JVM:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             if (fel.isRhRpmInstall()) {
-                printWriter.write("RPM: " + fel.getRpmDirectory() + Constants.LINE_SEPARATOR);
+                printWriter.write("RPM: " + fel.getRpmName() + Constants.LINE_SEPARATOR);
             } else {
                 printWriter.write("Version: " + fel.getJdkReleaseString() + Constants.LINE_SEPARATOR);
             }

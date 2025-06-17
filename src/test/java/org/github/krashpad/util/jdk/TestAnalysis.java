@@ -17,6 +17,7 @@ package org.github.krashpad.util.jdk;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -3449,6 +3450,43 @@ class TestAnalysis {
     }
 
     @Test
+    void testRhel9PortableBuild() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7fee86000000-7fee87248000 r-xp 00000000 fd:02 67113553                   "
+                + "/path/to/java17/lib/server/libjvm.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        String vm_info = "vm_info: OpenJDK 64-Bit Server VM (17.0.15+6-LTS) for linux-amd64 JRE (17.0.15+6-LTS), "
+                + "built on Apr 15 2025 00:00:00 by \"mockbuild\" with gcc 8.3.1 20190311 (Red Hat 8.3.1-3)";
+        VmInfo vmEvent = new VmInfo(vm_info);
+        fel.setVmInfo(vmEvent);
+        String os1 = "OS:";
+        OsInfo osEvent1 = new OsInfo(os1);
+        fel.getOsInfos().add(osEvent1);
+        String os2 = "Red Hat Enterprise Linux release 9.6 (Plow)";
+        OsInfo osEvent2 = new OsInfo(os2);
+        fel.getOsInfos().add(osEvent2);
+        fel.doAnalysis();
+        assertNull(fel.getRpmName(), "rpm directory not correct.");
+        assertTrue(fel.isRhBuildOpenJdk(), "Red Hat build of OpenJDK not identified.");
+        assertTrue(fel.isRhBuildString(), "Red Hat build string not identified.");
+        assertTrue(fel.isRhVersion(), "Red Hat version not identified.");
+        assertEquals(KrashUtil.getDate("Apr 15 2025 00:00:00"), fel.getJdkBuildDate(), "Build date not correct.");
+        assertTrue(fel.isRhBuildDate(), "Red Hat build date not identified.");
+        assertFalse(fel.isRhBuildDateUnknown(), "Red Hat build of OpenJDK date unknown incorrectly identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
+                Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_POSSIBLE.getKey()),
+                Analysis.INFO_RH_BUILD_POSSIBLE + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_BASED.getKey()),
+                Analysis.INFO_RH_BUILD_RPM_BASED + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_LINUX_ZIP.getKey()),
+                Analysis.INFO_RH_BUILD_LINUX_ZIP + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_LINUX_ZIP_OR_RPM_BASED.getKey()),
+                Analysis.INFO_RH_BUILD_LINUX_ZIP_OR_RPM_BASED + " analysis not identified.");
+    }
+
+    @Test
     void testRhelJdkRpmMismatchJdk11() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS: Red Hat Enterprise Linux release 8.5 (Ootpa)";
@@ -3499,8 +3537,7 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le", fel.getRpmDirectory(),
-                "Rpm directory not correct.");
+        assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le", fel.getRpmName(), "Rpm name not correct.");
         assertEquals("8.4", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.5", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");

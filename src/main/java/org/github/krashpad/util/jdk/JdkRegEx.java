@@ -771,8 +771,8 @@ public class JdkRegEx {
      * 
      * /usr/lib/jvm/java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64/lib/server/libjvm.so
      */
-    public static final String RH_RPM_OPENJDK11_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK11_DIR
-            + "\\/lib\\/server\\/libjvm\\.so$";
+    public static final String RH_RPM_OPENJDK11_JAVA_HOME = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK11_DIR
+            + "\\/$";
 
     /**
      * Red Hat OpenJDK 17 rpm directory.
@@ -789,10 +789,10 @@ public class JdkRegEx {
      * 
      * For example:
      * 
-     * /usr/lib/jvm/java-17-openjdk-17.0.1.0.12-2.el8_5.x86_64/lib/server/libjvm.so
+     * /usr/lib/jvm/java-17-openjdk-17.0.1.0.12-2.el8_5.x86_64/
      */
-    public static final String RH_RPM_OPENJDK17_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK17_DIR
-            + "\\/lib\\/server\\/libjvm\\.so$";
+    public static final String RH_RPM_OPENJDK17_JAVA_HOME = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK17_DIR
+            + "\\/$";
 
     /**
      * Red Hat OpenJDK 21 rpm directory.
@@ -811,10 +811,10 @@ public class JdkRegEx {
      * 
      * For example:
      * 
-     * /usr/lib/jvm/java-21-openjdk-21.0.1.0.12-2.el8.x86_64/lib/server/libjvm.so
+     * /usr/lib/jvm/java-21-openjdk-21.0.1.0.12-2.el8.x86_64/
      */
-    public static final String RH_RPM_OPENJDK21_LIBJVM_PATH = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK21_DIR
-            + "\\/lib\\/server\\/libjvm\\.so$";
+    public static final String RH_RPM_OPENJDK21_JAVA_HOME = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK21_DIR
+            + "\\/$";
 
     /**
      * Red Hat OpenJDK 8 rpm directory.
@@ -831,22 +831,22 @@ public class JdkRegEx {
             + "(_(\\d{1,2}))?\\.(i386|ppc64(le)?|x86_64))";
 
     /**
-     * Red Hat OpenJDK 8 rpm file path.
+     * Red Hat OpenJDK 8 rpm JAVA_HOME path.
      * 
      * For example:
      * 
-     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/jre/lib/amd64/server/libjvm.so
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/
      * 
-     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64/jre/lib/amd64/server/libjvm.so
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64/
      * 
-     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64/jre/lib/amd64/server/libjvm.so
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64/
      * 
-     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.ppc64/jre/lib/ppc64/server/libjvm.so
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.ppc64/
      * 
-     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/jre/lib/ppc64le/server/libjvm.so
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/
      */
-    public static final String RH_RPM_OPENJDK8_LIBJVM_PATH = "\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK8_DIR
-            + "\\/jre\\/lib\\/(amd64|i386|ppc64(le)?)\\/server\\/libjvm\\.so";
+    public static final String RH_RPM_OPENJDK8_JAVA_HOME = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK8_DIR
+            + "\\/$";
 
     /**
      * Regular expression for Shenandoah gc data.

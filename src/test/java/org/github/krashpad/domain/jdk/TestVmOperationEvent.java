@@ -65,7 +65,6 @@ class TestVmOperationEvent {
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
     }
 
-    
     @Test
     void testG1CollectForAllocation() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
