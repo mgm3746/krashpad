@@ -640,7 +640,7 @@ public class FatalErrorLog {
                 if (getOsVendor() == OsVendor.CENTOS) {
                     // CentOs redistributes RH build of OpenJDK
                     analysis.add(0, Analysis.INFO_RH_BUILD_CENTOS);
-                } else if (getRpmName() != null) {
+                } else if (isRhRpmInstall()) {
                     analysis.add(0, Analysis.INFO_RH_BUILD_RPM_INSTALL);
                 } else if (isRhRpm() && !isRhLinuxZipInstall()) {
                     analysis.add(0, Analysis.INFO_RH_BUILD_RPM_BASED);
@@ -2162,7 +2162,7 @@ public class FatalErrorLog {
                 s.append("RHEL ");
                 s.append(getRhelVersion());
                 s.append(" + ");
-                s.append(getRpmName());
+                s.append(getRhRpmName());
                 s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() });
             } else if (item.getKey().equals(Analysis.WARN_SWAPPED_OUT.toString())) {
@@ -3382,10 +3382,10 @@ public class FatalErrorLog {
         }
         // Check dynamic library (rpm)
         if (version == JavaSpecification.UNKNOWN && !dynamicLibraries.isEmpty()) {
-            if (getRpmName() != null) {
+            if (getRhRpmName() != null) {
                 String regEx = "^java-.+-openjdk-(1.8.0|11|17|21).+-.+$";
                 Pattern pattern = Pattern.compile(regEx);
-                Matcher matcher = pattern.matcher(getRpmName());
+                Matcher matcher = pattern.matcher(getRhRpmName());
                 if (matcher.find()) {
                     if (matcher.group(1).equals("1.8.0")) {
                         version = JavaSpecification.JDK8;
@@ -3576,7 +3576,7 @@ public class FatalErrorLog {
         HashMap<String, Release> releases = JdkUtil.getJdkReleases(this);
         if (releases != null && !releases.isEmpty()) {
             if (isRhRpmInstall()) {
-                release = releases.get(getRpmName());
+                release = releases.get(getRhRpmName());
             } else if (isRhLinuxZipInstall() || isRhWindowsZipInstall()) {
                 release = releases.get(getJdkReleaseString());
             }
@@ -3656,7 +3656,7 @@ public class FatalErrorLog {
         }
         if (jdkReleaseString == null && !dynamicLibraries.isEmpty()) {
             // Check dynamic libraries (rpm)
-            if (getRpmName() != null) {
+            if (getRhRpmName() != null) {
                 Iterator<Entry<String, Release>> iterator;
                 if (getJavaSpecification() == JavaSpecification.JDK8) {
                     switch (getOsVersion()) {
@@ -3665,7 +3665,7 @@ public class FatalErrorLog {
                         iterator = Jdk8.RHEL6_X86_64_RPMS.entrySet().iterator();
                         while (iterator.hasNext()) {
                             Entry<String, Release> entry = iterator.next();
-                            if (entry.getKey().equals(getRpmName())) {
+                            if (entry.getKey().equals(getRhRpmName())) {
                                 Release release = entry.getValue();
                                 jdkReleaseString = release.getVersion();
                             }
@@ -3677,7 +3677,7 @@ public class FatalErrorLog {
                             iterator = Jdk8.RHEL7_X86_64_RPMS.entrySet().iterator();
                             while (iterator.hasNext()) {
                                 Entry<String, Release> entry = iterator.next();
-                                if (entry.getKey().equals(getRpmName())) {
+                                if (entry.getKey().equals(getRhRpmName())) {
                                     Release release = entry.getValue();
                                     jdkReleaseString = release.getVersion();
                                 }
@@ -3690,7 +3690,7 @@ public class FatalErrorLog {
                             iterator = Jdk8.RHEL8_X86_64_RPMS.entrySet().iterator();
                             while (iterator.hasNext()) {
                                 Entry<String, Release> entry = iterator.next();
-                                if (entry.getKey().equals(getRpmName())) {
+                                if (entry.getKey().equals(getRhRpmName())) {
                                     Release release = entry.getValue();
                                     jdkReleaseString = release.getVersion();
                                 }
@@ -3702,7 +3702,7 @@ public class FatalErrorLog {
                         iterator = Jdk8.RHEL9_X86_64_RPMS.entrySet().iterator();
                         while (iterator.hasNext()) {
                             Entry<String, Release> entry = iterator.next();
-                            if (entry.getKey().equals(getRpmName())) {
+                            if (entry.getKey().equals(getRhRpmName())) {
                                 Release release = entry.getValue();
                                 jdkReleaseString = release.getVersion();
                             }
@@ -3727,7 +3727,7 @@ public class FatalErrorLog {
      */
     public String getJdkRhelVersion() {
         String jdkRhelVersion = null;
-        String rpmDirectory = getRpmName();
+        String rpmDirectory = getRhRpmName();
         if (rpmDirectory != null) {
             Pattern pattern = Pattern.compile(JdkRegEx.RH_RPM_DIR);
             Matcher matcher = pattern.matcher(rpmDirectory);
@@ -5190,7 +5190,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * The rpm name, or null if not an rpm install.
+     * The Red Hat rpm name, or null if not an rpm install.
      * 
      * For example:
      * 
@@ -5200,7 +5200,7 @@ public class FatalErrorLog {
      * 
      * java-17-openjdk-17.0.4.1.1-2.el9_0.x86_64
      */
-    public String getRpmName() {
+    public String getRhRpmName() {
         String rpmName = null;
         if (javaHome != null) {
             Pattern pattern = null;
@@ -5303,6 +5303,15 @@ public class FatalErrorLog {
             }
         }
         return signalNumber;
+    }
+
+    /**
+     * @return true if the JAVA_HOME matches a Red Hat rpm, false otherwise.
+     */
+    public static final boolean isJavaHomeRedHatRpm(String javaHome) {
+        boolean isRedHatRpmJavaHome = false;
+
+        return isRedHatRpmJavaHome;
     }
 
     /**
@@ -6781,7 +6790,7 @@ public class FatalErrorLog {
      */
     public boolean isRhRpmInstall() {
         boolean isRhelRpmInstall = false;
-        String rpmDirectory = getRpmName();
+        String rpmDirectory = getRhRpmName();
         if (rpmDirectory != null) {
             if (getJavaSpecification() == JavaSpecification.JDK8) {
                 switch (getOsVersion()) {
@@ -6985,7 +6994,7 @@ public class FatalErrorLog {
      */
     public boolean isRpmInstall() {
         boolean isRhelRpmInstall = false;
-        String rpmDirectory = getRpmName();
+        String rpmDirectory = getRhRpmName();
         if (rpmDirectory != null) {
             if (getJavaSpecification() == JavaSpecification.JDK8) {
                 switch (getOsVersion()) {

@@ -114,7 +114,7 @@ class TestFatalErrorLog {
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/", fel.getJavaHome(),
                 "JAVA_HOME not correct.");
-        assertEquals("java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64", fel.getRpmName(), "Rpm name not correct.");
+        assertEquals("java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64", fel.getRhRpmName(), "Rpm name not correct.");
         assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
         assertEquals(Device.AWS_BLOCK_STORAGE, fel.getStorageDevice(), "Storage device not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
@@ -1170,7 +1170,8 @@ class TestFatalErrorLog {
         assertEquals("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64/", fel.getJavaHome(),
                 "JAVA_HOME not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
-        assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64", fel.getRpmName(), "RPM directory not correct.");
+        assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64", fel.getRhRpmName(),
+                "RPM directory not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals(Constants.PROPERTY_UNKNOWN, fel.getCurrentThreadName(), "Current thread not correct.");
         assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "Java vendor not correct.");
@@ -1452,7 +1453,7 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
-        assertEquals("java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.i386", fel.getRpmName(), "Rpm name not correct.");
+        assertEquals("java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.i386", fel.getRhRpmName(), "Rpm name not correct.");
         assertEquals(Arch.X86_64, fel.getArchOs(), "OS arch not correct.");
         assertEquals(Arch.X86, fel.getArchJdk(), "JDK arch not correct.");
         assertTrue(fel.isRhBuildString(), "RH build string not identified.");
@@ -1662,7 +1663,7 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
-        assertEquals("java-17-openjdk-17.0.8.0.7-2.el8.x86_64", fel.getRpmName(), "Rpm name not correct.");
+        assertEquals("java-17-openjdk-17.0.8.0.7-2.el8.x86_64", fel.getRhRpmName(), "Rpm name not correct.");
         assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
@@ -1686,7 +1687,7 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
-        assertEquals("java-21-openjdk-21.0.1.0.12-2.el8.x86_64", fel.getRpmName(), "Rpm name not correct.");
+        assertEquals("java-21-openjdk-21.0.1.0.12-2.el8.x86_64", fel.getRhRpmName(), "Rpm name not correct.");
         assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
@@ -1716,7 +1717,7 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
-        assertEquals("java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64", fel.getRpmName(), "Rpm name not correct.");
+        assertEquals("java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64", fel.getRhRpmName(), "Rpm name not correct.");
         assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
@@ -1763,7 +1764,7 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
-        assertEquals("java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64", fel.getRpmName(), "Rpm name not correct.");
+        assertEquals("java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64", fel.getRhRpmName(), "Rpm name not correct.");
         assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
     }
 

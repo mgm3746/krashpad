@@ -264,6 +264,7 @@ public class KrashUtil {
         // libffi
         NATIVE_LIBRARIES_LINUX.add("libffi.so.6.0.1");
         NATIVE_LIBRARIES_LINUX.add("libffi.so.6.0.2");
+        NATIVE_LIBRARIES_LINUX.add("libffi.so.8.1.0");
         // fontconfig
         NATIVE_LIBRARIES_LINUX.add("libfontconfig.so.1.12.0");
         // nss-softokn-freebl
@@ -515,6 +516,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("liborc-0.4.so.0.28.0");
         // p11-kit
         NATIVE_LIBRARIES_LINUX.add("libp11-kit.so.0.3.0");
+        NATIVE_LIBRARIES_LINUX.add("libp11-kit.so.0.3.1");
         // pango
         NATIVE_LIBRARIES_LINUX.add("libpango-1.0.so.0.4200.3");
         // pango
@@ -603,6 +605,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.23.0");
         // libtasn1
         NATIVE_LIBRARIES_LINUX.add("libtasn1.so.6.5.5");
+        NATIVE_LIBRARIES_LINUX.add("libtasn1.so.6.6.0");
         // libtdb (Trivial Database)
         NATIVE_LIBRARIES_LINUX.add("libtdb.so.1.4.9");
         // libthai

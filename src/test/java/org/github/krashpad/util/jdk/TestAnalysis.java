@@ -3467,7 +3467,7 @@ class TestAnalysis {
         OsInfo osEvent2 = new OsInfo(os2);
         fel.getOsInfos().add(osEvent2);
         fel.doAnalysis();
-        assertNull(fel.getRpmName(), "rpm directory not correct.");
+        assertNull(fel.getRhRpmName(), "rpm directory not correct.");
         assertTrue(fel.isRhBuildOpenJdk(), "Red Hat build of OpenJDK not identified.");
         assertTrue(fel.isRhBuildString(), "Red Hat build string not identified.");
         assertTrue(fel.isRhVersion(), "Red Hat version not identified.");
@@ -3537,7 +3537,7 @@ class TestAnalysis {
         Manager manager = new Manager();
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
-        assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le", fel.getRpmName(), "Rpm name not correct.");
+        assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-2.el8_5.ppc64le", fel.getRhRpmName(), "Rpm name not correct.");
         assertEquals("8.4", fel.getRhelVersion(), "RHEL version not correct.");
         assertEquals("8.5", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
