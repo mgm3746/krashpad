@@ -474,6 +474,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libnssutil3.so");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libnss_compat-2.17.so");
+        NATIVE_LIBRARIES_LINUX.add("libnss_compat-2.28.so");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("libnss_dns-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libnss_dns-2.28.so");
