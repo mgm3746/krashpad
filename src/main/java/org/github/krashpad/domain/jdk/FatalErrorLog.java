@@ -1243,6 +1243,13 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_IFNODE_FOLDCOMPARES);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+            } else if (getStackFrameTop() != null
+                    && getStackFrameTop().matches("^.*PhaseIdealLoop::identical_backtoback_ifs\\(Node\\*\\).*$")
+                    && (getJavaSpecification() == JavaSpecification.JDK11
+                            || getJavaSpecification() == JavaSpecification.JDK17)) {
+                analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_PHASEIDEALLOOP_IDE_BAC_IFS);
+                // Don't double report
+                analysis.remove(Analysis.ERROR_COMPILER_THREAD);
             } else if (!getCurrentCompileTasks().isEmpty()) {
                 Iterator<CurrentCompileTask> iterator = getCurrentCompileTasks().iterator();
                 while (iterator.hasNext()) {

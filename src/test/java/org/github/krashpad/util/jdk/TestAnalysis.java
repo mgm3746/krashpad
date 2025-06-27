@@ -480,6 +480,30 @@ class TestAnalysis {
     }
 
     @Test
+    void testCompilerThreadC2PhaseIdealLoopIdenticalBacktobackIfs() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# Problematic frame:";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# V  [libjvm.so+0xae293d]  PhaseIdealLoop::identical_backtoback_ifs(Node*)+0x7d";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        String currentThread = "Current thread (0x00007fbcff0f18d0):  JavaThread \"C2 CompilerThread0\" daemon "
+                + "[_thread_in_native, id=4030683, stack(0x00007fbcbc9b2000,0x00007fbcbcab2000)]";
+        CurrentThread currentThreadEvent = new CurrentThread(currentThread);
+        fel.setCurrentThread(currentThreadEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.15+6-LTS) for linux-amd64 JRE (17.0.15+6-LTS), built "
+                + "on Apr 15 2025 00:00:00 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-18)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
+                Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_PHASEIDEALLOOP_IDE_BAC_IFS.getKey()),
+                Analysis.ERROR_COMPILER_THREAD_C2_PHASEIDEALLOOP_IDE_BAC_IFS + " analysis not identified.");
+    }
+
+    @Test
     void testContainer() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset47.txt");
         Manager manager = new Manager();
