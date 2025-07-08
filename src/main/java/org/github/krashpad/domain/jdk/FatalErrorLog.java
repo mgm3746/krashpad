@@ -68,6 +68,15 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
 public class FatalErrorLog {
 
     /**
+     * @return true if the JAVA_HOME matches a Red Hat rpm, false otherwise.
+     */
+    public static final boolean isJavaHomeRedHatRpm(String javaHome) {
+        boolean isRedHatRpmJavaHome = false;
+
+        return isRedHatRpmJavaHome;
+    }
+
+    /**
      * @param <T>
      * @param list
      * @param function
@@ -1221,6 +1230,14 @@ public class FatalErrorLog {
         if (getCurrentThreadName() != null && getCurrentThreadName().matches("^.+C2 CompilerThread\\d{1,}.+$")) {
             if (isInHeader("guarantee\\(n != NULL\\) failed: No Node.") && isInStack("IdealLoopTree::beautify_loops")) {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS);
+                // Don't double report
+                analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+            } else if (getStackFrameTop() != null
+                    && getStackFrameTop().matches("^.*BoolNode::Ideal\\(PhaseGVN\\*, bool\\).*$")
+                    && (getJavaSpecification() == JavaSpecification.JDK21
+                            && JdkUtil.getJdk21UpdateNumber(getJdkReleaseString()) > 0
+                            && JdkUtil.getJdk21UpdateNumber(getJdkReleaseString()) < 9)) {
+                analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_BOOLNODE_IDEAL);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
             } else if (getStackFrameTop() != null
@@ -5192,10 +5209,6 @@ public class FatalErrorLog {
         return rhelVersion;
     }
 
-    public Rlimit getRlimit() {
-        return rlimit;
-    }
-
     /**
      * The Red Hat rpm name, or null if not an rpm install.
      * 
@@ -5239,6 +5252,10 @@ public class FatalErrorLog {
             }
         }
         return rpmName;
+    }
+
+    public Rlimit getRlimit() {
+        return rlimit;
     }
 
     /**
@@ -5310,15 +5327,6 @@ public class FatalErrorLog {
             }
         }
         return signalNumber;
-    }
-
-    /**
-     * @return true if the JAVA_HOME matches a Red Hat rpm, false otherwise.
-     */
-    public static final boolean isJavaHomeRedHatRpm(String javaHome) {
-        boolean isRedHatRpmJavaHome = false;
-
-        return isRedHatRpmJavaHome;
     }
 
     /**

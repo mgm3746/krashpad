@@ -404,6 +404,30 @@ class TestAnalysis {
     }
 
     @Test
+    void testCompilerThreadC2BoolnodeIdeal() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# Problematic frame:";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# V  [libjvm.so+0xf07f29]  BoolNode::Ideal(PhaseGVN*, bool)+0x19";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        String currentThread = "Current thread (0x00007fc1254ccb40):  JavaThread \"C2 CompilerThread2\" daemon "
+                + "[_thread_in_native, id=1234, stack(0x00007fc14e9fb000,0x00007fc14eafb000) (1024K)]";
+        CurrentThread currentThreadEvent = new CurrentThread(currentThread);
+        fel.setCurrentThread(currentThreadEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (21.0.7+6-LTS) for linux-amd64 JRE (21.0.7+6-LTS), built on "
+                + "2025-04-15T00:00:00Z by \"admin\" with gcc 11.3.0";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
+                Analysis.ERROR_COMPILER_THREAD + " analysis incorrectly identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_BOOLNODE_IDEAL.getKey()),
+                Analysis.ERROR_COMPILER_THREAD_C2_BOOLNODE_IDEAL + " analysis not identified.");
+    }
+
+    @Test
     void testCompilerThreadC2IfNodeFoldComparesJdk11Update7() {
         FatalErrorLog fel = new FatalErrorLog();
         String header1 = "# Problematic frame:";
