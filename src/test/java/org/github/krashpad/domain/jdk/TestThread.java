@@ -113,6 +113,13 @@ class TestThread {
     }
 
     @Test
+    void testTruncated() {
+        String logLine = "  0x00007fe6ec0cbaf0 ";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
+                JdkUtil.LogEventType.THREAD.toString() + " not identified.");
+    }
+
+    @Test
     void testWorkerThreadRuntimeWorker() {
         String logLine = "  0x00007fe6ec0cbaf0 WorkerThread \"RuntimeWorker#9\" [stack: 0x00007fdc63cfc000,"
                 + "0x00007fdc63dfc000] [id=3003234]";
