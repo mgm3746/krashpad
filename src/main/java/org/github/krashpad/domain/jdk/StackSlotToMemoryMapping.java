@@ -68,9 +68,10 @@ public class StackSlotToMemoryMapping implements LogEvent {
             + "vtable length) |"
             // Trailing colon
             + " - (access|arrays|class annotations|class loader data|class type annotations|constants|default_methods|"
-            + "field annotations|field type annotations|generic signature|host class|inner classes|instance size|"
-            + "java mirror|klass size|length|local interfaces|methods|method ordering|name|nest members|"
-            + "non-static oop maps|permitted subclasses|source file|state|string|sub|super|trans. interfaces):|"
+            + "fake entry for (array|mirror|oop_size|static_oop_field_count)|field annotations|field type annotations|"
+            + "generic signature|host class|inner classes|instance size|java mirror|klass size|length|local interfaces|"
+            + "methods|method ordering|name|nest members|non-static oop maps|permitted subclasses|signature|"
+            + "source file|state|string|sub|super|trans. interfaces):|"
             // beginning space
             + " (dependencies|handler table|main code|metadata|nul chk table|oops|relocation|scopes data|scopes pcs|"
             + "stub code|total in heap) |"

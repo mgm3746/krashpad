@@ -157,6 +157,15 @@ class TestStackSlotToMemoryMapping {
     }
 
     @Test
+    void testDashFakeEntry() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " - fake entry for mirror: 'java/lang/ClassLoader$2'";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testDashFields() {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = " - ---- fields (total size 13 words):";
@@ -370,6 +379,15 @@ class TestStackSlotToMemoryMapping {
         StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
         String logLine = " - 'sequence' 'Lcom/example/MyClass;' @92  a 'com/example/MyClass2'{0x00000007291a3f70} "
                 + "(e52347ee)";
+        assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
+                JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
+    void testDashSignature() {
+        StackSlotToMemoryMapping priorLogEvent = new StackSlotToMemoryMapping("Stack slot to memory mapping:");
+        String logLine = " - signature: Ljava/lang/ClassLoader$2;";
         assertEquals(JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING,
                 JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.STACK_SLOT_TO_MEMORY_MAPPING.toString() + " not identified.");
