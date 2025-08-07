@@ -68,6 +68,8 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
 public class FatalErrorLog {
 
     /**
+     * @param javaHome
+     *            the JAVA_HOME path.
      * @return true if the JAVA_HOME matches a Red Hat rpm, false otherwise.
      */
     public static final boolean isJavaHomeRedHatRpm(String javaHome) {
@@ -5219,6 +5221,8 @@ public class FatalErrorLog {
      * java-11-openjdk-11.0.7.10-4.el7_8.x86_64
      * 
      * java-17-openjdk-17.0.4.1.1-2.el9_0.x86_64
+     * 
+     * @return the Red Hat rpm name, or null if not an rpm install.
      */
     public String getRhRpmName() {
         String rpmName = null;

@@ -14,45 +14,36 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
- * CODE_CACHE
+ * JVMTI_AGENTS
  * </p>
  * 
  * <p>
- * Code cache information.
+ * JVMTI agent information.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * CodeCache: size=245760Kb used=37495Kb max_used=37495Kb free=208264Kb
- *  bounds [0x00007fa287170000, 0x00007fa289650000, 0x00007fa296170000]
- *  total_blobs=10468 nmethods=9889 adapters=493
- *  compilation: enabled
+ * JVMTI agents: none
  * </pre>
+ * 
+ * TODO: Don't throw this away; make it a FEL property.
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class CodeCache implements LogEvent, ThrowAwayEvent, HeaderEvent {
-
-    /**
-     * Regular expression for the header.
-     */
-    private static final String _REGEX_HEADER = "(CodeCache:)";
+public class JvmtiAgents implements LogEvent, ThrowAwayEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER
-            + "| bounds| compilation:|CodeHeap|Compilation:| full_count=|              stopped_count=| total_blobs)"
-            + "(.*)$";
+    private static final String REGEX = "^JVMTI agents: (.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -76,25 +67,17 @@ public class CodeCache implements LogEvent, ThrowAwayEvent, HeaderEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public CodeCache(String logEntry) {
+    public JvmtiAgents(String logEntry) {
         this.logEntry = logEntry;
     }
 
     @Override
     public LogEventType getEventType() {
-        return LogEventType.CODE_CACHE;
+        return LogEventType.JVMTI_AGENTS;
     }
 
     public String getLogEntry() {
         return logEntry;
     }
 
-    @Override
-    public boolean isHeader() {
-        boolean isHeader = false;
-        if (this.logEntry != null) {
-            isHeader = logEntry.matches(_REGEX_HEADER);
-        }
-        return isHeader;
-    }
 }

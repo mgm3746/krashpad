@@ -67,6 +67,7 @@ import org.github.krashpad.domain.jdk.Host;
 import org.github.krashpad.domain.jdk.Instructions;
 import org.github.krashpad.domain.jdk.InternalExceptionEvent;
 import org.github.krashpad.domain.jdk.InternalStatistic;
+import org.github.krashpad.domain.jdk.JvmtiAgents;
 import org.github.krashpad.domain.jdk.LdPreloadFile;
 import org.github.krashpad.domain.jdk.Libc;
 import org.github.krashpad.domain.jdk.LoadAverage;
@@ -244,23 +245,23 @@ public class JdkUtil {
         //
         HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, INTERNAL_EXCEPTION_EVENT,
         //
-        INTERNAL_STATISTIC, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY,
+        INTERNAL_STATISTIC, JVMTI_AGENTS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE, MAX_MAP_COUNT,
         //
-        MEMORY_PROTECTION_EVENT, METASPACE, NARROW_KLASS, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING,
+        MEMINFO, MEMORY, MEMORY_PROTECTION_EVENT, METASPACE, NARROW_KLASS, NATIVE_DECODER_STATE,
         //
-        NMETHOD_FLUSHES_EVENT, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID, PID_MAX, POLLING_PAGE, PROCESS_MEMORY,
+        NATIVE_MEMORY_TRACKING, NMETHOD_FLUSHES_EVENT, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID, PID_MAX,
         //
-        REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING,
+        POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK,
         //
-        SWAPPINESS, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME,
+        STACK_SLOT_TO_MEMORY_MAPPING, SWAPPINESS, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO,
         //
-        TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED,
+        THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG,
         //
-        TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
+        TRANSPARENT_HUGEPAGE_ENABLED, TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE, UID, UMASK, UNAME, UNKNOWN,
         //
-        VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE,
+        VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS,
         //
-        ZGC_PHASE_SWITCH_EVENT
+        ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
     }
 
     /**
@@ -805,6 +806,8 @@ public class JdkUtil {
             } else if (logLine.matches(InternalStatistic._REGEX_HEADER)
                     || (priorEvent instanceof InternalStatistic && InternalStatistic.match(logLine))) {
                 logEventType = LogEventType.INTERNAL_STATISTIC;
+            } else if (JvmtiAgents.match(logLine)) {
+                logEventType = LogEventType.JVMTI_AGENTS;
             } else if (logLine.matches(LdPreloadFile._REGEX_HEADER)
                     || (priorEvent instanceof LdPreloadFile && LdPreloadFile.match(logLine))) {
                 logEventType = LogEventType.LD_PRELOAD_FILE;
@@ -1154,6 +1157,9 @@ public class JdkUtil {
             break;
         case INTERNAL_STATISTIC:
             event = new InternalStatistic(logLine);
+            break;
+        case JVMTI_AGENTS:
+            event = new JvmtiAgents(logLine);
             break;
         case LD_PRELOAD_FILE:
             event = new LdPreloadFile(logLine);
