@@ -40,15 +40,15 @@ class TestCodeCache {
     }
 
     @Test
-    void testCompilationSmallC() {
-        String logLine = " compilation: enabled";
+    void testCompilationCapitalC() {
+        String logLine = "Compilation: enabled, stopped_count=0, restarted_count=0";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE,
                 JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.");
     }
 
     @Test
-    void testCompilationCapitalC() {
-        String logLine = "Compilation: enabled, stopped_count=0, restarted_count=0";
+    void testCompilationSmallC() {
+        String logLine = " compilation: enabled";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CODE_CACHE,
                 JdkUtil.LogEventType.CODE_CACHE.toString() + " not identified.");
     }

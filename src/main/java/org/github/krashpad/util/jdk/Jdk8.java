@@ -164,7 +164,9 @@ public class Jdk8 {
 
         // RHEL7 amd64 OpenJDK8 rpm
         RHEL7_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL7_X86_64_RPMS.put("LATEST", new Release("Apr 11 2025 21:00:55", 46, "1.8.0_452-b09"));
+        RHEL7_X86_64_RPMS.put("LATEST", new Release("Jul 11 2025", 47, "1.8.0_462-b08"));
+        RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.462.b08-1.el7_9.x86_64",
+                new Release("Jul 11 2025", 47, "1.8.0_462-b08"));
         RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.452.b09-1.el7_9.x86_64",
                 new Release("Apr 11 2025 21:00:55", 46, "1.8.0_452-b09"));
         RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.442.b06-1.el7_9.x86_64",
@@ -308,7 +310,15 @@ public class Jdk8 {
 
         // RHEL8 amd64 OpenJDK8 rpm
         RHEL8_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL8_X86_64_RPMS.put("LATEST", new Release("Apr 11 2025 20:09:18", 29, "1.8.0_452-b09"));
+        RHEL8_X86_64_RPMS.put("LATEST", new Release("Jul 10 2025 20:00:22", 30, "1.8.0_462-b08"));
+        RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.462.b08-2.el8.x86_64",
+                new Release("Jul 10 2025 20:00:22", 30, "1.8.0_462-b08"));
+        RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.462.b08-1.el8_6.x86_64",
+                new Release("Jul 10 2025", 30, "1.8.0_462-b08"));
+        RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.462.b08-1.el8_4.x86_64",
+                new Release("Jul 10 2025", 30, "1.8.0_462-b08"));
+        RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.462.b08-1.el8_2.x86_64",
+                new Release("Jul 10 2025", 30, "1.8.0_462-b08"));
         RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.452.b09-2.el8.x86_64",
                 new Release("Apr 11 2025 20:09:18", 29, "1.8.0_452-b09"));
         RHEL8_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.452.b09-1.el8_6.x86_64",
@@ -530,7 +540,11 @@ public class Jdk8 {
 
         // RHEL9 amd64 OpenJDK8 rpm
         RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL9_X86_64_RPMS.put("LATEST", new Release("Apr 11 2025", 15, "1.8.0_452-b09"));
+        RHEL9_X86_64_RPMS.put("LATEST", new Release("Jul 11 2025", 16, "1.8.0_462-b08"));
+        RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.462.b08-3.el9.x86_64",
+                new Release("Jul 11 2025", 16, "1.8.0_462-b08"));
+        RHEL9_X86_64_RPMS.put("ava-1.8.0-openjdk-1.8.0.462.b08-1.el9_0.x86_64",
+                new Release("Jul 11 2025", 16, "1.8.0_462-b08"));
         RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.452.b09-2.el9.x86_64",
                 new Release("Apr 11 2025", 15, "1.8.0_452-b09"));
         RHEL9_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.452.b09-1.el9_0.x86_64",
@@ -593,7 +607,8 @@ public class Jdk8 {
         // RHEL amd64 OpenJDK8 zip
         // First RHEL zip was 1.8.0_222.
         RHEL_ZIPS = new HashMap<String, Release>();
-        RHEL_ZIPS.put("LATEST", new Release("Apr 11 2025 20:39:40", 27, "1.8.0_452-b09"));
+        RHEL_ZIPS.put("LATEST", new Release("Jul 10 2025 20:10:51", 28, "1.8.0_462-b08"));
+        RHEL_ZIPS.put("1.8.0_462-b08", new Release("Jul 10 2025 20:10:51", 28, "1.8.0_462-b08"));
         RHEL_ZIPS.put("1.8.0_452-b09", new Release("Apr 11 2025 20:39:40", 27, "1.8.0_452-b09"));
         RHEL_ZIPS.put("1.8.0_442-b06", new Release("Jan 14 2025 16:31:35", 26, "1.8.0_442-b06"));
         RHEL_ZIPS.put("1.8.0_432-b06", new Release("Oct 10 2024 21:00:17", 25, "1.8.0_432-b06"));
@@ -625,7 +640,8 @@ public class Jdk8 {
         // Windows amd64 OpenJDK8 zip
         // First RH Windows release was 1.8.0_191-1-redhat-b12. There was no RH Windows release for u202.
         WINDOWS_ZIPS = new HashMap<String, Release>();
-        WINDOWS_ZIPS.put("LATEST", new Release("Apr 11 2025", 32, "1.8.0_452-b09"));
+        WINDOWS_ZIPS.put("LATEST", new Release("Jul 10 2025", 33, "1.8.0_462-b08"));
+        WINDOWS_ZIPS.put("1.8.0_462-b08", new Release("Jul 10 2025", 33, "1.8.0_462-b08"));
         WINDOWS_ZIPS.put("1.8.0_452-b09", new Release("Apr 11 2025", 32, "1.8.0_452-b09"));
         WINDOWS_ZIPS.put("1.8.0_442-b06", new Release("Jan 14 2025", 31, "1.8.0_442-b06"));
         WINDOWS_ZIPS.put("1.8.0_432-b06", new Release("Oct 10 2024", 30, "1.8.0_432-b06"));
