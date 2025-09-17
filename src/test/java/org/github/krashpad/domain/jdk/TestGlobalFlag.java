@@ -112,6 +112,14 @@ class TestGlobalFlag {
     }
 
     @Test
+    void testInt() {
+        String logLine = "      int ActiveProcessorCount                     = "
+                + "16                                        {product} {command line}";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.GLOBAL_FLAG,
+                JdkUtil.LogEventType.GLOBAL_FLAG.toString() + " not identified.");
+    }
+
+    @Test
     void testOptionValueWithSpaces() {
         String logLine = "ccstrlist OnOutOfMemoryError                       = "
                 + "/bin/kill -ABRT %p                        {product} {environment}";

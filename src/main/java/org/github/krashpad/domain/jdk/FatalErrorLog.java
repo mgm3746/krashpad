@@ -1841,14 +1841,37 @@ public class FatalErrorLog {
      */
     public int getActiveProcessorCount() {
         int activeProcessorCount = Integer.MIN_VALUE;
+        // 1st: check container (cgroup) information
         if (!containerInfos.isEmpty()) {
             Iterator<ContainerInfo> iterator = containerInfos.iterator();
             while (iterator.hasNext()) {
                 ContainerInfo event = iterator.next();
                 if (!event.isHeader() && event.getSetting().matches("active_processor_count")) {
-                    activeProcessorCount = Integer.parseInt(event.getSettingValue());
+                    Pattern pattern = Pattern
+                            .compile("^(\\d{1,})(, " + "but overridden by -XX:ActiveProcessorCount (\\d{1,}))?$");
+                    Matcher matcher = pattern.matcher(event.getSettingValue());
+                    if (matcher.find()) {
+                        if (matcher.group(2) != null) {
+                            activeProcessorCount = Integer.parseInt(matcher.group(3));
+                        } else {
+                            activeProcessorCount = Integer.parseInt(matcher.group(1));
+                        }
+                    }
                     break;
                 }
+            }
+        } else if (getGlobalFlag("ActiveProcessorCount") != null) {
+            // 2nd: check [Global flags]
+            GlobalFlag globalFlagActiveProcessorCount = getGlobalFlag("ActiveProcessorCount");
+            if (globalFlagActiveProcessorCount != null) {
+                activeProcessorCount = Integer.parseInt(globalFlagActiveProcessorCount.getValue());
+            }
+        } else if (jvmOptions != null && jvmOptions.getActiveProcessorCount() != null) {
+            // 3rd: check JVM option
+            Pattern pattern = Pattern.compile("^-XX:ActiveProcessorCount=(\\d{1,})$");
+            Matcher matcher = pattern.matcher(jvmOptions.getActiveProcessorCount());
+            if (matcher.find()) {
+                activeProcessorCount = Integer.parseInt(matcher.group(1));
             }
         }
         return activeProcessorCount;

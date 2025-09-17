@@ -70,6 +70,44 @@ import org.junit.jupiter.api.Test;
  */
 class TestAnalysis {
     @Test
+    void testActivePrcessorCountOverriden() {
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getContainerInfos().add(new ContainerInfo("active_processor_count: 24"));
+        assertEquals(24, fel.getActiveProcessorCount(), "Active Processor Count not correct");
+    }
+
+    @Test
+    void testActiveProcessCountGlobalFlag() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String globalFlag1 = "[Global flags]";
+        GlobalFlag globalFlagEvent1 = new GlobalFlag(globalFlag1);
+        fel.getGlobalFlags().add(globalFlagEvent1);
+        String globalFlag2 = "      int ActiveProcessorCount                     = "
+                + "16                                        {product} {command line}";
+        GlobalFlag globalFlagEvent2 = new GlobalFlag(globalFlag2);
+        fel.getGlobalFlags().add(globalFlagEvent2);
+        assertEquals(16, fel.getActiveProcessorCount(), "Active Processor Count not correct");
+    }
+
+    @Test
+    void testActiveProcessCountJvmArg() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:ActiveProcessorCount=16";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        fel.doAnalysis();
+        assertEquals(16, fel.getActiveProcessorCount(), "Active Processor Count not correct");
+    }
+
+    @Test
+    void testActiveProcessorCount() {
+        FatalErrorLog fel = new FatalErrorLog();
+        fel.getContainerInfos()
+                .add(new ContainerInfo("active_processor_count: 24, but overridden by -XX:ActiveProcessorCount 16"));
+        assertEquals(16, fel.getActiveProcessorCount(), "Active Processor Count not correct");
+    }
+
+    @Test
     void testAdoptOpenJdk() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset17.txt");
         Manager manager = new Manager();
