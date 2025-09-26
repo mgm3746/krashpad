@@ -576,6 +576,11 @@ public enum Analysis {
     INFO_APP_DYNAMICS_POSSIBLE("info.app.dynamics.possible"),
 
     /**
+     * Property key for async-profiler library detected..
+     */
+    INFO_ASYNC_PROFILER("info.async.profiler"),
+
+    /**
      * Property key for cgroup memory limit.
      */
     INFO_CGROUP_MEMORY_LIMIT("info.cgroup.memory.limit"),
@@ -1002,6 +1007,11 @@ public enum Analysis {
      * Property key for Wily/DX APM detected.
      */
     INFO_WILY("info.wily"),
+
+    /**
+     * Property key for async-profiler code in stack.
+     */
+    WARN_ASYNC_PROFILER("warn.async.profiler"),
 
     /**
      * Property key for CMS collector running in incremental mode.

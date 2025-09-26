@@ -1310,6 +1310,20 @@ public class FatalErrorLog {
                 }
             }
         }
+        // async-profiler
+        if (isInStack("asyncProfiler")) {
+            analysis.add(0, Analysis.WARN_ASYNC_PROFILER);
+        } else if (!nativeLibraries.isEmpty()) {
+            Iterator<String> iterator = nativeLibraries.iterator();
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && nativeLibrary.matches("^libasyncProfiler.*\\.so$")) {
+                    analysis.add(Analysis.INFO_ASYNC_PROFILER);
+                    break;
+                }
+            }
+        }
         // Lucene
         if (isInStack("org\\.apache\\.lucene\\.")) {
             analysis.add(0, Analysis.WARN_LUCENE);

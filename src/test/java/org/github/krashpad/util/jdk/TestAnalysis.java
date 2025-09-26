@@ -163,6 +163,18 @@ class TestAnalysis {
     }
 
     @Test
+    void testAsyncProfilerDetected() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7fc7f7a34000-7fc7f7a36000 rw-p 00034000 fd:05 2359371                    "
+                + "/path/to/libasyncProfiler-linux-x64.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_ASYNC_PROFILER.getKey()),
+                Analysis.INFO_ASYNC_PROFILER + " analysis not identified.");
+    }
+
+    @Test
     void testAvx2StringCompareInHeader() {
         FatalErrorLog fel = new FatalErrorLog();
         String header1 = "# Problematic frame:";
@@ -2128,6 +2140,31 @@ class TestAnalysis {
                 Analysis.ERROR_LIBAIO_CONTEXT_DONE + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
+    void testlibasyncProfilerInStack() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "7fc7f7a34000-7fc7f7a36000 rw-p 00034000 fd:05 2359371                    "
+                + "/path/to/libasyncProfiler-linux-x64.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        String stack1 = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)";
+        Stack stackEvent1 = new Stack(stack1);
+        fel.getStacks().add(stackEvent1);
+        String stack2 = "V  [libjvm.so+0xcc0893]  PtrQueueSet::try_enqueue(PtrQueue&, void*)+0x23";
+        Stack stackEvent2 = new Stack(stack2);
+        fel.getStacks().add(stackEvent2);
+        String stack3 = "C  [libasyncProfiler-linux-x64.so+0x1d00f]  Profiler::getJavaTraceAsync(void*, "
+                + "ASGCT_CallFrame*, int)+0x24f";
+        Stack stackEvent3 = new Stack(stack3);
+        fel.getStacks().add(stackEvent3);
+        fel.getAnalysis().clear();
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_ASYNC_PROFILER.getKey()),
+                Analysis.WARN_ASYNC_PROFILER + " analysis not identified.");
+        assertFalse(fel.hasAnalysis(Analysis.INFO_ASYNC_PROFILER.getKey()),
+                Analysis.INFO_ASYNC_PROFILER + " analysis incorrectly identified.");
     }
 
     @Test
