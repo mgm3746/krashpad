@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -31,6 +32,14 @@ class TestSwappiness {
                 + "memory): 10";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SWAPPINESS,
                 JdkUtil.LogEventType.SWAPPINESS.toString() + " not identified.");
+    }
+
+    @Test
+    void testNotAvailable() {
+        String logLine = "/proc/sys/vm/swappiness (control to define how aggressively the kernel swaps out anonymous "
+                + "memory): <Not Available>";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Swappiness,
+                JdkUtil.LogEventType.SWAPPINESS.toString() + " not parsed.");
     }
 
     @Test

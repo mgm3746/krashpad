@@ -52,7 +52,7 @@ public class MaxMapCount implements LogEvent, HeaderEvent {
      * Regular expression for a single line (JDK17+).
      */
     public static final String _REGEX_SINGLE_LINE = "/proc/sys/vm/max_map_count \\(maximum number of memory map areas "
-            + "a process may have\\): " + LogEvent.NUMBER;
+            + "a process may have\\): (" + LogEvent.NUMBER + "|<Not Available>)";
 
     /**
      * Regular expression defining the logging.
@@ -99,9 +99,11 @@ public class MaxMapCount implements LogEvent, HeaderEvent {
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
             if (matcher.group(2) != null) {
-                limit = Long.parseLong(matcher.group(2));
+                if (!matcher.group(2).equals("<Not Available>")) {
+                    limit = Long.parseLong(matcher.group(2));
+                }
             } else {
-                limit = Long.parseLong(matcher.group(3));
+                limit = Long.parseLong(matcher.group(4));
             }
         }
         return limit;

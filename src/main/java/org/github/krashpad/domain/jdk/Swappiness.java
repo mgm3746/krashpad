@@ -43,7 +43,7 @@ public class Swappiness implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^/proc/sys/vm/swappiness \\(control to define how aggressively the kernel "
-            + "swaps out anonymous memory\\): \\d{1,3}$";
+            + "swaps out anonymous memory\\): (\\d{1,3}|<Not Available>)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

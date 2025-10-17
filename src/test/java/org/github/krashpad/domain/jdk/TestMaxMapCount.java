@@ -54,6 +54,17 @@ class TestMaxMapCount {
     }
 
     @Test
+    void testNotAvailable() {
+        MaxMapCount priorEvent = new MaxMapCount("");
+        String logLine = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have): "
+                + "<Not Available>";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.MAX_MAP_COUNT,
+                JdkUtil.LogEventType.MAX_MAP_COUNT.toString() + " not identified.");
+        MaxMapCount event = new MaxMapCount(logLine);
+        assertEquals(Long.MIN_VALUE, event.getLimit(), "max_map_count not correct.");
+    }
+
+    @Test
     void testParseLogLineHeader() {
         String logLine = "/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof MaxMapCount,
