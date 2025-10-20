@@ -1,0 +1,123 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 65536 bytes. Error detail: committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   This process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2832), pid=2676433, tid=2677663
+#
+# JRE version: OpenJDK Runtime Environment (Red_Hat-17.0.16.0.8-1) (17.0.16+8) (build 17.0.16+8-LTS)
+# Java VM: OpenJDK 64-Bit Server VM (Red_Hat-17.0.16.0.8-1) (17.0.16+8-LTS, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, linux-amd64)
+# No core dump will be written. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+
+Dynamic libraries:
+7f15cbf2b000-7f15cd197000 r-xp 00000000 fd:00 137038                     /usr/lib/jvm/java-17-openjdk-17.0.16.0.8-2.el8.x86_64/lib/server/libjvm.so
+
+OS:
+Red Hat Enterprise Linux release 8.10 (Ootpa)
+uname: Linux 4.18.0-553.63.1.el8_10.x86_64 #1 SMP Fri Jul 18 06:13:44 EDT 2025 x86_64
+
+/proc/meminfo:
+MemTotal:       65914456 kB
+MemFree:          442128 kB
+MemAvailable:          0 kB
+Buffers:               0 kB
+Cached:         11419296 kB
+SwapCached:            0 kB
+Active:          9186396 kB
+Inactive:       55042956 kB
+Active(anon):    9158392 kB
+Inactive(anon): 55005680 kB
+Active(file):      28004 kB
+Inactive(file):    37276 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:               620 kB
+Writeback:             0 kB
+AnonPages:      52811056 kB
+Mapped:          5420200 kB
+Shmem:          11353080 kB
+KReclaimable:     137172 kB
+Slab:             436184 kB
+SReclaimable:     137172 kB
+SUnreclaim:       299012 kB
+KernelStack:       28080 kB
+PageTables:       396172 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    32957228 kB
+Committed_AS:   60217832 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      156016 kB
+VmallocChunk:          0 kB
+Percpu:           104448 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+DirectMap4k:    27254592 kB
+DirectMap2M:    39854080 kB
+DirectMap1G:     2097152 kB
+
+/sys/kernel/mm/transparent_hugepage/enabled: always madvise [never]
+/sys/kernel/mm/transparent_hugepage/hpage_pmd_size: 2097152
+/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter): always defer defer+madvise [madvise] never
+
+Process Memory:
+Virtual Size: 14551532K (peak: 14617392K)
+Resident Set Size: 2520764K (peak: 2520840K) (anon: 2520240K, file: 524K, shmem: 0K)
+Swapped out: 0K
+C-Heap outstanding allocations: 122771K, retained: 735844K
+glibc malloc tunables: (default)
+
+container (cgroup) information:
+container_type: cgroupv1
+cpu_cpuset_cpus: 0-15
+cpu_memory_nodes: 0
+active_processor_count: 16
+cpu_quota: no quota
+cpu_period: 100000
+cpu_shares: no shares
+memory_limit_in_bytes: unlimited
+memory_and_swap_limit_in_bytes: unlimited
+memory_soft_limit_in_bytes: unlimited
+memory_usage_in_bytes: 2575472 k
+memory_max_usage_in_bytes: 2923776 k
+kernel_memory_limit_in_bytes: unlimited
+kernel_memory_usage_in_bytes: 11432 k
+kernel_memory_max_usage_in_bytes: 12012 k
+maximum number of tasks: 411712
+current number of tasks: 128
+
+Memory: 4k page, physical 65914456k(442016k free), swap 0k(0k free)
+Page Sizes: 4k
+
+vm_info: OpenJDK 64-Bit Server VM (17.0.16+8-LTS) for linux-amd64 JRE (17.0.16+8-LTS), built on Jul 15 2025 00:00:00 by "mockbuild" with gcc 8.5.0 20210514 (Red Hat 8.5.0-18)
+
+END.

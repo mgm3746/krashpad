@@ -199,7 +199,7 @@ public class Memory implements LogEvent, HeaderEvent {
     }
 
     /**
-     * The physical "free" value. This is the total physical free memory (e.g. meminfo MemTotal).
+     * The physical "free" value. This is the total physical free memory (e.g. /proc/meminfo MemFree).
      * 
      * @return The physical "free" value, in bytes, or Long.MIN_VALUE if it cannot be determined.
      */
@@ -214,7 +214,7 @@ public class Memory implements LogEvent, HeaderEvent {
     }
 
     /**
-     * The "physical" value. This is the total physical memory (e.g. meminfo MemTotal).
+     * The "physical" value. This is the total physical memory (e.g. /proc/meminfo MemTotal).
      * 
      * @return The "physical" value, in bytes, or Long.MIN_VALUE if it cannot be determined.
      */

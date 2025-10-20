@@ -151,7 +151,7 @@ public class Main {
                 }
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
-            if (fel.getOsMemoryFree() > 0) {
+            if (fel.getOsMemoryFree() >= 0) {
                 printWriter.write("Memory Free: "
                         + JdkUtil.convertSize(fel.getOsMemoryFree(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS));
@@ -160,7 +160,7 @@ public class Main {
                 }
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
-            if (fel.getOsMemoryAvailable() > 0) {
+            if (fel.getOsMemoryAvailable() >= 0) {
                 printWriter.write("Memory Available: "
                         + JdkUtil.convertSize(fel.getOsMemoryAvailable(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS));

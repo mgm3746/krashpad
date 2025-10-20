@@ -2338,6 +2338,16 @@ class TestAnalysis {
     }
 
     @Test
+    void testMemoryAvailableZero() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset93.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_OOME_EXTERNAL.getKey()),
+                Analysis.ERROR_OOME_EXTERNAL + " analysis not identified.");
+    }
+
+    @Test
     void testMemoryExternal() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset92.txt");
         Manager manager = new Manager();

@@ -768,8 +768,8 @@ public class FatalErrorLog {
                         // Use JVM estimated initial process size
                         allocation = getJvmMemoryTotalCommitted();
                     }
-                    if (allocation > 0 && getOsCommitLimit() >= 0 && getOsCommitLimitUsed() >= 0
-                            && allocation > (getOsCommitLimit() - getOsCommitLimitUsed()) && !isOvercommitted()) {
+                    if (allocation > 0 && getOsCommitLimitAvailable() > 0 && allocation > getOsCommitLimitAvailable()
+                            && !isOvercommitted()) {
                         // Strong evidence for vm.overcommit_memory=2, but possible resource limit
                         analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP);
                         if (jvmOptions == null
@@ -779,10 +779,10 @@ public class FatalErrorLog {
                                                         JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
                             analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
                         }
-                    } else if (allocation >= 0 && getOsCommitLimit() >= 0 && getOsCommitLimitUsed() >= 0
-                            && getOsCommitLimit() >= getOsCommitLimitUsed() && isOvercommitDisabled()
-                            && allocation > (getOsCommitLimit() - getOsCommitLimitUsed()
-                                    - JdkUtil.convertSize(Long.parseLong("136"), 'M', 'B'))) {
+                    } else if (allocation > 0 && getOsCommitLimitAvailable() > 0
+                            && (allocation > getOsCommitLimitAvailable()
+                                    - JdkUtil.convertSize(Long.parseLong("136"), 'M', 'B'))
+                            && isOvercommitDisabled()) {
                         // Allocation > (available commit limit - user_reserve_kbytes [assume worse case 128M] -
                         // admin_reserve_kbytes [assume worse case 8M])
                         analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP);
@@ -834,22 +834,22 @@ public class FatalErrorLog {
                         analysis.add(Analysis.ERROR_OOME_THREAD_LEAK);
                     }
                 } else {
-                    if (Os.LINUX == getOs() && getFailedMemoryAllocation() >= 0 && getOsCommitLimit() >= 0
-                            && getOsCommitLimitUsed() >= 0 && getOsCommitLimit() >= getOsCommitLimitUsed()
-                            && getFailedMemoryAllocation() > (getOsCommitLimit() - getOsCommitLimitUsed())
-                            && !isOvercommitDisabled()) {
+                    if (Os.LINUX == getOs() && getFailedMemoryAllocation() > 0 && getOsCommitLimitAvailable() > 0
+                            && getFailedMemoryAllocation() > getOsCommitLimitAvailable() && !isOvercommitDisabled()) {
                         // Allocation > available commit limit
                         analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT);
-                    } else if (Os.LINUX == getOs() && getFailedMemoryAllocation() >= 0 && getOsCommitLimit() >= 0
-                            && getOsCommitLimitUsed() >= 0 && getOsCommitLimit() >= getOsCommitLimitUsed()
-                            && isOvercommitDisabled() && getFailedMemoryAllocation() > (getOsCommitLimit()
-                                    - getOsCommitLimitUsed() - JdkUtil.convertSize(Long.parseLong("136"), 'M', 'B'))) {
+                    } else if (Os.LINUX == getOs() && getFailedMemoryAllocation() > 0 && getOsCommitLimitAvailable() > 0
+                            && getFailedMemoryAllocation() > (getOsCommitLimitAvailable()
+                                    - JdkUtil.convertSize(Long.parseLong("136"), 'M', 'B'))
+                            && isOvercommitDisabled()) {
                         // Allocation > (available commit limit - user_reserve_kbytes [assume worse case 128M] -
                         // admin_reserve_kbytes [assume worse case 8M])
                         analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT);
-                    } else if (getFailedMemoryAllocation() >= 0 && (getMemoryFree() >= 0 || getSwapFree() >= 0)
-                            && getFailedMemoryAllocation() >= (Math.max(getMemoryFree(), 0)
-                                    + Math.max(getSwapFree(), 0))) {
+                    } else if (getFailedMemoryAllocation() > 0 && ((Os.LINUX == getOs() && getOsMemoryAvailable() >= 0
+                            && getFailedMemoryAllocation() > getOsMemoryAvailable())
+                            || (getMemoryFree() >= 0 || getSwapFree() >= 0)
+                                    && getFailedMemoryAllocation() >= (Math.max(getMemoryFree(), 0)
+                                            + Math.max(getSwapFree(), 0)))) {
                         // Allocation > available physical memory
                         if (getJvmMemoryTotalReserved() > 0 && getMemoryTotal() > 0) {
                             if (JdkMath.calcPercent(getJvmMemoryTotalReserved(), getMemoryTotal()) >= 95) {
@@ -867,7 +867,7 @@ public class FatalErrorLog {
                                 }
                             }
                         }
-                    } else if ((getFailedMemoryAllocation() >= 0 && (getMemoryFree() >= 0 || getSwapFree() >= 0)
+                    } else if ((getFailedMemoryAllocation() > 0 && (getMemoryFree() >= 0 || getSwapFree() >= 0)
                             && getFailedMemoryAllocation() < (Math.max(getMemoryFree(), 0)
                                     + Math.max(getSwapFree(), 0)))
                             || ((getMemoryFree() >= 0 && getMemoryTotal() > 0
@@ -4949,6 +4949,17 @@ public class FatalErrorLog {
         return osCommitLimitUsed;
     }
 
+    /**
+     * The amount of userspace virtual memory available on the system.
+     */
+    public long getOsCommitLimitAvailable() {
+        long osCommitLimitAvailable = Long.MIN_VALUE;
+        if (getOsCommitLimit() >= 0 && getOsCommitLimitUsed() >= 0) {
+            osCommitLimitAvailable = getOsCommitLimit() - getOsCommitLimitUsed();
+        }
+        return osCommitLimitAvailable;
+    }
+
     public List<OsInfo> getOsInfos() {
         return osInfos;
     }
@@ -5184,8 +5195,44 @@ public class FatalErrorLog {
     }
 
     /**
-     * MemAvailable is an estimate of how much physical memory is available without swapping. It does not include the
-     * memory used by the JVM process, as it is before the JVM process exits and its memory is freed.
+     * MemAvailable is an estimate of physical memory available for userspace allocations, without causing swapping.
+     * 
+     * It does not include the memory used by the JVM process, as it is before the JVM process exits and its memory is
+     * freed.
+     * 
+     * Depending on the low watermark and other parameters, the available memory can be higher or lower than
+     * {@link #getRhelMemFree()}.
+     * 
+     * Formula:
+     * 
+     * <pre>
+     * for (lru = LRU_BASE; lru < NR_LRU_LISTS; lru++)
+     *     pages[lru] = global_page_state(NR_LRU_BASE + lru);
+     *     
+     * for_each_zone(zone)
+     *     wmark_low += zone->watermark[WMARK_LOW];
+     *         
+     * // Estimate the amount of memory available for userspace allocations, without causing swapping.
+     * 
+     * // Free memory cannot be taken below the low watermark, before the system starts swapping.
+     * 
+     * available = i.freeram - wmark_low; <---------- //This can make the available memory < actual free RAM.
+     * 
+     * // Not all the page cache can be freed, otherwise the system will start swapping. Assume at least half of the 
+     * // page cache, or the low watermark worth of cache, needs to stay.
+     * 
+     * pagecache = pages[LRU_ACTIVE_FILE] + pages[LRU_INACTIVE_FILE];
+     * pagecache -= min(pagecache / 2, wmark_low);
+     * available += pagecache;
+     * 
+     * // Part of the reclaimable swap consists of items that are in use, and cannot be freed. Cap this estimate at the
+     * // low watermark.
+     * 
+     * if (available < 0)
+     *     available = 0;
+     * </pre>
+     *
+     * Reference: https://access.redhat.com/solutions/5779071
      * 
      * @return The total available physical memory as reported by RHEL in bytes, or Long.MIN_VALUE if undetermined.
      */
