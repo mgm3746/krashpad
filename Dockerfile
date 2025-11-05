@@ -9,12 +9,9 @@ RUN mvn --batch-mode -s /usr/src/app/settings.xml -f /usr/src/app/pom.xml packag
   mvn --batch-mode -s /usr/src/app/settings.xml -f /usr/src/app/pom.xml javadoc:javadoc
 
 # Package stage
-FROM openjdk:17-jdk-slim
+FROM docker.io/library/eclipse-temurin:17
 LABEL maintainer="Mike Millson <mmillson@redhat.com>"
 USER root
-ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
-  apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Add krashpad user and group
 RUN groupadd -g 30001 krashpad && \
