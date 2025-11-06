@@ -126,6 +126,13 @@ class TestContainerInfo {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
+    
+    @Test
+    void testMemoryAndSwapLimitWithKUnits() {
+        String logLine = "memory_and_swap_limit_in_bytes: 1572864 k";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    }
 
     @Test
     void testMemoryLimit() {
@@ -133,6 +140,14 @@ class TestContainerInfo {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
+    
+    @Test
+    void testMemoryLimitWithKUnits() {
+        String logLine = "memory_limit_in_bytes: 1572864 k";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    }
+
 
     @Test
     void testMemoryMaxUsage() {

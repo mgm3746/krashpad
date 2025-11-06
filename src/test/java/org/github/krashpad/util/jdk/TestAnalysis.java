@@ -318,6 +318,20 @@ class TestAnalysis {
     }
 
     @Test
+    void testCGroupMemoryLimit() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String containerInfo1 = "container (cgroup) information:";
+        ContainerInfo containerInfoEvent1 = new ContainerInfo(containerInfo1);
+        fel.getContainerInfos().add(containerInfoEvent1);
+        String containerInfo2 = "memory_limit_in_bytes: 1572864 k";
+        ContainerInfo containerInfoEvent2 = new ContainerInfo(containerInfo2);
+        fel.getContainerInfos().add(containerInfoEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_CGROUP_MEMORY_LIMIT.getKey()),
+                Analysis.INFO_CGROUP_MEMORY_LIMIT + " analysis not identified.");
+    }
+
+    @Test
     void testClientFlag32Bit() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -Xss512 -client -Xmx2048M";

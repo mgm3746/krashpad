@@ -5874,7 +5874,7 @@ public class FatalErrorLog {
             Iterator<ContainerInfo> iterator = containerInfos.iterator();
             while (iterator.hasNext()) {
                 ContainerInfo event = iterator.next();
-                if (event.getLogEntry().matches("^memory_limit_in_bytes: \\d{1,}$")) {
+                if (event.getLogEntry().matches("^memory_limit_in_bytes: \\d{1,}( k)?$")) {
                     isCgroupMemoryLimit = true;
                     break;
                 }

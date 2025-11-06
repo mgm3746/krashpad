@@ -48,6 +48,17 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * memory_max_usage_in_bytes: 0
  * </pre>
  * 
+ * <p>
+ * The "in_bytes" settings are not necessarily bytes due to
+ * <a href="https://bugs.openjdk.org/browse/JDK-8287011">JDK-8287011</a>
+ * </p>
+ * 
+ * <pre>
+ * memory_limit_in_bytes: 1572864 k
+ * memory_and_swap_limit_in_bytes: 1572864 k
+ * memory_usage_in_bytes: 1328504 k
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
