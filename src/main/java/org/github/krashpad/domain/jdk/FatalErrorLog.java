@@ -748,9 +748,12 @@ public class FatalErrorLog {
             }
         }
         // CrashOnOutOfMemoryError
-        if (jvmOptions != null && JdkUtil.isOptionEnabled(jvmOptions.getCrashOnOutOfMemoryError())
-                && isError("OutOfMemory encountered: Java heap space")) {
-            analysis.add(Analysis.ERROR_CRASH_ON_OOME_HEAP);
+        if (jvmOptions != null && JdkUtil.isOptionEnabled(jvmOptions.getCrashOnOutOfMemoryError())) {
+            if (isError("OutOfMemory encountered: Java heap space")) {
+                analysis.add(Analysis.ERROR_CRASH_ON_OOME_HEAP);
+            } else if (isError("OutOfMemory encountered: Metaspace")) {
+                analysis.add(Analysis.ERROR_CRASH_ON_OOME_METASPACE);
+            }
         }
         // OOME
         if (isMemoryAllocationFail()) {
@@ -1906,6 +1909,17 @@ public class FatalErrorLog {
                 s.append(".");
                 a.add(new String[] { item.getKey(), s.toString() });
             } else if (item.getKey().equals(Analysis.ERROR_CRASH_ON_OOME_HEAP.toString())
+                    && JdkUtil.isOptionEnabled(getJvmOptions().getHeapDumpOnOutOfMemoryError())) {
+                StringBuffer s = new StringBuffer(item.getValue());
+                s.append(" Check the following location for a heap dump: ");
+                if (getJvmOptions().getHeapDumpPath() != null) {
+                    s.append(getJvmOptions().getHeapDumpPath());
+                } else {
+                    s.append("user.dir");
+                }
+                s.append(".");
+                a.add(new String[] { item.getKey(), s.toString() });
+            } else if (item.getKey().equals(Analysis.ERROR_CRASH_ON_OOME_METASPACE.toString())
                     && JdkUtil.isOptionEnabled(getJvmOptions().getHeapDumpOnOutOfMemoryError())) {
                 StringBuffer s = new StringBuffer(item.getValue());
                 s.append(" Check the following location for a heap dump: ");
@@ -4914,6 +4928,17 @@ public class FatalErrorLog {
     }
 
     /**
+     * The amount of userspace virtual memory available on the system.
+     */
+    public long getOsCommitLimitAvailable() {
+        long osCommitLimitAvailable = Long.MIN_VALUE;
+        if (getOsCommitLimit() >= 0 && getOsCommitLimitUsed() >= 0) {
+            osCommitLimitAvailable = getOsCommitLimit() - getOsCommitLimitUsed();
+        }
+        return osCommitLimitAvailable;
+    }
+
+    /**
      * The amount of userspace virtual memory currently allocated on the system.
      * 
      * The committed memory is a sum of all of the memory which has been allocated by processes, even if it has not been
@@ -4947,17 +4972,6 @@ public class FatalErrorLog {
             getJvmCommitLimitUsed();
         }
         return osCommitLimitUsed;
-    }
-
-    /**
-     * The amount of userspace virtual memory available on the system.
-     */
-    public long getOsCommitLimitAvailable() {
-        long osCommitLimitAvailable = Long.MIN_VALUE;
-        if (getOsCommitLimit() >= 0 && getOsCommitLimitUsed() >= 0) {
-            osCommitLimitAvailable = getOsCommitLimit() - getOsCommitLimitUsed();
-        }
-        return osCommitLimitAvailable;
     }
 
     public List<OsInfo> getOsInfos() {

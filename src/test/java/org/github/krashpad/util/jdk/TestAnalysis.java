@@ -713,6 +713,45 @@ class TestAnalysis {
     }
 
     @Test
+    void testCrashOnOomeMetaspacePathDefault() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String header = "#  fatal error: OutOfMemory encountered: Metaspace";
+        Header headerEvent = new Header(header);
+        fel.getHeaders().add(headerEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ON_OOME_METASPACE.getKey()),
+                Analysis.ERROR_CRASH_ON_OOME_METASPACE + " analysis not identified.");
+        assertEquals("Crash due to \"java.lang.OutOfMemoryError: Metaspace\" in combination with "
+                + "-XX:+CrashOnOutOfMemoryError. Reference: https://access.redhat.com/solutions/2038983. Check the "
+                + "following location for a heap dump: user.dir.",
+                fel.getAnalysisLiteral(Analysis.ERROR_CRASH_ON_OOME_METASPACE.getKey()),
+                Analysis.ERROR_CRASH_ON_OOME_METASPACE + " analysis literal not correct.");
+    }
+
+    @Test
+    void testCrashOnOomeMetaspacePathDefined() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError "
+                + "-XX:HeapDumpPath=/path/to/mydir";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String header = "#  fatal error: OutOfMemory encountered: Metaspace";
+        Header headerEvent = new Header(header);
+        fel.getHeaders().add(headerEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ON_OOME_METASPACE.getKey()),
+                Analysis.ERROR_CRASH_ON_OOME_METASPACE + " analysis not identified.");
+        assertEquals("Crash due to \"java.lang.OutOfMemoryError: Metaspace\" in combination with "
+                + "-XX:+CrashOnOutOfMemoryError. Reference: https://access.redhat.com/solutions/2038983. Check the "
+                + "following location for a heap dump: -XX:HeapDumpPath=/path/to/mydir.",
+                fel.getAnalysisLiteral(Analysis.ERROR_CRASH_ON_OOME_METASPACE.getKey()),
+                Analysis.ERROR_CRASH_ON_OOME_METASPACE + " analysis literal not correct.");
+    }
+
+    @Test
     void testCrashStartup() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset33.txt");
         Manager manager = new Manager();
