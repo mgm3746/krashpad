@@ -72,11 +72,11 @@ public class ContainerInfo implements LogEvent, HeaderEvent {
     /**
      * Regular expression for a setting.
      */
-    private static final String _SETTING = "^(active_processor_count|container_type|"
+    private static final String _SETTING = "^(active_processor_count|container_type|cache_usage_in_bytes|"
             + "cpu_(cpuset_cpus|memory_nodes|period|shares|quota)|current number of tasks|"
             + "kernel_memory_(limit_in_bytes|max_usage_in_bytes|usage_in_bytes)|maximum number of tasks|"
             + "memory_(and_swap_limit_in_bytes|limit_in_bytes|max_usage_in_bytes|soft_limit_in_bytes|"
-            + "swap_current_in_bytes|swap_max_limit_in_bytes|usage_in_bytes)): (.+)$";
+            + "swap_current_in_bytes|swap_max_limit_in_bytes|usage_in_bytes)|rss_usage_in_bytes):[ ]{0,1}(.*)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

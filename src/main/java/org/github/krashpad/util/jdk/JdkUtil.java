@@ -92,6 +92,7 @@ import org.github.krashpad.domain.jdk.ProcessMemory;
 import org.github.krashpad.domain.jdk.Register;
 import org.github.krashpad.domain.jdk.RegisterToMemoryMapping;
 import org.github.krashpad.domain.jdk.Release;
+import org.github.krashpad.domain.jdk.ReleaseFile;
 import org.github.krashpad.domain.jdk.Rlimit;
 import org.github.krashpad.domain.jdk.SigInfo;
 import org.github.krashpad.domain.jdk.SignalHandlers;
@@ -251,17 +252,17 @@ public class JdkUtil {
         //
         NATIVE_MEMORY_TRACKING, NMETHOD_FLUSHES_EVENT, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID, PID_MAX,
         //
-        POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK,
+        POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RELEASE_FILE, RLIMIT, SIGINFO,
         //
-        STACK_SLOT_TO_MEMORY_MAPPING, SWAPPINESS, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO,
+        SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, SWAPPINESS, THREAD, THREADS_ACTIVE_COMPILE,
         //
-        THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG,
+        THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK,
         //
-        TRANSPARENT_HUGEPAGE_ENABLED, TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE, UID, UMASK, UNAME, UNKNOWN,
+        TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED, TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE, UID, UMASK,
         //
-        VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS,
+        UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT,
         //
-        ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
+        VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
     }
 
     /**
@@ -749,7 +750,8 @@ public class JdkUtil {
             } else if (logLine.matches(GcHeapHistoryEvent._REGEX_HEADER)
                     || (priorEvent instanceof GcHeapHistoryEvent && GcHeapHistoryEvent.match(logLine))) {
                 logEventType = LogEventType.GC_HEAP_HISTORY_EVENT;
-            } else if (GcPreciousLog.match(logLine)) {
+            } else if (logLine.matches(GcPreciousLog._REGEX_HEADER)
+                    || (priorEvent instanceof GcPreciousLog && GcPreciousLog.match(logLine))) {
                 logEventType = LogEventType.GC_PRECIOUS_LOG;
             } else if (GlobalFlag.match(logLine)) {
                 logEventType = LogEventType.GLOBAL_FLAG;
@@ -832,6 +834,9 @@ public class JdkUtil {
             } else if (logLine.matches(RegisterToMemoryMapping._REGEX_HEADER)
                     || (priorEvent instanceof RegisterToMemoryMapping && RegisterToMemoryMapping.match(logLine))) {
                 logEventType = LogEventType.REGISTER_TO_MEMORY_MAPPING;
+            } else if (logLine.matches(ReleaseFile._REGEX_HEADER)
+                    || (priorEvent instanceof ReleaseFile && ReleaseFile.match(logLine))) {
+                logEventType = LogEventType.RELEASE_FILE;
             } else if (Rlimit.match(logLine)) {
                 logEventType = LogEventType.RLIMIT;
             } else if (SigInfo.match(logLine)) {
@@ -1196,6 +1201,9 @@ public class JdkUtil {
             break;
         case REGISTER_TO_MEMORY_MAPPING:
             event = new RegisterToMemoryMapping(logLine);
+            break;
+        case RELEASE_FILE:
+            event = new ReleaseFile(logLine);
             break;
         case RLIMIT:
             event = new Rlimit(logLine);

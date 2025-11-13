@@ -41,6 +41,13 @@ class TestContainerInfo {
     }
 
     @Test
+    void testCacheUsageInBytes() {
+        String logLine = "cache_usage_in_bytes: 3028 k";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testContainerType() {
         String logLine = "container_type: cgroupv1";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
@@ -53,6 +60,13 @@ class TestContainerInfo {
     @Test
     void testCpuCpusetCpus() {
         String logLine = "cpu_cpuset_cpus: 0-7";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testCpuCpusetCpusNoData() {
+        String logLine = "cpu_cpuset_cpus:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
@@ -126,7 +140,7 @@ class TestContainerInfo {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
-    
+
     @Test
     void testMemoryAndSwapLimitWithKUnits() {
         String logLine = "memory_and_swap_limit_in_bytes: 1572864 k";
@@ -140,14 +154,13 @@ class TestContainerInfo {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
-    
+
     @Test
     void testMemoryLimitWithKUnits() {
         String logLine = "memory_limit_in_bytes: 1572864 k";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
-
 
     @Test
     void testMemoryMaxUsage() {
@@ -189,5 +202,12 @@ class TestContainerInfo {
         String logLine = "container_type: cgroupv1";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof ContainerInfo,
                 JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not parsed.");
+    }
+
+    @Test
+    void testRssUsageInBytes() {
+        String logLine = "rss_usage_in_bytes: 1008148 k";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CONTAINER_INFO,
+                JdkUtil.LogEventType.CONTAINER_INFO.toString() + " not identified.");
     }
 }

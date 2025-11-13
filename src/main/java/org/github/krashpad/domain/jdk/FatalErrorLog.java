@@ -201,6 +201,11 @@ public class FatalErrorLog {
     private List<GcPreciousLog> gcPreciousLogs;
 
     /**
+     * Release file information.
+     */
+    private List<ReleaseFile> releaseFiles;
+
+    /**
      * Global flag information.
      */
     private List<GlobalFlag> globalFlags;
@@ -454,6 +459,7 @@ public class FatalErrorLog {
         pidMaxes = new ArrayList<PidMax>();
         processMemories = new ArrayList<ProcessMemory>();
         registerToMemoryMappings = new ArrayList<RegisterToMemoryMapping>();
+        releaseFiles = new ArrayList<ReleaseFile>();
         stacks = new ArrayList<Stack>();
         stackSlotToMemoryMappings = new ArrayList<StackSlotToMemoryMapping>();
         threads = new ArrayList<Thread>();
@@ -5162,6 +5168,10 @@ public class FatalErrorLog {
 
     public List<RegisterToMemoryMapping> getRegisterToMemoryMappings() {
         return registerToMemoryMappings;
+    }
+
+    public List<ReleaseFile> getReleaseFiles() {
+        return releaseFiles;
     }
 
     /**

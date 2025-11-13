@@ -14,76 +14,50 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
- * GC_PRECIOUS_LOG
+ * RELEASE_FILE
  * </p>
  * 
  * <p>
- * GC precious information. JDK17+.
- * </p>
- * 
- * <p>
- * <a href="https://bugs.openjdk.java.net/browse/JDK-8246272">JDK-8246135</a>
+ * Release file information. JDK21u9+.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * GC Precious Log:
- *  CPUs: 12 total, 12 available
- *  Memory: 31907M
- *  Large Page Support: Disabled
- *  NUMA Support: Disabled
- *  Compressed Oops: Enabled (Zero based)
- *  Heap Region Size: 4M
- *  Heap Min Capacity: 8M
- *  Heap Initial Capacity: 500M
- *  Heap Max Capacity: 7980M
- *  Pre-touch: Disabled
- *  Parallel Workers: 10
- *  Concurrent Workers: 3
- *  Concurrent Refinement Workers: 10
- *  Periodic GC: Disabled
- * </pre>
- * 
- * <pre>
- * GC Precious Log:
- * &lt;Empty&gt;
+ * Release file:
+ * <release file has not been read>
+ * Environment Variables:
+ * JAVA_HOME=/etc/alternatives/java_sdk
+ * PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+ * USERNAME=myuser
+ * SHELL=/bin/bash
+ * DISPLAY=:0
+ * LANG=en_US.UTF-8
+ * TERM=xterm-256color
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class GcPreciousLog implements LogEvent, HeaderEvent {
+public class ReleaseFile implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "GC Precious Log:";
-
-    private static Pattern pattern = Pattern.compile(GcPreciousLog.REGEX);
+    public static final String _REGEX_HEADER = "Release file:";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|<Empty>|<Skipped>|( (Address Space Size|Address Space Type|Alignments|"
-            + "Available space on backing filesystem|CardTable entry size|Card Set container configuration|"
-            + "Class pointer check|Compressed Oops|CPUs|GC Workers|GC Workers for (Old|Young) Generation|"
-            + "GC Workers Max|Heap Backing File(system)?|Heap ((Initial|Min|Max) Capacity|Region Size)|"
-            + "Initial Capacity|Large Page Support|Max Capacity|Medium Page Size|Memory|Min Capacity|NUMA Nodes|"
-            + "NUMA Support|Periodic GC|Pre-touch|Probing address space for the highest valid bit|"
-            + "(Concurrent( Refinement)?|Parallel) Workers|Runtime Workers|Soft Max Capacity|Uncommit):|"
-            + " String Deduplication)| \\*\\*\\*\\*\\* WARNING!| The system limit| max Java heap size|"
-            + " least \\d{1,} mappings| limit could lead to)(.*)$";
+            + "|<release file has not been read>|(IMPLEMENTOR|IMPLEMENTOR_VERSION|JAVA_RUNTIME_VERSION|JAVA_VERSION|"
+            + "JAVA_VERSION_DATE|LIBC|MODULES|OS_ARCH|OS_NAME|SOURCE)=.*)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -107,13 +81,13 @@ public class GcPreciousLog implements LogEvent, HeaderEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public GcPreciousLog(String logEntry) {
+    public ReleaseFile(String logEntry) {
         this.logEntry = logEntry;
     }
 
     @Override
     public LogEventType getEventType() {
-        return LogEventType.GC_PRECIOUS_LOG;
+        return LogEventType.RELEASE_FILE;
     }
 
     public String getLogEntry() {
@@ -127,32 +101,5 @@ public class GcPreciousLog implements LogEvent, HeaderEvent {
             isHeader = logEntry.matches(_REGEX_HEADER);
         }
         return isHeader;
-    }
-
-    /**
-     * @return The setting value (or null for the header).
-     */
-    public String getValue() {
-        String value = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find() && matcher.group(10) != null) {
-            value = matcher.group(10);
-            if (value != null) {
-                value = value.trim();
-            }
-        }
-        return value;
-    }
-
-    /**
-     * @return The setting (or null for the header).
-     */
-    public String getSetting() {
-        String flag = null;
-        Matcher matcher = pattern.matcher(logEntry);
-        if (matcher.find()) {
-            flag = matcher.group(3);
-        }
-        return flag;
     }
 }
