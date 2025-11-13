@@ -31,7 +31,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * 
  * <pre>
  * Release file:
- * <release file has not been read>
+ * &lt;release file has not been read&gt;
  * Environment Variables:
  * JAVA_HOME=/etc/alternatives/java_sdk
  * PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
