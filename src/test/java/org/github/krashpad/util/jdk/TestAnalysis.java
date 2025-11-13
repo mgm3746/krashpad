@@ -2316,81 +2316,6 @@ class TestAnalysis {
     }
 
     @Test
-    void testMaxRamLimit() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:MaxRAMPercentage=80";
-        VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArguments().add(event);
-        String memory = "Memory: 4k page, physical 134217729k(92429972k free), swap 0k(0k free)";
-        Memory memoryEvent = new Memory(memory);
-        fel.getMemories().add(memoryEvent);
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.20+8-LTS) for linux-amd64 JRE (11.0.20+8-LTS), built "
-                + "on Jul 15 2023 00:41:55 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-18)";
-        VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfo(vmInfoEvent);
-        fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.WARN_MAX_RAM_LIMIT.getKey()),
-                Analysis.WARN_MAX_RAM_LIMIT + " analysis not identified.");
-    }
-
-    @Test
-    void testMaxRamLimitJdk17() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:MaxRAMPercentage=80";
-        VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArguments().add(event);
-        String memory = "Memory: 4k page, physical 134217729k(92429972k free), swap 0k(0k free)";
-        Memory memoryEvent = new Memory(memory);
-        fel.getMemories().add(memoryEvent);
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (17.0.8+7-LTS) for linux-amd64 JRE (17.0.8+7-LTS), built on "
-                + "Jul 14 2023 15:48:52 by \"mockbuild\" with gcc 8.3.1 20190311 (Red Hat 8.3.1-3)";
-        VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfo(vmInfoEvent);
-        fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_RAM_LIMIT.getKey()),
-                Analysis.WARN_MAX_RAM_LIMIT + " analysis incorrectly identified.");
-    }
-
-    @Test
-    void testMaxRamLimitMaxHeap() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:MaxRAMPercentage=80 -Xmx256g";
-        VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArguments().add(event);
-        String memory = "Memory: 4k page, physical 134217729k(92429972k free), swap 0k(0k free)";
-        Memory memoryEvent = new Memory(memory);
-        fel.getMemories().add(memoryEvent);
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.20+8-LTS) for linux-amd64 JRE (11.0.20+8-LTS), built "
-                + "on Jul 15 2023 00:41:55 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-18)";
-        VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfo(vmInfoEvent);
-        jvm_args = "jvm_args: -XX:MaxRAMPercentage=80 -Xmx256g";
-        event = new VmArguments(jvm_args);
-        fel.getVmArguments().add(event);
-        fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_RAM_LIMIT.getKey()),
-                Analysis.WARN_MAX_RAM_LIMIT + " analysis incorrectly identified.");
-    }
-
-    @Test
-    void testMaxRamLimitMaxRam() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String jvm_args = "jvm_args: -XX:MaxRAMPercentage=80 -XX:MaxRAM=134217729k";
-        VmArguments event = new VmArguments(jvm_args);
-        fel.getVmArguments().add(event);
-        String memory = "Memory: 4k page, physical 134217729k(92429972k free), swap 0k(0k free)";
-        Memory memoryEvent = new Memory(memory);
-        fel.getMemories().add(memoryEvent);
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.20+8-LTS) for linux-amd64 JRE (11.0.20+8-LTS), built "
-                + "on Jul 15 2023 00:41:55 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-18)";
-        VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfo(vmInfoEvent);
-        fel.doAnalysis();
-        assertFalse(fel.hasAnalysis(Analysis.WARN_MAX_RAM_LIMIT.getKey()),
-                Analysis.WARN_MAX_RAM_LIMIT + " analysis incorrectly identified.");
-    }
-
-    @Test
     void testMemoryAvailableZero() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset93.txt");
         Manager manager = new Manager();
@@ -3442,6 +3367,8 @@ class TestAnalysis {
         fel.getGcPreciousLogs().add(gcPreciousLogEvent1);
         String gcPreciousLog2 = " Memory: 96991M";
         GcPreciousLog gcPreciousLogEvent2 = new GcPreciousLog(gcPreciousLog2);
+        assertEquals("Memory", gcPreciousLogEvent2.getSetting(), "Setting not correct.");
+        assertEquals("96991M", gcPreciousLogEvent2.getValue(), "Value not correct.");
         fel.getGcPreciousLogs().add(gcPreciousLogEvent2);
         fel.doAnalysis();
         long osMemoryTotal = JdkUtil.convertSize(96991, 'M', 'B');

@@ -19,7 +19,6 @@ import static java.math.RoundingMode.HALF_EVEN;
 import static java.util.stream.Collectors.summingLong;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -775,11 +774,8 @@ public class FatalErrorLog {
                             && !isOvercommitted()) {
                         // Strong evidence for vm.overcommit_memory=2, but possible resource limit
                         analysis.add(Analysis.ERROR_OOME_OVERCOMMIT_RLIMIT_STARTUP);
-                        if (jvmOptions == null
-                                || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
-                                        && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
-                                                jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
-                                                        JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
+                        if (getHeapInitialSize() > 0 && getHeapMaxSize() > 0
+                                && getHeapInitialSize() == getHeapMaxSize()) {
                             analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
                         }
                     } else if (allocation > 0 && getOsCommitLimitAvailable() > 0
@@ -796,11 +792,8 @@ public class FatalErrorLog {
                         } else {
                             analysis.add(Analysis.ERROR_OOME_JVM_STARTUP);
                         }
-                        if (jvmOptions == null
-                                || (jvmOptions.getInitialHeapSize() != null && jvmOptions.getMaxHeapSize() != null
-                                        && (JdkUtil.getByteOptionBytes(JdkUtil.getByteOptionValue(
-                                                jvmOptions.getInitialHeapSize())) == JdkUtil.getByteOptionBytes(
-                                                        JdkUtil.getByteOptionValue(jvmOptions.getMaxHeapSize()))))) {
+                        if (getHeapInitialSize() > 0 && getHeapMaxSize() > 0
+                                && getHeapInitialSize() == getHeapMaxSize()) {
                             analysis.add(Analysis.INFO_OOME_STARTUP_HEAP_MIN_EQUAL_MAX);
                         }
                     } else {
@@ -1591,15 +1584,6 @@ public class FatalErrorLog {
         // Check for vm.overcommit_memory=2 and vm.overcommit_ratio=100
         if (getMemoryTotal() > 0 && getOsCommitLimit() > 0 && getMemoryTotal() == getOsCommitLimit()) {
             analysis.add(Analysis.INFO_OVERCOMMIT_DISABLED_RATIO_100);
-        }
-        // Check if MaxRAMPercentage is used without MaxRAM when available memory > 128g prior to JDK13
-        if (jvmOptions != null && jvmOptions.getMaxRAMPercentage() != null && jvmOptions.getMaxHeapSize() == null
-                && jvmOptions.getMaxRAM() == null && getJavaVersionMajor() > 0 && getJavaVersionMajor() < 13) {
-            BigDecimal oneHundredTwentyEightGigabytes = new BigDecimal("128")
-                    .multiply(org.github.joa.util.Constants.GIGABYTE);
-            if (getMemoryTotal() > oneHundredTwentyEightGigabytes.longValue()) {
-                analysis.add(Analysis.WARN_MAX_RAM_LIMIT);
-            }
         }
         // Check for timeouts occurring during error reporting
         if (!timeouts.isEmpty()) {
@@ -3213,29 +3197,18 @@ public class FatalErrorLog {
         GlobalFlag globalFlagInitialHeapSize = getGlobalFlag("InitialHeapSize");
         if (globalFlagInitialHeapSize != null) {
             heapInitialSize = Long.parseLong(globalFlagInitialHeapSize.getValue());
-        } else if (jvmOptions != null && jvmOptions.getInitialHeapSize() != null) {
-            // Get from jvm_args
-            char fromUnits;
-            long value;
-            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(jvmOptions.getInitialHeapSize());
-            if (matcher.find()) {
-                value = Long.parseLong(matcher.group(2));
-                if (matcher.group(3) != null) {
-                    fromUnits = matcher.group(3).charAt(0);
-                } else {
-                    fromUnits = 'B';
+        } else if (!gcPreciousLogs.isEmpty()) {
+            Iterator<GcPreciousLog> iterator = gcPreciousLogs.iterator();
+            while (iterator.hasNext()) {
+                GcPreciousLog gpl = iterator.next();
+                if (gpl.getSetting().matches("^Heap Initial Capacity$")) {
+                    heapInitialSize = org.github.joa.util.JdkUtil.getByteOptionBytes(gpl.getValue());
                 }
-                heapInitialSize = JdkUtil.convertSize(value, fromUnits, 'B');
             }
-        } else if (heapAddress != null && !heapAddress.isErrorOccurredDuringErrorReporting()) {
-            heapInitialSize = heapAddress.getSize();
-        } else if (getMemoryTotal() > 0) {
-            // Use JVM default = 1/64 system memory
-            BigDecimal systemPhysicalMemory = new BigDecimal(getMemoryTotal());
-            systemPhysicalMemory = systemPhysicalMemory.divide(new BigDecimal(64));
-            systemPhysicalMemory = systemPhysicalMemory.setScale(0, RoundingMode.HALF_EVEN);
-            heapInitialSize = systemPhysicalMemory.longValue();
+        }
+        // Get from JVM options
+        if (heapInitialSize <= 0 && jvmOptions != null) {
+            heapInitialSize = jvmOptions.getHeapInitialSize();
         }
         return heapInitialSize;
     }
@@ -3249,29 +3222,12 @@ public class FatalErrorLog {
         GlobalFlag globalFlagMaxHeapSize = getGlobalFlag("MaxHeapSize");
         if (globalFlagMaxHeapSize != null) {
             heapMaxSize = Long.parseLong(globalFlagMaxHeapSize.getValue());
-        } else if (jvmOptions != null && jvmOptions.getMaxHeapSize() != null) {
-            // Get from jvm_args
-            char fromUnits;
-            long value;
-            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(jvmOptions.getMaxHeapSize());
-            if (matcher.find()) {
-                value = Long.parseLong(matcher.group(2));
-                if (matcher.group(3) != null) {
-                    fromUnits = matcher.group(3).charAt(0);
-                } else {
-                    fromUnits = 'B';
-                }
-                heapMaxSize = JdkUtil.convertSize(value, fromUnits, 'B');
-            }
         } else if (heapAddress != null && !heapAddress.isErrorOccurredDuringErrorReporting()) {
             heapMaxSize = heapAddress.getSize();
-        } else if (getMemoryTotal() > 0) {
-            // Use JVM default = 1/4 system memory
-            BigDecimal systemPhysicalMemory = new BigDecimal(getMemoryTotal());
-            systemPhysicalMemory = systemPhysicalMemory.divide(new BigDecimal(4));
-            systemPhysicalMemory = systemPhysicalMemory.setScale(0, RoundingMode.HALF_EVEN);
-            heapMaxSize = systemPhysicalMemory.longValue();
+        }
+        // Get from JVM options
+        if (heapMaxSize <= 0 && jvmOptions != null) {
+            heapMaxSize = jvmOptions.getHeapMaxSize();
         }
         return heapMaxSize;
     }
@@ -4109,10 +4065,10 @@ public class FatalErrorLog {
             }
         }
         if (jvmMemoryHeapCommitted < 0) {
-            jvmMemoryHeapCommitted = getHeapInitialSize();
+            jvmMemoryHeapCommitted = getJvmMemoryHeapUsed();
         }
         if (jvmMemoryHeapCommitted < 0) {
-            jvmMemoryHeapCommitted = getJvmMemoryHeapUsed();
+            jvmMemoryHeapCommitted = getHeapMaxSize();
         }
         return jvmMemoryHeapCommitted;
     }
@@ -4928,7 +4884,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * The amount of userspace virtual memory available on the system.
+     * @return The amount of userspace virtual memory available on the system.
      */
     public long getOsCommitLimitAvailable() {
         long osCommitLimitAvailable = Long.MIN_VALUE;

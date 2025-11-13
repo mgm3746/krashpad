@@ -14,6 +14,9 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
@@ -66,6 +69,8 @@ public class GcPreciousLog implements LogEvent, HeaderEvent {
      */
     private static final String _REGEX_HEADER = "GC Precious Log:";
 
+    private static Pattern pattern = Pattern.compile(GcPreciousLog.REGEX);
+
     /**
      * Regular expression defining the logging.
      */
@@ -78,7 +83,7 @@ public class GcPreciousLog implements LogEvent, HeaderEvent {
             + "NUMA Support|Periodic GC|Pre-touch|Probing address space for the highest valid bit|"
             + "(Concurrent( Refinement)?|Parallel) Workers|Runtime Workers|Soft Max Capacity|Uncommit):|"
             + " String Deduplication)| \\*\\*\\*\\*\\* WARNING!| The system limit| max Java heap size|"
-            + " least \\d{1,} mappings| limit could lead to).*$";
+            + " least \\d{1,} mappings| limit could lead to)(.*)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -122,5 +127,32 @@ public class GcPreciousLog implements LogEvent, HeaderEvent {
             isHeader = logEntry.matches(_REGEX_HEADER);
         }
         return isHeader;
+    }
+
+    /**
+     * @return The setting value (or null for the header).
+     */
+    public String getValue() {
+        String value = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find() && matcher.group(10) != null) {
+            value = matcher.group(10);
+            if (value != null) {
+                value = value.trim();
+            }
+        }
+        return value;
+    }
+
+    /**
+     * @return The setting (or null for the header).
+     */
+    public String getSetting() {
+        String flag = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            flag = matcher.group(3);
+        }
+        return flag;
     }
 }

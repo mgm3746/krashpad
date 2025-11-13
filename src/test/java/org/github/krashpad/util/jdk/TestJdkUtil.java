@@ -28,19 +28,6 @@ import org.junit.jupiter.api.Test;
 class TestJdkUtil {
 
     @Test
-    void testByteOptionBytes() {
-        assertEquals(512L * 1024, JdkUtil.getByteOptionBytes("512k"), "-Xss not correct.");
-        assertEquals(2048L * 1024 * 1024, JdkUtil.getByteOptionBytes("2048m"), "-XX:MaxMetaspaceSize not correct.");
-    }
-
-    @Test
-    void testByteOptionValue() {
-        assertEquals("512k", JdkUtil.getByteOptionValue("-Xss512k"), "-Xss not correct.");
-        assertEquals("2048m", JdkUtil.getByteOptionValue("-XX:MaxMetaspaceSize=2048m"),
-                "-XX:MaxMetaspaceSize not correct.");
-    }
-
-    @Test
     void testIsReleaseStringInReleases() {
         String jdkReleaseString = "11.0.15+10-LTS";
         assertTrue(JdkUtil.isReleaseStringInReleases(jdkReleaseString, Jdk11.RHEL8_X86_64_RPMS),

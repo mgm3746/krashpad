@@ -1102,11 +1102,6 @@ public enum Analysis {
     WARN_MAX_MAP_COUNT_RLIMIT_POSSIBLE("warn.max.map.count.rlimit.possible"),
 
     /**
-     * Property key for MaxRAMPercentage being used without MaxRAM on a system with &gt;128g available memory.
-     */
-    WARN_MAX_RAM_LIMIT("warn.max.ram.limit"),
-
-    /**
      * Property key for external processes consuming significant amounts of memory (&gt;10%).
      */
     WARN_MEMORY_EXTERNAL("warn.memory.external"),

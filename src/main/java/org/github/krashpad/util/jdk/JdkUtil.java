@@ -382,39 +382,6 @@ public class JdkUtil {
     }
 
     /**
-     * Get the bytes of a JVM option that specifies a byte value. For example, the bytes for <code>128k</code> is 128 x
-     * 1024 = 131,072.
-     * 
-     * @param optionValue
-     *            The JVM option value.
-     * @return The JVM option value in bytes, or <code>Long.MIN_VALUE</code> if the option does not exist
-     */
-    public static final long getByteOptionBytes(final String optionValue) {
-        long bytes = Long.MIN_VALUE;
-        if (optionValue != null) {
-            char fromUnits;
-            long value;
-            Pattern pattern = Pattern.compile(JdkRegEx.OPTION_SIZE_BYTES);
-            Matcher matcher = pattern.matcher(optionValue);
-            if (matcher.find()) {
-                value = Long.parseLong(matcher.group(2));
-                if (matcher.group(3) != null) {
-                    fromUnits = matcher.group(3).charAt(0);
-                } else {
-                    fromUnits = 'B';
-                }
-                char toUnits = 'B';
-                if (fromUnits == toUnits) {
-                    bytes = value;
-                } else {
-                    bytes = JdkUtil.convertSize(value, fromUnits, toUnits);
-                }
-            }
-        }
-        return bytes;
-    }
-
-    /**
      * Get the value of a JVM option that specifies a byte value. For example, the value for <code>-Xss128k</code> is
      * 128k. The value for <code>-XX:PermSize=128M</code> is 128M.
      * 
