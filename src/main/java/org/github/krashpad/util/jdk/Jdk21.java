@@ -44,6 +44,11 @@ public class Jdk21 {
     public static final HashMap<String, Release> RHEL9_X86_64_RPMS;
 
     /**
+     * RHEL10 rpm release information.
+     */
+    public static final HashMap<String, Release> RHEL10_X86_64_RPMS;
+
+    /**
      * Windows release information.
      */
     public static final HashMap<String, Release> WINDOWS_ZIPS;
@@ -117,6 +122,18 @@ public class Jdk21 {
                 new Release("2023-10-30T00:00:00Z", 2, "21.0.1+12-LTS"));
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.0.0.35-2.el9.x86_64",
                 new Release("2023-08-27T00:00:00Z", 1, "21+35-LTS"));
+
+        // RHEL10 amd64 OpenJDK21 rpm
+        RHEL10_X86_64_RPMS = new HashMap<String, Release>();
+        RHEL10_X86_64_RPMS.put("LATEST", new Release("2025-10-18T00:00:00Z", 4, "21.0.9+10-LTS"));
+        RHEL10_X86_64_RPMS.put("java-21-openjdk-21.0.9.0.10-1.el10.x86_64",
+                new Release("2025-10-18T00:00:00Z", 4, "21.0.9+10-LTS"));
+        RHEL10_X86_64_RPMS.put("java-21-openjdk-21.0.8.0.9-1.el10.x86_64",
+                new Release("2025-07-11T00:00:00Z", 3, "21.0.8+9-LTS"));
+        RHEL10_X86_64_RPMS.put("java-21-openjdk-21.0.7.0.6-1.el10.x86_64",
+                new Release("2025-05-04T00:00:00Z", 2, "21.0.7+6-LTS"));
+        RHEL10_X86_64_RPMS.put("java-21-openjdk-21.0.6.0.7-3.el10.x86_64",
+                new Release("2025-03-08T00:00:00Z", 1, "21.0.6+7-LTS"));
 
         // RHEL amd64 OpenJDK21 zip
         RHEL_ZIPS = new HashMap<String, Release>();

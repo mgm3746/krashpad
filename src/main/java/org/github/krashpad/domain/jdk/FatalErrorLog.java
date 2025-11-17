@@ -6855,6 +6855,18 @@ public class FatalErrorLog {
                     }
                 }
                 break;
+            case RHEL10:
+                iterator = Jdk21.RHEL10_X86_64_RPMS.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Entry<String, Release> entry = iterator.next();
+                    Release release = entry.getValue();
+                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                        isRhelRpm = true;
+                        break;
+                    }
+                }
+                break;
             case CENTOS6:
             case RHEL6:
             case CENTOS7:
@@ -6968,6 +6980,11 @@ public class FatalErrorLog {
                             && getJdkBuildDate()
                                     .compareTo(Jdk21.RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     break;
+                case RHEL10:
+                    isRhelRpmInstall = Jdk21.RHEL10_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk21.RHEL10_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
                 case CENTOS6:
                 case RHEL6:
                 case CENTOS7:
@@ -7009,7 +7026,8 @@ public class FatalErrorLog {
             case JDK21:
                 isRhVersion = Jdk21.RHEL_ZIPS.containsKey(getJdkReleaseString())
                         || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), Jdk21.RHEL8_X86_64_RPMS)
-                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), Jdk21.RHEL9_X86_64_RPMS);
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), Jdk21.RHEL9_X86_64_RPMS)
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), Jdk21.RHEL10_X86_64_RPMS);
                 break;
             case JDK6:
             case JDK7:
@@ -7171,6 +7189,11 @@ public class FatalErrorLog {
                     isRhelRpmInstall = Jdk21.RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
                             && getJdkBuildDate()
                                     .compareTo(Jdk21.RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case RHEL10:
+                    isRhelRpmInstall = Jdk21.RHEL10_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk21.RHEL10_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
                     break;
                 case CENTOS6:
                 case RHEL6:

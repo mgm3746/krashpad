@@ -579,6 +579,11 @@ public class JdkUtil {
                             releases = Jdk21.RHEL9_X86_64_RPMS;
                         }
                         break;
+                    case RHEL10:
+                        if (fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK21) {
+                            releases = Jdk21.RHEL10_X86_64_RPMS;
+                        }
+                        break;
                     default:
                     }
                 } else if (fatalErrorLog.isRhLinuxZipInstall()) {
