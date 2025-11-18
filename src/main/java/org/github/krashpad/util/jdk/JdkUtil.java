@@ -780,7 +780,8 @@ public class JdkUtil {
             } else if (logLine.matches(InternalStatistic._REGEX_HEADER)
                     || (priorEvent instanceof InternalStatistic && InternalStatistic.match(logLine))) {
                 logEventType = LogEventType.INTERNAL_STATISTIC;
-            } else if (JvmtiAgents.match(logLine)) {
+            } else if (JvmtiAgents.match(logLine)
+                    || (priorEvent instanceof JvmtiAgents && !logLine.matches(JdkRegEx.BLANK_LINE))) {
                 logEventType = LogEventType.JVMTI_AGENTS;
             } else if (logLine.matches(LdPreloadFile._REGEX_HEADER)
                     || (priorEvent instanceof LdPreloadFile && LdPreloadFile.match(logLine))) {

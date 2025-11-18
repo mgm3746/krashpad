@@ -33,6 +33,21 @@ class TestJvmtiAgents {
     }
 
     @Test
+    void testMultilineEntry() {
+        JvmtiAgents priorLogEvent = new JvmtiAgents("JVMTI agents:");
+        String logLine = "/tmp/my.jar path:/tmp/my.so";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.JVMTI_AGENTS,
+                JdkUtil.LogEventType.JVMTI_AGENTS.toString() + " not identified.");
+    }
+
+    @Test
+    void testMultilineHeading() {
+        String logLine = "JVMTI agents:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.JVMTI_AGENTS,
+                JdkUtil.LogEventType.JVMTI_AGENTS.toString() + " not identified.");
+    }
+
+    @Test
     void testParseLogLine() {
         String logLine = "JVMTI agents: none";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof JvmtiAgents,

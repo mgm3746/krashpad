@@ -33,7 +33,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * JVMTI agents: none
  * </pre>
  * 
- * TODO: Don't throw this away; make it a FEL property.
+ * TODO: Don't throw this away; make it a FatalErrorLog property.
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
@@ -43,7 +43,7 @@ public class JvmtiAgents implements LogEvent, ThrowAwayEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^JVMTI agents: (.+)$";
+    private static final String REGEX = "^JVMTI agents:(.+)?$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
