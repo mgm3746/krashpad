@@ -3120,7 +3120,7 @@ class TestAnalysis {
     }
 
     @Test
-    void testOracleJdbcJdkIncompatible() {
+    void testOracleJdbcJdk17Incompatible() {
         FatalErrorLog fel = new FatalErrorLog();
         String vm_info = "vm_info: OpenJDK 64-Bit Server VM (17.0.4+8-LTS) for linux-amd64 JRE (17.0.4+8-LTS), built "
                 + "on Jul 20 2022 13:03:41 by \"mockbuild\" with gcc 8.5.0 20210514 (Red Hat 8.5.0-10)";

@@ -114,7 +114,7 @@ public class Main {
 
             printWriter.write(logFileName + Constants.LINE_SEPARATOR);
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
-            printWriter.write("OS:" + Constants.LINE_SEPARATOR);
+            printWriter.write("Host:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
             // Account for generic OS strings
             if (fel.getOsString() != null && !fel.getOsString().equals("Linux")) {
@@ -201,7 +201,7 @@ public class Main {
                             + JdkUtil.convertSize(fel.getMemoryTotal(), 'B', org.github.joa.util.Constants.UNITS)
                             + Character.toString(org.github.joa.util.Constants.UNITS));
                     if (fel.getOsMemoryTotal() > 0) {
-                        printPercentage(printWriter, fel.getMemoryTotal(), fel.getOsMemoryTotal(), "OS Memory");
+                        printPercentage(printWriter, fel.getMemoryTotal(), fel.getOsMemoryTotal(), "Host Memory");
                     }
                     printWriter.write(Constants.LINE_SEPARATOR);
                     if (fel.getMemoryFree() >= 0) {
@@ -219,7 +219,7 @@ public class Main {
                             "Swap: " + JdkUtil.convertSize(fel.getSwapTotal(), 'B', org.github.joa.util.Constants.UNITS)
                                     + Character.toString(org.github.joa.util.Constants.UNITS));
                     if (fel.getOsSwapTotal() > 0) {
-                        printPercentage(printWriter, fel.getSwapTotal(), fel.getOsSwapTotal(), "OS Swap");
+                        printPercentage(printWriter, fel.getSwapTotal(), fel.getOsSwapTotal(), "Host Swap");
                     }
                     printWriter.write(Constants.LINE_SEPARATOR);
                     if (fel.getSwapTotal() > 0 && fel.getSwapFree() >= 0) {
@@ -390,7 +390,7 @@ public class Main {
                                     org.github.joa.util.Constants.UNITS)
                             + Character.toString(org.github.joa.util.Constants.UNITS));
                     if (fel.getMemoryTotal() > 0) {
-                        String literal = isMemoryLimitedByContainer ? "Container Memory" : "OS Memory";
+                        String literal = isMemoryLimitedByContainer ? "Container Memory" : "Host Memory";
                         printPercentage(printWriter, fel.getJvmMemoryTotalCommitted(), fel.getMemoryTotal(), literal);
                     }
                     printWriter.write(Constants.LINE_SEPARATOR);
@@ -400,7 +400,7 @@ public class Main {
                         + JdkUtil.convertSize(fel.getJvmMemoryTotalReserved(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS));
                 if (fel.getMemoryTotal() > 0) {
-                    String literal = isMemoryLimitedByContainer ? "Container Memory" : "OS Memory";
+                    String literal = isMemoryLimitedByContainer ? "Container Memory" : "Host Memory";
                     printPercentage(printWriter, fel.getJvmMemoryTotalReserved(), fel.getMemoryTotal(), literal);
                 }
                 printWriter.write(Constants.LINE_SEPARATOR);
@@ -410,7 +410,7 @@ public class Main {
                         + JdkUtil.convertSize(fel.getJvmMemoryTotalUsed(), 'B', org.github.joa.util.Constants.UNITS)
                         + Character.toString(org.github.joa.util.Constants.UNITS));
                 if (fel.getMemoryTotal() > 0) {
-                    String literal = isMemoryLimitedByContainer ? "Container Memory" : "OS Memory";
+                    String literal = isMemoryLimitedByContainer ? "Container Memory" : "Host Memory";
                     printPercentage(printWriter, fel.getJvmMemoryTotalUsed(), fel.getMemoryTotal(), literal);
                 }
                 printWriter.write(Constants.LINE_SEPARATOR);
@@ -605,7 +605,7 @@ public class Main {
     /**
      * Output percentage block " ([part/whole] of [literal])"
      * 
-     * For example: " (2870% OS Memory)"
+     * For example: " (2870% Host Memory)"
      * 
      * @param printWriter
      *            The PrintWrite.
