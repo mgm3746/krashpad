@@ -69,7 +69,9 @@ public class Jdk11 {
 
         // RHEL7 amd64 OpenJDK11 rpm
         RHEL7_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL7_X86_64_RPMS.put("LATEST", new Release("Jul 10 2025", 31, "11.0.28+6-LTS"));
+        RHEL7_X86_64_RPMS.put("LATEST", new Release("Oct 17 2025", 32, "11.0.29+7-LTS"));
+        RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.29.0.7-1.el7_9.x86_64",
+                new Release("Oct 17 2025", 32, "11.0.29+7-LTS"));
         RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.28.0.6-1.el7_9.x86_64",
                 new Release("Jul 10 2025", 31, "11.0.28+6-LTS"));
         RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.27.0.6-1.el7_9.x86_64",
@@ -138,7 +140,9 @@ public class Jdk11 {
 
         // RHEL8 amd64 OpenJDK11 rpm
         RHEL8_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL8_X86_64_RPMS.put("LATEST", new Release("Jul 10 2025 12:28:37", 32, "11.0.28+6-LTS"));
+        RHEL8_X86_64_RPMS.put("LATEST", new Release("Oct 17 2025 08:25:00", 33, "11.0.29+7-LTS"));
+        RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.29.0.7-1.el8.x86_64",
+                new Release("Oct 17 2025 08:25:00", 33, "11.0.29+7-LTS"));
         RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.28.0.6-1.el8.x86_64",
                 new Release("Jul 10 2025 12:28:37", 32, "11.0.28+6-LTS"));
         RHEL8_X86_64_RPMS.put("java-11-openjdk-11.0.27.0.6-1.el8.x86_64",
@@ -348,7 +352,9 @@ public class Jdk11 {
 
         // RHEL9 amd64 OpenJDK11 rpm
         RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL9_X86_64_RPMS.put("LATEST", new Release("Jul 11 2025", 15, "11.0.28+6-LTS"));
+        RHEL9_X86_64_RPMS.put("LATEST", new Release("Oct 17 2025", 16, "11.0.29+7-LTS"));
+        RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.29.0.7-1.el9.x86_64",
+                new Release("Oct 17 2025", 16, "11.0.29+7-LTS"));
         RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.28.0.6-1.el9.x86_64",
                 new Release("Jul 11 2025", 15, "11.0.28+6-LTS"));
         RHEL9_X86_64_RPMS.put("java-11-openjdk-11.0.27.0.6-1.el9.x86_64",
@@ -405,7 +411,8 @@ public class Jdk11 {
         // RHEL amd64 OpenJDK11 zip
         // First RHEL zip was 11.0.4.11.
         RHEL_ZIPS = new HashMap<String, Release>();
-        RHEL_ZIPS.put("LATEST", new Release("Jul 10 2025 12:10:16", 29, "11.0.28+6-LTS"));
+        RHEL_ZIPS.put("LATEST", new Release("Oct 17 2025 07:17:52", 30, "11.0.29+7-LTS"));
+        RHEL_ZIPS.put("11.0.29+7-LTS", new Release("Oct 17 2025 07:17:52", 30, "11.0.29+7-LTS"));
         RHEL_ZIPS.put("11.0.28+6-LTS", new Release("Jul 10 2025 12:10:16", 29, "11.0.28+6-LTS"));
         RHEL_ZIPS.put("11.0.27+6-LTS", new Release("Apr 11 2025 10:47:53", 28, "11.0.27+6-LTS"));
         RHEL_ZIPS.put("11.0.26+4-LTS", new Release("Jan 14 2025 11:47:27", 27, "11.0.26+4-LTS"));
@@ -442,7 +449,8 @@ public class Jdk11 {
         // Windows amd64 OpenJDK11 zip
         // First Windows zip was 11.0.1.13.
         WINDOWS_ZIPS = new HashMap<String, Release>();
-        WINDOWS_ZIPS.put("LATEST", new Release("Jul 10 2025", 36, "11.0.28+6-LTS"));
+        WINDOWS_ZIPS.put("LATEST", new Release("Oct 17 2025", 37, "11.0.29+7-LTS"));
+        WINDOWS_ZIPS.put("11.0.29+7-LTS", new Release("Oct 17 2025", 37, "11.0.29+7-LTS"));
         WINDOWS_ZIPS.put("11.0.28+6-LTS", new Release("Jul 10 2025", 36, "11.0.28+6-LTS"));
         WINDOWS_ZIPS.put("11.0.27+6-LTS", new Release("Apr 11 2025", 35, "11.0.27+6-LTS"));
         WINDOWS_ZIPS.put("11.0.26+4-LTS", new Release("Jan 14 2025", 34, "11.0.26+4-LTS"));
