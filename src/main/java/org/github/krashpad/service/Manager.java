@@ -29,7 +29,6 @@ import org.github.krashpad.domain.jdk.BarrierSet;
 import org.github.krashpad.domain.jdk.ClassesUnloadedEvent;
 import org.github.krashpad.domain.jdk.CommandLine;
 import org.github.krashpad.domain.jdk.CompilationEvent;
-import org.github.krashpad.domain.jdk.CompressedClassSpace;
 import org.github.krashpad.domain.jdk.ContainerInfo;
 import org.github.krashpad.domain.jdk.CpuInfo;
 import org.github.krashpad.domain.jdk.CurrentCompileTask;
@@ -56,7 +55,6 @@ import org.github.krashpad.domain.jdk.LdPreloadFile;
 import org.github.krashpad.domain.jdk.MaxMapCount;
 import org.github.krashpad.domain.jdk.Meminfo;
 import org.github.krashpad.domain.jdk.Memory;
-import org.github.krashpad.domain.jdk.NarrowKlass;
 import org.github.krashpad.domain.jdk.NativeMemoryTracking;
 import org.github.krashpad.domain.jdk.OsInfo;
 import org.github.krashpad.domain.jdk.PeriodicNativeTrim;
@@ -134,8 +132,6 @@ public class Manager {
                         fatalErrorLog.setCommandLine((CommandLine) event);
                     } else if (event instanceof CompilationEvent) {
                         fatalErrorLog.getCompilationEvents().add((CompilationEvent) event);
-                    } else if (event instanceof CompressedClassSpace) {
-                        fatalErrorLog.setCompressedClassSpaceEvent((CompressedClassSpace) event);
                     } else if (event instanceof ContainerInfo) {
                         fatalErrorLog.getContainerInfos().add((ContainerInfo) event);
                     } else if (event instanceof CpuInfo) {
@@ -197,8 +193,6 @@ public class Manager {
                         fatalErrorLog.getMemories().add((Memory) event);
                     } else if (event instanceof NativeMemoryTracking) {
                         fatalErrorLog.getNativeMemoryTrackings().add((NativeMemoryTracking) event);
-                    } else if (event instanceof NarrowKlass) {
-                        fatalErrorLog.setNarrowKlass((NarrowKlass) event);
                     } else if (event instanceof OsInfo) {
                         fatalErrorLog.getOsInfos().add((OsInfo) event);
                     } else if (event instanceof PeriodicNativeTrim) {

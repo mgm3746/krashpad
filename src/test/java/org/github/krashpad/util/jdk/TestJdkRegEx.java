@@ -389,8 +389,8 @@ class TestJdkRegEx {
 
     @Test
     void testRhel6Amd64RpmOpenjdk8LibjvmFilePath() {
-        String path = "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/";
-        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK8_JAVA_HOME), "Red Hat RPM file path not identified.");
+        String javaHome = "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64";
+        assertTrue(javaHome.matches(JdkRegEx.RH_RPM_OPENJDK8_JAVA_HOME), "Red Hat RPM file path not identified.");
     }
 
     @Test
@@ -401,8 +401,8 @@ class TestJdkRegEx {
 
     @Test
     void testRhel7Amd64RpmOpenjdk11LibjvmFilePath() {
-        String path = "/usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64/";
-        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK11_JAVA_HOME), "Red Hat RPM file path not identified.");
+        String javaHome = "/usr/lib/jvm/java-11-openjdk-11.0.7.10-4.el7_8.x86_64";
+        assertTrue(javaHome.matches(JdkRegEx.RH_RPM_OPENJDK11_JAVA_HOME), "Red Hat RPM file path not identified.");
     }
 
     @Test
@@ -413,8 +413,8 @@ class TestJdkRegEx {
 
     @Test
     void testRhel7Amd64RpmOpenjdk8LibjvmFilePath() {
-        String path = "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64/";
-        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK8_JAVA_HOME), "Red Hat RPM file path not identified.");
+        String javaHome = "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64";
+        assertTrue(javaHome.matches(JdkRegEx.RH_RPM_OPENJDK8_JAVA_HOME), "Red Hat RPM file path not identified.");
     }
 
     @Test
@@ -431,8 +431,8 @@ class TestJdkRegEx {
 
     @Test
     void testRhel7Ppc64leRpmOpenjdk8LibjvmFilePath() {
-        String path = "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/";
-        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK8_JAVA_HOME), "Red Hat RPM file path not identified.");
+        String javaHome = "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le";
+        assertTrue(javaHome.matches(JdkRegEx.RH_RPM_OPENJDK8_JAVA_HOME), "Red Hat RPM file path not identified.");
     }
 
     @Test
@@ -455,14 +455,14 @@ class TestJdkRegEx {
 
     @Test
     void testRhel8Amd64RpmOpenjdk11LibjvmFilePath() {
-        String path = "/usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64/";
-        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK11_JAVA_HOME), "Red Hat RPM file path not identified.");
+        String javaHome = "/usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64";
+        assertTrue(javaHome.matches(JdkRegEx.RH_RPM_OPENJDK11_JAVA_HOME), "Red Hat RPM file path not identified.");
     }
 
     @Test
     void testRhel8Amd64RpmOpenjdk17u8Directory() {
-        String path = "java-17-openjdk-17.0.8.0.7-2.el8.x86_64";
-        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK17_DIR), "Red Hat RPM directory not identified.");
+        String dir = "java-17-openjdk-17.0.8.0.7-2.el8.x86_64";
+        assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK17_DIR), "Red Hat RPM directory not identified.");
     }
 
     @Test
@@ -473,14 +473,14 @@ class TestJdkRegEx {
 
     @Test
     void testRhel9Amd64RpmOpenjdk11LibjvmFilePath() {
-        String path = "/usr/lib/jvm/java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64/";
-        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK11_JAVA_HOME), "Red Hat RPM file path not identified.");
+        String javaHome = "/usr/lib/jvm/java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64";
+        assertTrue(javaHome.matches(JdkRegEx.RH_RPM_OPENJDK11_JAVA_HOME), "Red Hat RPM file path not identified.");
     }
 
     @Test
     void testRhel9Amd64RpmOpenjdk17LibjvmFilePath() {
-        String path = "/usr/lib/jvm/java-17-openjdk-17.0.5.0.8-2.el9_0.x86_64/";
-        assertTrue(path.matches(JdkRegEx.RH_RPM_OPENJDK17_JAVA_HOME), "Red Hat RPM file path not identified.");
+        String javaHome = "/usr/lib/jvm/java-17-openjdk-17.0.5.0.8-2.el9_0.x86_64";
+        assertTrue(javaHome.matches(JdkRegEx.RH_RPM_OPENJDK17_JAVA_HOME), "Red Hat RPM file path not identified.");
     }
 
     @Test

@@ -67,7 +67,8 @@ public class ContainerInfo implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "^container \\(cgroup\\) information:$";
+    private static final String _REGEX_HEADER = "^(container \\(cgroup\\) information:|container information not "
+            + "found.)$";
 
     /**
      * Regular expression for a setting.

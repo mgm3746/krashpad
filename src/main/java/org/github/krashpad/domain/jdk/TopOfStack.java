@@ -50,7 +50,7 @@ public class TopOfStack implements LogEvent, ThrowAwayEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + JdkRegEx.ADDRESS + ":   " + JdkRegEx.ADDRESS + " "
-            + JdkRegEx.ADDRESS + "[ ]{0,1})$";
+            + JdkRegEx.ADDRESS + "[ ]{0,3}(.{16})?)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

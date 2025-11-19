@@ -31,15 +31,15 @@ import org.github.krashpad.domain.jdk.ActiveLocale;
 import org.github.krashpad.domain.jdk.BarrierSet;
 import org.github.krashpad.domain.jdk.BitsEvent;
 import org.github.krashpad.domain.jdk.CardTable;
-import org.github.krashpad.domain.jdk.CdsArchive;
+import org.github.krashpad.domain.jdk.ClassInfo;
 import org.github.krashpad.domain.jdk.ClassesLoadedEvent;
 import org.github.krashpad.domain.jdk.ClassesRedefinedEvent;
 import org.github.krashpad.domain.jdk.ClassesUnloadedEvent;
 import org.github.krashpad.domain.jdk.CodeCache;
 import org.github.krashpad.domain.jdk.CommandLine;
 import org.github.krashpad.domain.jdk.CompilationEvent;
+import org.github.krashpad.domain.jdk.CompilationMemoryStatistics;
 import org.github.krashpad.domain.jdk.CompiledMethod;
-import org.github.krashpad.domain.jdk.CompressedClassSpace;
 import org.github.krashpad.domain.jdk.ConstantPool;
 import org.github.krashpad.domain.jdk.ContainerInfo;
 import org.github.krashpad.domain.jdk.CpuInfo;
@@ -71,6 +71,7 @@ import org.github.krashpad.domain.jdk.JvmtiAgents;
 import org.github.krashpad.domain.jdk.LdPreloadFile;
 import org.github.krashpad.domain.jdk.Libc;
 import org.github.krashpad.domain.jdk.LoadAverage;
+import org.github.krashpad.domain.jdk.LockStack;
 import org.github.krashpad.domain.jdk.Logging;
 import org.github.krashpad.domain.jdk.MachCode;
 import org.github.krashpad.domain.jdk.MaxMapCount;
@@ -78,7 +79,6 @@ import org.github.krashpad.domain.jdk.Meminfo;
 import org.github.krashpad.domain.jdk.Memory;
 import org.github.krashpad.domain.jdk.MemoryProtectionEvent;
 import org.github.krashpad.domain.jdk.Metaspace;
-import org.github.krashpad.domain.jdk.NarrowKlass;
 import org.github.krashpad.domain.jdk.NativeDecoderState;
 import org.github.krashpad.domain.jdk.NativeMemoryTracking;
 import org.github.krashpad.domain.jdk.NmethodFlushesEvent;
@@ -111,6 +111,7 @@ import org.github.krashpad.domain.jdk.TopOfStack;
 import org.github.krashpad.domain.jdk.TransparentHugepageDefrag;
 import org.github.krashpad.domain.jdk.TransparentHugepageEnabled;
 import org.github.krashpad.domain.jdk.TransparentHugepageHpagePmdSize;
+import org.github.krashpad.domain.jdk.TransparentHugepageShmemEnabled;
 import org.github.krashpad.domain.jdk.Uid;
 import org.github.krashpad.domain.jdk.Umask;
 import org.github.krashpad.domain.jdk.Uname;
@@ -217,9 +218,9 @@ public class JdkUtil {
      * Defined Java specifications.
      */
     public enum JavaSpecification {
-        JDK10, JDK11, JDK12, JDK13, JDK14, JDK15, JDK16, JDK17, JDK18, JDK19, JDK20, JDK21, JDK6, JDK7, JDK8, JDK9,
+        JDK6, JDK7, JDK8, JDK9, JDK10, JDK11, JDK12, JDK13, JDK14, JDK15, JDK16, JDK17, JDK18, JDK19, JDK20, JDK21,
         //
-        UNKNOWN
+        JDK22, JDK23, JDK24, JDK25, JDK26, UNKNOWN
     }
 
     /**
@@ -234,21 +235,21 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        ACTIVE_LOCALE, BARRIER_SET, BITS, BLANK_LINE, CARD_TABLE, CDS_ARCHIVE, CLASSES_LOADED_EVENT,
+        ACTIVE_LOCALE, BARRIER_SET, BITS, BLANK_LINE, CARD_TABLE, CLASS_INFO, CLASSES_LOADED_EVENT,
         //
-        CLASSES_REDEFINED_EVENT, CLASSES_UNLOADED_EVENT, CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT, COMPILED_METHOD,
+        CLASSES_REDEFINED_EVENT, CLASSES_UNLOADED_EVENT, CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT,
         //
-        COMPRESSED_CLASS_SPACE, CONSTANT_POOL, CONTAINER_INFO, CPU, CPU_INFO, CURRENT_COMPILE_TASK, CURRENT_THREAD,
+        COMPILATION_MEMORY_STATISTICS, COMPILED_METHOD, CONSTANT_POOL, CONTAINER_INFO, CPU, CPU_INFO,
         //
-        DECODING_CODE_BLOB, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT, DYNAMIC_LIBRARY, ELAPSED_TIME, END,
+        CURRENT_COMPILE_TASK, CURRENT_THREAD, DECODING_CODE_BLOB, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT,
         //
-        ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT, GC_PRECIOUS_LOG, GLOBAL_FLAG, HEADER,
+        DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT,
         //
-        HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, INTERNAL_EXCEPTION_EVENT,
+        GC_PRECIOUS_LOG, GLOBAL_FLAG, HEADER, HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER,
         //
-        INTERNAL_STATISTIC, JVMTI_AGENTS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOGGING, MACH_CODE, MAX_MAP_COUNT,
+        INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTIC, JVMTI_AGENTS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOCK_STACK,
         //
-        MEMINFO, MEMORY, MEMORY_PROTECTION_EVENT, METASPACE, NARROW_KLASS, NATIVE_DECODER_STATE,
+        LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY, MEMORY_PROTECTION_EVENT, METASPACE, NATIVE_DECODER_STATE,
         //
         NATIVE_MEMORY_TRACKING, NMETHOD_FLUSHES_EVENT, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID, PID_MAX,
         //
@@ -258,11 +259,13 @@ public class JdkUtil {
         //
         THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK,
         //
-        TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED, TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE, UID, UMASK,
+        TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED, TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE,
         //
-        UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT,
+        TRANSPARENT_HUGEPAGE_SHMEM_ENABLED, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
         //
-        VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
+        VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE,
+        //
+        ZGC_PHASE_SWITCH_EVENT
     }
 
     /**
@@ -439,109 +442,15 @@ public class JdkUtil {
     }
 
     /**
-     * @param jdk11ReleaseString
-     *            The JDK11 release string (e.g. 11.0.9+11-LTS).
-     * @return The JDK11 update number (e.g. 9).
-     */
-    public static final int getJdk11UpdateNumber(String jdk11ReleaseString) {
-        int jdk11UpdateNumber = Integer.MIN_VALUE;
-        String regEx = "11.0.(\\d{1,}).+";
-        Pattern pattern = Pattern.compile(regEx);
-        Matcher matcher = pattern.matcher(jdk11ReleaseString);
-        if (matcher.find()) {
-            jdk11UpdateNumber = Integer.parseInt(matcher.group(1));
-        }
-        return jdk11UpdateNumber;
-    }
-
-    /**
-     * @param jdk17ReleaseString
-     *            The JDK17 release string (e.g. 17.0.4+8-LTS).
-     * @return The JDK update number (e.g. 4).
-     */
-    public static final int getJdk17UpdateNumber(String jdk17ReleaseString) {
-        int jdk17UpdateNumber = Integer.MIN_VALUE;
-        String regEx = "17.0.(\\d{1,}).+";
-        Pattern pattern = Pattern.compile(regEx);
-        Matcher matcher = pattern.matcher(jdk17ReleaseString);
-        if (matcher.find()) {
-            jdk17UpdateNumber = Integer.parseInt(matcher.group(1));
-        }
-        return jdk17UpdateNumber;
-    }
-
-    /**
-     * @param jdk21ReleaseString
-     *            The JDK21 release string (e.g. 21.0.2+13-LTS).
-     * @return The JDK update number (e.g. 2).
-     */
-    public static final int getJdk21UpdateNumber(String jdk21ReleaseString) {
-        int jdk21UpdateNumber = Integer.MIN_VALUE;
-        String regEx = "21.0.(\\d{1,}).+";
-        Pattern pattern = Pattern.compile(regEx);
-        Matcher matcher = pattern.matcher(jdk21ReleaseString);
-        if (matcher.find()) {
-            jdk21UpdateNumber = Integer.parseInt(matcher.group(1));
-        }
-        return jdk21UpdateNumber;
-    }
-
-    /**
-     * @param jdk8ReleaseString
-     *            The JDK8 release string (e.g. 1.8.0_222-b10).
-     * @return The JDK8 update number (e.g. 222).
-     */
-    public static final int getJdk8UpdateNumber(String jdk8ReleaseString) {
-        int jdk8UpdateNumber = Integer.MIN_VALUE;
-        String regEx = "(1.)?8.0_(\\d{1,}).+";
-        Pattern pattern = Pattern.compile(regEx);
-        Matcher matcher = pattern.matcher(jdk8ReleaseString);
-        if (matcher.find()) {
-            jdk8UpdateNumber = Integer.parseInt(matcher.group(2));
-        }
-        return jdk8UpdateNumber;
-    }
-
-    /**
      * @param fatalErrorLog
      *            The fatal error log.
-     * @return The known release date for the JDK build that produced the fatal error log.
-     */
-    /*
-     * public static final Date getJdkReleaseDate(FatalErrorLog fatalErrorLog) { Date date = null; if (fatalErrorLog !=
-     * null) { Release release = null; HashMap<String, Release> releases = getJdkReleases(fatalErrorLog); if (releases
-     * != null && !releases.isEmpty()) { if (fatalErrorLog.isRhRpmInstall()) { release =
-     * releases.get(fatalErrorLog.getRpmDirectory()); } else if (fatalErrorLog.isRhLinuxZipInstall() ||
-     * fatalErrorLog.isRhWindowsZipInstall()) { release = releases.get(fatalErrorLog.getJdkReleaseString()); } } else {
-     * // Approximate release release = fatalErrorLog.getFirstJdkRelease(fatalErrorLog.getJdkReleaseString()); } if
-     * (release != null) { date = release.getBuildDate(); } } return date; }
-     * 
-     */
-    /**
-     * @param fatalErrorLog
-     *            The fatal error log.
-     * @return The release number for the JDK that produced the fatal error log.
-     */
-    /*
-     * public static final int getJdkReleaseNumber(FatalErrorLog fatalErrorLog) { int number = 0; if (fatalErrorLog !=
-     * null) { HashMap<String, Release> releases = getJdkReleases(fatalErrorLog); if (releases != null &&
-     * !releases.isEmpty()) { Release release = null; if (fatalErrorLog.isRhRpmInstall()) { release =
-     * releases.get(fatalErrorLog.getRpmDirectory()); } else if (fatalErrorLog.isRhLinuxZipInstall() ||
-     * fatalErrorLog.isRhWindowsZipInstall()) { release = releases.get(fatalErrorLog.getJdkReleaseString()); } if
-     * (release != null) { number = release.getNumber(); } } } return number; }
-     *
-     * 
-     * /**
-     * 
-     * @param fatalErrorLog The fatal error log.
-     * 
      * @return The JDK releases for the JDK that produced the fatal error log.
      */
     public static final HashMap<String, Release> getJdkReleases(FatalErrorLog fatalErrorLog) {
         HashMap<String, Release> releases = null;
         if (fatalErrorLog.getJavaVendor().equals(JavaVendor.RED_HAT)) {
             if (fatalErrorLog.isRhel()) {
-                if (fatalErrorLog.isRhRpmInstall()) {
+                if (fatalErrorLog.isRhRpmMatch()) {
                     switch (fatalErrorLog.getOsVersion()) {
                     case RHEL6:
                         if (fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK8) {
@@ -582,11 +491,13 @@ public class JdkUtil {
                     case RHEL10:
                         if (fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK21) {
                             releases = Jdk21.RHEL10_X86_64_RPMS;
+                        } else if (fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK25) {
+                            releases = Jdk25.RHEL10_X86_64_RPMS;
                         }
                         break;
                     default:
                     }
-                } else if (fatalErrorLog.isRhLinuxZipInstall()) {
+                } else if (fatalErrorLog.isRhLinuxZipMatch()) {
                     switch (fatalErrorLog.getJavaSpecification()) {
                     case JDK8:
                         releases = Jdk8.RHEL_ZIPS;
@@ -600,11 +511,14 @@ public class JdkUtil {
                     case JDK21:
                         releases = Jdk21.RHEL_ZIPS;
                         break;
+                    case JDK25:
+                        releases = Jdk25.RHEL_ZIPS;
+                        break;
                     case UNKNOWN:
                     default:
                     }
                 }
-            } else if (fatalErrorLog.isRhWindowsZipInstall()) {
+            } else if (fatalErrorLog.isRhWindowsZipMatch()) {
                 switch (fatalErrorLog.getJavaSpecification()) {
                 case JDK8:
                     releases = Jdk8.WINDOWS_ZIPS;
@@ -625,6 +539,35 @@ public class JdkUtil {
         }
         return releases;
 
+    }
+
+    /**
+     * @param jdkReleaseString
+     *            The JDK release string.
+     * 
+     *            For example:
+     * 
+     *            1.8.0_222-b10 ==&gt; 222
+     * 
+     *            11.0.9+11-LTS ==&gt; 9
+     * 
+     *            17.0.4+8-LTS ==&gt; 4
+     * 
+     *            21.0.2+13-LTS ==&gt; 2
+     * 
+     *            25.0.1+8-LTS ==&gt; 1
+     * 
+     * @return The JDK update number.
+     */
+    public static final int getJdkUpdateNumber(String jdkReleaseString) {
+        int jdk8UpdateNumber = Integer.MIN_VALUE;
+        String regEx = "((1.)?8.0_|(11|17|21|25).0.)(\\d{1,}).+";
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(jdkReleaseString);
+        if (matcher.find()) {
+            jdk8UpdateNumber = Integer.parseInt(matcher.group(4));
+        }
+        return jdk8UpdateNumber;
     }
 
     /**
@@ -694,8 +637,8 @@ public class JdkUtil {
                 logEventType = LogEventType.BITS;
             } else if (CardTable.match(logLine)) {
                 logEventType = LogEventType.CARD_TABLE;
-            } else if (CdsArchive.match(logLine)) {
-                logEventType = LogEventType.CDS_ARCHIVE;
+            } else if (ClassInfo.match(logLine)) {
+                logEventType = LogEventType.CLASS_INFO;
             } else if (logLine.matches(ClassesLoadedEvent._REGEX_HEADER)
                     || (priorEvent instanceof ClassesLoadedEvent && ClassesLoadedEvent.match(logLine))) {
                 logEventType = LogEventType.CLASSES_LOADED_EVENT;
@@ -717,8 +660,8 @@ public class JdkUtil {
                     && !(priorEvent instanceof StackSlotToMemoryMapping))
                     || (priorEvent instanceof CompiledMethod && CompiledMethod.match(logLine))) {
                 logEventType = LogEventType.COMPILED_METHOD;
-            } else if (CompressedClassSpace.match(logLine)) {
-                logEventType = LogEventType.COMPRESSED_CLASS_SPACE;
+            } else if (CompilationMemoryStatistics.match(logLine)) {
+                logEventType = LogEventType.COMPILATION_MEMORY_STATISTICS;
             } else if (ConstantPool.match(logLine)) {
                 logEventType = LogEventType.CONSTANT_POOL;
             } else if (ContainerInfo.match(logLine)) {
@@ -790,6 +733,8 @@ public class JdkUtil {
                 logEventType = LogEventType.LIBC;
             } else if (LoadAverage.match(logLine)) {
                 logEventType = LogEventType.LOAD_AVERAGE;
+            } else if (LockStack.match(logLine)) {
+                logEventType = LogEventType.LOCK_STACK;
             } else if (Logging.match(logLine)) {
                 logEventType = LogEventType.LOGGING;
             } else if (logLine.matches(MachCode._REGEX_HEADER)
@@ -809,8 +754,6 @@ public class JdkUtil {
                 logEventType = LogEventType.MEMORY_PROTECTION_EVENT;
             } else if (Metaspace.match(logLine)) {
                 logEventType = LogEventType.METASPACE;
-            } else if (NarrowKlass.match(logLine)) {
-                logEventType = LogEventType.NARROW_KLASS;
             } else if (NativeDecoderState.match(logLine)) {
                 logEventType = LogEventType.NATIVE_DECODER_STATE;
             } else if (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
@@ -887,6 +830,8 @@ public class JdkUtil {
                 logEventType = LogEventType.TRANSPARENT_HUGEPAGE_ENABLED;
             } else if (TransparentHugepageHpagePmdSize.match(logLine)) {
                 logEventType = LogEventType.TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE;
+            } else if (TransparentHugepageShmemEnabled.match(logLine)) {
+                logEventType = LogEventType.TRANSPARENT_HUGEPAGE_SHMEM_ENABLED;
             } else if (Uid.match(logLine)) {
                 logEventType = LogEventType.UID;
             } else if (Umask.match(logLine)) {
@@ -1031,8 +976,8 @@ public class JdkUtil {
         case CARD_TABLE:
             event = new CardTable(logLine);
             break;
-        case CDS_ARCHIVE:
-            event = new CdsArchive(logLine);
+        case CLASS_INFO:
+            event = new ClassInfo(logLine);
             break;
         case CLASSES_LOADED_EVENT:
             event = new ClassesLoadedEvent(logLine);
@@ -1049,11 +994,11 @@ public class JdkUtil {
         case COMMAND_LINE:
             event = new CommandLine(logLine);
             break;
-        case COMPRESSED_CLASS_SPACE:
-            event = new CompressedClassSpace(logLine);
-            break;
         case COMPILATION_EVENT:
             event = new CompilationEvent(logLine);
+            break;
+        case COMPILATION_MEMORY_STATISTICS:
+            event = new CompilationMemoryStatistics(logLine);
             break;
         case COMPILED_METHOD:
             event = new CompiledMethod(logLine);
@@ -1148,6 +1093,9 @@ public class JdkUtil {
         case LOAD_AVERAGE:
             event = new LoadAverage(logLine);
             break;
+        case LOCK_STACK:
+            event = new LockStack(logLine);
+            break;
         case LOGGING:
             event = new Logging(logLine);
             break;
@@ -1168,9 +1116,6 @@ public class JdkUtil {
             break;
         case METASPACE:
             event = new Metaspace(logLine);
-            break;
-        case NARROW_KLASS:
-            event = new NarrowKlass(logLine);
             break;
         case NATIVE_DECODER_STATE:
             event = new NativeDecoderState(logLine);
@@ -1264,6 +1209,9 @@ public class JdkUtil {
             break;
         case TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE:
             event = new TransparentHugepageHpagePmdSize(logLine);
+            break;
+        case TRANSPARENT_HUGEPAGE_SHMEM_ENABLED:
+            event = new TransparentHugepageShmemEnabled(logLine);
             break;
         case UID:
             event = new Uid(logLine);

@@ -78,7 +78,7 @@ public class GcHeapHistoryEvent implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "GC Heap History \\(\\d{1,} events\\):";
+    public static final String _REGEX_HEADER = "GC Heap (Usage )?History \\(\\d{1,} events\\):";
 
     /**
      * Regular expression defining the logging.

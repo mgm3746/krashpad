@@ -124,6 +124,48 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  *  - handle_deallocations: 1.
  * </pre>
  * 
+ * <p>
+ * JDK25:
+ * </p>
+ * 
+ * <pre>
+ * Metaspace:
+ * Metaspace        used 374K, committed 576K, reserved 1114112K
+ *  class space     used 25K, committed 128K, reserved 1048576K
+ * 
+ * Usage:
+ *   Non-class:    349.25 KB used.
+ *       Class:     25.30 KB used.
+ *        Both:    374.55 KB used.
+ * 
+ * Virtual space:
+ *   Non-class space:       64.00 MB reserved,     448.00 KB ( &lt;1%) committed,  1 nodes.
+ *       Class space:        1.00 GB reserved,     128.00 KB ( &lt;1%) committed,  1 nodes.
+ *              Both:        1.06 GB reserved,     576.00 KB ( &lt;1%) committed.
+ * 
+ * Chunk freelists:
+ *    Non-Class:  11.99 MB
+ *        Class:  15.74 MB
+ *         Both:  27.73 MB
+ * 
+ * MaxMetaspaceSize: unlimited
+ * CompressedClassSpaceSize: 1.00 GB
+ * Initial GC threshold: 21.00 MB
+ * Current GC threshold: 21.00 MB
+ * CDS: on
+ *  - commit_granule_bytes: 65536.
+ *  - commit_granule_words: 8192.
+ *  - virtual_space_node_default_size: 8388608.
+ *  - enlarge_chunks_in_place: 1.
+ * UseCompressedClassPointers 1, UseCompactObjectHeaders 0
+ * Narrow klass pointer bits 32, Max shift 3
+ * Narrow klass base: 0x0000000024000000, Narrow klass shift: 0
+ * Encoding Range: [0x0000000024000000 - 0x0000000124000000), (4294967296 bytes)
+ * Klass Range:    [0x0000000024001000 - 0x0000000065000000), (1090514944 bytes)
+ * Klass ID Range:  [4096 - 1090519033) (1090514937)
+ * Protection zone: [0x0000000024000000 - 0x0000000024001000), (4096 bytes)
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -138,16 +180,16 @@ public class Metaspace implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|[ ]{1,}BotD:|[ ]{1,}Both:|CDS:|[ ]{1,}Class( space)?:|Chunk freelists:|"
-            + " - commit_granule_(bytes|words):|CompressedClassSpaceSize:| - enlarge_chunks_in_place:|"
-            + "(Current|Initial) GC threshold|MaxMetaspaceSize:|MetaspaceReclaimPolicy:|No class space|"
-            + " - handle_deallocations:| - new_chunks_are_fully_committed:|[ ]{1,}Non-[c|C]lass( space)?:|Usage:|"
-            + " - uncommit_free_chunks:| - use_allocation_guard:| - virtual_space_node_default_size:|Virtual space:|"
-            + JdkRegEx.SIZE2 + "|[ ]+" + JdkRegEx.SIZE2 + " reserved,[ ]+" + JdkRegEx.SIZE2 + " \\([>]{0,1}"
-            + JdkRegEx.PERCENT + "\\) committed|[ ]{0,}" + JdkRegEx.SIZE2 + " capacity,[ ]+" + JdkRegEx.SIZE2
-            + " \\([ ]{0,2}(>)?" + JdkRegEx.PERCENT + "\\) used,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2}(<)?"
-            + JdkRegEx.PERCENT + "\\) free\\+waste,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2}(<)?" + JdkRegEx.PERCENT
-            + "\\) overhead\\.)" + ".*$";
+            + "|[ ]{1,}BotD:|[ ]{1,}Both:|CDS:|[ ]{1,}Class( space)?:| class space|Chunk freelists:|"
+            + "classChunk freelists:| - commit_granule_(bytes|words):|CompressedClassSpaceSize:|"
+            + " - enlarge_chunks_in_place:|(Current|Initial) GC threshold|MaxMetaspaceSize:|Metaspace|"
+            + "MetaspaceReclaimPolicy:|No class space| - handle_deallocations:| - new_chunks_are_fully_committed:|"
+            + "[ ]{1,}Non-[c|C]lass( space)?:|Usage:| - uncommit_free_chunks:| - use_allocation_guard:|"
+            + " - virtual_space_node_default_size:|Virtual space:|" + JdkRegEx.SIZE2 + "|[ ]+" + JdkRegEx.SIZE2
+            + " reserved,[ ]+" + JdkRegEx.SIZE2 + " \\([>]{0,1}" + JdkRegEx.PERCENT + "\\) committed|[ ]{0,}"
+            + JdkRegEx.SIZE2 + " capacity,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2}(>)?" + JdkRegEx.PERCENT
+            + "\\) used,[ ]+" + JdkRegEx.SIZE2 + " \\([ ]{0,2}(<)?" + JdkRegEx.PERCENT + "\\) free\\+waste,[ ]+"
+            + JdkRegEx.SIZE2 + " \\([ ]{0,2}(<)?" + JdkRegEx.PERCENT + "\\) overhead\\.)" + ".*$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

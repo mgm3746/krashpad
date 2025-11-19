@@ -146,9 +146,10 @@ public class JdkRegEx {
      * 20.0.1+9
      * 21+35-LTS
      * 21.0.1+12-LTS
+     * 25.0.1+8-LTS
      * </pre>
      */
-    public static final String BUILD_STRING = "((1.6.0|1.7.0|1.8.0|9|1\\d|2[01])[^\\)]{1,})";
+    public static final String BUILD_STRING = "((1.6.0|1.7.0|1.8.0|9|1\\d|2\\d)[^\\)]{1,})";
 
     /**
      * Byte units identifier.
@@ -383,9 +384,16 @@ public class JdkRegEx {
      * <pre>
      *  garbage-first heap   total 33554432K, used 22395212K [0x00007f56fc000000, 0x00007f5efc000000)
      * </pre>
+     * 
+     * JDK25:
+     * 
+     * <pre>
+     *  garbage-first heap   total reserved 1914880K, committed 122880K, used 1156K [0x000000008b200000, 
+     *  0x0000000100000000)
+     * </pre>
      */
-    public static final String G1_SIZE = " garbage-first heap   total " + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE
-            + ".+";
+    public static final String G1_SIZE = " garbage-first heap   total( reserved " + JdkRegEx.SIZE + ", committed)? "
+            + JdkRegEx.SIZE + ", used " + JdkRegEx.SIZE + ".+";
 
     /**
      * Gigabyte units identifier.
@@ -549,8 +557,14 @@ public class JdkRegEx {
      * <pre>
      * Metaspace used 19510K, capacity 21116K, committed 21248K, reserved 1069056K
      * </pre>
+     * 
+     * JDK25:
+     *
+     * <pre>
+     * Metaspace        used 374K, committed 576K, reserved 1114112K
+     * </pre>
      */
-    public static final String METASPACE_SIZE = " Metaspace[ ]{1,7}used " + JdkRegEx.SIZE + ", (capacity "
+    public static final String METASPACE_SIZE = " Metaspace[ ]{1,}used " + JdkRegEx.SIZE + ", (capacity "
             + JdkRegEx.SIZE + ", )?committed " + JdkRegEx.SIZE + ", reserved " + JdkRegEx.SIZE;
 
     /**
@@ -743,7 +757,8 @@ public class JdkRegEx {
      * java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le
      */
     public static final String RH_RPM_DIR = "(" + JdkRegEx.RH_RPM_OPENJDK8_DIR + "|" + JdkRegEx.RH_RPM_OPENJDK11_DIR
-            + "|" + JdkRegEx.RH_RPM_OPENJDK17_DIR + "|" + JdkRegEx.RH_RPM_OPENJDK21_DIR + ")";
+            + "|" + JdkRegEx.RH_RPM_OPENJDK17_DIR + "|" + JdkRegEx.RH_RPM_OPENJDK21_DIR + "|"
+            + JdkRegEx.RH_RPM_OPENJDK25_DIR + ")";
     /**
      * Red Hat OpenJDK 17 rpm directory.
      * 
@@ -763,7 +778,7 @@ public class JdkRegEx {
             + "(\\.\\d{1,2})?-\\d\\.el([789])(_(\\d{1,2}))?\\.(i386|x86_64))";
 
     /**
-     * Red Hat OpenJDK 11 rpm libjvm.so file path.
+     * Red Hat OpenJDK 11 rpm JAVA_HOME.
      * 
      * For example:
      * 
@@ -772,7 +787,7 @@ public class JdkRegEx {
      * /usr/lib/jvm/java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64/lib/server/libjvm.so
      */
     public static final String RH_RPM_OPENJDK11_JAVA_HOME = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK11_DIR
-            + "\\/$";
+            + "$";
 
     /**
      * Red Hat OpenJDK 17 rpm directory.
@@ -785,14 +800,14 @@ public class JdkRegEx {
             + "(\\.\\d{1,2})?-\\d\\.el([89])(_(\\d{1,2}))?\\.x86_64)";
 
     /**
-     * Red Hat OpenJDK 17 rpm libjvm.so file path.
+     * Red Hat OpenJDK 17 rpm JAVA_HOME.
      * 
      * For example:
      * 
-     * /usr/lib/jvm/java-17-openjdk-17.0.1.0.12-2.el8_5.x86_64/
+     * /usr/lib/jvm/java-17-openjdk-17.0.1.0.12-2.el8_5.x86_64
      */
     public static final String RH_RPM_OPENJDK17_JAVA_HOME = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK17_DIR
-            + "\\/$";
+            + "$";
 
     /**
      * Red Hat OpenJDK 21 rpm directory.
@@ -802,19 +817,42 @@ public class JdkRegEx {
      * java-21-openjdk-21.0.0.0.35-2.el8.x86_64
      * 
      * java-21-openjdk-21.0.1.0.12-2.el8.x86_64
+     * 
+     * java-21-openjdk (RHEL10)
      */
-    public static final String RH_RPM_OPENJDK21_DIR = "(java\\-21\\-openjdk\\-21\\.0\\.\\d{1,2}\\.\\d{1,2}"
-            + "(\\.\\d{1,2})?-\\d\\.el([89])(_(\\d{1,2}))?\\.x86_64)";
+    public static final String RH_RPM_OPENJDK21_DIR = "(java\\-21\\-openjdk\\-21(\\.0\\.\\d{1,2}\\.\\d{1,2}"
+            + "(\\.\\d{1,2})?-\\d\\.el([89])(_(\\d{1,2}))?\\.x86_64)?)";
 
     /**
-     * Red Hat OpenJDK 21 rpm libjvm.so file path.
+     * Red Hat OpenJDK 21 rpm JAVA_HOME.
      * 
      * For example:
      * 
-     * /usr/lib/jvm/java-21-openjdk-21.0.1.0.12-2.el8.x86_64/
+     * /usr/lib/jvm/java-21-openjdk-21.0.1.0.12-2.el8.x86_64
+     * 
+     * /usr/lib/jvm/java-21-openjdk (RHEL10)
      */
     public static final String RH_RPM_OPENJDK21_JAVA_HOME = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK21_DIR
-            + "\\/$";
+            + "$";
+
+    /**
+     * Red Hat OpenJDK 25 rpm directory.
+     * 
+     * For example:
+     * 
+     * java-25-openjdk (RHEL10)
+     */
+    public static final String RH_RPM_OPENJDK25_DIR = "java\\-25\\-openjdk";
+
+    /**
+     * Red Hat OpenJDK 25 rpm JAVA_HOME.
+     * 
+     * For example:
+     * 
+     * /usr/lib/jvm/java-25-openjdk (RHEL10)
+     */
+    public static final String RH_RPM_OPENJDK25_JAVA_HOME = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK25_DIR
+            + "$";
 
     /**
      * Red Hat OpenJDK 8 rpm directory.
@@ -835,18 +873,18 @@ public class JdkRegEx {
      * 
      * For example:
      * 
-     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64/
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el6_10.x86_64
      * 
-     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64/
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-11.b12.el7.x86_64
      * 
-     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64/
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64
      * 
-     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.ppc64/
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.ppc64
      * 
-     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le/
+     * /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.265.b01-1.el7_9.ppc64le
      */
     public static final String RH_RPM_OPENJDK8_JAVA_HOME = "^\\/usr\\/lib\\/jvm\\/" + JdkRegEx.RH_RPM_OPENJDK8_DIR
-            + "\\/$";
+            + "$";
 
     /**
      * Regular expression for Shenandoah gc data.

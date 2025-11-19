@@ -14,7 +14,6 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -24,47 +23,27 @@ import org.junit.jupiter.api.Test;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestTopOfStack {
+class TestLockStack {
 
     @Test
     void testHeader() {
-        String logLine = "Top of Stack: (sp=0x00007fcbcc676c50)";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TOP_OF_STACK,
-                JdkUtil.LogEventType.TOP_OF_STACK.toString() + " not identified.");
+        String logLine = "Lock stack of current Java thread (top to bottom):";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOCK_STACK,
+                JdkUtil.LogEventType.LOCK_STACK.toString() + " not identified.");
     }
 
     @Test
     void testIdentity() {
-        String logLine = "0x00007fcbcc676c50:   00007fcbcc676cb0 00007fcbd0596b86";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TOP_OF_STACK,
-                JdkUtil.LogEventType.TOP_OF_STACK.toString() + " not identified.");
-    }
-
-    @Test
-    void testJdk25() {
-        String logLine = "0x00007fa395e9c7a0:   00000000241dab80 0000000000000000   ...$............";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TOP_OF_STACK,
-                JdkUtil.LogEventType.TOP_OF_STACK.toString() + " not identified.");
-    }
-
-    @Test
-    void testNotInstructions() {
-        String logLine = "0x00007fcbd05a3b51:   5d c3 0f 1f 44 00 00 48 8d 35 01 db 4c 00 bf 03";
-        assertFalse(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TOP_OF_STACK,
-                JdkUtil.LogEventType.TOP_OF_STACK.toString() + " incorrectly identified.");
+        String logLine = "LockStack[1]: com.example.MyClass";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.LOCK_STACK,
+                JdkUtil.LogEventType.LOCK_STACK.toString() + " not identified.");
     }
 
     @Test
     void testParseLogLine() {
-        String logLine = "0x00007fcbcc676c50:   00007fcbcc676cb0 00007fcbd0596b86";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TopOfStack,
-                JdkUtil.LogEventType.TOP_OF_STACK.toString() + " not parsed.");
+        String logLine = "LockStack[1]: com.example.MyClass";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof LockStack,
+                JdkUtil.LogEventType.LOCK_STACK.toString() + " not parsed.");
     }
 
-    @Test
-    void testSpaceAtEnd() {
-        String logLine = "0x00007fcbcc676e40:   00007fcbc8056a98 00000000000000d8 ";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TOP_OF_STACK,
-                JdkUtil.LogEventType.TOP_OF_STACK.toString() + " not identified.");
-    }
 }

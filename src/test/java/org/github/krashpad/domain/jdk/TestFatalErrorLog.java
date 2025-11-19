@@ -24,6 +24,7 @@ import java.io.File;
 import org.github.joa.domain.Arch;
 import org.github.joa.domain.GarbageCollector;
 import org.github.joa.domain.Os;
+import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
 import org.github.krashpad.util.Constants.Device;
@@ -112,10 +113,10 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
-        assertEquals("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/", fel.getJavaHome(),
+        assertEquals("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64", fel.getJavaHome(),
                 "JAVA_HOME not correct.");
         assertEquals("java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64", fel.getRhRpmName(), "Rpm name not correct.");
-        assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
+        assertTrue(fel.isRhRpmMatch(), "RH rpm match not identified.");
         assertEquals(Device.AWS_BLOCK_STORAGE, fel.getStorageDevice(), "Storage device not correct.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
@@ -139,6 +140,16 @@ class TestFatalErrorLog {
                 Analysis.INFO_OPTS_NONE + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_OPTS_UNKNOWN.getKey()),
                 Analysis.INFO_OPTS_UNKNOWN + " analysis not identified.");
+    }
+
+    @Test
+    void testBuilderUnknown() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.242-b08) for linux-amd64 JRE (1.8.0_242-b08), built on "
+                + "Jan 17 2020 09:36:23 by \"bob\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "JDK vendor not correct.");
     }
 
     @Test
@@ -995,7 +1006,7 @@ class TestFatalErrorLog {
         FatalErrorLog fel = manager.parse(testFile);
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.isRhel(), "OS not identified as RHEL.");
-        assertTrue(fel.isRhRpmInstall(), "Red Hat rpm install not identified.");
+        assertTrue(fel.isRhRpmMatch(), "Red Hat rpm match not identified.");
         assertEquals(OsVersion.RHEL6, fel.getOsVersion(), "OS version not correct.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_RHEL6.getKey()), Analysis.WARN_RHEL6 + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
@@ -1063,7 +1074,7 @@ class TestFatalErrorLog {
         fel.doAnalysis();
         assertEquals(Os.LINUX, fel.getOs(), "OS not correct.");
         assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
-        assertTrue(fel.isRhRpm(), "Red Hat rpm not identified.");
+        assertTrue(fel.isRhRpmDerivative(), "Red Hat rpm not identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis incorrectly identified.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_CENTOS.getKey()),
@@ -1167,7 +1178,7 @@ class TestFatalErrorLog {
         fel.doAnalysis();
         assertEquals(OsVersion.RHEL7, fel.getOsVersion(), "OS version not correct.");
         assertEquals(Arch.X86_64, fel.getArchOs(), "Arch not correct.");
-        assertEquals("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64/", fel.getJavaHome(),
+        assertEquals("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64", fel.getJavaHome(),
                 "JAVA_HOME not correct.");
         assertEquals(JavaSpecification.JDK8, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals("java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64", fel.getRhRpmName(),
@@ -1459,7 +1470,7 @@ class TestFatalErrorLog {
         assertTrue(fel.isRhBuildString(), "RH build string not identified.");
         assertTrue(fel.isRhVersion(), "RH build version not identified.");
         // 32-bit rpms are not tracked
-        assertFalse(fel.isRhRpmInstall(), "RH rpm install incorrectly identified.");
+        assertFalse(fel.isRhRpmMatch(), "RH rpm match incorrectly identified.");
         assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "Java vendor not correct.");
         assertFalse(fel.hasAnalysis(Analysis.INFO_RH_BUILD_NOT.getKey()),
                 Analysis.INFO_RH_BUILD_NOT + " analysis incorrectly identified.");
@@ -1553,12 +1564,46 @@ class TestFatalErrorLog {
     }
 
     @Test
-    void testRhBuildStringMockbuild() {
+    void testRhBuildStringMissing() {
         FatalErrorLog fel = new FatalErrorLog();
-        String vmInfo = "";
-        VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfo(vmInfoEvent);
-        assertFalse(fel.isRhBuildString(), "RH build string identified.");
+        String vmInfo = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.192-b12) for linux-amd64 JRE (1.8.0_192-b12), "
+                + "built on Oct  6 2018 06:46:09 with gcc 7.3.0";
+        assertTrue(JdkUtil.identifyEventType(vmInfo, null) == JdkUtil.LogEventType.VM_INFO,
+                JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(vmInfo, null);
+        fel.setVmInfo((VmInfo) event);
+        assertEquals(Arch.X86_64, ((VmInfo) event).getArch(), "Arch not correct.");
+        assertTrue(fel.isRhBuildString(), "RH build string not identified.");
+    }
+
+    @Test
+    void testRhel10Jdk21() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset94.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
+        assertEquals(OsVersion.RHEL10, fel.getOsVersion(), "OS version not correct.");
+        assertEquals(Arch.X86_64, fel.getArchOs(), "Arch not correct.");
+        assertEquals(21, fel.getJavaVersionMajor(), "Java major version not correct.");
+        assertEquals(9, fel.getJavaVersionMinor(), "Java minor version not correct.");
+        assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(11, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
+    void testRhel10Jdk25() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset95.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
+        assertEquals(OsVersion.RHEL10, fel.getOsVersion(), "OS version not correct.");
+        assertEquals(Arch.X86_64, fel.getArchOs(), "Arch not correct.");
+        assertEquals(25, fel.getJavaVersionMajor(), "Java major version not correct.");
+        assertEquals(1, fel.getJavaVersionMinor(), "Java minor version not correct.");
+        assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
+        assertEquals(11, fel.getNativeLibraries().size(), "Native library count not correct.");
+        assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
     }
 
     @Test
@@ -1622,8 +1667,8 @@ class TestFatalErrorLog {
         assertEquals(OsVendor.REDHAT, fel.getOsVendor(), "OS vendor not correct.");
         assertEquals(OsVersion.RHEL8, fel.getOsVersion(), "OS version not correct.");
         assertTrue(fel.isJdkLts(), "LTS release not identified.");
-        assertTrue(fel.isRhRpm(), "Red Hat rpm not identified.");
-        assertTrue(fel.isRhRpmInstall(), "Red Hat rpm install not identified.");
+        assertTrue(fel.isRhRpmDerivative(), "Red Hat rpm not identified.");
+        assertTrue(fel.isRhRpmMatch(), "Red Hat rpm match not identified.");
         assertTrue(fel.isRhel(), "RHEL not identified.");
         assertFalse(fel.isWindows(), "Windows incorrectly identified.");
         assertEquals(254790, fel.getThreadsMaxLimit(), "threads-max not correct.");
@@ -1664,7 +1709,7 @@ class TestFatalErrorLog {
         fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("java-17-openjdk-17.0.8.0.7-2.el8.x86_64", fel.getRhRpmName(), "Rpm name not correct.");
-        assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
+        assertTrue(fel.isRhRpmMatch(), "RH rpm match not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
     }
@@ -1688,7 +1733,7 @@ class TestFatalErrorLog {
         fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("java-21-openjdk-21.0.1.0.12-2.el8.x86_64", fel.getRhRpmName(), "Rpm name not correct.");
-        assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
+        assertTrue(fel.isRhRpmMatch(), "RH rpm match not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
     }
@@ -1718,7 +1763,7 @@ class TestFatalErrorLog {
         fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("java-11-openjdk-11.0.17.0.8-2.el9_0.x86_64", fel.getRhRpmName(), "Rpm name not correct.");
-        assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
+        assertTrue(fel.isRhRpmMatch(), "RH rpm match not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
     }
@@ -1765,7 +1810,7 @@ class TestFatalErrorLog {
         fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("java-1.8.0-openjdk-1.8.0.342.b07-1.el7_9.x86_64", fel.getRhRpmName(), "Rpm name not correct.");
-        assertTrue(fel.isRhRpmInstall(), "RH rpm install not identified.");
+        assertTrue(fel.isRhRpmMatch(), "RH rpm match not identified.");
     }
 
     @Test
@@ -1839,7 +1884,7 @@ class TestFatalErrorLog {
         assertEquals("17.0.11+9-LTS", fel.getJdkReleaseString(), "JDK release not correct.");
         assertEquals(JavaSpecification.JDK17, fel.getJavaSpecification(), "Java specification not correct.");
         assertEquals(KrashUtil.getDate("Apr 10 2024 18:27:01"), fel.getJdkBuildDate(), "Build date not correct.");
-        assertTrue(fel.isRhWindowsZipInstall(), "RH Windows zip install not identified.");
+        assertTrue(fel.isRhWindowsZipMatch(), "RH Windows zip install not identified.");
     }
 
     @Test
@@ -2147,16 +2192,6 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "JDK vendor not correct.");
-    }
-
-    @Test
-    void testVendorUnknown() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.242-b08) for linux-amd64 JRE (1.8.0_242-b08), built on "
-                + "Jan 17 2020 09:36:23 by \"bob\" with gcc 4.4.7 20120313 (Red Hat 4.4.7-23";
-        VmInfo vmInfoEvent = new VmInfo(vmInfo);
-        fel.setVmInfo(vmInfoEvent);
-        assertEquals(JavaVendor.UNIDENTIFIED, fel.getJavaVendor(), "JDK vendor not correct.");
     }
 
     @Test

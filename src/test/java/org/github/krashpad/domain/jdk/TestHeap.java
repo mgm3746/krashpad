@@ -100,6 +100,16 @@ class TestHeap {
     }
 
     @Test
+    void testG1Jdk25() {
+        Heap priorEvent = new Heap(null);
+        String logLine = " garbage-first heap   total reserved 1914880K, committed 122880K, used 1156K "
+                + "[0x000000008b200000, 0x0000000100000000)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
+                JdkUtil.LogEventType.HEAP.toString() + " not identified.");
+        assertTrue(logLine.matches(JdkRegEx.G1), "G1 heap event not recognized.");
+    }
+
+    @Test
     void testG1Region() {
         Heap priorEvent = new Heap(null);
         String logLine = "  region size 2048K, 417 young (854016K), 55 survivors (112640K)";

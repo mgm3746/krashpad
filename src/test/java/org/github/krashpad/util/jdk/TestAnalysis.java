@@ -3716,7 +3716,7 @@ class TestAnalysis {
         fel.setVmInfo(vmInfoEvent);
         fel.doAnalysis();
         assertEquals("8.9", fel.getRhelVersion(), "RHEL version not correct.");
-        assertEquals("8", fel.getJdkRhelVersion(), "RHEL version not correct.");
+        assertEquals("8", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
                 Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
     }

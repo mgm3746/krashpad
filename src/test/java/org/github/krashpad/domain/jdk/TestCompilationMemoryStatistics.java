@@ -23,27 +23,19 @@ import org.junit.jupiter.api.Test;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestCompressedClassSpace {
+class TestCompilationMemoryStatistics {
 
     @Test
     void testIdentity() {
-        String logLine = "Compressed class space size: 1073741824 Address: 0x00000007c0000000";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE,
-                JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString() + " not identified.");
-    }
-
-    @Test
-    void testJdk17() {
-        String logLine = "Compressed class space mapped at: 0x0000000800c00000-0x0000000840c00000, reserved size: "
-                + "1073741824";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompressedClassSpace,
-                JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString() + " not parsed.");
+        String logLine = "Compilation memory statistics disabled.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.COMPILATION_MEMORY_STATISTICS,
+                JdkUtil.LogEventType.COMPILATION_MEMORY_STATISTICS.toString() + " not identified.");
     }
 
     @Test
     void testParseLogLine() {
-        String logLine = "Compressed class space size: 1073741824 Address: 0x00000007c0000000";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompressedClassSpace,
-                JdkUtil.LogEventType.COMPRESSED_CLASS_SPACE.toString() + " not parsed.");
+        String logLine = "Compilation memory statistics disabled.";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CompilationMemoryStatistics,
+                JdkUtil.LogEventType.COMPILATION_MEMORY_STATISTICS.toString() + " not parsed.");
     }
 }

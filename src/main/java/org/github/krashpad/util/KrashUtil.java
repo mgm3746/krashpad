@@ -822,6 +822,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("librmi.so");
         // java-(1.8.0|11|17|21)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjsig.so");
+        // java-25-openjdk-headless
+        NATIVE_LIBRARIES_LINUX_JAVA.add("libsimdsort.so");
         // java-(1.8.0|11|17|21)-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("libsplashscreen.so");
         // java-(1.8.0|11)-openjdk-headless

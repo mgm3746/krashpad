@@ -47,6 +47,7 @@ import org.github.krashpad.util.jdk.Analysis;
 import org.github.krashpad.util.jdk.Jdk11;
 import org.github.krashpad.util.jdk.Jdk17;
 import org.github.krashpad.util.jdk.Jdk21;
+import org.github.krashpad.util.jdk.Jdk25;
 import org.github.krashpad.util.jdk.Jdk8;
 import org.github.krashpad.util.jdk.JdkMath;
 import org.github.krashpad.util.jdk.JdkRegEx;
@@ -113,9 +114,9 @@ public class FatalErrorLog {
     private List<CompilationEvent> compilationEvents;
 
     /**
-     * Compressed class space information
+     * Class information
      */
-    private CompressedClassSpace compressedClassSpaceEvent;
+    private ClassInfo classInfo;
 
     /**
      * Container information.
@@ -269,11 +270,6 @@ public class FatalErrorLog {
      * Memory information.
      */
     private List<Memory> memories;
-
-    /**
-     * Narrow klass information
-     */
-    private NarrowKlass narrowKlass;
 
     /**
      * Native libraries.
@@ -656,11 +652,11 @@ public class FatalErrorLog {
                 if (getOsVendor() == OsVendor.CENTOS) {
                     // CentOs redistributes RH build of OpenJDK
                     analysis.add(0, Analysis.INFO_RH_BUILD_CENTOS);
-                } else if (isRhRpmInstall()) {
+                } else if (isRhRpmMatch()) {
                     analysis.add(0, Analysis.INFO_RH_BUILD_RPM_INSTALL);
-                } else if (isRhRpm() && !isRhLinuxZipInstall()) {
+                } else if (isRhRpmDerivative() && !isRhLinuxZipMatch()) {
                     analysis.add(0, Analysis.INFO_RH_BUILD_RPM_BASED);
-                } else if (isRhLinuxZipInstall() && !isRhRpm()) {
+                } else if (isRhLinuxZipMatch() && !isRhRpmDerivative()) {
                     analysis.add(0, Analysis.INFO_RH_BUILD_LINUX_ZIP);
                 } else {
                     analysis.add(0, Analysis.INFO_RH_BUILD_LINUX_ZIP_OR_RPM_BASED);
@@ -920,14 +916,14 @@ public class FatalErrorLog {
             }
         }
         // libjvm.so/jvm.dll
-        if (getJavaSpecification() == JavaSpecification.JDK8 && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) > 0
-                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 282 && getStackFrameTop() != null
+        if (getJavaSpecification() == JavaSpecification.JDK8 && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) > 0
+                && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) < 282 && getStackFrameTop() != null
                 && getStackFrameTop()
                         .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  ShenandoahUpdateRefsClosure::do_oop.+$")) {
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_ROOT_UPDATER);
         } else if (getJavaSpecification() == JavaSpecification.JDK8
-                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) > 0
-                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 312 && getStackFrameTop() != null
+                && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) > 0
+                && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) < 312 && getStackFrameTop() != null
                 && getStackFrameTop()
                         .matches("^V  \\[(libjvm\\.so|jvm\\.dll).+\\]  MetadataOnStackMark::~MetadataOnStackMark.+$")) {
             analysis.add(Analysis.ERROR_JDK8_SHENANDOAH_METADATA_ON_STACK_MARK);
@@ -938,8 +934,8 @@ public class FatalErrorLog {
                         + "ModuleEntryTable::purge_all_module_reads).+$")) {
             analysis.add(Analysis.ERROR_MODULE_ENTRY_PURGE_READS);
         } else if (getJavaSpecification() == JavaSpecification.JDK8
-                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) >= 262
-                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 282 && getStackFrameTop() != null
+                && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) >= 262
+                && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) < 282 && getStackFrameTop() != null
                 && getStackFrameTop().matches("^V.+JfrEventClassTransformer::on_klass_creation.+$")) {
             analysis.add(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED);
         } else if (getStackFrameTop() != null && !isMemoryAllocationFail()
@@ -1216,7 +1212,7 @@ public class FatalErrorLog {
             analysis.add(Analysis.WARN_MMAP_DELETED);
         }
         // Check for RHEL/JDK rpm version mismatch
-        if (isRhRpmInstall() && getRhelVersion() != null && getJdkRhelVersion() != null) {
+        if (isRhRpmMatch() && getRhelVersion() != null && getJdkRhelVersion() != null) {
             if ((getJdkRhelVersion().indexOf('.') != -1 && !getRhelVersion().matches(getJdkRhelVersion()))
                     || (getJdkRhelVersion().indexOf('.') == -1
                             && !getRhelVersion().startsWith((getJdkRhelVersion())))) {
@@ -1239,19 +1235,19 @@ public class FatalErrorLog {
             } else if (getStackFrameTop() != null
                     && getStackFrameTop().matches("^.*BoolNode::Ideal\\(PhaseGVN\\*, bool\\).*$")
                     && (getJavaSpecification() == JavaSpecification.JDK21
-                            && JdkUtil.getJdk21UpdateNumber(getJdkReleaseString()) > 0
-                            && JdkUtil.getJdk21UpdateNumber(getJdkReleaseString()) < 9)) {
+                            && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) > 0
+                            && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) < 9)) {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_BOOLNODE_IDEAL);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
             } else if (getStackFrameTop() != null
                     && getStackFrameTop().matches("^.*MinINode::Ideal\\(PhaseGVN\\*, bool\\).*$")
                     && ((getJavaSpecification() == JavaSpecification.JDK8
-                            && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) > 0
-                            && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 275)
+                            && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) > 0
+                            && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) < 275)
                             || (getJavaSpecification() == JavaSpecification.JDK11
-                                    && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) > 0
-                                    && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) < 10))) {
+                                    && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) > 0
+                                    && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) < 10))) {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_MININODE_IDEAL);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
@@ -1259,8 +1255,8 @@ public class FatalErrorLog {
                     || isInHeader("SubINode::Ideal\\(PhaseGVN\\*, bool\\)")
                     || isInStack("^.*IfNode::fold_compares\\(PhaseIterGVN\\*\\).*$"))
                     && ((getJavaSpecification() == JavaSpecification.JDK11
-                            && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) > 0
-                            && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) < 9))) {
+                            && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) > 0
+                            && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) < 9))) {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_IFNODE_FOLDCOMPARES);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
@@ -1278,9 +1274,9 @@ public class FatalErrorLog {
                     if (event.getLogEntry() != null && event.getLogEntry()
                             .matches("^.+sun\\.security\\.ssl\\.SSLEngineInputRecord::decodeInputRecord.+")) {
                         if ((getJavaSpecification() == JavaSpecification.JDK11
-                                && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) == 16)
+                                && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) == 16)
                                 || (getJavaSpecification() == JavaSpecification.JDK17
-                                        && JdkUtil.getJdk17UpdateNumber(getJdkReleaseString()) == 4)) {
+                                        && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) == 4)) {
                             analysis.add(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE);
                             // Don't double report
                             analysis.remove(Analysis.ERROR_COMPILER_THREAD);
@@ -1343,7 +1339,7 @@ public class FatalErrorLog {
         }
         // ERROR_JDK8_LIBC_CFREE
         if (getJavaSpecification() == JavaSpecification.JDK8
-                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) < 262) {
+                && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) < 262) {
             if (!headers.isEmpty()) {
                 Iterator<Header> iterator = headers.iterator();
                 while (iterator.hasNext()) {
@@ -1520,7 +1516,7 @@ public class FatalErrorLog {
                     || analysis.contains(Analysis.INFO_APP_DYNAMICS_POSSIBLE)
                             && analysis.contains(Analysis.INFO_VM_OPERATION_CONCURRENT_GC)) {
                 if (getJavaSpecification() == JavaSpecification.JDK11
-                        && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) <= 12) {
+                        && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) <= 12) {
                     analysis.add(Analysis.ERROR_MODULE_ENTRY_PURGE_READS_POSSIBLE);
                     analysis.remove(Analysis.ERROR_JVM_DLL);
                     analysis.remove(Analysis.ERROR_LIBJVM_SO);
@@ -1565,11 +1561,11 @@ public class FatalErrorLog {
             }
         }
         if ((getJavaSpecification() == JavaSpecification.JDK8
-                && JdkUtil.getJdk8UpdateNumber(getJdkReleaseString()) == 372)
+                && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) == 372)
                 || (getJavaSpecification() == JavaSpecification.JDK11
-                        && JdkUtil.getJdk11UpdateNumber(getJdkReleaseString()) == 19)
+                        && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) == 19)
                 || (getJavaSpecification() == JavaSpecification.JDK17
-                        && JdkUtil.getJdk17UpdateNumber(getJdkReleaseString()) == 7)) {
+                        && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) == 7)) {
             if ((getStackFrameTopCompiledJavaCode() != null && getStackFrameTopCompiledJavaCode()
                     .matches("^.+java\\.util\\.GregorianCalendar\\.computeTime\\(\\).+$"))
                     || isInCompilationEvents("java\\.util\\.GregorianCalendar::computeTime")) {
@@ -2519,16 +2515,16 @@ public class FatalErrorLog {
         return classesUnloadedEvents;
     }
 
+    public ClassInfo getClassInfo() {
+        return classInfo;
+    }
+
     public CommandLine getCommandLine() {
         return commandLine;
     }
 
     public List<CompilationEvent> getCompilationEvents() {
         return compilationEvents;
-    }
-
-    public CompressedClassSpace getCompressedClassSpaceEvent() {
-        return compressedClassSpaceEvent;
     }
 
     /**
@@ -2989,6 +2985,24 @@ public class FatalErrorLog {
         if (firstRelease == null) {
             firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, Jdk21.RHEL8_X86_64_RPMS);
         }
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, Jdk21.RHEL9_X86_64_RPMS);
+        }
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, Jdk21.RHEL10_X86_64_RPMS);
+        }
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, Jdk21.RHEL_ZIPS);
+        }
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, Jdk21.WINDOWS_ZIPS);
+        }
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, Jdk25.RHEL10_X86_64_RPMS);
+        }
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, Jdk25.RHEL_ZIPS);
+        }
         return firstRelease;
     }
 
@@ -3412,6 +3426,9 @@ public class FatalErrorLog {
                         case 21:
                             version = JavaSpecification.JDK21;
                             break;
+                        case 25:
+                            version = JavaSpecification.JDK25;
+                            break;
                         default:
                             break;
                         }
@@ -3485,10 +3502,10 @@ public class FatalErrorLog {
      */
     public JavaVendor getJavaVendor() {
         JavaVendor vendor = JavaVendor.UNIDENTIFIED;
-        if (isRhBuildString() && isRhBuildOpenJdk()) {
+        if ((isRhBuildString() || getJdkBuiltBy() == null) && isRhBuildOpenJdk()) {
             vendor = JavaVendor.RED_HAT;
         } else {
-            if (vmInfo != null) {
+            if (vmInfo != null && vmInfo.getBuiltBy() != null) {
                 switch (vmInfo.getBuiltBy()) {
                 case JAVA_RE:
                 case MACH5ONE:
@@ -3561,27 +3578,7 @@ public class FatalErrorLog {
      * @return The Java minor version number, or Integer.MIN_VALUE if unknown.
      */
     public int getJavaVersionMinor() {
-        int javaVersionMinor = Integer.MIN_VALUE;
-        switch (getJavaSpecification()) {
-        case JDK8:
-            javaVersionMinor = JdkUtil.getJdk8UpdateNumber(getJdkReleaseString());
-            break;
-        case JDK11:
-            javaVersionMinor = JdkUtil.getJdk11UpdateNumber(getJdkReleaseString());
-            break;
-        case JDK17:
-            javaVersionMinor = JdkUtil.getJdk17UpdateNumber(getJdkReleaseString());
-            break;
-        case JDK21:
-            javaVersionMinor = JdkUtil.getJdk21UpdateNumber(getJdkReleaseString());
-            break;
-        case JDK6:
-        case JDK7:
-        case UNKNOWN:
-        default:
-            break;
-        }
-        return javaVersionMinor;
+        return JdkUtil.getJdkUpdateNumber(getJdkReleaseString());
     }
 
     /**
@@ -3614,9 +3611,9 @@ public class FatalErrorLog {
         Release release = null;
         HashMap<String, Release> releases = JdkUtil.getJdkReleases(this);
         if (releases != null && !releases.isEmpty()) {
-            if (isRhRpmInstall()) {
+            if (isRhRpmMatch()) {
                 release = releases.get(getRhRpmName());
-            } else if (isRhLinuxZipInstall() || isRhWindowsZipInstall()) {
+            } else if (isRhLinuxZipMatch() || isRhWindowsZipMatch()) {
                 release = releases.get(getJdkReleaseString());
             }
         } else {
@@ -3789,11 +3786,11 @@ public class FatalErrorLog {
                     if (matcher.group(18) != null) {
                         jdkRhelVersion = jdkRhelVersion + "." + matcher.group(18);
                     }
-                } else if (matcher.group(19) != null) {
-                    // JDK21
-                    jdkRhelVersion = matcher.group(21);
-                    if (matcher.group(23) != null) {
-                        jdkRhelVersion = jdkRhelVersion + "." + matcher.group(23);
+                } else if (matcher.group(20) != null) {
+                    // JDK21 RHEL8/9
+                    jdkRhelVersion = matcher.group(22);
+                    if (matcher.group(24) != null) {
+                        jdkRhelVersion = jdkRhelVersion + "." + matcher.group(24);
                     }
                 }
             }
@@ -4047,9 +4044,9 @@ public class FatalErrorLog {
                     pattern = Pattern.compile(JdkRegEx.G1_SIZE);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        value = Long.parseLong(matcher.group(1));
-                        if (matcher.group(3) != null) {
-                            fromUnits = matcher.group(3).charAt(0);
+                        value = Long.parseLong(matcher.group(5));
+                        if (matcher.group(7) != null) {
+                            fromUnits = matcher.group(7).charAt(0);
                         } else {
                             fromUnits = 'B';
                         }
@@ -4156,9 +4153,9 @@ public class FatalErrorLog {
                     pattern = Pattern.compile(JdkRegEx.G1);
                     matcher = pattern.matcher(event.getLogEntry());
                     if (matcher.find()) {
-                        value = Long.parseLong(matcher.group(5));
-                        if (matcher.group(7) != null) {
-                            fromUnits = matcher.group(7).charAt(0);
+                        value = Long.parseLong(matcher.group(9));
+                        if (matcher.group(11) != null) {
+                            fromUnits = matcher.group(11).charAt(0);
                         } else {
                             fromUnits = 'B';
                         }
@@ -4652,10 +4649,6 @@ public class FatalErrorLog {
         return mmapDeletedCount;
     }
 
-    public NarrowKlass getNarrowKlass() {
-        return narrowKlass;
-    }
-
     public List<String> getNativeLibraries() {
         return nativeLibraries;
     }
@@ -5117,6 +5110,8 @@ public class FatalErrorLog {
                         osVersion = OsVersion.RHEL8;
                     } else if (event.getLogEntry().matches("^.*Red Hat Enterprise Linux release 9.+$")) {
                         osVersion = OsVersion.RHEL9;
+                    } else if (event.getLogEntry().matches("^.*Red Hat Enterprise Linux release 10.+$")) {
+                        osVersion = OsVersion.RHEL10;
                     } else if (event.getLogEntry().matches("^.*Windows 10.+$")) {
                         osVersion = OsVersion.WINDOWS10;
                     } else if (event.getLogEntry().matches("^.*CentOS Linux release 6.+$")) {
@@ -5286,7 +5281,7 @@ public class FatalErrorLog {
      * 
      * java-17-openjdk-17.0.4.1.1-2.el9_0.x86_64
      * 
-     * @return the Red Hat rpm name, or null if not an rpm install.
+     * @return the Red Hat rpm name, or null if undetermined (e.g. RHEL10) or not an rpm install.
      */
     public String getRhRpmName() {
         String rpmName = null;
@@ -5311,7 +5306,8 @@ public class FatalErrorLog {
                 if (matcher.find()) {
                     rpmName = matcher.group(1);
                 }
-            } else if (javaHome.matches(JdkRegEx.RH_RPM_OPENJDK21_JAVA_HOME)) {
+            } else if (javaHome.matches(JdkRegEx.RH_RPM_OPENJDK21_JAVA_HOME)
+                    && (getOsVersion() == OsVersion.RHEL8 || getOsVersion() == OsVersion.RHEL9)) {
                 pattern = Pattern.compile(JdkRegEx.RH_RPM_OPENJDK21_JAVA_HOME);
                 matcher = pattern.matcher(javaHome);
                 if (matcher.find()) {
@@ -6114,7 +6110,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * Populate JAVA_HOME.
+     * Populate JAVA_HOME. It is a directory, so does not include the ending path separator.
      */
     private void hydrateJavaHome() {
         if (getOs() == Os.LINUX) {
@@ -6129,13 +6125,13 @@ public class FatalErrorLog {
                             Pattern pattern = Pattern.compile(regexJdk8);
                             Matcher matcher = pattern.matcher(event.getFilePath());
                             if (matcher.find()) {
-                                javaHome = matcher.group(1);
+                                javaHome = matcher.group(1).substring(0, matcher.group(1).length() - 1);
                             }
                         } else if (event.getFilePath().matches(regexJdk11)) {
                             Pattern pattern = Pattern.compile(regexJdk11);
                             Matcher matcher = pattern.matcher(event.getFilePath());
                             if (matcher.find()) {
-                                javaHome = matcher.group(1);
+                                javaHome = matcher.group(1).substring(0, matcher.group(1).length() - 1);
                             }
                         }
                     }
@@ -6429,6 +6425,7 @@ public class FatalErrorLog {
         case JDK11:
         case JDK17:
         case JDK21:
+        case JDK25:
             isJdkLts = true;
             break;
         case JDK9:
@@ -6441,6 +6438,10 @@ public class FatalErrorLog {
         case JDK18:
         case JDK19:
         case JDK20:
+        case JDK22:
+        case JDK23:
+        case JDK24:
+        case JDK26:
         case UNKNOWN:
         default:
             break;
@@ -6607,7 +6608,7 @@ public class FatalErrorLog {
      * @return true if the fatal error log was created by a RH build of OpenJDK, false otherwise.
      */
     public boolean isRhBuildOpenJdk() {
-        return isRhRpmInstall() || isRhLinuxZipInstall() || isRhWindowsZipInstall() || isRhRpm();
+        return isRhRpmMatch() || isRhLinuxZipMatch() || isRhWindowsZipMatch() || isRhRpmDerivative();
     }
 
     /**
@@ -6615,7 +6616,8 @@ public class FatalErrorLog {
      */
     public boolean isRhBuildString() {
         BuiltBy builtBy = getJdkBuiltBy();
-        return builtBy == BuiltBy.BUILD || builtBy == BuiltBy.EMPTY || builtBy == BuiltBy.MOCKBUILD;
+        return builtBy == null || builtBy == BuiltBy.BUILD || builtBy == BuiltBy.EMPTY || builtBy == BuiltBy.MOCKBUILD
+                || builtBy == BuiltBy.UNKNOWN;
     }
 
     /**
@@ -6641,10 +6643,10 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return true if the JDK that produced the fatal error log is a Red Hat build of OpenJDK RHEL tarball, false
+     * @return true if the JDK that produced the fatal error log matches a Red Hat build of OpenJDK RHEL tarball, false
      *         otherwise.
      */
-    public boolean isRhLinuxZipInstall() {
+    public boolean isRhLinuxZipMatch() {
         boolean isRhLinuxZipInstall = false;
         if (getOs() == Os.LINUX && getArchOs() == Arch.X86_64) {
             switch (getJavaSpecification()) {
@@ -6679,7 +6681,7 @@ public class FatalErrorLog {
      * 
      * @return true if the JDK that produced the fatal error log is a Red Hat build of OpenJDK rpm, false otherwise.
      */
-    public boolean isRhRpm() {
+    public boolean isRhRpmDerivative() {
         boolean isRhelRpm = false;
         String jdkReleaseString = getJdkReleaseString();
         Iterator<Entry<String, Release>> iterator;
@@ -6875,127 +6877,133 @@ public class FatalErrorLog {
             default:
                 break;
             }
+        } else if (getJavaSpecification() == JavaSpecification.JDK25) {
+            switch (getOsVersion()) {
+            case RHEL10:
+                iterator = Jdk25.RHEL10_X86_64_RPMS.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Entry<String, Release> entry = iterator.next();
+                    Release release = entry.getValue();
+                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                        isRhelRpm = true;
+                        break;
+                    }
+                }
+                break;
+            case CENTOS6:
+            case RHEL6:
+            case CENTOS7:
+            case RHEL7:
+            case CENTOS8:
+            case RHEL8:
+            case RHEL9:
+            case UNIDENTIFIED:
+            default:
+                break;
+            }
         }
         return isRhelRpm;
     }
 
     /**
-     * @return true if the JDK that produced the fatal error log is a Red Hat build of OpenJDK rpm install, false
-     *         otherwise.
+     * 
+     * @return true if the install location matches a Red Hat rpm, false otherwise.
      */
-    public boolean isRhRpmInstall() {
-        boolean isRhelRpmInstall = false;
-        String rpmDirectory = getRhRpmName();
-        if (rpmDirectory != null) {
-            if (getJavaSpecification() == JavaSpecification.JDK8) {
-                switch (getOsVersion()) {
-                case CENTOS6:
-                case RHEL6:
-                    isRhelRpmInstall = Jdk8.RHEL6_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                            && getJdkBuildDate()
-                                    .compareTo(Jdk8.RHEL6_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    break;
-                case CENTOS7:
-                case RHEL7:
-                    if (getArchOs() == Arch.X86_64) {
-                        isRhelRpmInstall = Jdk8.RHEL7_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                                && getJdkBuildDate()
-                                        .compareTo(Jdk8.RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    }
-                    break;
-                case CENTOS8:
-                case RHEL8:
-                    if (getArchOs() == Arch.X86_64) {
-                        isRhelRpmInstall = Jdk8.RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                                && getJdkBuildDate()
-                                        .compareTo(Jdk8.RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    }
-                    break;
-                case CENTOS9:
-                case RHEL9:
-                    isRhelRpmInstall = Jdk8.RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                            && getJdkBuildDate()
-                                    .compareTo(Jdk8.RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    break;
-                case UNIDENTIFIED:
-                default:
-                    break;
-                }
-            } else if (getJavaSpecification() == JavaSpecification.JDK11) {
-                switch (getOsVersion()) {
-                case CENTOS7:
-                case RHEL7:
-                    isRhelRpmInstall = Jdk11.RHEL7_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                            && getJdkBuildDate()
-                                    .compareTo(Jdk11.RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    break;
-                case CENTOS8:
-                case RHEL8:
-                    isRhelRpmInstall = Jdk11.RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                            && getJdkBuildDate()
-                                    .compareTo(Jdk11.RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    break;
-                case RHEL9:
-                    isRhelRpmInstall = Jdk11.RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                            && getJdkBuildDate()
-                                    .compareTo(Jdk11.RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    break;
-                case CENTOS6:
-                case RHEL6:
-                case UNIDENTIFIED:
-                default:
-                    break;
-                }
-            } else if (getJavaSpecification() == JavaSpecification.JDK17) {
-                switch (getOsVersion()) {
-                case CENTOS8:
-                case RHEL8:
-                    isRhelRpmInstall = Jdk17.RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                            && getJdkBuildDate()
-                                    .compareTo(Jdk17.RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    break;
-                case RHEL9:
-                    isRhelRpmInstall = Jdk17.RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                            && getJdkBuildDate()
-                                    .compareTo(Jdk17.RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    break;
-                case CENTOS6:
-                case RHEL6:
-                case CENTOS7:
-                case RHEL7:
-                case UNIDENTIFIED:
-                default:
-                    break;
-                }
-            } else if (getJavaSpecification() == JavaSpecification.JDK21) {
-                switch (getOsVersion()) {
-                case CENTOS8:
-                case RHEL8:
-                    isRhelRpmInstall = Jdk21.RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                            && getJdkBuildDate()
-                                    .compareTo(Jdk21.RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    break;
-                case RHEL9:
-                    isRhelRpmInstall = Jdk21.RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                            && getJdkBuildDate()
-                                    .compareTo(Jdk21.RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    break;
-                case RHEL10:
-                    isRhelRpmInstall = Jdk21.RHEL10_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
-                            && getJdkBuildDate()
-                                    .compareTo(Jdk21.RHEL10_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
-                    break;
-                case CENTOS6:
-                case RHEL6:
-                case CENTOS7:
-                case RHEL7:
-                case UNIDENTIFIED:
-                default:
-                    break;
-                }
+    public boolean isRhRpmInstallLocation() {
+        boolean isRhRpmInstallLocation = false;
+        if (javaHome != null) {
+            switch (getJavaSpecification()) {
+            case JDK8:
+                javaHome.matches(JdkRegEx.RH_RPM_OPENJDK8_JAVA_HOME);
+            case JDK11:
+                javaHome.matches(JdkRegEx.RH_RPM_OPENJDK11_JAVA_HOME);
+            case JDK17:
+                javaHome.matches(JdkRegEx.RH_RPM_OPENJDK17_JAVA_HOME);
+            case JDK21:
+                javaHome.matches(JdkRegEx.RH_RPM_OPENJDK21_JAVA_HOME);
+            case JDK25:
+                javaHome.matches(JdkRegEx.RH_RPM_OPENJDK25_JAVA_HOME);
+                break;
+            default:
+                break;
             }
         }
-        return isRhelRpmInstall;
+        return isRhRpmInstallLocation;
+    }
+
+    /**
+     * Check if the JDK that produced the fatal error log matches a Red Hat rpm.
+     * 
+     * Prior to RHEL10, the match is based on rpm name (determined from JAVA_HOME) and build date.
+     * 
+     * RHEL10 JDK installs are in a common location, so match is based on version string and build date.
+     * 
+     * @return true if the JDK that produced the fatal error log is matches a Red Hat version, false otherwise.
+     */
+    public boolean isRhRpmMatch() {
+        boolean isRhRpmMatch = false;
+        if (getJdkBuildDate() != null) {
+            String key;
+            switch (getOsVersion()) {
+            case CENTOS6:
+            case RHEL6:
+                key = getRhRpmName();
+                isRhRpmMatch = getArchJdk() == Arch.X86_64 && Jdk8.RHEL6_X86_64_RPMS.containsKey(key)
+                        && getJdkBuildDate().compareTo(Jdk8.RHEL6_X86_64_RPMS.get(key).getBuildDate()) == 0;
+                break;
+            case CENTOS7:
+            case RHEL7:
+                key = getRhRpmName();
+                isRhRpmMatch = getArchJdk() == Arch.X86_64 && ((Jdk8.RHEL7_X86_64_RPMS.containsKey(key)
+                        && getJdkBuildDate().compareTo(Jdk8.RHEL7_X86_64_RPMS.get(key).getBuildDate()) == 0)
+                        || (Jdk11.RHEL7_X86_64_RPMS.containsKey(key)
+                                && getJdkBuildDate().compareTo(Jdk11.RHEL7_X86_64_RPMS.get(key).getBuildDate()) == 0));
+                break;
+            case CENTOS8:
+            case RHEL8:
+                key = getRhRpmName();
+                isRhRpmMatch = getArchJdk() == Arch.X86_64 && ((Jdk8.RHEL8_X86_64_RPMS.containsKey(key)
+                        && getJdkBuildDate().compareTo(Jdk8.RHEL8_X86_64_RPMS.get(key).getBuildDate()) == 0)
+                        || (Jdk11.RHEL8_X86_64_RPMS.containsKey(key)
+                                && getJdkBuildDate().compareTo(Jdk11.RHEL8_X86_64_RPMS.get(key).getBuildDate()) == 0)
+                        || (Jdk17.RHEL8_X86_64_RPMS.containsKey(key)
+                                && getJdkBuildDate().compareTo(Jdk17.RHEL8_X86_64_RPMS.get(key).getBuildDate()) == 0)
+                        || (Jdk21.RHEL8_X86_64_RPMS.containsKey(key)
+                                && getJdkBuildDate().compareTo(Jdk21.RHEL8_X86_64_RPMS.get(key).getBuildDate()) == 0));
+                break;
+            case CENTOS9:
+            case RHEL9:
+                key = getRhRpmName();
+                isRhRpmMatch = getArchJdk() == Arch.X86_64 && ((Jdk8.RHEL9_X86_64_RPMS.containsKey(key)
+                        && getJdkBuildDate().compareTo(Jdk8.RHEL9_X86_64_RPMS.get(key).getBuildDate()) == 0)
+                        || (Jdk11.RHEL9_X86_64_RPMS.containsKey(key)
+                                && getJdkBuildDate().compareTo(Jdk11.RHEL9_X86_64_RPMS.get(key).getBuildDate()) == 0)
+                        || (Jdk17.RHEL9_X86_64_RPMS.containsKey(key)
+                                && getJdkBuildDate().compareTo(Jdk17.RHEL9_X86_64_RPMS.get(key).getBuildDate()) == 0)
+                        || (Jdk21.RHEL9_X86_64_RPMS.containsKey(key)
+                                && getJdkBuildDate().compareTo(Jdk21.RHEL9_X86_64_RPMS.get(key).getBuildDate()) == 0));
+                break;
+            case CENTOS10:
+            case RHEL10:
+                // RHEL10 installs to a common location, not rpm specific.
+                if (getJavaHome() != null) {
+                    key = getJdkReleaseString();
+                    isRhRpmMatch = getArchJdk() == Arch.X86_64
+                            && ((getJavaHome().matches(JdkRegEx.RH_RPM_OPENJDK21_JAVA_HOME)
+                                    && Jdk21.RHEL10_X86_64_RPMS.containsKey(key)
+                                    && getJdkBuildDate()
+                                            .compareTo(Jdk21.RHEL10_X86_64_RPMS.get(key).getBuildDate()) == 0)
+                                    || (getJavaHome().matches(JdkRegEx.RH_RPM_OPENJDK25_JAVA_HOME)
+                                            && Jdk25.RHEL10_X86_64_RPMS.containsKey(key) && getJdkBuildDate()
+                                                    .compareTo(Jdk25.RHEL10_X86_64_RPMS.get(key).getBuildDate()) == 0));
+                }
+                break;
+            default:
+                break;
+            }
+        }
+        return isRhRpmMatch;
     }
 
     /**
@@ -7029,6 +7037,10 @@ public class FatalErrorLog {
                         || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), Jdk21.RHEL9_X86_64_RPMS)
                         || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), Jdk21.RHEL10_X86_64_RPMS);
                 break;
+            case JDK25:
+                isRhVersion = Jdk25.RHEL_ZIPS.containsKey(getJdkReleaseString())
+                        || JdkUtil.isReleaseStringInReleases(getJdkReleaseString(), Jdk25.RHEL10_X86_64_RPMS);
+                break;
             case JDK6:
             case JDK7:
             case UNKNOWN:
@@ -7057,10 +7069,10 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return true if the JDK that produced the fatal error log is a Red Hat build of OpenJDK Windows zip install,
+     * @return true if the JDK that produced the fatal error log matches a Red Hat build of OpenJDK Windows zip install,
      *         false otherwise.
      */
-    public boolean isRhWindowsZipInstall() {
+    public boolean isRhWindowsZipMatch() {
         boolean isRhWindowsZipInstall = false;
         if (isWindows() && getArchOs() == Arch.X86_64) {
             switch (getJavaSpecification()) {
@@ -7203,6 +7215,24 @@ public class FatalErrorLog {
                 default:
                     break;
                 }
+            } else if (getJavaSpecification() == JavaSpecification.JDK25) {
+                switch (getOsVersion()) {
+                case RHEL10:
+                    isRhelRpmInstall = Jdk25.RHEL10_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk25.RHEL10_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case CENTOS6:
+                case RHEL6:
+                case CENTOS7:
+                case RHEL7:
+                case CENTOS8:
+                case RHEL8:
+                case RHEL9:
+                case UNIDENTIFIED:
+                default:
+                    break;
+                }
             }
         }
         return isRhelRpmInstall;
@@ -7277,12 +7307,12 @@ public class FatalErrorLog {
         this.barrierSet = barrierSet;
     }
 
-    public void setCommandLine(CommandLine commandLine) {
-        this.commandLine = commandLine;
+    public void setClassInfo(ClassInfo classInfo) {
+        this.classInfo = classInfo;
     }
 
-    public void setCompressedClassSpaceEvent(CompressedClassSpace compressedClassSpaceEvent) {
-        this.compressedClassSpaceEvent = compressedClassSpaceEvent;
+    public void setCommandLine(CommandLine commandLine) {
+        this.commandLine = commandLine;
     }
 
     public void setCurrentThread(CurrentThread currentThread) {
@@ -7307,10 +7337,6 @@ public class FatalErrorLog {
 
     public void setHost(Host host) {
         this.host = host;
-    }
-
-    public void setNarrowKlass(NarrowKlass narrowKlass) {
-        this.narrowKlass = narrowKlass;
     }
 
     public void setPeriodicNativeTrim(PeriodicNativeTrim periodicNativeTrim) {
@@ -7355,5 +7381,142 @@ public class FatalErrorLog {
 
     public void setVmState(VmState vmState) {
         this.vmState = vmState;
+    }
+
+    /**
+     * @return true if the JDK that produced the fatal error log is a Red Hat build of OpenJDK rpm install, false
+     *         otherwise.
+     */
+    public boolean xisRhRpmInstall() {
+        boolean isRhelRpmInstall = false;
+        String rpmDirectory = getRhRpmName();
+        if (rpmDirectory != null) {
+            if (getJavaSpecification() == JavaSpecification.JDK8) {
+                switch (getOsVersion()) {
+                case CENTOS6:
+                case RHEL6:
+                    isRhelRpmInstall = Jdk8.RHEL6_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk8.RHEL6_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case CENTOS7:
+                case RHEL7:
+                    if (getArchOs() == Arch.X86_64) {
+                        isRhelRpmInstall = Jdk8.RHEL7_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                                && getJdkBuildDate()
+                                        .compareTo(Jdk8.RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    }
+                    break;
+                case CENTOS8:
+                case RHEL8:
+                    if (getArchOs() == Arch.X86_64) {
+                        isRhelRpmInstall = Jdk8.RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                                && getJdkBuildDate()
+                                        .compareTo(Jdk8.RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    }
+                    break;
+                case CENTOS9:
+                case RHEL9:
+                    isRhelRpmInstall = Jdk8.RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk8.RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case UNIDENTIFIED:
+                default:
+                    break;
+                }
+            } else if (getJavaSpecification() == JavaSpecification.JDK11) {
+                switch (getOsVersion()) {
+                case CENTOS7:
+                case RHEL7:
+                    isRhelRpmInstall = Jdk11.RHEL7_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk11.RHEL7_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case CENTOS8:
+                case RHEL8:
+                    isRhelRpmInstall = Jdk11.RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk11.RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case RHEL9:
+                    isRhelRpmInstall = Jdk11.RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk11.RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case CENTOS6:
+                case RHEL6:
+                case UNIDENTIFIED:
+                default:
+                    break;
+                }
+            } else if (getJavaSpecification() == JavaSpecification.JDK17) {
+                switch (getOsVersion()) {
+                case CENTOS8:
+                case RHEL8:
+                    isRhelRpmInstall = Jdk17.RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk17.RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case RHEL9:
+                    isRhelRpmInstall = Jdk17.RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk17.RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case CENTOS6:
+                case RHEL6:
+                case CENTOS7:
+                case RHEL7:
+                case UNIDENTIFIED:
+                default:
+                    break;
+                }
+            } else if (getJavaSpecification() == JavaSpecification.JDK21) {
+                switch (getOsVersion()) {
+                case CENTOS8:
+                case RHEL8:
+                    isRhelRpmInstall = Jdk21.RHEL8_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk21.RHEL8_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case RHEL9:
+                    isRhelRpmInstall = Jdk21.RHEL9_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk21.RHEL9_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case RHEL10:
+                    isRhelRpmInstall = Jdk21.RHEL10_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk21.RHEL10_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case CENTOS6:
+                case RHEL6:
+                case CENTOS7:
+                case RHEL7:
+                case UNIDENTIFIED:
+                default:
+                    break;
+                }
+            } else if (getJavaSpecification() == JavaSpecification.JDK25) {
+                switch (getOsVersion()) {
+                case RHEL10:
+                    isRhelRpmInstall = Jdk25.RHEL10_X86_64_RPMS.containsKey(rpmDirectory) && getJdkBuildDate() != null
+                            && getJdkBuildDate()
+                                    .compareTo(Jdk25.RHEL10_X86_64_RPMS.get(rpmDirectory).getBuildDate()) == 0;
+                    break;
+                case CENTOS6:
+                case RHEL6:
+                case CENTOS7:
+                case RHEL7:
+                case CENTOS8:
+                case RHEL8:
+                case RHEL9:
+                case UNIDENTIFIED:
+                default:
+                    break;
+                }
+            }
+        }
+        return isRhelRpmInstall;
     }
 }

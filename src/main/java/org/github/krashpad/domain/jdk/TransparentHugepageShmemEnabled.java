@@ -19,32 +19,29 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
- * CDS_ARCHIVE
+ * TRANSPARENT_HUGEPAGE_SHMEM_ENABLED
  * </p>
  * 
  * <p>
- * Class data archive(s) information.
- * </p>
- * 
- * <p>
- * Reference: <a href="https://openjdk.java.net/jeps/350">JEP 350: Dynamic CDS Archives</a>
+ * Transparent hugepage shmem enabled information.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * CDS archive(s) mapped at: [0x0000000800000000-0x0000000800be2000-0x0000000800be2000), size 12460032, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.
+ * /sys/kernel/mm/transparent_hugepage/shmem_enabled: always within_size advise [never] deny force
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class CdsArchive implements LogEvent {
+public class TransparentHugepageShmemEnabled implements LogEvent {
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^CDS archive\\(s\\) (mapped at:.*|not mapped)$";
+    private static final String REGEX = "^/sys/kernel/mm/transparent_hugepage/shmem_enabled: always within_size advise "
+            + "\\[never\\] deny force$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -68,17 +65,16 @@ public class CdsArchive implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public CdsArchive(String logEntry) {
+    public TransparentHugepageShmemEnabled(String logEntry) {
         this.logEntry = logEntry;
     }
 
     @Override
     public LogEventType getEventType() {
-        return LogEventType.CDS_ARCHIVE;
+        return LogEventType.TRANSPARENT_HUGEPAGE_SHMEM_ENABLED;
     }
 
     public String getLogEntry() {
         return logEntry;
     }
-
 }

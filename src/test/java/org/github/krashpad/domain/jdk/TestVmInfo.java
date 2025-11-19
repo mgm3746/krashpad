@@ -15,6 +15,7 @@
 package org.github.krashpad.domain.jdk;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Calendar;
@@ -213,6 +214,17 @@ class TestVmInfo {
         assertEquals(0, calendar.get(Calendar.HOUR_OF_DAY), "Start hour not parsed correctly.");
         assertEquals(33, calendar.get(Calendar.MINUTE), "Start minute not parsed correctly.");
         assertEquals(46, calendar.get(Calendar.SECOND), "Start second not parsed correctly.");
+    }
+
+    @Test
+    void testJdk25() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (25.0.1+8-LTS) for linux-amd64 JRE (25.0.1+8-LTS), built "
+                + "on 2025-10-21T00:00:00Z with gcc 11.3.0";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
+                JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(Arch.X86_64, ((VmInfo) event).getArch(), "Arch not correct.");
+        assertNull(((VmInfo) event).getBuiltBy(), "JDK builder not correct.");
     }
 
     @Test

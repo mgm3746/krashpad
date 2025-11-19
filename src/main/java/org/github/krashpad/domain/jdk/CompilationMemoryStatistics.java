@@ -14,37 +14,63 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.jupiter.api.Test;
+import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
+ * <p>
+ * COMPILATION_MEMORY_STATISTICS
+ * </p>
+ * 
+ * <h2>Example Logging</h2>
+ * 
+ * <pre>
+ * Compilation memory statistics disabled
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestCdsArchive {
+public class CompilationMemoryStatistics implements LogEvent {
 
-    @Test
-    void testIdentity() {
-        String logLine = "CDS archive(s) mapped at: [0x0000000800000000-0x0000000800be2000-0x0000000800be2000), size "
-                + "12460032, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.CDS_ARCHIVE,
-                JdkUtil.LogEventType.CDS_ARCHIVE.toString() + " not identified.");
+    /**
+     * Regular expression defining the logging.
+     */
+    private static final String REGEX = "^Compilation memory statistics disabled.$";
+
+    /**
+     * Determine if the logLine matches the logging pattern(s) for this event.
+     * 
+     * @param logLine
+     *            The log line to test.
+     * @return true if the log line matches the event pattern, false otherwise.
+     */
+    public static final boolean match(String logLine) {
+        return logLine.matches(REGEX);
     }
 
-    @Test
-    void testNotMapped() {
-        String logLine = "CDS archive(s) not mapped";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CdsArchive,
-                JdkUtil.LogEventType.CDS_ARCHIVE.toString() + " not parsed.");
+    /**
+     * The log entry for the event.
+     */
+    private String logEntry;
+
+    /**
+     * Create event from log entry.
+     * 
+     * @param logEntry
+     *            The log entry for the event.
+     */
+    public CompilationMemoryStatistics(String logEntry) {
+        this.logEntry = logEntry;
     }
 
-    @Test
-    void testParseLogLine() {
-        String logLine = "CDS archive(s) mapped at: [0x0000000800000000-0x0000000800be2000-0x0000000800be2000), size "
-                + "12460032, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 0.";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof CdsArchive,
-                JdkUtil.LogEventType.CDS_ARCHIVE.toString() + " not parsed.");
+    @Override
+    public LogEventType getEventType() {
+        return LogEventType.COMPILATION_MEMORY_STATISTICS;
     }
+
+    public String getLogEntry() {
+        return logEntry;
+    }
+
 }

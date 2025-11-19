@@ -42,9 +42,17 @@ class TestGcHeapHistoryEvent {
     }
 
     @Test
-    void testHeaderGcHeapHistory() {
+    void testHeader() {
         GcHeapHistoryEvent priorEvent = null;
         String logLine = "GC Heap History (48 events):";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
+                JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testHeaderJdk25() {
+        GcHeapHistoryEvent priorEvent = null;
+        String logLine = "GC Heap Usage History (0 events):";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
     }

@@ -76,7 +76,7 @@ public class VmInfo implements LogEvent {
     private static final String REGEX = "^vm_info: (Java HotSpot\\(TM\\)|OpenJDK)( 64-Bit)? Server VM \\(.+\\) for "
             + "(linux|windows|solaris)-(aarch64|amd64|ppc64|ppc64le|sparc|x86) JRE (\\(Zulu.+\\) )?\\("
             + JdkRegEx.BUILD_STRING + "\\).+ built on (" + JdkRegEx.BUILD_DATETIME + "|" + JdkRegEx.BUILD_DATETIME_21
-            + ").+$";
+            + ")( by \"(.*)\")? with .+$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -156,38 +156,45 @@ public class VmInfo implements LogEvent {
      * @return JDK builder.
      */
     public BuiltBy getBuiltBy() {
-        BuiltBy builtBy = BuiltBy.UNKNOWN;
-        if (logEntry.matches(".+\"build\".+")) {
-            builtBy = BuiltBy.BUILD;
-        } else if (logEntry.matches(".+\"buildslave\".+")) {
-            builtBy = BuiltBy.BUILDSLAVE;
-        } else if (logEntry.matches(".+\"\".+")) {
-            // Red Hat Windows
-            builtBy = BuiltBy.EMPTY;
-        } else if (logEntry.matches(".+\"jenkins\".+")) {
-            // AdoptOpenJDK
-            builtBy = BuiltBy.JENKINS;
-        } else if (logEntry.matches(".+\"java_re\".+")) {
-            // Oracle current
-            builtBy = BuiltBy.JAVA_RE;
-        } else if (logEntry.matches(".+\"mach5one\".+")) {
-            // Oracle previous
-            builtBy = BuiltBy.MACH5ONE;
-        } else if (logEntry.matches(".+\"mockbuild\".+")) {
-            // Red Hat, CentOS
-            builtBy = BuiltBy.MOCKBUILD;
-        } else if (logEntry.matches(".+\"temurin\".+")) {
-            // Adoptium temurin
-            builtBy = BuiltBy.TEMURIN;
-        } else if (logEntry.matches(".+\"tester\".+")) {
-            // Azul
-            builtBy = BuiltBy.TESTER;
-        } else if (logEntry.matches(".+\"vsts\".+")) {
-            // Microsoft
-            builtBy = BuiltBy.VSTS;
-        } else if (logEntry.matches(".+\"zulu_re\".+")) {
-            // Azul
-            builtBy = BuiltBy.ZULU_RE;
+        BuiltBy builtBy = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            if (matcher.group(21) != null) {
+                if (matcher.group(22).equals("build")) {
+                    builtBy = BuiltBy.BUILD;
+                } else if (matcher.group(22).matches("buildslave")) {
+                    builtBy = BuiltBy.BUILDSLAVE;
+                } else if (matcher.group(22).matches("")) {
+                    // Red Hat Windows
+                    builtBy = BuiltBy.EMPTY;
+                } else if (matcher.group(22).matches("jenkins")) {
+                    // AdoptOpenJDK
+                    builtBy = BuiltBy.JENKINS;
+                } else if (matcher.group(22).matches("java_re")) {
+                    // Oracle current
+                    builtBy = BuiltBy.JAVA_RE;
+                } else if (matcher.group(22).matches("mach5one")) {
+                    // Oracle previous
+                    builtBy = BuiltBy.MACH5ONE;
+                } else if (matcher.group(22).matches("mockbuild")) {
+                    // Red Hat, CentOS
+                    builtBy = BuiltBy.MOCKBUILD;
+                } else if (matcher.group(22).matches("temurin")) {
+                    // Adoptium temurin
+                    builtBy = BuiltBy.TEMURIN;
+                } else if (matcher.group(22).matches("tester")) {
+                    // Azul
+                    builtBy = BuiltBy.TESTER;
+                } else if (matcher.group(22).matches("vsts")) {
+                    // Microsoft
+                    builtBy = BuiltBy.VSTS;
+                } else if (matcher.group(22).matches("zulu_re")) {
+                    // Azul
+                    builtBy = BuiltBy.ZULU_RE;
+                } else {
+                    builtBy = BuiltBy.UNKNOWN;
+                }
+            }
         }
         return builtBy;
     }

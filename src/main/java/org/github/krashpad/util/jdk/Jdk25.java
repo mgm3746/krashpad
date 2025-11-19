@@ -12,30 +12,62 @@
  * Contributors:                                                                                                      *
  *    Mike Millson - initial API and implementation                                                                   *
  *********************************************************************************************************************/
-package org.github.krashpad.domain.jdk;
+package org.github.krashpad.util.jdk;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.HashMap;
 
-import org.github.krashpad.util.jdk.JdkUtil;
-import org.junit.jupiter.api.Test;
+import org.github.krashpad.domain.jdk.Release;
 
 /**
+ * <p>
+ * OpenJDK25 release information.
+ * </p>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-class TestNarrowKlass {
+public class Jdk25 {
 
-    @Test
-    void testIdentity() {
-        String logLine = "Narrow klass base: 0x0000000000000000, Narrow klass shift: 3";
-        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.NARROW_KLASS,
-                JdkUtil.LogEventType.NARROW_KLASS.toString() + " not identified.");
+    /**
+     * RHEL zip release information.
+     */
+    public static final HashMap<String, Release> RHEL_ZIPS;
+
+    /**
+     * RHEL10 rpm release information.
+     */
+    public static final HashMap<String, Release> RHEL10_X86_64_RPMS;
+
+    static {
+        /*
+         * Notes:
+         * 
+         * 1) Rpm key is the OpenJDK install directory.
+         * 
+         * 2) Zip key is build version.
+         * 
+         * 3) 2024-07-16 means build date/time unknown.
+         * 
+         * 4) 2024-07-16T00:00:00Z means build date/time unspecified (e.g. to support reproducible builds).
+         * 
+         */
+
+        // RHEL10 amd64 OpenJDK25 rpm. Note directory name is common, not rpm specific.
+        RHEL10_X86_64_RPMS = new HashMap<String, Release>();
+        RHEL10_X86_64_RPMS.put("LATEST", new Release("2025-10-21T00:00:00Z", 2, "25.0.1+8-LTS"));
+        RHEL10_X86_64_RPMS.put("25.0.1+8-LTS", new Release("2025-10-21T00:00:00Z", 2, "25.0.1+8-LTS"));
+        RHEL10_X86_64_RPMS.put("22.0.2+9-70", new Release("2025-10-03T00:00:00Z", 1, "22.0.2+9-70"));
+
+        // RHEL amd64 OpenJDK25 zip
+        RHEL_ZIPS = new HashMap<String, Release>();
+        RHEL_ZIPS.put("LATEST", new Release("2025-10-21T00:00:00Z", 1, "25.0.1+8-LTS"));
+        RHEL_ZIPS.put("25.0.1+8-LTS", new Release("2025-10-21T00:00:00Z", 1, "25.0.1+8-LTS"));
     }
 
-    @Test
-    void testParseLogLine() {
-        String logLine = "Narrow klass base: 0x0000000000000000, Narrow klass shift: 3";
-        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof NarrowKlass,
-                JdkUtil.LogEventType.NARROW_KLASS.toString() + " not parsed.");
+    /**
+     * Make default constructor private so the class cannot be instantiated.
+     */
+    private Jdk25() {
+
     }
 }

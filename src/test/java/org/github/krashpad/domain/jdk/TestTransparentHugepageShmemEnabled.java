@@ -14,79 +14,30 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
-import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.github.krashpad.util.jdk.JdkUtil;
+import org.junit.jupiter.api.Test;
 
 /**
- * <p>
- * COMPRESSED_CLASS_SPACE
- * </p>
- * 
- * <p>
- * Compressed class space information.
- * </p>
- * 
- * <h2>Example Logging</h2>
- * 
- * <p>
- * 1) JDK8/11
- * </p>
- * 
- * <pre>
- * Compressed class space size: 1073741824 Address: 0x00000007c0000000
- * </pre>
- * 
- * <p>
- * 2) JDK17
- * </p>
- * 
- * <pre>
- * Compressed class space mapped at: 0x0000000800c00000-0x0000000840c00000, reserved size: 1073741824
- * </pre>
- * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class CompressedClassSpace implements LogEvent {
+class TestTransparentHugepageShmemEnabled {
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^Compressed class space (size|mapped at):.*$";
-
-    /**
-     * Determine if the logLine matches the logging pattern(s) for this event.
-     * 
-     * @param logLine
-     *            The log line to test.
-     * @return true if the log line matches the event pattern, false otherwise.
-     */
-    public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+    @Test
+    void testIdentity() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/shmem_enabled: always within_size advise [never] deny "
+                + "force";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_SHMEM_ENABLED,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_SHMEM_ENABLED.toString() + " not identified.");
     }
 
-    /**
-     * The log entry for the event.
-     */
-    private String logEntry;
-
-    /**
-     * Create event from log entry.
-     * 
-     * @param logEntry
-     *            The log entry for the event.
-     */
-    public CompressedClassSpace(String logEntry) {
-        this.logEntry = logEntry;
+    @Test
+    void testParseLogLine() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/shmem_enabled: always within_size advise [never] deny "
+                + "force";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TransparentHugepageShmemEnabled,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_SHMEM_ENABLED.toString() + " not parsed.");
     }
-
-    @Override
-    public LogEventType getEventType() {
-        return LogEventType.COMPRESSED_CLASS_SPACE;
-    }
-
-    public String getLogEntry() {
-        return logEntry;
-    }
-
 }

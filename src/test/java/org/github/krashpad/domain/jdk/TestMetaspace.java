@@ -80,6 +80,13 @@ class TestMetaspace {
     }
 
     @Test
+    void testChunkFreelist() {
+        String logLine = "Chunk freelists:";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    }
+
+    @Test
     void testChunkFreelists() {
         String logLine = "Chunk freelists:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
@@ -104,6 +111,13 @@ class TestMetaspace {
     void testClass() {
         String logLine = "      Class:     17.93 MB capacity,    14.53 MB ( 81%) used,     3.26 MB ( 18%) "
                 + "free+waste,   143.81 KB ( <1%) overhead.";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    }
+
+    @Test
+    void testClassSpace() {
+        String logLine = " class space     used 25K, committed 128K, reserved 1048576K";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     }
@@ -181,6 +195,13 @@ class TestMetaspace {
     @Test
     void testMetasapceReclaimPolicy() {
         String logLine = "MetaspaceReclaimPolicy: balanced";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
+                JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
+    }
+
+    @Test
+    void testMetaspace() {
+        String logLine = "Metaspace        used 374K, committed 576K, reserved 1114112K";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.METASPACE,
                 JdkUtil.LogEventType.METASPACE.toString() + " not identified.");
     }

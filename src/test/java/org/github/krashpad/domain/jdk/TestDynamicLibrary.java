@@ -250,6 +250,18 @@ class TestDynamicLibrary {
     }
 
     @Test
+    void testJdk25() {
+        DynamicLibrary priorLogEvent = new DynamicLibrary(null);
+        String logLine = "7fa37423a000-7fa37428f000 r-xp 00000000 103:03 50338776                  "
+                + "/usr/lib/jvm/java-25-openjdk/lib/libsimdsort.so";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DYNAMIC_LIBRARY,
+                JdkUtil.LogEventType.DYNAMIC_LIBRARY.toString() + " not identified.");
+        DynamicLibrary event = new DynamicLibrary(logLine);
+        assertEquals("/usr/lib/jvm/java-25-openjdk/lib/libsimdsort.so", event.getFilePath(), "File path not correct.");
+        assertTrue(event.isNativeLibrary(), "Native library not identified.");
+    }
+
+    @Test
     void testJdkLibrary() {
         DynamicLibrary priorLogEvent = new DynamicLibrary(null);
         String logLine = "7f95d7f78000-7f95d7f79000 r--p 00015000 fd:0d 134366667                  "

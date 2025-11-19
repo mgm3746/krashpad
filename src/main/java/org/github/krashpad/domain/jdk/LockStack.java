@@ -14,33 +14,42 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
+import org.github.krashpad.domain.ThrowAwayEvent;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
- * NARROW_KLASS
+ * LOCK_STACK
  * </p>
  * 
  * <p>
- * Narrow klass information.
+ * Lock stack information added in JDK22. Reference
+ * <a href="https://bugs.openjdk.org/browse/JDK-8322345">JDK-8322345</a>.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
+ * Lock stack of current Java thread (top to bottom):
+ * LockStack[1]: com.example.MyClass
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class NarrowKlass implements LogEvent {
+public class LockStack implements LogEvent, ThrowAwayEvent, HeaderEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    private static final String _REGEX_HEADER = "Lock stack of current Java thread \\(top to bottom\\):";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^Narrow klass base:.*$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|LockStack\\[\\d{1,}\\]: .+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -64,17 +73,25 @@ public class NarrowKlass implements LogEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public NarrowKlass(String logEntry) {
+    public LockStack(String logEntry) {
         this.logEntry = logEntry;
     }
 
     @Override
     public LogEventType getEventType() {
-        return LogEventType.NARROW_KLASS;
+        return LogEventType.LOCK_STACK;
     }
 
     public String getLogEntry() {
         return logEntry;
     }
 
+    @Override
+    public boolean isHeader() {
+        boolean isHeader = false;
+        if (this.logEntry != null) {
+            isHeader = logEntry.matches(_REGEX_HEADER);
+        }
+        return isHeader;
+    }
 }

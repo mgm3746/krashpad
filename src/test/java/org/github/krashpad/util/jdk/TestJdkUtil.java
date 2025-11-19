@@ -68,29 +68,29 @@ class TestJdkUtil {
 
     @Test
     void testUpdateNumberFromBuildStringJdk8() {
-        assertEquals(282, JdkUtil.getJdk8UpdateNumber("1.8.0_282-b08"), "Update number not correct.");
+        assertEquals(282, JdkUtil.getJdkUpdateNumber("1.8.0_282-b08"), "Update number not correct.");
     }
 
     @Test
     void testUpdateNumberFromVersionStringJdk8() {
-        assertEquals(282, JdkUtil.getJdk8UpdateNumber("8.0_282-b08"), "Update number not correct.");
+        assertEquals(282, JdkUtil.getJdkUpdateNumber("8.0_282-b08"), "Update number not correct.");
     }
 
     @Test
     void testUpdateNumberJdk11() {
         String jdk11ReleaseString = "11.0.9+11-LTS";
-        assertEquals(9, JdkUtil.getJdk11UpdateNumber(jdk11ReleaseString), "JDK11 update number not correct.");
+        assertEquals(9, JdkUtil.getJdkUpdateNumber(jdk11ReleaseString), "JDK11 update number not correct.");
     }
 
     @Test
     void testUpdateNumberJdk17() {
         String jdk17ReleaseString = "17.0.4+8-LTS";
-        assertEquals(4, JdkUtil.getJdk17UpdateNumber(jdk17ReleaseString), "JDK17 update number not correct.");
+        assertEquals(4, JdkUtil.getJdkUpdateNumber(jdk17ReleaseString), "JDK17 update number not correct.");
     }
 
     @Test
     void testUpdateNumberJdk8() {
         String jdk8ReleaseString = "1.8.0_222-b10";
-        assertEquals(222, JdkUtil.getJdk8UpdateNumber(jdk8ReleaseString), "JDK8 update number not correct.");
+        assertEquals(222, JdkUtil.getJdkUpdateNumber(jdk8ReleaseString), "JDK8 update number not correct.");
     }
 }
