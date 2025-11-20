@@ -56,7 +56,7 @@ public class Jdk25 {
         RHEL10_X86_64_RPMS = new HashMap<String, Release>();
         RHEL10_X86_64_RPMS.put("LATEST", new Release("2025-10-21T00:00:00Z", 2, "25.0.1+8-LTS"));
         RHEL10_X86_64_RPMS.put("25.0.1+8-LTS", new Release("2025-10-21T00:00:00Z", 2, "25.0.1+8-LTS"));
-        RHEL10_X86_64_RPMS.put("22.0.2+9-70", new Release("2025-10-03T00:00:00Z", 1, "22.0.2+9-70"));
+        RHEL10_X86_64_RPMS.put("22.0.2+9-LTS", new Release("2024-07-16T00:00:00Z", 1, "22.0.2+9-LTS"));
 
         // RHEL amd64 OpenJDK25 zip
         RHEL_ZIPS = new HashMap<String, Release>();
