@@ -56,7 +56,7 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
             + "ParallelGCFailedAllocation|ParallelGCSystemGC|PrintJNI|PrintThreads|RedefineClasses|"
             + "RendezvousGCThreads|SetNotifyJvmtiEventsMode|Shenandoah Final Mark and Start Evacuation|"
             + "Shenandoah Final Update References|Shenandoah Init Marking|Shenandoah Init Update References|ThreadDump|"
-            + "XMarkStart|ZMarkEnd|ZMarkFlushOperation|ZMarkStartYoung|ZMarkStartYoungAndOld|ZRelocateStart|"
+            + "XMarkStart|ZMarkEnd|ZMarkFlushOperation|ZMarkStart|ZMarkStartYoung|ZMarkStartYoungAndOld|ZRelocateStart|"
             + "ZRendezvousGCThreads)";
 
     /**
