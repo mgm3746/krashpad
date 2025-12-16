@@ -317,6 +317,7 @@ public class KrashUtil {
         // glib2
         NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.1");
         NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.4");
+        NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.6800.4");
         // glib2
         NATIVE_LIBRARIES_LINUX.add("libgmodule-2.0.so.0.5600.4");
         // gmp
@@ -529,6 +530,7 @@ public class KrashUtil {
         // pcre
         NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.0");
         NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.10");
+        NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.12");
         // pcre2
         NATIVE_LIBRARIES_LINUX.add("libpcre2-8.so.0.7.1");
         // pcre2-utf16
