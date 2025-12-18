@@ -644,6 +644,22 @@ class TestAnalysis {
     }
 
     @Test
+    void testCrashElasticApmAgent() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# Problematic frame:";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# J 46373 c2 co.elastic.apm.agent.loginstr.reformatting."
+                + "AbstractEcsReformattingHelper.onAppendEnter(Ljava/lang/Object;)Z (126 bytes) "
+                + "@ 0x00006fce163ff2e2 [0x00006fce163feb40+0x00000000000007a2]";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ELASTIC_APM_AGENT.getKey()),
+                Analysis.ERROR_CRASH_ELASTIC_APM_AGENT + " analysis not identified.");
+    }
+
+    @Test
     void testCrashInUnknownNativeLibraryHeader() {
         FatalErrorLog fel = new FatalErrorLog();
         String header = "# C  [libpbul_aca-elf64.so+0x10319]  vfork+0x30c";

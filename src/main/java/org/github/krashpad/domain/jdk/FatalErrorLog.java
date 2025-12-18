@@ -1824,6 +1824,12 @@ public class FatalErrorLog {
             }
         }
         // Crash in tomcat native connector
+        if (getStackFrameTop() != null && getStackFrameTop()
+                .matches("^.+co\\.elastic\\.apm\\.agent\\.loginstr\\.reformatting\\.AbstractEcsReformattingHelper\\."
+                        + "onAppendEnter.+$")) {
+            analysis.add(Analysis.ERROR_CRASH_ELASTIC_APM_AGENT);
+        }
+        // Crash in Elastic Apm agent
         if ((getStackFrameTop() != null
                 && (getStackFrameTop().matches("^.+" + JdkRegEx.NATIVE_LIBRARY_TOMCAT_CONNECTOR + ".+$"))
                 || (getStackFrameTopJava() != null && getStackFrameTopJava()

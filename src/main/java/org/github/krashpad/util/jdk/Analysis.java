@@ -76,6 +76,11 @@ public enum Analysis {
     ERROR_COMPILER_THREAD_C2_PHASEIDEALLOOP_IDE_BAC_IFS("error.compiler.thread.c2.phaseidealloop.ide.bac.ifs"),
 
     /**
+     * Property key for a crash in a Elastic Apm agen.
+     */
+    ERROR_CRASH_ELASTIC_APM_AGENT("error.crash.elastic.apm.agent"),
+
+    /**
      * Property key for a crash in a 3rd party or unknown library.
      */
     ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN("error.crash.native.library.unknown"),
