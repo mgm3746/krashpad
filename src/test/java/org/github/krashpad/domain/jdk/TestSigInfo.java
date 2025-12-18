@@ -186,6 +186,18 @@ class TestSigInfo {
     }
 
     @Test
+    void testWindowsExceptioInformation5AddressesSpaceAtEnd() {
+        String logLine = "siginfo: ExceptionCode=0xe0434352, ExceptionInformation=0xffffffff80070002 "
+                + "0x0000000000000000 0x0000000000000000 0x0000000000000000 0x00007fff938b0000 ";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.SIGINFO,
+                JdkUtil.LogEventType.SIGINFO.toString() + " not identified.");
+        SigInfo event = new SigInfo(logLine);
+        assertEquals(SignalNumber.EXCEPTION_DOT_NET_CLR, event.getSignalNumber(), "Signal number not correct.");
+        assertEquals(SignalCode.UNKNOWN, event.getSignalCode(), "Signal code not correct.");
+        assertNull(event.getSignalAddress(), "Signal address not correct.");
+    }
+
+    @Test
     void testWindowsExceptionStackOverflow() {
         String logLine = "siginfo: ExceptionCode=0xc00000fd, ExceptionInformation=0x0000000000000001 "
                 + "0x00000000c9dd0000 ";

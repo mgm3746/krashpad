@@ -873,6 +873,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("ADVAPI32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("bcrypt.dll");
         NATIVE_LIBRARIES_WINDOWS.add("bcryptPrimitives.dll");
+        // .NET (dot net) Common Language Runtime (CLR)
+        NATIVE_LIBRARIES_WINDOWS.add("clr.dll");
         // Common control library
         NATIVE_LIBRARIES_WINDOWS.add("COMCTL32.dll");
         NATIVE_LIBRARIES_WINDOWS.add("CRYPT32.dll");
@@ -980,6 +982,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("UMPDC.dll");
         // Related to SQL Server
         NATIVE_LIBRARIES_WINDOWS.add("umppc18514.dll");
+        NATIVE_LIBRARIES_WINDOWS.add("umppc20108.dll");
         NATIVE_LIBRARIES_WINDOWS.add("urlmon.dll");
         NATIVE_LIBRARIES_WINDOWS.add("VERSION.dll");
         NATIVE_LIBRARIES_WINDOWS.add("verifier.dll");

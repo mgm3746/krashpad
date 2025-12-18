@@ -93,10 +93,10 @@ public class SigInfo implements LogEvent {
      * Regular expression for windows.
      */
     private static final String REGEX_WINDOWS = "ExceptionCode=(" + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION
-            + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW + "), ((reading|writing) " + "address "
-            + JdkRegEx.ADDRESS + "|ExceptionInformation=" + JdkRegEx.ADDRESS + " " + JdkRegEx.ADDRESS + ")|"
-            + SignalNumber.EXCEPTION_ACCESS_VIOLATION + " \\((" + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION
-            + ")\\), reading address " + JdkRegEx.ADDRESS;
+            + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_DOT_NET_CLR
+            + "), ((reading|writing) " + "address " + JdkRegEx.ADDRESS + "|ExceptionInformation=(" + JdkRegEx.ADDRESS
+            + "[ ]{0,1}){1,5})|" + SignalNumber.EXCEPTION_ACCESS_VIOLATION + " \\(("
+            + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION + ")\\), reading address " + JdkRegEx.ADDRESS;
 
     /**
      * Regular expression defining the logging.
@@ -152,7 +152,7 @@ public class SigInfo implements LogEvent {
             if (matcher.group(1).matches(REGEX_LINUX)) {
                 address = matcher.group(11);
             } else if (matcher.group(1).matches(REGEX_WINDOWS)) {
-                address = matcher.group(38);
+                address = matcher.group(34);
             }
         }
         return address;
@@ -214,12 +214,14 @@ public class SigInfo implements LogEvent {
                     // Windows format 1
                     if (matcher.group(19).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
                         number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
+                    } else if (matcher.group(19).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_DOT_NET_CLR)) {
+                        number = SignalNumber.EXCEPTION_DOT_NET_CLR;
                     } else if (matcher.group(19).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW)) {
                         number = SignalNumber.EXCEPTION_STACK_OVERFLOW;
                     }
-                } else if (matcher.group(37) != null) {
+                } else if (matcher.group(33) != null) {
                     // Windows format 2
-                    if (matcher.group(37).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
+                    if (matcher.group(33).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {
                         number = SignalNumber.EXCEPTION_ACCESS_VIOLATION;
                     }
                 }

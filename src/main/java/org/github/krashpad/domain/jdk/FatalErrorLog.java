@@ -1388,6 +1388,26 @@ public class FatalErrorLog {
         if (!getNativeLibrariesUnknown().isEmpty()) {
             analysis.add(Analysis.INFO_NATIVE_LIBRARIES_UNKNOWN);
         }
+        // .NET (dot net) Common Language Runtime (CLR)
+        if (getStackFrameTop() != null
+                && getStackFrameTop().matches("^.*" + JdkRegEx.NATIVE_LIBRARY_DOT_NET_CLR + ".*$")) {
+            // Crash in .NET CLR
+            analysis.add(Analysis.ERROR_DOT_NET_CLR);
+        } else if (isInStack(JdkRegEx.NATIVE_LIBRARY_DOT_NET_CLR)) {
+            // .NET in stack
+            analysis.add(0, Analysis.WARN_DOT_NET_CLR);
+        } else if (!getNativeLibrariesUnknown().isEmpty()) {
+            // .NET CLR detected
+            Iterator<String> iterator = getNativeLibrariesUnknown().iterator();
+            while (iterator.hasNext()) {
+                String nativeLibraryPath = iterator.next();
+                String nativeLibrary = org.github.joa.util.JdkRegEx.getFile(nativeLibraryPath);
+                if (nativeLibrary != null && nativeLibrary.matches(JdkRegEx.NATIVE_LIBRARY_DOT_NET_CLR)) {
+                    analysis.add(Analysis.INFO_DOT_NET_CLR);
+                    break;
+                }
+            }
+        }
         // Dynatrace
         if (getStackFrameTop() != null
                 && getStackFrameTop().matches("^.*" + JdkRegEx.NATIVE_LIBRARY_DYNATRACE + ".*$")) {

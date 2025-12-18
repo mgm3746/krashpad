@@ -103,6 +103,11 @@ public enum Analysis {
     ERROR_DIRECT_BYTE_BUFFER_CONTENTION("error.direct.byte.buffer.contention"),
 
     /**
+     * Property key for crash in .NET (dot net) Common Language Runtime (CLR).
+     */
+    ERROR_DOT_NET_CLR("error.dot.net.clr"),
+
+    /**
      * Property key for crash in Dynatrace code.
      */
     ERROR_DYNATRACE("error.dynatrace"),
@@ -582,7 +587,7 @@ public enum Analysis {
     INFO_APP_DYNAMICS_POSSIBLE("info.app.dynamics.possible"),
 
     /**
-     * Property key for async-profiler library detected..
+     * Property key for async-profiler library detected.
      */
     INFO_ASYNC_PROFILER("info.async.profiler"),
 
@@ -610,6 +615,11 @@ public enum Analysis {
      * Property key for Apache Commons Database Database Connection Pool 2.
      */
     INFO_DBCP2("info.dbcp2"),
+
+    /**
+     * Property key for .NET (dot net) Common Language Runtime (CLR) library detected.
+     */
+    INFO_DOT_NET_CLR("info.dot.net.clr"),
 
     /**
      * Property key for Dynatrace detected.
@@ -908,6 +918,11 @@ public enum Analysis {
     INFO_SIGNO_EXCEPTION_ACCESS_VIOLATION("info.signo.exception.access.violation"),
 
     /**
+     * Property key for ACCESS_DOT_NET_CLR crash.
+     */
+    INFO_SIGNO_EXCEPTION_DOT_NET_CLR("info.signo.exception.dot.net.clr"),
+
+    /**
      * Property key for STACK_OVERFLOW crash.
      */
     INFO_SIGNO_EXCEPTION_STACK_OVERFLOW("info.signo.exception.stack.overflow"),
@@ -1028,6 +1043,11 @@ public enum Analysis {
      * Property key for no evidence the JDK debug symbols are installed.
      */
     WARN_DEBUG_SYMBOLS("warn.jdk.debug.symbols"),
+
+    /**
+     * Property key for .NET (dot net) Common Language Runtime (CLR) in stack.
+     */
+    WARN_DOT_NET_CLR("warn.dot.net.clr"),
 
     /**
      * Property key for Dynatrace code in stack.

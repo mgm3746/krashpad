@@ -581,6 +581,13 @@ public class JdkRegEx {
     public static final String NATIVE_LIBRARY = "[a-zA-Z\\d-_\\.]{1,}\\.(DLL|dll|so)(\\.\\d{1,}){0,}";
 
     /**
+     * .NET (dot net) Common Language Runtime (CLR) library
+     * 
+     * For example: clr.dll.
+     */
+    public static final String NATIVE_LIBRARY_DOT_NET_CLR = "(clr\\.(DLL|dll))";
+
+    /**
      * Dynatrace native library.
      * 
      * For example: liboneagentjava.so, liboneagentloader.so, liboneagentproc.so, dtagent.dll, dtagentcore.dll.
@@ -1021,6 +1028,11 @@ public class JdkRegEx {
      * Windows exception code for stack overflow.
      */
     public static final String WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW = "0xc00000fd";
+
+    /**
+     * Windows exception code for .NET Common Language Runtime (CLR) exception.
+     */
+    public static final String WINDOWS_EXCEPTION_CODE_DOT_NET_CLR = "0xe0434352";
 
     /**
      * Regular expression for a young generation gc data.

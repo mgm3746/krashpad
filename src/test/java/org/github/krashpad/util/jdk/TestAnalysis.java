@@ -924,6 +924,43 @@ class TestAnalysis {
     }
 
     @Test
+    void testDotNetClrCrash() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stackFrame1 = "C  [clr.dll+0x47b5";
+        Stack stackEvent1 = new Stack(stackFrame1);
+        fel.getStacks().add(stackEvent1);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_DOT_NET_CLR.getKey()),
+                Analysis.ERROR_DOT_NET_CLR + " analysis not identified.");
+    }
+
+    @Test
+    void testDotNetClrDetected() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "0x00007fff938b0000 - 0x00007fff943e5000         "
+                + "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\clr.dll";
+        DynamicLibrary event = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(event);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_DOT_NET_CLR.getKey()),
+                Analysis.INFO_DOT_NET_CLR + " analysis not identified.");
+    }
+
+    @Test
+    void testDotNetClrInStack() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stackFrame1 = "C  [KERNELBASE.dll+0x26ea8]";
+        Stack stackEvent1 = new Stack(stackFrame1);
+        fel.getStacks().add(stackEvent1);
+        String stackFrame2 = "C  [clr.dll+0x47b5";
+        Stack stackEvent2 = new Stack(stackFrame2);
+        fel.getStacks().add(stackEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_DOT_NET_CLR.getKey()),
+                Analysis.WARN_DOT_NET_CLR + " analysis not identified.");
+    }
+
+    @Test
     void testDynatraceCrash() {
         FatalErrorLog fel = new FatalErrorLog();
         String stack = "C  [liboneagentproc.so+0x17993]";
