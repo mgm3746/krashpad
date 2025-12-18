@@ -2020,6 +2020,24 @@ class TestAnalysis {
     }
 
     @Test
+    void testJvmYesOsYesUseLargePages() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -Xmx10G -XX:+UseLargePages";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String os = "OS:Red Hat Enterprise Linux Server release 7.9 (Maipo)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        fel.getVmArguments().add(event);
+        String meminfo = "Hugetlb:         4194304 kB";
+        Meminfo meminfoEvent = new Meminfo(meminfo);
+        fel.getMeminfos().add(meminfoEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_LARGE_PAGES_HUGETLBFS_EXPLICIT_JVM_YES_OS_NO.getKey()),
+                Analysis.ERROR_LARGE_PAGES_HUGETLBFS_EXPLICIT_JVM_YES_OS_NO + " analysis incorrectly identified.");
+    }
+
+    @Test
     void testKubernetesQosGuaranteedNot() {
         FatalErrorLog fel = new FatalErrorLog();
         fel.getContainerInfos().add(new ContainerInfo("cpu_quota: 100000"));

@@ -1622,9 +1622,10 @@ public class FatalErrorLog {
             }
         }
         // Large pages JVM/OS HugeTLB configuration analysis
-        if (hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_LINUX_HUGETLBFS.toString())
-                && getExplicitHugePagesPoolSize() <= 0) {
-            analysis.add(Analysis.ERROR_LARGE_PAGES_HUGETLBFS_EXPLICIT_JVM_YES_OS_NO);
+        if (hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_LINUX_HUGETLBFS.toString())) {
+            if (getExplicitHugePagesPoolSize() <= 0) {
+                analysis.add(Analysis.ERROR_LARGE_PAGES_HUGETLBFS_EXPLICIT_JVM_YES_OS_NO);
+            }
         } else {
             // JVM is not configured to use explicit huge pages
             if (getExplicitHugePagesPoolSize() > 0) {
