@@ -647,8 +647,8 @@ public class Jdk8 {
         // Windows amd64 OpenJDK8 zip
         // First RH Windows release was 1.8.0_191-1-redhat-b12. There was no RH Windows release for u202.
         WINDOWS_ZIPS = new HashMap<String, Release>();
-        WINDOWS_ZIPS.put("LATEST", new Release("Oct 17 2025", 34, "1.8.0_472-b08"));
-        WINDOWS_ZIPS.put("1.8.0_472-b08", new Release("Oct 17 2025", 34, "1.8.0_472-b08"));
+        WINDOWS_ZIPS.put("LATEST", new Release("Oct 18 2025 10:48:51", 34, "1.8.0_472-b08"));
+        WINDOWS_ZIPS.put("1.8.0_472-b08", new Release("Oct 18 2025 10:48:51", 34, "1.8.0_472-b08"));
         WINDOWS_ZIPS.put("1.8.0_462-b08", new Release("Jul 10 2025", 33, "1.8.0_462-b08"));
         WINDOWS_ZIPS.put("1.8.0_452-b09", new Release("Apr 11 2025", 32, "1.8.0_452-b09"));
         WINDOWS_ZIPS.put("1.8.0_442-b06", new Release("Jan 14 2025", 31, "1.8.0_442-b06"));
