@@ -488,6 +488,8 @@ public class JdkUtil {
                             releases = Jdk17.RHEL9_X86_64_RPMS;
                         } else if (fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK21) {
                             releases = Jdk21.RHEL9_X86_64_RPMS;
+                        } else if (fatalErrorLog.getJavaSpecification() == JavaSpecification.JDK25) {
+                            releases = Jdk25.RHEL9_X86_64_RPMS;
                         }
                         break;
                     case RHEL10:

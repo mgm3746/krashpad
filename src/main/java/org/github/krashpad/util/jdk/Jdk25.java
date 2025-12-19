@@ -34,6 +34,11 @@ public class Jdk25 {
     public static final HashMap<String, Release> RHEL_ZIPS;
 
     /**
+     * RHEL9 rpm release information.
+     */
+    public static final HashMap<String, Release> RHEL9_X86_64_RPMS;
+
+    /**
      * RHEL10 rpm release information.
      */
     public static final HashMap<String, Release> RHEL10_X86_64_RPMS;
@@ -51,6 +56,12 @@ public class Jdk25 {
          * 4) 2024-07-16T00:00:00Z means build date/time unspecified (e.g. to support reproducible builds).
          * 
          */
+
+        // RHEL9 amd64 OpenJDK25 rpm
+        RHEL9_X86_64_RPMS = new HashMap<String, Release>();
+        RHEL9_X86_64_RPMS.put("LATEST", new Release("2025-12-09T00:00:00Z", 1, "25.0.1+8-LTS"));
+        RHEL9_X86_64_RPMS.put("java-25-openjdk-25.0.1.0.8-2.el9.x86_64",
+                new Release("2025-12-09T00:00:00Z", 1, "25.0.1+8-LTS"));
 
         // RHEL10 amd64 OpenJDK25 rpm. Note directory name is common, not rpm specific.
         RHEL10_X86_64_RPMS = new HashMap<String, Release>();
