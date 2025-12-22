@@ -168,7 +168,7 @@ public class Jdk8 {
         RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.472.b08-1.el7_9.x86_64",
                 new Release("Oct 18 2025", 48, "1.8.0_472-b08"));
         RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.462.b08-1.el7_9.x86_64",
-                new Release("Jul 11 2025", 47, "1.8.0_462-b08"));
+                new Release("Jul 11 2025 12:31:09", 47, "1.8.0_462-b08"));
         RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.452.b09-1.el7_9.x86_64",
                 new Release("Apr 11 2025 21:00:55", 46, "1.8.0_452-b09"));
         RHEL7_X86_64_RPMS.put("java-1.8.0-openjdk-1.8.0.442.b06-1.el7_9.x86_64",
