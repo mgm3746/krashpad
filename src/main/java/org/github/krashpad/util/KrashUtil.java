@@ -791,7 +791,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjimage.so");
         // java-(1.8.0-openjdk
         NATIVE_LIBRARIES_LINUX_JAVA.add("libinstrument.so");
-        // java-(1.8.0|11|17|21)-openjdk-headless
+        // java-(1.8.0|11|17|21|25)-openjdk-headless
         NATIVE_LIBRARIES_LINUX_JAVA.add("libjli.so");
         // RHEL7: libjpeg-turbo
         // RHEL8+: java-1.8.0-openjdk-headless
