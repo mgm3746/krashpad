@@ -220,19 +220,6 @@ class TestHeap {
     }
 
     @Test
-    void testShenandoah() {
-        File testFile = new File(Constants.TEST_DATA_DIR + "dataset74.txt");
-        Manager manager = new Manager();
-        FatalErrorLog fel = manager.parse(testFile);
-        assertEquals(fel.getGarbageCollectors().size(), 1, "Number of collectors incorrect.");
-        assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
-                "Uknown collector incorrectly identified.");
-        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH),
-                "Shenandoah heap event not recognized.");
-        assertFalse(fel.getUnidentifiedLogLines().size() > 0, "Uknown log lines.");
-    }
-
-    @Test
     void testShenandoahCollectionSet() {
         Heap priorEvent = new Heap(null);
         String logLine = " - map (vanilla): 0x00007ffb91f5e3d1";
@@ -248,12 +235,37 @@ class TestHeap {
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
     }
 
+    void testShenandoahGenerational() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset96.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(fel.getGarbageCollectors().size(), 1, "Number of collectors incorrect.");
+        assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
+                "Uknown collector incorrectly identified.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH_GENERATIONAL),
+                GarbageCollector.SHENANDOAH_GENERATIONAL + "collector not identified.");
+        assertFalse(fel.getUnidentifiedLogLines().size() > 0, "Uknown log lines.");
+    }
+
     @Test
     void testShenandoahHeader() {
         Heap priorEvent = new Heap(null);
         String logLine = "Shenandoah Heap";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.HEAP,
                 JdkUtil.LogEventType.HEAP.toString() + " not identified.");
+    }
+
+    @Test
+    void testShenandoahNonGenerational() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset74.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(fel.getGarbageCollectors().size(), 1, "Number of collectors incorrect.");
+        assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
+                "Uknown collector incorrectly identified.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH_NON_GENERATIONAL),
+                GarbageCollector.SHENANDOAH_NON_GENERATIONAL + "collector not identified.");
+        assertFalse(fel.getUnidentifiedLogLines().size() > 0, "Uknown log lines.");
     }
 
     @Test

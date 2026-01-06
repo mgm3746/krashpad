@@ -3828,8 +3828,8 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertFalse(fel.getGarbageCollectors().contains(GarbageCollector.UNKNOWN),
                 GarbageCollector.UNKNOWN + " incorrectly identified.");
-        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH),
-                GarbageCollector.SHENANDOAH + " collector not identified.");
+        assertTrue(fel.getGarbageCollectors().contains(GarbageCollector.SHENANDOAH_NON_GENERATIONAL),
+                GarbageCollector.SHENANDOAH_NON_GENERATIONAL + " collector not identified.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.INFO_METASPACE.getKey()),
                 org.github.joa.util.Analysis.INFO_METASPACE + " analysis not identified.");
         assertTrue(fel.hasAnalysis(org.github.joa.util.Analysis.WARN_METASPACE_LT_COMP_CLASS.getKey()),

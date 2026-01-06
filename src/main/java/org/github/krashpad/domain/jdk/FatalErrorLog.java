@@ -3089,14 +3089,25 @@ public class FatalErrorLog {
     /**
      * @return The list of garbage collectors as determined by inspecting events.
      */
-    public List<GarbageCollector> getGarbageCollectorsFromEvents() {
+    private List<GarbageCollector> getGarbageCollectorsFromEvents() {
         List<GarbageCollector> garbageCollectors = new ArrayList<GarbageCollector>();
         if (!heaps.isEmpty()) {
             Iterator<Heap> iterator = heaps.iterator();
             while (iterator.hasNext()) {
                 Heap event = iterator.next();
                 if (event.getLogEntry().matches("^[ ]{0,}Shenandoah.+$")) {
-                    garbageCollectors.add(GarbageCollector.SHENANDOAH);
+                    // generational and non-generational look the same
+                    if (getJavaVersionMajor() < 25) {
+                        garbageCollectors.add(GarbageCollector.SHENANDOAH_NON_GENERATIONAL);
+                    } else {
+                        if (jvmOptions != null && jvmOptions.getShenandoahGcMode() != null
+                                && org.github.joa.util.JdkUtil.getStringOptionValue(jvmOptions.getShenandoahGcMode())
+                                        .equals("generational")) {
+                            garbageCollectors.add(GarbageCollector.SHENANDOAH_GENERATIONAL);
+                        } else {
+                            garbageCollectors.add(GarbageCollector.SHENANDOAH_NON_GENERATIONAL);
+                        }
+                    }
                     break;
                 } else if (event.getLogEntry().matches("^[ ]{0,}garbage-first.+$")) {
                     garbageCollectors.add(GarbageCollector.G1);
@@ -6542,7 +6553,8 @@ public class FatalErrorLog {
             case PARALLEL_OLD:
             case PARALLEL_SCAVENGE:
             case PAR_NEW:
-            case SHENANDOAH:
+            case SHENANDOAH_GENERATIONAL:
+            case SHENANDOAH_NON_GENERATIONAL:
             case ZGC_GENERATIONAL:
             case ZGC_NON_GENERATIONAL:
                 isMultithreadedGc = true;

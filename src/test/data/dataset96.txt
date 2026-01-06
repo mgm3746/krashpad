@@ -1,0 +1,17 @@
+VM Arguments:
+jvm_args: -XX:+UseShenandoahGC -XX:ShenandoahGCMode=generational
+
+Heap:
+ Shenandoah Heap
+  7976M max, 7976M soft max, 8192K committed, 693K used
+  3988 x 2048 K regions
+ Status: not cancelled
+ Reserved region:
+  - [0x000000060d800000, 0x0000000800000000)
+ Collection set:
+  - map (vanilla): 0x000000000001306c
+  - map (biased):  0x0000000000010000
+
+Metaspace:
+Metaspace        used 141K, committed 384K, reserved 1114112K
+ class space     used 3K, committed 128K, reserved 1048576K
