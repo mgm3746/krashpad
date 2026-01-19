@@ -228,6 +228,17 @@ class TestVmOperation {
     }
 
     @Test
+    void testRevokeBias() {
+        String logLine = "VM_Operation (0x00007ffc96efd7f8): RevokeBias, mode: safepoint, requested by thread "
+                + "0x00007ffda8005000";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof VmOperation,
+                JdkUtil.LogEventType.VM_OPERATION.toString() + " not parsed.");
+        VmOperation event = new VmOperation(logLine);
+        assertEquals("RevokeBias, mode: safepoint, requested by thread 0x00007ffda8005000",
+                event.getVmOperationString(), "VM operation not correct.");
+    }
+
+    @Test
     void testShenandoahFullGC() {
         String logLine = "VM_Operation (0x00007f25169a9ba0): ShenandoahFullGC, mode: safepoint, requested by thread "
                 + "0x0000560e86b75800";
