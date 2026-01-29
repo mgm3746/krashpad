@@ -81,9 +81,9 @@ public class GcPreciousLog implements LogEvent, HeaderEvent {
             + "GC Workers Max|Heap Backing File(system)?|Heap ((Initial|Min|Max) Capacity|Region Size)|"
             + "Initial Capacity|Large Page Support|Max Capacity|Medium Page Size|Memory|Min Capacity|NUMA Nodes|"
             + "NUMA Support|Periodic GC|Pre-touch|Probing address space for the highest valid bit|"
-            + "(Concurrent( Refinement)?|Parallel) Workers|Runtime Workers|Soft Max Capacity|Uncommit):|"
-            + " String Deduplication)| \\*\\*\\*\\*\\* WARNING!| The system limit| max Java heap size|"
-            + " least \\d{1,} mappings| limit could lead to)(.*)$";
+            + "(Concurrent( Refinement)?|Parallel) Workers|Runtime Workers|Soft Max Capacity|Uncommit|"
+            + "Uncommit Delay):| String Deduplication)| \\*\\*\\*\\*\\* WARNING!| The system limit|"
+            + " max Java heap size| least \\d{1,} mappings| limit could lead to)(.*)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

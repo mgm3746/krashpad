@@ -356,6 +356,14 @@ class TestGcPreciousLog {
     }
 
     @Test
+    void testUncommitDelay() {
+        GcPreciousLog priorEvent = new GcPreciousLog(null);
+        String logLine = " Uncommit Delay: 300s";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorEvent) instanceof GcPreciousLog,
+                JdkUtil.LogEventType.GC_PRECIOUS_LOG.toString() + " not parsed.");
+    }
+
+    @Test
     void testWarningHeader() {
         GcPreciousLog priorEvent = new GcPreciousLog(null);
         String logLine = " ***** WARNING! INCORRECT SYSTEM CONFIGURATION DETECTED! *****";
