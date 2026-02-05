@@ -107,9 +107,9 @@ public class Jdk21 {
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.6.0.7-1.el9.x86_64",
                 new Release("2025-01-21T00:00:00Z", 9, "21.0.6+7-LTS"));
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.5.0.11-2.el9.x86_64",
-                new Release("2024-10-23T00:00:00Z", 8, "21.0.5+11-LTS"));
+                new Release("2024-10-15T00:00:00Z", 8, "21.0.5+11-LTS"));
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.5.0.10-3.el9.x86_64",
-                new Release("2024-10-23T00:00:00Z", 7, "21.0.5+10-LTS"));
+                new Release("2024-10-15T00:00:00Z", 7, "21.0.5+10-LTS"));
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.4.0.7-1.el9.x86_64",
                 new Release("2024-07-13T00:00:00Z", 6, "21.0.4+7-LTS"));
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.3.0.9-1.el9.x86_64",
