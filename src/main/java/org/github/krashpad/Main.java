@@ -25,6 +25,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,7 @@ import org.apache.commons.cli.ParseException;
 import org.github.joa.domain.GarbageCollector;
 import org.github.krashpad.domain.jdk.ExceptionCounts;
 import org.github.krashpad.domain.jdk.FatalErrorLog;
+import org.github.krashpad.domain.jdk.NativeMemoryTrackingSummary;
 import org.github.krashpad.domain.jdk.Stack;
 import org.github.krashpad.service.Manager;
 import org.github.krashpad.util.Constants;
@@ -420,6 +422,54 @@ public class Main {
                 printWriter.write(Constants.LINE_SEPARATOR);
             }
 
+            if (!fel.getNativeMemoryTrackings().isEmpty()) {
+                printWriter.write("========================================" + Constants.LINE_SEPARATOR);
+                printWriter.write("Native Memory Tracking:" + Constants.LINE_SEPARATOR);
+                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                if (fel.getNativeMemoryTrackingTotalCommitted() > 0) {
+                    printWriter.write("NMT Committed: "
+                            + JdkUtil.convertSize(fel.getNativeMemoryTrackingTotalCommitted(), 'K',
+                                    org.github.joa.util.Constants.UNITS)
+                            + Character.toString(org.github.joa.util.Constants.UNITS));
+                    if (fel.getJvmMemoryTotalUsed() > 0) {
+                        printPercentage(printWriter,
+                                JdkUtil.convertSize(fel.getNativeMemoryTrackingTotalCommitted(), 'K', 'B'),
+                                fel.getJvmMemoryTotalUsed(), "JVM Process Size");
+                    }
+                    printWriter.write(Constants.LINE_SEPARATOR);
+
+                }
+                printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                List<NativeMemoryTrackingSummary> summaries = fel.getNativeMemoryTrackingSummaries();
+                Iterator<NativeMemoryTrackingSummary> iterator = summaries.iterator();
+                while (iterator.hasNext()) {
+                    NativeMemoryTrackingSummary summary = iterator.next();
+                    BigDecimal percent = new BigDecimal(summary.getCommitted());
+                    percent = percent.divide(new BigDecimal(fel.getNativeMemoryTrackingTotalCommitted()), 2,
+                            RoundingMode.HALF_EVEN);
+                    percent = percent.movePointRight(2);
+                    String committedString = null;
+                    if (JdkUtil.convertSize(summary.getCommitted(), 'K', org.github.joa.util.Constants.UNITS) == 0
+                            && summary.getCommitted() > 0) {
+                        // give rounding hint
+                        committedString = "~"
+                                + JdkUtil.convertSize(summary.getCommitted(), 'K', org.github.joa.util.Constants.UNITS);
+                    } else {
+                        committedString = ""
+                                + JdkUtil.convertSize(summary.getCommitted(), 'K', org.github.joa.util.Constants.UNITS);
+                    }
+                    String percentString = null;
+                    if (percent.intValue() == 0 && summary.getCommitted() > 0) {
+                        // give rounding hint
+                        percentString = "~" + percent.toString();
+                    } else {
+                        percentString = percent.toString();
+                    }
+                    printWriter.printf("%-28s%12s" + org.github.joa.util.Constants.UNITS + "%6s%%%n",
+                            summary.getCategory(), committedString, percentString);
+                }
+            }
+
             printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             printWriter.write("Application:" + Constants.LINE_SEPARATOR);
             printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
@@ -562,7 +612,9 @@ public class Main {
                 }
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
             }
-        } catch (FileNotFoundException e) {
+        } catch (
+
+        FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

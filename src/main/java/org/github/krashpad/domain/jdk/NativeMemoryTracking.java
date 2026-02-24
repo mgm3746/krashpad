@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.github.krashpad.domain.HeaderEvent;
@@ -90,18 +91,32 @@ public class NativeMemoryTracking implements LogEvent, HeaderEvent {
      */
     public static final String _REGEX_HEADER = "Native Memory Tracking:";
 
-    public static final Pattern PATTERN = Pattern.compile(NativeMemoryTracking.REGEX);
+    public static final String[] CATEGORY = { "Arena Chunk", "Arguments", "Class", "Code", "Compiler", "GC", "Internal",
+            "Java Heap", "Logging", "Metaspace", "Module", "Native Memory Tracking", "Object Monitors", "Other",
+            "Safepoint", "Shared class space", "Serviceability", "String Deduplication", "Symbol", "Synchronization",
+            "Synchronizer", "Thread", "Tracing", "Unknown" };
 
-    /**
-     * Regular expression defining the logging.
-     */
-    private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|[-]{0,1}[ ]{0,}(\\(arena=|Arena Chunk|Arguments|\\(classes|Class|\\(  Class space|Code|Compiler|"
-            + "\\(    free|GC|\\(  instance classes|Internal \\(|Java Heap|Logging|MallocLimit:|\\(  Metadata|"
-            + "Metaspace|Module|Native Memory Tracking|[\\(]{0,1}malloc|[\\(]{0,1}mmap:|Object Monitors|"
-            + "\\(Omitting categories|Other|Preinit state:|pre-init mallocs:|\\(    reserved|Safepoint|Serviceability|"
-            + "Shared class space|\\(stack|String Deduplication|Symbol|Synchronization|Synchronizer|\\(thread|"
-            + "Thread \\(|Total: reserved|Tracing|\\(tracking|Unknown|\\(    used|\\(    waste)).*$";
+    public static final String _REGEX_CATEGORY = "-[ ]{1,}(" + String.join("|", CATEGORY)
+            + ") \\(reserved=\\d{1,}KB, committed=(\\d{1,})KB(, readonly=\\d{1,}KB)?\\)";
+
+    public static final String _REGEX_TOTAL = "Total: reserved=\\d{1,}KB, committed=(\\d{1,})KB";
+
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_CATEGORY + "|" + _REGEX_TOTAL + "|"
+    // parentheses =
+            + "[ ]{1,}\\([ ]{0,}(arena|free|malloc|mmap: reserved|reserved|stack: reserved|tracking overhead|used|"
+            + "waste)=.*|"
+            // parentheses :
+            + "[ ]{1,}\\([ ]{0,}(Class space|Metadata):.*|"
+            // parenthesis #
+            + "[ ]{1,}\\([ ]{0,}(classes|instance classes|thread|threads) #.*|"
+            // no parenthesis :
+            + "[ ]{1,}(malloc|mmap): .*|"
+            // No beginning spaces
+            + "(\\(Omitting categories|MallocLimit:|pre-init mallocs:|Preinit state:).*"
+            //
+            + ")$";
+
+    public static final Pattern PATTERN = Pattern.compile(REGEX);
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -129,6 +144,36 @@ public class NativeMemoryTracking implements LogEvent, HeaderEvent {
         this.logEntry = logEntry;
     }
 
+    /**
+     * @return memory category.
+     */
+    public String getCategory() {
+        String category = null;
+        if (isCategory()) {
+            Pattern pattern = Pattern.compile(_REGEX_CATEGORY);
+            Matcher matcher = pattern.matcher(logEntry);
+            if (matcher.find()) {
+                category = matcher.group(1);
+            }
+        }
+        return category;
+    }
+
+    /**
+     * @return committed memory (kilobytes).
+     */
+    public int getCommitted() {
+        int committed = Integer.MIN_VALUE;
+        if (isCategory()) {
+            Pattern pattern = Pattern.compile(_REGEX_CATEGORY);
+            Matcher matcher = pattern.matcher(logEntry);
+            if (matcher.find()) {
+                committed = Integer.valueOf(matcher.group(2));
+            }
+        }
+        return committed;
+    }
+
     @Override
     public LogEventType getEventType() {
         return LogEventType.NATIVE_MEMORY_TRACKING;
@@ -138,6 +183,32 @@ public class NativeMemoryTracking implements LogEvent, HeaderEvent {
         return logEntry;
     }
 
+    /**
+     * @return Total committed memory (kilobytes).
+     */
+    public int getTotalCommitted() {
+        int totalCommitted = Integer.MIN_VALUE;
+        if (isTotal()) {
+            Pattern pattern = Pattern.compile(_REGEX_TOTAL);
+            Matcher matcher = pattern.matcher(logEntry);
+            if (matcher.find()) {
+                totalCommitted = Integer.valueOf(matcher.group(1));
+            }
+        }
+        return totalCommitted;
+    }
+
+    /**
+     * @return true if the log line is a memory category, false otherwise.
+     */
+    public boolean isCategory() {
+        boolean isCategory = false;
+        if (this.logEntry != null) {
+            isCategory = logEntry.matches(_REGEX_CATEGORY);
+        }
+        return isCategory;
+    }
+
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
@@ -145,5 +216,16 @@ public class NativeMemoryTracking implements LogEvent, HeaderEvent {
             isHeader = logEntry.matches(_REGEX_HEADER);
         }
         return isHeader;
+    }
+
+    /**
+     * @return true if the log line is total memory committed, false otherwise.
+     */
+    public boolean isTotal() {
+        boolean isTotal = false;
+        if (this.logEntry != null) {
+            isTotal = logEntry.matches(_REGEX_TOTAL);
+        }
+        return isTotal;
     }
 }

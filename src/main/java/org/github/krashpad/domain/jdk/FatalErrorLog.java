@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.summingLong;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -3883,6 +3884,24 @@ public class FatalErrorLog {
     }
 
     /**
+     * @return The Native Memory Tracking total committed memory, in kilobytes.
+     */
+    public int getNativeMemoryTrackingTotalCommitted() {
+        int nativeMemoryTrackingTotalCommitted = Integer.MIN_VALUE;
+        if (!nativeMemoryTrackings.isEmpty()) {
+            Iterator<NativeMemoryTracking> iterator = nativeMemoryTrackings.iterator();
+            while (iterator.hasNext()) {
+                NativeMemoryTracking event = iterator.next();
+                if (event.isTotal()) {
+                    nativeMemoryTrackingTotalCommitted = event.getTotalCommitted();
+                    break;
+                }
+            }
+        }
+        return nativeMemoryTrackingTotalCommitted;
+    }
+
+    /**
      * @return The JVM commit limit used, in bytes.
      */
     public long getJvmCommitLimitUsed() {
@@ -4805,6 +4824,21 @@ public class FatalErrorLog {
 
     public List<NativeMemoryTracking> getNativeMemoryTrackings() {
         return nativeMemoryTrackings;
+    }
+
+    public List<NativeMemoryTrackingSummary> getNativeMemoryTrackingSummaries() {
+        List<NativeMemoryTrackingSummary> nativeMemoryTrackingSummaries = new ArrayList<NativeMemoryTrackingSummary>();
+        Iterator<NativeMemoryTracking> iterator = nativeMemoryTrackings.iterator();
+        while (iterator.hasNext()) {
+            NativeMemoryTracking nmt = iterator.next();
+            if (nmt.isCategory()) {
+                NativeMemoryTrackingSummary summary = new NativeMemoryTrackingSummary(nmt.getCategory(),
+                        nmt.getCommitted());
+                nativeMemoryTrackingSummaries.add(summary);
+            }
+        }
+        Collections.sort(nativeMemoryTrackingSummaries, new NativeMemoryTrackingSummaryComparator());
+        return nativeMemoryTrackingSummaries;
     }
 
     /**
