@@ -63,7 +63,7 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
-            + " Executing VM operation: " + _REGEX_OPERATIONS + ".*|No [Ee]vents)$";
+            + " Executing( safepoint)? VM operation: " + _REGEX_OPERATIONS + ".*|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

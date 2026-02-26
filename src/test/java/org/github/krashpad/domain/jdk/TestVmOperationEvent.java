@@ -58,6 +58,14 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testCleanupSafepointVmOperation() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 513.983 Executing safepoint VM operation: Cleanup";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testFindDeadlocks() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
         String logLine = "Event: 31.306 Executing VM operation: FindDeadlocks";
