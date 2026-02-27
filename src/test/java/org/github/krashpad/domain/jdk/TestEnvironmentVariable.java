@@ -57,7 +57,7 @@ class TestEnvironmentVariable {
         assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
-
+    
     @Test
     void testDyldLibraryPath() {
         EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
@@ -149,6 +149,22 @@ class TestEnvironmentVariable {
     void testLcCtype() {
         EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "LC_CTYPE=de_DE.UTF-8";
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    }
+
+    @Test
+    void testLcNumeric() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
+        String logLine = "LC_NUMERIC=en_US.UTF-8";
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    }
+    
+    @Test
+    void testLcTime() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
+        String logLine = "LC_TIME=en_US.UTF-8";
         assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
