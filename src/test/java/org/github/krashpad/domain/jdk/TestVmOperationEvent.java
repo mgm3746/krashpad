@@ -66,6 +66,15 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testCollectForMetadataAllocationSafepointVmOperation() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 0.968 Executing safepoint VM operation: CollectForMetadataAllocation (Metadata GC "
+                + "Threshold)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testFindDeadlocks() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
         String logLine = "Event: 31.306 Executing VM operation: FindDeadlocks";
@@ -143,6 +152,14 @@ class TestVmOperationEvent {
         String logLine = "Event: 31.627 Executing VM operation: HandshakeAllThreads done";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
+    void testHandshakeAllThreadsNonSafepointVmOperation() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 0.777 Executing non-safepoint VM operation: HandshakeAllThreads (Deoptimize)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
     }
 
     @Test

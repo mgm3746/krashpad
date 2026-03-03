@@ -21,7 +21,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
- * GC_HEAP_HISTORY
+ * GC_HEAP_HISTORY_EVENT
  * </p>
  * 
  * <p>
@@ -65,15 +65,19 @@ public class GcHeapHistoryEvent implements LogEvent, HeaderEvent {
      * Regular expression for the beginning of the GC. For example:
      * 
      * Event: 12775.544 GC heap before
+     * 
+     * Event: 1.484 {heap Before GC invocations=1 (full 0):
      */
-    public static final String _REGEX_BEGIN = "Event: " + JdkRegEx.TIMESTAMP + " GC heap before";
+    public static final String _REGEX_BEGIN = "Event: " + JdkRegEx.TIMESTAMP
+            + " (GC heap before|\\{heap Before GC invocations=\\d{1,} \\(full \\d{1,}\\):)";
 
     /**
      * Regular expression for the end of the GC. For example:
      * 
      * Event: 12775.693 GC heap after
      */
-    public static final String _REGEX_END = "Event: " + JdkRegEx.TIMESTAMP + " GC heap after";
+    public static final String _REGEX_END = "Event: " + JdkRegEx.TIMESTAMP
+            + " (GC heap after|\\{heap After GC invocations=\\d{1,} \\(full \\d{1,}\\):)";
 
     /**
      * Regular expression for the header.

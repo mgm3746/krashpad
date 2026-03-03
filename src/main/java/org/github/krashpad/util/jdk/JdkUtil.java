@@ -27,105 +27,8 @@ import org.github.joa.util.Constants;
 import org.github.krashpad.domain.BlankLine;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.UnknownEvent;
-import org.github.krashpad.domain.jdk.ActiveLocale;
-import org.github.krashpad.domain.jdk.BarrierSet;
-import org.github.krashpad.domain.jdk.BitsEvent;
-import org.github.krashpad.domain.jdk.CardTable;
-import org.github.krashpad.domain.jdk.ClassInfo;
-import org.github.krashpad.domain.jdk.ClassesLoadedEvent;
-import org.github.krashpad.domain.jdk.ClassesRedefinedEvent;
-import org.github.krashpad.domain.jdk.ClassesUnloadedEvent;
-import org.github.krashpad.domain.jdk.CodeCache;
-import org.github.krashpad.domain.jdk.CommandLine;
-import org.github.krashpad.domain.jdk.CompilationEvent;
-import org.github.krashpad.domain.jdk.CompilationMemoryStatistics;
-import org.github.krashpad.domain.jdk.CompiledMethod;
-import org.github.krashpad.domain.jdk.ConstantPool;
-import org.github.krashpad.domain.jdk.ContainerInfo;
-import org.github.krashpad.domain.jdk.CpuInfo;
-import org.github.krashpad.domain.jdk.CurrentCompileTask;
-import org.github.krashpad.domain.jdk.CurrentThread;
-import org.github.krashpad.domain.jdk.DecodingCodeBlob;
-import org.github.krashpad.domain.jdk.DeoptimizationEvent;
-import org.github.krashpad.domain.jdk.DllOperationEvent;
-import org.github.krashpad.domain.jdk.DynamicLibrary;
-import org.github.krashpad.domain.jdk.ElapsedTime;
-import org.github.krashpad.domain.jdk.End;
-import org.github.krashpad.domain.jdk.EnvironmentVariable;
-import org.github.krashpad.domain.jdk.Event;
-import org.github.krashpad.domain.jdk.ExceptionCounts;
-import org.github.krashpad.domain.jdk.FatalErrorLog;
-import org.github.krashpad.domain.jdk.GcHeapHistoryEvent;
-import org.github.krashpad.domain.jdk.GcPreciousLog;
-import org.github.krashpad.domain.jdk.GlobalFlag;
-import org.github.krashpad.domain.jdk.Header;
-import org.github.krashpad.domain.jdk.Heading;
-import org.github.krashpad.domain.jdk.Heap;
-import org.github.krashpad.domain.jdk.HeapAddress;
-import org.github.krashpad.domain.jdk.HeapRegions;
-import org.github.krashpad.domain.jdk.Host;
-import org.github.krashpad.domain.jdk.Instructions;
-import org.github.krashpad.domain.jdk.InternalExceptionEvent;
-import org.github.krashpad.domain.jdk.InternalStatistic;
-import org.github.krashpad.domain.jdk.JvmtiAgents;
-import org.github.krashpad.domain.jdk.LdPreloadFile;
-import org.github.krashpad.domain.jdk.Libc;
-import org.github.krashpad.domain.jdk.LoadAverage;
-import org.github.krashpad.domain.jdk.LockStack;
-import org.github.krashpad.domain.jdk.Logging;
-import org.github.krashpad.domain.jdk.MachCode;
-import org.github.krashpad.domain.jdk.MaxMapCount;
-import org.github.krashpad.domain.jdk.Meminfo;
-import org.github.krashpad.domain.jdk.Memory;
-import org.github.krashpad.domain.jdk.MemoryProtectionEvent;
-import org.github.krashpad.domain.jdk.Metaspace;
-import org.github.krashpad.domain.jdk.NativeDecoderState;
-import org.github.krashpad.domain.jdk.NativeMemoryTracking;
-import org.github.krashpad.domain.jdk.NmethodFlushesEvent;
-import org.github.krashpad.domain.jdk.OsInfo;
-import org.github.krashpad.domain.jdk.OsUptime;
-import org.github.krashpad.domain.jdk.PeriodicNativeTrim;
-import org.github.krashpad.domain.jdk.Pid;
-import org.github.krashpad.domain.jdk.PidMax;
-import org.github.krashpad.domain.jdk.PollingPage;
-import org.github.krashpad.domain.jdk.ProcessMemory;
-import org.github.krashpad.domain.jdk.Register;
-import org.github.krashpad.domain.jdk.RegisterToMemoryMapping;
-import org.github.krashpad.domain.jdk.Release;
-import org.github.krashpad.domain.jdk.ReleaseFile;
-import org.github.krashpad.domain.jdk.Rlimit;
-import org.github.krashpad.domain.jdk.SigInfo;
-import org.github.krashpad.domain.jdk.SignalHandlers;
-import org.github.krashpad.domain.jdk.Stack;
-import org.github.krashpad.domain.jdk.StackSlotToMemoryMapping;
-import org.github.krashpad.domain.jdk.Swappiness;
+import org.github.krashpad.domain.jdk.*;
 import org.github.krashpad.domain.jdk.Thread;
-import org.github.krashpad.domain.jdk.ThreadsActiveCompile;
-import org.github.krashpad.domain.jdk.ThreadsClassSmrInfo;
-import org.github.krashpad.domain.jdk.ThreadsMax;
-import org.github.krashpad.domain.jdk.Time;
-import org.github.krashpad.domain.jdk.TimeElapsedTime;
-import org.github.krashpad.domain.jdk.Timeout;
-import org.github.krashpad.domain.jdk.Timezone;
-import org.github.krashpad.domain.jdk.TopOfStack;
-import org.github.krashpad.domain.jdk.TransparentHugepageDefrag;
-import org.github.krashpad.domain.jdk.TransparentHugepageEnabled;
-import org.github.krashpad.domain.jdk.TransparentHugepageHpagePmdSize;
-import org.github.krashpad.domain.jdk.TransparentHugepageShmemEnabled;
-import org.github.krashpad.domain.jdk.Uid;
-import org.github.krashpad.domain.jdk.Umask;
-import org.github.krashpad.domain.jdk.Uname;
-import org.github.krashpad.domain.jdk.VirtualizationInfo;
-import org.github.krashpad.domain.jdk.VmArguments;
-import org.github.krashpad.domain.jdk.VmInfo;
-import org.github.krashpad.domain.jdk.VmMutex;
-import org.github.krashpad.domain.jdk.VmOperation;
-import org.github.krashpad.domain.jdk.VmOperationEvent;
-import org.github.krashpad.domain.jdk.VmState;
-import org.github.krashpad.domain.jdk.ZgcGlobals;
-import org.github.krashpad.domain.jdk.ZgcMetadataBits;
-import org.github.krashpad.domain.jdk.ZgcPageTable;
-import org.github.krashpad.domain.jdk.ZgcPhaseSwitchEvent;
 
 /**
  * <p>
@@ -249,23 +152,23 @@ public class JdkUtil {
         //
         INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTIC, JVMTI_AGENTS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOCK_STACK,
         //
-        LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY, MEMORY_PROTECTION_EVENT, METASPACE, NATIVE_DECODER_STATE,
+        LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY, MEMORY_PROTECTION_EVENT, METASPACE,
         //
-        NATIVE_MEMORY_TRACKING, NMETHOD_FLUSHES_EVENT, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID, PID_MAX,
+        METASPACE_HISTORY_EVENT, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING, NMETHOD_FLUSHES_EVENT, OS_INFO,
         //
-        POLLING_PAGE, PROCESS_MEMORY, REGISTER, REGISTER_TO_MEMORY_MAPPING, RELEASE_FILE, RLIMIT, SIGINFO,
+        OS_UPTIME, PERIODIC_NATIVE_TRIM, PID, PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER,
         //
-        SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, SWAPPINESS, THREAD, THREADS_ACTIVE_COMPILE,
+        REGISTER_TO_MEMORY_MAPPING, RELEASE_FILE, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK,
         //
-        THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK,
+        STACK_SLOT_TO_MEMORY_MAPPING, SWAPPINESS, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX,
         //
-        TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED, TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE,
+        TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG,
         //
-        TRANSPARENT_HUGEPAGE_SHMEM_ENABLED, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
+        TRANSPARENT_HUGEPAGE_ENABLED, TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE, TRANSPARENT_HUGEPAGE_SHMEM_ENABLED, UID,
         //
-        VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE,
+        UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT,
         //
-        ZGC_PHASE_SWITCH_EVENT
+        VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
     }
 
     /**
@@ -756,8 +659,12 @@ public class JdkUtil {
             } else if (logLine.matches(MemoryProtectionEvent._REGEX_HEADER)
                     || (priorEvent instanceof MemoryProtectionEvent && MemoryProtectionEvent.match(logLine))) {
                 logEventType = LogEventType.MEMORY_PROTECTION_EVENT;
-            } else if (Metaspace.match(logLine)) {
+            } else if (logLine.matches(Metaspace._REGEX_HEADER)
+                    || (priorEvent instanceof Metaspace && Metaspace.match(logLine))) {
                 logEventType = LogEventType.METASPACE;
+            } else if (logLine.matches(MetaspaceHistoryEvent._REGEX_HEADER)
+                    || (priorEvent instanceof MetaspaceHistoryEvent && MetaspaceHistoryEvent.match(logLine))) {
+                logEventType = LogEventType.METASPACE_HISTORY_EVENT;
             } else if (NativeDecoderState.match(logLine)) {
                 logEventType = LogEventType.NATIVE_DECODER_STATE;
             } else if (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
@@ -1120,6 +1027,9 @@ public class JdkUtil {
             break;
         case METASPACE:
             event = new Metaspace(logLine);
+            break;
+        case METASPACE_HISTORY_EVENT:
+            event = new MetaspaceHistoryEvent(logLine);
             break;
         case NATIVE_DECODER_STATE:
             event = new NativeDecoderState(logLine);

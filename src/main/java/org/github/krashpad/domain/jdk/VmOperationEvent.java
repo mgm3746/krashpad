@@ -53,17 +53,17 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
             + "CleanClassLoaderDataMetaspaces|Cleanup|FindDeadlocks|G1CollectForAllocation|G1CollectFull|"
             + "G1PauseCleanup|G1PauseRemark|G1TryInitiateConcMark|GenCollectForAllocation|GetAllStackTraces|"
             + "GetThreadListStackTraces|HandshakeAllThreads|HeapDumper|ICBufferFull|JFRCheckpoint|"
-            + "ParallelGCFailedAllocation|ParallelGCSystemGC|PrintJNI|PrintThreads|RedefineClasses|"
-            + "RendezvousGCThreads|SetNotifyJvmtiEventsMode|Shenandoah Final Mark and Start Evacuation|"
-            + "Shenandoah Final Update References|Shenandoah Init Marking|Shenandoah Init Update References|ThreadDump|"
-            + "XMarkStart|ZMarkEnd|ZMarkFlushOperation|ZMarkStart|ZMarkStartYoung|ZMarkStartYoungAndOld|ZRelocateStart|"
-            + "ZRendezvousGCThreads)";
+            + "CollectForMetadataAllocation|ParallelGCFailedAllocation|ParallelGCSystemGC|PrintJNI|PrintThreads|"
+            + "RedefineClasses|RendezvousGCThreads|SetNotifyJvmtiEventsMode|"
+            + "Shenandoah Final Mark and Start Evacuation|Shenandoah Final Update References|Shenandoah Init Marking|"
+            + "Shenandoah Init Update References|ThreadDump|XMarkStart|ZMarkEnd|ZMarkFlushOperation|ZMarkStart|"
+            + "ZMarkStartYoung|ZMarkStartYoungAndOld|ZRelocateStart|ZRendezvousGCThreads)";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
-            + " Executing( safepoint)? VM operation: " + _REGEX_OPERATIONS + ".*|No [Ee]vents)$";
+            + " Executing( (non-safepoint|safepoint))? VM operation: " + _REGEX_OPERATIONS + ".*|No [Ee]vents)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

@@ -59,6 +59,14 @@ class TestCompiledMethod {
     }
 
     @Test
+    void testImmutableData() {
+        CompiledMethod priorLogEvent = new CompiledMethod("[CompiledMethod]");
+        String logLine = " immutable data [0x00007f94a87dbe50,0x00007f94a87dd008] = 12";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompiledMethod,
+                JdkUtil.LogEventType.COMPILED_METHOD.toString() + " not parsed.");
+    }
+
+    @Test
     void testMainCode() {
         CompiledMethod priorLogEvent = new CompiledMethod("[CompiledMethod]");
         String logLine = " main code      [0x00007fd021c15200,0x00007fd021c15e00] = 3072";
@@ -74,6 +82,14 @@ class TestCompiledMethod {
                 JdkUtil.LogEventType.COMPILED_METHOD.toString() + " not parsed.");
     }
 
+    @Test
+    void testMutableData() {
+        CompiledMethod priorLogEvent = new CompiledMethod("[CompiledMethod]");
+        String logLine = " mutable data [0x00007f951c863d10,0x00007f951c863d28] = 12";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompiledMethod,
+                JdkUtil.LogEventType.COMPILED_METHOD.toString() + " not parsed.");
+    }
+    
     @Test
     void testNulChkTable() {
         CompiledMethod priorLogEvent = new CompiledMethod("[CompiledMethod]");

@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
  * 
  */
 class TestGcHeapHistoryEvent {
-
     @Test
     void testBraceHeapAfterGc() {
         GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
@@ -66,6 +65,14 @@ class TestGcHeapHistoryEvent {
     }
 
     @Test
+    void testHeapAfterGcJdk25() {
+        GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
+        String logLine = "Event: 0.303 {heap After GC invocations=1 (full 0):";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
+                JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testHeapAfterGcWithTimestamp() {
         GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
         String logLine = "Event: 345.632 GC heap after";
@@ -77,6 +84,14 @@ class TestGcHeapHistoryEvent {
     void testHeapBeforeGc() {
         GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
         String logLine = "{Heap before GC invocations=1 (full 0):";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
+                JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testHeapBeforeGcJdk25() {
+        GcHeapHistoryEvent priorEvent = new GcHeapHistoryEvent(null);
+        String logLine = "Event: 0.301 {heap Before GC invocations=0 (full 0):";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
     }
@@ -129,4 +144,5 @@ class TestGcHeapHistoryEvent {
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT,
                 JdkUtil.LogEventType.GC_HEAP_HISTORY_EVENT.toString() + " not identified.");
     }
+
 }

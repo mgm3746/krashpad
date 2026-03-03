@@ -16,51 +16,66 @@ package org.github.krashpad.domain.jdk;
 
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
-import org.github.krashpad.domain.ThrowAwayEvent;
+import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
  * <p>
- * COMPILED_METHOD
+ * METASPACE_HISTORY_EVENT
  * </p>
  * 
  * <p>
- * Compiled method information.
+ * Metaspace history information. "GC invocations" is the number of minor collections since JVM startup. "full" is the
+ * number of full GCs.
  * </p>
  * 
  * <h2>Example Logging</h2>
  * 
  * <pre>
- * Compiled method (c2)  377611 18632       4       org.jruby.runtime.callsite.CachingCallSite::cacheAndCall (70 bytes)
- *  total in heap  [0x00007fab24f57210,0x00007fab24f57770] = 1376
- *  relocation     [0x00007fab24f57370,0x00007fab24f573b0] = 64
- *  main code      [0x00007fab24f573c0,0x00007fab24f57540] = 384
- *  stub code      [0x00007fab24f57540,0x00007fab24f57578] = 56
- *  oops           [0x00007fab24f57578,0x00007fab24f57580] = 8
- *  metadata       [0x00007fab24f57580,0x00007fab24f57598] = 24
- *  scopes data    [0x00007fab24f57598,0x00007fab24f57638] = 160
- *  scopes pcs     [0x00007fab24f57638,0x00007fab24f576d8] = 160
- *  dependencies   [0x00007fab24f576d8,0x00007fab24f576e0] = 8
- *  handler table  [0x00007fab24f576e0,0x00007fab24f57758] = 120
- *  nul chk table  [0x00007fab24f57758,0x00007fab24f57770] = 24
+ * Metaspace Usage History (10 events):
+ * Event: 0.301 {metaspace Before GC invocations=0 (full 0):
+ *  Metaspace       used 6343K, committed 6528K, reserved 1114112K
+ *   class space    used 769K, committed 832K, reserved 1048576K
+ * }
+ * Event: 0.303 {metaspace After GC invocations=1 (full 0):
+ *  Metaspace       used 6343K, committed 6528K, reserved 1114112K
+ *   class space    used 769K, committed 832K, reserved 1048576K
+ * }
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class CompiledMethod implements LogEvent, ThrowAwayEvent, HeaderEvent {
+public class MetaspaceHistoryEvent implements LogEvent, HeaderEvent {
+
+    /**
+     * Regular expression for the beginning of the GC. For example:
+     * 
+     * Event: 0.301 {metaspace Before GC invocations=0 (full 0):
+     */
+    public static final String _REGEX_BEGIN = "Event: " + JdkRegEx.TIMESTAMP
+            + " \\{metaspace Before GC invocations=\\d{1,} \\(full \\d{1,}\\):";
+
+    /**
+     * Regular expression for the end of the GC. For example:
+     * 
+     * Event: 0.488 {metaspace After GC invocations=2 (full 0):
+     */
+    public static final String _REGEX_END = "Event: " + JdkRegEx.TIMESTAMP
+            + " \\{metaspace After GC invocations=\\d{1,} \\(full \\d{1,}\\):";
 
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "(Compiled method \\(.+)";
+    public static final String _REGEX_HEADER = "Metaspace Usage History \\(\\d{1,} events\\):";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "| (dependencies|handler table|immutable data|main code|"
-            + "metadata|mutable data|nul chk table|oops|relocation|scopes data|scopes pcs|stub code|total in heap)"
-            + " .+)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_BEGIN
+            + "|  class space[ ]{1,}used \\d{1,}K, committed \\d{1,}K, reserved \\d{1,}K|"
+            + " Metaspace[ ]{1,}used \\d{1,}K, committed \\d{1,}K, reserved \\d{1,}K|" + _REGEX_END
+            + "|\\}|No events)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -84,17 +99,31 @@ public class CompiledMethod implements LogEvent, ThrowAwayEvent, HeaderEvent {
      * @param logEntry
      *            The log entry for the event.
      */
-    public CompiledMethod(String logEntry) {
+    public MetaspaceHistoryEvent(String logEntry) {
         this.logEntry = logEntry;
     }
 
     @Override
     public LogEventType getEventType() {
-        return LogEventType.CODE_CACHE;
+        return LogEventType.METASPACE_HISTORY_EVENT;
     }
 
     public String getLogEntry() {
         return logEntry;
+    }
+
+    /**
+     * @return true if the log line is the beginning of a GC, false otherwise.
+     */
+    public boolean isBeginning() {
+        return logEntry.matches(_REGEX_BEGIN);
+    }
+
+    /**
+     * @return true if the log line is the end of a GC, false otherwise.
+     */
+    public boolean isEnd() {
+        return logEntry.matches(_REGEX_END);
     }
 
     @Override
@@ -105,4 +134,5 @@ public class CompiledMethod implements LogEvent, ThrowAwayEvent, HeaderEvent {
         }
         return isHeader;
     }
+
 }
