@@ -1854,6 +1854,14 @@ public class FatalErrorLog {
                 analysis.add(Analysis.INFO_NUMA_ENABLED_OS_CHECK_UNKNOWN);
             }
         }
+        // nssadapter concurrency issue
+        if (!getHeaders().isEmpty()) {
+            if (isInHeader("libfreeblpriv3.so")) {
+                analysis.add(Analysis.ERROR_LIBFREEBLPRIV3_SO);
+            }
+        } else if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libfreeblpriv3\\.so.+$")) {
+            analysis.add(Analysis.ERROR_LIBFREEBLPRIV3_SO);
+        }
     }
 
     /**

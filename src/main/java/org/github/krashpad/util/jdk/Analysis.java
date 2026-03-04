@@ -281,6 +281,11 @@ public enum Analysis {
     ERROR_LIBAIO_CONTEXT_DONE("error.libaio.context.done"),
 
     /**
+     * Property key for a crash in libfreeblpriv3.so.
+     */
+    ERROR_LIBFREEBLPRIV3_SO("error.libfreeblpriv3.so"),
+
+    /**
      * Property key for a crash in libjvm.so.
      */
     ERROR_LIBJVM_SO("error.libjvm.so"),

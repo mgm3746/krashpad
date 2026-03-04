@@ -2292,6 +2292,34 @@ class TestAnalysis {
     }
 
     @Test
+    void testLibFreeblpriv3InHeader() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String header1 = "# Problematic frame:";
+        Header headerEvent1 = new Header(header1);
+        fel.getHeaders().add(headerEvent1);
+        String header2 = "# C  [libfreeblpriv3.so+0x22996]";
+        Header headerEvent2 = new Header(header2);
+        fel.getHeaders().add(headerEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LIBFREEBLPRIV3_SO.getKey()),
+                Analysis.ERROR_LIBFREEBLPRIV3_SO + " analysis not identified.");
+    }
+
+    @Test
+    void testLibFreeblpriv3InStack() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String stack1 = "Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)";
+        Stack stackEvent1 = new Stack(stack1);
+        fel.getStacks().add(stackEvent1);
+        String stack2 = "C  [libfreeblpriv3.so+0x22996]";
+        Stack stackEvent2 = new Stack(stack2);
+        fel.getStacks().add(stackEvent2);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LIBFREEBLPRIV3_SO.getKey()),
+                Analysis.ERROR_LIBFREEBLPRIV3_SO + " analysis not identified.");
+    }
+
+    @Test
     void testLinkageError() {
         String logLine = "LinkageErrors=5276";
         ExceptionCounts event = new ExceptionCounts(logLine);
