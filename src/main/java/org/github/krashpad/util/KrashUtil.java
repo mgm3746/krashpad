@@ -311,14 +311,17 @@ public class KrashUtil {
         // libgfortran
         NATIVE_LIBRARIES_LINUX.add("libgfortran.so.5.0.0");
         // glib2
+        NATIVE_LIBRARIES_LINUX.add("libgio-2.0.so.0.5000.3");
         NATIVE_LIBRARIES_LINUX.add("libgio-2.0.so.0.5600.4");
         // mesa-libglapi
         NATIVE_LIBRARIES_LINUX.add("libglapi.so.0.0.0");
         // glib2
+        NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5000.3");
         NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.1");
         NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.5600.4");
         NATIVE_LIBRARIES_LINUX.add("libglib-2.0.so.0.6800.4");
         // glib2
+        NATIVE_LIBRARIES_LINUX.add("libgmodule-2.0.so.0.5000.3");
         NATIVE_LIBRARIES_LINUX.add("libgmodule-2.0.so.0.5600.4");
         // gmp
         NATIVE_LIBRARIES_LINUX.add("libgmp.so.10.3.2");
@@ -329,6 +332,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.28.0");
         NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.28.2");
         // glib2
+        NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5000.3");
         NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5600.1");
         NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5600.4");
         // libgpg-error
@@ -453,6 +457,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libm-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("libm-2.28.so");
         NATIVE_LIBRARIES_LINUX.add("libm.so.6");
+        // file-libs
+        NATIVE_LIBRARIES_LINUX.add("libmagic.so.1.0.0");
         // libmount
         NATIVE_LIBRARIES_LINUX.add("libmount.so.1.1.0");
         // libidn (international string handling)
