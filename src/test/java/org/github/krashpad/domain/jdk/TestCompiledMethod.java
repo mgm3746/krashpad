@@ -89,7 +89,7 @@ class TestCompiledMethod {
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompiledMethod,
                 JdkUtil.LogEventType.COMPILED_METHOD.toString() + " not parsed.");
     }
-    
+
     @Test
     void testNulChkTable() {
         CompiledMethod priorLogEvent = new CompiledMethod("[CompiledMethod]");

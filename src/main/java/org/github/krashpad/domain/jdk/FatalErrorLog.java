@@ -3892,24 +3892,6 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The Native Memory Tracking total committed memory, in kilobytes.
-     */
-    public int getNativeMemoryTrackingTotalCommitted() {
-        int nativeMemoryTrackingTotalCommitted = Integer.MIN_VALUE;
-        if (!nativeMemoryTrackings.isEmpty()) {
-            Iterator<NativeMemoryTracking> iterator = nativeMemoryTrackings.iterator();
-            while (iterator.hasNext()) {
-                NativeMemoryTracking event = iterator.next();
-                if (event.isTotal()) {
-                    nativeMemoryTrackingTotalCommitted = event.getTotalCommitted();
-                    break;
-                }
-            }
-        }
-        return nativeMemoryTrackingTotalCommitted;
-    }
-
-    /**
      * @return The JVM commit limit used, in bytes.
      */
     public long getJvmCommitLimitUsed() {
@@ -4847,6 +4829,24 @@ public class FatalErrorLog {
         }
         Collections.sort(nativeMemoryTrackingSummaries, new NativeMemoryTrackingSummaryComparator());
         return nativeMemoryTrackingSummaries;
+    }
+
+    /**
+     * @return The Native Memory Tracking total committed memory, in kilobytes.
+     */
+    public int getNativeMemoryTrackingTotalCommitted() {
+        int nativeMemoryTrackingTotalCommitted = Integer.MIN_VALUE;
+        if (!nativeMemoryTrackings.isEmpty()) {
+            Iterator<NativeMemoryTracking> iterator = nativeMemoryTrackings.iterator();
+            while (iterator.hasNext()) {
+                NativeMemoryTracking event = iterator.next();
+                if (event.isTotal()) {
+                    nativeMemoryTrackingTotalCommitted = event.getTotalCommitted();
+                    break;
+                }
+            }
+        }
+        return nativeMemoryTrackingTotalCommitted;
     }
 
     /**

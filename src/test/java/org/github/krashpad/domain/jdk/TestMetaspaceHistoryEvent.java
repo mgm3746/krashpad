@@ -33,6 +33,14 @@ class TestMetaspaceHistoryEvent {
     }
 
     @Test
+    void testClosingBrace() {
+        MetaspaceHistoryEvent priorEvent = new MetaspaceHistoryEvent(null);
+        String logLine = "}";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.METASPACE_HISTORY_EVENT,
+                JdkUtil.LogEventType.METASPACE_HISTORY_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testHeader() {
         MetaspaceHistoryEvent priorEvent = null;
         String logLine = "Metaspace Usage History (10 events):";
@@ -52,14 +60,6 @@ class TestMetaspaceHistoryEvent {
     void testMetaspace() {
         MetaspaceHistoryEvent priorEvent = new MetaspaceHistoryEvent(null);
         String logLine = " Metaspace       used 6343K, committed 6528K, reserved 1114112K";
-        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.METASPACE_HISTORY_EVENT,
-                JdkUtil.LogEventType.METASPACE_HISTORY_EVENT.toString() + " not identified.");
-    }
-
-    @Test
-    void testClosingBrace() {
-        MetaspaceHistoryEvent priorEvent = new MetaspaceHistoryEvent(null);
-        String logLine = "}";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.METASPACE_HISTORY_EVENT,
                 JdkUtil.LogEventType.METASPACE_HISTORY_EVENT.toString() + " not identified.");
     }

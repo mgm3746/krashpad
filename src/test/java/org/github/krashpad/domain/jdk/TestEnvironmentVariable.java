@@ -57,7 +57,7 @@ class TestEnvironmentVariable {
         assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
-    
+
     @Test
     void testDyldLibraryPath() {
         EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
@@ -160,7 +160,7 @@ class TestEnvironmentVariable {
         assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
                 JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
     }
-    
+
     @Test
     void testLcTime() {
         EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
