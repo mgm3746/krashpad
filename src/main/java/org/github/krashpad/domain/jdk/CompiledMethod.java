@@ -58,9 +58,9 @@ public class CompiledMethod implements LogEvent, ThrowAwayEvent, HeaderEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + _REGEX_HEADER + "| (dependencies|handler table|immutable data|main code|"
-            + "metadata|mutable data|nul chk table|oops|relocation|scopes data|scopes pcs|stub code|total in heap)"
-            + " .+)$";
+    private static final String REGEX = "^(" + _REGEX_HEADER
+            + "| (constants|dependencies|handler table|immutable data|main code|metadata|mutable data|nul chk table|"
+            + "oops|relocation|scopes data|scopes pcs|stub code|total in heap) .+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

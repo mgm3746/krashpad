@@ -569,7 +569,8 @@ public class JdkUtil {
                 logEventType = LogEventType.COMPILED_METHOD;
             } else if (CompilationMemoryStatistics.match(logLine)) {
                 logEventType = LogEventType.COMPILATION_MEMORY_STATISTICS;
-            } else if (ConstantPool.match(logLine)) {
+            } else if (logLine.matches(ConstantPool._REGEX_HEADER)
+                    || (priorEvent instanceof ConstantPool && ConstantPool.match(logLine))) {
                 logEventType = LogEventType.CONSTANT_POOL;
             } else if (ContainerInfo.match(logLine)) {
                 logEventType = LogEventType.CONTAINER_INFO;

@@ -27,6 +27,14 @@ import org.junit.jupiter.api.Test;
 class TestCompiledMethod {
 
     @Test
+    void testConstants() {
+        CompiledMethod priorLogEvent = new CompiledMethod("[CompiledMethod]");
+        String logLine = " constants      [0x00007f8479693520,0x00007f8479693540] = 32";
+        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof CompiledMethod,
+                JdkUtil.LogEventType.COMPILED_METHOD.toString() + " not parsed.");
+    }
+
+    @Test
     void testDependencies() {
         CompiledMethod priorLogEvent = new CompiledMethod("[CompiledMethod]");
         String logLine = " dependencies   [0x00007fd021c161c0,0x00007fd021c161c8] = 8";

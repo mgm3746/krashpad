@@ -14,8 +14,10 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.domain.ThrowAwayEvent;
+import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
 /**
@@ -36,12 +38,19 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
-public class ConstantPool implements LogEvent, ThrowAwayEvent {
+public class ConstantPool implements LogEvent, ThrowAwayEvent, HeaderEvent {
+
+    /**
+     * Regular expression for the header.
+     */
+    public static final String _REGEX_HEADER = "^\\[Constant Pool( \\(empty\\))?\\]$";
 
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^\\[Constant Pool \\(empty\\)\\]$";
+    private static final String REGEX = "^(" + _REGEX_HEADER + "|[ ]{13}Address[ ]{10}hex4[ ]{20}hex8[ ]{6}|[ ]{2}"
+            + JdkRegEx.ADDRESS64 + ":[ ]{3}" + JdkRegEx.ADDRESS32 + "([ ]{6}" + JdkRegEx.ADDRESS64
+            + "[ ]{6}|[ ]{30}))$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -78,4 +87,12 @@ public class ConstantPool implements LogEvent, ThrowAwayEvent {
         return logEntry;
     }
 
+    @Override
+    public boolean isHeader() {
+        boolean isHeader = false;
+        if (this.logEntry != null) {
+            isHeader = logEntry.matches(_REGEX_HEADER);
+        }
+        return isHeader;
+    }
 }
