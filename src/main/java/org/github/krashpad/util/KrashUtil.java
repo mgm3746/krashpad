@@ -119,8 +119,6 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("ISO8859-15.so");
         // mesa-dri-drivers
         NATIVE_LIBRARIES_LINUX.add("i965_dri.so");
-        // glibc
-        NATIVE_LIBRARIES_LINUX.add("gconv/ISO8859-1.so");
         // ibus-gtk*
         NATIVE_LIBRARIES_LINUX.add("im-ibus.so");
         // mesa-dri-drivers
@@ -135,7 +133,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libaio.so.1.0.1");
         // cyrus-sasl-lib (/usr/lib64/sasl2/)
         NATIVE_LIBRARIES_LINUX.add("libanonymous.so.3.0.0");
-        // apr:
+        // apr
+        NATIVE_LIBRARIES_LINUX.add("libapr-1.so.0");
         NATIVE_LIBRARIES_LINUX.add("libapr-1.so.0.6.3");
         NATIVE_LIBRARIES_LINUX.add("libapr-1.so.0.7.4");
         // alsa-lib: library to interface with ALSA in the Linux kernel and virtual devices
@@ -213,6 +212,9 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libcrypt-2.17.so");
         // libxcrypt: library for one-way hashing of passcodes
         NATIVE_LIBRARIES_LINUX.add("libcrypt.so.1.1.0");
+        // openssl-devel
+        NATIVE_LIBRARIES_LINUX.add("libcrypto.so.1.1");
+        NATIVE_LIBRARIES_LINUX.add("libcrypto.so.3.0.7");
         // cups-libs (native cups)
         NATIVE_LIBRARIES_LINUX.add("libcups.so.2");
         NATIVE_LIBRARIES_LINUX.add("libcupsimage.so.2");
@@ -419,8 +421,9 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libjpeg.so.62.2.0");
         // json-c
         NATIVE_LIBRARIES_LINUX.add("libjson-c.so.2.0.1");
-        // jss
+        // jss (/usr/lib64/jss/)
         NATIVE_LIBRARIES_LINUX.add("libjss4.so");
+        NATIVE_LIBRARIES_LINUX.add("libjss.so");
         // krb5-libs
         NATIVE_LIBRARIES_LINUX.add("libk5crypto.so.3.1");
         // keyutils-libs
@@ -607,6 +610,8 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libsoup-2.4.so.1.8.0");
         // sqlite-libs
         NATIVE_LIBRARIES_LINUX.add("libsqlite3.so.0.8.6");
+        // openssl-devel
+        NATIVE_LIBRARIES_LINUX.add("libssl.so.1.1");
         // nss
         NATIVE_LIBRARIES_LINUX.add("libssl3.so");
         // systemd-libs:
@@ -853,8 +858,6 @@ public class KrashUtil {
         NATIVE_LIBRARIES_TOMCAT = new ArrayList<String>();
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.dll");
         NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0");
-        NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0.6.3");
-        NATIVE_LIBRARIES_TOMCAT.add("libapr-1.so.0.7.0");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.17");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.21");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.23");
@@ -863,8 +866,6 @@ public class KrashUtil {
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.30");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.31");
         NATIVE_LIBRARIES_TOMCAT.add("libtcnative-1.so.0.2.36");
-        NATIVE_LIBRARIES_TOMCAT.add("libcrypto.so.1.1");
-        NATIVE_LIBRARIES_TOMCAT.add("libssl.so.1.1");
 
         // ***** VMWARE *****
         NATIVE_LIBRARIES_VMWARE = new ArrayList<String>();
