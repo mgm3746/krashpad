@@ -2705,7 +2705,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The cpu quota.
+     * @return The cgropu cpu quota.
      */
     public int getCpuQuota() {
         int cpuQuota = Integer.MIN_VALUE;
@@ -2725,7 +2725,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * @return The cpu shares.
+     * @return The cgroup cpu shares.
      */
     public int getCpuShares() {
         int cpuShares = Integer.MIN_VALUE;

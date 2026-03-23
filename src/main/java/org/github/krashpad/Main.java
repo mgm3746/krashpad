@@ -198,6 +198,9 @@ public class Main {
                 printWriter.write("========================================" + Constants.LINE_SEPARATOR);
                 printWriter.write("Container:" + Constants.LINE_SEPARATOR);
                 printWriter.write("----------------------------------------" + Constants.LINE_SEPARATOR);
+                if (fel.getActiveProcessorCount() > Integer.MIN_VALUE) {
+                    printWriter.write("CPUs: " + fel.getActiveProcessorCount() + Constants.LINE_SEPARATOR);
+                }
                 if (fel.getMemoryTotal() > 0) {
                     printWriter.write("Memory: "
                             + JdkUtil.convertSize(fel.getMemoryTotal(), 'B', org.github.joa.util.Constants.UNITS)
