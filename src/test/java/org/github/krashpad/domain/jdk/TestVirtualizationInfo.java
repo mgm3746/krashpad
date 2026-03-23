@@ -81,6 +81,37 @@ class TestVirtualizationInfo {
     }
 
     @Test
+    void testS390xCpus() {
+        VirtualizationInfo priorLogEvent = new VirtualizationInfo("");
+        String logLine = "CPUs Total:           12";
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testS390xHeader() {
+        String logLine = "Virtualization information:";
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, null),
+                JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testS390xLpar() {
+        VirtualizationInfo priorLogEvent = new VirtualizationInfo("");
+        String logLine = "LPAR Number:          5";
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testS390xVm() {
+        VirtualizationInfo priorLogEvent = new VirtualizationInfo("");
+        String logLine = "VM00 CPUs Total:      12";
+        assertEquals(JdkUtil.LogEventType.VIRTUALIZATION_INFO, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.VIRTUALIZATION_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testVmWare() {
         VirtualizationInfo priorLogEvent = new VirtualizationInfo("Hyper-V virtualization detected");
         String logLine = "VMWare virtualization detected";

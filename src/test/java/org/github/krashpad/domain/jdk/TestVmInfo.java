@@ -68,6 +68,16 @@ class TestVmInfo {
     }
 
     @Test
+    void testArchS390x() {
+        String logLine = "vm_info: OpenJDK 64-Bit Server VM (21.0.7+6-LTS) for linux-s390x JRE (21.0.7+6-LTS), built "
+                + "on 2025-04-15T00:00:00Z by \"mockbuild\" with gcc 11.3.0";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.VM_INFO,
+                JdkUtil.LogEventType.VM_INFO.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(Arch.S390X, ((VmInfo) event).getArch(), "Arch not correct.");
+    }
+
+    @Test
     void testArchX86_64() {
         String logLine = "vm_info: OpenJDK 64-Bit Server VM (11.0.5+10-LTS) for linux-amd64 JRE (11.0.5+10-LTS), "
                 + "built on Oct  9 2019 18:41:22 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-39)";

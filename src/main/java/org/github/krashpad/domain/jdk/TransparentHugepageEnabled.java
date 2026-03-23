@@ -46,7 +46,7 @@ public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
      * Defined THP modes.
      */
     public enum MODE {
-        ALWAYS, MADVISE, NEVER, UNKNOWN
+        ALWAYS, MADVISE, NEVER, NOT_AVAILABLE, UNKNOWN
     }
 
     /**
@@ -58,7 +58,7 @@ public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
      * Regular expression for data.
      */
     private static final String _REGEX_DATA = "(\\[always\\] madvise never|always \\[madvise\\] never|"
-            + "always madvise \\[never\\])";
+            + "always madvise \\[never\\]|<Not Available>)";
 
     /**
      * Regular expression for a single line (JDK17+).
@@ -126,6 +126,8 @@ public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
                         mode = MODE.MADVISE;
                     } else if (matcher.group(1).matches("^always madvise \\[never\\]$")) {
                         mode = MODE.NEVER;
+                    } else if (matcher.group(1).matches("^<Not Available>$")) {
+                        mode = MODE.NOT_AVAILABLE;
                     }
                 }
             }

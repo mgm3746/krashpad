@@ -59,6 +59,14 @@ class TestTransparentHugepageDefrag {
     }
 
     @Test
+    void testNotAvailable() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter): "
+                + "<Not Available>";
+        assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TransparentHugepageDefrag,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG.toString() + " not parsed.");
+    }
+
+    @Test
     void testParseLogLine() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter):";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TransparentHugepageDefrag,

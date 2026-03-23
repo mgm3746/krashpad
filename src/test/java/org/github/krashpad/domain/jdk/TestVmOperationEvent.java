@@ -14,8 +14,11 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil;
 import org.junit.jupiter.api.Test;
 
@@ -174,8 +177,12 @@ class TestVmOperationEvent {
     void testIcBufferFull() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
         String logLine = "Event: 32.322 Executing VM operation: ICBufferFull done";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
+        LogEvent event = JdkUtil.parseLogLine(logLine, priorLogEvent);
+        assertTrue(event instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+        assertFalse(((VmOperationEvent) event).isBeginning(), "VM Operation beginning incorrectly indentified.");
+        assertTrue(((VmOperationEvent) event).isEnding(), "VM Operation ending not indentified.");
+        assertEquals(32322, ((VmOperationEvent) event).getTimestamp(), "Time stamp not parsed correctly.");
     }
 
     @Test
@@ -189,8 +196,11 @@ class TestVmOperationEvent {
     void testJfrCheckpoint() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 123.456 Executing VM operation: JFRCheckpoint";
-        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
-                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, priorLogEvent);
+        assertTrue(event instanceof VmOperationEvent,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+        assertTrue(((VmOperationEvent) event).isBeginning(), "VM Operation beginning not indentified.");
+        assertFalse(((VmOperationEvent) event).isEnding(), "VM Operation ending incorrectly indentified.");
     }
 
     @Test

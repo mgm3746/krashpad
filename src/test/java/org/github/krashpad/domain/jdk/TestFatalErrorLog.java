@@ -1604,6 +1604,7 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(11, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+        assertEquals(0, fel.getVmOperationsDuration(), "VM Operations duration not correct.");
     }
 
     @Test
@@ -2192,6 +2193,18 @@ class TestFatalErrorLog {
         VmInfo vmInfoEvent = new VmInfo(vmInfo);
         fel.setVmInfo(vmInfoEvent);
         assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "JDK vendor not correct.");
+    }
+
+    @Test
+    void testVmOperationsThreadDumps() {
+        File testFile = new File(Constants.TEST_DATA_DIR + "dataset97.txt");
+        Manager manager = new Manager();
+        FatalErrorLog fel = manager.parse(testFile);
+        assertEquals(6020, fel.getVmOperationsDuration(), "VM Operations duration not correct.");
+        assertEquals(9, fel.getVmOperationsThreadDumpCount(), "VM Operations thread dump count not correct.");
+        assertEquals(1, fel.getVmOperationsThreadDumpFrequency(), "VM Operations thread dump freqency not correct.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_VM_OPERATION_THREAD_DUMP_FREQUENCY.getKey()),
+                Analysis.WARN_VM_OPERATION_THREAD_DUMP_FREQUENCY + " analysis not identified.");
     }
 
     @Test

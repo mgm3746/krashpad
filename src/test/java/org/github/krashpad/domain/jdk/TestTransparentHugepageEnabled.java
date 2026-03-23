@@ -80,6 +80,16 @@ class TestTransparentHugepageEnabled {
     }
 
     @Test
+    void testModeNotAvailable() {
+        String logLine = "/sys/kernel/mm/transparent_hugepage/enabled: <Not Available>";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED,
+                JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED.toString() + " not identified.");
+        TransparentHugepageEnabled event = new TransparentHugepageEnabled(logLine);
+        assertTrue(event.isMode(), "THP mode not identified.");
+        assertEquals(TransparentHugepageEnabled.MODE.NOT_AVAILABLE, event.getMode(), "THP mode not correct.");
+    }
+
+    @Test
     void testParseLogLine() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/enabled:";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof TransparentHugepageEnabled,

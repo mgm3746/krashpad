@@ -141,6 +141,18 @@ class TestUname {
     }
 
     @Test
+    void testRhel94S390x() {
+        String logLine = "uname: Linux 5.14.0-427.96.1.el9_4.s390x #1 SMP Wed Oct 22 07:02:11 EDT 2025 s390x";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
+                JdkUtil.LogEventType.UNAME.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(Arch.S390X, ((Uname) event).getArch(), "Arch not correct.");
+        assertEquals(Os.LINUX, ((Uname) event).getOsType(), "Version not correct.");
+        assertEquals(OsVendor.REDHAT, ((Uname) event).getOsVendor(), "Vendor not correct.");
+        assertEquals(OsVersion.RHEL9, ((Uname) event).getOsVersion(), "Version not correct.");
+    }
+
+    @Test
     void testSolaris() {
         String logLine = "uname:SunOS 5.11 11.4.23.69.3 sun4v";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,

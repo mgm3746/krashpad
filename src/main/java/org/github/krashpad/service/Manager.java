@@ -78,6 +78,7 @@ import org.github.krashpad.domain.jdk.VirtualizationInfo;
 import org.github.krashpad.domain.jdk.VmArguments;
 import org.github.krashpad.domain.jdk.VmInfo;
 import org.github.krashpad.domain.jdk.VmOperation;
+import org.github.krashpad.domain.jdk.VmOperationEvent;
 import org.github.krashpad.domain.jdk.VmState;
 import org.github.krashpad.domain.jdk.ZgcPageTable;
 import org.github.krashpad.domain.jdk.ZgcPhaseSwitchEvent;
@@ -255,6 +256,8 @@ public class Manager {
                         fatalErrorLog.setVmOperation((VmOperation) event);
                     } else if (event instanceof VmState) {
                         fatalErrorLog.setVmState((VmState) event);
+                    } else if (event instanceof VmOperationEvent) {
+                        fatalErrorLog.getVmOperationEvents().add((VmOperationEvent) event);
                     } else if (event instanceof ZgcPhaseSwitchEvent) {
                         fatalErrorLog.getZgcPhaseSwitchEvents().add((ZgcPhaseSwitchEvent) event);
                     }

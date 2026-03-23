@@ -1,0 +1,21 @@
+VM Operations (20 events):
+Event: 7163.860 Executing VM operation: GetAllStackTraces
+Event: 7163.861 Executing VM operation: GetAllStackTraces done
+Event: 7164.312 Executing VM operation: GetAllStackTraces
+Event: 7164.312 Executing VM operation: GetAllStackTraces done
+Event: 7165.874 Executing VM operation: G1CollectForAllocation
+Event: 7165.900 Executing VM operation: G1CollectForAllocation done
+Event: 7166.247 Executing VM operation: GetAllStackTraces
+Event: 7166.248 Executing VM operation: GetAllStackTraces done
+Event: 7167.222 Executing VM operation: GetAllStackTraces
+Event: 7167.223 Executing VM operation: GetAllStackTraces done
+Event: 7167.802 Executing VM operation: GetThreadListStackTraces
+Event: 7167.802 Executing VM operation: GetThreadListStackTraces done
+Event: 7168.322 Executing VM operation: GetAllStackTraces
+Event: 7168.323 Executing VM operation: GetAllStackTraces done
+Event: 7168.542 Executing VM operation: GetAllStackTraces
+Event: 7168.543 Executing VM operation: GetAllStackTraces done
+Event: 7169.224 Executing VM operation: GetAllStackTraces
+Event: 7169.225 Executing VM operation: GetAllStackTraces done
+Event: 7169.879 Executing VM operation: GetAllStackTraces
+Event: 7169.880 Executing VM operation: GetAllStackTraces done

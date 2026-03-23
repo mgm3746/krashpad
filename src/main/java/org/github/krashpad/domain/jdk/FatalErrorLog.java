@@ -19,6 +19,7 @@ import static java.math.RoundingMode.HALF_EVEN;
 import static java.util.stream.Collectors.summingLong;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -413,6 +414,11 @@ public class FatalErrorLog {
     private VmOperation vmOperation;
 
     /**
+     * VM operations history.
+     */
+    private List<VmOperationEvent> vmOperationEvents;
+
+    /**
      * VM state information.
      */
     private VmState vmState;
@@ -468,6 +474,7 @@ public class FatalErrorLog {
         unidentifiedLogLines = new ArrayList<String>();
         virtualizationInfos = new ArrayList<VirtualizationInfo>();
         vmArguments = new ArrayList<VmArguments>();
+        vmOperationEvents = new ArrayList<VmOperationEvent>();
         zgcPhaseSwitchEvents = new ArrayList<ZgcPhaseSwitchEvent>();
     }
 
@@ -1861,6 +1868,10 @@ public class FatalErrorLog {
             }
         } else if (getStackFrameTop() != null && getStackFrameTop().matches("^C  \\[libfreeblpriv3\\.so.+$")) {
             analysis.add(Analysis.ERROR_LIBFREEBLPRIV3_SO);
+        }
+        // continuous profiling
+        if (getVmOperationsThreadDumpFrequency() >= 1) {
+            analysis.add(Analysis.WARN_VM_OPERATION_THREAD_DUMP_FREQUENCY);
         }
     }
 
@@ -5855,6 +5866,65 @@ public class FatalErrorLog {
 
     public VmOperation getVmOperation() {
         return vmOperation;
+    }
+
+    public List<VmOperationEvent> getVmOperationEvents() {
+        return vmOperationEvents;
+    }
+
+    /**
+     * @return VM Operations total duration (milliseconds).
+     */
+    public long getVmOperationsDuration() {
+        long duration = 0;
+        long firstTimestamp = Long.MIN_VALUE;
+        long lastTimestamp = Long.MIN_VALUE;
+        if (!vmOperationEvents.isEmpty()) {
+            Iterator<VmOperationEvent> iterator = vmOperationEvents.iterator();
+            while (iterator.hasNext()) {
+                VmOperationEvent event = iterator.next();
+                if (!event.isHeader()) {
+                    if (firstTimestamp < 0) {
+                        firstTimestamp = event.getTimestamp();
+                    } else {
+                        lastTimestamp = event.getTimestamp();
+                    }
+                }
+            }
+        }
+        if (firstTimestamp >= 0 && lastTimestamp >= 0 && lastTimestamp >= firstTimestamp) {
+            duration = lastTimestamp - firstTimestamp;
+        }
+        return duration;
+    }
+
+    /**
+     * @return VM Operation thread dump count.
+     */
+    public int getVmOperationsThreadDumpCount() {
+        int count = 0;
+        if (!vmOperationEvents.isEmpty()) {
+            Iterator<VmOperationEvent> iterator = vmOperationEvents.iterator();
+            while (iterator.hasNext()) {
+                VmOperationEvent event = iterator.next();
+                if (event.isThreadDump() && event.isBeginning()) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    /**
+     * @return VM Operation thread dump frequency (#/sec).
+     */
+    public int getVmOperationsThreadDumpFrequency() {
+        BigDecimal frequency = new BigDecimal(getVmOperationsThreadDumpCount());
+        if (getVmOperationsDuration() > 0) {
+            frequency = frequency.divide(new BigDecimal(getVmOperationsDuration()).movePointLeft(3), 2,
+                    RoundingMode.HALF_UP);
+        }
+        return frequency.intValue();
     }
 
     public VmState getVmState() {

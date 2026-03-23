@@ -46,13 +46,14 @@ public class VirtualizationInfo implements LogEvent, HeaderEvent {
      * 
      * When there is not header, use the first line output (e.g. 'Steal ticks...').
      */
-    public static final String _REGEX_HEADER = "((Hyper[-]{0,1}V|KVM|VMWare) virtualization detected|Steal ticks.+)";
+    public static final String _REGEX_HEADER = "((Hyper[-]{0,1}V|KVM|VMWare) virtualization detected|Steal ticks.+|"
+            + "Virtualization information:)";
 
     /**
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|guest\\.mem\\.|host\\.cpu\\.|ovhd\\.mem\\.|Steal ticks|vm\\.cpu\\.|vm\\.numa\\.|"
+            + "|CPUs |LPAR |VM\\d{2} |guest\\.mem\\.|host\\.cpu\\.|ovhd\\.mem\\.|Steal ticks|vm\\.cpu\\.|vm\\.numa\\.|"
             + "vSphere host information:|vSphere resource information available now:|"
             + "vSphere resource information collected at VM startup:).*$";
 

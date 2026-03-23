@@ -1210,6 +1210,11 @@ public enum Analysis {
     WARN_UNIDENTIFIED_LOG_LINE("warn.unidentified.log.line"),
 
     /**
+     * Property key for thread dumps being generated &gt;= 1/sec, effectively continuously profiling the application.
+     */
+    WARN_VM_OPERATION_THREAD_DUMP_FREQUENCY("warn.vm.operation.thread.dump.frequency"),
+
+    /**
      * Property key for a crash happening during a thread dump operation initiated by an external tool calling the JVM
      * tool interface (JVM TI).
      */

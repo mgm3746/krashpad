@@ -74,7 +74,7 @@ public class VmInfo implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^vm_info: (Java HotSpot\\(TM\\)|OpenJDK)( 64-Bit)? Server VM \\(.+\\) for "
-            + "(linux|windows|solaris)-(aarch64|amd64|ppc64|ppc64le|sparc|x86) JRE (\\(Zulu.+\\) )?\\("
+            + "(linux|windows|solaris)-(aarch64|amd64|ppc64|ppc64le|s390x|sparc|x86) JRE (\\(Zulu.+\\) )?\\("
             + JdkRegEx.BUILD_STRING + "\\).+ built on (" + JdkRegEx.BUILD_DATETIME + "|" + JdkRegEx.BUILD_DATETIME_21
             + ")( by \"(.*)\")? with .+$";
 
@@ -122,6 +122,8 @@ public class VmInfo implements LogEvent {
                 arch = Arch.X86;
             } else if (matcher.group(indexArch).equals("aarch64")) {
                 arch = Arch.AARCH64;
+            } else if (matcher.group(indexArch).equals("s390x")) {
+                arch = Arch.S390X;
             }
         }
         return arch;

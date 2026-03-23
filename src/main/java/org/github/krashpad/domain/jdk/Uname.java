@@ -77,8 +77,8 @@ public class Uname implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "uname:[ ]{0,1}((Linux|SunOS) .+(aarch64|i86pc|sun4v|ppc64(le)?|x86_64)"
-            + ".*)";
+    public static final String _REGEX_HEADER = "uname:[ ]{0,1}((Linux|SunOS) .+(aarch64|i86pc|ppc64(le)?|s390x|sun4v|"
+            + "x86_64).*)";
 
     private static Pattern pattern = Pattern.compile(Uname.REGEX);
 
@@ -133,6 +133,8 @@ public class Uname implements LogEvent, HeaderEvent {
                 arch = Arch.I86PC;
             } else if (matcher.group(indexArch).equals("aarch64")) {
                 arch = Arch.AARCH64;
+            } else if (matcher.group(indexArch).equals("s390x")) {
+                arch = Arch.S390X;
             }
         }
         return arch;

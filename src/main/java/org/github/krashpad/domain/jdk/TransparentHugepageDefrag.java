@@ -51,7 +51,7 @@ public class TransparentHugepageDefrag implements LogEvent, HeaderEvent {
     private static final String _REGEX_DATA = "(\\[always\\] defer defer\\+madvise madvise never|"
             + "always \\[defer\\] defer\\+madvise madvise never|always defer \\[defer\\+madvise\\] madvise never|"
             + "always defer defer\\+madvise \\[madvise\\] never|always defer defer\\+madvise madvise \\[never\\]|"
-            + "\\[always\\] madvise never)";
+            + "\\[always\\] madvise never|<Not Available>)";
 
     /**
      * Regular expression for a single line (JDK17+).
