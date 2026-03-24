@@ -11,7 +11,7 @@ RUN mvn --batch-mode -s /usr/src/app/settings.xml -f /usr/src/app/pom.xml packag
 # Package stage
 FROM docker.io/library/eclipse-temurin:17
 LABEL maintainer="Mike Millson <mmillson@redhat.com>"
-USER root
+USER 1001
 
 # Add krashpad user and group
 RUN groupadd -g 30001 krashpad && \
