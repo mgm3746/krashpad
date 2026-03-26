@@ -14,7 +14,7 @@ LABEL maintainer="Mike Millson <mmillson@redhat.com>"
 
 # Add krashpad user and group
 RUN groupadd -g 1001 krashpad && \
-  useradd --no-log-init -m -d /home/krashpad -u 30001 -g 1001 krashpad
+  useradd --no-log-init -m -d /home/krashpad -u 1001 -g 1001 krashpad
 
 COPY --from=build /usr/src/app/target/krashpad-*.jar /home/krashpad/krashpad.jar
 
