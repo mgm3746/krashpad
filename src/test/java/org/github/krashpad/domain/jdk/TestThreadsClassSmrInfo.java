@@ -26,15 +26,7 @@ import org.junit.jupiter.api.Test;
 class TestThreadsClassSmrInfo {
 
     @Test
-    void testAddressClosingBrace() {
-        ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
-        String logLine = "0x00007fcbdc08c800, }";
-        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
-                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
-    }
-
-    @Test
-    void testAdress1() {
+    void testAddress1() {
         ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
         String logLine = "0x00007f66f00a8800";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
@@ -42,7 +34,7 @@ class TestThreadsClassSmrInfo {
     }
 
     @Test
-    void testAdress2() {
+    void testAddress2() {
         ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
         String logLine = "0x00007fff5d5c6000, 0x0000000001b2a000";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
@@ -50,7 +42,7 @@ class TestThreadsClassSmrInfo {
     }
 
     @Test
-    void testAdress3() {
+    void testAddress3() {
         ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
         String logLine = "0x00007fdbb0001800, 0x00007fdb0c001800, 0x00007fdbf00b1800";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
@@ -58,7 +50,15 @@ class TestThreadsClassSmrInfo {
     }
 
     @Test
-    void testAdress4() {
+    void testAddress3CommaClosingBrace() {
+        ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
+        String logLine = "0x000055bfaf96c000, 0x000055bfaf96d800, 0x000055bfc8658000, }";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
+                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testAddress4() {
         ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
         String logLine = "0x00007ffff0017800, 0x00007ffff0450000, 0x00007ffff0452000, 0x00007ffff0460000,";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
@@ -66,9 +66,17 @@ class TestThreadsClassSmrInfo {
     }
 
     @Test
-    void testAdress4NoEndComma() {
+    void testAddress4NoEndComma() {
         ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
         String logLine = "0x00007f99b80117c0, 0x00007f98f8024750, 0x00007f995001c480, 0x00007f99b0003e20";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
+                JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testAddressClosingBrace() {
+        ThreadsClassSmrInfo priorEvent = new ThreadsClassSmrInfo(null);
+        String logLine = "0x00007fcbdc08c800, }";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO,
                 JdkUtil.LogEventType.THREADS_CLASS_SMR_INFO.toString() + " not identified.");
     }
