@@ -61,10 +61,11 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
             + "FindDeadlocks|G1CollectForAllocation|G1CollectFull|G1PauseCleanup|G1PauseRemark|G1TryInitiateConcMark|"
             + "GenCollectForAllocation|GetAllStackTraces|GetThreadListStackTraces|"
             + "HandshakeAllThreads( \\(Deoptimize\\))?|HeapDumper|ICBufferFull|JFRCheckpoint|"
-            + "ParallelGCFailedAllocation|ParallelGCSystemGC|PrintJNI|PrintThreads|RedefineClasses|RendezvousGCThreads|"
-            + "SetNotifyJvmtiEventsMode|Shenandoah Final Mark and Start Evacuation|Shenandoah Final Update References|"
-            + "Shenandoah Init Marking|Shenandoah Init Update References|ThreadDump|XMarkStart||ZMarkEnd|"
-            + "ZMarkEndOld \\(Allocation Rate\\)|ZMarkFlushOperation|ZMarkStart|ZMarkStartYoung \\(Allocation Rate\\)|"
+            + "ParallelGCFailedAllocation( \\(Allocation Failure\\))?|ParallelGCSystemGC|PrintJNI|PrintThreads|"
+            + "RedefineClasses|RendezvousGCThreads|SetNotifyJvmtiEventsMode|"
+            + "Shenandoah Final Mark and Start Evacuation|Shenandoah Final Update References|Shenandoah Init Marking|"
+            + "Shenandoah Init Update References|ThreadDump|XMarkStart||ZMarkEnd|ZMarkEndOld \\(Allocation Rate\\)|"
+            + "ZMarkFlushOperation|ZMarkStart|ZMarkStartYoung \\(Allocation Rate\\)|"
             + "ZMarkStartYoungAndOld \\(Allocation Rate\\)|ZRelocateStart|ZRendezvousGCThreads)( done)?";
 
     /**

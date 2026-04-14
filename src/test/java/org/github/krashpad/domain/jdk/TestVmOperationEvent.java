@@ -220,11 +220,20 @@ class TestVmOperationEvent {
     }
 
     @Test
-    void testParallelGcFailedAllocation() {
+    void testParallelGcFailedAllocationNoTrigger() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
         String logLine = "Event: 7218.065 Executing VM operation: ParallelGCFailedAllocation";
         assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
+    }
+
+    @Test
+    void testParallelGcFailedAllocationTrigger() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 123.456 Executing safepoint VM operation: ParallelGCFailedAllocation "
+                + "(Allocation Failure)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
     }
 
     @Test
