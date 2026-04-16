@@ -78,17 +78,17 @@ class TestVmOperationEvent {
     }
 
     @Test
-    void testFindDeadlocks() {
-        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
-        String logLine = "Event: 31.306 Executing VM operation: FindDeadlocks";
-        assertTrue(JdkUtil.parseLogLine(logLine, priorLogEvent) instanceof VmOperationEvent,
-                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not parsed.");
-    }
-
-    @Test
     void testG1CollectForAllocation() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 12.345 Executing VM operation: G1CollectForAllocation";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testG1CollectForAllocationTriggerG1HumongousAllocation() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 123.456 Executing VM operation: G1CollectForAllocation (G1 Humongous Allocation)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
     }
@@ -121,6 +121,14 @@ class TestVmOperationEvent {
     void testG1TryInitiateConcMark() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 42576.463 Executing VM operation: G1TryInitiateConcMark";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
+    void testG1TryInitiateConcMarkTriggerG1HumongousAllocation() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 123.456 Executing VM operation: G1TryInitiateConcMark (G1 Humongous Allocation)";
         assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
                 JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
     }

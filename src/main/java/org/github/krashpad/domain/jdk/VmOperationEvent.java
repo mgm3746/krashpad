@@ -58,7 +58,8 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
     private static final String _REGEX_OPERATION = "Event: " + JdkRegEx.TIMESTAMP
             + " Executing( (non-safepoint|safepoint))? VM operation: (BulkRevokeBias|ClassLoaderStatsOperation|"
             + "CleanClassLoaderDataMetaspaces|Cleanup|CollectForMetadataAllocation \\(Metadata GC Threshold\\)|"
-            + "FindDeadlocks|G1CollectForAllocation|G1CollectFull|G1PauseCleanup|G1PauseRemark|G1TryInitiateConcMark|"
+            + "FindDeadlocks|G1CollectForAllocation( \\(G1 Humongous Allocation\\))?|G1CollectFull|G1PauseCleanup|"
+            + "G1PauseRemark|G1TryInitiateConcMark|G1TryInitiateConcMark \\(G1 Humongous Allocation\\)|"
             + "GenCollectForAllocation|GetAllStackTraces|GetThreadListStackTraces|"
             + "HandshakeAllThreads( \\(Deoptimize\\))?|HeapDumper|ICBufferFull|JFRCheckpoint|"
             + "ParallelGCFailedAllocation( \\(Allocation Failure\\))?|ParallelGCSystemGC|PrintJNI|PrintThreads|"
