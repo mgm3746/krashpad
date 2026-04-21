@@ -174,6 +174,14 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testHandshakeAllThreadsTriggerHandshakeForDeflation() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 123.456 Executing VM operation: HandshakeAllThreads (HandshakeForDeflation)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testHeapDumper() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (2 events):");
         String logLine = "Event: 338630.102 Executing VM operation: HeapDumper";

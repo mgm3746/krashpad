@@ -61,7 +61,7 @@ public class VmOperationEvent implements LogEvent, HeaderEvent {
             + "FindDeadlocks|G1CollectForAllocation( \\(G1 Humongous Allocation\\))?|G1CollectFull|G1PauseCleanup|"
             + "G1PauseRemark|G1TryInitiateConcMark|G1TryInitiateConcMark \\(G1 Humongous Allocation\\)|"
             + "GenCollectForAllocation|GetAllStackTraces|GetThreadListStackTraces|"
-            + "HandshakeAllThreads( \\(Deoptimize\\))?|HeapDumper|ICBufferFull|JFRCheckpoint|"
+            + "HandshakeAllThreads( \\((Deoptimize|HandshakeForDeflation)\\))?|HeapDumper|ICBufferFull|JFRCheckpoint|"
             + "ParallelGCFailedAllocation( \\(Allocation Failure\\))?|ParallelGCSystemGC|PrintJNI|PrintThreads|"
             + "RedefineClasses|RendezvousGCThreads|SetNotifyJvmtiEventsMode|"
             + "Shenandoah Final Mark and Start Evacuation|Shenandoah Final Update References|Shenandoah Init Marking|"
