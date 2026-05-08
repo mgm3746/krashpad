@@ -2234,10 +2234,10 @@ class TestAnalysis {
         assertEquals(0, fel.getUnidentifiedLogLines().size(), "Unidentified log lines.");
         assertTrue(fel.hasAnalysis(Analysis.WARN_JDK_NOT_LATEST.getKey()),
                 Analysis.WARN_JDK_NOT_LATEST + " analysis not identified.");
-        assertEquals(2016,
+        assertEquals(2104,
                 KrashUtil.dayDiff(fel.getJdkRelease().getBuildDate(), JdkUtil.getLatestJdkRelease(fel).getBuildDate()),
                 "Release days diff not correct.");
-        assertEquals(24, JdkUtil.getLatestJdkRelease(fel).getNumber() - fel.getJdkRelease().getNumber(),
+        assertEquals(25, JdkUtil.getLatestJdkRelease(fel).getNumber() - fel.getJdkRelease().getNumber(),
                 "Release # diff not correct.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
