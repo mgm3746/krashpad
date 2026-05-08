@@ -17,6 +17,7 @@ package org.github.krashpad.domain.jdk;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -1589,6 +1590,10 @@ class TestFatalErrorLog {
         assertEquals(JavaVendor.RED_HAT, fel.getJavaVendor(), "Java vendor not correct.");
         assertEquals(11, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+        assertNull(fel.getRhRpmName(), "Rpm name not correct.");
+        assertTrue(fel.isRhRpmMatch(), "RH rpm match not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
+                Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
     }
 
     @Test
@@ -1605,6 +1610,10 @@ class TestFatalErrorLog {
         assertEquals(11, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
         assertEquals(0, fel.getVmOperationsDuration(), "VM Operations duration not correct.");
+        assertNull(fel.getRhRpmName(), "Rpm name not correct.");
+        assertTrue(fel.isRhRpmMatch(), "RH rpm match not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
+                Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
     }
 
     @Test
@@ -1740,16 +1749,7 @@ class TestFatalErrorLog {
     }
 
     @Test
-    void testRhel9Os() {
-        FatalErrorLog fel = new FatalErrorLog();
-        String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
-        OsInfo osEvent = new OsInfo(os);
-        fel.getOsInfos().add(osEvent);
-        assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
-    }
-
-    @Test
-    void testRhel9RhBuildJdk11() {
+    void testRhel9Jdk11() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
         OsInfo osEvent = new OsInfo(os);
@@ -1767,6 +1767,63 @@ class TestFatalErrorLog {
         assertTrue(fel.isRhRpmMatch(), "RH rpm match not identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
                 Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
+    }
+
+    @Test
+    void testRhel9Jdk21() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os1 = "OS:";
+        OsInfo osEvent1 = new OsInfo(os1);
+        fel.getOsInfos().add(osEvent1);
+        String os2 = "Red Hat Enterprise Linux release 9.7 (Plow)";
+        OsInfo osEvent2 = new OsInfo(os2);
+        fel.getOsInfos().add(osEvent2);
+        String dynamicLibrary = "7efce9000000-7efcea48d000 r-xp 00000000 103:04 184552858                 "
+                + "/usr/lib/jvm/java-21-openjdk-21.0.11.0.10-2.el9.x86_64/lib/server/libjvm.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (21.0.11+10-LTS) for linux-amd64 JRE (21.0.11+10-LTS), "
+                + "built on 2026-04-21T00:00:00Z by \"mockbuild\" with gcc 11.3.0";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals("java-21-openjdk-21.0.11.0.10-2.el9.x86_64", fel.getRhRpmName(), "Rpm name not correct.");
+        assertTrue(fel.isRhRpmMatch(), "RH rpm match not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
+                Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
+    }
+
+    @Test
+    void testRhel9Jdk25() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os1 = "OS:";
+        OsInfo osEvent1 = new OsInfo(os1);
+        fel.getOsInfos().add(osEvent1);
+        String os2 = "Red Hat Enterprise Linux release 9.7 (Plow)";
+        OsInfo osEvent2 = new OsInfo(os2);
+        fel.getOsInfos().add(osEvent2);
+        String dynamicLibrary = "7f39f2a00000-7f39f4013000 r-xp 00000000 103:04 150997590                 "
+                + "/usr/lib/jvm/java-25-openjdk/lib/server/libjvm.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (25.0.3+9-LTS) for linux-amd64 JRE (25.0.3+9-LTS), built on "
+                + "2026-04-21T00:00:00Z with gcc 11.3.";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertNull(fel.getRhRpmName(), "Rpm name not correct.");
+        assertTrue(fel.isRhRpmMatch(), "RH rpm match not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
+                Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
+    }
+
+    @Test
+    void testRhel9Os() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os = "OS:Red Hat Enterprise Linux release 9.0 (Plow)";
+        OsInfo osEvent = new OsInfo(os);
+        fel.getOsInfos().add(osEvent);
+        assertEquals(OsVersion.RHEL9, fel.getOsVersion(), "OS version not correct.");
     }
 
     @Test

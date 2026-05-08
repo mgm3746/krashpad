@@ -3645,7 +3645,7 @@ class TestAnalysis {
     }
 
     @Test
-    void testRhel9OpenJdk8() {
+    void testRhel9Jdk8() {
         FatalErrorLog fel = new FatalErrorLog();
         String vm_info = "vm_info: OpenJDK 64-Bit Server VM (25.345-b01) for linux-amd64 JRE (1.8.0_345-b01), built on "
                 + "Aug  4 2022 05:08:02 by \"mockbuild\" with gcc 4.8.5 20150623 (Red Hat 4.8.5-44)";

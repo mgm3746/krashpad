@@ -57,7 +57,7 @@ public class Jdk21 {
         /*
          * Notes:
          * 
-         * 1) Rpm key is the OpenJDK install directory.
+         * 1) Rpm key is the OpenJDK install directory or version string (RHEL10).
          * 
          * 2) Zip key is build version.
          * 
@@ -69,7 +69,9 @@ public class Jdk21 {
 
         // RHEL8 amd64 OpenJDK21 rpm
         RHEL8_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL8_X86_64_RPMS.put("LATEST", new Release("2026-01-20T00:00:00Z", 12, "21.0.10+7-LTS"));
+        RHEL8_X86_64_RPMS.put("LATEST", new Release("2026-04-21T00:00:00Z", 13, "21.0.11+10-LTS"));
+        RHEL8_X86_64_RPMS.put("java-21-openjdk-21.0.11.0.10-1.el8.x86_64",
+                new Release("2026-04-21T00:00:00Z", 13, "21.0.11+10-LTS"));
         RHEL8_X86_64_RPMS.put("java-21-openjdk-21.0.10.0.7-1.el8.x86_64",
                 new Release("2026-01-20T00:00:00Z", 12, "21.0.10+7-LTS"));
         RHEL8_X86_64_RPMS.put("java-21-openjdk-21.0.9.0.10-1.el8.x86_64",
@@ -99,7 +101,11 @@ public class Jdk21 {
 
         // RHEL9 amd64 OpenJDK21 rpm
         RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL9_X86_64_RPMS.put("LATEST", new Release("2026-01-20T00:00:00Z", 13, "21.0.10+7-LTS"));
+        RHEL9_X86_64_RPMS.put("LATEST", new Release("2026-04-21T00:00:00Z", 14, "21.0.11+10-LTS"));
+        RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.11.0.10-2.el9.x86_64",
+                new Release("2026-04-21T00:00:00Z", 14, "21.0.11+10-LTS"));
+        RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.11.0.10-1.el9.x86_64",
+                new Release("2026-04-21T00:00:00Z", 14, "21.0.11+10-LTS"));
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.10.0.7-1.el9.x86_64",
                 new Release("2026-01-20T00:00:00Z", 13, "21.0.10+7-LTS"));
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.9.0.10-1.el9.x86_64",
@@ -129,7 +135,8 @@ public class Jdk21 {
 
         // RHEL10 amd64 OpenJDK21 rpm. Note directory name is common, not rpm specific.
         RHEL10_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL10_X86_64_RPMS.put("LATEST", new Release("2026-01-20T00:00:00Z", 5, "21.0.10+7-LTS"));
+        RHEL10_X86_64_RPMS.put("LATEST", new Release("2026-04-21T00:00:00Z", 6, "21.0.11+10-LTS"));
+        RHEL10_X86_64_RPMS.put("21.0.11+10-LTS", new Release("2026-04-21T00:00:00Z", 6, "21.0.11+10-LTS"));
         RHEL10_X86_64_RPMS.put("21.0.10+7-LTS", new Release("2026-01-20T00:00:00Z", 5, "21.0.10+7-LTS"));
         RHEL10_X86_64_RPMS.put("21.0.9+10-LTS", new Release("2025-10-21T00:00:00Z", 4, "21.0.9+10-LTS"));
         RHEL10_X86_64_RPMS.put("21.0.8+9-LTS", new Release("2025-07-11T00:00:00Z", 3, "21.0.8+9-LTS"));
@@ -138,7 +145,8 @@ public class Jdk21 {
 
         // RHEL amd64 OpenJDK21 zip
         RHEL_ZIPS = new HashMap<String, Release>();
-        RHEL_ZIPS.put("LATEST", new Release("2026-01-20T00:00:00Z", 10, "21.0.10+7-LTS"));
+        RHEL_ZIPS.put("LATEST", new Release("2026-04-21T00:00:00Z", 11, "21.0.11+10-LTS"));
+        RHEL_ZIPS.put("21.0.11+10-LTS", new Release("2026-04-21T00:00:00Z", 11, "21.0.11+10-LTS"));
         RHEL_ZIPS.put("21.0.10+7-LTS", new Release("2026-01-20T00:00:00Z", 10, "21.0.10+7-LTS"));
         RHEL_ZIPS.put("21.0.9+10-LTS", new Release("2025-10-21T00:00:00Z", 9, "21.0.9+10-LTS"));
         RHEL_ZIPS.put("21.0.8+9-LTS", new Release("2025-07-15T00:00:00Z", 8, "21.0.8+9-LTS"));
@@ -152,7 +160,8 @@ public class Jdk21 {
 
         // Windows amd64 OpenJDK21 zip
         WINDOWS_ZIPS = new HashMap<String, Release>();
-        WINDOWS_ZIPS.put("LATEST", new Release("2026-01-20T00:00:00Z", 10, "21.0.10+7-LTS"));
+        WINDOWS_ZIPS.put("LATEST", new Release("2026-04-21T00:00:00Z", 11, "21.0.11+10-LTS"));
+        WINDOWS_ZIPS.put("21.0.11+10-LTS", new Release("2026-04-21T00:00:00Z", 11, "21.0.11+10-LTS"));
         WINDOWS_ZIPS.put("21.0.10+7-LTS", new Release("2026-01-20T00:00:00Z", 10, "21.0.10+7-LTS"));
         WINDOWS_ZIPS.put("21.0.9+10-LTS", new Release("2025-10-21T00:00:00Z", 9, "21.0.9+10-LTS"));
         WINDOWS_ZIPS.put("21.0.8+9-LTS", new Release("2025-07-15T00:00:00Z", 8, "21.0.8+9-LTS"));

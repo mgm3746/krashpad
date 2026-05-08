@@ -827,7 +827,7 @@ public class JdkRegEx {
      * 
      * java-21-openjdk (RHEL10)
      */
-    public static final String RH_RPM_OPENJDK21_DIR = "(java\\-21\\-openjdk\\-21(\\.0\\.\\d{1,2}\\.\\d{1,2}"
+    public static final String RH_RPM_OPENJDK21_DIR = "(java\\-21\\-openjdk(\\-21\\.0\\.\\d{1,2}\\.\\d{1,2}"
             + "(\\.\\d{1,2})?-\\d\\.el([89])(_(\\d{1,2}))?\\.x86_64)?)";
 
     /**

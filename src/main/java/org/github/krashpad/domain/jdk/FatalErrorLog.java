@@ -3053,6 +3053,9 @@ public class FatalErrorLog {
         if (firstRelease == null) {
             firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, Jdk25.RHEL_ZIPS);
         }
+        if (firstRelease == null) {
+            firstRelease = JdkUtil.getFirstReleaseFromReleases(releaseString, Jdk25.WINDOWS_ZIPS);
+        }
         return firstRelease;
     }
 
@@ -5365,7 +5368,7 @@ public class FatalErrorLog {
     }
 
     /**
-     * The Red Hat rpm name, or null if not an rpm install.
+     * The Red Hat rpm name.
      * 
      * For example:
      * 
@@ -5375,7 +5378,7 @@ public class FatalErrorLog {
      * 
      * java-17-openjdk-17.0.4.1.1-2.el9_0.x86_64
      * 
-     * @return the Red Hat rpm name, or null if undetermined (e.g. RHEL10) or not an rpm install.
+     * @return the Red Hat rpm name, or null if undetermined (e.g. RHEL10, JDK25) or not an rpm install.
      */
     public String getRhRpmName() {
         String rpmName = null;
@@ -7100,11 +7103,24 @@ public class FatalErrorLog {
     /**
      * Check if the JDK that produced the fatal error log matches a Red Hat rpm.
      * 
-     * Prior to RHEL10, the match is based on rpm name (determined from JAVA_HOME) and build date.
+     * A match is determined in one of two ways:
      * 
-     * RHEL10 JDK installs are in a common location, so match is based on version string and build date.
+     * 1) If rpm name can be determined: rpm name and build date.
      * 
-     * @return true if the JDK that produced the fatal error log is matches a Red Hat version, false otherwise.
+     * Prior to RHEL10 and JDK25, the rpm name is included in the JAVA_HOME path. For example, the
+     * java-1.8.0-openjdk-1.8.0.482.b08-1.el8.x86_64 rpm installs with
+     * JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.482.b08-1.el8.x86_64.
+     * 
+     * 2) If rpm name cannot be determined: version string and build date.
+     * 
+     * In RHEL10, support for installing multiple minor versions of java by rpm was removed, and JAVA_HOME no longer
+     * includes the rpm name and is generic for all JDK major version installs. For example,
+     * JAVA_HOME=/usr/lib/jvm/java-21-openjdk.
+     * 
+     * OpenJDK25 does not include the rpm name in JAVA_HOME. It is generic for all RHEL versions. For example, on RHEL9
+     * JAVA_HOME=/usr/lib/jvm/java-25-openjdk.
+     * 
+     * @return true if the JDK that produced the fatal error log matches a Red Hat version, false otherwise.
      */
     public boolean isRhRpmMatch() {
         boolean isRhRpmMatch = false;
@@ -7140,6 +7156,7 @@ public class FatalErrorLog {
             case CENTOS9:
             case RHEL9:
                 key = getRhRpmName();
+                String keyJdk25 = getJdkReleaseString();
                 isRhRpmMatch = getArchJdk() == Arch.X86_64 && ((Jdk8.RHEL9_X86_64_RPMS.containsKey(key)
                         && getJdkBuildDate().compareTo(Jdk8.RHEL9_X86_64_RPMS.get(key).getBuildDate()) == 0)
                         || (Jdk11.RHEL9_X86_64_RPMS.containsKey(key)
@@ -7148,8 +7165,9 @@ public class FatalErrorLog {
                                 && getJdkBuildDate().compareTo(Jdk17.RHEL9_X86_64_RPMS.get(key).getBuildDate()) == 0)
                         || (Jdk21.RHEL9_X86_64_RPMS.containsKey(key)
                                 && getJdkBuildDate().compareTo(Jdk21.RHEL9_X86_64_RPMS.get(key).getBuildDate()) == 0)
-                        || (Jdk25.RHEL9_X86_64_RPMS.containsKey(key)
-                                && getJdkBuildDate().compareTo(Jdk25.RHEL9_X86_64_RPMS.get(key).getBuildDate()) == 0));
+                        || (getJavaHome() != null && getJavaHome().matches(JdkRegEx.RH_RPM_OPENJDK25_JAVA_HOME)
+                                && Jdk25.RHEL9_X86_64_RPMS.containsKey(keyJdk25) && getJdkBuildDate()
+                                        .compareTo(Jdk25.RHEL9_X86_64_RPMS.get(keyJdk25).getBuildDate()) == 0));
                 break;
             case CENTOS10:
             case RHEL10:
@@ -7225,6 +7243,12 @@ public class FatalErrorLog {
                 break;
             case JDK17:
                 isRhVersion = Jdk17.WINDOWS_ZIPS.containsKey(getJdkReleaseString());
+                break;
+            case JDK21:
+                isRhVersion = Jdk21.WINDOWS_ZIPS.containsKey(getJdkReleaseString());
+                break;
+            case JDK25:
+                isRhVersion = Jdk25.WINDOWS_ZIPS.containsKey(getJdkReleaseString());
                 break;
             case JDK6:
             case JDK7:
