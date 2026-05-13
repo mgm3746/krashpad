@@ -52,17 +52,14 @@ public class Jdk25 {
         /*
          * Notes:
          * 
-         * 1) Rpm key is version string. JAVA_HOME does not include the rpm name and is generic
-         * (/usr/lib/jvm/java-25-openjdk).
+         * 1) Rpm key is version string because JAVA_HOME does not include the rpm name and is generic
+         * (/usr/lib/jvm/java-25-openjdk) for all rpm versions (it's not possible to install multiple minor versions).
          * 
          * 2) Zip key is version string.
          * 
          * 3) 2024-07-16 means build date/time unknown.
          * 
          * 4) 2024-07-16T00:00:00Z means build date/time unspecified (e.g. to support reproducible builds).
-         * 
-         * FIXME: The path is /usr/lib/jvm/java-25-openjdk/ for RHEL9 too.
-         * 
          */
 
         // RHEL9 amd64 OpenJDK25 rpm
