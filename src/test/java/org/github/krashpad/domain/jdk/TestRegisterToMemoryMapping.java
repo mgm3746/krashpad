@@ -301,6 +301,15 @@ class TestRegisterToMemoryMapping {
     }
 
     @Test
+    void testFlags() {
+        RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
+        String logLine = " - flags:             rewritten has_nonstatic_fields has_localvariable_table "
+                + "has_resolved_methods";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testFramesize() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = "Framesize: 0";
