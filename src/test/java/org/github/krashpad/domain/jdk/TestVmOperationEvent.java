@@ -86,6 +86,15 @@ class TestVmOperationEvent {
     }
 
     @Test
+    void testG1CollectForAllocationTriggerG1EvacuationPause() {
+        VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
+        String logLine = "Event: 250163.381 Executing safepoint VM operation: G1CollectForAllocation (G1 Evacuation "
+                + "Pause)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.VM_OPERATION_EVENT,
+                JdkUtil.LogEventType.VM_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testG1CollectForAllocationTriggerG1HumongousAllocation() {
         VmOperationEvent priorLogEvent = new VmOperationEvent("VM Operations (1 events):");
         String logLine = "Event: 123.456 Executing VM operation: G1CollectForAllocation (G1 Humongous Allocation)";

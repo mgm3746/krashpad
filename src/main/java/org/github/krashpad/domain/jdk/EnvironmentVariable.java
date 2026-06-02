@@ -50,7 +50,7 @@ public class EnvironmentVariable implements LogEvent, ThrowAwayEvent, HeaderEven
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|_JAVA_SR_SIGNUM|ARCH|CLASSPATH|DISPLAY|DYLD_LIBRARY_PATH|_JAVA_OPTIONS|(JAVA|JRE)_HOME|"
+            + "|_JAVA_SR_SIGNUM|ARCH|CLASSPATH|DISPLAY|DYLD_LIBRARY_PATH|_JAVA_OPTIONS|(JAVA|JRE)_HOME|JAVA_OPTS|"
             + "JAVA_TOOL_OPTIONS|HOSTTYPE|LANG|LC_ALL|LD_LIBRARY_PATH|LC_CTYPE|LC_NUMERIC|LC_TIME|LD_PRELOAD|LIBPATH|"
             + "MACHTYPE|OS=|OSTYPE|PATH|PROCESSOR_IDENTIFIER|SHELL|TEMP|TERM|TMP|TMPDIR|TZ|USERNAME|XDG_CACHE_HOME|"
             + "XDG_CONFIG_HOME).*$";

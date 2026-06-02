@@ -106,6 +106,14 @@ class TestEnvironmentVariable {
     }
 
     @Test
+    void testJavaOpts() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
+        String logLine = "JAVA_OPTS=-XX:+UseG1GC -Xms2g -Xmx2g";
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    }
+
+    @Test
     void testJavaSrSignum() {
         EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "_JAVA_SR_SIGNUM=30";
