@@ -1664,7 +1664,8 @@ public class FatalErrorLog {
         }
         if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.ALWAYS
                 && !((getJavaVersionMajor() == 17 && getJavaVersionMinor() >= 10)
-                        || (getJavaVersionMajor() == 21 && getJavaVersionMinor() >= 1))) {
+                        || (getJavaVersionMajor() == 21 && getJavaVersionMinor() >= 1)
+                        || getJavaVersionMajor() >= 22)) {
             analysis.add(Analysis.WARN_THP_OS_ALWAYS);
         }
         // ZGC large pages analysis
@@ -3503,7 +3504,7 @@ public class FatalErrorLog {
         // Check dynamic library (rpm)
         if (version == JavaSpecification.UNKNOWN && !dynamicLibraries.isEmpty()) {
             if (getRhRpmName() != null) {
-                String regEx = "^java-.+-openjdk-(1.8.0|11|17|21).+-.+$";
+                String regEx = "^java-.+-openjdk-(1.8.0|11|17|21|25).+-.+$";
                 Pattern pattern = Pattern.compile(regEx);
                 Matcher matcher = pattern.matcher(getRhRpmName());
                 if (matcher.find()) {
@@ -3515,6 +3516,8 @@ public class FatalErrorLog {
                         version = JavaSpecification.JDK17;
                     } else if (matcher.group(1).equals("21")) {
                         version = JavaSpecification.JDK21;
+                    } else if (matcher.group(1).equals("25")) {
+                        version = JavaSpecification.JDK25;
                     }
                 }
             }
