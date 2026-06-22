@@ -1236,7 +1236,16 @@ public class FatalErrorLog {
         }
         // Specific CompilerThread crashes
         if (getCurrentThreadName() != null && getCurrentThreadName().matches("^.+C2 CompilerThread\\d{1,}.+$")) {
-            if (isInHeader("guarantee\\(n != NULL\\) failed: No Node.") && isInStack("IdealLoopTree::beautify_loops")) {
+            if (this.getCurrentCompileTask() != null
+                    && getCurrentCompileTask().matches("^.+java\\.lang\\.ClassLoader::loadClass.+")
+                    && getStackFrameTop() != null
+                    && getStackFrameTop().matches("^V  \\[libjvm\\.so\\+0x[0-9a-f]{6}\\]  "
+                            + "ArrayCopyNode::finish_transform\\(PhaseGVN\\*, bool, Node\\*, Node\\*\\).+$")) {
+                analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_ARRAYCOPYNODE_FINISHTRANSFORM);
+                // Don't double report
+                analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+            } else if (isInHeader("guarantee\\(n != NULL\\) failed: No Node.")
+                    && isInStack("IdealLoopTree::beautify_loops")) {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
@@ -1275,25 +1284,18 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_COMPILER_THREAD_C2_PHASEIDEALLOOP_IDE_BAC_IFS);
                 // Don't double report
                 analysis.remove(Analysis.ERROR_COMPILER_THREAD);
-            } else if (!getCurrentCompileTasks().isEmpty()) {
-                Iterator<CurrentCompileTask> iterator = getCurrentCompileTasks().iterator();
-                while (iterator.hasNext()) {
-                    CurrentCompileTask event = iterator.next();
-                    if (event.getLogEntry() != null && event.getLogEntry()
-                            .matches("^.+sun\\.security\\.ssl\\.SSLEngineInputRecord::decodeInputRecord.+")) {
-                        if ((getJavaSpecification() == JavaSpecification.JDK11
-                                && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) == 16)
-                                || (getJavaSpecification() == JavaSpecification.JDK17
-                                        && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) == 4)) {
-                            analysis.add(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE);
-                            // Don't double report
-                            analysis.remove(Analysis.ERROR_COMPILER_THREAD);
-                            analysis.remove(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL);
-                            analysis.remove(Analysis.ERROR_OOME_JVM);
-                        }
-                        break;
-                    }
-                }
+            } else if (getCurrentCompileTask() != null
+                    && getCurrentCompileTask()
+                            .matches("^.+sun\\.security\\.ssl\\.SSLEngineInputRecord::decodeInputRecord.+")
+                    && ((getJavaSpecification() == JavaSpecification.JDK11
+                            && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) == 16)
+                            || (getJavaSpecification() == JavaSpecification.JDK17
+                                    && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) == 4))) {
+                analysis.add(Analysis.ERROR_OOME_COMPILER_THREAD_C2_SSL_DECODE);
+                // Don't double report
+                analysis.remove(Analysis.ERROR_COMPILER_THREAD);
+                analysis.remove(Analysis.ERROR_OOME_NATIVE_OR_EXTERNAL);
+                analysis.remove(Analysis.ERROR_OOME_JVM);
             }
         }
         // Crash during shutdown
@@ -2829,6 +2831,24 @@ public class FatalErrorLog {
             crashTime.append(timeElapsedTime.getTimeString());
         }
         return crashTime.toString();
+    }
+
+    /**
+     * @return The Current CompileTask or null if undefined/undetermined.
+     */
+    public String getCurrentCompileTask() {
+        String currentCompileTask = null;
+        if (!getCurrentCompileTasks().isEmpty()) {
+            Iterator<CurrentCompileTask> iterator = getCurrentCompileTasks().iterator();
+            while (iterator.hasNext()) {
+                CurrentCompileTask event = iterator.next();
+                if (!event.isHeader()) {
+                    currentCompileTask = event.getLogEntry();
+                    break;
+                }
+            }
+        }
+        return currentCompileTask;
     }
 
     public List<CurrentCompileTask> getCurrentCompileTasks() {

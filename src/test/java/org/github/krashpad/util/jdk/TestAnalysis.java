@@ -454,6 +454,34 @@ class TestAnalysis {
     }
 
     @Test
+    void testCompilerThreadC2ArrayCopyNodeFinishTransform() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String currentThread = "Current thread (0x00007fac5c0f6d90):  JavaThread \"C2 CompilerThread0\" daemon "
+                + "[_thread_in_native, id=3547942, stack(0x00007fac2ce6f000,0x00007fac2cf6f000) (1024K)]";
+        CurrentThread currentThreadEvent = new CurrentThread(currentThread);
+        fel.setCurrentThread(currentThreadEvent);
+        String currentCompileTask1 = "Current CompileTask:";
+        CurrentCompileTask currentCompileTaskEvent1 = new CurrentCompileTask(currentCompileTask1);
+        fel.getCurrentCompileTasks().add(currentCompileTaskEvent1);
+        String currentCompileTask2 = "C2:55401 17601   !   4       java.lang.ClassLoader::loadClass (121 bytes)";
+        CurrentCompileTask currentCompileTaskEvent2 = new CurrentCompileTask(currentCompileTask2);
+        fel.getCurrentCompileTasks().add(currentCompileTaskEvent2);
+
+        String stack1 = "Stack: [0x00007fac2ce6f000,0x00007fac2cf6f000],  sp=0x00007fac2cf6a5d0,  free space=1005k";
+        Stack stackEvent1 = new Stack(stack1);
+        fel.getStacks().add(stackEvent1);
+        String stack2 = "V  [libjvm.so+0x4dc33a]  "
+                + "ArrayCopyNode::finish_transform(PhaseGVN*, bool, Node*, Node*)+0x1fa";
+        Stack stackEvent2 = new Stack(stack2);
+        fel.getStacks().add(stackEvent2);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD.getKey()),
+                Analysis.ERROR_COMPILER_THREAD + " analysis incorrectlyBeautifyLoops identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_COMPILER_THREAD_C2_ARRAYCOPYNODE_FINISHTRANSFORM.getKey()),
+                Analysis.ERROR_COMPILER_THREAD_C2_ARRAYCOPYNODE_FINISHTRANSFORM + " analysis not identified.");
+    }
+
+    @Test
     void testCompilerThreadC2BeautifyLoops() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset72.txt");
         Manager manager = new Manager();

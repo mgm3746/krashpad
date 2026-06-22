@@ -51,6 +51,12 @@ public enum Analysis {
     ERROR_COMPILER_THREAD("error.compiler.thread"),
 
     /**
+     * Property key for a crash in C2 CompilerThread at ArrayCopyNode::finish_transform(PhaseGVN*, bool, Node*, Node*)
+     * optimizing the standard Java class loader.
+     */
+    ERROR_COMPILER_THREAD_C2_ARRAYCOPYNODE_FINISHTRANSFORM("error.compiler.thread.c2.arraycopynode.finishtransform"),
+
+    /**
      * Property key for a crash in C2 CompilerThread: "guarantee(n != NULL) failed: No Node."
      */
     ERROR_COMPILER_THREAD_C2_BEAUTIFY_LOOPS("error.compiler.thread.c2.beautify.loops"),
