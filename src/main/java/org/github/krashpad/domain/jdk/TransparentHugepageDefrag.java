@@ -14,6 +14,9 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.HeaderEvent;
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
@@ -38,6 +41,13 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * 
  */
 public class TransparentHugepageDefrag implements LogEvent, HeaderEvent {
+
+    /**
+     * Defined modes.
+     */
+    public enum MODE {
+        ALWAYS, DEFER, DEFER_MADVISE, MADVISE, NEVER, NOT_AVAILABLE, UNKNOWN
+    }
 
     /**
      * Regular expression for the header.
@@ -98,6 +108,40 @@ public class TransparentHugepageDefrag implements LogEvent, HeaderEvent {
         return logEntry;
     }
 
+    /**
+     * @return mode.
+     */
+    public MODE getMode() {
+        MODE mode = MODE.UNKNOWN;
+        Pattern pattern = null;
+        if (logEntry.matches(_REGEX_DATA)) {
+            pattern = Pattern.compile(TransparentHugepageDefrag._REGEX_DATA);
+        } else if (logEntry.matches(_REGEX_SINGLE_LINE)) {
+            pattern = Pattern.compile(TransparentHugepageDefrag._REGEX_SINGLE_LINE);
+        }
+        if (pattern != null) {
+            Matcher matcher = pattern.matcher(logEntry);
+            if (matcher.find()) {
+                if (matcher.group(1) != null) {
+                    if (matcher.group(1).matches("^\\[always\\] defer defer\\+madvise madvise never$")) {
+                        mode = MODE.ALWAYS;
+                    } else if (matcher.group(1).matches("^always \\[defer\\] defer\\+madvise madvise never$")) {
+                        mode = MODE.DEFER;
+                    } else if (matcher.group(1).matches("^always defer \\[defer\\+madvise\\] madvise never$")) {
+                        mode = MODE.DEFER_MADVISE;
+                    } else if (matcher.group(1).matches("^always defer defer\\+madvise \\[madvise\\] never$")) {
+                        mode = MODE.MADVISE;
+                    } else if (matcher.group(1).matches("^always defer defer\\+madvise madvise \\[never\\]$")) {
+                        mode = MODE.NEVER;
+                    } else if (matcher.group(1).matches("^<Not Available>$")) {
+                        mode = MODE.NOT_AVAILABLE;
+                    }
+                }
+            }
+        }
+        return mode;
+    }
+
     @Override
     public boolean isHeader() {
         boolean isHeader = false;
@@ -107,4 +151,11 @@ public class TransparentHugepageDefrag implements LogEvent, HeaderEvent {
         return isHeader;
     }
 
+    /**
+     * @return True if mode setting, false otherwise.
+     */
+    public boolean isMode() {
+        return logEntry.matches(_REGEX_DATA) || logEntry.matches(_REGEX_SINGLE_LINE);
+
+    }
 }

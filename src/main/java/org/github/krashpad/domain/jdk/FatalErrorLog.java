@@ -1645,13 +1645,13 @@ public class FatalErrorLog {
         // Large pages JVM/OS Transparent Huge Pages configuration analysis
         if (hasAnalysis(org.github.joa.util.Analysis.ERROR_LARGE_PAGES_LINUX_HUGETLB_THP.toString())
                 || hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_LINUX_THPS.toString())) {
-            if (getTransparentHugePagesMode() != TransparentHugepageEnabled.MODE.UNKNOWN) {
-                if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.ALWAYS) {
-                    analysis.add(Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_ALWAYS);
-                } else if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.MADVISE) {
+            if (getTransparentHugepageEnabledMode() != TransparentHugepageEnabled.MODE.UNKNOWN) {
+                if (getTransparentHugepageEnabledMode() == TransparentHugepageEnabled.MODE.ALWAYS) {
+                    analysis.add(Analysis.ERROR_LARGE_PAGES_THP_JVM_MADVISE_OS_ALWAYS);
+                } else if (getTransparentHugepageEnabledMode() == TransparentHugepageEnabled.MODE.MADVISE) {
                     analysis.add(Analysis.INFO_LARGE_PAGES_THP_JVM_YES_OS_MADVISE);
-                } else if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.NEVER) {
-                    analysis.add(Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_NEVER);
+                } else if (getTransparentHugepageEnabledMode() == TransparentHugepageEnabled.MODE.NEVER) {
+                    analysis.add(Analysis.ERROR_LARGE_PAGES_THP_JVM_MADVISE_OS_NEVER);
                 }
             } else {
                 analysis.add(Analysis.INFO_LARGE_PAGES_THP_JVM_YES_OS_UNDETERMINED);
@@ -1659,16 +1659,19 @@ public class FatalErrorLog {
         }
         // Consider explicit large pages configuration for large heaps when Linux kernel THP = "all"
         if (hasAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER.toString())
-                && getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.ALWAYS) {
+                && getTransparentHugepageEnabledMode() == TransparentHugepageEnabled.MODE.ALWAYS) {
             analysis.add(Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS);
             // Remove generic analysis
             jvmOptions.removeAnalysis(org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER);
         }
-        if (getTransparentHugePagesMode() == TransparentHugepageEnabled.MODE.ALWAYS
+        if (getTransparentHugepageEnabledMode() == TransparentHugepageEnabled.MODE.ALWAYS
                 && !((getJavaVersionMajor() == 17 && getJavaVersionMinor() >= 10)
                         || (getJavaVersionMajor() == 21 && getJavaVersionMinor() >= 1)
                         || getJavaVersionMajor() >= 22)) {
-            analysis.add(Analysis.WARN_THP_OS_ALWAYS);
+            analysis.add(Analysis.WARN_THP_OS_ENABLED_ALWAYS);
+        }
+        if (getTransparentHugepageDefragMode() == TransparentHugepageDefrag.MODE.ALWAYS) {
+            analysis.add(Analysis.WARN_THP_OS_DEFRAG_ALWAYS);
         }
         // ZGC large pages analysis
         if (getJvmOptions() != null && JdkUtil.isOptionEnabled(getJvmOptions().getUseLargePages())
@@ -5786,12 +5789,29 @@ public class FatalErrorLog {
         return timeouts;
     }
 
-    public List<TransparentHugepageDefrag> getTransparentHugepageDefrags() {
-        return transparentHugepageDefrags;
+    /**
+     * The Transparent Huge Pages (THP) defrag mode.
+     * 
+     * 
+     * @return The Transparent Huge Pages (THP) defrag mode.
+     */
+    public TransparentHugepageDefrag.MODE getTransparentHugepageDefragMode() {
+        TransparentHugepageDefrag.MODE transparentHugepageDefragMode = TransparentHugepageDefrag.MODE.UNKNOWN;
+        if (!transparentHugepageDefrags.isEmpty()) {
+            Iterator<TransparentHugepageDefrag> iterator = transparentHugepageDefrags.iterator();
+            while (iterator.hasNext()) {
+                TransparentHugepageDefrag event = iterator.next();
+                if (event.isMode()) {
+                    transparentHugepageDefragMode = event.getMode();
+                }
+                break;
+            }
+        }
+        return transparentHugepageDefragMode;
     }
 
-    public List<TransparentHugepageEnabled> getTransparentHugepageEnableds() {
-        return transparentHugepageEnableds;
+    public List<TransparentHugepageDefrag> getTransparentHugepageDefrags() {
+        return transparentHugepageDefrags;
     }
 
     /**
@@ -5800,19 +5820,23 @@ public class FatalErrorLog {
      * 
      * @return The Transparent Huge Pages (THP) mode.
      */
-    public TransparentHugepageEnabled.MODE getTransparentHugePagesMode() {
-        TransparentHugepageEnabled.MODE transparentHugePageMode = TransparentHugepageEnabled.MODE.UNKNOWN;
+    public TransparentHugepageEnabled.MODE getTransparentHugepageEnabledMode() {
+        TransparentHugepageEnabled.MODE transparentHugepageEnabledMode = TransparentHugepageEnabled.MODE.UNKNOWN;
         if (!transparentHugepageEnableds.isEmpty()) {
             Iterator<TransparentHugepageEnabled> iterator = transparentHugepageEnableds.iterator();
             while (iterator.hasNext()) {
                 TransparentHugepageEnabled event = iterator.next();
                 if (event.isMode()) {
-                    transparentHugePageMode = event.getMode();
+                    transparentHugepageEnabledMode = event.getMode();
                 }
                 break;
             }
         }
-        return transparentHugePageMode;
+        return transparentHugepageEnabledMode;
+    }
+
+    public List<TransparentHugepageEnabled> getTransparentHugepageEnableds() {
+        return transparentHugepageEnableds;
     }
 
     /**

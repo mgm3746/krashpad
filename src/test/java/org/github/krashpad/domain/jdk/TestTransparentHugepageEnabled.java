@@ -39,8 +39,8 @@ class TestTransparentHugepageEnabled {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED.toString() + " not identified.");
         TransparentHugepageEnabled event = new TransparentHugepageEnabled(logLine);
-        assertTrue(event.isMode(), "THP mode not identified.");
-        assertEquals(TransparentHugepageEnabled.MODE.ALWAYS, event.getMode(), "THP mode not correct.");
+        assertTrue(event.isMode(), "Mode not identified.");
+        assertEquals(TransparentHugepageEnabled.MODE.ALWAYS, event.getMode(), "Mode not correct.");
     }
 
     @Test
@@ -62,8 +62,8 @@ class TestTransparentHugepageEnabled {
                 JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED.toString() + " not identified.");
         TransparentHugepageEnabled event = new TransparentHugepageEnabled(logLine);
-        assertTrue(event.isMode(), "THP mode not identified.");
-        assertEquals(TransparentHugepageEnabled.MODE.MADVISE, event.getMode(), "THP mode not correct.");
+        assertTrue(event.isMode(), "Mode not identified.");
+        assertEquals(TransparentHugepageEnabled.MODE.MADVISE, event.getMode(), "Mode not correct.");
     }
 
     @Test
@@ -75,8 +75,8 @@ class TestTransparentHugepageEnabled {
                 JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED.toString() + " not identified.");
         TransparentHugepageEnabled event = new TransparentHugepageEnabled(logLine);
-        assertTrue(event.isMode(), "THP mode not identified.");
-        assertEquals(TransparentHugepageEnabled.MODE.NEVER, event.getMode(), "THP mode not correct.");
+        assertTrue(event.isMode(), "Mode not identified.");
+        assertEquals(TransparentHugepageEnabled.MODE.NEVER, event.getMode(), "Mode not correct.");
     }
 
     @Test
@@ -85,8 +85,8 @@ class TestTransparentHugepageEnabled {
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_ENABLED.toString() + " not identified.");
         TransparentHugepageEnabled event = new TransparentHugepageEnabled(logLine);
-        assertTrue(event.isMode(), "THP mode not identified.");
-        assertEquals(TransparentHugepageEnabled.MODE.NOT_AVAILABLE, event.getMode(), "THP mode not correct.");
+        assertTrue(event.isMode(), "Mode not identified.");
+        assertEquals(TransparentHugepageEnabled.MODE.NOT_AVAILABLE, event.getMode(), "Mode not correct.");
     }
 
     @Test

@@ -43,7 +43,7 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
 
     /**
-     * Defined THP modes.
+     * Defined modes.
      */
     public enum MODE {
         ALWAYS, MADVISE, NEVER, NOT_AVAILABLE, UNKNOWN
@@ -106,7 +106,7 @@ public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
     }
 
     /**
-     * @return THP mode.
+     * @return mode.
      */
     public MODE getMode() {
         MODE mode = MODE.UNKNOWN;

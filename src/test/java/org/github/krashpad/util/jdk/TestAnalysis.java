@@ -51,6 +51,7 @@ import org.github.krashpad.domain.jdk.Thread;
 import org.github.krashpad.domain.jdk.Time;
 import org.github.krashpad.domain.jdk.TimeElapsedTime;
 import org.github.krashpad.domain.jdk.Timeout;
+import org.github.krashpad.domain.jdk.TransparentHugepageDefrag;
 import org.github.krashpad.domain.jdk.TransparentHugepageEnabled;
 import org.github.krashpad.domain.jdk.VmArguments;
 import org.github.krashpad.domain.jdk.VmInfo;
@@ -2114,10 +2115,10 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS.getKey()),
                 Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.WARN_THP_OS_ALWAYS.getKey()),
-                Analysis.WARN_THP_OS_ALWAYS + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_THP_OS_ENABLED_ALWAYS.getKey()),
+                Analysis.WARN_THP_OS_ENABLED_ALWAYS + " analysis incorrectly identified.");
     }
-
+    
     @Test
     void testLargePagesConsiderThpOsAlwaysJdk25() {
         FatalErrorLog fel = new FatalErrorLog();
@@ -2139,8 +2140,8 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS.getKey()),
                 Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS + " analysis not identified.");
-        assertFalse(fel.hasAnalysis(Analysis.WARN_THP_OS_ALWAYS.getKey()),
-                Analysis.WARN_THP_OS_ALWAYS + " analysis incorrectly identified.");
+        assertFalse(fel.hasAnalysis(Analysis.WARN_THP_OS_ENABLED_ALWAYS.getKey()),
+                Analysis.WARN_THP_OS_ENABLED_ALWAYS + " analysis incorrectly identified.");
     }
 
     @Test
@@ -2158,8 +2159,8 @@ class TestAnalysis {
                 org.github.joa.util.Analysis.INFO_LARGE_PAGES_CONSIDER + " analysis incorrectly identified.");
         assertTrue(fel.hasAnalysis(Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS.getKey()),
                 Analysis.INFO_LARGE_PAGES_CONSIDER_THP_OS_ALWAYS + " analysis not identified.");
-        assertTrue(fel.hasAnalysis(Analysis.WARN_THP_OS_ALWAYS.getKey()),
-                Analysis.WARN_THP_OS_ALWAYS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.WARN_THP_OS_ENABLED_ALWAYS.getKey()),
+                Analysis.WARN_THP_OS_ENABLED_ALWAYS + " analysis not identified.");
     }
 
     @Test
@@ -2234,8 +2235,8 @@ class TestAnalysis {
                 transparentHugepageEnabled);
         fel.getTransparentHugepageEnableds().add(transparentHugePageEnabledEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_ALWAYS.getKey()),
-                Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_ALWAYS + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LARGE_PAGES_THP_JVM_MADVISE_OS_ALWAYS.getKey()),
+                Analysis.ERROR_LARGE_PAGES_THP_JVM_MADVISE_OS_ALWAYS + " analysis not identified.");
     }
 
     @Test
@@ -2264,8 +2265,8 @@ class TestAnalysis {
                 transparentHugepageEnabled);
         fel.getTransparentHugepageEnableds().add(transparentHugePageEnabledEvent);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_NEVER.getKey()),
-                Analysis.ERROR_LARGE_PAGES_THP_JVM_YES_OS_NEVER + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_LARGE_PAGES_THP_JVM_MADVISE_OS_NEVER.getKey()),
+                Analysis.ERROR_LARGE_PAGES_THP_JVM_MADVISE_OS_NEVER + " analysis not identified.");
     }
 
     @Test
@@ -4029,6 +4030,18 @@ class TestAnalysis {
                 Analysis.INFO_SWAPPING + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
+    void testThpOsDefragAlways() {
+        FatalErrorLog fel = new FatalErrorLog();        
+        String transparentHugepageDefrag = "[always] defer defer+madvise madvise never";
+        TransparentHugepageDefrag transparentHugepageDefragEvent = new TransparentHugepageDefrag(
+                transparentHugepageDefrag);
+        fel.getTransparentHugepageDefrags().add(transparentHugepageDefragEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.WARN_THP_OS_DEFRAG_ALWAYS.getKey()),
+                Analysis.WARN_THP_OS_ENABLED_ALWAYS + " analysis incorrectly identified.");
     }
 
     @Test

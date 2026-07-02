@@ -265,14 +265,14 @@ public enum Analysis {
      * with the MADV_HUGEPAGE flag, but the Linux kernel is configured to do this for all memory (every 'mmap' of every
      * process) with /sys/kernel/mm/transparent_hugepage/enabled = 'always'.
      */
-    ERROR_LARGE_PAGES_THP_JVM_YES_OS_ALWAYS("error.large.pages.thp.jvm.yes.os.always"),
+    ERROR_LARGE_PAGES_THP_JVM_MADVISE_OS_ALWAYS("error.large.pages.thp.jvm.madvise.os.always"),
 
     /**
      * Property key for the JVM configured to use Transparent Huge Page (THP) large pages for JVM calls using madvise()
      * with the MADV_HUGEPAGE flag, but THPs are disabled in the Linux kernel
      * (/sys/kernel/mm/transparent_hugepage/enabled = 'never').
      */
-    ERROR_LARGE_PAGES_THP_JVM_YES_OS_NEVER("error.large.pages.thp.jvm.yes.os.never"),
+    ERROR_LARGE_PAGES_THP_JVM_MADVISE_OS_NEVER("error.large.pages.thp.jvm.madvise.os.never"),
 
     /**
      * Property key for the JVM configured to use large pages with the ZGC collector, but the Linux kernel is not
@@ -1198,12 +1198,18 @@ public enum Analysis {
     WARN_SWAPPING("warn.swapping"),
 
     /**
+     * Property key for the Linux kernel configured to use direct compaction for every Transparent Hugepage (THP)
+     * allocation failure (/sys/kernel/mm/transparent_hugepage/defrag = 'always').
+     */
+    WARN_THP_OS_DEFRAG_ALWAYS("warn.thp.os.defrag.always"),
+
+    /**
      * Property key for the Linux kernel is configured for all memory (every 'mmap' of every process) to use Transparent
      * Hugepage (THP) large pages (/sys/kernel/mm/transparent_hugepage/enabled = 'always') on a JDK version known to
      * cause memory bloat and performance issues or JDK version undetermined. Fixed in JDK17u10 and JDK21u1. Reference:
      * https://bugs.openjdk.org/browse/JDK-8312182.
      */
-    WARN_THP_OS_ALWAYS("warn.thp.os.always"),
+    WARN_THP_OS_ENABLED_ALWAYS("warn.thp.os.enabled.always"),
 
     /**
      * Property key for many threads (&gt;5,000).
