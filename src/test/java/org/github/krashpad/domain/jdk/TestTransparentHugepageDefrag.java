@@ -50,7 +50,7 @@ class TestTransparentHugepageDefrag {
                 JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG,
                 JdkUtil.LogEventType.TRANSPARENT_HUGEPAGE_DEFRAG.toString() + " not identified.");
     }
-    
+
     @Test
     void testModeAlways() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter): [always] "
@@ -61,7 +61,7 @@ class TestTransparentHugepageDefrag {
         assertTrue(event.isMode(), "Mode not identified.");
         assertEquals(TransparentHugepageDefrag.MODE.ALWAYS, event.getMode(), "Mode not correct.");
     }
-    
+
     @Test
     void testModeDefer() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter): always "
@@ -72,7 +72,7 @@ class TestTransparentHugepageDefrag {
         assertTrue(event.isMode(), "Mode not identified.");
         assertEquals(TransparentHugepageDefrag.MODE.DEFER, event.getMode(), "Mode not correct.");
     }
-    
+
     @Test
     void testModeDeferMadvise() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter): always "
@@ -83,7 +83,7 @@ class TestTransparentHugepageDefrag {
         assertTrue(event.isMode(), "Mode not identified.");
         assertEquals(TransparentHugepageDefrag.MODE.DEFER_MADVISE, event.getMode(), "Mode not correct.");
     }
-    
+
     @Test
     void testModeMadvise() {
         String logLine = "/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter): always "
@@ -94,7 +94,6 @@ class TestTransparentHugepageDefrag {
         assertTrue(event.isMode(), "Mode not identified.");
         assertEquals(TransparentHugepageDefrag.MODE.MADVISE, event.getMode(), "Mode not correct.");
     }
-
 
     @Test
     void testModeNever() {

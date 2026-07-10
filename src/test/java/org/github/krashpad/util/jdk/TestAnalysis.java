@@ -2118,7 +2118,7 @@ class TestAnalysis {
         assertFalse(fel.hasAnalysis(Analysis.WARN_THP_OS_ENABLED_ALWAYS.getKey()),
                 Analysis.WARN_THP_OS_ENABLED_ALWAYS + " analysis incorrectly identified.");
     }
-    
+
     @Test
     void testLargePagesConsiderThpOsAlwaysJdk25() {
         FatalErrorLog fel = new FatalErrorLog();
@@ -4034,7 +4034,7 @@ class TestAnalysis {
 
     @Test
     void testThpOsDefragAlways() {
-        FatalErrorLog fel = new FatalErrorLog();        
+        FatalErrorLog fel = new FatalErrorLog();
         String transparentHugepageDefrag = "[always] defer defer+madvise madvise never";
         TransparentHugepageDefrag transparentHugepageDefragEvent = new TransparentHugepageDefrag(
                 transparentHugepageDefrag);

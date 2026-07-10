@@ -54,17 +54,6 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * 
  * MaxMetaspaceSize: unlimited
  * CompressedClassSpaceSize: 1.00 GB
- * 
- * CodeHeap 'non-profiled nmethods': size=128224Kb used=11542Kb max_used=14409Kb free=116681Kb
- *  bounds [0x00007fffdfc09000, 0x00007fffe0a29000, 0x00007fffe7941000]
- * CodeHeap 'profiled nmethods': size=128220Kb used=38331Kb max_used=45088Kb free=89888Kb
- *  bounds [0x00007fffd7ed2000, 0x00007fffdab82000, 0x00007fffdfc09000]
- * CodeHeap 'non-nmethods': size=5700Kb used=1496Kb max_used=1524Kb free=4203Kb
- *  bounds [0x00007fffd7941000, 0x00007fffd7bb1000, 0x00007fffd7ed2000]
- *  total_blobs=29416 nmethods=14571 adapters=913
- *  compilation: enabled
- *               stopped_count=0, restarted_count=0
- *  full_count=0
  * </pre>
  *
  * <p>
