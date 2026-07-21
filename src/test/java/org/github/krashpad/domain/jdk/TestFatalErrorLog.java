@@ -2243,7 +2243,18 @@ class TestFatalErrorLog {
     }
 
     @Test
-    void testVendorOracle() {
+    void testVendorOracleJdk17() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmInfo = "vm_info: Java HotSpot(TM) 64-Bit Server VM (17.0.17+8-LTS-360) for windows-amd64 JRE "
+                + "(17.0.17+8-LTS-360), built on Sep 27 2025 05:17:01 by \"mach5run\" with MS VC++ 17.6 (VS2022)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        assertEquals(org.github.joa.domain.BuiltBy.MACH5RUN, fel.getVmInfo().getBuiltBy(), "JDK built by not correct.");
+        assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "JDK vendor not correct.");
+    }
+
+    @Test
+    void testVendorOracleJdk8() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: Java HotSpot(TM) 64-Bit Server VM (25.25-b02) for windows-amd64 JRE (1.8.0_25-b18), "
                 + "built on Oct  7 2014 14:25:37 by \"java_re\" with MS VC++ 10.0 (VS2010)";

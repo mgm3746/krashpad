@@ -176,8 +176,11 @@ public class VmInfo implements LogEvent {
                     // Oracle current
                     builtBy = BuiltBy.JAVA_RE;
                 } else if (matcher.group(22).matches("mach5one")) {
-                    // Oracle previous
+                    // Oracle previous?
                     builtBy = BuiltBy.MACH5ONE;
+                } else if (matcher.group(22).matches("mach5run")) {
+                    // Oracle current?
+                    builtBy = BuiltBy.MACH5RUN;
                 } else if (matcher.group(22).matches("mockbuild")) {
                     // Red Hat, CentOS
                     builtBy = BuiltBy.MOCKBUILD;
