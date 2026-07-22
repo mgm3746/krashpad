@@ -946,6 +946,11 @@ public class FatalErrorLog {
                 && JdkUtil.getJdkUpdateNumber(getJdkReleaseString()) < 282 && getStackFrameTop() != null
                 && getStackFrameTop().matches("^V.+JfrEventClassTransformer::on_klass_creation.+$")) {
             analysis.add(Analysis.ERROR_JDK8_JFR_CLASS_TRANSFORMED);
+        } else if (isKvmEnvironment() && getHost() != null && getHost().getLogEntry() != null
+                && getHost().getLogEntry().matches("^Host: Intel Xeon Processor \\(Icelake\\), .*")
+                && hasCpuCapability("avx512f.+") && getOs() == Os.WINDOWS && getJavaVersionMajor() == 17
+                && getJavaVersionMinor() < 20) {
+            analysis.add(Analysis.ERROR_CODE_BUFFER);
         } else if (getStackFrameTop() != null && !isMemoryAllocationFail()
                 && !isError("#  fatal error: OutOfMemory encountered: Java heap space")) {
             // Other libjvm.so/jvm.dll analysis
@@ -6665,6 +6670,24 @@ public class FatalErrorLog {
             }
         }
         return isJnaCrash;
+    }
+
+    /**
+     * @return true if KVM environment, false otherwise.
+     */
+    public boolean isKvmEnvironment() {
+        boolean isKvmEnvironment = false;
+        if (!virtualizationInfos.isEmpty()) {
+            Iterator<VirtualizationInfo> iterator = virtualizationInfos.iterator();
+            while (iterator.hasNext()) {
+                VirtualizationInfo event = iterator.next();
+                if (event.getLogEntry().matches("^KVM virtualization detected$")) {
+                    isKvmEnvironment = true;
+                    break;
+                }
+            }
+        }
+        return isKvmEnvironment;
     }
 
     /**

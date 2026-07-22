@@ -41,6 +41,12 @@ public enum Analysis {
     ERROR_CANNOT_GET_LIBRARY_INFORMATION("error.cannot.get.library.information"),
 
     /**
+     * Property key for a crash on Intel Xeon Processor (Icelake) on Windows on startup when generating stub routines
+     * because the allocated code buffer is too small.
+     */
+    ERROR_CODE_BUFFER("error.code.buffer"),
+
+    /**
      * Property key for a crash when executing compiled java code.
      */
     ERROR_COMPILED_JAVA_CODE("error.compiled.java.code"),

@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 
 import org.github.joa.domain.GarbageCollector;
+import org.github.joa.domain.Os;
 import org.github.krashpad.domain.jdk.BarrierSet;
 import org.github.krashpad.domain.jdk.CompilationEvent;
 import org.github.krashpad.domain.jdk.ContainerInfo;
@@ -38,6 +39,7 @@ import org.github.krashpad.domain.jdk.GcPreciousLog;
 import org.github.krashpad.domain.jdk.GlobalFlag;
 import org.github.krashpad.domain.jdk.Header;
 import org.github.krashpad.domain.jdk.Heap;
+import org.github.krashpad.domain.jdk.Host;
 import org.github.krashpad.domain.jdk.LdPreloadFile;
 import org.github.krashpad.domain.jdk.MaxMapCount;
 import org.github.krashpad.domain.jdk.Meminfo;
@@ -53,6 +55,7 @@ import org.github.krashpad.domain.jdk.TimeElapsedTime;
 import org.github.krashpad.domain.jdk.Timeout;
 import org.github.krashpad.domain.jdk.TransparentHugepageDefrag;
 import org.github.krashpad.domain.jdk.TransparentHugepageEnabled;
+import org.github.krashpad.domain.jdk.VirtualizationInfo;
 import org.github.krashpad.domain.jdk.VmArguments;
 import org.github.krashpad.domain.jdk.VmInfo;
 import org.github.krashpad.domain.jdk.VmOperation;
@@ -1038,6 +1041,45 @@ class TestAnalysis {
                 Analysis.WARN_DYNATRACE + " analysis not identified.");
         assertEquals(1, fel.getNativeLibraries().size(), "Native library count not correct.");
         assertEquals(0, fel.getNativeLibrariesUnknown().size(), "Native library unknown count not correct.");
+    }
+
+    @Test
+    void testErrorCodeBuffer() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String host = "Host: Intel Xeon Processor (Icelake), 8 cores, 31G,  Windows Server 2022 , 64 bit Build 20348 "
+                + "(10.0.20348.4648)";
+        Host hostEvent = new Host(host);
+        fel.setHost(hostEvent);
+        String timeElapsedTime = "Time: Mon Jun 22 11:49:10 2026 FLE Daylight Time elapsed time: 0.046324 seconds "
+                + "(0d 0h 0m 0s)";
+        TimeElapsedTime timeElapsedTimeEvent = new TimeElapsedTime(timeElapsedTime);
+        fel.setTimeElapsedTime(timeElapsedTimeEvent);
+        String os1 = "OS:";
+        OsInfo osEvent1 = new OsInfo(os1);
+        fel.getOsInfos().add(osEvent1);
+        String os2 = " Windows Server 2022 , 64 bit Build 20348 (10.0.20348.4648)";
+        OsInfo osEvent2 = new OsInfo(os2);
+        fel.getOsInfos().add(osEvent2);
+        String virtualizationInfo = "KVM virtualization detected";
+        VirtualizationInfo virstualizationInfoEvent = new VirtualizationInfo(virtualizationInfo);
+        fel.getVirtualizationInfos().add(virstualizationInfoEvent);
+        String cpuInfo = "CPU: total 8 (initial active 8) (1 cores per cpu, 1 threads per core) family 6 model 134 "
+                + "stepping 0 microcode 0x1, cx8, cmov, fxsr, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4.1, sse4.2, "
+                + "popcnt, lzcnt, tsc, avx, avx2, aes, erms, clmul, bmi1, bmi2, adx, avx512f, avx512dq, avx512cd, "
+                + "avx512bw, avx512vl, fma, vzeroupper, avx512_vpopcntdq, avx512_vpclmulqdq, avx512_vaes, avx512_vnni, "
+                + "clflush, clflushopt, clwb, avx512_vbmi2, avx512_vbmi, hv";
+        CpuInfo cpuInfoEvent = new CpuInfo(cpuInfo);
+        fel.getCpuInfos().add(cpuInfoEvent);
+        String vmInfo = "vm_info: Java HotSpot(TM) 64-Bit Server VM (17.0.17+8-LTS-360) for windows-amd64 JRE "
+                + "(17.0.17+8-LTS-360), built on Sep 27 2025 05:17:01 by \"mach5run\" with MS VC++ 17.6 (VS2022)";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals(Os.WINDOWS, fel.getOs(), "OS not correct.");
+        assertTrue(fel.isKvmEnvironment(), "KVM environment not identified.");
+        assertEquals(JavaVendor.ORACLE, fel.getJavaVendor(), "Java vendor not correct.");
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CODE_BUFFER.getKey()),
+                Analysis.ERROR_CODE_BUFFER + " analysis not identified.");
     }
 
     @Test
