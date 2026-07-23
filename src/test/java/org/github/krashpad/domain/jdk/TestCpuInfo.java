@@ -34,6 +34,14 @@ import org.junit.jupiter.api.Test;
 class TestCpuInfo {
 
     @Test
+    void testAddress() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "address         : 0";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testAddressSizes() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "address sizes   : 39 bits physical, 48 bits virtual";
@@ -90,6 +98,14 @@ class TestCpuInfo {
     }
 
     @Test
+    void testBogoipsPerCpu() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "bogomips per cpu: 24024.00";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testBogomips() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "bogomips        : 5808.00";
@@ -106,9 +122,26 @@ class TestCpuInfo {
     }
 
     @Test
+    void testBookId() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "book id         : 1";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testBugs() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "bugs            : cpu_meltdown spectre_v1 spectre_v2";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testCache() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "cache5          : level=4 type=Unified scope=Shared size=983038K line_size=256"
+                + " associativity=4";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
     }
@@ -428,6 +461,22 @@ class TestCpuInfo {
     }
 
     @Test
+    void testDedicated() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "dedicated       : 0";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testDrawerId() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "drawer id       : 0";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testExtensiveErrorReportsMultiLine() {
         File testFile = new File(Constants.TEST_DATA_DIR + "dataset53.txt");
         Manager manager = new Manager();
@@ -437,10 +486,26 @@ class TestCpuInfo {
     }
 
     @Test
-    void testFeatures() {
+    void testFacilities() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "facilities      : 0 1 2 3 4";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testFeaturesCapitalF() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid "
                 + "asimdrdm lrcpc dcpop asimddp ssbs";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testFeaturesSmallF() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "features        : esan3 zarch stfle";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
     }
@@ -486,6 +551,14 @@ class TestCpuInfo {
     }
 
     @Test
+    void testIdentification() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "identification  : 123456S";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testIdentity() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "CPU:total 160 (initial active 160) ppc64 fsqrt isel lxarxeh cmpb popcntb popcntw fcfids vand "
@@ -522,6 +595,14 @@ class TestCpuInfo {
     void testMaxMhz() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "  Max Mhz: 3000, Current Mhz: 3000, Mhz Limit: 3000";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testMaxThreadId() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "max thread id   : 0";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
     }
@@ -656,6 +737,14 @@ class TestCpuInfo {
     }
 
     @Test
+    void testProcessors() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "# processors    : 2";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testRevision() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "revision        : 2.2 (pvr 004e 0202)";
@@ -707,6 +796,14 @@ class TestCpuInfo {
     void testVendorId() {
         LogEvent priorEvent = new CpuInfo("");
         String logLine = "vendor_id       : GenuineIntel";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
+                JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
+    }
+
+    @Test
+    void testVersion() {
+        LogEvent priorEvent = new CpuInfo("");
+        String logLine = "version         : FF";
         assertTrue(JdkUtil.identifyEventType(logLine, priorEvent) == JdkUtil.LogEventType.CPU_INFO,
                 JdkUtil.LogEventType.CPU_INFO.toString() + " not identified.");
     }

@@ -504,6 +504,15 @@ class TestRegisterToMemoryMapping {
     }
 
     @Test
+    void testPc() {
+        RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
+        String logLine = "pc =0x000003ff97913521: <offset 0x0000000000a13520> in /path/to/java/lib/server/libjvm.so "
+                + "at 0x000003ff96f00001";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testPublicStaticFinal() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = " - public static final 'CASE_INSENSITIVE_ORDER' 'Ljava/util/Comparator;' @184";

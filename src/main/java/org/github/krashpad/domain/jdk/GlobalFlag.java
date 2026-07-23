@@ -64,7 +64,7 @@ public class GlobalFlag implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    private static final String _REGEX_HEADER = "\\[Global flags\\]";
+    public static final String _REGEX_HEADER = "\\[Global flags\\]";
 
     private static Pattern pattern = Pattern.compile(GlobalFlag.REGEX);
 

@@ -138,7 +138,7 @@ public class JdkUtil {
      */
     public enum LogEventType {
         //
-        ACTIVE_LOCALE, BARRIER_SET, BITS, BLANK_LINE, CARD_TABLE, CLASS_INFO, CLASSES_LOADED_EVENT,
+        ACCESS_REGISTERS, ACTIVE_LOCALE, BARRIER_SET, BITS, BLANK_LINE, CARD_TABLE, CLASS_INFO, CLASSES_LOADED_EVENT,
         //
         CLASSES_REDEFINED_EVENT, CLASSES_UNLOADED_EVENT, CODE_CACHE, COMMAND_LINE, COMPILATION_EVENT,
         //
@@ -146,29 +146,31 @@ public class JdkUtil {
         //
         CURRENT_COMPILE_TASK, CURRENT_THREAD, DECODING_CODE_BLOB, DEOPTIMIZATION_EVENT, DLL_OPERATION_EVENT,
         //
-        DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, GC_HEAP_HISTORY_EVENT,
+        DYNAMIC_LIBRARY, ELAPSED_TIME, END, ENVIRONMENT_VARIABLES, EVENT, EXCEPTION_COUNTS, FLOAT_REGISTERS,
         //
-        GC_PRECIOUS_LOG, GLOBAL_FLAG, HEADER, HEADING, HEAP, HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER,
+        GC_HEAP_HISTORY_EVENT, GC_PRECIOUS_LOG, GENERAL_PURPOSE_REGISTERS, GLOBAL_FLAG, HEADER, HEADING, HEAP,
         //
-        INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTIC, JVMTI_AGENTS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOCK_STACK,
+        HEAP_ADDRESS, HEAP_REGIONS, HOST, INSTRUCTIONS, INTEGER, INTERNAL_EXCEPTION_EVENT, INTERNAL_STATISTIC,
         //
-        LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO, MEMORY, MEMORY_PROTECTION_EVENT, METASPACE,
+        JVMTI_AGENTS, LD_PRELOAD_FILE, LIBC, LOAD_AVERAGE, LOCK_STACK, LOGGING, MACH_CODE, MAX_MAP_COUNT, MEMINFO,
         //
-        METASPACE_HISTORY_EVENT, NATIVE_DECODER_STATE, NATIVE_MEMORY_TRACKING, NMETHOD_FLUSHES_EVENT, OS_INFO,
+        MEMORY, MEMORY_PROTECTION_EVENT, METASPACE, METASPACE_HISTORY_EVENT, NATIVE_DECODER_STATE,
         //
-        OS_UPTIME, PERIODIC_NATIVE_TRIM, PID, PID_MAX, POLLING_PAGE, PROCESS_MEMORY, REGISTER,
+        NATIVE_MEMORY_TRACKING, NMETHOD_FLUSHES_EVENT, OS_INFO, OS_UPTIME, PERIODIC_NATIVE_TRIM, PID, PID_MAX,
         //
-        REGISTER_TO_MEMORY_MAPPING, RELEASE_FILE, RLIMIT, SIGINFO, SIGNAL_HANDLERS, STACK,
+        POLLING_PAGE, PROCESS_MEMORY, PROCESSOR_STATE, REGISTER, REGISTER_TO_MEMORY_MAPPING, RELEASE_FILE, RLIMIT,
         //
-        STACK_SLOT_TO_MEMORY_MAPPING, SWAPPINESS, THREAD, THREADS_ACTIVE_COMPILE, THREADS_CLASS_SMR_INFO, THREADS_MAX,
+        SIGINFO, SIGNAL_HANDLERS, STACK, STACK_SLOT_TO_MEMORY_MAPPING, SWAPPINESS, THREAD, THREADS_ACTIVE_COMPILE,
         //
-        TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK, TRANSPARENT_HUGEPAGE_DEFRAG,
+        THREADS_CLASS_SMR_INFO, THREADS_MAX, TIME, TIME_ELAPSED_TIME, TIMEOUT, TIMEZONE, TOP_OF_STACK,
         //
-        TRANSPARENT_HUGEPAGE_ENABLED, TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE, TRANSPARENT_HUGEPAGE_SHMEM_ENABLED, UID,
+        TRANSPARENT_HUGEPAGE_DEFRAG, TRANSPARENT_HUGEPAGE_ENABLED, TRANSPARENT_HUGEPAGE_HPAGE_PMD_SIZE,
         //
-        UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO, VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT,
+        TRANSPARENT_HUGEPAGE_SHMEM_ENABLED, UID, UMASK, UNAME, UNKNOWN, VIRTUALIZATION_INFO, VM_ARGUMENTS, VM_INFO,
         //
-        VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE, ZGC_PHASE_SWITCH_EVENT
+        VM_MUTEX, VM_OPERATION, VM_OPERATION_EVENT, VM_STATE, ZGC_GLOBALS, ZGC_METADATA_BITS, ZGC_PAGE_TABLE,
+        //
+        ZGC_PHASE_SWITCH_EVENT
     }
 
     /**
@@ -535,7 +537,10 @@ public class JdkUtil {
         } else if (priorEvent != null && ZgcPageTable.match(logLine, priorEvent.getEventType())) {
             logEventType = LogEventType.ZGC_PAGE_TABLE;
         } else {
-            if (ActiveLocale.match(logLine)
+            if (logLine.matches(AccessRegisters._REGEX_HEADER)
+                    || (priorEvent instanceof AccessRegisters && AccessRegisters.match(logLine))) {
+                logEventType = LogEventType.ACCESS_REGISTERS;
+            } else if (ActiveLocale.match(logLine)
                     && (logLine.matches(ActiveLocale._REGEX_HEADER) || priorEvent instanceof ActiveLocale)) {
                 logEventType = LogEventType.ACTIVE_LOCALE;
             } else if (BarrierSet.match(logLine)) {
@@ -603,13 +608,20 @@ public class JdkUtil {
                 logEventType = LogEventType.EVENT;
             } else if (ExceptionCounts.match(logLine)) {
                 logEventType = LogEventType.EXCEPTION_COUNTS;
+            } else if (logLine.matches(FloatRegisters._REGEX_HEADER)
+                    || (priorEvent instanceof FloatRegisters && FloatRegisters.match(logLine))) {
+                logEventType = LogEventType.FLOAT_REGISTERS;
             } else if (logLine.matches(GcHeapHistoryEvent._REGEX_HEADER)
                     || (priorEvent instanceof GcHeapHistoryEvent && GcHeapHistoryEvent.match(logLine))) {
                 logEventType = LogEventType.GC_HEAP_HISTORY_EVENT;
             } else if (logLine.matches(GcPreciousLog._REGEX_HEADER)
                     || (priorEvent instanceof GcPreciousLog && GcPreciousLog.match(logLine))) {
                 logEventType = LogEventType.GC_PRECIOUS_LOG;
-            } else if (GlobalFlag.match(logLine)) {
+            } else if (logLine.matches(GeneralPurposeRegisters._REGEX_HEADER)
+                    || (priorEvent instanceof GeneralPurposeRegisters && GeneralPurposeRegisters.match(logLine))) {
+                logEventType = LogEventType.GENERAL_PURPOSE_REGISTERS;
+            } else if (logLine.matches(GlobalFlag._REGEX_HEADER)
+                    || (priorEvent instanceof GlobalFlag && GlobalFlag.match(logLine))) {
                 logEventType = LogEventType.GLOBAL_FLAG;
             } else if (Header.match(logLine) && !OsInfo.match(logLine)) {
                 logEventType = LogEventType.HEADER;
@@ -689,6 +701,9 @@ public class JdkUtil {
                 logEventType = LogEventType.POLLING_PAGE;
             } else if (ProcessMemory.match(logLine)) {
                 logEventType = LogEventType.PROCESS_MEMORY;
+            } else if (logLine.matches(ProcessorState._REGEX_HEADER)
+                    || (priorEvent instanceof ProcessorState && ProcessorState.match(logLine))) {
+                logEventType = LogEventType.PROCESSOR_STATE;
             } else if (logLine.matches(Register._REGEX_HEADER)
                     || (priorEvent instanceof Register && Register.match(logLine))) {
                 logEventType = LogEventType.REGISTER;
@@ -873,6 +888,9 @@ public class JdkUtil {
         LogEventType eventType = identifyEventType(logLine, priorEvent);
         LogEvent event = null;
         switch (eventType) {
+        case ACCESS_REGISTERS:
+            event = new AccessRegisters(logLine);
+            break;
         case ACTIVE_LOCALE:
             event = new ActiveLocale(logLine);
             break;
@@ -957,11 +975,17 @@ public class JdkUtil {
         case EXCEPTION_COUNTS:
             event = new ExceptionCounts(logLine);
             break;
+        case FLOAT_REGISTERS:
+            event = new FloatRegisters(logLine);
+            break;
         case GC_HEAP_HISTORY_EVENT:
             event = new GcHeapHistoryEvent(logLine);
             break;
         case GC_PRECIOUS_LOG:
             event = new GcPreciousLog(logLine);
+            break;
+        case GENERAL_PURPOSE_REGISTERS:
+            event = new GeneralPurposeRegisters(logLine);
             break;
         case GLOBAL_FLAG:
             event = new GlobalFlag(logLine);
@@ -1061,6 +1085,9 @@ public class JdkUtil {
             break;
         case PROCESS_MEMORY:
             event = new ProcessMemory(logLine);
+            break;
+        case PROCESSOR_STATE:
+            event = new ProcessorState(logLine);
             break;
         case REGISTER:
             event = new Register(logLine);

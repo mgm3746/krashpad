@@ -108,16 +108,16 @@ public class CpuInfo implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER + "|" + _REGEX_VALUE
-            + "|<Not Available>|address sizes.+|apicid.+|Available cpu frequencies:.*|"
-            + "(Available|Current) governor[s]{0,1}:.*|BIOS frequency limitation:.*|(bogomips|BogoMIPS).+|bugs.+|"
-            + "cache_alignment.+|cache coherency line size:|cache level:|cache size.+|cache type:|"
-            + "citextache_alignment.+|clflush size.+|clock.+|core id.+|Core performance/turbo boost:.*|(cpu|CPU).+|"
-            + "cpu cores|cpu family.+|CPU Model and flags from \\/proc\\/cpuinfo:|cpuid level|cpu MHz|(Current|"
-            + "Maximum|Minimum) cpu frequency:|Features.+|flags.+|fpu.+|fpu_exception|"
-            + "Frequency switch latency \\(ns\\):.*|initial apicid.+|machine.+|  Max Mhz.+|microcode.+|model.+|"
-            + "model name|MMU.+|(Off|On)line cpus:.*|ondemand|performance|physical id.+|platform.+|power management:|"
-            + "\\/proc\\/cpuinfo:|[pP]rocessor.+|revision.+|siblings.+|stepping.+|timebase.+|TLB size.+|vendor_id.+|"
-            + "wp.+)$";
+            + "|<Not Available>|address.+|apicid.+|Available cpu frequencies:.*|"
+            + "(Available|Current) governor[s]{0,1}:.*|BIOS frequency limitation:.*|(bogomips|BogoMIPS).+|book id.+|"
+            + "bugs.+|cache\\d{1,}.+|cache_alignment.+|cache coherency line size:|cache level:|cache size.+|"
+            + "cache type:|citextache_alignment.+|clflush size.+|clock.+|core id.+|Core performance/turbo boost:.*|"
+            + "(cpu|CPU).+|cpu cores|cpu family.+|CPU Model and flags from \\/proc\\/cpuinfo:|cpuid level|cpu MHz|"
+            + "(Current|Maximum|Minimum) cpu frequency:|dedicated.+|drawer id.+|facilities.+|[Ff]eatures.+|flags.+|"
+            + "fpu.+|fpu_exception|Frequency switch latency \\(ns\\):.*|identification.+|initial apicid.+|machine.+|"
+            + "max thread id.+|  Max Mhz.+|microcode.+|model.+|model name|MMU.+|(Off|On)line cpus:.*|ondemand|"
+            + "performance|physical id.+|platform.+|power management:|\\/proc\\/cpuinfo:|[pP]rocessor.+|# processors.+|"
+            + "revision.+|siblings.+|stepping.+|timebase.+|TLB size.+|vendor_id.+|version.+|wp.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
