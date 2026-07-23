@@ -6914,41 +6914,12 @@ public class FatalErrorLog {
         String jdkReleaseString = getJdkReleaseString();
         Iterator<Entry<String, Release>> iterator;
         Date jdkBuildDate = getJdkBuildDate();
-        if (getJavaSpecification() == JavaSpecification.JDK8) {
-            switch (getOsVersion()) {
-            case CENTOS6:
-            case RHEL6:
-                iterator = Jdk8.RHEL6_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
-                    }
-                }
-                break;
-            case CENTOS7:
-            case RHEL7:
-                if (getArchOs() == Arch.X86_64) {
-                    iterator = Jdk8.RHEL7_X86_64_RPMS.entrySet().iterator();
-                    while (iterator.hasNext()) {
-                        Entry<String, Release> entry = iterator.next();
-                        Release release = entry.getValue();
-                        if (release.getVersion().equals(jdkReleaseString) && jdkBuildDate != null
-                                && release.getBuildDate() != null
-                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                            isRhelRpm = true;
-                            break;
-                        }
-                    }
-                }
-                break;
-            case CENTOS8:
-            case RHEL8:
-                if (getArchOs() == Arch.X86_64) {
-                    iterator = Jdk8.RHEL8_X86_64_RPMS.entrySet().iterator();
+        if (getArchOs() == Arch.X86_64) {
+            if (getJavaSpecification() == JavaSpecification.JDK8) {
+                switch (getOsVersion()) {
+                case CENTOS6:
+                case RHEL6:
+                    iterator = Jdk8.RHEL6_X86_64_RPMS.entrySet().iterator();
                     while (iterator.hasNext()) {
                         Entry<String, Release> entry = iterator.next();
                         Release release = entry.getValue();
@@ -6958,188 +6929,219 @@ public class FatalErrorLog {
                             break;
                         }
                     }
-                }
-                break;
-            case CENTOS9:
-            case RHEL9:
-                iterator = Jdk8.RHEL9_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
+                    break;
+                case CENTOS7:
+                case RHEL7:
+                    if (getArchOs() == Arch.X86_64) {
+                        iterator = Jdk8.RHEL7_X86_64_RPMS.entrySet().iterator();
+                        while (iterator.hasNext()) {
+                            Entry<String, Release> entry = iterator.next();
+                            Release release = entry.getValue();
+                            if (release.getVersion().equals(jdkReleaseString) && jdkBuildDate != null
+                                    && release.getBuildDate() != null
+                                    && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                                isRhelRpm = true;
+                                break;
+                            }
+                        }
                     }
-                }
-                break;
-            case UNIDENTIFIED:
-            default:
-                break;
-            }
-        } else if (getJavaSpecification() == JavaSpecification.JDK11) {
-            switch (getOsVersion()) {
-            case CENTOS7:
-            case RHEL7:
-                iterator = Jdk11.RHEL7_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
+                    break;
+                case CENTOS8:
+                case RHEL8:
+                    if (getArchOs() == Arch.X86_64) {
+                        iterator = Jdk8.RHEL8_X86_64_RPMS.entrySet().iterator();
+                        while (iterator.hasNext()) {
+                            Entry<String, Release> entry = iterator.next();
+                            Release release = entry.getValue();
+                            if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                    && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                                isRhelRpm = true;
+                                break;
+                            }
+                        }
                     }
-                }
-                break;
-            case CENTOS8:
-            case RHEL8:
-                iterator = Jdk11.RHEL8_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
+                    break;
+                case CENTOS9:
+                case RHEL9:
+                    iterator = Jdk8.RHEL9_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        }
                     }
+                    break;
+                case UNIDENTIFIED:
+                default:
+                    break;
                 }
-                break;
-            case RHEL9:
-                iterator = Jdk11.RHEL9_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
+            } else if (getJavaSpecification() == JavaSpecification.JDK11) {
+                switch (getOsVersion()) {
+                case CENTOS7:
+                case RHEL7:
+                    iterator = Jdk11.RHEL7_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        }
                     }
-                }
-                break;
-            case CENTOS6:
-            case RHEL6:
-            case UNIDENTIFIED:
-            default:
-                break;
-            }
-        } else if (getJavaSpecification() == JavaSpecification.JDK17) {
-            switch (getOsVersion()) {
-            case CENTOS8:
-            case RHEL8:
-                iterator = Jdk17.RHEL8_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
+                    break;
+                case CENTOS8:
+                case RHEL8:
+                    iterator = Jdk11.RHEL8_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        }
                     }
-                }
-                break;
-            case RHEL9:
-                iterator = Jdk17.RHEL9_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
+                    break;
+                case RHEL9:
+                    iterator = Jdk11.RHEL9_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        }
                     }
+                    break;
+                case CENTOS6:
+                case RHEL6:
+                case UNIDENTIFIED:
+                default:
+                    break;
                 }
-                break;
-            case CENTOS6:
-            case RHEL6:
-            case CENTOS7:
-            case RHEL7:
-            case UNIDENTIFIED:
-            default:
-                break;
-            }
-        } else if (getJavaSpecification() == JavaSpecification.JDK21) {
-            switch (getOsVersion()) {
-            case CENTOS8:
-            case RHEL8:
-                iterator = Jdk21.RHEL8_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
+            } else if (getJavaSpecification() == JavaSpecification.JDK17) {
+                switch (getOsVersion()) {
+                case CENTOS8:
+                case RHEL8:
+                    iterator = Jdk17.RHEL8_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        }
                     }
-                }
-                break;
-            case RHEL9:
-                iterator = Jdk21.RHEL9_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
+                    break;
+                case RHEL9:
+                    iterator = Jdk17.RHEL9_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        }
                     }
+                    break;
+                case CENTOS6:
+                case RHEL6:
+                case CENTOS7:
+                case RHEL7:
+                case UNIDENTIFIED:
+                default:
+                    break;
                 }
-                break;
-            case RHEL10:
-                iterator = Jdk21.RHEL10_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
+            } else if (getJavaSpecification() == JavaSpecification.JDK21) {
+                switch (getOsVersion()) {
+                case CENTOS8:
+                case RHEL8:
+                    iterator = Jdk21.RHEL8_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        }
                     }
-                }
-                break;
-            case CENTOS6:
-            case RHEL6:
-            case CENTOS7:
-            case RHEL7:
-            case UNIDENTIFIED:
-            default:
-                break;
-            }
-        } else if (getJavaSpecification() == JavaSpecification.JDK25) {
-            switch (getOsVersion()) {
-            case RHEL9:
-                iterator = Jdk25.RHEL9_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
+                    break;
+                case RHEL9:
+                    iterator = Jdk21.RHEL9_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        }
                     }
-                }
-                break;
-            case RHEL10:
-                iterator = Jdk25.RHEL10_X86_64_RPMS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Release> entry = iterator.next();
-                    Release release = entry.getValue();
-                    if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
-                            && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
-                        isRhelRpm = true;
-                        break;
+                    break;
+                case RHEL10:
+                    iterator = Jdk21.RHEL10_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        }
                     }
+                    break;
+                case CENTOS6:
+                case RHEL6:
+                case CENTOS7:
+                case RHEL7:
+                case UNIDENTIFIED:
+                default:
+                    break;
                 }
-                break;
-            case CENTOS6:
-            case RHEL6:
-            case CENTOS7:
-            case RHEL7:
-            case CENTOS8:
-            case RHEL8:
-            case UNIDENTIFIED:
-            default:
-                break;
+            } else if (getJavaSpecification() == JavaSpecification.JDK25) {
+                switch (getOsVersion()) {
+                case RHEL9:
+                    iterator = Jdk25.RHEL9_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        }
+                    }
+                    break;
+                case RHEL10:
+                    iterator = Jdk25.RHEL10_X86_64_RPMS.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Release> entry = iterator.next();
+                        Release release = entry.getValue();
+                        if (release.getVersion().equals(jdkReleaseString) && release.getBuildDate() != null
+                                && release.getBuildDate().compareTo(jdkBuildDate) == 0) {
+                            isRhelRpm = true;
+                            break;
+                        }
+                    }
+                    break;
+                case CENTOS6:
+                case RHEL6:
+                case CENTOS7:
+                case RHEL7:
+                case CENTOS8:
+                case RHEL8:
+                case UNIDENTIFIED:
+                default:
+                    break;
+                }
             }
         }
         return isRhelRpm;

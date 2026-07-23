@@ -127,6 +127,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("ld-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("ld-2.17.so");
         NATIVE_LIBRARIES_LINUX.add("ld-2.28.so");
+        NATIVE_LIBRARIES_LINUX.add("ld64.so.1");
         // glibc
         NATIVE_LIBRARIES_LINUX.add("ld-linux-x86-64.so.2");
         // libaio
