@@ -64,14 +64,16 @@ public class Jdk25 {
 
         // RHEL9 amd64 OpenJDK25 rpm
         RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL9_X86_64_RPMS.put("LATEST", new Release("2026-04-21T00:00:00Z", 3, "25.0.3+9-LTS"));
+        RHEL9_X86_64_RPMS.put("LATEST", new Release("2026-07-21T00:00:00Z", 4, "25.0.4+7-LTS"));
+        RHEL9_X86_64_RPMS.put("25.0.4+7-LTS", new Release("2026-07-21T00:00:00Z", 4, "25.0.4+7-LTS"));
         RHEL9_X86_64_RPMS.put("25.0.3+9-LTS", new Release("2026-04-21T00:00:00Z", 3, "25.0.3+9-LTS"));
         RHEL9_X86_64_RPMS.put("25.0.2+10-LTS", new Release("2026-01-20T00:00:00Z", 2, "25.0.2+10-LTS"));
         RHEL9_X86_64_RPMS.put("25.0.1+8-LTS", new Release("2025-12-09T00:00:00Z", 1, "25.0.1+8-LTS"));
 
         // RHEL10 amd64 OpenJDK25 rpm. Note directory name is common, not rpm specific.
         RHEL10_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL10_X86_64_RPMS.put("LATEST", new Release("2026-04-21T00:00:00Z", 4, "25.0.3+9-LTS"));
+        RHEL10_X86_64_RPMS.put("LATEST", new Release("2026-07-21T00:00:00Z", 4, "25.0.4+7-LTS"));
+        RHEL10_X86_64_RPMS.put("25.0.4+7-LTS", new Release("2026-07-21T00:00:00Z", 4, "25.0.4+7-LTS"));
         RHEL10_X86_64_RPMS.put("25.0.3+9-LTS", new Release("2026-04-21T00:00:00Z", 4, "25.0.3+9-LTS"));
         RHEL10_X86_64_RPMS.put("25.0.2+10-LTS", new Release("2026-01-20T00:00:00Z", 3, "25.0.2+10-LTS"));
         RHEL10_X86_64_RPMS.put("25.0.1+8-LTS", new Release("2025-10-21T00:00:00Z", 2, "25.0.1+8-LTS"));
@@ -79,14 +81,16 @@ public class Jdk25 {
 
         // RHEL amd64 OpenJDK25 zip
         RHEL_ZIPS = new HashMap<String, Release>();
-        RHEL_ZIPS.put("LATEST", new Release("2026-04-21T00:00:00Z", 3, "25.0.3+9-LTS"));
+        RHEL_ZIPS.put("LATEST", new Release("2026-07-21T00:00:00Z", 4, "25.0.4+7-LTS"));
+        RHEL_ZIPS.put("25.0.4+7-LTS", new Release("2026-07-21T00:00:00Z", 4, "25.0.4+7-LTS"));
         RHEL_ZIPS.put("25.0.3+9-LTS", new Release("2026-04-21T00:00:00Z", 3, "25.0.3+9-LTS"));
         RHEL_ZIPS.put("25.0.2+10-LTS", new Release("2026-01-20T00:00:00Z", 2, "25.0.2+10-LTS"));
         RHEL_ZIPS.put("25.0.1+8-LTS", new Release("2025-10-21T00:00:00Z", 1, "25.0.1+8-LTS"));
 
         // Windows amd64 OpenJDK21 zip
         WINDOWS_ZIPS = new HashMap<String, Release>();
-        WINDOWS_ZIPS.put("LATEST", new Release("2026-04-21T00:00:00Z", 2, "25.0.3+9-LTS"));
+        WINDOWS_ZIPS.put("LATEST", new Release("2026-07-21T00:00:00Z", 3, "25.0.4+7-LTS"));
+        WINDOWS_ZIPS.put("25.0.4+7-LTS", new Release("2026-07-21T00:00:00Z", 3, "25.0.4+7-LTS"));
         WINDOWS_ZIPS.put("25.0.3+9-LTS", new Release("2026-04-21T00:00:00Z", 2, "25.0.3+9-LTS"));
         WINDOWS_ZIPS.put("25.0.2+10-LTS", new Release("2026-01-20T00:00:00Z", 1, "25.0.2+10-LTS"));
     }
