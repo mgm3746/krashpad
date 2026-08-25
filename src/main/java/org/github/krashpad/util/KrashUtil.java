@@ -988,9 +988,6 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS.add("UxTheme.dll");
         NATIVE_LIBRARIES_WINDOWS.add("ucrtbase.dll");
         NATIVE_LIBRARIES_WINDOWS.add("UMPDC.dll");
-        // Related to SQL Server
-        NATIVE_LIBRARIES_WINDOWS.add("umppc18514.dll");
-        NATIVE_LIBRARIES_WINDOWS.add("umppc20108.dll");
         NATIVE_LIBRARIES_WINDOWS.add("urlmon.dll");
         NATIVE_LIBRARIES_WINDOWS.add("VERSION.dll");
         NATIVE_LIBRARIES_WINDOWS.add("verifier.dll");
@@ -1022,6 +1019,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS_JAVA = new ArrayList<String>();
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("attach.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("awt.dll");
+        NATIVE_LIBRARIES_WINDOWS_JAVA.add("bci.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("dt_shmem.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("dt_socket.dll");
         // JDK17+
@@ -1041,6 +1039,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("java_crw_demo.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("jawt.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("jdwp.dll");
+        NATIVE_LIBRARIES_WINDOWS_JAVA.add("jfr.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("jimage.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("jli.dll");
         NATIVE_LIBRARIES_WINDOWS_JAVA.add("jpeg.dll");
