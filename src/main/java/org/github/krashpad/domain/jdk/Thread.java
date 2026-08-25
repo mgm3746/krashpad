@@ -14,6 +14,9 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkRegEx;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
@@ -41,9 +44,11 @@ public class Thread implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^(" + Thread.REGEX_HEADER + "|" + Thread.REGEX_FOOTER + "|(  |=>)"
+    private static final String _REGEX = "^(" + Thread.REGEX_HEADER + "|" + Thread.REGEX_FOOTER + "|(  |=>)"
             + JdkRegEx.ADDRESS + "( \\(exited\\))?( (ConcurrentGC|GCTask|Java|VM|Watcher|Worker)?Thread)?|"
             + "\\[error occurred during error reporting \\(printing all threads\\)).*$";
+
+    private static Pattern pattern = Pattern.compile(_REGEX);
 
     /**
      * Regular expression for the header.
@@ -63,7 +68,7 @@ public class Thread implements LogEvent {
      * @return true if the log line matches the event pattern, false otherwise.
      */
     public static final boolean match(String logLine) {
-        return logLine.matches(REGEX);
+        return logLine.matches(_REGEX);
     }
 
     /**
@@ -84,6 +89,20 @@ public class Thread implements LogEvent {
     @Override
     public LogEventType getEventType() {
         return LogEventType.THREAD;
+    }
+
+    /**
+     * @return The thread id. For example:
+     * 
+     *         0x0000000001b2a000
+     */
+    public String getId() {
+        String id = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            id = matcher.group(4);
+        }
+        return id;
     }
 
     public String getLogEntry() {

@@ -121,9 +121,8 @@ public class JdkUtil {
      * Defined Java specifications.
      */
     public enum JavaSpecification {
-        JDK6, JDK7, JDK8, JDK9, JDK10, JDK11, JDK12, JDK13, JDK14, JDK15, JDK16, JDK17, JDK18, JDK19, JDK20, JDK21,
-        //
-        JDK22, JDK23, JDK24, JDK25, JDK26, UNKNOWN
+        JDK10, JDK11, JDK12, JDK13, JDK14, JDK15, JDK16, JDK17, JDK18, JDK19, JDK20, JDK21, //
+        JDK22, JDK23, JDK24, JDK25, JDK26, JDK6, JDK7, JDK8, JDK9, UNKNOWN
     }
 
     /**
@@ -680,7 +679,7 @@ public class JdkUtil {
                 logEventType = LogEventType.METASPACE_HISTORY_EVENT;
             } else if (NativeDecoderState.match(logLine)) {
                 logEventType = LogEventType.NATIVE_DECODER_STATE;
-            } else if (logLine.matches(NativeMemoryTracking._REGEX_HEADER)
+            } else if (logLine.matches(NativeMemoryTracking.__REGEX_HEADER)
                     || (priorEvent instanceof NativeMemoryTracking && NativeMemoryTracking.match(logLine))) {
                 logEventType = LogEventType.NATIVE_MEMORY_TRACKING;
             } else if (logLine.matches(NmethodFlushesEvent._REGEX_HEADER)

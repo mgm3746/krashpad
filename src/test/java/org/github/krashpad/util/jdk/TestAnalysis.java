@@ -4303,15 +4303,50 @@ class TestAnalysis {
     }
 
     @Test
-    void testVmOperationHeapDump() {
+    void testVmOperationHeapDumpAttachListener() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmOperation = "VM_Operation (0x00007f77e67289d0): HeapDumper, mode: safepoint, requested by thread "
+                + "0x000055ac6e334951";
+        VmOperation vmOperationEvent = new VmOperation(vmOperation);
+        fel.setVmOperation(vmOperationEvent);
+        String thread = "  0x000055ac6e334951 JavaThread \"Attach Listener\" daemon [_thread_blocked, id=2354242, "
+                + "stack(0x00007f77e662a000,0x00007f77e672a000)]";
+        Thread threadEvent = new Thread(thread);
+        fel.getThreads().add(threadEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_HEAP_DUMP_ATTACH_LISTENER.getKey()),
+                Analysis.INFO_VM_OPERATION_HEAP_DUMP_ATTACH_LISTENER + " analysis not identified.");
+    }
+
+    @Test
+    void testVmOperationHeapDumpOome() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String vmOperation = "VM_Operation (0x0000027affffbe71): HeapDumper, mode: safepoint, requested by thread "
+                + "0x000000004a583801";
+        VmOperation vmOperationEvent = new VmOperation(vmOperation);
+        fel.setVmOperation(vmOperationEvent);
+        String thread = "  0x000000004a583800 JavaThread \"default task-123\" [_thread_blocked, id=1234, "
+                + "stack(0x0000027ac0000001,0x0000027b00000000)]";
+        Thread threadEvent = new Thread(thread);
+        fel.getThreads().add(threadEvent);
+        String jvm_args = "jvm_args: -XX:+HeapDumpOnOutOfMemoryError";
+        VmArguments vmArgumentsEvent = new VmArguments(jvm_args);
+        fel.getVmArguments().add(vmArgumentsEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_HEAP_DUMP_OOME.getKey()),
+                Analysis.INFO_VM_OPERATION_HEAP_DUMP_OOME + " analysis not identified.");
+    }
+
+    @Test
+    void testVmOperationHeapDumpOther() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmOperation = "VM_Operation (0x0000000054ede490): HeapDumper, mode: safepoint, requested by thread "
                 + "0x000000004d180000";
         VmOperation event = new VmOperation(vmOperation);
         fel.setVmOperation(event);
         fel.doAnalysis();
-        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_HEAP_DUMP.getKey()),
-                Analysis.INFO_VM_OPERATION_HEAP_DUMP + " analysis not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_VM_OPERATION_HEAP_DUMP_OTHER.getKey()),
+                Analysis.INFO_VM_OPERATION_HEAP_DUMP_OTHER + " analysis not identified.");
     }
 
     @Test

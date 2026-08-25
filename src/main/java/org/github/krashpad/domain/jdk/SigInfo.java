@@ -74,12 +74,10 @@ import org.github.krashpad.util.jdk.JdkUtil.SignalNumber;
  */
 public class SigInfo implements LogEvent {
 
-    private static final Pattern PATTERN;
-
     /**
      * Regular expression for linux.
      */
-    private static final String REGEX_LINUX = "si_signo(: |=)(\\d{1,2} \\()?(" + SignalNumber.SIGBUS + "|"
+    private static final String _REGEX_LINUX = "si_signo(: |=)(\\d{1,2} \\()?(" + SignalNumber.SIGBUS + "|"
             + SignalNumber.SIGFPE + "|" + SignalNumber.SIGILL + "|" + SignalNumber.SIGSEGV
             + ")(\\))?(: si_errno=\\d{1,3})?, si_code(: |=)[-]{0,1}\\d{1,3} \\((" + SignalCode.BUS_ADRALN + "|"
             + SignalCode.BUS_ADRERR + "|" + SignalCode.BUS_OBJERR + "|" + SignalCode.ILL_ILLOPN + "|"
@@ -92,16 +90,18 @@ public class SigInfo implements LogEvent {
     /**
      * Regular expression for windows.
      */
-    private static final String REGEX_WINDOWS = "ExceptionCode=(" + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION
+    private static final String _REGEX_WINDOWS = "ExceptionCode=(" + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION
             + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW + "|" + JdkRegEx.WINDOWS_EXCEPTION_CODE_DOT_NET_CLR
             + "), ((reading|writing) " + "address " + JdkRegEx.ADDRESS + "|ExceptionInformation=(" + JdkRegEx.ADDRESS
             + "[ ]{0,1}){1,5})|" + SignalNumber.EXCEPTION_ACCESS_VIOLATION + " \\(("
             + JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION + ")\\), reading address " + JdkRegEx.ADDRESS;
 
+    private static final Pattern PATTERN;
+
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^siginfo:[ ]{0,1}(" + REGEX_LINUX + "|" + REGEX_WINDOWS + ")[ ]*$";
+    private static final String REGEX = "^siginfo:[ ]{0,1}(" + _REGEX_LINUX + "|" + _REGEX_WINDOWS + ")[ ]*$";
 
     static {
         PATTERN = Pattern.compile(SigInfo.REGEX);
@@ -149,9 +149,9 @@ public class SigInfo implements LogEvent {
         String address = null;
         Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(1).matches(REGEX_LINUX)) {
+            if (matcher.group(1).matches(_REGEX_LINUX)) {
                 address = matcher.group(11);
-            } else if (matcher.group(1).matches(REGEX_WINDOWS)) {
+            } else if (matcher.group(1).matches(_REGEX_WINDOWS)) {
                 address = matcher.group(34);
             }
         }
@@ -165,7 +165,7 @@ public class SigInfo implements LogEvent {
         SignalCode code = SignalCode.UNKNOWN;
         Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(1).matches(REGEX_LINUX)) {
+            if (matcher.group(1).matches(_REGEX_LINUX)) {
                 if (matcher.group(8).matches(SignalCode.BUS_ADRALN.toString())) {
                     code = SignalCode.BUS_ADRALN;
                 } else if (matcher.group(8).matches(SignalCode.BUS_ADRERR.toString())) {
@@ -199,7 +199,7 @@ public class SigInfo implements LogEvent {
         SignalNumber number = SignalNumber.UNKNOWN;
         Matcher matcher = PATTERN.matcher(logEntry);
         if (matcher.find()) {
-            if (matcher.group(1).matches(REGEX_LINUX)) {
+            if (matcher.group(1).matches(_REGEX_LINUX)) {
                 if (matcher.group(4).matches(SignalNumber.SIGBUS.toString())) {
                     number = SignalNumber.SIGBUS;
                 } else if (matcher.group(4).matches(SignalNumber.SIGFPE.toString())) {
@@ -209,7 +209,7 @@ public class SigInfo implements LogEvent {
                 } else if (matcher.group(4).matches(SignalNumber.SIGSEGV.toString())) {
                     number = SignalNumber.SIGSEGV;
                 }
-            } else if (matcher.group(1).matches(REGEX_WINDOWS)) {
+            } else if (matcher.group(1).matches(_REGEX_WINDOWS)) {
                 if (matcher.group(19) != null) {
                     // Windows format 1
                     if (matcher.group(19).matches(JdkRegEx.WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION)) {

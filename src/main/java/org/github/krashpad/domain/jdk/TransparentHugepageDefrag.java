@@ -50,18 +50,18 @@ public class TransparentHugepageDefrag implements LogEvent, HeaderEvent {
     }
 
     /**
-     * Regular expression for the header.
-     */
-    public static final String _REGEX_HEADER = "/sys/kernel/mm/transparent_hugepage/defrag "
-            + "\\(defrag/compaction efforts parameter\\):";
-
-    /**
      * Regular expression for data.
      */
     private static final String _REGEX_DATA = "(\\[always\\] defer defer\\+madvise madvise never|"
             + "always \\[defer\\] defer\\+madvise madvise never|always defer \\[defer\\+madvise\\] madvise never|"
             + "always defer defer\\+madvise \\[madvise\\] never|always defer defer\\+madvise madvise \\[never\\]|"
             + "\\[always\\] madvise never|<Not Available>)";
+
+    /**
+     * Regular expression for the header.
+     */
+    public static final String _REGEX_HEADER = "/sys/kernel/mm/transparent_hugepage/defrag "
+            + "\\(defrag/compaction efforts parameter\\):";
 
     /**
      * Regular expression for a single line (JDK17+).

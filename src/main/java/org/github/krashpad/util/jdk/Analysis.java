@@ -1027,9 +1027,21 @@ public enum Analysis {
     INFO_VM_OPERATION_CONCURRENT_GC("info.vm.operation.concurrent.gc"),
 
     /**
-     * Property key for a crash happening during a heap dump operation.
+     * Property key for a crash happening during a heap dump operation that was invoked manually (e.g. jcmd, jmap).
      */
-    INFO_VM_OPERATION_HEAP_DUMP("info.vm.operation.heap.dump"),
+    INFO_VM_OPERATION_HEAP_DUMP_ATTACH_LISTENER("info.vm.operation.heap.dump.attach.listener"),
+
+    /**
+     * Property key for a crash happening during a heap dump operation that was invoked due to
+     * "java.lang.OutOfMemoryError" in combination with -XX:+HeapDumpOnOutOfMemoryError.
+     */
+    INFO_VM_OPERATION_HEAP_DUMP_OOME("info.vm.operation.heap.dump.oome"),
+
+    /**
+     * Property key for a crash happening during a heap dump operation that was _not_ invoked manually (e.g. jcmd, jmap)
+     * or due to "java.lang.OutOfMemoryError" in combination with -XX:+HeapDumpOnOutOfMemoryError.
+     */
+    INFO_VM_OPERATION_HEAP_DUMP_OTHER("info.vm.operation.heap.dump.other"),
 
     /**
      * Property key for a crash happening during a thread dump initiated by jcmd, jstack, or "kill -3".

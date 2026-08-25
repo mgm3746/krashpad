@@ -490,8 +490,9 @@ public class Main {
             printWriter.write("Current thread: " + fel.getCurrentThreadName() + Constants.LINE_SEPARATOR);
             if (fel.getCurrentThreadName() != null && fel.getCurrentThreadName().matches("^VMThread.+$")
                     && fel.getVmOperation() != null) {
-                printWriter.write(
-                        "VM operation: " + fel.getVmOperation().getVmOperationString() + Constants.LINE_SEPARATOR);
+                printWriter.write("VM operation: " + fel.getVmOperation().getName() + Constants.LINE_SEPARATOR);
+                printWriter.write("VM operation requested by thread: "
+                        + fel.getThread(fel.getVmOperation().getRequestedByThreadId()) + Constants.LINE_SEPARATOR);
             }
 
             if (!fel.getError().equals("")) {

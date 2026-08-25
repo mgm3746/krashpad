@@ -34,6 +34,11 @@ import org.github.krashpad.util.jdk.JdkRegEx;
 public class KrashUtil {
 
     /**
+     * Google native libraries.
+     */
+    public static final List<String> NATIVE_LIBRARIES_GOOGLE;
+
+    /**
      * JBoss native libraries.
      */
     public static final List<String> NATIVE_LIBRARIES_JBOSS;
@@ -59,19 +64,9 @@ public class KrashUtil {
     public static final List<String> NATIVE_LIBRARIES_TOMCAT;
 
     /**
-     * Google native libraries.
-     */
-    public static final List<String> NATIVE_LIBRARIES_GOOGLE;
-
-    /**
      * VMware native libraries.
      */
     public static final List<String> NATIVE_LIBRARIES_VMWARE;
-
-    /**
-     * Netty native transport library.
-     */
-    public static final String NATIVE_LIBRARY_NETTY = "libnetty_transport_native_epoll_x86_\\d{21}.so";
 
     /**
      * Windows native libraries
@@ -87,6 +82,11 @@ public class KrashUtil {
      * Linux native library home.
      */
     public static final String NATIVE_LIBRARY_LINUX_HOME = "/usr/(lib|lib64)/";
+
+    /**
+     * Netty native transport library.
+     */
+    public static final String NATIVE_LIBRARY_NETTY = "libnetty_transport_native_epoll_x86_\\d{21}.so";
 
     /**
      * Windows system native library home regular expression.

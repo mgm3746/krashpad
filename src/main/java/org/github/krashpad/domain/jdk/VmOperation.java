@@ -60,6 +60,10 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * VM_Operation (0x00007fffaa62ab20): PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a000
  * </pre>
  * 
+ * <pre>
+ * VM_Operation (0x000015539e38b1e0): RedefineClasses, mode: safepoint, requested by thread 0x0000564c51d7b800, redefining class java.util.concurrent.CompletableFutur
+ * </pre>
+ * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
  * 
  */
@@ -75,7 +79,7 @@ public class VmOperation implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String _REGEX = "^VM_Operation \\(" + JdkRegEx.ADDRESS + "\\): (" + __REGEX_OPERATIONS
-            + ".+)$";
+            + "), mode: (safepoint), requested by thread " + JdkRegEx.ADDRESS + ".*$";
 
     private static Pattern pattern = Pattern.compile(_REGEX);
 
@@ -115,30 +119,44 @@ public class VmOperation implements LogEvent {
     }
 
     /**
-     * @return The VM operation. For example:
+     * @return The VM Operation mode. For example:
      * 
-     *         PrintThreads
+     *         safepoint
      */
-    public String getVmOperation() {
-        String vmOperation = null;
+    public String getMode() {
+        String mode = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            vmOperation = matcher.group(7);
+            mode = matcher.group(8);
         }
-        return vmOperation;
+        return mode;
     }
 
     /**
-     * @return The VM operation string. For example:
+     * @return The VM operation name. For example:
      * 
-     *         PrintThreads, mode: safepoint, requested by thread 0x0000000001b2a000
+     *         PrintThreads
      */
-    public String getVmOperationString() {
-        String vmOperation = null;
+    public String getName() {
+        String name = null;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            vmOperation = matcher.group(6);
+            name = matcher.group(7);
         }
-        return vmOperation;
+        return name;
+    }
+
+    /**
+     * @return The VM Operation requested by thread id. For example:
+     * 
+     *         0x0000000001b2a000
+     */
+    public String getRequestedByThreadId() {
+        String requestedByThreadId = null;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            requestedByThreadId = matcher.group(9);
+        }
+        return requestedByThreadId;
     }
 }

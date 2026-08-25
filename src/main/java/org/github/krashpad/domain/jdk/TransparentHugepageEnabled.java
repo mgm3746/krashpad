@@ -50,15 +50,15 @@ public class TransparentHugepageEnabled implements LogEvent, HeaderEvent {
     }
 
     /**
-     * Regular expression for the header.
-     */
-    public static final String _REGEX_HEADER = "/sys/kernel/mm/transparent_hugepage/enabled:";
-
-    /**
      * Regular expression for data.
      */
     private static final String _REGEX_DATA = "(\\[always\\] madvise never|always \\[madvise\\] never|"
             + "always madvise \\[never\\]|<Not Available>)";
+
+    /**
+     * Regular expression for the header.
+     */
+    public static final String _REGEX_HEADER = "/sys/kernel/mm/transparent_hugepage/enabled:";
 
     /**
      * Regular expression for a single line (JDK17+).

@@ -34,14 +34,14 @@ public class Jdk25 {
     public static final HashMap<String, Release> RHEL_ZIPS;
 
     /**
-     * RHEL9 rpm release information.
-     */
-    public static final HashMap<String, Release> RHEL9_X86_64_RPMS;
-
-    /**
      * RHEL10 rpm release information.
      */
     public static final HashMap<String, Release> RHEL10_X86_64_RPMS;
+
+    /**
+     * RHEL9 rpm release information.
+     */
+    public static final HashMap<String, Release> RHEL9_X86_64_RPMS;
 
     /**
      * Windows release information.

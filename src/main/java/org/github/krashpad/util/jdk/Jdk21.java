@@ -34,6 +34,11 @@ public class Jdk21 {
     public static final HashMap<String, Release> RHEL_ZIPS;
 
     /**
+     * RHEL10 rpm release information.
+     */
+    public static final HashMap<String, Release> RHEL10_X86_64_RPMS;
+
+    /**
      * RHEL8 rpm release information.
      */
     public static final HashMap<String, Release> RHEL8_X86_64_RPMS;
@@ -42,11 +47,6 @@ public class Jdk21 {
      * RHEL9 rpm release information.
      */
     public static final HashMap<String, Release> RHEL9_X86_64_RPMS;
-
-    /**
-     * RHEL10 rpm release information.
-     */
-    public static final HashMap<String, Release> RHEL10_X86_64_RPMS;
 
     /**
      * Windows release information.

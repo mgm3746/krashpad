@@ -48,8 +48,8 @@ public class Constants {
      * Defined OS versions.
      */
     public enum OsVersion {
-        //
-        CENTOS6, CENTOS7, CENTOS8, CENTOS9, CENTOS10, RHEL6, RHEL7, RHEL8, RHEL9, RHEL10, UNIDENTIFIED, WINDOWS10
+        CENTOS10, //
+        CENTOS6, CENTOS7, CENTOS8, CENTOS9, RHEL10, RHEL6, RHEL7, RHEL8, RHEL9, UNIDENTIFIED, WINDOWS10
     }
 
     /**

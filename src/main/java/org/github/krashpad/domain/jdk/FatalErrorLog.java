@@ -106,6 +106,11 @@ public class FatalErrorLog {
     private List<ClassesUnloadedEvent> classesUnloadedEvents;
 
     /**
+     * Class information
+     */
+    private ClassInfo classInfo;
+
+    /**
      * Command line information.
      */
     private CommandLine commandLine;
@@ -114,11 +119,6 @@ public class FatalErrorLog {
      * Compilation event information.
      */
     private List<CompilationEvent> compilationEvents;
-
-    /**
-     * Class information
-     */
-    private ClassInfo classInfo;
 
     /**
      * Container information.
@@ -204,11 +204,6 @@ public class FatalErrorLog {
     private List<GcPreciousLog> gcPreciousLogs;
 
     /**
-     * Release file information.
-     */
-    private List<ReleaseFile> releaseFiles;
-
-    /**
      * Global flag information.
      */
     private List<GlobalFlag> globalFlags;
@@ -242,6 +237,11 @@ public class FatalErrorLog {
      * Statistics information.
      */
     private List<InternalStatistic> internalStatistics;
+
+    /**
+     * The JAVA_HOME directory, or null if it is unknown or cannot be determined.
+     */
+    String javaHome = null;
 
     /**
      * JvmOptions object.
@@ -314,14 +314,14 @@ public class FatalErrorLog {
     private List<RegisterToMemoryMapping> registerToMemoryMappings;
 
     /**
+     * Release file information.
+     */
+    private List<ReleaseFile> releaseFiles;
+
+    /**
      * rlimit information.
      */
     private Rlimit rlimit;
-
-    /**
-     * The JAVA_HOME directory, or null if it is unknown or cannot be determined.
-     */
-    String javaHome = null;
 
     /**
      * Signal information.
@@ -1371,17 +1371,25 @@ public class FatalErrorLog {
         }
         // VM operations
         if (vmOperation != null) {
-            if (vmOperation.getVmOperation().equals("BulkRevokeBias")) {
+            if (vmOperation.getName().equals("BulkRevokeBias")) {
                 analysis.add(0, Analysis.INFO_VM_OPERATION_BULK_REVOKE_BIAS);
-            } else if (vmOperation.getVmOperation().equals("CGC_Operation")) {
+            } else if (vmOperation.getName().equals("CGC_Operation")) {
                 analysis.add(0, Analysis.INFO_VM_OPERATION_CONCURRENT_GC);
-            } else if (vmOperation.getVmOperation().equals("GetThreadListStackTraces")) {
+            } else if (vmOperation.getName().equals("GetThreadListStackTraces")) {
                 analysis.add(0, Analysis.WARN_VM_OPERATION_THREAD_DUMP_JVMTI);
-            } else if (vmOperation.getVmOperation().equals("HeapDumper")) {
-                analysis.add(0, Analysis.INFO_VM_OPERATION_HEAP_DUMP);
-            } else if (vmOperation.getVmOperation().equals("PrintThreads")) {
+            } else if (vmOperation.getName().equals("HeapDumper")) {
+                String requestingThread = getThread(vmOperation.getRequestedByThreadId());
+                if (requestingThread != null && requestingThread.matches("^.+\"Attach Listener\".+$")) {
+                    analysis.add(0, Analysis.INFO_VM_OPERATION_HEAP_DUMP_ATTACH_LISTENER);
+                } else if (getJvmOptions() != null
+                        && JdkUtil.isOptionEnabled(getJvmOptions().getHeapDumpOnOutOfMemoryError())) {
+                    analysis.add(0, Analysis.INFO_VM_OPERATION_HEAP_DUMP_OOME);
+                } else {
+                    analysis.add(0, Analysis.INFO_VM_OPERATION_HEAP_DUMP_OTHER);
+                }
+            } else if (vmOperation.getName().equals("PrintThreads")) {
                 analysis.add(0, Analysis.INFO_VM_OPERATION_PRINT_THREADS);
-            } else if (vmOperation.getVmOperation().equals("ThreadDump")) {
+            } else if (vmOperation.getName().equals("ThreadDump")) {
                 analysis.add(0, Analysis.INFO_VM_OPERATION_THREAD_DUMP);
             }
         }
@@ -5689,6 +5697,24 @@ public class FatalErrorLog {
             swapTotal = getOsSwapTotal();
         }
         return swapTotal;
+    }
+
+    /**
+     * @param id
+     *            The thread id.
+     * @return The stack frame at the specified position.
+     */
+    public String getThread(String id) {
+        String thread = null;
+        Iterator<Thread> iterator = threads.iterator();
+        while (iterator.hasNext()) {
+            Thread event = iterator.next();
+            if (event.getId() != null && event.getId().equals(id)) {
+                thread = event.getLogEntry().trim();
+                break;
+            }
+        }
+        return thread;
     }
 
     public List<Thread> getThreads() {

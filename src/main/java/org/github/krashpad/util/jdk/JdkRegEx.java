@@ -25,7 +25,7 @@ public class JdkRegEx {
     /**
      * A 32-bit or 64-bit memory address.
      */
-    public static final String ADDRESS = "(" + JdkRegEx.ADDRESS32 + "|" + JdkRegEx.ADDRESS64 + ")";
+    public static final String ADDRESS = "(" + JdkRegEx.ADDRESS64 + "|" + JdkRegEx.ADDRESS32 + ")";
 
     /**
      * A 32-bit memory address.
@@ -1025,14 +1025,14 @@ public class JdkRegEx {
     public static final String WINDOWS_EXCEPTION_CODE_ACCESS_VIOLATION = "0xc0000005";
 
     /**
-     * Windows exception code for stack overflow.
-     */
-    public static final String WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW = "0xc00000fd";
-
-    /**
      * Windows exception code for .NET Common Language Runtime (CLR) exception.
      */
     public static final String WINDOWS_EXCEPTION_CODE_DOT_NET_CLR = "0xe0434352";
+
+    /**
+     * Windows exception code for stack overflow.
+     */
+    public static final String WINDOWS_EXCEPTION_CODE_STACK_OVERFLOW = "0xc00000fd";
 
     /**
      * Regular expression for a young generation gc data.

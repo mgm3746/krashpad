@@ -94,17 +94,17 @@ public class Stack implements LogEvent, HeaderEvent {
 
     /**
      * Regular expression for the native stack header.
+     */
+    public static final String _REGEX_HEADER_JAVA = "Java frames: ";
+
+    /**
+     * Regular expression for the native stack header.
      * 
      * Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
      * 
      * Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
      */
     public static final String _REGEX_HEADER_NATIVE = "Native frames: ";
-
-    /**
-     * Regular expression for the native stack header.
-     */
-    public static final String _REGEX_HEADER_JAVA = "Java frames: ";
 
     private static Pattern pattern = Pattern.compile(Stack.REGEX);
 

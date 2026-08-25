@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -73,6 +74,8 @@ class TestThread {
                 + "[id=52418]";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.THREAD,
                 JdkUtil.LogEventType.THREAD.toString() + " not identified.");
+        Thread event = new Thread(logLine);
+        assertEquals("0x00007fcbc8056000", event.getId(), "Thread not id correct.");
     }
 
     @Test
@@ -103,6 +106,8 @@ class TestThread {
                 + "stack(0x00007f199cf04000,0x00007f199d005000)]";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Thread,
                 JdkUtil.LogEventType.THREAD.toString() + " not parsed.");
+        Thread event = new Thread(logLine);
+        assertEquals("0x00007f19aa5128e0", event.getId(), "Thread not id correct.");
     }
 
     @Test
