@@ -299,6 +299,14 @@ class TestEnvironmentVariable {
     }
 
     @Test
+    void testWaylandDisplay() {
+        EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
+        String logLine = "WAYLAND_DISPLAY=wayland-0";
+        assertEquals(JdkUtil.LogEventType.ENVIRONMENT_VARIABLES, JdkUtil.identifyEventType(logLine, priorLogEvent),
+                JdkUtil.LogEventType.ENVIRONMENT_VARIABLES.toString() + " not identified.");
+    }
+
+    @Test
     void testXdgCacheHome() {
         EnvironmentVariable priorLogEvent = new EnvironmentVariable("Environment Variables:");
         String logLine = "XDG_CACHE_HOME=/my/path";

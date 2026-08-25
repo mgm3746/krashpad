@@ -25,7 +25,8 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * </p>
  * 
  * <p>
- * Shared library information. JDK17+.
+ * Shared library information. JDK17+. Despite the name, it's not specific to Windows DLLs but shared libraries in
+ * general (e.g. `.so` files).
  * </p>
  * 
  * <h2>Example Logging</h2>
@@ -49,7 +50,7 @@ public class DllOperationEvent implements LogEvent, HeaderEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + DllOperationEvent._REGEX_HEADER + "|Event: " + JdkRegEx.TIMESTAMP
-            + " (Load(ed|ing) shared library|Unloaded dll) .*)$";
+            + " (Attempting to load shared library|Load(ed|ing) shared library|Unloaded dll) .*)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.

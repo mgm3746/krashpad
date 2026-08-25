@@ -42,6 +42,14 @@ class TestMeminfo {
     }
 
     @Test
+    void testBalloon() {
+        Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");
+        String logLine = "Balloon:               0 kB";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.MEMINFO,
+                JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
+    }
+
+    @Test
     void testBuffers() {
         Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");
         String logLine = "Buffers:          817980 kB";
@@ -57,6 +65,7 @@ class TestMeminfo {
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     }
 
+    
     @Test
     void testCommitLimit() {
         Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");

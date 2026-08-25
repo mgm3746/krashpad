@@ -4931,7 +4931,7 @@ public class FatalErrorLog {
         Os os = Os.UNIDENTIFIED;
         String osString = getOsString();
         if (osString != null) {
-            if (osString.matches(".*Linux.*")) {
+            if (osString.matches(".*(Fedora|Linux).*")) {
                 os = Os.LINUX;
             } else if (osString.matches("^Windows.+$")) {
                 os = Os.WINDOWS;

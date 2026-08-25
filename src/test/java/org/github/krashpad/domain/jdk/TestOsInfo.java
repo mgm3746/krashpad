@@ -92,6 +92,13 @@ class TestOsInfo {
     }
 
     @Test
+    void testFedora44() {
+        String logLine = "Fedora release 44 (Forty Four)";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_INFO,
+                JdkUtil.LogEventType.OS_INFO.toString() + " not identified.");
+    }
+
+    @Test
     void testHeaderOnSeparateLine() {
         String logLine = "OS:";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.OS_INFO,

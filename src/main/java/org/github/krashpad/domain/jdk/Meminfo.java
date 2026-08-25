@@ -91,8 +91,8 @@ public class Meminfo implements LogEvent {
      * Regular expression defining the logging.
      */
     private static final String REGEX = "^(" + _REGEX_HEADER
-            + "|Active|Anon|Bounce|Buffers|Cached|Cma|Commit|Direct|Dirty|FileHugePages|FilePmdMapped|Hardware|Huge|"
-            + "Inactive|Kernel|KReclaimable|Mapped|MemAvailable|MemFree|MemTotal|Mlocked|NFS|Page|Percpu|"
+            + "|Active|Anon|Balloon|Bounce|Buffers|Cached|Cma|Commit|Direct|Dirty|FileHugePages|FilePmdMapped|Hardware|"
+            + "Huge|Inactive|Kernel|KReclaimable|Mapped|MemAvailable|MemFree|MemTotal|Mlocked|NFS|Page|Percpu|"
             + "SecPageTables|SReclaimable|Shmem|Slab|SUnreclaim|SwapCached|SwapFree|SwapTotal|Unaccepted|Unevictable|"
             + "Vmalloc|Write|Zswap).*$";
 

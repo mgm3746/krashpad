@@ -27,6 +27,14 @@ import org.junit.jupiter.api.Test;
 class TestDllOperationEvent {
 
     @Test
+    void testAttemptToLoadSharedLibrary() {
+        DllOperationEvent priorLogEvent = new DllOperationEvent("");
+        String logLine = "Event: 0.001 Attempting to load shared library /usr/lib/jvm/java-25-openjdk/lib/libjava.so";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.DLL_OPERATION_EVENT,
+                JdkUtil.LogEventType.DLL_OPERATION_EVENT.toString() + " not identified.");
+    }
+
+    @Test
     void testIdentity() {
         String logLine = "Dll operation events (18 events):";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.DLL_OPERATION_EVENT,

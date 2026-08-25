@@ -1482,6 +1482,18 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testOsFedora() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String os1 = "OS:";
+        OsInfo osEvent1 = new OsInfo(os1);
+        fel.getOsInfos().add(osEvent1);
+        String os2 = "Fedora release 44 (Forty Four)";
+        OsInfo osEvent2 = new OsInfo(os2);
+        fel.getOsInfos().add(osEvent2);
+        assertEquals(Os.LINUX, fel.getOs(), "OS not correct.");
+    }
+
+    @Test
     void testOsJustLinux() {
         FatalErrorLog fel = new FatalErrorLog();
         String os = "OS:Linux";
