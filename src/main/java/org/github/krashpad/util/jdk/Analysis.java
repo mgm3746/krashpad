@@ -579,6 +579,11 @@ public enum Analysis {
     ERROR_RHEL7_JDK_VERSION("error.rhel7.jdk.version"),
 
     /**
+     * Property key for RLIMIT_DATA not unlimited on Linux kernel 4.7+.
+     */
+    ERROR_RLIMIT_DATA_NOT_UNLIMITED("error.rlimit.data.not.unlimited"),
+
+    /**
      * Property key for StackOverflowError.
      */
     ERROR_STACKOVERFLOW("error.stackoverflow"),

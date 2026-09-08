@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.github.krashpad.util.jdk.JdkUtil;
@@ -60,6 +61,10 @@ class TestRlimit {
                 + "FSIZE infinity/infinity , MEMLOCK 64k/64k";
         assertTrue(JdkUtil.parseLogLine(logLine, null) instanceof Rlimit,
                 JdkUtil.LogEventType.RLIMIT.toString() + " not parsed.");
+        Rlimit event = new Rlimit(logLine);
+        assertEquals("62502/62502", event.getLimit("NPROC"), "NPROC not correct.");
+        assertEquals("infinity/infinity", event.getLimit("DATA"), "DATA not correct.");
+        assertEquals("64k/64k", event.getLimit("MEMLOCK"), "MEMLOCK not correct.");
     }
 
     @Test

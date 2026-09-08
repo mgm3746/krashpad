@@ -39,6 +39,8 @@ class TestUname {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.I86PC, ((Uname) event).getArch(), "Arch not correct.");
         assertEquals(Os.SOLARIS, ((Uname) event).getOsType(), "Version not correct.");
+        assertEquals(5, ((Uname) event).getKernelVersionMajor(), "Kernel major version not correct.");
+        assertEquals(11, ((Uname) event).getKernelVersionMinor(), "Kernel minor version not correct.");
         assertEquals(OsVendor.ORACLE, ((Uname) event).getOsVendor(), "Vendor not correct.");
     }
 
@@ -57,6 +59,21 @@ class TestUname {
     }
 
     @Test
+    void testRhel10() {
+        String logLine = "uname: Linux 6.12.0-211.16.1.el10_2.x86_64 #1 SMP PREEMPT_DYNAMIC "
+                + "Mon May 18 10:23:57 EDT 2026 x86_6";
+        assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
+                JdkUtil.LogEventType.UNAME.toString() + " not identified.");
+        LogEvent event = JdkUtil.parseLogLine(logLine, null);
+        assertEquals(Arch.X86_64, ((Uname) event).getArch(), "Arch not correct.");
+        assertEquals(Os.LINUX, ((Uname) event).getOsType(), "Version not correct.");
+        assertEquals(6, ((Uname) event).getKernelVersionMajor(), "Kernel major version not correct.");
+        assertEquals(12, ((Uname) event).getKernelVersionMinor(), "Kernel minor version not correct.");
+        assertEquals(OsVendor.REDHAT, ((Uname) event).getOsVendor(), "Vendor not correct.");
+        assertEquals(OsVersion.RHEL10, ((Uname) event).getOsVersion(), "Version not correct.");
+    }
+
+    @Test
     void testRhel7() {
         String logLine = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 #1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
         assertTrue(JdkUtil.identifyEventType(logLine, null) == JdkUtil.LogEventType.UNAME,
@@ -64,6 +81,8 @@ class TestUname {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.X86_64, ((Uname) event).getArch(), "Arch not correct.");
         assertEquals(Os.LINUX, ((Uname) event).getOsType(), "Version not correct.");
+        assertEquals(3, ((Uname) event).getKernelVersionMajor(), "Kernel major version not correct.");
+        assertEquals(10, ((Uname) event).getKernelVersionMinor(), "Kernel minor version not correct.");
         assertEquals(OsVendor.REDHAT, ((Uname) event).getOsVendor(), "Vendor not correct.");
         assertEquals(OsVersion.RHEL7, ((Uname) event).getOsVersion(), "Version not correct.");
     }
@@ -124,6 +143,8 @@ class TestUname {
         LogEvent event = JdkUtil.parseLogLine(logLine, null);
         assertEquals(Arch.X86_64, ((Uname) event).getArch(), "Arch not correct.");
         assertEquals(Os.LINUX, ((Uname) event).getOsType(), "Version not correct.");
+        assertEquals(4, ((Uname) event).getKernelVersionMajor(), "Kernel major version not correct.");
+        assertEquals(18, ((Uname) event).getKernelVersionMinor(), "Kernel minor version not correct.");
         assertEquals(OsVendor.REDHAT, ((Uname) event).getOsVendor(), "Vendor not correct.");
     }
 

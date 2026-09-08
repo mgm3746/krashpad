@@ -1892,6 +1892,15 @@ public class FatalErrorLog {
         if (getVmOperationsThreadDumpFrequency() >= 1) {
             analysis.add(Analysis.WARN_VM_OPERATION_THREAD_DUMP_FREQUENCY);
         }
+        // RLIMIT_DATA not unlimited
+        if (getRlimit() != null && getUname() != null && getUname().getKernelVersionMajor() >= 4
+                && getUname().getKernelVersionMinor() >= 7) {
+            String rlimitData = getRlimit().getLimit("DATA");
+            if (rlimitData != null
+                    && !(rlimitData.equalsIgnoreCase("INFINITY") || rlimitData.equalsIgnoreCase("INFINITY/INFINITY"))) {
+                analysis.add(Analysis.ERROR_RLIMIT_DATA_NOT_UNLIMITED);
+            }
+        }
     }
 
     /**

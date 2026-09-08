@@ -46,6 +46,7 @@ import org.github.krashpad.domain.jdk.Meminfo;
 import org.github.krashpad.domain.jdk.Memory;
 import org.github.krashpad.domain.jdk.OsInfo;
 import org.github.krashpad.domain.jdk.RegisterToMemoryMapping;
+import org.github.krashpad.domain.jdk.Rlimit;
 import org.github.krashpad.domain.jdk.SigInfo;
 import org.github.krashpad.domain.jdk.Stack;
 import org.github.krashpad.domain.jdk.StackSlotToMemoryMapping;
@@ -55,6 +56,7 @@ import org.github.krashpad.domain.jdk.TimeElapsedTime;
 import org.github.krashpad.domain.jdk.Timeout;
 import org.github.krashpad.domain.jdk.TransparentHugepageDefrag;
 import org.github.krashpad.domain.jdk.TransparentHugepageEnabled;
+import org.github.krashpad.domain.jdk.Uname;
 import org.github.krashpad.domain.jdk.VirtualizationInfo;
 import org.github.krashpad.domain.jdk.VmArguments;
 import org.github.krashpad.domain.jdk.VmInfo;
@@ -3914,6 +3916,38 @@ class TestAnalysis {
         assertEquals("8", fel.getJdkRhelVersion(), "JDK RHEL version not correct.");
         assertFalse(fel.hasAnalysis(Analysis.WARN_RHEL_JDK_RPM_MISMATCH.getKey()),
                 Analysis.WARN_RHEL_JDK_RPM_MISMATCH + " analysis not identified.");
+    }
+
+    @Test
+    void testRlimitDataNotUnlimitedRhel7() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String uname = "uname:Linux 3.10.0-1127.19.1.el7.x86_64 #1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64";
+        Uname unameEvent = new Uname(uname);
+        fel.setUname(unameEvent);
+        String rlimit = "rlimit (soft/hard): STACK 32768k/32768k , CORE infinity/infinity , NPROC 30645/30645 , "
+                + "NOFILE 8192/8192 , AS infinity/infinity , CPU infinity/infinity , DATA 131070k/131970k , "
+                + "FSIZE infinity/infinity , MEMLOCK 64k/64k";
+        Rlimit rlimitEvent = new Rlimit(rlimit);
+        fel.setRlimit(rlimitEvent);
+        fel.doAnalysis();
+        assertFalse(fel.hasAnalysis(Analysis.ERROR_RLIMIT_DATA_NOT_UNLIMITED.getKey()),
+                Analysis.ERROR_RLIMIT_DATA_NOT_UNLIMITED + " analysis incorrectly identified.");
+    }
+
+    @Test
+    void testRlimitDataNotUnlimitedRhel8() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String uname = "uname:Linux 4.18.0-553.150.1.el8_10.x86_64 #1 SMP Wed Jul 29 03:01:18 EDT 2026 x86_64";
+        Uname unameEvent = new Uname(uname);
+        fel.setUname(unameEvent);
+        String rlimit = "rlimit (soft/hard): STACK 32768k/32768k , CORE infinity/infinity , NPROC 30645/30645 , "
+                + "NOFILE 8192/8192 , AS infinity/infinity , CPU infinity/infinity , DATA 131070k/131970k , "
+                + "FSIZE infinity/infinity , MEMLOCK 64k/64k";
+        Rlimit rlimitEvent = new Rlimit(rlimit);
+        fel.setRlimit(rlimitEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_RLIMIT_DATA_NOT_UNLIMITED.getKey()),
+                Analysis.ERROR_RLIMIT_DATA_NOT_UNLIMITED + " analysis not identified.");
     }
 
     @Test

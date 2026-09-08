@@ -65,7 +65,6 @@ class TestMeminfo {
                 JdkUtil.LogEventType.MEMINFO.toString() + " not identified.");
     }
 
-    
     @Test
     void testCommitLimit() {
         Meminfo priorLogEvent = new Meminfo("/proc/meminfo:");

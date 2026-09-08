@@ -14,6 +14,9 @@
  *********************************************************************************************************************/
 package org.github.krashpad.domain.jdk;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.github.krashpad.domain.LogEvent;
 import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
 
@@ -36,6 +39,8 @@ import org.github.krashpad.util.jdk.JdkUtil.LogEventType;
  * rlimit: STACK 32768k, CORE infinity, NPROC 95259, NOFILE 10240, AS infinity
  * 
  * rlimit: STACK 8192k, CORE infinity, NOFILE 65536, AS infinity
+ * 
+ * rlimit (soft/hard): STACK 8192k/infinity , CORE infinity/infinity , NPROC 62502/62502 , NOFILE 262144/262144 , AS infinity/infinity , CPU infinity/infinity , DATA infinity/infinity , FSIZE infinity/infinity , MEMLOCK 64k/64k
  * </pre>
  * 
  * @author <a href="mailto:mmillson@redhat.com">Mike Millson</a>
@@ -46,7 +51,7 @@ public class Rlimit implements LogEvent {
     /**
      * Regular expression defining the logging.
      */
-    private static final String REGEX = "^rlimit.+$";
+    private static final String REGEX = "^rlimit( \\(soft\\/hard\\))?: (.+)$";
 
     /**
      * Determine if the logLine matches the logging pattern(s) for this event.
@@ -77,6 +82,33 @@ public class Rlimit implements LogEvent {
     @Override
     public LogEventType getEventType() {
         return LogEventType.RLIMIT;
+    }
+
+    /**
+     * @param id
+     *            The name of the limit.
+     * @return The limit value.
+     */
+    public String getLimit(String id) {
+        String value = null;
+        Pattern pattern = Pattern.compile(REGEX);
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            String rlimits = matcher.group(2);
+            if (rlimits != null) {
+                String[] limits = rlimits.split(",");
+                for (int i = 0; i < limits.length; i++) {
+                    String rlimit = limits[i].trim();
+                    String[] limitValue = rlimit.split(" ");
+                    String theLimit = limitValue[0];
+                    String theValue = limitValue[1];
+                    if (theLimit.equalsIgnoreCase(id)) {
+                        value = theValue;
+                    }
+                }
+            }
+        }
+        return value;
     }
 
     public String getLogEntry() {

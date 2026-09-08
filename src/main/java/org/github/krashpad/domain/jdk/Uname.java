@@ -77,8 +77,8 @@ public class Uname implements LogEvent, HeaderEvent {
     /**
      * Regular expression for the header.
      */
-    public static final String _REGEX_HEADER = "uname:[ ]{0,1}((Linux|SunOS) .+(aarch64|i86pc|ppc64(le)?|s390x|sun4v|"
-            + "x86_64).*)";
+    public static final String _REGEX_HEADER = "uname:[ ]{0,1}((Linux|SunOS) (\\d{1,})\\.(\\d{1,}).+"
+            + "(aarch64|i86pc|ppc64(le)?|s390x|sun4v|x86_64).*)";
 
     private static Pattern pattern = Pattern.compile(Uname.REGEX);
 
@@ -120,7 +120,7 @@ public class Uname implements LogEvent, HeaderEvent {
         Arch arch = Arch.UNKNOWN;
         Matcher matcher = pattern.matcher(logEntry);
         if (matcher.find()) {
-            int indexArch = 4;
+            int indexArch = 6;
             if (matcher.group(indexArch).equals("x86_64")) {
                 arch = Arch.X86_64;
             } else if (matcher.group(indexArch).equals("ppc64")) {
@@ -145,6 +145,30 @@ public class Uname implements LogEvent, HeaderEvent {
         return LogEventType.UNAME;
     }
 
+    /**
+     * @return The kernel major version.
+     */
+    public int getKernelVersionMajor() {
+        int versionMajor = Integer.MIN_VALUE;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            versionMajor = Integer.parseInt(matcher.group(4));
+        }
+        return versionMajor;
+    }
+
+    /**
+     * @return The kernel minor version.
+     */
+    public int getKernelVersionMinor() {
+        int versionMinor = Integer.MIN_VALUE;
+        Matcher matcher = pattern.matcher(logEntry);
+        if (matcher.find()) {
+            versionMinor = Integer.parseInt(matcher.group(5));
+        }
+        return versionMinor;
+    }
+
     public String getLogEntry() {
         return logEntry;
     }
@@ -167,7 +191,7 @@ public class Uname implements LogEvent, HeaderEvent {
      */
     public OsVendor getOsVendor() {
         OsVendor osVendor = OsVendor.UNIDENTIFIED;
-        if (getUname().matches("Linux.+\\.el(6|7|(8|9)_\\d)\\..+")) {
+        if (getUname().matches("Linux.+\\.el(6|7|(8|9|10)_\\d)\\..+")) {
             osVendor = OsVendor.REDHAT;
         } else if (getUname().matches("SunOS.+")) {
             osVendor = OsVendor.ORACLE;
@@ -188,6 +212,8 @@ public class Uname implements LogEvent, HeaderEvent {
             osVersion = OsVersion.RHEL8;
         } else if (getUname().matches("Linux.+\\.el9_\\d\\..+")) {
             osVersion = OsVersion.RHEL9;
+        } else if (getUname().matches("Linux.+\\.el10_\\d\\..+")) {
+            osVersion = OsVersion.RHEL10;
         }
         return osVersion;
     }
