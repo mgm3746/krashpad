@@ -20,7 +20,7 @@ Fastest/easiest way to run the latest version. The image in github.io is built/u
 Run the following in the directory where `hs_err_pid12345` exists:
 
 ```
-$ docker run --pull=always -v "$PWD":/home/krashpad/files:z ghcr.io/mgm3746/krashpad:main -c /home/krashpad/files/hs_err_pid12345.log > hs_err_pid12345.log.pad
+$ docker run --name krashpad --replace --pull=always -v "$PWD":/home/krashpad/files:z ghcr.io/mgm3746/krashpad:main -c /home/krashpad/files/hs_err_pid12345.log > hs_err_pid12345.log.pad
 ```
 
 Name the analysis report after the log file with a ".pad" extension (or whatever convention you want to use).
@@ -67,7 +67,7 @@ https://github.com/mgm3746/krashpad/blob/main/src/test/data/dataset23.txt
 
 ```
 $ cd /path/to/krashpad/src/test/data/
-$ docker run --pull=always -v "$PWD":/home/krashpad/files:z ghcr.io/mgm3746/krashpad:main -o mgm.txt -c /home/krashpad/files/dataset23.txt > dataset23.txt.pad
+$ docker run --name krashpad --replace --pull=always -v "$PWD":/home/krashpad/files:z ghcr.io/mgm3746/krashpad:main -o mgm.txt -c /home/krashpad/files/dataset23.txt > dataset23.txt.pad
 ```
 
 A file called report.txt is created in the directory where the krashpad tool is run with analysis identifying the issue:
