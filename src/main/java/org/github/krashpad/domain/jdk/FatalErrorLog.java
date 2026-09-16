@@ -762,6 +762,8 @@ public class FatalErrorLog {
                 analysis.add(Analysis.ERROR_CRASH_ON_OOME_HEAP);
             } else if (isError("OutOfMemory encountered: Metaspace")) {
                 analysis.add(Analysis.ERROR_CRASH_ON_OOME_METASPACE);
+            } else if (isError("OutOfMemory encountered: GC overhead limit exceeded")) {
+                analysis.add(Analysis.ERROR_CRASH_ON_OOME_GC_LIMIT);
             }
         }
         // OOME

@@ -724,6 +724,25 @@ class TestAnalysis {
     }
 
     @Test
+    void testCrashOnOomeGcLimit() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError";
+        VmArguments event = new VmArguments(jvm_args);
+        fel.getVmArguments().add(event);
+        String header = "#  fatal error: OutOfMemory encountered: GC overhead limit exceeded";
+        Header headerEvent = new Header(header);
+        fel.getHeaders().add(headerEvent);
+        fel.doAnalysis();
+        assertTrue(fel.hasAnalysis(Analysis.ERROR_CRASH_ON_OOME_GC_LIMIT.getKey()),
+                Analysis.ERROR_CRASH_ON_OOME_GC_LIMIT + " analysis not identified.");
+        assertEquals(
+                "Crash due to \"java.lang.OutOfMemoryError: GC overhead limit exceeded\" in combination with "
+                        + "-XX:+CrashOnOutOfMemoryError. Reference: https://access.redhat.com/solutions/27225.",
+                fel.getAnalysisLiteral(Analysis.ERROR_CRASH_ON_OOME_GC_LIMIT.getKey()),
+                Analysis.ERROR_CRASH_ON_OOME_GC_LIMIT + " analysis literal not correct.");
+    }
+
+    @Test
     void testCrashOnOomeHeapPathDefault() {
         FatalErrorLog fel = new FatalErrorLog();
         String jvm_args = "jvm_args: -XX:+CrashOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError";

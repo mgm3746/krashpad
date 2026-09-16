@@ -98,6 +98,12 @@ public enum Analysis {
     ERROR_CRASH_NATIVE_LIBRARY_UNKNOWN("error.crash.native.library.unknown"),
 
     /**
+     * Property key for a crash due to "java.lang.OutOfMemoryError: GC overhead limit exceeded" in combination with
+     * -XX:+CrashOnOutOfMemoryError.
+     */
+    ERROR_CRASH_ON_OOME_GC_LIMIT("error.crash.on.oome.gc.limit"),
+
+    /**
      * Property key for a crash due to "java.lang.OutOfMemoryError: Java heap space" in combination with
      * -XX:+CrashOnOutOfMemoryError.
      */
