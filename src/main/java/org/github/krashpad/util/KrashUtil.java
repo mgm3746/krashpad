@@ -163,6 +163,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libavahi-client.so.3.2.9");
         // avahi-libs (libraries need to run programs that use avahi)
         NATIVE_LIBRARIES_LINUX.add("libavahi-common.so.3.5.3");
+        NATIVE_LIBRARIES_LINUX.add("libavahi-common.so.3.5.4");
         // blas (Basic Linear Algebra Subpackage)
         NATIVE_LIBRARIES_LINUX.add("libblas.so.3.8.0");
         // brotli (compression library)
@@ -216,6 +217,7 @@ public class KrashUtil {
         // openssl-devel
         NATIVE_LIBRARIES_LINUX.add("libcrypto.so.1.1");
         NATIVE_LIBRARIES_LINUX.add("libcrypto.so.3.0.7");
+        NATIVE_LIBRARIES_LINUX.add("libcrypto.so.3.5.1");
         // cups-libs (native cups)
         NATIVE_LIBRARIES_LINUX.add("libcups.so.2");
         NATIVE_LIBRARIES_LINUX.add("libcupsimage.so.2");
@@ -228,6 +230,7 @@ public class KrashUtil {
         // dbus-libs
         NATIVE_LIBRARIES_LINUX.add("libdbus-1.so.3.14.14");
         NATIVE_LIBRARIES_LINUX.add("libdbus-1.so.3.19.7");
+        NATIVE_LIBRARIES_LINUX.add("libdbus-1.so.3.19.13");
         // glibc-devel
         NATIVE_LIBRARIES_LINUX.add("libdl-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libdl-2.17.so");
@@ -307,6 +310,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.11.8.2");
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.3");
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.5");
+        NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.4.0");        
         // gtk3
         NATIVE_LIBRARIES_LINUX.add("libgdk-3.so.0.2200.30");
         // gdk-pixbuf2
@@ -334,6 +338,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.24.0");
         NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.28.0");
         NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.28.2");
+        NATIVE_LIBRARIES_LINUX.add("libgnutls.so.30.37.1");
         // glib2
         NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5000.3");
         NATIVE_LIBRARIES_LINUX.add("libgobject-2.0.so.0.5600.1");
@@ -341,6 +346,7 @@ public class KrashUtil {
         // libgpg-error
         NATIVE_LIBRARIES_LINUX.add("libgpg-error.so.0.10.0");
         NATIVE_LIBRARIES_LINUX.add("libgpg-error.so.0.24.2");
+        NATIVE_LIBRARIES_LINUX.add("libgpg-error.so.0.32.0");
         // graphite2
         NATIVE_LIBRARIES_LINUX.add("libgraphite2.so.3.0.1");
         // libgs (ghostscript)
@@ -389,6 +395,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libharfbuzz-icu.so.0.10705.0");
         // nettle
         NATIVE_LIBRARIES_LINUX.add("libhogweed.so.4.5");
+        NATIVE_LIBRARIES_LINUX.add("libhogweed.so.6.10");
         // hyphen
         NATIVE_LIBRARIES_LINUX.add("libhyphen.so.0.3.0");
         // libICE
@@ -430,6 +437,7 @@ public class KrashUtil {
         // keyutils-libs
         NATIVE_LIBRARIES_LINUX.add("libkeyutils.so.1.5");
         NATIVE_LIBRARIES_LINUX.add("libkeyutils.so.1.6");
+        NATIVE_LIBRARIES_LINUX.add("libkeyutils.so.1.10");
         // krb5-libs
         NATIVE_LIBRARIES_LINUX.add("libkrb5.so.3.3");
         // krb5-libs
@@ -453,9 +461,11 @@ public class KrashUtil {
         // xz-libs
         NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.2");
         NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.4");
+        NATIVE_LIBRARIES_LINUX.add("liblzma.so.5.2.5");
         // lz4-libs
         NATIVE_LIBRARIES_LINUX.add("liblz4.so.1.8.1");
         NATIVE_LIBRARIES_LINUX.add("liblz4.so.1.8.3");
+        NATIVE_LIBRARIES_LINUX.add("liblz4.so.1.9.3");
         // glibc-devel
         NATIVE_LIBRARIES_LINUX.add("libm-2.12.so");
         NATIVE_LIBRARIES_LINUX.add("libm-2.17.so");
@@ -469,10 +479,12 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libidn.so.11.6.18");
         // libidn2
         NATIVE_LIBRARIES_LINUX.add("libidn2.so.0.3.6");
+        NATIVE_LIBRARIES_LINUX.add("libidn2.so.0.3.7");
         // ncurses-devl
         NATIVE_LIBRARIES_LINUX.add("libncurses.so.5.9");
         // nettle
         NATIVE_LIBRARIES_LINUX.add("libnettle.so.6.5");
+        NATIVE_LIBRARIES_LINUX.add("libnettle.so.8.10");
         // libnotify
         NATIVE_LIBRARIES_LINUX.add("libnotify.so.4.0.0");
         // nspr
@@ -543,6 +555,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libpcre.so.1.2.12");
         // pcre2
         NATIVE_LIBRARIES_LINUX.add("libpcre2-8.so.0.7.1");
+        NATIVE_LIBRARIES_LINUX.add("libpcre2-8.so.0.11.0");
         // pcre2-utf16
         NATIVE_LIBRARIES_LINUX.add("libpcre2-16.so.0.7.1");
         // pcsc-lite-libs (PCSC lite: Middleware to access a smart card using SCard API)
@@ -618,6 +631,7 @@ public class KrashUtil {
         // systemd-libs:
         NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.6.0");
         NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.23.0");
+        NATIVE_LIBRARIES_LINUX.add("libsystemd.so.0.35.0");
         // libtasn1
         NATIVE_LIBRARIES_LINUX.add("libtasn1.so.6.5.5");
         NATIVE_LIBRARIES_LINUX.add("libtasn1.so.6.6.0");
@@ -735,6 +749,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libz.so.1.2.11");
         // libzstd-devel
         NATIVE_LIBRARIES_LINUX.add("libzstd.so.1.4.4");
+        NATIVE_LIBRARIES_LINUX.add("libzstd.so.1.5.5");
         // p11-kit-trust
         NATIVE_LIBRARIES_LINUX.add("p11-kit-trust.so");
         // pam (pluggable authentication modules)
