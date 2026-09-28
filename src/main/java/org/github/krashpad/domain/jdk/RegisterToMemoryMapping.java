@@ -80,7 +80,7 @@ public class RegisterToMemoryMapping implements LogEvent, ThrowAwayEvent, Header
             + " - (fake entry for|injected|final|itable length|private|protected|public|static final|strict|transient|"
             + "volatile|vtable length) .+|"
             // dash apostrophe
-            + " - '[a-zA-Z]+' .+|"
+            + " - '[a-zA-Z0-9]+' .+|"
             // other (no beginning dash)
             + "\\{" + JdkRegEx.ADDRESS + "\\} - klass:.+|" + JdkRegEx.ADDRESS + " is a zaddress: .+|" + JdkRegEx.ADDRESS
             + " is an unknown value|(pc |[R|r][ ]{0,1}\\d{1,2}[ ]{0,1}|RAX|RBP|RBX|RCX|RDX|RDI|RIP|RSI|RSP)=.*|"

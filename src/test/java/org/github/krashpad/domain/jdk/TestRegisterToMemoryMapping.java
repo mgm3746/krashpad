@@ -160,6 +160,14 @@ class TestRegisterToMemoryMapping {
     }
 
     @Test
+    void testDashApostropheSomething1() {
+        RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
+        String logLine = " - 'something1' 'Z' @17  false (0x00)";
+        assertTrue(JdkUtil.identifyEventType(logLine, priorLogEvent) == JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING,
+                JdkUtil.LogEventType.REGISTER_TO_MEMORY_MAPPING.toString() + " not identified.");
+    }
+
+    @Test
     void testDashApostropheValue() {
         RegisterToMemoryMapping priorLogEvent = new RegisterToMemoryMapping("Register to memory mapping:");
         String logLine = " - 'value' 'Ljava/lang/Object;' @28  a 'java/lang/ref/WeakReference'{0x00000007fed009e0} "
