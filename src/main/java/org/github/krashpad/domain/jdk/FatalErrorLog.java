@@ -3902,10 +3902,10 @@ public class FatalErrorLog {
                         jdkRhelVersion = jdkRhelVersion + "." + matcher.group(18);
                     }
                 } else if (matcher.group(20) != null) {
-                    // JDK21 RHEL8/9
-                    jdkRhelVersion = matcher.group(22);
-                    if (matcher.group(24) != null) {
-                        jdkRhelVersion = jdkRhelVersion + "." + matcher.group(24);
+                    // JDK21 RHEL8/9/10
+                    jdkRhelVersion = matcher.group(23);
+                    if (matcher.group(25) != null) {
+                        jdkRhelVersion = jdkRhelVersion + "." + matcher.group(25);
                     }
                 }
             }

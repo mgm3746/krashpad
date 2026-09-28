@@ -466,6 +466,18 @@ class TestJdkRegEx {
     }
 
     @Test
+    void testRhel8Amd64RpmOpenjdk21u12Dash1Directory() {
+        String dir = "java-21-openjdk-21.0.12.0.8-1.1.el8.x86_64";
+        assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK21_DIR), "Red Hat RPM directory not identified.");
+    }
+
+    @Test
+    void testRhel8Amd64RpmOpenjdk21u12Dash1LibjvmFilePath() {
+        String javaHome = "/usr/lib/jvm/java-21-openjdk-21.0.12.0.8-1.1.el8.x86_64";
+        assertTrue(javaHome.matches(JdkRegEx.RH_RPM_OPENJDK21_JAVA_HOME), "Red Hat RPM file path not identified.");
+    }
+
+    @Test
     void testRhel8Dot2Amd64RpmOpenjdk11Dir() {
         String dir = "java-11-openjdk-11.0.8.10-0.el8_2.x86_64";
         assertTrue(dir.matches(JdkRegEx.RH_RPM_OPENJDK11_DIR), "Red Hat RPM OpenJDK directory not identified.");

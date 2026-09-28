@@ -758,6 +758,31 @@ class TestFatalErrorLog {
     }
 
     @Test
+    void testJdk21Rhel8() {
+        FatalErrorLog fel = new FatalErrorLog();
+        String dynamicLibrary = "6f3bdc7bc000-6f3bddc4e000 r-xp 00000000 fd:02 16809221                   "
+                + "/usr/lib/jvm/java-21-openjdk-21.0.12.0.8-1.1.el8.x86_64/lib/server/libjvm.so";
+        DynamicLibrary dynamicLibraryEvent = new DynamicLibrary(dynamicLibrary);
+        fel.getDynamicLibraries().add(dynamicLibraryEvent);
+        String os1 = "OS:";
+        OsInfo osEvent1 = new OsInfo(os1);
+        fel.getOsInfos().add(osEvent1);
+        String os2 = "Red Hat Enterprise Linux release 8.10 (Ootpa)";
+        OsInfo osEvent2 = new OsInfo(os2);
+        fel.getOsInfos().add(osEvent2);
+        String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (21.0.12+8-LTS) for linux-amd64 JRE (21.0.12+8-LTS), built "
+                + "on 2026-07-21T00:00:00Z by \"mockbuild\" with gcc 11.3.0";
+        VmInfo vmInfoEvent = new VmInfo(vmInfo);
+        fel.setVmInfo(vmInfoEvent);
+        fel.doAnalysis();
+        assertEquals(Os.LINUX, fel.getOs(), "OS not correct.");
+        assertEquals(OsVersion.RHEL8, fel.getOsVersion(), "OS version not correct.");
+        assertTrue(fel.isRhBuildString(), "RH build string not identified.");
+        assertTrue(fel.hasAnalysis(Analysis.INFO_RH_BUILD_RPM_INSTALL.getKey()),
+                Analysis.INFO_RH_BUILD_RPM_INSTALL + " analysis not identified.");
+    }
+
+    @Test
     void testGraal() {
         FatalErrorLog fel = new FatalErrorLog();
         String vmInfo = "vm_info: OpenJDK 64-Bit Server VM (11.0.15+10-jvmci-22.1-b06) for linux-amd64 JRE "
