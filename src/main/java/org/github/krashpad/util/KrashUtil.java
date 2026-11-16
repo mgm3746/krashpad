@@ -310,7 +310,7 @@ public class KrashUtil {
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.11.8.2");
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.3");
         NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.2.5");
-        NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.4.0");        
+        NATIVE_LIBRARIES_LINUX.add("libgcrypt.so.20.4.0");
         // gtk3
         NATIVE_LIBRARIES_LINUX.add("libgdk-3.so.0.2200.30");
         // gdk-pixbuf2
