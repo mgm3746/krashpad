@@ -82,8 +82,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 		  build-args: |
-		    GITHUB_ACTOR= ${{ github.actor }}
-		    GITHUB_TOKEN=${{ secrets.JOA_INTEGRATION_PAT }}
+		    GITHUB_ACTOR = ${{ github.actor }}
+		    GITHUB_TOKEN =${{ secrets.JOA_INTEGRATION_PAT }}
 
 
       # Sign the resulting Docker image digest except on PRs.
