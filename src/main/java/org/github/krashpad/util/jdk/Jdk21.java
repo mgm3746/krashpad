@@ -167,7 +167,9 @@ public class Jdk21 {
 
         // RHEL amd64 OpenJDK21 zip
         RHEL_ZIPS = new HashMap<String, Release>();
-        RHEL_ZIPS.put("LATEST", new Release("2026-07-21T00:00:00Z", 12, "21.0.12+8-LTS"));
+        RHEL_ZIPS.put("LATEST", new Release("2026-10-20T00:00:00Z", 14, "21.0.13+9-LTS"));
+        RHEL_ZIPS.put("21.0.13+9-LTS", new Release("2026-10-20T00:00:00Z", 14, "21.0.13+9-LTS"));
+        RHEL_ZIPS.put("21.0.12.1+1-LTS", new Release("2026-08-18T00:00:00Z", 13, "21.0.12.1+1-LTS"));
         RHEL_ZIPS.put("21.0.12+8-LTS", new Release("2026-07-21T00:00:00Z", 12, "21.0.12+8-LTS"));
         RHEL_ZIPS.put("21.0.11+10-LTS", new Release("2026-04-21T00:00:00Z", 11, "21.0.11+10-LTS"));
         RHEL_ZIPS.put("21.0.10+7-LTS", new Release("2026-01-20T00:00:00Z", 10, "21.0.10+7-LTS"));
@@ -183,7 +185,9 @@ public class Jdk21 {
 
         // Windows amd64 OpenJDK21 zip
         WINDOWS_ZIPS = new HashMap<String, Release>();
-        WINDOWS_ZIPS.put("LATEST", new Release("2026-07-21T00:00:00Z", 12, "21.0.12+8-LTS"));
+        WINDOWS_ZIPS.put("LATEST", new Release("2026-10-20T00:00:00Z", 14, "21.0.13+9-LTS"));
+        WINDOWS_ZIPS.put("21.0.13+9-LTS", new Release("2026-10-20T00:00:00Z", 14, "21.0.13+9-LTS"));
+        WINDOWS_ZIPS.put("21.0.12.1+1-LTS", new Release("2026-08-18T00:00:00Z", 13, "21.0.12.1+1-LTS"));
         WINDOWS_ZIPS.put("21.0.12+8-LTS", new Release("2026-07-21T00:00:00Z", 12, "21.0.12+8-LTS"));
         WINDOWS_ZIPS.put("21.0.11+10-LTS", new Release("2026-04-21T00:00:00Z", 11, "21.0.11+10-LTS"));
         WINDOWS_ZIPS.put("21.0.10+7-LTS", new Release("2026-01-20T00:00:00Z", 10, "21.0.10+7-LTS"));
