@@ -154,7 +154,9 @@ public class Jdk21 {
         // RHEL10 amd64 OpenJDK21 rpm. Note JAVA_HOME does not include the rpm name and is generic
         // (/usr/lib/jvm/java-21-openjdk) for all rpm versions (it's not possible to install multiple minor versions).
         RHEL10_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL10_X86_64_RPMS.put("LATEST", new Release("2026-07-21T00:00:00Z", 7, "21.0.12+8-LTS"));
+        RHEL10_X86_64_RPMS.put("LATEST", new Release("2026-10-20T00:00:00Z", 9, "21.0.13+9-LTS"));
+        RHEL10_X86_64_RPMS.put("21.0.13+9-LTS", new Release("2026-10-20T00:00:00Z", 9, "21.0.13+9-LTS"));
+        RHEL10_X86_64_RPMS.put("21.0.12.1+1-LTS", new Release("2026-08-18T00:00:00Z", 8, "21.0.12.1+1-LTS"));
         RHEL10_X86_64_RPMS.put("21.0.12+8-LTS", new Release("2026-07-21T00:00:00Z", 7, "21.0.12+8-LTS"));
         RHEL10_X86_64_RPMS.put("21.0.11+10-LTS", new Release("2026-04-21T00:00:00Z", 6, "21.0.11+10-LTS"));
         RHEL10_X86_64_RPMS.put("21.0.10+7-LTS", new Release("2026-01-20T00:00:00Z", 5, "21.0.10+7-LTS"));

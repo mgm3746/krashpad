@@ -74,8 +74,10 @@ public class Jdk25 {
 
         // RHEL10 amd64 OpenJDK25 rpm. Note directory name is common, not rpm specific.
         RHEL10_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL10_X86_64_RPMS.put("LATEST", new Release("2026-07-21T00:00:00Z", 4, "25.0.4+7-LTS"));
-        RHEL10_X86_64_RPMS.put("25.0.4+7-LTS", new Release("2026-07-21T00:00:00Z", 4, "25.0.4+7-LTS"));
+        RHEL10_X86_64_RPMS.put("LATEST", new Release("2026-08-18T00:00:00Z", 7, "25.0.5+8-LTS"));
+        RHEL10_X86_64_RPMS.put("25.0.5+8-LTS", new Release("2026-08-18T00:00:00Z", 7, "25.0.5+8-LTS"));
+        RHEL10_X86_64_RPMS.put("25.0.4.1+1-LTS", new Release("2026-08-18T00:00:00Z", 6, "25.0.4.1+1-LTS"));
+        RHEL10_X86_64_RPMS.put("25.0.4+7-LTS", new Release("2026-07-21T00:00:00Z", 5, "25.0.4+7-LTS"));
         RHEL10_X86_64_RPMS.put("25.0.3+9-LTS", new Release("2026-04-21T00:00:00Z", 4, "25.0.3+9-LTS"));
         RHEL10_X86_64_RPMS.put("25.0.2+10-LTS", new Release("2026-01-20T00:00:00Z", 3, "25.0.2+10-LTS"));
         RHEL10_X86_64_RPMS.put("25.0.1+8-LTS", new Release("2025-10-21T00:00:00Z", 2, "25.0.1+8-LTS"));
