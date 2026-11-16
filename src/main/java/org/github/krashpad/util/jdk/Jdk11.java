@@ -69,7 +69,11 @@ public class Jdk11 {
 
         // RHEL7 amd64 OpenJDK11 rpm
         RHEL7_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL7_X86_64_RPMS.put("LATEST", new Release("Jul 14 2026", 35, "11.0.32+9-LTS"));
+        RHEL7_X86_64_RPMS.put("LATEST", new Release("Nov 2 2026 11:15:56", 37, "11.0.33+10-LTS"));
+        RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.33.0.10-1.el7_9.x86_64",
+                new Release("Nov 2 2026 11:15:56", 37, "11.0.33+10-LTS"));
+        RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.32.1.1-1.el7_9.x86_64",
+                new Release("Aug 13 2026 06:13:38", 36, "11.0.32.1+1-LTS"));
         RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.32.0.9-1.el7_9.x86_64",
                 new Release("Jul 14 2026", 35, "11.0.32+9-LTS"));
         RHEL7_X86_64_RPMS.put("java-11-openjdk-11.0.31.0.11-1.el7_9.x86_64",
