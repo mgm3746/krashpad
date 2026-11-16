@@ -107,8 +107,18 @@ public class Jdk21 {
 
         // RHEL9 amd64 OpenJDK21 rpm
         RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL9_X86_64_RPMS.put("LATEST", new Release("2026-07-21T00:00:00Z", 15, "21.0.12+8-LTS"));
+        RHEL9_X86_64_RPMS.put("LATEST", new Release("2026-10-20T00:00:00Z", 17, "21.0.13+9-LTS"));
+        RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.13.0.9-1.2.el9.x86_64",
+                new Release("2026-10-20T00:00:00Z", 17, "21.0.13+9-LTS"));
+        RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.13.0.9-1.1.el9.x86_64",
+                new Release("2026-10-20T00:00:00Z", 17, "21.0.13+9-LTS"));
+        RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.12.1.1-1.2.el9.x86_64",
+                new Release("2026-08-18T00:00:00Z", 16, "21.0.12.1+1-LTS"));
+        RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.12.1.1-1.1.el9.x86_64",
+                new Release("2026-08-18T00:00:00Z", 16, "21.0.12.1+1-LTS"));
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.12.0.8-1.2.el9.x86_64",
+                new Release("2026-07-21T00:00:00Z", 15, "21.0.12+8-LTS"));
+        RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.12.0.8-1.1.el9.x86_64",
                 new Release("2026-07-21T00:00:00Z", 15, "21.0.12+8-LTS"));
         RHEL9_X86_64_RPMS.put("java-21-openjdk-21.0.11.0.10-2.el9.x86_64",
                 new Release("2026-04-21T00:00:00Z", 14, "21.0.11+10-LTS"));

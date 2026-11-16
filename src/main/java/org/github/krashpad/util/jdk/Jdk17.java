@@ -181,7 +181,15 @@ public class Jdk17 {
 
         // RHEL9 amd64 OpenJDK17 rpm
         RHEL9_X86_64_RPMS = new HashMap<String, Release>();
-        RHEL9_X86_64_RPMS.put("LATEST", new Release("Jul 21 2026 00:00:00", 19, "17.0.20+8-LTS"));
+        RHEL9_X86_64_RPMS.put("LATEST", new Release("Oct 20 2026 00:00:00", 21, "17.0.21+9-LTS"));
+        RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.21.0.9-2.2.el9.x86_64",
+                new Release("Oct 20 2026 00:00:00", 21, "17.0.21+9-LTS"));
+        RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.21.0.9-2.1.el9.x86_64",
+                new Release("Oct 20 2026 00:00:00", 21, "17.0.21+9-LTS"));
+        RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.20.1.1-1.2.el9.x86_64",
+                new Release("Aug 18 2026 00:00:00", 20, "17.0.20.1+1-LTS"));
+        RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.20.1.1-1.1.el9.x86_64",
+                new Release("Aug 18 2026 00:00:00", 20, "17.0.20.1+1-LTS"));
         RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.20.0.8-1.2.el9.x86_64",
                 new Release("Jul 21 2026 00:00:00", 19, "17.0.20+8-LTS"));
         RHEL9_X86_64_RPMS.put("java-17-openjdk-17.0.20.0.8-1.1.el9.x86_64",
